@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="test/java"/>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JRE1.5"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/common/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="/Libraries/edu.yale/cas/casclient-2.1.1-1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/log4j/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.springframework/spring.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/jakarta-tomcat-5.0.28/servlet-api.jar"/>
+	<classpathentry sourcepath="/Model/build/classes" kind="lib" path="/Model/build/classes"/>
+	<classpathentry kind="lib" path="/Libraries/fr.cg95/model/CVQ-ExternalServicesSchemas-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.springframework/spring-ws-core-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.springframework/spring-oxm-1.0.1.jar"/>
+	<classpathentry sourcepath="C:/Downloads/Apache/xmlbeans-current-src.zip" kind="lib" path="/Libraries/org.apache/xmlbean/xbean.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.hibernate/hibernate3.jar"/>
+	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
+</classpath>

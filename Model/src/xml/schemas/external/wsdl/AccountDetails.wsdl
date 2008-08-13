@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:schema="http://www.capwebct.fr/modules/payment/schema/acc"
+                  xmlns:tns="http://www.capwebct.fr/modules/payment/schema/acc"
+                  name=""
+                  targetNamespace="http://www.capwebct.fr/modules/payment/schema/acc">
+   <wsdl:types>
+      <xs:schema xmlns:acc="http://www.capwebct.fr/modules/payment/schema/acc"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 targetNamespace="http://www.capwebct.fr/modules/payment/schema/acc"
+                 elementFormDefault="qualified"
+                 attributeFormDefault="unqualified">
+
+         <xs:element name="accountDetailsRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="LocalAuthority" type="xs:string">
+                     <xs:annotation>
+                        <xs:documentation>
+              The local authority for which the account details are requested
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="ExternalApplicationId" type="xs:long">
+                     <xs:annotation>
+                        <xs:documentation>
+              Identifier of the external application from which the account comes from
+            </xs:documentation>
+                     </xs:annotation>        
+                  </xs:element>
+                  <xs:element name="ExternalFamilyAccountId" type="xs:string">
+                     <xs:annotation>
+                        <xs:documentation>
+              The external family account identifier to which the account belongs to
+            </xs:documentation>
+                     </xs:annotation>        
+                  </xs:element>
+                  <xs:element name="AccountId" type="xs:string">
+                     <xs:annotation>
+                        <xs:documentation>
+              The identifier of the account for whom the details are requested
+            </xs:documentation>
+                     </xs:annotation>        
+                  </xs:element>
+                  <xs:element name="StartSearch" type="xs:date">
+                     <xs:annotation>
+                        <xs:documentation>
+              The start date for the details loading
+            </xs:documentation>
+                     </xs:annotation>        
+                  </xs:element>
+                  <xs:element name="EndSearch" type="xs:date">
+                     <xs:annotation>
+                        <xs:documentation>
+              The end date for the details loading
+            </xs:documentation>
+                     </xs:annotation>        
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+
+         <xs:element name="accountDetails">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="accountDetail"
+                              type="acc:accountDetailType"/>
+               </xs:sequence>
+               <xs:attribute name="account-id" type="xs:string"/>
+               <xs:attribute name="external-application-id" type="xs:long"/>
+               <xs:attribute name="external-family-account-id" type="xs:string"/>
+            </xs:complexType>
+         </xs:element>
+  
+         <xs:complexType name="accountDetailType">
+            <xs:sequence>
+               <xs:element name="date" type="xs:dateTime">
+                  <xs:annotation>
+                     <xs:documentation>
+            Date of the operation
+          </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="holder-name" type="xs:string" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>
+            First name of the person who performed the operation
+          </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="holder-surname" type="xs:string" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>
+            Last name of the person who performed the operation
+          </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="value" type="xs:int">
+                  <xs:annotation>
+                     <xs:documentation>
+            Value (in cents of euros) of the operation
+          </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="payment-type" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+            Type of payment (CB, ...)
+          </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="cvq-ack" type="xs:string" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>
+            CapDemat's reference of the payment
+          </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="payment-ack" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+            Bank reference of the payment
+          </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:complexType>
+
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="accountDetailsRequestMessage">
+      <wsdl:part name="body" element="schema:accountDetailsRequest"/>
+   </wsdl:message>
+   <wsdl:message name="accountDetailsMessage">
+      <wsdl:part name="body" element="schema:accountDetails"/>
+   </wsdl:message>
+   <wsdl:portType name="PortType">
+      <wsdl:operation name="accountDetails">
+         <wsdl:input name="accountDetailsInput" message="tns:accountDetailsRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="Binding" type="tns:PortType">
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="accountDetails">
+         <wsdlsoap:operation soapAction="http://www.capwebct.fr/modules/payment/schema/acc/accountDetails"/>
+         <wsdl:input name="accountDetailsInput">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="Service">
+      <wsdl:port name="Port" binding="tns:Binding">
+         <wsdlsoap:address location=""/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

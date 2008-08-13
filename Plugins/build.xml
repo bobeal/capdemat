@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CapDémat - Plugins" default="generate-plugin" basedir="./">
+
+	<description>Ant build file for the CapDémat - Plugins project.</description>
+
+	<target name="generate-plugin">
+		<input addproperty="plugin-type" message="Enter plugin type : " 
+			validargs="CsvImporters,ExternalServices,PaymentProviders" />
+		<input addproperty="plugin-name" message="Enter plugin name : " />
+
+		<echo message="Creating new plugin ${plugin-name} of type ${plugin-type}" />
+
+		<property name="plugin-base" value="${basedir}/${plugin-type}/${plugin-name}" />
+		<mkdir dir="${plugin-base}" />
+
+		<copy file="build.properties.tpl" tofile="${plugin-base}/build.properties" 
+			overwrite="true">
+			<filterset>
+				<filter token="plugin_type" value="${plugin-type}" />
+				<filter token="plugin_name" value="${plugin-name}" />
+			</filterset>
+		</copy>
+
+		<copy file="build.xml.tpl" tofile="${plugin-base}/build.xml" overwrite="true">
+			<filterset>
+				<filter token="plugin_name" value="${plugin-name}" />
+			</filterset>
+		</copy>
+
+		<mkdir dir="${plugin-base}/conf/spring" />
+		<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" 
+			classpath="../Libraries/groovy/groovy-all-1.0.jar" />
+
+		<groovy>
+			def propertyName
+		  	def extensionBeanName
+		  	switch (properties.'plugin-type') {
+		  		case 'CsvImporters' : propertyName = 'importers' ; extensionBeanName = 'csvParserService' ; break
+		  		case 'ExternalService' : propertyName = '' ; extensionBeanName = '' ; break
+		  		case 'PaymentProviders' : propertyName = '' ; extensionBeanName = '' ; break
+			}
+		  	def engine = new groovy.text.SimpleTemplateEngine()
+			
+		  	def templateFile = new File('pluginContext.xml.tpl')
+		  	def resultFile = new File("${properties.'plugin-base'}/conf/spring/pluginContext.xml")
+		  	def template = engine.createTemplate(templateFile)
+			def pluginType = properties.'plugin-type'
+			def pluginName = properties.'plugin-name'
+			def pluginBeanName = pluginName[0].toLowerCase() + pluginName[1..(pluginName.size() - 1)] + pluginType[0..(pluginType.size() - 2)]
+		  	def binding = [
+		  	    pluginType: properties.'plugin-type',
+		  	    pluginName : properties.'plugin-name',
+				pluginBeanName : pluginBeanName,
+		  		propertyName : propertyName,
+		  		extensionBeanName : extensionBeanName
+		  	]
+		  	resultFile.write(template.make(binding).toString())
+		</groovy>
+		<echo message="Created build and configuration files" />
+
+		<groovy>
+			def namespace = "fr/capwebct/capdemat/plugins/${properties.'plugin-type'.toLowerCase()}/${properties.'plugin-name'.toLowerCase()}/service"
+			def srcDir = "${properties.'plugin-base'}/src/java/${namespace}"
+			def testDir = "${properties.'plugin-base'}/test/java/${namespace}"
+			new File(srcDir).mkdirs()
+			new File(testDir).mkdirs()
+		</groovy>
+
+		<mkdir dir="${plugin-base}/src/java/META-INF" />
+		<copy file="${basedir}/manifest.mf.tpl" tofile="${plugin-base}/src/java/META-INF/manifest.mf" />
+
+		<echo message="Created directory structure" />
+
+		<!--
+		<taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask" 
+			classpathref="classpath.svntask" />
+
+		<path id="classpath.svntask">
+			<fileset dir="../Libraries/org.tigris">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+
+		<svn>
+			<add dir="${plugin-base}" recurse="true"/>
+		</svn>
+		<echo message="Added new plugin to subversion" />
+		-->
+
+	</target>
+
+</project>

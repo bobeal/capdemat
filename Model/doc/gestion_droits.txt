@@ -1,0 +1,55 @@
+Vacations et PerischoolActivity : AdministratorOnlyPolicy
+	  * en lecture : actuellement, tout le monde peut (sécu pas appelée sur
+	  lectures) mais restriction aux personnes authentifiées prévue
+	  * en écriture : profil ADMIN sur le site
+
+LocalAuthority, School et RecreationCenter : AdministratorOnlyPolicy
+	  * en lecture : actuellement, tout le monde peut (sécu pas appelée sur
+	  lectures) mais restriction aux personnes authentifiées prévue
+	  * en écriture : N/A (surtout qu'ils seront créés en base avant que
+	  l'on ait le moindre utilisateur créé ...)
+
+Service, Agent : CvqReferentialPolicy (ss classe de AdministratorOnlyPolicy)
+	  * en lecture : profil quelconque sur le site (NONE, ADMIN ou MANAGE)
+	  * en création et suppression : N/A
+	  * en modification : profil ADMIN sur le site
+
+RequestType, DocumentType et Requirement : AdministratorOnlyPolicy
+	  * en lecture : actuellement, tout le monde peut (sécu pas appelée sur
+	  lectures) mais restriction aux personnes authentifiées prévue
+	  * en écriture : profil ADMIN sur le site
+
+Request, RequestAction : RequestPolicy
+	  * en lecture : profil quelconque sur le service dont dépend la demande
+	  ou individu du même foyer que la demande
+	  * en écriture : profil WRITE sur le service dont dépend la demande
+	  ou individu du même foyer que la demande
+
+RequestNote : RequestPolicy
+	  * en lecture : profil quelconque sur le service dont dépend la demande
+	  ou individu du même foyer que la demande
+	  * en écriture : profil WRITE sur le service dont dépend la demande
+
+Document, DocumentBinary et DocumentAction : DocumentPolicy
+	  * en lecture : profil quelconque sur un service du site ou individu du
+	  même foyer que la pièce jointe
+	  * en écriture : profil WRITE sur un service du site ou individu du
+	  même foyer que la pièce jointe
+
+Adress, HomeFolder, Individual, Child, Adult, Card (TODO) :
+	  * à définir : demande particulière donc service particulier ? ou idem
+	  que pour les documents ?
+
+ChildRegistration et fills (TODO) :
+	  * en lecture : profil quelconque sur le service dont dépend
+	  l'inscription (ie la demande associée si elle existe encore, sinon ?)
+	  ou individu du même foyer que l'enfant de l'inscription
+	  * en écriture : profil WRITE sur le service dont dépend l'inscription
+	  (ie la demande associée si elle existe encore, sinon ?) ou individu du
+	  même foyer que l'enfant de l'inscription 
+
+
+
+
+
+

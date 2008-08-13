@@ -1,0 +1,61 @@
+<project name="CVQ Portlets" default="deploy">
+
+	<property file="build.properties" />
+	<property name="definitionId" value="com.zenexity.pict.cvq" />
+
+	<fileset id="portlets-external-libs" dir="${basedir}/../Libraries">
+		<include name="fr.cg95/model/*.jar" />
+		<include name="org.apache/common/commons-logging-1.0.4.jar" />
+		<include name="net.sf/hibernate/*.jar" />
+	</fileset>
+
+	<path id="project.class.path">
+		<fileset refid="portlets-external-libs" />
+		<fileset dir="${basedir}/portletapp/WEB-INF/lib/">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${basedir}/portletapp/WEB-INF/ext/">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete dir="${basedir}/portletapp/WEB-INF/classes" />
+		<delete>
+			<fileset dir="${basedir}/portletapp/WEB-INF/lib">
+        <include name="*.jar" />
+        <exclude name="hessian-3.0.13.jar" />
+        <exclude name="pict-extensions.jar" />
+        <exclude name="spring.jar" />
+        <exclude name="spring-portlet.jar" />
+			</fileset>
+		</delete>
+    <delete file="${basedir}/${definitionId}.war" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="${basedir}/portletapp/WEB-INF/classes" />
+    <javac debug="true"
+           destdir="${basedir}/portletapp/WEB-INF/classes"
+           classpathref="project.class.path"
+           srcdir="${basedir}/src" />
+		<copy todir="${basedir}/portletapp/WEB-INF/classes">
+			<fileset dir="${basedir}/src">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${basedir}/portletapp/WEB-INF/lib" flatten="true">
+			<fileset refid="portlets-external-libs" />
+		</copy>
+	</target>
+
+	<target name="war" depends="compile">
+		<jar destfile="${basedir}/${definitionId}.war" basedir="${basedir}/portletapp" />
+	</target>
+
+	<target name="deploy" depends="compile">
+		<delete file="${deploy.dir}/${definitionId}.war" failonerror="true" />
+		<jar destfile="${deploy.dir}/${definitionId}.war" basedir="${basedir}/portletapp" />
+	</target>
+
+</project>

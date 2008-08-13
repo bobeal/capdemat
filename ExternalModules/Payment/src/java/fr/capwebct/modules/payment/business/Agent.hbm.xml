@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.capwebct.modules.payment.business">
+
+  <class name="Agent" table="agent" lazy="false">
+
+    <id name="id" >
+      <generator class="native" />
+    </id>
+
+    <property name="login" column="login" unique="true" />
+    <property name="firstName" column="first_name" />
+    <property name="lastName" column="last_name" />
+    <property name="isAdmin" column="is_admin" />
+
+  </class>
+
+</hibernate-mapping>

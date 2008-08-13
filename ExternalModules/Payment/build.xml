@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<project name="CapDemat Payment Module" basedir="." default="compile">
+
+	<!-- INIT, CLEAN -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="init">
+		<!-- project specific properties -->
+		<property file="build.properties" />
+		<property name="dist.name" 
+			value="${application.name}-${module.name}-${application.version}" />
+
+		<path id="classpath.compile">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${extlib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+
+		<path id="classpath.compile.test">
+			<path refid="classpath.compile" />
+			<path location="${build.src.dir}" />
+		</path>
+
+		<path id="hibernate.classpath">
+			<fileset dir="${lib.dir}">
+				<include name="**/hibernate*.jar" />
+				<include name="**/commons-logging-1.1.jar" />
+				<include name="**/dom4j-1.6.1.jar" />
+				<include name="**/commons-collections-3.2.jar" />
+				<include name="**/asm-2.2.3.jar" />
+				<include name="**/cglib-2.1.3.jar" />
+				<include name="**/asm-attrs.jar" />
+				<include name="**/xbean.jar" />
+			</fileset>
+		</path>
+
+	</target>
+
+	<target name="clean" depends="init">
+		<delete dir="${webinf.dir}/classes" />
+		<delete dir="${webinf.dir}/lib" />
+		<delete file="${webinf.dir}/log4j.properties" />
+		<delete dir="${build.dir}" />
+		<delete file="${dist.name}.war" />
+		<delete>
+			<fileset dir="${webinf.dir}">
+	    		<include name="capwebct_payment_module.log*"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<!-- COMPILE, BUILD, DEPLOY -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="compile" depends="init">
+		<mkdir dir="${build.src.dir}" />
+		<javac destdir="${build.src.dir}" debug="true" deprecation="false" 
+    		optimize="false" failonerror="true">
+			<src path="${src.dir}" />
+			<classpath refid="classpath.compile" />
+		</javac>
+	</target>
+
+	<!-- Lazy property loading requires buildtime bytecode instrumentation (cf hibernate 3.2 documentation) -->
+	<target name="instrument-bytecode" depends="compile">
+		<taskdef name="hibernateinstrument" 
+			classname="org.hibernate.tool.instrument.cglib.InstrumentTask" 
+			classpathref="hibernate.classpath" />
+
+		<hibernateinstrument verbose="true">
+			<fileset dir="${build.src.dir}/fr/capwebct/modules/payment/business">
+				<include name="*.class" />
+			</fileset>
+		</hibernateinstrument>
+	</target>
+
+	<target name="build" depends="compile">
+		<copy tofile="${build.src.dir}/hibernate.properties" 
+			file="${conf.dir}/hibernate/hibernate.properties.${database.type}" overwrite="true" />
+		<copy todir="${build.src.dir}" file="${conf.dir}/log4j/log4j.properties" 
+			overwrite="true" />
+		<copy todir="${build.src.dir}" file="${conf.dir}/spring/application.properties" />
+		<copy todir="${build.src.dir}" file="${conf.dir}/spring/applicationContext.xml" />
+		<copy todir="${build.src.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.hbm.xml" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${build.src.dir}" >
+			<fileset dir="${conf.dir}">
+				<include name="**/csv/**/*.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="prepare-webapp" depends="build">
+		<copy todir="${webinf.dir}/classes">
+			<fileset dir="${build.src.dir}" includes="**" />
+		</copy>
+		<!-- move log4j.properties away from the standard classpath -->
+		<!-- either Tomcat tries to handle it and fails with errors -->
+		<move file="${webinf.dir}/classes/log4j.properties" todir="${webinf.dir}" />
+		<mkdir dir="${webinf.dir}/lib" />
+		<copy todir="${webinf.dir}/lib">
+			<fileset dir="${lib.dir}">
+				<include name="*.jar" />
+				<exclude name="ant.jar" />
+				<exclude name="ant-junit.jar" />
+				<exclude name="hibernate-tools.jar" />
+				<exclude name="junit-*.jar" />
+				<exclude name="cobertura.jar" />
+				<exclude name="asm-*.jar" />
+				<exclude name="jakarta-oro-2.0.8.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="war" depends="prepare-webapp" description="Create the WAR file">
+		<war destfile="${dist.name}.war" webxml="${webinf.dir}/web.xml">
+			<fileset dir="${web.dir}" includes="**" />
+		</war>
+	</target>
+
+	<!-- HIBERNATE TOOL -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="schemaexport" depends="build" 
+  		description="generate relational schema from hibernate hbm mapping">
+
+		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" 
+      		classpathref="hibernate.classpath" />
+
+		<hibernatetool destdir="${db.dir}">
+			<configuration propertyfile="${conf.dir}/hibernate/hibernate.properties.${database.type}">
+				<fileset dir="${src.dir}" includes="**/*.hbm.xml" />
+			</configuration>
+			<classpath>
+				<path location="${build.src.dir}" />
+				<path refid="classpath.compile" />
+			</classpath>
+			<hbm2ddl outputfilename="schema.${database.type}.sql" format="true" drop="true" create="true"
+				update="false" export="false" delimiter=";" />
+		</hibernatetool>
+	</target>
+
+	<!-- JUNIT TESTS -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="compile-tests" depends="compile">
+		<mkdir dir="${build.test.dir}" />
+		<javac destdir="${build.test.dir}" debug="true" deprecation="false" 
+	    	optimize="false" failonerror="true">
+			<src path="${test.src.dir}" />
+			<classpath refid="classpath.compile.test" />
+		</javac>
+	</target>
+
+	<target name="prepare-tests" depends="build, compile-tests">
+		<!-- test specific configuration files -->
+		<copy todir="${build.test.dir}" file="${test.dir}/conf/spring/applicationContext-test.xml" />
+		<!-- override default configuration files -->
+		<copy todir="${build.src.dir}" file="${test.dir}/conf/log4j/log4j.properties" 
+			overwrite="true"/>
+		<copy tofile="${build.src.dir}/hibernate.properties" 
+			file="${test.dir}/conf/hibernate/hibernate.properties.${database.type}" overwrite="true" />
+
+		<delete dir="${doc.junit.dir}" />
+		<mkdir dir="${doc.junit.dir}" />
+	</target>
+
+	<target name="run-tests" depends="prepare-tests">
+		<junit haltonfailure="yes" fork="yes">
+			<classpath>
+				<pathelement location="${build.test.dir}" />
+				<pathelement location="${build.src.dir}" />
+				<path refid="classpath.compile" />
+			</classpath>
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${basedir}/cobertura.ser" />
+			<formatter type="plain" usefile="false" />
+			<batchtest todir="${doc.junit.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*Test.java" />
+					<exclude name="**/WebServiceClientTest.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	    <junitreport todir="${doc.junit.dir}" tofile="junit_report.xml">
+	      <fileset dir="${doc.junit.dir}">
+			<include name="TEST-*.xml"/>
+	      </fileset>
+	    </junitreport>
+
+	</target>
+
+	<!-- depends on compiletests to be sure to instrument the classes that will be tested -->
+	<target name="run-coverage-report" depends="clean, compile-tests">
+
+    	<taskdef classpathref="classpath.compile.test" resource="tasks.properties" />
+
+		<delete dir="${doc.cobertura.dir}" />
+		<mkdir dir="${doc.cobertura.dir}" />
+
+    	<cobertura-instrument datafile="${basedir}/cobertura.ser">
+      		<fileset dir="${build.src.dir}">
+        		<include name="**/*.class" />
+      		</fileset>
+    	</cobertura-instrument>
+
+  		<antcall target="run-tests" />
+  		
+		<echo message="Generating Cobertura coverage report" />
+    	<cobertura-report format="xml" destdir="${doc.cobertura.dir}" 
+    		srcdir="${src.dir}" datafile="${basedir}/cobertura.ser"/>
+
+	</target>
+
+</project>

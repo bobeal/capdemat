@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+ <xs:annotation>
+  <xs:documentation xml:lang="en">
+   Back Office manager description schema		
+  </xs:documentation>
+ </xs:annotation>
+ 
+  <xs:element name="cvqmanager">
+	<xs:complexType>
+	  <xs:sequence>
+ 		<xs:element name="globals" type="ManagerGlobalsType" minOccurs="0" maxOccurs="1" />
+ 		<xs:element name="managers" type="ManagerDefinitionType" minOccurs="0" maxOccurs="1" />
+ 		<xs:element name="menus" type="ManagerMenusType" minOccurs="0" maxOccurs="1" />
+	    <xs:element name="processes" type="ManagerProcessesType" minOccurs="0" maxOccurs="1" />
+	  </xs:sequence>
+	</xs:complexType>
+  </xs:element>
+  
+ <xs:complexType name="ManagerGlobalsType">
+  <xs:sequence>
+   <xs:element name="session" type="ManagerSessionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="defaultaction" type="ManagerActionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="timeout" type="ManagerTimeoutType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="help" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="style" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="script" type="ManagerScriptType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="initscript" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+  </xs:sequence>
+ </xs:complexType>
+
+ <xs:complexType name="ManagerDefinitionType">
+  <xs:sequence>
+   <xs:element name="manager" type="ManagerType" maxOccurs="unbounded"/>
+  </xs:sequence>
+ </xs:complexType>
+
+ <xs:complexType name="ManagerMenusType">
+  <xs:sequence>
+   <xs:element name="menu" type="ManagerMenuType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+ </xs:complexType>
+
+ <xs:complexType name="ManagerProcessesType">
+  <xs:sequence>
+   <xs:element name="process" type="ManagerProcessType" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="group" type="xs:string" default=""/>
+  <xs:attribute name="caption" type="xs:string" default=""/>
+  <xs:attribute name="icon" type="xs:string" default=""/>
+  <xs:attribute name="order" type="xs:int"/>
+ </xs:complexType>
+
+ <xs:complexType name="ManagerProcessType">
+  <xs:sequence>
+	<xs:element name="label" type="xs:string" minOccurs="1" maxOccurs="1"/>
+	<xs:element name="record" type="xs:string" minOccurs="1" maxOccurs="1"/>
+	<xs:element name="persistence" type="xs:string" minOccurs="1" maxOccurs="1"/>
+	<xs:element name="information" type="ManagerInformationType" minOccurs="0" maxOccurs="1"/>
+	<xs:element name="state" type="ManagerStateType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="name" type="xs:string" />
+ </xs:complexType>
+
+ <xs:complexType name="ManagerSessionType">
+  <xs:attribute name="data" type="xs:string" />
+  <xs:attribute name="type" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerTimeoutType">
+  <xs:attribute name="cookie" type="xs:string" />
+  <xs:attribute name="delay" type="xs:integer" />
+  <xs:attribute name="href" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerScriptType">
+  <xs:attribute name="src" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerType">
+  <xs:sequence>
+   <xs:element name="title" type="xs:string" />
+   <xs:element name="script" type="ManagerScriptType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="action" type="ManagerActionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="style" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="tab" type="ManagerTabType" maxOccurs="unbounded" />
+  </xs:sequence>
+  <xs:attribute name="name" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerTabType">
+  <xs:sequence>
+   <xs:element name="title" type="xs:string" />
+   <xs:element name="condition" type="ManagerConditionType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="confirm" type="ManagerConfirmType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="action" type="ManagerActionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="style" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="default" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="header" type="ManagerContentType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="form" type="ManagerContentType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="process" type="ManagerDisplayProcessType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="state" type="ManagerStateType" minOccurs="0" maxOccurs="unbounded"/>
+   <xs:element name="block" type="ManagerStateType" minOccurs="0" maxOccurs="unbounded"/>
+   <xs:element name="menu" type="ManagerMenuType" minOccurs="0" maxOccurs="unbounded"/>
+   <xs:element name="select" type="ManagerSelectType" minOccurs="0" maxOccurs="unbounded"/>
+   <xs:element name="footer" type="ManagerContentType" minOccurs="0" maxOccurs="1" />
+  </xs:sequence>
+  <xs:attribute name="caption" type="xs:string" />
+  <xs:attribute name="id" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerConditionType">
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="domain" type="xs:string" />
+  <xs:attribute name="property" type="xs:string" />
+  <xs:attribute name="parameter" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerContentType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+    <xs:attribute name="separator" type="xs:string" />
+    <xs:attribute name="scope" type="xs:string" />
+	<xs:attribute name="condition" type="xs:string" default=""/>
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerDisplayProcessType">
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="state" type="xs:string" />
+  <xs:attribute name="check" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerMenuType">
+  <xs:sequence>
+   <xs:element name="condition" type="ManagerConditionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="label" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="detail" type="ManagerDetailType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="action" type="ManagerActionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="menu" type="ManagerMenuType" minOccurs="0" maxOccurs="unbounded" />
+  </xs:sequence>
+  <xs:attribute name="caption" type="xs:string" />
+  <xs:attribute name="processes" type="xs:string" />
+  <xs:attribute name="type" type="xs:string" />
+  <xs:attribute name="display" type="xs:string" />
+  <xs:attribute name="icon" type="xs:string" default="" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerDetailType">
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="property" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerInformationType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+	<xs:attribute name="label" type="xs:string" />
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerStateType">
+  <xs:sequence>
+   <xs:element name="title" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="condition" type="ManagerConditionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="form" type="ManagerContentType" minOccurs="1" maxOccurs="unbounded" />
+   <xs:element name="button" type="ManagerButtonType" minOccurs="0" maxOccurs="6" />
+  </xs:sequence>
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="column" type="xs:string" />
+  <xs:attribute name="background" type="xs:boolean" default="true" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerActionType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+    <xs:attribute name="type" type="xs:string" default="" />
+    <xs:attribute name="popup" type="xs:boolean" default="false" />
+    <xs:attribute name="confirm" type="xs:string" default="" />
+    <xs:attribute name="transition" type="xs:string" default="" />
+	<xs:attribute name="parameter" type="xs:string" default="" />
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerSelectType">
+  <xs:sequence>
+   <xs:element name="title"	type="xs:string" />
+   <xs:element name="condition" type="ManagerConditionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="empty" type="xs:string" minOccurs="0" />
+   <xs:element name="display" type="ManagerDisplayType" maxOccurs="unbounded" />
+   <xs:element name="action" type="ManagerActionType" />
+   <xs:element name="menu" type="ManagerMenuType" minOccurs="0" maxOccurs="unbounded" />
+  </xs:sequence>
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="property" type="xs:string" />
+  <xs:attribute name="style" type="xs:string" default="list001" />
+  <xs:attribute name="icon" type="xs:string" default="" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerDisplayType">
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="type" type="xs:string" />
+  <xs:attribute name="maxchars" type="xs:int" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerButtonType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+	<xs:attribute name="confirm" type="xs:string" />
+	<xs:attribute name="script" type="xs:string" />
+	<xs:attribute name="action" type="xs:string" />
+	<xs:attribute name="transition" default="" type="xs:string" />
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="ManagerConfirmType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+	<xs:attribute name="name" type="xs:string" />
+	<xs:attribute name="script" type="xs:string" />
+	<xs:attribute name="check" type="xs:string" />
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+</xs:schema>

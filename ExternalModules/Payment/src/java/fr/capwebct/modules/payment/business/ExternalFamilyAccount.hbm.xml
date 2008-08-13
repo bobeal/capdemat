@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.capwebct.modules.payment.business">
+
+  <class name="ExternalFamilyAccount" table="external_family_account" lazy="false">
+
+    <id name="id">
+      <generator class="native" />
+    </id>
+
+    <property name="externalFamilyAccountId" column="external_family_account_id" />
+    <property name="address" column="address" />
+
+    <many-to-one name="externalApplication" class="ExternalApplication"
+      column="external_application_fk" not-null="true" cascade="save-update" />
+
+    <many-to-one name="capwebctFamilyAccount" class="CapwebctFamilyAccount"
+      column="capwebct_family_account_fk" cascade="save-update" />
+
+    <set name="individuals" cascade="all, delete-orphan" lazy="false">
+      <key column="external_family_account_fk" not-null="true" />
+      <one-to-many class="ExternalIndividual" />
+    </set>
+
+    <set name="invoices" cascade="all, delete-orphan" lazy="true">
+      <key column="external_family_account_fk" not-null="true" />
+      <one-to-many class="Invoice" />
+    </set>
+
+    <set name="accounts" cascade="all, delete-orphan" lazy="true">
+      <key column="external_family_account_fk" not-null="true" />
+      <one-to-many class="Account" />
+    </set>
+
+    <set name="contracts" cascade="all, delete-orphan" lazy="true">
+      <key column="external_family_account_fk" not-null="true" />
+      <one-to-many class="Contract" />
+    </set>
+
+  </class>
+
+</hibernate-mapping>

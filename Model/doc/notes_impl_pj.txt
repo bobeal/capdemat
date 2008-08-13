@@ -1,0 +1,156 @@
+Toutes les références proviennent du document CG95-CR-V3-Regles-PJ.doc, v1.3
+
+Changements modèle BD :
+=======================
+
+Un justificatif peut comporter plusieurs pages => externalisation du
+stockage des données binaires d'une PJ dans une table document_binary
+avec en plus un champ page_nb ($2, p.4)
+
+Une commune peut demander plusieurs documents pour un même type de
+justificatif => ajout d'une notion de nombre de docs nécessaires dans
+l'association type pj <-> request type et une numérotation ds les
+documents pour la navigation
+(IDocumentService.getDocumentsTypes(RequestType) :
+Map(DocumentType,number))
+
+Autres champs à ajouter sur les justificatifs et associés :
+     -> durée de validité (validityDuration sur DocumentType)
+     -> type de dépot (depositType sur Document)
+     -> origine du dépot (depositFrom + depositId sur Document)
+     -> checkinDate (sur Document)
+     -> on a une note, il en faut une autre (suppr note, ajout
+        ecitizenNote, agentNote sur Document)
+
+Dans DocumentType, ajout d'un champ usage_type (énuméré : permanent,
+one shot, ..., cf modèle v1.1)
+
+Nouveaux services à fournir :
+=============================
+
+Insertion d'une PJ pour un type de justificatif peut être fait hors
+téléprocédure ou lors d'une téléprocédure donc l'ajout d'une PJ se
+fera en deux étapes :
+
+     -> création de la PJ via IDocumentService.create(Document,
+        homeFolderId ?, individualId ?): long. homeFolderId et
+        individualId ne sont pas forcément renseignés (cas d'une PJ à
+        usage unique qui n'est attachée qu'à la demande à laquelle
+        elle se rapporte).
+
+     -> ajout de la PJ à la demande en cours en utilisant l'id de la
+        PJ obtenu lors de sa création (cf au dessous)
+ 
+Ajout d'une PJ lors d'une demande :
+
+     -> montée de la méthode addDocuments de IVOCardRequestService et
+        SchoolRegistrationRequestService dans IRequestService (est
+        utilisée par toutes les téléprocédures). On ne passe plus un
+        set de Document mais un set d'id de Document.
+
+     -> ajout d'une méthode addDocument(requestId, documentId) dans
+        IRequestService. c'est la même que addDocuments mais  pour un
+        seul document.
+
+Les PJ pouvant être multi-pages, ajout des méthodes relatives à la
+gestion des pages dans IDocumentService :
+
+     -> ajout d'une méthode addPage(docId, DocumentBinary)
+
+     -> ajout des méthodes removePage(docId, pageId),
+        modifyPage(docId, DocumentBinary), getPage(docId,
+        pageId) et getAllPages(docId)
+
+Consulter les justificatifs pour une téléprocédure :
+
+     -> utilisation de la méthode getAllowedDocuments(requestType) du
+        service IRequestService.
+
+Navigation dans les documents associés à un type de justificatif : 
+
+     -> ajout d'une méthode IDocumentService.getDocument(documentType,
+        documentNb);
+
+     -> pour avoir la liste des documents associés à un type de
+        justificatif, utiliser la méthode getProvidedDocuments du
+        service IDocumentService.
+
+Obtention de la liste des PJ déjà fournies pour un type de
+justificatif (par défaut pour un foyer mais un id d'individu peut être
+spécifié) :
+
+     -> ajout d'une méthode
+        IDocumentService.getProvidedDocuments(documentType, foyerId,
+        individualId ?)
+
+     -> même méthode à utiliser pour la fonction "consulter le
+        justificatif" ($6.3, p10)
+
+Consultation des justificatifs d'un foyer :
+
+     -> utilisation de la méthode getAssociatedDocuments de
+        IHomeFolderService 
+
+Consultation des justificatifs d'un individu :
+
+     -> utilisation de la méthode getAssociatedDocuments de
+        IIndividualService 
+
+Connaitre le nombre de pages d'un document :
+
+     -> ajout d'une méthode getPageNumber(documentId) dans
+        IDocumentService
+
+Modification/Suppression d'un document : 
+
+     -> ajout d'une gestion d'exception si la PJ est utilisée dans une
+        demande non close et non archivée (de même, la modification
+        n'est pas autorisée dans tous les états : cf $8.7.2, p. 21)
+
+     -> ne pourra être fait que lorsque le SSO sera branché dans CVQ
+
+Rattachement automatique : en partie en FO (par ex, l'appli CVQ ne
+peut pas savoir quel est l'enfant concerné par une demande au moment
+de l'ajout d'une PJ), en partie en BO (je sais que telle PJ _doit_
+être reliée à un enfant, si ce n'est pas le cas => exception levée)
+
+A propos des PJs dont l'obligation dépend de certaines conditions
+(notées CP dans la doc) : dans la table d'association entre les
+téléprocédures et les types de PJ (symbolisée par la classe
+RequestTypeDocument), j'ai ajouté un flag (attribut "special") pour
+gérer ce cas de figure. Cette table contient aussi un champ "number"
+permettant de couvrir le cas des téléprocédures nécessitant plusieurs
+documents par type de PJ (par ex, 3 justificatifs de domicile).
+
+
+Evolutions Workflow (dans IDocumentService) :
+=============================================
+
+	  PJ déposée : état Pending (déjà existant)
+	  validation : validate() / VALIDATED
+	  vérification : check() / CHECKED
+	  refus : refuse() / REFUSED
+	  périmée : pas de chgment d'état manuel / OBSOLETE
+	  
+Conséquence : les PJs n'utilisent plus la classe ActorState pour
+définir leur état. A la place, elles utilisent leur propre classe
+DocumentState (toujours dans fr.cg95.cvq.business.users).
+
+Questions et TODO :
+===================
+
+Besoin d'une gestion spéciale ds l'appli métier pour pièces à fournir
+/ pièces déjà fournies ou le FO s'occupe de ça ? + notion pièce
+fournie pour la demande ou venant d'une demande précédente (flag sur
+la demande : addedForRequestId ?)
+
+Liste PJ par téléprocédure :
+      * CP == obligatoire ds certains cas slmt ? comment le détecte-t-on ?
+
+
+
+
+
+      
+
+

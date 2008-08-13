@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="cleverExternalService"
+    class="fr.capwebct.capdemat.plugins.externalservices.clever.service.CleverService">
+    <property name="label" value="Clever"></property>
+    <!-- Insert services you need here -->
+    <property name="localReferentialService" ref="localReferentialService"/>
+    <property name="endportpath">
+      <value>${plugins.externalservices.clever.endportpath}</value>
+    </property>
+    <property name="username">
+      <value>${plugins.externalservices.clever.username}</value>
+    </property>
+    <property name="password">
+      <value>${plugins.externalservices.clever.password}</value>
+    </property>
+  </bean>
+    
+</beans>

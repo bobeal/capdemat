@@ -1,0 +1,290 @@
+/* FORMS */
+/* common */
+form
+{
+  float: left;
+  clear: both;
+  margin: 0;
+}
+
+input, select, textarea
+{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Fieldset */
+/* Type 1 */
+.fieldset_type1
+{
+  clear: both;
+  border: none;
+}
+
+/* Label */
+/* Type 1 */
+.label_type1
+{
+  float: left;
+  display: block;
+  width: 140px;
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.1em;
+  line-height: 1.7em;
+  border: 1px solid;
+  padding-right: 5px;
+  margin-right: 25px;
+}
+
+/* Type 2 */
+.label_type2
+{
+  font-weight: bold;
+  font-size: 1.1em;
+  line-height: 1.7em;
+  margin-left: 5px;
+}
+
+/* Type 3 */
+.label_type3
+{
+  float: left;
+  display: block;
+  font-weight: bold;
+  font-size: 1.1em;
+  line-height: 1.5em;
+  width: 95px;
+}
+
+/* Type 4 */
+.label_type4
+{
+  float: left;
+  display: block;
+  font-weight: bold;
+  font-size: 1.1em;
+  line-height: 1.5em;
+}
+
+/* Select */
+/* Type 1 */
+.select_type1
+{
+  float: right;
+  display: block;
+  width: 230px;
+  height: 20px;
+  border: 1px solid;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding-left: 5px;
+}
+
+/* Type 2 */
+.select_type2
+{
+  float: left;
+  display: block;
+  width: 110px;
+  height: 20px;
+  border: 1px solid;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding-left: 5px;
+  margin-right: 15px;
+}
+
+/* Type 3 */
+.select_type3
+{
+  float: left;
+  display: block;
+  width: 105px;
+  height: 20px;
+  border: 1px solid;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding-left: 5px;
+}
+
+/* Input Radio */
+/* Type 1 */
+.radio_type1
+{
+  margin-left: 20px;
+}
+
+/* Input Text */
+/* Type 1 */
+.input_type1
+{
+  display: block;
+  float: left;
+  width: 220px;
+}
+
+/* Input Submit */
+/* Type 1 */
+.submit_type1
+{
+  background: url(img/picto_18.gif) no-repeat 6px center;
+  border: 1px solid;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 2px 20px;
+}
+
+/* Type 2 */
+.submit_type2
+{
+  float: left;
+  display: block;
+  height: 22px;
+  width: 125px;
+  font-size: 1.1em;
+  font-weight: bold;
+  line-height: 1.4em;
+  background: url(img/picto_29.gif) no-repeat left top;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Others */
+/* List Type 12 */
+.list_type12 .checkbox input
+{
+  float: left;
+  display: block;
+  padding-left: 10px;
+}
+
+.list_type12 .checkbox label
+{
+  float: left;
+  display: block;
+  padding-left: 5px;
+}
+
+.list_type12 .submit input
+{
+  float: left;
+  display: block;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  height: 21px;
+  font-size: 1em;
+  font-weight: bold;
+  width: 180px;
+}
+
+
+/* table Type 7 */
+.table_type7 .input_inline input
+{
+  display: inline;
+  margin: 0 5px;
+  padding: 0 3px;
+  width: 30px;
+  border: 1px solid;
+}
+
+.table_type7 .selected_notice .submit a
+{
+  background: url(img/picto_25.gif) no-repeat left center;
+  border: none;
+  font-weight: bold;
+  font-size: 0.9em;
+  height: 25px;
+  padding: 0 0 5px 25px;
+}
+
+/* Changement de mot de passe */
+.fieldset_zone
+{
+  clear: both;
+  float: left;
+  margin: 0px 0;
+  border: none;
+}
+.insert_list
+{
+  list-style-type: none;
+}
+
+.insert_list li.password_row
+{
+  clear: both;
+  float: left;
+  margin: 2px 0;
+  width: 400px;
+}
+
+.insert_list li.password_row label
+{
+  float: left;
+  display: block;
+  height: 23px;
+  line-height: 23px;
+  width: 185px;
+  padding-left: 15px;
+  font-weight: bold;
+}
+
+.insert_list li.password_row input
+{
+  float: left;
+  display: block;
+  width: 150px;
+  height: 21px;
+  line-height: 1.2em;
+  border: 1px solid;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 2px 5px 0 5px;
+}
+
+.list_type_password
+{
+  list-style-type: none;
+  margin: 20px 0;
+  padding-left: 50px!important;
+  padding-left: 100px;
+}
+
+.list_type_password .item
+{
+  float: left;
+  display: block;
+  width: 110px;
+  height: 27px;
+  padding-right: 10px;
+  padding-left: 20px;
+  margin-left: 10px;
+  margin-right: 5px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.1em;
+  line-height: 2em;
+}
+
+.list_type_password .item .custom_color
+{
+  float: left;
+  display: block;
+  width: 33px;
+  height: 27px;
+  margin-right: 5px;
+}
+
+.list_type_password .cancel .custom_color
+{
+  background: url(img/picto_cancel.gif) no-repeat left top;
+}
+
+.list_type_password .ok .custom_color
+{
+  background: url(img/picto_1.gif) no-repeat left top;
+}
+

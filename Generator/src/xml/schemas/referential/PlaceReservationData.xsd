@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/referential"
+  xmlns:ref="http://www.cg95.fr/cvq/schema/referential" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:element name="PlaceReservation">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr">
+        Sch&#x00E9;ma utilis&#x00E9; pour la description des d'&#x00E9;l&#x00E9;ments a r&#x00E9;servation
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        Schema used for the description of elements subjects to a place reservation
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:normalizedString">
+          <xs:annotation>
+            <xs:documentation xml:lang="fr">
+              Label du t&#x00E9;l&#x00E9;-service d&#x00E9;finissant ce(s) type(s) de
+              r&#x00E9;f&#x00E9;rentiel local
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+              Label of the request type defining this local referential data
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="data" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="label" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="fr">
+                    Localisation du nom de la donn&#x00E9;e de r&#x00E9;f&#x00E9;rentiel local
+                  </xs:documentation>
+                  <xs:documentation xml:lang="en">
+                    Local referential data localization
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:normalizedString">
+                      <xs:attribute name="lang" type="xs:language" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="entry" minOccurs="0" maxOccurs="unbounded"
+                type="ref:PlaceReservationEntryType" />
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:NMTOKEN" />
+          </xs:complexType>
+          <xs:unique name="placeEntryKey">
+            <xs:selector xpath="./ref:entry" />
+            <xs:field xpath="@key" />
+          </xs:unique>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:unique name="placeDataName">
+      <xs:selector xpath="./ref:data" />
+      <xs:field xpath="@key" />
+    </xs:unique>
+  </xs:element>
+
+  <xs:complexType name="PlaceReservationEntryType">
+    <xs:sequence>
+      <xs:element name="label" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr">
+            Label &#x00E0; afficher devant l'entr&#x00E9;e
+          </xs:documentation>
+          <xs:documentation xml:lang="en">
+            Label to be displayed in front of the entry
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:normalizedString">
+              <xs:attribute name="lang" type="xs:language" />
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="quota" type="xs:int"/>
+      <xs:element name="eventDate" type="xs:dateTime"/>
+      <xs:element name="remainingPlaces" type="xs:int"/>
+      <xs:element name="reservationStartDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="reservationEndDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+      <xs:element name="ticketSelection" minOccurs="0" maxOccurs="unbounded" 
+        type="ref:PlaceReservationTicketType" />
+    </xs:sequence>
+    <xs:attribute name="key" type="xs:NMTOKEN" />
+  </xs:complexType>
+
+  <xs:complexType name="PlaceReservationTicketType">
+    <xs:sequence>
+      <xs:element name="label" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr">
+            Label &#x00E0; afficher devant l'entr&#x00E9;e
+          </xs:documentation>
+          <xs:documentation xml:lang="en">
+            Label to be displayed in front of the entry
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:normalizedString">
+              <xs:attribute name="lang" type="xs:language" />
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="price" type="xs:float" />
+      <xs:element name="isSubscriberPrice" minOccurs="0" type="xs:boolean" default="false"/>
+    </xs:sequence>
+    <xs:attribute name="key" type="xs:NMTOKEN" />
+  </xs:complexType>
+
+</xs:schema>

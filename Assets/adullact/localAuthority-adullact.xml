@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="configurationBean_adullact"
+    class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean"
+    init-method="init">
+    <property name="name"><value>adullact</value></property>
+    <property name="postalCode" value="12345"/>
+    <property name="displayTitle"><value>Adullact</value></property>
+    <property name="urls">
+      <list>
+        <value>cartevaloise.adullact.org</value>
+        <value>vosdemarches.adullact.org</value>
+      </list>
+    </property>
+    <property name="foAccountTabs">
+      <list>
+        <value>welcome</value>
+        <value>individuals</value>
+        <value>requests</value>
+        <value>documents</value>
+        <value>services</value>
+        <value>checklist</value>
+        <value>caddy</value>
+      </list>
+    </property>
+    <property name="sessionFactory"><ref bean="sessionFactory_adullact"/></property>
+  </bean>
+
+  <bean id="sessionFactory_adullact" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" parent="abstractSessionFactory">
+    <property name="dataSource">
+      <ref bean="pgDataSource_adullact"/>
+    </property>
+  </bean>
+
+  <bean id="pgDataSource_adullact" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass">
+      <value>org.postgresql.Driver</value>
+    </property>
+    <property name="jdbcUrl">
+      <value>jdbc:postgresql://localhost:5432/cartevaloise_adullact</value>
+    </property>
+    <property name="user"><value>cvq95</value></property>
+    <property name="password"><value>cvq95pass</value></property>
+	<property name="acquireIncrement" value="3"/>
+	<property name="initialPoolSize" value="3"/>
+	<property name="minPoolSize" value="3"/>
+	<property name="maxPoolSize" value="12"/>
+    <property name="maxStatements" value="0"/>
+  </bean>
+
+</beans>

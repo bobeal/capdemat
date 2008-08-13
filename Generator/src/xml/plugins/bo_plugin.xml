@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="bo" classname="fr.cg95.cvq.generator.plugins.gui.GuiPlugin">
+
+  <documentation>
+    <!-- for elements, we only want shortdesc information -->
+    <element parent="element" source="http://www.cg95.fr/cvq/schema/shortdesc"/>
+    <!-- for other elements, we want all information -->
+    <element parent="*" source="*"/>
+  </documentation>
+
+  <appinfo>
+    <!-- we want fo nodes information for requests, elements, and properties -->
+    <element parent="request" node="model,bo"/>
+    <element parent="element,property" node="bo"/>
+  </appinfo>
+  
+  <configuration>
+  	<plugin gui="bo"/>
+  	<output path="./BackOffice" lang="fr"/>
+  	<java vtl="Generator/src/java/fr/cg95/cvq/generator/plugins/gui/bo_java.vm" src="src" package="fr.cg95.cvq.bo" postfix="Record"/>
+  	<jsp vtl="Generator/src/java/fr/cg95/cvq/generator/plugins/gui/bo_jsp.vm" src="webapp/jsp/bo/process" bean="stateManager" prefix="selectedRecord"/>
+  </configuration>
+  
+</plugin>

@@ -1,0 +1,136 @@
+/**
+	#header="#388B75"
+	#background-color="#dbf0eb"
+	#button="#34aa88"
+*/
+#banner {
+        background: url(../img/banner.jpg) no-repeat;
+        width: 100%;
+        height: 78px;
+}
+
+#navigation #identifier div.logout {
+        background-color: #dbf0eb;
+        color: #34aa88;
+}
+
+#navigation #identifier div.logout:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#tabulation div {
+        background-color: #dbf0eb;
+}
+
+#tabulation #contents #action #title h1 {
+        color: #388B75;
+}
+
+#tabulation #contents #action #body #title h1 {
+        color: #388B75;
+}
+
+#tabulation #contents #action #body {
+        color: #34aa88;
+}
+
+#tabulation #contents #action #body div.select:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#tabulation #contents #action #body div.action {
+        background-color: #dbf0eb;
+}
+
+#tabulation #contents #action #body div.action:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#tabulation #contents #form #title h1 {
+        color: #388B75;
+}
+
+#tabulation #contents #form #body {
+        background-color: #dbf0eb;
+}
+
+#tabulation #contents #form #body div {
+        background-color: #dbf0eb;
+}
+
+#tabulation #contents #form #body #resultsnav div.previous {
+        color: #34aa88;
+}
+
+#tabulation #contents #form #body #resultsnav div.previous:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#tabulation #contents #form #body #resultsnav div.next {
+        color: #34aa88;
+}
+
+#tabulation #contents #form #body #resultsnav div.next:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#tabulation #contents #form #body #search div.search {
+        color: #34aa88;
+}
+
+#tabulation #contents #form #body #search div.search:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#contents #form div.info-button {
+        background-color: #dbf0eb;
+}
+
+#contents #form div.info-button .button {
+        color: #34aa88;
+}
+
+#contents #form div.info-button .button:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#contents #form #button-area {
+        background-color: #dbf0eb;
+}
+
+#contents #form #button-area div {
+        background-color: #dbf0eb;
+        color: #34aa88;
+}
+
+#contents #form #button-area div:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#contents #form #welcome .button {
+        background-color: #dbf0eb;
+        color: #34aa88;
+}
+
+#contents #form #welcome .button:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}
+
+#contents #form #welcome .radio {
+        background-color: #dbf0eb;
+        color: #34aa88;
+}
+
+#contents #form #welcome .radio:hover {
+        background-color: #34aa88;
+        color: #dbf0eb;
+}

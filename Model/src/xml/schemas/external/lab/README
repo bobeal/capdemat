@@ -1,0 +1,7 @@
+Ce répertoire contient des versions en cours de validation des schémas XML d'interface avec des
+services externes. Certains sont des nouveaux schémas, d'autres des versions modifiées des schémas
+existants.
+
+Par conséquent, ils ne sont pas supportés sur la version 3.2.0 de CapDémat mais le seront dans de
+prochaines versions de l'application.
+

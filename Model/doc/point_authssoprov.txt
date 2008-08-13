@@ -1,0 +1,87 @@
+Objet :
+=======
+	* Authentification/SSO
+	* API Provisioning
+	* Autorisations
+
+
+Authentification/SSO :
+======================
+
+B&D a installé un serveur CAS pour gérer l'authentification et le SSO.
+    -> bonne solution à la kerberos.
+    -> intégration aisée avec Spring (via extension Acegi). voir
+       "Autorisations" pour les détails.
+    -> seul micro bémol : n'est pas sur les standards actuellement
+       étudiés par l'ADAE (projet Liberty Alliance / SAML), même si
+       les concepts sont très proches (ce qui laisse la porte ouverte
+       à une éventuelle migration dans le futur).
+
+
+API Provisioning :
+==================
+
+La solution d'encapsulation des APIs de B&D dans l'API actuelle est
+viable pour du temporaire (je pense là à l'authentification, en
+attendant de migrer définitivement vers le SSO) mais n'est pas
+acceptable pour du définitif (ie le provisioning).
+
+Par conséquent, il va falloir migrer vers l'une ou l'autre des APIs,
+c'est à dire soit : 
+      -> Solution B&D : l'API Novell (contribution de Novell à la communauté
+         OpenLDAP, open source, conforme standard LDAPv3)
+      -> Solution actuelle : l'API JNDI (standard Java/J2EE, plus
+         évolutive, même si la probabilité de migration de LDAP vers
+         un autre type d'annuaire est plutôt faible ...)
+
+Quoiqu'il en soit, l'infrastructure et les fonctionnalités actuelles
+doivent être conservées :
+      -> stockage temporaire dans des tables, création effective
+           dans l'annuaire "cronée"
+      -> notification des modifications avec openJMS
+      -> appel via des servlets
+      -> API cliente
+
+A propos du gestionnnaire de connexions développé par B&D : 
+      -> garder une connexion ouverte par agent authentifié ne semble
+         pas être une bonne solution : déjà, parce que les agents
+         seront connectés du matin au soir d'où potentiellement un
+         nombre élevé de connexions ouvertes sur le LDAP; ensuite
+         parce que les autorisations associées à un agent seront
+         récupérées lors de l'authentification et qu'en dehors des
+         autorisations, il n'y a pas vraiment de raison d'accéder de
+         nouveau à l'annuaire (qui est un référentiel).
+      -> par contre, avoir un pool de connexions admin (qui seront
+         essentiellement utilisées pour la création des e-habitants)
+         pourrait être utile.
+
+
+Autorisations :
+===============
+
+CAS ne s'occupe que de l'authentification et du SSO, il faut donc un
+complément pour la gestion des autorisations.
+
+Une solution plutôt satisfaisante est Acegi (http://acegisecurity.sourceforge.net/) :
+    -> "extension" de Spring qui intègre le support de CAS en standard
+       : ça nous permet de "relier" les deux extrémités à moindres
+       frais.
+    -> apporte les fonctionnalités d'autorisation nécessaires à CVQ.
+    -> à l'image de Spring, l'intégration avec les couches de
+       présentation est aisée. De plus, le Back Office et le Front
+       Office CVQ sont déjà intégrés avec Spring, il ne resterait donc
+       qu'à intégrer les deux portails (TODO : définir une stratégie
+       d'intégration pour les portails, idem que pour le Back Office
+       CVQ ?).
+
+
+Remarque sur l'architecture générale de CVQ :
+=============================================
+
+La couche métier de CVQ (qui est à CVQ ce que WebCT-Core est à WebCT)
+doit centraliser toutes les fonctionnalités métier de l'application (y
+compris la gestion de l'authentification et des autorisations), ceci
+afin de ne pas disperser le fonctionnel dans les applications Web
+déployées.
+
+

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+  <!-- *******************************************************************  -->
+  <!-- ************** LDAP Synchronizer Job Configuration ****************  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="ldapSynchronizerJob"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="ldapService" />
+    <property name="targetMethod" value="synchronizeDatabasesWithDirectory" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <!-- testing purposes only -->
+  <!-- 
+    <bean id="ldapSynchronizerTestTrigger" 
+      class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="ldapSynchronizerJob"/>
+    <property name="startDelay" value="5000"/>
+    <property name="repeatInterval" value="600000"/>
+    </bean>
+  -->
+
+  <!-- production settings -->
+  <bean id="ldapSynchronizerTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="ldapSynchronizerJob" />
+    <property name="cronExpression" value="0 0 6 * * ?" />
+  </bean>
+
+  <!-- *******************************************************************  -->
+  <!-- ***** Requests Instruction Duration Checker Job Configuration *****  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="requestInstructionDurationCheckerJob" 
+    class="fr.cg95.cvq.service.users.job.RequestInstructionDurationCheckerJob">
+    <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
+    <property name="requestService"><ref bean="defaultRequestService"/></property>
+    <property name="mailService"><ref bean="mailService"/></property>
+    <property name="localizationService"><ref bean="localizationService"/></property>
+    <property name="requestDAO"><ref bean="requestDAO"/></property>
+    <property name="requestActionDAO"><ref bean="requestActionDAO"/></property>
+  </bean>
+
+  <bean id="requestInstructionDurationCheckerJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="requestInstructionDurationCheckerJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <!-- testing purposes only -->
+  <!-- 
+  <bean id="requestInstructionDurationCheckerTrigger" 
+    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="requestInstructionDurationCheckerJobInvoker"/>
+    <property name="startDelay" value="50000"/>
+    <property name="repeatInterval" value="600000"/>
+  </bean>
+  -->
+
+  <!-- production settings -->
+  <bean id="requestInstructionDurationCheckerTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="requestInstructionDurationCheckerJobInvoker" />
+    <property name="cronExpression" value="0 0 6 * * ?" />
+  </bean>
+  
+  <!-- *******************************************************************  -->
+  <!-- ********* Requests Creation Notification Job Configuration ********  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="requestCreationNotificationJob" 
+    class="fr.cg95.cvq.service.users.job.RequestCreationNotificationJob">
+    <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
+    <property name="requestService"><ref bean="defaultRequestService"/></property>
+    <property name="mailService"><ref bean="mailService"/></property>
+    <property name="localizationService"><ref bean="localizationService"/></property>
+    <property name="requestDAO"><ref bean="requestDAO"/></property>
+  </bean>
+
+  <bean id="requestCreationNotificationJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="requestCreationNotificationJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <!-- testing purposes only -->
+  <!-- 
+  <bean id="requestCreationNotificationTrigger" 
+    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="requestCreationNotificationJobInvoker"/>
+    <property name="startDelay" value="50000"/>
+    <property name="repeatInterval" value="600000"/>
+  </bean>
+  -->
+
+  <!-- production settings -->
+  <bean id="requestCreationNotificationTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="requestCreationNotificationJobInvoker" />
+    <property name="cronExpression" value="0 0 13,23 * * ?" />
+  </bean>
+
+  <!-- *******************************************************************  -->
+  <!-- ********** Requests Workflow Navigator Job Configuration **********  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="requestWorkflowNavigatorJob" 
+    class="fr.cg95.cvq.service.users.job.RequestWorkflowNavigatorJob">
+    <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
+    <property name="requestServiceRegistry"><ref bean="requestServiceRegistry"/></property>
+    <property name="requestDAO"><ref bean="requestDAO"/></property>
+  </bean>
+
+  <bean id="requestWorkflowNavigatorJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="requestWorkflowNavigatorJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="arguments">
+      <list>
+        <value>valdoise</value>
+        <value>VO Card Request</value>
+        <value>Pending</value>
+        <value>Complete</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="requestWorkflowNavigatorTrigger"
+    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="requestWorkflowNavigatorJobInvoker" />
+    <property name="startDelay" value="50000" />
+    <property name="repeatCount" value="0" />
+    <property name="repeatInterval" value="600000"/>
+  </bean>
+
+  <!-- *******************************************************************  -->
+  <!-- ***************** Requests Seasons Job Configuration **************  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="requestSeasonsJob" 
+    class="fr.cg95.cvq.service.users.job.RequestSeasonsJob">
+    <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
+    <property name="requestService"><ref bean="defaultRequestService"/></property>
+    <property name="requestDAO"><ref bean="requestDAO"/></property>
+  </bean>
+
+  <bean id="requestSeasonsJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="requestSeasonsJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <!-- testing purposes only -->
+  <!-- 
+  <bean id="requestSeasonsTrigger"
+    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="requestSeasonsJobInvoker" />
+    <property name="startDelay" value="50000" />
+    <property name="repeatCount" value="0" />
+    <property name="repeatInterval" value="600000"/>
+  </bean>
+  -->
+
+  <!-- production settings -->
+  <bean id="requestSeasonsTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="requestSeasonsJobInvoker" />
+    <property name="cronExpression" value="0 0 13,23 * * ?" />
+  </bean>
+
+  <!-- *******************************************************************  -->
+  <!-- ***** Documents Validity Dates Checking Job Configuration *********  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="documentValidityCheckerJob"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="documentService" />
+    <property name="targetMethod" value="checkDocumentsValidity" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <!-- testing purposes only -->
+  <!-- 
+  <bean id="documentValidityCheckerTrigger" 
+    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="documentValidityCheckerJob"/>
+    <property name="startDelay" value="5000"/>
+    <property name="repeatInterval" value="600000"/>
+  </bean>
+  -->
+
+  <!-- production settings -->
+  <bean id="documentValidityCheckerTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="documentValidityCheckerJob" />
+    <property name="cronExpression" value="0 0 3 * * ?" />
+  </bean>
+  
+  <!-- *******************************************************************  -->
+  <!-- ***** Payments Initialization Checking Job Configuration *********  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="paymentInitializationCheckerJob"
+    class="fr.cg95.cvq.service.users.job.PaymentInitializationDateCheckerJob">
+    <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
+    <property name="mailService"><ref bean="mailService"/></property>
+    <property name="paymentDAO"><ref bean="paymentDAO"/></property>
+  </bean>
+
+  <bean id="paymentInitializationCheckerJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="paymentInitializationCheckerJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <!-- testing purposes only -->
+  <!-- 
+  <bean id="paymentInitializationCheckerTrigger" 
+    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="paymentInitializationCheckerJobInvoker"/>
+    <property name="startDelay" value="5000"/>
+    <property name="repeatInterval" value="150000"/>
+  </bean>
+  -->
+  <!-- production settings -->
+  	
+  <bean id="paymentInitializationCheckerTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="paymentInitializationCheckerJobInvoker" />
+    <property name="cronExpression" value="0 0 0,6,12,18 * * ?" />
+  </bean>
+
+  <!-- *******************************************************************  -->
+  <!-- ************ Where everything happens (or not) ********************  -->
+  <!-- *******************************************************************  -->
+
+  <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="triggers">
+      <list>
+        <ref bean="requestCreationNotificationTrigger" />
+        <ref bean="requestInstructionDurationCheckerTrigger" />
+        <ref bean="documentValidityCheckerTrigger" />
+        <ref bean="requestSeasonsTrigger" />
+	    <!--
+        <ref bean="requestWorkflowNavigatorTrigger" />
+        <ref bean="ldapSynchronizerTrigger" />
+        <ref bean="paymentInitializationCheckerTrigger" />
+	    -->
+      </list>
+    </property>
+  </bean>
+
+</beans>

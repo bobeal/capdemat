@@ -1,0 +1,205 @@
+#**************************************************
+ * Form tag for form tag definition
+ *#
+#if ($widget == 'form')
+	#if ($action == 'start')
+<form name="${tag.Name}" method="post" enctype="multipart/form-data; charset=utf-8" action="${tag.Action}" onsubmit="return validateForm(this);"#if ($tag.StyleClass) class="${tag.StyleClass}"#end>
+	
+	#elseif ($action == 'end')
+</form>	
+	#end
+	
+#**************************************************
+ * Title tag for stage titles in summary page
+ *#
+#elseif ($widget == 'title')
+	#if ($action == 'start')
+	
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+<div class="fieldset_title_${tag.Style}">
+  <h3 class="fieldset_title">${tag.Caption.toUpperCase()}</h3>
+</div>
+	#end
+
+#**************************************************
+ * Text tag for simple text input
+ *#
+#elseif ($widget == 'text')
+  #if ($action == 'end')
+    #if ($tag.Mode == 'static')
+${tag.StringValue}	
+    #else
+      #if (!$tag.Rows)
+<input type=#if ($tag.Mode == 'password')"password"#else"text"#end name="${tag.Name}" id="${tag.Name}" class="${tag.Name}"
+#if(${tag.Maxlength}) maxlength="${tag.Maxlength}"#end#if($tag.Mode == 'disabled') disabled#end size="${tag.Size}" value="${tag.StringValue}"${tag.Events}/>
+
+      #else
+<textarea name="${tag.Name}" id="${tag.Name}" class="${tag.Name}" cols="${tag.Size}" rows="${tag.Rows}"${tag.ChangeEvent}>
+${tag.StringValue}</textarea>
+      #end
+	#end
+  #end
+
+#**************************************************
+ * Radio tag for radio button input
+ *#
+#elseif ($widget == 'radio')
+  #if ($action == 'start')
+
+  #elseif ($action == 'end')
+    #if ($tag.Mode == 'static')
+      #set ($firstItem = true)
+      #foreach ($item in $tag.SelectedItems)
+        #if ($firstItem)
+          ${item}
+          #set ($firstItem = false)
+        #else
+          <li class="text_row">
+            <p class="empty_label">&nbsp;</p>
+            <p class="text">${item}</p>
+          </li>
+        #end
+      #end
+      #if ($firstItem)
+&nbsp;
+      #end
+    #else
+      #if ($tag.RadioList)
+        #set($index = 0)
+        #foreach($refData in $tag.RadioList)
+          #set($checked = "")
+          #if ($refData.Key == $tag.StringValue)
+            #set($checked = " checked")
+          #end
+  <input type="radio" id="${tag.Name}#if($index > 0)${index}#end" name="${tag.Name}" class="radio_type1" value="${refData.Key}"${checked} ${tag.Events}/>
+  <label for="${tag.Name}#if($index > 0)${index}#end" class="label_type2">${refData.Value}</label>
+          #set($index = $index + 1)
+        #end
+      #end
+    #end  
+  #end
+	
+#**************************************************
+ * Check tag for checkbox input
+ *#
+#elseif ($widget == 'check')
+  #if ($action == 'start')
+
+  #elseif ($action == 'end')
+    #if ($tag.Mode == 'static')
+      #set ($firstItem = true)
+      #foreach ($item in $tag.CheckedItems)
+        #if ($firstItem)
+          ${item}
+          #set ($firstItem = false)
+        #else
+          <li class="text_row">
+            <p class="empty_label">&nbsp;</p>
+            <p class="text">${item}</p>
+          </li>
+        #end
+      #end
+    #elseif (!$tag.CheckList)
+<li class="checkbox_row">
+  <input type="checkbox" name="${tag.Name}" value="ok" id="${tag.Name}"#if($tag.BooleanValue) checked#end${tag.Events}>
+  <label for="${tag.Name}" class="document">${tag.Label}</label>
+</li>
+    #else
+      #set($index = 0)
+      #foreach($refData in $tag.CheckList)
+        #set($id = $tag.getName($index))
+<li class="checkbox_row">
+  <input type="checkbox" name="${id}" value="ok" id="${id}"#if($tag.BooleanValue) checked#end${tag.Events}>
+  <label for="${id}" class="document">${tag.getRepositoryEntry($refData)}</label>
+</li>
+        #set($index = $index + 1)
+      #end
+    #end  
+  #end
+
+#**************************************************
+ * Select tag for combo box input
+ *#
+#elseif ($widget == 'select')
+	#if ($action == 'start')
+      #if ($tag.Mode != 'static')
+	    #set ($styleClass = $tag.Name)
+	    #if ($tag.styleClass)
+	    	#set ($styleClass = $tag.styleClass)
+	    #end
+<select name="${tag.Name}" id="${tag.Name}" class="${styleClass}"#if($tag.Mode == 'disabled') disabled#end ${tag.Events}>
+      #end
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+		
+	#end
+
+#**************************************************
+ * List tag for static object lists
+ *#
+#elseif ($widget == 'list')
+	#if ($action == 'start')
+	
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+      #foreach($object in $tag.ObjectList)
+        #foreach($item in $tag.DisplayItems)
+<li class="text_row">
+  <p class="label">
+    ${tag.getItemLabel($item)} : 
+  </p>
+  <p class="text">
+    ${tag.getDisplayValue($object, $item)}
+  </p>
+</li>
+	    #end
+<li>&nbsp;</li>
+	  #end		
+	#end
+
+#**************************************************
+ * Ticket tag for ticket sales type widgets
+ *#
+#elseif ($widget == 'ticket')
+	#if ($action == 'start')
+	
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+      #if ($tag.Mode == 'static')
+        #if ($tag.Reservations)
+      	  #foreach ($item in $tag.Reservations.Children)
+      	    #if ($item.AllReserved > 0)
+  <li class="text_row">
+    <p class="label">${item.Text}</p>
+    <p class="text">${item.Date}</p>
+  </li>
+  	          #foreach ($detail in $item.Children)
+  	            #if ($detail.Reserved > 0)
+  <li class="text_row">
+    <p class="label">${detail.Text} ${tag.reservedPlaces($detail)}</p>
+    <p class="text">${detail.TotalPrice} &euro;</p>
+  </li>
+  	            #end
+  	          #end	 
+  <li>&nbsp;</li>
+            #end
+		  #end
+  <li class="text_row">
+    <p class="label">Total de votre demande</p>
+    <p class="text">${tag.Reservations.TotalPrice} &euro;</p>
+  </li>
+		#end
+      #else
+<div id="${tag.Name}">&nbsp;</div>
+<script type="text/javascript" >
+    initXmlReservation('placeReservationAction.do?repository=${tag.Repository}', '${tag.Name}', 'new');
+</script>
+	  #end
+	#end
+
+#end

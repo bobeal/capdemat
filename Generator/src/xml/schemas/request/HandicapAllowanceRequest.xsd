@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/har"
+  xmlns:har="http://www.cg95.fr/cvq/schema/har" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="HandicapAllowanceRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de compensation du handicap
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Handicap Allowance request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Demande de compensation du handicap
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Handicap Allowance request
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="social" />
+        <fo namespace="social.handicapallowance">
+          <display field="Subject.Individual.LastName" stage="subject" page="subject" line="1"
+            mode="static" />
+          <display field="Subject.Individual.FirstName" stage="subject" page="subject" line="2"
+            mode="static" />
+          <display field="Subject.Individual.Address" stage="subject" page="subject" line="3" mode="static"/>
+
+          <display field="Subject.Individual.LastName" stage="subject" page="display" line="1"
+            mode="static" />
+          <display field="Subject.Individual.FirstName" stage="subject" page="display" line="2"
+            mode="static" />
+          <display field="Subject.Individual.Address" stage="subject" page="display" line="3" mode="static"/>
+
+          <display mode="labelonly" type="stagetitle" label="Subject" stage="validation" page="summary" line="0" />
+          <display field="Subject.Individual.LastName" stage="validation" page="summary" line="1"
+            mode="static" />
+          <display field="Subject.Individual.FirstName" stage="validation" page="summary" line="2"
+            mode="static" />
+          <display field="Subject.Individual.Address" stage="validation" page="summary" line="3" 
+            mode="static"/>
+		</fo>
+        <bo namespace="social">
+          <display field="Subject.Individual.LastName" page="displayhandicapallowance" line="1" mode="static" />
+          <display field="Subject.Individual.FirstName" page="displayhandicapallowance" line="2" mode="static" />
+          <display field="Subject.Individual.Address" page="displayhandicapallowance" line="3" mode="static"/>
+
+          <display field="Subject.Individual.LastName" page="checkhandicapallowance" line="1" mode="static" />
+          <display field="Subject.Individual.FirstName" page="checkhandicapallowance" line="2" mode="static" />
+
+          <display field="Subject.Individual.LastName" page="printhandicapallowance" line="1" mode="static" />
+          <display field="Subject.Individual.FirstName" page="printhandicapallowance" line="2" mode="static" />
+		</bo>
+        <xslfo>
+          <blocks-def>
+            <block id="0" label="Demandeur" column="2" />
+            <block id="1" label="Souhaits" column="1" />
+            <block id="2" label="Besoins" column="1" />
+            <block id="3" label="Observations Complémentaires" column="1" />
+            <block id="4" label="Aide à la formulation" column="1" />
+            <block id="5" label="Représantant légal" column="1" />
+            <block id="6" label="Moyen de contact*" />
+          </blocks-def>
+          <element blockId="0" line="0" column="0" link="Requester">
+            <complexTemplate />
+          </element>
+          <element blockId="6" line="0" column="0" link="MeansOfContact"
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+            <complexTemplate/>
+          </element>
+        </xslfo>
+      </xs:appinfo>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+
+            <xs:element name="HopesAndNeeds" type="xs:boolean">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Souhaits et Besoins
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Souhaits et Besoins
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" type="yesno" stage="needs" page="needs" line="1" 
+				    	label="Souhaits et besoins de la personne permettant d'élaborer le plan de compensation le plus adapté possible"/>
+				    <display field="" type="yesno" stage="needs" page="display" line="1" mode="static"/>
+          			<display mode="labelonly" type="stagetitle" label="Needs" stage="validation" page="summary" line="10" />
+				    <display field="" type="yesno" stage="validation" page="summary" line="11" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" type="yesno" page="displayhandicapallowance" line="11" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="0" line="1" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Hopes" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Souhaits
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Souhaits
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" type="text[3]" stage="needs" page="needs" line="2" block="Oui" condition="hopesAndNeeds" />
+				    <display field="" type="text[3]" stage="needs" page="display" line="2" mode="static"/>
+				    <display field="" type="text[3]" stage="validation" page="summary" line="12" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="12" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="1" line="0" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Needs" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Besoins
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Besoins
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" type="text[3]" stage="needs" page="needs" line="3" block="Oui" condition="hopesAndNeeds"/>
+				    <display field="" type="text[3]" stage="needs" page="display" line="3" mode="static"/>
+				    <display field="" type="text[3]" stage="validation" page="summary" line="13" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="13" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="2" line="0" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Comments" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Observations
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Observations
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" type="text[3]" stage="needs" page="needs" line="4" block="Oui" condition="hopesAndNeeds"/>
+				    <display field="" type="text[3]" stage="needs" page="display" line="4" mode="static"/>
+				    <display field="" type="text[3]" stage="validation" page="summary" line="14" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="14" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="3" line="0" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="WritingHelp" type="xs:boolean" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Aide à la formulation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Aide à la formulation
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" type="yesno" stage="help" page="help" line="1" 
+				    	label="Assistance d'une tierce personne pour la formulation des besoins"/>
+				    <display field="" type="yesno" stage="help" page="display" line="1" mode="static"/>
+			        <display mode="labelonly" type="stagetitle" label="Help" stage="validation" page="summary" line="20" />
+				    <display field="" type="yesno" stage="validation" page="summary" line="21" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" type="yesno" page="displayhandicapallowance" line="21" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="4" line="0" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="HelperName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom de l'aidant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom de l'aidant
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" stage="help" page="help" line="2" block="Oui" condition="writingHelp"/>
+				    <display field="" stage="help" page="display" line="2" mode="static"/>
+				    <display field="" stage="validation" page="summary" line="22" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="22" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="4" line="1" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="HelperResponsability" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Fonction de l'aidant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Fonction de l'aidant
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" stage="help" page="help" line="3" block="Oui" condition="writingHelp"/>
+				    <display field="" stage="help" page="display" line="3" mode="static"/>
+				    <display field="" stage="validation" page="summary" line="23" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="23" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="4" line="2" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LegalRepresentative" type="xs:boolean" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Représentant légal
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Représentant légal
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" type="yesno" stage="legal" page="legal" line="1" 
+				    	label="Représentant légal de la personne concernée par la demande"/>
+				    <display field="" type="yesno" stage="legal" page="display" line="1" mode="static"/>
+          			<display mode="labelonly" type="stagetitle" label="Legal" stage="validation" page="summary" line="30" />
+				    <display field="" type="yesno" stage="validation" page="summary" line="31" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" type="yesno" page="displayhandicapallowance" line="31" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="5" line="0" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LegalRepresentativeName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom du représentant légal
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom du représentant légal
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" stage="legal" page="legal" line="2" label="Nom" 
+				    	block="Oui" condition="legalRepresentative"/>
+				    <display field="" stage="legal" page="display" line="2" label="Nom" mode="static"/>
+				    <display field="" stage="validation" page="summary" line="32" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="32" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="5" line="1" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LegalRepresentativeFirstame" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prénom du représentant légal
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom du représentant légal
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" stage="legal" page="legal" line="3" label="Prénom" 
+				    	block="Oui" condition="legalRepresentative"/>
+				    <display field="" stage="legal" page="display" line="3" label="Prénom" mode="static"/>
+				    <display field="" stage="validation" page="summary" line="33" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="33" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="5" line="2" column="0">
+                      <string valueWeight="3"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LegalRepresentativeFamilyRelationship" type="xs:string"
+              minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Lien de parenté du représentant légal
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Lien de parenté du représentant légal
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" stage="legal" page="legal" line="4" label="Lien de parenté" 
+				    	block="Oui" condition="legalRepresentative"/>
+				    <display field="" stage="legal" page="display" line="4" label="Lien de parenté" mode="static"/>
+				    <display field="" stage="validation" page="summary" line="34" mode="static"/>
+				  </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="34" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="5" line="3" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LegalRepresentativeAddress" type="cvq:AddressType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Adresse du représentant légal
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Adresse du représentant légal
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+			      <fo>
+		            <display field="" stage="legal" page="legal" line="5" 
+		            	block="Oui" condition="legalRepresentative" mode="notrequired"/>
+		            <display field="" stage="legal" page="display" line="5" mode="static"/>
+		            <display field="" stage="validation" page="summary" line="35" mode="static"/>
+		          </fo>
+				  <bo>
+          			<display field="" page="displayhandicapallowance" line="35" />
+				  </bo>
+                  <xslfo>
+                    <element blockId="5" line="4" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LegalRepresentativePhone" type="cvq:PhoneType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Téléphone du représentant légal
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Téléphone du représentant légal
+                </xs:documentation>
+                <xs:appinfo>
+				  <fo>
+				    <display field="" stage="legal" page="legal" line="8" label="Téléphone" 
+				    	block="Oui" condition="legalRepresentative"/>
+				    <display field="" stage="legal" page="display" line="8" label="Téléphone" mode="static"/>
+				    <display field="" stage="validation" page="summary" line="38" mode="static"/>
+				  </fo>
+          			<display field="" page="displayhandicapallowance" line="38" />
+                  <xslfo>
+                    <element blockId="5" line="5" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/modules/payment/schema/inv"
+  xmlns:inv="http://www.capwebct.fr/modules/payment/schema/inv"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:element name="invoiceDetailsRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="LocalAuthority"  type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              The local authority for which the invoice details are requested
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ExternalApplicationId" type="xs:long" >
+          <xs:annotation>
+            <xs:documentation>
+              Identifier of the external application from which the invoice comes from
+            </xs:documentation>
+          </xs:annotation>        
+        </xs:element>
+        <xs:element name="ExternalFamilyAccountId" type="xs:string" >
+          <xs:annotation>
+            <xs:documentation>
+              The external family account to which the invoice belongs to
+            </xs:documentation>
+          </xs:annotation>        
+        </xs:element>
+        <xs:element name="InvoiceId" type="xs:string" >
+          <xs:annotation>
+            <xs:documentation>
+              The identifier of the invoice for whom the details are requested
+            </xs:documentation>
+          </xs:annotation>        
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="invoiceDetails">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="invoiceDetail" minOccurs="0" maxOccurs="unbounded" 
+          type="inv:invoiceDetailType" />
+      </xs:sequence>
+      <xs:attribute name="invoice-id" type="xs:string" />
+      <xs:attribute name="external-application-id" type="xs:long" />
+      <xs:attribute name="external-family-account-id" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="invoiceDetailType">
+    <xs:sequence>
+      <xs:element name="child-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            First name of the child associated to the invoice detail
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="child-surname" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Last name of the child associated to the invoice detail
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="label" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            A label to be displayed to the Front Office users in front of the invoice detail
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="unit-price" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Unit price of the item bought in the context of this invoice detail
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="quantity" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Quantity of items bought
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="value" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>
+            Total value (in cents of euros) of this invoice detail
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

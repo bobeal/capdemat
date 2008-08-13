@@ -1,0 +1,3 @@
+grant codeBase "http://localhost:8080/FrontOffice/-" {
+	permission java.security.AllPermission;
+};

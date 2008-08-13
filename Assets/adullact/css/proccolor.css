@@ -1,0 +1,157 @@
+/**
+	#header="#3c4faa" 
+	#background-color="#d2e1ff"
+	#button="#4d61c1" 
+*/
+
+body { 
+	background-color: #fff; 
+	color: #3c4faa;
+}
+
+#navigation {
+	color: #3c4faa;
+}
+
+#navigation div.previous {
+	background-color: #d2e1ff;
+}
+
+#navigation div.previous:hover {
+	background-color: #3c4faa;
+	color: #d2e1ff;
+}
+
+#navigation div.next {
+	background-color: #d2e1ff;
+}
+
+#navigation div.next:hover {
+	background-color: #3c4faa;
+	color: #d2e1ff;
+}
+
+#navigation #stages div {
+	background-color: #d2e1ff;
+}
+
+#navigation #stages li {
+	background-color: #fff;
+}
+
+/** Navigation stage classes reflect the state of three stages: 
+ *   x - no neighbour
+ *   s - selected stage
+ *   u - unselected stage
+ *
+ *  Posibilities:
+ *    xuu - first stage unselected with unselected second stage 
+ *    xsu - first stage selected with unselected second stage
+ *    xss - first stage selected with selected second stage
+ *    uuu - three stages unselected
+ *    suu - previous stage selected
+ *    ssu - next stage unselected
+ *    sss - all three stages selected
+ *    uux - last stage unselected, with previous stage unselected
+ *    sux - last stage unselected, with previous stage selected
+ *    ssx - last stage selected, with previous stage selected
+ *
+ *  For this style sheets purposes the uuu and suu, and the uux and sux posibilities are treated the same way.
+ */
+#navigation #stages div.xuu {
+	background-color: #d2e1ff;
+}
+
+#navigation #stages div.xsu {
+	background-color: #3c4faa;
+}
+
+#navigation #stages div.xss {
+	background-color: #3c4faa;
+}
+
+#navigation #stages div.uuu {
+	background-color: #d2e1ff;
+}
+
+#navigation #stages div.suu {
+	background-color: #d2e1ff;
+}
+
+#navigation #stages div.ssu {
+	background-color: #3c4faa;
+}
+
+#navigation #stages div.sss {
+	background-color: #3c4faa;
+}
+
+#navigation #stages div.uux {
+	background-color: #d2e1ff;
+}
+
+#navigation #stages div.sux {
+	background-color: #d2e1ff;
+}
+
+#navigation #stages div.ssx {
+	background-color: #3c4faa;
+}
+
+/***** information block *****/
+#information {
+	color: #3c4faa;
+}
+
+#information #title h1 {
+	background-color: #3c4faa;
+	color: #354f6d;
+}
+
+#information #explanation p.help {
+	background-color: #3c4faa;
+}
+
+#contents {
+	color: #3c4faa;
+}
+
+#contents #action #body #title h1 {
+	color: #3c4faa;
+}
+
+#contents #action #body { 
+	color: #4d61c1;
+}
+
+#contents #action #body div.select {
+	background-color: #d2e1ff;
+	color: #000;
+}
+
+#contents #action #body div.select:hover {
+	background-color: #4d61c1;
+	color: #d2e1ff;
+}
+
+#contents #action #body div.action {
+	background-color: #d2e1ff;
+}
+
+#contents #action #body div.action:hover {
+	background-color: #4d61c1;
+	color: #d2e1ff;
+}
+
+#contents #form #body { 
+	background-color: #d2e1ff;
+}
+
+#contents #form #button-area div { 
+	color: #4d61c1;
+}
+
+#contents #form #button-area div:hover {
+	background-color: #4d61c1;
+	color: #d2e1ff;
+}

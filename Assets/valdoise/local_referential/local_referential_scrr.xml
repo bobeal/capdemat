@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>SchoolCanteenRegistrationRequest</request>
+    <data name="FoodDiet">
+        <label lang="fr">Régime alimentaire</label>
+        <label lang="en">Food Diet</label>
+        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+            <entry key="NoPork">
+                <label lang="fr">Sans mouton</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false"/>
+            </entry>
+            <entry key="NoSoy">
+                <label lang="fr">Sans soja</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="NoMilk">
+                <label lang="fr">Sans laitages</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="NoSugar">
+                <label lang="fr">Sans sucre</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="Test">
+                <label lang="fr">Test1</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="sans_mouton">
+                <label lang="fr">lib</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="NoOGM">
+                <label lang="fr">Sans OGM</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+        </entries>
+    </data>
+    <data name="CanteenAttendingDays">
+        <label lang="fr">Jours de présence</label>
+        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+            <entry key="Monday">
+                <label lang="fr">Lundi</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="Tuesday">
+                <label lang="fr">Mardi</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="Wednesday">
+                <label lang="fr">Mercredi</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="Thursday">
+                <label lang="fr">Jeudi</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="Friday">
+                <label lang="fr">Vendredi</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="configurationBean_valdoise"
+    class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
+    <property name="name" value="dummy" />
+    <property name="postalCode" value="95999"/>
+    <property name="displayTitle">
+      <value>Ville de Dummy sur Mer</value>
+    </property>
+    <property name="urls">
+      <list>
+        <value>localhost</value>
+      </list>
+    </property>
+    <!--
+      <property name="displayProperties">
+      <list>
+      <value>adeline</value>
+      </list>
+      </property>
+    -->
+    <property name="requestsCreationNotificationEnabled" value="true" />
+    <property name="instructionAlertsEnabled" value="true" />
+    <property name="instructionAlertsDetailed" value="true" />
+    <property name="instructionDefaultMaxDelay" value="10" />
+    <property name="instructionDefaultAlertDelay" value="3" />
+    <property name="instructionDoneStates">
+      <list>
+        <value>Rejected</value>
+        <value>Cancelled</value>
+        <value>Notified</value>
+      </list>
+    </property>
+    <!--<property name="documentDigitalizationEnabled"><value>true</value></property>-->
+    <property name="sessionFactory">
+      <ref bean="sessionFactory_dummy" />
+    </property>
+    <property name="paymentServices">
+      <map>
+        <entry>
+          <key>
+            <ref bean="fakePaymentProviderService" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="Régie de la ville de Dummy"></property>
+            <property name="requestTypes">
+              <list>
+                <value>Place Reservation</value>
+                <value>VO Card Request</value>
+              </list>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>callbackUrl</value>
+                  </key>
+                  <value>https://cartevaloise.dummy.fr/FrontOffice/paymentResult.do</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+        <entry>
+          <key>
+            <ref bean="paylinePaymentProvider" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="Payline"></property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>paylineIp</value>
+                  </key>
+                  <value>127.0.0.1</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylinePort</value>
+                  </key>
+                  <value>8500</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylineCallbackUrl</value>
+                  </key>
+                  <value>https://cartevaloise.dummy.fr/FrontOffice/paymentResult.do</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylineSessionsPath</value>
+                  </key>
+                  <value>/tmp/payline_sessions</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylinePersonnalisation</value>
+                  </key>
+                  <value>DUMMY</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+        <entry>
+          <key>
+            <ref bean="wynidPaymentProvider" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="Wynid"></property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>wynidBaseUrl</value>
+                  </key>
+                  <value>https://cartevaloise.dummy.fr/FrontOffice/pay.do?transition=payment</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>wynidCaisses</value>
+                  </key>
+                  <props>
+                    <prop key="Dummy-borne1">5</prop>
+                  </props>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+        <entry>
+          <key>
+            <ref bean="spplusPaymentProvider" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="Spplus"></property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>spplusMerchkey</value>
+                  </key>
+                  <value>aa 33 37 c2 6a 58 da cc bc 3c 09 7e aa 07 e2 a5 da 7f df 6d 13 23 4c 0c</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>spplusSiret</value>
+                  </key>
+                  <value>00000000000095-99</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>spplusUserCallbackUrl</value>
+                  </key>
+                  <value>https://cartevaloise.dummy.fr/FrontOffice/placePaymentResult.do</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+      </map>
+    </property>
+    <property name="externalServices">
+      <map>
+        <entry>
+          <key>
+            <ref bean="fakeExternalService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>VO Card Request</value>
+                <value>Home Folder Modification</value>
+              </list>
+            </property>
+            <property name="supportAccountsByHomeFolder">
+              <value>true</value>
+            </property>
+            <property name="supportAccountsByRequest">
+              <value>false</value>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>badgeNumberManagedByHN</value>
+                  </key>
+                  <value>true</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+      </map>
+    </property>
+    <property name="ecitizenCreationNotifications">
+      <map>
+        <entry key="mailData" value="RequestCreationConfirmation.txt"/>
+        <entry key="mailSubject" value="Notification de création de votre demande"/>
+        <entry key="attachPdf" value="true"/>
+      </map>
+    </property>
+    <property name="ecitizenValidationNotifications">
+      <map>
+        <entry>
+          <key><value>Place Reservation</value></key>
+          <map>
+            <entry key="mailData" value="PlaceReservationMailConfirmation.txt"/>
+            <entry key="attachPdf" value="true"/>
+          </map>
+        </entry>
+      </map>
+    </property>
+     <property name="agentNotifications">
+      <map>
+        <entry>
+          <key><value>NotCommitPaymentAlert</value></key>
+          <map>
+          	<entry key="mailSendTo" value="bor@zenexity.fr"/>
+          	<entry key="mailSubject" value="[CapDémat] Alerte Paiement"/>
+            <entry key="mailData" value="NotCommitedPaymentsAlert.txt"/>
+          </map>
+        </entry>
+      </map>
+    </property>
+    <property name="paymentNotifications">
+      <map>
+        <entry>
+          <key><value>CommitPaymentConfirmation</value></key>
+          <map>
+          	<entry key="mailSubject" value="[CapDémat] Confirmation de paiement"/>
+            <entry key="mailData" value="CommitPaymentNotification.txt"/>
+          </map>
+        </entry>
+      </map>
+    </property>
+  </bean>
+  
+  <bean id="sessionFactory_dummy"
+    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+    parent="abstractSessionFactory">
+    <property name="dataSource">
+      <ref bean="${databaseType}DataSource_dummy" />
+    </property>
+    
+     <property name="hibernateProperties">
+      <props>
+        <% if (databaseType == 'hsqldb') { %>
+          <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+        <% } else if (databaseType == 'pgsql') { %>
+          <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+        <% } %>
+        <prop key="hibernate.show_sql">false</prop>
+        <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+        <prop key="hibernate.use_outer_join">false</prop>
+        <prop key="hibernate.cache.use_query_cache">false</prop>
+        <prop key="hibernate.auto_import">true</prop>
+   <!-- <prop key="hibernate.hbm2ddl.auto">create-drop</prop> -->
+      </props>
+    </property>
+    
+  </bean>
+
+  <% if (databaseType == 'pgsql') { %>
+  <bean id="pgsqlDataSource_dummy" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass">
+      <value>org.postgresql.Driver</value>
+    </property>
+    <property name="jdbcUrl">
+      <value>jdbc:postgresql://localhost:5432/cartevaloise_dummy</value>
+    </property>
+    <property name="user">
+      <value>cvq95</value>
+    </property>
+    <property name="password">
+      <value>cvq95pass</value>
+    </property>
+    <property name="acquireIncrement" value="3" />
+    <property name="initialPoolSize" value="3" />
+    <property name="minPoolSize" value="3" />
+    <property name="maxPoolSize" value="12" />
+    <property name="maxStatements" value="0"/>
+  </bean>
+  <% } %>
+  
+  <% if (databaseType == 'hsqldb') { %>
+  <bean id="hsqldbDataSource_dummy" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass">
+      <value>org.hsqldb.jdbcDriver</value>
+    </property>
+    <property name="jdbcUrl">
+      <value>jdbc:hsqldb:file:/tmp/cartevaloise_dummy;shutdown=true</value>
+    </property>
+    <property name="user">
+      <value>sa</value>
+    </property>
+    <property name="password">
+      <value></value>
+    </property>
+    <property name="acquireIncrement" value="3" />
+    <property name="initialPoolSize" value="1" />
+    <property name="minPoolSize" value="1" />
+    <property name="maxPoolSize" value="12" />
+  </bean>
+  <% } %>
+
+</beans>

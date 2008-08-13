@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<cvqprocess xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	 xsi:noNamespaceSchemaLocation="processes.xsd" >
+
+<!--****************** PROCESSUS DEMANDE CARTE VALOISE *****************-->
+  <processes group="citizen">
+	<process name="eFamily" caption="Modifier mon compte" extends="eCitizen" time="5" >
+		<title>Modification de mon compte</title>
+		<confirm name="familyHome" check="noModificationRequest">Compte pas encore validé, ou une demande de modification est déja en cours.</confirm>
+        <persistence>fr.cg95.cvq.fo.citizen.AccountPersistence</persistence>
+		<override stage="Justificatifs" />
+	</process>
+	
+	<process name="eCitizen" time="10" >
+		<title>Création de compte</title>
+		<script src="./js/citizen/citizen.js" />
+		<package>fr.cg95.cvq.fo.citizen</package>
+        <persistence>fr.cg95.cvq.fo.citizen.AccountPersistence</persistence>
+		
+		<!-- *******************INSCRIPTION ADULTE *********************-->
+		<stage name="Adult" caption="Adultes" stagemenu="add">
+			<title>Les adultes de votre compte</title>
+			<info>Renseigner les adultes du foyer</info>
+
+			<confirm name="cancel">Attention ! Les données de la personne n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer la personne sélectionnée ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer l'adulte sélectionné ?\nAttention: toutes les informations rélatives à l'adulte seront supprimés!</confirm>
+			<confirm name="changed" check="state">Vos modifications éventuelles seront perdu ! Voulez-vous continuer ?</confirm>
+			<confirm name="terminate">Voulez-vous vraiment annuler votre demande ?</confirm>
+
+			<default>adult</default>
+				
+			<previous confirm="terminate">endProcess</previous>
+
+			<state name="display" mode="static">
+				<title>Consulter un adulte</title>
+				<form>/citizen/adult/display</form>
+				<button confirm="delete" action="del">Supprimer</button>
+				<button transition="adult" action="">Modifier</button>
+			</state>
+			
+			<state name="adult" change="confirm">
+				<title>Ajouter un adulte</title>
+				<form>/citizen/adult/adult</form>
+				<button confirm="cancel" action="cancel" transition="adult">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="address">Page suivante</button>
+			</state>
+											
+			<state name="address">
+				<title>Ajouter un adulte</title>
+				<form>/citizen/adult/address</form>
+				<button script="processSubmit" action="" transition="adult">Page précédente</button>
+				<button confirm="cancel" action="cancel" transition="address">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="save" transition="display">Enregistrer</button>
+			</state>
+											
+			<select name="fr.cg95.cvq.fo.common.Request" property="list(adult)" state="all">
+				<title>Les adultes</title>
+				<display type="people"/>
+				<display name="adultFirstName"/>
+				<display name="adultLastName" initial="true"/>
+				<action confirm="changed" parameter="index" transition="display">get</action> 
+				<button action="new" transition="adult">Ajouter un adulte</button>
+			</select>
+		</stage>
+		
+		<!--********************* INSCRIPTION ENFANT ************************-->
+		<stage name="Child" caption="Enfants" stagemenu="add" required="false" >
+			<title>Les enfants de votre compte</title>
+			<info>Renseigner les enfants du foyer</info>
+
+			<confirm name="cancel">Attention ! Les données de la personne n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer l'enfant sélectionné ?\nAttention: toutes les informations rélatives à l'enfant seront supprimés!</confirm>
+			<confirm name="changed" check="state">Vos modifications éventuelles seront perdu ! Voulez-vous continuer ?</confirm>
+			<confirm name="terminate">Voulez-vous vraiment annuler votre demande ?</confirm>
+
+			<default>default</default>
+				
+			<state name="default">
+				<title>Ajouter un enfant</title>
+				<form>/citizen/child/default</form>
+			</state>
+			
+			<state name="display" mode="static">
+				<title>Consulter un enfant</title>
+				<form>/citizen/child/display</form>
+				<form>/citizen/child/displaylegal</form>
+				<button confirm="delete" action="del" transition="default">Supprimer</button>
+				<button transition="child" action="">Modifier</button>
+			</state>
+			
+			<state name="child" change="confirm">
+				<title>Ajouter un enfant</title>
+				<form>/citizen/child/child</form>
+				<button confirm="cancel" action="" transition="default">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="legal">Page suivante</button>
+			</state>
+											
+			<state name="legal" change="confirm" mode="static">
+				<title>Ajouter un enfant</title>
+				<form>/citizen/child/adults</form>
+				<form>/citizen/child/legal</form>
+				<form>/citizen/child/explain</form>
+				<button type="add" script="processSubmit" action="new&amp;list=childLegalResponsible" transition="legaladult">Ajouter responsable</button>
+				<button script="processSubmit" action="" transition="child">Page précédente</button>
+				<button confirm="cancel" action="" transition="default">Annuler Saisie</button>
+				<button default="true" confirm="legal" script="processChildSubmit" action="save" transition="display">Enregistrer</button>
+			</state>
+											
+			<state name="legaladult" change="confirm" context="Responsible">
+				<title>Ajouter un responsable légal</title>
+				<form>/citizen/responsible/adult</form>
+				<button confirm="cancel" action="" transition="">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="legaladdress">Page suivante</button>
+			</state>
+											
+			<state name="legaladdress" context="Responsible">
+				<title>Ajouter un responsable légal</title>
+				<form>/citizen/responsible/address</form>
+				<button script="processSubmit" action="" transition="legaladult">Page précédente</button>
+				<button confirm="cancel" action="" transition="">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="save&amp;list=childLegalResponsible" transition="legaldisplay">Enregistrer</button>
+			</state>
+			
+			<state name="legaldisplay" context="Responsible" mode="static">
+				<title>Ajouter un responsable légal</title>
+				<form>/citizen/responsible/display</form>
+				<button confirm="delete" action="del&amp;list=childLegalResponsible" transition="">Supprimer</button>
+				<button transition="legaladult" action="">Modifier</button>
+				<button type="next" default="true" action="" transition="">Page suivante</button>
+			</state>
+			
+			<select name="fr.cg95.cvq.fo.common.Request" property="list(child)" state="all">
+				<title>Les enfants</title>
+				<display type="people"/>
+				<display name="childFirstName"/>
+				<display name="childLastName" initial="true"/>
+				<action confirm="changed" parameter="index" transition="display">get</action> 
+				<button action="new" transition="child">Ajouter un enfant</button>
+			</select>
+		</stage>
+		
+		<!--********************** AJOUT JUSTIFICATIFS ***********************-->
+		<stage ref="Documents" caption="Justificatifs"/>
+		
+		<!--************************ DEFINITION COMPTE **********************-->
+		<stage name="Account" caption="Définition Compte" stagemenu="display">
+			<title>Identifiant pour accéder à votre espace personnel</title>
+			<info>Enregistrer les éléments pour la création de votre compte</info>
+			<default>account</default>
+			
+			<state name="account" context="Account">
+				<title>Processus d'inscription</title>
+				<form>/citizen/account/account</form>
+				<button default="true" script="processAccountSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<state name="exists" context="Account" mode="static">
+				<title>Processus d'inscription</title>
+				<form>/citizen/account/exists</form>
+			</state>
+		</stage>
+		
+		<!-- ******************* VALIDATION *********************-->
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre espace personnel</info>
+
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/citizen/validation/summary</form>
+				<form>/common/validation/documents</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+	</process>
+  </processes>		
+</cvqprocess>

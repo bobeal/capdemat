@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <!-- SERVICE  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  
+  <bean id="capwebctPaymentModuleExternalService"
+    class="fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.service.CapwebctPaymentModuleService"
+    init-method="init">
+    <property name="label" value="CapwebctPaymentModule" />
+    <property name="capwebctPaymentModuleClient" ref="capwebctPaymentModuleClient" />
+  </bean>
+
+  <!-- WS CLIENT  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <bean id="capwectPaymentModuleXmlBeanMarshaller" 
+    class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller" />
+  
+  <bean name="capwectPaymentModuleWebServiceTemplate" 
+    class="org.springframework.ws.client.core.WebServiceTemplate">
+    <property name="defaultUri">
+      <value>${plugins.externalservices.capwebctpaymentmodule.webservice_uri}</value>
+    </property>
+    <property name="marshaller" ref="capwectPaymentModuleXmlBeanMarshaller" />
+    <property name="unmarshaller" ref="capwectPaymentModuleXmlBeanMarshaller" />
+  </bean>
+
+  <bean id="capwebctPaymentModuleClient"
+    class="fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.webservice.client.CapwebctPaymentModuleClient">
+    <property name="webServiceTemplate" ref="capwectPaymentModuleWebServiceTemplate" />
+  </bean>
+
+</beans>

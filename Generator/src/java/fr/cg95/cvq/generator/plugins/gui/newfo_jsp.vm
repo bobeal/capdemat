@@ -1,0 +1,732 @@
+##***********************************************************************************
+#macro (writeAddressType $field)
+#if ($field.SchemaType == "AddressType")
+  #set ($baseName = $field.javaName(""))
+#if ($page.StaticPage)
+        <li class="text_row">
+          <p class="label">
+				Etg. - Esc. - App.#if ($page.SummaryPage) :#end
+				
+          </p>
+          <p class="text">
+    		<cvqf:text name="${baseName}AdditionalDeliveryInformation" mode="static" maxlength="38"/>
+          </p>
+        </li>
+        <li class="text_row">
+          <p class="label">
+				Imm. - Bât. - Rés.#if ($page.SummaryPage) :#end
+				
+          </p>
+          <p class="text">
+    		<cvqf:text name="${baseName}AdditionalGeographicalInformation" mode="static" maxlength="38"/>
+          </p>
+        </li>
+        <li class="text_row">
+          <p class="label">
+				N&deg;, libellé de la voie#if ($page.SummaryPage) :#end
+				
+          </p>
+          <p class="text">
+    		<cvqf:text name="${baseName}StreetNumber" mode="static" maxlength="5"/>
+    		<cvqf:text name="${baseName}StreetName" mode="static" maxlength="32" size="35"/>
+          </p>
+        </li>
+        <li class="text_row">
+          <p class="label">
+				Lieu-dit, boite postale#if ($page.SummaryPage) :#end
+				
+          </p>
+          <p class="text">
+    		<cvqf:text name="${baseName}PlaceNameOrService" mode="static" maxlength="38"/>
+          </p>
+        </li>
+        <li class="text_row">
+          <p class="label">
+				Code postal, Localité#if ($page.SummaryPage) :#end
+				
+          </p>
+          <p class="text">
+    		<cvqf:text name="${baseName}PostalCode" mode="static" maxlength="5"/>
+    		<cvqf:text name="${baseName}City" mode="static" maxlength="32" size="35"/>
+          </p>
+        </li>
+#else
+#set ($displaymode = $field.Mode)
+#if ($displaymode == "static")#set ($displaymode = "disabled")#end
+          <li class="text_row">
+  			<label for="${baseName}AdditionalDeliveryInformation" class="label">
+				Etg. - Esc. - App.
+			</label>
+    		<cvqf:text name="${baseName}AdditionalDeliveryInformation" mode="${displaymode}" maxlength="38"/>
+          </li>
+          <li class="text_row">
+  			<label for="${baseName}AdditionalGeographicalInformation" class="label">
+				Imm. - Bât. - Rés.
+			</label>
+    		<cvqf:text name="${baseName}AdditionalGeographicalInformation" mode="${displaymode}" maxlength="38"/>
+          </li>
+          <li class="town_row">
+  			<label for="${baseName}StreetName" class="label">
+				N&deg;, libellé de la voie<span class="required">*</span>
+			</label>
+    		<cvqf:text name="${baseName}StreetNumber" mode="${displaymode}" maxlength="5"/>
+    		<cvqf:text name="${baseName}StreetName" mode="${displaymode}" maxlength="32" size="35"/>
+          </li>
+          <li class="text_row">
+  			<label for="${baseName}PlaceNameOrService" class="label">
+				Lieu-dit, boite postale
+			</label>
+    		<cvqf:text name="${baseName}PlaceNameOrService" mode="${displaymode}" maxlength="38"/>
+          </li>
+          <li class="town_row">
+  			<label for="${baseName}PostalCode" class="label">
+				Code postal, Localité<span class="required">*</span>
+			</label>
+    		<cvqf:text name="${baseName}PostalCode" mode="${displaymode}" maxlength="5" validEvents="2"/>
+    		<cvqf:text name="${baseName}City" mode="${displaymode}" maxlength="32" size="35"/>
+          </li>
+#end
+#end
+#end
+#macro (writeAddressTypeList $field)
+#if ($field.SchemaType == "AddressType")
+  #set ($baseName = $field.javaName(""))
+          <${baseName}AdditionalDeliveryInformation,Etg. - Esc. - App.>
+          <${baseName}AdditionalGeographicalInformation,Imm. - Bât. - Rés.>
+          <${baseName}StreetNumber,Numéro>
+          <${baseName}StreetName,Libellé de la voie>
+          <${baseName}PlaceNameOrService,Lieu-dit ou boite postale>
+          <${baseName}PostalCode,Code postal>
+          <${baseName}City,Localité>
+#end
+#end
+#macro (writeAddressTypeValidationData $field)
+#if ($field.SchemaType == "AddressType")
+  #set ($baseName = $field.javaName(""))
+	  this.${baseName}AdditionalDeliveryInformation = new Function("key","this.label=''; this.msg=null; this.required=false; this.minlength=0; this.maxlength=38; this.type=null; return this[key];");
+	  this.${baseName}AdditionalGeographicalInformation = new Function("key","this.label=''; this.msg=null; this.required=false; this.minlength=0; this.maxlength=38; this.type=null; return this[key];");
+	  this.${baseName}StreetNumber = new Function("key","this.label='Numéro'; this.msg=null; this.transform='uppercase'; this.required=false; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
+	  this.${baseName}StreetName = new Function("key","this.label='Voie'; this.msg=null; this.transform='uppercase'; this.required=true; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
+	  this.${baseName}PlaceNameOrService = new Function("key","this.label=''; this.msg=null; this.transform='uppercase'; this.required=false; this.minlength=0; this.maxlength=38; this.type=null; return this[key];");
+	  this.${baseName}PostalCode = new Function("key","this.label='Code postal'; this.msg=null; this.required=true; this.mask=/[0-9]{5}/; this.minlength=0; this.maxlength=5; this.type=null; return this[key];");
+	  this.${baseName}City = new Function("key","this.label='Localité'; this.msg=null; this.transform='uppercase'; this.required=true; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
+#end
+#end
+#macro (writeAddressTypeInitScript $field)
+#if ($field.SchemaType == "AddressType")
+  #set ($baseName = $field.javaName(""))
+    window.onload = function () {
+	        addresseTypeAhead("${baseName}City", "${baseName}PostalCode");
+        }
+#end
+#end
+##***********************************************************************************
+#macro (writeLabel $field $style)
+#if ($field.Mode != "title")
+<label for="${field.javaName("")}" class="${style}">${field.Label}#if(${field.displayRequired()})<span class="required">*</span>#end</label>
+#else
+<label></label>
+#end
+#end
+##***********************************************************************************
+#macro (writeTitle $field)
+      <fieldset class="fieldset_zone">
+        <h3 class="fieldset_subtitle">${field.Label}#if(${field.displayRequired()})<span class="required">*</span>#end :</h3>
+        <ul class="insert_list">
+#set ($ultag = true)        
+#end
+##***********************************************************************************
+#macro (writeSelectTag $field $displayMode)
+#set ($mode = false)
+#if ($displayMode != "")
+  #set ($mode = $displayMode)
+#else
+  #set ($mode = $field.Mode)
+#end
+            <cvqf:select name="${field.javaName("")}"#if($mode) mode="${mode}"#end#if($field.isRepository()) repository="${field.Repository}"#end>
+#if ($field.Help != "")
+              <option value="">${field.Help}</option>
+#else
+              <option value="">Choisissez un ${field.LowercaseLabel}</option>
+#end
+#foreach ($value in ${field.Values})
+              <option value="${value}">${field.translate($value)}</option>
+#end
+            </cvqf:select>
+#end
+##***********************************************************************************
+#macro (writeSelectAuthorityReferentialTag $field $displayMode)
+#set ($mode = false)
+#if ($displayMode != "")
+  #set ($mode = $displayMode)
+#else
+  #set ($mode = $field.Mode)
+#end
+            <cvqf:selectAuthorityReferential name="${field.javaName("")}"#if($mode) mode="${mode}"#end#if($field.isRepository()) repository="${field.Repository}"#end>
+#if ($field.Help != "")
+              <option value="">${field.Help}</option>
+#else
+              <option value="">Choisissez un ${field.LowercaseLabel}</option>
+#end
+            </cvqf:selectAuthorityReferential>
+#end
+##***********************************************************************************
+#macro (writeCheckList $field)
+            <cvqf:check name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end#if($field.isRepository()) repository="${field.Repository}"#end>
+#foreach ($value in ${field.Values})
+              <option value="${value}">${field.translate($value)}</option>
+#end
+            </cvqf:check>
+#end
+##***********************************************************************************
+#macro (writeRadioList $field)
+            <cvqf:radio name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end#if($field.isRepository()) repository="${field.Repository}"#end>
+#foreach ($value in ${field.Values})
+              <option value="${value}">${field.translate($value)}</option>
+#end
+            </cvqf:radio>
+#end
+##***********************************************************************************
+#macro (writeValidationData $field)
+  #if ($field.SchemaType == "AddressType")
+    #writeAddressTypeValidationData($field)
+  #else
+	#set($validationType = "null")
+	#set($fieldRequired = $field.Required) 
+	#if ($field.GuiControl == "ticket")
+	  #set($validationType = "'ticket'")
+	#elseif ($field.GuiControl == "referential")
+	  #set($validationType = "'referential'")
+	#elseif($field.isMultipleSelect()) 
+	  #set($validationType = "'list'")
+	  #if ($field.Mode == "blockrequired")
+	    #set($validationType = "'list:$field.Block'")
+	    #set($fieldRequired = true) 
+	  #end
+	#elseif($field.Mode == "blockrequired") 
+	  #set($validationType = "'block:$field.Block'")
+	  #set($fieldRequired = true) 
+	#end
+	  this.${field.javaName("")} = new Function("key","this.label='${field.EscLabel}';#if($field.EscMessage) this.msg='${field.EscMessage}';#else this.msg=null;#end this.required=$fieldRequired;#if($field.Mask) this.mask=/${field.Mask}/;#end this.minlength=${field.MinLength}; this.maxlength=${field.MaxLength};#if($field.Format) this.transform='${field.Format}';#end this.type=$validationType; return this[key];");
+  #end
+#end
+##***********************************************************************************
+#macro (writeInitScript $field)
+#if ($field.Mode != "labelonly")
+#if ($field.Mode != "static")
+#if ($field.SchemaType == "AddressType")
+    #writeAddressTypeInitScript($field)
+#else
+#if ($field.GuiControl != "text")
+#if ($field.GuiControl != "columns")
+        updateDisplay("${field.javaName("")}");
+#end
+#end
+#end
+#end
+#end
+#end
+##***********************************************************************************
+##***********************************************************************************
+## Start of generation
+##
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="/cvq-forms" prefix="cvqf" %>
+
+	<cvqf:form name="${stage.javaName()}" action="#" #if($page.StaticPage)mode="static"#end>
+#set ($fieldset = false)
+#set ($ultag = false)
+#foreach ($field in $fields)
+#if ($page.endBlock($field))
+#if ($ultag)
+        </ul>
+#end
+		<br class="clear-both" />
+#set ($ultag = false)
+#end
+#if ($page.newBlock($field))
+#if ($ultag)
+        </ul>
+#end
+#if (!$fieldset)
+      <fieldset class="fieldset_zone">
+#set ($fieldset = true)
+#end
+        <ul class="insert_list" id="${field.Block}">
+#set ($ultag = true)
+#end
+#if (!$field.DisplayTitle)
+#if (!$page.StaticPage)
+#if (!$fieldset)
+      <fieldset class="fieldset_zone">
+        <ul class="insert_list">
+#set ($fieldset = true)
+#set ($ultag = true)
+#elseif(!$ultag)
+        <ul class="insert_list">
+#set ($ultag = true)
+#end
+#else
+#if (!$ultag)
+#if ($page.SummaryPage)
+#if ($field.Type != "stagetitle")
+      <ul class="validation_list">
+#set ($ultag = true)
+#end
+#else
+      <ul class="confirm_list">
+#set ($ultag = true)
+#end
+#end
+#end
+#elseif ($field.Mode == "title")
+#if ($fieldset)
+#if ($ultag)
+        </ul>
+#set ($ultag = false)
+#end
+      </fieldset>
+#end
+#writeTitle($field)
+#end
+##***********************************************************************************
+## AddressType
+##
+#if ($field.SchemaType == "AddressType")
+#writeAddressType($field)
+
+##***********************************************************************************
+## LabelOnly
+##
+#elseif ($field.Mode == "labelonly")
+#if ($page.SummaryPage)
+#if ($ultag)
+      </ul>
+#end
+      <cvqf:title stage="${field.Label}"/>
+      <ul class="validation_list">
+#set ($ultag = true)
+#elseif ($page.StaticPage)
+        <li class="text_row">
+          <p class="label">
+				${field.Label}				
+          </p>
+        </li>
+#else
+#if ($fieldset)
+#if ($ultag)
+        </ul>
+#end
+      </fieldset>
+#end
+#writeTitle($field)
+#if (!$fieldset)
+#if ($ultag)
+        </ul>
+#set ($ultag = false)
+#end
+      </fieldset>
+#end
+#end
+##**********************************************************************************
+## Hidden
+##
+#elseif ($field.GuiControl == "hidden")
+          <cvqf:hidden name="${field.javaName("")}" property="${field.Block}"/>
+##**********************************************************************************
+## Select
+##
+#elseif ($field.GuiControl == "select" || $field.GuiControl == "selectAuthorityReferential")			
+#if ($page.SummaryPage)
+        <li class="text_row">
+          <p class="label">
+            ${field.Label} : 
+          </p>
+          <p class="text">
+#if($field.GuiControl == "select")
+#writeSelectTag($field "")
+#elseif($field.GuiControl == "selectAuthorityReferential")
+#writeSelectAuthorityReferentialTag($field "")
+#end
+          </p>
+        </li>
+#elseif ($page.StaticPage)
+#if (!$ultag)
+      <ul class="confirm_list">
+#set ($ultag = true)
+#end
+        <li class="text_row">
+          <p class="label">            
+            ${field.Label}
+          </p>
+          <p class="text">
+#if($field.GuiControl == "select")
+#writeSelectTag($field "")
+#elseif($field.GuiControl == "selectAuthorityReferential")
+#writeSelectAuthorityReferentialTag($field "")
+#end
+          </p>
+        </li>
+#else
+#set ($displaymode = $field.Mode)
+#if ($displaymode == "static")#set ($displaymode = "disabled")#end
+          <li class="select_row">
+			#writeLabel($field $field.LabelClass)
+#if($field.GuiControl == "select")
+#writeSelectTag($field $displaymode)
+#elseif($field.GuiControl == "selectAuthorityReferential")
+#writeSelectAuthorityReferentialTag($field $displaymode)
+#end
+          </li>
+#end
+##***********************************************************************************
+## ObjectList
+##
+#elseif ($field.GuiControl == "objectlist")
+#if ($page.SummaryPage)
+        <cvqf:list name="${bean}" property="${field.Type}">
+#foreach($child in $field.Children)
+#if ($child.SchemaType == "AddressType")
+#writeAddressTypeList($child)
+#elseif ($child.isRepository())
+          <${child.javaName("")},${child.Label},repository=${child.Repository}>
+#elseif (!$child.Children.isEmpty())
+          <${child.javaName("")},${child.Label}#foreach($grandchild in $child.Children),${grandchild.javaName("")}#end>
+#else
+          <${child.javaName("")},${child.Label}#foreach ($value in ${child.Values}),${value}=${child.translate($value)}#end>
+#end
+#end
+        </cvqf:list>
+#end
+##***********************************************************************************
+## CheckList
+##
+#elseif ($field.GuiControl == "checklist")
+#if ($page.SummaryPage)
+        <li class="text_row">
+          <p class="label">
+            ${field.Label} : 
+          </p>
+          <p class="text">
+#writeCheckList($field)
+          </p>
+        </li>
+#elseif ($page.StaticPage)
+#if (!$ultag)
+      <ul class="confirm_list">
+#set ($ultag = true)
+#end
+        <li class="text_row">
+          <p class="label">            
+            ${field.Label}
+          </p>
+          <p class="text">
+#writeCheckList($field)
+          </p>
+        </li>
+#else
+#if ($fieldset)
+#if ($ultag)
+        </ul>
+#end
+      </fieldset>
+#end
+#writeTitle($field)
+#writeCheckList($field)
+#if (!$fieldset)
+#if ($ultag)
+        </ul>
+#set ($ultag = false)
+#end
+      </fieldset>
+#end
+#end
+##***********************************************************************************
+## RadioList
+##
+#elseif ($field.GuiControl == "radiolist")
+#if ($page.SummaryPage)
+        <li class="text_row">
+          <p class="label">
+            ${field.Label} : 
+          </p>
+          <p class="text">
+#writeRadioList($field)
+          </p>
+        </li>
+#elseif ($page.StaticPage)
+        <li class="text_row">
+          <p class="label">            
+            ${field.Label}
+          </p>
+          <p class="text">
+#writeRadioList($field)
+          </p>
+        </li>
+#else
+#set ($li_class = "radio_row")
+#set ($label_class = "large_radio_label")
+#if ($field.Mode == "inline")
+  #set ($li_class = "radio_row_inline")
+  #set ($label_class = "")
+#end
+#if ($field.Label.length() < 10)
+  #set ($li_class = "radio_row_inline")
+  #set ($label_class = "")
+#end
+          <li class="${li_class}">
+			#writeLabel($field $label_class)
+#if ($li_class != "radio_row_inline")
+		  </li>
+#end
+#writeRadioList($field)
+#if ($li_class == "radio_row_inline")
+		  </li>
+#end
+#end
+##***********************************************************************************
+## Text
+##
+#elseif ($field.GuiControl == "text")
+#if ($page.SummaryPage)
+        <li class="text_row">
+          <p class="label">
+            ${field.Label} : 
+          </p>
+          <p class="text">
+            <cvqf:text name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end#if(${field.MaxLength} > 0) maxlength="${field.MaxLength}"#end#if(${field.Rows} > 1) rows="${field.Rows}"#end/>
+          </p>
+        </li>
+#elseif ($page.StaticPage)
+        <li class="text_row">
+          <p class="label">            
+            ${field.Label}
+          </p>
+          <p class="text">
+            <cvqf:text name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end#if(${field.MaxLength} > 0) maxlength="${field.MaxLength}"#end#if(${field.Rows} > 1) rows="${field.Rows}"#end/>
+          </p>
+        </li>
+#else
+#if ($field.SchemaType == "PhoneType")
+          <li class="phone_row">
+#elseif ($field.SchemaType == "PasswordType")
+          <li class="password_row">
+#elseif ($field.SchemaType == "CfbnType")
+          <li class="number_row">
+#elseif ($field.SchemaType == "date")
+          <li class="date_row">
+#else
+          <li class="text_row">
+#end
+			#writeLabel($field $field.LabelClass)
+#set ($displaymode = $field.Mode)
+#if ($displaymode == "static")#set ($displaymode = "disabled")#end
+            <cvqf:text name="${field.javaName("")}"#if(${field.Mode}) mode="${displaymode}"#end#if(${field.MaxLength} > 0) maxlength="${field.MaxLength}"#end#if(${field.Rows} > 1) rows="${field.Rows}"#end/>
+#if ($field.Help != "")
+            <span class="inline_text">${field.Help}</span>
+#end
+          </li>
+#end
+##***********************************************************************************
+## YesNo
+##
+#elseif ($field.GuiControl == "yesno")
+#if ($page.SummaryPage)
+        <li class="text_row">
+          <p class="label">
+            ${field.Label} : 
+          </p>
+          <p class="text">
+            <cvqf:radio name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end label="[Oui,Non]" />
+          </p>
+        </li>
+#elseif ($page.StaticPage)
+        <li class="text_row">
+          <p class="label">            
+            ${field.Label}
+          </p>
+          <p class="text">
+            <cvqf:radio name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end label="[Oui,Non]" />
+          </p>
+        </li>
+#else
+#set ($li_class = "radio_row")
+#set ($label_class = "large_radio_label")
+#if ($field.Mode == "inline")
+  #set ($li_class = "radio_row_inline")
+  #set ($label_class = "")
+#end
+          <li class="${li_class}">
+			#writeLabel($field $label_class)
+#if ($field.Mode != "inline")
+		  </li>
+#end
+          <cvqf:radio name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end label="[Oui,Non]" />
+#if ($field.Mode == "inline")
+		  </li>
+#end
+#end
+##***********************************************************************************
+## Ticket
+##
+#elseif ($field.GuiControl == "ticket")			
+          <cvqf:ticket name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end#if($field.isRepository()) repository="${field.Repository}"#end />
+##***********************************************************************************
+## Referential
+##
+#elseif ($field.GuiControl == "referential")			
+          <cvqf:referential name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end#if($field.isRepository()) repository="${field.Repository}"#end />
+##***********************************************************************************
+## Columns
+##
+#elseif ($field.GuiControl == "columns")
+          <li class="text_row">
+			#writeLabel($field $field.LabelClass)
+#foreach($child in $field.Children)
+            <cvqf:text name="${child.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end#if(${child.MaxLength} > 0) maxlength="${child.MaxLength}"#end#if(${child.Rows} > 1) rows="${child.Rows}"#end/>
+#end
+          </li>
+##***********************************************************************************
+## Town: postalcode and city
+##
+#elseif ($field.GuiControl == "town")
+          <li class="town_row">
+			#writeLabel($field $field.LabelClass)
+#foreach($child in $field.Children)
+            <cvqf:text name="${child.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end#if(${child.MaxLength} > 0) maxlength="${child.MaxLength}"#end#if(${child.Rows} > 1) rows="${child.Rows}"#end/>
+#end
+          </li> 
+##***********************************************************************************
+## Repository YesNo list
+##
+#elseif ($field.isRepository())
+#if ($field.GuiControl == "yesnolist")
+#if ($page.SummaryPage)
+        <li class="text_row">
+          <p class="label">
+            ${field.Label} : 
+          </p>
+          <p class="text">
+            <cvqf:radio name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end repository="${field.Repository}" label="[Oui,Non]"/>
+          </p>
+        </li>
+#elseif ($page.StaticPage)
+        <li class="text_row">
+          <p class="label">            
+            ${field.Label}
+          </p>
+          <p class="text">
+            <cvqf:radio name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end repository="${field.Repository}" label="[Oui,Non]"/>
+          </p>
+        </li>
+#else
+#if ($fieldset)
+#if ($ultag)
+        </ul>
+#end
+      </fieldset>
+#end
+#writeTitle($field)
+          <cvqf:radio name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end repository="${field.Repository}" label="[Oui,Non]"/>
+#if (!$fieldset)
+#if ($ultag)
+        </ul>
+#set ($ultag = false)
+#end
+      </fieldset>
+#end
+#end
+##***********************************************************************************
+## Repository CheckList
+##
+#elseif ($field.Length != 1)
+#if ($page.SummaryPage)
+        <li class="text_row">
+          <p class="label">
+            ${field.Label} : 
+          </p>
+          <p class="text">
+            <cvqf:check name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end repository="${field.Repository}" />
+          </p>
+        </li>
+#elseif ($page.StaticPage)
+        <li class="text_row">
+          <p class="label">            
+            ${field.Label}
+          </p>
+          <p class="text">
+            <cvqf:check name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end repository="${field.Repository}" />
+          </p>
+        </li>
+#else
+#if ($fieldset)
+#if ($ultag)
+        </ul>
+#end
+      </fieldset>
+#end
+#writeTitle($field)
+          <cvqf:check name="${field.javaName("")}"#if(${field.Mode}) mode="${field.Mode}"#end repository="${field.Repository}" />
+#if (!$fieldset)
+#if ($ultag)
+        </ul>
+#set ($ultag = false)
+#end
+      </fieldset>
+#end
+#end
+#if ($field.Mode == "title")
+#if (!$fieldset)
+#if ($ultag)
+        </ul>
+#set ($ultag = false)
+#end
+      </fieldset>
+#end
+#end
+#end
+##***********************************************************************************
+## End of page generation
+##
+#end
+#end
+#if ($fieldset)
+#if ($ultag)
+        </ul>
+#end
+#if ($page.CurrentBlock != "")
+		<br class="clear-both" />
+#end
+      </fieldset>
+#set ($ultag = false)
+#set ($fieldset = false)
+#end
+#if ($ultag)
+      </ul>
+#set ($ultag = false)
+#if ($page.CurrentBlock != "")
+	  <br class="clear-both" />
+#end
+#end
+	</cvqf:form>
+	<script type="text/javascript">
+		function validationData() {
+#foreach ($field in $fields)
+#if ($field.Mode != "labelonly")
+#if ($field.Mode != "static")
+#if ($field.GuiControl == "columns")
+#foreach($child in $field.Children)
+  #writeValidationData($child)
+#end
+#else
+ #writeValidationData($field)
+#end
+#end
+#end
+#end
+		}
+#foreach ($field in $fields)
+#writeInitScript($field)
+#end
+  		setFocus("${stage.javaName()}");
+	</script>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="configurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>/WEB-INF/deploy.properties</value>
+		</property>
+	</bean>
+
+	<bean id="boMbean" class="com.zenexity.pict.cvq.bo.mbean.Cvq">
+		<property name="provisioningService" ref="provisioningService" />
+        <property name="siteName" value="${site_name}"/>
+	</bean>
+
+	<bean id="provisioningService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>
+				${service_url}${provisioning_context_path}/ProvisioningService
+			</value>
+		</property>
+		<property name="serviceInterface">
+			<value>
+				fr.cg95.cvq.exporter.service.bo.IProvisioningService
+			</value>
+		</property>
+	</bean>
+
+</beans>

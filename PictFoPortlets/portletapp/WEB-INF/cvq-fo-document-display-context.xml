@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- ResourceViewResolver -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="cache" value="true" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/view/fo/individuals/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- PortletMode controller Map -->
+	<bean id="portletModeHandlerMapping"
+		class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
+		<property name="portletModeMap">
+			<map>
+				<entry key="view" value-ref="displayDocumentController" />
+			</map>
+		</property>
+	</bean>
+	<bean id="displayDocumentController"
+		class="com.zenexity.pict.cvq.fo.individuals.DisplayDocumentController">
+		<property name="ecitizenDataCache" ref="ecitizenDataCache" />
+	</bean>
+
+</beans>

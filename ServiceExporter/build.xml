@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<project name="CapDemat Services Exporter" basedir="." default="prepare-webapp">
+
+  <target name="init">
+    
+    <!-- project specific properties -->
+    <property file="build.properties" />
+
+    <property name="dist.name" value="${application.name}-${module.name}-${application.version}-${application.revision}" />
+    <property name="dist.basename" value="${application.name}-${module.name}-${application.version}" />
+    <property name="jar.name" value="${application.name}-${module.name}-${application.version}" />
+
+    <fileset id="exporter-runtime-libs" dir="${libraries.dir}">
+      <include name="**/edu.yale/**/*.jar" />
+	  <include name="**/org.quartz/**/*.jar" />
+	  <include name="**/fr.cg95/model/CVQ-ExternalServicesSchemas-*.jar" />    	
+    </fileset>
+
+  	<path id="classpath.compile">
+      <fileset dir="${libraries.dir}">
+        <include name="**/*.jar" />
+      </fileset>
+	  <fileset dir="${web.dir}/WEB-INF/ext">
+        <include name="*.jar" />
+      </fileset>
+    </path>
+
+    <path id="classpath.compile.test">
+      <path refid="classpath.compile" />
+      <path location="${web.dir}/WEB-INF/classes" />
+    </path>
+  </target>
+
+  <target name="clean" depends="init">
+    <delete dir="${web.dir}/WEB-INF/classes" />
+    <delete dir="${web.dir}/WEB-INF/lib" />
+    <delete file="${jar.name}.jar" />
+    <delete>
+      <fileset dir="${basedir}">
+        <include name="${dist.basename}-*.war" />
+      </fileset>
+    </delete>
+    <delete>
+      <fileset dir="${web.dir}/WEB-INF">
+        <include name="*.properties" />
+        <include name="*.log*" />
+        <include name="applicationContext-admin.xml" />
+        <include name="applicationContext-deployment.xml" />
+        <include name="applicationContext.xml" />
+        <include name="web.xml" />
+        <exclude name="log4j.properties" />
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="prepare-configfiles"
+    description="Generate deployment files according to dynamic properties"
+    depends="init">
+    <copy file="${web.dir}/WEB-INF/web.xml.tpl"
+          tofile="${web.dir}/WEB-INF/web.xml"
+          overwrite="true">
+      <filterset>
+        <filter token="cas_validate_url" value="${cas_validate_url}" />
+        <filter token="cas_server_names" value="${cas_server_names}" />
+        <filter token="cas_authorized_proxies" value="${cas_authorized_proxies}" />
+      </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext.xml"
+          todir="${web.dir}/WEB-INF"
+          overwrite="true">
+      <filterset>
+        <filter token="perform_db_updates" value="true" />
+      </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml"
+          todir="${web.dir}/WEB-INF"
+          overwrite="true">
+      <filterset>
+        <filter token="perform_db_updates" value="true" />
+      </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext-admin.xml"
+          todir="${web.dir}/WEB-INF"
+          overwrite="true"/>
+    <mkdir dir="${web.dir}/WEB-INF/classes" />
+    <copy file="${deploy.properties_dir}/${deploy.properties_file}"
+          todir="${web.dir}/WEB-INF"
+          overwrite="true" />
+    <copy file="${libraries.dir}/org.hibernate/c3p0.properties" todir="${web.dir}/WEB-INF/classes" />
+  </target>
+
+  <target name="compile" depends="init">
+    <mkdir dir="${web.dir}/WEB-INF/classes" />
+    <javac destdir="${web.dir}/WEB-INF/classes"
+           debug="true"
+           deprecation="false"
+           optimize="false"
+           failonerror="true">
+      <src path="${src.dir}" />
+      <classpath refid="classpath.compile" />
+    </javac>
+  </target>
+  
+  <target name="dist" depends="compile"
+    description="Create a JAR file for inclusion by portlets">
+    <jar compress="on" jarfile="${jar.name}.jar">
+      <fileset dir="${web.dir}/WEB-INF/classes">
+        <exclude name="*.xml" />
+        <include name="**/**" />
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="deploy" depends="dist">
+    <move file="${jar.name}.jar" todir="${deploy.model.dir}" />
+  </target>
+  
+  <target name="prepare-webapp" description="Build the webapp" 
+    depends="prepare-configfiles, compile">
+    <mkdir dir="${web.dir}/WEB-INF/lib" />
+    <!-- copy common libraries -->
+    <ant dir="${libraries.dir}" target="runtime-libs">
+      <property name="project.lib.dir" value="${web.dir}/WEB-INF/lib" />
+    </ant>
+    <!-- copy Service Exporter specific libraries -->
+    <copy todir="${web.dir}/WEB-INF/lib" flatten="true">
+      <fileset refid="exporter-runtime-libs" />
+    </copy>
+    <copy todir="${web.dir}/WEB-INF/lib" flatten="true">
+      <fileset dir="${web.dir}/WEB-INF/ext" />
+    </copy>
+  </target>
+
+  <target name="war" depends="prepare-webapp" description="Create the WAR file">
+    <war destfile="${dist.name}.war" webxml="${web.dir}/WEB-INF/web.xml">
+      <fileset dir="${web.dir}">
+        <include name="**/**" />
+        <exclude name="**/*.tpl" />
+      </fileset>
+    </war>
+  </target>
+
+  <target name="compile-tests">
+    <javac destdir="${web.dir}/WEB-INF/classes"
+           debug="true"
+           deprecation="false"
+           optimize="false"
+           failonerror="true">
+      <src path="${test.dir}" />
+      <classpath refid="classpath.compile.test" />
+    </javac>
+
+  </target>
+
+  <target name="run-agent-test" depends="compile-tests">
+
+    <ant dir="${basedir}/.." target="build-war-serviceexporter" />
+
+    <java classname="fr.cg95.cvq.exporter.service.AgentTaskServiceTest">
+      <arg value="agent.secret" />
+      <classpath refid="classpath.compile.test" />
+    </java>
+
+  </target>
+
+  <target name="run-provisioning-test" depends="compile-tests">
+
+    <ant dir="${basedir}/.." target="build-war-serviceexporter" />
+
+    <java classname="fr.cg95.cvq.exporter.service.ProvisioningServiceTest">
+      <arg value="agent_de_test" />
+      <classpath refid="classpath.compile.test" />
+    </java>
+
+  </target>
+
+</project>
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="spplusPaymentProvider"
+    class="fr.capwebct.capdemat.plugins.paymentproviders.spplus.service.SpplusService"
+    init-method="init">
+    <property name="label" value="Spplus"></property>
+    <!-- Insert services you need here -->
+    <property name="paymentUrl" value="${plugins.paymentproviders.spplus.payment_url}" />
+  </bean>
+
+</beans>

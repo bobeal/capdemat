@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="enumeration" classname="fr.cg95.cvq.generator.plugins.enumeration.EnumerationPlugin">
+
+  <documentation>
+    <element parent="*" source="*"/>
+  </documentation>
+
+  <configuration>
+    <!-- define a base output dir for local referential -->
+    <output localdir="./Model/conf/local_referential"/>
+  </configuration>
+</plugin>

@@ -1,0 +1,99 @@
+Bonjour,
+
+Je viens de terminer la "montée" des transactions et sessions du
+modèle vers la vue dans le Back Office (René n'étant pas là, je
+pouvais allégrement casser le BO :-) ...).
+
+Pour rappel, ce changement avait deux motivations :
+
+     * A une action de la vue peuvent correspondre plusieurs appels de
+       méthodes des services (par exemple, l'ajout d'une PJ se
+       décompose en 1/ création de la PJ et 2/ ajout de la PJ sur la
+       demande en cours). Dans l'ancienne configuration, un appel de
+       méthode de service correspondait à une transaction. Ainsi, si
+       un appel échoue, les précédents ne sont pas "rollbackés",
+       laissant potentiellement l'appli dans un état incohérent.
+
+     * Avoir une session Hibernate pour la durée d'une requête HTTP
+       permet, entre autre, d'exploiter au maximum les fonctionnalités
+       de "lazy initialization" proposées par Hibernate et donc
+       d'améliorer les performances.
+
+Voici maintenant les opérations à réaliser dans les webapps (j'ai
+aussi du modifier l'application context mais c'est transparent pour
+les webapps) :
+
+Dans le fichier web.xml :
+
+     * mise en place d'un chargeur de contexte Spring :
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext-hibernate.xml</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>context</servlet-name>
+		<servlet-class>org.springframework.web.context.ContextLoaderServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+     * changement de l'ordre de démarrage des servlets pour s'assurer
+       que le chargement du contexte Spring soit fait avant toute
+       autre opération
+
+     * ajout d'un "servlet filter" qui implémente le pattern "Open
+       Session In View" (permet de garder la même session Hibernate
+       pour la durée d'une requête HTTP => possibilité d'instantier
+       des lazy collections et lazy objects dans la vue => gain de
+       performance) :
+
+       <filter>
+            <filter-name>hibernateFilter</filter-name>
+	    <filter-class>org.springframework.orm.hibernate.support.OpenSessionInViewFilter</filter-class>
+       </filter>
+ 
+       <filter-mapping>
+            <filter-name>hibernateFilter</filter-name>
+	    <url-pattern>*.do</url-pattern>
+       </filter-mapping>
+
+Dans la servlet StartupServlet, on récupère le contexte Spring et on
+l'affecte au BusinessManager :
+
+       WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+       BusinessManager bm = new BusinessManager();
+       bm.setApplicationContext(wac);
+
+Dans BusinessManager, on ne stocke alors plus un CvqApplicationContext
+mais un org.springframework.web.context.WebApplicationContext. De
+plus, il faut ajouter une méthode permettant l'ajout de l'application
+context :
+
+       public static void setApplicationContext(WebApplicationContext wac) {
+	    ac = wac;
+       }
+
+Dans le même esprit, la méthode getAc() retourne un object
+WebApplicationContext et plus un CvqApplicationContext.
+
+Enfin, il faut supprimer l'ancien appel au constructeur de
+BusinessManager (qui est maintenant créé dans
+StartupServlet.java). Dans le BO, ça se passait dans StateManager. Je
+ne sais pas ce qu'il en est pour le FO.
+
+Il reste un dernier point à régler, c'est celui de l'emplacement du
+fichier applicationContext.xml de Spring : il doit être accessible par
+les servlets (donc sous /WEB-INF) mais ne peut plus être dans le jar
+du modèle comme précédemment (autant que je sache en tout cas ...). La
+solution viendra-t-elle avec la "mavenisation" de CVQ ??
+
+Alors, certes, la couche de présentation n'est plus 100% indépendante
+du reste de l'application mais il n'est pas possible de faire
+autrement et ce n'est pas une "mauvaise" adhérence. Voir le thread
+suivant pour une discussion à ce sujet :
+http://forum.hibernate.org/viewtopic.php?t=927886
+
+Laurent, si tu te sens de faire les modifs pour le FO, go for
+it. Sinon, je peux les faire pour toi ...
+

@@ -1,0 +1,115 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+
+\author{Benoit Orihuela}
+\title{CVQ Technical Documentation}
+\pagestyle{headings}
+\frenchspacing
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\chapter{Glossary}
+\begin{itemize}
+  \item DO : Domain Object
+  \item DAO : Data Access Object
+\end{itemize}
+
+\chapter{Introduction}
+This document is aimed at providing a technical view of the CVQ Model part.
+It mainly deals with :
+\begin{itemize}
+  \item the architecture (Spring)
+  \item the persistence layer
+  \item the access control policy
+  \item the configuration of the application
+  \item the external services
+\end{itemize}
+
+\chapter{Extending the Model}
+
+\section{Adding a new request type}
+\begin{itemize}
+  \item create at least the corresponding class in the general request mapping file
+  (\emph{src/xml/hibernate/request.hbm.xml} 
+  \item if you added a new Hibernate mapping file, add it in the required files :
+    \begin{itemize}
+      \item \emph{script/generate\_beans.sh}
+      \item \emph{build.xml}
+      \item \emph{conf/spring/applicationContext.xml}
+    \end{itemize}
+  \item run the script \emph{script/generate\_beans.sh} to create and/or update
+  the DOs
+  \item if needed, create the DAOs in \emph{src/java/fr/cg95/cvq/service/dao}
+  and \emph{src/java/fr/cg95/cvq/service/dao/hibernate}
+  \item if you have special needs for SQL requests associated with this request,
+  create a new DAO to take it into account
+  \item create a service interface and implementation in respectively
+  \emph{src/java/fr/cg95/cvq/service} and
+  \emph{src/java/fr/cg95/cvq/service/spring} (override at least the
+  \emph{create} method to set your associations properly)
+  \item add an unique string identifier for the new request in
+  \emph{src/java/fr/cg95/cvq/service/IRequestService.java} 
+  \item add en entry for the new service in the Spring application context file
+  (\emph{conf/spring/applicationContext.xml}) and add the necessary DAOs and
+  services for the service
+  \item code the business logic in the Spring service
+  \item write an unit test in \emph{test/java/fr/cg95/cvq/service} and your
+  service in transaction part of the \emph{applicationContext-test.xml} file
+  \item add your new service in
+  \emph{test/java/fr/cg95/cvq/testtool/ServiceTestCase.java} 
+  \item add an entry for the new request type in each city's
+  \emph{request_type.properties} file
+\end{itemize}
+
+\section{Adding a new city}
+To add a new city in the Front Office or Back Office webapp :
+\begin{itemize}
+  \item add a session factory entry in the
+  \emph{applicationContext-deployment.xml} file
+  \item add an entry pointing to the new session factory in the security context
+  service in the \emph{applicationContext.xml} file
+\end{itemize}
+
+\chapter{External Services}
+
+\section{Payline}
+
+\section{Wynid}
+
+\section{Horanet}
+
+\chapter{Frequently Asked Questions}
+
+Q: I have modified an Hibernate mapping file, how can I re-generate the
+   business objects ?
+
+A: Use the script generate_beans.sh located in the script
+   directory. If you have added an new mapping file, you'll have to add
+   it manually in the script file
+
+Q: I have added a new Hibernate mapping file. What do I have to modify
+   for it to be taken into account ?
+
+A: Add an entry corresponding to the new mapping file into the
+   following files : build.xml, applicationContext-hibernate.xml (into
+   conf/spring directory) and generate_beans.sh (into script directory)
+
+Q: I have added a new service method and a new session is created for
+   every DAO request I do in it (deprecated by OpenSessionInView pattern).
+
+A: This method has a name not recognized by the transaction
+   manager. Add something for it in applicationContext-hibernate.xml
+
+Q: I want to setup the DB manually. What I have to do ?
+
+A: First, create the database : create database "cartevaloise" with
+   encoding='latin1'. Then, change to the db directory, create the tables
+   (psql cartevaloise < schema-export.sql), then initialize the
+   referential data with the scripts provided in script/ directory
+
+\end{document}
+

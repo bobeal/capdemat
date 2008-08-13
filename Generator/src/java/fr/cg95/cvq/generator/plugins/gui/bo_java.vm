@@ -1,0 +1,392 @@
+##***********************************************************************************
+#macro (writeAddressTypeFields $field)
+#if ($field.SchemaType == "AddressType")
+  #set ($baseName = $field.javaName(""))
+	private String ${baseName}AdditionalDeliveryInformation;
+	private String ${baseName}AdditionalGeographicalInformation;
+	private String ${baseName}StreetNumber;
+	private String ${baseName}StreetName;
+	private String ${baseName}PlaceNameOrService;
+	private String ${baseName}PostalCode;
+	private String ${baseName}City;
+#end
+#end
+#macro (writeAddressTypeLoad $field)
+#if ($field.SchemaType == "AddressType")
+  #set ($baseName = $field.javaName(""))
+  #set ($access = ${field.rootName("get")})
+  #set ($origin = "request.${access}")
+#if ($field.SubjectType)
+    #set ($access = ${field.javaName("get1")})
+    #set ($origin = "((${field.SubjectType})request.${access}()).getAdress")
+#end
+			if (${origin}() != null) {
+				this.${baseName}AdditionalDeliveryInformation = ${origin}().getAdditionalDeliveryInformation();
+				this.${baseName}AdditionalGeographicalInformation = ${origin}().getAdditionalGeographicalInformation();
+				this.${baseName}StreetNumber = ${origin}().getStreetNumber();
+				this.${baseName}StreetName = ${origin}().getStreetName();
+				this.${baseName}PlaceNameOrService = ${origin}().getPlaceNameOrService();
+				this.${baseName}PostalCode = ${origin}().getPostalCode();
+				this.${baseName}City = ${origin}().getCity();
+			}
+#end
+#end
+#macro (writeAddressTypeSave $field)
+#if ($field.SchemaType == "AddressType")
+  #set ($baseName = $field.javaName(""))
+			if (request.${field.rootName("get")}() != null) {
+				request.${field.rootName("get")}().setAdditionalDeliveryInformation(this.${baseName}AdditionalDeliveryInformation);
+				request.${field.rootName("get")}().setAdditionalGeographicalInformation(this.${baseName}AdditionalGeographicalInformation);
+				request.${field.rootName("get")}().setStreetNumber(this.${baseName}StreetNumber);
+				request.${field.rootName("get")}().setStreetName(this.${baseName}StreetName);
+				request.${field.rootName("get")}().setPlaceNameOrService(this.${baseName}PlaceNameOrService);
+				request.${field.rootName("get")}().setPostalCode(this.${baseName}PostalCode);
+				request.${field.rootName("get")}().setCity(this.${baseName}City);
+			}
+#end
+#end
+#macro (writeGetSet $baseName $methodName $fieldName)
+	public void set${methodName}${fieldName}(String ${baseName}${fieldName}) {
+		this.${baseName}${fieldName} = ${baseName}${fieldName};
+	}
+	
+	public String get${methodName}${fieldName}() {
+		return this.${baseName}${fieldName};
+	}
+
+#end
+#macro (writeAddressTypeGetSet $field)
+#if ($field.SchemaType == "AddressType")
+  #set ($baseName = $field.javaName(""))
+  #set ($methodName = $field.javaName("method"))
+#writeGetSet($baseName $methodName "AdditionalDeliveryInformation")
+#writeGetSet($baseName $methodName "AdditionalGeographicalInformation")
+#writeGetSet($baseName $methodName "StreetNumber")
+#writeGetSet($baseName $methodName "StreetName")
+#writeGetSet($baseName $methodName "PlaceNameOrService")
+#writeGetSet($baseName $methodName "PostalCode")
+#writeGetSet($baseName $methodName "City")
+#end
+#end
+##***********************************************************************************
+#macro (writeLoadField $field)
+  #set ($access = ${field.rootName("get")})
+  #set ($origin = "request.${access}")
+#if ($field.SubjectType)
+    #set ($access = ${field.rootName("get1")})
+    #set ($postfix = ${field.rootName("get-2")})
+    #set ($origin = "((${field.SubjectType})request.${access}()).${postfix}")
+#end
+#if($field.isRepository())
+#if ($field.GuiControl == "ticket")
+            this.set${field.javaName("method")}(getReservations(this.getList("${field.Repository}"), request.get${field.javaName("method")}()));
+#elseif ($field.GuiControl == "referential")
+            this.set${field.javaName("method")}(getReferentialData(this.getList("${field.Repository}"), request.get${field.javaName("method")}()));
+#else
+            this.set${field.javaName("method")}(this.getList("${field.Repository}"), request.get${field.javaName("method")}());
+#end
+#elseif ($field.values)
+#if(!$field.SubjectType)
+			if (request.${field.rootName("getif")}() != null)
+                this.${field.javaName("")} = getEnumElementTranslation(
+#if ($field.XmlParentClass)                
+                        fr.cg95.cvq.xml.${namespace}.${field.XmlParentClass}.class.getName(), 
+#else
+                        fr.cg95.cvq.xml.${namespace}.${request}Document.${request}.class.getName(), 
+#end                        
+                        "${field.rootName("method")}", request.${field.rootName("get")}());
+#end
+#elseif ($field.javaType())
+#if(!$field.SubjectType)
+#if($field.getSetCondition("request", true))
+            if (${field.getSetCondition("request", true)})
+#end            
+#end
+#if ($field.javaType() == "Calendar")
+			if (${origin}() != null) {
+				this.${field.javaName("")} = Calendar.getInstance(); 
+	            this.${field.javaName("")}.setTime(${origin}());
+			}
+#else
+#if($field.javaType() != "List")
+			this.${field.javaName("")} = ${origin}();
+#end
+#end
+#end
+#end
+##***********************************************************************************
+##***********************************************************************************
+package ${package};
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+import fr.cg95.cvq.wizard.*;
+import fr.cg95.cvq.bo.record.BaseRecord;
+import fr.cg95.cvq.bo.record.RequestRecord;
+import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.business.${namespace}.*;
+
+public class ${clazz.Name} extends RequestRecord {
+
+#set($fields = $clazz.JavaFields)
+#foreach( $field in $fields)
+#if ($field.SchemaType == "AddressType")
+  #writeAddressTypeFields($field)
+#elseif ($field.javaType())
+#if ($field.GuiControl != "ticket")
+#if ($field.GuiControl != "referential")
+	private ${field.javaType()}#if($field.isMultipleSelect())[]#end ${field.javaName("")};
+#end
+#end
+#if($field.isRepository())
+#if ($field.GuiControl == "ticket")
+   	private ReservationNode ${field.javaName("")};
+#elseif ($field.GuiControl == "referential")
+   	private ReferentialData ${field.javaName("")};
+#else
+   	private List ${field.javaName("")}List;
+#end
+#end 
+#end
+#end
+
+	public ${clazz.Name}() {
+		super();
+	}
+	
+	protected Object clone() throws CloneNotSupportedException {
+		${clazz.Name} clonedRecord = (${clazz.Name})super.clone();
+#foreach( $field in $fields)
+#if($field.isMultipleSelect())
+#if ($field.GuiControl != "ticket")
+#if ($field.GuiControl != "referential")
+		clonedRecord.${field.javaName("")} = (${field.javaType()}[])this.${field.javaName("")}.clone();
+#end
+#end
+#end
+#end
+		return clonedRecord;
+	}
+	
+	public BaseRecord getDataRecord(Long id) {
+
+		if (id.equals(this.getId()))
+			return this;
+			
+		return super.getDataRecord(id);
+	}
+
+#if(!$clazz.ModelClass)
+    public void load(Object xmlRequest) {
+        if ((xmlRequest != null) && (xmlRequest instanceof ${request})) {
+            ${request} request = (${request})xmlRequest; 
+#else
+    public void load($clazz.ModelClass request) {
+    	if (request != null) {
+#end
+
+#set($fields = $clazz.JavaFields)
+#foreach( $field in $fields)
+#if ($field.SchemaType == "AddressType")
+#writeAddressTypeLoad($field)
+#else
+#writeLoadField($field)
+#end
+#end
+        }
+    }
+    
+    public void saveRequest(Object xmlRequest) {
+        if ((xmlRequest != null) && (xmlRequest instanceof ${request})) {
+            ${request} request = (${request})xmlRequest; 
+        }
+    }
+    
+    public void saveData(Object xmlRequest) {
+        if ((xmlRequest != null) && (xmlRequest instanceof ${request})) {
+            ${request} request = (${request})xmlRequest; 
+
+#set($fields = $clazz.JavaFields)
+#foreach( $field in $fields)
+#if ($field.Mode != "static")
+#if ($field.SchemaType == "AddressType")
+  #writeAddressTypeSave($field)
+#elseif($field.isRepository())
+#if ($field.GuiControl != "ticket")
+#if ($field.GuiControl != "referential")
+#if ($field.isMultipleSelect())
+			request.set${field.javaName("method")}(this.get${field.javaName("method")}Keys());
+#else
+			request.set${field.javaName("method")}(this.get${field.javaName("method")}Key());
+#end
+#end
+#end
+#elseif ($field.values)
+			if (this.${field.javaName("")} != null)
+                request.set${field.rootName("method")}(
+                    ${field.enumType}.forString(
+                        getEnumKeyTranslation(
+#if ($field.XmlParentClass)                
+                            fr.cg95.cvq.xml.${namespace}.${field.XmlParentClass}.class.getName(),
+#else 
+                            fr.cg95.cvq.xml.${namespace}.${request}Document.${request}.class.getName(), 
+#end
+                            "${field.rootName("method")}", this.${field.javaName("")})
+                    )
+                );
+#elseif ($field.javaType())
+#if ($field.javaType() == "Calendar")
+			if (this.${field.javaName("")} != null)
+			request.${field.rootName("set")}(this.${field.javaName("")}.getTime()${field.suffix});
+#else
+#if($field.getSetCondition("request",true))
+            if (${field.getSetCondition("request",true)})
+#end
+			request.${field.rootName("set")}(this.${field.javaName("")}${field.suffix});
+#end
+#end
+#end
+#end
+        }
+    }
+    
+#set($fields = $clazz.JavaFields)
+#foreach( $field in $fields)
+#if ($field.SchemaType == "AddressType")
+#writeAddressTypeGetSet($field)
+#elseif ($field.javaType())
+#if ($field.isMultipleSelect())
+#if ($field.GuiControl == "ticket")
+	public void set${field.javaName("method")}(ReservationNode ${field.javaName("")}) {
+		this.${field.javaName("")} = ${field.javaName("")};
+	}
+	
+	public ReservationNode get${field.javaName("method")}() {
+		return this.${field.javaName("")};
+	}
+
+#elseif ($field.GuiControl == "referential")
+	public void set${field.javaName("method")}(ReferentialData ${field.javaName("")}) {
+		this.${field.javaName("")} = ${field.javaName("")};
+	}
+	
+	public ReferentialData get${field.javaName("method")}() {
+		return this.${field.javaName("")};
+	}
+
+## Selection list
+#else
+	public void set${field.javaName("method")}(List referential, Set values) {
+		if (referential != null) {
+			this.${field.javaName("")} = new boolean[referential.size()];
+			this.${field.javaName("")}List = referential;
+			
+			if (values != null) {
+				for (int i = 0; i < ${field.javaName("")}.length; i++) {
+					String key = ((ReferentialData)${field.javaName("")}List.get(i)).getKey();
+					${field.javaName("")}[i] = containsRefData(values, key);
+				}
+			}
+		}
+	}
+	
+	public List get${field.javaName("method")}List() {
+		return this.${field.javaName("")}List;
+	}
+	
+	public Set get${field.javaName("method")}Keys() {
+		return getRefDataSet(${field.javaName("")}, ${field.javaName("")}List);
+	}
+
+	public String[] get${field.javaName("method")}() {
+		Vector values = new Vector();
+		
+		for (int i = 0; i < ${field.javaName("")}.length; i++) {
+			if (${field.javaName("")}[i]) {
+				values.add(((ReferentialData)${field.javaName("")}List.get(i)).getValue());
+			}
+		}
+
+		String[] value = new String[values.size()];
+		for (int i = 0; i < values.size(); i++)
+			value[i] = (String)values.get(i);
+
+		return value;
+	}
+
+	public void set${field.javaName("method")}(String[] value) {
+		String values = "";
+		for (int i = 0; i < value.length; i++)
+			values += "<" + value[i] + ">";
+		
+		for (int i = 0; i < ${field.javaName("")}.length; i++) {
+			${field.javaName("")}[i] = values.indexOf("<" + ((ReferentialData)${field.javaName("")}List.get(i)).getValue() + ">") != -1;
+		}
+	}
+#end	
+## Java Type
+#else
+	public void set${field.javaName("method")}(${field.javaType()} ${field.javaName("")}) {
+		this.${field.javaName("")} = ${field.javaName("")};
+	}
+	
+	public ${field.javaType()} get${field.javaName("method")}() {
+		return this.${field.javaName("")};
+	}
+
+#if ($field.isRepository())
+	public void set${field.javaName("method")}(List referential, ${field.javaType()} ${field.javaName("")}) {
+		this.${field.javaName("")}List = referential;
+		for (int i = 0; i < referential.size(); i++) {
+			if (${field.javaName("")}.equals(((ReferentialData)referential.get(i)).getKey()))
+				this.${field.javaName("")} = ((ReferentialData)referential.get(i)).getValue();
+		}
+	}
+	
+	public String get${field.javaName("method")}Key() {
+		for (int i = 0; i < ${field.javaName("")}List.size(); i++) {
+			if (this.${field.javaName("")}.equals(((ReferentialData)${field.javaName("")}List.get(i)).getValue()))
+				return ((ReferentialData)${field.javaName("")}List.get(i)).getKey();
+		}
+		return null;
+	}
+
+	public List get${field.javaName("method")}List() {
+		return this.${field.javaName("")}List;
+	}
+	
+#end
+#end
+#else
+	public String[] get${field.javaName("method")}() {
+		Vector values = new Vector();
+#foreach($child in $field.children)
+		if (${child.javaName("")}) {
+			values.add("${child.label}");
+		}
+#end
+		String[] value = new String[values.size()];
+		for (int i = 0; i < values.size(); i++)
+			value[i] = (String)values.get(i);
+
+		return value;
+	}
+
+	public void set${field.javaName("method")}(String[] value) {
+		String values = "";
+		for (int i = 0; i < value.length; i++)
+			values += "<" + value[i] + ">";
+		
+#foreach($child in $field.children)
+		${child.javaName("")} = values.indexOf("<${child.label}>") != -1;
+#end
+	}
+	
+#end
+#end
+}
+

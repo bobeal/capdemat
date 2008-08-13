@@ -1,0 +1,351 @@
+/* COLORS */
+/**
+Site color : #fbe38b
+*/
+/* body */
+body
+{
+  background-color: white;
+}
+
+/* main */
+.caution,
+.required
+{
+  color: #f00;
+}
+
+/* footer */
+#footer,
+#footer a
+{
+  color: #6e6e6e;
+}
+
+#footer span.logo_legend
+{
+  background-color: #fff;
+}
+
+
+/* COLORS */
+/* color description : light blue #95b5fe */
+/* color description : dark grey #6e6e6e */
+/* color description : light grey #959595 */
+
+.paragraph
+{
+  background-color: #fff;
+}
+
+#content_top,
+#content_top_home,
+#content_middle,
+#content_middle_home,
+#main_navigation .tab a:hover,
+#main_navigation .selected a,
+.list_type1 .item .custom_color,
+.list_type7 .item .custom_color,
+.list_type11 .item .custom_color,
+.list_type19 .row .custom_color,
+.block_type3,
+.block_type9,
+.list_type5 .row,
+.submit_type1,
+.submit_type2,
+.list_type9 .item_type1 a,
+.list_type9 .item_type2 a,
+.table_type3 .td .custom_color,
+.list_type12 .submit .custom_color,
+.list_type13 .ok,
+.list_type14 .ok,
+.list_type17 .row a,
+.list_type18 .row a .custom_color
+{
+  background-color: #fbe38b;
+}
+
+.list_type4 .row .subtitle
+{
+  background-color: #c8c8c8;
+}
+
+.list_type5 .error,
+.list_type13 .error,
+.list_type13 .caution
+{
+  background-color: #f00;
+}
+
+.label_type1,
+.list_type8 .row_type2,
+.list_type4 .row .title,
+.list_type14 .cancel,
+.col_type6
+{
+  background-color: #eee;
+}
+
+.custom_color,
+.custom_color a,
+.paragraph a,
+#main_navigation .tab a,
+.list_type2 .item,
+.list_type2 .item a,
+.list_type3 .item,
+.list_type3 .item a,
+.text_type3,
+.list_type6 .item,
+.list_type6 .item a,
+.block_type5 .title strong,
+.block_type5 .list_type4 .row .item,
+.block_type5 .list_type4 .row .item a,
+.select_type1,
+.select_type2,
+.select_type3,
+.list_type9 .item_type1,
+.list_type9 .item_type1 a,
+.list_type9 .item_type2,
+.list_type9 .item_type2 a,
+.list_type10 .selected,
+.list_type11 li.selected,
+.list_type11 .selected a,
+.list_type12 .item strong,
+.list_type12 .submit input,
+.block_type13 .login,
+.block_type13 .signin,
+.block_type13 .reset,
+.list_type19 .title
+{
+  color: #fbe38b;
+}
+
+#main_navigation .tab a:hover,
+#main_navigation .selected a,
+#breadcrumb_trail .item,
+#breadcrumb_trail .item a,
+#top_links .item,
+#top_links .item a,
+.list_type4 .row .subtitle,
+.submit_type1,
+.submit_type2,
+.list_type14 .ok,
+.list_type14 .ok a,
+.list_type17 .row a
+{
+  color: white;
+}
+
+.block_type1 .title,
+.list_type1 .item,
+.list_type1 .item a,
+.list_type11 .item,
+.list_type11 .item a,
+.list_type7 .item,
+.list_type7 .item a,
+.block_type2 .title,
+.list_type6 .subtitle,
+.list_type6 .subtitle a,
+.list_type4 .row .item,
+.list_type4 .row .item a,
+.list_type4 .row .short_item,
+.list_type4 .row .short_item a,
+.text_type1,
+.text_type4,
+.text_type6,
+.table_type1 .th,
+.block_type5 .title,
+.label_type1,
+.label_type2,
+.label_type3,
+.label_type4,
+.forgot_password,
+.table_type2 .th .title,
+.table_type3 .td,
+.table_type3 .td a,
+.list_type10 .item a,
+.list_type12 .item,
+.block_type11 .subtitle,
+.list_type4 .row .title,
+.list_type14 .cancel,
+.list_type14 .cancel a,
+.table_type8 .td4 a,
+.list_type18 .row a,
+.list_type19 .row a
+{
+  color: #6e6e6e;
+}
+
+.text_type2,
+.list_type4 .row .title strong
+{
+  color: #222;
+}
+
+.block_type5 .paragraph,
+.block_type5 .text
+{
+  color: #818181;
+}
+
+.list_type3 .document_error,
+.list_type3 .document_error a,
+.list_type4 .row .document_error,
+.list_type4 .row .document_error a,
+#content_middle .caution,
+#content_middle .caution a,
+.error .text_type1,
+.error .text_type1 a,
+.error .text_type2,
+.error .text_type2 a,
+.error .text_type3,
+.error .text_type3 a,
+.table_type7 .selected_notice .submit a
+{
+  color: #f00;
+}
+
+.block_type3,
+.block_type9,
+.block_type5 .row,
+.table_type1 .td,
+.table_type3 .td,
+.table_type3 .tr_first .td,
+.table_type3 .tr_last .td,
+.table_type5 .td,
+.table_type5 .tr_first .td,
+.table_type5 .tr_last .td,
+.table_type7 .td,
+.table_type7 .tr_first .td,
+.table_type7 .tr_last .td,
+.table_type7 .input_inline input,
+.table_type8 .td,
+.table_type8 .tr_first .td,
+.table_type8 .tr_last .td,
+.list_type19 .title
+{
+  border-color: #c0c0c0;
+}
+
+.label_type1,
+.list_type8 .row_type2,
+.block_type8
+{
+  border-color: #dedede;
+}
+
+.table_type1 .th,
+.table_type2 .th,
+.table_type3 .th,
+.table_type4 .th,
+.table_type6 .th
+{
+  border-color: #fff;
+}
+
+.list_type4 .row .subtitle
+{
+  border-color: #a4a4a4;
+}
+
+.select_type1,
+.select_type2,
+.select_type3,
+.list_type14 .cancel
+{
+  border-color: #bebebe;
+}
+
+.submit_type1,
+.list_type14 .ok
+{
+  border-color: #7089bf;
+}
+
+/* Status */
+.list_status .status01
+{
+  background-color: #e4ecff;
+}
+
+.list_status .status02
+{
+  background-color: #cadafe;
+}
+
+.list_status .status03
+{
+  background-color: #b0c8fe;
+}
+
+.list_status .ok
+{
+  background-color: #fbe38b;
+}
+
+.list_status .caution,
+.list_status .error
+{
+  background-color: #f00;
+}
+
+/* Table Type 5 */
+.table_type5 .selected .td
+{
+/*   border-right: none; */
+/*   border-bottom: none; */
+}
+
+.table_type5 .selected .td1
+{
+  border-right-color: white;
+  border-bottom-color: white;
+}
+
+.table_type5 .selected .td2,
+.table_type5 .selected .td3
+{
+  border-right-color: white;
+  border-left-color: white;
+  border-bottom-color: white;
+}
+
+.table_type5 .selected .td4
+{
+  border-left-color: white;
+  border-bottom-color: white;
+}
+
+/* Table Type 7 */
+.table_type7 .selected_notice .td1
+{
+  border-right-color: white;
+}
+
+/* Table Type 8 */
+.table_type8 .td3,
+.table_type8 .tr_first .td3,
+.table_type8 .tr_none .td3,
+.table_type8 .tr_last .td3
+{
+  border-right-color: white;
+}
+
+
+.list_type_password .item,
+.list_type_password .item a,
+.insert_list li.password_row label
+{
+  color: #6e6e6e;
+}
+
+.insert_list li.password_row input
+{
+  border-color: #dbdbdb;
+}
+
+.list_type_password .ok .custom_color
+{
+  background-color: #fbe38b;
+}
+

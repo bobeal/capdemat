@@ -1,0 +1,100 @@
+/** Styles des éléments HTML **/
+
+* {
+	font-family: "Lucida Sans Unicode", Tahoma, Arial, sans-serif;
+}
+
+img {
+	border : 0;
+}
+
+pre {
+	overflow: scroll;
+	width: 100%;
+}
+
+html>body pre {
+	overflow: auto;
+	width: auto;
+}
+
+.pict-portlet-content h1 {
+	margin : 0 0 0.5em 0;
+	font-size: 2em;
+	color: #861d8a;
+	font-variant: small-caps;
+	letter-spacing: -1px;
+	overflow : auto;
+}
+
+.pict-portlet-content h2 {
+	font-size: 1.3em;
+	margin : 0.5em 0;
+	font-variant: small-caps;
+	letter-spacing: -1px;
+	overflow : auto;
+}
+
+.pict-portlet-content h3 {
+	font-size: 1.2em;
+	margin : 0.5em 0;
+	font-variant: small-caps;
+	letter-spacing: -1px;
+	overflow : auto;
+}
+
+.pict-portlet-content h4 {
+	font-size: 1.1em;
+	margin : 0.5em 0;
+	font-variant: small-caps;
+	letter-spacing: -1px;
+	overflow : auto;
+}
+
+.pict-portlet-content h5 {
+	font-size: 1.1em;
+	margin : 0.5em 0;
+	font-variant: small-caps;
+	letter-spacing: -1px;
+	overflow : auto;
+}
+
+.pict-portlet-content h6 {
+	font-size: 1em; font-weight: normal; font-style: italic;
+	margin : 0.5em 0;
+	font-variant: small-caps;
+	letter-spacing: -1px;
+	overflow : auto;
+}
+
+a, :link {
+	text-decoration : underline;
+	color : #666;
+}
+
+a:hover {
+	/*color : #ef55b5;*/
+	color: rgb(251, 227, 139);
+}
+
+a.rss {
+	padding : 0 20px;
+	background : url(../images/xml.png) left no-repeat;
+}
+
+hr {
+	border : none;
+	color : #e5e5e5;
+	height : 1px;
+	margin-left : 20px;
+	margin-right : 20px;
+}
+
+* > hr {
+	border-top : 1px solid #e5e5e5;
+}
+
+::-moz-selection {
+	background-color:#e7b4d4;
+	color:#ffffff;
+}

@@ -1,0 +1,66 @@
+/* STRUCTURE */
+/* body */
+body
+{
+}
+
+/* mainframe */
+#mainframe
+{
+  width: 781px;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* header */
+#header
+{
+  float: left;
+  height: 110px;
+  width: 768px;
+}
+
+#logo
+{
+  float: left;
+  height: 110px;
+  width: 88px;
+}
+
+#logo a
+{
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+#logo img
+{
+  margin-top: 25px;
+  margin-left: 8px;
+}
+
+#banner
+{
+  float: left;
+  height: 110px;
+  width: 680px;
+}
+
+/* footer */
+#footer
+{
+  clear: both;
+  float: left;
+  width: 765px;
+  margin-top: 20px;
+  background: url(img/footer_border.gif) repeat-x left top;
+}
+
+/* content */
+#content
+{
+  clear: both;
+  float: left;
+  width: 768px;
+}

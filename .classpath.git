@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="BackOffice/webapp/WEB-INF/classes" path="BackOffice/src"/>
+	<classpathentry kind="src" output="BackOffice/webapp/WEB-INF/classes" path="BackOffice/test"/>
+	<classpathentry kind="src" output="FrontOffice/webapp/WEB-INF/classes" path="FrontOffice/src/java"/>
+	<classpathentry kind="src" output="Generator/build/classes" path="Generator/src/java"/>
+	<classpathentry kind="src" output="GUIWizard/build/classes" path="GUIWizard/src/java"/>
+	<classpathentry kind="src" output="Model/build/classes" path="Model/src/java"/>
+	<classpathentry kind="src" output="Model/build/test" path="Model/test/java"/>
+	<classpathentry kind="src" output="PictFoPortlets/portletapp/WEB-INF/classes" path="PictFoPortlets/src"/>
+	<classpathentry kind="src" output="PictPortlets/portletapp/WEB-INF/classes" path="PictPortlets/src"/>
+	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/src/java"/>
+	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/test/java"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/JTwain.jar"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/commons-httpclient-3.0.1.jar"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/lp-certviewer.jar"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/lp-crl.jar"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/xalan.jar"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/lp7certify.jar"/>
+	<classpathentry kind="lib" path="BackOffice/webapp/applets/lp7viewer.jar"/>
+	<classpathentry kind="lib" path="Generator/lib/xsddoc.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.entrouvert/lasso.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/bcprov.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/deployer/LPAppletDeployer.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/deployer/resources/iaikPkcs11Wrapper.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/deployer/resources/usjpf14/local_policy.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/deployer/resources/usjpf15/local_policy.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/iaik_jce.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/iaikPkcs11Provider.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/lp-applet-util.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/lp-crypto-extension.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/lp7.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/LPApplets.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lexpersona/xlp7.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lowagie/iText.jar"/>
+	<classpathentry kind="lib" path="Libraries/edu.yale/cas/casclient-2.1.1-1.jar" sourcepath="/home/bor/java/cas/cas-client-java-2.1.1/src"/>
+	<classpathentry kind="lib" path="Libraries/jaf/activation.jar"/>
+	<classpathentry kind="lib" path="Libraries/mail/mail.jar"/>
+	<classpathentry kind="lib" path="Libraries/net.sf/jasperreports/jasperreports-1.2.7.jar"/>
+	<classpathentry kind="lib" path="Libraries/net.sf/saxon/saxon8.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/ant/ant.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/axis-ant.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/axis.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/wsdl4j-1.5.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-codec.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-digester-1.7.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-digester.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-httpclient-2.0.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-lang-2.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-pool.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-validator.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/avalon-framework-cvs-20020806.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/batik.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/fop.jar" sourcepath="/home/bor/java/fop-0.20.5/src"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-oro-2.0.8/jakarta-oro-2.0.8.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-struts-1.1/struts.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-tomcat-5.0.19/jsp-api.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-tomcat-5.0.28/jsp-api.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-tomcat-5.0.28/servlet-api.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-core.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-dom.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/saxpath.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/log4j/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/velocity/velocity-1.4.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/xmlbean/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/xmlbean/xbean_xpath.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/xmlbean/xbean.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/xmlsec/xmlsec-1.3.0.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.bouncycastle/bcprov-jdk14-128.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.bouncycastle/bcprov-jdk15-128.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.jfree/jcommon-1.0.0.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.jfree/jfreechart-1.0.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.postgresql/jdbc/postgresql-8.0.309.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.quartz/quartz.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/jdom.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/jta.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring.jar" sourcepath="/home/rdj/workspace/lib/spring/src">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/rdj/workspace/repo/spring-framework-1.2.9/docs/api/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="Libraries/org.tigris/svnant.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.tigris/svnClientAdapter.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.tigris/svnjavahl.jar"/>
+	<classpathentry kind="lib" path="Model/lib/java.net/grinder.jar"/>
+	<classpathentry kind="lib" path="Model/lib/java.net/jython.jar"/>
+	<classpathentry kind="lib" path="Model/lib/junit/junit.jar"/>
+	<classpathentry kind="lib" path="Model/lib/org.apache/ant-junit-1.6.2.jar"/>
+	<classpathentry kind="lib" path="Model/lib/org.springframework/spring-beandoc.jar"/>
+	<classpathentry kind="lib" path="Model/lib/org.springframework/spring-mock.jar"/>
+	<classpathentry kind="lib" path="PictFoPortlets/portletapp/WEB-INF/ext/jsp-api.jar"/>
+	<classpathentry kind="lib" path="PictFoPortlets/portletapp/WEB-INF/ext/portlet-api-1.0.jar"/>
+	<classpathentry kind="lib" path="PictFoPortlets/portletapp/WEB-INF/lib/dwr.jar"/>
+	<classpathentry kind="lib" path="PictFoPortlets/portletapp/WEB-INF/lib/hessian-3.0.13.jar"/>
+	<classpathentry kind="lib" path="PictFoPortlets/portletapp/WEB-INF/lib/pict-extensions.jar"/>
+	<classpathentry kind="lib" path="PictFoPortlets/portletapp/WEB-INF/lib/spring-portlet.jar"/>
+	<classpathentry kind="lib" path="PictPortlets/portletapp/WEB-INF/ext/jsp-api.jar"/>
+	<classpathentry kind="lib" path="PictPortlets/portletapp/WEB-INF/ext/portlet-api-1.0.jar"/>
+	<classpathentry kind="lib" path="PictPortlets/portletapp/WEB-INF/lib/hessian-3.0.13.jar"/>
+	<classpathentry kind="lib" path="PictPortlets/portletapp/WEB-INF/lib/pict-extensions.jar"/>
+	<classpathentry kind="lib" path="PictPortlets/portletapp/WEB-INF/lib/spring-portlet.jar"/>
+	<classpathentry kind="lib" path="ServiceExporter/webapp/WEB-INF/ext/hessian-3.0.13.jar"/>
+	<classpathentry kind="lib" path="ServiceExporter/webapp/WEB-INF/ext/jstl.jar"/>
+	<classpathentry kind="lib" path="ServiceExporter/webapp/WEB-INF/ext/standard.jar"/>
+	<classpathentry kind="lib" path="ServiceExporter/webapp/WEB-INF/ext/xercesImpl.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="Libraries/net.sf/csvobjects/CSVObjects-1.0RC1.jar" sourcepath="/CSVParser/src"/>
+	<classpathentry kind="lib" path="Libraries/net.sf/csvobjects/ostermillerutils_1_04_03.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/guiwizard/CVQ-GUIWizard-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CVQ-Model-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CVQ-ServiceExporter-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CVQ-RequestSchemas-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CVQ-ExternalServicesSchemas-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-1.0.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-tiger-1.0.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-1.0.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-tiger-1.0.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-security-1.0.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-xml-1.0.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.sun/saaj-api.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/plugins/CVQ-Plugin-PaymentProviders-Payline-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/plugins/CVQ-Plugin-PaymentProviders-Spplus-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/plugins/CVQ-Plugin-PaymentProviders-Wynid-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Model/lib/xdoclet/xdoclet-2.0.4.jar"/>
+	<classpathentry kind="lib" path="Model/lib/xdoclet/xdoclet-plugin-hibernate-1.0.2.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.aspectj/aspectjweaver-1.5.3.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/asm-2.2.3.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/asm-commons-2.2.3.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.hibernate/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.hibernate/c3p0-0.9.1-pre10.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.hibernate/cglib-nodep-2.1_3.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.hibernate/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.hibernate/ehcache-1.2.3.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.hibernate/hibernate3.jar"/>
+	<classpathentry kind="lib" path="Model/lib/org.hsqldb/hsqldb-1.8.0.jar"/>
+	<classpathentry kind="lib" path="Model/lib/cobertura/asm-tree-2.2.1.jar"/>
+	<classpathentry kind="lib" path="Model/lib/cobertura/cobertura.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

@@ -1,0 +1,72 @@
+<rule-set name="Regles d'acces portlet CVQ"
+  xmlns="http://drools.org/rules"
+  xmlns:groovy="http://drools.org/semantics/groovy"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+  xs:schemaLocation="http://drools.org/rules rules.xsd
+    http://drools.org/semantics/groovy groovy.xsd">
+
+  <rule name="Montrer la portlet de création de formulaire dans le mode adéquat" salience="100">
+    <parameter identifier="portlet"><groovy:class>com.zenexity.pict.portal.om.entity.PictPortletEntity</groovy:class></parameter>
+    <parameter identifier="permission"><groovy:class>java.lang.String</groovy:class></parameter>
+    <parameter identifier="principal"><groovy:class>com.zenexity.pict.portal.security.PictPrincipal</groovy:class></parameter>
+    <parameter identifier="rulesSession"><groovy:class>com.zenexity.pict.portal.rules.RulesSession</groovy:class></parameter>
+    <parameter identifier="access"><groovy:class>com.zenexity.pict.portal.rules.Access</groovy:class></parameter>
+    <groovy:condition>permission == 'read'</groovy:condition>
+    <groovy:condition>portlet.portletDefinition.id == 'com.zenexity.pict.cvq.fo-requests-create'</groovy:condition>
+    <groovy:consequence>
+      if( rulesSession['requestCreationMode'] == null )
+      	access.deny()
+      else
+      	access.grant()
+    </groovy:consequence>
+  </rule>
+          
+  <rule name="Montrer la portlet toolbar en mode de création de formulaire" salience="100">
+    <parameter identifier="portlet"><groovy:class>com.zenexity.pict.portal.om.entity.PictPortletEntity</groovy:class></parameter>
+    <parameter identifier="permission"><groovy:class>java.lang.String</groovy:class></parameter>
+    <parameter identifier="principal"><groovy:class>com.zenexity.pict.portal.security.PictPrincipal</groovy:class></parameter>
+    <parameter identifier="rulesSession"><groovy:class>com.zenexity.pict.portal.rules.RulesSession</groovy:class></parameter>
+    <parameter identifier="access"><groovy:class>com.zenexity.pict.portal.rules.Access</groovy:class></parameter>
+    <groovy:condition>permission == 'read'</groovy:condition>
+    <groovy:condition>portlet.portletDefinition.id == 'com.zenexity.pict.cvq.fo-toolbar'</groovy:condition>
+    <groovy:consequence>
+      if( rulesSession['requestCreationMode'] == null )
+      	access.deny()
+      else
+      	access.grant()
+    </groovy:consequence>
+  </rule>
+          
+  <rule name="Montrer la portlet de liste des demandes quand on n'est pas en mode de création de formulaire" salience="100">
+    <parameter identifier="portlet"><groovy:class>com.zenexity.pict.portal.om.entity.PictPortletEntity</groovy:class></parameter>
+    <parameter identifier="permission"><groovy:class>java.lang.String</groovy:class></parameter>
+    <parameter identifier="principal"><groovy:class>com.zenexity.pict.portal.security.PictPrincipal</groovy:class></parameter>
+    <parameter identifier="rulesSession"><groovy:class>com.zenexity.pict.portal.rules.RulesSession</groovy:class></parameter>
+    <parameter identifier="access"><groovy:class>com.zenexity.pict.portal.rules.Access</groovy:class></parameter>
+    <groovy:condition>permission == 'read'</groovy:condition>
+    <groovy:condition>portlet.portletDefinition.id == 'com.zenexity.pict.cvq.fo-requests-list'</groovy:condition>
+    <groovy:consequence>
+      if( rulesSession['requestCreationMode'] == null )
+      	access.grant()
+      else
+      	access.deny()
+    </groovy:consequence>
+  </rule>
+          
+  <rule name="Montrer la portlet de synthèse des demandes quand on n'est pas en mode de création de formulaire" salience="100">
+    <parameter identifier="portlet"><groovy:class>com.zenexity.pict.portal.om.entity.PictPortletEntity</groovy:class></parameter>
+    <parameter identifier="permission"><groovy:class>java.lang.String</groovy:class></parameter>
+    <parameter identifier="principal"><groovy:class>com.zenexity.pict.portal.security.PictPrincipal</groovy:class></parameter>
+    <parameter identifier="rulesSession"><groovy:class>com.zenexity.pict.portal.rules.RulesSession</groovy:class></parameter>
+    <parameter identifier="access"><groovy:class>com.zenexity.pict.portal.rules.Access</groovy:class></parameter>
+    <groovy:condition>permission == 'read'</groovy:condition>
+    <groovy:condition>portlet.portletDefinition.id == 'com.zenexity.pict.cvq.fo-requests-syn'</groovy:condition>
+    <groovy:consequence>
+      if( rulesSession['requestCreationMode'] == null )
+      	access.grant()
+      else
+      	access.deny()
+    </groovy:consequence>
+  </rule>
+
+</rule-set>

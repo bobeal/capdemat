@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<csv-mapping>
+
+  <bean-mapping name="account-detail-generic"
+    class="fr.capwebct.modules.payment.business.csv.AccountDetailWrapper"
+    csvHeader="true">
+    
+    <field-mapping name="Account Id"
+      type="java.lang.String"
+      position="0"
+      attribute="accountId"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Holder Name" 
+      type="java.lang.String"
+      position="1" 
+      attribute="accountDetail"
+      reformat="none" 
+      bean-ref="accountDetailBean" />
+    
+    <field-mapping name="Holder Surname" 
+      type="java.lang.String"
+      position="2" 
+      attribute="accountDetail"
+      reformat="none" 
+      bean-ref="accountDetailBean" />
+    
+    <field-mapping name="Value"
+      type="java.lang.String"
+      position="3"
+      attribute="accountDetail"
+      reformat="none"
+      bean-ref="accountDetailBean" />
+
+    <field-mapping name="Payment Date"
+      type="java.lang.String"
+      position="4"
+      attribute="accountDetail"
+      reformat="none"
+      bean-ref="accountDetailBean" />
+
+    <field-mapping name="Payment Type"
+      type="java.lang.String"
+      position="5"
+      attribute="accountDetail"
+      reformat="none"
+      bean-ref="accountDetailBean" />
+
+    <field-mapping name="Payment Ack"
+      type="java.lang.String"
+      position="6"
+      attribute="accountDetail"
+      reformat="none"
+      bean-ref="accountDetailBean" />
+
+    <field-mapping name="Cvq Ack"
+      type="java.lang.String"
+      position="7"
+      attribute="accountDetail"
+      reformat="none"
+      bean-ref="accountDetailBean" />
+
+    <field-mapping name="External Family Account Id" 
+      type="java.lang.String" 
+      position="8"
+      attribute="externalFamilyAccountId" 
+      reformat="none" 
+      bean-ref="none" />
+
+  </bean-mapping>
+  
+  <bean-mapping name="accountDetailBean"
+      class="fr.capwebct.modules.payment.business.AccountDetail"
+      csvHeader="true">
+    
+    <field-mapping name="Holder Name" 
+      type="java.lang.String"
+      position="1" 
+      attribute="holderName"
+      reformat="none" 
+      bean-ref="none" />
+    
+    <field-mapping name="Holder Surname" 
+      type="java.lang.String"
+      position="2" 
+      attribute="holderSurname"
+      reformat="none" 
+      bean-ref="none" />
+    
+    <field-mapping name="Value"
+      type="java.lang.String"
+      position="3"
+      attribute="value"
+      reformat="value"
+      bean-ref="none" />
+
+    <field-mapping name="Payment Date"
+      type="java.lang.String"
+      position="4"
+      attribute="payment"
+      reformat="none"
+      bean-ref="paymentBean" />
+
+    <field-mapping name="Payment Type"
+      type="java.lang.String"
+      position="5"
+      attribute="payment"
+      reformat="none"
+      bean-ref="paymentBean" />
+
+    <field-mapping name="Payment Ack"
+      type="java.lang.String"
+      position="6"
+      attribute="payment"
+      reformat="none"
+      bean-ref="paymentBean" />
+
+    <field-mapping name="Cvq Ack"
+      type="java.lang.String"
+      position="7"
+      attribute="payment"
+      reformat="none"
+      bean-ref="paymentBean" />
+
+  </bean-mapping>
+  
+  <bean-mapping name="paymentBean"
+      class="fr.capwebct.modules.payment.business.Payment"
+      csvHeader="true">
+    
+    <field-mapping name="Payment Date"
+      type="java.lang.String"
+      position="4"
+      attribute="paymentDate"
+      reformat="date"
+      bean-ref="none" />
+
+    <field-mapping name="Payment Type"
+      type="java.lang.String"
+      position="5"
+      attribute="paymentType"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Payment Ack"
+      type="java.lang.String"
+      position="6"
+      attribute="paymentAck"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Cvq Ack"
+      type="java.lang.String"
+      position="7"
+      attribute="cvqAck"
+      reformat="none"
+      bean-ref="none" />
+
+  </bean-mapping>
+  
+</csv-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.capwebct.modules.payment.business">
+
+  <class name="ExternalApplication" table="external_application" lazy="false">
+
+    <id name="id" >
+      <generator class="native" />
+    </id>
+
+    <property name="label" column="label" not-null="true" />
+    <property name="description" column="description" />
+    
+    <set name="brokers" table="external_application_broker" cascade="all" lazy="false">
+      <key column="external_application_id" />
+      <element type="string" column="broker" not-null="true" />
+    </set>
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,171 @@
+<xb:config xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
+
+  <!-- Use the "namespace" element to map a namespace to the Java package
+       name that should be generated. -->
+      
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/common">
+    <xb:package>fr.cg95.cvq.xml.common</xb:package>
+  </xb:namespace>
+
+  <!-- Common school elements -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/cse">
+    <xb:package>fr.cg95.cvq.xml.school</xb:package>
+  </xb:namespace>
+
+  <xb:namespace uri="http://www.cg95.fr/cvq/certicate">
+    <xb:package>fr.cg95.cvq.xml.certificate</xb:package>
+  </xb:namespace>
+
+  <!-- **************** REQUESTS NAMESPACES DECLARATIONS ******************** -->
+
+  <!-- Vo Card Request -->  
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/vo">
+    <xb:package>fr.cg95.cvq.xml.ecitizen</xb:package>
+  </xb:namespace>
+
+  <!-- Home Folder Modification Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/hfmr">
+    <xb:package>fr.cg95.cvq.xml.users</xb:package>
+  </xb:namespace>
+
+  <!-- School Canteen Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/scrr">
+    <xb:package>fr.cg95.cvq.xml.school</xb:package>
+  </xb:namespace>
+
+  <!-- School Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/srr">
+    <xb:package>fr.cg95.cvq.xml.school</xb:package>
+  </xb:namespace>
+
+  <!-- Perischool Activity Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/parr">
+    <xb:package>fr.cg95.cvq.xml.school</xb:package>
+  </xb:namespace>
+
+  <!-- Vacations Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/vrr">
+    <xb:package>fr.cg95.cvq.xml.school</xb:package>
+  </xb:namespace>
+
+  <!-- Recreation Activity Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/rarr">
+    <xb:package>fr.cg95.cvq.xml.school</xb:package>
+  </xb:namespace>
+
+  <!-- Personal Details Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/pdr">
+    <xb:package>fr.cg95.cvq.xml.civil</xb:package>
+  </xb:namespace>
+
+  <!-- Birth Details Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/bdr">
+    <xb:package>fr.cg95.cvq.xml.civil</xb:package>
+  </xb:namespace>
+
+  <!-- Death Details Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/ddr">
+    <xb:package>fr.cg95.cvq.xml.civil</xb:package>
+  </xb:namespace>
+
+  <!-- Marriage Details Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/mdr">
+    <xb:package>fr.cg95.cvq.xml.civil</xb:package>
+  </xb:namespace>
+
+  <!-- Electoral Roll Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/errr">
+    <xb:package>fr.cg95.cvq.xml.election</xb:package>
+  </xb:namespace>
+
+  <!-- Library Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/lrr">
+    <xb:package>fr.cg95.cvq.xml.leisure.culture</xb:package>
+  </xb:namespace>
+
+  <!-- Music School Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/msrr">
+    <xb:package>fr.cg95.cvq.xml.leisure.music</xb:package>
+  </xb:namespace>
+
+  <!-- Alignment Certificate Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/acr">
+    <xb:package>fr.cg95.cvq.xml.urbanism</xb:package>
+  </xb:namespace>
+
+  <!-- Sewer Connection Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/scr">
+    <xb:package>fr.cg95.cvq.xml.urbanism</xb:package>
+  </xb:namespace>
+
+  <!-- Authorizatin Obstruction Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/aor">
+    <xb:package>fr.cg95.cvq.xml.urbanism</xb:package>
+  </xb:namespace>
+
+  <!-- Town Planning Certificate Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/tpcr">
+    <xb:package>fr.cg95.cvq.xml.urbanism</xb:package>
+  </xb:namespace>
+
+  <!-- Works Statement Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/wsr">
+    <xb:package>fr.cg95.cvq.xml.urbanism</xb:package>
+  </xb:namespace>
+
+  <!-- Place Reservation Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/prr">
+    <xb:package>fr.cg95.cvq.xml.reservation</xb:package>
+  </xb:namespace>
+
+  <!-- Payment Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/pr">
+    <xb:package>fr.cg95.cvq.xml.invoice</xb:package>
+  </xb:namespace>
+
+  <!-- Remote Support Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/rsr">
+    <xb:package>fr.cg95.cvq.xml.social</xb:package>
+  </xb:namespace>
+ 
+  <!-- Domestic Help Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/dhr">
+    <xb:package>fr.cg95.cvq.xml.social</xb:package>
+  </xb:namespace>
+
+  <!-- Handicap Allowance Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/har">
+    <xb:package>fr.cg95.cvq.xml.social</xb:package>
+  </xb:namespace>
+
+    <!-- Military Census Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/mcr">
+    <xb:package>fr.cg95.cvq.xml.military</xb:package>
+  </xb:namespace>
+  
+  <!-- Holiday Security Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/hsr">
+  	<xb:package>fr.cg95.cvq.xml.localpolice</xb:package>
+  </xb:namespace>
+
+  <!-- Technical Intervention Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/tir">
+  	<xb:package>fr.cg95.cvq.xml.technical</xb:package>
+  </xb:namespace>
+
+  <!-- Sms Notification Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/sms">
+    <xb:package>fr.cg95.cvq.xml.leisure</xb:package>
+  </xb:namespace>
+
+  <!-- Bulky Waste Collection Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/bwc">
+    <xb:package>fr.cg95.cvq.xml.environment</xb:package>
+  </xb:namespace>
+
+  <!-- Compostable Waste Collection Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/cwc">
+    <xb:package>fr.cg95.cvq.xml.environment</xb:package>
+  </xb:namespace>
+
+</xb:config>

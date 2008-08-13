@@ -1,0 +1,21 @@
+# Appellation signature to create all the original LP7 document.
+appellation.signature.file.path=C:/Development/Java/CVQ/Assets/valdoise/lp7/lp-jlmapp.p12
+appellation.signature.password=6u#yf3!
+
+appellation.spp.country.name = FR
+appellation.spp.city = Jouy-le-Moutier
+appellation.spp.postal.code = 95280
+appellation.spp.state.or.province = Valdoise
+
+# Transaction signature to be used with the appellation signature to create original LP7 document.
+transaction.signature.file.path = C:/Development/Java/CVQ/Assets/valdoise/lp7/lp-jlmapp.p12
+transaction.signature.password = 6u#yf3!
+
+# Time stamp authority server url used by the appellation signature
+# tsa.server.url = http://tsa.lex-persona.com/tsa
+
+# Time stamp authority server url used by clients (LP7Certify)
+# tsa.client.url = http://tsa.lex-persona.com/tsa
+
+# PKCS#11 library name used by the LP7Certify applet to sign with the client token
+lp7.certify.pkcs11.library = dkck201.dll

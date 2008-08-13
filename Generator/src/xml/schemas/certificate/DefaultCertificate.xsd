@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/certificate"
+  xmlns:cert="http://www.cg95.fr/cvq/certificate"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+  <xs:annotation>
+    <xs:documentation xml:lang="en">
+      Default schema for requests certificates
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="cvqTagdata" type="cert:CvqTagDataType" />
+
+  <xs:complexType name="CvqTagDataType">
+    <xs:sequence>
+      <xs:element name="date" type="xs:string" />
+      <xs:element name="service" type="xs:string" />
+      <xs:element name="agent" type="xs:string" />
+      <xs:element name="courriel_agent" type="xs:string" />
+      <xs:element name="envoi" type="xs:string" />
+      <xs:element name="numero_famille" type="xs:string" />
+      <xs:element name="civilite" type="xs:string" />
+      <xs:element name="nom" type="xs:string" />
+      <xs:element name="prenom" type="xs:string" />
+      <xs:element name="login" type="xs:string" />
+      <xs:element name="adresse" type="xs:string" />
+      <xs:element name="codepostal" type="xs:string" />
+      <xs:element name="ville" type="xs:string" />
+      <xs:element name="numero_demande" type="xs:string" />
+      <xs:element name="type_demande" type="xs:string" />
+      <xs:element name="date_demande" type="xs:string" />
+      <xs:element name="observations" type="xs:string" maxOccurs="unbounded" />
+      <xs:element name="enfant" type="xs:string" />
+      <xs:element name="date_naissance_enfant" type="xs:string" />
+      <xs:element name="numero_enfant" type="xs:string" />
+      <xs:element name="ecole_enfant" type="xs:string" />
+      <xs:element name="classe_enfant" type="xs:string" />
+      <xs:element name="quotient_familial" type="xs:string" />
+      <xs:element name="line" type="xs:string" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

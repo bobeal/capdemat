@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CapDémat - Generator" default="generator" basedir="./">
+
+	<description>Ant build file for the CapDémat - Generator project.</description>
+
+	<!-- ==================================== -->
+	<!--                        Initialization                               -->
+	<!-- ==================================== -->
+   
+	<target name="init">
+		<!-- generator specific properties -->
+		<property file="${basedir}/build.properties" />
+
+		<mkdir dir="${build.archives.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+
+		<path id="classpath.compile">
+			<fileset dir="${lib.common.dir}/org.apache/xmlbean">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${lib.common.dir}/org.apache/velocity">
+				<include name="**/*.jar" />
+			</fileset>
+			<pathelement location="${lib.common.dir}/org.apache/log4j/log4j-1.2.8.jar" />
+			<pathelement location="${lib.common.dir}/org.apache/common/commons-lang-2.1.jar" />
+		</path>
+
+		<path id="classpath.generator">
+			<path refid="classpath.compile" />
+			<fileset dir="${build.archives.dir}">
+				<include name="*.jar" />
+			</fileset>
+			<pathelement location="${lib.common.dir}/org.apache/common/commons-collections-3.1.jar" />
+			<!-- <pathelement path="${build.classes.dir}" /> -->
+		</path>
+
+		<path id="classpath.xsddoc">
+			<path refid="classpath.compile" />
+			<pathelement location="${lib.common.dir}/net.sf/xframe/xsddoc.jar" />
+		</path>
+
+		<fileset id="generated-requests" dir="${src.xml.schema.dir}/request">
+			<include name="AlignmentCertificateRequest.xsd" />
+			<include name="BirthDetailsRequest.xsd" />
+			<include name="BulkyWasteCollectionRequest.xsd" />
+			<include name="CompostableWasteCollectionRequest.xsd" />
+			<include name="DeathDetailsRequest.xsd" />
+			<include name="DomesticHelpRequest.xsd" />
+			<include name="ElectoralRollRegistrationRequest.xsd" />
+			<include name="HandicapAllowanceRequest.xsd" />
+		    <include name="HolidaySecurityRequest.xsd" />
+			<include name="LibraryRegistrationRequest.xsd" />
+			<include name="MarriageDetailsRequest.xsd" />
+			<include name="MilitaryCensusRequest.xsd" />
+			<include name="MusicSchoolRegistrationRequest.xsd" />
+			<include name="PerischoolActivityRegistrationRequest.xsd" />
+			<include name="PersonalDetailsRequest.xsd" />
+			<include name="PlaceReservationRequest.xsd" />
+			<include name="RecreationActivityRegistrationRequest.xsd" />
+			<include name="RemoteSupportRequest.xsd" />
+			<include name="SchoolCanteenRegistrationRequest.xsd" />
+			<include name="SchoolRegistrationRequest.xsd" />
+			<include name="SmsNotificationRequest.xsd" />
+			<include name="SewerConnectionRequest.xsd" />
+		    <include name="TechnicalInterventionRequest.xsd" />
+		</fileset>
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!--                        Regular targets                                                                                        -->
+	<!-- =================================================================== -->
+
+	<target name="clean" depends="init">
+	   	 <delete dir="${build.dir}" />
+		<antcall target="clean-documentation" />
+	</target>
+
+	<target name="XMLBean" description="XMLBean Code Generation">
+
+		<taskdef name="xmlbean" 
+			classname="org.apache.xmlbeans.impl.tool.XMLBean" classpathref="classpath.compile">
+		</taskdef>
+
+		<xmlbean destfile="${build.archives.dir}/${application.name}-RequestSchemas-${application.version}.jar" 
+			classpathref="classpath.compile">
+			<fileset refid="generated-requests" />
+			<fileset dir="${src.xml.schema.dir}/common">
+				<include name="CapDematRequestList.xsd" />
+			</fileset>
+			<!-- add XSD of non completely generated requests -->
+			<fileset dir="${src.xml.schema.dir}/request">
+				<include name="VoCardRequest.xsd" />
+				<include name="HomeFolderModificationRequest.xsd" />
+				<include name="VacationsRegistrationRequest.xsd" />
+			</fileset>
+			<fileset dir="${src.xml.schema.dir}/certificate">
+				<include name="DefaultCertificate.xsd" />
+			</fileset>
+			<fileset dir="${src.xml.schema.dir}/referential">
+				<include name="ReferentialData.xsd" />
+				<include name="PlaceReservationData.xsd" />
+			</fileset>
+			<fileset dir="${conf.xmlbeans.dir}" includes="generator.xsdconfig" />
+		</xmlbean>
+
+	</target>
+
+	<target name="compile" depends="init, XMLBean">
+		<javac optimize="on" debug="on" verbose="off" srcdir="${src.java.dir}" 
+			includes="fr/cg95/cvq/generator/**" deprecation="on" destdir="${build.classes.dir}">
+			<classpath>
+				<path refid="classpath.compile" />
+				<fileset dir="${build.archives.dir}">
+          			<include name="${application.name}-RequestSchemas-${application.version}.jar" />
+        		</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${build.classes.dir}">
+			<fileset file="${conf.log4j.dir}/log4j.properties" />
+		</copy>
+	</target>
+
+	<target name="dist" depends="compile">
+		<jar compress="on" jarfile="${build.archives.dir}/CVQGenerator.jar">
+			<fileset dir="${build.classes.dir}">
+				<include name="**/**" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="deploy" depends="dist">
+		<copy todir="${deploy.model.dir}" file="${build.archives.dir}/${application.name}-RequestSchemas-${application.version}.jar" />
+	</target>
+
+	<!-- depends on dist could be enough but we have to call deploy to test the generated data so ... -->
+	<target name="generator" description="Code Generator In Action" depends="deploy">
+
+		<taskdef name="generator" classname="fr.cg95.cvq.generator.tool.GeneratorTask" 
+			classpathref="classpath.generator">
+		</taskdef>
+
+		<generator>
+			<fileset refid="generated-requests" />
+			<plugins>
+				<fileset dir="${src.xml.plugins.dir}">
+					<include name="newfo_plugin.xml" />
+					  <!--
+                  <include name="model_plugin.xml" />
+				  <include name="enumeration_plugin.xml" />
+				  <include name="xslfo_plugin.xml" />
+				  <include name="newfo_plugin.xml" />
+				  <include name="bo_plugin.xml" />
+    		        <include name="dummy_plugin.xml" />
+          			-->
+    			</fileset>
+    		</plugins>
+		</generator>
+	</target>
+
+	<!-- temp task -->
+	<target name="generator-bofo" description="Code Generator In Action" depends="dist">
+
+		<taskdef name="generator" classname="fr.cg95.cvq.generator.tool.GeneratorTask" classpathref="classpath.generator">
+		</taskdef>
+
+		<generator>
+			<fileset refid="generated-requests" />
+			<plugins>
+				<fileset dir="${src.xml.plugins.dir}">
+					<include name="fo_plugin.xml" />
+					<include name="bo_plugin.xml" />
+				</fileset>
+			</plugins>
+		</generator>
+	</target>
+
+	<!-- =================================================================== -->
+	<!--                    Command line test tools                          -->
+	<!-- =================================================================== -->
+
+	<target name="generator-test" description="Tests the parsing of an XML schema" depends="dist">
+		<java classname="fr.cg95.cvq.generator.CodeGenerator">
+			<classpath>
+				<path refid="classpath.compile" />
+				<pathelement path="${build.classes.dir}" />
+			</classpath>
+			<sysproperty key="xmlschema.dir" value="${src.xml.schema.dir}/request" />
+		</java>
+
+	</target>
+
+	<target name="xmlinstance-test" depends="XMLBean, dist" description="Test validation of an XML file against its schema">
+		<java classname="fr.cg95.cvq.generator.tool.XmlValidator" classpathref="classpath.generator" fork="true">
+			<arg line="msrr.xml" />
+			<arg line="src/xml/schemas/request/MusicSchoolRegistrationRequest.xsd" />
+		</java>
+	</target>
+
+	<!-- =================================================================== -->
+	<!--                     Code documentation                              -->
+	<!-- =================================================================== -->
+
+	<target name="documentation">
+		<antcall target="apidoc" />
+		<antcall target="xsddoc" />
+	</target>
+
+	<target name="clean-documentation">
+		<antcall target="clean-apidoc" />
+		<antcall target="clean-xsddoc" />
+	</target>
+
+	<target name="clean-apidoc">
+		<delete dir="${basedir}/${doc.javadoc.dir}" />
+	</target>
+
+	<target name="apidoc" description="Builds the project's code documentation HTML pages" 
+		depends="init, XMLBean">
+
+		<javadoc destdir="${basedir}/${doc.javadoc.dir}" author="true" version="true" 
+			private="true" use="true" windowtitle="CapDémat Generator and XML Schemas API" 
+			classpathref="classpath.compile" additionalparam="${javadoc.proxy.params}">
+
+			<!-- The links the generated code doc should use -->
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
+			<link href="http://xmlbeans.apache.org/docs/2.1.0/reference/" />
+
+			<packageset defaultexcludes="yes" dir="${src.java.dir}">
+				<include name="**" />
+			</packageset>
+
+			<doctitle><![CDATA[<h1>${application.name}-${module.name}</h1>]]></doctitle>
+			<bottom><![CDATA[<i>Benoit Orihuela, René Le Clercq, 2004-2007.</i>]]></bottom>
+			<tag name="todo" scope="all" description="TODO :" />
+			<tag name="fixme" scope="all" description="FIXME :" />
+		</javadoc>
+	</target>
+
+	<target name="clean-xsddoc">
+		<delete dir="${basedir}/${doc.xsddoc.dir}" />
+	</target>
+
+	<!-- FIXME : There are Xalan classpath issues with JDK 1.5 -->
+	<target name="xsddoc" description="Builds an HTML representation of XSD files" depends="init">
+
+		<taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" 
+			classpathref="classpath.xsddoc">
+		</taskdef>
+
+		<mkdir dir="${basedir}/${doc.xsddoc.dir}" />
+		<xsddoc out="${basedir}/${doc.xsddoc.dir}" doctitle="Documentation schémas XML" 
+			verbose="true">
+			<fileset dir="${src.xml.schema.dir}/common" />
+			<fileset dir="${src.xml.schema.dir}/referential" />
+			<fileset dir="${src.xml.schema.dir}/certificate" />
+			<fileset refid="generated-requests" />
+			<!-- add XSD of non completely generated requests -->
+			<fileset dir="${src.xml.schema.dir}/request">
+				<include name="VoCardRequest.xsd" />
+				<include name="HomeFolderModificationRequest.xsd" />
+			</fileset>
+		</xsddoc>
+	</target>
+
+</project>

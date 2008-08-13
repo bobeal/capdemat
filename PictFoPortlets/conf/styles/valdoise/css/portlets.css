@@ -1,0 +1,86 @@
+/** Style des portlets **/
+
+.pict-portlet {
+	position : relative;
+	margin-bottom : 5px;
+}
+
+.pict-portlet-header {
+	min-height : 1em;
+	/*background : #eaeaea;*/
+	background: rgb(251, 227, 139);
+	margin : 0;
+	border-bottom : 1px solid #bdbdbd;
+}
+
+.pict-portlet-title {
+	margin : 0;
+	padding : 0em 30px 0.1em 8px;
+	letter-spacing: 1px;
+}
+
+* > .pict-portlet-title {
+	padding : 0.3em 30px 0.1em 8px;
+}
+
+.pict-portlet-title a {
+	font-size : 12px;
+	font-weight : bold;
+	text-decoration : none;
+	color : #000;
+	font-variant: small-caps;
+}
+
+.pict-portlet-title a:hover {
+	color : #000;
+}
+
+.pict-portlet-buttons {
+	margin : 0;
+	padding : 0;
+	list-style : none;
+	position : absolute;
+	top : 0.5em;
+	right : 5px;
+	background : transparent;
+}
+
+.pict-portlet-buttons li {
+	float : left;
+}
+
+.pict-portlet-button {
+	border : 1px solid;
+	width : 11px;
+	height : 11px;
+	text-indent : -999em;
+	display : block;
+	text-decoration : none;
+	max-height : 1em;
+}
+
+ * > .pict-portlet-button {
+}
+
+.pict-portlet-button-maximized {
+	background : url(../images/maximized.gif) no-repeat;
+	border : 0;
+}
+
+.pict-portlet-button-minimized {
+	background : url(../images/minimized.gif) no-repeat;
+	border : 0;
+}
+
+.pict-portlet-button-normal {
+	background : url(../images/normal.gif) no-repeat;
+	border : 0;
+}
+
+.pict-portlet-content {
+	padding : 1em 0;
+}
+
+.pict-portlet-separator {
+	display : none;
+}

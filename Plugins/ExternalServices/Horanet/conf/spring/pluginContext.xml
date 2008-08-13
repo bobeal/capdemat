@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="horanetExternalService"
+    class="fr.capwebct.capdemat.plugins.externalservices.horanet.service.HoranetService"
+    init-method="init">
+    <property name="label" value="Horanet"></property>
+    <!-- Insert services you need here -->
+    <property name="endPoint">
+      <value>${plugins.externalservices.horanet.end_point}</value>
+    </property>
+    <property name="endPoint2">
+      <value>${plugins.externalservices.horanet.end_point2}</value>
+    </property>
+    <property name="endPoint3">
+      <value>${plugins.externalservices.horanet.end_point3}</value>
+    </property>
+    <property name="login">
+      <value>${plugins.externalservices.horanet.login}</value>
+    </property>
+    <property name="password">
+      <value>${plugins.externalservices.horanet.password}</value>
+    </property>
+    <property name="homeFolderService">
+      <ref bean="homeFolderService" />
+    </property>
+    <property name="childService">
+      <ref bean="childService" />
+    </property>
+  </bean>
+
+</beans>

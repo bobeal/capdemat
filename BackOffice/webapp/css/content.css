@@ -1,0 +1,1339 @@
+/* TEMPORARY */
+/*.grid_cell .block_head,
+.grid_cell .pagination
+{
+  display: none;
+}
+*/
+
+.grid_cell .block_head .center
+{
+  width: 721px;
+}
+
+.grid_cell .block_head .left
+{
+  margin-left: 7px;
+}
+
+.grid_cell .block_head .right
+{
+  width: 5px;
+}
+
+.grid_cell .pagination
+{
+  padding-right: 5px;
+  width: 746px;
+}
+
+/*.grid_cell .table001
+{
+  border-collapse: collapse;
+  clear: both;
+  margin: 3px 8px;
+  width: 735px;
+}*/
+
+/* BLOCK HEAD */
+.block_head
+{
+  clear: both;
+}
+
+.block_head .left
+{
+  background: url(/BackOffice/images/bg001l.png) no-repeat left top;
+  display: block;
+  float: left;
+  height: 25px;
+  width: 5px;
+}
+
+.block_head .right
+{
+  background: url(/BackOffice/images/bg001r.png) no-repeat left top;
+  display: block;
+  float: left;
+  height: 25px;
+  width: 15px;
+}
+
+.block_head .center
+{
+  background: url(/BackOffice/images/bg001m.png) repeat-x left top;
+  display: block;
+  float: left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  line-height: 1.9em;
+  list-style-type: none;
+  height: 23px;
+  padding: 1px 0 1px 5px;
+  width: 754px;
+}
+
+.block_head .center .element
+{
+  border-left: 1px solid #b7b7b7;
+  display: block;
+  float: left;
+  padding: 0 15px;
+}
+
+.block_head .center .current
+{
+  background: url(/BackOffice/images/bg002.png) repeat left 1px;
+  font-weight: bold;
+}
+
+.block_head .center .link
+{
+  cursor: pointer;
+}
+
+.block_head .center .last
+{
+  border-left: 1px solid #b7b7b7;
+  cursor: default;
+}
+
+.block_head .center .first
+{
+  background-position: left center;
+  background-repeat: no-repeat;
+  border-left: none;
+  padding-left: 25px;
+}
+
+.block_head .center .request
+{
+  background-image: url(/BackOffice/images/request.png);
+}
+
+.block_head .center .family
+{
+  background-image: url(/BackOffice/images/family.png);
+}
+
+.block_head .center .report
+{
+  background-image: url(/BackOffice/images/report.png);
+}
+
+.block_head .center .process
+{
+  background-image: url(/BackOffice/images/process.png);
+}
+
+.block_head .center .administration
+{
+  background-image: url(/BackOffice/images/administration.png);
+}
+
+
+/* PAGINATION */
+.pagination
+{
+  clear: both;
+  height: 20px;
+  padding-right: 27px;
+  text-align: right;
+  width: 764px;
+}
+
+.pagination ul
+{
+  float: right;
+  list-style-type: none;
+}
+
+.pagination .element
+{
+  display: block;
+  float: left;
+  margin-left: 4px;
+}
+
+.pagination .title
+{
+  border: none;
+  display: block;
+  float: left;
+  font-weight: bold;
+  line-height: 1.8em;
+}
+
+.pagination .link
+{
+  background-color: #fff;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 1px solid #b7b7b7;
+  color: #000;
+  display: block;
+  font-weight: bold;
+  height: 20px;
+  line-height: 1.8em;
+  min-width: 15px;
+  padding: 0 5px;
+  text-align: center;
+}
+
+.pagination .link:hover
+{
+  color: #006ea9;
+  text-decoration: none;
+}
+
+.pagination .current
+{
+  background-color: #f6f6f6;
+  border-color: #f6f6f6;
+  color: #006ea9;
+}
+
+.pagination a.first
+{
+  background-image: url(/BackOffice/images/first_page_on.png);
+}
+
+.pagination span.first
+{
+  background-image: url(/BackOffice/images/first_page_off.png);
+}
+
+.pagination a.previous
+{
+  background-image: url(/BackOffice/images/previous_page_on.png);
+}
+
+.pagination span.previous
+{
+  background-image: url(/BackOffice/images/previous_page_off.png);
+}
+
+.pagination a.next
+{
+  background-image: url(/BackOffice/images/next_page_on.png);
+}
+
+.pagination span.next
+{
+  background-image: url(/BackOffice/images/next_page_off.png);
+}
+
+.pagination a.last
+{
+  background-image: url(/BackOffice/images/last_page_on.png);
+}
+
+.pagination span.last
+{
+  background-image: url(/BackOffice/images/last_page_off.png);
+}
+
+
+/* IMAGE GENERATION */
+.image_generation
+{
+  background-color: #fff;
+}
+
+
+/* TREE */
+#tree
+{
+  float: left;
+  clear: right;
+  overflow-y: scroll;
+  height: 450px;
+  padding: 8px;
+  width: 284px;
+}
+
+#tree .tree_line
+{
+  border: 1px solid #d8d8d8;
+  clear: both;
+  display: block;
+  float: left;
+  height: 20px;
+  margin: 1px 0;
+  width: 265px;
+}
+
+#tree .tree_line001
+{
+  background-color: #fff;
+}
+
+#tree .tree_line002
+{
+  background-color: #f6f6f6;
+}
+
+#tree .tree_line img
+{
+  margin: 0 3px;
+}
+
+#tree .tree_line span
+{
+  line-height: 1.8em;
+}
+
+#tree .link
+{
+  color: #000;
+  text-decoration: none;
+}
+
+#tree .tree_line:hover,
+#tree .current
+{
+  background: url(/BackOffice/images/bg005.png) repeat left top;
+}
+
+#tree .tree_line:hover .link,
+#tree .current .link
+{
+  font-weight: bold;
+}
+
+#tree .treeHeader
+{
+  visibility: hidden;
+  height: 0px;
+}
+
+#tree .treeHeader .tree_line
+{
+  border: none;
+  height: 0em;
+  margin: 0em;
+}
+
+#tree .treeHeader .tree_line span
+{
+  height: 0em;
+  line-height: 0em;
+}
+
+
+/* FORMS */
+.form_block
+{
+  width: 791px;
+}
+
+.block004 .form_block
+{
+  width: 726px;
+}
+
+.form_block001
+{
+  width: 322px;
+}
+
+.form_block002
+{
+  width: 446px;
+}
+
+.form_block003
+{
+  width: 539px;
+}
+
+/* COMMON ELEMENTS */
+.form_block .input_submit
+{
+  background: url(/BackOffice/images/bg004.png) repeat left top;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  float: left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  margin: 0 5px;
+  padding: 2px 5px;
+}
+
+.form_block .input_text
+{
+  border: 1px solid #a9a9a9;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2px 5px;
+}
+
+.form_block .input_textarea
+{
+  border: 1px solid #a9a9a9;
+  color: #006ea9;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  padding: 2px 5px;
+}
+
+.form_block .input_file
+{
+  border: 1px solid #a9a9a9;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
+  line-height: 1.5em;
+}
+
+.form_block .input_select
+{
+  border: 1px solid #a9a9a9;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
+  line-height: 1.5em;
+}
+
+.form_block .input_short_text
+{
+  border: 1px solid #a9a9a9;
+  color: #006ea9;
+  display: block;
+  float: left;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2px 5px;
+  width: 70px;
+}
+
+.form_block .input_button
+{
+  background: url(/BackOffice/images/bg002.png) repeat-x left top;
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  cursor: pointer;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  line-height: 1.5em;
+  margin: 0 2px;
+  padding: 2px;
+}
+
+.form_block .input_button input
+{
+  border: none;
+  color: #006ea9;
+  cursor: pointer;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95em;
+  line-height: 1.5em;
+  padding: 0 5px 1px 20px;
+  width: 125px;
+}
+
+.form_block .input_account
+{
+  background: url(/BackOffice/images/adults.png) no-repeat 2px center;
+}
+
+.form_block .input_add
+{
+  background: url(/BackOffice/images/add.png) no-repeat 2px center;
+}
+
+.form_block .input_cancel
+{
+  background: url(/BackOffice/images/cancel.png) no-repeat 2px center;
+}
+
+.form_block .input_delete
+{
+  background: url(/BackOffice/images/delete.png) no-repeat 2px center;
+}
+
+.form_block .input_digitize
+{
+  background: url(/BackOffice/images/digitize.png) no-repeat 2px center;
+}
+
+.form_block .input_edit
+{
+  background: url(/BackOffice/images/edit.png) no-repeat 2px center;
+}
+
+.form_block .input_print
+{
+  background: url(/BackOffice/images/printer.png) no-repeat 2px center;
+}
+
+.form_block .input_send
+{
+  background: url(/BackOffice/images/mailto.png) no-repeat 2px center;
+}
+
+.form_block .input_view
+{
+  background: url(/BackOffice/images/acrobat.png) no-repeat 2px center;
+}
+
+/* TOGGLE FIELDS */
+input[type=submit].toggle_field
+{
+  background: url(/BackOffice/images/bg004.png) repeat left center;
+  border: none;
+  color: #fff;
+  display: block;
+  float: left;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 5px;
+  padding: 1px 5px;
+}
+
+select.toggle_field,
+input[type=text].toggle_field
+{
+  background-color: #fff  ;
+  border: 1px solid #a9a9a9;
+  color: red;
+  display: block;
+  float: left;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5em;
+  padding: 1px 0;
+  width: 90px;
+}
+
+
+/* FORM TYPE 1 */
+.form_block .fieldset001
+{
+  border: none;
+  margin: 0 15px 2px 5px;
+  padding: 3px 8px;
+}
+
+.form_block .fieldset001 .form_cell
+{
+  display: block;
+  margin: 2px 0;
+}
+
+.form_block .fieldset001 .form_cell001
+{
+  clear: left;
+  float: left;
+  width: 315px;
+}
+
+.form_block .fieldset001 .form_cell002,
+.form_block .fieldset001 .form_cell003
+{
+  float: right;
+  width: 400px;
+}
+
+.form_block .fieldset001 .form_cell .label
+{
+  display: block;
+  float: left;
+  padding: 2px 10px 2px 0;
+  width: 140px;
+}
+
+.form_block .fieldset001 .form_cell .input_text
+{
+  color: #006ea9;
+  display: block;
+  float: left;
+  width: 150px;
+}
+
+.form_block .fieldset001 .form_cell .input_select
+{
+  color: #006ea9;
+  display: block;
+  float: left;
+  width: 163px;
+}
+
+.form_block .fieldset001 .form_cell .input_select option
+{
+  font-size: 0.9em;
+  line-height: 1.5em;
+  padding: 0 5px;
+  margin: 2px 0;
+}
+
+.form_block .fieldset001 .form_cell001 .label
+{
+  text-align: right;
+}
+
+.form_block .fieldset001 .form_cell002 .label,
+.form_block .fieldset001 .form_cell003 .label
+{
+  text-align: left;
+}
+
+/* FORM TYPE 2 */
+.form_block .fieldset002
+{
+  background: #fff url(/BackOffice/images/tabulation_footer_bg.png) no-repeat left top;
+  border: none;
+  clear: both;
+  padding-right: 45px;
+  padding-top: 5px;
+  width: 734px;
+}
+
+.form_block .fieldset002 .form_cell
+{
+  background: #fff url(/BackOffice/images/button001_bg.png) no-repeat left top;
+  float: right;
+  height: 45px;
+  padding: 0 5px;
+  width: 110px;
+}
+
+.form_block .fieldset002 .form_cell .input_submit
+{
+  background: url(/BackOffice/images/go.png) no-repeat left center;
+  color: #000;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  height: 30px;
+  margin-left: 2px;
+  padding-left: 15px;
+}
+
+/* FORM TYPE 3 */
+.form_block .fieldset003
+{
+  border: none;
+  clear: both;
+}
+
+.form_block .fieldset003 .form_cell
+{
+  display: block;
+  float: left;
+  margin: 2px 0;
+}
+
+.form_block .fieldset003 .form_cell001
+{
+  width: 376px;
+}
+
+.form_block .fieldset003 .form_cell002
+{
+  text-align: right;
+  width: 343px;
+}
+
+.form_block .fieldset003 .form_cell004
+{
+  text-align: right;
+  width: 264px;
+}
+
+.form_block .fieldset003 .form_cell005
+{
+  margin: 10px 0;
+}
+
+.form_block .fieldset003 .form_cell .label
+{
+  display: block;
+  float: left;
+  font-weight: bold;
+  padding: 3px 10px 3px 5px;
+}
+
+.form_block .fieldset003 .form_cell .input_select
+{
+  display: block;
+  float: left;
+  padding: 2px 0 2px 0;
+  width: 165px;
+}
+
+.form_block .fieldset003 .form_cell001 .input_select
+{
+  width: 155px;
+}
+
+.form_block .fieldset003 .form_cell .input_select option
+{
+  font-size: 0.9em;
+  line-height: 1.5em;
+  padding: 0 5px;
+  margin: 2px 0;
+}
+
+.form_block .fieldset003 .form_cell .input_textarea
+{
+  width: 225px;
+}
+
+.form_block .fieldset003 .form_cell003 .input_submit
+{
+  float: right;
+  margin: 0;
+}
+
+.form_block .fieldset003 .form_cell .input_button
+{
+  float: right;
+}
+
+.form_block .fieldset003 .form_cell .link
+{
+  background: url(/BackOffice/images/bg002.png) repeat-x left top;
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  display: block;
+  float: right;
+  line-height: 1.45em;
+  margin: 0 2px;
+  padding: 2px;
+}
+
+.form_block .fieldset003 .form_cell .link:hover
+{
+  text-decoration: none;
+}
+
+/* FORM TYPE 4 */
+.form_block .fieldset004
+{
+  background-color: #fff;
+  border: none;
+  clear: both;
+  display: block;
+  width: 477px;
+}
+
+.form_block .fieldset004 .form_cell
+{
+  clear: both;
+  display: block;
+  float: left;
+  margin: 1px 0;
+  width: 477px;
+}
+
+.form_block .fieldset004 .form_cell .label
+{
+  border: 1px solid #d8d8d8;
+  display: block;
+  float: left;
+  line-height: 1.6em;
+  padding: 2px 5px;
+  text-align: right;
+  width: 250px;
+}
+
+.form_block .fieldset004 .form_cell .input
+{
+  background-color: #f6f6f6;
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  display: block;
+  float: right;
+  line-height: 1.6em;
+  padding: 2px 5px;
+  width: 200px;
+}
+
+/* FORM TYPE 5 */
+.form_block .fieldset005
+{
+  background-color: #fff;
+  border: 1px solid #D8D8D8;
+  clear: both;
+  display: block;
+  padding: 3px 5px;
+}
+
+.form_block .fieldset005 .form_cell
+{
+  background-color: #f6f6f6;
+  clear: both;
+  display: block;
+  float: left;
+  margin: 2px 0;
+  width: 347px;
+}
+
+.form_block .fieldset005 .form_cell .label
+{
+  display: block;
+  float: left;
+  font-size: 0.95em;
+  line-height: 1.3em;
+  padding: 2px 5px;
+  text-align: right;
+  width: 190px;
+}
+
+.form_block .fieldset005 .form_cell1 .label
+{
+  width: 120px;
+}
+
+
+/* TODO AMA : Define Request Stage Title style */
+.temp_title_class
+{
+  font-weight: bolder;
+}
+
+.form_block .fieldset005 .form_cell .input
+{
+  color: #006ea9;
+  display: block;
+  float: right;
+  font-size: 0.95em;
+  font-weight: bold;
+  line-height: 1.3em;
+  padding: 2px 5px;
+  width: 137px;
+}
+
+.form_block .fieldset005 .form_cell1 .input
+{
+  height: auto;
+  width: 207px;
+}
+
+/* FORM TYPE 6 */
+.form_block .fieldset006
+{
+  border: none;
+  clear: both;
+}
+
+.form_block .fieldset006 .form_cell
+{
+  display: block;
+  float: left;
+  margin: 2px 0;
+}
+
+.form_block .fieldset006 .form_cell001
+{
+  width: 418px;
+}
+
+.form_block .fieldset006 .form_cell .label
+{
+  display: block;
+  float: left;
+  padding: 3px 10px 3px 5px;
+}
+
+.form_block .fieldset006 .form_cell003 .label
+{
+  width: 120px;
+}
+
+.form_block .fieldset006 .form_cell .input_text
+{
+  color: #006ea9;
+  display: block;
+  float: left;
+  margin: 0 5px;
+  width: 150px;
+}
+
+.form_block .fieldset006 .form_cell003 .input_text
+{
+  margin: 0 0 0 5px;
+  width: 175px;
+}
+
+.form_block .fieldset006 .input_short_text
+{
+  width: 81px;
+}
+
+.form_block .fieldset006 .form_cell .input_textarea
+{
+  width: 465px;
+}
+
+.form_block .fieldset006 .form_cell .input_file
+{
+  border: 1px solid #a9a9a9;
+  display: block;
+  float: left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
+  line-height: 1.5em;
+  padding: 2px 0 2px 0;
+  margin-right: 100px;
+  height: 24px;
+  width: 150px;
+}
+
+.form_block .fieldset006 .form_cell .input_select
+{
+  display: block;
+  float: left;
+  padding: 2px 0 2px 0;
+  width: 150px;
+}
+
+.form_block .fieldset006 .form_cell .input_select option
+{
+  font-size: 0.9em;
+  line-height: 1.5em;
+  padding: 0 5px;
+  margin: 2px 0;
+}
+
+.form_block .fieldset006 .form_cell001 .input_submit,
+.form_block .fieldset006 .form_cell003 .input_submit
+{
+  float: right;
+/*   margin: 0; */
+}
+
+.form_block .fieldset006 .form_cell .input_button
+{
+  float: left;
+}
+
+.form_block .fieldset006 .form_cell .link
+{
+  background: url(/BackOffice/images/bg002.png) repeat-x left top;
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  display: block;
+  float: right;
+  line-height: 1.5em;
+  margin: 0 2px;
+  padding: 2px;
+}
+
+.form_block .fieldset006 .form_cell .link:hover
+{
+  text-decoration: none;
+}
+
+/* FORM TYPE 7 */
+.form_block .fieldset007
+{
+  background-color: #fff;
+  border: none;
+  clear: both;
+  display: block;
+  padding: 8px;
+  width: 735px;
+}
+
+.form_block .fieldset007 .form_cell
+{
+  clear: both;
+  display: block;
+  float: left;
+  margin: 2px 0;
+  width: 735px;
+}
+
+.form_block .fieldset007 .form_cell .label
+{
+  border: 1px solid #d8d8d8;
+  display: block;
+  float: left;
+  line-height: 1.6em;
+  padding: 2px 5px;
+  text-align: right;
+  width: 360px;
+}
+
+.form_block .fieldset007 .form_cell001 .label
+{
+  background: url(/BackOffice/images/arrow_right.png) no-repeat 5px center;
+  color: #006ea9;
+  padding-left: 20px;
+  width: 350px;
+}
+
+.form_block .fieldset007 .form_cell002
+{
+  margin: 5px 0;
+  text-align: center;
+}
+
+.form_block .fieldset007 .form_cell .input_text
+{
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  display: block;
+  float: left;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 4px 5px;
+  width: 200px;
+}
+
+.form_block .fieldset007 .form_cell .input_file
+{
+  display: block;
+  float: left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
+  line-height: 1.5em;
+  margin-left: 10px;
+  padding: 2px 0 2px 0;
+  height: 24px;
+  width: 200px;
+}
+
+.form_block .fieldset007 .form_cell .input_short_text
+{
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  margin-left: 10px;
+  padding: 4px 5px;
+  font-weight: bold;
+}
+
+.form_block .fieldset007 .form_cell002 .input_submit
+{
+  display: inline;
+  float: none;
+}
+
+/* FORM TYPE 8 */
+.form_block .fieldset008
+{
+  background-color: #fff;
+  border: none;
+  clear: both;
+  display: block;
+  width: 418px;
+}
+
+.form_block .fieldset008 .form_cell
+{
+  clear: both;
+  display: block;
+  float: left;
+  margin: 2px 0;
+  width: 418px;
+}
+
+.form_block .fieldset008 .form_cell .label
+{
+  border: 1px solid #d8d8d8;
+  display: block;
+  float: left;
+  line-height: 1.6em;
+  padding: 2px 5px;
+  text-align: right;
+  width: 120px;
+}
+
+.form_block .fieldset008 .form_cell001 .label
+{
+  border: none;
+  color: #006ea9;
+  float: right;
+  font-weight: bold;
+  text-align: left;
+  width: 388px;
+}
+
+.form_block .fieldset008 .form_cell .input
+{
+  background-color: #f6f6f6;
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  display: block;
+  float: right;
+  line-height: 1.6em;
+  padding: 2px 5px;
+  width: 270px;
+}
+
+.form_block .fieldset008 .form_cell001 .input
+{
+  background-color: #fff;
+  border: none;
+  float: left;
+  width: 10px;
+}
+
+.form_block .fieldset008 .form_cell .input_button
+{
+  float: left;
+  margin: 0 22px;
+}
+
+.form_block .fieldset008 .form_cell .input_button001
+{
+  padding: 0;
+}
+
+.form_block .fieldset008 .form_cell .input_button input
+{
+  width: 85px;
+}
+
+.form_block .fieldset008 .form_cell .input_submit
+{
+  color: #fff;
+  margin: 0;
+  padding: 2px 5px;
+}
+
+/* FORM TYPE 9 */
+.form_block .fieldset009
+{
+  background-color: #fff;
+  border: none;
+  clear: both;
+  display: block;
+  padding: 8px;
+  width: 735px;
+}
+
+.form_block .fieldset009 .form_cell
+{
+  clear: both;
+  display: block;
+  float: left;
+  margin: 2px 0;
+  width: 735px;
+}
+
+.form_block .fieldset009 .form_cell001
+{
+  padding-left: 200px;
+  width: 535px;
+}
+
+.form_block .fieldset009 .form_cell002
+{
+  margin: 5px 0;
+  text-align: center;
+}
+
+.form_block .fieldset009 .form_cell .label
+{
+  border: 1px solid #d8d8d8;
+  display: block;
+  float: left;
+  line-height: 1.6em;
+  padding: 2px 5px;
+  text-align: right;
+  width: 360px;
+}
+
+.form_block .fieldset009 .form_cell .input_text
+{
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  display: block;
+  float: left;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 4px 5px;
+  width: 130px;
+}
+
+.form_block .fieldset009 .form_cell .input_radio
+{
+  margin: 6px 10px;
+}
+
+.form_block .fieldset009 .form_cell .input_textarea
+{
+  border: 1px solid #d8d8d8;
+  width: 721px;
+}
+
+.form_block .fieldset009 .form_cell .input_button
+{
+  float: left;
+  margin: 0 5px;
+}
+
+.form_block .fieldset009 .form_cell002 .input_submit
+{
+  display: inline;
+  float: none;
+}
+
+
+/* FORM TYPE 10 */
+.form_block .fieldset010
+{
+  background-color: #fff;
+  border: none;
+  clear: both;
+  display: block;
+  padding: 8px;
+  width: 495px;
+}
+
+.form_block .fieldset010 .form_cell
+{
+  clear: both;
+  display: block;
+  float: left;
+  margin: 2px 0;
+  width: 495px;
+}
+
+.form_block .fieldset010 .form_cell001
+{
+  width: 340px;
+}
+
+.form_block .fieldset010 .form_cell002
+{
+  clear: none;
+  width: 150px;
+}
+
+.form_block .fieldset010 .form_cell .label
+{
+  background-color: #f6f6f6;
+  border: 1px solid #d8d8d8;
+  display: block;
+  float: left;
+  line-height: 1.6em;
+  padding: 2px 5px;
+  text-align: right;
+  width: 150px;
+}
+
+.form_block .fieldset010 .form_cell .input
+{
+  display: block;
+  float: left;
+  width: 170px;
+}
+
+.form_block .fieldset010 .form_cell .input_text
+{
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  display: block;
+  float: left;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 4px 5px;
+  width: 160px;
+}
+
+.form_block .fieldset010 .form_cell .input_value
+{
+  background-color: #f6f6f6;
+  border: 1px solid #d8d8d8;
+  color: #006ea9;
+  display: block;
+  float: left;
+  margin-left: 10px;
+  padding: 4px 5px;
+  width: 160px;
+}
+
+.form_block .fieldset010 .form_cell .input_button
+{
+  float: left;
+  margin: 0 5px;
+}
+
+.form_block .fieldset010 .form_cell002 .input
+{
+  display: block;
+  float: left;
+  width: 150px;
+}
+
+.form_block .fieldset010 .form_cell003 .input
+{
+  width: 495px;
+}
+
+.form_block .fieldset010 .input_submit
+{
+  float: right;
+}
+
+.form_block .fieldset010 .form_cell003 .input_submit
+{
+  margin: 0;
+}
+
+.form_block .fieldset005 .form_cell2 .input 
+{
+  clear: both;
+  color: #006EA9;
+  display: block;
+  float: none;
+  font-size: 0.95em;
+  font-weight: bold;
+  line-height: 1.3em;
+  padding: 2px 10px;
+  width: 327px;
+}
+
+.form_block .fieldset005 .form_cell2 .reservation 
+{
+  margin-bottom: 10px!important;
+  margin-left: 0!important;
+  border-bottom: 1px solid #000;
+}
+
+.form_block .fieldset005 .form_cell2 .reservation .reservation-header
+{
+  margin: 0;
+}
+
+.form_block .fieldset005 .form_cell2 .reservation .reservation-header .title,
+.form_block .fieldset005 .form_cell2 .reservation .reservation-header .precision,
+.form_block .fieldset005 .form_cell2 .reservation .reservation-header .priority,
+.form_block .fieldset005 .form_cell2 .reservation .reservation-header .available
+{
+  display: inline;
+  text-decoration: underline;
+}
+
+.form_block .fieldset005 .form_cell2 .reservation .detail
+{
+  margin: 0;
+}
+
+.form_block .fieldset005 .form_cell2 .reservation .detail .detail-field
+{
+  position: relative;
+}
+
+.form_block .fieldset005 .form_cell2 .reservation .detail .detail-field label,
+.form_block .fieldset005 .form_cell2 .reservation .detail .detail-field .precision,
+.form_block .fieldset005 .form_cell2 .reservation .detail .detail-field .priority,
+.form_block .fieldset005 .form_cell2 .reservation .detail .detail-field .price
+{
+  display: inline;
+}
+
+.form_block .fieldset005 .form_cell2 .reservation .detail .detail-field .field
+{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.form_block .fieldset005 .form_cell2 .header
+{
+  padding: 5px 0;
+  text-align: right;
+}

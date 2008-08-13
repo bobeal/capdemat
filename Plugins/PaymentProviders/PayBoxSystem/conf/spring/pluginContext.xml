@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="payBoxSystemPaymentProvider"
+    class="fr.capwebct.capdemat.plugins.paymentproviders.payboxsystem.service.PayBoxPaymentService"
+    init-method="init">
+    <property name="label" value="PayBoxSystem"></property>
+    <property name="paymentUrl" value="${plugins.paymentproviders.paybox.payment_url}" />
+    <!-- Insert services you need here -->
+  </bean>
+
+</beans>

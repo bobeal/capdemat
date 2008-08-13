@@ -1,0 +1,40 @@
+Désormais, toutes les données du référentiel sont stockées dans
+l'annuaire LDAP. Pour l'instant, ces données sont :
+
+   * Collectivités locales (city ? collectivity ?)
+   * Services
+   * Agents
+   * Ecoles
+   * Centres de loisirs
+
+Toutes les données de référentiel sont créées via le portail
+collaboratif, et non plus par l'application CVQ : à l'installation de
+CVQ, il faudra lancer un script de synchronisation de l'annuaire avec
+la BD, qui :
+
+   * lira les données du référentiel et les créera (avec le minimum
+   d'informations, en gros juste le nom) dans la base de données.
+   * créera les associations nécessaires entre les données (par ex,
+   l'association des agents avec leurs services respectifs)
+
+La base CVQ est quant à elle initialisée avec les données de
+référentiel propres à CVQ, cad :
+
+   * la liste des demandes traitées par la collectivité
+   * la liste des PJs acceptées par la collectivité
+   * les associations entre les demandes et les PJs
+
+Après installation du système, l'administrateur de l'application CVQ
+devra, via le BackOffice de l'application :
+
+   * affecter chaque type de demande traitée par la collectivité à un
+   service 
+   * affecter des droits par service à chaque agent connu du système
+   (par défaut, les droits donnés à un agent ne lui permettront que
+   l'accès en lecture seule)
+
+Enfin, le BackOffice CVQ devra permettre la manipulation (CRUD) des
+données de référentiel non stockées dans l'annuaire :
+
+   * la liste des activités périscolaires offertes par la collectivité
+   * la liste des vacances

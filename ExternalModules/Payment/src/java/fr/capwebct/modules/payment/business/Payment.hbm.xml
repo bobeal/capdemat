@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.capwebct.modules.payment.business">
+
+  <class name="Payment" table="payment" lazy="false">
+
+    <id name="id">
+      <generator class="native" />
+    </id>
+
+    <property name="paymentType" column="payment_type" />
+    <property name="paymentDate" column="payment_date" />
+    <property name="paymentAmount" column="payment_amount" />
+    <property name="paymentAck" column="payment_ack" />
+    <property name="cvqAck" column="cvq_ack" />
+    <property name="cfaId" column="cfa_id" />
+    <property name="broker" column="broker" />
+    
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,102 @@
+package fr.cg95.cvq.service.users;
+
+import java.util.List;
+
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.MeansOfContact;
+import fr.cg95.cvq.business.users.MeansOfContactEnum;
+import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.exception.CvqException;
+
+/**
+ * IMeansOfContactService provides methods that : 
+ * <br /> - fetch and configure Means of Contact
+ * <br /> - manage Requester's notifications strategy
+ * 
+ * @author rdj@zenexity.fr
+ */
+public interface IMeansOfContactService {
+
+    /** service name used by Spring's application context */
+    String SERVICE_NAME = "meansOfContactService";
+    
+    MeansOfContact getMeansOfContactByType(MeansOfContactEnum type) throws CvqException;
+    
+    /**
+     * Get all available Means Of Contact
+     */
+    List<MeansOfContact> getAvailableMeansOfContact() throws CvqException;
+    
+    /**
+     * Get all enabled Means Of Contact, in local authority
+     */
+    List<MeansOfContact> getEnabledMeansOfContact() throws CvqException;
+    
+    /**
+     * Get all enabled Means of Contact, for a particular adult.
+     * 
+     * <br /> A Means of Contact is enable for an adult if :
+     * <ul>
+     *   <li>it's enabled in local authority</li>
+     *   <li>and adult has filled matching field of the Means of Contact</li>
+     * </ul>  
+     * Example: An adult might be notified by email, if Means of Contact Email is enabled 
+     * and if he has provided his email (when creating home folder) .
+     */
+    List<MeansOfContact> getAdultEnabledMeansOfContact(Adult adult) throws CvqException;
+    
+    /**
+     * Same as getAdultEnabledMeansOfContact for the current ecitizen
+     */
+    List<MeansOfContact> getCurrentEcitizenEnabledMeansOfContact() throws CvqException;
+    
+    /**
+     * Enalbe a Means of Contact for a local authority
+     */
+    void enableMeansOfContact(MeansOfContact meansOfContact) throws CvqException;
+    
+    /**
+     * Disable a Means of Contact for a local authority
+     * @throws CvqException
+     * <br><br>
+     * Expected business error code is :
+     * <dl>
+     *   <dt>unique_meansofcontact_enabled</dt>
+     *     <dd>MeansOfContact can't be disabled. It is the unique enabled</dd>
+     * <dl>
+     */
+    void disableMeansOfContact(MeansOfContact meansOfContact) throws CvqException;
+    
+    /*
+     * Notify Requester by using :
+     * <ul>
+     *   <li>Request's Means of contact</li>
+     *   <li>
+     *     "Notification Service" associated with that Means of Contact 
+     *     (for Means of Contact Email, MailService would be used)
+     *   </li>
+     * </ul>
+     *
+     * void notifyRequester(Request request) throws CvqException;
+     */
+    
+    /**
+     * Test if the given MeansOfContact supports attachment
+     */
+    boolean supportAttachment(MeansOfContact moc);
+    
+    /**
+     * Notify by email
+     */
+    void notifyRequesterByEmail(String from, String to, String subject, String body, 
+            byte[] data ) throws CvqException;
+    
+    /**
+     * Notify by Sms
+     * <ul>
+     *   <li>Throw "sms_service.not.enabled" error code if smsService is not enable</li>
+     *   <li>Throw smsService error code if error in smsService</li>
+     * </ul>
+     */
+    void notifyRequesterBySms(String to, String body) throws CvqException;
+}

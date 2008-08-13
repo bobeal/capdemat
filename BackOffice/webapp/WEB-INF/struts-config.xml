@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+                               "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+  <!-- ========== Form Bean Definitions ================================== -->
+  <form-beans type="org.apache.struts.action.ActionFormBean">
+    <form-bean name="LoginForm" type="fr.cg95.cvq.bo.form.LoginForm" />
+    <form-bean name="SaveForm" type="fr.cg95.cvq.bo.form.SaveForm" />
+    <form-bean name="AdminForm" type="fr.cg95.cvq.bo.form.AdminForm" />
+    <form-bean name="ImportForm" type="fr.cg95.cvq.bo.form.ImportExportForm" />
+    <form-bean name="ExportForm" type="fr.cg95.cvq.bo.form.ImportExportForm" />
+    <form-bean name="ParameterForm" type="fr.cg95.cvq.bo.form.ParameterForm" />
+    <form-bean name="RequestForm" type="fr.cg95.cvq.bo.form.RequestForm" />
+    <form-bean name="SearchForm" type="fr.cg95.cvq.bo.form.SearchForm" />
+    <form-bean name="AccountSearchForm" type="fr.cg95.cvq.bo.form.SearchForm" />
+    <form-bean name="ReportFilterForm" type="fr.cg95.cvq.bo.form.SearchForm" />
+    <form-bean name="ReportSearchForm" type="fr.cg95.cvq.bo.form.SearchForm" />
+    <form-bean name="PaymentFilterForm" type="fr.cg95.cvq.bo.form.SearchForm" />
+    <form-bean name="MessageForm" type="fr.cg95.cvq.bo.form.MessageForm" />
+  </form-beans>
+
+  <global-exceptions>
+    <exception 
+      key="error.key"
+      type="java.lang.Exception" 
+      path="/errorAction.do"
+      handler="fr.cg95.cvq.util.web.struts.CvqExceptionHandler"/>
+  </global-exceptions>
+
+  <!-- ========== Global Forward Definitions =============================== -->
+  <global-forwards>
+	<forward name="login" path="/jsp/bo/service/login.jsp"/>
+  </global-forwards>
+  
+  <!-- ========== Action Mapping Definitions =============================== -->
+  <action-mappings type="org.apache.struts.action.ActionMapping">
+
+    <action path="/loginAction"
+            name="LoginForm"
+	    	attribute="LoginForm"
+	    	type="fr.cg95.cvq.bo.action.LoginAction"
+	    	input="/jsp/bo/service/login.jsp"
+	    	scope="request"
+	    	validate="false">
+      <forward name="error" path="/jsp/bo/service/error.jsp"/>
+    </action>
+    
+    <action path="/logoutAction"
+            type="fr.cg95.cvq.bo.action.LogoutAction">
+      <forward name="success" path="/sso/logoutAction.do" redirect="true"/>
+    </action>
+
+    <action path="/errorAction"
+            type="fr.cg95.cvq.bo.action.ErrorAction">
+    </action>
+
+    <action path="/downloadAction" 
+    		type="fr.cg95.cvq.bo.action.DownloadAction">
+    </action>
+
+    <action path="/historyAction" 
+    		type="fr.cg95.cvq.bo.action.HistoryAction">
+    </action>
+
+    <action path="/navigationAction" 
+    		type="fr.cg95.cvq.bo.action.NavigationAction">
+    </action>
+
+    <action path="/printAction"
+      		type="fr.cg95.cvq.bo.action.PrintAction"
+      		name="SaveForm"
+      		scope="session"
+      		input="/managerWizard.do"
+      		validate="false">
+      <forward name="popup" path="/jsp/bo/service/redirect.jsp" redirect="false"/>
+    </action>
+
+    <action path="/searchAction"
+      		type="fr.cg95.cvq.bo.action.SearchAction"
+      		name="SearchForm"
+      		scope="session"
+      		input="/managerWizard.do"
+      		validate="false">
+    </action>
+
+    <action path="/accountSearchAction"
+      		type="fr.cg95.cvq.bo.action.SearchAction"
+      		name="AccountSearchForm"
+      		scope="session"
+      		input="/managerWizard.do"
+      		validate="false">
+    </action>
+
+    <action path="/reportFilterAction"
+      		type="fr.cg95.cvq.bo.reporting.ReportAction"
+      		name="ReportFilterForm"
+      		scope="session"
+      		input="/reportFilterAction.do"
+      		validate="false">
+    </action>
+
+    <action path="/adminAction"
+      		type="fr.cg95.cvq.bo.action.AdminAction"
+      		name="AdminForm"
+      		scope="session"
+      		input="/adminAction.do"
+      		validate="false">
+    </action>
+
+    <action path="/requestAction"
+      		type="fr.cg95.cvq.bo.action.RequestAction"
+      		name="RequestForm"
+      		scope="session"
+      		input="/requestAction.do"
+      		validate="false">
+    </action>
+
+    <action path="/parameterAction"
+      		type="fr.cg95.cvq.bo.action.ParameterAction"
+      		name="ParameterForm"
+      		scope="session"
+      		input="/parameterAction.do"
+      		validate="false">
+    </action>
+
+    <action path="/treeManager"
+      		type="fr.cg95.cvq.bo.xmlhttp.TreeManager">
+    </action>
+
+    <action path="/paymentsAction"
+      		type="fr.cg95.cvq.bo.action.PaymentsAction"
+      		name="PaymentFilterForm"
+      		scope="session"
+      		input="managerWizard.do"
+      		validate="false">
+    </action>
+
+    <action path="/messageAction"
+      		type="fr.cg95.cvq.bo.action.MessageAction"
+      		name="MessageForm"
+      		scope="request"
+      		input="managerWizard.do"
+      		validate="false">
+    </action>
+
+    <action path="/importAction"
+      		type="fr.cg95.cvq.bo.action.ImportAction"
+      		name="ImportForm"
+      		scope="session"
+      		input="managerWizard.do"
+      		validate="false">
+    </action>
+
+    <action path="/importService"
+      		type="fr.cg95.cvq.bo.action.ImportService"
+      		name="ImportForm"
+      		scope="request"
+      		input="managerWizard.do"
+      		validate="false">
+    </action>
+
+    <action path="/exportAction"
+      		type="fr.cg95.cvq.bo.action.ExportAction"
+      		name="ExportForm"
+      		scope="session"
+      		input="managerWizard.do"
+      		validate="false">
+    </action>
+
+    <action path="/paperAction"
+            type="fr.cg95.cvq.bo.action.PaperAction"
+      		name="SaveForm">
+    </action>
+
+    <action path="/cardAction"
+      		type="fr.cg95.cvq.bo.action.CardAction"
+      		name="SaveForm"
+      		scope="request"
+      		input="/managerWizard.do"
+      		validate="false">
+      <forward name="popup" path="/jsp/bo/service/redirect.jsp" redirect="false"/>
+    </action>
+
+    <action path="/saveAction"
+      		type="fr.cg95.cvq.bo.action.SaveAction"
+      		name="SaveForm"
+      		scope="session"
+      		input="/managerWizard.do"
+      		validate="false">
+      <forward name="popup" path="/jsp/bo/service/redirect.jsp" redirect="false"/>
+    </action>
+
+    <action path="/saveFieldAction"
+      		type="fr.cg95.cvq.bo.action.SaveFieldAction">
+    </action>
+
+    <action path="/notifyAction"
+      		type="fr.cg95.cvq.bo.action.NotifyAction"
+      		name="SaveForm"
+      		scope="session"
+      		input="/managerWizard.do"
+      		validate="false">
+      <forward name="certify" path="/jsp/bo/service/redirect.jsp" redirect="false"/>
+      <forward name="send" path="/saveAction.do?demand" redirect="false"/>
+    </action>
+
+    <action path="/selectAction"
+      		type="fr.cg95.cvq.bo.action.SelectAction"
+      		name="SaveForm"
+      		scope="session"
+      		input="/managerWizard.do"
+      		validate="false">
+		<forward name="ok" path="/jsp/bo/request/documents.jsp"/>
+		<forward name="scan" path="/jsp/bo/request/scandocuments.jsp"/>
+    </action>
+
+    <action path="/showAdultAction"
+      		type="fr.cg95.cvq.bo.action.ShowAdultAction">
+    </action>
+
+    <action path="/showChildAction"
+      		type="fr.cg95.cvq.bo.action.ShowChildAction">
+    </action>
+
+    <action path="/familyAction"
+      		type="fr.cg95.cvq.bo.action.FamilyAction">
+		<forward name="redirect" path="/jsp/bo/service/redirect.jsp"/>
+    </action>
+
+    <action path="/portal"
+      		type="fr.cg95.cvq.bo.action.PortalAction">
+		<forward name="ok" path="/jsp/bo/service/portal.jsp"/>
+    </action>
+
+  </action-mappings>
+
+  <!-- ========== Message Resources Definitions ============================ -->
+  <message-resources parameter="ApplicationResourcesBO" />
+
+  <!-- ========== Plug Ins Configuration ================================= -->
+	<plug-in className="fr.cg95.cvq.wizard.manager.ManagerWizardPlugin">
+		<set-property property="directory" value="/WEB-INF/guiwizard" />
+	</plug-in>
+</struts-config>

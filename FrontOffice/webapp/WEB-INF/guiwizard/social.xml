@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<cvqprocess xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	 xsi:noNamespaceSchemaLocation="processes.xsd" >
+
+  <processes group="social" caption="Social" order="1">
+	<!--****************** PROCESSUS DEMANDE D'INSTALLATION DE TELE-ASSISTANCE *******************-->
+	<process name="eAssistance" caption="Télé-assistance" subject="true" time="5">
+		<title>Installation de télé-assistance</title>
+		<package>fr.cg95.cvq.fo.social.assistance</package>
+        <persistence>fr.cg95.cvq.fo.social.RemoteAssistancePersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage name="Subject" caption="Personne concernée">
+			<title>Informations administratives de la personne concernée</title>
+			<info>Renseignements sur la personne concernée par la demande</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer les informations sur le demandeur?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+
+			<default>default</default>
+			<next/>
+			
+			<state name="default" buttonArea="nonavigation" mode="static">
+				<title>La personne concernée</title>
+				<form>/social/assistance/subject/default</form>
+			</state>
+
+			<state name="subject">
+				<title>La personne concernée</title>
+				<form>/social/assistance/subject/subject</form>
+				<button confirm="cancel" action="" transition="subject">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>La personne concernée</title>
+				<form>/social/assistance/subject/display</form>
+				<button transition="subject" action="">Modifier</button>
+			</state>
+
+			<select name="familyHome" property="selectionListWithoutCurrent" state="default">
+				<title>Adulte(s) du compte</title>
+				<display type="people"/>
+				<display name="firstName"/>
+				<display name="lastName"  initial="true"/>
+				<action confirm="changed" parameter="index" transition="subject">createRequest</action> 
+			</select>		
+
+			<select name="familyHome" property="individualToRegister" state="all" >
+				<title>Adulte</title>
+				<display type="people"/>
+				<display name="firstName"/>
+				<display name="lastName"  initial="true"/>
+				<action parameter="index" transition="display">processStage</action> 
+			</select>
+
+		</stage>
+		
+		<stage name="Contactperson" caption="Contact" stagemenu="display" required="false">
+			<title>Contact pour le rendez-vous d'installation</title>
+			<info>Renseignements sur la personne à contacter pour la mise en oeuvre de la télé-assistance</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>contact</default>
+			<next confirm="continue"/>
+			
+			<state name="contact">
+				<title>Personne à contacter</title>
+				<form>/social/assistance/contactperson/contact</form>
+				<button confirm="cancel" action="" transition="contact">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Personne à contacter</title>
+				<form>/social/assistance/contactperson/display</form>
+				<button transition="contact" action="">Modifier</button>
+			</state>
+
+		</stage>
+
+		<stage name="Keydeposit" caption="Dépositaire des clés" stagemenu="display" required="false">
+			<title>Dépositaire des clés</title>
+			<info>Renseignements sur la personne dépositaire des clés en cas d'absence de la personne prise en charge</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>keydeposit</default>
+			<next confirm="keydeposit"/>
+			
+			<state name="keydeposit">
+				<title>Dépositaire des clés</title>
+				<form>/social/assistance/keydeposit/keydeposit</form>
+				<button confirm="cancel" action="" transition="keydeposit">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Dépositaire des clés</title>
+				<form>/social/assistance/keydeposit/display</form>
+				<button transition="keydeposit" action="">Modifier</button>
+			</state>
+
+		</stage>
+
+	    <!-- ******************* AJOUT JUSTIFICATIFS *********************-->		
+		<stage ref="Documents"/>
+		
+		<!-- ******************* URGENCE *********************-->
+		<stage name="Rules" caption="Urgence" stagemenu="display">
+			<title>Urgence</title>
+			<info>Préciser si cette demande est motivée par une urgence médicale</info>
+			<default>default</default>
+
+			<next script="processSubmit" action="" />
+			
+			<state name="default">
+				<title>Urgence médicale</title>
+				<form>/social/assistance/rules/rules</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+		</stage>	
+		
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+		  
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/common/validation/requester</form>
+				<form>/social/assistance/validation/summary</form>
+				<form>/common/validation/documents</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+
+	</process>
+
+	<!--****************** PROCESSUS DEMANDE D'AIDE MENAGERE *******************-->
+	<process name="eDomestichelp" caption="Aide ménagère" subject="true" time="15">
+		<title>Aide ménagère</title>
+		<package>fr.cg95.cvq.fo.social.domestichelp</package>
+        <persistence>fr.cg95.cvq.fo.social.DomesticHelpPersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage name="Subject" caption="Personne concernée">
+			<title>Informations administratives de la personne concernée</title>
+			<info>Renseignements sur la personne concernée par la demande</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer les informations sur le demandeur?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+
+			<default>default</default>
+			<next/>
+			
+			<state name="default" buttonArea="nonavigation" mode="static">
+				<title>La personne concernée</title>
+				<form>/social/domestichelp/subject/default</form>
+			</state>
+		
+			<state name="subject">
+				<title>La personne concernée</title>
+				<form>/social/domestichelp/subject/subject</form>
+				<button confirm="cancel" action="" transition="subject">Annuler Saisie</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="spouseselect">Page suivante</button>
+			</state>
+
+			<state name="spouseselect" buttonArea="nonavigation" mode="static">
+				<title force="true">Le conjoint</title>
+				<form>/social/domestichelp/subject/spouseselect</form>
+			</state>
+		
+			<state name="spouse">
+				<title force="true">Le conjoint</title>
+				<form>/social/domestichelp/subject/spouse</form>
+				<button confirm="cancel" action="" transition="spouse">Annuler Saisie</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="tutor">Page suivante</button>
+			</state>
+
+			<state name="tutor">
+				<title force="true">Le tuteur</title>
+				<form>/social/domestichelp/subject/tutor</form>
+				<button confirm="cancel" action="" transition="tutor">Annuler Saisie</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>La personne concernée</title>
+				<form>/social/domestichelp/subject/display</form>
+				<button transition="subject" action="">Modifier</button>
+				<button type="next" default="true" action="" transition="displayspouse">Page suivante</button>
+			</state>
+
+			<state name="displayspouse" mode="static">
+				<title force="true">Le conjoint</title>
+				<form>/social/domestichelp/subject/displayspouse</form>
+				<button transition="subject" action="">Modifier</button>
+				<button type="next" default="true" action="" transition="displaytutor">Page suivante</button>
+			</state>
+
+			<state name="displaytutor" mode="static">
+				<title force="true">Le tuteur</title>
+				<form>/social/domestichelp/subject/displaytutor</form>
+				<button transition="subject" action="">Modifier</button>
+			</state>
+
+			<select name="familyHome" property="selectionListWithoutCurrent" state="default">
+				<title>Adulte(s) du compte</title>
+				<display type="people"/>
+				<display name="firstName"/>
+				<display name="lastName"  initial="true"/>
+				<action confirm="changed" parameter="index" transition="subject">createRequest</action> 
+			</select>		
+
+			<select name="familyHome" property="individualToRegister" state="all" >
+				<title>Personne concernée</title>
+				<display type="people"/>
+				<display name="firstName"/>
+				<display name="lastName"  initial="true"/>
+				<action parameter="index" transition="display">processStage</action> 
+			</select>
+
+			<select name="fr.cg95.cvq.fo.common.Request" property="list(spouselist)" state="spouseselect">
+				<title>Conjoint</title>
+				<display type="people"/>
+				<display name="firstName"/>
+				<display name="lastName"  initial="true"/>
+				<action parameter="index" transition="spouse">get&amp;list=list(spouselist)</action> 
+			</select>
+		</stage>
+		
+		<stage name="Residence" caption="Habitation" stagemenu="display">
+			<title>Habitation</title>
+			<info>Renseignements sur l'habitation de la personne concernée par la demande</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>current</default>
+			<next/>
+			
+			<state name="current">
+				<title>Habitation actuelle</title>
+				<form>/social/domestichelp/residence/current</form>
+				<button confirm="cancel" action="" transition="current">Annuler Saisie</button>
+				<button type="next" default="true" script="processSubmit" action="get=0&amp;list=previousDwellings" transition="previous">Page suivante</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Habitation actuelle</title>
+				<form>/social/domestichelp/residence/display</form>
+				<button transition="current" action="">Modifier</button>
+				<button type="next" default="true" action="get=0&amp;list=previousDwellings" transition="displayprevious">Page suivante</button>
+			</state>
+
+			<state name="previous" context="Previousresidence">
+				<title>Habitation antérieure</title>
+				<form>/social/domestichelp/previousresidence/previous</form>
+				<button confirm="cancel" action="" transition="previous">Annuler Saisie</button>
+				<button type="save" default="true" script="processSubmit" action="save&amp;list=previousDwellings" transition="display">Page suivante</button>
+			</state>
+
+			<state name="displayprevious" context="Previousresidence" mode="static">
+				<title>Habitation antérieure</title>
+				<form>/social/domestichelp/previousresidence/displayprevious</form>
+				<button transition="previous" action="">Modifier</button>
+			</state>
+
+		</stage>
+
+		<stage name="Resources" caption="Ressources" stagemenu="display">
+			<title>Ressources de la personne concernée</title>
+			<info>Renseignements sur les ressources de la personne concernée par la demande</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>subject</default>
+			<next/>
+			
+			<state name="subject">
+				<title>Ressources de la personne concernée</title>
+				<form>/social/domestichelp/resources/subject</form>
+				<button confirm="cancel" action="" transition="requester">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="spouse">Page suivante</button>
+			</state>
+
+			<state name="spouse">
+				<title>Ressources du conjoint</title>
+				<form>/social/domestichelp/resources/spouse</form>
+				<button confirm="cancel" action="" transition="spouse">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Ressources</title>
+				<form>/social/domestichelp/resources/display</form>
+				<button transition="subject" action="">Modifier</button>
+			</state>
+
+		</stage>
+
+		<stage name="Patrimony" caption="Patrimoine" stagemenu="display" required="false">
+			<title>Patrimoine du foyer</title>
+			<info>Renseignements concernant la composition du patrimoine du foyer</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer ces informations sur le patrimoine ?</confirm>
+			<confirm name="changed" check="state">Vos modifications éventuelles seront perdu ! Voulez-vous continuer ?</confirm>
+
+			<default>patrimony</default>
+			<next/>
+			
+			<state name="patrimony">
+				<title>Patrimoine du foyer</title>
+				<form>/social/domestichelp/patrimony/patrimony</form>
+			</state>
+
+			<state name="assets" change="confirm">
+				<title>Biens immobiliers</title>
+				<form>/social/domestichelp/patrimony/assets</form>
+				<button confirm="cancel" action="" transition="assets">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="save&amp;list=list(assets)" transition="displayassets">Enregistrer</button>
+			</state>
+
+			<state name="displayassets" mode="static">
+				<title>Biens immobiliers</title>
+				<form>/social/domestichelp/patrimony/displayassets</form>
+				<button confirm="delete" action="del&amp;list=list(assets)" transition="patrimony">Supprimer</button>
+				<button transition="assets" action="">Modifier</button>
+			</state>
+
+			<state name="donation" change="confirm">
+				<title>Biens partagé / donation</title>
+				<form>/social/domestichelp/patrimony/donation</form>
+				<button confirm="cancel" action="" transition="donation">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="save&amp;list=list(donation)" transition="displaydonation">Enregistrer</button>
+			</state>
+
+			<state name="displaydonation" mode="static">
+				<title>Biens partagé / donation</title>
+				<form>/social/domestichelp/patrimony/displaydonation</form>
+				<button confirm="delete" action="del&amp;list=list(donation)" transition="patrimony">Supprimer</button>
+				<button transition="donation" action="">Modifier</button>
+			</state>
+
+			<state name="savings" change="confirm">
+				<title>Livrets et comptes</title>
+				<form>/social/domestichelp/patrimony/savings</form>
+				<button confirm="cancel" action="" transition="savings">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="save&amp;list=list(savings)" transition="displaysavings">Enregistrer</button>
+			</state>
+
+			<state name="displaysavings" mode="static">
+				<title>Livrets et comptes</title>
+				<form>/social/domestichelp/patrimony/displaysavings</form>
+				<button confirm="delete" action="del&amp;list=list(savings)" transition="patrimony">Supprimer</button>
+				<button transition="savings" action="">Modifier</button>
+			</state>
+
+			<select name="fr.cg95.cvq.fo.common.Request" property="list(assets)" state="all">
+				<title>Biens immobilier</title>
+				<display type="document"/>
+				<display name="realAssetsRealAssetAddressStreetName"/>
+				<action confirm="changed" parameter="index" transition="displayassets">get&amp;list=list(assets)</action> 
+			</select>
+
+			<select name="fr.cg95.cvq.fo.common.Request" property="list(donation)" state="all">
+				<title>Biens partagé / donation</title>
+				<display type="document"/>
+				<display name="donationsDonationAsset"/>
+				<action confirm="changed" parameter="index" transition="displaydonation">get&amp;list=list(donation)</action> 
+			</select>
+
+			<select name="fr.cg95.cvq.fo.common.Request" property="list(savings)" state="all">
+				<title>Livrets et comptes</title>
+				<display type="document"/>
+				<display name="savingsPaybookNumber"/>
+				<action confirm="changed" parameter="index" transition="displaysavings">get&amp;list=list(savings)</action> 
+			</select>
+
+			<menu state="patrimony">
+				<title>Nature du patrimoine</title>
+				<button transition="assets" action="new&amp;list=list(assets)" >Biens immobilier</button>
+				<button transition="donation" action="new&amp;list=list(donation)" >Biens partagé / donation</button>
+				<button transition="savings" action="new&amp;list=list(savings)" >Livrets et comptes</button>
+			</menu>
+		</stage>
+
+		<stage name="Capitaltaxes" caption="Capital et taxes" stagemenu="display">
+			<title>Capital et taxes du foyer</title>
+
+			<info>Renseignements concernant les revenus de placements et taxes du foyer</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>capital</default>
+			<next/>
+			
+			<state name="capital" change="confirm">
+				<title>Capital placé et taxes</title>
+				<form>/social/domestichelp/capitaltaxes/capital</form>
+				<button confirm="cancel" action="" transition="capital">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Capital placé</title>
+				<form>/social/domestichelp/capitaltaxes/displaycapital</form>
+				<button transition="capital" action="">Modifier</button>
+			</state>
+
+		</stage>
+		
+		<stage name="Expenses" caption="Charges" stagemenu="display" required="false">
+			<title>Charges</title>
+			<info>Renseignements concernant les charges du foyer</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>expenses</default>
+			<next/>
+			
+			<state name="expenses">
+				<title>Charges</title>
+				<form>/social/domestichelp/expenses/expenses</form>
+				<button confirm="cancel" action="" transition="expenses">Annuler Saisie</button>
+				<button type="save" default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Charges</title>
+				<form>/social/domestichelp/expenses/display</form>
+				<button transition="expenses" action="">Modifier</button>
+			</state>
+
+		</stage>
+
+	    <!-- ******************* AJOUT JUSTIFICATIFS *********************-->		
+		<stage ref="Documents"/>
+		
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/common/validation/requester</form>
+				<form>/social/domestichelp/validation/summary</form>
+				<form>/common/validation/documents</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+
+	</process>
+
+	<!--****************** PROCESSUS DEMANDE DE COMPENSATION DU HANDICAP *******************-->
+	<process name="eHandicapAllowance" caption="Compensation du handicap" subject="true" time="5">
+		<title>Compensation du handicap</title>
+		<package>fr.cg95.cvq.fo.social.handicapallowance</package>
+        <persistence>fr.cg95.cvq.fo.social.HandicapAllowancePersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage name="Subject" caption="Personne concernée">
+			<title>Informations administratives de la personne concernée</title>
+			<info>Renseignements sur la personne concernée par la demande</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer les informations sur le demandeur?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+
+			<default>default</default>
+			<next/>
+			
+			<state name="default" buttonArea="nonavigation" mode="static">
+				<title>La personne concernée</title>
+				<form>/social/handicapallowance/subject/default</form>
+			</state>
+
+			<state name="subject">
+				<title>La personne concernée</title>
+				<form>/social/handicapallowance/subject/subject</form>
+				<button confirm="cancel" action="" transition="subject">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>La personne concernée</title>
+				<form>/social/handicapallowance/subject/display</form>
+			</state>
+
+			<select name="familyHome" property="selectionListWithoutCurrent" state="default">
+				<title>Personne(s) du compte</title>
+				<display type="people"/>
+				<display name="firstName"/>
+				<display name="lastName"  initial="true"/>
+				<action confirm="changed" parameter="index" transition="display">createRequest</action> 
+			</select>		
+
+			<select name="familyHome" property="individualToRegister" state="all" >
+				<title>La personne concernée</title>
+				<display type="people"/>
+				<display name="firstName"/>
+				<display name="lastName"  initial="true"/>
+				<action parameter="index" transition="display">processStage</action> 
+			</select>
+
+		</stage>
+		
+		<stage name="Needs" caption="Souhaits et Besoins" stagemenu="display" required="false">
+			<title>Souhaits et Besoins</title>
+			<info>Renseignements sur les souhaits et besoins de la personne permettant d'élaborer le plan de compensation le plus adapté possible</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer les informations sur le demandeur?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+
+			<default>needs</default>
+			<next/>
+
+			<state name="needs">
+				<title>Souhaits et Besoins</title>
+				<form>/social/handicapallowance/needs/needs</form>
+				<button confirm="cancel" action="" transition="needs">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Souhaits et Besoins</title>
+				<form>/social/handicapallowance/needs/display</form>
+				<button transition="needs" action="">Modifier</button>
+			</state>
+
+		</stage>
+		
+		<stage name="Help" caption="Aide" stagemenu="display" required="false">
+			<title>Aide à la formulation</title>
+			<info>Renseignements complémentaires, si vous avez bénéficié de l'assistance d'une tierce personne pour la formulation des besoins</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer les informations sur le demandeur?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+
+			<default>help</default>
+			<next/>
+
+			<state name="help">
+				<title>Aide à la formulation</title>
+				<form>/social/handicapallowance/help/help</form>
+				<button confirm="cancel" action="" transition="help">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Aide à la formulation</title>
+				<form>/social/handicapallowance/help/display</form>
+				<button transition="help" action="">Modifier</button>
+			</state>
+
+		</stage>
+		
+		<stage name="Legal" caption="Représentant légal" stagemenu="display" required="false">
+			<title>Représentant légal</title>
+			<info>Renseignements sur le représentant légal de la personne concernée par la demande</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer les informations sur le demandeur?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+
+			<default>legal</default>
+			<next/>
+
+			<state name="legal">
+				<title>Représentant légal</title>
+				<form>/social/handicapallowance/legal/legal</form>
+				<button confirm="cancel" action="" transition="legal">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Représentant légal</title>
+				<form>/social/handicapallowance/legal/display</form>
+				<button transition="legal" action="">Modifier</button>
+			</state>
+
+		</stage>
+		
+	    <!-- ******************* AJOUT JUSTIFICATIFS *********************-->		
+		<stage ref="Documents"/>
+		
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/common/validation/requester</form>
+				<form>/social/handicapallowance/validation/summary</form>
+				<form>/common/validation/documents</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+	</process>
+  </processes>		
+</cvqprocess>

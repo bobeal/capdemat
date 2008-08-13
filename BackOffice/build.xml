@@ -1,0 +1,113 @@
+<project name="CVQ - BackOffice" default="prepare-webapp" basedir=".">
+
+  <target name="init">
+
+    <!-- General config -->
+    <property file="${basedir}/build.properties" />
+
+    <property name="dist.name" value="${application.name}-${module.name}-${application.version}-${application.revision}" />
+
+    <fileset id="backoffice-runtime-libs" dir="${libraries.dir}">
+      <include name="**/com.lexpersona/**/xlp7.jar" />
+      <include name="**/edu.yale/**/*.jar" />
+      <include name="**/fr.cg95/imex/**/*.jar" />
+      <include name="**/org.jfree/**/*.jar" />
+      <include name="**/org.apache/xmlsec/**/*.jar" />
+    </fileset>
+
+    <path id="classpath.compile">
+      <fileset dir="${libraries.dir}">
+        <exclude name="**/jakarta-tomcat-4.1.30/**" />
+        <exclude name="**/jakarta-tomcat-5.0.19/**" />
+        <include name="**/*.jar" />
+      </fileset>
+    </path>
+
+  </target>
+
+  <target name="clean" depends="init" description="Clean up everything.">
+    <delete>
+      <fileset dir="${basedir}">
+        <include name="${application.name}-${module.name}-${application.version}*.war" />
+      </fileset>
+    </delete>
+    <delete dir="${webapp.inf.dir}/classes" />
+    <delete dir="${webapp.inf.dir}/lib" />
+    <delete>
+      <fileset dir="${webapp.inf.dir}">
+        <include name="*.properties" />
+        <include name="*.log*" />
+        <include name="applicationContext*" />
+        <include name="web.xml"/>
+        <exclude name="log4j.properties" />
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="prepare-configfiles"
+          description="Generate deployment files according to dynamic properties">
+    <copy file="${webapp.inf.dir}/web.xml.tpl" tofile="${webapp.inf.dir}/web.xml" overwrite="true">
+      <filterset>
+        <filter token="cas_login_url" value="${cas_login_url}" />
+        <filter token="cas_validate_url" value="${cas_validate_url}" />
+        <filter token="cas_server_names" value="${cas_server_names}" />
+        <filter token="cas_logout_url" value="${cas_logout_url}" />
+        <filter token="application.revision" value="${application.revision}" />
+        <filter token="application.version" value="${application.version}" />
+      </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext.xml" todir="${webapp.inf.dir}">
+      <filterset>
+        <filter token="perform_db_updates" value="false" />
+      </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml" todir="${webapp.inf.dir}">
+      <filterset>
+        <filter token="perform_db_updates" value="false" />
+      </filterset>
+    </copy>
+    <mkdir dir="${webapp.inf.dir}/classes" />
+    <copy file="${deploy.properties_dir}/${deploy.properties_file}" todir="${webapp.inf.dir}" />
+    <copy file="${libraries.dir}/org.hibernate/c3p0.properties" todir="${webapp.inf.dir}/classes" />
+  </target>
+
+  <target name="prepare-webapp" description="Build the webapp" depends="init, prepare-configfiles">
+    <mkdir dir="${webapp.inf.dir}/lib" />
+    <javac destdir="${webapp.inf.dir}/classes"
+           debug="true"
+           deprecation="false"
+           optimize="false"
+           failonerror="true">
+      <src path="${basedir}/src" />
+      <classpath refid="classpath.compile" />
+    </javac>
+    <!-- copy common libraries -->
+    <ant dir="${libraries.dir}" target="runtime-libs">
+      <property name="project.lib.dir" value="${webapp.inf.dir}/lib" />
+    </ant>
+    <!-- copy Back Office specific libraries -->
+    <copy todir="${webapp.inf.dir}/lib" flatten="true">
+      <fileset refid="backoffice-runtime-libs" />
+    </copy>
+    <copy todir="${webapp.inf.dir}/classes">
+      <fileset dir="${basedir}/src">
+        <include name="**/ApplicationResourcesBO*.properties" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="war" depends="prepare-webapp">
+    <war destFile="${dist.name}.war"
+         webxml="${webapp.inf.dir}/web.xml"
+         manifest="${basedir}/src/manifest.mf">
+
+      <fileset dir="${webapp.dir}">
+        <exclude name="WEB-INF/web.xml" />
+        <exclude name="**/*.tpl" />
+        <include name="**/*.*" />
+      </fileset>
+    </war>
+
+  </target>
+
+</project>

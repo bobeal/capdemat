@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<formatter-mapping>
+
+  <formatter name="sexType"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.SexTypeFormatter"
+    needsConstruction="false" />
+
+  <formatter name="birthDate"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.BirthDateFormatter"
+    needsConstruction="false" />
+
+  <formatter name="sectionType"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.SectionTypeFormatter"
+    needsConstruction="false" />
+
+  <formatter name="schoolCanteenRegistration"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.SchoolCanteenRegistrationFormatter"
+    needsConstruction="false" />
+
+  <formatter name="foodDiet"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.FoodDietFormatter"
+    needsConstruction="false" />
+
+  <formatter name="titleType"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.TitleTypeFormatter"
+    needsConstruction="false" />
+
+  <formatter name="address"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.AddressFormatter"
+    needsConstruction="false" />
+
+  <formatter name="phoneType"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.PhoneTypeFormatter"
+    needsConstruction="false" />
+
+  <formatter name="familyQuotient"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.FamilyQuotientFormatter"
+    needsConstruction="false" />
+
+  <formatter name="perischoolActivityRegistration"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter.PerischoolActivityRegistrationFormatter"
+    needsConstruction="false" />
+
+</formatter-mapping>

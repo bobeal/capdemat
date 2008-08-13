@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<cvqprocess xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	 xsi:noNamespaceSchemaLocation="processes.xsd" >
+
+  <processes group="civil" caption="Etat-Civil" order="3">
+	<!--****************** START PROCESSUS DEMANDES D'ACTES DE NAISSANCE *******************-->
+	<process name="eBirth" caption="Acte de naissance" time="3">
+		<title>Acte de naissance</title>
+		<package>fr.cg95.cvq.fo.civil.birth</package>
+        <persistence>fr.cg95.cvq.fo.civil.BirthDetailsPersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage ref="Requester" />
+		
+	    <!-- ******************* CHOIX D'ACTE *********************-->
+		<stage name="Nature" caption="Nature de l'acte" stagemenu="display">
+			<title>Nature de l'acte</title>
+			<info>Informations concernant l'acte souhaité. </info>
+
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer la demande de l'acte sélectionné ?</confirm>
+			<confirm name="changed" check="state">Vos modifications éventuelles ou votre enregistrement sera perdu ! Voulez-vous continuer ?</confirm>
+
+			<default>birth</default>
+			<next confirm="continue"/>
+			
+			<state name="birth" change="confirm">
+				<title>Acte de naissance</title>
+				<form>/civil/birth/nature/birth</form>
+				<button confirm="cancel" action="" transition="birth">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="certificate==Birth" transition="displaybirth">Enregistrer</button>
+			</state>
+						
+			<state name="displaybirth" mode="static">
+				<title>Acte de naissance</title>
+				<form>/civil/birth/nature/displaybirth</form>
+				<button confirm="delete" action="resetProcess" transition="birth">Supprimer</button>
+				<button transition="birth" action="certificate==Birth">Modifier</button>
+			</state>
+
+		</stage>
+
+		<stage ref="Documents"/>
+		
+	    <!-- ******************* TYPE D'ACTE *********************-->
+		<stage name="Type" caption="Type de l'acte" stagemenu="display" >
+			<title>Le type d'acte demandé et le nombre d'exemplaires</title>
+			<info>Choix du type d'acte souhaité et du nombre d'exemplaires.</info>
+
+			<confirm name="continue" check="">Vous devez sélectionner le type d'acte et enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>default</default>
+			<next script="processSubmit" action="" />
+			
+			<state name="default" mode="static">
+				<title>Demande d'acte civil</title>
+				<form>/civil/birth/type/default</form>
+			</state>
+
+			<state name="parents">
+				<title>Demande d'acte civil</title>
+				<form>/civil/birth/type/parents</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<state name="noparents">
+				<title>Demande d'acte civil</title>
+				<form>/civil/birth/type/type</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<menu state="default">
+				<title>Type de l'acte</title>
+				<button transition="parents" action="format=FullCopy" >Copie intégrale</button>
+				<button transition="parents" action="format=ExtractWithRelationship" >Extrait avec filiation</button>
+				<button transition="noparents" action="format=ExtractWithoutRelationship" >Extrait sans filiation</button>
+			</menu>
+		</stage>
+
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+		  
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/common/validation/requester</form>
+				<form>/civil/birth/validation/summary</form>
+				<form condition="format==FullCopy">/civil/birth/validation/summaryrelation</form>
+				<form condition="format==ExtractWithRelationship">/civil/birth/validation/summaryrelation</form>
+				<form>/common/validation/documents</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="trace">
+				<form>/common/validation/trace</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+
+	</process>
+	<!--****************** END PROCESSUS DEMANDES D'ACTES DE NAISSANCE *******************-->
+	
+	
+	<!--****************** START PROCESSUS DEMANDES D'ACTES DE MARIAGE *******************-->
+	<process name="eMarriage" caption="Acte de mariage" time="3">
+		<title>Acte de mariage</title>
+		<package>fr.cg95.cvq.fo.civil.marriage</package>
+        <persistence>fr.cg95.cvq.fo.civil.MarriageDetailsPersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage ref="Requester" />
+		
+	    <!-- ******************* CHOIX D'ACTE *********************-->
+		<stage name="Nature" caption="Nature de l'acte" stagemenu="display" >
+			<title>Nature de l'acte</title>
+			<info>Informations concernant l'acte souhaité. </info>
+
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+			<confirm name="continue" check="">Vous devez sélectionner la nature de l'acte et enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer la demande de l'acte sélectionné ?</confirm>
+			<confirm name="changed" check="state">Vos modifications éventuelles ou votre enregistrement sera perdu ! Voulez-vous continuer ?</confirm>
+
+			<default>marriage</default>
+			<next confirm="continue"/>
+			
+			<state name="marriage" change="confirm">
+				<title>Acte de mariage</title>
+				<form>/civil/marriage/nature/marriage</form>
+				<button confirm="cancel" action="" transition="default">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="certificate=Marriage" transition="displaymarriage">Enregistrer</button>
+			</state>
+						
+			<state name="displaymarriage" mode="static">
+				<title>Acte de mariage</title>
+				<form>/civil/marriage/nature/displaymarriage</form>
+				<button confirm="delete" action="resetProcess" transition="default">Supprimer</button>
+				<button transition="marriage" action="certificate=Marriage">Modifier</button>
+			</state>
+
+		</stage>
+
+		<stage ref="Documents"/>
+		
+	    <!-- ******************* TYPE D'ACTE *********************-->
+		<stage name="Type" caption="Type de l'acte" stagemenu="display" >
+			<title>Le type d'acte demandé et le nombre d'exemplaires</title>
+			<info>Choix du type d'acte souhaité et du nombre d'exemplaires.</info>
+
+			<confirm name="continue" check="">Vous devez sélectionner le type d'acte et enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>default</default>
+			<next script="processSubmit" action="" />
+			
+			<state name="default" mode="static">
+				<title>Demande d'acte civil</title>
+				<form>/civil/marriage/type/default</form>
+			</state>
+
+			<state name="parents">
+				<title>Demande d'acte civil</title>
+				<form>/civil/marriage/type/parents</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<state name="noparents">
+				<title>Demande d'acte civil</title>
+				<form>/civil/marriage/type/type</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<menu state="default">
+				<title>Type de l'acte</title>
+				<button transition="parents" action="format=FullCopy" >Copie intégrale</button>
+				<button transition="parents" action="format=ExtractWithRelationship" >Extrait avec filiation</button>
+				<button transition="noparents" action="format=ExtractWithoutRelationship" >Extrait sans filiation</button>
+			</menu>
+		</stage>
+
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+		  
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/common/validation/requester</form>
+				<form>/civil/marriage/validation/summary</form>
+				<form condition="format==FullCopy">/civil/marriage/validation/summaryrelation</form>
+				<form condition="format==ExtractWithRelationship">/civil/marriage/validation/summaryrelation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="trace">
+				<form>/common/validation/trace</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+
+	</process>
+	<!--****************** END PROCESSUS DEMANDES D'ACTES DE MARIAGE *******************-->
+	
+	
+	<!--****************** START PROCESSUS DEMANDES D'ACTES DECES *******************-->
+	<process name="eDeath" caption="Acte de décès" time="3">
+		<title>Acte de décès</title>
+		<package>fr.cg95.cvq.fo.civil.death</package>
+        <persistence>fr.cg95.cvq.fo.civil.DeathDetailsPersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage ref="Requester" />
+		
+	    <!-- ******************* CHOIX D'ACTE *********************-->
+		<stage name="Nature" caption="Nature de l'acte" stagemenu="display" >
+			<title>Nature de l'acte</title>
+			<info>Informations concernant l'acte souhaité. </info>
+
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+			<confirm name="continue" check="">Vous devez sélectionner la nature de l'acte et enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer la demande de l'acte sélectionné ?</confirm>
+			<confirm name="changed" check="state">Vos modifications éventuelles ou votre enregistrement sera perdu ! Voulez-vous continuer ?</confirm>
+
+			<default>death</default>
+			<next confirm="continue"/>
+			
+			<state name="death" change="confirm">
+				<title>Acte de décès</title>
+				<form>/civil/death/nature/death</form>
+				<button confirm="cancel" action="" transition="default">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="certificate==Death" transition="displaydeath">Enregistrer</button>
+			</state>
+						
+			<state name="displaydeath" mode="static">
+				<title>Acte de décès</title>
+				<form>/civil/death/nature/displaydeath</form>
+				<button confirm="delete" action="resetProcess" transition="default">Supprimer</button>
+				<button transition="death" action="certificate==Death">Modifier</button>
+			</state>
+
+		</stage>
+
+		<stage ref="Documents"/>
+		
+	    <!-- ******************* TYPE D'ACTE *********************-->
+		<stage name="Type" caption="Type de l'acte" stagemenu="display" >
+			<title>Le type d'acte demandé et le nombre d'exemplaires</title>
+			<info>Choix du type d'acte souhaité et du nombre d'exemplaires.</info>
+
+			<confirm name="continue" check="">Vous devez sélectionner le type d'acte et enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>default</default>
+			<next script="processSubmit" action="" />
+			
+			<state name="default" mode="static">
+				<title>Demande d'acte civil</title>
+				<form>/civil/death/type/default</form>
+			</state>
+
+			<state name="parents">
+				<title>Demande d'acte civil</title>
+				<form>/civil/death/type/parents</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<state name="noparents">
+				<title>Demande d'acte civil</title>
+				<form>/civil/death/type/type</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<menu state="default">
+				<title>Type de l'acte</title>
+				<button transition="parents" action="format=FullCopy" >Copie intégrale</button>
+				<button transition="parents" action="format=ExtractWithRelationship" >Extrait avec filiation</button>
+				<button transition="noparents" action="format=ExtractWithoutRelationship" >Extrait sans filiation</button>
+			</menu>
+		</stage>
+
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+		  
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/common/validation/requester</form>
+				<form>/civil/death/validation/summary</form>
+				<form condition="format==FullCopy">/civil/death/validation/summaryrelation</form>
+				<form condition="format==ExtractWithRelationship">/civil/death/validation/summaryrelation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="trace">
+				<form>/common/validation/trace</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+
+	</process>
+	<!--****************** END PROCESSUS DEMANDES D'ACTES DECES *******************-->
+
+	<!--****************** PROCESSUS DEMANDES D'ACTES *******************-->
+	<process name="eExtract" caption="Acte d'état civil" time="3">
+		<title>Acte d'état civil</title>
+		<package>fr.cg95.cvq.fo.civil.extract</package>
+        <persistence>fr.cg95.cvq.fo.civil.PersonalDetailsPersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage ref="Requester" />
+		
+	    <!-- ******************* CHOIX D'ACTE *********************-->
+		<stage name="Nature" caption="Nature de l'acte" >
+			<title>Nature de l'acte</title>
+			<info>Informations concernant l'acte souhaité. </info>
+
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+			<confirm name="continue" check="">Vous devez sélectionner la nature de l'acte et enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer la demande de l'acte sélectionné ?</confirm>
+			<confirm name="changed">Vos modifications éventuelles ou votre enregistrement sera perdu ! Voulez-vous continuer ?</confirm>
+
+			<default>default</default>
+			<next confirm="continue"/>
+			
+			<state name="default">
+				<title>Demande d'acte d'état civil</title>
+				<form>/civil/extract/nature/default</form>
+			</state>
+
+			<state name="birth" change="confirm">
+				<title>Acte de naissance</title>
+				<form>/civil/extract/nature/birth</form>
+				<button confirm="cancel" action="" transition="default">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="displaybirth">Enregistrer</button>
+			</state>
+						
+			<state name="displaybirth">
+				<title>Acte de naissance</title>
+				<form>/civil/extract/nature/displaybirth</form>
+				<button confirm="delete" action="reset" transition="default">Supprimer</button>
+				<button transition="birth" action="">Modifier</button>
+			</state>
+
+			<state name="marriage" change="confirm">
+				<title>Acte de mariage</title>
+				<form>/civil/extract/nature/marriage</form>
+				<button confirm="cancel" action="" transition="default">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="displaymarriage">Enregistrer</button>
+			</state>
+						
+			<state name="displaymarriage">
+				<title>Acte de mariage</title>
+				<form>/civil/extract/nature/displaymarriage</form>
+				<button confirm="delete" action="reset" transition="default">Supprimer</button>
+				<button transition="marriage" action="">Modifier</button>
+			</state>
+
+			<state name="death" change="confirm">
+				<title>Acte de déces</title>
+				<form>/civil/extract/nature/death</form>
+				<button confirm="cancel" action="" transition="default">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="displaydeath">Enregistrer</button>
+			</state>
+						
+			<state name="displaydeath">
+				<title>Acte de déces</title>
+				<form>/civil/extract/nature/displaydeath</form>
+				<button confirm="delete" action="reset" transition="default">Supprimer</button>
+				<button transition="death" action="">Modifier</button>
+			</state>
+
+			<menu>
+				<title>Nature de l'acte</title>
+				<button transition="birth" action="certificate=Birth" >Naissance</button>
+				<button transition="marriage" action="certificate=Marriage" >Mariage</button>
+				<button transition="death" action="certificate=Death" >Décès</button>
+			</menu>
+		</stage>
+
+		<stage ref="Documents"/>
+		
+	    <!-- ******************* TYPE D'ACTE *********************-->
+		<stage name="Type" caption="Type de l'acte" >
+			<title>Le type d'acte demandé et le nombre d'exemplaires</title>
+			<info>Choix du type d'acte souhaité et du nombre d'exemplaires.</info>
+
+			<confirm name="continue" check="">Vous devez sélectionner le type d'acte et enregistrer la page avant de passer à l'étape suivante</confirm>
+
+			<default>default</default>
+			<next script="processSubmit" action="" />
+			
+			<state name="default">
+				<title>Demande d'acte d'état civil</title>
+				<form>/civil/extract/type/default</form>
+			</state>
+
+			<state name="parents">
+				<title>Demande d'acte d'état civil</title>
+				<form>/civil/extract/type/parents</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<state name="noparents">
+				<title>Demande d'acte d'état civil</title>
+				<form>/civil/extract/type/type</form>
+				<button default="true" script="processSubmit" action="next">Enregistrer</button>
+			</state>
+
+			<menu>
+				<title>Type de l'acte</title>
+				<button transition="parents" action="format=FullCopy" >Copie intégrale</button>
+				<button transition="parents" action="format=ExtractWithRelationship" >Extrait avec filiation</button>
+				<button transition="noparents" action="format=ExtractWithoutRelationship" >Extrait sans filiation</button>
+			</menu>
+		</stage>
+
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" >
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+			<default>validation</default>
+
+			<next>false</next>
+			
+			<state name="validation">
+				<title>Validation</title>
+				<form>/common/validation/validation</form>
+				<form>/civil/extract/validation/summary</form>
+				<form condition="certificate==Birth">/civil/extract/validation/summarybirth</form>
+				<form condition="certificate==Marriage">/civil/extract/validation/summarymarriage</form>
+				<form condition="certificate==Death">/civil/extract/validation/summarydeath</form>
+				<form condition="format==FullCopy">/civil/extract/validation/summaryrelation</form>
+				<form condition="format==ExtractWithRelationship">/civil/extract/validation/summaryrelation</form>
+				<form>/common/validation/documents</form>
+			</state>
+
+			<state name="print">
+				<title>Validation</title>
+				<form>/common/validation/print</form>
+				<form>/civil/extract/validation/summary</form>
+				<form condition="certificate==Birth">/civil/extract/validation/summarybirth</form>
+				<form condition="certificate==Marriage">/civil/extract/validation/summarymarriage</form>
+				<form condition="certificate==Death">/civil/extract/validation/summarydeath</form>
+				<form condition="format==FullCopy">/civil/extract/validation/summaryrelation</form>
+				<form condition="format==ExtractWithRelationship">/civil/extract/validation/summaryrelation</form>
+				<form>/common/validation/documents</form>
+			</state>
+		</stage>
+
+	</process>
+
+    <!--******************** PROCESSUS RECENSEMENT MILITAIRE ************************-->
+  <process name="eMilitary" caption="Recensement militaire" time="5">
+    <title>Recensement militaire</title>
+    <confirm name="familyHome" check="hasMilitaryChildren">Vous n'avez aucun enfant à inscrire.</confirm>
+    <package>fr.cg95.cvq.fo.military</package>
+    <persistence>fr.cg95.cvq.fo.military.MilitaryCensusPersistence</persistence>
+
+    <!-- ******************* INSCRIPTION ENFANTS *********************-->
+    <stage name="Inscription" caption="Recensement" stagemenu="display">
+      <title>Recensement de l'enfant</title>
+      <notice>Vous ne pouvez recenser qu'un enfant à la fois.</notice>
+      <info>Sélection de l'enfant à recenser</info>
+
+      <confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+      <confirm name="continue" check="">Vous devez sélectionner un enfant et enregistrer la page avant de passer à l'étape suivante</confirm>
+      <confirm name="cancel">Attention ! Les données du recensement n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+      <confirm name="delete">Voulez-vous vraiment supprimer le recensement de l'enfant sélectionné ?</confirm>
+      <confirm name="changed" check="state">Vos modifications éventuelles ou votre enregistrement seront perdus ! Voulez-vous continuer ?</confirm>
+
+      <default>default</default>
+        <previous confirm="terminate">endProcess</previous>
+        <next confirm="continue" />
+
+      <state name="default" buttonArea="nonavigation" mode="static">
+        <title>Recensement militaire</title>
+        <form>/military/inscription/default</form>
+      </state>
+
+      <state name="military" change="confirm">
+        <title>Enfant à recenser</title>
+        <form>/military/inscription/military</form>
+        <button confirm="cancel" action="resetProcess" transition="default">Annuler Saisie</button>
+        <button default="true" script="processSubmit" action="" transition="nationality">Enregistrer</button>
+      </state>
+
+      <state name="nationality" change="confirm">
+        <title>Nationalité de l'enfant</title>
+        <form>/military/inscription/nationality</form>
+        <button script="processSubmit" action="" transition="military">Page précédente</button>
+        <button confirm="cancel" action="resetProcess" transition="default">Annuler Saisie</button>
+        <button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+      </state>
+
+      <state name="display" mode="static">
+        <title>Enfant à recenser</title>
+        <form>/military/inscription/display</form>
+        <button confirm="delete" action="resetProcess" transition="default">Supprimer</button>
+        <button transition="military" action="">Modifier</button>
+      </state>
+
+      <select name="familyHome" property="selectionListWithoutCurrent" state="default">
+        <title>Enfant(s) non-recensé(s)</title>
+        <display type="people" />
+        <display name="firstName" />
+        <display name="lastName" initial="true" />
+        <action confirm="changed" parameter="index" transition="military">createRequest</action>
+      </select>
+
+      <select name="familyHome" property="individualToRegister" state="all">
+        <title>Enfant à recenser</title>
+        <display type="people" />
+        <display name="firstName" />
+        <display name="lastName" initial="true" />
+        <action parameter="index" transition="display">processStage</action>
+      </select>
+    </stage>
+
+    <!-- ************** INFORMATION *********** -->
+    <stage name="Information" caption="Situation" stagemenu="display">
+      <title>Situation de l'enfant</title>
+      <info>Situation de l'enfant à recenser</info>
+
+      <confirm name="cancel">Attention ! Les données de la personne n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+      <confirm name="delete">Voulez-vous vraiment supprimer la personne sélectionnée ?</confirm>
+      <confirm name="changed" check="state">Vos modifications éventuelles seront perdues ! Voulez-vous continuer ?</confirm>
+
+        <default>filiation</default>
+        <next script="processSubmit" action="" />
+        
+      <state name="filiation" change="confirm">
+        <title>Filiation de l'enfant</title>
+        <form>/military/information/filiation</form>
+        <button confirm="cancel" action="resetProcess" transition="default">Annuler Saisie</button>
+        <button default="true" script="processSubmit" action="" transition="situation">Enregistrer</button>
+      </state>
+
+      <state name="situation" change="confirm">
+        <title>Situation familiale</title>
+        <form>/military/information/situation</form>
+        <button confirm="cancel" action="" transition="filiation">Annuler Saisie</button>
+        <button default="true" script="processSubmit" action="processSelect.do?save" transition="display">Enregistrer</button>
+      </state>
+
+      <state name="display" mode="static">
+        <title>Situation de l'enfant à recenser</title>
+        <form>/military/information/display</form>
+        <button confirm="delete" action="resetProcess" transition="filiation">Supprimer</button>
+        <button transition="filiation" action="">Modifier</button>
+      </state>
+    </stage>
+
+    <!-- ******************* EXEMPTION ********************* -->
+    <stage name="Exemption" caption="Exemption" stagemenu="display" required="false">
+      <title>Exemption</title>
+      <info>Informations sur l'exemption</info>
+      <default>exemption</default>
+      <next script="processSubmit" action="" />
+
+      <state name="exemption" change="confirm">
+        <title>Exemption</title>
+        <form>/military/exemption/exemption</form>
+        <button confirm="cancel" action="" transition="exemption">Annuler Saisie</button>
+        <button default="true" script="processSubmit" action="processSelect.do?save" transition="display">Enregistrer</button>
+      </state>
+
+        <state name="display" mode="static">
+          <title>Exemption</title>
+          <form>/military/exemption/display</form>
+          <button confirm="delete" action="resetProcess" transition="exemption">Supprimer</button>
+          <button transition="exemption" action="">Modifier</button>
+        </state>
+
+    </stage>
+
+    <stage ref="Documents" />
+
+    <!-- ******************* VALIDATION *********************-->
+    <stage name="Validation" caption="Validation" stagemenu="display">
+      <title>Validation et fin</title>
+      <info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+      <default>summary</default>
+      <next>false</next>
+
+      <state name="summary" mode="static">
+        <form>/common/validation/requester</form>
+        <form>/military/validation/summary</form>
+        <form>/common/validation/documents</form>
+        <button type="quit" script="cancelRequest()">Annuler la demande</button>
+        <button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+      </state>
+
+      <state name="validation">
+        <form>/common/validation/validation</form>
+        <button type="quit" script="cancelRequest()">Annuler la demande</button>
+        <button type="save" script="validateRequest()">Enregistrer</button>
+      </state>
+
+      <state name="print" buttonArea="none" mode="noreturn">
+        <form>/common/validation/print</form>
+      </state>
+
+    </stage>
+  </process>
+
+  </processes>		
+</cvqprocess>
+		

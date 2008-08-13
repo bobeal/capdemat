@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/cwc"
+  xmlns:cwc="http://www.cg95.fr/cvq/schema/cwc" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"  
+             schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="CompostableWasteCollectionRequest">
+	<xs:annotation>
+	  <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	    Demande d'enlèvement des déchets verts
+	  </xs:documentation>
+	  <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+	    Request to collect compostable waste
+	  </xs:documentation>
+	  <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	    Déchets verts
+	  </xs:documentation>
+	  <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	    Compostable waste
+	  </xs:documentation>
+	  <xs:appinfo> 
+	    <model namespace="environment" /> 
+        <fo namespace="environment.compostablewaste">
+		  <display mode="labelonly" label="Adresse du compte" stage="waste" page="waste" line="3"/>
+		  <display field="Requester.Address.Address" stage="waste" page="waste" line="4" 
+		  		label="&amp;nbsp;" mode="static"/>
+        </fo>
+        <bo namespace="environment">
+		  <display field="Requester.LastName" page="checkcompostable" line="1" mode="static"/>
+		  <display field="Requester.FirstName" page="checkcompostable" line="2" mode="static"/>
+		  <display field="Requester.LastName" page="printcompostable" line="1" mode="static"/>
+		  <display field="Requester.FirstName" page="printcompostable" line="2" mode="static"/>
+        </bo>
+		<xslfo>
+		  <blocks-def>
+		    <block id="0" label="Demandeur*" />
+		    <block id="1" label="Type de végétaux" column="2" />
+		    <block id="2" label="Moyen de contact*" />
+		  </blocks-def>
+		  <element blockId="0" line="0" column="0" link="Requester">
+		    <complexTemplate />
+		  </element>
+		  <element blockId="2" line="0" column="0" link="MeansOfContact"
+		    prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?"> 
+		    <complexTemplate />
+		  </element>
+		</xslfo>
+	  </xs:appinfo> 
+	</xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+		    <xs:element name="CompostableWasteType" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+			  <xs:annotation>
+			    <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+			      Type de végétaux à enlever
+			    </xs:documentation>
+			    <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+			      Kind of waste to be collected
+			    </xs:documentation>
+			    <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			      Type de végétaux
+			    </xs:documentation>
+			    <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			      Kind of waste
+			    </xs:documentation>
+				<xs:appinfo> 
+				  <model namespace="users" isTiedToRequest="true" />
+				  <fo repository="compostablewaste">
+					<display field="" type="checklist" stage="waste" page="waste" line="1" mode="blockrequired" block="Other"/>
+					<display field="" type="checklist" stage="waste" page="display" line="1" mode="static"/>
+				    <display mode="labelonly" type="stagetitle" label="Waste" stage="validation" page="summary" line="20"/>
+				    <display field="" type="checklist" stage="validation" page="summary" line="21" mode="static"/>
+				  </fo>
+				  <bo repository="CompostableWasteType">
+				  	<display field="" page="displaycompostable" line="1" />
+				  	<display field="" page="checkcompostable" line="3" mode="static"/>
+				  	<display field="" page="printcompostable" line="3" mode="static"/>
+				  </bo>
+				  <xslfo>
+				    <element blockId="1" line="0" column="0">
+				      <localReferential />
+				    </element>
+				  </xslfo>
+				</xs:appinfo> 
+			  </xs:annotation>
+		    </xs:element>
+		    <xs:element name="OtherWaste" type="xs:string" minOccurs="0">
+			  <xs:annotation>
+			    <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+			      Autre type de végétaux à spécifier
+			    </xs:documentation>
+			    <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+			      Other kind of waste to be described
+			    </xs:documentation>
+			    <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			      Autre, préciser
+			    </xs:documentation>
+			    <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			      Other, specify
+			    </xs:documentation>
+				<xs:appinfo> 
+				  <fo>
+					<display field="" type="" stage="waste" page="waste" line="2" block="Other"/>
+					<display field="" type="" stage="waste" page="display" line="2" mode="static"/>
+				    <display field="" type="" stage="validation" page="summary" line="22" mode="static"/>
+				  </fo>
+				  <bo>
+				  	<display field="" page="displaycompostable" line="2" />
+				  	<display field="" page="checkcompostable" line="4" mode="static"/>
+				  	<display field="" page="printcompostable" line="4" mode="static"/>
+				  </bo>
+				  <xslfo>
+				    <element blockId="1" line="1" column="0" columnSpan="2">
+		      			<string valueWeight="3" />
+				    </element>
+				  </xslfo>
+				</xs:appinfo> 
+			  </xs:annotation>
+		    </xs:element>
+		    <xs:element name="CollectionAddress" type="xs:string" minOccurs="0">
+			  <xs:annotation>
+			    <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+			      Adresse de collecte des végétaux, si différente de l'adresse du demandeur
+			    </xs:documentation>
+			    <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+			      Collection address, if different from requesters address
+			    </xs:documentation>
+			    <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			      Adresse de collecte
+			    </xs:documentation>
+			    <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			      Collection address
+			    </xs:documentation>
+			    <xs:appinfo> 
+				  <fo>
+					<display mode="labelonly" 
+						label="Si l'adresse de collecte des végétaux est différente, merci de la préciser" 
+						stage="waste" page="waste" line="5"/>
+					<display field="" type="" stage="waste" page="waste" line="6"/>
+					<display field="" type="" stage="waste" page="display" line="3" 
+						label="Adresse de collecte (si différente de l'adresse du compte)" mode="static"/>
+				    <display field="" type="" stage="validation" page="summary" line="23" 
+				    	label="Adresse de collecte (si différente de l'adresse du compte)" mode="static"/>
+				  </fo>
+				  <bo>
+				  	<display field="" page="displaycompostable" line="3" />
+				  	<display field="" page="checkcompostable" line="5" mode="static"/>
+				  	<display field="" page="printcompostable" line="5" mode="static"/>
+				  </bo>
+				  <xslfo>
+				    <element blockId="1" line="2" column="0" columnSpan="2"
+				    	prefixLabel="Adresse de collecte (si différente de l'adresse du compte)">
+		      			<string valueWeight="3"/>
+				    </element>
+				  </xslfo>
+			    </xs:appinfo> 
+			  </xs:annotation>
+		    </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

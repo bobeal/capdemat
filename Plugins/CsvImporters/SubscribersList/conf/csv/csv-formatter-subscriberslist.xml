@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<formatter-mapping>
+
+  <formatter name="authorizedPlaces"
+    class="fr.capwebct.capdemat.plugins.csvimporters.subscriberslist.formatter.AuthorizedPlacesFormatter"
+    needsConstruction="false" />
+
+</formatter-mapping>

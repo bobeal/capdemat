@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+    <property name="prefix"><value>/WEB-INF/views/management/</value></property>
+    <property name="suffix"><value>.jsp</value></property>
+    <property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
+  </bean>
+
+  <bean id="invoiceController" class="fr.capwebct.modules.payment.controller.InvoiceController">
+    <property name="formView" value="invoice" />
+    <property name="successView" value="invoice" />
+    <property name="commandClass" 
+      value="fr.capwebct.modules.payment.controller.GenericAccountCommand" />
+    <property name="invoiceService" ref="invoiceService" />
+    <property name="externalApplicationService" ref="externalApplicationService" />
+  </bean>
+
+  <bean id="accountController" class="fr.capwebct.modules.payment.controller.AccountController">
+    <property name="formView" value="account" />
+    <property name="successView" value="account" />
+    <property name="commandClass" 
+      value="fr.capwebct.modules.payment.controller.GenericAccountCommand" />
+    <property name="accountService" ref="accountService" />
+    <property name="externalApplicationService" ref="externalApplicationService" />
+  </bean>
+
+  <bean id="contractController" class="fr.capwebct.modules.payment.controller.ContractController">
+    <property name="formView" value="contract" />
+    <property name="successView" value="contract" />
+    <property name="commandClass" 
+      value="fr.capwebct.modules.payment.controller.GenericAccountCommand" />
+    <property name="contractService" ref="contractService" />
+    <property name="externalApplicationService" ref="externalApplicationService" />
+  </bean>
+
+  <bean id="paymentController" class="fr.capwebct.modules.payment.controller.PaymentController">
+    <property name="formView" value="payment" />
+    <property name="successView" value="payment" />
+    <property name="commandClass" 
+      value="fr.capwebct.modules.payment.controller.PaymentCommand" />
+    <property name="paymentService" ref="paymentService" />
+  </bean>
+
+  <bean id="detailLoaderController" class="fr.capwebct.modules.payment.controller.DetailLoaderController">
+    <property name="invoiceService" ref="invoiceService" />
+    <property name="accountService" ref="accountService" />
+  </bean>
+  
+  <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="mappings">
+      <value>
+        /invoice.jsp=invoiceController
+        /account.jsp=accountController
+        /contract.jsp=contractController
+        /payment.jsp=paymentController
+        /detailLoader.jsp=detailLoaderController
+        /*=invoiceController
+      </value>
+    </property>
+  </bean>
+  
+</beans>

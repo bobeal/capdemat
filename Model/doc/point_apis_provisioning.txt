@@ -1,0 +1,84 @@
+		API Provisioning
+		================
+
+Ce que fournit l'API actuellement déployée (cf schéma en PJ) : 
+
+   * une servlet acceptant les requêtes de provisioning (couche
+     "communication" bien séparée afin de permettre le passage à
+     d'autres technos : Web Services, ...)
+
+   * une API cliente embarquée par les clients souhaitant utiliser
+     cette API (devra être modifiée si changement de techno à l'autre
+     bout).
+
+   * une couche "métier" où les requêtes reçues sont décodées,
+     controlées et transformées de façon à pouvoir ajouter les objets
+     dans l'annuaire LDAP. Cette couche connait la structure de
+     l'annuaire mais, amha, doit rester complètement indépendante de
+     l'API LDAP utilisée pour persister les objets dans l'annuaire.
+
+   * une couche "persistence" et fonctionnalités annexes (tables de
+     stockage temporaire, notification JMS). Cette couche est
+     principalement constituée du LdapManager qui ne connait à priori
+     rien du schéma d'annuaire et se contente de faire du CRUD sur les
+     objets (pas encore tout à fait le cas mais c'est bien avancé).
+
+Ce qu'a fourni B&D :
+
+   * un LdapManager iso-fonctionnel avec le LdapManager existant (ie
+     il ne sait traiter que des e-habitants)
+
+   * un ensemble d'objets Java correspondant aux différents objets de
+     l'annuaire (les collectivités locales, les services, ...) et
+     permettant grosso modo de faire du CRUD sur les objets de
+     l'annuaire.
+
+Remarques diverses et variées :
+
+   * dans les sources fournies par B&D, il manque un certain nombre de
+     choses, en particulier le fichier LDIF permettant d'initialiser
+     l'arbre et un jeu de tests unitaires et de non régression.
+
+   * l'ensemble d'objets Java mélange quelque peu la partie métier et
+     la partie "persistence LDAP", il serait bien de concentrer tout
+     ce qui concerne l'API LDAP dans le LdapManager ...
+
+   * la version actuellement déployée n'était déjà pas un exemple en
+     terme de configuration (même si ça a récemment évolué ...) mais
+     la version livrée par B&D la surpasse :-)
+
+   * on a face à face deux APIs LDAP (et il va falloir en choisir une) :
+
+      -> l'API Novell : contribution de Novell à la communauté
+         OpenLDAP, open source (?), conforme standard LDAPv3 mais qui
+         nécessite de s'enregistrer sur le site de Novell (!)
+
+      -> l'API JNDI : standard Java/J2EE, plus évolutive (même si la
+         probabilité de migration de LDAP vers un autre type
+         d'annuaire est plutôt faible ...), et également utilisée
+         par le serveur JMS de notification des évènements.
+
+   * pour l'instant, j'ai modifié le LdapManager "historique" afin
+     qu'il attaque l'annuaire installé par B&D (déployé et testé sur
+     la plateforme d'intégration du CG) mais changer de gestionnaire
+     LDAP reste relativement aisé. J'ai fait cela pour plusieurs
+     raisons :
+      
+      -> je m'attendais à recevoir des sources "commit-ready" et dans
+         la déception, j'ai craqué :-)
+
+      -> le coup du téléchargement des jars de l'API de Novell soumis
+         à enregistrement m'a pas mal refroidi ... (sans parler des
+         classes compilées fournies sans namespace, cf mon mail du
+         09/07)
+
+      -> le mélange du métier et de la persistence ... en fait, seules
+         les méthodes nécessaires à la compatibilité avec l'existant
+         (ie le provisioning des e-habitants) ont été portées dans le
+         LdapManager, tout le reste est resté en l'état (et donc les
+         méthodes d'accès à l'annuaire sont maintenant dispatchées
+         entre le LdapManager, les objets "métiers" et une classe
+         Tools qui fournit qques méthodes génériques de lecture dans
+         l'annuaire)
+
+

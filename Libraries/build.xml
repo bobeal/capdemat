@@ -1,0 +1,94 @@
+<project name="CVQ - Libraries" default="deploy" basedir=".">
+
+  <description>Ant build file for the CVQ - Libraries project.</description>
+
+  <target name="init">
+    <property environment="env" />
+    <property file="local.properties" />
+    <property file="build.properties" />
+  </target>
+
+  <target name="runtime-libs" depends="init">
+
+    <copy todir="${project.lib.dir}" flatten="true">
+      <!-- PostgreSQL -->
+      <fileset dir="${postgresql.jdbc.lib.dir}" />
+
+      <fileset dir="${mail.lib.dir}" />
+      <fileset dir="${jaf.lib.dir}" />
+
+      <!-- Lowagie -->
+      <fileset dir="${lowagie.lib.dir}" />
+
+      <!-- CVQ -->
+      <fileset dir="${deploy.guiwizard.dir}" />
+      <fileset dir="${deploy.model.dir}" />
+      <fileset dir="${deploy.plugins.dir}" />
+
+      <!-- Hibernate -->
+      <fileset dir="${hibernate.lib.dir}" />
+
+      <fileset dir="${csvobjects.lib.dir}" />
+
+      <!-- Apache -->
+      <fileset dir="${common.lib.dir}">
+        <include name="*.jar" />
+        <exclude name="commons-dbcp-1.1.jar" />
+        <exclude name="commons-pool.jar" />
+        <exclude name="commons-http*.jar" />
+      </fileset>
+      <fileset dir="${fop.lib.dir}" />
+      <fileset dir="${oro.lib.dir}" />
+      <fileset dir="${struts.lib.dir}" />
+      <fileset dir="${jaxen.lib.dir}" />
+      <fileset dir="${log4j.lib.dir}" />
+      <fileset dir="${axis.lib.dir}" />
+      <fileset dir="${xmlbean.lib.dir}" />
+      <fileset dir="${velocity.lib.dir}" />
+
+      <!-- Saxon -->
+      <fileset dir="${saxon.lib.dir}" />
+
+      <!-- Spring -->
+      <fileset dir="${spring.lib.dir}" />
+
+      <!-- BouncyCastle -->
+      <fileset dir="${bouncycastle.lib.dir}">
+        <include name="bcprov-jdk14-128.jar" />
+      </fileset>
+
+      <!-- SAAJ jar -->
+  	  <fileset dir="${sun.lib.dir}"> 
+  	  	<include name="saaj-*.jar"/>
+  	  </fileset>
+      
+      <!-- AspectJ -->
+      <fileset dir="${aspectj.lib.dir}"> 
+        <include name="aspectjweaver-1.5.3.jar"/>
+	  </fileset>
+      	
+      <!-- Clever SMS -->
+      <fileset dir="${cleversms.lib.dir}">
+        <include name="*.jar" />
+      </fileset>
+	
+      <!-- SAAJ jar -->
+  	  <fileset dir="${sun.lib.dir}"> 
+  	  	<include name="saaj-*.jar"/>
+  	  </fileset>
+    	
+    </copy>
+  </target>
+
+  <target name="deploy" depends="init">
+    <copy todir="${tomcat.home.dir}/common/lib">
+      <!-- PostgreSQL -->
+      <fileset dir="${postgresql.jdbc.lib.dir}" />
+
+      <fileset dir="${mail.lib.dir}" />
+      <fileset dir="${jaf.lib.dir}" />
+    </copy>
+
+  </target>
+
+</project>

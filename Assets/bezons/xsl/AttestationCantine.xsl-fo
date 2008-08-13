@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:cert="http://www.cg95.fr/cvq/certificate"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<xsl:template match="/">
+		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<fo:layout-master-set>
+				<fo:simple-page-master page-width="21.0cm"
+					page-height="29.7cm" master-name="Section1-rest"
+					margin-top="0.0cm" margin-bottom="2.0cm"
+					margin-left="1.5cm"
+					margin-right="3.0cm">
+					<fo:region-before extent="1.5cm" />
+					<fo:region-after extent="2cm" />
+					<fo:region-body margin-top="2cm"
+						margin-bottom="2cm" />
+				</fo:simple-page-master>
+				<fo:page-sequence-master master-name="Section1-ps">
+					<fo:repeatable-page-master-reference
+						master-reference="Section1-rest" />
+				</fo:page-sequence-master>
+			</fo:layout-master-set>
+			<fo:page-sequence master-reference="Section1-ps">
+				<fo:static-content flow-name="xsl-region-before" />
+				<fo:static-content flow-name="xsl-region-after" />
+				<fo:flow flow-name="xsl-region-body">
+					<fo:block-container position="absolute" top="0.0cm" left="0.0cm" height="25.7cm" width="3.5cm">
+						<fo:block font-size="11.0pt" font-family="serif" 
+							space-after.optimum="0.75cm">
+							<fo:external-graphic height="2.85cm"
+								width="2.5cm" src="file:xsllogo.jpg" />
+						</fo:block>
+						<fo:block 
+							font-size="13.0pt" font-family="serif" color="black"
+							font-weight="bold" space-after.optimum="0.25cm">
+							Hôtel de ville
+						</fo:block>
+						<fo:block 
+							font-size="9.0pt" font-family="serif" color="black" line-height="16pt">
+							B.P. 30 122
+						</fo:block>
+						<fo:block 
+							font-size="9.0pt" font-family="serif" color="black" line-height="16pt">
+							95875 Bezons cedex
+						</fo:block>
+						<fo:block 
+							font-size="9.0pt" font-family="serif" color="black" line-height="16pt">
+							<fo:inline font-weight="bold">
+								TEL.
+							</fo:inline>
+							01 34 26 50 00
+						</fo:block>
+						<fo:block 
+							font-size="9.0pt" font-family="serif" color="black" space-after.optimum="10pt">
+							<fo:inline font-weight="bold">
+								FAX.
+							</fo:inline>
+							01 30 76 06 60
+						</fo:block>
+						<fo:block  font-size="10.0pt" 
+							font-family="serif" color="black" line-height="16pt">
+							Toute correspondance doit être adressée à M. le maire
+						</fo:block>
+						<fo:block 
+							font-size="13.0pt" font-family="serif" color="black"
+							font-weight="bold" space-before.optimum="1cm">
+							Mairie de Bezons
+						</fo:block>
+						<fo:block  text-align="center"
+							font-size="13.0pt" font-family="serif" color="black"
+							font-weight="bold" space-before.optimum="0.25cm"
+							space-after.optimum="0.2cm">
+							<xsl:for-each select="//cert:service">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+						<fo:block  text-align="center"
+							font-size="9.0pt" font-family="serif" color="black"
+							space-after.optimum="0.2cm">
+								Affaire suivi par
+						</fo:block>
+						<fo:block  text-align="center"
+							font-size="9.0pt" font-family="serif" color="black"
+							space-after.optimum="0.2cm">
+							<xsl:for-each select="//cert:agent">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+						<fo:block  text-align="center"
+							font-size="9.0pt" font-family="serif" color="black">
+								Rue de la Mairie
+						</fo:block>
+						<fo:block  text-align="center"
+							font-size="9.0pt" font-family="serif" color="black"
+							space-after.optimum="0.2cm">
+								85870 Bezons
+						</fo:block>
+						<fo:block 
+							font-size="9.0pt" font-family="serif" color="black">
+								Tél : 
+						</fo:block>
+						<fo:block 
+							font-size="9.0pt" font-family="serif" color="black"
+							space-after.optimum="0.2cm">
+								Fax : 
+						</fo:block>
+						<fo:block 
+							font-size="9.0pt" font-family="serif" color="black">
+								Courriel : 
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="4cm" left="10.5cm" height="4cm" width="6cm">
+						<fo:block font-size="11.0pt" font-family="serif">
+							Mme et M.
+							<xsl:for-each select="//cert:nom">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+						<xsl:for-each select="//cert:adresse">
+							<fo:block font-size="11.0pt" font-family="serif">
+								<xsl:apply-templates />
+							</fo:block>
+						</xsl:for-each>
+						<fo:block font-size="11.0pt" font-family="serif">
+							<xsl:for-each select="//cert:codepostal">
+								<xsl:apply-templates />
+							</xsl:for-each>
+							&#160;
+							<xsl:for-each select="//cert:ville">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="7cm" left="4cm" height="1cm" width="10cm">
+						<fo:block font-size="11.0pt" font-family="serif" font-weight="bold" space-after="1cm">
+							Bezons, le
+							<xsl:for-each select="//cert:date">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="8cm" left="4cm" height="3cm" width="15cm">
+						<fo:block font-size="9.0pt" font-family="serif">
+							Objet : Attestation d'inscription au restaurant scolaire
+						</fo:block>
+						<fo:block font-size="9.0pt" font-family="serif">
+							Réf. :
+							<xsl:for-each select="//cert:service">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+						<fo:block font-size="9.0pt" font-family="serif">
+							V/Réf. : dossier n°
+							<xsl:for-each select="//cert:numero_demande">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+						<fo:block font-size="9.0pt" font-family="serif">
+							PJ :
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="10cm" left="4cm" height="12cm" width="13cm">
+						<fo:block space-after.optimum="6.0pt"
+							text-align="justify" font-size="11.0pt"
+							font-family="serif">
+							Nous vous confirmons la demande d'inscription
+							au restaurant scolaire	du
+							<xsl:for-each select="//cert:date_demande">
+								<xsl:apply-templates />
+							</xsl:for-each>
+							de votre enfant
+							<xsl:for-each select="//cert:enfant">
+								<xsl:apply-templates />
+							</xsl:for-each>
+							. Le badge de votre enfont lui sera remis en classe.
+						</fo:block>
+						<fo:block space-after.optimum="6.0pt"
+							text-align="justify" font-size="11.0pt"
+							font-family="serif">
+							Vous pouvez désormais si vous le souhaitez consulter et régler les prestations de la 
+							restauration scolaire en ligne à partir de votre compte personnel.
+						</fo:block>
+						<xsl:for-each select="//cert:observations">
+							<fo:block space-after.optimum="6.0pt"
+								text-align="justify" font-size="11.0pt"
+								font-family="serif">
+								<xsl:apply-templates />
+							</fo:block>
+						</xsl:for-each>
+						<fo:block space-after.optimum="6.0pt"
+							text-align="justify" font-size="11.0pt"
+							font-family="serif">
+							Veuillez agréer, Madame, Monsieur, l’expression
+							de mes salutations distinguées.
+						</fo:block>
+						<xsl:for-each select="//cert:service">
+							<fo:block start-indent="7.5cm" space-before.optimum="1.5cm"
+								font-size="11.0pt" font-family="serif">
+								<xsl:apply-templates />
+							</fo:block>
+						</xsl:for-each>
+					</fo:block-container>
+					<fo:block-container position="absolute" top="26.7cm" left="1cm" height="0.5cm" width="100%">
+						<fo:block  text-align="right"
+							font-size="11.0pt" font-family="serif" color="black">
+							www.ville-bezons.fr  
+							<fo:external-graphic height="0.4cm"
+								width="6.96cm" src="file:xslfooter.jpg" />
+						</fo:block>
+					</fo:block-container>
+				</fo:flow>
+			</fo:page-sequence>
+		</fo:root>
+	</xsl:template>
+</xsl:stylesheet>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+  <request>MusicSchoolRegistrationRequest</request>
+  <data name="Activity">
+    <label lang="fr">Activités</label>
+    <label lang="en">Activities</label>
+    <entries supportMultiple="true" supportQuota="false" supportPriority="true"
+      supportPrecision="true">
+      <entry key="Instrument">
+	<label lang="fr">Instrument</label>
+	<entries supportMultiple="true" supportQuota="false" supportPriority="true"
+	  supportPrecision="false">
+	  <entry key="Guitar">
+	    <label lang="fr">Guitare</label>
+	    <precision key="Level">
+	      <label lang="fr">Niveau</label>
+	    </precision>
+	  </entry>
+	  <entry key="Piano">
+	    <label lang="fr">Piano</label>
+	    <precision key="Level">
+	      <label lang="fr">Niveau</label>
+	    </precision>
+	  </entry>
+	  <entry key="Harmonica">
+	    <label lang="fr">Harmonica</label>
+	    <precision key="Level">
+	      <label lang="fr">Niveau</label>
+	    </precision>
+	  </entry>
+	</entries>
+      </entry>
+      <entry key="Chant">
+	<label lang="fr">Chant</label>
+	<entries supportMultiple="true" supportQuota="false" supportPriority="true"
+	  supportPrecision="false">
+	  <entry key="Gospel">
+	    <label lang="fr">Gospel</label>
+	  </entry>
+	  <entry key="Gothique">
+	    <label lang="fr">Gothique</label>
+	    <message lang="fr">Tenue noire exigée</message>
+	  </entry>
+	</entries>
+      </entry>
+    </entries>
+  </data>
+</LocalReferential>

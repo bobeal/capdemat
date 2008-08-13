@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/scr" 
+  xmlns:scr="http://www.cg95.fr/cvq/schema/scr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+             schemaLocation="../common/CVQCommonElements.xsd"/>
+
+  <xs:element name="SchoolCanteenRegistrationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Demande d'inscription au restaurant scolaire</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">School canteen registration request</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Restaurant scolaire</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">School canteen</xs:documentation>
+      <xs:appinfo>
+        <model namespace="school"/>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+     <xs:complexContent>
+     <xs:extension base="cvq:RequestType">
+      <xs:sequence>
+        <!-- The following four elements are common to all child registrations -->
+        <!-- Do we do something special with them ?? -->
+        <xs:element name="StartDate" type="xs:date" minOccurs="0"/>
+        <xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+        <xs:element name="UrgencyPhone" type="cvq:PhoneType">
+          <xs:annotation>
+            <xs:appinfo>
+              <fo>
+              	<display field="" stage="inscription" page="canteen" line="3"/>
+              </fo>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Child" type="cvq:ChildType">
+          <xs:annotation>
+            <xs:appinfo>
+              <fo>
+              	<display field="LastName" stage="inscription" page="*" line="1" mode="static"/>
+              	<display field="FirstName" stage="inscription" page="*" line="2" mode="static"/>
+              	<display field="BirthDate" stage="inscription" page="*" line="3" label="Né(e) le" mode="static"/>
+              </fo>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="School" type="cvq:SchoolType" minOccurs="0" maxOccurs="3">
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">L'école dans laquelle est inscrit l'enfant</xs:documentation>
+            <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">The school in which the child is registered</xs:documentation>
+            <xs:appinfo>
+              <model namespace="authority">
+                <search key="id" uniqueResult="false"/>
+                <search key="name" uniqueResult="false"/>
+                <search multi="name"/>
+              </model>
+              <fo>
+              	<display field="Name" stage="inscription" page="canteen" line="1"/>
+              </fo>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Section" type="cvq:SectionType">
+          <xs:annotation>
+            <xs:appinfo>
+              <fo>
+              	<display field="" stage="inscription" page="canteen" line="2"/>
+              </fo>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="FoodDiet" type="scr:FoodDietType"/>
+        <xs:element name="CanteenAttendingFrequency" type="scr:CanteenAttendingFrequencyType"/>
+        <xs:element name="CanteenAttendingDays" type="scr:CanteenAttendingDaysType" maxOccurs="unbounded"/>
+        <xs:element name="FoodAllergy" type="xs:boolean"/>
+        <xs:element name="DoctorName" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:appinfo>
+              <fo>
+              	<display field="" stage="inscription" page="permission" line="1"/>
+              </fo>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="DoctorPhone" type="cvq:PhoneType" minOccurs="0">
+          <xs:annotation>
+            <xs:appinfo>
+              <fo>
+              	<display field="" stage="inscription" page="permission" line="2"/>
+              </fo>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="HospitalizationPermission" type="cvq:AcceptanceType">
+          <xs:annotation>
+            <xs:appinfo>
+              <!-- for choice elements, tell the one we choose -->
+              <model>
+                <choice key="Simple"/>
+              </model>
+              <fo>
+              	<display field="Simple" stage="reglementaire" page="authorisation" line="2"/>
+              </fo>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType">
+          <xs:annotation>
+            <xs:appinfo>
+              <!-- for choice elements, tell the one we choose -->
+              <model>
+                <choice key="Simple"/>
+              </model>
+              <fo>
+              	<display field="Simple" stage="reglementaire" page="authorisation" line="1"/>
+              </fo>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <!-- FIXME : this currently is at child level ... move in scr ? -->
+        <xs:element name="BadgeNumber" type="xs:string" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Numéro de badge</xs:documentation>
+            <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Badge number</xs:documentation>
+            <xs:appinfo>
+              <model>
+                <search key="badgeNumber" uniqueResult="false"/>
+                <search multi="badgeNumber"/>
+              </model>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="EnumTest">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Paris"/>
+              <xs:enumeration value="Saint"/>
+              <xs:enumeration value="Germain"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+     </xs:extension>
+     </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="CanteenAttendingDaysType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations relatives aux jours de présence de l'enfant au restaurant scolaire</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Jours de présence</xs:documentation>
+    </xs:annotation>
+    <xs:sequence minOccurs="0">
+      <xs:element name="EatMonday" type="xs:boolean"/>
+      <xs:element name="EatTuesday" type="xs:boolean"/>
+      <xs:element name="EatWednesday" type="xs:boolean"/>
+      <xs:element name="EatThursday" type="xs:boolean"/>
+      <xs:element name="EatFriday" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CanteenAttendingFrequencyType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations relatives à la fréquentation du restaurant scolaire</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="EveryDay" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FoodDietType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations relatives au régime alimentaire de l'enfant</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Régime alimentaire</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="EatPork" type="xs:boolean"/>
+      <xs:element name="EatSoy" type="xs:boolean"/>
+      <xs:element name="EatMilk" type="xs:boolean"/>
+      <xs:element name="EatSalt" type="xs:boolean"/>
+      <xs:element name="EatSugar" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

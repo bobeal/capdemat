@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="viewResolver"
+    class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+    <property name="prefix"><value>/WEB-INF/views/</value></property>
+    <property name="suffix"><value>.jsp</value></property>
+    <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+  </bean>
+
+  <bean id="handlerMapping"
+    class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="mappings">
+      <props>
+        <prop key="/spplus_bo_callback.html">spplusController</prop>
+        <prop key="/spplus_user_callback.jsp">spplusUserCallbackController</prop>
+        <prop key="/spplus_test_form.html">spplusTestFormController</prop>
+        <prop key="/payline_lost_trans.html">paylineController</prop>
+        <prop key="/fake_payment_input.html">fakePaymentInputController</prop>
+        <prop key="/fake_payment_form.html">fakePaymentFormController</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="spplusTestFormController"
+    class="fr.cg95.cvq.exporter.payment.SpplusTestFormController">
+    <property name="paymentService" ref="paymentService"/>
+    <property name="formView" value="spplus_test_form"></property>
+    <property name="validateOnBinding" value="false"/>
+    <property name="commandClass" value="fr.cg95.cvq.exporter.payment.UserData"/>    
+  </bean>
+  
+  <bean id="spplusUserCallbackController"
+    class="fr.cg95.cvq.exporter.payment.SpplusUserCallbackController">
+  </bean>
+  
+  <bean id="spplusController"
+    class="fr.cg95.cvq.exporter.payment.SpplusController">
+    <property name="paymentService" ref="paymentService"/>
+  </bean>
+  
+  <bean id="paylineController"
+    class="fr.cg95.cvq.exporter.payment.PaylineController">
+    <property name="paymentService" ref="paymentService"/>
+  </bean>
+  
+  <bean id="fakePaymentInputController"
+    class="fr.cg95.cvq.exporter.payment.FakePaymentInputController">
+  </bean>
+  
+  <bean id="fakePaymentFormController"
+    class="fr.cg95.cvq.exporter.payment.FakePaymentFormController">
+    <property name="formView" value="fake_payment_form"></property>
+    <property name="validateOnBinding" value="false"/>
+    <property name="commandClass" value="fr.cg95.cvq.exporter.payment.PaymentData"/>    
+  </bean>
+  
+</beans>

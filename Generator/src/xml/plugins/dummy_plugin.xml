@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="dummy" classname="fr.cg95.cvq.generator.plugins.dummy.DummyPlugin">
+
+  <documentation>
+    <!-- parent can be request, element, property or * -->
+    <!-- source is an URL like http://www.cg95.fr/cvq/schema/[source_type] -->
+    <!-- where source_type can be longdesc, shortdesc or translation/enum -->
+
+    <!-- for elements, we only want longdesc information -->
+    <element parent="element" source="http://www.cg95.fr/cvq/schema/longdesc"/>
+    <!-- for other elements, we want all information -->
+    <element parent="*" source="*"/>
+  </documentation>
+
+  <appinfo>
+    <!-- parent can be request, element, property or * -->
+    <!-- model match a XML node name inside xs:appinfo tag -->
+
+    <!-- we want model and fo nodes information for request and element -->
+    <element parent="request,element" node="model,fo"/>
+    <!-- we only want fo nodes information for property -->
+    <element parent="property" node="fo"/>
+  </appinfo>
+
+  <!-- plugins can add whatever they want/need inside this tag -->
+  <configuration/>
+
+</plugin>

@@ -1,0 +1,33 @@
+Chaque ville peut personnaliser ses données via des fichiers de propriétés
+(fichiers .properties à la sauce java).
+
+Le chemin vers le répertoire racine des fichiers de propriétés peut être
+paramétré dans le fameux fichiers applicationContext-deployment.xml (cf bean
+referentialInitializerService). Partant de ce répertoire, l'application va
+chercher les fichiers de propriétés d'une ville dans le sous répertoire
+<city_name>. Si ce répertoire n'existe pas, elle cherchera alors dans le sous
+répertoire 'default' et s'arrêtera avec une erreur s'il n'existe pas non plus.
+
+Liste des éléments pouvant être paramétrés (les fichiers .properties sont
+documentés, notamment les attributs supportés et leur syntaxe => en particulier,
+il y a certaines conventions à respecter pour faire le liant entre les
+différents objets, par exemple entre les demandes et les pièces jointes, ce qui,
+amha, nécessite que la saisie de ces fichiers soit faite par une personne un
+minimum technique) :
+      * la liste des vacances : nom, date de début et date de fin
+      * la liste des activités périscolaires : nom, date de début et date de fin
+      * les types de demandes : label, fichier de configuration XML et booléen
+      indiquant si la demande est active
+      * les types de PJs : nom, type de PJ (pièce d'identité, justificatif de
+      domicile, ...), type et durée de validité (la durée est un chiffre et le
+      type une unité) et type d'usage (réutilisable ou non)
+      * les types de formulaires : type de formulaire, chemin vers son fichier
+      XSL et le type de demande qui utilise ce formulaire
+      * les "requirements" (ce qui permet de faire le lien entre les demandes et
+      leurs pièces jointes) : le nom de la demande, le type de la PJ, le nombre
+      d'exemplaires de la PJ nécessaire, un booléen indiquant si c'est un cas
+      spécial et une chaine expliquant pourquoi c'est un cas spécial.
+
+
+
+

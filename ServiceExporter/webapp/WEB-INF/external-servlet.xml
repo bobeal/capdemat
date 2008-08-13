@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="homeFolderServiceEndpoint" 
+    class="fr.cg95.cvq.exporter.service.endpoint.HomeFolderServiceEndpoint">
+    <constructor-arg ref="xmlBeanMarshaller" />
+    <property name="homeFolderService" ref="homeFolderService"></property>  
+  </bean>
+  
+  <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
+    <property name="mappings">
+        <props>
+            <prop key="{http://www.capwebct.fr/capdemat}GetHomeFoldersRequest">homeFolderServiceEndpoint</prop>
+        </props>
+    </property>
+    <property name="interceptors">
+        <bean class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor"/>
+    </property>
+  </bean>
+
+  <bean id="xmlBeanMarshaller" class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller" />
+
+</beans>

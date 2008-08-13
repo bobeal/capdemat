@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="agentTaskService" class="fr.cg95.cvq.exporter.service.bo.impl.AgentTaskService">
+    <property name="agentService">
+      <ref bean="agentService"/>
+    </property>
+  </bean>
+
+  <bean id="provisioningService" class="fr.cg95.cvq.exporter.service.bo.impl.ProvisioningService">
+    <property name="agentService">
+      <ref bean="agentService"/>
+    </property>
+    <property name="schoolDAO">
+      <ref bean="schoolDAO"/>
+    </property>
+    <property name="recreationCenterDAO">
+      <ref bean="recreationCenterDAO"/>
+    </property>
+    <property name="localAuthorityRegistry">
+      <ref bean="localAuthorityRegistry"/>
+    </property>
+    <property name="authorizeAlreadyCreated" value="true">
+    </property>
+  </bean>
+
+  <bean id="homeFolderWebService" class="fr.cg95.cvq.exporter.service.fo.impl.HomeFolderService">
+    <property name="homeFolderService">
+      <ref bean="homeFolderService"/>
+    </property>
+  </bean>
+
+  <bean id="individualWebService" class="fr.cg95.cvq.exporter.service.fo.impl.IndividualService">
+    <property name="individualService">
+      <ref bean="individualService"/>
+    </property>
+    <property name="homeFolderModificationRequest">
+      <ref bean="homeFolderModificationRequestService"/>
+    </property>
+  </bean>
+
+  <bean id="requestWebService" class="fr.cg95.cvq.exporter.service.fo.impl.RequestService">
+    <property name="requestService">
+    		<ref bean="defaultRequestService"/>
+    </property>
+    <property name="electoralRollRegistrationRequestService">
+	    	<ref bean="electoralRollRegistrationRequestService"/>
+    	</property>
+  </bean>
+
+  <bean id="documentWebService" class="fr.cg95.cvq.exporter.service.fo.impl.DocumentService">
+    <property name="documentService">
+      <ref bean="documentService"/>
+    </property>
+  </bean>
+
+  <bean id="localizationWebService" class="fr.cg95.cvq.exporter.service.localization.impl.LocalizationService">
+	<property name="localizationService">
+	  <ref bean="localizationService"/>
+	</property>
+  </bean>
+</beans>

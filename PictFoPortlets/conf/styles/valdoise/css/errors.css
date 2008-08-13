@@ -1,0 +1,44 @@
+/** Styles pour les erreurs **/
+
+.portlet-error {
+	background: #fdc;
+	border: 2px solid #d00;
+	color: #500;
+	padding: .5em;
+	margin: 0;
+}
+
+.portlet-error pre {
+	display : none;
+}
+
+/** page 404 **/
+
+#pict-error-404 h1 {
+	margin : 0 0 0.5em 0;
+	font-size: 2em;
+	color: #861d8a;
+	font-variant: small-caps;
+	letter-spacing: -1px;
+	padding : 10px 60px;
+	background : url(../images/404.gif) left no-repeat;
+}
+
+#pict-error-404 ul {
+	list-style : none;
+	padding-left : 20px;
+}
+
+#pict-error-404 li a {
+	padding-left : 10px;
+	background : url(../images/puce.png) left no-repeat;
+}
+
+#pict-error-404 hr {
+	margin : 30px;
+}
+
+#pict-error-404 a.sendMail {
+	padding-left : 18px;
+	background : url(../images/mail.png) left no-repeat;
+}

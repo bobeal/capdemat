@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<csv-mapping>
+
+  <bean-mapping name="SubscribersList"
+    class="fr.capwebct.capdemat.plugins.csvimporters.subscriberslist.business.SubscriberLine"
+    csvHeader="false">
+    
+    <field-mapping name="Numero abonne"
+      type="java.lang.String"
+      position="0"
+      attribute="idSubscriber"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Places abonne tarif plein"
+      type="java.lang.String"
+      position="1"
+      attribute="fullPriceSubscriber"
+      reformat="authorizedPlaces"
+      bean-ref="none" />
+
+    <field-mapping name="Places abonne tarif réduit"
+      type="java.lang.String"
+      position="2"
+      attribute="reducedPriceSubscriber"
+      reformat="authorizedPlaces"
+      bean-ref="none" />
+
+  </bean-mapping>
+  
+</csv-mapping>

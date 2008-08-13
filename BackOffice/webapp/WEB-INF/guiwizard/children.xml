@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<cvqmanager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="managers.xsd" >
+					
+  <processes group="children" caption="Scolaire" icon="pictoSchool" order="3">
+	<process name="eSchool">
+		<label>Inscription scolaire</label>
+		<record>fr.cg95.cvq.bo.school.SchoolRegistrationRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.school.SchoolRegistrationPersistence</persistence>
+		<information label="Règlement interne de l'école.">txt/ReglementScolaire.txt</information>
+		
+	  	<state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/school/displayschool</form>
+			<form>/jsp/bo/process/displayschoolfooter</form>
+		</state>
+	  	<state name="check">
+			<form scope="request">/jsp/bo/process/school/checkschool</form>
+		</state>
+	  	<state name="print">
+			<form scope="request">/jsp/bo/process/school/printschool</form>
+		</state>
+	</process>
+	<process name="eCanteen">
+		<label>Inscription cantine</label>
+		<record>fr.cg95.cvq.bo.school.SchoolCanteenRegistrationRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.school.SchoolCanteenPersistence</persistence>
+		
+	  	<state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/school/displaycanteen</form>
+			<form>/jsp/bo/process/displayschoolfooter</form>
+		</state>
+	  	<state name="check">
+			<form scope="request">/jsp/bo/process/school/checkcanteen</form>
+		</state>
+	  	<state name="print">
+			<form scope="request">/jsp/bo/process/school/printcanteen</form>
+		</state>
+	</process>
+	<process name="ePeriSchool">
+		<label>Inscription périscolaire</label>
+		<record>fr.cg95.cvq.bo.school.PerischoolActivityRegistrationRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.school.PerischoolActivityPersistence</persistence>
+		
+		<state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/school/displayperischool</form>
+			<form>/jsp/bo/process/displayschoolfooter</form>
+		</state>
+		<state name="check">
+			<form scope="request">/jsp/bo/process/school/checkperischool</form>
+		</state>
+		<state name="print">
+			<form scope="request">/jsp/bo/process/school/printperischool</form>
+		</state>
+	</process>
+	<process name="eRecreation">
+		<label>Inscription centre de loisirs</label>
+		<record>fr.cg95.cvq.bo.school.RecreationActivityRegistrationRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.school.RecreationActivityPersistence</persistence>
+		
+		<state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/school/displayrecreation</form>
+			<form>/jsp/bo/process/displayschoolfooter</form>
+		</state>
+		<state name="check">
+			<form scope="request">/jsp/bo/process/school/checkrecreation</form>
+		</state>
+		<state name="print">
+			<form scope="request">/jsp/bo/process/school/printrecreation</form>
+		</state>
+	</process>
+	<process name="eVacations">
+		<label>Inscription vacances</label>
+		<record>fr.cg95.cvq.bo.school.VacationsRegistrationRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.school.VacationsRegistrationPersistence</persistence>
+	</process>
+  </processes>
+  
+</cvqmanager>
+					

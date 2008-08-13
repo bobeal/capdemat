@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PlaceReservation xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>PlaceReservationRequest</request>
+    <data name="PlaceReservation">
+        <label lang="fr">Places réservées</label>
+    </data>
+</PlaceReservation>

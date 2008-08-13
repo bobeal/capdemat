@@ -1,0 +1,200 @@
+/* styles for information and error messages */
+
+div .message {
+	border: 1px solid #FFCC00;
+	padding: 5px;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+div .errors {
+	border: 2px solid red;
+	padding: 5px;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+div .errors-form {
+    color: red;
+    text-align: center;	
+}
+
+.invisible {
+	display: none;
+}
+
+/* search and accounts results */
+
+div.search-results {
+	/* margin-top : 2em; */
+}
+
+div.search-results table {
+	width: 100%;
+}
+
+div.search-results-nopaginator table {
+	width: 100%;
+	margin:1em 0 1em 0 ! important;
+}
+
+div.search-results-paginator {
+	background-color:#E6F2EF;
+	border:1px solid #34AA87;
+	margin:1em 0 1em 0;
+	padding:0.3em;
+	text-align:center;
+}
+
+div.search-results-paginator a, div.search-results-paginator span {
+	margin: 0 0.5em 0 0.5em;
+}
+
+div .accounts-results {
+	margin-top : 10px;
+}
+
+span.results-rows-dropdown {
+	padding-left: 2em;
+}
+
+div .information {
+	border: 1px solid #34AA87;
+	padding: 10px;
+	margin: 0;
+}
+
+div .information-title {
+	text-align: center;
+	font-weight: bold;
+}
+	
+/* layout customization */
+
+#hd-footer {
+	border-top: 2px solid #34AA87;
+	clear:both;
+	width:100%;
+	height: 0.5em;
+}
+
+#ft {
+	border-top: 2px solid #34AA87;
+	text-align: center;
+	margin-top: 1em;
+}
+
+#body-header {
+	border: 1px solid #34AA87;
+}
+
+h1 {
+	margin-top: 1em;
+	margin-bottom: 2em;
+	font-size: larger;
+	font-weight: bold;
+	text-align: center;
+}
+
+h2 {
+	margin-top: 2em;
+	font-weight: bold;
+	text-align: center;
+}
+
+/* panel styles */
+
+div.yui-panel div.hd {
+	background: transparent url(../img/table/table_header.png) repeat-x scroll 0pt -105px;
+	font-weight: normal;
+	color: black;
+}
+
+div.yui-panel table {
+	border: 1px solid #34AA87;
+}
+
+div.yui-panel th {
+	background: url(../img/table/table_header.png) repeat-x 0 -10px;
+	padding: 5px;
+	border: 1px solid #34AA87;
+}
+
+div.yui-panel tr.odd {
+	background-color: #E6F2EF;
+}
+
+div.yui-panel tr.even {
+	background-color: #FFFFFF;
+}
+
+div.yui-panel td {
+	text-align: left;
+	padding: 5px;
+	border-right: 1px solid #34AA87;
+	border-left: 1px solid #34AA87;
+}
+
+/**
+* overrides of YUI sam skin
+*/
+
+.table-header {
+	text-align: center;
+}
+
+.yui-skin-sam .yui-dt thead {
+	border: 1px solid #989898;
+}
+
+.yui-skin-sam .yui-dt tbody {
+	border-left: 1px solid #34AA87;
+	border-right: 1px solid #34AA87;
+	border-bottom: 1px solid #34AA87;
+}
+
+.yui-skin-sam .yui-dt th {
+	background: url(../img/table/table_header.png) repeat-x 0 -10px;
+}
+
+.yui-skin-sam th.yui-dt-asc, .yui-skin-sam th.yui-dt-desc {
+	background: url(../img/table/table_header.png) repeat-x 0 -105px;
+}
+
+.yui-skin-sam th.yui-dt-asc .yui-dt-liner {
+	background: url(../img/table/dt-arrow-up.png) no-repeat right;
+}
+
+.yui-skin-sam th.yui-dt-desc .yui-dt-liner {
+	background: url(../img/table/dt-arrow-dn.png) no-repeat right;
+}
+
+.yui-skin-sam tr.yui-dt-even {
+	background-color: #FFF;
+}
+
+.yui-skin-sam tr.yui-dt-odd {
+	background-color: #E6F2EF;
+}
+
+yui-skin-sam tr.yui-dt-even td.yui-dt-asc,.yui-skin-sam tr.yui-dt-even td.yui-dt-desc {
+	background-color: #E6F2EF;
+}
+
+.yui-skin-sam tr.yui-dt-odd td.yui-dt-asc,.yui-skin-sam tr.yui-dt-odd td.yui-dt-desc {
+	background-color: #34AA87;
+}
+
+.yui-button button {
+	background: url(../img/table/table_header.png) repeat-x 0 -10px;
+    padding:.25em .5em;
+    border:1px solid #34AA87;
+    cursor:pointer;
+    cursor:hand;
+    margin: 5px 0pt 0pt 10px;
+}
+
+.yui-button-hover button, .yui-button-hover a {
+	background: url(../img/table/table_header.png) repeat-x 0 -105px;
+}
+

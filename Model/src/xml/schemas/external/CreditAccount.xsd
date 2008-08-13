@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/modules/payment/schema/ban"
+  xmlns:ban="http://www.capwebct.fr/modules/payment/schema/ban"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:element name="bank-transaction">
+    <xs:annotation>
+      <xs:documentation>
+        A message sent to an external service after a successful payment upon data managed by it
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="payment" type="ban:paymentType">
+          <xs:annotation>
+            <xs:documentation>
+              Global information about the payment
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="family" type="ban:familyType">
+          <xs:annotation>
+            <xs:documentation>
+              Global information about the home folder who did the payment
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="accounts">
+          <xs:annotation>
+            <xs:documentation>
+              Container for the accounts concerned by the payment
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="account" type="ban:accountUpdateType" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="invoices">
+          <xs:annotation>
+            <xs:documentation>
+              Container for the invoices concerned by the payment
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="invoice" type="ban:invoiceUpdateType" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contracts">
+          <xs:annotation>
+            <xs:documentation>
+              Container for the contracts concerned by the payment
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="contract" type="ban:contractUpdateType" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="paymentType">
+    <xs:attribute name="payment-date" type="xs:dateTime">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Date de validation du paiement</xs:documentation>
+        <xs:documentation xml:lang="en">Payment's validation date</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="payment-amount" type="xs:int">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Montant du paiement (en centimes d'euros)</xs:documentation>
+        <xs:documentation xml:lang="en">Payment amount (in cents of euros)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="payment-type" type="xs:string">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Moyen de paiement</xs:documentation>
+        <xs:documentation xml:lang="en">Payment type</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="payment-ack" type="xs:string">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Référence bancaire du paiement</xs:documentation>
+        <xs:documentation xml:lang="en">Bank reference of the payment</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cvq-ack" type="xs:string">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Référence CapDémat du paiement</xs:documentation>
+        <xs:documentation xml:lang="en">CapDemat's reference of the payment</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="payment-broker" type="xs:string">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Régie associée au paiement</xs:documentation>
+        <xs:documentation xml:lang="en">Payment's broker</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="familyType">
+    <xs:attribute name="id" type="xs:long">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Identifiant CapDémat du foyer</xs:documentation>
+        <xs:documentation xml:lang="en">CapDemat identifier for the home folder</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="zip" type="xs:string">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Code postal de la collectivité d'inscription du foyer</xs:documentation>
+        <xs:documentation xml:lang="en">Postal code of the home folder's local authority</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="contractUpdateType">
+    <xs:annotation>
+      <xs:documentation>
+        Represent an update of an individual contract
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="contract-id" type="xs:string" />
+    <xs:attribute name="external-individual-id" type="xs:string" />
+    <xs:attribute name="external-family-account-id" type="xs:string" />
+    <xs:attribute name="external-application-id" type="xs:long" />
+    <xs:attribute name="capwebct-individual-id" type="xs:long" />
+    <xs:attribute name="quantity" type="xs:int" />
+    <xs:attribute name="price" type="xs:int" />
+    <xs:attribute name="amount" type="xs:int" />
+  </xs:complexType>
+  
+  <xs:complexType name="accountUpdateType">
+    <xs:annotation>
+      <xs:documentation>
+        Represent an update of a deposit account
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="account-id" type="xs:string" />
+    <xs:attribute name="external-family-account-id" type="xs:string" />
+    <xs:attribute name="external-application-id" type="xs:long" />
+    <xs:attribute name="account-old-value" type="xs:int" />
+    <xs:attribute name="account-old-value-date" type="xs:dateTime" />
+    <xs:attribute name="account-new-value" type="xs:int" />
+  </xs:complexType>
+  
+  <xs:complexType name="invoiceUpdateType">
+    <xs:annotation>
+      <xs:documentation>
+        Represent an invoice payment
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="invoice-id" type="xs:string" />
+    <xs:attribute name="external-family-account-id" type="xs:string" />
+    <xs:attribute name="external-application-id" type="xs:long" />
+    <xs:attribute name="amount" type="xs:int" />
+  </xs:complexType>
+
+</xs:schema>
+

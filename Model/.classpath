@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry output="build/test" kind="src" path="test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JRE1.5"/>
+	<classpathentry kind="lib" path="lib/org.apache/ant-junit-1.6.2.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.springframework/jdom.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.springframework/jta.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/fop-0.20.5/avalon-framework-cvs-20020806.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/fop-0.20.5/fop.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/common/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/common/commons-pool.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/jaxen/jaxen-core.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/jaxen/jaxen-dom.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/jaxen/saxpath.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/log4j/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/jakarta-struts-1.1/struts.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/jakarta-tomcat-4.1.30/servlet.jar"/>
+	<classpathentry sourcepath="/home/bor/java/xmlbeans/trunk/src/xmlpublic" kind="lib" path="/Libraries/org.apache/xmlbean/xbean.jar"/>
+	<classpathentry sourcepath="/home/bor/java/spring/spring-framework-1.2.8/mock" kind="lib" path="lib/org.springframework/spring-mock.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/common/commons-lang-2.1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/axis-1.2.1/axis.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/axis-1.2.1/axis-ant.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/axis-1.2.1/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/axis-1.2.1/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/axis-1.2.1/wsdl4j-1.5.1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/common/commons-codec.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jaf/activation.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/common/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/mail/mail.jar"/>
+	<classpathentry kind="lib" path="/Libraries/edu.yale/cas/casclient-2.1.1-1.jar"/>
+	<classpathentry sourcepath="/home/bor/java/spring/spring-framework-1.2.8/src" kind="lib" path="/Libraries/org.springframework/spring.jar"/>
+	<classpathentry kind="lib" path="lib/junit/junit.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/xmlbean/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.apache/ant/ant.jar"/>
+	<classpathentry kind="lib" path="/Libraries/net.sf/saxon/saxon8.jar"/>
+	<classpathentry sourcepath="/CSVParser" kind="lib" path="/Libraries/net.sf/csvobjects/CSVObjects-1.0RC1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/fr.cg95/model/CVQ-RequestSchemas-TRUNK-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/Libraries/com.sun/saaj-api.jar"/>
+	<classpathentry kind="lib" path="lib/cobertura/asm-tree-2.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/org.hsqldb/hsqldb-1.8.0.jar"/>
+	<classpathentry kind="lib" path="lib/cobertura/cobertura.jar"/>
+	<classpathentry kind="lib" path="lib/xdoclet/xdoclet-2.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/xdoclet/xdoclet-plugin-hibernate-1.0.2.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.hibernate/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.hibernate/c3p0-0.9.1-pre10.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.hibernate/cglib-nodep-2.1_3.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.hibernate/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.hibernate/ehcache-1.2.3.jar"/>
+	<classpathentry kind="lib" path="/Libraries/org.hibernate/hibernate3.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

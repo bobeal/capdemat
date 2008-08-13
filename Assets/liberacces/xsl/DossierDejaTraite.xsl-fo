@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:cert="http://www.cg95.fr/cvq/certificate"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<xsl:template match="/">
+		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<fo:layout-master-set>
+				<fo:simple-page-master page-width="21.0cm"
+					page-height="842.0pt" master-name="Section1-rest"
+					margin-top="21.25pt" margin-bottom="28.35pt"
+					margin-left="35.45833333333333pt"
+					margin-right="59.083333333333336pt">
+					<fo:region-before extent="21.25pt" />
+					<fo:region-after extent="28.35pt" />
+					<fo:region-body margin-top="21.25pt"
+						margin-bottom="28.35pt" />
+				</fo:simple-page-master>
+				<fo:page-sequence-master master-name="Section1-ps">
+					<fo:repeatable-page-master-reference
+						master-reference="Section1-rest" />
+				</fo:page-sequence-master>
+			</fo:layout-master-set>
+			<fo:page-sequence master-reference="Section1-ps">
+				<fo:static-content flow-name="xsl-region-before" />
+				<fo:static-content flow-name="xsl-region-after" />
+				<fo:flow flow-name="xsl-region-body">
+					<fo:block page-break-inside="avoid"
+						font-size="11.0pt" font-family="serif" color="black"
+						font-weight="bold">
+						DÉMONSTRATEUR LIBERACCES
+					</fo:block>
+					<fo:block start-indent="283.6pt" page-break-inside="avoid"
+						font-size="11.0pt" font-family="serif" color="black"
+						font-weight="bold">
+						LiberAccés
+					</fo:block>
+					<fo:block start-indent="283.6pt" page-break-inside="avoid"
+						font-size="11.0pt" font-family="serif" color="black"
+						font-weight="bold">
+						Hôtel du Département
+					</fo:block>
+					<fo:block start-indent="283.6pt" page-break-inside="avoid"
+						font-size="11.0pt" font-family="serif" color="black"
+						font-weight="bold">
+						2, avenue du Parc
+					</fo:block>
+					<fo:block start-indent="283.6pt" page-break-inside="avoid"
+						font-size="11.0pt" font-family="serif" color="black"
+						font-weight="bold">
+						95032 Cergy-Pontoise Cedex
+					</fo:block>
+					<fo:block start-indent="283.6pt" page-break-inside="avoid"
+						font-size="11.0pt" font-family="serif" color="black"
+						font-weight="bold">
+						<fo:inline font-style="italic">
+						TEL. 01 34 25 32 70
+						</fo:inline>
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif"
+						text-indent="-.05pt" space-before.optimum="0cm"
+						end-indent="-13.05pt" start-indent="36.0pt"
+						space-after.optimum="4.0E-5pt">
+						<fo:external-graphic height="52.5pt"
+							width="95.25pt" src="file:xsllogo.jpg" />
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif"
+						text-indent="-.05pt" space-before.optimum="0cm"
+						end-indent="-13.05pt" start-indent=".05pt"
+						space-after.optimum="4.0E-5pt">
+						 
+					</fo:block>
+					<fo:block start-indent="283.6pt" font-size="11.0pt" font-family="serif"
+						text-indent="-.05pt" space-before.optimum="0cm"
+						end-indent="-13.05pt" space-after.optimum="4.0E-5pt">
+						La Rochelle, le
+						<xsl:for-each select="//cert:date">
+							<xsl:apply-templates />
+						</xsl:for-each>
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif">
+						 
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif">
+						 
+					</fo:block>
+					<fo:block start-indent="283.6pt" font-size="11.0pt"
+						font-family="serif">
+						Mme et M.
+						<xsl:for-each select="//cert:nom">
+							<xsl:apply-templates />
+						</xsl:for-each>
+					</fo:block>
+					<xsl:for-each select="//cert:adresse">
+						<fo:block start-indent="283.6pt"
+							font-size="11.0pt" font-family="serif">
+							<xsl:apply-templates />
+						</fo:block>
+					</xsl:for-each>
+					<fo:block start-indent="283.6pt" font-size="11.0pt"
+						font-family="serif">
+						<xsl:for-each select="//cert:codepostal">
+							<xsl:apply-templates />
+						</xsl:for-each>
+						 
+						<xsl:for-each select="//cert:ville">
+							<xsl:apply-templates />
+						</xsl:for-each>
+					</fo:block>
+					<fo:block start-indent="283.6pt" font-size="11.0pt"
+						font-family="serif">
+						 
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif"
+						space-before.optimum="0cm" end-indent="0cm" start-indent="35.45pt"
+						space-after.optimum="2.4pt">
+						<fo:inline font-weight="bold">N/Réf</fo:inline>
+						. :
+						<xsl:for-each select="//cert:service">
+							<xsl:apply-templates />
+						</xsl:for-each>
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif"
+						space-before.optimum="0cm" end-indent="0cm" start-indent="35.45pt"
+						space-after.optimum="2.4pt">
+						<fo:inline font-weight="bold">V/Réf</fo:inline>
+						. : dossier n°
+						<xsl:for-each select="//cert:numero_demande">
+							<xsl:apply-templates />
+						</xsl:for-each>
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif"
+						space-before.optimum="0cm" end-indent="0cm" start-indent="35.45pt"
+						space-after.optimum="2.4pt">
+						<fo:inline font-weight="bold">
+							Objet 
+						</fo:inline>
+						: Dossier déja traité
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif"
+						start-indent="35.45pt">
+						<fo:inline font-weight="bold">
+							Envoi 
+						</fo:inline>
+						:
+						<xsl:for-each select="//cert:envoi">
+							<xsl:apply-templates />
+						</xsl:for-each>
+					</fo:block>
+					<fo:block space-after.optimum="6.0pt"
+						font-size="11.0pt" font-family="serif" start-indent="35.45pt">
+						 
+					</fo:block>
+					<fo:block space-after.optimum="6.0pt"
+						font-size="11.0pt" font-family="serif" text-align="justify"
+						start-indent="35.45pt">
+						 
+					</fo:block>
+					<fo:block space-after.optimum="6.0pt"
+						text-align="justify" text-indent="2.0cm" font-size="11.0pt"
+						font-family="serif">
+						Madame, Monsieur,
+					</fo:block>
+					<fo:block space-after.optimum="6.0pt"
+						text-align="justify" text-indent="2.0cm" font-size="11.0pt"
+						font-family="serif">
+						 
+					</fo:block>
+					<fo:block space-after.optimum="6.0pt"
+						text-align="justify" text-indent="2.0cm" font-size="11.0pt"
+						font-family="serif">
+						Nous avons bien reçu votre demande
+						<xsl:for-each select="//cert:type_demande">
+							<xsl:apply-templates />
+						</xsl:for-each>
+						du
+						<xsl:for-each select="//cert:date_demande">
+							<xsl:apply-templates />
+						</xsl:for-each>
+						.
+					</fo:block>
+					<fo:block space-after.optimum="6.0pt"
+						text-align="justify" text-indent="2.0cm" font-size="11.0pt"
+						font-family="serif">
+        				Cette demande ne peut etre validée,car une autre a 
+        				été précédemment enregistrée par nos services. 
+					</fo:block>
+					<xsl:for-each select="//cert:observations">
+						<fo:block space-after.optimum="6.0pt"
+							text-align="justify" text-indent="2.0cm" font-size="11.0pt"
+							font-family="serif">
+							<xsl:apply-templates />
+						</fo:block>
+					</xsl:for-each>
+					<fo:block space-after.optimum="6.0pt"
+						text-align="justify" text-indent="2.0cm" font-size="11.0pt"
+						font-family="serif">
+        				Avec nos sentiments les meilleurs. 
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif"
+						start-indent="18.55pt">
+						 
+					</fo:block>
+					<fo:block font-size="11.0pt" font-family="serif"
+						start-indent="18.55pt">
+						 
+					</fo:block>
+					<xsl:for-each select="//cert:service">
+						<fo:block start-indent="248.15pt"
+							font-size="11.0pt" font-family="serif">
+							<xsl:apply-templates />
+						</fo:block>
+					</xsl:for-each>
+				</fo:flow>
+			</fo:page-sequence>
+		</fo:root>
+	</xsl:template>
+</xsl:stylesheet>

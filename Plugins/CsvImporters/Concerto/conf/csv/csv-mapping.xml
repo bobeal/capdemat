@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<csv-mapping>
+
+  <bean-mapping name="Concerto"
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.business.ConcertoLine"
+    csvHeader="true">
+    
+    <field-mapping name="Code Famille"
+      type="java.lang.Long"
+      position="0"
+      attribute="idConcerto"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Nom inscrit"
+      type="fr.cg95.cvq.business.users.Child"
+      position="1"
+      attribute="child"
+      reformat="none"
+      bean-ref="childBean" />
+
+    <field-mapping name="Prénom inscrit"
+      type="fr.cg95.cvq.business.users.Child"
+      position="2"
+      attribute="child"
+      reformat="none"
+      bean-ref="childBean" />
+
+    <field-mapping name="Sexe inscrit"
+      type="fr.cg95.cvq.business.users.Child"
+      position="4"
+      attribute="child"
+      reformat="none"
+      bean-ref="childBean" />
+
+    <field-mapping name="Date de naissance inscrit"
+      type="fr.cg95.cvq.business.users.Child"
+      position="5"
+      attribute="child"
+      reformat="none"
+      bean-ref="childBean" />
+
+    <field-mapping name="Niveau inscrit (pour Cantine)"
+      type="fr.cg95.cvq.business.school.SchoolCanteenRegistrationRequest"
+      position="6"
+      attribute="scrr"
+      reformat="none"
+      bean-ref="schoolCanteenRegistrationRequestBean" />
+
+    <field-mapping name="Niveau inscrit (pour Ecole)"
+      type="fr.cg95.cvq.business.school.SchoolRegistrationRequest"
+      position="6"
+      attribute="srr"
+      reformat="none"
+      bean-ref="schoolRegistrationRequestBean" />
+
+    <field-mapping name="Cantine"
+      type="java.lang.String"
+      position="7"
+      attribute="registeredToSchoolCanteen"
+      reformat="schoolCanteenRegistration"
+      bean-ref="none" />
+
+    <field-mapping name="Régime"
+      type="java.lang.String"
+      position="8"
+      attribute="scrr"
+      reformat="none"
+      bean-ref="schoolCanteenRegistrationRequestBean" />
+
+    <field-mapping name="Civilité responsable 1"
+      type="java.lang.String"
+      position="9"
+      attribute="homeFolderResponsible"
+      reformat="none"
+      bean-ref="homeFolderResponsibleBean" />
+
+    <field-mapping name="Nom responsable 1"
+      type="java.lang.String"
+      position="10"
+      attribute="homeFolderResponsible"
+      reformat="none"
+      bean-ref="homeFolderResponsibleBean" />
+
+    <field-mapping name="Prénom responsable 1"
+      type="java.lang.String"
+      position="11"
+      attribute="homeFolderResponsible"
+      reformat="none"
+      bean-ref="homeFolderResponsibleBean" />
+
+    <field-mapping name="Adresse responsable 1"
+      type="java.lang.String"
+      position="12"
+      attribute="homeFolderResponsible"
+      reformat="none"
+      bean-ref="homeFolderResponsibleBean" />
+
+    <field-mapping name="Téléphone responsable 1"
+      type="java.lang.String"
+      position="13"
+      attribute="homeFolderResponsible"
+      reformat="none"
+      bean-ref="homeFolderResponsibleBean" />
+
+    <field-mapping name="Civilité responsable 2"
+      type="java.lang.String"
+      position="14"
+      attribute="otherHomeFolderAdult"
+      reformat="none"
+      bean-ref="otherHomeFolderAdultBean" />
+
+    <field-mapping name="Nom responsable 2"
+      type="java.lang.String"
+      position="15"
+      attribute="otherHomeFolderAdult"
+      reformat="none"
+      bean-ref="otherHomeFolderAdultBean" />
+
+    <field-mapping name="Prénom responsable 2"
+      type="java.lang.String"
+      position="16"
+      attribute="otherHomeFolderAdult"
+      reformat="none"
+      bean-ref="otherHomeFolderAdultBean" />
+
+    <field-mapping name="Valeur QF"
+      type="java.lang.String"
+      position="18"
+      attribute="familyQuotient"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Lieu d'inscription"
+      type="java.lang.String"
+      position="19"
+      attribute="schoolName"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Garderie"
+      type="java.lang.String"
+      position="20"
+      attribute="registeredToPerischoolActivity"
+      reformat="perischoolActivityRegistration"
+      bean-ref="none" />
+
+  </bean-mapping>
+
+  <bean-mapping name="childBean"
+    class="fr.cg95.cvq.business.users.Child"
+    csvHeader="true">
+  
+    <field-mapping name="Nom inscrit"
+      type="java.lang.String"
+      position="1"
+      attribute="lastName"
+      reformat="none"
+      bean-ref="none" />
+        
+    <field-mapping name="Prénom inscrit"
+      type="java.lang.String"
+      position="2"
+      attribute="firstName"
+      reformat="none"
+      bean-ref="none" />
+        
+    <field-mapping name="Sexe inscrit"
+      type="java.lang.String"
+      position="4"
+      attribute="sex"
+      reformat="sexType"
+      bean-ref="none" />
+        
+    <field-mapping name="Date de naissance inscrit"
+      type="java.util.Date"
+      position="5"
+      attribute="birthDate"
+      reformat="birthDate"
+      bean-ref="none" />
+
+  </bean-mapping>
+  
+  <bean-mapping name="schoolCanteenRegistrationRequestBean"
+    class="fr.cg95.cvq.business.school.SchoolCanteenRegistrationRequest"
+    csvHeader="true">
+  
+    <field-mapping name="Niveau inscrit"
+      type="java.lang.String"
+      position="6"
+      attribute="section"
+      reformat="sectionType"
+      bean-ref="none" />
+
+    <field-mapping name="Régime"
+      type="java.lang.String"
+      position="8"
+      attribute="foodDiet"
+      reformat="foodDiet"
+      bean-ref="none" />
+
+  </bean-mapping>
+
+  <bean-mapping name="schoolRegistrationRequestBean"
+    class="fr.cg95.cvq.business.school.SchoolRegistrationRequest"
+    csvHeader="true">
+  
+    <field-mapping name="Niveau inscrit"
+      type="java.lang.String"
+      position="6"
+      attribute="section"
+      reformat="sectionType"
+      bean-ref="none" />
+
+  </bean-mapping>
+
+  <bean-mapping name="homeFolderResponsibleBean"
+    class="fr.cg95.cvq.business.users.Adult"
+    csvHeader="true">
+  
+    <field-mapping name="Civilité responsable 1"
+      type="java.lang.String"
+      position="9"
+      attribute="title"
+      reformat="titleType"
+      bean-ref="none" />
+
+    <field-mapping name="Nom responsable 1"
+      type="java.lang.String"
+      position="10"
+      attribute="lastName"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Prénom responsable 1"
+      type="java.lang.String"
+      position="11"
+      attribute="firstName"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Adresse responsable 1"
+      type="java.lang.String"
+      position="12"
+      attribute="adress"
+      reformat="address"
+      bean-ref="none" />
+
+    <field-mapping name="Téléphone responsable 1"
+      type="java.lang.String"
+      position="13"
+      attribute="homePhone"
+      reformat="phoneType"
+      bean-ref="none" />
+
+  </bean-mapping>
+
+  <bean-mapping name="otherHomeFolderAdultBean"
+    class="fr.cg95.cvq.business.users.Adult"
+    csvHeader="true">
+  
+    <field-mapping name="Civilité responsable 2"
+      type="java.lang.String"
+      position="14"
+      attribute="title"
+      reformat="titleType"
+      bean-ref="none" />
+
+    <field-mapping name="Nom responsable 2"
+      type="java.lang.String"
+      position="15"
+      attribute="lastName"
+      reformat="none"
+      bean-ref="none" />
+
+    <field-mapping name="Prénom responsable 2"
+      type="java.lang.String"
+      position="16"
+      attribute="firstName"
+      reformat="none"
+      bean-ref="none" />
+
+  </bean-mapping>
+
+</csv-mapping>

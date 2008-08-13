@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<cvqprocess xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	 xsi:noNamespaceSchemaLocation="processes.xsd" >
+
+  <processes group="urban" caption="Urbanisme" order="2">
+	<!--****************** PROCESSUS DEMANDES D'ALIGNEMENT *******************-->
+	<process name="eAlign" caption="Alignement" time="3">
+		<title>Certificat d'alignement</title>
+		<package>fr.cg95.cvq.fo.urban.align</package>
+        <persistence>fr.cg95.cvq.fo.urban.AlignmentCertificatePersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage ref="Requester" />
+		
+		<stage name="Cadastre" caption="Cadastre" stagemenu="display">
+			<title>Situation cadastrale de l'immeuble</title>
+			<info>Informations cadastrales.</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer les informations sur la qualité du demandeur?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+
+			<default>cadastre</default>
+			<next confirm="continue"/>
+			
+			<state name="cadastre">
+				<title>Situation cadastrale</title>
+				<form>/urban/align/cadastre/cadastre</form>
+				<button confirm="cancel" action="" transition="cadastre">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Situation cadastrale</title>
+				<form>/urban/align/cadastre/display</form>
+				<form condition="requesterQuality==Tenant">/urban/align/cadastre/displayowner</form>
+				<button confirm="delete" action="reset" transition="cadastre">Supprimer</button>
+				<button transition="cadastre" action="">Modifier</button>
+			</state>
+
+		</stage>
+		
+		<stage ref="Documents"/>
+		
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+		  
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/common/validation/requester</form>
+				<form>/urban/align/validation/summary</form>
+				<form condition="requesterQuality==Tenant">/urban/align/validation/summaryowner</form>
+				<form>/common/validation/documents</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="trace">
+				<form>/common/validation/trace</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+	</process>
+
+	<process name="eSewer" caption="Raccordement" time="3">
+		<title>Raccordement à l'égout</title>
+		<package>fr.cg95.cvq.fo.urban.sewer</package>
+        <persistence>fr.cg95.cvq.fo.urban.SewerConnectionPersistence</persistence>
+
+	    <!-- ******************* DEMANDEUR *********************-->
+		<stage ref="Requester" />
+		
+		<stage name="Cadastre" caption="Cadastre" stagemenu="display">
+			<title>Situation cadastrale de l'immeuble</title>
+			<info>Informations cadastrales.</info>
+
+			<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+			<confirm name="delete">Voulez-vous vraiment supprimer les informations sur la qualité du demandeur?</confirm>
+			<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+			<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+
+			<default>cadastre</default>
+			<next confirm="continue"/>
+			
+			<state name="cadastre">
+				<title>Situation cadastrale</title>
+				<form>/urban/sewer/cadastre/cadastre</form>
+				<button confirm="cancel" action="" transition="cadastre">Annuler Saisie</button>
+				<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+			</state>
+
+			<state name="display" mode="static">
+				<title>Situation cadastrale</title>
+				<form>/urban/sewer/cadastre/display</form>
+				<form condition="requesterQuality==Tenant">/urban/sewer/cadastre/displayowner</form>
+				<button confirm="delete" action="reset" transition="cadastre">Supprimer</button>
+				<button transition="cadastre" action="">Modifier</button>
+			</state>
+
+		</stage>
+		
+		<stage ref="Documents"/>
+		
+		<!-- ******************* VALIDATION *********************-->	
+		<stage name="Validation" caption="Validation" stagemenu="display">
+			<title>Validation et fin</title>
+			<info>Résumé des informations fournies. A valider pour la création de votre demande</info>
+		  
+			<default>summary</default>
+
+			<next>false</next>
+			
+			<state name="summary" mode="static">
+				<form>/common/validation/requester</form>
+				<form>/urban/sewer/validation/summary</form>
+				<form condition="requesterQuality==Tenant">/urban/sewer/validation/summaryowner</form>
+				<form>/common/validation/documents</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
+			</state>
+
+			<state name="validation">
+				<form>/common/validation/validation</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="trace">
+				<form>/common/validation/trace</form>
+				<button type="quit" script="cancelRequest()">Annuler la demande</button>
+				<button type="save" script="validateRequest()">Enregistrer</button>
+			</state>
+
+			<state name="print" buttonArea="none" mode="noreturn">
+				<form>/common/validation/print</form>
+			</state>
+
+		</stage>
+	</process>
+  </processes>		
+</cvqprocess>
+	

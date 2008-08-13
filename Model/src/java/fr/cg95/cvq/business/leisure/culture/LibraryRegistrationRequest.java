@@ -1,0 +1,176 @@
+package fr.cg95.cvq.business.leisure.culture;
+
+import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.xml.common.*;
+import fr.cg95.cvq.xml.leisure.culture.*;
+
+import org.apache.xmlbeans.XmlOptions;
+import org.apache.xmlbeans.XmlObject;
+
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.*;
+
+/**
+ * Generated class file, do not edit !
+ *
+ * @hibernate.joined-subclass
+ *  table="library_registration_request"
+ *  lazy="false"
+ * @hibernate.joined-subclass-key
+ *  column="id"
+ */
+public class LibraryRegistrationRequest extends Request implements Serializable { 
+
+    private static final long serialVersionUID = 1L;
+
+
+
+    public LibraryRegistrationRequest() {
+        super();
+        parentalAuthorization = Boolean.valueOf(false);
+        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
+    }
+
+
+    public final String modelToXmlString() {
+
+        LibraryRegistrationRequestDocument object = (LibraryRegistrationRequestDocument) this.modelToXml();
+        XmlOptions opts = new XmlOptions();
+        opts.setSavePrettyPrint();
+        opts.setSavePrettyPrintIndent(4);
+        opts.setUseDefaultNamespace();
+        opts.setCharacterEncoding("UTF-8");
+        return object.xmlText(opts);
+    }
+
+    public final XmlObject modelToXml() {
+
+        Calendar calendar = Calendar.getInstance();
+        Date date = null;
+        LibraryRegistrationRequestDocument libraryRegistrationRequestDoc = LibraryRegistrationRequestDocument.Factory.newInstance();
+        LibraryRegistrationRequestDocument.LibraryRegistrationRequest libraryRegistrationRequest = libraryRegistrationRequestDoc.addNewLibraryRegistrationRequest();
+        super.fillCommonXmlInfo(libraryRegistrationRequest);
+        if (this.parentalAuthorization != null)
+            libraryRegistrationRequest.setParentalAuthorization(this.parentalAuthorization.booleanValue());
+        int i = 0;
+        if (subscription != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] subscriptionTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[subscription.size()];
+            Iterator subscriptionIt = subscription.iterator();
+            while (subscriptionIt.hasNext()) {
+                LocalReferentialData object = (LocalReferentialData) subscriptionIt.next();
+                subscriptionTypeTab[i] = LocalReferentialData.modelToXml(object);
+                i = i + 1;
+            }
+            libraryRegistrationRequest.setSubscriptionArray(subscriptionTypeTab);
+        }
+        if (this.rulesAndRegulationsAcceptance != null)
+            libraryRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
+        libraryRegistrationRequest.setRegistrationNumber(this.registrationNumber);
+        return libraryRegistrationRequestDoc;
+    }
+
+    public static LibraryRegistrationRequest xmlToModel(LibraryRegistrationRequestDocument libraryRegistrationRequestDoc) {
+
+        LibraryRegistrationRequestDocument.LibraryRegistrationRequest libraryRegistrationRequestXml = libraryRegistrationRequestDoc.getLibraryRegistrationRequest();
+        Calendar calendar = Calendar.getInstance();
+        List list = new ArrayList();
+        LibraryRegistrationRequest libraryRegistrationRequest = new LibraryRegistrationRequest();
+        libraryRegistrationRequest.fillCommonModelInfo(libraryRegistrationRequest,libraryRegistrationRequestXml);
+        libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
+        HashSet subscriptionSet = new HashSet();
+        if ( libraryRegistrationRequestXml.sizeOfSubscriptionArray() > 0) {
+            for (int i = 0; i < libraryRegistrationRequestXml.getSubscriptionArray().length; i++) {
+                subscriptionSet.add(LocalReferentialData.xmlToModel(libraryRegistrationRequestXml.getSubscriptionArray(i)));
+            }
+        }
+        libraryRegistrationRequest.setSubscription(subscriptionSet);
+        libraryRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(libraryRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
+        libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
+        return libraryRegistrationRequest;
+    }
+
+    private Boolean parentalAuthorization;
+
+    public final void setParentalAuthorization(final Boolean parentalAuthorization) {
+        this.parentalAuthorization = parentalAuthorization;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="parental_authorization"
+     */
+    public final Boolean getParentalAuthorization() {
+        return this.parentalAuthorization;
+    }
+
+    private Set subscription;
+
+    public final void setSubscription(final Set subscription) {
+        this.subscription = subscription;
+    }
+
+
+    /**
+     * @hibernate.set
+     *  inverse="false"
+     *  cascade="all"
+     *  table="library_registration_request_subscription"
+     * @hibernate.key
+     *  column="library_registration_request_id"
+     * @hibernate.many-to-many
+     *  column="subscription_id"
+     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     */
+    public final Set getSubscription() {
+        return this.subscription;
+    }
+
+    private Short subscriptionPrice;
+
+    public final void setSubscriptionPrice(final Short subscriptionPrice) {
+        this.subscriptionPrice = subscriptionPrice;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="subscription_price"
+     */
+    public final Short getSubscriptionPrice() {
+        return this.subscriptionPrice;
+    }
+
+    private Boolean rulesAndRegulationsAcceptance;
+
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rules_and_regulations_acceptance"
+     */
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return this.rulesAndRegulationsAcceptance;
+    }
+
+    private String registrationNumber;
+
+    public final void setRegistrationNumber(final String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="registration_number"
+     */
+    public final String getRegistrationNumber() {
+        return this.registrationNumber;
+    }
+
+}

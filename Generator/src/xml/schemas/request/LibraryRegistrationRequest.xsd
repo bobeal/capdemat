@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/lrr"
+  xmlns:lrr="http://www.cg95.fr/cvq/schema/lrr" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="LibraryRegistrationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande d'inscription à la bibliothèque
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Library registration request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Inscription à la bibliothèque
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Library Registration
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="leisure.culture" />
+        <fo namespace="cultural.library">
+          <display field="Subject.Individual.LastName" stage="abonnee" page="abonnee" line="1" mode="static" />
+          <display field="Subject.Individual.FirstName" stage="abonnee" page="abonnee" line="2" mode="static" />
+          <display field="Subject.Individual.FirstName2" stage="abonnee" page="abonnee" line="3" label="2ème prénom"
+            mode="static" />
+          <display field="Subject.Individual.FirstName3" stage="abonnee" page="abonnee" line="4" label="3ème prénom"
+            mode="static" />
+          <display field="Subject.Individual.BirthDate" stage="abonnee" page="abonnee" line="5" mode="static" />
+          <display field="Subject.Individual.Sex" stage="abonnee" page="abonnee" line="6" mode="static" />
+          <display field="Subject.Individual.Address" stage="abonnee" page="abonnee" line="7" mode="static" />
+
+          <display field="Subject.Individual.LastName" stage="abonnee" page="display" line="1" mode="static" />
+          <display field="Subject.Individual.FirstName" stage="abonnee" page="display" line="2" mode="static" />
+          <display field="Subject.Individual.FirstName2" stage="abonnee" page="display" line="3" label="2ème prénom"
+            mode="static" />
+          <display field="Subject.Individual.FirstName3" stage="abonnee" page="display" line="4" label="3ème prénom"
+            mode="static" />
+          <display field="Subject.Individual.BirthDate" stage="abonnee" page="display" line="5" mode="static" />
+          <display field="Subject.Individual.Sex" stage="abonnee" page="display" line="6" mode="static" />
+          <display field="Subject.Individual.Address" stage="abonnee" page="display" line="8" mode="static" />
+
+		  <display mode="labelonly" type="stagetitle" label="Abonnee" stage="validation" page="summary" line="20"/>
+          <display field="Subject.Individual.LastName" stage="validation" page="summary" line="21" mode="static" />
+          <display field="Subject.Individual.FirstName" stage="validation" page="summary" line="22" mode="static" />
+          <display field="Subject.Individual.FirstName2" stage="validation" page="summary" line="23"
+            label="2ème prénom" mode="static" />
+          <display field="Subject.Individual.FirstName3" stage="validation" page="summary" line="24"
+            label="3ème prénom" mode="static" />
+          <display field="Subject.Individual.BirthDate" stage="validation" page="summary" line="25" mode="static" />
+          <display field="Subject.Individual.Sex" stage="validation" page="summary" line="26" mode="static" />
+          <display field="Subject.Individual.Address" stage="validation" page="summary" line="28"
+            mode="static" />
+        </fo>
+        <bo namespace="cultural">
+          <display field="Subject.Individual.LastName" page="displaylibrary" line="11" mode="static" />
+          <display field="Subject.Individual.FirstName" page="displaylibrary" line="12" mode="static" />
+          <display field="Subject.Individual.FirstName2" page="displaylibrary" line="13" label="2ème prénom"
+            mode="static" />
+          <display field="Subject.Individual.FirstName3" page="displaylibrary" line="14" label="3ème prénom"
+            mode="static" />
+          <display field="Subject.Individual.BirthDate" page="displaylibrary" line="21" mode="static" />
+          <display field="Subject.Individual.Sex" page="displaylibrary" line="22" mode="static" />
+          <display field="Subject.Individual.Address" page="displaylibrary" line="31" mode="static" />
+
+          <display field="Subject.Individual.LastName" page="checklibrary" line="1" mode="static" />
+          <display field="Subject.Individual.FirstName" page="checklibrary" line="2" mode="static" />
+          <display field="Subject.Individual.BirthDate" page="checklibrary" line="3" mode="static" />
+
+          <display field="Subject.Individual.LastName" page="printlibrary" line="1" mode="static" />
+          <display field="Subject.Individual.FirstName" page="printlibrary" line="2" mode="static" />
+          <display field="Subject.Individual.BirthDate" page="printlibrary" line="3" mode="static" />
+        </bo>
+        <xslfo>
+          <blocks-def>
+            <block id="0" label="Demandeur" column="2" />
+            <block id="1" label="Personne du foyer &#x00E0; inscrire*" column="2" />
+            <block id="2" label="Formule d'abonnement*" />
+            <block id="3" label="Moyen de contact*" breakAfter="true" />
+            <block id="4" label="Acceptation du r&#x00E8;glement int&#x00E9;rieur" />
+            <block id="5" label="Autorisation parentale"
+              displayCondition="contains(//lrr:Subject/@xsi:type,'ChildType')" />
+            <block id="6"
+              label="Informations sur l'inscription (&#x00E0; remplir par l'administration)"
+              column="2" />
+          </blocks-def>
+          <element blockId="0" line="0" column="0" link="Requester">
+            <complexTemplate />
+          </element>
+          <element blockId="3" line="0" column="0" link="MeansOfContact"
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+            <complexTemplate />
+          </element>
+          <element blockId="1" line="0" column="0" columnSpan="2" link="Subject">
+            <complexTemplate />
+          </element>
+        </xslfo>
+      </xs:appinfo>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="Subscription" type="cvq:LocalReferentialDataType"
+              maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations relatives à la formule d'abonnement
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Formule d'abonnement
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <fo repository="Subscription">
+                    <display field="" type="select" stage="abonnee" page="abonnee" line="10"
+                      help="Choisissez une formule" />
+                    <display field="" type="select" stage="abonnee" page="display" line="10"
+                      mode="static" />
+                    <display field="" type="select" stage="validation" page="summary" line="30"
+                      mode="static" />
+                  </fo>
+                  <bo repository="Subscription">
+                    <display field="" page="displaylibrary" line="42" />
+                    <display field="" page="checklibrary" line="4" mode="static" />
+                    <display field="" page="printlibrary" line="4" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="0" column="0" usePrefixLabel="false">
+                      <localReferential />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType"
+              default="false">
+              <xs:annotation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="yesno" stage="rules" page="authorisation" line="2"
+                      label="J'accepte et je m'engage à respecter le règlement" />
+		  			<display mode="labelonly" type="stagetitle" label="Rules" stage="validation" page="summary" line="31"/>
+                    <display field="" type="yesno" stage="validation" page="summary" line="32"
+                      label="J'accepte et je m'engage à respecter le règlement" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaylibrary" line="51"
+                      label="Acceptation du règlement intérieur" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="4" line="0" column="0">
+                      <signature>
+                        <acceptMessage index="0">
+                          J'ai pris parfaite connaissance du r&#232;glement int&#233;rieur de la
+                          bibliothèque et des conditions de prêt des documents et m'engage à les
+                          respecter.
+                        </acceptMessage>
+                        <rejectMessage index="0">
+                          Vous n'avez pas accept&#233; le r&#233;glement int&#233;rieur de la
+                          bibliothèque
+                        </rejectMessage>
+                      </signature>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="ParentalAuthorization" type="cvq:AcceptanceType" default="false">
+              <xs:annotation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="yesno" stage="rules" page="authorisation" line="3"
+                      label="J'autorise mon enfant à emprunter des documents et me déclare responsable de ses choix" />
+                    <display field="" type="yesno" stage="validation" page="summary" line="33"
+                      label="J'autorise mon enfant à emprunter des documents et me déclare responsable de ses choix"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaylibrary" line="52"
+                      label="Autorisation parentale" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="5" line="0" column="0">
+                      <signature>
+                        <acceptMessage index="0">
+                          J'autorise mon enfant à emprunter des documents et, après avoir pris
+                          connaissance du règlement, me d&#x00E9;clare responsable de ses choix.
+                        </acceptMessage>
+                        <rejectMessage index="0">
+                          Vous n'avez pas autoris&#x00E9; l'emprunt de documents par votre enfant.
+                        </rejectMessage>
+                      </signature>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="RegistrationNumber" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Numéro d'adhérent
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Numéro d'adhérent
+                </xs:documentation>
+                <xs:appinfo>
+                  <bo>
+                    <display field="" page="checklibrary" line="5" mode="input" />
+                    <display field="" page="printlibrary" line="5" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="6" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SubscriptionPrice" type="lrr:SubscriptionPriceType">
+              <xs:annotation>
+                <xs:appinfo>
+                  <bo>
+                    <display field="" page="checklibrary" line="6" mode="input" />
+                    <display field="" page="printlibrary" line="6" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="6" line="0" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="SubscriptionPriceType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Tarif de l'abonnement
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Tarif de l'abonnement
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+

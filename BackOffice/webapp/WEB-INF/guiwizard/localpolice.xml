@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cvqmanager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:noNamespaceSchemaLocation="managers.xsd" >
+
+  <processes group="localPolice" caption="Police Municipale" icon="pictoLocalPolice" order="9">
+	<process name="eSecurityHoliday">
+		<label>Inscription au service S&#233;curit&#233; Vacance</label>
+		<record>fr.cg95.cvq.bo.localpolice.HolidaySecurityRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.localpolice.HolidaySecurityPersistence</persistence>
+		<state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/localpolice/displayholidaysecurity</form>
+		</state>
+		<state name="check">
+			<form scope="request">/jsp/bo/process/localpolice/checkholidaysecurity</form>
+		</state>
+		<state name="print">
+			<form scope="request">/jsp/bo/process/localpolice/printholidaysecurity</form>
+		</state>
+	</process>
+
+  </processes>
+</cvqmanager>

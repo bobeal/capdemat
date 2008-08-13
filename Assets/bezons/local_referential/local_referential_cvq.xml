@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>All</request>
+    <data name="MeansOfContact">
+        <label lang="en">Means of contact</label>
+        <label lang="fr">Moyen de contact</label>
+        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+            <entry key="Phone">
+                <label lang="fr">Téléphone</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <entries supportPriority="true" supportPrecision="false" supportQuota="false" supportMultiple="true">
+                    <entry key="HomePhone">
+                        <label lang="fr">Téléphone domicile</label>
+                        <message lang="fr"/>
+                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                    </entry>
+                    <entry key="MobilePhone">
+                        <label lang="fr">Téléphone mobile</label>
+                        <message lang="fr"/>
+                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                    </entry>
+                    <entry key="OfficePhone">
+                        <label lang="fr">Téléphone bureau</label>
+                        <message lang="fr"/>
+                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                    </entry>
+                </entries>
+            </entry>
+            <entry key="Mail">
+                <label lang="fr">Courrier</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <entries supportPriority="true" supportPrecision="false" supportQuota="false" supportMultiple="true">
+                    <entry key="SimpleMail">
+                        <label lang="fr">Lettre normale</label>
+                        <message lang="fr"/>
+                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                    </entry>
+                    <entry key="ExpressMail">
+                        <label lang="fr">Lettre recommandée</label>
+                        <message lang="fr">Merci de joindre un timbre dans ce cas</message>
+                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                    </entry>
+                </entries>
+            </entry>
+            <entry key="Email">
+                <label lang="fr">Courriel</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="Visit">
+                <label lang="fr">Guichet</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="SMS">
+                <label lang="fr">SMS</label>
+                <message lang="fr">Seulement si l'opérateur est France Telecom</message>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

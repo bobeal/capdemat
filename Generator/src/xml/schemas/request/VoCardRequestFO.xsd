@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/vo" 
+  xmlns:vo="http://www.cg95.fr/cvq/schema/vo"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd"/>
+
+  <xs:element name="VoCardRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	Demande de Cartevaloise
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+	Valdoise card request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	Cartevaloise
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	VO Card Request
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="ecitizen"/>
+		<fo namespace="citizen"/>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+		<xs:extension base="cvq:RequestType">
+		  <xs:sequence>
+		    <xs:element name="Adult" type="cvq:AdultType" minOccurs="1" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:appinfo>
+				  <fo>
+					<display field="Id" type="javaOnly" stage="adult"/>
+					<display field="Title" stage="adult" page="adult" line="1" pageno="1/2" help="Choisissez une civilité" mode="required"/>
+					<display field="LastName" stage="adult" page="adult" line="2"/>
+					<display field="FirstName" stage="adult" page="adult" line="3"/>
+					<display field="FirstName2" label="2ème prénom" stage="adult" page="adult" line="4"/>
+					<display field="FirstName3" label="3ème prénom" stage="adult" page="adult" line="5"/>
+					<display field="MaidenName" stage="adult" page="adult" line="6"/>
+					<display field="NameOfUse" stage="adult" page="adult" line="7"/>
+					<display field="FamilyStatus" stage="adult" page="adult" line="8"/>
+					<display field="BirthDate" stage="adult" page="adult" line="9" help="ex: 21/06/1956"/>
+					<display mode="labelonly" label="Lieu de naissance" stage="adult" page="adult" line="10"/>
+					<display field="BirthPlace.City" label="Commune" stage="adult" page="adult" line="11" mode="notrequired"/>
+					<display field="BirthPlace.PostalCode" stage="adult" page="adult" line="12" info="Si né(e) en France" mode="notrequired"/>
+
+					<display field="Address" stage="adult" page="address" line="2"/>
+
+					<display mode="labelonly" label="Téléphone*" stage="adult" page="address" line="5" help="Vous devez fournir au moins un numéro de téléphone parmi les 3 numéros possibles"/>
+					<display field="HomePhone" label="Domicile" stage="adult" page="address" line="5" help="ex: 0102030405" mode="blockrequired" block="Phone" message="Au moins un numéro de téléphone est obligatoire."/>
+					<display field="OfficePhone" label="Bureau" stage="adult" page="address" line="6" block="Phone"/>
+					<display field="MobilePhone" label="Portable" stage="adult" page="address" line="7" block="Phone"/>
+					<display field="Email" label="Courriel" stage="adult" page="address" line="8"/>
+					<display field="Cfbn" label="Numéro CAF" stage="adult" page="address" line="9" help="Saisissez les chiffres de votre numéro d'allocataire."/>
+					<display field="Profession" label="Profession" stage="adult" page="address" line="10"/>
+
+					<display field="Title" stage="adult" page="display" mode="static" line="1" help="Choisissez une civilité"/>
+					<display field="LastName" stage="adult" page="display" mode="static" line="2"/>
+					<display field="FirstName" stage="adult" page="display" mode="static" line="3"/>
+					<display field="FirstName2" label="2ème prénom" stage="adult" page="display" mode="static" line="4"/>
+					<display field="FirstName3" label="3ème prénom" stage="adult" page="display" mode="static" line="5"/>
+					<display field="MaidenName" stage="adult" page="display" mode="static" line="6"/>
+					<display field="NameOfUse" stage="adult" page="display" mode="static" line="7"/>
+					<display field="FamilyStatus" stage="adult" page="display" mode="static" line="8"/>
+					<display field="BirthDate" stage="adult" page="display" mode="static" line="9"/>
+					<display field="BirthPlace.City" stage="adult" page="display" mode="static" line="10"/>
+					<display field="BirthPlace.PostalCode" stage="adult" page="display" mode="static" line="11"/>
+
+					<display mode="labelonly" label="Adresse" stage="adult" page="display" line="12"/>
+					<display field="Address" stage="adult" page="display" line="14" mode="static"/>
+
+					<display field="HomePhone" label="Domicile" stage="adult" page="display" mode="static" line="16"/>
+					<display field="OfficePhone" label="Bureau" stage="adult" page="display" mode="static" line="17"/>
+					<display field="MobilePhone" label="Portable" stage="adult" page="display" mode="static" line="18"/>
+					<display field="Email" label="Courriel" stage="adult" page="display" mode="static" line="19"/>
+					<display field="Cfbn" label="Numéro CAF" stage="adult" page="display" mode="static" line="20"/>
+					<display field="Profession" label="Profession" stage="adult" page="display" mode="static" line="21"/>
+
+          			<display mode="labelonly" type="stagetitle" label="Adult" stage="validation" page="summary" line="10" />
+                    <display type="list(adult)" stage="validation" page="summary" line="10" mode="static" label="Adultes du compte">
+						<display field="Title" mode="static" line="1"/>
+						<display field="LastName" mode="static" line="2"/>
+						<display field="FirstName" mode="static" line="3"/>
+						<display field="FirstName2" label="2ème prénom" mode="static" line="4"/>
+						<display field="FirstName3" label="3ème prénom" mode="static" line="5"/>
+						<display field="MaidenName" mode="static" line="6"/>
+						<display field="NameOfUse" mode="static" line="7"/>
+						<display field="FamilyStatus" mode="static" line="8"/>
+						<display field="BirthDate" mode="static" line="9"/>
+						<display field="BirthPlace.City" mode="static" line="10"/>
+						<display field="BirthPlace.PostalCode" mode="static" line="11"/>
+	
+						<display field="Address" mode="static" line="13"/>
+
+						<display field="HomePhone" label="Domicile" mode="static" line="16"/>
+						<display field="OfficePhone" label="Bureau" mode="static" line="17"/>
+						<display field="MobilePhone" label="Portable" mode="static" line="18"/>
+						<display field="Email" label="Courriel" mode="static" line="19"/>
+						<display field="Cfbn" label="Numéro CAF" mode="static" line="20"/>
+						<display field="Profession" label="Profession" mode="static" line="21"/>
+                    </display>
+				  </fo>
+				</xs:appinfo>
+		      </xs:annotation>
+		    </xs:element>
+		    <xs:element name="AdultBirthPlaceCountry" type="vo:CountryType" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:appinfo>
+				  <fo>
+					<display field="" stage="adult" page="adult" line="12" info="Si né(e) à l'étranger"/>
+					<display field="" stage="adult" page="display" line="12" mode="static"/>
+				  </fo>
+				</xs:appinfo>
+		      </xs:annotation>
+		    </xs:element>
+		    <xs:element name="AccountManager" type="xs:boolean" default="true" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  Responsable du compte
+				</xs:documentation>
+				<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  Responsable du compte
+				</xs:documentation>
+				<xs:appinfo>
+				  <fo>
+		    		<display type="yesno" stage="adult" page="address" line="1" mode="inline" help="Un seul responsable par compte" block="DisplayAccountManager"/>
+		    		<display type="yesno" stage="adult" page="display" line="0" mode="static"/>
+		  		  </fo>
+				</xs:appinfo>
+	    	  </xs:annotation>
+	    	</xs:element>
+		    <xs:element name="ShowAccMan" type="xs:boolean" default="false" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:appinfo>
+				  <fo>
+		    		<display type="hidden" stage="adult" page="address" line="0" block="DisplayAccountManager" />
+		  		  </fo>
+				</xs:appinfo>
+	    	  </xs:annotation>
+	    	</xs:element>
+		    <xs:element name="Child" type="cvq:ChildType" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:appinfo>
+				  <fo>
+					<display field="Id" type="javaOnly" stage="child"/>
+					<display field="LastName" stage="child" page="child" line="1" pageno="1/2"/>
+					<display field="FirstName" stage="child" page="child" line="2"/>
+					<display field="FirstName2" label="2ème prénom" stage="child" page="child" line="3"/>
+					<display field="FirstName3" label="3ème prénom" stage="child" page="child" line="4"/>
+					<display field="Sex" type="radiolist[Male,Female]" stage="child" page="child" line="5" mode="inline,required"/>
+					<display field="BirthDate" stage="child" page="child" line="6" help="ex: 21/06/2001" mode="required"/>
+					<display mode="labelonly" label="Lieu de naissance" stage="child" page="child" line="7"/>
+					<display field="BirthPlace.City" label="Commune" stage="child" page="child" line="8" mode="notrequired"/>
+					<display field="BirthPlace.PostalCode" stage="child" page="child" line="9" info="Si né(e) en France" mode="notrequired"/>
+	
+					<display field="LastName" stage="child" page="display" line="1" mode="static"/>
+					<display field="FirstName" stage="child" page="display" line="2" mode="static"/>
+					<display field="FirstName2" label="2ème prénom" stage="child" page="display" line="3" mode="static"/>
+					<display field="FirstName3" label="3ème prénom" stage="child" page="display" line="4" mode="static"/>
+					<display field="Sex" type="radiolist" stage="child" page="display" line="5" mode="static"/>
+					<display field="BirthDate" stage="child" page="display" line="6" mode="static"/>
+					<display mode="labelonly" label="Lieu de naissance" stage="child" page="display" line="7"/>
+					<display field="BirthPlace.City" label="Commune" stage="child" page="display" line="8" mode="static"/>
+					<display field="BirthPlace.PostalCode" stage="child" page="display" line="9" info="Si né(e) en France" mode="static"/>
+	
+					<display field="LegalResponsible" type="javaOnly" stage="child"/>
+					<display field="LegalResponsible.LegalResponsible.Id" type="javaOnly" stage="responsible"/>
+					<display field="LegalResponsible.Role" label="Qualité" stage="responsible" page="adult" line="0"  help="Choisissez une qualité" pageno="1/2"/>
+					<display field="LegalResponsible.LegalResponsible.Title" stage="responsible" page="adult" line="1" help="Choisissez une civilité" mode="required"/>
+					<display field="LegalResponsible.LegalResponsible.LastName" stage="responsible" page="adult" line="2"/>
+					<display field="LegalResponsible.LegalResponsible.FirstName" stage="responsible" page="adult" line="3"/>
+					<display field="LegalResponsible.LegalResponsible.FirstName2" label="2ème prénom" stage="responsible" page="adult" line="4"/>
+					<display field="LegalResponsible.LegalResponsible.FirstName3" label="3ème prénom" stage="responsible" page="adult" line="5"/>
+					<display field="LegalResponsible.LegalResponsible.MaidenName" stage="responsible" page="adult" line="6"/>
+					<display field="LegalResponsible.LegalResponsible.NameOfUse" stage="responsible" page="adult" line="7"/>
+					<display field="LegalResponsible.LegalResponsible.FamilyStatus" stage="responsible" page="adult" line="8"/>
+					<display field="LegalResponsible.LegalResponsible.BirthDate" stage="responsible" page="adult" line="9" help="ex: 21/06/1956"/>
+					<display mode="labelonly" label="Lieu de naissance" stage="responsible" page="adult" line="10"/>
+					<display field="LegalResponsible.LegalResponsible.BirthPlace.City" label="Commune" stage="responsible" page="adult" line="11" mode="notrequired"/>
+					<display field="LegalResponsible.LegalResponsible.BirthPlace.PostalCode" stage="responsible" page="adult" line="12" info="Si né(e) en France" mode="notrequired"/>
+
+					<display field="LegalResponsible.LegalResponsible.Address" stage="responsible" page="address" line="2"/>
+
+					<display mode="labelonly" label="Téléphone*" stage="responsible" page="address" line="5" help="Vous devez fournir au moins un numéro de téléphone parmi les 3 numéros possibles"/>
+					<display field="LegalResponsible.LegalResponsible.HomePhone" label="Domicile" stage="responsible" page="address" line="5" help="ex: 0102030405" mode="blockrequired" block="Phone" message="Au moins un numéro de téléphone"/>
+					<display field="LegalResponsible.LegalResponsible.OfficePhone" label="Bureau" stage="responsible" page="address" line="6" block="Phone"/>
+					<display field="LegalResponsible.LegalResponsible.MobilePhone" label="Portable" stage="responsible" page="address" line="7" block="Phone"/>
+					<display field="LegalResponsible.LegalResponsible.Email" label="Courriel" stage="responsible" page="address" line="8"/>
+					<display field="LegalResponsible.LegalResponsible.Cfbn" label="Numéro CAF" stage="responsible" page="address" line="9" help="Saisissez les chiffres de votre numéro d'allocataire."/>
+					<display field="LegalResponsible.LegalResponsible.Profession" label="Profession" stage="responsible" page="address" line="10"/>
+
+					<display field="LegalResponsible.Role" label="Qualité" stage="responsible" page="display" line="0" mode="static"/>
+					<display field="LegalResponsible.LegalResponsible.Title" stage="responsible" page="display" mode="static" line="1"/>
+					<display field="LegalResponsible.LegalResponsible.LastName" stage="responsible" page="display" mode="static" line="2"/>
+					<display field="LegalResponsible.LegalResponsible.FirstName" stage="responsible" page="display" mode="static" line="3"/>
+					<display field="LegalResponsible.LegalResponsible.FirstName2" label="2ème prénom" stage="responsible" page="display" mode="static" line="4"/>
+					<display field="LegalResponsible.LegalResponsible.FirstName3" label="3ème prénom" stage="responsible" page="display" mode="static" line="5"/>
+					<display field="LegalResponsible.LegalResponsible.MaidenName" stage="responsible" page="display" mode="static" line="6"/>
+					<display field="LegalResponsible.LegalResponsible.NameOfUse" stage="responsible" page="display" mode="static" line="7"/>
+					<display field="LegalResponsible.LegalResponsible.FamilyStatus" stage="responsible" page="display" mode="static" line="8"/>
+					<display field="LegalResponsible.LegalResponsible.BirthDate" stage="responsible" page="display" mode="static" line="9"/>
+					<display field="LegalResponsible.LegalResponsible.BirthPlace.City" stage="responsible" page="display" mode="static" line="10"/>
+					<display field="LegalResponsible.LegalResponsible.BirthPlace.PostalCode" stage="responsible" page="display" mode="static" line="11"/>
+
+					<display mode="labelonly" label="Adresse" stage="responsible" page="display" line="13"/>
+					<display field="LegalResponsible.LegalResponsible.Address" stage="responsible" page="display" mode="static" line="14"/>
+
+					<display field="LegalResponsible.LegalResponsible.HomePhone" label="Domicile" stage="responsible" page="display" mode="static" line="16"/>
+					<display field="LegalResponsible.LegalResponsible.OfficePhone" label="Bureau" stage="responsible" page="display" mode="static" line="17"/>
+					<display field="LegalResponsible.LegalResponsible.MobilePhone" label="Portable" stage="responsible" page="display" mode="static" line="18"/>
+					<display field="LegalResponsible.LegalResponsible.Email" label="Courriel" stage="responsible" page="display" mode="static" line="19"/>
+					<display field="LegalResponsible.LegalResponsible.Cfbn" label="Numéro CAF" stage="responsible" page="display" mode="static" line="20"/>
+					<display field="LegalResponsible.LegalResponsible.Profession" label="Profession" stage="responsible" page="display" mode="static" line="21"/>
+
+          			<display mode="labelonly" type="stagetitle" label="Child" stage="validation" page="summary" line="15" />
+                    <display type="list(child)" stage="validation" page="summary" line="15" mode="static" label="Enfants du compte">
+						<display field="LastName" line="1" mode="static"/>
+						<display field="FirstName" line="2" mode="static"/>
+						<display field="FirstName2" label="2ème prénom" line="3" mode="static"/>
+						<display field="FirstName3" label="3ème prénom" line="4" mode="static"/>
+						<display field="Sex" type="radiolist" line="5" mode="static"/>
+						<display field="BirthDate" line="6" mode="static"/>
+						<display field="BirthPlace.City" label="Commune" line="8" mode="static"/>
+						<display field="BirthPlace.PostalCode" line="9" mode="static"/>
+						<display field="LegalResponsible" line="13" label=" " mode="static">
+							<display field="LegalResponsible.LegalResponsible.FirstName" line="1" mode="static"/>
+							<display field="LegalResponsible.LegalResponsible.LastName" line="2" mode="static"/>
+						</display>
+                    </display>
+				  </fo>
+				</xs:appinfo>
+		      </xs:annotation>
+		    </xs:element>
+		    <xs:element name="ChildBirthPlaceCountry" type="vo:CountryType" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:appinfo>
+				  <fo>
+					<display field="" stage="child" page="child" line="10" info="Si né(e) à l'étranger"/>
+					<display field="" stage="child" page="display" line="10" mode="static" info="Si né(e) à l'étranger"/>
+                    <display type="list(child)" stage="validation" page="summary" line="15" mode="static" label="Enfants du compte">
+						<display field="" line="10" mode="static"/>
+                    </display>
+				  </fo>
+				</xs:appinfo>
+		      </xs:annotation>
+		    </xs:element>
+		    <xs:element name="ChildAdult" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+					Choix du responsable légal parmi les adultes du compte 
+				</xs:documentation>
+				<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+					Choix du responsable légal parmi les adultes du compte 
+				</xs:documentation>
+				<xs:appinfo>
+				  <fo>
+					<display field="" type="checklist" stage="child" page="legal" line="2" repository="adults"/>
+                    <display type="list(child)" stage="validation" page="summary" line="15" mode="static" label="Enfants du compte">
+						<display field="" type="checklist" label="Responsables légaux" line="12" repository="adults"/>
+                    </display>
+				  </fo>
+				</xs:appinfo>
+		      </xs:annotation>
+		    </xs:element>
+		    <xs:element name="ChildLegalResponsibleLegalResponsibleBirthPlaceCountry" type="vo:CountryType" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:appinfo>
+				  <fo>
+					<display field="" stage="responsible" page="adult" line="13" info="Si né(e) à l'étranger"/>
+					<display field="" stage="responsible" page="display" line="13" mode="static"/>
+				  </fo>
+				</xs:appinfo>
+		      </xs:annotation>
+		    </xs:element>
+
+		    <xs:element name="Login" type="vo:LoginType" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+				<xs:appinfo>
+				  <fo>
+		    		<display field="NewAccount" type="hidden" stage="account" page="account" line="0"/>
+					<display mode="labelonly" type="full" label="Choix de votre mot de passe" stage="account" page="account" line="1" help="Votre mot de passe ainsi que votre identifiant vous permettent d'accéder à votre compte. Après l'avoir crée, protégez-le. Ne le communiquez jamais à autrui."/>
+					<display field="Password" mode="password" stage="account" page="account" line="2" help="(min. 8 caractères)" seperator="20"/>
+					<display field="ConfirmPassword" mode="password" stage="account" page="account" line="3"/>
+					<display mode="labelonly" type="full" label="Choix de l'aide mémoire" stage="account" page="account" line="4" help="Si vous oubliez votre mot de passe, il vous sera demandé la réponse à cette question." seperator="20"/>
+					<display field="Question" stage="account" page="account" line="5" help="Choisissez votre question" />
+					<display field="Answer" stage="account" page="account" line="6"/>
+				  </fo>
+				</xs:appinfo>
+		      </xs:annotation>
+		    </xs:element>
+
+		  </xs:sequence>
+		</xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="LoginType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations concernant la definition du login
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Login
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="NewAccount" type="xs:boolean" default="false" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="Password" type="vo:PasswordType" minOccurs="1" maxOccurs="1" >
+	    <xs:annotation>
+	      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	        Mot de passe
+	      </xs:documentation>
+	      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	        Mot de passe
+	      </xs:documentation>
+	    </xs:annotation>
+	  </xs:element>
+      <xs:element name="ConfirmPassword" type="vo:PasswordType" minOccurs="1" maxOccurs="1">
+	    <xs:annotation>
+	      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	        Confirmation du mot de passe
+	      </xs:documentation>
+	      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	        Confirmation du mot de passe
+	      </xs:documentation>
+	    </xs:annotation>
+	  </xs:element>
+      <xs:element name="Question" type="vo:QuestionType" minOccurs="1" maxOccurs="1">
+	    <xs:annotation>
+	      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	        Question de identification
+	      </xs:documentation>
+	      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	        Votre question
+	      </xs:documentation>
+	    </xs:annotation>
+	  </xs:element>
+      <xs:element name="Answer" type="xs:string" minOccurs="1" maxOccurs="1">
+	    <xs:annotation>
+	      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	        Réponse à la question d'identification
+	      </xs:documentation>
+	      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	        Donner la réponse à la question choisie
+	      </xs:documentation>
+	    </xs:annotation>
+	  </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="PasswordType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="8" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="QuestionType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Quel est votre loisir préféré ?" value="Quel est votre loisir préféré ?" />
+        <enum key="Quel est le nom de votre animal favori ?" value="Quel est le nom de votre animal favori ?" />
+        <enum key="Quel est le prénom de votre enfant ?" value="Quel est le prénom de votre enfant ?" />
+        <enum key="Quel est le prénom de votre belle-mère ?" value="Quel est le prénom de votre belle-mère ?" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Quel est votre loisir préféré ?" />
+      <xs:enumeration value="Quel est le nom de votre animal favori ?" />
+      <xs:enumeration value="Quel est le prénom de votre enfant ?" />
+      <xs:enumeration value="Quel est le prénom de votre belle-mère ?" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="CountryType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations caractérisant une pays
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Pays
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="EEC" value="UE" />
+        <enum key="OUTSIDE_EEC" value="Hors UE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EEC" />
+      <xs:enumeration value="OUTSIDE_EEC" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

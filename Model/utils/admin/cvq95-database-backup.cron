@@ -1,0 +1,28 @@
+#! /bin/sh
+# #############################################################################
+#
+# Project       : CVQ95
+# Filename      : cvq95-database-backup.cron
+# Description   : Backup each of the databases for the cvq95 cities.
+# #############################################################################
+
+# Dumps restorables par la commande :
+# su - postgres -c "pg_restore -C -d template1 /data/backup/$FILE"
+
+LOCAL_AUTH_LIST=/usr/local/CVQ/utils/admin/local_authorities_list.txt
+#LOCAL_AUTH_LIST=/home/borihuela/cvq.svn/trunk/Model/utils/admin/local_authorities_list.txt
+BACKUP_DIR=/data/backup/$(date +"%u")
+
+# Generate local authorities list
+#. /usr/local/CVQ/admin/invoke_local_auth_list_generator.sh deployment $LOCAL_AUTH_LIST
+
+rm -rf $BACKUP_DIR
+mkdir $BACKUP_DIR
+chown postgres:postgres $BACKUP_DIR
+
+for line in $(cat $LOCAL_AUTH_LIST); do
+    FILE="cartevaloise_${line}.dmp"
+    echo "Sauvegarde de la base dans le fichier $FILE en cours ..."
+    su - postgres -c "pg_dump -Fc -b cartevaloise_$line > $BACKUP_DIR/$FILE"
+done
+

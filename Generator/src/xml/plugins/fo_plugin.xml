@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="newfo" classname="fr.cg95.cvq.generator.plugins.gui.GuiPlugin">
+
+  <documentation>
+    <!-- for elements, we only want shortdesc information -->
+    <element parent="element" source="http://www.cg95.fr/cvq/schema/shortdesc"/>
+    <!-- for other elements, we want all information -->
+    <element parent="*" source="*"/>
+  </documentation>
+
+  <appinfo>
+    <!-- we want fo nodes information for requests, elements, and properties -->
+    <element parent="request" node="model,fo"/>
+    <element parent="element,property" node="fo"/>
+  </appinfo>
+  
+  <configuration>
+  	<plugin gui="fo"/>
+  	<output path="./FrontOffice" lang="fr"/>
+  	<java vtl="Generator/src/java/fr/cg95/cvq/generator/plugins/gui/fo_java.vm" src="src/java" package="fr.cg95.cvq.fo" form="form"/>
+  	<jsp vtl="Generator/src/java/fr/cg95/cvq/generator/plugins/gui/newfo_jsp.vm" src="webapp/newgui" bean="fr.cg95.cvq.fo.common.Request"/>
+  </configuration>
+  
+</plugin>

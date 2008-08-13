@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp spec="1.0" codebase="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer">
+
+   <information>
+      <title>LPAppletDeployer 1.0</title>
+      <vendor>Lex Persona</vendor>
+      <offline-allowed/>
+   </information>
+
+   <resources>
+      <property name="lp-applets-policy-file-url" value="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer/resources/security/applet.policy"/>
+
+      <property name="lp-unlimited-strength-jurisdiction-policy-file-jre14" value="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer/resources/usjpf14/local_policy.jar"/>
+      <property name="lp-unlimited-strength-jurisdiction-policy-file-jre15" value="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer/resources/usjpf15/local_policy.jar"/>
+
+      <property name="lp-jni-pkcs11-library-win32-url" value="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer/resources/pkcs11wrapper.dll"/>
+      <property name="lp-jni-pkcs11-library-linux-url" value="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer/resources/pkcs11wrapper.so"/>
+      <property name="lp-jar-pkcs11-wrapper-url" value="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer/resources/iaikPkcs11Wrapper.jar"/> 
+
+      <property name="lp-certificate-url-1" value="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer/resources/lpac.cer"/>
+      <property name="lp-certificate-entry-name-1" value="lex-persona-ca"/>
+
+      <property name="lp-certificate-url-2" value="https://cartevaloise.valdoise.fr/FrontOffice/applets/deployer/resources/cvq95pk.crt"/>
+      <property name="lp-certificate-entry-name-2" value="cg95-ssl-ca"/>
+       
+	  <property name="lp-certificate-url-3" value="http://www.lex-persona.fr/certs/bouncycastle.cer"/>
+	  <property name="lp-certificate-entry-name-3" value="bccodesigning"/>
+
+	  <property name="lp-certificate-url-4" value="http://www.lex-persona.fr/certs/iaikjavacodesigning.cer"/>
+	  <property name="lp-certificate-entry-name-4" value="iaikcodesigning"/>
+
+	  <property name="lp-certificate-url-5" value="http://www.lex-persona.fr/certs/lpcodesigning.cer"/>
+	  <property name="lp-certificate-entry-name-5" value="lpcodesigning"/>
+
+      <j2se version="1.3+" href="http://java.sun.com/products/autodl/j2se"/>
+      <jar href="LPAppletDeployer.jar"/>
+   </resources>
+   <application-desc main-class="com.lexpersona.appletdeployer.LPAppletDeployer"/>
+
+   <security>
+      <all-permissions/>
+   </security>
+
+</jnlp>

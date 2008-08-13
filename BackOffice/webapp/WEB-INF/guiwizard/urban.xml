@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<cvqmanager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="managers.xsd" >
+					
+  <processes group="urban" caption="Urbanisme" icon="pictoUrban" order="4">
+	<process name="eAlign">
+		<label>Certificat d'alignement</label>
+		<record>fr.cg95.cvq.bo.urban.AlignmentCertificateRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.urban.AlignmentCertificatePersistence</persistence>
+		
+	  	<state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/urban/displayalign</form>
+			<form scope="request" condition="requesterQuality==Locataire">/jsp/bo/process/urban/displayalignowner</form>
+		</state>
+	  	<state name="check">
+			<form scope="request">/jsp/bo/process/urban/checkalign</form>
+		</state>
+	  	<state name="print">
+			<form scope="request">/jsp/bo/process/urban/printalign</form>
+		</state>
+	</process>
+	<process name="eSewer">
+		<label>Raccordement à l'égout</label>
+		<record>fr.cg95.cvq.bo.urban.SewerConnectionRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.urban.SewerConnectionPersistence</persistence>
+		
+		<state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/urban/displaysewer</form>
+			<form scope="request" condition="requesterQuality==Locataire">/jsp/bo/process/urban/displaysewerowner</form>
+		</state>
+		<state name="check">
+			<form scope="request">/jsp/bo/process/urban/checksewer</form>
+		</state>
+		<state name="print">
+			<form scope="request">/jsp/bo/process/urban/printsewer</form>
+		</state>
+	</process>
+  </processes>
+  
+</cvqmanager>
+					

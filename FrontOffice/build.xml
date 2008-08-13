@@ -1,0 +1,153 @@
+<project name="CVQ - FrontOffice" default="build-webapp" basedir=".">
+
+  <description>Ant build file for the CVQ - Front Office project.</description>
+
+  <target name="init">
+    
+    <!-- General config -->
+    <property file="${basedir}/build.properties" />
+
+    <property name="dist.name" value="${application.name}-${module.name}-${application.version}-${application.revision}" />
+
+    <fileset id="frontoffice-libs" dir="${libraries.dir}">
+      <exclude name="**/jakarta-tomcat-4.1.30/**" />
+      <exclude name="**/jakarta-tomcat-5.0.19/**" />
+      <exclude name="**/jakarta-tomcat-5.0.28/**" />
+      <include name="**/*.jar" />
+    </fileset>
+
+    <path id="classpath.compile">
+      <fileset refid="frontoffice-libs" />
+      <fileset dir="${libraries.dir}/org.apache/jakarta-tomcat-5.0.28">
+        <include name="**/*.jar" />
+      </fileset>
+    </path>
+
+  </target>
+
+  <target name="init-webapp" depends="init">
+    <mkdir dir="${webapp.inf.classes.dir}" />
+    <mkdir dir="${webapp.applets.dir}" />
+  </target>
+
+  <target name="clean" depends="init" description="Clean up everything.">
+    <delete>
+      <fileset dir="${basedir}">
+        <include name="${application.name}-${module.name}-${application.version}*.war" />
+      </fileset>
+    </delete>
+    <delete dir="${webapp.inf.classes.dir}" />
+    <delete dir="${webapp.inf.lib.dir}" />
+    <delete>
+      <fileset dir="${webapp.inf.dir}">
+        <include name="*.properties" />
+        <include name="*.log*" />
+        <include name="applicationContext*" />
+        <include name="web.xml"/>
+        <exclude name="log4j.properties" />
+      </fileset>
+    </delete>
+	<delete includeemptydirs="true">
+  	  <fileset dir ="${webapp.assets.dir}" excludes="common/**" />
+    </delete>
+  </target>
+
+  <target name="prepare-webapp" depends="init-webapp">
+    <copy file="${src.java.dir}/application.properties"
+          tofile="${webapp.inf.classes.dir}/application.properties" />
+
+    <copy todir="${webapp.applets.dir}">
+      <fileset dir="${libraries.dir}/com.lexpersona">
+        <include name="**/*.*" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="prepare-configfiles"
+          description="Generate deployment files according to dynamic properties">
+    <copy file="${webapp.inf.dir}/web.xml.tpl" tofile="${webapp.inf.dir}/web.xml" overwrite="true">
+      <filterset>
+        <filter token="application.revision" value="${application.revision}" />
+        <filter token="application.version" value="${application.version}" />
+      </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext.xml" todir="${webapp.inf.dir}">
+      <filterset>
+        <filter token="perform_db_updates" value="false" />
+      </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml" todir="${webapp.inf.dir}">
+      <filterset>
+        <filter token="perform_db_updates" value="false" />
+      </filterset>
+    </copy>
+    <copy file="${deploy.properties_dir}/${deploy.properties_file}" todir="${webapp.inf.dir}" />
+    <copy file="${libraries.dir}/org.hibernate/c3p0.properties" todir="${webapp.inf.dir}/classes" />
+  </target>
+
+  <target name="build-webapp"
+          description="Build the webapp"
+          depends="prepare-webapp, prepare-configfiles">
+    <javac destdir="${webapp.inf.dir}/classes"
+           debug="true"
+           deprecation="false"
+           optimize="false"
+           failonerror="true">
+      <src path="${src.java.dir}" />
+      <classpath refid="classpath.compile" />
+    </javac>
+    <ant dir="${libraries.dir}" target="runtime-libs">
+      <property name="project.lib.dir" value="${webapp.inf.dir}/lib" />
+    </ant>
+  </target>
+
+  <target name="war" depends="build-webapp">
+    <war destFile="${dist.name}.war"
+         webxml="${webapp.inf.dir}/web.xml"
+         manifest="${src.dir}/manifest.mf">
+      <fileset dir="${webapp.dir}">
+        <exclude name="WEB-INF/web.xml" />
+        <include name="**/*.*" />
+      </fileset>
+    </war>
+  </target>
+
+  <target name="deploy" depends="war">
+
+    <delete>
+      <fileset dir="${tomcat.local.deploy.dir}" includes="${dist.name}.war" />
+    </delete>
+
+    <copy file="${dist.name}.war"
+          tofile="${tomcat.local.deploy.dir}/${dist.name}.war" />
+  </target>
+
+  <target name="codedoc"
+          description="Builds the project's code documentation HTML pages"
+          depends="init">
+    <javadoc destdir="${docs.dir}/api"
+             author="true"
+             version="true"
+             private="true"
+             use="true"
+             windowtitle="CVQ ${app.name} API"
+             classpathref="classpath.compile"
+             additionalparam="${javadoc.proxy}">
+
+      <!-- The links the generated code doc should use -->
+      <link href="http://java.sun.com/j2se/1.4.2/docs/api/" />
+      <link href="http://www.springframework.org/docs/api/" />
+      <link href="http://www.hibernate.org/hib_docs/api/" />
+      <link href="../Model/doc/api/" />
+
+      <packageset dir="${src.java.dir}" defaultexcludes="yes">
+        <include name="**" />
+      </packageset>
+
+      <doctitle>
+        <![CDATA[<h1>${app.name}</h1>]]></doctitle>
+  </javadoc>
+
+</target>
+
+</project>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.capwebct.modules.payment.business">
+
+  <class name="InvoiceDetail" table="invoice_detail" lazy="false">
+
+    <id name="id">
+      <generator class="native" />
+    </id>
+
+    <property name="childName" column="child_name" />
+    <property name="childSurname" column="child_surname" />
+    <property name="label" column="label" />
+    <property name="unitPrice" column="unit_price" />
+    <property name="quantity" column="quantity" />
+    <property name="value" column="value" />
+
+  </class>
+
+</hibernate-mapping>
+
+

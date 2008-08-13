@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.capwebct.modules.payment.business">
+
+  <class name="ExternalIndividual" table="external_individual" lazy="false">
+
+    <id name="id">
+      <generator class="native" />
+    </id>
+
+    <property name="externalIndividualId" column="external_individual_id" />
+    <property name="firstName" column="first_name" />
+    <property name="lastName" column="last_name" />
+    <property name="responsible" column="responsible" />
+    
+    <many-to-one name="capwebctIndividual" class="CapwebctIndividual"
+      column="capwebct_individual_fk" cascade="none"/>
+    
+  </class>
+
+</hibernate-mapping>

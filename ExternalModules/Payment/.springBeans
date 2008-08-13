@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<configExtensions>
+		<configExtension>xml</configExtension>
+	</configExtensions>
+	<configs>
+		<config>webapp/WEB-INF/admin-servlet.xml</config>
+		<config>webapp/WEB-INF/homefolder-servlet.xml</config>
+		<config>webapp/WEB-INF/management-servlet.xml</config>
+		<config>webapp/WEB-INF/spring-ws-servlet.xml</config>
+		<config>conf/spring/applicationContext.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[CpmBeanSet]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>webapp/WEB-INF/admin-servlet.xml</config>
+				<config>webapp/WEB-INF/homefolder-servlet.xml</config>
+				<config>webapp/WEB-INF/management-servlet.xml</config>
+				<config>webapp/WEB-INF/spring-ws-servlet.xml</config>
+				<config>conf/spring/applicationContext.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

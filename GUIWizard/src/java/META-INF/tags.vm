@@ -1,0 +1,334 @@
+#**************************************************
+ * Form tag for form tag definition
+ *#
+#if ($widget == 'form')
+	#if ($action == 'start')
+<form name="${tag.Name}" method="post" enctype="multipart/form-data; charset=utf-8" action="${tag.Action}" onsubmit="return validateForm(this);"#if ($tag.StyleClass) class="${tag.StyleClass}"#end>
+	
+	#elseif ($action == 'end')
+</form>	
+	#end
+	
+#**************************************************
+ * Title tag for stage titles in summary page
+ *#
+#elseif ($widget == 'title')
+	#if ($action == 'start')
+	
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+<div class="fieldset_title_${tag.Style}">
+  <h3 class="fieldset_title">${tag.Caption.toUpperCase()}</h3>
+</div>
+	#end
+
+#**************************************************
+ * Text tag for simple text input
+ *#
+#elseif ($widget == 'text')
+  #if ($action == 'end')
+    #if ($tag.Mode == 'static')
+${tag.getStringValue(22)}	
+    #else
+      #if (!$tag.Rows)
+<input type=#if ($tag.Mode == 'password')"password"#else"text"#end name="${tag.Name}" id="${tag.Name}" class="${tag.Name}"
+#if(${tag.Maxlength}) maxlength="${tag.Maxlength}"#end#if($tag.Mode == 'disabled') disabled#end size="${tag.Size}" value="${tag.StringValue}"${tag.Events}/>
+
+      #else
+<textarea name="${tag.Name}" id="${tag.Name}" class="${tag.Name}" cols="${tag.Size}" rows="${tag.Rows}"${tag.ChangeEvent}>
+${tag.StringValue}</textarea>
+      #end
+	#end
+  #end
+
+#**************************************************
+ * Radio tag for radio button input
+ *#
+#elseif ($widget == 'radio')
+  #if ($action == 'start')
+    #if ($tag.Mode != 'static')
+      #if ($tag.First)
+		<script type="text/javascript" >
+		  function changeStateRadioButton(radioButtonId){
+		   var radioButton = document.getElementById(radioButtonId);
+		   radioButton.checked = true;
+		   updateDisplay(radioButton.name);
+		  }
+		</script>
+        ${tag.setFirst()}
+	  #end
+    #else
+<!-- -->
+    #end
+  #elseif ($action == 'end')
+    #if ($tag.Mode == 'static')
+      #set ($firstItem = true)
+      #foreach ($item in $tag.SelectedItems)
+        #if ($firstItem)
+          ${item}
+          #set ($firstItem = false)
+        #else
+          <li class="text_row">
+            <p class="empty_label">&nbsp;</p>
+            <p class="text">${item}</p>
+          </li>
+        #end
+      #end
+      #if ($firstItem)
+&nbsp;
+      #end
+    #else
+	  #set ($labels = false)
+	  #if ($tag.LabelList)
+        #set($labels = $tag.LabelList)
+      #end
+      #if (!$tag.RadioList)
+        #if ($labels)
+		  #if ($tag.mode != "inline")
+<li class="radio_row">
+          #end
+          #set($index = 0)
+          #foreach($label in $labels)
+            #set($checked = "")
+            #if ($tag.isChecked($label))
+              #set($checked = " checked")
+            #end
+  <span class="radio_border" onClick="changeStateRadioButton('${tag.Name}#if($index > 0)${index}#end');">
+    <input type="radio" id="${tag.Name}#if($index > 0)${index}#end" name="${tag.Name}" value="$label"${checked} ${tag.Events}/>${label.toUpperCase()}
+  </span>
+            #set($index = $index + 1)
+          #end
+		  #if ($tag.mode != "inline")
+</li>
+          #end
+        #else
+<li class="radio_row">
+  <span class="radio_border" onClick="changeStateRadioButton('${tag.Name}');">
+    <input type="radio" id="${tag.Name}" name="${tag.Name}" value="${tag.Label}" ${tag.Events}/>${tag.Label.toUpperCase()}
+  </span>
+</li>
+        #end
+      #elseif ($labels)
+        #set($index = 0)
+        #foreach($refData in $tag.RadioList)
+          #set($id = $tag.getName($index))
+          #set($indey = 0)
+<li class="radio_row">
+  <label for="${id}">$tag.getRepositoryEntry($refData)</label>
+          #foreach($label in $labels)
+            #set($checked = "")
+            #if ($tag.isChecked($label))
+              #set($checked = " checked")
+            #end
+  <span class="radio_border" onClick="changeStateRadioButton('${id}${indey}');">
+    <input type="radio" id="${id}${indey}" name="${tag.Name}" value="${label}"${checked} ${tag.Events}/>${label.toUpperCase()}
+  </span>
+            #set($indey = $indey + 1)
+          #end
+</li>
+          #set($index = $index + 1)
+        #end
+      #else
+        #if ($tag.mode != "inline")
+<li class="radio_row">
+        #end
+        #set($index = 0)
+        #foreach($refData in $tag.RadioList)
+          #set($checked = "")
+          #if ($refData.Key == $tag.StringValue)
+            #set($checked = " checked")
+          #end
+  <span class="radio_border" onClick="changeStateRadioButton('${tag.Name}#if($index > 0)${index}#end');">
+    <input type="radio" id="${tag.Name}#if($index > 0)${index}#end" name="${tag.Name}" value="${refData.Key}"${checked} ${tag.Events}/>${refData.Value.toUpperCase()}
+  </span>
+          #set($index = $index + 1)
+        #end
+		#if ($tag.mode != "inline")
+</li>
+        #end
+      #end
+    #end  
+  #end
+	
+#**************************************************
+ * Check tag for checkbox input
+ *#
+#elseif ($widget == 'check')
+  #if ($action == 'start')
+
+  #elseif ($action == 'end')
+    #if ($tag.Mode == 'static')
+      #set ($firstItem = true)
+      #foreach ($item in $tag.CheckedItems)
+        #if ($firstItem)
+          ${item}
+          #set ($firstItem = false)
+        #else
+          <li class="text_row">
+            <p class="empty_label">&nbsp;</p>
+            <p class="text">${item}</p>
+          </li>
+        #end
+      #end
+    #elseif (!$tag.CheckList)
+<li class="checkbox_row">
+  <input type="checkbox" name="${tag.Name}" value="ok" id="${tag.Name}"#if($tag.BooleanValue) checked#end${tag.Events}>
+  <label for="${tag.Name}" class="document">${tag.Label}</label>
+</li>
+    #else
+      #set($index = 0)
+      #foreach($refData in $tag.CheckList)
+        #set($id = $tag.getName($index))
+<li class="checkbox_row">
+  <input type="checkbox" name="${id}" value="ok" id="${id}"#if($tag.BooleanValue) checked#end${tag.Events}>
+  <label for="${id}" class="document">${tag.getRepositoryEntry($refData)}</label>
+</li>
+        #set($index = $index + 1)
+      #end
+    #end  
+  #end
+
+#**************************************************
+ * Select tag for combo box input
+ *#
+#elseif ($widget == 'select')
+	#if ($action == 'start')
+      #if ($tag.Mode != 'static')
+	    #set ($styleClass = $tag.Name)
+	    #if ($tag.styleClass)
+	    	#set ($styleClass = $tag.styleClass)
+	    #end
+<select name="${tag.Name}" id="${tag.Name}" class="${styleClass}"#if($tag.Mode == 'disabled') disabled#end ${tag.Events}>
+      #end
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+		
+	#end
+
+#**************************************************
+ * List tag for static object lists
+ *#
+#elseif ($widget == 'list')
+	#if ($action == 'start')
+	
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+      #foreach($object in $tag.ObjectList)
+        #foreach($item in $tag.DisplayItems)
+<li class="text_row">
+		  #if (${tag.getItemLabel($item)} == "")
+  <p class="empty_label">&nbsp;</p>
+          #else
+  <p class="label">
+    ${tag.getItemLabel($item)} : 
+  </p>
+          #end
+  <p class="text">
+    ${tag.getDisplayValue($object, $item)}
+  </p>
+</li>
+	    #end
+<li>&nbsp;</li>
+	  #end		
+	#end
+
+#**************************************************
+ * Ticket tag for ticket sales type widgets
+ *#
+#elseif ($widget == 'ticket')
+	#if ($action == 'start')
+	
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+      #if ($tag.Mode == 'static')
+        #if ($tag.Reservations)
+      	  #foreach ($item in $tag.Reservations.Children)
+      	    #if ($item.AllReserved > 0)
+  <li class="text_row">
+    <p class="label">${item.Text}</p>
+    <p class="text">${item.Date}</p>
+  </li>
+  	          #foreach ($detail in $item.Children)
+  	            #if ($detail.Reserved > 0)
+  <li class="text_row">
+    <p class="label">${detail.Text} ${tag.reservedPlaces($detail)}</p>
+    <p class="text">${detail.TotalPrice} &euro;</p>
+  </li>
+  	            #end
+  	          #end	 
+  <li>&nbsp;</li>
+            #end
+		  #end
+  <li class="text_row">
+    <p class="label">Total de votre demande</p>
+    <p class="text">${tag.Reservations.TotalPrice} &euro;</p>
+  </li>
+		#end
+      #else
+<div id="${tag.Name}">&nbsp;</div>
+<script type="text/javascript" >
+    initXmlReservation('placeReservationAction.do?repository=${tag.Repository}', '${tag.Name}', 'new');
+</script>
+	  #end
+	#end
+
+#**************************************************
+ * Referential tag for multidemnsional referential widgets
+ *#
+#elseif ($widget == 'referential')
+	#if ($action == 'start')
+	
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+      #if ($tag.Mode == 'static')
+        #foreach ($detail in $tag.CheckedItems)
+          <li class="text_row">
+		  #if (${detail.label} == "")
+            <p class="empty_label">&nbsp;</p>
+          #else
+            <p class="label">${detail.label}</p>
+          #end
+            <p class="text">${detail.value}</p>
+          </li>
+		#end
+      #else
+<div id="${tag.Name}">&nbsp;</div>
+<script type="text/javascript" >
+    initXmlReservation('referentialAction.do?repository=${tag.Repository}', '${tag.Name}', 'new');
+</script>
+	  #end
+	#end
+
+#**************************************************
+ * Process select tag for actif processes
+ *#
+#elseif ($widget == 'processselect')
+	#if ($action == 'start')
+	
+	#elseif ($action == 'body')
+		
+	#elseif ($action == 'end')
+	  #foreach ($group in $tag.ProcessGroups)
+		#if ($group.Order > 0)
+          <div class="block_type17">
+            <ul class="list_type19 ${group.Name}">
+              <li class="row title">${group.Caption}</li>
+		  #foreach ($process in $group.Processes)
+		    #if ($tag.displayProcess($process.Name))
+              <li class="row">
+                <a href="${tag.getHref($process)}" title=""><span class="custom_color"></span>${process.Title}</a>
+              </li>
+            #end
+          #end
+            </ul>
+          </div>
+        #end
+      #end
+	#end
+
+#end

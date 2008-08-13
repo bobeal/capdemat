@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="concertoCsvImporter" 
+    class="fr.capwebct.capdemat.plugins.csvimporters.concerto.service.ConcertoCsvImportService"
+    init-method="init">
+    <property name="label" value="Concerto"></property>
+    <property name="voCardRequestService">
+      <ref bean="voCardRequestService" />
+    </property>
+    <property name="schoolCanteenRegistrationRequestService">
+      <ref bean="schoolCanteenRegistrationRequestService" />
+    </property>
+    <property name="schoolRegistrationRequestService">
+      <ref bean="schoolRegistrationRequestService" />
+    </property>
+    <property name="perischoolActivityRegistrationRequestService">
+      <ref bean="perischoolActivityRegistrationRequestService" />
+    </property>
+    <property name="homeFolderService">
+      <ref bean="homeFolderService" />
+    </property>
+    <property name="authenticationService">
+      <ref bean="authenticationService" />
+    </property>
+    <property name="mailService">
+      <ref bean="mailService" />
+    </property>
+    <property name="schoolService">
+      <ref bean="schoolService" />
+    </property>
+    <property name="enableSummaryEmail" value="${plugins.csvimporters.concerto.enableSummaryEmail}" />
+    <property name="summaryEmailRecipients">
+      <value>${plugins.csvimporters.concerto.summaryEmailRecipients}</value>
+    </property>
+  </bean>
+
+  <bean class="fr.cg95.cvq.platform.PluginBeanFactoryPostProcessor">
+    <property name="extensionBeanName" value="csvParserService" />
+    <property name="propertyName" value="importers" />
+    <property name="pluginBeanName" value="concertoCsvImporter" />
+  </bean>
+  
+</beans>

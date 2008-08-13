@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<EntityDescriptor
+    providerID="http://idp.valdoise.fr/liberty/metadata"
+    xmlns="urn:liberty:metadata:2003-08">
+<IDPDescriptor protocolSupportEnumeration="urn:liberty:iff:2003-08">
+<KeyDescriptor use="signing">
+    <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+      <ds:X509Data>
+        <ds:X509Certificate>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvDZGOIyuEJ+0kq6ixxzAAPljVA8lBjw0
+sU3A+Zl0FjQclNJyQoPSu/z8U05/t1BL1Lr1V/ox2o8JrqIbxq5moULTl2sXfzDGckgxX2hQWLf0
+z5B+49rx/+zcmMQr+FxvXd2FAAmYAlF7WqIl5KiZw/dl6PlWIcDMTKgzAj9XxbvFUqx+i+6GbOwD
+ZkK/0qXbf6yUKWkZz290oTDiF/HKpdOjd/vPhD0Xu/fciwifa7wFjAANtadTm6gNM5r+h+PgUe6H
+o70X+Kjs+C/F3IwZkQjU0WucDB9B/hzELMUEIsTLceJ2fcSGl1LaB7By856gFwL1+TR6guov2/3h
+kC+vwwIDAQAB
+</ds:X509Certificate>
+      </ds:X509Data>
+    </ds:KeyInfo>
+  </KeyDescriptor>
+
+  <SoapEndpoint>http://idp.valdoise.fr/liberty/soapEndpoint</SoapEndpoint>
+
+  <SingleLogoutServiceURL>http://idp.valdoise.fr/liberty/singleLogout</SingleLogoutServiceURL>
+  <SingleLogoutServiceReturnURL>http://idp.valdoise.fr/liberty/singleLogoutReturn</SingleLogoutServiceReturnURL>
+
+  <FederationTerminationServiceURL>http://idp.valdoise.fr/liberty/federationTermination</FederationTerminationServiceURL>
+  <FederationTerminationServiceReturnURL>http://idp.valdoise.fr/liberty/federationTerminationReturn</FederationTerminationServiceReturnURL>
+  <FederationTerminationNotificationProtocolProfile>http://projectliberty.org/profiles/fedterm-idp-soap</FederationTerminationNotificationProtocolProfile>
+  <FederationTerminationNotificationProtocolProfile>http://projectliberty.org/profiles/fedterm-idp-http</FederationTerminationNotificationProtocolProfile>
+  <FederationTerminationNotificationProtocolProfile>http://projectliberty.org/profiles/fedterm-sp-soap</FederationTerminationNotificationProtocolProfile>
+  <FederationTerminationNotificationProtocolProfile>http://projectliberty.org/profiles/fedterm-sp-http</FederationTerminationNotificationProtocolProfile>
+
+  <SingleLogoutProtocolProfile>http://projectliberty.org/profiles/slo-idp-soap</SingleLogoutProtocolProfile>
+  <SingleLogoutProtocolProfile>http://projectliberty.org/profiles/slo-idp-http</SingleLogoutProtocolProfile>
+  <SingleLogoutProtocolProfile>http://projectliberty.org/profiles/slo-sp-soap</SingleLogoutProtocolProfile>
+  <SingleLogoutProtocolProfile>http://projectliberty.org/profiles/slo-sp-http</SingleLogoutProtocolProfile>
+
+  <RegisterNameIdentifierProtocolProfile>http://projectliberty.org/profiles/rni-idp-soap</RegisterNameIdentifierProtocolProfile>
+  <RegisterNameIdentifierProtocolProfile>http://projectliberty.org/profiles/rni-idp-http</RegisterNameIdentifierProtocolProfile>
+  <RegisterNameIdentifierProtocolProfile>http://projectliberty.org/profiles/rni-sp-soap</RegisterNameIdentifierProtocolProfile>
+  <RegisterNameIdentifierProtocolProfile>http://projectliberty.org/profiles/rni-sp-http</RegisterNameIdentifierProtocolProfile>
+  <RegisterNameIdentifierServiceURL>http://idp.valdoise.fr/liberty/registerNameIdentifier</RegisterNameIdentifierServiceURL>
+  <RegisterNameIdentifierServiceReturnURL>http://idp.valdoise.fr/liberty/registerNameIdentifierReturn</RegisterNameIdentifierServiceReturnURL>
+
+  <SingleSignOnServiceURL>http://idp.valdoise.fr/liberty/singleSignOn</SingleSignOnServiceURL>
+  <SingleSignOnProtocolProfile>http://projectliberty.org/profiles/brws-art</SingleSignOnProtocolProfile>
+  <SingleSignOnProtocolProfile>http://projectliberty.org/profiles/brws-post</SingleSignOnProtocolProfile>
+
+</IDPDescriptor>
+
+
+<Organization>
+  <OrganizationName>Conseil General du Val d'Oise</OrganizationName>
+</Organization>
+
+</EntityDescriptor>

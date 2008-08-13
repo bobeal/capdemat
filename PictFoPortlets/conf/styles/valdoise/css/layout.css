@@ -1,0 +1,203 @@
+/** Layout **/
+
+html {
+	background : #f5f5f5 url(../images/background.gif);
+	margin : 0;
+	padding : 0;
+	font-size : 75%;
+}
+
+body {
+	padding : 0;
+	margin : 0 auto 0 auto;
+	width : 60em;
+	min-width : 760px;
+	position : relative;
+}
+
+#pict {
+	display : none;
+}
+
+/** haut de page **/
+
+#pict-header {
+	height : 80px;
+	border-left : 1px solid #e5e5e5;
+	border-right : 1px solid #e5e5e5;
+	background : #ffffff;
+}
+
+/** logo cliquable **/
+
+#pict-title {
+	margin : 0;
+}
+
+#pict-title a {
+	position : absolute;
+	text-indent : -999em;
+	text-decoration : none;
+	width : 350px;
+	height : 60px;
+	background : url(../images/cvq_bandeau_cg95.jpg) top left no-repeat;
+	top : 13px;
+	left : 17px;
+	font-size : 0;
+}
+
+/** informations **/
+
+#pict-informations {
+	display : none;
+}
+
+/** zone de recherche globale **/
+
+#pict-global-search {
+	position : absolute;
+	right : 10px;
+	top : 25px;
+}
+
+#pict-global-search form {
+	margin : 0;
+	padding : 0;
+}
+
+#pict-global-search h2 {
+	margin : 0;
+	padding : 0;
+	display : inline;
+}
+
+#pict-global-search label {
+	position : relative;
+	margin : 0;
+	padding : 0;
+	font-size : 11px;
+	text-transform : lowercase;
+	cursor : pointer;
+	margin-right : 10px;
+	color : #000;
+	left : 5px;
+}
+
+* > #pict-global-search label {
+	top : -7px;
+}
+
+#pict-global-search fieldset {
+	display : inline;
+	margin : 0;
+	padding : 0;
+	border : none;
+	width : 200px;
+}
+
+#pict-global-search-input {
+	margin : 0;
+	padding : 0;
+	width : 161px;
+	height : 22px;
+	border : none;
+	background : url(../images/search.png) 0 0 no-repeat;
+	font-size : 11px;
+	padding : 0 2px;
+}
+
+* > #pict-global-search-input {
+	padding : 5px 15px 0 23px;
+	height : 16px;
+}
+
+#pict-global-search-submit {
+	display : none;
+}
+
+#pict-global-search-advanced {
+	display : none;
+}
+
+/** navigation niveau portail **/
+
+#pict-navigation {
+	margin : 0;
+	padding : 4px 0;
+	font-size : 13px;
+	cursor : default;
+	background: rgb(251, 227, 139);
+	color: #fff;
+	border-left : 1px solid #e5e5e5;
+	border-right : 1px solid #e5e5e5;
+}
+
+#pict-navigation h2 { 
+	display : none;
+}
+
+#pict-navigation ul{
+	padding : 0 17px;
+	margin : 0;
+
+}
+
+#pict-navigation ul li{
+	display: inline;
+	padding : 0;
+	margin : 0;
+	margin-right : 0.5em;
+}
+
+#pict-navigation li a{
+	font-variant: small-caps;
+	text-decoration: none;
+	color: rgb(117, 147, 185);
+	background: transparent;
+	padding: 4px 0.7em 4px 0.7em;
+	font-weight : bold;
+}
+	
+#pict-navigation a:hover, #pict-navigation a.pict-active-page, #pict-navigation a.pict-active-path {
+	color: rgb(251, 227, 139);
+	background: rgb(117, 147, 185);
+}
+
+.pict-navigation-level1 ul {
+	display : none;
+}
+
+/** page **/
+
+#pict-page {
+	padding : 20px 17px;
+	border-left : 1px solid #e5e5e5;
+	border-right : 1px solid #e5e5e5;
+	border-bottom : 1px solid #e5e5e5;
+	background : #ffffff;
+}
+
+#pict-page-title {
+	display : none;
+}
+
+.pict-container {
+	height : 1%; /** ie fix **/
+}
+
+.pict-container-info {
+	display : none;
+}
+
+/** bas de page **/
+
+#pict-footer {
+	background : transparent;
+	text-align : center;
+	padding-top : 5px;
+	height : 50px;
+	font-size : 90%;
+	color : #333;
+}
+
+

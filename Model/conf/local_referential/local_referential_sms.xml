@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>SmsNotificationRequest</request>
+    <data name="Interests">
+        <label lang="fr">Centres d'intérêt</label>
+        <label lang="en">Interests</label>
+    </data>
+</LocalReferential>

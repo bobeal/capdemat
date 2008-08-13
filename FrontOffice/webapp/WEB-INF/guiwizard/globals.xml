@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<cvqprocess xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	 xsi:noNamespaceSchemaLocation="processes.xsd" >
+
+  <globals>
+	<session data="accountManager" type="fr.cg95.cvq.fo.common.AccountManager" />
+
+<!-- the timeout defined here should reflect the timeout defined in the web.xml -->
+	<timeout delay="60" href="closeSession.do" />
+	<timeout cookie="TERMINAL" delay="10" href="closeSession.do" />
+
+	<help>http://aidecartevaloise.valdoise.fr</help>
+	<script src="./js/date.js" />
+	<script src="./js/file.js" />
+	<script src="./js/process.js" />
+	<script src="./js/utils.js" />
+	<script src="./js/validation.js"/>
+	<script src="./js/messages.js"/>
+	<script src="./js/autosuggest.js"></script>
+	<initscript>checkButtonLabelLength()</initscript>
+
+    <!-- ******************* SAISIR LE DEMANDEUR SI EN DEHORS DE L'ESPACE PERSO *********************-->		
+	<stagedef name="Requester" caption="Demandeur">
+		<title>Renseignements concernant le demandeur</title>
+		<info>Renseignements sur la personne qui effectue la demande.</info>
+		  
+		<condition name="fr.cg95.cvq.fo.common.Request" property="noRequester"/>
+				
+		<confirm name="cancel">Attention ! Les données de la demande n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+		<confirm name="delete">Voulez-vous vraiment supprimer les informations du demandeur?</confirm>
+		<confirm name="terminate">Voulez-vous vraiment abandonner ?</confirm>
+		<confirm name="continue" check="">Vous devez enregistrer la page avant de passer à l'étape suivante</confirm>
+		
+		<default>requester</default>
+		<previous confirm="terminate">endProcess</previous>
+		<next confirm="continue"/>
+
+		<state name="requester">
+			<title>Le demandeur</title>
+			<form>/common/requester/requester</form>
+			<button confirm="cancel" action="resetProcess" transition="requester">Annuler Saisie</button>
+			<button default="true" script="processSubmit" action="" transition="display">Enregistrer</button>
+		</state>
+
+		<state name="display" mode="static">
+			<title>Le demandeur</title>
+			<form>/common/requester/display</form>
+			<button transition="requester" action="">Modifier</button>
+		</state>
+
+		<package>fr.cg95.cvq.fo.common</package>
+	</stagedef>
+  
+    <!-- ******************* AJOUT JUSTIFICATIFS DEFINITION, SI NECESSAIRE POUR LA DEMANDE *********************-->		
+	<stagedef name="Documents" caption="Justificatifs" stagemenu="add" required="false">
+		<title>Justificatifs</title>
+		<info>Justificatifs à fournir. Directement sous forme numérique ou ultérieurement au service instructeur.</info>
+		<condition name="fr.cg95.cvq.fo.common.Request" property="hasDocumentsToScan"/>
+		
+		<confirm name="cancel">Attention ! Les pièces justificatives séléctionnés n'ont pas été enregistrées ! Voulez-vous quand même annuler la saisie ?</confirm>
+		<confirm name="delete">Voulez-vous vraiment supprimer ce justificatif ?</confirm>
+		<confirm name="deletepage">Voulez-vous vraiment supprimer cette page du justificatif ?</confirm>
+		<default>explication</default>
+
+		<state name="explication" buttonArea="none" mode="static">
+			<form>/common/justification/default</form>
+			<button type="cancel" confirm="cancel" action="selectDocuments.do?action=cancelall" transition="default" >Annuler Saisie</button>
+		</state>
+		
+		<state name="add">
+			<form>/common/justification/edited</form>
+			<button type="cancel" confirm="cancel" action="selectDocuments.do?action=cancel">Annuler Saisie</button>
+			<button type="previous" action="selectDocuments.do?action=previous">Précédent</button>
+			<button type="next" action="selectDocuments.do?action=next">Suivant</button>
+		</state>
+		
+		<state name="addpage" buttonArea="nonavigation">
+			<form>/common/justification/edited</form>
+			<button type="cancel" confirm="cancel" action="selectDocuments.do?action=cancelpage">Annuler Saisie</button>
+		</state>
+		
+		<state name="display" mode="static">
+			<form>/common/justification/shown</form>
+			<button confirm="delete" action="removeDocumentAction" transition="explication">Supprimer</button>
+			<button type="add" action="addPageToDocumentAction" transition="addpage">Ajouter page</button>
+			<button type="cancel" confirm="cancel" action="selectDocuments.do?action=cancel">Annuler Saisie</button>
+			<button type="previous" action="selectDocuments.do?action=previous">Précédent</button>
+			<button type="next" action="selectDocuments.do?action=next">Suivant</button>
+		</state>
+		
+		<state name="displaypage" mode="static">
+			<form>/common/justification/zoom</form>
+			<button action="showDocumentAction" transition="display">Page précédente</button>
+			<button confirm="deletepage" action="removePageFromDocumentAction" transition="display">Supprimer</button>				
+			<button type="cancel" confirm="cancel" action="selectDocuments.do?action=cancelpage">Annuler Saisie</button>
+		</state>
+
+		<select name="fr.cg95.cvq.fo.common.Request" property="suppliedDocument" state="all">
+			<title>Justificatif(s) fourni(s)</title>
+			<display type="document"/>
+			<display name="type"/>
+			<action parameter="typeId" transition="display">showDocumentAction</action>
+		</select>
+	</stagedef>
+  </globals>
+</cvqprocess>
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+    <property name="prefix"><value>/WEB-INF/views/admin/</value></property>
+    <property name="suffix"><value>.jsp</value></property>
+    <property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
+  </bean>
+
+  <bean id="externalImportController" class="fr.capwebct.modules.payment.controller.ExternalImportController">
+    <property name="formView" value="external_import" />
+    <property name="successView" value="external_import" />
+    <property name="commandClass" 
+      value="fr.capwebct.modules.payment.controller.CsvDataCommand" />
+    <property name="importService" ref="importService" />
+    <property name="externalApplicationService" ref="externalApplicationService" />
+  </bean>
+
+  <bean id="paymentExportController" class="fr.capwebct.modules.payment.controller.PaymentExportController">
+    <property name="formView" value="payment_export" />
+    <property name="successView" value="payment_export" />
+    <property name="commandClass" 
+      value="fr.capwebct.modules.payment.controller.PaymentCommand" />
+    <property name="paymentService" ref="paymentService" />
+    <property name="externalApplicationService" ref="externalApplicationService" />
+  </bean>
+
+  <bean id="capwebctImportController" 
+    class="fr.capwebct.modules.payment.controller.CapwebctImportController">
+    <property name="formView" value="capwebct_import" />
+    <property name="successView" value="capwebct_import" />
+    <property name="commandClass" 
+      value="fr.capwebct.modules.payment.controller.CapwebctImportCommand" />
+    <property name="capwebctWebServiceClient" ref="capwebctWebServiceClient" />  
+    <property name="familyAccountService" ref="familyAccountService" />
+  </bean>
+  
+  <bean id="auditController" class="fr.capwebct.modules.payment.controller.AuditController">
+    <property name="auditService" ref="auditService" />
+  </bean>
+
+  <bean id="externalApplicationController" 
+    class="fr.capwebct.modules.payment.controller.ExternalApplicationController">
+    <property name="externalApplicationService" ref="externalApplicationService" />
+    <property name="commandClass" 
+      value="fr.capwebct.modules.payment.controller.ExternalApplicationCommand" />
+  </bean>
+  
+   <bean id="externalApplicationJsonController"
+    class="fr.capwebct.modules.payment.controller.ExternalApplicationJsonController">
+    <property name="externalApplicationService" ref="externalApplicationService" />
+  </bean>
+  
+  <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="mappings">
+      <value>
+        /external_application.jsp=externalApplicationController
+        /external_import.jsp=externalImportController
+        /payment_export.jsp=paymentExportController
+        /capwebct_import.jsp=capwebctImportController
+        /audit.jsp=auditController
+        /extapp_json.jsp=externalApplicationJsonController
+        /*=auditController
+      </value>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,39 @@
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN"
+    "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+
+<dwr>
+	<allow>
+		<create creator="spring" javascript="ECitizenDataCache" 	scope="session">
+			<param name="beanName" value="ecitizenDataCache" />
+			<include method="getAdultByKeyAndId" />
+			<include method="getDocumentByKeyAndId" />
+		</create>
+		<create creator="spring" javascript="RequestCreator" scope="session">
+			<param name="beanName" value="requestCreator" />
+			<include method="create" />
+			<include method="getNewElectoralRollRegistrationRequest"/>
+		</create>
+
+		<convert converter="bean" match="fr.cg95.cvq.business.users.Adult" >
+			<param name="include" value="id, lastName, firstName" />
+		</convert>
+		<convert converter="bean" match="fr.cg95.cvq.business.users.Child" />
+		<convert converter="bean" match="fr.cg95.cvq.business.users.Individual">
+			<param name="include" value="id, lastName, firstName" />
+		</convert>
+		<convert converter="bean" match="fr.cg95.cvq.business.users.Address" />
+		<convert converter="bean" match="fr.cg95.cvq.business.users.Document">
+			<param name="include" value="id, creationDate, documentType" />
+		</convert>
+		<convert converter="bean" match="fr.cg95.cvq.business.authority.DocumentType">
+			<param name="include" value="id, name, type" />
+		</convert>
+
+		<convert converter="bean" match="fr.cg95.cvq.business.election.ElectoralRollRegistrationRequest">
+			<param name="include" value="subjectOldCity, subjectNationality"></param>
+		</convert>
+		<convert converter="bean" match="fr.cg95.cvq.business.election.ElectoralMotiveType"/>
+
+	</allow>
+</dwr>

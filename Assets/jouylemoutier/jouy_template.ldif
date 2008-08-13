@@ -1,0 +1,63 @@
+dn: dc=jouylemoutier,dc=valdoise,dc=fr
+objectclass: top
+objectclass: dcObject
+objectclass: organization
+dc: jouylemoutier
+o: Jouy le Moutier
+
+dn: ou=people,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: ou=groups,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: ou=schools,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: organizationalUnit
+objectClass: top
+ou: schools
+
+dn: ou=recreation centers,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: organizationalUnit
+objectClass: top
+ou: recreation centers
+
+dn: cn=WEBCT95_ADMINISTRATORS,ou=groups,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: top
+objectClass: posixGroup
+cn: WEBCT95_ADMINISTRATORS
+gidNumber: 500
+description: Administrateurs CAP-WebCT95
+
+dn: cn=WEBCT95_CONTRIBUTORS,ou=groups,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: top
+objectClass: posixGroup
+cn: WEBCT95_CONTRIBUTORS
+gidNumber: 501
+description: Contributeurs CAP-WebCT95
+
+dn: cn=CVQ_ADMINISTRATORS,ou=groups,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: top
+objectClass: posixGroup
+cn: CVQ_ADMINISTRATORS
+gidNumber: 502
+description: Administrateurs CAP-Demat
+
+dn: cn=CVQ_CONTRIBUTORS,ou=groups,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: top
+objectClass: posixGroup
+cn: CVQ_CONTRIBUTORS
+gidNumber: 503
+description: Contributeurs CAP-Demat
+
+dn: cn=REFERENTIAL_ADMINISTRATORS,ou=groups,dc=jouylemoutier,dc=valdoise,dc=fr
+objectClass: top
+objectClass: posixGroup
+cn: REFERENTIAL_ADMINISTRATORS
+gidNumber: 504
+description:: QWRtaW5pc3RyYXRldXJzIGR1IHLDqWbDqXJlbnRpZWwgZGUgbGEgY29sbGVjdGl2aXTDqQ==
+
+

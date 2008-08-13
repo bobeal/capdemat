@@ -1,0 +1,214 @@
+/* basic elements */
+html {
+	height: 100%;
+	width: 100%;
+}
+
+body { 
+	behavior:url("csshover.htc");
+	font: 8pt/16pt Verdana, sans-serif; 
+	color: #000;
+	background: #fff; 
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+/* page layout */
+#container { 
+	margin: 1% 1% 0px 1%;
+	padding: 0px;
+	width: 97%;
+	height: 93%;
+}
+
+#navigation #identifier div.logout {
+	cursor: pointer;
+}
+
+#tabulation { 
+    font: bold 12px Verdana, sans-serif;
+	margin: 0px 0.5% 0px 0.5%;
+	width: 100%;
+	height: 70%;
+	float: left;
+	clear: right;
+	vertical-align: middle;
+}
+
+#tabulation div { 
+	background: #fbe38b;
+	height: 29px;
+	padding: 0px;
+	margin: 0px;
+	float: left;
+	cursor: pointer;
+}
+
+#tabulation div div.left {
+	width: 30px;
+	background: url(manager/onglet-gauche.gif) no-repeat top left;
+}
+
+#tabulation div div.center { 
+	background: url(manager/onglet-centre.gif);
+	height: 21px;
+	padding-top: 8px;
+}
+
+#tabulation div div.right { 
+	width: 15px;
+	background: url(manager/onglet-droite.gif) no-repeat top right;
+}
+
+#tabulation div.selected { 
+	position: relative;
+	z-index: 10;
+	height: 21px;
+	background: #fff;
+    font-weight: normal;
+	cursor: default;
+}
+
+#tabulation #contents { 
+	background: #fff;
+	position: relative;
+	z-index: 0;
+	top: -1px;
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	float: left;
+	clear: both;
+	border: solid 1px #848484;
+	cursor: default;
+}
+
+#tabulation #contents div { 
+	background: #fff;
+	cursor: default;
+}
+
+#tabulation #contents #action { 
+	text-align: center;
+	padding: 0px;
+	margin: 10px;
+	width: 208px;
+	height: 90%;
+	clear: both;
+	float: left; 
+}
+
+#tabulation #contents #action div.title {
+	padding: 0px;
+	margin: 0px;
+	height: 20px;
+}
+
+#tabulation #contents #action div.title h1 {
+	background: url(process/action_top.gif) no-repeat;
+	width: 100%;
+	color: #175495;
+	margin: 0px;
+	padding: 0px;
+	font: 18px Arial;
+}
+
+#tabulation #contents #action div.body div.title h1 {
+	background: none;
+	margin: 20px 0px 0px 0px;
+	border-top: 1px solid #959BA5;
+	border-bottom: 1px solid #959BA5;
+	color: #175495;
+}
+
+#tabulation #contents #action div.body { 
+	border: 1px solid #959BA5;
+	margin 0px;
+	color: #7593b9;
+	height: 100%;
+}
+
+#tabulation #contents #action div.body ul {
+	list-style-type: none;
+	text-align: center;
+	padding: 0px;
+	margin: 0px 0px 0px 20px;
+}
+
+#tabulation #contents #action div.body div.none {
+	margin-top: 16px;
+	font: bold 14px Verdana;
+	color: #000;
+}
+
+#tabulation #contents #action div.body div.select {
+	background: #fbe38b url(process/right_long.gif) no-repeat;
+	color: #000;
+	cursor:pointer;
+	font: 12px Verdana;
+	padding-top: 8px;
+	margin-top: 16px;
+	width: 178px;
+	height: 22px;
+}
+
+#tabulation #contents #action div.body div.select:hover {
+	background-color: #7593b9;
+	color: #fbe38b;
+}
+
+#tabulation #contents #action div.body div.action {
+	background: #fbe38b url(process/right_long.gif) no-repeat;
+	cursor:pointer;
+	font: bold 12px Verdana;
+	padding-top: 8px;
+	margin-top: 16px;
+	width: 178px;
+	height: 22px;
+}
+
+#tabulation #contents #action div.body div.action:hover {
+	background-color: #7593b9;
+	color: #fbe38b;
+}
+
+#tabulation #contents #form { 
+	background: red;
+	margin-top: 10px;
+	width: 70%;
+}
+
+#tabulation #contents #form div.title {
+	padding: 0px;
+	margin: 0px;
+	height: 20px;
+}
+
+#tabulation #contents #form div.title h1 {
+	background: url(process/contents_tab.gif) no-repeat;
+	width: 90%;
+	color: #175495;
+	margin: 0px;
+	padding-left: 20px;
+	font: 18px Arial;
+}
+
+#tabulation #contents #form div.body {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #959BA5;
+}
+
+#menu { 
+	display: none;
+}
+
+#copyright {
+	display: none;
+}
+
+#version {
+	display: none;
+}

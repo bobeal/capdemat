@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="model" classname="fr.cg95.cvq.generator.plugins.model.ModelPlugin">
+  <appinfo>
+    <element parent="request,element,property" node="model"/>
+  </appinfo>
+  <configuration>
+    <!-- define a base output dir for business objects -->
+    <output dir="./Model/src/java/fr/cg95/cvq" testdir="./Model/test/java/fr/cg95/cvq/service"/>
+  </configuration>
+</plugin>

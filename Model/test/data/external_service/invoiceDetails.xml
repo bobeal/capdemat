@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invoiceDetails invoice-id="95999-3-1910782195" invoice-value="10000">
+  <invoiceDetail>
+    <child-name>Lolita</child-name>
+    <child-surname>TOULOUSE</child-surname>
+    <label>carence</label>
+    <unit-price>2300</unit-price>
+    <quantity>2</quantity>
+    <value>4600</value>
+  </invoiceDetail>
+  <invoiceDetail>
+    <child-name>Pierre</child-name>
+    <child-surname>TOULOUSE</child-surname>
+    <unit-price>450</unit-price>
+    <quantity>12</quantity>
+    <value>5400</value>
+  </invoiceDetail>
+</invoiceDetails>

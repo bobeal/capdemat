@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<managerDefinition 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+					xsi:noNamespaceSchemaLocation="managers.xsd" >
+					
+	<session data="stateManager" type="fr.cg95.cvq.bo.manager.StateManager" />
+	<timeout delay="60" href="logoutAction.do" />
+	<style>assets/common/style/backoffice.css</style>
+	<script src="" />
+	
+	<site domain="cartevaloise.ville-louvres.fr">
+		<application>Back-Office</application>
+		<title>Ville de Louvres</title>
+		<name>Louvres</name>
+		<logo>assets/louvres/img/logo.gif</logo>
+		<home>accueil</home>
+	</site>
+	
+	<site domain="cartevaloise.ville-franconville.fr">
+		<application>Back-Office</application>
+		<title>Ville de Franconville</title>
+		<name>Franconville</name>
+		<logo>assets/franconville/img/logo.gif</logo>
+		<home>accueil</home>
+		<style>assets/common/style/stylebo.css</style>
+		<style>assets/common/style/menufo.css</style>
+	</site>
+	
+	<site domain="cartevaloise.ville-saintouenlaumone.fr">
+		<application>Back-Office</application>
+		<title>Ville de Saint Ouen l'Aumone</title>
+		<name>Saint-Ouen l'Aumone</name>
+		<logo>assets/soa/img/logo.gif</logo>
+		<home>accueil</home>
+		<style>assets/common/style/stylebo.css</style>
+		<style>assets/common/style/menufo.css</style>
+	</site>
+	
+	<site domain="cartevaloise.ville-parmain.fr" default="true">
+		<application>Back-Office</application>
+		<title>Ville de Parmain</title>
+		<name>Parmain</name>
+		<logo>assets/parmain/img/logo.gif</logo>
+		<home>accueil</home>
+		<style>assets/common/style/stylebo.css</style>
+		<style>assets/common/style/menufo.css</style>
+	</site>
+	
+	<site domain="cartevaloise.valdoise.fr" default="true">
+		<application>Back-Office</application>
+		<title>Conseil Général de Val d'Oise</title>
+		<name>Conseil Général du Val d'Oise</name>
+		<logo>assets/common/img/logo_Cartevaloise.gif</logo>
+		<home>accueil</home>
+		<style>backoffice.css</style>
+	</site>
+
+	<manager name="request">
+		<title>Gestion des demandes</title>
+		<script src="" />
+		
+		<tab caption="Recherche" remember="true">
+			<title>Rechercher une demande</title>
+			<header separator="bottom">/jsp/bo/request/requestsearch</header>
+			<form separator="top">/jsp/bo/service/displayresults</form>
+		</tab>
+		<tab caption="Formulaire" id="instruction" >
+			<title>Traiter une demande</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<header>/jsp/bo/process/displayheader</header>
+			<process name="eCitizen" check="processName">
+				<form>/jsp/bo/process/displaycitizen</form>
+			</process>
+			<process name="eFamily" check="processName">
+				<form>/jsp/bo/process/displaycitizen</form>
+			</process>
+			<process name="eSchool" check="processName">
+				<form>/jsp/bo/process/displayschool</form>
+				<form>/jsp/bo/process/displayfooter</form>
+			</process>
+			<process name="eCanteen" check="processName">
+				<form>/jsp/bo/process/displaycanteen</form>
+				<form>/jsp/bo/process/displayfooter</form>
+			</process>
+			<process name="ePeriSchool" check="processName">
+				<form>/jsp/bo/process/displayperischool</form>
+				<form>/jsp/bo/process/displayfooter</form>
+			</process>
+		</tab>
+		<tab caption="Justificatifs" id="instruction" >
+			<title>Verifier les justificatifs</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<form>/jsp/bo/request/requestdocument</form>
+		</tab>
+		<tab caption="Instruire" id="instruction" >
+			<title>Instruction d'une demande</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<header>/jsp/bo/process/checkheader</header>
+			<process name="eCitizen" check="processName">
+				<form>/jsp/bo/process/checkcitizen</form>
+			</process>
+			<process name="eFamily" check="processName">
+				<form>/jsp/bo/process/checkcitizen</form>
+			</process>
+			<process name="eSchool" check="processName">
+				<form>/jsp/bo/process/checkschool</form>
+			</process>
+			<process name="eCanteen" check="processName">
+				<form>/jsp/bo/process/checkcanteen</form>
+			</process>
+			<process name="ePeriSchool" check="processName">
+				<form>/jsp/bo/process/checkperischool</form>
+			</process>
+			<footer>/jsp/bo/process/checkfooter</footer>
+		</tab>
+		<tab caption="Délivrer" id="delivery" >
+			<title>Délivrance d'une demande</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<header>/jsp/bo/process/printheader</header>
+			<process name="eCitizen" check="processName">
+				<form>/jsp/bo/process/printcitizen</form>
+			</process>
+			<process name="eFamily" check="processName">
+				<form>/jsp/bo/process/printcitizen</form>
+			</process>
+			<process name="eSchool" check="processName">
+				<form>/jsp/bo/process/printschool</form>
+			</process>
+			<process name="eCanteen" check="processName">
+				<form>/jsp/bo/process/printcanteen</form>
+			</process>
+			<process name="ePeriSchool" check="processName">
+				<form>/jsp/bo/process/printperischool</form>
+			</process>
+			<footer>/jsp/bo/process/printfooter</footer>
+		</tab>
+		<tab caption="Historique" >
+			<title>Historique</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<form>/jsp/bo/request/requesthistory</form>
+		</tab>
+	</manager>
+
+	<manager name="family">
+		<title>Gestion des foyers</title>
+		<tab caption="Recherche" remember="true">
+			<title>Rechercher un foyer</title>
+			<header separator="bottom">/jsp/bo/family/familysearch</header>
+			<form separator="top">/jsp/bo/service/displayresults</form>
+		</tab>
+		<tab caption="Identités" >
+			<title>Les membres du foyer</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<select name="stateManager" property="selectedRecord.adults" >
+				<title>Les adultes du foyer</title>
+				<empty>Aucun adult saisi</empty>
+				<display name="firstName"/>
+				<display name="lastName"/>
+				<link name="showAdultAction" parameter="index"/>
+				<form>/jsp/bo/family/familydisplayadult</form>
+			</select>
+			<select name="stateManager" property="selectedRecord.children" >
+				<title>Les enfants du foyer</title>
+				<empty>     Aucun enfant saisi</empty>
+				<display name="firstName"/>
+				<display name="lastName"/>
+				<link name="showChildAction" parameter="index"/>
+				<form>/jsp/bo/family/familydisplaychild</form>
+			</select>
+		</tab>
+		<tab caption="Justificatifs" >
+			<title>Verifier les justificatifs</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<form>/jsp/bo/family/familydocument</form>
+		</tab>
+		<tab caption="Facturation" >
+			<title>Suivi facturation</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<form>/jsp/bo/family/familyinvoice</form>
+		</tab>
+		<tab caption="Demandes" >
+			<title>Demandes du foyer</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<form>/jsp/bo/family/familyrequest</form>
+		</tab>
+		<tab caption="Historique" >
+			<title>Historique</title>
+			<condition name="stateManager" property="selectedRecord" />
+			<form>/jsp/bo/family/familyhistory</form>
+		</tab>
+	</manager>
+	
+	<manager name="report">
+		<title>Tableaux de suivi</title>
+		<action>reportAction.do</action>
+		<tab caption="Etats" id="state">
+			<title>Par état des demandes</title>
+			<header>/jsp/bo/report/reportfilter</header>
+			<form separator="top">/jsp/bo/report/reportstate</form>
+		</tab>
+		<tab caption="Alertes" id="alarm">
+			<title>Par type d'alerte</title>
+			<header>/jsp/bo/report/reportfilter</header>
+			<form separator="top">/jsp/bo/report/reportalarm</form>
+		</tab>
+		<tab caption="Types" id="type">
+			<title>Par type de demande</title>
+			<header>/jsp/bo/report/reportfilter</header>
+			<form separator="top">/jsp/bo/report/reporttype</form>
+		</tab>
+		<tab caption="Mois" id="month">
+			<title>Par mois</title>
+			<header>/jsp/bo/report/reportfilter</header>
+			<form separator="top">/jsp/bo/report/reportmonth</form>
+		</tab>
+	</manager>
+
+	<manager name="administration">
+		<title>Administration</title>
+		<action>adminAction.do</action>
+		<tab caption="Services" id="service">
+			<title>Services</title>
+			<select name="AdminForm" property="services" >
+				<title>Les services</title>
+				<empty>Aucun service defini</empty>
+				<display name="name"/>
+				<link name="adminAction" parameter="index"/>
+				<form>/jsp/bo/admin/adminservice</form>
+			</select>
+		</tab>
+		<tab caption="Utilisateurs" id="user">
+			<title>Utilisateurs</title>
+			<select name="AdminForm" property="users" >
+				<title>Les utilisateurs</title>
+				<empty>Aucun utilisateur defini</empty>
+				<display name="login"/>
+				<link name="adminAction" parameter="index"/>
+				<form>/jsp/bo/admin/adminuser</form>
+			</select>
+		</tab>
+		<tab caption="Réglements effectués" id="payment">
+			<title>Réglements</title>
+			<action>paymentsAction.do</action>
+			<header>/jsp/bo/admin/paymentfilter</header>
+			<form separator="top">/jsp/bo/admin/payments</form>
+		</tab>
+		<tab caption="Import" id="import">
+			<title>Import</title>
+			<action>importAction.do</action>
+			<header separator="bottom">/jsp/bo/admin/importheader</header>
+			<form separator="bottom">/jsp/bo/request/requestsearch</form>
+			<footer>/jsp/bo/admin/displayimport</footer>
+		</tab>
+		<tab caption="Export" id="export">
+			<title>Export</title>
+			<action>exportAction.do</action>
+			<header separator="bottom">/jsp/bo/request/requestsearch</header>
+			<form separator="top">/jsp/bo/admin/exportheader</form>
+			<footer>/jsp/bo/service/displayresults</footer>
+		</tab>
+	</manager>
+
+	<menu caption="Rechercher">
+	</menu>
+	<menu caption="Gestion des demandes">
+		<menu caption="Rechercher une demande">
+			<action>managerWizard.do?name=request&amp;reset</action>
+		</menu>
+		<menu caption="Nouvelles demandes">
+			<detail name="stateManager" property="nbpending"/>
+			<action>searchAction.do?request=validate</action>
+		</menu>
+		<menu caption="Demandes en cours">
+			<detail name="stateManager" property="nbopen"/>
+			<action>searchAction.do?request=open</action>
+		</menu>
+		<menu caption="Attestations à envoyer">
+			<detail name="stateManager" property="nbnotify"/>
+			<action>searchAction.do?request=notify</action>
+		</menu>
+	</menu>
+	<menu caption="Gestion des foyers">
+		<menu caption="Rechercher un foyer">
+			<action>managerWizard.do?name=family&amp;reset</action>
+		</menu>
+		<menu caption="Ajouter un foyer">
+			<condition name="stateManager" property="profile.rwprofile" />
+			<action>familyAction.do?action=eCitizen</action>
+		</menu>
+		<menu caption="Ajouter une demande">
+			<condition name="stateManager" property="profile.rwprofile" />
+			<action>familyAction.do?action=request</action>
+		</menu>
+		<menu caption="Demander un RDV">
+			<condition name="stateManager" property="profile.rwprofile" />
+			<action>familyAction.do?action=meeting</action>
+		</menu>
+	</menu>
+	<menu caption="Tableaux de suivi">
+		<condition name="stateManager" property="profile.roprofile" />
+		<menu caption="Par état des demandes">
+			<action>reportAction.do?report=state&amp;tab=0</action>
+		</menu>
+		<menu caption="Par type d'alerte">
+			<action>reportAction.do?report=alarm&amp;tab=1</action>
+		</menu>
+		<menu caption="Par type de demande">
+			<action>reportAction.do?report=type&amp;tab=2</action>
+		</menu>
+		<menu caption="Par mois">
+			<action>reportAction.do?report=month&amp;tab=3</action>
+		</menu>
+	</menu>
+	<menu caption="Administration">
+		<condition name="stateManager" property="profile.admin" />
+		<menu caption="Gestion des services">
+			<action>adminAction.do?admin=service&amp;tab=0</action>
+		</menu>
+		<menu caption="Gestion des utilisateurs">
+			<action>adminAction.do?admin=user&amp;tab=1</action>
+		</menu>
+		<menu caption="Gestion des réglements">
+			<action>paymentsAction.do?tab=2</action>
+		</menu>
+		<menu caption="Importation de demandes">
+			<action>managerWizard.do?name=administration&amp;tab=3&amp;clear</action>
+		</menu>
+		<menu caption="Exportation de demandes">
+			<action>exportAction.do?name=administration&amp;tab=4&amp;clear</action>
+		</menu>
+	</menu>
+</managerDefinition>

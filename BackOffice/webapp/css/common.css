@@ -1,0 +1,950 @@
+ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,html,p,blockquote,fieldset,input
+{ margin: 0; padding: 0; }
+
+a img,:link img,:visited img { border: none; }
+
+a
+{
+  text-decoration: none;
+}
+
+a:hover
+{
+  text-decoration: underline;
+}
+
+.clear-both
+{
+  clear: both;
+}
+
+/* PICTOS */
+.pictoAdd
+{
+  background: url(/BackOffice/images/page_add.png) no-repeat 7px center;
+}
+
+.pictoAdults
+{
+  background: url(/BackOffice/images/adults.png) no-repeat 7px center;
+}
+
+.pictoBoy
+{
+  background: url(/BackOffice/images/boy.png) no-repeat 7px center;
+}
+
+.pictoComment
+{
+  background: url(/BackOffice/images/comment.png) no-repeat 7px center;
+}
+
+.pictoContact
+{
+  background: url(/BackOffice/images/contact.png) no-repeat 7px center;
+}
+
+.pictoDigitize
+{
+  background: url(/BackOffice/images/digitize.png) no-repeat 7px center;
+}
+
+.pictoFormular
+{
+  background: url(/BackOffice/images/formular.png) no-repeat 7px center;
+}
+
+.pictoGirl
+{
+  background: url(/BackOffice/images/girl.png) no-repeat 7px center;
+}
+
+.pictoInformation
+{
+  background: url(/BackOffice/images/information.png) no-repeat 7px center;
+}
+
+.pictoMan
+{
+  background: url(/BackOffice/images/man.png) no-repeat 7px center;
+}
+
+.pictoNo
+{
+  background: url(/BackOffice/images/no.png) no-repeat 7px center;
+}
+
+.pictoOk
+{
+  background: url(/BackOffice/images/ok.png) no-repeat 7px center;
+}
+
+.pictoParams
+{
+  background: url(/BackOffice/images/params.png) no-repeat 7px center;
+}
+
+.pictoStatus
+{
+  background: url(/BackOffice/images/status.png) no-repeat 7px center;
+}
+
+.pictoTable
+{
+  background: url(/BackOffice/images/table.png) no-repeat 7px center;
+}
+
+.pictoWoman
+{
+  background: url(/BackOffice/images/woman.png) no-repeat 7px center;
+}
+
+.pictoReport
+{
+  background: url(/BackOffice/images/report.png) no-repeat 7px center;
+}
+
+/* REQUEST GROUP PICTO */
+.pictoAccount { background: url(/BackOffice/images/family.png) no-repeat 7px center;}
+.pictoCivil { background: url(/BackOffice/images/civil.png) no-repeat 7px center;}
+.pictoCulture { background: url(/BackOffice/images/culture.png) no-repeat 7px center;}
+.pictoElection {background: url(/BackOffice/images/election.png) no-repeat 7px center;}
+/* [AMA] replace url by the environment icon*/
+.pictoEnvironment {background: url(/BackOffice/images/environment.png) no-repeat 7px center;}
+.pictoLeisure {background: url(/BackOffice/images/leisures.png) no-repeat 7px center;}
+.pictoSocial {background: url(/BackOffice/images/social.png) no-repeat 7px center;}
+.pictoSchool {background: url(/BackOffice/images/school.png) no-repeat 7px center;}
+.pictoUrban {background: url(/BackOffice/images/urban.png) no-repeat 7px center;}
+.pictoTechnical {background: url(/BackOffice/images/technical.png) no-repeat 7px center;}
+.pictoLocalPolice {background: url(/BackOffice/images/localpolice.png) no-repeat 7px center;}
+
+
+
+/* BLOCKS */
+.block001
+{
+  display: block;
+  float: left;
+  padding: 0 2px;
+  vertical-align: middle;
+}
+
+.block002
+{
+  background: url(/BackOffice/images/bg003.png) repeat left top;
+  border: 1px solid #d8d8d8;
+  display: block;
+  float: left;
+  margin: 8px 30px 1px 8px;
+}
+
+.block003
+{
+  clear: both;
+  display: block;
+  padding: 5px 5px 20px 5px;
+}
+
+.block004
+{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  clear: both;
+  display: block;
+  margin: 1px 30px 0 8px;
+  padding: 5px 0;
+}
+
+.block005
+{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  clear: left;
+  display: block;
+  float: left;
+  margin-left: 8px;
+  padding: 5px;
+  width: 477px;
+}
+
+.block006
+{
+  background: url(/BackOffice/images/bg003.png) repeat left top;
+  border: 1px solid #d8d8d8;
+  display: block;
+  float: left;
+  margin: 10px 5px 1px 8px;
+}
+
+.block007
+{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  clear: left;
+  display: block;
+  float: left;
+  margin-left: 8px;
+  padding: 5px;
+  width: 237px;
+}
+
+.block008
+{
+  background: url(/BackOffice/images/bg003.png) repeat left top;
+  border: 1px solid #d8d8d8;
+  clear: both;
+  display: block;
+  float: left;
+  margin: 8px 0 1px 8px;
+}
+
+.block009
+{
+  background: url(/BackOffice/images/bg003.png) repeat left top;
+  border: 1px solid #d8d8d8;
+  display: block;
+  float: left;
+  margin: 8px 8px 1px 8px;
+}
+
+.block010
+{
+  clear: both;
+  display: block;
+  margin: 8px 8px 1px 8px;
+  width: 359px;
+}
+
+.block011
+{
+  clear: both;
+  display: block;
+  margin: 8px 8px 1px 8px;
+  width: 725px;
+}
+
+.block012
+{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  clear: left;
+  display: block;
+  float: left;
+  margin-left: 8px;
+  padding: 5px;
+  width: 290px;
+}
+
+.block013
+{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  clear: left;
+  display: block;
+  float: left;
+  margin-left: 8px;
+  padding: 5px;
+  width: 418px;
+}
+
+.block014
+{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  clear: both;
+  display: block;
+  margin: 8px 30px 0 8px;
+  text-align: center;
+  width: 749px;
+}
+
+.block015
+{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  clear: left;
+  display: block;
+  float: left;
+  margin-left: 8px;
+}
+
+.block016
+{
+  background: url(/BackOffice/images/bg003.png) repeat left top;
+  border: 1px solid #d8d8d8;
+  clear: both;
+  display: block;
+  float: left;
+  margin: 8px 0 1px 8px;
+}
+
+.block017
+{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  clear: left;
+  display: block;
+  float: left;
+  margin: 0 8px 8px 8px;
+  padding: 5px;
+  width: 511px;
+}
+
+.block018
+{
+  clear: both;
+  display: block;
+  width: 511px;
+}
+
+.block019
+{
+  clear: both;
+  display: block;
+  width: 360px;
+}
+
+.block020
+{
+  clear: both;
+  display: block;
+  width: 400px;
+}
+
+.block021 
+{
+  position:absolute;
+  right: 35px;
+  top: 9px;
+}
+
+/* TEXTS */
+.text001
+{
+  display: block;
+  float: left;
+  line-height: 1.8em;
+  padding: 0 5px;
+}
+
+.text002
+{
+  color: #006ea9;
+  font-weight: bold;
+  line-height: 2em;
+  padding: 0 5px 0 30px;
+  width: 716px;
+}
+
+.text003
+{
+  color: #006ea9;
+  font-weight: bold;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 450px;
+}
+
+.text004
+{
+  color: #006ea9;
+  font-weight: bold;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 210px;
+}
+
+.text005
+{
+  color: #006ea9;
+  font-weight: normal;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 320px;
+}
+
+.text006
+{
+  color: #006ea9;
+  font-weight: normal;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 696px;
+}
+
+.text007
+{
+  color: #006ea9;
+  font-weight: bold;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 263px;
+}
+
+.text008
+{
+  color: #006ea9;
+  font-weight: bold;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 391px;
+}
+
+.text009
+{
+  background: url(/BackOffice/images/arrow_right.png) no-repeat 10px center;
+  display: block;
+  float: left;
+  font-size: 0.95em;
+  line-height: 1.2em;
+  padding: 0 5px 0 25px;
+}
+
+.text010
+{
+  color: #006ea9;
+  font-weight: bold;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 180px;
+}
+
+.text011
+{
+  color: #006ea9;
+  font-weight: bold;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 484px;
+}
+
+.text012
+{
+  font-size: 0.9em;
+  font-weight: normal;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 484px;
+}
+
+.text013
+{
+  font-weight: normal;
+  line-height: 2em;
+  padding: 0 7px 0 30px;
+  width: 484px;
+}
+
+.text014
+{
+  color: #fd341f;
+  padding-left: 30px;
+}
+
+.text015
+{
+  color: #59aa17;
+  padding-left: 30px;
+}
+
+/* TABLES */
+/* COMMON */
+
+.table_default .row1
+{
+  background-color: #fff;
+}
+
+.table_default .row2
+{
+  background-color: #f6f6f6;
+}
+
+.table_default .th
+{
+  background: url(/BackOffice/images/bg002.png) repeat left top;
+  border: 1px solid #a9a9a9;
+  color: #006ea9;
+  font-size: 0.9em;
+  font-weight: bold;
+  padding: 2px;
+  vertical-align: middle;
+}
+
+.table_default .th .link
+{
+  color: #006ea9;
+}
+
+.table_default .td
+{
+  border: 1px solid #a9a9a9;
+  font-size: 0.95em;
+  padding: 2px;
+  vertical-align: middle;
+}
+
+.table_default .td .link
+{
+  color: #006ea9;
+  display: block;
+  line-height: 1.5em;
+}
+
+.table_default .td .link:hover
+{
+  text-decoration: none;
+}
+
+.table_default .td .link span
+{
+  background: url(/BackOffice/images/voir.png) no-repeat 5px center;
+  padding: 3px 0 3px 22px;
+}
+
+.table_default .td .link:hover span
+{
+  text-decoration: underline;
+}
+
+/* TABLE TYPE 1 */
+.table001
+{
+  border-collapse: collapse;
+  clear: both;
+  margin: 3px 30px 3px 9px;
+  width: 752px;
+}
+
+.table001 .th
+{
+  text-align: center;
+}
+
+.table001 .td
+{
+  text-align: center;
+}
+
+/* TABLE TYPE 2 */
+.table002
+{
+  border-collapse: collapse;
+  clear: both;
+  margin: 3px 8px;
+  width: 735px;
+}
+
+.table002 .th
+{
+  padding: 4px 0;
+  text-align: center;
+}
+
+.table002 .td
+{
+  text-align: center;
+}
+
+/* TABLE TYPE 3 */
+.table003
+{
+  border-collapse: separate;
+  border-spacing: 0 3px;
+  width: inherit;
+}
+
+.table003 .td
+{
+  border-bottom: 1px solid #d8d8d8;
+  border-left: none;
+  border-right: none;
+  border-top: 1px solid #d8d8d8;
+}
+
+.table003 .td1
+{
+  color: #59aa17;
+}
+
+.table003 .td2
+{
+  background: url(/BackOffice/images/ok.png) no-repeat center 3px;
+  height: 20px;
+  width: 20px;
+}
+
+.table003 .td3
+{
+  border-bottom: none;
+}
+
+.table003 .td4
+{
+  border-top: none;
+  border-bottom: none;
+}
+
+.table003 .td5
+{
+  border-top: none;
+}
+
+/* TABLE TYPE 4 */
+.table004
+{
+  border-collapse: separate;
+  border-spacing: 0 3px;
+  clear: both;
+}
+
+.table004 .td
+{
+  padding: 3px 5px;
+}
+
+.table004 .td1
+{
+  width: 200px;
+}
+
+.table004 .td2
+{
+  color: #006ea9;
+}
+
+/* TABLE TYPE 5 */
+.table005
+{
+  border-collapse: collapse;
+  clear: both;
+  margin: 3px 8px;
+  width: 496px;
+}
+
+.table005 .th
+{
+  border: 1px solid #d8d8d8;
+  padding: 4px 17px;
+  text-align: left;
+}
+
+.table005 .td
+{
+  border: 1px solid #d8d8d8;
+  padding: 4px 9px;
+  text-align: left;
+}
+
+/* [AMA] Set good backgound-color */
+.table005 .td2 {background-color: #EEEEEE;}
+
+.table005 .td .link span
+{
+  background: url(/BackOffice/images/edit.png) no-repeat 5px center;
+  padding: 3px 0 3px 32px;
+}
+
+.table005 .td .yes
+{
+  background: url(/BackOffice/images/ok.png) no-repeat 5px center;
+  color: #59aa17;
+  padding: 3px 0 3px 32px;
+}
+
+.table005 .td .no
+{
+  background: url(/BackOffice/images/no.png) no-repeat 5px center;
+  color: #fd341f;
+  padding: 3px 0 3px 32px;
+}
+
+/* TABLE TYPE 6 */
+.table006
+{
+  border-collapse: collapse;
+  clear: both;
+  margin: 3px 8px;
+  width: 735px;
+}
+
+.table006 .th
+{
+  padding: 4px 0;
+  text-align: center;
+}
+
+.table006 .td
+{
+  padding: 4px 5px;
+  text-align: left;
+}
+
+/* TABLE TYPE 7 */
+.table007
+{
+  border-collapse: collapse;
+  clear: both;
+  margin: 3px 8px;
+  width: 496px;
+}
+
+.table007 .th
+{
+  padding: 4px 10px;
+  text-align: left;
+}
+
+.table007 .td
+{
+  padding: 4px 10px;
+  text-align: left;
+}
+
+/* TABLE TYPE 8 */
+.table008
+{
+  border-collapse: collapse;
+  clear: both;
+  margin: 3px;
+  width: 211px;
+}
+
+.table008 .th
+{
+  padding: 4px;
+  text-align: left;
+}
+
+.table008 .td
+{
+  padding: 4px;
+  text-align: left;
+}
+
+/* TABLE TYPE 9 */
+.table009
+{
+  border-collapse: collapse;
+  clear: both;
+  margin: 3px 8px;
+  width: 344px;
+}
+
+/* HR */
+.hr001
+{
+  background-color: #d8d8d8;
+  border: none;
+  height: 1px;
+  margin: 8px;
+  padding: 0;
+}
+
+/* OVERFLOW */
+.overflow001
+{
+  height: 100px;
+  overflow-y: scroll;
+}
+
+.overflow002
+{
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.overflow003
+{
+  height: 300px;
+  overflow-y: scroll;
+}
+
+/* LISTS */
+/* LIST TYPE 1 */
+.list001
+{
+  display: block;
+  float: left;
+  list-style-type: none;
+  padding: 4px 8px;
+  width: 201px;
+}
+
+.list001 .element
+{
+  background: url(/BackOffice/images/bg003.png) repeat left top;
+  border: 1px solid #d8d8d8;
+  clear: both;
+  color: #006ea9;
+  display: block;
+  line-height: 2em;
+  float: left;
+  margin: 4px 0;
+  width: 180px;
+}
+
+.list001 .link
+{
+  color: #006ea9;
+  cursor: pointer;
+  display: block;
+  float: left;
+  padding: 0 8px 0 30px;
+  text-decoration: none;
+  width: 142px;
+}
+
+.list001 .element:hover,
+.list001 .current
+{
+  background-image: url(/BackOffice/images/bg005.png);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.list001 .empty
+{
+  text-align: center;
+}
+
+/* LIST TYPE 2 */
+.list002
+{
+  display: block;
+  list-style-type: none;
+  padding-left: 30px;
+}
+
+.list002 .element
+{
+  background: url(/BackOffice/images/square_blue.png) no-repeat left 5px;
+  clear: both;
+  display: block;
+  list-style-type: square;
+  float: left;
+  margin: 4px 0;
+  padding-left: 10px;
+}
+
+/* LIST TYPE 3 */
+.list003
+{
+  display: block;
+  float: left;
+  list-style-type: none;
+  padding: 0 5px;
+  width: 723px;
+}
+
+.list003 .list
+{
+  display: block;
+  float: left;
+  padding-left: 20px;
+}
+
+.list003 .element
+{
+  clear: both;
+  display: block;
+  float: left;
+  line-height: 20px;
+  padding-left: 20px;
+}
+
+.list003 .element_full
+{
+  background: url(/BackOffice/images/arrow_bottom.png) no-repeat 5px 2px;
+}
+
+.list003 .element_empty
+{
+  background: url(/BackOffice/images/arrow_right.png) no-repeat 5px 2px;
+}
+
+/* LIST TYPE 4 */
+.list004
+{
+  display: block;
+  float: left;
+  list-style-type: none;
+  padding: 4px 8px;
+  width: 201px;
+}
+
+.list004 .element
+{
+  background: url(/BackOffice/images/arrow_right.png) no-repeat left center;
+  clear: both;
+  color: #737373;
+  display: block;
+  line-height: 1.1em;
+  float: left;
+  margin: 4px 0 4px 10px;
+  width: 170px;
+}
+
+.list004 .link
+{
+  color: #737373;
+  cursor: pointer;
+  display: block;
+  float: left;
+  padding: 0 8px 0 20px;
+  text-decoration: none;
+  width: 152px;
+}
+
+.list004 .element:hover .link,
+.list004 .current .link
+{
+  color: #006ea9;
+  font-weight: bold;
+}
+
+/* LIST TYPE 5 */
+.list005
+{
+  display: block;
+  float: left;
+  list-style-type: none;
+  padding: 0 5px;
+  width: 337px;
+}
+
+.list005 .list
+{
+  display: block;
+  float: left;
+  padding-left: 0px;
+}
+
+.list005 .element
+{
+  clear: both;
+  display: block;
+  float: left;
+  line-height: 20px;
+  padding-left: 15px;
+}
+
+.list005 .element_full
+{
+  background: url(/BackOffice/images/arrow_bottom.png) no-repeat 0px 2px;
+}
+
+.list005 .element_empty
+{
+  background: url(/BackOffice/images/arrow_right.png) no-repeat 0px 2px;
+}
+
+.list005 .item
+{
+}
+
+.list005 .detail
+{
+	float: right;
+	width: 75px;
+}

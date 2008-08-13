@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="GUIWizard" />
+	<meta name="description" content="A test for teleprocedures." />
+
+	<title>CVQ: Test</title>
+
+	<style type="text/css" media="all">
+		#tabulation #contents #form { 
+			width: 78%;
+		}
+	</style>
+
+	<style type="text/css" media="all">
+		@import "css/frontoffice/frontoffice.css";
+		@import "css/frontoffice/teleproc.css";
+	</style>
+</head>
+
+<body onload="window.defaultStatus='Cartevaloise: A test for procedure management.';" id="cvq-test">
+
+<div id="container">
+	<div id="information">
+		<div id="title">
+			<h1><span>Cartevaloise Conseil Général de Val d'Oise</span></h1>
+			<h2><span> Traiter une demande</span></h2>
+		</div>
+	</div>
+	<div id="navigation">
+		<div id="path">
+			<div class="path">Back-Office</div>
+			<div class="path">Gestion des demandes</div>
+			<div class="current">Traiter une demande</div>
+		</div>
+		<div id="identifier">
+			<div class="user">Agent1</div>
+			<div class="logout" onclick="javascript:alert('click');">Me Déconnecter</div>
+		</div>
+	</div>
+	<div id="tabulation">
+		<div><div class="left"></div><div class="center">Recherche</div><div class="right"></div></div>
+		<div class="selected"><div class="left"></div><div class="center">Formulaire</div><div class="right"></div></div>
+		<div><div class="left"></div><div class="center">Justificatifs</div><div class="right"></div></div>
+		<div><div class="left"></div><div class="center">Instruire</div><div class="right"></div></div>
+		<div><div class="left"></div><div class="center">Délivrer</div><div class="right"></div></div>
+		<div onclick="alert('click')"><div class="left"></div><div class="center">Historique</div><div class="right"></div></div>
+		<div id="contents">
+			<div id="action">
+				<div class="title">
+					<h1><span>Les adultes du foyer</span></h1>
+				</div>
+				<div class="body">
+					<ul>
+						<div class="none"><li>Aucun adulte saisi</li></div>
+						<div class="select"><li>DUPUIS Thierry</li></div>
+						<div class="action"><li>Ajouter un adulte</li></div>
+					</ul>
+					<div class="title">
+						<h1><span>Les enfants du foyer</span></h1>
+					</div>
+					<ul>
+						<div class="none"><li>Aucun adulte saisi</li></div>
+						<div class="select"><li>DUPUIS Thierry</li></div>
+						<div class="action"><li>Ajouter un adulte</li></div>
+					</ul>
+				</div>
+			</div>
+			<div id="form" class="bottom">
+				<div class="title">
+					<h1><span>Form title</span></h1>
+				</div>
+				<div class="body">
+					<div class="info-button">
+						<div class="info">
+							<b>Pour modifier votre foyer,</b> cliquez ici
+						</div>
+						<div class="button" onclick="javascript:alert('click');">
+							Modifier mon foyer
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="form" class="top">
+				Here is some contents again
+			</div>
+		</div>
+	</div>
+	<div id="menu">
+	<ul>
+		<div class="menu"><li>Rechercher</li>
+		</div>
+		<div class="menu"><li>Gestion des demandes</li>
+		<ul>
+			<div class="menuitem"><li>Rechercher une demande</li></div>
+			<div class="menuitem"><li>23 Nouvelles demandes</li></div>
+			<div class="menuitem"><li>2 Demandes en cours</li></div>
+			<div class="menuitem"><li>10 Attestations à envoyer</li></div>
+		</ul>
+		</div>
+		<div class="menu"><li>Gestion des foyers</li>
+		<ul>
+			<div class="menuitem"><li>Rechercher un foyer</li></div>
+			<div class="menuitem"><li>Ajouter un foyer</li></div>
+			<div class="menuitem"><li>Ajouter une demande</li></div>
+			<div class="menuitem" onclick="javascript:alert('click');"><li>Demander un RDV</li></div>
+		</ul>
+		</div>
+	</ul>
+	</div>
+</div>
+<div id="copyright">
+<a href="http://www.cg95.fr">Cartevaloise &copy; 2004, 2005 Conseil Général du Val d'Oise</a>
+</div>
+<div id="version">
+2.0 - 20050426
+</div>
+
+</body>
+</html>

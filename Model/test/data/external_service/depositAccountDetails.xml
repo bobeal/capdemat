@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<accountDetails account-id="95999-3-1910782193">
+  <accountDetail>
+    <date>2004-12-28T15:35:34.163</date>
+    <holder-name>roger</holder-name>
+    <holder-surname>TOULOUSE</holder-surname>
+    <value>20345</value>
+    <payment-type>Chèque</payment-type>
+    <payment-id>0101566442</payment-id>
+    <payment-ack>FPS_59_1174914214407</payment-ack>
+  </accountDetail>
+  <accountDetail>
+    <date>2004-12-22T14:58:32.189</date>
+    <holder-name>roger</holder-name>
+    <holder-surname>TOULOUSE</holder-surname>
+    <value>10428</value>
+    <payment-type>Automate CB</payment-type>
+    <payment-id>0101566442-XXXXXXX-543156</payment-id>
+    <payment-ack>FPS_59_2574914214409</payment-ack>
+  </accountDetail>
+</accountDetails>

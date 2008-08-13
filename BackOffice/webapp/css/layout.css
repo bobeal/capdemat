@@ -1,0 +1,306 @@
+body
+{
+  background-color: #8a2522;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.74em;
+  margin: 0;
+  padding: 0;
+}
+
+#container 
+{
+  background: transparent url(/BackOffice/images/container_bg.png) repeat-y left top;
+  margin: 0 auto;
+  padding: 0 8px 10px 2px;
+  position: relative;
+  width: 998px;
+}
+
+/* HEADER */
+#banner
+{
+  display: none;
+}
+
+#information,
+#information #title
+{
+  height: 64px;
+}
+
+#information #title span
+{
+  font-size: 0em;
+}
+
+#information #title h1
+{
+  background: url(/BackOffice/images/bandeau.png) no-repeat left top;
+  float: right;
+  height: 64px;
+  width: 829px;
+}
+
+/* NAVIGATION */
+#navigation 
+{
+  background: #f6be54 url(/BackOffice/images/navigation_bg.png) repeat-x left top;
+  height: 30px;
+  margin-top: 4px;
+}
+
+#navigation #path
+{
+  float: left;
+  padding: 0 10px 0 5px;
+}
+
+#navigation #path .path,
+#navigation #path .current
+{
+  display: block;
+  float: left;
+  font-size: 0.9em;
+  line-height: 2.9em;
+  padding: 0 10px 0 5px;
+}
+
+#navigation #path .path
+{
+  background: url(/BackOffice/images/separator001.png) no-repeat right center;
+}
+
+#navigation #path .current
+{
+  font-weight: bold;
+}
+
+#navigation #identifier 
+{
+  background: url(/BackOffice/images/lock.png) no-repeat left 0.7em;
+  float: right;
+  padding-left: 10px;
+}
+
+#navigation #identifier .user,
+#navigation #identifier .logout
+{
+  display: block;
+  float: left;
+  font-size: 0.9em;
+  line-height: 3em;
+  padding: 0 10px 0 5px;
+}
+
+#navigation #identifier .user
+{
+  background: url(/BackOffice/images/separator001.png) no-repeat right center;
+  font-weight: bold;
+}
+
+#navigation #identifier .logout
+{
+  cursor: pointer;
+}
+
+/* CONTENT */
+#tabulation
+{
+  float: left;
+  width: 791px;
+  padding-left: 7px;
+  padding-top: 15px;
+}
+
+#contents
+{
+  background: #f6f6f6 url(/BackOffice/images/tabulation_footer_bg.png) no-repeat left bottom;
+  clear: both;
+  padding-bottom: 15px;
+  position: relative;
+}
+
+#tabulation .content_empty
+{
+  background-color: #fff;
+  background-image: none;
+}
+
+#grid_block
+{
+  background: #f6f6f6 url(/BackOffice/images/tabulation_bg.png) repeat-y left top;
+  clear: both;
+  position: relative;
+  width: 791px;
+}
+
+#grid_block .grid_cell
+{
+  display: block;
+  float: left;
+}
+
+#grid_block .grid_column_left
+{
+  clear: left;
+}
+
+#grid_block .grid_column_right
+{
+  clear: right;
+  float: right;
+  margin-right: 22px;
+}
+
+#context
+{
+  float: left;
+  width: 230px;
+}
+
+/* MENU */
+#menu
+{
+  float: right;
+  width: 200px;
+}
+
+#menu ul
+{
+  list-style-type: none;
+}
+
+#menu .menu
+{
+  background: url(/BackOffice/images/menu_bg.png) no-repeat left top;
+  margin-top: 15px;
+  width: 188px;
+}
+
+#menu .menu .title
+{
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  display: block;
+  height: 28px;
+  line-height: 2.5em;
+  padding-left: 25px;
+  width: 163px;
+}
+
+#menu .menu .request
+{
+  background-image: url(/BackOffice/images/request.png);
+}
+
+#menu .menu .family
+{
+  background-image: url(/BackOffice/images/family.png);
+}
+
+#menu .menu .report
+{
+  background-image: url(/BackOffice/images/report.png);
+}
+
+#menu .menu .process
+{
+  background-image: url(/BackOffice/images/process.png);
+}
+
+#menu .menu .administration
+{
+  background-image: url(/BackOffice/images/administration.png);
+}
+
+#menu .menu ul
+{
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0 1px 1px 1px;
+  margin: 0 2px;
+  padding: 2px 0;
+}
+
+#menu .menu ul .menuitem
+{
+  background: url(/BackOffice/images/arrow_right.png) no-repeat 3px center;
+  color: #737373;
+  display: block;
+  line-height: 1.9em;
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+#menu .menu ul .menuitem:hover,
+#menu .menu ul .current
+{
+  font-weight: bold;
+  color: #006ea9;
+}
+
+/* FOOTER */
+#copyright
+{
+  background: url(/BackOffice/images/footer_bg.png) no-repeat left top;
+  clear: both;
+  color: #fff;
+  font-size: 0.9em;
+  margin: 0 auto;
+  padding-top: 13px;
+  padding-right: 15px;
+  text-align: right;
+  width: 993px;
+}
+
+#copyright a
+{
+  color: #fff;
+}
+
+#version
+{
+  clear: both;
+  color: #fff;
+  font-size: 0.9em;
+  margin: 0 auto;
+  padding-right: 15px;
+  text-align: right;
+  width: 993px;
+}
+
+/* POPUP */
+.popup
+{
+  border: 1px solid #848484;
+  background-color: #fff;
+  color: #f00;
+  top: 50px;
+  min-height: 100px;
+  margin: 0 25%;
+  position: absolute;
+  width: 50%;
+  z-index: 100;
+}
+
+.popup ul, .popup ol
+{
+  list-style-position: inside;
+}
+
+.popup h4, .popup p, .popup div, .popup ul, .popup ol
+{
+  padding: 5px 60px 5px 5px;
+}
+
+.close_popup
+{
+  bottom: 10px;
+  color: #000;
+  cursor: pointer;
+  display: block;
+  padding: 10px 0 0 0;
+  position: absolute;
+  right: 10px;
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- ResourceViewResolver -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="cache" value="true" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/view/fo/individuals/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- PortletMode controller Map -->
+	<bean id="portletModeHandlerMapping"
+		class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
+		<property name="portletModeMap">
+			<map>
+				<entry key="view" value-ref="horanetConsumptionController" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="parameterMappingInterceptor"
+		class="org.springframework.web.portlet.handler.ParameterMappingInterceptor" />
+
+	<bean id="portletModeParameterHandlerMapping"
+		class="org.springframework.web.portlet.handler.PortletModeParameterHandlerMapping">
+
+		<property name="order" value="10" />
+		<property name="interceptors">
+			<list>
+				<ref bean="parameterMappingInterceptor" />
+			</list>
+		</property>
+		<property name="portletModeParameterMap">
+			<map>
+				<entry key="view">
+					<map>
+						<entry key="consumption">
+							<ref bean="horanetConsumptionController" />
+						</entry>
+						<entry key="showDetailsConsumption">
+							<ref bean="horanetConsumptionController"/>
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="horanetConsumptionController"
+		class="com.zenexity.pict.cvq.fo.individuals.HoranetConsumptionController">
+		<property name="ecitizenDataCache" ref="ecitizenDataCache" />
+	</bean>
+
+</beans>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+ <xs:annotation>
+  <xs:documentation xml:lang="en">
+   Process description schema		
+  </xs:documentation>
+ </xs:annotation>
+ 
+  <xs:element name="cvqprocess">
+	<xs:complexType>
+	  <xs:sequence>
+	    <xs:element name="globals" type="GlobalsDefinitionType" minOccurs="0" maxOccurs="1" />
+	    <xs:element name="processes" type="ProcessDefinitionType" minOccurs="0" maxOccurs="1" />
+	  </xs:sequence>
+	</xs:complexType>
+  </xs:element>
+  
+ <xs:complexType name="GlobalsDefinitionType">
+  <xs:sequence>
+   <xs:element name="session" type="SessionType"  minOccurs="0" maxOccurs="1" />
+   <xs:element name="timeout" type="TimeoutType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="help" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="style" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="script" type="ScriptType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="initscript" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="stagedef" type="StageDefType" minOccurs="0" maxOccurs="unbounded" />
+  </xs:sequence>
+ </xs:complexType>
+
+ <xs:complexType name="ProcessDefinitionType">
+  <xs:sequence>
+   <xs:element name="process" type="ProcessType" minOccurs="1" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="group" type="xs:string" default=""/>
+  <xs:attribute name="caption" type="xs:string" default=""/>
+  <xs:attribute name="order" type="xs:int"/>
+ </xs:complexType>
+
+ <xs:complexType name="TimeoutType">
+  <xs:attribute name="cookie" type="xs:string" />
+  <xs:attribute name="delay" type="xs:integer" />
+  <xs:attribute name="href" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ScriptType">
+  <xs:attribute name="src" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="SessionType">
+  <xs:attribute name="data" type="xs:string" />
+  <xs:attribute name="type" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ProcessType">
+  <xs:sequence>
+   <xs:element name="title" type="xs:string" />
+   <xs:element name="confirm" type="ConfirmType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="script" type="ScriptType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="package" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="persistence" type="xs:string" minOccurs="1" maxOccurs="1" />
+   <xs:element name="information" type="InformationType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="welcome" type="StateType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="stage" type="StageType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="override" type="OverrideType" minOccurs="0" maxOccurs="unbounded" />
+  </xs:sequence>
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="caption" type="xs:string" />
+  <xs:attribute name="extends" type="xs:string" />
+  <xs:attribute name="subject" type="xs:boolean" default="false"/>
+  <xs:attribute name="time" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="InformationType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+	<xs:attribute name="label" type="xs:string" />
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="OverrideType">
+  <xs:sequence>
+   <xs:element name="stage" type="StageType" minOccurs="0" maxOccurs="1" />
+  </xs:sequence>
+  <xs:attribute name="stage" type="xs:string" />
+ </xs:complexType>
+ 
+  <xs:complexType name="StageDefType">
+    <xs:complexContent>
+      <xs:extension base="StageType">
+        <xs:sequence>
+          <xs:element name="package" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+ <xs:complexType name="StageType">
+  <xs:sequence>
+   <xs:element name="title" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="notice" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="info" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="condition" type="ConditionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="confirm" type="ConfirmType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="default" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="previous" type="ButtonType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="next" type="ButtonType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="script" type="ScriptType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="state" type="StateType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="select" type="SelectType" minOccurs="0" maxOccurs="unbounded" />
+   <xs:element name="menu" type="MenuType" minOccurs="0" maxOccurs="1" />
+  </xs:sequence>
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="caption" type="xs:string" />
+  <xs:attribute name="ref" type="xs:string"/>
+  <xs:attribute name="stagemenu" type="xs:string"/>
+  <xs:attribute name="required" type="xs:boolean" default="true"/>
+ </xs:complexType>
+ 
+ <xs:complexType name="StateType">
+  <xs:sequence>
+   <xs:element name="title" type="TitleType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="subtitle" type="xs:string" minOccurs="0" maxOccurs="1" />
+   <xs:element name="condition" type="ConditionType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="form" type="ContentType" minOccurs="1" maxOccurs="unbounded" />
+   <xs:element name="button" type="ButtonType" minOccurs="0" maxOccurs="6" />
+  </xs:sequence>
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="change" type="xs:string" />
+  <xs:attribute name="context" type="xs:string" />
+  <xs:attribute name="buttonArea" type="xs:string" default=""/>
+  <xs:attribute name="mode" type="xs:string" default=""/>
+ </xs:complexType>
+ 
+ <xs:complexType name="TitleType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+	<xs:attribute name="type" type="xs:string" default=""/>
+	<xs:attribute name="force" type="xs:boolean" default="false"/>
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="ContentType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+	<xs:attribute name="condition" type="xs:string" default=""/>
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="SelectType">
+  <xs:sequence>
+   <xs:element name="title"	type="xs:string" />
+   <xs:element name="display" type="DisplayType" maxOccurs="unbounded" />
+   <xs:element name="action" type="ActionType" />
+   <xs:element name="button" type="ButtonType" minOccurs="0" maxOccurs="1" />
+  </xs:sequence>
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="property" type="xs:string" />
+  <xs:attribute name="state" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="MenuType">
+  <xs:sequence>
+   <xs:element name="title"	type="xs:string" />
+   <xs:element name="button" type="ButtonType" minOccurs="1" maxOccurs="unbounded" />
+  </xs:sequence>
+  <xs:attribute name="state" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ConditionType">
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="property" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ConfirmType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+	<xs:attribute name="name" type="xs:string" />
+	<xs:attribute name="script" type="xs:string" />
+	<xs:attribute name="check" type="xs:string" />
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="DisplayType">
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="initial" type="xs:boolean" default="false"/>
+  <xs:attribute name="type" type="xs:string" />
+ </xs:complexType>
+ 
+ <xs:complexType name="ActionType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+    <xs:attribute name="confirm" type="xs:string" default="" />
+    <xs:attribute name="transition" type="xs:string" default="" />
+	<xs:attribute name="parameter" type="xs:string" default="" />
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+ <xs:complexType name="ButtonType">
+  <xs:simpleContent>
+   <xs:extension base="xs:string">
+	<xs:attribute name="confirm" type="xs:string" />
+	<xs:attribute name="script" type="xs:string" />
+	<xs:attribute name="action" type="xs:string" />
+	<xs:attribute name="default" default="false" type="xs:boolean" />
+	<xs:attribute name="transition" default="" type="xs:string" />
+	<xs:attribute name="type" type="xs:string" />
+   </xs:extension>
+  </xs:simpleContent>
+ </xs:complexType>
+ 
+</xs:schema>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/sms" 
+  xmlns:sms="http://www.cg95.fr/cvq/schema/sms"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="SmsNotificationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de notification par SMS
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">SMS notification request</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Notification par SMS</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">SMS Notification</xs:documentation>
+      <xs:appinfo>
+        <model namespace="leisure" />
+        <xslfo>
+          <blocks-def>
+            <block id="0" label="Inscription / D&#x00E9;sinscription*" />
+            <block id="1" label="Sujet*" />
+            <block id="2" label="Centres d'intérêt" />
+            <block id="3" label="Moyen de contact*" />
+          </blocks-def>
+          <element blockId="1" line="0" column="0" link="Subject">
+            <complexTemplate />
+          </element>
+          <element blockId="3" line="0" column="0" link="MeansOfContact"
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+            <complexTemplate />
+          </element>
+        </xslfo>
+        <fo namespace="leisure.sms">
+          <display field="Subject.Adult.LastName" stage="subscriber" page="*" line="1" mode="static" />
+          <display field="Subject.Adult.FirstName" stage="subscriber" page="*" line="2" mode="static" />
+          <display field="Subject.Adult.Address" stage="subscriber" page="*" line="3" mode="static" />
+          <display field="Subject.Adult.MobilePhone" stage="subscriber" page="subscriber" line="6" />
+          <display field="Subject.Adult.MobilePhone" stage="subscriber" page="display" line="6" mode="static" />
+
+          <display mode="labelonly" type="stagetitle" label="Subscriber" stage="validation" page="summary" line="1" />
+          <display field="Subject.Adult.LastName" stage="validation" page="summary" line="2" mode="static" />
+          <display field="Subject.Adult.FirstName" stage="validation" page="summary" line="3" mode="static" />
+          <display field="Subject.Adult.Address" stage="validation" page="summary" line="4" mode="static" />
+          <display field="Subject.Adult.MobilePhone" stage="validation" page="summary" line="7" mode="static" />
+        </fo>
+        <bo namespace="leisure">
+          <display field="Subject.Adult.LastName" page="displaysms" line="1" mode="static" />
+          <display field="Subject.Adult.FirstName" page="displaysms" line="2" mode="static" />
+          <display field="Subject.Adult.Address" page="displaysms" line="3" mode="static" />
+          <display field="Subject.Adult.MobilePhone" page="displaysms" line="6" mode="static" />
+
+          <display field="Subject.Adult.LastName" page="checksms" line="1" mode="static" />
+          <display field="Subject.Adult.FirstName" page="checksms" line="2" mode="static" />
+
+          <display field="Subject.Adult.LastName" page="printsms" line="1" mode="static" />
+          <display field="Subject.Adult.FirstName" page="printsms" line="2" mode="static" />
+        </bo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="Subscription" type="xs:boolean">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Abonnement au service de notification par SMS
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  SMS notification service subscription
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Abonnement</xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Subscription</xs:documentation>
+                <xs:appinfo>
+                  <xslfo>
+                    <element blockId="0" line="0" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                  <fo>
+                    <display field="" type="yesno" stage="subscription" page="subscription" line="1"
+                      label="Je désire recevoir l'infolettre SMS" />
+                    <display field="" type="yesno" stage="subscription" page="display" line="1" mode="static" />
+                    <display mode="labelonly" type="stagetitle" label="Subscription" stage="validation" page="summary" line="8" />
+                    <display field="" type="yesno" stage="validation" page="summary" line="9"
+                      label="Je désire recevoir l'infolettre SMS" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaysms" line="10" label="Inscription à l'infolettre SMS"  mode="static" />
+                    <display field="" type="yesno" page="checksms" line="5" label="Inscription à l'infolettre SMS"
+                      mode="static" />
+                    <display field="" type="yesno" page="printsms" line="5" label="Inscription à l'infolettre SMS"
+                      mode="static" />
+                  </bo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Interests" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Centres d'intérêt
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Interests
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Centres d'intérêt
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Interests
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <xslfo>
+                    <element blockId="2" line="1" column="0">
+                      <localReferential />
+                    </element>
+                  </xslfo>
+                  <fo repository="Interests">
+                    <display field="" type="yesnolist" stage="subscription" page="subscription" line="3" />
+                    <display field="" type="yesnolist" stage="subscription" page="display" line="3" mode="static" />
+                    <display field="" type="yesnolist" stage="validation" page="summary" line="11" mode="static" />
+                  </fo>
+                  <bo repository="Interests">
+                    <display field="" page="displaysms" line="12" mode="static" />
+                    <display field="" page="checksms" line="6" mode="static" />
+                    <display field="" page="printsms" line="6" mode="static" />
+                  </bo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="CleverSmsContactId" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                    Identifiants de l'individu Clever SMS
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                    Clever SMS Contact business Identifier
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                    Id Clever SMS
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                    Clever SMS Id
+                </xs:documentation>
+                <xs:appinfo>
+                  <bo>
+                    <display field="" page="displaysms" line="13"  mode="static" />
+                    <display field="" page="checksms" line="7" mode="static" />
+                    <display field="" page="printsms" line="7" mode="static" />
+                  </bo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

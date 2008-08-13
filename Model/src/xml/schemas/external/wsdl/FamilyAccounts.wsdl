@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:schema="http://www.capwebct.fr/modules/payment/schema/fam"
+                  xmlns:tns="http://www.capwebct.fr/modules/payment/schema/fam"
+                  name=""
+                  targetNamespace="http://www.capwebct.fr/modules/payment/schema/fam">
+   <wsdl:types>
+      <xs:schema xmlns:fam="http://www.capwebct.fr/modules/payment/schema/fam"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 targetNamespace="http://www.capwebct.fr/modules/payment/schema/fam"
+                 elementFormDefault="qualified"
+                 attributeFormDefault="unqualified">
+
+         <xs:element name="familyAccountsRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="LocalAuthority" type="xs:string">
+                     <xs:annotation>
+                        <xs:documentation>
+              The local authority to which the family belongs
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="HomeFolderId" type="xs:long">
+                     <xs:annotation>
+                        <xs:documentation>
+              The CapDemat identifier of the home folder for whom the accounts are requested
+            </xs:documentation>
+                     </xs:annotation>        
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+
+         <xs:element name="family">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="accounts">
+                     <xs:annotation>
+                        <xs:documentation>
+              The container for the home folder's deposit accounts list
+            </xs:documentation>
+                     </xs:annotation>
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element minOccurs="0" maxOccurs="unbounded" name="account" type="fam:accountType"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element minOccurs="0" name="invoices">
+                     <xs:annotation>
+                        <xs:documentation>
+              The container for the invoices list
+            </xs:documentation>
+                     </xs:annotation>
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element minOccurs="0" maxOccurs="unbounded" name="invoice" type="fam:invoiceType"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element minOccurs="0" name="contracts">
+                     <xs:annotation>
+                        <xs:documentation>
+              The container for the individuals ticket contracts list
+            </xs:documentation>
+                     </xs:annotation>
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element minOccurs="0" maxOccurs="unbounded" name="contract"
+                                       type="fam:individualContractType"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+               <xs:attribute name="id" type="xs:long"/>
+            </xs:complexType>
+         </xs:element>
+
+         <xs:complexType name="accountType">
+            <xs:attribute name="account-id" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The account identifier used by the external application
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="external-application-id" type="xs:long">
+               <xs:annotation>
+                  <xs:documentation>
+          The external application id (used to keep track of the account's origin)
+        </xs:documentation>
+               </xs:annotation>    
+            </xs:attribute>
+            <xs:attribute name="external-application-label" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The external application label (used to keep track of the account's origin)
+        </xs:documentation>
+               </xs:annotation>    
+            </xs:attribute>
+            <xs:attribute name="external-family-account-id" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The family identifier used by the external application
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="broker" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The broker authorized to handle money updates for this account
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="account-value" type="xs:int">
+               <xs:annotation>
+                  <xs:documentation>
+          The value (in cents of euros) of the account at the date defined below
+        </xs:documentation>
+               </xs:annotation>      
+            </xs:attribute>
+            <xs:attribute name="account-date" type="xs:dateTime">
+               <xs:annotation>
+                  <xs:documentation>
+          The last date at which the account's value has been re-evaluated
+        </xs:documentation>
+               </xs:annotation>          
+            </xs:attribute>
+            <xs:attribute name="account-label" type="xs:string" use="optional">
+               <xs:annotation>
+                  <xs:documentation>
+          A label to be displayed to the Front Office users in front of the account
+        </xs:documentation>
+               </xs:annotation>          
+            </xs:attribute>
+         </xs:complexType>
+
+         <xs:complexType name="invoiceType">
+            <xs:attribute name="invoice-id" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The invoice identifier used by the external application
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="external-application-id" type="xs:long">
+               <xs:annotation>
+                  <xs:documentation>
+          The external application id (used to keep track of the account's origin)
+        </xs:documentation>
+               </xs:annotation>    
+            </xs:attribute>
+            <xs:attribute name="external-application-label" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The external application label (used to keep track of the account's origin)
+        </xs:documentation>
+               </xs:annotation>        
+            </xs:attribute>
+            <xs:attribute name="broker" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The broker authorized to handle payments for this invoice
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="external-family-account-id" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The family identifier used by the external application
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="invoice-value" type="xs:int">
+               <xs:annotation>
+                  <xs:documentation>
+          The value (in cents of euros) of the invoice
+        </xs:documentation>
+               </xs:annotation>          
+            </xs:attribute>
+            <xs:attribute name="invoice-label" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          A label to be displayed to the Front Office users in front of the invoice
+        </xs:documentation>
+               </xs:annotation>          
+            </xs:attribute>
+            <xs:attribute name="invoice-date" type="xs:dateTime">
+               <xs:annotation>
+                  <xs:documentation>
+          The date at which the invoice has been issued
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="invoice-expiration-date" type="xs:dateTime">
+               <xs:annotation>
+                  <xs:documentation>
+          The date at which the invoice will expire
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="invoice-payment-date" type="xs:dateTime" use="optional">
+               <xs:annotation>
+                  <xs:documentation>
+          The date at which the invoice has been paid
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="invoice-paid" type="xs:boolean">
+               <xs:annotation>
+                  <xs:documentation>
+          Whether the invoice has been paid
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:complexType>
+
+         <xs:complexType name="individualContractType">
+            <xs:sequence>
+               <xs:element minOccurs="0" maxOccurs="unbounded" name="contract" type="fam:contractType"/>
+            </xs:sequence>
+            <xs:attribute name="capwebct-individual-id" type="xs:long">
+               <xs:annotation>
+                  <xs:documentation>
+          The individual identifier used by CapDemat
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:complexType>
+
+         <xs:complexType name="contractType">
+            <xs:attribute name="contract-id" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The contract identifier used by the external application
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="external-individual-id" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The individual identifier used by the external application
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="external-application-id" type="xs:long">
+               <xs:annotation>
+                  <xs:documentation>
+          The external application id (used to keep track of the account's origin)
+        </xs:documentation>
+               </xs:annotation>    
+            </xs:attribute>
+            <xs:attribute name="external-application-label" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The external application label (used to keep track of the account's origin)
+        </xs:documentation>
+               </xs:annotation>        
+            </xs:attribute>
+            <xs:attribute name="broker" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The broker authorized to handle purchases for this contract
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="external-family-account-id" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          The family identifier used by the external application
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="contract-label" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>
+          A label to be displayed to the Front Office users in front of the contract
+        </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="contract-value" type="xs:int">
+               <xs:annotation>
+                  <xs:documentation>
+          The value (in cents of euros) of the contract at the date defined below
+        </xs:documentation>
+               </xs:annotation>      
+            </xs:attribute>
+            <xs:attribute name="contract-date" type="xs:dateTime">
+               <xs:annotation>
+                  <xs:documentation>
+          The last date at which the contract's value has been re-evaluated
+        </xs:documentation>
+               </xs:annotation>          
+            </xs:attribute>
+            <xs:attribute name="buy-price" type="xs:int">
+               <xs:annotation>
+                  <xs:documentation>
+          The unit price (in cents of euros) of an item associated to the contract
+        </xs:documentation>
+               </xs:annotation>          
+            </xs:attribute>
+            <xs:attribute name="min-buy" type="xs:int">
+               <xs:annotation>
+                  <xs:documentation>
+          The minimal amount of items that can be bought in a purchase
+        </xs:documentation>
+               </xs:annotation>          
+            </xs:attribute>
+            <xs:attribute name="max-buy" type="xs:int">
+               <xs:annotation>
+                  <xs:documentation>
+          The maximal amount of items that can be bought in a purchase
+        </xs:documentation>
+               </xs:annotation>          
+            </xs:attribute>
+         </xs:complexType>
+
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="familyAccountsRequestMessage">
+      <wsdl:part name="body" element="schema:familyAccountsRequest"/>
+   </wsdl:message>
+   <wsdl:message name="familyMessage">
+      <wsdl:part name="body" element="schema:family"/>
+   </wsdl:message>
+   <wsdl:portType name="PortType">
+      <wsdl:operation name="familyAccounts">
+         <wsdl:input name="familyAccountsInput" message="tns:familyAccountsRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="Binding" type="tns:PortType">
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="familyAccounts">
+         <wsdlsoap:operation soapAction="http://www.capwebct.fr/modules/payment/schema/fam/familyAccounts"/>
+         <wsdl:input name="familyAccountsInput">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="Service">
+      <wsdl:port name="Port" binding="tns:Binding">
+         <wsdlsoap:address location=""/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

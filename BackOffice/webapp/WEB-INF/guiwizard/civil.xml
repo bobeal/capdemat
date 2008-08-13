@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<cvqmanager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="managers.xsd" >
+					
+  <processes group="civil" caption="Etat-Civil" icon="pictoCivil" order="2">
+	<process name="eExtract">
+		<label>Demande d'acte</label>
+		<record>fr.cg95.cvq.bo.civil.PersonalDetailsRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.civil.PersonalDetailsPersistence</persistence>
+		
+	  	<state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/civil/displayextract</form>
+			<form scope="request" condition="certificate==Naissance">/jsp/bo/process/civil/birthextract</form>
+			<form scope="request" condition="certificate==Mariage">/jsp/bo/process/civil/marriageextract</form>
+			<form scope="request" condition="certificate==Décès">/jsp/bo/process/civil/deathextract</form>
+		</state>
+	  	<state name="check">
+			<form scope="request">/jsp/bo/process/civil/checkextract</form>
+		</state>
+	  	<state name="print">
+			<form scope="request">/jsp/bo/process/civil/printextract</form>
+		</state>
+	</process>
+	<process name="eBirth">
+		<label>Demande d'acte de naissance </label>
+		<record>fr.cg95.cvq.bo.civil.BirthDetailsRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.civil.BirthDetailsPersistence</persistence>
+		
+  	    <state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/civil/displaybirth</form>
+		</state>
+	  	<state name="check">
+			<form scope="request">/jsp/bo/process/civil/checkbirth</form>
+		</state>
+	  	<state name="print">
+			<form scope="request">/jsp/bo/process/civil/printbirth</form>
+		</state>
+	</process>
+	
+	<process name="eMarriage">
+		<label>Demande d'acte de mariage</label>
+		<record>fr.cg95.cvq.bo.civil.MarriageDetailsRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.civil.MarriageDetailsPersistence</persistence>
+		
+	    <state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/civil/displaymarriage</form>
+		</state>
+	  	<state name="check">
+			<form scope="request">/jsp/bo/process/civil/checkmarriage</form>
+		</state>
+	  	<state name="print">
+			<form scope="request">/jsp/bo/process/civil/printmarriage</form>
+		</state>
+	</process>
+	
+	<process name="eDeath">
+		<label>Demande d'acte de décès</label>
+		<record>fr.cg95.cvq.bo.civil.DeathDetailsRequestRecord</record>
+		<persistence>fr.cg95.cvq.bo.civil.DeathDetailsPersistence</persistence>
+		
+	    <state name="display">
+			<form>/jsp/bo/process/displayrequester</form>
+			<form scope="request">/jsp/bo/process/civil/displaydeath</form>
+		</state>
+	  	<state name="check">
+			<form scope="request">/jsp/bo/process/civil/checkdeath</form>
+		</state>
+	  	<state name="print">
+			<form scope="request">/jsp/bo/process/civil/printdeath</form>
+		</state>
+	</process>
+
+	<process name="eMilitary">
+	  <label>Recensement militaire</label>
+	  <record>fr.cg95.cvq.bo.military.MilitaryCensusRequestRecord</record>
+	  <persistence>fr.cg95.cvq.bo.military.MilitaryCensusPersistence</persistence>
+
+	  <state name="display">
+	    <form scope="request">/jsp/bo/process/military/displaymilitary</form>
+	    <form>/jsp/bo/process/displayfooter</form>
+	  </state>
+	  <state name="check">
+	    <form scope="request">/jsp/bo/process/military/checkmilitary</form>
+	  </state>
+	  <state name="print">
+	    <form scope="request">/jsp/bo/process/military/printmilitary</form>
+	  </state>
+	</process>
+
+  </processes>
+  
+</cvqmanager>
+					

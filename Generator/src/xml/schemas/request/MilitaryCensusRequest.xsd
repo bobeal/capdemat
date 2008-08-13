@@ -1,0 +1,1309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/mcr"
+  xmlns:mcr="http://www.cg95.fr/cvq/schema/mcr" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="MilitaryCensusRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de recensement militaire
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Military Census Request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Recensement Militaire
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Military Census
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="military" />
+        <fo namespace="military">
+          <display field="Subject.Child.LastName" stage="inscription" page="*" line="2" mode="static" />
+          <display field="Subject.Child.FirstName" stage="inscription" page="*" line="3" mode="static" />
+          <display mode="labelonly" label="Lieu de naissance" stage="inscription" page="military" line="5" />
+          <display field="Subject.Child.BirthPlace.City" stage="inscription" page="military" line="6" label="Ville" />
+          <display field="Subject.Child.BirthPlace.PostalCode" stage="inscription" page="military" line="7" label="Code Postal" />
+          <display mode="labelonly" label="Lieu de résidence" stage="inscription" page="military" line="9" />
+          <display field="Subject.Child.Address" stage="inscription" page="military" line="9"/>
+
+          <display field="Subject.Child.BirthPlace.City" stage="inscription" page="display" line="6" mode="static" label="Ville de naissance" />
+          <display field="Subject.Child.BirthPlace.PostalCode" stage="inscription" page="display" line="7" mode="static" label="Code de postal de naissance" />
+          <display field="Subject.Child.Address" stage="inscription" page="display" line="9" mode="static" />
+
+          <display mode="labelonly" type="stagetitle" label="Inscription" stage="validation" page="summary" line="0"/>
+          <display field="Subject.Child.LastName" stage="validation" page="summary" line="2" mode="static" />
+          <display field="Subject.Child.FirstName" stage="validation" page="summary" line="3" mode="static" />
+          <display field="Subject.Child.BirthDate" stage="validation" page="summary" line="5" label="Né(e) le" mode="static" />
+          <display field="Subject.Child.BirthPlace.City" stage="validation" page="summary" line="6" mode="static" />
+          <display field="Subject.Child.BirthPlace.PostalCode" stage="validation" page="summary" line="7" mode="static" />
+          <display field="Subject.Child.Address" stage="validation" page="summary" line="9" mode="static" />
+        </fo>
+        <bo namespace="military">
+          <display field="Subject.Child.LastName" page="displaymilitary" line="1" mode="static" />
+          <display field="Subject.Child.FirstName" page="displaymilitary" line="2" mode="static" />
+          <display field="Subject.Child.BirthDate" page="displaymilitary" line="5" mode="static" />
+          <display field="Subject.Child.BirthPlace.City" method="Subject.Child.BirthCity" page="displaymilitary" line="6" mode="static" label="Ville de naissance" />
+          <display field="Subject.Child.BirthPlace.PostalCode" method="Subject.Child.BirthPostalCode" page="displaymilitary" line="7" mode="static" label="Code postal de naissance" />
+          <display field="Subject.Child.Address" page="displaymilitary" line="9" mode="static" />
+          
+          <display field="Subject.Child.LastName" page="checkmilitary" line="1" mode="static" />
+          <display field="Subject.Child.FirstName" page="checkmilitary" line="2" mode="static" />
+          
+          <display field="Subject.Child.LastName" page="printmilitary" line="1" mode="static" />
+          <display field="Subject.Child.FirstName" page="printmilitary" line="2" mode="static" />
+        </bo>
+        <xslfo>
+          <blocks-def>
+            <block id="0" label="Enfant" column="2" />
+            <block id="1" label="Nationalité" column="2" />
+            <block id="2" label="Filiation" column="2" />
+            <block id="3" label="Situation Familiale" column="2" breakAfter="true"/>
+            <block id="4" label="Situation Professionnelle" column="2" />
+            <block id="5" label="Exemption" column="2" />
+            <block id="6" label="Moyen de contact*" />
+          </blocks-def>
+          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
+            <complexTemplate />
+          </element>
+          <element blockId="6" line="0" column="0" link="MeansOfContact"
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+            <complexTemplate />
+          </element>
+        </xslfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="ChildTitle" type="cvq:TitleType" default="Unknown">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  La civilité de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child civility
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="inscription" page="military" line="1" help="Choisissez une civilité" />
+                    <display field="" stage="inscription" page="display" line="1" mode="static" />
+                    <display field="" stage="validation" page="summary" line="1" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="3" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="1" column="0">
+                      <varargCheckbox displayModulo="6" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="MaidenName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le nom d'usage éventuel de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom d'usage
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child maiden name
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="inscription" page="military" line="4" />
+                    <display field="" stage="inscription" page="display" line="4" mode="static" />
+                    <display field="" stage="validation" page="summary" line="4" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="4" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="1" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="ChildBirthCountry" type="cvq:CountryType" default="fr">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le pays de naissance de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pays de naissance
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child birth country
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="inscription" page="military" line="8" />
+                    <display field="" stage="inscription" page="display" line="8" mode="static" />
+                    <display field="" stage="validation" page="summary" line="8" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="8" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="2" column="0">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!-- Element : Pays de Résidence -->
+            <xs:element name="ChildResidenceCountry" type="cvq:CountryType" default="fr"
+              minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le pays de résidence de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pays de résidence
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child residence country
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Residence country
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="inscription" page="military" line="16" />
+                    <display field="" stage="inscription" page="display" line="16" mode="static" />
+                    <display field="" stage="validation" page="summary" line="16" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="16" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="2" column="1">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--Element : Téléphone -->
+            <xs:element name="ChildPhone" type="cvq:PhoneType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le numéro de téléphone de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child phone number
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="inscription" page="military" line="17" />
+                    <display field="" stage="inscription" page="display" line="17" mode="static" />
+                    <display field="" stage="validation" page="summary" line="17" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="17" mode="static" label="Téléphone" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="3" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--Element : Courriel -->
+            <xs:element name="ChildMail" type="cvq:EmailType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le courriel de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child e-mail
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="inscription" page="military" line="18" />
+                    <display field="" stage="inscription" page="display" line="18" mode="static" />
+                    <display field="" stage="validation" page="summary" line="18" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="18" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="3" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--Element : Nationalité -->
+            <xs:element name="ChildCountry" type="cvq:FullNationalityType" default="fr">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  La nationalité de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nationalité
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child nationality
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nationality
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="inscription" page="nationality" line="4" />
+                    <display field="" stage="inscription" page="display" line="19" mode="static" />
+                    <display field="" stage="validation" page="summary" line="19" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="19" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="1" line="0" column="0">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--Element : Seconde Nationalité -->
+            <xs:element name="ChildOtherCountry" type="cvq:FullNationalityType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  La deuxième nationalité de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Deuxième nationalité
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child second nationality
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Second nationality
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="inscription" page="nationality" line="5" help="Choisissez une deuxième nationalité"/>
+                    <display field="" stage="inscription" page="display" line="20" mode="static" />
+                    <display field="" stage="validation" page="summary" line="20" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="20" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="1" line="0" column="1">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--Element : Convention Internationale -->
+            <xs:element name="ChildConvention" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Convention Internationale
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Convention internationale
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  International Convention
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  International Convention
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="text[6]" stage="inscription" page="nationality" line="6" />
+                    <display field="" stage="inscription" page="display" line="21" mode="static" />
+                    <display field="" stage="validation" page="summary" line="21" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="21" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="1" line="1" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!-- ********* Stage : Information ******** -->
+            <xs:element name="FatherLastName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le nom du père
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom du père
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The father last name
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Father last name
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="1" />
+                    <display field="" stage="information" page="display" line="1" mode="static" />
+                    <display mode="labelonly" type="stagetitle" label="Information" stage="validation" page="summary" line="22"/>
+                    <display field="" stage="validation" page="summary" line="22" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="22" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Prénom du père -->
+            <xs:element name="FatherFirstName" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le prénom du père
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom du père
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The father first name
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Father first name
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="2" />
+                    <display field="" stage="information" page="display" line="2" mode="static" />
+                    <display field="" stage="validation" page="summary" line="23" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="23" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="0" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Date de naissance du père -->
+            <xs:element name="FatherBirthDate" type="xs:date" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  La date de naissance du père
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de naissance du père
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The father birthdate
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Father birthdate
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="3" />
+                    <display field="" stage="information" page="display" line="3" mode="static" />
+                    <display field="" stage="validation" page="summary" line="24" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="24" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="1" column="0">
+                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Lieu de naissance du père -->
+            <xs:element name="FatherBirthCity" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Ville de naissance du père
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ville de naissance du père
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Father Birth City
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Father Birth City
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="4" />
+                    <display field="" stage="information" page="display" line="4" mode="static" />
+                    <display field="" stage="validation" page="summary" line="25" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="25" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="1" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="FatherBirthDepartment" type="cvq:InseeDepartementCodeType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Département de naissance du père
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Département de naissance du père
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Father Birth Departement
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Birth Department
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="5" help="Choisissez un département"/>
+                    <display field="" stage="information" page="display" line="5" mode="static" />
+                    <display field="" stage="validation" page="summary" line="26" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="26" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="2" column="0">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="FatherBirthCountry" type="cvq:CountryType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Pays de naissance du père
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pays de naissance du père
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Father Birth Country
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Birth Country
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="6" help="Choisissez un pays"/>
+                    <display field="" stage="information" page="display" line="6" mode="static" />
+                    <display field="" stage="validation" page="summary" line="27" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="27" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="2" column="1">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="FatherNationality" type="cvq:FullNationalityType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nationalité du père
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nationalité du père
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Father nationality
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Father nationality
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="7" help="Choisissez une nationalité"/>
+                    <display field="" stage="information" page="display" line="7" mode="static" />
+                    <display field="" stage="validation" page="summary" line="28" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="28" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="3" column="0">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!-- Element : Nom de la mère -->
+            <xs:element name="MotherLastName" type="cvq:LastNameType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le nom de jeune fille de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom de jeune fille de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The mother last name
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mother last name
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="8" />
+                    <display field="" stage="information" page="display" line="8" mode="static" />
+                    <display field="" stage="validation" page="summary" line="29" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="29" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="4" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Prénom de la mère -->
+            <xs:element name="MotherFirstName" type="cvq:FirstNameType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le prénom de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The mother first name
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mother first name
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="9" />
+                    <display field="" stage="information" page="display" line="9" mode="static" />
+                    <display field="" stage="validation" page="summary" line="30" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="30" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="4" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Date de naissance de la mère -->
+            <xs:element name="MotherBirthDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  La date de naissance de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de naissance de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The mother birthdate
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mother birthdate
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="10" />
+                    <display field="" stage="information" page="display" line="10" mode="static" />
+                    <display field="" stage="validation" page="summary" line="31" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="31" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="5" column="0">
+                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Lieu de naissance de la mère -->
+            <xs:element name="MotherBirthCity" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Ville de naissance de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ville de naissance de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mother Birth City
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mother Birth City
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="11" />
+                    <display field="" stage="information" page="display" line="11" mode="static" />
+                    <display field="" stage="validation" page="summary" line="32" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="32" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="5" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="MotherBirthDepartment" type="cvq:InseeDepartementCodeType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Département de naissance de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Département de naissance de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mother birth department
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mother birth department
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="12" />
+                    <display field="" stage="information" page="display" line="12" mode="static" />
+                    <display field="" stage="validation" page="summary" line="33" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="33" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="6" column="0">
+                      <string referential="true" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="MotherBirthCountry" type="cvq:CountryType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Pays de naissance de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pays de naissance de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mother Birth Country
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mother Birth Country
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="13" help="Choisissez un pays"/>
+                    <display field="" stage="information" page="display" line="13" mode="static" />
+                    <display field="" stage="validation" page="summary" line="34" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="34" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="6" column="1">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="MotherNationality" type="cvq:FullNationalityType" default="fr">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nationalité de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nationalité de la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mother nationality
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mother nationality
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="information" page="filiation" line="14" help="Choisissez une nationalité"/>
+                    <display field="" stage="information" page="display" line="14" mode="static" />
+                    <display field="" stage="validation" page="summary" line="35" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="35" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="7" column="0">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Nombre de frères et soeurs vivants -->
+            <xs:element name="AliveChildren" type="xs:positiveInteger">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le nombre de frères et soeurs vivants
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nombre de frères et soeurs vivants
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The number of alive brothers and sisters
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Number of alive brothers and sisters
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="situation" line="1" />
+                    <display field="" stage="information" page="display" line="15" mode="static" />
+                    <display field="" stage="validation" page="summary" line="36" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="36" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="3" line="0" column="0">
+                      <string restrictToChar="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Statut de l'enfant -->
+            <xs:element name="ChildStatus" type="cvq:FamilyStatusType" default="Other">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  La situation familiale de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Situation familiale
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child family status
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Family status
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="information" page="situation" line="2" help="Choisissez une situation familiale" />
+                    <display field="" stage="information" page="display" line="16" mode="static" />
+                    <display field="" stage="validation" page="summary" line="37" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="37" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="3" line="1" column="0">
+                      <varargCheckbox displayModulo="6" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Nombre d'enfants à charge -->
+            <xs:element name="ChildrenInCharge" type="xs:positiveInteger">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le nombre d'enfants à charge
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nombre d'enfants à charge
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The number of dependent children
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Number of dependent children
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="situation" line="3" />
+                    <display field="" stage="information" page="display" line="17" mode="static" />
+                    <display field="" stage="validation" page="summary" line="38" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="38" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="3" line="0" column="1">
+                      <string restrictToChar="true" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Autre Situation -->
+            <xs:element name="OtherSituation" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Autre situation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Autre situation
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Other situation
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Other situation
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="situation" line="4" />
+                    <display field="" stage="information" page="display" line="18" mode="static" />
+                    <display field="" stage="validation" page="summary" line="39" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="39" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="3" line="2" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Pupille de l'état -->
+            <xs:element name="StatePupil" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pupille de l'état
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  State pupil
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="yesno" stage="information" page="situation" line="5" />
+                    <display field="" type="yesno" stage="information" page="display" line="19" mode="static" />
+                    <display field="" type="yesno" stage="validation" page="summary" line="40" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaymilitary" line="40" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="3" line="3" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="PrefectPupil" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pupille du préfet
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prefect pupil
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="yesno" stage="information" page="situation" line="6" />
+                    <display field="" type="yesno" stage="information" page="display" line="20" mode="static" />
+                    <display field="" type="yesno" stage="validation" page="summary" line="41" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaymilitary" line="41" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="3" line="4" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="PrefectPupilDepartment" type="cvq:InseeDepartementCodeType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pupille du préfet du département
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prefect pupil of department
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <fo>
+                    <display field="" stage="information" page="situation" line="7" help="Choisissez un département"/>
+                    <display field="" stage="information" page="display" line="21" mode="static" />
+                    <display field="" stage="validation" page="summary" line="42" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="42" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="3" line="5" column="0">
+                      <string referential="true" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Situation -->
+            <xs:element name="ChildSituation" type="mcr:ChildSituationType" default="Unknown">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  La situation scolaire ou professionnelle de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Situation scolaire ou professionnelle
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  The child scholar or professionnal situation
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Scholar or professionnal situation
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="situation" line="8" help="Choisissez une situation" />
+                    <display field="" stage="information" page="display" line="22" mode="static" />
+                    <display field="" stage="validation" page="summary" line="43" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="43" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="4" line="0" column="0">
+                      <string referential="true"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Diplôme de l'enfant -->
+            <xs:element name="ChildDiploma" type="mcr:ChildDiplomaType" default="Unknown">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Diplôme de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Diplôme
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Child Diploma
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Diploma
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="situation" line="9"  help="Choisissez un diplôme"/>
+                    <display field="" stage="information" page="display" line="23" mode="static" />
+                    <display field="" stage="validation" page="summary" line="44" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="44" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="4" line="0" column="1">
+                      <string referential="true" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Spécialité -->
+            <xs:element name="ChildSpeciality" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Spécialité
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Spécialité
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Speciality
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Speciality
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="situation" line="10" />
+                    <display field="" stage="information" page="display" line="24" mode="static" />
+                    <display field="" stage="validation" page="summary" line="45" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="45" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="4" line="1" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Profession -->
+            <xs:element name="ChildProfession" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Profession
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Profession
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Profession
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Profession
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="information" page="situation" line="11" />
+                    <display field="" stage="information" page="display" line="25" mode="static" />
+                    <display field="" stage="validation" page="summary" line="46" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaymilitary" line="46" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="4" line="1" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Exemption JAPD -->
+            <xs:element name="JapdExemption" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Demande d'exemption à la JAPD
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Exemption JAPD
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  JAPD exemption request
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  JAPD exemption
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="yesno" stage="exemption" page="exemption" line="1" />
+                    <display field="" type="yesno" stage="exemption" page="display" line="1" mode="static" />
+                    <display mode="labelonly" type="stagetitle" label="Exemption" stage="validation" page="summary" line="47"/>
+                    <display field="" type="yesno" stage="validation" page="summary" line="47" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaymilitary" line="47" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="5" line="0" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : GrandInfirme -->
+            <xs:element name="HighlyInfirm" type="xs:boolean" default="false" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Grand Infirme
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Grand Infirme
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Highly Infirm
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Highly Infirm
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="yesno" stage="exemption" page="exemption" line="2" />
+                    <display field="" type="yesno" stage="exemption" page="display" line="2" mode="static" />
+                    <display field="" type="yesno" stage="validation" page="summary" line="48" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaymilitary" line="48" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="5" line="1" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <!--  Element : Affection ou maladie -->
+            <xs:element name="AffectionOrDisease" type="xs:boolean" default="false" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Affection ou maladie
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Affection ou maladie
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Affection or disease
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Affection or disease
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="yesno" stage="exemption" page="exemption" line="3" />
+                    <display field="" type="yesno" stage="exemption" page="display" line="3" mode="static" />
+                    <display field="" type="yesno" stage="validation" page="summary" line="49" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaymilitary" line="49" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="5" line="2" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="ChildDiplomaType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Diplôme de l'enfant
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Diplôme
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="BAC" value="BAC" />
+        <enum key="BEP" value="BEP" />
+        <enum key="BEPC" value="BEPC" />
+        <enum key="Brevet" value="Brevet" />
+        <enum key="CFG" value="CFG" />
+        <enum key="CAP" value="CAP" />
+        <enum key="DAEU" value="DAEU" />
+        <enum key="DEA" value="DEA" />
+        <enum key="DEUG" value="DEUG" />
+        <enum key="Licence" value="Licence" />
+        <enum key="Maîtrise" value="Maîtrise" />
+        <enum key="Unknown" value="Inconnu" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BAC" />
+      <xs:enumeration value="BEP" />
+      <xs:enumeration value="BEPC" />
+      <xs:enumeration value="Brevet" />
+      <xs:enumeration value="CFG" />
+      <xs:enumeration value="CAP" />
+      <xs:enumeration value="DAEU" />
+      <xs:enumeration value="DEA" />
+      <xs:enumeration value="DEUG" />
+      <xs:enumeration value="Licence" />
+      <xs:enumeration value="Maîtrise" />
+      <xs:enumeration value="Unknown" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ChildSituationType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Situation de l'enfant
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Situation
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="College" value="Lycéen(ne)" />
+        <enum key="Highschool" value="Collégien(ne)" />
+        <enum key="Student" value="Etudiant(e)" />
+        <enum key="Employee" value="Salarié(e)" />
+        <enum key="Apprentice" value="Apprenti(e)" />
+        <enum key="Other" value="Autre" />
+        <enum key="Unknown" value="Inconnue" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="College" />
+      <xs:enumeration value="Highschool" />
+      <xs:enumeration value="Student" />
+      <xs:enumeration value="Employee" />
+      <xs:enumeration value="Apprentice" />
+      <xs:enumeration value="Other" />
+      <xs:enumeration value="Unknown" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

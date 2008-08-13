@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="configurationBean_parmain"
+    class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
+    <property name="name" value="parmain" />
+    <property name="postalCode" value="95620"/>
+    <property name="displayTitle" value="Parmain" />
+    <property name="urls">
+      <list>
+        <value>cartevaloise.ville-parmain.fr</value>
+        <value>vosdemarches.ville-parmain.fr</value>
+      </list>
+    </property>
+    <property name="foAccountTabs">
+      <list>
+        <value>welcome</value>
+        <value>individuals</value>
+        <value>requests</value>
+        <value>documents</value>
+        <value>services</value>
+        <value>checklist</value>
+        <value>caddy</value>
+      </list>
+    </property>
+    <property name="sessionFactory">
+      <ref bean="sessionFactory_parmain" />
+    </property>
+    <property name="paymentServices">
+      <map>
+        <entry>
+          <key>
+            <ref bean="paylinePaymentProvider" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="Régie Payline de la ville de Parmain"></property>
+            <property name="friendlyLabel" value="Service scolaire" />
+            <property name="requestTypes">
+              <list>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
+              </list>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>paylineIp</value>
+                  </key>
+                  <value>127.0.0.1</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylinePort</value>
+                  </key>
+                  <value>8502</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylineCallbackUrl</value>
+                  </key>
+                  <value>https://cartevaloise.ville-parmain.fr/FrontOffice/paymentResult.do</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylineSessionsPath</value>
+                  </key>
+                  <value>/var/plco/parmain/sessions</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylinePersonnalisation</value>
+                  </key>
+                  <value>PARMAIN</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+        <entry>
+          <key>
+            <ref bean="wynidPaymentProvider" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="Régie Wynid de la ville de Parmain"></property>
+            <property name="friendlyLabel" value="Service scolaire" />
+            <property name="requestTypes">
+              <list>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
+              </list>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>wynidBaseUrl</value>
+                  </key>
+                  <value>https://cartevaloise.ville-parmain.fr/FrontOffice/pay.do?transition=payment</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>wynidCaisses</value>
+                  </key>
+                  <props>
+                    <prop key="ville-parmain-borne1">31</prop>
+                  </props>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+      </map>
+    </property>
+    <property name="externalServices">
+      <map>
+        <entry>
+          <key>
+            <ref bean="horanetExternalService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
+              </list>
+            </property>
+            <property name="supportAccountsByHomeFolder">
+              <value>true</value>
+            </property>
+            <property name="supportAccountsByRequest">
+              <value>false</value>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>badgeNumberManagedByHN</value>
+                  </key>
+                  <value>true</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+      </map>
+    </property>
+    <property name="agentNotifications">
+      <map>
+        <entry>
+          <key><value>NotCommitPaymentAlert</value></key>
+          <map>
+            <entry key="mailSendTo" value="cartevaloise@valdoise.fr"/>
+            <entry key="mailSubject" value="[CapDémat] Alerte Paiement"/>
+            <entry key="mailData" value="NotCommitedPaymentsAlert.txt"/>
+          </map>
+        </entry>
+      </map>
+    </property>
+    <property name="paymentNotifications">
+      <map>
+        <entry>
+          <key><value>CommitPaymentConfirmation</value></key>
+          <map>
+            <entry key="mailSubject" value="[CapDémat] Confirmation de paiement"/>
+            <entry key="mailData" value="CommitPaymentNotification.txt"/>
+          </map>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="sessionFactory_parmain"
+    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+    parent="abstractSessionFactory">
+    <property name="dataSource">
+      <ref bean="pgDataSource_parmain" />
+    </property>
+  </bean>
+
+  <bean id="pgDataSource_parmain" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass">
+      <value>org.postgresql.Driver</value>
+    </property>
+    <property name="jdbcUrl">
+      <value>jdbc:postgresql://localhost:5432/cartevaloise_parmain</value>
+    </property>
+    <property name="user">
+      <value>cvq95</value>
+    </property>
+    <property name="password">
+      <value>cvq95pass</value>
+    </property>
+    <property name="acquireIncrement" value="3" />
+    <property name="initialPoolSize" value="3" />
+    <property name="minPoolSize" value="3" />
+    <property name="maxPoolSize" value="12" />
+    <property name="maxStatements" value="0"/>
+  </bean>
+
+</beans>

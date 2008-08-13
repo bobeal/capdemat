@@ -1,0 +1,73 @@
+form {
+	color: #000000;
+	font: 14px Verdana, sans-serif;
+}
+
+form div.page-number {
+	float: right;
+}
+
+form div.info-required {
+	margin-bottom: 20px;
+}
+
+form div.label-field label {
+	width: 25%;
+	font-weight: bold;
+	float: left;
+	clear: both;
+}
+
+form div.label-field input {
+	color: #000000;
+	font: bold 14px Verdana, sans-serif;
+	padding: 4px;
+}
+
+form div.label-field input.lastname {
+	width: 200px;
+}
+
+form div.label-field select {
+	font: 20px Verdana, sans-serif;
+	color: #7593b9;
+	background: #fbe38b;
+}
+
+form div.label-field select.title {
+	width: 130px;
+}
+
+form div.label-field div.radio {
+	background: url(process/span_medium.gif) #fbe38b no-repeat;
+	font: bold 14px Verdana;
+	color: #7593b9;
+	cursor: hand;
+	margin: 0px 7px 0px 3px;
+	padding: 4px 0px 0px 8px;
+	width: 107px;
+	height: 26px;
+	float: left;
+}
+
+form div.label-field div.radio:hover {
+	background-color: #7593b9;
+	color: #fbe38b;
+}
+
+form div.label-field div.check {
+	background: url(process/span_medium.gif) #fbe38b no-repeat;
+	font: bold 14px Verdana;
+	color: #7593b9;
+	cursor: hand;
+	margin: 0px 7px 0px 3px;
+	padding: 4px 0px 0px 8px;
+	width: 107px;
+	height: 26px;
+	float: left;
+}
+
+form div.label-field div.check:hover {
+	background-color: #7593b9;
+	color: #fbe38b;
+}

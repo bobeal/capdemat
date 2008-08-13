@@ -1,0 +1,289 @@
+#macro (displayState $wizard $state)
+    #foreach ($form in $state.FormArray)
+	  #if ($wizard.displayForm($form))
+		${wizard.includeJsp("/newgui/",$form)}
+      #end
+    #end
+#end
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+#if (${wizard.baseReference()})
+	<base href="${wizard.baseReference()}" />
+#end
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="GUIWizard" />
+	<meta name="description" content="Manager display wizard generated page." />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="expires" content="-1" />
+
+	<title>CapDémat: ${wizardstate.SiteTitle}</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="assets/common/css/new/account/structure.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="assets/common/css/new/account/common.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="assets/common/css/new/account/form.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="assets/common/css/new/account/colors.css" />
+</head>
+
+<!-- ${wizard.Version} -->
+
+<body onload="window.defaultStatus='Cap-Démat: L\'administration en ligne.';" id="body">
+
+#if (${wizard.Timeout})
+<script type="text/javascript">
+	setTimeout("timeoutRedirect()",${wizard.Timeout});
+	function timeoutRedirect(){ location.href="${wizard.TimeoutHref}"; }
+</script>
+#end
+
+#foreach ($script in $global.ScriptArray)
+  #if (${script.Src} != "")
+<script type="text/javascript" src="${script.Src}">
+</script>
+  #end
+#end
+
+#foreach ($script in $manager.ScriptArray)
+  #if (${script.Src} != "")
+<script type="text/javascript" src="${script.Src}">
+</script>
+  #end
+#end
+
+  <div id="mainframe"#if ($wizardstate.Popup) onclick="document.location.href='managerWizard.do'"#end >
+    <div id="header">
+      <div id="logo"><a href="http://www.capwebct.fr" title=""><img src="img/logo_capwebct.gif" alt="" /></a></div>
+      <div id="banner"><img src="assets/common/img/banner.jpg" alt="" /></div>
+    </div>
+
+    <div id="content">
+      <ul id="main_navigation">
+#foreach ($loop in $manager.TabArray)
+  #set ($index = $velocityCount - 1)
+  #set ($disptab = $wizard.getTabDefinition($index))
+  #if ($wizard.displayTab($disptab))
+        <li class="tab#if($index == 0) first#end#if($disptab == $tab) selected#end"><a href="${wizard.getTabHref($disptab,$index)}" title="">${disptab.Caption}</a></li>
+  #end
+#end
+      </ul>
+
+      <div id="content_top">
+        <ul id="breadcrumb_trail">
+          <li class="item">${tab.Title}</li>
+        </ul>
+        <ul id="top_links">
+          <li class="item"><a href="javascript:popup('assets/common/pdf/helpcapdemat.pdf');" title="">Aide</a></li>
+          <li class="item"><a href="${wizard.logout()}" title="">${wizard.logoutLabel()}</a></li>
+        </ul>
+      </div>
+      <div id="content_middle">
+#if ($wizard.sizeOfProcessMenus($tab) > 0)
+    <div class="col_type5">
+      <div class="block_type9">
+        <p class="paragraph custom_color">Cliquez sur un des onglets</p>
+      </div>
+      <div class="block_type5">
+        <p class="text caution">Bouquet de services.</p>
+        <p class="text">Vous accédez ici à l'ensemble des services proposés. 
+        	Pour effectuer une demande, choisissez le domaine souhaité en cliquant sur l'onglet, 
+			puis cliquez sur le bouton qui porte son nom.</p>
+      </div>
+    </div>
+    <div class="col_type5">
+      <div class="block_type10">
+        <ul class="list_type10">
+  #set ($index = 1)
+  #foreach ($menuitem in $tab.MenuArray)
+	#if ($wizard.displayMenu($menuitem))
+      #if ($wizard.isSelected($menuitem))
+          <li class="item item${index} selected">${wizard.menuCaption($menuitem)}</li>
+      #else
+          <li class="item item${index}"><a href="${wizard.menuHref($menuitem)}" title="">${wizard.menuCaption($menuitem)}</a></li>
+	  #end
+	  #set ($index = $index + 1)
+    #end
+  #end
+        </ul>
+      </div>
+      <div class="block_type10">
+        <div class="box">
+          <div class="box_top"></div>
+          <div class="box_middle">
+  #if ($wizard.Submenu)
+	#set ($menuitem = $wizard.Submenu)
+    #if ($wizard.isSelected($menuitem))
+            <ul class="list_type11">
+	  #if ($menuitem.isSetProcesses())
+	    #foreach ($process in $wizard.processGroup($menuitem))
+	      #if ($wizard.displayProcess($menuitem, $process))
+	        #if ($wizardstate.Process == $process.Name)
+	        	#set ($selected = " selected")
+	        #else
+	        	#set ($selected = "")
+	        #end
+              <li class="item$selected"><a href="${wizard.menuHref($menuitem, $process)}" title=""><span class="custom_color"></span>${process.Caption}</a></li>
+	      #end
+	    #end
+	  #end	
+            </ul>
+    #end
+  #end
+  #if ($wizard.State)
+	#displayState($wizard $wizard.State)
+  #end
+          </div>
+          <div class="box_bottom"></div>
+        </div>
+      </div>
+    </div>
+#elseif ($wizard.sizeOfVisibleMenus($tab) > 0)
+        <div class="col_type3">
+
+          <div class="block_type3">
+            <p class="paragraph custom_color">Cliquez sur un des éléments<br />ci-dessous pour le voir.</p>
+          </div>
+
+          <div class="block_type4">
+            <div class="box">
+              <ul class="list_type4">
+  #foreach ($menuitem in $tab.MenuArray)
+	#if ($wizard.displayMenu($menuitem))
+      #if ($menuitem.sizeOfMenuArray() > 0)
+                <li class="row">
+        #if (!$menuitem.isSetType())
+                  <h1 class="subtitle">${wizardstate.getMenuCaption($menuitem.Caption).toUpperCase()}</h1>
+          #set ($submenuClass = "type")
+        #else
+                  <h1 class="title ${menuitem.Type}_large">${wizardstate.getMenuCaption($menuitem.Caption)}</h1>
+          #set ($submenuClass = "short")
+        #end
+                </li>
+        #foreach ($submenu in $menuitem.MenuArray)
+          #if ($wizard.displayMenu($submenu))
+                <li class="row">
+            #if ($submenuClass == "short")
+                  <ul class="list_type13">
+              #if (!$submenu.isSetType())
+                    <li class="status ok"></li>
+              #else
+                    <li class="status caution"></li>
+              #end
+                  </ul>
+                  <p class="short_item"><a href="${wizard.menuHref($submenu)}" title="">${submenu.Caption}</a></p>
+            #else
+                  <ul class="list_status">
+                    <li class="status ok"></li>
+                  </ul>
+                  <p class="item document"><a href="${wizard.menuHref($submenu)}" title="">${submenu.Caption.toUpperCase()}</a></p>
+            #end
+                </li>
+          #end
+        #end
+      #end
+    #end
+  #end
+              </ul>
+            </div>
+          </div>
+        </div>
+  #if ($wizard.State)
+        <div class="col_type4">
+	#displayState($wizard $wizard.State)
+		</div>
+  #end
+#elseif ($tab.sizeOfBlockArray() > 0)
+  #set ($column = "")
+  #foreach ($block in $tab.getBlockArray())
+    #if ($wizard.displayBlock($block))
+      #if ($column != $block.Column)
+	    #if ($column != "")
+		</div>
+	    #end
+        #set ($column = $block.Column)
+        <div class="col_type${column}">
+      #end
+          <div class="block_type${column}">
+            <h1 class="title">$block.Title.toUpperCase()</h1>
+            <div class="box">
+              <div class="box_top"></div>
+              <div class="box_middle">
+	  #displayState($wizard $block)
+              </div>
+              <div class="box_bottom"></div>
+            </div>
+          </div>
+    #end
+  #end
+		</div>
+#elseif ($wizard.sizeOfVisibleSelect($tab) > 0)
+        <div class="col_type3">
+
+          <div class="block_type3">
+            <p class="paragraph custom_color">Cliquez sur un des éléments<br />ci-dessous pour le voir.</p>
+          </div>
+
+          <div class="block_type4">
+  #set ($selectIndex = 0)
+  #foreach ($select in $tab.SelectArray)
+    #if ($wizard.displaySelect($select))
+	  #set ($selectIndex = $selectIndex + 1)
+      #if ($wizard.getItems($select))
+            <div class="box">
+              <ul class="list_type4">
+                <li class="row">
+                  <h1 class="subtitle">${select.Title.toUpperCase()}</h1>
+                </li>
+        #set ($index = 0)
+        #foreach ($item in $wizard.getItems($select))
+                <li class="row">
+                  <ul class="list_status">
+                    <li class="status ok"></li>
+                  </ul>
+                  #set ($selected = "")
+                  #if ($index == $wizardstate.Index) 
+                    #if ($select.Property == $wizardstate.State)
+                      #set ($selected = "selected ")
+                    #end
+                  #end
+                  <p class="item ${selected}${wizard.displayItemType($select.DisplayArray)}"><a href="${wizard.hrefLink($select,$item,$index)}" title="">${wizard.displayItem($item,$select.DisplayArray)}</a></p>
+                </li>
+          #set ($index = $index + 1)
+        #end
+              </ul>
+            </div>
+      #end
+    #end
+  #end
+          </div>
+        </div>
+  #if ($wizard.State)
+        <div class="col_type4">
+	#displayState($wizard $wizard.State)
+		</div>
+  #end
+#elseif ($tab.sizeOfFormArray() > 0)
+  #displayState($wizard $tab) 
+#elseif ($wizard.State)
+
+#end
+      </div>
+      <div id="content_bottom"></div>
+    </div>
+
+    <div id="footer">
+      <ul>
+        <li class="logo firstlogo"><a href="http://www.capwebct.fr" title="" class="info"><span class="logo_img"><img src="img/logo_capwebct.gif" alt="" /></span><span class="logo_legend">CapWebCT.</span></a></li>
+        <li class="logo secondlogo"><a href="http://www.prai-idf.fr/public/rubrique.tpl?id=8364&titre=8364"" title="" class="info"><span class="logo_img"><img src="img/logoUE.png" alt="" /></span><span class="logo_legend">Projet cofinancé par lUnion Européenne (FEDER).</span></a></li>
+        <li class="legend"><p class="legend_text"><a href="javascript:popup('assets/common/pdf/legal.pdf');" title="">Mentions légales.</a></p></li>
+        <li class="logo right"><a href="http://www.capwebct.fr" title="" class="info"><span class="logo_img"><img src="img/logo_capwebct.gif" alt="" /></span><span class="logo_legend">CapWebCT.</span></a></li>
+      </ul>
+    </div>
+  </div>
+#if ($wizardstate.Alert)
+<script type="text/javascript">
+	alert("${wizardstate.Alert}");
+</script>
+#end
+</body>
+</html> 
+    

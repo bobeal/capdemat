@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="configurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>/WEB-INF/deploy.properties</value>
+		</property>
+	</bean>
+
+	<bean id="ecitizenDataCache"
+		class="com.zenexity.pict.cvq.fo.util.EcitizenDataCache">
+		<property name="foHttpInvoker" ref="foHttpInvoker" />
+	</bean>
+
+	<bean id="requestCreator"
+		class="com.zenexity.pict.cvq.fo.util.RequestCreator">
+		<property name="foHttpInvoker" ref="foHttpInvoker" />
+		<property name="ecitizenDataCache" ref="ecitizenDataCache"/>
+	</bean>
+	
+	<bean id="foHttpInvoker"
+		class="com.zenexity.pict.cvq.fo.util.FoHttpInvoker">
+		<property name="serviceUrl">
+			<value>${service_url}</value>
+		</property>
+		<property name="contextPath">
+			<value>${fo_context_path}</value>
+		</property>
+	</bean>
+
+</beans>

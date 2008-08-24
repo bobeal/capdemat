@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" output="BackOffice/webapp/WEB-INF/classes" path="BackOffice/src"/>
 	<classpathentry kind="src" path="Plugins/ExternalServices/CapwebctPaymentModule/src/java"/>
-	<classpathentry kind="src" path="Plugins/ExternalServices/CapwebctPaymentModule/test/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/test" path="Plugins/ExternalServices/Clever/test/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/classes" path="Plugins/ExternalServices/Clever/src/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/SubscribersList/build/test" path="Plugins/CsvImporters/SubscribersList/test/java"/>

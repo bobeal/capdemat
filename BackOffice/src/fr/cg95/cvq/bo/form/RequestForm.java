@@ -25,7 +25,7 @@ import fr.cg95.cvq.bo.record.DocumentTypeRecord;
 import fr.cg95.cvq.bo.record.MeansOfContactRecord;
 import fr.cg95.cvq.bo.record.RequestTypeRecord;
 import fr.cg95.cvq.bo.record.SeasonRecord;
-import fr.cg95.cvq.business.authority.Requirement;
+import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.wizard.manager.ManagerProcessGroup;
 import fr.cg95.cvq.wizard.manager.ManagerWizardState;
 

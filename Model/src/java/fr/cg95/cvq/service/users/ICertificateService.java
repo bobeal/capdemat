@@ -4,8 +4,8 @@ import java.io.File;
 
 import org.w3c.dom.Node;
 
-import fr.cg95.cvq.business.authority.RequestType;
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
 
 /**

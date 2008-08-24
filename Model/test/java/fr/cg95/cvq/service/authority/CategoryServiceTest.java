@@ -10,7 +10,7 @@ import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
-import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.permission.CvqPermissionException;

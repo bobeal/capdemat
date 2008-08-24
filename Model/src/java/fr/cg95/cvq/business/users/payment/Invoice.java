@@ -2,7 +2,7 @@ package fr.cg95.cvq.business.users.payment;
 
 import java.util.Date;
 
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.util.DateUtils;
 
 /**

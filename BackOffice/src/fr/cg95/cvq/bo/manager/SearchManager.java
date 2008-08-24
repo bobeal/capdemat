@@ -42,8 +42,8 @@ import fr.cg95.cvq.bo.record.IResultRecord;
 import fr.cg95.cvq.bo.record.IndividualRecord;
 import fr.cg95.cvq.bo.record.PaperRecord;
 import fr.cg95.cvq.bo.record.ReportRecord;
-import fr.cg95.cvq.business.users.Request;
-import fr.cg95.cvq.service.users.IRequestStatisticsService;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.service.request.IRequestStatisticsService;
 
 /**
  * @author René le CLERCQ

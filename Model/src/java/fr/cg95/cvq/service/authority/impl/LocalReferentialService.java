@@ -27,8 +27,8 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.ILocalReferentialService;
-import fr.cg95.cvq.service.users.IRequestService;
-import fr.cg95.cvq.service.users.IRequestTypeLifecycleAware;
+import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestTypeLifecycleAware;
 
 public class LocalReferentialService 
     implements ILocalReferentialService, ILocalAuthorityLifecycleAware, 

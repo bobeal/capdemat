@@ -6,9 +6,9 @@ import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.business.users.Document;
-import fr.cg95.cvq.business.users.DocumentAction;
-import fr.cg95.cvq.business.users.DocumentBinary;
+import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentAction;
+import fr.cg95.cvq.business.document.DocumentBinary;
 
 public class DocumentPolicy implements PartOfPolicy {
 

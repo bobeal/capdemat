@@ -7,7 +7,7 @@ import java.util.Date;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.xml.ecitizen.VoCardRequestDocument;
 
 /**

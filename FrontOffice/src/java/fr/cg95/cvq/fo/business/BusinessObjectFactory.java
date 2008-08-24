@@ -36,13 +36,13 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import fr.cg95.cvq.business.authority.DocumentType;
-import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentBinary;
+import fr.cg95.cvq.business.document.DocumentType;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.ChildLegalResponsible;
-import fr.cg95.cvq.business.users.Document;
-import fr.cg95.cvq.business.users.DocumentBinary;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.SexType;
@@ -59,8 +59,8 @@ import fr.cg95.cvq.fo.util.Constants;
 import fr.cg95.cvq.fo.util.ImageHandler;
 import fr.cg95.cvq.fo.util.TimeHandler;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IDocumentService;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.request.IRequestService;
 
 /**
  * @author Laurent MARQUEZ
@@ -187,7 +187,7 @@ public class BusinessObjectFactory implements Constants {
         ArrayList requests = new ArrayList();
         Iterator it = pRequest.iterator();
         while (it.hasNext()) {
-            fr.cg95.cvq.business.users.Request request = (fr.cg95.cvq.business.users.Request) it.next();
+            fr.cg95.cvq.business.request.Request request = (fr.cg95.cvq.business.request.Request) it.next();
 
             requests.add(convertRequestFromBusiness(requestManager, request));
         }
@@ -319,7 +319,7 @@ public class BusinessObjectFactory implements Constants {
         return false;
     }
 
-    private static Request convertRequestFromBusiness(RequestManager requestManager, fr.cg95.cvq.business.users.Request pRequest) {
+    private static Request convertRequestFromBusiness(RequestManager requestManager, fr.cg95.cvq.business.request.Request pRequest) {
         Request request = new Request();
         request.setId(pRequest.getId());
 

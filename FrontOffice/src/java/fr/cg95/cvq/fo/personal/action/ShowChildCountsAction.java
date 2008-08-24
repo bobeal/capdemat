@@ -42,8 +42,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import fr.cg95.cvq.business.users.Request;
-import fr.cg95.cvq.business.users.RequestState;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.fo.business.BusinessManager;
 import fr.cg95.cvq.fo.business.RequestManager;
@@ -52,7 +52,7 @@ import fr.cg95.cvq.fo.common.action.BasePersonalAction;
 import fr.cg95.cvq.fo.common.form.ChildCountForm;
 import fr.cg95.cvq.fo.common.form.ChildForm;
 import fr.cg95.cvq.fo.dispatcher.SessionManager;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.wizard.ReferentialData;
 import fr.cg95.cvq.wizard.manager.ManagerWizardState;
 

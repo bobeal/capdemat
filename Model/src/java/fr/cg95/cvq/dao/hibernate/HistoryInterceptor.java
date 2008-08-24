@@ -18,8 +18,8 @@ import org.hibernate.type.Type;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.Historizable;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.HistoryEntry;
-import fr.cg95.cvq.business.users.Request;
 
 /**
  * Implementation of an Interceptor recording all changes on objects implementing the

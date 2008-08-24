@@ -7,8 +7,8 @@ import javax.servlet.jsp.JspWriter;
 import org.apache.log4j.Logger;
 import org.apache.struts.util.RequestUtils;
 
+import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.fo.business.BusinessDictionary;
 import fr.cg95.cvq.fo.business.BusinessManager;
 import fr.cg95.cvq.wizard.process.ProcessStageAction;

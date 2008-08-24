@@ -6,7 +6,7 @@ import java.util.Set;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 
 public interface IPlaceReservationRequestService extends IRequestService {
 

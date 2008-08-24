@@ -7,7 +7,7 @@ import fr.cg95.cvq.exporter.service.fo.IDocumentService;
 
 public class DocumentService implements IDocumentService {
 
-	private fr.cg95.cvq.service.users.IDocumentService documentService;
+	private fr.cg95.cvq.service.document.IDocumentService documentService;
 	
 	public Set getAllPages(final Long documentId) 
 		throws CvqException {
@@ -16,7 +16,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	public void setDocumentService(
-			fr.cg95.cvq.service.users.IDocumentService documentService) {
+			fr.cg95.cvq.service.document.IDocumentService documentService) {
 		this.documentService = documentService;
 	}
 }

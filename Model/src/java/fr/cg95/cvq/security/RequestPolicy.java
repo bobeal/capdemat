@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
-import fr.cg95.cvq.business.users.Request;
-import fr.cg95.cvq.business.users.RequestAction;
-import fr.cg95.cvq.business.users.RequestNote;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestNote;
 
 public class RequestPolicy implements PartOfPolicy {
 

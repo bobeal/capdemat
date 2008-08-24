@@ -30,7 +30,7 @@ public interface IIndividualService {
      * As they are not automatically loaded from DB, they have to be explicitely
      * asked for.
      *
-     * @return a set of {@link fr.cg95.cvq.business.users.Document} objects
+     * @return a set of {@link fr.cg95.cvq.business.document.Document} objects
      */
     Set getAssociatedDocuments(final Long individualId)
         throws CvqException, CvqObjectNotFoundException;

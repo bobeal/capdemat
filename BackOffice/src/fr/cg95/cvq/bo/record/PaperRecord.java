@@ -38,7 +38,7 @@ import fr.cg95.cvq.bo.ImageHandler;
 import fr.cg95.cvq.bo.business.BusinessDictionary;
 import fr.cg95.cvq.bo.business.IBusinessConstants;
 import fr.cg95.cvq.bo.dispatcher.StartupServlet;
-import fr.cg95.cvq.business.users.DocumentBinary;
+import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.users.Individual;
 
 /**

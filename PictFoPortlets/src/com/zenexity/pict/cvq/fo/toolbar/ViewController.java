@@ -16,8 +16,8 @@ import org.springframework.web.portlet.mvc.AbstractController;
 
 import com.zenexity.pict.cvq.fo.util.EcitizenDataCache;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Document;
 import fr.cg95.cvq.exception.CvqException;
 
 public class ViewController extends AbstractController {

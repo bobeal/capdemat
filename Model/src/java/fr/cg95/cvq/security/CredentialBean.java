@@ -14,11 +14,11 @@ import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.SiteRoles;
+import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Document;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.Request;
 
 /**
  * A data structure / cache that stores all the credentials necessary when

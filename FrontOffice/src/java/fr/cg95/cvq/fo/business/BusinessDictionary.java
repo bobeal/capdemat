@@ -29,15 +29,15 @@ import java.util.HashMap;
 
 import org.apache.struts.util.MessageResources;
 
-import fr.cg95.cvq.business.users.DocumentState;
+import fr.cg95.cvq.business.document.DocumentState;
+import fr.cg95.cvq.business.request.MeansOfContactEnum;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.LegalResponsibleRole;
-import fr.cg95.cvq.business.users.MeansOfContactEnum;
-import fr.cg95.cvq.business.users.RequestState;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.fo.util.Constants;
-import fr.cg95.cvq.service.users.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.xml.common.AdultType;
 import fr.cg95.cvq.xml.common.IndividualType;

@@ -53,7 +53,7 @@ import fr.cg95.cvq.fo.common.form.LoginForm;
 import fr.cg95.cvq.fo.dispatcher.DispatchFilter;
 import fr.cg95.cvq.fo.dispatcher.SessionManager;
 import fr.cg95.cvq.fo.util.Constants;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.wizard.IProcessWizard;
 
 public class FamilyHome implements Serializable {

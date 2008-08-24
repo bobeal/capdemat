@@ -1,6 +1,6 @@
 package fr.cg95.cvq.business.users.payment;
 
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
 
 /**
  * Represent an item bought in the context of a request that is entirely managed by the application.

@@ -6,14 +6,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.Assert;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Card;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.Request;
-import fr.cg95.cvq.business.users.RequestState;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqUnknownUserException;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.servlet.http.HttpSession;
 
-import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.fo.business.RequestManager;
 import fr.cg95.cvq.fo.dispatcher.SessionManager;
 import fr.cg95.cvq.wizard.IWizardSession;

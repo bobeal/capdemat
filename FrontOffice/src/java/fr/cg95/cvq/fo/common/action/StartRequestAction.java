@@ -10,7 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import fr.cg95.cvq.business.users.MeansOfContact;
+import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.fo.business.BusinessManager;
 import fr.cg95.cvq.fo.business.RequestManager;
 import fr.cg95.cvq.fo.common.Request;

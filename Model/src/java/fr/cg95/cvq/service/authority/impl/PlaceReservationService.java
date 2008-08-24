@@ -28,8 +28,8 @@ import fr.cg95.cvq.schema.referential.PlaceReservationEntryType.Label;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
-import fr.cg95.cvq.service.users.IRequestService;
-import fr.cg95.cvq.service.users.IRequestTypeLifecycleAware;
+import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestTypeLifecycleAware;
 
 /**
  * Implementation of the place reservation service.

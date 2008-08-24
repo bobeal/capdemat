@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.Assert;
-import fr.cg95.cvq.business.authority.RequestSeason;
-import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.request.RequestSeason;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;

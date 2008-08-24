@@ -14,7 +14,7 @@ import fr.capwebct.capdemat.plugins.csvimporters.subscriberslist.business.Subscr
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.importer.ICsvImportProviderService;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 
 public class SubscribersListService  implements ICsvImportProviderService {
 

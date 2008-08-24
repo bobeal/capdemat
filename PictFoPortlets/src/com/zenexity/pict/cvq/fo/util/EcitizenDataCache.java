@@ -14,13 +14,13 @@ import org.apache.commons.logging.LogFactory;
 
 import com.zenexity.pict.portal.security.PictPrincipal;
 
+import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.Document;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.Request;
-import fr.cg95.cvq.business.users.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 

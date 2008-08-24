@@ -6,7 +6,7 @@ import fr.cg95.cvq.bo.business.BusinessManager;
 import fr.cg95.cvq.bo.record.IPersistence;
 import fr.cg95.cvq.bo.record.RequestRecord;
 import fr.cg95.cvq.business.authority.LocalReferentialType;
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.leisure.music.IMusicSchoolRegistrationRequestService;
 

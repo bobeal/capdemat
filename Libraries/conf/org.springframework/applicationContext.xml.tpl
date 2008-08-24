@@ -163,9 +163,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="documentDAO">
       <ref local="documentDAO"/>
     </property>
-    <property name="documentTypeDAO">
-      <ref local="documentTypeDAO"/>
-    </property>
     <property name="requestActionDAO">
       <ref local="requestActionDAO"/>
     </property>

@@ -37,8 +37,8 @@ import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsDocument;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsRequestDocument;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsRequestDocument.InvoiceDetailsRequest;
 
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;

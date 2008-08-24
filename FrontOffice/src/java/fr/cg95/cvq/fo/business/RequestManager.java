@@ -8,15 +8,15 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.fo.common.IPersistence;
 import fr.cg95.cvq.fo.common.Request;
 import fr.cg95.cvq.fo.common.form.RulesForm;
 import fr.cg95.cvq.fo.dispatcher.DispatchFilter;
-import fr.cg95.cvq.service.users.IRequestService;
-import fr.cg95.cvq.service.users.IRequestServiceRegistry;
+import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.wizard.IProcessWizard;
 import fr.cg95.cvq.wizard.process.ProcessWizardPlugin;
 import fr.cg95.cvq.wizard.process.ProcessWizardState;

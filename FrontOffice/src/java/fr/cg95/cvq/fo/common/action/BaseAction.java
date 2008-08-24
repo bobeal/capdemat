@@ -57,10 +57,9 @@ import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfWriter;
 
-import fr.cg95.cvq.business.authority.DocumentType;
-import fr.cg95.cvq.business.authority.RequestSeason;
+import fr.cg95.cvq.business.request.RequestSeason;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.DocumentBinary;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.fo.business.BusinessManager;
 import fr.cg95.cvq.fo.business.BusinessObjectFactory;
@@ -74,11 +73,12 @@ import fr.cg95.cvq.fo.dispatcher.SessionManager;
 import fr.cg95.cvq.fo.util.Constants;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.users.IDocumentService;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.wizard.process.ProcessStageAction;
 import fr.cg95.cvq.wizard.process.ProcessWizardState;
-import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.document.DocumentBinary;
+import fr.cg95.cvq.business.document.DocumentType;
 
 /**
  * @author Laurent MARQUEZ
@@ -209,7 +209,7 @@ public abstract class BaseAction extends ProcessStageAction implements Constants
             Long documentId = (documentForm.getId() != null) ? Long.valueOf(documentForm.getId()) : null;
             if (documentId == null) {
                 // create the "administrative" part of the document
-                fr.cg95.cvq.business.users.Document document = new fr.cg95.cvq.business.users.Document();
+                fr.cg95.cvq.business.document.Document document = new fr.cg95.cvq.business.document.Document();
                 DocumentType documentType = iDocumentService.getDocumentTypeById(documentForm.getTypeId());
                 document.setDocumentType(documentType);
 

@@ -74,7 +74,7 @@ public class PlaceReservationPersistence extends IPersistence implements WizardL
 
                 // FIXME : temporary fix in order to have the request object when initiating
                 //         the payment objects
-                fr.cg95.cvq.business.users.Request modelRequest = null;
+                fr.cg95.cvq.business.request.Request modelRequest = null;
                 try {
                     modelRequest = 
                         BusinessManager.getInstance().getDefaultRequestService().getById(cvqRequest.getId());

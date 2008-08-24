@@ -20,7 +20,7 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.fo.business.BusinessManager;
 import fr.cg95.cvq.fo.common.form.IndividualForm;
 import fr.cg95.cvq.fo.dispatcher.SessionManager;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.wizard.ListListener;
 import fr.cg95.cvq.wizard.process.ProcessWizardState;
 import fr.cg95.cvq.xml.common.AdultType;

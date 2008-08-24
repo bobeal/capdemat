@@ -6,10 +6,10 @@ import java.util.Set;
 
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
+import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.election.ElectoralRollRegistrationRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.DocumentBinary;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exporter.service.fo.IDocumentService;

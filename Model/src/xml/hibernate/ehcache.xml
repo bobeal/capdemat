@@ -25,7 +25,7 @@
     <!-- CVQ-specific caches -->
    
     <!--
-    <cache name="fr.cg95.cvq.business.authority.DocumentType"
+    <cache name="fr.cg95.cvq.business.document.DocumentType"
         maxElementsInMemory="30"
         eternal="false"
         overflowToDisk="false"
@@ -55,14 +55,14 @@
         timeToIdleSeconds="600"
         timeToLiveSeconds="600"/>
 
-    <cache name="fr.cg95.cvq.business.authority.RequestForm"
+    <cache name="fr.cg95.cvq.business.request.RequestForm"
         maxElementsInMemory="20"
         eternal="false"
         overflowToDisk="false"
         timeToIdleSeconds="600"
         timeToLiveSeconds="600"/>
 
-    <cache name="fr.cg95.cvq.business.authority.RequestType"
+    <cache name="fr.cg95.cvq.business.request.RequestType"
         maxElementsInMemory="10"
         eternal="false"
         overflowToDisk="false"

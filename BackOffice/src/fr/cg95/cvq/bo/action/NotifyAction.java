@@ -42,7 +42,7 @@ import fr.cg95.cvq.bo.dispatcher.StartupServlet;
 import fr.cg95.cvq.bo.form.SaveForm;
 import fr.cg95.cvq.bo.manager.StateManager;
 import fr.cg95.cvq.bo.record.RequestRecord;
-import fr.cg95.cvq.business.users.MeansOfContactEnum;
+import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.wizard.manager.ManagerWizardState;
 

@@ -12,8 +12,8 @@ import fr.cg95.cvq.business.users.payment.PaymentMode;
 import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.dao.users.IPaymentDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.payment.job.PaymentInitializationDateCheckerJob;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.job.PaymentInitializationDateCheckerJob;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.DateUtils;
 

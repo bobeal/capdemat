@@ -6,6 +6,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.school.OtherIndividual;
 import fr.cg95.cvq.business.school.OtherIndividualType;
 import fr.cg95.cvq.business.school.VacationsDiary;
@@ -13,11 +14,10 @@ import fr.cg95.cvq.business.school.VacationsRegistrationRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.school.IVacationsRegistrationRequestService;
-import fr.cg95.cvq.service.users.impl.RequestService;
 
 /**
  * Implementation of the vacations registration request service.

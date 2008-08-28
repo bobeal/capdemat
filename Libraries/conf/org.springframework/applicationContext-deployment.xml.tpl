@@ -17,14 +17,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     <property name="mappingResources">
       <list>
-        <value>fr/cg95/cvq/business/users/Request.hbm.xml</value>
-        <value>fr/cg95/cvq/business/authority/RequestType.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/Request.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/RequestType.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/LocalAuthority.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/HomeFolder.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/Individual.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/Document.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/DocumentBinary.hbm.xml</value>
-        <value>fr/cg95/cvq/business/authority/DocumentType.hbm.xml</value>
+        <value>fr/cg95/cvq/business/document/Document.hbm.xml</value>
+        <value>fr/cg95/cvq/business/document/DocumentBinary.hbm.xml</value>
+        <value>fr/cg95/cvq/business/document/DocumentType.hbm.xml</value>
         <value>fr/cg95/cvq/business/school/OtherIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/School.hbm.xml</value>
         <value>fr/cg95/cvq/business/school/VacationsDiary.hbm.xml</value>
@@ -33,10 +33,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/authority/Agent.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/Category.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/Card.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/DocumentAction.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/RequestAction.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/RequestNote.hbm.xml</value>
-        <value>fr/cg95/cvq/business/authority/RequestForm.hbm.xml</value>
+        <value>fr/cg95/cvq/business/document/DocumentAction.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/RequestAction.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/RequestNote.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/RequestForm.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/HistoryEntry.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/ChildLegalResponsible.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/LocalReferentialData.hbm.xml</value>
@@ -48,7 +48,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/social/DhrDonation.hbm.xml</value>
         <value>fr/cg95/cvq/business/social/DhrPersonalEstateAndSaving.hbm.xml</value>
         <value>fr/cg95/cvq/business/social/DhrRealAsset.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/MeansOfContact.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
       </list>
     </property>
 

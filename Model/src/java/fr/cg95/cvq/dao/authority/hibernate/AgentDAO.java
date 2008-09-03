@@ -75,7 +75,7 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
         while (critIt.hasNext()) {
             Critere searchCrit = (Critere) critIt.next();
             if (searchCrit.getAttribut().equals("categoryId")) {
-                sb.append(" join agent.categoriesRoles categoriesRoles where categoriesRoles.category.id " 
+                sb.append(" join agent.categoriesRoles categoriesRoles where categoriesRoles.category " 
                         + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getValue());
                 typeList.add(Hibernate.LONG);

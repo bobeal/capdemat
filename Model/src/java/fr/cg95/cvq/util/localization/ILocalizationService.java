@@ -60,7 +60,9 @@ public interface ILocalizationService {
      * 
      * @param requestTypeName class name of the request object for which label is requested (very badly chosen
      *                                              parameter name)
-     * @param lang langage of the requested translation                                              
+	 * @param lang langage of the requested translation                                              
+	 * @param fullDesc whether full or short description is asked for
 	 */
-	public String getRequestLabelTranslation(final String requestTypeName, final String lang);
+	public String getRequestLabelTranslation(final String requestTypeName, final String lang, 
+            boolean fullDesc);
 }

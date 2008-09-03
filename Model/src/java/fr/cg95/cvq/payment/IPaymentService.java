@@ -101,6 +101,25 @@ public interface IPaymentService {
             final String lastName);
     
     /**
+     * Get a constrained list of payments according to a set of criteria and requirements.
+     *
+     * @param sort an ordering to apply to results. 
+     * @param dir the direction of the sort (asc or desc)
+     * @param recordsReturned the number of records to return
+     * @param startIndex the start index of the records to return
+     */
+    List<Payment> extendedGet(final Date initDateFrom, final Date initDateTo, 
+            final Date commitDateFrom, final Date commitDateTo, final PaymentState paymentState, 
+            final String cvqReference, final String bankReference, final String broker, 
+            final Long homeFolderId, final String requesterLastName, final String sort, 
+            final String dir, final int recordsReturned, final int startIndex);
+    
+    long getPaymentCount(final Date initDateFrom, final Date initDateTo, final Date commitDateFrom,
+            final Date commitDateTo, final PaymentState paymentState, 
+            final String cvqReference, final String bankReference, final String broker, 
+            final Long homeFolderId, final String requesterLastName) throws CvqException;
+   
+    /**
      * Get a payment by id.
      */
     Payment getById(final Long id) throws CvqException, CvqObjectNotFoundException;

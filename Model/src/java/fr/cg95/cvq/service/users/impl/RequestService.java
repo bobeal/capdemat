@@ -27,6 +27,7 @@ import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
+import fr.cg95.cvq.business.authority.DocumentType;
 import fr.cg95.cvq.business.authority.RequestForm;
 import fr.cg95.cvq.business.authority.RequestFormType;
 import fr.cg95.cvq.business.authority.RequestSeason;
@@ -147,13 +148,11 @@ public abstract class RequestService implements IRequestService {
             StringBuffer sb = new StringBuffer();
             while (agentCategorysIt.hasNext()) {
                 CategoryRoles categoryRoles = (CategoryRoles) agentCategorysIt.next();
-                if (!categoryRoles.getProfile().equals(CategoryProfile.NONE)) {
-                    if (sb.length() > 0)
-                        sb.append(",");
-                    sb.append("'")
-                        .append(categoryRoles.getCategory().getId())
-                        .append("'");
-                }
+                if (sb.length() > 0)
+                    sb.append(",");
+                sb.append("'")
+                    .append(categoryRoles.getCategory().getId())
+                    .append("'");
             }
             crit.setAttribut("belongsToCategory");
             crit.setComparatif(Critere.EQUALS);
@@ -280,6 +279,13 @@ public abstract class RequestService implements IRequestService {
         requestDAO.update(request);
     }
 
+    public Set getNotes(final Long id)
+        throws CvqException {
+
+        List notesList = requestNoteDAO.listByRequest(id);
+        return new LinkedHashSet(notesList);
+    }
+
     public void addNote(final Long requestId, final RequestNoteType rtn,
                         final String note)
         throws CvqException, CvqObjectNotFoundException {
@@ -295,31 +301,23 @@ public abstract class RequestService implements IRequestService {
                                              PrivilegeDescriptor.WRITE);
         Long agentId = agent.getId();
 
-        RequestNote rn = null;
-        rn = requestNoteDAO.findByRequestAndType(requestId, rtn);
+	    RequestNote rn = new RequestNote();
+        rn.setRequest(request);
+        rn.setType(rtn);
+        rn.setNote(note);
+        rn.setAgentId(agentId);
 
-        if (rn == null) {
-            rn = new RequestNote();
-            rn.setRequest(request);
-            rn.setType(rtn);
-            rn.setNote(note);
-            rn.setAgentId(agentId);
+	    if (request.getNotes() == null) {
+	        Set notes = new HashSet();
+	        notes.add(rn);
+	        request.setNotes(notes);
+    	} else {
+	        request.getNotes().add(rn);
+	    }
 
-            if (request.getNotes() == null) {
-                Set notes = new HashSet();
-                notes.add(rn);
-                request.setNotes(notes);
-            } else {
-                request.getNotes().add(rn);
-            }
 
-            requestNoteDAO.create(rn);
-        } else {
-            rn.setNote(note);
-            rn.setAgentId(agentId);
-            requestNoteDAO.update(rn);
-        }
-
+	    requestNoteDAO.create(rn);
+	
         updateLastModificationInformation(request, null);
     }
 
@@ -447,6 +445,52 @@ public abstract class RequestService implements IRequestService {
         }
         requestType.setRequirements(requirements);
         requestTypeDAO.update(requestType);
+    }
+
+    public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
+        throws CvqException {
+        
+        try {
+            RequestType requestType = 
+                (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
+            if (requestType.getRequirements() == null)
+                requestType.setRequirements(new HashSet<Requirement>());
+            DocumentType documentType = 
+                (DocumentType) documentTypeDAO.findById(DocumentType.class, documentTypeId);
+            Requirement requirement = new Requirement();
+            requirement.setMultiplicity(Integer.valueOf("1"));
+            requirement.setRequestType(requestType);
+            requirement.setSpecial(false);
+            requirement.setDocumentType(documentType);
+            if (!requestType.getRequirements().contains(requirement)) {
+                requestType.getRequirements().add(requirement);
+                requestTypeDAO.update(requestType);
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new CvqException("Could not update request type : " + e.toString());
+        }        
+    }
+    
+    public void removeRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
+        throws CvqException {
+    
+        try {
+            RequestType requestType = 
+                (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
+            if (requestType.getRequirements() == null)
+                return;
+            DocumentType documentType = 
+                (DocumentType) documentTypeDAO.findById(DocumentType.class, documentTypeId);
+            Requirement requirement = new Requirement();
+            requirement.setRequestType(requestType);
+            requirement.setDocumentType(documentType);
+            if (requestType.getRequirements().remove(requirement))
+                requestTypeDAO.update(requestType);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new CvqException("Could not update request type : " + e.toString());
+        }        
     }
 
     /**
@@ -1299,7 +1343,7 @@ public abstract class RequestService implements IRequestService {
             
             StringBuffer mailSubject = new StringBuffer();
             mailSubject.append("[").append(lacb.getDisplayTitle()).append("] ")
-                .append(localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr"))
+                .append(localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false))
                 .append(" validée");
             
             if (attachPdf.booleanValue()) {

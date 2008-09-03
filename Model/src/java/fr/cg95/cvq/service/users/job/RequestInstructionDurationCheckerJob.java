@@ -150,7 +150,7 @@ public final class RequestInstructionDurationCheckerJob {
                         body.append("\n").append("Détail des alertes oranges :\n");
                         for (Request request : orangeRequests) {
                             String requestTypeLabel = 
-                                localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr");
+                                localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false);
                             body.append("\t").append(requestTypeLabel)
                                 .append(" : ").append(request.getId())
                                 .append("\n");
@@ -160,7 +160,7 @@ public final class RequestInstructionDurationCheckerJob {
                         body.append("\n\n").append("Détail des alertes rouges :\n");
                         for (Request request : redRequests) {
                             String requestTypeLabel = 
-                                localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr");
+                                localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false);
                             body.append("\t").append(requestTypeLabel)
                                 .append(" : ").append(request.getId())
                                 .append("\n");

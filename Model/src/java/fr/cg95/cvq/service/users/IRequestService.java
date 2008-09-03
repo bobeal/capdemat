@@ -180,6 +180,13 @@ public interface IRequestService {
     //////////////////////////////////////////////////////////
     // Notes, actions and documents related methods
     //////////////////////////////////////////////////////////
+    /**
+     * Get notes related to a given request.
+     *
+     * @return a set of {@link fr.cg95.cvq.business.users.RequestNote} objects
+     */
+    Set getNotes(final Long id)
+        throws CvqException;
 
     /**
      * Add a note to a request.

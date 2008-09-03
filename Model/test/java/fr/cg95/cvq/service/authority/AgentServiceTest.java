@@ -20,7 +20,6 @@ import fr.cg95.cvq.business.users.RequestNoteType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.impl.AgentService;
 import fr.cg95.cvq.service.users.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
@@ -32,43 +31,41 @@ import fr.cg95.cvq.util.Critere;
  */
 public class AgentServiceTest extends ServiceTestCase {
 
-    public void testLoginAndRights()
-        throws CvqException {
+    public void testLoginAndRights() throws CvqException {
 
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        
         Agent agent = SecurityContext.getCurrentAgent();
 
-        // Existence test
-        Assert.assertEquals(iAgentService.exists(agent.getId()), true);
-        
+        Map<Long, CategoryProfile> categoriesProfilesMap = new HashMap<Long, CategoryProfile>();
+        List<Long> agentCategories = new ArrayList<Long>();
+
         // try to modify the agent's rights
         Set categoriesRolesSet = agent.getCategoriesRoles();
-        Map categoriesProfilesMap = new HashMap();
         Iterator spIt = categoriesRolesSet.iterator();
-        List agentCategories = new ArrayList();
         while (spIt.hasNext()) {
             CategoryRoles sr = (CategoryRoles) spIt.next();
             Category category = sr.getCategory();
             CategoryProfile profile = sr.getProfile();
             agentCategories.add(category.getId());
             categoriesProfilesMap.put(category.getId(), profile);
-            logger.debug("Agent has profile " + profile.toString() + " on category " + category.getName() + " (" + category.getId() + ")");
+            logger.debug("Agent has profile " + profile.toString() + " on category " 
+                    + category.getName() + " (" + category.getId() + ")");
         }
 
         // add agent to the categories it does not belong to
-        List allCategories = iCategoryService.getAll();
+        List<Category> allCategories = iCategoryService.getAll();
         for (int i=0; i < allCategories.size(); i++) {
-            Category category = (Category) allCategories.get(i);
+            Category category = allCategories.get(i);
             logger.debug("Got category : " + category.getName());
             if (!agentCategories.contains(category.getId())) {
-                logger.debug("Agent is not registered in category (" + category.getId() + "), adding it with write modifications");
+                logger.debug("Agent is not registered in category (" + category.getId() 
+                        + "), adding it with write modifications");
                 categoriesProfilesMap.put(category.getId(), CategoryProfile.READ_WRITE);
             }
         }
 
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         try {
             iAgentService.modifyRights(agent.getId(),categoriesProfilesMap);
             fail("should have thrown an exception");
@@ -81,7 +78,7 @@ public class AgentServiceTest extends ServiceTestCase {
         try {
             iAgentService.modifyRights(agent.getId(),categoriesProfilesMap);
         } catch (CvqPermissionException cpe) {
-        		cpe.printStackTrace();
+            cpe.printStackTrace();
             fail("should have not thrown an exception");
         }
 
@@ -89,31 +86,19 @@ public class AgentServiceTest extends ServiceTestCase {
 
         // check new associations have been saved
         categoriesRolesSet = agent.getCategoriesRoles();
-        spIt = categoriesRolesSet.iterator();
-        while (spIt.hasNext()) {
-            CategoryRoles sr = (CategoryRoles) spIt.next();
-            logger.debug("Agent has profile " + sr.getProfile().toString() + " on category " + sr.getCategory().getName());
-        }
+        assertEquals(categoriesRolesSet.size(), allCategories.size());
 
         // test agent is correctly set in the requests notes
         CreationBean cb = gimmeAnHomeFolder();
         Request request = iRequestService.getById(cb.getRequestId());
         Assert.assertNull(request.getNotes());
-        iRequestService.addNote(request.getId(), RequestNoteType.DEFAULT_NOTE,
-                                "Paris est magique");
-        commitTransaction();
-        Assert.assertEquals(request.getNotes().size() , 1);
-        
-        iRequestService.addNote(request.getId(), RequestNoteType.DEFAULT_NOTE,
-        "Paris est magique");
-        commitTransaction();
-        // updating the same RequestNote
-        Assert.assertEquals(request.getNotes().size() , 1);
-        
+        iRequestService.addNote(request.getId(), RequestNoteType.DEFAULT_NOTE, 
+                "Paris est magique");
+
         // disconnect agent and test the same
         SecurityContext.resetCurrentSite();
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        
         try {
             iRequestService.addNote(request.getId(), RequestNoteType.DEFAULT_NOTE,
                                     "Paris Paris Paris");
@@ -135,13 +120,12 @@ public class AgentServiceTest extends ServiceTestCase {
         Agent currentAgent = SecurityContext.getCurrentAgent();
         Set myAgentRequests = iRequestService.getByLastInterveningAgentId(currentAgent.getId());
         Assert.assertEquals(myAgentRequests.size(), 1);
-       
         // perform the same search ... but with the generic search method
         Critere crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID);
         crit.setComparatif(Critere.EQUALS);
         crit.setValue(currentAgent.getId());
-        Set criteriaSet = new HashSet();
+        Set<Critere> criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
         myAgentRequests = iRequestService.get(criteriaSet, null, true);
         Assert.assertEquals(myAgentRequests.size(), 1);

@@ -185,33 +185,33 @@ public class BusinessManager implements IBusinessConstants {
             IRequestStatisticsService statisticsService = (IRequestStatisticsService) ac
                     .getBean(IRequestStatisticsService.SERVICE_NAME);
 
-            try {
-                String filterState = filterForm.getState();
-
-                if ((filterState == null) || (filterState.length() == 0) || filterState.equals("Indifférent")
-                        || filterState.equals(state)) {
-
-                    if ((state != null) && (state.length() > 0))
-                        state = BusinessDictionary.getRequestState(state).toString();
-                    
-                    String type = filterForm.getType();
-
-                    if ((type != null) && (type.length() > 0) && !type.equals("Indifférent")) 
-                        type = requestManager.getRequestTypeLabel(type);
-                    else
-                        type = null;
-                    
-                    return statisticsService.getCountByResultingState(
-                            state,
-                            Utils.getStringAsDate(filterForm.getPeriodBegin()),
-                            Utils.getStringAsDate(filterForm.getPeriodEnd()),
-                            type,
-                            filterForm.getService());
-                }
-
-            } catch (CvqException ce) {
-                logger.warn("findNbRequestsByState", ce);
-            }
+//            try {
+//                String filterState = filterForm.getState();
+//
+//                if ((filterState == null) || (filterState.length() == 0) || filterState.equals("Indifférent")
+//                        || filterState.equals(state)) {
+//
+//                    if ((state != null) && (state.length() > 0))
+//                        state = BusinessDictionary.getRequestState(state).toString();
+//                    
+//                    String type = filterForm.getType();
+//
+//                    if ((type != null) && (type.length() > 0) && !type.equals("Indifférent")) 
+//                        type = requestManager.getRequestTypeLabel(type);
+//                    else
+//                        type = null;
+//                    
+//                    return statisticsService.getCountByResultingState(
+//                            state,
+//                            Utils.getStringAsDate(filterForm.getPeriodBegin()),
+//                            Utils.getStringAsDate(filterForm.getPeriodEnd()),
+//                            type,
+//                            filterForm.getService());
+//                }
+//
+//            } catch (CvqException ce) {
+//                logger.warn("findNbRequestsByState", ce);
+//            }
         }
         return new Long(0);
     }
@@ -221,32 +221,32 @@ public class BusinessManager implements IBusinessConstants {
             IRequestStatisticsService statisticsService = (IRequestStatisticsService) ac
                     .getBean(IRequestStatisticsService.SERVICE_NAME);
 
-            try {
-                String requestType = filterForm.getType();
-
-                if ((requestType == null) || (requestType.length() == 0) || requestType.equals("Indifférent")
-                        || requestType.equals(type)) {
-
-                    if ((type != null) && (type.length() > 0))
-                        type = requestManager.getRequestTypeLabel(type);
-                    
-                    String state = filterForm.getState();
-
-                    if ((state != null) && (state.length() > 0) && !state.equals("Indifférent")) 
-                        state = BusinessDictionary.getRequestState(state).toString();
-                    else
-                        state = null;
-                    
-                    return statisticsService.getCountByResultingState(
-                            state,
-                            Utils.getStringAsDate(filterForm.getPeriodBegin()),
-                            Utils.getStringAsDate(filterForm.getPeriodEnd()),
-                            type,
-                            filterForm.getService());
-                }
-            } catch (CvqException ce) {
-                logger.warn("findNbRequestsByType", ce);
-            }
+//            try {
+//                String requestType = filterForm.getType();
+//
+//                if ((requestType == null) || (requestType.length() == 0) || requestType.equals("Indifférent")
+//                        || requestType.equals(type)) {
+//
+//                    if ((type != null) && (type.length() > 0))
+//                        type = requestManager.getRequestTypeLabel(type);
+//                    
+//                    String state = filterForm.getState();
+//
+//                    if ((state != null) && (state.length() > 0) && !state.equals("Indifférent")) 
+//                        state = BusinessDictionary.getRequestState(state).toString();
+//                    else
+//                        state = null;
+//                    
+//                    return statisticsService.getCountByResultingState(
+//                            state,
+//                            Utils.getStringAsDate(filterForm.getPeriodBegin()),
+//                            Utils.getStringAsDate(filterForm.getPeriodEnd()),
+//                            type,
+//                            filterForm.getService());
+//                }
+//            } catch (CvqException ce) {
+//                logger.warn("findNbRequestsByType", ce);
+//            }
         }
         return new Long(0);
     }
@@ -292,12 +292,12 @@ public class BusinessManager implements IBusinessConstants {
                     else
                         state = null;
                     
-                    return statisticsService.getCountByResultingState(
-                            state,
-                            dateBegin,
-                            dateEnd,
-                            type,
-                            filterForm.getService());
+//                    return statisticsService.getCountByResultingState(
+//                            state,
+//                            dateBegin,
+//                            dateEnd,
+//                            type,
+//                            filterForm.getService());
                 }
             } catch (CvqException ce) {
                 logger.warn("findNbRequestsByMonth", ce);
@@ -315,14 +315,16 @@ public class BusinessManager implements IBusinessConstants {
             String requestTypeLabel = requestManager.getRequestTypeLabel(filterForm.getType());
             if (requestTypeLabel.equals("Pas disponible"))
             		requestTypeLabel = "";
-            try {
-				return statisticsService.getCountByQuality(Utils.getStringAsDate(filterForm.getPeriodBegin()), 
-						Utils.getStringAsDate(filterForm.getPeriodEnd()), qualityType,
-						requestTypeLabel, filterForm.getService());
-			} catch (CvqException e) {
-				logger.warn("findNbRequestsByQuality", e);
-				e.printStackTrace();
-			}
+//            try {
+//				return statisticsService.getCountByQuality(Utils.getStringAsDate(filterForm.getPeriodBegin()), 
+//						Utils.getStringAsDate(filterForm.getPeriodEnd()), qualityType,
+//						requestTypeLabel, filterForm.getService());
+//				
+//			} catch (CvqException e) {
+//				logger.warn("findNbRequestsByQuality", e);
+//				e.printStackTrace();
+//			}
+            return null;
         }
 
 		return new Long(0);
@@ -1376,8 +1378,8 @@ public class BusinessManager implements IBusinessConstants {
                 List categoriesList = null;
                 if (all)
                     categoriesList = categoryService.getAll();
-                else
-                    categoriesList = categoryService.getAgentManagedCategories(SecurityContext.getCurrentAgent());
+//                else
+//                    categoriesList = categoryService.getAgentManagedCategories(SecurityContext.getCurrentAgent());
 
                 for (int i = 0; i < categoriesList.size(); i++) {
                     CategoryRecord record = BusinessFactory.getCategoryRecord(categoriesList.get(i));
@@ -1392,16 +1394,16 @@ public class BusinessManager implements IBusinessConstants {
     }
 
     public static boolean hasManagerProfile(String name) {
-        if (ac != null) {
-            ICategoryService service = 
-                (ICategoryService) ac.getBean(ICategoryService.SERVICE_NAME);
-            
-            try {
-                return service.hasManagerProfileOnCategory(SecurityContext.getCurrentAgent(), name);
-            } catch (CvqException ce) {
-                logger.warn("hasManagerProfile", ce);
-            }
-        }
+//        if (ac != null) {
+//            ICategoryService service = 
+//                (ICategoryService) ac.getBean(ICategoryService.SERVICE_NAME);
+//            
+//            try {
+//                return service.hasManagerProfileOnCategory(SecurityContext.getCurrentAgent(), name);
+//            } catch (CvqException ce) {
+//                logger.warn("hasManagerProfile", ce);
+//            }
+//        }
         return false;
     }
 
@@ -1487,7 +1489,7 @@ public class BusinessManager implements IBusinessConstants {
                 Category category = new Category();
                 category.setName(adminForm.getCategoryName());
                 category.setPrimaryEmail(adminForm.getCategoryEmail());
-                categoryService.create(category, new HashSet());
+                categoryService.create(category);
 
                 CategoryRecord newCategory = BusinessFactory.getCategoryRecord(category);
                 adminForm.addCategory(newCategory);
@@ -1594,13 +1596,13 @@ public class BusinessManager implements IBusinessConstants {
 
     public static boolean managesCategories() {
         ICategoryService service = (ICategoryService) ac.getBean(ICategoryService.SERVICE_NAME);
-        try {
-            List managerCategories = service.getAgentManagedCategories(SecurityContext.getCurrentAgent());
-            return ((managerCategories != null) && !managerCategories.isEmpty());
-
-        } catch (CvqException e) {
-            logger.warn("managesCategories", e);
-        }
+//        try {
+//            List managerCategories = service.getAgentManagedCategories(SecurityContext.getCurrentAgent());
+//            return ((managerCategories != null) && !managerCategories.isEmpty());
+//
+//        } catch (CvqException e) {
+//            logger.warn("managesCategories", e);
+//        }
         return false;
     }
 
@@ -1685,10 +1687,10 @@ public class BusinessManager implements IBusinessConstants {
                     categoryProfiles.put(categoryRecord.getId(), CategoryProfile.MANAGER);
                     user.addCategoryProfile(categoryRecord.getId(), ProfileManager.PROFILE_MANAGER);
                 }
-                if (!categoryRecord.isRW() && !categoryRecord.isRO() && !categoryRecord.isManager()) {
-                    categoryProfiles.put(categoryRecord.getId(), CategoryProfile.NONE);
-                    user.addCategoryProfile(categoryRecord.getId(), ProfileManager.PROFILE_NONE);
-                }
+//                if (!categoryRecord.isRW() && !categoryRecord.isRO() && !categoryRecord.isManager()) {
+//                    categoryProfiles.put(categoryRecord.getId(), CategoryProfile.NONE);
+//                    user.addCategoryProfile(categoryRecord.getId(), ProfileManager.PROFILE_NONE);
+//                }
             }
 
             try {

@@ -27,13 +27,22 @@ public interface IPaymentDAO extends IGenericDAO {
     /**
      * Multi-criteria search amongst payments.
      */
-    List search(Date initDateFrom, Date initDateTo, final Date commitDateFrom,
+    List search(final Date initDateFrom,final Date initDateTo, final Date commitDateFrom,
             final Date commitDateTo, final PaymentState paymentState, final String cvqReference, 
             final String bankReference, final String broker, final Long homeFolderId, 
-            final String lastName);
+            final String requesterLastName, final String sort, final String dir, 
+            final int recordsReturned, final int startIndex);
     
     /**
-     * Initialized but not commited search amongst payments
+     * Same as search method but only returns a count of total results.
      */
-    List searchNotCommited();
+    Long count(final Date initDateFrom, final Date initDateTo, final Date commitDateFrom, 
+            final Date commitDateTo, final PaymentState paymentState, final String cvqReference, 
+            final String bankReference, final String broker, final Long homeFolderId, 
+            final String requesterLastName);
+
+    /**
+     * Initialized but not commited search amongst payments.
+     */
+    List searchNotCommited();    
 }

@@ -31,14 +31,14 @@ public class CategoryServiceTest extends ServiceTestCase {
         category.addEmail("blop@valdoise.fr");
 
         try {
-            iCategoryService.create(category, null);
+            iCategoryService.create(category);
             fail("should have thrown an exception");
         } catch (CvqPermissionException cpe) {
             // that was expected
         }
         
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.create(category, null);
+        iCategoryService.create(category);
         
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         try {
@@ -59,7 +59,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         
         Category category = new Category();
         category.setName("Environnement");
-        iCategoryService.create(category, null);
+        iCategoryService.create(category);
         
         continueWithNewTransaction();
         
@@ -80,25 +80,24 @@ public class CategoryServiceTest extends ServiceTestCase {
         Set requestTypesSet = iRequestService.getAllRequestTypes();
         int requestTypesNb = requestTypesSet.size();
 
-        List<Category> categoriesList = iCategoryService.getAll();
-        Assert.assertEquals(1, categoriesList.size());
-        Category category1 = categoriesList.get(0);
+        List categoriesList = iCategoryService.getAll();
+        Assert.assertEquals(categoriesList.size(), 1);
+        Category category1 = (Category) categoriesList.get(0);
 
         // create a category to make some tests with
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         Category category2 = new Category();
-        String categoryName = "Nouvelle catégorie";
-        category2.setName(categoryName);
+        category2.setName("Une autre catégorie");
         category2.setPrimaryEmail("category@blop.fr");
         category2.addEmail("category@dummy.fr");
         category2.addEmail("blop@valdoise.fr");
         
-        Long categoryId = iCategoryService.create(category2, null);
+        Long categoryId = iCategoryService.create(category2);
 
         continueWithNewTransaction();
 
         // test retrieving by name
-        Category categoryByName = iCategoryService.getByName(categoryName);
+        Category categoryByName = iCategoryService.getByName("Une autre catégorie");
         Assert.assertNotNull(categoryByName);
         
         // test retrieving by id and do some modifications on it

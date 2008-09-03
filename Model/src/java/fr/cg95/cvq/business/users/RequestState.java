@@ -31,9 +31,12 @@ public final class RequestState extends PersistentStringEnum {
     /**
      * Should be private but Hibernate requires a public default constructor.
      */
-    public RequestState() {
-    }
-
+    public RequestState() {}
+  
+    public static final RequestState[] allRequestStates = 
+    
+    { PENDING, COMPLETE, UNCOMPLETE, VALIDATED, NOTIFIED, ACTIVE, EXPIRED, CLOSED, REJECTED, CANCELLED, ARCHIVED };
+  
     public static RequestState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
             return PENDING;

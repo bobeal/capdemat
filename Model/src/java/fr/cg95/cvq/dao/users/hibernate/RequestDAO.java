@@ -1,15 +1,21 @@
 package fr.cg95.cvq.dao.users.hibernate;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
 
@@ -80,7 +86,18 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersValues.put("categoryName", searchCrit.getValue());
                 parametersTypes.put("categoryName", Hibernate.STRING);
             
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_TYPE_LABEL)) {
+            } else if (searchCrit.getAttribut().equals("categoryId")) {
+                sb.append(" and request.requestType.category.id "
+                        + searchCrit.getComparatif() + " :categoryId");
+                parametersValues.put("categoryId", searchCrit.getLongValue());
+                parametersTypes.put("categoryId", Hibernate.LONG);
+
+            } else if (searchCrit.getAttribut().equals("requestType")) {
+                sb.append(" and request.requestType " + searchCrit.getComparatif() + " :requestType");
+                parametersValues.put("requestType", searchCrit.getLongValue());
+                parametersTypes.put("requestType", Hibernate.LONG);
+
+            } else if (searchCrit.getAttribut().equals("requestTypeLabel")) {
                 sb.append(" and request.requestType.label " + searchCrit.getComparatif()
                         + " :requestTypeLabel");
                 parametersValues.put("requestTypeLabel", searchCrit.getValue());
@@ -101,6 +118,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersValues.put("creationDate", searchCrit.getDateValue());
                 parametersTypes.put("creationDate", Hibernate.TIMESTAMP);
 
+            } else if (searchCrit.getAttribut().equals("lastModificationDate")) {
+                sb.append(" and request.lastModificationDate " + searchCrit.getComparatif() + " :lastModificationDate");
+                parametersValues.put("lastModificationDate", searchCrit.getDateValue());
+                parametersTypes.put("lastModificationDate", Hibernate.DATE);
+
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID)) {
                 sb.append(" and request.lastInterveningAgentId "
                         + searchCrit.getComparatif() + " :lastInterveningAgentId");
@@ -110,6 +132,16 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(" and request.requestType.category.id in ( "
                         + searchCrit.getValue() + ")");
+            
+            } else if (searchCrit.getAttribut().equals("qualityType")) {
+                 
+                if (searchCrit.getValue().equals("qualityTypeOrange")) {
+                 sb.append(" and request.orangeAlert = true")
+                .append(" and request.redAlert = false");
+                } else if (searchCrit.getValue().equals("qualityTypeRed")) {
+                    sb.append(" and request.orangeAlert = false")
+                    .append(" and request.redAlert = true");
+                }
             }
         }
 
@@ -174,7 +206,24 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         // go through all the criteria and create the query
         while (critIt.hasNext()) {
             Critere searchCrit = (Critere) critIt.next();
-            if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
+
+            if (searchCrit.getAttribut().equals("id")) {
+                sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
+                objectList.add(searchCrit.getLongValue());
+                typeList.add(Hibernate.LONG);
+                
+            } else if (searchCrit.getAttribut().equals("homeFolderId")) {
+                sb.append(" and request.homeFolder " + searchCrit.getComparatif() + " ?");
+                objectList.add(searchCrit.getLongValue());
+                typeList.add(Hibernate.LONG);
+                
+            } else if (searchCrit.getAttribut().equals("requesterLastName")) {
+                sb.append(" and lower(request.requester.lastName) "
+                        + searchCrit.getSqlComparatif() + " lower(?)");
+                objectList.add(searchCrit.getSqlStringValue());
+                typeList.add(Hibernate.STRING);
+                
+            } else if (searchCrit.getAttribut().equals("state")) {
                 sb.append(" and state " + searchCrit.getComparatif() + " ?");
                 // To ensure we put the good type in the object list
                 // FIXME : all states criteria should be sent as
@@ -184,29 +233,28 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 else
                     objectList.add(searchCrit.getValue());
                 typeList.add(Hibernate.STRING);
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_ID)) {
-                sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
+                
+            } else if (searchCrit.getAttribut().equals("categoryId")) {
+                sb.append(" and request.requestType = requestType.id")
+                    .append(" and requestType.category = category.id").append(
+                        " and category.id " + searchCrit.getComparatif() + " ?");
+                sbSelect.append(", RequestType as requestType")
+                    .append(", Category as category");
                 objectList.add(searchCrit.getLongValue());
                 typeList.add(Hibernate.LONG);
                 
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_HOME_FOLDER_ID)) {
-                sb.append(" and request.homeFolder " + searchCrit.getComparatif() + " ?");
-                objectList.add(searchCrit.getLongValue());
-                typeList.add(Hibernate.LONG);
-                
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUESTER_LASTNAME)) {
-                sb.append(" and lower(request.requester.lastName) "
-                        + searchCrit.getSqlComparatif() + " lower(?)");
-                objectList.add(searchCrit.getSqlStringValue());
-                typeList.add(Hibernate.STRING);
-                
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_NAME)) {
+            } else if (searchCrit.getAttribut().equals("categoryName")) {
                 sb.append(" and request.requestType.category.name "
                         + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getValue());
                 typeList.add(Hibernate.STRING);
                 
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_TYPE_LABEL)) {
+            } else if (searchCrit.getAttribut().equals("requestType")) {
+                sb.append(" and request.requestType " + searchCrit.getComparatif() + " ?");
+                objectList.add(searchCrit.getLongValue());
+	        typeList.add(Hibernate.LONG);
+                
+            } else if (searchCrit.getAttribut().equals("requestTypeLabel")) {
                 sb.append(" and request.requestType.label " + searchCrit.getComparatif()
                         + " ?");
                 objectList.add(searchCrit.getValue());
@@ -286,8 +334,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
 
     public Long countByQuality(final Date startDate, final Date endDate,
-            final List resultingStates, final String qualityType, final String requestTypeLabel,
-            final List<String> categoriesNames) {
+            final List resultingStates, final String qualityType, final Long requestTypeId,
+            final Long categoryId) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -307,16 +355,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             typeList.add(Hibernate.TIMESTAMP);
         }
 
-        if (categoriesNames != null) {
-            sb.append(" and request.requestType.category.name in (");
-            for (int i = 0; i < categoriesNames.size(); i++) {
-                sb.append("'").append(categoriesNames.get(i)).append("'");
-                if (i != categoriesNames.size() - 1)
-                    sb.append(",");
-            }
-            sb.append(")");
+        if (categoryId != null) {
+            sb.append(" and request.requestType.category.id = '").append(categoryId)
+                .append("'");
         }
-        
+
         sb.append(" and requestAction.resultingState in (");
         for (int i = 0; i < resultingStates.size(); i++) {
             sb.append("'").append(resultingStates.get(i)).append("'");
@@ -336,10 +379,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 .append(" and request.redAlert = true");
         }
 
-        if (requestTypeLabel != null && !requestTypeLabel.equals("")) {
-            sb.append(" and request.requestType.label = ?");
-            objectList.add(requestTypeLabel);
-            typeList.add(Hibernate.STRING);
+        if (requestTypeId != null) {
+            sb.append(" and request.requestType.id = '").append(requestTypeId).append("'");
         }
 
         Type[] typeTab = typeList.toArray(new Type[0]);
@@ -354,15 +395,15 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             return new Long(0);
     }
 
-    public Long countByResultingState(final String resultingState, 
-            final Date startDate, final Date endDate,
-            final String requestTypeLabel, final List<String> categoriesNames) {
+    public Long countByResultingState(final String[] resultingState, final Date startDate, final Date endDate,
+            final Long requestTypeId, final Long categoryId) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer();
-        sb.append("select count(*) from Request as request, RequestAction as requestAction ")
+
+        sb.append("select count(*) from Request as request, RequestAction as requestAction")
             .append(" where request.id = requestAction.request");
 
         if (startDate != null) {
@@ -370,55 +411,122 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             objectList.add(startDate);
             typeList.add(Hibernate.TIMESTAMP);
         }
-
         if (endDate != null) {
             sb.append(" and requestAction.date < ?");
             objectList.add(endDate);
             typeList.add(Hibernate.TIMESTAMP);
         }
 
-        if (resultingState != null && !resultingState.equals(""))
-            sb.append(" and requestAction.resultingState = '").append(resultingState).append("'");
-
-        if (requestTypeLabel != null && !requestTypeLabel.equals("")) {
-            sb.append(" and request.requestType.label = ?");
-            objectList.add(requestTypeLabel);
-            typeList.add(Hibernate.STRING);
+        if (categoryId != null) {
+            sb.append(" and request.requestType.category.id = '").append(categoryId)
+                .append("'");
         }
 
-        if (categoriesNames != null) {
-            sb.append(" and request.requestType.category.name in (");
-            for (int i = 0; i < categoriesNames.size(); i++) {
-                sb.append("'").append(categoriesNames.get(i)).append("'");
-                if (i != categoriesNames.size() - 1)
-                    sb.append(",");
+        if (resultingState != null && resultingState.length > 0) {
+            sb.append(" and (");
+            for (int i = 0; i < resultingState.length; i++) {
+                String state = resultingState[i];
+                sb.append(" requestAction.resultingState = '").append(state).append("'");
+                if (i < (resultingState.length - 1))
+                    sb.append(" or ");
             }
             sb.append(")");
         }
         
+        if (requestTypeId != null) {
+            sb.append(" and request.requestType.id = '").append(requestTypeId).append("'");
+        }
+
+        logger.debug("countByResultingState() sending : " + sb.toString());
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
+
         Iterator resultsIt = HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .iterate();
+                .createQuery(sb.toString())
+                .setParameters(objectTab, typeTab)
+                .iterate();
+        
         if (resultsIt != null && resultsIt.hasNext())
-            return  (Long) resultsIt.next();
+            return new Long(((Integer) resultsIt.next()).intValue());
         else
             return new Long(0);
     }
     
-    public List listAll() {
+    public Long oldCountByResultingState(final String[] resultingState, final Date startDate, final Date endDate,
+            final Long requestTypeId, final Long categoryId) {
 
-        StringBuffer sb = new StringBuffer();
-        sb.append("from Request as request ");
+        StringBuffer tables = new StringBuffer();
+        StringBuffer subquery = new StringBuffer();
+        StringBuffer where = new StringBuffer();
 
-        Query query = HibernateUtil.getSession().createQuery(sb.toString());
-        List results = query.list();
+        tables.append("select count(*) from request, request_action,");
+        
+        subquery.append("(select request_id, max(date) as date from request_action")
+                .append(" where resulting_state <> '' group by request_id) last_entries");
 
-        return filterSearchResults(results);
+        where.append(" where request.id=request_action.request_id")
+            .append(" and request_action.request_id=last_entries.request_id")
+            .append(" and request_action.date=last_entries.date");
+        
+        if (startDate != null) {
+            where.append(" and request_action.date > '")
+                .append(parseDate(startDate) + "'");
+        }
+        if (endDate != null) {
+            where.append(" and request_action.date < '")
+                .append(parseDate(endDate) + "'");
+        }
+
+        if (categoryId != null) {
+            tables.append(" request_type, category,");
+            where.append(" and request.request_type_id = request_type.id ")
+                .append("and request_type.category_id = ").append(categoryId);
+        }
+
+        if (resultingState != null && resultingState.length > 0) {
+            where.append(" and (");
+            for (int i = 0; i < resultingState.length; i++) {
+                String state = resultingState[i];
+                where.append(" request_action.resulting_state = '").append(state).append("'");
+                if (i < (resultingState.length - 1))
+                    where.append(" or ");
+            }
+            where.append(")");
+        }
+        
+        if (requestTypeId != null) {
+            if (tables.indexOf("request_type") == -1) {
+                tables.append(" request_type,");
+                where.append(" and request.request_type_id = ").append(requestTypeId);
+            }
+        }
+
+        try {
+            ResultSet result = HibernateUtil.getSession().connection()
+                    .createStatement().executeQuery(tables.append(subquery).append(where).toString());
+            if (result.next()) {
+                return new Long(result.getInt(1));
+            } else {
+                return new Long(0);
+            }
+        } catch (HibernateException e) {
+            e.getMessage();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        throw new RuntimeException();
     }
+    
+    private String parseDate(Date date) {
+        if (date == null)
+            return "";
+        
+        // create a date formatter
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
 
+        return df.format(date);
+    }
+    
     public List listByIds(final Long[] ids) {
         
         StringBuffer sb = new StringBuffer().append("from Request as request ");

@@ -142,7 +142,7 @@ public class XsdRequestRecord
             String name = xsdDemand.getClass().getName();
             name = name.substring(0,name.indexOf("DocumentImpl"));
             name = name.replaceAll(".impl", "");
-            type = service.getRequestLabelTranslation(name,"fr");
+            type = service.getRequestLabelTranslation(name,"fr", false);
             if (type == null)
                     type = "Inconnue";
 

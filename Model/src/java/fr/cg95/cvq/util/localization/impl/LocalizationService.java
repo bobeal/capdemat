@@ -278,8 +278,12 @@ public class LocalizationService implements ILocalizationService {
         return resultEnums;
     }
     
-    public String getRequestLabelTranslation(String requestTypeName, String lang) {
+    public String getRequestLabelTranslation(String requestTypeName, String lang, 
+            boolean fullDesc) {
 
+        String wantedSource = 
+            fullDesc ? "http://www.cg95.fr/cvq/schema/longdesc" : "http://www.cg95.fr/cvq/schema/shortdesc" ;
+        
         String requestTypeShortName = requestTypeName.substring(requestTypeName.lastIndexOf('.') + 1);
         SchemaType schemaType = getSchemaTypeFromRequestLabel(requestTypeName);
         SchemaTypeSystem schemaTypeSystem = schemaType.getTypeSystem();
@@ -321,8 +325,7 @@ public class LocalizationService implements ILocalizationService {
                             foundLang = true;
                         }
                         if (xc.getName().getLocalPart().equals("source")
-                                && xc.getTextValue().equals(
-                                        "http://www.cg95.fr/cvq/schema/longdesc")) {
+                                && xc.getTextValue().equals(wantedSource)) {
                             foundSource = true;
                         }
 

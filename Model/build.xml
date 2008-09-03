@@ -334,17 +334,19 @@
 				<fileset dir="${basedir}/${build.test.dir}">
 				    <!-- <include name="**/CapdematTestSuite.class"/> -->
 				    <!-- include name="**/*Test.class" /-->
-				  <!--include name="**/RequestServiceTest.class" /-->
-				  
-				  <include name="**/TechnicalInterventionRequestServiceTest.class" />
-				  <include name="**/HolidaySecurityRequestServiceTest.class" />
+				  <include name="**/RequestServiceTest.class" />
+				  <include name="**/CategoryServiceTest.class" />
+				  <include name="**/AgentServiceTest.class" />
+				                    
+				  <!--include name="**/TechnicalInterventionRequestServiceTest.class" /-->
+				  <!--include name="**/HolidaySecurityRequestServiceTest.class" /-->
 
 					<!-- not maintained any more -->
 					<exclude name="**/VacationsRegistrationRequestServiceTest.class" />
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />
 					<!-- required an LDAP directory -->
-					<exclude name="**/AgentServiceTest.class" />
+					<!-- exclude name="**/AgentServiceTest.class" / -->
 				</fileset>
 				<!-- Plugins unit tests -->
 				<!--

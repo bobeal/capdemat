@@ -62,7 +62,7 @@ public final class RequestCreationNotificationJob {
                     .append("Voici la liste des derniers télé-services créés :\n");
                 for (Request request : requestList) {
                     String requestTypeLabel = 
-                        localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr");
+                        localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false);
                     body.append("\t").append(requestTypeLabel).append(" : ")
                         .append(request.getId()).append("\n");
                 }

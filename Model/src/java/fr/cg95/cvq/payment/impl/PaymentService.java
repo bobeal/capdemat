@@ -94,6 +94,8 @@ public final class PaymentService implements IPaymentService {
         String broker = getBrokerForPurchaseItem(purchaseItem, payment.getPaymentMode());
         if (broker == null || broker.equals(""))
             throw new CvqInvalidBrokerException("payment.missing_broker");
+        if (payment.getBroker().equals(""))
+            payment.setBroker(broker);
         else if (!broker.equals(payment.getBroker()))
             throw new CvqInvalidBrokerException("payment.incompatible_broker");
 
@@ -246,13 +248,35 @@ public final class PaymentService implements IPaymentService {
     public List<Payment> get(final Date from, final Date to, final String dateType, 
             final PaymentState paymentState, final String cvqReference, final String bankReference,
             final String broker, final Long homeFolderId, final String lastName) {
+       
         if (dateType == null || dateType.equals(DATE_TYPE_COMMIT)) {
             return paymentDAO.search(null, null, from, to, paymentState, cvqReference, 
-                    bankReference, broker, homeFolderId, lastName);
+                    bankReference, broker, homeFolderId, lastName, null, null, -1, 0);
         } else {
             return paymentDAO.search(from, to, null, null, paymentState, cvqReference, 
-                    bankReference, broker, homeFolderId, lastName);
+                    bankReference, broker, homeFolderId, lastName, null, null, -1, 0);
         }
+    }
+
+    public List<Payment> extendedGet(Date initDateFrom, Date initDateTo, Date commitDateFrom,
+            Date commitDateTo, PaymentState paymentState, String cvqReference,
+            String bankReference, String broker, Long homeFolderId, String requesterLastName,
+            String sort, String dir, int recordsReturned, int startIndex) {
+        
+        List search = paymentDAO.search(initDateFrom, initDateTo, commitDateFrom,commitDateTo, 
+                paymentState, cvqReference, bankReference, broker, homeFolderId, requesterLastName,
+                sort, dir, recordsReturned, startIndex);
+        return search;
+    }
+
+    public long getPaymentCount(Date initDateFrom, Date initDateTo, Date commitDateFrom,
+            Date commitDateTo, PaymentState paymentState, String cvqReference,
+            String bankReference, String broker, Long homeFolderId,
+            String requesterLastName) throws CvqException {
+
+            return paymentDAO.count(initDateFrom, initDateTo, commitDateFrom, commitDateTo,
+                    paymentState, cvqReference, bankReference, broker, homeFolderId, 
+                    requesterLastName);
     }
 
     public void delete(Long id) throws CvqException, CvqObjectNotFoundException {
@@ -305,6 +329,7 @@ public final class PaymentService implements IPaymentService {
     /**
      * Find the broker associated with the given item according to its type and to the given
      * payment mode.
+     * TODO : to be validated
      */
     private String getBrokerForPurchaseItem(PurchaseItem purchaseItem, PaymentMode paymentMode) 
         throws CvqInvalidBrokerException, CvqModelException{

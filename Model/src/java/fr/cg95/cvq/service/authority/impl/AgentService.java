@@ -16,6 +16,7 @@ import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.authority.RequestType;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.users.Request;
@@ -70,17 +71,99 @@ public final class AgentService implements IAgentService {
 		}
 	}
 
-    public Set<Agent> getAll()
+    public void delete(final String agentLogin)
+        throws CvqException {
+        
+        Agent agent = agentDAO.findByLogin(agentLogin);
+        if (agent != null)
+            agentDAO.delete(agent);
+    }
+
+    public Set<Agent> get(final Set criteriaSet)
         throws CvqException {
 
         List<Agent> agents = null;
-        agents = agentDAO.listAll();
+        agents = agentDAO.search(criteriaSet);
         for (Agent agent : agents)
         	feedWithLdapData(agent);
 
         return new LinkedHashSet<Agent>(agents);
     }
 
+    public Set<Agent> getAll()
+        throws CvqException {
+
+        List<Agent> agents = null;
+        try {
+            agents = agentDAO.listAll();
+        } catch (RuntimeException e) {
+            throw new CvqException("Could not list agents " + e.getMessage());
+        }
+
+        for (Agent agent : agents) {
+        	feedWithLdapData(agent);
+        }
+
+        return new LinkedHashSet<Agent>(agents);
+    }
+
+    public Map<String, List> extendedGetAgentTasks(final String agentLogin,final String sort, final String dir, 
+            final int recordsReturned, final int startIndex)
+    throws CvqException {
+
+        logger.debug("extendedGetAgentTasks()");
+        
+        Map<String, List> resultMap = new LinkedHashMap<String,List>();
+       
+        Agent agent = getByLogin(agentLogin);
+        Set agentCategoryRoles = agent.getCategoriesRoles();
+        if (agentCategoryRoles == null || agentCategoryRoles.size() == 0)
+            return null;
+        Iterator agentCategorysIt = agentCategoryRoles.iterator();
+        StringBuffer sb = new StringBuffer();
+        while (agentCategorysIt.hasNext()) {
+            CategoryRoles categoryRoles = (CategoryRoles) agentCategorysIt.next();
+            if (sb.length() > 0)
+                sb.append(",");
+            sb.append("'")
+                .append(categoryRoles.getCategory().getId())
+                .append("'");
+        }
+        Critere categoryCrit = new Critere();
+        categoryCrit.setAttribut("belongsToCategory");
+        categoryCrit.setComparatif(Critere.EQUALS);
+        categoryCrit.setValue(sb.toString());
+
+        Critere stateCrit = new Critere();
+        stateCrit.setAttribut("state");
+        stateCrit.setComparatif(Critere.EQUALS);
+        stateCrit.setValue(RequestState.PENDING);
+
+        // search new requests
+        Set<Critere> criteriaSet = new HashSet<Critere>();
+        criteriaSet.add(categoryCrit);
+        criteriaSet.add(stateCrit);
+        List requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
+        resultMap.put(TASKS_PENDING, requestList);
+
+        //search in-progress requests
+        RequestState states[] = requestService.getPossibleTransitions(RequestState.PENDING);
+        List tempList = new ArrayList();        
+        for (int i = 0; i < states.length; i++) {
+            stateCrit.setValue(states[i]);
+            requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
+            tempList.addAll(requestList);
+        }
+        resultMap.put(TASKS_OPEN,tempList);
+        
+        // search validated requests
+        stateCrit.setValue(RequestState.VALIDATED);
+        requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
+        resultMap.put(TASKS_VALIDATED, requestList);
+        
+        return resultMap;
+        }
+    
     public Map<String, Long> getAgentTasks(final String agentLogin)
         throws CvqException {
 
@@ -96,13 +179,11 @@ public final class AgentService implements IAgentService {
         StringBuffer sb = new StringBuffer();
         while (agentCategorysIt.hasNext()) {
             CategoryRoles categoryRoles = (CategoryRoles) agentCategorysIt.next();
-            if (!categoryRoles.getProfile().equals(CategoryProfile.NONE)) {
-                if (sb.length() > 0)
-                    sb.append(",");
-                sb.append("'")
-                    .append(categoryRoles.getCategory().getId())
-                    .append("'");
-            }
+            if (sb.length() > 0)
+                sb.append(",");
+            sb.append("'")
+                .append(categoryRoles.getCategory().getId())
+                .append("'");
         }
         Critere categoryCrit = new Critere();
         categoryCrit.setAttribut("belongsToCategory");
@@ -145,6 +226,10 @@ public final class AgentService implements IAgentService {
     public Agent getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
+        if (id.longValue() == -1) {
+            return null;
+        }
+        
         Agent agent = null;
         agent = (Agent) agentDAO.findById(Agent.class, id, PrivilegeDescriptor.READ);
         feedWithLdapData(agent);
@@ -175,6 +260,20 @@ public final class AgentService implements IAgentService {
     	}
     }
 
+    public Set<Agent> getAuthorizedForCategory(Long categoryId) throws CvqException {
+        
+        Critere critere = new Critere();
+        critere.setAttribut(SEARCH_BY_CATEGORY_ID);
+        critere.setComparatif(Critere.EQUALS);
+        critere.setValue(categoryId);
+        
+        Set<Critere> critereSet = new HashSet<Critere>();
+        critereSet.add(critere);
+
+        List results = agentDAO.search(critereSet);
+        return new LinkedHashSet<Agent>(results);
+    }
+
     public void modifyRights(final Long agentId, final Map categoriesProfiles)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -203,6 +302,112 @@ public final class AgentService implements IAgentService {
         logger.debug("Modified agent : " + agent.getId());
     }
 
+    public void setCategoryProfile(final Long agentId, final Long categoryId, 
+            final CategoryProfile categoryProfile) throws CvqException {
+
+        if (agentId == null)
+            throw new CvqException("No agent id provided");
+        Agent agent = getById(agentId);
+        if (agent == null)
+            throw new CvqObjectNotFoundException("Agent with id " + agentId + " not found");
+        
+        if (agent.getCategoriesRoles() == null)
+            agent.setCategoriesRoles(new HashSet<CategoryRoles>());
+
+        Iterator categoriesRolesIt = agent.getCategoriesRoles().iterator();
+        if (categoryProfile == null) {
+            // setting profile to NONE means we're unassociating agent from a category
+            Set<CategoryRoles> newCategoryRoles = new HashSet<CategoryRoles>();
+            while (categoriesRolesIt.hasNext()) {
+                CategoryRoles categoryRoles = (CategoryRoles) categoriesRolesIt.next();
+                if (!categoryRoles.getCategory().getId().equals(categoryId)) {
+                    newCategoryRoles.add(categoryRoles);
+                }
+            }
+            agent.setCategoriesRoles(newCategoryRoles);
+        } else {
+            boolean foundCategoryRole = false;
+            while (categoriesRolesIt.hasNext()) {
+                CategoryRoles categoryRoles = (CategoryRoles) categoriesRolesIt.next();
+                if (categoryRoles.getCategory().getId().equals(categoryId)) {
+                    // found an existing role for this category, just update the profile 
+                    categoryRoles.setProfile(categoryProfile);
+                    foundCategoryRole = true;
+                    break;
+                }
+            }
+
+            if (!foundCategoryRole) {
+                // did not found an existing profile for this category, create one
+                CategoryRoles categoryRoles = new CategoryRoles();
+                categoryRoles.setAgent(agent);
+                categoryRoles.setCategory((Category) categoryDAO.findById(Category.class, categoryId));
+                categoryRoles.setProfile(categoryProfile);
+                agent.getCategoriesRoles().add(categoryRoles);
+            }
+        }
+        
+        agentDAO.update(agent);
+        logger.debug("Modified agent : " + agent.getId());
+    }
+
+    public void addCategoryRole(final Long agentId, final  Long categoryId
+            , final CategoryProfile categoryProfile ) throws CvqException {
+        
+        if (agentId == null)
+            throw new CvqException("No agent id provided");
+        Agent agent = getById(agentId);
+        
+        CategoryRoles categoryRoles = new CategoryRoles();
+        categoryRoles.setAgent(agent);
+        categoryRoles.setCategory((Category) categoryDAO.findById(Category.class, categoryId));
+        categoryRoles.setProfile(categoryProfile);
+        agent.getCategoriesRoles().add(categoryRoles);
+    
+        agentDAO.update(agent);
+    }
+    
+    public void modifyCategoryRole(final Long agentId, final  Long categoryId
+            , final CategoryProfile categoryProfile ) throws CvqException {
+        
+        if (agentId == null)
+            throw new CvqException("No agent id provided");
+        Agent agent = getById(agentId);
+        
+        boolean foundCategoryRole = false;
+        Iterator categoriesRolesIt = agent.getCategoriesRoles().iterator();
+        while (categoriesRolesIt.hasNext()) {
+            CategoryRoles categoryRoles = (CategoryRoles) categoriesRolesIt.next();
+            if (categoryRoles.getCategory().getId().equals(categoryId)) {
+                categoryRoles.setProfile(categoryProfile);
+                foundCategoryRole = true;
+                break;
+            }
+        }
+        if (foundCategoryRole)
+            agentDAO.update(agent);
+    }
+    
+    public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException {
+        
+        if (agentId == null)
+            throw new CvqException("No agent id provided");
+        Agent agent = getById(agentId);
+        
+        boolean foundCategoryRole = false;
+        Iterator categoriesRolesIt = agent.getCategoriesRoles().iterator();
+        while (categoriesRolesIt.hasNext()) {
+            CategoryRoles categoryRoles = (CategoryRoles) categoriesRolesIt.next();
+            if (categoryRoles.getCategory().getId().equals(categoryId)) {
+                agent.getCategoriesRoles().remove(categoryRoles);
+                foundCategoryRole = true;
+                break;
+            }
+        }
+        if (foundCategoryRole)
+            agentDAO.update(agent);
+    }
+    
     public void modifyProfiles(Agent agent, final List newGroups, final List administratorGroups,
             final List agentGroups, final LocalAuthority localAuthority)
         throws CvqException {
@@ -285,6 +490,10 @@ public final class AgentService implements IAgentService {
 
     public void setRequestService(IRequestService requestService) {
         this.requestService = requestService;
+    }
+
+    public void setAgentDAO(IAgentDAO agentDAO) {
+        this.agentDAO = agentDAO;
     }
 }
 

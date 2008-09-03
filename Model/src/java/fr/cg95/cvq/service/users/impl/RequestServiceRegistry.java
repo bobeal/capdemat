@@ -23,6 +23,8 @@ import fr.cg95.cvq.dao.authority.IRequestTypeDAO;
 import fr.cg95.cvq.dao.users.IRequestFormDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.users.IRequestService;
@@ -85,6 +87,13 @@ public class RequestServiceRegistry
         }
 
         return null;
+    }
+
+    public IRequestService getRequestService(Long requestTypeId)
+        throws CvqPermissionException, CvqObjectNotFoundException {
+        RequestType requestType = 
+            (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
+        return getRequestService(requestType.getLabel());
     }
 
     public void registerService(IRequestService service, String label)

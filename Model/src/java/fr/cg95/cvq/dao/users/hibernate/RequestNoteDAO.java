@@ -1,7 +1,10 @@
 package fr.cg95.cvq.dao.users.hibernate;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+
 import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.business.users.RequestNote;
 import fr.cg95.cvq.business.users.RequestNoteType;
@@ -39,6 +42,21 @@ public class RequestNoteDAO extends GenericDAO implements IRequestNoteDAO {
 
         crit.addOrder(Order.asc("id"));
         return (RequestNote) crit.uniqueResult();
+    }
+
+    public List listByRequest(final Long requestId) throws CvqPermissionException {
+
+        // check user has read access on associated request
+        Request request = null;
+        request = (Request) HibernateUtil.getSession().load(Request.class, requestId);
+        
+        cvqPolicy.check(request, PrivilegeDescriptor.READ);
+
+        Criteria crit = HibernateUtil.getSession().createCriteria(RequestNote.class);
+        crit.createCriteria("request").add(Critere.compose("id", requestId, Critere.EQUALS));
+
+        crit.addOrder(Order.asc("id"));
+        return crit.list();
     }
 
     public Long create(final Object object) throws CvqPermissionException {

@@ -221,6 +221,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="requestStatisticsService" class="fr.cg95.cvq.service.users.impl.RequestStatisticsService">
     <property name="requestDAO" ref="requestDAO"/>
+    <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="categoryService" ref="categoryService" />
   </bean>
 

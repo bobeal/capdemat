@@ -1,9 +1,14 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
@@ -11,6 +16,9 @@ import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
+import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.users.RequestState;
+import fr.cg95.cvq.dao.authority.IRequestTypeDAO;
 import fr.cg95.cvq.dao.users.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.permission.CvqPermissionException;
@@ -22,7 +30,7 @@ import fr.cg95.cvq.service.users.IRequestStatisticsService;
 import fr.cg95.cvq.util.Critere;
 
 /**
- * Implementation of the {@link IRequestStatisticsService statistics service}.
+ * This class provides statistics about requests.
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
@@ -32,6 +40,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     
     private IRequestDAO requestDAO;
     private ICategoryService categoryService;
+    private IRequestTypeDAO requestTypeDAO;
     
     public RequestStatisticsService() {
         super();
@@ -86,63 +95,145 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         return requestDAO.count(criteriaSet);
     }
 
-    public Long getCountByQuality(final Date startDate, final Date endDate, 
-            final String qualityType, final String requestTypeLabel, final String categoryName) 
-        throws CvqException {
+    public Map<Date, Long> getDetailedStats(final Timescale timescale, final Lifecycle lifecycle, 
+            final Long requestTypeId, final Long categoryId) {
 
-        checkAgentRights();
+        Map<Date, Long> results = new TreeMap<Date, Long>();
+
+        String[] resultingState = getStatesFromLifecycle(lifecycle);
+     
+        List<Date> searchDates = getNextSearchEndDate(timescale, null);
+        while (searchDates != null) {
+            logger.debug("getDetailedStats() searching between " + searchDates.get(0)
+                    + " and " + searchDates.get(1));
+            Long count = requestDAO.countByResultingState(resultingState, searchDates.get(0), 
+                    searchDates.get(1), requestTypeId, categoryId);
+            logger.debug("getDetailedStats() adding " + count
+                    + " to date " + searchDates.get(0));            
+            results.put(searchDates.get(0), count);
+            searchDates = getNextSearchEndDate(timescale, searchDates.get(1));
+        }
+        
+        return results;
+    }
+
+    public Map<RequestType, Long> getSummarizedStats(final Timescale timescale, 
+            final Lifecycle lifecycle, final Long requestTypeId, final Long categoryId) {
+
+        Map<RequestType, Long> results = new HashMap<RequestType, Long>();
+
+        String[] resultingState = getStatesFromLifecycle(lifecycle);        
+        List<Date> searchDates = getNextSearchEndDate(timescale, null);
+        
+        Date now = new Date();
+
+        if (requestTypeId == null && categoryId == null) {
+            List<RequestType> requestTypes = requestTypeDAO.listAll();
+            for (RequestType requestType : requestTypes) {
+                Long count = requestDAO.countByResultingState(resultingState, searchDates.get(0), 
+                        now, requestType.getId(), null);
+                results.put(requestType, count);                
+            }
+        }
+        
+        return results;
+    }
+
+    public Map<String, Long> getQualityStats(final Timescale timescale, final Long requestTypeId, 
+            final Long categoryId) {
+
+        Map<String, Long> results = new HashMap<String, Long>();
         
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        if (!lacb.getInstructionAlertsEnabled().booleanValue())
-            return new Long(0);
+        if (!lacb.getInstructionAlertsEnabled())
+            return null;
+        
+        List<Date> searchDates = getNextSearchEndDate(timescale, null);
             
-        Agent agent = SecurityContext.getCurrentAgent();
+        Date now = new Date();
         
-        if (categoryName != null && !categoryName.equals("")) {
-            if (categoryService.hasManagerProfileOnCategory(agent, categoryName)) {
-                List<String> categoriesNames = new ArrayList<String>();
-                categoriesNames.add(categoryName);
-                return requestDAO.countByQuality(startDate, endDate, lacb.getInstructionDoneStates(),
-                        qualityType, requestTypeLabel, categoriesNames);
-            } else {
-                logger.debug("getCountByQuality() user has no MANAGER profile on category "
-                        + categoryName);
-                return new Long(0);
-            }
-        } else {
-            return requestDAO.countByQuality(startDate, endDate, lacb.getInstructionDoneStates(),
-                    qualityType, requestTypeLabel, getCategoriesWithManagerProfile(agent));
-        }
+        Long count = requestDAO.countByQuality(searchDates.get(0), now, 
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, categoryId);
+        results.put(QUALITY_TYPE_OK, count);
+        // (startDate, endDate, resultingStates, qualityType, requestTypeLabel, categoriesNames)
+        count = requestDAO.countByQuality(searchDates.get(0), now, 
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_ORANGE, requestTypeId, categoryId);
+        results.put(QUALITY_TYPE_ORANGE, count);
+        
+        count = requestDAO.countByQuality(searchDates.get(0), now, 
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_RED, requestTypeId, categoryId);
+        results.put(QUALITY_TYPE_RED, count);
+        
+        return results;
     }
 
-    public Long getCountByResultingState(final String resultingState, 
-            final Date startDate, final Date endDate, final String requestTypeLabel, 
-            final String categoryName) 
-        throws CvqException {
-
-        checkAgentRights();
+    /**
+     * Compute the next search period according to a timescale and start date.
+     * 
+     * @return a list containing a start and end date or null if no more dates
+     */
+    private List<Date> getNextSearchEndDate(final Timescale timescale, Date startDate) {
         
-        Agent agent = SecurityContext.getCurrentAgent();
+        logger.debug("getNextSearchEndDate() computing date for timescale "
+                + timescale + " and date " + startDate);
         
-        if (categoryName != null && !categoryName.equals("")) {
-            if (categoryService.hasManagerProfileOnCategory(agent, categoryName)) {
-                List<String> categoriesNames = new ArrayList<String>();
-                categoriesNames.add(categoryName);
-                return requestDAO.countByResultingState(resultingState, startDate, endDate, 
-                        requestTypeLabel, categoriesNames);
-            } else {
-                logger.debug("getCountByResultingState() user has no MANAGER profile on category "
-                        + categoryName);
-                return new Long(0);
+        Calendar calendar = new GregorianCalendar();
+        if (startDate == null) {
+            startDate = new Date();
+            calendar.setTime(startDate);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            switch(timescale) {
+                case MONTH : calendar.add(Calendar.MONTH, -1);break;
+                case WEEK : calendar.add(Calendar.DAY_OF_YEAR, -7);break;
+                case YEAR : calendar.add(Calendar.MONTH, -12);break;
             }
         } else {
-            return requestDAO.countByResultingState(resultingState, startDate, endDate, 
-                    requestTypeLabel, getCategoriesWithManagerProfile(agent));
+            calendar.setTime(startDate);
+        }
+        
+        List<Date> results = new ArrayList<Date>();
+        results.add(calendar.getTime());
+        Date now = new Date();
+        if (timescale.equals(Timescale.MONTH) || timescale.equals(Timescale.WEEK)) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            if (calendar.getTime().after(now))
+                return null;
+            results.add(calendar.getTime());
+            return results;
+        } else if (timescale.equals(Timescale.YEAR)) {
+            calendar.add(Calendar.MONTH, 1);
+            if (calendar.getTime().after(now))
+                return null;
+            results.add(calendar.getTime());
+            return results;
+        } else {
+            return null;
         }
     }
-
-	public void setRequestDAO(IRequestDAO requestDAO) {
+    
+    private String[] getStatesFromLifecycle(final Lifecycle lifecycle) {
+        String[] resultingState = null;
+        if (lifecycle.equals(Lifecycle.CREATED)) {
+            resultingState = new String[] { RequestState.PENDING.toString() };
+        } else {
+            resultingState = new String[] { 
+                    RequestState.CANCELLED.toString(),
+                    RequestState.REJECTED.toString(),
+                    RequestState.VALIDATED.toString()
+            };
+        }
+        
+        return resultingState;
+    }
+    
+    public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
+    }
+
+    public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
+        this.requestTypeDAO = requestTypeDAO;
     }
 
     public void setCategoryService(ICategoryService categoryService) {

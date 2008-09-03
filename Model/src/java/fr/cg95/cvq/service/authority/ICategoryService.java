@@ -45,12 +45,24 @@ public interface ICategoryService {
         throws CvqException;
     
     /**
-     * Create a category and optionally associate it with some requests types to deal with.
-     * 
-     * @throws CvqModelException if no category provided or if a category with the same name
-     *      name already exists.
+     * Add a request type to the given category.
      */
-    Long create(final Category category, final Set<Long> requestTypesId)
+    Category addRequestType(final Long categoryId, final Long requestTypeId) 
+        throws CvqException;
+    
+    /**
+     * Remove a request type from the given category.
+     */
+    Category removeRequestType(final Long categoryId, final Long requestTypeId) 
+        throws CvqException;
+    
+    /**
+     * Create a category.
+     * 
+     * @throws CvqModelException if a category with the same name already exists
+     * @throws CvqException if an unexpected error happens
+     */
+    Long create(final Category category)
         throws CvqException, CvqModelException;
 
     void modify(final Category category)

@@ -72,10 +72,8 @@ public class CategoryService implements ICategoryService {
         // else only return those categories it has a role on
         List<Category> results = new ArrayList<Category>();        
         Set<CategoryRoles> agentCategoriesRoles = agent.getCategoriesRoles();
-        for (CategoryRoles categoryRole : agentCategoriesRoles) {
-            if (!categoryRole.getProfile().equals(CategoryProfile.NONE))
+        for (CategoryRoles categoryRole : agentCategoriesRoles)
                 results.add(categoryRole.getCategory());
-        }
 
         return results;
     }
@@ -92,32 +90,20 @@ public class CategoryService implements ICategoryService {
         return results;
     }
 
-    public Long create(final Category category, final Set<Long> requestTypesId)
-        throws CvqException, CvqModelException {
+    public Long create(final Category category)
+        throws CvqException {
 
         if (category == null)
-            throw new CvqException("No category object provided !");
+            throw new CvqException("No Category object provided !");
 
         // check there is not yet a category with the same name
         if (getByName(category.getName()) != null) {
             logger.error("create() there is already a category with name : " + category.getName());
             throw new CvqModelException();
         }
-        
-        // retrieve the request types and create the associations
-        if (requestTypesId != null) {
-            Set<RequestType> rtSet = new HashSet<RequestType>();
-            for (Long rtId : requestTypesId) {
-                RequestType requestType = 
-                    (RequestType) requestTypeDAO.findById(RequestType.class, rtId);
-                requestType.setCategory(category);
-                rtSet.add(requestType);
-            }
-            category.setRequestTypes(rtSet);
-        }
-        
+
         Long categoryId = categoryDAO.create(category);
-        
+
         logger.debug("create() created category object with id : " + categoryId);
 
         return categoryId;
@@ -166,6 +152,10 @@ public class CategoryService implements ICategoryService {
         categoryDAO.delete(category);
     }
 
+    /**
+     * @deprecated
+     * @see methods addRequestType and removeRequestType
+     */
     public void updateCategoryRequestsAssociation(final Long categoryId,
             final Set<Long> requestTypesId)
         throws CvqException {
@@ -201,8 +191,7 @@ public class CategoryService implements ICategoryService {
 
         Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
         for (CategoryRoles categoryRole : agentCategoryRoles) {
-            if (categoryRole.getCategory().getName().equals(categoryName)
-                    && !categoryRole.getProfile().equals(CategoryProfile.NONE))
+            if (categoryRole.getCategory().getName().equals(categoryName))
                     return true;
         }
         
@@ -220,6 +209,36 @@ public class CategoryService implements ICategoryService {
         }
         
         return false;
+    }
+
+    public Category addRequestType(Long categoryId, Long requestTypeId) throws CvqException {
+
+        Category category = 
+            (Category) categoryDAO.findById(Category.class, categoryId, 
+                    PrivilegeDescriptor.READ);
+        RequestType requestType = 
+            (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
+        requestType.setCategory(category);
+        if (category.getRequestTypes() == null)
+            category.setRequestTypes(new HashSet<RequestType>());
+        category.getRequestTypes().add(requestType);
+
+        categoryDAO.update(category);
+        return category;
+   }
+
+    public Category removeRequestType(Long categoryId, Long requestTypeId) throws CvqException {
+
+        Category category = 
+            (Category) categoryDAO.findById(Category.class, categoryId, 
+                    PrivilegeDescriptor.READ);
+        RequestType requestType = 
+            (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
+        requestType.setCategory(null);
+        category.getRequestTypes().remove(requestType);
+
+        categoryDAO.update(category);
+        return category;
     }
 
     public void setCategoryDAO(ICategoryDAO categoryDAO) {

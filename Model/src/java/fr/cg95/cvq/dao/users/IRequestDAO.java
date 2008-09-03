@@ -31,20 +31,21 @@ public interface IRequestDAO extends IGenericDAO {
     Long count(final Set criteria);
 
     Long countByQuality(final Date startDate, final Date endDate, final List resultingStates,
-    		final String qualityType, final String requestTypeLabel, final List<String> categoriesNames);
+    		final String qualityType, final Long requestTypeId, final Long categoryId);
     
-    Long countByResultingState(final String resultingState, final Date startDate, final Date endDate, 
-            final String requestTypeLabel, final List<String> categoriesNames);
-    
+    Long countByResultingState(final String[] resultingState, final Date startDate, final Date endDate, 
+            final Long requestTypeId, final Long categoryId);
+
     /**
      * Return the list of requests that match the given ids.
      */
     List listByIds(final Long[] ids);
     
     /**
-     * Return the list of all known requests.
+     * @deprecated kept for compatibility with existing Back Office
      */
-    List listAll();
+    Long oldCountByResultingState(final String[] resultingState, final Date startDate, final Date endDate, 
+            final Long requestTypeId, final Long categoryId);
 
     /**
      * Return the list of all requests whose requester has the given id.

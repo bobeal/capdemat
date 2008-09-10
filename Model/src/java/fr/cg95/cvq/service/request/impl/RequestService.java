@@ -30,6 +30,7 @@ import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
@@ -53,6 +54,8 @@ import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
+import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
+import fr.cg95.cvq.dao.document.hibernate.DocumentTypeDAO;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
@@ -116,6 +119,7 @@ public abstract class RequestService implements IRequestService {
     protected IRequestTypeDAO requestTypeDAO;
     protected IRequestNoteDAO requestNoteDAO;
     protected IDocumentDAO documentDAO;
+    protected IDocumentTypeDAO documentTypeDAO;
     protected IRequestActionDAO requestActionDAO;
     protected IRequestFormDAO requestFormDAO;
 

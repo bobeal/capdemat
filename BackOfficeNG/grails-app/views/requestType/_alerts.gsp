@@ -1,0 +1,33 @@
+<div id="requestTypeAlertsConfiguration">
+  <h2><g:message code="requestType.configuration.alerts" /></h2>
+  <div id="requestTypeAlertsMessages"></div>
+  <form class="edit" method="POST" id="requestTypeAlertsForm" action="<g:createLink action="saveAlerts" />">
+    <div class="error" id="dialogRequestTypeAlertsFormError"></div>
+    <label for="instructionMaxDelay">
+      <g:message code="requestType.property.instructionMaxDelay" /> :
+      <span>
+        (<g:message code="message.defaultValue" /> 
+        : ${instructionDefaultMaxDelay} <g:message code="property.days" /> )
+      </span>
+    </label>
+    <input type="text" name="instructionMaxDelay" value="${requestType?.instructionMaxDelay}"
+        class="validate-number" size="3"
+        title="<g:message code='requestType.message.instructionMaxDelayIsNumber'/>"/>
+    <br/>
+    <label for="instructionAlertDelay">
+      <g:message code="requestType.property.instructionAlertDelay" /> :
+      <span>
+        (<g:message code="message.defaultValue" />
+        : ${instructionDefaultAlertDelay} <g:message code="property.days" />)
+      </span>
+    </label>
+    <input type="text" name="instructionAlertDelay" value="${requestType?.instructionAlertDelay}"
+        class="validate-number" size="3"
+        title="<g:message code='requestType.message.instructionAlertDelayIsNumber'/>"/>
+    <div class="form-button">
+        <input type="button" id="submitSaveRequestTypeAlerts" 
+            name="submitSaveRequestTypeAlerts" value="<g:message code="action.save" />" />
+      </div>
+  </form>
+</div>
+

@@ -1,0 +1,17 @@
+/* --------------------------------------------------------------
+
+    panels
+    TODO - redo !
+    
+---------------------------------------------------------------*/
+
+
+.panel-header {
+	text-align: center;
+}
+
+.close-button-panel {
+	margin-top: 0.5em;
+	display: block;
+	text-align: center;
+}

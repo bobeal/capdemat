@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
-import fr.cg95.cvq.xml.users.HomeFolderModificationRequestDocument;
+import fr.cg95.cvq.xml.request.HomeFolderModificationRequestDocument;
 
 
 /**

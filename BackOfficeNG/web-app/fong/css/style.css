@@ -1,0 +1,425 @@
+/*--------------------------------------------------------------
+
+    layout.css
+    
+    color:
+      violet =      #c690bb
+      dark vilet =  #4c3848
+      grenn =       #A0D158
+      light green = #E6F5BD
+
+ -------------------------------------------------------------*/
+ 
+html {
+ background: #cccccc;
+ /*background: #bbbbbb url(../images/bk_html.jpg) repeat 0 0;*/
+}
+
+body {
+}
+
+.yui-t4 {
+ background: transparent; 
+}
+
+/* heder
+--------------------------------------------------------------*/
+#hd {
+}
+
+#hd h1 {
+ width: 250px;
+ position: absolute;
+ margin: .3em 0 0 0;
+ font-size: 3em;
+ font-weight: normal;
+ color: #4c3848;
+}
+
+#hd h1 span {
+ display: block;
+ padding: .1em 0 0 0;
+ font-size: .4em;
+}
+
+#hd #hd-menu {
+  display: block;
+  text-align: right;
+}
+
+
+
+/* main
+   TODO - Becareful to main border color
+--------------------------------------------------------------*/
+
+#bd {
+  border: 5px solid #4c3848;
+  background: #4c3848;
+  clear: both;
+}
+
+#bd-2 {
+  border: 1px solid #4c3848;
+  padding: 1em;
+  overflow: auto;
+}
+
+#bd-menu {
+  width: 392px;
+  display: block;
+  margin: 2.5em auto 0 auto;
+  font-size: 1.2em;
+  text-align: center;
+  background: transparent;
+}
+#bd-menu a {
+  width: 120px; height: 30px;
+  float: left;
+  margin: 0 0 1px 1px;
+  background: #c690bb;
+  border: 5px solid #c690bb;
+  -moz-border-radius: .5em .5em 0 0;
+  text-decoration: none;
+}
+#bd-menu a:hover,
+#bd-menu a.current {
+  border-color: #4c3848;
+  background: #4c3848 ;
+}
+
+#bd-menu a:first-child {
+ margin-left: 0;
+}
+
+#bd-menu a.current {
+  height: 35px;
+  position: relative;
+  top: 6px;
+  border-bottom:0;
+}
+
+#bd-menu a span {
+  width: 110px; height: 20px;
+  display: block;
+  padding: 5px;
+  -moz-border-radius: .5em .5em 0 0;
+  font-size: 0.85em;
+  font-weight: bold;
+  background: #c690bb;
+  
+  color: #ffffff;
+}
+
+#bd-menu a.current span,
+#bd-menu a:hover span {
+  border: 1px solid #4c3848;
+  background: #4c3848 ;
+}
+#bd-menu a.current span {
+  position: relative;
+  height: 25px;
+  border-bottom:0;
+}
+
+#main {
+/*  margin: 4em 0 0 2em;*/
+  padding-right: 1em;
+  background: transparent;
+}
+
+h2 {
+ margin: 0 0 .6em 0; 
+ padding:0;
+ font-size: 2em;
+ font-weight: normal;
+ color: #ffffff;
+}
+h2 span {
+  display: block;
+  line-height: 1.5em;
+  font-size: .5em;
+}
+
+h2 a#requestSubmit {
+  float: right;
+  padding: .3em .6em;
+  font-size: .9em;
+  -moz-border-radius: .5em;
+  border-right: 2px solid #000;
+  border-bottom: 1px solid #000;
+  text-decoration: none;
+  color: #000;
+  background: #666;
+}
+/* validated tag color */
+h2 a#requestSubmit:hover {
+  color: #fff;
+  background: #20AA20;
+}
+
+
+/* request form
+--------------------------------------------------------------*/
+#requestTabView h3 {
+ margin: 1em 0;
+ padding: 0 0 .5em 0;
+ font-size: 1.5em;
+ font-weight: normal;
+ border-bottom: 1px solid #A0D158;
+}
+#requestTabView h3 span {
+ display: block;
+ font-size: .75em;
+}
+
+#requestTabView h3 .tag-pending,
+#requestTabView h3 .tag-validated,
+#requestTabView h3 .tag-rejected {
+  float: right;
+}
+ 
+#requestTabView form {
+  min-height: 30em;
+  padding:  0 1.5em 1.5em 1.5em;
+  border: 1px solid /* #A0D158 */ #ffffff;
+/* background: #fff2fc;*/
+  background: #fff;
+}
+
+#requestTabView label {
+  display: block;
+  width: 80%;
+  font-size: 1.2em;
+  font-weight: normal;
+  font-style: normal;
+}
+#requestTabView label span {
+  font-size: 0.85em;
+  font-style: italic;
+  color: #333;
+}
+
+#requestTabView input,
+#requestTabView select,
+#requestTabView textarea {
+  width: 80%;
+  display: block;
+  margin: .1em 0 1em 0;
+  padding: .2em;
+  border: 1px solid #cdcdcd;
+  border-top-color: #7fa646;
+  font-size: 1.1em;
+  font-weight: normal;
+  color: #4e662b;
+}
+
+#requestTabView form ul{
+  width: 80%;
+  margin: .2em 0 1em 0;
+}
+#requestTabView form li {
+  padding: .2em 0;
+  list-style-type: none;
+}
+
+#requestTabView form  li label,
+#requestTabView form  li input[type="checkbox"],
+#requestTabView form  li input[type="radio"] {
+  display: inline;
+}
+
+#requestTabView form li input[type="checkbox"],
+#requestTabView form li input[type="radio"] {
+ margin-left: 1em;
+}
+
+#requestTabView input[type="submit"] {
+  width: auto;
+  margin: 2em auto 0 auto;
+  border: 1px solid #cccccc;
+  border-bottom-color: #7fa646;
+  border-right-color: #7fa646;
+  -moz-border-radius: .3em;
+  font-weight: bold;
+}
+#requestTabView input[type="submit"]:hover {
+  border: 1px solid #cdcdcd;
+  border-top-color: #7fa646;
+  border-left-color: #7fa646;
+  background: #fff;
+}
+
+#requestTabView fieldset {
+  padding: 1em 0 0 1em;
+  border-left: 3px solid #A0D158;
+}
+#requestTabView legend {
+  margin-top: 1em !important; 
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #7fa646;
+}
+
+.mandatoryField { background: #E6F5BD;}
+
+/* narrow
+--------------------------------------------------------------*/
+#narrow {
+/*  width: 16.4615em;*/
+/*  margin: 4em 2em 0 0;*/
+  background: transparent;
+  color: #ffffff;
+}
+
+.nobox h3 {
+   margin: 1em 0 .2em 0;
+   padding: 5px 0 0 0;
+   font-size: 1.3em;
+   font-weight: normal;
+   border-bottom: 2px solid #C690BB;
+/* background: #ffcff5;*/
+}
+
+.nobox ul {
+ margin: 0;
+ padding: 0;
+}
+
+.nobox li {
+ margin: 0;
+ padding: .5em 0;
+ font-size: .9em;
+ list-style-type: none;
+ border-bottom: 1px dashed #C690BB;
+}
+.nobox li:hover {
+  background: #ffcff5;
+  color: #000000;
+}
+
+
+/* footer
+--------------------------------------------------------------*/
+#ft {
+  padding: .5em;
+  text-align: right;
+}
+
+
+/* box 
+--------------------------------------------------------------*/
+/* request box */
+.requestBox {
+  margin: 0 0 1.5em 0;
+  color: #000000;
+}
+
+.requestBox h3 {
+ margin: 0 0 .2em 0;
+ padding: .7em .5em;
+ font-size: 1.1em;
+ -moz-border-radius: .5em .5em 0 0;
+ background: /* #A0D158 */ #c690bb;
+}
+
+.requestBox .body {
+  padding: .5em;
+  color: #000000;
+  background: #dddddd;
+}
+
+.requestBox .body select {
+  width: 100%;
+  display: block;
+  margin: .1em 0 1em 0;
+  padding: .2em;
+  border: 1px solid #cdcdcd;
+  border-top-color: #7fa646;
+  font-size: 1.1em;
+  font-weight: normal;
+  color: #4e662b;
+}
+
+.requestBox .body strong {
+  font-size: 1.2em;
+}
+
+.requestBox .body a {
+  display: block;
+  margin: .5em 0 0 0;
+  text-decoration: none;  
+}
+.requestBox .body a:hover {
+  text-decoration: underline;
+}
+
+.requestBox .body ul { margin: 0; padding: 0; }
+.requestBox .body li {
+  margin: 0;
+  padding: .5em 0;
+  list-style-type: none;
+  border-bottom: 1px dashed #7fa646;
+}
+.requestBox .body li a { display: inline; }
+
+/* help box */
+.helpBox {
+  margin: .2em 0 0 12em;
+  padding: 1em 1.5em;
+  background: #dddddd ;
+}
+
+.helpBox h3 {
+  margin: 0 0 .5em 0;
+  font-size: 1.6em;
+  font-weight: normal;
+  border-bottom: 1px solid #C690BB;
+}
+
+.helpBox dl {
+  margin: 0; padding: 0;
+  font-size: 1.1em;
+}
+.helpBox dt {
+  padding: .7em 0 0 0; 
+  font-weight: bold;
+}
+.helpBox dd {
+  margin: 0;
+  padding: 0 .2em .5em .2em;
+  border-bottom: 1px dashed #C690BB;
+}
+.helpBox  dd:hover {
+  background: #ffcff5;
+  color: #000000;
+}
+
+/* misc
+--------------------------------------------------------------*/
+.mandatory {
+  padding: 0 .5em;
+  color: #000000;
+  background: #C690BB;
+}
+
+/* navigation tab link TODO - improve integration */
+.navTab { height: 2em }
+.nextTab, .prevTab { color: #2020AA; }
+.nextTab { float: right; }
+.prevTab { float: left; }
+
+.nextTab:hover, .prevTab:hover { background: #2020AA; color:#ffffff; }
+
+
+/* messages (error , alertl, validation) */
+.message {
+ padding: 1em 0;
+ text-align: center;
+ font-size: 2em;
+ color: #ffffff;
+ background: #20aa20;
+}
+
+.hidden { display: none; }
+

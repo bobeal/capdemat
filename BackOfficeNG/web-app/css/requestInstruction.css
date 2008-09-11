@@ -1,0 +1,121 @@
+/* --------------------------------------------------------------
+
+    request intruction special styles
+
+-------------------------------------------------------------- */
+
+
+/* request instruction state tag
+-------------------------------------------------------------- */
+.taskstate .tag-pending,
+.taskstate .tag-validated,
+.taskstate .tag-rejected { float: right; margin: 0; }
+
+/* request instruction state list
+-------------------------------------------------------------- */
+.taskstate ul { margin: 0; padding: .5em 0 0 0; clear:both; }
+.taskstate ul li { padding: .2em; }
+
+/* request instruction data
+-------------------------------------------------------------- */
+/* yui tabview special rendering */
+.yui-skin-sam .yellow-yui-tabview .yui-content, 
+.yui-skin-sam .yellow-yui-tabview .yui-navset-top .yui-content { 
+  border-width: 1px 0 0 0;
+}
+
+/* definition list */
+#requestData dl {
+  margin : 10px;
+  overflow: auto;
+  border-bottom: 1px dashed #FFD053;
+  color: #333;
+}
+ 
+#requestData dl dt,
+#requestData dl dd {
+  width: 12.5em;
+  float: left;
+  margin: 0;
+  padding:.5em;
+  border-top: 1px dashed #FFD053;
+}
+#requestData dl dt { clear: both; }
+#requestData dl dd { font-weight: bold; }
+
+/* request attached document
+-------------------------------------------------------------- */
+#requestDocument {
+  margin: 0; 
+  border-bottom: 1px solid #FFD053;
+  background: #FFFFCC;
+}
+
+#requestDocument h2 { margin-top : 0; border-color: #FFD053; }
+  
+#requestDocument a       { color: #CC0000; text-decoration: none; }
+#requestDocument a:hover { color: #ffffff; background-color: #CC0000; }
+
+/*TODO - generalize this selector and rename it !! */
+#requestDocument .box-raduis {
+  margin: 0 20px 10px 20px;
+  padding: 5px;
+  border: 1px solid #cccccc;
+  border-right: 0;
+  border-bottom: 0;
+ -moz-border-radius: .5em;
+ -webkit-border-radius: .5em;
+  background-color: #ffffff;
+}
+
+/* request Information
+-------------------------------------------------------------- */
+#requestInformation { margin-top: 10px; }
+
+/* list */
+#requestInformation div div div ul { margin: 10px; color: #666;}
+#requestInformation div div div li { 
+  padding: .5em 0 .5em 0; 
+  border-bottom:1px dashed #C1CFE2;
+}
+
+/* form */
+#requestInformation div div div form { 
+  padding: .5em 0 .5em 0; 
+  border-bottom:1px dashed #C1CFE2;
+}
+
+#requestInformation div div div form label {
+  display:inline;
+  padding-left: 10px;
+  float:none;
+  font-weight: bold; 
+  color: #666;
+ }
+ 
+/* definition list (for homeFolder.individual) */
+#requestInformation dl {
+  margin : 10px 20px 10px 20px ;
+  padding: 5px;
+  border: 1px solid #cccccc;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background-color: #ffffff; 
+}
+
+#requestInformation dl dt {
+  float: left;
+  width: 10em;
+  font-weight: bold;
+  text-align :right;
+}
+
+#requestInformation dl dd {
+  border-left: 1px dashed #aaaaaa;
+  margin: 0 0 0 11em;
+  padding: 0 0 .5em .5em;
+  border-left: 1px dashed #aaaaaa;
+}
+

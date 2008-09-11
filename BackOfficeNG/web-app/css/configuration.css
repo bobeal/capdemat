@@ -1,0 +1,156 @@
+/* --------------------------------------------------------------
+
+    Configuration screen special style 
+    (category / requesType)
+    TODO
+      - refactor list managment
+      - rename this stylesheet
+
+-------------------------------------------------------------- */
+
+/* Overview configuration List
+-------------------------------------------------------------- */
+.overviewConfigurationList { margin: 2em; }
+
+.overviewConfigurationList li {
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px dashed #999999;
+}
+
+/* tags extension */
+.overviewConfigurationList li .tag-enable, 
+.overviewConfigurationList li .tag-disable {
+  float: right;
+  margin: .2em 0 0 0;
+}
+
+.overviewConfigurationList li h3 {
+  margin: 1em 0 .5em 0 !important;
+  padding: 0 !important;
+  font-size:1.4em !important;
+  style: color:blue !important;
+  border:0 !important;
+}
+.overviewConfigurationList li h3 span { font-size: 0.7em; }
+.overviewConfigurationList li div     { margin: 0 1em; line-height: 1.5em; }
+
+
+/* editable list
+-------------------------------------------------------------- */
+.editableList { padding: 0 5%; font-size: 1.1em;}
+
+.editableList li { 
+  padding: .45em 0;
+  border-bottom: 1px dashed #FFD053;
+  overflow: auto; /* hack for tag alignment */
+}
+.editableList li.notBelong { background: #ffffca;}
+.editableList li:hover     { background: #ffffff !important; }
+
+/* test */
+.editableList li.header    { background: #FFD053 !important; padding: .3em; list-style-type: none; }
+
+.editableList li a {
+  width: 16px; height: 16px;
+  float: right;
+  margin: 0 .3em;
+  cursor: pointer;
+}
+.editableList li a span            { display: none; }
+.editableList li a.associate       { background-image: url(../images/icons/associate.png); }
+.editableList li a.unassociate     { background-image: url(../images/icons/unassociate.png); }
+.editableList li a.editItem        { background-image: url(../images/icons/edit.png); }
+.editableList li a.currentEditItem { background-image: url(../images/icons/edit.png); cursor: default; }
+.editableList li a:hover           { background-color: transparent;}
+
+/* TODO : refactor agent category role tag alignment */ 
+.editableList li span.zzz { 
+  width: 35%;
+  float: left;
+}
+
+.editableList .category {
+  margin: 0 1em; 
+  font-size: 0.9em; 
+}
+
+/* editable list display switcher */
+.editableListSwithcher { padding: .5em 5%; text-align: right; }
+
+.editableListSwithcher a {
+  padding: 0 .3em; 
+  cursor: pointer;
+  text-decoration: underline;
+  color: #000000;
+}
+.editableListSwithcher a:hover { background: #FFD053; }
+
+.editableListSwithcher a.current {
+  font-size: 1.3em;
+  cursor:default;
+  text-decoration: none;
+  color: #444444;
+}
+.editableListSwithcher a.current:hover {
+  background: transparent;
+}
+
+/* tag extension */
+/*#categoryAgents li .tag-read_only, */
+/*#categoryAgents li .tag-read_write,*/
+/*#categoryAgents li .tag-manager { margin: 0 1em ; }*/
+
+/* creation cancel link*/
+#cancelCreateCategory a:hover { background: transparent; }
+
+/* inline editable list form */
+.form-list-edition {
+  margin: .5em 2em;
+  padding: .5em;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background: #fefefe;
+  border: 1px dashed #FFD053;
+  clear: both; /* hack for tag alignment */
+}
+.form-list-edition label { display: inline; width: auto; }
+.form-list-edition input { display: inline; width: auto; }
+.form-list-edition ul { margin: 0; }
+.form-list-edition ul li {
+  width: 20%;
+  float: left;
+  padding: .2em 0;
+  border: none;
+}
+
+.form-list-edition li .tag-read_only { color: #2020cc; border:none; background: transparent;}
+.form-list-edition li .tag-read_write { color: #ec7000; border:none; background: transparent; }
+.form-list-edition li .tag-manager { color: #aa00ff; border:none; background: transparent; }
+
+  
+ 
+/* second level menu styles
+   TODO - refactor this !
+-------------------------------------------------------------- */
+div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
+
+.second-level-menu li:hover,
+.second-level-menu li.selected { background-color: #dce6fb; }
+
+.second-level-menu li:hover    { cursor: pointer; }
+.second-level-menu li.selected { font-weight: bold; font-style: italic; }
+
+.second-level-menu-item { 
+  width: 90%;
+  display: block; 
+  float: left;
+	padding: 0;
+	text-align: left;
+}
+
+/*state (same green & red than tag) 
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.enabled { color: #20cc20; }
+.disabled { color: #cc2020; }
+

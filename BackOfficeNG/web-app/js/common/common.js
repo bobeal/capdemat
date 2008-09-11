@@ -1,0 +1,197 @@
+// declare the namespace for our application
+YAHOO.namespace("capdematBo");
+
+// used to format table colums that display active/inactive information
+// (eg for request types, agents, ...)
+function activeColumnFormatter(elCell, oRecord, oColumn, oData) {
+	var imgTag = ' <img src="' + YAHOO.capdematBo.imagesUrl + '/';        	
+    if (!oData) {
+		imgTag += 'disabled.png';
+    } else {
+		imgTag += 'enabled.png';
+    }
+    imgTag += '">';
+	elCell.innerHTML = imgTag;
+};
+
+// used to switch the visual look of a selected element in a list
+// item with the given id will be applied the given classname
+// other items with the given classname will set it removed
+// currently used by the main menu and the category menu
+function switchSelectedItemDisplay(itemId, className) {
+	// first, deselect any previously selected item
+	var elements = YAHOO.util.Dom.getElementsByClassName(className);
+	var i = 0;
+    for (i=0;i < elements.length; i++) {
+    	var element = elements[i];
+        YAHOO.util.Dom.removeClass(elements[i], className); 
+    }
+    // then add the class name to the newly selected item
+    var selectedItem = document.getElementById(itemId);
+    YAHOO.util.Dom.addClass(selectedItem, className); 
+}
+
+// used to refresh visually a row of a DataTable after a record update
+YAHOO.widget.DataTable.prototype.refreshRow = function(row) {
+	var $D = YAHOO.util.Dom;
+	$D.batch($D.getChildren(this.getTrEl(row)),this.formatCell,this,true);
+};
+
+var messagesAreaId = 'errorMessages';
+
+YAHOO.capdematBo.responseResultAnimation = function(hexaColor) {
+    YAHOO.capdematBo.responseResultAnimation.superclass.constructor.call(this,
+        messagesAreaId, 
+        {
+            backgroundColor: { to: hexaColor }
+        }, 2, YAHOO.util.Easing.easeOut
+    );
+};
+
+YAHOO.lang.extend(YAHOO.capdematBo.responseResultAnimation, YAHOO.util.ColorAnim);
+
+// generic method to display the result of an operation
+//
+// resultType can be one of :
+//   * unexpectedError
+//   * modelError
+//   * success
+var responseMessageAnimation;
+function displayResponseResult(resultType,message) {
+    var newCssClass;
+    var bgColor = '#FFFFFF';
+    if (resultType === 'unexpectedError' || resultType === 'modelError') {
+          errorMessageDialog = new YAHOO.capdematBo.errorMessageDialog(null, null, message);
+          // errorMessageDialog.setBody(confirmMessage);
+          errorMessageDialog.show();
+    } else if (resultType === 'success') {
+        newCssClass = 'success-top';
+        bgColor = '#DDFFDD';
+    
+        var divEl = new YAHOO.util.Element(messagesAreaId);
+        divEl.replaceClass('invisible', newCssClass);
+        
+        var el = document.getElementById(messagesAreaId);
+        el.innerHTML = message;
+        
+        responseMessageAnimation = new YAHOO.capdematBo.responseResultAnimation(bgColor);
+        
+        // TODO : customize animation according to type of error
+        // errorMessageAnimation.duration = 1;
+        // errorMessageAnimation.method = YAHOO.util.Easing.easeOut;
+        responseMessageAnimation.animate();
+    }
+}
+
+// used to display unexpected (and unhandled) errors
+function handleUnexpectedError(o) {
+    var errorBody = o.statusText + ' (' + o.status + ')';
+    displayResponseResult('unexpectedError', errorBody);
+}
+
+function validateAndFilterResponse(o) {
+    var response = YAHOO.lang.JSON.parse(o.responseText);
+    if (response.status === 'error') {
+        displayResponseResult('modelError', response.error_msg);
+        return false;
+    }
+    
+    return true;        
+};
+
+// issue an AJAX call based on YUI Connection component
+function doAjaxCall(callUrl,successCallback,successCallbackArgs) {
+    var callback = {
+        failure: handleUnexpectedError
+    };
+    if (successCallback)
+        callback.success = successCallback;
+    if (successCallbackArgs)
+        callback.argument = successCallbackArgs;
+    var url = YAHOO.capdematBo.baseUrl + callUrl;
+    var transaction = YAHOO.util.Connect.asyncRequest('GET', url, callback, null);
+}
+
+// issue an AJAX form submit call based on YUI Connection component
+function doAjaxFormSubmitCall(successCallback,successCallbackArgs,formId,withFileUpload) {
+    var formElement = new YAHOO.util.Element(formId);
+    // to retrieve form values
+    if (withFileUpload)
+        YAHOO.util.Connect.setForm(document.getElementById(formId), true);
+    else
+        YAHOO.util.Connect.setForm(document.getElementById(formId));    
+    var callback = {
+        failure: handleUnexpectedError
+    };
+    if (successCallback)
+        callback.success = successCallback;
+    if (successCallbackArgs)
+        callback.argument = successCallbackArgs;
+    var url = formElement.get('action');
+    var transaction = YAHOO.util.Connect.asyncRequest('POST', url, callback, null);
+}
+
+function collectSearchFormValues(formId) {
+	var queryUrl = '';
+	var nodes = YAHOO.util.Selector.query('input', formId);
+	for (i=0; i < nodes.length; i++) {
+		if (nodes[i].value && nodes[i].value != '')
+			queryUrl += nodes[i].id + "=" + nodes[i].value + "&";
+	}
+	nodes = YAHOO.util.Selector.query('select', formId);
+	for (i=0; i < nodes.length; i++) {
+		if (nodes[i].value && nodes[i].value != '')
+			queryUrl += nodes[i].id + "=" + nodes[i].value + "&";
+	}
+	
+	return queryUrl;
+}
+
+YAHOO.capdematBo.deleteConfirmationDialog = function(divId,handleConfirmDelete,body) {
+    YAHOO.capdematBo.deleteConfirmationDialog.superclass.constructor.call(this,
+        divId || YAHOO.util.Dom.generateId() , 
+        { 
+            width: "20em", 
+            effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.25}, 
+            modal:true, visible:false, draggable:false, fixedcenter:true,
+            icon:YAHOO.widget.SimpleDialog.ICON_WARN,
+            buttons:[{ text:"Oui", handler:handleConfirmDelete, isDefault:true },
+                    { text:"Non", handler:function() {this.hide();}}]
+        }
+    );
+    
+    this.setHeader("Attention !");
+    this.setBody(body);
+    this.render("bd");
+};
+
+YAHOO.lang.extend(YAHOO.capdematBo.deleteConfirmationDialog, YAHOO.widget.SimpleDialog);
+
+// Error message Dialog
+YAHOO.capdematBo.errorMessageDialog = function(divId,handleSendErrorLog,body) {
+    YAHOO.capdematBo.errorMessageDialog.superclass.constructor.call(this,
+        divId || YAHOO.util.Dom.generateId() , 
+        { 
+            width: "30em", 
+            effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.1}, 
+            modal:true, visible:false, draggable:false, fixedcenter:true,
+            icon:YAHOO.widget.SimpleDialog.ICON_BLOCK,
+            buttons:[
+                { text:"Envoyer un rapport", handler:handleSendErrorLog, isDefault:true },
+                { text:"Ignorer", handler:function() {this.hide();} }
+            ]
+        }
+    );
+    
+    this.setHeader("Attention !");
+    this.setBody(body);
+    this.render("bd");
+};
+
+YAHOO.lang.extend(YAHOO.capdematBo.errorMessageDialog, YAHOO.widget.SimpleDialog);
+
+function setMenu() {
+    switchSelectedItemDisplay(YAHOO.capdematBo.currentMenu + 'MenuItem', 'selected-menu-entry');
+};
+
+YAHOO.util.Event.onDOMReady(setMenu);

@@ -36,13 +36,17 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="systemEmail" value="${mail.admin_address}"/> 
   </bean>
 
+<!-- 
   <bean id="smsService" class="fr.cg95.cvq.util.sms.impl.SmsService">
     <property name="endportpath" value="${plugins.externalservices.clever.endportpath}"/> 
     <property name="username" value="${plugins.externalservices.clever.username}"/> 
     <property name="password" value="${plugins.externalservices.clever.password}"/>
     <property name="enabled" value="${plugins.externalservices.clever.enabled}" />
   </bean>
+-->
 
+  <bean id="fakeSmsService" class="fr.cg95.cvq.util.sms.impl.FakeSmsService" />
+  
   <bean id="certificateService" 
     class="fr.cg95.cvq.service.users.impl.CertificateService">
     <property name="localAuthorityRegistry">
@@ -312,7 +316,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="performDbUpdates" value="@perform_db_updates@" />
     <property name="mailService" ref="mailService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
-    <property name="smsService" ref="smsService" />
+    <property name="smsService" ref="fakeSmsService" />
   </bean>
 
   <!-- ************************ DOCUMENTS RELATED SERVICES ********************* -->

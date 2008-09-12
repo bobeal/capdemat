@@ -10,7 +10,7 @@ cas_server_names = localhost:8083,localhost:8445
 cas_authorized_proxies = https://localhost:8444/@cas/proxyCallback
 cas_logout_url = https://localhost:8443/cas/logout
 
-ldap.enabled=true
+ldap.enabled=false
 ldap.host=localhost
 ldap.port=389
 ldap.security_principal=cn=admin,dc=liberacces,dc=zenexity,dc=fr

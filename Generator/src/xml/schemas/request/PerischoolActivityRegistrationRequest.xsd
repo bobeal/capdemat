@@ -15,6 +15,12 @@
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Demande d'inscription d'un enfant &#x00E0; des activit&#x00E9;s p&#x00E9;riscolaires
       </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Perischool Activity Registration
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Inscription aux activit&#x00E9;s p&#x00E9;riscolaires
+      </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Perischool Activity Registration
       </xs:documentation>

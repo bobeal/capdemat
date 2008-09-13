@@ -5,6 +5,7 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <import resource="applicationContext.xml"/>
+  
   <!--
   <bean id="configurer"
     class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -139,51 +140,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <property name="includes" value="${assets.included_authorities}" />
     <property name="localAuthoritiesListFilename" value="local_authorities_list.txt" />
   </bean>
-  
-  <!-- ================================================================ -->
-  <!-- ========= Local Authorities Refresh Job Configuration =========  -->
-  <!-- ================================================================ -->
-<!--
-  <bean id="localAuthoritiesRefreshJob"
-    class="fr.cg95.cvq.service.authority.job.LocalAuthoritiesRefreshJob">
-    <property name="localAuthoritiesLoader"><ref bean="localAuthoritiesLoader"/></property>
-  </bean>
-
-  <bean id="localAuthoritiesRefreshJobInvoker"
-    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-    <property name="targetObject" ref="localAuthoritiesRefreshJob" />
-    <property name="targetMethod" value="launchJob" />
-    <property name="concurrent" value="false" />
-  </bean>
--->
-  <!-- testing purposes only -->
-  <!-- 
-  <bean id="localAuthoritiesRefreshTrigger" 
-    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
-    <property name="jobDetail" ref="paymentInitializationCheckerJobInvoker"/>
-    <property name="startDelay" value="5000"/>
-    <property name="repeatInterval" value="150000"/>
-  </bean>
-  -->
-  <!-- production settings -->
-<!--
-  <bean id="localAuthoritiesRefreshJobTrigger"
-    class="org.springframework.scheduling.quartz.CronTriggerBean">
-    <property name="jobDetail" ref="localAuthoritiesRefreshJobInvoker" />
-    <property name="cronExpression" value="0 * * * * ?" />
-  </bean>
--->
-  
-  <!-- =============== Where everything happens (or not) ============== -->
-  <!-- 
-  <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-    <property name="triggers">
-      <list>
-        <ref bean="localAuthoritiesRefreshJobTrigger" />
-      </list>
-    </property>
-  </bean>
-  -->
   
   <!-- ================================================================ -->
   <!-- ================== FAKE SERVICES DEFINITION ==================== -->

@@ -105,7 +105,7 @@ grails.war.java5.dependencies = [
     "ejb3-persistence.jar",
 ]
 
-grails.views.gsp.encoding="ISO-8859-15"
+grails.views.gsp.encoding="UTF-8"
 
 // Debug Plugin
 grails.debug.system = true

@@ -6,10 +6,10 @@
     <property file="build.properties" />
 
     <!-- deployment specific properties file -->
-    <property file="${deploy.properties_dir}/${deploy.properties_file}"/>
-    <echo message="Using deployment configuration file : ${deploy.properties_dir}/${deploy.properties_file}"/>
+    <property file="${deploy.properties_dir}/${deploy.properties_file}" />
+    <echo message="Using deployment configuration file : ${deploy.properties_dir}/${deploy.properties_file}" />
   </target>
-  
+
   <!-- ================================================================================= -->
   <!-- ============================= CLEAN TARGETS ===================================== -->
   <!-- ================================================================================= -->
@@ -63,7 +63,7 @@
   <target name="clean-boportlets" depends="init">
     <ant dir="${pict.bo_portlets.dir}" target="clean" />
   </target>
-  
+
   <target name="clean-plugins" depends="init">
     <ant dir="${plugins.csvimporters.concerto.dir}" target="clean" />
     <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="clean" />
@@ -76,39 +76,41 @@
     <ant dir="${plugins.externalservices.clever.dir}" target="clean" />
     <ant dir="${plugins.externalservices.cpm.dir}" target="clean" />
   </target>
-  
+
   <!-- ================================================================================= -->
   <!-- ================ CONFIGURATION FILES GENERATION TARGETS ======================= -->
   <!-- ================================================================================= -->
 
   <target name="prepare-configfiles" depends="init">
-    
+
     <tstamp>
-       <format property="application.revision" pattern="ddMMyyyy" />
+      <format property="application.revision" pattern="ddMMyyyy" />
     </tstamp>
 
-    <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml.tpl" 
-      tofile="${libraries.springconf.dir}/applicationContext-deployment.xml" 
-      verbose="true" overwrite="true">
+    <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml.tpl"
+          tofile="${libraries.springconf.dir}/applicationContext-deployment.xml"
+          verbose="true"
+          overwrite="true">
       <filterset>
-    	<filter token="deploy_properties_file" value="${deploy_properties_file}"/>
+        <filter token="deploy_properties_file" value="${deploy_properties_file}" />
       </filterset>
     </copy>
 
-    <copy file="${libraries.springconf.dir}/applicationContext.xml.tpl" 
-      tofile="${libraries.springconf.dir}/applicationContext.xml" 
-      verbose="true" overwrite="true">
+    <copy file="${libraries.springconf.dir}/applicationContext.xml.tpl"
+          tofile="${libraries.springconf.dir}/applicationContext.xml"
+          verbose="true"
+          overwrite="true">
     </copy>
   </target>
 
   <!-- ================================================================================= -->
   <!-- ============================= GENERATION TARGET ================================= -->
   <!-- ================================================================================= -->
-  
+
   <target name="generator" depends="init">
-	<ant dir="${generator.dir}" target="generator"/>
+    <ant dir="${generator.dir}" target="generator" />
   </target>
-	  
+
   <!-- ================================================================================= -->
   <!-- ============================ COMPILATION TARGETS ================================ -->
   <!-- ================================================================================= -->
@@ -116,11 +118,11 @@
   <target name="compile-libs" depends="init">
     <ant dir="${model.dir}" target="compile" />
   </target>
-    
+
   <target name="compile-model" depends="init">
     <ant dir="${model.dir}" target="compile" />
   </target>
-  
+
   <!-- ================================================================================= -->
   <!-- ========================== LIBS PREPARATION TARGETS ============================= -->
   <!-- ========= TODO : Remove these targets and use compile targets instead =========== -->
@@ -133,13 +135,13 @@
     <antcall target="prepare-serviceexporter" />
   </target>
 
-  <target name="prepare-xmlschemas" description="Build the XmlBeans compiled schemas"
-    depends="init">
+  <target name="prepare-xmlschemas"
+          description="Build the XmlBeans compiled schemas"
+          depends="init">
     <ant dir="${generator.dir}" target="dist" />
   </target>
 
-  <target name="prepare-model" description="Build the Model" 
-    depends="init, deploy-xmlschemas">
+  <target name="prepare-model" description="Build the Model" depends="init, deploy-xmlschemas">
     <ant dir="${model.dir}" target="dist" />
   </target>
 
@@ -150,19 +152,19 @@
   <target name="prepare-serviceexporter" description="Build the Service Exporter" depends="init">
     <ant dir="${serviceexporter.dir}" target="dist" />
   </target>
-  
+
   <!-- ================================================================================= -->
   <!-- ====================== SLQ SCHEMA / HIBERNATE TARGETS =========================== -->
   <!-- ================================================================================= -->
-  
+
   <target name="schemaexport-model" depends="init">
     <ant dir="${model.dir}" target="schemaexport" />
   </target>
-	
+
   <!-- ================================================================================= -->
   <!-- ======================= LIBS DEPLOYMENT TARGETS ================================= -->
   <!-- ================================================================================= -->
-  
+
   <target name="deploy-libs" depends="init">
     <ant dir="${generator.dir}" target="deploy" />
     <ant dir="${model.dir}" target="deploy" />
@@ -173,23 +175,23 @@
   <target name="deploy-xmlschemas" depends="init">
     <ant dir="${generator.dir}" target="deploy" />
   </target>
-  
+
   <target name="deploy-model" depends="deploy-xmlschemas">
     <ant dir="${model.dir}" target="deploy" />
   </target>
-  
+
   <target name="deploy-guiwizard" depends="deploy-xmlschemas">
     <ant dir="${guiwizard.dir}" target="deploy" />
   </target>
-  
+
   <target name="deploy-serviceexporter" depends="deploy-model">
     <ant dir="${serviceexporter.dir}" target="deploy" />
   </target>
-  
+
   <!-- ================================================================================= -->
   <!-- ===================== PLUGINS DEPLOYMENT TARGETS ================================ -->
   <!-- ================================================================================= -->
-  
+
   <target name="deploy-plugins" depends="init, deploy-model">
     <ant dir="${plugins.csvimporters.concerto.dir}" target="deploy" />
     <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="deploy" />
@@ -208,7 +210,7 @@
   </target>
 
   <target name="deploy-plugin-subscriberslist" depends="init, compile-model">
-	<ant dir="${plugins.csvimporters.subscriberslist.dir}" target="deploy" />
+    <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-payline" depends="init, compile-model">
@@ -222,7 +224,7 @@
   <target name="deploy-plugin-wynid" depends="init, compile-model">
     <ant dir="${plugins.paymentproviders.wynid.dir}" target="deploy" />
   </target>
-  
+
   <target name="deploy-plugin-payboxsystem" depends="init">
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="deploy" />
   </target>
@@ -242,50 +244,51 @@
   <!-- ================================================================================= -->
   <!-- ======================= WEBAPPS PREPARATION TARGETS ============================= -->
   <!-- ================================================================================= -->
-  
+
   <target name="prepare-webapps" depends="prepare-configfiles, deploy-libs">
     <ant dir="${frontoffice.dir}" target="build-webapp" />
     <ant dir="${backoffice.dir}" target="prepare-webapp" />
     <ant dir="${serviceexporter.dir}" target="prepare-webapp" />
   </target>
-  
-  <target name="prepare-webapp-frontoffice" description="Create the FrontOffice webapp" 
-    depends="prepare-configfiles, deploy-libs">
+
+  <target name="prepare-webapp-frontoffice"
+          description="Create the FrontOffice webapp"
+          depends="prepare-configfiles, deploy-libs">
     <ant dir="${frontoffice.dir}" target="build-webapp" />
   </target>
 
-  <target name="prepare-webapp-backoffice" description="Create the BackOffice webapp" 
-    depends="prepare-configfiles, deploy-libs">
+  <target name="prepare-webapp-backoffice"
+          description="Create the BackOffice webapp"
+          depends="prepare-configfiles, deploy-libs">
     <ant dir="${backoffice.dir}" target="prepare-webapp" />
   </target>
 
-  <target name="prepare-webapp-serviceexporter" description="Create the ServiceExporter webapp"
-    depends="prepare-configfiles, deploy-model">
+  <target name="prepare-webapp-serviceexporter"
+          description="Create the ServiceExporter webapp"
+          depends="prepare-configfiles, deploy-model">
     <ant dir="${serviceexporter.dir}" target="prepare-webapp" />
   </target>
 
-  <target name="prepare-webapp-bong" description="Temp target to build BONG"
+  <target name="prepare-webapp-bong"
+          description="Temp target to build BONG"
           depends="prepare-configfiles,deploy-model">
-          <copy todir="BackOfficeNG/lib">
-                  <fileset dir="${libraries.dir}/fr.cg95/model/">
-                          <filename name="CapDemat-Model-*.jar"/>
-                  </fileset>
-          </copy>
-          <copy file="${deploy.properties_dir}/${deploy.properties_file}"
-            tofile="BackOfficeNG/BackOfficeNG-config.properties" overwrite="true"/>
-      <copy file="${libraries.springconf.dir}/applicationContext.xml" 
-          todir="BackOfficeNG/grails-app/conf/spring" overwrite="true">
-        <filterset>
-          <filter token="perform_db_updates" value="false" />
-        </filterset>
-      </copy>
+    <ant dir="${libraries.dir}" target="bong-runtime-libs" />
+    <copy file="${deploy.properties_dir}/${deploy.properties_file}"
+          tofile="BackOfficeNG/BackOfficeNG-config.properties"
+          overwrite="true" />
+    <copy file="${libraries.springconf.dir}/applicationContext.xml"
+          todir="BackOfficeNG/grails-app/conf/spring"
+          overwrite="true">
+      <filterset>
+        <filter token="perform_db_updates" value="false" />
+      </filterset>
+    </copy>
   </target>
-
 
   <!-- ================================================================================= -->
   <!-- =============================== RELEASE TARGETS ================================= -->
   <!-- ================================================================================= -->
-  
+
   <target name="release" depends="prepare-configfiles, deploy-libs">
     <ant dir="${serviceexporter.dir}" target="war" />
     <ant dir="${backoffice.dir}" target="war" />
@@ -312,36 +315,36 @@
   <!-- ================================================================================= -->
   <!-- ============================= UNIT TESTS TARGETS ================================ -->
   <!-- ================================================================================= -->
-  
+
   <target name="run-tests" depends="prepare-configfiles">
-    <ant dir="${model.dir}" target="run-tests"/>
+    <ant dir="${model.dir}" target="run-tests" />
   </target>
-  
+
   <target name="run-tests-model" depends="prepare-configfiles">
-    <ant dir="${model.dir}" target="run-tests"/>
+    <ant dir="${model.dir}" target="run-tests" />
   </target>
 
   <target name="run-coverage-report" depends="prepare-configfiles">
-	<ant dir="${model.dir}" target="run-coverage-report"/>
+    <ant dir="${model.dir}" target="run-coverage-report" />
   </target>
 
   <target name="run-tests-grinder" depends="prepare-configfiles">
-    <ant dir="${model.dir}" target="run-grinder"/>
+    <ant dir="${model.dir}" target="run-grinder" />
   </target>
 
   <!-- ================================================================================= -->
   <!-- ============================ DOCUMENTATION TARGETS ============================ -->
   <!-- ================================================================================= -->
-  
+
   <target name="documentation" depends="prepare-configfiles">
     <ant dir="${generator.dir}" target="documentation" />
     <ant dir="${model.dir}" target="documentation" />
   </target>
-  
+
   <target name="documentation-model" depends="prepare-configfiles">
     <ant dir="${model.dir}" target="documentation" />
   </target>
-    
+
   <target name="documentation-generator" depends="prepare-configfiles">
     <ant dir="${generator.dir}" target="documentation" />
   </target>

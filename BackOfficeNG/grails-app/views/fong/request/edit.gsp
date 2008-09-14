@@ -7,11 +7,11 @@
     <h2>
 <!--      <a href="#" id="requestSubmit">envoyer</a>-->
       Demande d'acte de mariage
-      <span>Ici, une brève description du télé-service</span>
-      <span>Durée de la démarche : <strong>5 min</strong></span>
+      <span>Ici, une brÃ¨ve description du tÃ©lÃ©-service</span>
+      <span>DurÃ©e de la dÃ©marche : <strong>5 min</strong></span>
       <span>
-        Documents à fournir :
-        <strong>Pièce d'identité</strong>, 
+        Documents Ã  fournir :
+        <strong>PiÃ¨ce d'identitÃ©</strong>, 
         <strong class="mandatory">Livret de famille</strong>
       </span>
     </h2>
@@ -63,11 +63,11 @@
                <h3>
                  <span class="tag-validated">complet</span>
                  Demandeur
-                 <span>Informations conçernant le demandeur de l'acte</span>
+                 <span>Informations conÃ§ernant le demandeur de l'acte</span>
                </h3>
                
                <label for="title">
-                 <strong>Civilité</strong>
+                 <strong>CivilitÃ©</strong>
                </label>
                <select name="title">
                  <option value="Mister" ${mdr.requester?.title.toString() == 'Mister' ? 'selected' : ''}>Monsieur</option>
@@ -77,7 +77,7 @@
                <label for="lastName"><strong>Nom</strong></label>
                <input name="lastName" type="text" value="${mdr.requester?.lastName}" />
                
-               <label for="firstName"><strong>Prénom</strong></label>
+               <label for="firstName"><strong>PrÃ©nom</strong></label>
                <input name="firstName" type="text" value="${mdr.requester?.firstName}" />
                
                <label for="birthDate">
@@ -98,7 +98,7 @@
                </fieldset>
                
                <label for="homePhone">
-                 <strong>Téléphone</strong>
+                 <strong>TÃ©lÃ©phone</strong>
                  <span> (ex: 0130204050)</span>
                </label>
                <input name="homePhone" type="text" value="${mdr.requester?.homePhone}" />
@@ -124,38 +124,38 @@
                <h3>
                  <span class="tag-rejected">imcomplet</span>
                  Nature de l'acte
-                 <span>Informations conçernant les conjoints</span>
+                 <span>Informations conÃ§ernant les conjoints</span>
                </h3>
                
-               <label for="requesterQuality">Qualité du demandeur</label>
+               <label for="requesterQuality">QualitÃ© du demandeur</label>
                <select name="requesterQuality">
                  <option value="Requester" ${mdr?.requesterQuality.toString() == 'Requester' ? 'selected' : ''}>Titulaire de l'acte</option>
                  <option value="Spouse" ${mdr?.requesterQuality.toString() == 'Spouse' ? 'selected' : ''}>Son conjoint</option>
-                 <option value="Parent" ${mdr?.requesterQuality.toString() == 'Parent' ? 'selected' : ''}>Son père / sa mère</option>
-                 <option value="GrandParent">Son grand-père / sa grand-mère</option>
+                 <option value="Parent" ${mdr?.requesterQuality.toString() == 'Parent' ? 'selected' : ''}>Son pÃ¨re / sa mÃ¨re</option>
+                 <option value="GrandParent">Son grand-pÃ¨re / sa grand-mÃ¨re</option>
                  <option value="Child">Son fils / sa fille</option>
-                 <option value="LegalRepresentant">Son représentant légal</option>
+                 <option value="LegalRepresentant">Son reprÃ©sentant lÃ©gal</option>
                  <option value="Agent">Son mandataire</option>
-                 <option value="HeirFamily">Son héritier et aussi son frère ou sa soeur</option>
-                 <option value="Heir">Son héritier sans être son frère ou sa soeur</option>
-                 <option value="Authorized">Autorisé par le procureur de la République</option>
+                 <option value="HeirFamily">Son hÃ©ritier et aussi son frÃ¨re ou sa soeur</option>
+                 <option value="Heir">Son hÃ©ritier sans Ãªtre son frÃ¨re ou sa soeur</option>
+                 <option value="Authorized">AutorisÃ© par le procureur de la RÃ©publique</option>
                  <option value="LawyerNotary">Avocat, notaire</option>
                  <option value="Other">Autre</option>
                </select>
                
-               <fieldset><legend>L'époux</legend>
+               <fieldset><legend>L'Ã©poux</legend>
                  <label for="marriageHusbandLastName"><strong>Nom</strong></label>
                  <input name="marriageHusbandLastName" type="text" value="${mdr?.marriageHusbandLastName}" />
                  
-                 <label for="marriageHusbandFirstNames"><strong>Prénom</strong></label>
+                 <label for="marriageHusbandFirstNames"><strong>PrÃ©nom</strong></label>
                  <input name="marriageHusbandFirstNames" type="text" value="${mdr?.marriageHusbandFirstNames}" />
                </fieldset>
                
-               <fieldset><legend>L'épouse</legend>
+               <fieldset><legend>L'Ã©pouse</legend>
                  <label for="marriageWifeLastName"><strong>Nom</strong></label>
                  <input name="marriageWifeLastName" type="text" value="${mdr?.marriageWifeLastName}" />
                  
-                 <label for="marriageWifeFirstNames"><strong>Prénom</strong></label>
+                 <label for="marriageWifeFirstNames"><strong>PrÃ©nom</strong></label>
                  <input name="marriageWifeFirstNames" type="text" value="${mdr?.marriageWifeFirstNames}" />
                </fieldset>
                
@@ -166,7 +166,7 @@
                  <label for="marriageCity"><strong>Ville</strong></label>
                  <input name="marriageCity" type="text" value="${mdr?.marriageCity}"/>
                  
-                 <label for="marriagePostalCode"><strong>Département</strong></label>
+                 <label for="marriagePostalCode"><strong>DÃ©partement</strong></label>
                  <input name="marriagePostalCode" type="text" value="${mdr?.marriagePostalCode}" />
                </fieldset>
               
@@ -175,7 +175,7 @@
              </form>
              <!-- navigation link -->
              <div class="navTab">
-               <a href="#tab1" class="prevTab">&lt;&lt; Page précédente</a>
+               <a href="#tab1" class="prevTab">&lt;&lt; Page prÃ©cÃ©dente</a>
                <a href="#tab3" class="nextTab">Page suivante &gt;&gt;</a>
              </div>
            </div>
@@ -185,12 +185,12 @@
              <h3>
                  <span class="tag-rejected">imcomplet</span>
                  Nature de l'acte
-                 <span>Informations conçernant l'acte</span>
+                 <span>Informations conÃ§ernant l'acte</span>
                </h3>
                
                <label for="format"><strong>Type d'acte</strong></label>
                <select name="format">
-                 <option value="FullCopy" ${mdr?.format.toString() == 'FullCopy' ? 'selected' : ''}>Copy intégrale</option>
+                 <option value="FullCopy" ${mdr?.format.toString() == 'FullCopy' ? 'selected' : ''}>Copy intÃ©grale</option>
                  <option value="ExtractWithRelationship" ${mdr?.format.toString() == 'ExtractWithRelationship' ? 'selected' : ''}>Extrait avec filiation</option>
                  <option value="ExtractWithoutRelationship" ${mdr?.format.toString() == 'ExtractWithoutRelationship' ? 'selected' : ''}>Extrait sans filiation</option>
                </select>
@@ -203,23 +203,23 @@
                  
                <label><strong>Filiation de</strong></label>
                <select name="requesterQuality">
-                 <option value="Husband" ${mdr?.relationship.toString() == 'Husband' ? 'selected' : ''}>L'époux</option>
-                 <option value="Wife" ${mdr?.relationship.toString() == 'Wife' ? 'selected' : ''}>L'épouse</option>
+                 <option value="Husband" ${mdr?.relationship.toString() == 'Husband' ? 'selected' : ''}>L'Ã©poux</option>
+                 <option value="Wife" ${mdr?.relationship.toString() == 'Wife' ? 'selected' : ''}>L'Ã©pouse</option>
                </select>
                
-               <fieldset><legend>Le père</legend>
+               <fieldset><legend>Le pÃ¨re</legend>
                  <label for="fatherLastName"><strong>Nom</strong></label>
                  <input name="fatherLastName" type="text" value="${mdr?.fatherLastName}" />
                  
-                 <label for="fatherFirstNames"><strong>Prénom</strong></label>
+                 <label for="fatherFirstNames"><strong>PrÃ©nom</strong></label>
                  <input name="fatherFirstNames" type="text" value="${mdr?.fatherFirstNames}" />
                </fieldset>
                
-               <fieldset><legend>La mère</legend>
+               <fieldset><legend>La mÃ¨re</legend>
                  <label for="motherMaidenName"><strong>Nom</strong></label>
                  <input name="motherMaidenName" type="text" value="${mdr?.motherMaidenName}" />
                  
-                 <label for="motherFirstNames"><strong>Prénom</strong></label>
+                 <label for="motherFirstNames"><strong>PrÃ©nom</strong></label>
                  <input name="motherFirstNames" type="text" value="${mdr?.motherFirstNames}" />
                </fieldset>
                
@@ -228,7 +228,7 @@
              </form>
              <!-- navigation link -->
              <div class="navTab">
-               <a href="#tab2" class="prevTab">&lt;&lt; Page précédente</a>
+               <a href="#tab2" class="prevTab">&lt;&lt; Page prÃ©cÃ©dente</a>
                <a href="#tab4" class="nextTab">Page suivante &gt;&gt;</a>
              </div>
            </div>
@@ -238,13 +238,13 @@
                <h3>
                  <span class="tag-rejected">incomplet</span> 
                  Documents
-                 <span>Cette étape vous permet de fournir des justificatifs numérisés, elle n'est pas obligatoire</span>
+                 <span>Cette Ã©tape vous permet de fournir des justificatifs numÃ©risÃ©s, elle n'est pas obligatoire</span>
                </h3>
                
                <ul>
                  <li>
                    <span class="tag-rejected">r</span> 
-                   <a href="#"><strong>Pièce d'identité</strong></a>
+                   <a href="#"><strong>PiÃ¨ce d'identitÃ©</strong></a>
                  </li>
                  <li>
                    <span class="tag-validated">v</span> 
@@ -257,7 +257,7 @@
              </form>
              <!-- navigation link -->
              <div class="navTab">
-               <a href="#tab3" class="prevTab">&lt;&lt; Page précédente</a>
+               <a href="#tab3" class="prevTab">&lt;&lt; Page prÃ©cÃ©dente</a>
                <a href="#tab5" class="nextTab">Page suivante &gt;&gt;</a>
              </div>
            </div>
@@ -266,13 +266,13 @@
              <form method="POST" action="<g:createLink action="validDetailsNature" />">
                <h3>
                  Contact
-                 <span>Comment souhaitez-vous être contacté pour cette demande</span>
+                 <span>Comment souhaitez-vous Ãªtre contactÃ© pour cette demande</span>
                </h3>
                
                <label>Moyen de contact</label>
                <select name="requestMeansOfContactSelect">
                  <option>Courriel</option>
-                 <option>Téléphone</option>
+                 <option>TÃ©lÃ©phone</option>
                  <option>Courrier</option>
                  <option>SMS</option>
                  <option>Mobile</option>
@@ -283,7 +283,7 @@
              </form>
              <!-- navigation link -->
              <div class="navTab">
-               <a href="#tab4" class="prevTab">&lt;&lt; Page précédente</a>
+               <a href="#tab4" class="prevTab">&lt;&lt; Page prÃ©cÃ©dente</a>
                <a href="#tab6" class="nextTab">Page suivante &gt;&gt;</a>
              </div>
            </div>
@@ -292,10 +292,10 @@
              <form method="POST" action="<g:createLink action="sendRequest" />">
                <h3>
                  Validation
-                 <span>Vérifiez les données saisies et envoyez votre demande</span>
+                 <span>VÃ©rifiez les donnÃ©es saisies et envoyez votre demande</span>
                </h3>
                
-              <P>Ici la visualisation des données saisies ...<P>
+              <P>Ici la visualisation des donnÃ©es saisies ...<P>
               
               <div class="message ${message != null ? '' : 'hidden'}">
                 ${message}
@@ -306,7 +306,7 @@
              </form>
              <!-- navigation link -->
              <div class="navTab">
-               <a href="#tab5" class="prevTab">&lt;&lt; Page précédente</a>
+               <a href="#tab5" class="prevTab">&lt;&lt; Page prÃ©cÃ©dente</a>
              </div>
            </div>
            
@@ -319,22 +319,22 @@
         <dl>
           <dt>Sujet</dt>
           <dd>
-            Afin d'améliorer la communication et les échanges et de favoriser la participation 
-            et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
+            Afin d'amÃ©liorer la communication et les Ã©changes et de favoriser la participation 
+            et la contribution, le projet CapDÃ©mat se dote de nouveaux moyens de discussion
           </dd>
           <dt>Documents</dt>
           <dd>
-            Afin d'améliorer la communication et les échanges et de favoriser la participation 
+            Afin d'amÃ©liorer la communication et les Ã©changes et de favoriser la participation 
           </dd>
           <dt>Formulaire</dt>
           <dd>
-             et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
-            Afin d'améliorer la communication et les échanges et de favoriser la participation
+             et la contribution, le projet CapDÃ©mat se dote de nouveaux moyens de discussion
+            Afin d'amÃ©liorer la communication et les Ã©changes et de favoriser la participation
           </dd>
           <dt>Moyen de contact</dt>
           <dd>
             de favoriser la participation 
-            et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
+            et la contribution, le projet CapDÃ©mat se dote de nouveaux moyens de discussion
           </dd>
         </dl>
       </div>
@@ -350,7 +350,7 @@
           <em>Sujet de la demande</em>
         </h3>
         <div class="body">
-          <strong>M. Hervé Martin</strong>
+          <strong>M. HervÃ© Martin</strong>
           <a href="#">choisir un autre sujet</a>
         </div>
       </div>
@@ -363,7 +363,7 @@
           <form action="#">
             <select name="requestMeansOfContactSelect">
               <option>Courriel</option>
-              <option>Téléphone</option>
+              <option>TÃ©lÃ©phone</option>
               <option>Courrier</option>
               <option>SMS</option>
               <option>Mobile</option>
@@ -375,13 +375,13 @@
       <div id="requestDocument" class="requestBox">
         <h3>
           <span class="tag-rejected">r</span>
-          <em>Documents à fournir</em>
+          <em>Documents Ã  fournir</em>
         </h3>
         <div class="body">
           <ul>
             <li>
               <span class="tag-rejected">r</span> 
-              <a href="#"><strong>Pièce d'identité</strong></a>
+              <a href="#"><strong>PiÃ¨ce d'identitÃ©</strong></a>
             </li>
             <li>
               <span class="tag-validated">v</span> 
@@ -395,24 +395,24 @@
       <div class="nobox">
         <h3>Broullons</h3>
         <ul>
-         <li><span class="tag-validated">complet</span>Demande d'assistance à distance </li>
+         <li><span class="tag-validated">complet</span>Demande d'assistance Ã  distance </li>
          <li><span class="tag-validated">complet</span>Inscription scolair</li>
-         <li><span class="tag-pending">partiel</span>Inscription à la cantine scolaire</li>
+         <li><span class="tag-pending">partiel</span>Inscription Ã  la cantine scolaire</li>
         </ul>
       </div>
       -->
       
       <!--
-      <h3>Denières demandes</h3>
+      <h3>DeniÃ¨res demandes</h3>
       <ul>
-       <li><span class="tag-pending">traitée</span>Demande d'assistance à distance - 12/08/2008</li>
-       <li><span class="tag-validated">validée</span>Inscription scolair - 10/08/2008</li>
-       <li><span class="tag-rejected">annulée</span>Inscription à la cantine scolaire - 10/08/2008</li>
+       <li><span class="tag-pending">traitÃ©e</span>Demande d'assistance Ã  distance - 12/08/2008</li>
+       <li><span class="tag-validated">validÃ©e</span>Inscription scolair - 10/08/2008</li>
+       <li><span class="tag-rejected">annulÃ©e</span>Inscription Ã  la cantine scolaire - 10/08/2008</li>
       </ul>
 
       <h3>Documents</h3>
       <ul>
-       <li>Carte d'identité - rafik</li>
+       <li>Carte d'identitÃ© - rafik</li>
        <li>Passeport - superman</li>
        <li>Lvret de famille - Zenexity</li>
        <li>Justificatif de domocile - rue Taitbout</li>

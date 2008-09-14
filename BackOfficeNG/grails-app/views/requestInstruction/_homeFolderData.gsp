@@ -5,7 +5,7 @@
    <g:message code="property.active" /> : <span class="tag-enable">oui</span>
   </div>
   <div>
-   <g:message code="property.state" /> : <span class="tag-enable">validé</span>
+   <g:message code="property.state" /> : <span class="tag-enable">validÃ©</span>
   </div>
   <div>
   <g:message code="request.requester.property.adress" /> :  <b>64 rue TaitBout 75009 Paris</b>
@@ -18,8 +18,8 @@
   <div class="yui-u first">            
     <dl>
       <dt>M. Rafik DJEDJIG</dt> 
-      <dd>né le 25/08/1981</dd>
-      <dd>né à Epinay-sur-Seine (93800 - FRANCE)</dd>
+      <dd>nÃ© le 25/08/1981</dd>
+      <dd>nÃ© Ã  Epinay-sur-Seine (93800 - FRANCE)</dd>
       <dd>64 rue TaitBout 75009 Paris</dd>
       <dd>tel: 01 30 04 05 05 - mob : 06 04 04 04 04 </dd>
       <dd>rdj@zenexity.fr<dd>
@@ -28,8 +28,8 @@
   <div class="yui-u">
     <dl>
       <dt>M. Rafik DJEDJIG</dt>
-      <dd>né le 25/08/1981</dd>
-      <dd>né à Epinay-sur-Seine (93800 - FRANCE)</dd>
+      <dd>nÃ© le 25/08/1981</dd>
+      <dd>nÃ© Ã  Epinay-sur-Seine (93800 - FRANCE)</dd>
       <dd>64 rue TaitBout 75009 Paris</dd>
       <dd>tel: 01 30 04 05 05 - mob : 06 04 04 04 04 </dd>
       <dd>rdj@zenexity.fr<dd>
@@ -42,8 +42,8 @@
   <div class="yui-u first">            
     <dl>
       <dt>M. Rafik DJEDJIG</dt> 
-      <dd>né le 25/08/1981</dd>
-      <dd>né à Epinay-sur-Seine (93800 - FRANCE)</dd>
+      <dd>nÃ© le 25/08/1981</dd>
+      <dd>nÃ© Ã  Epinay-sur-Seine (93800 - FRANCE)</dd>
       <dd>64 rue TaitBout 75009 Paris</dd>
       <dd>tel: 01 30 04 05 05 - mob : 06 04 04 04 04 </dd>
       <dd>rdj@zenexity.fr<dd>
@@ -52,8 +52,8 @@
   <div class="yui-u">
     <dl>
       <dt>M. Rafik DJEDJIG</dt> 
-      <dd>né le 25/08/1981</dd>
-      <dd>né à Epinay-sur-Seine (93800 - FRANCE)</dd>
+      <dd>nÃ© le 25/08/1981</dd>
+      <dd>nÃ© Ã  Epinay-sur-Seine (93800 - FRANCE)</dd>
       <dd>64 rue TaitBout 75009 Paris</dd>
       <dd>tel: 01 30 04 05 05 - mob : 06 04 04 04 04 </dd>
       <dd>rdj@zenexity.fr<dd>

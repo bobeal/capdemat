@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>CapDémat Lab - FrontOfficeNG</title>
+    <title>CapDÃ©mat Lab - FrontOfficeNG</title>
     <g:render template="/shared/fong_resources" />
     <g:layoutHead />
   </head>
@@ -14,10 +14,10 @@
      <div id="hd">
        <h1>
          <img src="${createLinkTo(dir:'fong/images/',file:'logo_zen_200.png')}" alt="Zenexity Lab" />
-         <span>CapDémat - FrontOffice NG</span>
+         <span>CapDÃ©mat - FrontOffice NG</span>
        </h1>
        <map id="hd-menu">
-        <a href="#">se déconnecter</a> | 
+        <a href="#">se dÃ©connecter</a> | 
         <a href="#">aide</a> |
         <a href="#">f.a.q</a> 
        </map>
@@ -27,7 +27,7 @@
      <map id="bd-menu">
        <a href="<g:createLink controller='fongRequest'/>"><span>Accueil</span></a>
        <a href="<g:createLink controller='fongRequest'/>"><span>Espace Citoyen</span></a>
-       <a href="<g:createLink controller='fongRequest'/>" class="current"><span>Téléservices</span></a>
+       <a href="<g:createLink controller='fongRequest'/>" class="current"><span>TÃ©lÃ©services</span></a>
      </map>
      
      <!-- header -->
@@ -39,7 +39,7 @@
      
    <!-- footer -->
    <div id="ft">
-     <a href="http://www.zenexity.fr">Conçu et réalisé par Zenexity</a>
+     <a href="http://www.zenexity.fr">ConÃ§u et rÃ©alisÃ© par Zenexity</a>
    </div>
    
    </div> <!-- end doc -->

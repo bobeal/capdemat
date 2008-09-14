@@ -15,7 +15,7 @@
         <span class="first-line">
             <img src="${createLinkTo(dir:'images',file:'16-circle-green.png')}"/>
             <b>${requestNote.type}</b>
-            - <g:message code="request.property.comment" /> n° <b>${requestNote.id}</b>
+            - <g:message code="request.property.comment" /> nÂ° <b>${requestNote.id}</b>
             - <g:message code="layout.from" /> <b>${requestNote.agent_name}</b>
         </span>
         <br/>

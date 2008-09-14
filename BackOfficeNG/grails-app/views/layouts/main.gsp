@@ -2,7 +2,7 @@
 <%@ taglib prefix="g" uri="/BackOfficeNG/web-app/WEB-INF/tld/grails.tld" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title><g:layoutTitle default="Back Office CapDémat" /></title>
+    <title><g:layoutTitle default="Back Office CapDÃ©mat" /></title>
     <g:render template="/shared/resources" />
     <g:layoutHead />
     <script type="text/javascript">
@@ -27,10 +27,10 @@
 
       <!-- footer -->
       <div id="ft">
-        <a href="http://www.zenexity.fr">Conçu et réalisé par Zenexity R&D</a>
+        <a href="http://www.zenexity.fr">ConÃ§u et rÃ©alisÃ© par Zenexity R&D</a>
         <p>
-          Le contenu de ce site est la propriété intellectuelle exclusive de Zenexity.<br/>
-          Toute réutilisation de tout ou partie du contenu de ce site est strictement interdite.
+          Le contenu de ce site est la propriÃ©tÃ© intellectuelle exclusive de Zenexity.<br/>
+          Toute rÃ©utilisation de tout ou partie du contenu de ce site est strictement interdite.
         </p>
       </div>
 

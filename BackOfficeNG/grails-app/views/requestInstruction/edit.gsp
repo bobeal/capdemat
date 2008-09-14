@@ -16,7 +16,7 @@
           <div class="txt-right">
              <a href=""><g:message code="request.action.contactEcitizen" /></a>
           </div>
-          <h1><g:message code="request.header.request" /> : ${requestLabel} (Réf : ${request.id})</h1>
+          <h1><g:message code="request.header.request" /> : ${requestLabel} (RÃ©f : ${request.id})</h1>
         </div>
         
         <!-- request data template selectection by request type -->
@@ -91,7 +91,7 @@
       <div class="nobox  taskstate">
         <h3><g:message code="request.requester.property.certificate" /></h3>
         <div class="body">
-          <span class="tag-pending">à envoyer</span>
+          <span class="tag-pending">Ã  envoyer</span>
         </div>
       </div>
     

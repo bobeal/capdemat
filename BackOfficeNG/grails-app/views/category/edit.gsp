@@ -1,7 +1,14 @@
 <%@ taglib prefix="g" uri="/web-app/WEB-INF/tld/grails.tld" %>
 <html>
   <head>
-  <title><g:message code="category.header.configuration" args="${[category?.name]}" /></title>
+  <title>
+    <g:if test="${editMode == 'edit'}">
+      <g:message code="category.header.configuration" args="${[category?.name]}" />
+    </g:if>
+    <g:else>
+      <g:message code="category.header.creation" />
+    </g:else>            
+  </title>
   <meta name="layout" content="main" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'configuration.css')}" >
   <script type="text/javascript" src="${createLinkTo(dir:'js',file:'categoryEdit.js')}"></script>
@@ -17,7 +24,14 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <h1><g:message code="category.header.configuration" args="${[category?.name]}" /></h1>
+          <h1>
+            <g:if test="${editMode == 'edit'}">
+              <g:message code="category.header.configuration" args="${[category?.name]}" />
+            </g:if>
+            <g:else>
+              <g:message code="category.header.creation" />
+            </g:else>
+          </h1>
         </div>
       
         <div class="mainbox mainbox-yellow">

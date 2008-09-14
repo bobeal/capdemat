@@ -116,5 +116,6 @@
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-PAPH.jar"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-2.5.5.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-webmvc-2.5.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

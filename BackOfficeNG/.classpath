@@ -82,6 +82,7 @@
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-spring-1.0.2.jar"/>
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-test-1.0.2.jar"/>
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-web-1.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/CapDemat-Model-3.1.10-ZenVersion.jar"/>
+	<classpathentry kind="lib" path="lib/CapDemat-Model-PAPH.jar"/>
+	<classpathentry kind="lib" path="lib/CapDemat-RequestSchemas-PAPH.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

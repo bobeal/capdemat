@@ -81,7 +81,7 @@
   <!-- ================ CONFIGURATION FILES GENERATION TARGETS ======================= -->
   <!-- ================================================================================= -->
 
-  <target name="prepare-configfiles">
+  <target name="prepare-configfiles" depends="init">
     
     <tstamp>
        <format property="application.revision" pattern="ddMMyyyy" />
@@ -190,7 +190,7 @@
   <!-- ===================== PLUGINS DEPLOYMENT TARGETS ================================ -->
   <!-- ================================================================================= -->
   
-  <target name="deploy-plugins" depends="init, compile-model">
+  <target name="deploy-plugins" depends="init, deploy-model">
     <ant dir="${plugins.csvimporters.concerto.dir}" target="deploy" />
     <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.payline.dir}" target="deploy" />

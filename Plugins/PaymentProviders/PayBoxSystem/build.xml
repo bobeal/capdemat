@@ -54,7 +54,7 @@
   </target>
 
   <target name="dist"
-          depends="compile, compiletests"
+          depends="compile"
           description="Build the PayBoxSystem plugin jar">
     <jar compress="on"
          jarfile="${basedir}/${build.archives.dir}/${application.name}-${module.name}-${application.version}.jar"

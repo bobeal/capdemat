@@ -146,7 +146,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <!-- ******************** GENERIC REQUEST SERVICE **********************  -->
-  <bean id="requestService" class="fr.cg95.cvq.service.users.impl.RequestService"
+  <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"
     abstract="true" init-method="init">
     <property name="requestDAO">
       <ref local="requestDAO"/>
@@ -193,7 +193,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
       <ref bean="localAuthorityRegistry"/>
     </property>
     <property name="requestWorkflowService">
-      <bean class="fr.cg95.cvq.service.users.impl.RequestWorkflowService">
+      <bean class="fr.cg95.cvq.service.request.impl.RequestWorkflowService">
         <property name="requestDAO" ref="requestDAO" />
         <property name="requestActionDAO" ref="requestActionDAO" />
         <property name="certificateService" ref="certificateService"></property>
@@ -205,10 +205,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
   </bean>
   
-  <bean id="defaultRequestService" class="fr.cg95.cvq.service.users.impl.DefaultRequestService" 
+  <bean id="defaultRequestService" class="fr.cg95.cvq.service.request.impl.DefaultRequestService" 
     parent="requestService"/>
   
-  <bean id="requestServiceRegistry" class="fr.cg95.cvq.service.users.impl.RequestServiceRegistry"
+  <bean id="requestServiceRegistry" class="fr.cg95.cvq.service.request.impl.RequestServiceRegistry"
     init-method="init">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="requestFormDAO" ref="requestFormDAO"/>
@@ -216,7 +216,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="performDbUpdates" value="@perform_db_updates@"/>
   </bean>
 
-  <bean id="requestStatisticsService" class="fr.cg95.cvq.service.users.impl.RequestStatisticsService">
+  <bean id="requestStatisticsService" class="fr.cg95.cvq.service.request.impl.RequestStatisticsService">
     <property name="requestDAO" ref="requestDAO"/>
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="categoryService" ref="categoryService" />
@@ -307,7 +307,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
   </bean>
   
-  <bean id="meansOfContactService" class="fr.cg95.cvq.service.users.impl.MeansOfContactService">
+  <bean id="meansOfContactService" class="fr.cg95.cvq.service.request.impl.MeansOfContactService">
     <property name="meansOfContactDAO" ref="meansOfContactDAO" />
     <property name="performDbUpdates" value="@perform_db_updates@" />
     <property name="mailService" ref="mailService" />
@@ -318,7 +318,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ************************ DOCUMENTS RELATED SERVICES ********************* -->
 
   <bean id="documentDigitalizationAllowedBeforeAdvice"
-    class="fr.cg95.cvq.service.users.DocumentDigitalizationAllowedBeforeAdvice">
+    class="fr.cg95.cvq.service.document.DocumentDigitalizationAllowedBeforeAdvice">
     <property name="localAuthorityRegistry">
       <ref bean="localAuthorityRegistry"/>
     </property>
@@ -340,7 +340,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="documentService" 
     class="org.springframework.aop.framework.ProxyFactoryBean">
-    <property name="proxyInterfaces"><value>fr.cg95.cvq.service.users.IDocumentService</value></property>
+    <property name="proxyInterfaces"><value>fr.cg95.cvq.service.document.IDocumentService</value></property>
     <property name="target"><ref local="documentServiceTarget"/></property>
     <property name="interceptorNames">
       <list>
@@ -349,7 +349,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
   </bean>
 
-  <bean id="documentServiceTarget" class="fr.cg95.cvq.service.users.impl.DocumentService">
+  <bean id="documentServiceTarget" class="fr.cg95.cvq.service.document.impl.DocumentService">
     <property name="cvqPolicy">
       <ref bean="cvqPolicy"/>
     </property>
@@ -374,7 +374,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="performDbUpdates" value="@perform_db_updates@"/>
     <property name="documentBootstrapper">
-      <bean class="fr.cg95.cvq.service.users.impl.DocumentBootstrapper">
+      <bean class="fr.cg95.cvq.service.document.impl.DocumentBootstrapper">
         <property name="documentTypeDAO" ref="documentTypeDAO" />
       </bean>
     </property>
@@ -390,7 +390,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <bean id="homeFolderModificationRequestService" 
-    class="fr.cg95.cvq.service.users.impl.HomeFolderModificationRequestService" 
+    class="fr.cg95.cvq.service.request.impl.HomeFolderModificationRequestService" 
     parent="requestService">
     <property name="homeFolderService" ref="homeFolderService"/>
     <property name="label" value="Home Folder Modification"/>
@@ -655,17 +655,17 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	</property>
   </bean>	
 
-  <bean id="requestDAO" class="fr.cg95.cvq.dao.users.hibernate.RequestDAO" parent="genericDAO"/>
+  <bean id="requestDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestDAO" parent="genericDAO"/>
 
-  <bean id="requestTypeDAO" class="fr.cg95.cvq.dao.authority.hibernate.RequestTypeDAO" parent="genericDAO"/>
+  <bean id="requestTypeDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestTypeDAO" parent="genericDAO"/>
 
-  <bean id="requestFormDAO" class="fr.cg95.cvq.dao.users.hibernate.RequestFormDAO" parent="genericDAO"/>
+  <bean id="requestFormDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestFormDAO" parent="genericDAO"/>
 
-  <bean id="documentTypeDAO" class="fr.cg95.cvq.dao.authority.hibernate.DocumentTypeDAO" parent="genericDAO"/>
+  <bean id="documentTypeDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentTypeDAO" parent="genericDAO"/>
 
-  <bean id="requestActionDAO" class="fr.cg95.cvq.dao.users.hibernate.RequestActionDAO" parent="genericDAO"/>
+  <bean id="requestActionDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestActionDAO" parent="genericDAO"/>
 
-  <bean id="requestNoteDAO" class="fr.cg95.cvq.dao.users.hibernate.RequestNoteDAO" parent="genericDAO"/>
+  <bean id="requestNoteDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestNoteDAO" parent="genericDAO"/>
 
   <bean id="localAuthorityDAO" class="fr.cg95.cvq.dao.authority.hibernate.LocalAuthorityDAO" parent="genericDAO"/>
 
@@ -687,12 +687,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="historyEntryDAO" class="fr.cg95.cvq.dao.users.hibernate.HistoryEntryDAO" parent="genericDAO"/>
 
-  <bean id="documentDAO" class="fr.cg95.cvq.dao.users.hibernate.DocumentDAO" parent="genericDAO"/>
+  <bean id="documentDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentDAO" parent="genericDAO"/>
 
-  <bean id="documentBinaryDAO" class="fr.cg95.cvq.dao.users.hibernate.DocumentBinaryDAO" parent="genericDAO"/>
+  <bean id="documentBinaryDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentBinaryDAO" parent="genericDAO"/>
 
   <bean id="paymentDAO" class="fr.cg95.cvq.dao.users.hibernate.PaymentDAO" parent="genericDAO"/>
 
-  <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.users.hibernate.MeansOfContactDAO" parent="genericDAO"/>
+  <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.request.hibernate.MeansOfContactDAO" parent="genericDAO"/>
 
 </beans>

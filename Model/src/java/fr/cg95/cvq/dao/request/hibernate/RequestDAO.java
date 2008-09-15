@@ -447,7 +447,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 .iterate();
         
         if (resultsIt != null && resultsIt.hasNext())
-            return new Long(((Integer) resultsIt.next()).intValue());
+            return (Long)resultsIt.next();
         else
             return new Long(0);
     }

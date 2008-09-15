@@ -1,0 +1,28 @@
+/* --------------------------------------------------------------
+
+     Hacks for Microsoft IE6
+            
+-------------------------------------------------------------- */
+
+/* common/layout.css
+-------------------------------------------------------------- */
+
+#bd { background-position: left 22px; }
+#narrow { background-position: 3px 22px; }
+#narrow { _height: 500px; background-color: transparent; overflow:hidden; }
+
+#narrow .nobox .body form select   { margin: 0 0 1em 0; width: 100%; }
+#narrow .nobox .body form li label { width: 70% !important; }
+
+/* Do not works ! */
+img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
+
+
+/* configation.css
+-------------------------------------------------------------- */
+.editableList li { _height: 1%; }
+
+.overviewConfigurationList li h3 { display: inline; }
+
+.form-list-edition ul li { width: 22% !important;}
+

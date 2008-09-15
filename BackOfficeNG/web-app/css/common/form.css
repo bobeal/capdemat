@@ -14,7 +14,7 @@ form {
 }
 
 form label { 
-	display: block;  /* block float the labels to left column, set a width */
+ /* block float the labels to left column, set a width */
 	float: left; 
 	width: 35%;
 	padding: 0 5px 0 0; 
@@ -66,6 +66,8 @@ form.simple-search .yui-button { vertical-align: middle; }
 form.advanced-search { padding: 0; }
 
 form.advanced-search label {
+  padding: 0;
+  display: block; 
   float: none;
   width: 100%;
   text-align: left;

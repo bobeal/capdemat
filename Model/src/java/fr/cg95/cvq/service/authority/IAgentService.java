@@ -98,6 +98,9 @@ public interface IAgentService {
     public void addCategoryRole(final Long agentId, final  Long categoryId
             , final CategoryProfile categoryProfile ) throws CvqException;
     
+    /*
+     * Modify or add agent's categoryRole
+     */
     public void modifyCategoryRole(final Long agentId, final  Long categoryId
             , final CategoryProfile categoryProfile ) throws CvqException;
     

@@ -20,6 +20,10 @@
   <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'list.css')}" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'panel.css')}" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css/common/yui-skin',file:'tabview.css')}" />
+  
+  <!--[if IE 6]>
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie6.css')}" />
+  <![endif]-->
 
   <!-- Dependency for Connection Manager / Also provides YAHOO Global Object -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo',file:'yahoo-min.js')}"></script>

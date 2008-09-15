@@ -11,12 +11,13 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <div class="txt-right">
-            <a href="${createLink(action:'create')}"><g:message code="action.create"/></a> 
-          </div>
           <h1><g:message code="category.header.categoryList" /></h1>
         </div>
       
+        <div id ="createCategory">
+          <a href="${createLink(action:'create')}"><g:message code="action.create"/></a>
+        </div>
+          
         <g:if test="${categories.size == 0}">
           <g:message code="category.message.noCategoryDefined" />
         </g:if>

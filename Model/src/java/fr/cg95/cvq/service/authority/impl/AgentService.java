@@ -383,7 +383,13 @@ public final class AgentService implements IAgentService {
                 break;
             }
         }
-        if (foundCategoryRole)
+        if (!foundCategoryRole) {
+            CategoryRoles categoryRoles = new CategoryRoles();
+            categoryRoles.setAgent(agent);
+            categoryRoles.setCategory((Category) categoryDAO.findById(Category.class, categoryId));
+            categoryRoles.setProfile(categoryProfile);
+            agent.getCategoriesRoles().add(categoryRoles);
+        }
             agentDAO.update(agent);
     }
     

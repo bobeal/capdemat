@@ -41,7 +41,7 @@
   </g:if>
   <g:else>
     <span style="font-style:italic;padding-left:10px;">
-      Le nombre maximum de saisons est atteint. Si vous désirez en ajouter une autre, veuillez d'abord en supprimer une de la liste.   
+      Le nombre maximum de saisons est atteint. Si vous dÃ©sirez en ajouter une autre, veuillez d'abord en supprimer une de la liste.   
     </span>
     <span style ="visibility:hidden">
       <button id="addSeason"><g:message code="requestSeason.action.addSeason" /></button>
@@ -57,7 +57,7 @@
 
       <label for="label" class="required"><g:message code="requestSeason.property.label" /> * :</label>
       <input type="text" id="label" name="label" size="42" class="validate-label"
-          title="Le label d'une saison ne doit pas contenir de caractères spéciaux"/>
+          title="Le label d'une saison ne doit pas contenir de caractÃ¨res spÃ©ciaux"/>
       <br/>
 
       <label for="registrationStart" class="required">
@@ -65,7 +65,7 @@
       <g:message code="layout.from" /> * : </label>
       <input type="text" id="registrationStart" name="registrationStart" 
           class="validate-date-au" size="12"
-          title="la date de début d'enregistrement doit être sous la forme JJ/MM/AAAA"/>
+          title="la date de dÃ©but d'enregistrement doit Ãªtre sous la forme JJ/MM/AAAA"/>
       <a onclick="showCalendar('registrationStartShow', 2);">
         <img id="registrationStartShow" 
             src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
@@ -74,7 +74,7 @@
       <b><g:message code="layout.to" /> *:</b>
       <input type="text" id="registrationEnd" name="registrationEnd" 
           class="validate-date-au" size="12"
-          title="la date de fin d'enregistrement doit être sous la forme JJ/MM/AAAA"/> 
+          title="la date de fin d'enregistrement doit Ãªtre sous la forme JJ/MM/AAAA"/> 
       <a onclick="showCalendar('registrationEndShow', 3);">    
         <img id="registrationEndShow" 
             src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
@@ -86,7 +86,7 @@
       <g:message code="layout.from" />* : </label>
       <input type="text" id="effectStart" name="effectStart"
           class="validate-date-au" size="12"
-          title="la date de début de saison doit être sous la forme JJ/MM/AAAA"/>
+          title="la date de dÃ©but de saison doit Ãªtre sous la forme JJ/MM/AAAA"/>
       <a onclick="showCalendar('effectStartShow', 4);">
         <img id="effectStartShow" 
           src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
@@ -95,7 +95,7 @@
       <b><g:message code="layout.to" /> *:</b> 
       <input type="text" id="effectEnd" name="effectEnd"
           class="validate-date-au" size="12"
-          title="la date de fin de saison doit être sous la forme JJ/MM/AAAA"/> 
+          title="la date de fin de saison doit Ãªtre sous la forme JJ/MM/AAAA"/> 
       <a onclick="showCalendar('effectEndShow', 5);">    
         <img id="effectEndShow" 
             src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
@@ -106,7 +106,7 @@
       <g:message code="requestSeason.property.validationDate" /> * : </label>
       <input type="text" id="validationAuthorizationStart" name="validationAuthorizationStart" 
           class="validate-date-au" size="12"
-          title="la date de validation doit être sous la forme JJ/MM/AAAA"/>
+          title="la date de validation doit Ãªtre sous la forme JJ/MM/AAAA"/>
       <a onclick="showCalendar('validationAuthorizationStartShow', 6);">
         <img id="validationAuthorizationStartShow"
           src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>

@@ -1,4 +1,4 @@
-<h1><a class="logo" href="<g:createLink controller='request' action='taskBoard'/>">CapDémat</a></h1>
+<h1><a class="logo" href="<g:createLink controller='request' action='taskBoard'/>">CapDÃ©mat</a></h1>
 <div id="menu">
   <a id="requestMenuItem" href="<g:createLink controller='request'/>">
     <g:message code="menu.requests" />

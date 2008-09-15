@@ -24,7 +24,7 @@ class StatisticController {
 	def timescales = [
 		"Semaine" : IRequestStatisticsService.Timescale.WEEK ,
 		"Mois" : IRequestStatisticsService.Timescale.MONTH,
-		"Année" : IRequestStatisticsService.Timescale.YEAR
+		"AnnÃ©e" : IRequestStatisticsService.Timescale.YEAR
 	]
     
     def view = {
@@ -58,7 +58,7 @@ class StatisticController {
         def labels = []
         def maxY = 1
         def cdData = []
-        def titleRow = lifecycle == IRequestStatisticsService.Lifecycle.CREATED ? "Nombre de téléservices créés par jour" : "Nombre de téléservices traités par jour"
+        def titleRow = lifecycle == IRequestStatisticsService.Lifecycle.CREATED ? "Nombre de tÃ©lÃ©services crÃ©Ã©s par jour" : "Nombre de tÃ©lÃ©services traitÃ©s par jour"
         def monthViewDateFormatter = new SimpleDateFormat("dd/MM")
         def results = 
             requestStatisticsService.getDetailedStats(timescale, lifecycle, requestTypeId, categoryId)
@@ -154,7 +154,7 @@ class StatisticController {
         def url = chart.pieChart {
             size(w:600,h:200)
             title() {
-                row('Qualité de service')
+                row('QualitÃ© de service')
             }
             data(encoding:'text') {
         		dataSet(cdData)        

@@ -90,7 +90,7 @@
         </div>
         <div class="yui-u">
           <g:each status="i" var="previousDwelling" in="${request.previousDwellings}">
-            <span style="margin: 0 0 0 20px; font-size: 1.2em; font-weight-bold;font-style:italic">Précédente ${i}</span>
+            <span style="margin: 0 0 0 20px; font-size: 1.2em; font-weight-bold;font-style:italic">PrÃ©cÃ©dente ${i}</span>
             <dl>
               <dt><g:message code="request.requester.property.adress" /> :&nbsp; </dt> 
               <dd>

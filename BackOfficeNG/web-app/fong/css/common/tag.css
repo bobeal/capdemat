@@ -1,0 +1,49 @@
+/* --------------------------------------------------------------
+
+    tag description
+    TODO : Name tag by state / action ... 
+    TODO : choice colors ... 
+   
+    NOTE : bor's color :
+      green=#64992C
+      orange=#ec7000
+      red=#EC7000
+
+-------------------------------------------------------------- */
+
+
+.tag-pending,   .tag-validated,  .tag-rejected,
+.tag-enable,    .tag-disable,
+.tag-read_only, .tag-read_write, .tag-manager, .tag-no_right {
+  display: inline !important;
+  margin: 0 .2em;
+  padding: 0 .2em;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+  -moz-border-radius: .3em;
+  -webkit-border-radius: .3em;
+  font-family: mono;
+  
+  font-size: .90em;
+  font-style: normal;
+  font-weight: normal;
+  color: #ffffff;
+}
+
+/* yellow */
+.tag-pending    { background: #ffcc20; border-color:#ffaa20; }
+/* green */
+.tag-validated,
+.tag-enable     { background: #20cc20; border-color:#20aa20; }
+/* red */
+.tag-rejected,
+.tag-disable    { background: #cc2020; border-color:#aa2020; }
+/* blue */
+.tag-read_only  { background: #2020cc; border-color:#2020aa; }
+/* orange*/
+.tag-read_write { background: #ec7000; border-color:#da7000; }
+/* violet */
+.tag-manager    { background: #aa00ff; border-color:#aa00ff; }
+/* gray */
+.tag-no_right    { background: #eeeeee; border-color:#cccccc; color:#000000; }
+

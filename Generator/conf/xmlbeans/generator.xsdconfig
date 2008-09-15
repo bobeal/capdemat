@@ -25,7 +25,7 @@
 
   <!-- Home Folder Modification Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/hfmr">
-    <xb:package>fr.cg95.cvq.xml.users</xb:package>
+    <xb:package>fr.cg95.cvq.xml.request</xb:package>
   </xb:namespace>
 
   <!-- School Canteen Registration Request -->

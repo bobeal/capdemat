@@ -1,0 +1,26 @@
+/* --------------------------------------------------------------
+
+    boxes description
+
+-------------------------------------------------------------- */
+
+
+/* main box (to be used in '#bd > .yui-main > yui-b' block )
+-------------------------------------------------------------- */
+.mainbox { margin: 10px 0 0 0; padding: 0 0 10px 0; }
+
+.mainbox ul { margin : 0 20px; }
+
+.mainbox-yellow,
+.mainbox-blue      { border-top: 1px solid; border-bottom: 1px solid; }
+
+/* mainbox yellow */
+.mainbox-yellow    { border-color: #FFD053; background: #FFFFAB; }
+.mainbox-yellow h2,
+.mainbox-yellow h3 { border-color: #FFD053 !important; }
+
+/* mainbox yellow */
+.mainbox-blue      { border-color: #C1CFE2; background: #F3F8FF; }
+.mainbox-blue h2,
+.mainbox-blue h3   { border-color: #C1CFE2 !important; }
+

@@ -1,0 +1,102 @@
+/* --------------------------------------------------------------
+
+    forms
+    TOOD - refactor !!!
+    
+-------------------------------------------------------------- */
+
+
+form {
+	/* set width in form, not fieldset (still takes up more room w/ fieldset width */
+	/* font:100% verdana,arial,sans-serif; */
+	margin: 0;
+	padding: 10px 20px 0 20px;
+}
+
+form label { 
+	display: block;  /* block float the labels to left column, set a width */
+	float: left; 
+	width: 35%;
+	padding: 0 5px 0 0; 
+	margin: 5px 0 0; /* set top margin same as form input - textarea etc. elements */
+	text-align: right; 
+}
+
+form label span {
+  display: block;
+  font-size: 0.9em;
+}
+
+form input, form textarea, form select {
+	/* display: inline; inline display must not be set or will hide submit buttons in IE 5x mac */
+	width:auto;      /* set width of form elements to auto-size, otherwise watch for wrap on resize */
+	margin:5px 0 0 1%; /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+}
+
+form .required {
+	/* font-weight: bold; */ /* uses class instead of div, more efficient */
+	font-size: 1.1em;
+	font-style: italic;
+}
+
+/* TODO - Verify usefullness */
+form br { clear: left; }
+
+.form-button { margin: 1em 0 0 36.5%; }
+
+form .error { margin: 0 0 0 36.5%; text-align: left;}; 
+
+
+
+/* Overrides for simple search forms
+-------------------------------------------------------------- */
+form.simple-search { padding: 0; }
+
+form.simple-search input { height: 1.5em; }
+
+form.simple-search .form-button { margin: 0 0 0 5%; }
+
+form.simple-search .yui-button { vertical-align: middle; }
+
+
+/* Overrides for simple search forms
+   TODO : merge as possible simple and advanced search
+-------------------------------------------------------------- */
+form.advanced-search { padding: 0; }
+
+form.advanced-search label {
+  float: none;
+  width: 100%;
+  text-align: left;
+}
+form.advanced-search .yui-cal {
+  position:absolute; 
+  display:none;
+}
+
+form.advanced-search input,
+form.advanced-search select { margin: 0; }
+
+form.advanced-search .form-button {
+  display: block;
+  margin: 20px 0 0 0;
+  font-size:1.1em; 
+}
+
+
+/* Validation classes
+-------------------------------------------------------------- */
+/* for textboxes, textareas, passwords */
+.validation-failed {
+  border: 1px dashed #F33;
+  background-color:#FCC;
+}
+
+/* for checkboxes and radios */
+.validation-failed-cr { }
+
+/* for selects */
+.validation-failed-sel { }
+
+

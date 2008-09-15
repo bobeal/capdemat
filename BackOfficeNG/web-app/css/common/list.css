@@ -1,0 +1,29 @@
+/* --------------------------------------------------------------
+
+    list description
+    (request & payment search)
+    
+-------------------------------------------------------------- */
+
+
+/* search results
+-------------------------------------------------------------- */
+#search-results { margin: 0 1em; }
+
+#search-results div.pagination {
+	margin: 1em 0 ;
+	text-align: center;
+	font-weight: bold;
+	background:#F3F8FF none repeat scroll 0%;
+	border:1px solid #C8DDFF;
+}
+
+#search-results li {
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+	border-bottom: 1px solid #999999;
+}
+
+#search-results span.first-line { color: #0000ff; }
+#search-results span.state      { color: #ff7400; }
+

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="BackOffice/webapp/WEB-INF/classes" path="BackOffice/src"/>
 	<classpathentry kind="src" path="Plugins/ExternalServices/CapwebctPaymentModule/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/test" path="Plugins/ExternalServices/Clever/test/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/classes" path="Plugins/ExternalServices/Clever/src/java"/>
@@ -16,14 +15,9 @@
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Payline/build/test" path="Plugins/PaymentProviders/Payline/test/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/Concerto/build/test" path="Plugins/CsvImporters/Concerto/test/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/Concerto/build/classes" path="Plugins/CsvImporters/Concerto/src/java"/>
-	<classpathentry kind="src" output="BackOffice/webapp/WEB-INF/classes" path="BackOffice/test"/>
-	<classpathentry kind="src" output="FrontOffice/webapp/WEB-INF/classes" path="FrontOffice/src/java"/>
 	<classpathentry kind="src" output="Generator/build/classes" path="Generator/src/java"/>
-	<classpathentry kind="src" output="GUIWizard/build/classes" path="GUIWizard/src/java"/>
 	<classpathentry kind="src" output="Model/build/classes" path="Model/src/java"/>
 	<classpathentry kind="src" output="Model/build/test" path="Model/test/java"/>
-	<classpathentry kind="src" output="PictFoPortlets/portletapp/WEB-INF/classes" path="PictFoPortlets/src"/>
-	<classpathentry kind="src" output="PictPortlets/portletapp/WEB-INF/classes" path="PictPortlets/src"/>
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/src/java"/>
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/test/java"/>
 	<classpathentry kind="lib" path="BackOffice/webapp/applets/JTwain.jar"/>
@@ -101,9 +95,6 @@
 			<attribute name="javadoc_location" value="file:/home/rdj/workspace/repo/spring-framework-1.2.9/docs/api/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="Libraries/org.tigris/svnant.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.tigris/svnClientAdapter.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.tigris/svnjavahl.jar"/>
 	<classpathentry kind="lib" path="Model/lib/java.net/grinder.jar"/>
 	<classpathentry kind="lib" path="Model/lib/java.net/jython.jar"/>
 	<classpathentry kind="lib" path="Model/lib/junit/junit.jar"/>
@@ -128,11 +119,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="Libraries/net.sf/csvobjects/CSVObjects-1.0RC1.jar" sourcepath="/CSVParser/src"/>
 	<classpathentry kind="lib" path="Libraries/net.sf/csvobjects/ostermillerutils_1_04_03.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/guiwizard/CVQ-GUIWizard-TRUNK-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CVQ-Model-TRUNK-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CVQ-ServiceExporter-TRUNK-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CVQ-RequestSchemas-TRUNK-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CVQ-ExternalServicesSchemas-TRUNK-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-1.0.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-tiger-1.0.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-1.0.1.jar"/>
@@ -158,5 +144,7 @@
 	<classpathentry kind="lib" path="Model/lib/cobertura/asm-tree-2.2.1.jar"/>
 	<classpathentry kind="lib" path="Model/lib/cobertura/cobertura.jar"/>
 	<classpathentry kind="lib" path="Libraries/cleversms/cleversms-ws-client-axis-1.0.0.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-PAPH.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-PAPH.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

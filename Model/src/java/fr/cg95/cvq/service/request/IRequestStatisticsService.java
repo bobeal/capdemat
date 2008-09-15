@@ -1,6 +1,6 @@
 package fr.cg95.cvq.service.request;
 
-import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
 import java.util.Date;
 import java.util.Map;

@@ -18,6 +18,15 @@
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Demande d'inscription d'un enfant au centre de loisirs
       </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Recreation Activity Registration Request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Inscription au centre de loisirs
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Recreation Activity Registration Request
+      </xs:documentation>
       <xs:appinfo>
         <model namespace="school" />
         <fo namespace="school.recreation">

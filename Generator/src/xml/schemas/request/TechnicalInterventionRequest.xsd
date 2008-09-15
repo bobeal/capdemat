@@ -27,7 +27,7 @@
 					<display field="Subject.Adult.LastName" stage="subject" page="display" line="1" mode="static" />
 					<display field="Subject.Adult.FirstName" stage="subject" page="display" line="2" mode="static" />
 					<display field="Subject.Adult.Address" stage="subject" page="display" line="3" mode="static" />
-d					<display field="Subject.Adult.MobilePhone" stage="subject" page="display" line="4" mode="static"/>
+					<display field="Subject.Adult.MobilePhone" stage="subject" page="display" line="4" mode="static"/>
 					<display field="Subject.Adult.HomePhone" stage="subject" page="subject" line="5" mode="static" />
 					<display field="Subject.Adult.Email" stage="subject" page="display" line="6" mode="static" />
 

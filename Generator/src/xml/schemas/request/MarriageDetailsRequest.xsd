@@ -12,8 +12,14 @@
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Demande extrait d'acte de mariage
       </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Marriage details request
+      </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Acte de mariage
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Marriage details request
       </xs:documentation>
       <xs:appinfo>
         <model namespace="civil" />

@@ -18,6 +18,7 @@
   border-bottom: 1px dashed #999999;
 }
 
+
 /* tags extension */
 .overviewConfigurationList li .tag-enable, 
 .overviewConfigurationList li .tag-disable {
@@ -34,6 +35,15 @@
 }
 .overviewConfigurationList li h3 span { font-size: 0.7em; }
 .overviewConfigurationList li div     { margin: 0 1em; line-height: 1.5em; }
+
+/* creation cancel link*/
+#createCategory   { margin: 0 2em;text-align: right; }
+#createCategory a {
+  padding: 0 21px 0 0; font-size: 1.3em;
+  background: transparent url(../images/icons/create.png) no-repeat right 4px;
+}
+#createCategory a:hover       { background-color: #0000ff; }
+#cancelCreateCategory a:hover { background: transparent; }
 
 
 /* editable list
@@ -64,16 +74,9 @@
 .editableList li a.currentEditItem { background-image: url(../images/icons/edit.png); cursor: default; }
 .editableList li a:hover           { background-color: transparent;}
 
-/* TODO : refactor agent category role tag alignment */ 
-.editableList li span.zzz { 
-  width: 35%;
-  float: left;
-}
-
-.editableList .category {
-  margin: 0 1em; 
-  font-size: 0.9em; 
-}
+.editableList li span.agentName     { width: 35%; float: left; }
+.editableList li span..categoryName { margin: 0 1em; font-size: 0.9em; }
+.editableList li strong             { font-weight: normal !important; }
 
 /* editable list display switcher */
 .editableListSwithcher { padding: .5em 5%; text-align: right; }
@@ -92,31 +95,23 @@
   text-decoration: none;
   color: #444444;
 }
-.editableListSwithcher a.current:hover {
-  background: transparent;
-}
-
-/* tag extension */
-/*#categoryAgents li .tag-read_only, */
-/*#categoryAgents li .tag-read_write,*/
-/*#categoryAgents li .tag-manager { margin: 0 1em ; }*/
-
-/* creation cancel link*/
-#cancelCreateCategory a:hover { background: transparent; }
+.editableListSwithcher a.current:hover { background: transparent; }
 
 /* inline editable list form */
 .form-list-edition {
-  margin: .5em 2em;
-  padding: .5em;
+  margin: .5em 2em; padding: .5em;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em;
   background: #fefefe;
   border: 1px dashed #FFD053;
   clear: both; /* hack for tag alignment */
 }
-.form-list-edition label { display: inline; width: auto; }
+
+.form-list-edition label, 
 .form-list-edition input { display: inline; width: auto; }
-.form-list-edition ul { margin: 0; }
+
+.form-list-edition ul    { margin: 0; }
+
 .form-list-edition ul li {
   width: 20%;
   float: left;
@@ -124,12 +119,16 @@
   border: none;
 }
 
-.form-list-edition li .tag-read_only { color: #2020cc; border:none; background: transparent;}
-.form-list-edition li .tag-read_write { color: #ec7000; border:none; background: transparent; }
-.form-list-edition li .tag-manager { color: #aa00ff; border:none; background: transparent; }
+/* agent profile inline edition */
+.form-list-edition ul li .tag-read_only,
+.form-list-edition ul li .tag-read_write,
+.form-list-edition ul li .tag-manager    { color: #2020cc; border:none; background: transparent;}
+
+.form-list-edition ul li .tag-read_only  { color: #2020cc; }
+.form-list-edition ul li .tag-read_write { color: #ec7000; }
+.form-list-edition ul li .tag-manager    { color: #aa00ff; }
 
   
- 
 /* second level menu styles
    TODO - refactor this !
 -------------------------------------------------------------- */

@@ -9,14 +9,13 @@
     <a class="unassociate"><span>unassociate</span></a>
     <a class="editItem"><span>edit</span></a>
   </g:else>
-    <span class="zzz">
+    <span class="agentName">
       <g:if test="${agent.active}">
-      <strong class="enabled">${agent.lastName} ${agent.firstName}</strong>
+      <strong>${agent.lastName} ${agent.firstName}</strong>
       </g:if>
       <g:else>
-      <span class="disabled">${agent.lastName} ${agent.firstName}</span>
+      <span>${agent.lastName} ${agent.firstName}</span>
       </g:else>
-      (${agent.login}) 
     </span>
     <span class="${agent?.profile?.cssClass}"><g:message code="${agent?.profile?.i18nKey}"/></span>
   </li>

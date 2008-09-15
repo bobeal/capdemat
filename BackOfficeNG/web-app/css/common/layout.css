@@ -121,7 +121,7 @@ body {
 #narrow .nobox .body form          { padding: 0; }
 #narrow .nobox .body form select   { margin-bottom: 1em; }
 #narrow .nobox .body form label    { width: 100%; text-align: left; }
-#narrow .nobox .body form li label { width: 85%; text-align: left; }
+#narrow .nobox .body form li label { width: 85% ; text-align: left; }
 
 /* global footer
 -------------------------------------------------------------- */

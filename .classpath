@@ -84,11 +84,6 @@
 	<classpathentry kind="lib" path="Libraries/org.quartz/quartz.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/jdom.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/jta.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/spring.jar" sourcepath="/home/rdj/workspace/lib/spring/src">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/home/rdj/workspace/repo/spring-framework-1.2.9/docs/api/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="Model/lib/junit/junit.jar"/>
 	<classpathentry kind="lib" path="Model/lib/org.apache/ant-junit-1.6.2.jar"/>
 	<classpathentry kind="lib" path="Model/lib/org.springframework/spring-mock.jar"/>
@@ -120,5 +115,6 @@
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-PAPH.jar"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-PAPH.jar"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-2.5.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -158,7 +158,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
      * @hibernate.key
      *  column="home_folder_id"
      * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.Document"
+     *  class="fr.cg95.cvq.business.document.Document"
      */
     public Set getDocuments() {
         return this.documents;
@@ -211,7 +211,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
      * @hibernate.key
      *  column="home_folder_id"
      * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.Request"
+     *  class="fr.cg95.cvq.business.request.Request"
      */
     public Set getRequests() {
         return this.requests;

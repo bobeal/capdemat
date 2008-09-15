@@ -23,10 +23,10 @@
 			<param name="include" value="id, lastName, firstName" />
 		</convert>
 		<convert converter="bean" match="fr.cg95.cvq.business.users.Address" />
-		<convert converter="bean" match="fr.cg95.cvq.business.users.Document">
+		<convert converter="bean" match="fr.cg95.cvq.business.document.Document">
 			<param name="include" value="id, creationDate, documentType" />
 		</convert>
-		<convert converter="bean" match="fr.cg95.cvq.business.authority.DocumentType">
+		<convert converter="bean" match="fr.cg95.cvq.business.document.DocumentType">
 			<param name="include" value="id, name, type" />
 		</convert>
 

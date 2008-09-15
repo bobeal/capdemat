@@ -64,7 +64,7 @@ public class Request implements Serializable {
 
     private RulesForm rules = new RulesForm();
 
-    private fr.cg95.cvq.business.users.Request dbRequest;
+    private fr.cg95.cvq.business.request.Request dbRequest;
     
     private boolean noRequester = false;
     
@@ -319,11 +319,11 @@ public class Request implements Serializable {
 		this.list.put(key, list);
 	}
 
-	public fr.cg95.cvq.business.users.Request getDbRequest() {
+	public fr.cg95.cvq.business.request.Request getDbRequest() {
 		return dbRequest;
 	}
 
-	public void setDbRequest(fr.cg95.cvq.business.users.Request dbRequest) {
+	public void setDbRequest(fr.cg95.cvq.business.request.Request dbRequest) {
 		this.dbRequest = dbRequest;
 	}
 

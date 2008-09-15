@@ -2,7 +2,7 @@ package fr.cg95.cvq.business.users.payment;
 
 import java.io.Serializable;
 
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
 
 /**
  * Generic representation of an item that can be bought.
@@ -87,7 +87,7 @@ public abstract class PurchaseItem implements Serializable {
 
     /**
      * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.Request"
+     *  class="fr.cg95.cvq.business.request.Request"
      *  column="request_id"
      */
     public final Request getRequest() {

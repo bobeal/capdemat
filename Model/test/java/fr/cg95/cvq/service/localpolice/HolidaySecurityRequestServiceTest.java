@@ -1,12 +1,19 @@
 package fr.cg95.cvq.service.localpolice;
 
+import fr.cg95.cvq.business.request.MeansOfContact;
+import fr.cg95.cvq.business.request.MeansOfContactEnum;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.business.document.DepositOrigin;
+import fr.cg95.cvq.business.document.DepositType;
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.localpolice.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IDocumentService;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.localpolice.IHolidaySecurityRequestService;
 import fr.cg95.cvq.util.Critere;
 

@@ -15,19 +15,19 @@ import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.w3c.dom.Node;
 
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.reservation.PlaceReservationRequest;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.PlaceReservationData;
-import fr.cg95.cvq.business.users.Request;
-import fr.cg95.cvq.business.users.RequestState;
 import fr.cg95.cvq.business.users.TicketTypeSelection;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
+import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.reservation.IPlaceReservationRequestService;
-import fr.cg95.cvq.service.users.impl.RequestService;
 import fr.cg95.cvq.xml.reservation.PlaceReservationRequestDocument;
 
 /**

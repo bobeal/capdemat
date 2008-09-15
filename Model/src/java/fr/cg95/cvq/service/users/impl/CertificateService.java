@@ -26,11 +26,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import fr.cg95.cvq.business.authority.RequestForm;
-import fr.cg95.cvq.business.authority.RequestFormType;
-import fr.cg95.cvq.business.authority.RequestType;
-import fr.cg95.cvq.business.users.Request;
-import fr.cg95.cvq.dao.users.IRequestFormDAO;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestForm;
+import fr.cg95.cvq.business.request.RequestFormType;
+import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;

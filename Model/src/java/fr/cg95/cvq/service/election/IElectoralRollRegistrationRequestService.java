@@ -1,6 +1,6 @@
 package fr.cg95.cvq.service.election;
 
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 
 /**
  * @author bor@zenexity.fr

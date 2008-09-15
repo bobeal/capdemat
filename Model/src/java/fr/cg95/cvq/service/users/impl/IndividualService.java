@@ -16,7 +16,7 @@ import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.users.IDocumentDAO;
+import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -80,6 +80,7 @@ public class IndividualService implements IIndividualService {
         return individual;
     }
 
+    // TODO : use document service instead
     public Set getAssociatedDocuments(final Long individualId)
         throws CvqException {
 

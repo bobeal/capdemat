@@ -9,7 +9,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import fr.cg95.cvq.business.users.MeansOfContactEnum;
+import fr.cg95.cvq.business.request.MeansOfContact;
+import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.fo.business.BusinessManager;
@@ -20,7 +21,6 @@ import fr.cg95.cvq.wizard.process.ProcessWizardState;
 import fr.cg95.cvq.xml.common.AdultType;
 import fr.cg95.cvq.xml.common.LocalReferentialDataType;
 import fr.cg95.cvq.xml.common.RequestType;
-import fr.cg95.cvq.business.users.MeansOfContact;
 
 public class ValidateRequestAction extends BaseAction {
 
@@ -119,7 +119,7 @@ public class ValidateRequestAction extends BaseAction {
     
     private void updateRequest(HttpServletRequest httpRequest, Request cvqRequest, Long requestId) throws CvqObjectNotFoundException, CvqException {
         
-        fr.cg95.cvq.business.users.Request request = BusinessManager.getInstance().getRequestService().getById(requestId);
+        fr.cg95.cvq.business.request.Request request = BusinessManager.getInstance().getRequestService().getById(requestId);
 
         cvqRequest.setId(requestId);
         cvqRequest.setFamilyHomeId(request.getHomeFolder().getId());

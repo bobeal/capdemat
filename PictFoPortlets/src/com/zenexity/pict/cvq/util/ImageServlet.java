@@ -15,7 +15,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.zenexity.pict.cvq.fo.util.FoHttpInvoker;
 
-import fr.cg95.cvq.business.users.DocumentBinary;
+import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.exception.CvqException;
 
 public class ImageServlet extends HttpServlet {

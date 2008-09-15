@@ -108,7 +108,7 @@ public class Category implements Serializable {
      * @hibernate.key
      *  column="category_id"
      * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.authority.RequestType"
+     *  class="fr.cg95.cvq.business.request.RequestType"
      */
     public Set getRequestTypes() {
         return this.requestTypes;

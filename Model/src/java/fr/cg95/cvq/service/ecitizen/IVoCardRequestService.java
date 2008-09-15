@@ -7,7 +7,7 @@ import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 
 /**
  * Service in charge of the accounts creation requests.

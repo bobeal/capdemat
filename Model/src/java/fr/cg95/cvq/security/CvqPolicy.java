@@ -44,15 +44,15 @@ public class CvqPolicy implements IPolicyDelegate {
                        administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.authority.RecreationCenter.class,
                        administratorOnlyPolicy);
-        registerPolicy(fr.cg95.cvq.business.authority.RequestType.class,
+        registerPolicy(fr.cg95.cvq.business.request.RequestType.class,
                        administratorOnlyPolicy);
-        registerPolicy(fr.cg95.cvq.business.authority.DocumentType.class,
+        registerPolicy(fr.cg95.cvq.business.document.DocumentType.class,
                        administratorOnlyPolicy);
-        registerPolicy(fr.cg95.cvq.business.authority.Requirement.class,
+        registerPolicy(fr.cg95.cvq.business.request.Requirement.class,
                        administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.authority.Category.class,
         				   administratorOnlyPolicy);
-        registerPolicy(fr.cg95.cvq.business.authority.RequestForm.class,
+        registerPolicy(fr.cg95.cvq.business.request.RequestForm.class,
                 administratorOnlyPolicy);
 
         PartOfPolicy cvqReferentialPolicy = new CvqReferentialPolicy();
@@ -60,19 +60,19 @@ public class CvqPolicy implements IPolicyDelegate {
                        cvqReferentialPolicy);
 
         PartOfPolicy requestPolicy = new RequestPolicy();
-        registerPolicy(fr.cg95.cvq.business.users.Request.class,
+        registerPolicy(fr.cg95.cvq.business.request.Request.class,
                        requestPolicy);
-        registerPolicy(fr.cg95.cvq.business.users.RequestAction.class,
+        registerPolicy(fr.cg95.cvq.business.request.RequestAction.class,
                        requestPolicy);
-        registerPolicy(fr.cg95.cvq.business.users.RequestNote.class,
+        registerPolicy(fr.cg95.cvq.business.request.RequestNote.class,
                        requestPolicy);
 
         PartOfPolicy documentPolicy = new DocumentPolicy();
-        registerPolicy(fr.cg95.cvq.business.users.Document.class,
+        registerPolicy(fr.cg95.cvq.business.document.Document.class,
                        documentPolicy);
-        registerPolicy(fr.cg95.cvq.business.users.DocumentAction.class,
+        registerPolicy(fr.cg95.cvq.business.document.DocumentAction.class,
                        documentPolicy);
-        registerPolicy(fr.cg95.cvq.business.users.DocumentBinary.class,
+        registerPolicy(fr.cg95.cvq.business.document.DocumentBinary.class,
                        documentPolicy);
      }
     

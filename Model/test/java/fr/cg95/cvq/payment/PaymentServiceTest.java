@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.InternalRequestItem;

@@ -23,7 +23,7 @@ public interface IPlaceReservationService {
      * Return all place reservation referential data associated to the given request type.
      *   
      * @param requestTypeLabel label of the request type as per 
-     *                         {@link fr.cg95.cvq.service.users.IRequestService#getLabel()}.
+     *                         {@link fr.cg95.cvq.service.request.IRequestService#getLabel()}.
      * @param forSubscriber whether we return place reservation and ticket selection 
      *                      for a subscriber (only meaningful in FO context).
      * @return a set of {@link PlaceReservationType} objects if there are some defined for the 
@@ -41,7 +41,7 @@ public interface IPlaceReservationService {
      * of the request type.
      *   
      * @param requestTypeLabel label of the request type as per 
-     *                         {@link fr.cg95.cvq.service.users.IRequestService#getLabel()}.
+     *                         {@link fr.cg95.cvq.service.request.IRequestService#getLabel()}.
      * @param placeReservationKey key of the place reservation we are looking for
      * @param forSubscriber whether we return place reservation and ticket selection 
      *                      for a subscriber (only meaningful and used in FO context).
@@ -59,7 +59,7 @@ public interface IPlaceReservationService {
      * Set a whole new place reservation referential data for the given request type.
      * 
      * @param requestTypeLabel label of the request type as per 
-     *                         {@link fr.cg95.cvq.service.users.IRequestService#getLabel()}.
+     *                         {@link fr.cg95.cvq.service.request.IRequestService#getLabel()}.
      * @param placeReservationTypeSet a set of {@link PlaceReservationType} objects.
      * @throws CvqModelException if the given request type has no place reservation mechanism 
      *                           associated.
@@ -73,7 +73,7 @@ public interface IPlaceReservationService {
      * Set a new place reservation referential data for the given request type.
      * 
      * @param requestTypeLabel label of the request type as per 
-     *                         {@link fr.cg95.cvq.service.users.IRequestService#getLabel()}.
+     *                         {@link fr.cg95.cvq.service.request.IRequestService#getLabel()}.
      * @param placeReservationType the {@link PlaceReservationType} object to update/add
      * @throws CvqModelException if the given request type has no place reservation mechanism 
      *                           associated.
@@ -87,7 +87,7 @@ public interface IPlaceReservationService {
      * Remove the place reservation with the given key from the place reservation referential data.
      * 
      * @param requestTypeLabel label of the request type as per 
-     *                         {@link fr.cg95.cvq.service.users.IRequestService#getLabel()}.
+     *                         {@link fr.cg95.cvq.service.request.IRequestService#getLabel()}.
      * @param placeReservationKey key of the {@link PlaceReservationType} object to remove
      * @throws CvqModelException if the given request type has no place reservation mechanism 
      *                           associated.
@@ -101,7 +101,7 @@ public interface IPlaceReservationService {
      * Update the number of remaining places for the given request type and reservation.
      * 
      * @param requestTypeLabel label of the request type as per 
-     *                         {@link fr.cg95.cvq.service.users.IRequestService#getLabel()}.
+     *                         {@link fr.cg95.cvq.service.request.IRequestService#getLabel()}.
      * @param placeReservationKey ket of the place reservation as per
      *                         {@link PlaceReservationType#getKey()}
      * @param numberOfPlaces number of places to add or remove the total of remaining places.

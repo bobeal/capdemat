@@ -10,18 +10,19 @@ import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.Assert;
-import fr.cg95.cvq.business.authority.DocumentType;
+import fr.cg95.cvq.business.document.DepositOrigin;
+import fr.cg95.cvq.business.document.DepositType;
+import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentBinary;
+import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.DepositOrigin;
-import fr.cg95.cvq.business.users.DepositType;
-import fr.cg95.cvq.business.users.Document;
-import fr.cg95.cvq.business.users.DocumentBinary;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqBadPageNumberException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 

@@ -5,16 +5,16 @@ import org.apache.xmlbeans.XmlException;
 import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.authority.School;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.school.ISchoolCanteenRegistrationRequestService;
 import fr.cg95.cvq.service.school.ISchoolRegistrationRequestService;
-import fr.cg95.cvq.service.users.impl.RequestService;
 import fr.cg95.cvq.xml.school.SchoolCanteenRegistrationRequestDocument;
 
 /**

@@ -45,7 +45,7 @@ import fr.cg95.cvq.bo.dispatcher.StartupServlet;
 import fr.cg95.cvq.bo.form.ImportExportForm;
 import fr.cg95.cvq.bo.manager.StateManager;
 import fr.cg95.cvq.bo.record.RequestRecord;
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.wizard.manager.ManagerWizardState;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.RequestsDocument;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import javax.servlet.jsp.PageContext;
 
-import fr.cg95.cvq.business.users.MeansOfContactEnum;
+import fr.cg95.cvq.business.request.MeansOfContactEnum;
 
 public class MeansOfContactRecord implements IResultRecord {
 

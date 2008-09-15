@@ -444,7 +444,7 @@ public class Individual implements Historizable, Serializable {
      * @hibernate.key
      *  column="individual_id"
      * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.Document"
+     *  class="fr.cg95.cvq.business.document.Document"
      */
     public Set getDocuments() {
         return this.documents;

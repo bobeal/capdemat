@@ -1,10 +1,10 @@
 package fr.capwebct.capdemat.plugins.externalservices.horanet.service;
 
 import fr.cg95.cvq.business.authority.School;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.business.users.payment.*;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqConfigurationException;

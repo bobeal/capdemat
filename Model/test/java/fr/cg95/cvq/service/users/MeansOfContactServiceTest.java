@@ -3,10 +3,10 @@ package fr.cg95.cvq.service.users;
 import java.util.List;
 
 import junit.framework.Assert;
+import fr.cg95.cvq.business.request.MeansOfContact;
+import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.MeansOfContact;
-import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;

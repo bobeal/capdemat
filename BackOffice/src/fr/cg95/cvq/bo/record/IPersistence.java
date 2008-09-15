@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.xml.common.RequestType;
 

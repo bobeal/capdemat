@@ -3,10 +3,11 @@ package fr.cg95.cvq.service.ecitizen.impl;
 import java.util.Set;
 
 import fr.cg95.cvq.business.ecitizen.VoCardRequest;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.service.ecitizen.IVoCardRequestService;
-import fr.cg95.cvq.service.users.impl.RequestService;
+import fr.cg95.cvq.service.request.impl.RequestService;
 
 
 import org.apache.log4j.Logger;

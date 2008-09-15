@@ -42,8 +42,8 @@ import org.apache.xmlbeans.XmlAnySimpleType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.fo.business.BusinessManager;
 import fr.cg95.cvq.xml.common.RequestType;

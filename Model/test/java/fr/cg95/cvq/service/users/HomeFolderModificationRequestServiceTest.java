@@ -11,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SectionType;
+import fr.cg95.cvq.business.request.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
@@ -19,7 +20,6 @@ import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.LegalResponsibleRole;
 import fr.cg95.cvq.business.users.SexType;

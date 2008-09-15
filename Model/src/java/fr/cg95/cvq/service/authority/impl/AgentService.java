@@ -19,17 +19,17 @@ import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.RequestType;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.business.users.Request;
-import fr.cg95.cvq.business.users.RequestState;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.authority.IAgentDAO;
 import fr.cg95.cvq.dao.authority.ICategoryDAO;
-import fr.cg95.cvq.dao.users.IRequestDAO;
+import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILdapService;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.util.Critere;
 
 /**

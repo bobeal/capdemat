@@ -16,7 +16,7 @@ import org.springframework.web.portlet.mvc.AbstractController;
 
 import com.zenexity.pict.cvq.fo.util.EcitizenDataCache;
 
-import fr.cg95.cvq.business.users.Request;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 
 public class ListViewController extends AbstractController {

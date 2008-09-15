@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.reservation.PlaceReservationRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.RequestState;
 import fr.cg95.cvq.business.users.payment.InternalRequestItem;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.business.users.payment.PaymentMode;

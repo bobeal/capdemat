@@ -9,19 +9,20 @@ import junit.framework.Assert;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
-import fr.cg95.cvq.business.authority.RequestSeason;
-import fr.cg95.cvq.business.authority.RequestType;
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SectionType;
+import fr.cg95.cvq.business.request.MeansOfContact;
+import fr.cg95.cvq.business.request.MeansOfContactEnum;
+import fr.cg95.cvq.business.request.RequestSeason;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.MeansOfContact;
-import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.service.school.SchoolRegistrationRequestFeeder;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;

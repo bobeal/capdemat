@@ -363,7 +363,7 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
      * @hibernate.key
      *  column="requester_id"
      * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.Request"
+     *  class="fr.cg95.cvq.business.request.Request"
      */
     public Set getRequests() {
         return this.requests;

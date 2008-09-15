@@ -1,6 +1,6 @@
 package fr.cg95.cvq.service.military;
 
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 
 public interface IMilitaryCensusRequestService extends IRequestService {
 

@@ -12,7 +12,7 @@ import fr.cg95.cvq.service.election.IElectoralRollRegistrationRequestService;
 
 public class RequestService implements IRequestService {
 	
-	private fr.cg95.cvq.service.users.IRequestService requestService;
+	private fr.cg95.cvq.service.request.IRequestService requestService;
 	private IElectoralRollRegistrationRequestService electoralRollRegistrationRequestService;
 	
 	public Set getByHomeFolderId(Long homeFolderId) 
@@ -31,7 +31,7 @@ public class RequestService implements IRequestService {
 		requestService.addDocuments(requestId, documentsId);
 	}
 	
-	public void setRequestService(fr.cg95.cvq.service.users.IRequestService requestService) {
+	public void setRequestService(fr.cg95.cvq.service.request.IRequestService requestService) {
 		this.requestService = requestService;
 	}
 	

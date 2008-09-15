@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.authority.RequestType;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
@@ -35,8 +35,8 @@ import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.payment.PaymentServiceBean;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IRequestService;
 
 public final class PaymentService implements IPaymentService {
 

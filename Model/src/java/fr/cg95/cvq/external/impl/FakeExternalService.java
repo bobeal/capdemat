@@ -28,10 +28,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;
@@ -45,9 +45,9 @@ import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.payment.IPaymentService;
+import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IRequestService;
-import fr.cg95.cvq.service.users.IRequestServiceRegistry;
 
 public class FakeExternalService implements IExternalService {
 

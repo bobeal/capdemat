@@ -10,21 +10,21 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.Request;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
-import fr.cg95.cvq.dao.users.IDocumentDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -35,11 +35,11 @@ import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IAdultService;
 import fr.cg95.cvq.service.users.IChildService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
-import fr.cg95.cvq.service.users.IRequestService;
 import fr.cg95.cvq.util.mail.IMailService;
 
 /**
@@ -74,10 +74,10 @@ public class HomeFolderService implements IHomeFolderService {
         return (HomeFolder) homeFolderDAO.findById(HomeFolder.class, id);
     }
 
+    // TODO : to be removed
     public final HomeFolder getByRequestId(final Long requestId)
         throws CvqException {
 
-        // TODO : use homeFolderDAO instead
         Request request = requestService.getById(requestId);
     	if (request == null)
     		return null;
@@ -106,7 +106,7 @@ public class HomeFolderService implements IHomeFolderService {
         return new LinkedHashSet(adultList);
     }
 
-    // TODO : move to document service
+    // TODO : use document service instead
     public final Set getAssociatedDocuments(final Long homeFolderId)
         throws CvqException {
 

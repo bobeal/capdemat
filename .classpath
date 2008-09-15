@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="Plugins/ExternalServices/CapwebctPaymentModule/src/java"/>
+	<classpathentry kind="src" output="Plugins/ExternalServices/CapwebctPaymentModule/build/classes" path="Plugins/ExternalServices/CapwebctPaymentModule/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/test" path="Plugins/ExternalServices/Clever/test/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/classes" path="Plugins/ExternalServices/Clever/src/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/SubscribersList/build/test" path="Plugins/CsvImporters/SubscribersList/test/java"/>
@@ -116,5 +116,6 @@
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-PAPH.jar"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-2.5.5.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-webmvc-2.5.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

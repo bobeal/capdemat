@@ -1,3 +1,5 @@
 BackOfficeNG-config.properties
 grails-app/conf/spring/applicationContext.xml
 stacktrace.log
+lib/
+

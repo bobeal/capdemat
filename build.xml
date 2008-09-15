@@ -265,10 +265,10 @@
   </target>
 
   <target name="prepare-webapp-bong" description="Temp target to build BONG"
-          depends="deploy-model">
+          depends="prepare-configfiles,deploy-model">
           <copy todir="BackOfficeNG/lib">
                   <fileset dir="${libraries.dir}/fr.cg95/model/">
-                          <filename name="CapDemat-Model-*-ZenVersion.jar"/>
+                          <filename name="CapDemat-Model-*.jar"/>
                   </fileset>
           </copy>
           <copy file="${deploy.properties_dir}/${deploy.properties_file}"

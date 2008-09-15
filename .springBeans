@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[2.0.6.v200806241357]]></pluginVersion>
+	<pluginVersion><![CDATA[2.1.0.v200808011800]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
+		<configSuffix><![CDATA[tpl]]></configSuffix>
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>Libraries/conf/org.springframework/applicationContext-admin.xml</config>
+		<config>Libraries/conf/org.springframework/applicationContext-deployment.xml.tpl</config>
+		<config>Libraries/conf/org.springframework/applicationContext.xml.tpl</config>
 	</configs>
 	<configSets>
+		<configSet>
+			<name><![CDATA[CapDemat]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>Libraries/conf/org.springframework/applicationContext.xml.tpl</config>
+				<config>Libraries/conf/org.springframework/applicationContext-admin.xml</config>
+				<config>Libraries/conf/org.springframework/applicationContext-deployment.xml.tpl</config>
+			</configs>
+		</configSet>
 	</configSets>
 </beansProjectDescription>

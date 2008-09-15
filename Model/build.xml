@@ -100,13 +100,29 @@
 		<antcall target="compile-tests" />
 	</target>
 	
+    <target name="ajc-compile" depends="init">
+      <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
+        <classpath>
+          <pathelement path="${libraries.dir}/org.aspectj/aspectjtools-1.6.jar"/>
+        </classpath>
+      </taskdef>
+        
+      <!-- can use ajc or iajc here -->
+      <iajc source="1.6" sourceRoots="${basedir}/${src.java.dir}" 
+        destdir="${basedir}/${build.classes.dir}" classpathRef="classpath.compile"/>
+
+    </target>
+
 	<target name="compile-sources" depends="init">
 		<mkdir dir="${basedir}/${build.classes.dir}" />
+		<antcall target="ajc-compile" />
+		<!--
 		<javac optimize="on" debug="on" deprecation="on" encoding="ISO-8859-1" 
 			verbose="off" srcdir="${basedir}/${src.java.dir}" includes="**/*.java" 
 			destdir="${basedir}/${build.classes.dir}">
 			<classpath refid="classpath.compile" />
 		</javac>
+		-->
 		<copy todir="${basedir}/${build.classes.dir}" file="${conf.dir.fop}/fop-config.xml" />
 	</target>
 
@@ -356,12 +372,17 @@
 				<fileset dir="${basedir}/${build.test.dir}">
 				    <include name="**/PaymentServiceTest.class"/>
 				    <!-- include name="**/*Test.class" /-->
+				  <!--include name="**/RequestServiceTest.class" /-->
+				                    
+				  <include name="**/TechnicalInterventionRequestServiceTest.class" />
+				  <include name="**/HolidaySecurityRequestServiceTest.class" />
+
 					<!-- not maintained any more -->
 					<exclude name="**/VacationsRegistrationRequestServiceTest.class" />
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />
 					<!-- required an LDAP directory -->
-					<!-- exclude name="**/AgentServiceTest.class" / -->
+					<exclude name="**/AgentServiceTest.class" />
 				</fileset>
 				<!-- Plugins unit tests -->
 				<!--

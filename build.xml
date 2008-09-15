@@ -264,6 +264,24 @@
     <ant dir="${serviceexporter.dir}" target="prepare-webapp" />
   </target>
 
+  <target name="prepare-webapp-bong" description="Temp target to build BONG"
+          depends="deploy-model">
+          <copy todir="BackOfficeNG/lib">
+                  <fileset dir="${libraries.dir}/fr.cg95/model/">
+                          <filename name="CapDemat-Model-*-ZenVersion.jar"/>
+                  </fileset>
+          </copy>
+          <copy file="${deploy.properties_dir}/${deploy.properties_file}"
+            tofile="BackOfficeNG/BackOfficeNG-config.properties" overwrite="true"/>
+      <copy file="${libraries.springconf.dir}/applicationContext.xml" 
+          todir="BackOfficeNG/grails-app/conf/spring" overwrite="true">
+        <filterset>
+          <filter token="perform_db_updates" value="false" />
+        </filterset>
+      </copy>
+  </target>
+
+
   <!-- ================================================================================= -->
   <!-- =============================== RELEASE TARGETS ================================= -->
   <!-- ================================================================================= -->

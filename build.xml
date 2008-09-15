@@ -81,27 +81,12 @@
   <!-- ================ CONFIGURATION FILES GENERATION TARGETS ======================= -->
   <!-- ================================================================================= -->
 
-  <target name="extract-svn-revision" depends="init">
+  <target name="prepare-configfiles">
+    
+    <tstamp>
+       <format property="application.revision" pattern="ddMMyyyy" />
+    </tstamp>
 
-    <path id="classpath.svntask">
-      <fileset dir="${libraries.dir}/org.tigris">
-        <include name="**/*.jar" />
-      </fileset>
-    </path>
-
-    <taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask" 
-      classpathref="classpath.svntask">
-    </taskdef>
-    
-    <svn>
-        <status path="build.xml" revisionProperty="application.revision"/>
-    </svn>
-    <echo message="Current revision : ${application.revision}"/>
-  
-  </target>
-    
-  <target name="prepare-configfiles" depends="extract-svn-revision">
-    
     <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml.tpl" 
       tofile="${libraries.springconf.dir}/applicationContext-deployment.xml" 
       verbose="true" overwrite="true">

@@ -37,7 +37,9 @@
           <div class="box-raduis"> 
             <g:each var="document" status="i" in="${documentList}">
               <g:if test="${i > 0}">| </g:if>
-              <a href="did=${document.id}">${document.name}</a>
+              <g:if test="${document.id != 0}">
+                <a href="did=${document.id}">${document.name}</a>
+              </g:if>
             </g:each>
           </div>
         </div>
@@ -50,51 +52,52 @@
       
     <!-- request instruction tasks state --> 
     <div id="narrow" class="yui-b">
- 
+      
+      <!-- request state -->
       <div class="nobox taskstate">
         <h3><g:message code="request.header.request" /></h3>
         <div class="body">
-          <span class="tag-pending"><g:message code="request.property.stateOpened" /></span>
+          <span id="requestState" class="${requestState.cssClass}">
+            <g:message code="${requestState.i18nKey}" />
+          </span>
         </div>
       </div>
-       
+      
+      <!-- request data state -->
       <div class="nobox taskstate">
         <h3><g:message code="request.header.data" /></h3>
         <div class="body">
-          <span class="tag-validated"><g:message code="request.property.stateValidated" /></span>
+          <span id="requestDataState" class="${requestDataState.cssClass}">
+            <g:message code="${requestDataState.i18nKey}" />
+          </span>
         </div>
       </div>
-       
+      
+      <!-- request document state -->
       <div class="nobox taskstate">
         <h3><g:message code="request.requester.property.evidences" /></h3>
         <div class="body">
-          <span class="tag-pending"><g:message code="request.property.stateOpened" /></span>
           <ul>
           <g:each var="document" status="i" in="${documentList}">
             <li>
-              <span class="tag-rejected">ref</span>
+              <span id="documentState_${i}"class="${document.state.cssClass}">
+                <g:message code="${document.state.i18nKey}" />
+              </span>
               ${document.name}
             </li>
           </g:each>
-            <li>
-              <span class="tag-validated">val</span>
-              <g:message code="request.requester.property.homeRecords" />
-            </li>
-            <li>
-              <span class="tag-pending">cou</span>
-              <g:message code="request.requester.property.familyRecordBook" />
-            </li>
           </ul>
         </div>
       </div>
-         
-      <div class="nobox  taskstate">
-        <h3><g:message code="request.requester.property.certificate" /></h3>
-        <div class="body">
-          <span class="tag-pending">à envoyer</span>
+      
+      <!-- instruction state panel -->
+      <div id="instructionStatePanel">
+        <div class="hd">Change state</div>
+        <div class="bd">
         </div>
+        <div class="ft"></div>
       </div>
-    
+      
     </div>
   </body>
 </html>

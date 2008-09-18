@@ -40,7 +40,6 @@ public final class RequestState extends PersistentStringEnum {
     public static RequestState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
             return PENDING;
-
         if (enumAsString.equals(PENDING.toString()))
             return PENDING;
         else if (enumAsString.equals(COMPLETE.toString()))

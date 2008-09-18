@@ -1,8 +1,12 @@
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.business.request.RequestNoteType
+import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.business.request.DataState
+import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.util.Critere
 
 import grails.converters.JSON
@@ -12,6 +16,7 @@ class RequestInstructionController {
     IRequestService defaultRequestService
     IHomeFolderService homeFolderService
     IAgentService agentService
+    IDocumentService documentService
    
     def translationService
     
@@ -25,30 +30,145 @@ class RequestInstructionController {
 		    def request = defaultRequestService.getById(Long.valueOf(params.id))
 		    def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
 		
-		    def documentList = [];
-		    def requestDocuments = request.getDocuments();
+		    def documentList = []
+		    def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
+		    
 		    requestDocuments.each {
-		        def document = [
-		            'id':it.id,
-		            'name':it.documentType.name
-		            ];
+		        def document = 
+		            [ 'id': it.id,
+		              'name': it.documentType.name,
+		              'state': adaptCapdematState(it.state, "documentState")
+		            ]
 		        documentList.add(document);
 		    }
-		
-		    ["request":request, "requestLabel":requestLabel, "documentList":documentList]
+		    
+		    // manage allow and associated documents of a request
+		    def isDocumentProvide
+		    defaultRequestService.getAllowedDocuments(request.getRequestType()).each { documentTypeIt ->
+		        isDocumentProvide = false
+		        requestDocuments.each { documentIt ->
+		            if (documentIt.documentType == documentTypeIt) {
+		                isDocumentProvide = true
+		            }
+		        }
+		        if (!isDocumentProvide)
+		            documentList.add(
+		                [ "id": 0,
+                      "name": documentTypeIt.name,
+                      "state": ["cssClass": "tag-not_provided", "i18nKey": "documentType.notProvided"]
+		                ])
+		    }
+		    
+		    [ "request": request,
+		      "requestState": adaptCapdematState(request.state, "requestState"),
+		      "requestDataState": adaptCapdematState(request.dataState, "requestDataState"),
+		      "requestLabel": requestLabel,
+		      "documentList": documentList
+		    ]
+    }
+    
+    // called asynchronously
+    def getStatePossibleTransition = {
+        def stateAsString = toPascalCase(params.stateCssClass.replace("tag-", "").replace("-","_"))
+        def stateType
+        if (params.stateType.startsWith("documentState"))
+            stateType = "documentState"
+        else
+            stateType = params.stateType
+        
+        def transitionStates = [] 
+        switch (stateType) {
+            case "requestDataState":
+                // TODO : move this business operation in Model
+                if (stateAsString == DataState.PENDING.toString()) {
+                    transitionStates.add(DataState.VALID)
+                    transitionStates.add(DataState.INVALID)
+                }
+                break
+            case "documentState":
+                transitionStates =
+                    documentService.getPossibleTransitions(DocumentState.forString(stateAsString))
+                break
+            case "requestState":
+                transitionStates = 
+                    defaultRequestService.getPossibleTransitions(RequestState.forString(stateAsString))
+                 break
+        }
+        
+        def states = []
+        transitionStates.each {
+            states.add (
+                adaptCapdematState(it , stateType))
+        }
+        
+        render(template: "possibleTransitionStates", model: ["states": states])
+    }
+    
+    // called asynchronously
+    def postNewState = {
+        if (params.stateType == null || params.newState == null || params.id == null )
+//            return
+
+        def stateType
+        if (params.stateType.startsWith("documentState"))
+            stateType = "documentState"
+        else
+            stateType = params.stateType
+
+        try { 
+            switch (stateType) {
+                case "requestDataState":
+                    break
+                case "documentState":
+                    break
+                case "requestState":
+                     break
+            }
+    		    render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        
+        } catch (CvqException ce) {
+            log.error "postNewState() error while updating state (request, data, or document)"
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }            
     }
     
     def loadHomeFolderData = {
-//    		def homeFolder = homeFolderService.getByrequestId(Long.valueOf(params.id))
-//    		def adults = homeFolderService.getAdults(homeFolder.id)
-//    		def children = homeFolderService.getChildren(homeFolder.id)
+//        def homeFolder = homeFolderService.getByrequestId(Long.valueOf(params.id))
+//        def adults = homeFolderService.getAdults(homeFolder.id)
+//        def children = homeFolderService.getChildren(homeFolder.id)
 
     		render(template:'homeFolderData')
     }
     
     def loadHomeFolderRequests = {
     		def request = defaultRequestService.getById(Long.valueOf(params.id))
-            redirect(controller:"request", action:"loadRequests", params:[homeFolderId:request.requester.homeFolder.id])
+        def homeFolderRequests = defaultRequestService.getByHomeFolderId(request.homeFolder.id);
+        
+        def records = []
+        homeFolderRequests.each {
+          def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null
+          def quality = 'green'
+          if (it.redAlert)
+              quality = 'red'
+          else if (it.orangeAlert)
+              quality = 'orange'
+          def record = [
+              'id':it.id,
+              'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
+              'creationDate':DateUtils.formatDate(it.creationDate),
+              'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
+              'subjectLastName':it.subject ? it.subject.lastName + " " + it.subject.firstName : "",
+              'homeFolderId':it.homeFolder.id,
+              'state':it.state.toString(),
+              'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
+              'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
+              'permanent':!it.homeFolder.boundToRequest,
+              'quality':quality
+          ]
+          records.add(record)
+        }
+        log.debug ("homefolder record list = " + records.size())
+        render(template:'/request/searchResult', collection: records, var:'record')
     }
 
     def loadRequestHistory = {
@@ -73,7 +193,7 @@ class RequestInstructionController {
                 ]
                 requestActionList.add(requestAction)
             }
-            render(template:'requestHistory', model:['requestActionList':requestActionList])
+            render(template:'requestHistory', model: ['requestActionList':requestActionList])
     }
 
     def loadRequestNotes = {
@@ -114,9 +234,62 @@ class RequestInstructionController {
     	    render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
+    /*
+     * Generic method to adapt Capdemat 'State' class (Like RequestState / DocumentState / DataState ...)
+     * TODO - move to a utils class
+     */
+    def adaptCapdematState (capdematState, i18nKeyPrefix) {
+        return [
+            "cssClass": "tag-" + capdematState.toString().toLowerCase().replace("_","-"), 
+            "i18nKey": i18nKeyPrefix + "." + toCamelCase(capdematState.toString()),
+            "enumString": capdematState.toString()
+        ]         
+    }
     
-    def test = {
-      render(view:'test')
+    /* 
+     * Transforme a string like 'FIRST_NAME' in 'firstName'
+     * TODO - move to a utils class
+     */
+    def toCamelCase (String s) {
+        def camelCaseSb = new StringBuffer()
+        def isNewWord = false
+        
+        s.toLowerCase().each {
+            if (it != '_') {
+                if (! isNewWord)
+                    camelCaseSb << it
+                else {
+                  camelCaseSb << it.toUpperCase()
+                  isNewWord = false
+                }
+            } else
+                isNewWord = true
+        }
+        return camelCaseSb.toString()
+    }
+    
+     /* 
+     * Transforme a string like 'FIRST_NAME' in 'FirstName'
+     * TODO - move to a utils class
+     */
+    def toPascalCase (String s) { 
+        def pascalCaseSb = new StringBuffer()
+        def isNewWord = false
+        
+        s.toLowerCase().eachWithIndex { obj, i ->
+            if (obj != '_') {
+                if (i == 0) 
+                    pascalCaseSb << obj.toUpperCase()
+                else if (! isNewWord)
+                    pascalCaseSb << obj
+                else {
+                  pascalCaseSb << obj.toUpperCase()
+                  isNewWord = false
+                }
+            } else
+                isNewWord = true
+        }
+        return pascalCaseSb.toString()
     }
 }
 

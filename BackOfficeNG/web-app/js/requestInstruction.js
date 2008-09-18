@@ -27,44 +27,81 @@ function initRequestInstruction() {
     
     requestInformationTabview.appendTo('requestInformation');
     
-    var requestDataTabView = new YAHOO.widget.TabView('requestData'); 
+    var requestDataTabView = new YAHOO.widget.TabView('requestData');
+    
+    
+    // Instantiate a Panel from markup 
+    YAHOO.capdematBo.instructionStatePanel = new YAHOO.widget.Panel(
+            "instructionStatePanel", 
+            { width: "135%", 
+              visible: false, 
+              constraintoviewport: true,
+              draggable: false,
+              underlay: "none",
+              close: false
+            }
+    ); 
+    YAHOO.capdematBo.instructionStatePanel.render();
 }
 
 YAHOO.util.Event.onDOMReady(initRequestInstruction);
 
-
-// RequestNote managment
 /*
-function initAddRequestNote() {
-    
-    var submitNewRequestNoteButton = new YAHOO.widget.Button("submitNewRequestNote");
-    submitNewRequestNoteButton.on("click", onSubmitNewRequestNote);
-        
-    function onSubmitNewRequestNote(ev) {
-        doAddRequestNote();
-    }
+function handleAddRequestNoteSuccess(o) {
+	var requestInformationTabs = new YAHOO.widget.TabView('requestInformation'); 
+	var requestNoteTab = requestInformationTabs.get('activeTab');
+	requestNoteTab.set('contentVisible', true);
 }
-*/
-
-YAHOO.util.Event.addListener("submitNewRequestNote","click",doAddRequestNote);
 
 function doAddRequestNote() {
     var queryUrl = YAHOO.capdematBo.baseUrl + "/addRequestNote?" +  collectSearchFormValues('requestNoteForm');   
     doAjaxFormSubmitCall(handleAddRequestNoteSuccess, null, 'requestNoteForm');    
 }
 
-function handleAddRequestNoteSuccess(o) {
-	var requestInformationTabs = new YAHOO.widget.TabView('requestInformation'); 
-	// var requestNoteTab = requestInformationTabs.getTab(1); 
-	var requestNoteTab = requestInformationTabs.get('activeTab');
-	
-	//requestNoteTab.refresh('contentVisible',true);
-	//requestNoteTab.set('dataLoaded', false);
-	requestNoteTab.set('contentVisible', true);
-    // requestNoteTab.set('dataSrc', YAHOO.capdematBo.baseUrl + '/loadRequestNotes/' + YAHOO.capdematBo.requestId); 
-}
-/*
-function handleAddRequestNoteSuccess(o) {
-     doAjaxCall('/loadRequestNotes/'+ YAHOO.capdematBo.requestId, null);
-}
+YAHOO.util.Event.addListener("submitNewRequestNote","click",doAddRequestNote);
 */
+
+
+/*
+ * Request Instruction Worflow managment
+ */
+
+var handlegetStatePossibleTransitionSuccess = function(o) {
+   YAHOO.capdematBo.instructionStatePanel.setBody(o.responseText);
+   YAHOO.capdematBo.instructionStatePanel.show();
+}
+
+function getStatePossibleTransition(stateCssClass, stateType) {
+    doAjaxCall(
+            '/getStatePossibleTransition/'
+                    + '?stateCssClass=' + stateCssClass 
+                    + '&stateType=' + stateType,
+            handlegetStatePossibleTransitionSuccess,
+            null);
+}
+
+function switchStatePanel(targetEl) {
+    var targetBgColor = YAHOO.util.Dom.getStyle(targetEl, "background-color");  
+    YAHOO.util.Dom.setStyle(YAHOO.capdematBo.instructionStatePanel.id, "border-color", targetBgColor);
+    
+    YAHOO.capdematBo.instructionStatePanel.cfg.setProperty("context", [targetEl,"tr","br"])
+    if (! YAHOO.capdematBo.instructionStatePanel.cfg.getProperty("visible")) {
+        getStatePossibleTransition(targetEl.className, targetEl.id);
+    }
+    else
+        YAHOO.capdematBo.instructionStatePanel.hide();
+}
+
+function requestStateEventdispatcher(e) {
+    var targetEl = YAHOO.util.Event.getTarget(e);
+    
+    if (targetEl.className === "cancelRequestStateChange")
+        YAHOO.capdematBo.instructionStatePanel.hide();
+    else if (targetEl.className.indexOf("tag-") != -1 && targetEl.className != "tag-not_provided")
+        switchStatePanel(targetEl);
+}
+
+YAHOO.util.Event.addListener('narrow', 'click', requestStateEventdispatcher);
+
+
+

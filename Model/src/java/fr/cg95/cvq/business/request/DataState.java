@@ -23,6 +23,8 @@ public final class DataState extends PersistentStringEnum {
     }
 
     public DataState() {}
+    
+    public static final DataState[] allDataStates = { PENDING, VALID, INVALID };
 
     public static DataState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))

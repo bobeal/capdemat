@@ -78,9 +78,9 @@
         <h3><g:message code="request.requester.property.evidences" /></h3>
         <div class="body">
           <ul>
-          <g:each var="document" status="i" in="${documentList}">
+          <g:each var="document" in="${documentList}">
             <li>
-              <span id="documentState_${i}"class="${document.state.cssClass}">
+              <span id="documentState_${document.id}" class="${document.state.cssClass}">
                 <g:message code="${document.state.i18nKey}" />
               </span>
               ${document.name}

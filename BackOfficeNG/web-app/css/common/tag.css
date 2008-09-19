@@ -73,5 +73,5 @@ data state: pending, valid, unvalid
 .tag-closed,
 .tag-cancelled,
 .tag-archived,
-.tag-no_right    { background: #333; border-color:#cccccc; color:#ffffff; }
+.tag-no_right    { background: #aaaaaa; border-color:#cccccc; color:#ffffff; }
 

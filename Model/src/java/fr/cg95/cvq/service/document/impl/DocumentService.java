@@ -19,6 +19,7 @@ import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.document.DocumentTypeValidity;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -403,6 +404,24 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
                                                              individualId);
 
         return new LinkedHashSet(providedDocSet);
+    }
+    
+    
+    // Document Workflow related methods
+    // TODO : make workflow method private - migrate unit tests
+    //////////////////////////////////////////////////////////
+    
+    public void updateDocumentState(final Long id, final DocumentState ds, final String message, 
+            final Date validityDate)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        if (ds.equals(DocumentState.VALIDATED))
+            validate(id, validityDate, message);
+        else if (ds.equals(DocumentState.CHECKED))
+            check(id,message);
+        else if (ds.equals(DocumentState.REFUSED))
+            refuse(id, message);
+        else if (ds.equals(DocumentState.OUTDATED))
+            outDated(id);
     }
 
     public void validate(final Long id, final Date validityDate,

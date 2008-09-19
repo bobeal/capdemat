@@ -1238,7 +1238,63 @@ public abstract class RequestService implements IRequestService {
         }
     }
 
-
+    //////////////////////////////////////////////////////////
+    // Request Workflow related methods
+    //////////////////////////////////////////////////////////
+    
+    
+    // Request data state treatment
+    /////////////////////////////////////////////////////////
+    
+    public void updateRequestDataState(final Long id, final DataState rs)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        if (rs.equals(DataState.VALID))
+            validData(id);
+        else if (rs.equals(DataState.INVALID))
+            invalidData(id);
+    }
+    
+    private void validData(final Long id)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        Request request = getById(id);
+        requestWorkflowService.validData(request);
+    }
+    
+    private void invalidData(final Long id)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        Request request = getById(id);
+        requestWorkflowService.invalidData(request);
+    }
+    
+    
+    // Request state treatment
+    // TODO : make workflow method private - migrate unit tests
+    /////////////////////////////////////////////////////////
+    
+    public void updateRequestState(final Long id, final RequestState rs, final String motive)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        if (rs.equals(RequestState.COMPLETE))
+            complete(id);
+        else if (rs.equals(RequestState.UNCOMPLETE))
+            specify(id, motive);
+        else if (rs.equals(RequestState.REJECTED))
+            reject(id, motive);
+        else if (rs.equals(RequestState.CANCELLED))
+            cancel(id);
+        else if (rs.equals(RequestState.VALIDATED))
+            validate(id);
+        else if (rs.equals(RequestState.NOTIFIED))
+            notify(id, motive);
+        else if (rs.equals(RequestState.ACTIVE))
+            activate(id);
+        else if (rs.equals(RequestState.EXPIRED))
+            expire(id);
+        else if (rs.equals(RequestState.CLOSED))
+            close(id);
+        else if (rs.equals(RequestState.ARCHIVED))
+            archive(id);
+    }
+    
     public void complete(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1507,6 +1563,16 @@ public abstract class RequestService implements IRequestService {
     public RequestState[] getPossibleTransitions(RequestState rs) {
 
         return requestWorkflowService.getPossibleTransitions(rs);
+    }
+    
+    public DataState[] getPossibleTransitions(DataState ds) {        
+        List<DataState> dataStateList = new ArrayList<DataState>();
+
+        if (ds.equals(DataState.PENDING)) {
+            dataStateList.add(DataState.VALID);
+            dataStateList.add(DataState.INVALID);
+        }
+        return (DataState[]) dataStateList.toArray(new DataState[0]);
     }
 
     public Set<RequestState> getStatesBefore(RequestState rs) {

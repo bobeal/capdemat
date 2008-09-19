@@ -7,6 +7,7 @@ import java.util.Set;
 import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
@@ -476,6 +477,18 @@ public interface IRequestService {
     //////////////////////////////////////////////////////////
 
     /**
+     * Dispatcher method to update request data  state
+     */
+    void updateRequestDataState(final Long id, final DataState rs)
+        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
+    
+    /**
+     * Get possible data state transitions from the given data state
+     * (see {@link fr.cg95.cvq.business.request.DataState}).
+     */
+    DataState[] getPossibleTransitions(DataState ds);
+    
+    /**
      * Get a set of home folder subjects that are authorized to be the subject of a request
      * of the type handled by current service.
      *
@@ -484,6 +497,13 @@ public interface IRequestService {
      */
     Map<Object, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException;
+    
+    /**
+     * Dispatcher method to update request state
+     */
+    void updateRequestState(final Long id, RequestState rs, String motive)
+        throws CvqException, CvqInvalidTransitionException,
+            CvqObjectNotFoundException;
     
     /**
      * Set the request state to complete.

@@ -70,20 +70,13 @@ class RequestInstructionController {
     // called asynchronously
     def getStatePossibleTransition = {
         def stateAsString = toPascalCase(params.stateCssClass.replace("tag-", "").replace("-","_"))
-        def stateType
-        if (params.stateType.startsWith("documentState"))
-            stateType = "documentState"
-        else
-            stateType = params.stateType
+        def stateType = params.stateType
         
         def transitionStates = [] 
         switch (stateType) {
             case "requestDataState":
-                // TODO : move this business operation in Model
-                if (stateAsString == DataState.PENDING.toString()) {
-                    transitionStates.add(DataState.VALID)
-                    transitionStates.add(DataState.INVALID)
-                }
+                transitionStates = 
+                    defaultRequestService.getPossibleTransitions(DataState.forString(stateAsString))
                 break
             case "documentState":
                 transitionStates =
@@ -101,32 +94,40 @@ class RequestInstructionController {
                 adaptCapdematState(it , stateType))
         }
         
-        render(template: "possibleTransitionStates", model: ["states": states])
+        render( template: "possibleTransitionStates", 
+                model: ["states": states, "stateType": stateType, "id": params.id])
     }
     
     // called asynchronously
     def postNewState = {
         if (params.stateType == null || params.newState == null || params.id == null )
-//            return
+             return
 
-        def stateType
-        if (params.stateType.startsWith("documentState"))
-            stateType = "documentState"
-        else
-            stateType = params.stateType
-
+        log.debug(params)
+        
         try { 
-            switch (stateType) {
-                case "requestDataState":
+            switch (params.stateType) {
+                case "requestDataState": 
+                    defaultRequestService.updateRequestDataState(
+                            Long.valueOf(params.id), DataState.forString(params.newState))
                     break
                 case "documentState":
+                    documentService.updateDocumentState(
+                            Long.valueOf(params.id),
+                            DocumentState.forString(params.newState),
+                            null, null)
                     break
                 case "requestState":
-                     break
+                    defaultRequestService.updateRequestState(
+                            Long.valueOf(params.id),
+                            RequestState.forString(params.newState),
+                            null)
+                   break
             }
     		    render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         
         } catch (CvqException ce) {
+            ce.printStackTrace()
             log.error "postNewState() error while updating state (request, data, or document)"
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }            

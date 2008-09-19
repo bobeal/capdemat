@@ -2,7 +2,7 @@
     <g:message code="state.noTransition" />
   </g:if>
   <g:else>
-    <form>
+    <form method="post" id="stateChangeForm" action="<g:createLink action="postNewState" />" />
       <ul>
         <g:each var="state" status="i" in="${states}">
           <li>
@@ -13,7 +13,10 @@
           </li>
         </g:each>
       </ul>
-      <input class="submitRequestStateChange" type="button" value="confirm" />
-      <input class="cancelRequestStateChange" type="button" value="cancel" />
+      <input type="hidden" name="stateType" value="${stateType}" />
+      <input type="hidden" name="id" value="${id}" />
+      
+      <input class="submitStateChange" type="button" value="confirm" />
+      <input class="cancelStateChange" type="button" value="cancel" />
     </form>
   </g:else>

@@ -40,7 +40,7 @@ function initRequestInstruction() {
               underlay: "none",
               close: false
             }
-    ); 
+    );
     YAHOO.capdematBo.instructionStatePanel.render();
 }
 
@@ -65,16 +65,62 @@ YAHOO.util.Event.addListener("submitNewRequestNote","click",doAddRequestNote);
 /*
  * Request Instruction Worflow managment
  */
+ 
+ 
+var handleSubmitStateChangeFormSuccess = function(o) {
+    var response = YAHOO.lang.JSON.parse(o.responseText);
+    if (response.status === "ok") {
+        var oldTagState = o.argument[0];
+        var newTagState = o.argument[1];
+        
+        oldTagState.className = newTagState.className;
+        oldTagState.innerHTML = newTagState.innerHTML;
+        
+        YAHOO.capdematBo.instructionStatePanel.hide();
+    } else {
+        displayResponseResult('modelError', response.error_msg);
+    }
+}
+
+function submitStateChangeForm(targetEl) {
+    
+    // bad strategy to refresh tag state ...
+    var nodes = YAHOO.util.Selector.query("input[name=stateType]", "stateChangeForm");
+    var oldTagStateEl;
+    if (nodes[0].getAttribute("value") != "documentState")
+        oldTagStateEl = YAHOO.util.Dom.get(nodes[0].getAttribute("value"));
+    else {
+        nodes = YAHOO.util.Selector.query("input[name=id]", "stateChangeForm");
+        oldTagStateEl = YAHOO.util.Dom.get(
+            "documentState_" + nodes[0].getAttribute("value"));
+    }
+    
+    nodes = YAHOO.util.Selector.query("input:checked", "stateChangeForm");
+    var newTagStateEl = YAHOO.util.Dom.getNextSibling(nodes[0]);
+    
+    doAjaxFormSubmitCall ( handleSubmitStateChangeFormSuccess,
+                           [oldTagStateEl, newTagStateEl], 
+                           "stateChangeForm");
+}
 
 var handlegetStatePossibleTransitionSuccess = function(o) {
    YAHOO.capdematBo.instructionStatePanel.setBody(o.responseText);
    YAHOO.capdematBo.instructionStatePanel.show();
 }
 
-function getStatePossibleTransition(stateCssClass, stateType) {
+function getStatePossibleTransition(stateCssClass, stateType) {   
+    var id;
+    if (stateType.indexOf("documentState_") != -1) {
+        id = stateType.replace("documentState_", "");
+        stateType = "documentState";
+    } else {
+        id = YAHOO.capdematBo.requestId
+    }
+      
     doAjaxCall(
             '/getStatePossibleTransition/'
-                    + '?stateCssClass=' + stateCssClass 
+                    + '?id=' + id
+                    + '&stateCssClass=' + stateCssClass 
                     + '&stateType=' + stateType,
             handlegetStatePossibleTransitionSuccess,
             null);
@@ -94,14 +140,15 @@ function switchStatePanel(targetEl) {
 
 function requestStateEventdispatcher(e) {
     var targetEl = YAHOO.util.Event.getTarget(e);
-    
-    if (targetEl.className === "cancelRequestStateChange")
+         
+    if (targetEl.className === "cancelStateChange")
         YAHOO.capdematBo.instructionStatePanel.hide();
+    else if (targetEl.className === "submitStateChange")
+        submitStateChangeForm(targetEl);
     else if (targetEl.className.indexOf("tag-") != -1 && targetEl.className != "tag-not_provided")
         switchStatePanel(targetEl);
 }
 
 YAHOO.util.Event.addListener('narrow', 'click', requestStateEventdispatcher);
-
 
 

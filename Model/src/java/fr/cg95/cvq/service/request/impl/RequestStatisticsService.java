@@ -75,7 +75,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     
     public Long getCount(final Set criteriaSet)
         throws CvqException {
-
+        
         checkAgentRights();
         
         Critere crit = new Critere();

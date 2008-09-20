@@ -280,7 +280,14 @@
           todir="BackOfficeNG/grails-app/conf/spring"
           overwrite="true">
       <filterset>
-        <filter token="perform_db_updates" value="false" />
+        <filter token="perform_db_updates" value="true" />
+      </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml"
+          todir="BackOfficeNG/grails-app/conf/spring"
+          overwrite="true">
+      <filterset>
+        <filter token="perform_db_updates" value="true" />
       </filterset>
     </copy>
   </target>

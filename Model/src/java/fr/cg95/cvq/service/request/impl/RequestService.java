@@ -25,7 +25,6 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
@@ -55,7 +54,6 @@ import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
-import fr.cg95.cvq.dao.document.hibernate.DocumentTypeDAO;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
@@ -189,6 +187,15 @@ public abstract class RequestService implements IRequestService {
         results = requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, false);
         
         return new LinkedHashSet(results);
+    }
+    
+    public Long getCount(Set<Critere> criteriaSet) throws CvqException {
+        
+        if (criteriaSet == null)
+            criteriaSet = new HashSet<Critere>();
+        criteriaSet.add(getCurrentUserFilter());
+
+        return requestDAO.count(criteriaSet);
     }
     
     public Request getById(final Long id)

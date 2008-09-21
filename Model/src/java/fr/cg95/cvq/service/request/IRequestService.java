@@ -126,6 +126,8 @@ public interface IRequestService {
             final int recordsReturned, final int startIndex)
         throws CvqException;
     
+    Long getCount(Set<Critere> criteriaSet) throws CvqException;
+    
     /**
      * Get a request by id.
      */

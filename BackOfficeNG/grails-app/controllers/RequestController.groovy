@@ -141,7 +141,7 @@ class RequestController {
         render(view:'search', 
         	model:['records':recordsList,
         	       'recordsReturned':requests.size(),
-                   'totalRecords':requestStatisticsService.getCount(criteria),
+                   'totalRecords':defaultRequestService.getCount(criteria),
                    
                    'filters':filters,                   
                    'filterBy':filterBy,

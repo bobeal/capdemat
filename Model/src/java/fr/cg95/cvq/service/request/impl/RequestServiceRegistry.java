@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,7 +55,7 @@ public class RequestServiceRegistry
     private Map<String, IRequestService> servicesMap = new HashMap<String, IRequestService>();
 
     /** a list of all services interested in request types lifecycle */
-    protected Collection allListenerServices;
+    protected Collection<IRequestTypeLifecycleAware> allListenerServices;
 
     private ListableBeanFactory beanFactory;
 
@@ -65,8 +64,9 @@ public class RequestServiceRegistry
     }
 
     public void init() {
-        Map services = beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class, true, true);
-        if (!services.isEmpty()) {
+        Map<String, IRequestTypeLifecycleAware> services = 
+            beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class, true, true);
+        if (services != null && !services.isEmpty()) {
             allListenerServices = services.values();
         }
     }
@@ -119,10 +119,7 @@ public class RequestServiceRegistry
 
         // notify listener services of the new request type
         if (allListenerServices != null) {
-            Iterator listenerIt = allListenerServices.iterator();
-            while (listenerIt.hasNext()) {
-                IRequestTypeLifecycleAware tempService =
-                    (IRequestTypeLifecycleAware) listenerIt.next();
+            for (IRequestTypeLifecycleAware tempService : allListenerServices) {
                 tempService.addRequestTypeService(service);
             }
         }
@@ -208,7 +205,7 @@ public class RequestServiceRegistry
         requestFormDAO.update(requestForm);
     }
     
-    public List getServicesSupportingUnregisteredCreation() {
+    public List<IRequestService> getServicesSupportingUnregisteredCreation() {
         List<IRequestService> result = new ArrayList<IRequestService>();
         for (IRequestService requestService : servicesMap.values()) {
             if (requestService.supportUnregisteredCreation())
@@ -219,7 +216,7 @@ public class RequestServiceRegistry
     }
     
 
-    public List getServicesSupportingSeasons() {
+    public List<IRequestService> getServicesSupportingSeasons() {
         List<IRequestService> result = new ArrayList<IRequestService>();
         for (IRequestService requestService : servicesMap.values()) {
             if (requestService.isOfRegistrationKind())

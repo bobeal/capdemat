@@ -2,18 +2,23 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:context="http://www.springframework.org/schema/context"
      xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd 
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <aop:config>
-      <aop:pointcut id="daoMethod"
-        expression="execution(* fr.cg95.cvq.dao.*.hibernate.*DAO.*(..))" />
-      <aop:aspect ref="hibernateExceptionTranslator">
-        <aop:after-throwing throwing="hibernateEx" pointcut-ref="daoMethod"
-          method="translateException" />
-      </aop:aspect>
-    </aop:config>
+  <!-- <context:annotation-config/> -->
+  <context:component-scan base-package="fr.cg95.cvq.service"/>
+  
+  <aop:config>
+    <aop:pointcut id="daoMethod"
+      expression="execution(* fr.cg95.cvq.dao.*.hibernate.*DAO.*(..))" />
+    <aop:aspect ref="hibernateExceptionTranslator">
+      <aop:after-throwing throwing="hibernateEx" pointcut-ref="daoMethod"
+        method="translateException" />
+    </aop:aspect>
+  </aop:config>
 
   <bean id="hibernateExceptionTranslator" 
     class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslator"/>
@@ -415,7 +420,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
   </bean>
-
+  
   <bean id="perischoolActivityRegistrationRequestService" 
     class="fr.cg95.cvq.service.school.impl.PerischoolActivityRegistrationRequestService" 
     parent="requestService">

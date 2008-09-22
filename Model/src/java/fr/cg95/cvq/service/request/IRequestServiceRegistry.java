@@ -41,13 +41,13 @@ public interface IRequestServiceRegistry {
      * Get a list of request services supporting creation by un-registered
      * users.
      */
-    List getServicesSupportingUnregisteredCreation();
+    List<IRequestService> getServicesSupportingUnregisteredCreation();
 
     /**
      * Get a list of request services supporting the notion of seasons 
      * (aka "registration services")
      */
-    List getServicesSupportingSeasons();
+    List<IRequestService> getServicesSupportingSeasons();
     
     /**
      * Registration method for request services.

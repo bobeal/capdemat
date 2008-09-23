@@ -29,6 +29,8 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo',file:'yahoo-min.js')}"></script>
   <!-- Dependencies for Dialog Container, Button, Menu, Datatable, Tabview -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo-dom-event',file:'yahoo-dom-event.js')}"></script>
+  <!-- Dependencie for Dialog Container, Drag and Drop -->
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/dragdrop',file:'dragdrop-min.js')}"></script>
   <!-- Dependencies for Button, Datatable, Tabview -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/element',file:'element-beta-min.js')}"></script>
   <!-- Used for Custom Events and event listener bindings (Connection Manager) -->

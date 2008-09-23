@@ -14,8 +14,15 @@
 request state: pending, complete, uncomplete, validated, notified, active, expired, closed, rejected, cancelled, archived
 document state: pending, validated, checked, refused, outdated
 data state: pending, valid, unvalid
+deposit type: pc, terminal, mailed_paper, brought_paper
+deposit origin: agent, ecitizen
 */
 
+
+/* deposit type */
+.tag-pc, .tag-terminal, .tag-mailed_paper, .tag-brought_paper,
+/* deposit origin */
+.tag-agent, .tag-ecitizen,
 /* request, document and data state */
 .tag-pending, .tag-complete, .tag-uncomplete, .tag-validated, .tag-notified, .tag-active,
 .tag-expired, .tag-closed, .tag-rejected, .tag-cancelled, .tag-archived,
@@ -40,38 +47,46 @@ data state: pending, valid, unvalid
 
 /* yellow */
 .tag-pending,
-.tag-uncomplete { background: #ffcc20; border-color:#ffaa20; }
+.tag-uncomplete   { background: #ffcc20; border-color:#ffaa20; }
 
 /* green */
 .tag-valid,
 .tag-validated,
 .tag-complete,
 .tag-notified,
-.tag-enable      { background: #20cc20; border-color:#20aa20; }
+.tag-enable       { background: #20cc20; border-color:#20aa20; }
 
 /* red */
-.tag-not_provided,
 .tag-invalid,
 .tag-expired,
 .tag-rejected,
 .tag-refused,
 .tag-outdated,
-.tag-disable     { background: #cc2020; border-color:#aa2020; }
+.tag-disable      { background: #cc2020; border-color:#aa2020; }
+
+/* negative red */
+.tag-not_provided { background: #dedede; color: #cc2020; border-color: #aa2020; }
 
 /* blue */
 .tag-active,
 .tag-checked,
-.tag-read_only   { background: #2020cc; border-color:#2020aa; }
+.tag-read_only    { background: #2020cc; border-color:#2020aa; }
 
 /* orange*/
-.tag-read_write  { background: #ec7000; border-color:#da7000; }
+.tag-read_write,
+.tag-agent       { background: #ec7000; border-color:#da7000; }
 
 /* violet */
-.tag-manager     { background: #aa00ff; border-color:#aa00ff; }
+.tag-ecitizen,
+.tag-manager      { background: #aa00ff; border-color:#aa00ff; }
 
 /* gray */
 .tag-closed,
 .tag-cancelled,
 .tag-archived,
-.tag-no_right    { background: #aaaaaa; border-color:#cccccc; color:#ffffff; }
+.tag-no_right     { background: #aaaaaa; border-color:#cccccc; color:#ffffff; }
+
+/* gray black */
+.tag-pc, .tag-terminal, .tag-mailed_paper, .tag-brought_paper
+                  { background: #333333; border-color:#cccccc; color:#ffffff; }
 

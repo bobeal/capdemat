@@ -38,10 +38,16 @@
             <g:each var="document" status="i" in="${documentList}">
               <g:if test="${i > 0}">| </g:if>
               <g:if test="${document.id != 0}">
-                <a href="did=${document.id}">${document.name}</a>
+                <a href="/document/${document.id}">${document.name}</a>
               </g:if>
             </g:each>
           </div>
+        </div>
+        
+        <!-- instruction state panel [default display = none] -->
+        <div id="requestDocumentPanel">
+          <div class="hd"></div>
+          <div class="bd"></div>
         </div>
    
         <!-- Request TabView -->
@@ -90,7 +96,7 @@
         </div>
       </div>
       
-      <!-- instruction state panel -->
+      <!-- instruction state panel [default display = none] -->
       <div id="instructionStatePanel">
         <div class="hd">Change state</div>
         <div class="bd">

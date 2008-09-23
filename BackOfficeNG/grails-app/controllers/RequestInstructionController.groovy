@@ -9,6 +9,8 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.util.Critere
 
+//import leo.codecs.Base64
+
 import grails.converters.JSON
 
 class RequestInstructionController {
@@ -34,12 +36,11 @@ class RequestInstructionController {
 		    def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
 		    
 		    requestDocuments.each {
-		        def document = 
-		            [ 'id': it.id,
-		              'name': it.documentType.name,
-		              'state': adaptCapdematState(it.state, "documentState")
-		            ]
-		        documentList.add(document);
+		        documentList.add( 
+                [ "id": it.id,
+                  "name": it.documentType.name,
+                  "state": adaptCapdematState(it.state, "documentState")
+		            ])
 		    }
 		    
 		    // manage allow and associated documents of a request
@@ -47,9 +48,8 @@ class RequestInstructionController {
 		    defaultRequestService.getAllowedDocuments(request.getRequestType()).each { documentTypeIt ->
 		        isDocumentProvide = false
 		        requestDocuments.each { documentIt ->
-		            if (documentIt.documentType == documentTypeIt) {
+		            if (documentIt.documentType == documentTypeIt)
 		                isDocumentProvide = true
-		            }
 		        }
 		        if (!isDocumentProvide)
 		            documentList.add(
@@ -68,8 +68,9 @@ class RequestInstructionController {
     }
     
     // called asynchronously
+    // TODO - rename this action
     def getStatePossibleTransition = {
-        def stateAsString = toPascalCase(params.stateCssClass.replace("tag-", "").replace("-","_"))
+        def stateAsString = toPascalCase(params.stateCssClass.replace("tag-", ""))
         def stateType = params.stateType
         
         def transitionStates = [] 
@@ -89,22 +90,18 @@ class RequestInstructionController {
         }
         
         def states = []
-        transitionStates.each {
-            states.add (
-                adaptCapdematState(it , stateType))
-        }
+        transitionStates.each { states.add(adaptCapdematState(it, stateType)) }
         
         render( template: "possibleTransitionStates", 
                 model: ["states": states, "stateType": stateType, "id": params.id])
     }
     
     // called asynchronously
+    // TODO - rename this action
     def postNewState = {
         if (params.stateType == null || params.newState == null || params.id == null )
              return
 
-        log.debug(params)
-        
         try { 
             switch (params.stateType) {
                 case "requestDataState": 
@@ -131,6 +128,54 @@ class RequestInstructionController {
             log.error "postNewState() error while updating state (request, data, or document)"
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }            
+    }
+    
+    def document = {
+        def document = documentService.getById(Long.valueOf(params.id))
+        
+        def actions = []
+        document.actions.each {
+            def agent
+            try {
+              agent = it.agentId ? agentService.getById(it.agentId) : null
+            } catch (CvqObjectNotFoundException) {
+                agent = null
+            }
+            
+            actions.add(
+                [ "id": it.id,
+                  "agentName": agent ? agent.lastName + " " + agent.firstName : "",
+                  "label": it.label,
+                  "note": it.note,
+                  "date": it.date,
+                  "resultingState": adaptCapdematState(it.resultingState, "documentState")
+                ])
+        }
+        
+        render( template:"requestDocument", 
+                model: [ "document": 
+                            [ "id": document.id,
+                              "name": document.documentType.name,
+                              "state": adaptCapdematState(document.state, "documentState"),
+                              "depositType": adaptCapdematState(document.depositType, "depositType"),
+                              "depositOrigin": adaptCapdematState(document.depositOrigin, "depositOrigin"),
+                              "endValidityDate": document.endValidityDate,
+                              "ecitizenNote": document.ecitizenNote,
+                              "agentNote": document.agentNote,
+                              "actions": actions,
+                              "pageNumber": documentService.getPagesNumber(document.id),
+                              "pages": documentService.getAllPages(document.id)
+                            ]
+                       ])
+    }
+    
+    
+    def documentPage = {
+        def documentBinary = documentService.getPage(
+            Long.valueOf(params.documentId), Integer.valueOf(params.pageNumber))
+
+        response.contentType = "image/png"
+        response.outputStream << documentBinary.data
     }
     
     def loadHomeFolderData = {
@@ -241,7 +286,7 @@ class RequestInstructionController {
      */
     def adaptCapdematState (capdematState, i18nKeyPrefix) {
         return [
-            "cssClass": "tag-" + capdematState.toString().toLowerCase().replace("_","-"), 
+            "cssClass": "tag-" + capdematState.toString().toLowerCase(), 
             "i18nKey": i18nKeyPrefix + "." + toCamelCase(capdematState.toString()),
             "enumString": capdematState.toString()
         ]         

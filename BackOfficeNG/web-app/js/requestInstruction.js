@@ -30,7 +30,7 @@ function initRequestInstruction() {
     var requestDataTabView = new YAHOO.widget.TabView('requestData');
     
     
-    // Instantiate a Panel from markup 
+    // Instruction State Panel
     YAHOO.capdematBo.instructionStatePanel = new YAHOO.widget.Panel(
             "instructionStatePanel", 
             { width: "135%", 
@@ -42,6 +42,21 @@ function initRequestInstruction() {
             }
     );
     YAHOO.capdematBo.instructionStatePanel.render();
+    
+    
+    // request document panel
+    YAHOO.capdematBo.requestDocumentPanel = new YAHOO.widget.Panel(
+            "requestDocumentPanel", 
+            { width: "800px",
+              y: 120,
+              visible: false, 
+              constraintoviewport: false,
+              draggable: true,
+              underlay: "none",
+              close: true
+            }
+    );
+    YAHOO.capdematBo.requestDocumentPanel.render();
 }
 
 YAHOO.util.Event.onDOMReady(initRequestInstruction);
@@ -60,6 +75,7 @@ function doAddRequestNote() {
 
 YAHOO.util.Event.addListener("submitNewRequestNote","click",doAddRequestNote);
 */
+
 
 
 /*
@@ -150,5 +166,36 @@ function requestStateEventdispatcher(e) {
 }
 
 YAHOO.util.Event.addListener('narrow', 'click', requestStateEventdispatcher);
+
+
+/*
+ * request document management 
+ */
+ 
+var handleGetRequestDocumentSuccess = function(o) {
+   YAHOO.capdematBo.requestDocumentPanel.setBody(o.responseText);
+   YAHOO.capdematBo.requestDocumentPanel.show();
+   // request document tabview
+   var requestDocumentDataTabView = new YAHOO.widget.TabView('requestDocumentData');  
+}
+
+function getRequestDocument(targetEl) {
+
+    doAjaxCall(
+            targetEl.getAttribute("href"),
+            handleGetRequestDocumentSuccess,
+            null);
+}
+ 
+function requestDocumentEventdispatcher(e) {
+    YAHOO.util.Event.preventDefault(e);
+    
+    var targetEl = YAHOO.util.Event.getTarget(e);
+    if (targetEl.tagName === "A")
+        getRequestDocument(targetEl);
+}
+
+YAHOO.util.Event.addListener('requestDocument', 'click', requestDocumentEventdispatcher);
+
 
 

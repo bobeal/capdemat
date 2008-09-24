@@ -195,6 +195,12 @@ class RequestInstructionController {
         }            
     }
     
+    
+    def contactInformation = {
+        def request = defaultRequestService.getById(Long.valueOf(params.id)) 
+        render(template:'ecitizenContact', model: ["request": request])
+    }
+    
     def loadHomeFolderData = {
 //        def homeFolder = homeFolderService.getByrequestId(Long.valueOf(params.id))
 //        def adults = homeFolderService.getAdults(homeFolder.id)

@@ -18,6 +18,7 @@
 .mainbox-yellow    { border-color: #FFD053; background: #FFFFAB; }
 .mainbox-yellow h2,
 .mainbox-yellow h3 { border-color: #FFD053 !important; }
+.mainbox-yellow hr { border: 0; border-top: 1px dashed #FFD053; }
 
 /* mainbox yellow */
 .mainbox-blue      { border-color: #C1CFE2; background: #F3F8FF; }

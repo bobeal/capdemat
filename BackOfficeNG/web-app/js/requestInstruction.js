@@ -57,6 +57,20 @@ function initRequestInstruction() {
             }
     );
     YAHOO.capdematBo.requestDocumentPanel.render();
+    
+    
+    // ecitizen contact panel
+    YAHOO.capdematBo.ecitizenContactPanel = new YAHOO.widget.Panel(
+            "ecitizenContactPanel", 
+            { width: "600px",
+              visible: false, 
+              constraintoviewport: false,
+              draggable: true,
+              underlay: "none",
+              close: true
+            }
+    );
+    YAHOO.capdematBo.ecitizenContactPanel.render();
 }
 
 YAHOO.util.Event.onDOMReady(initRequestInstruction);
@@ -112,7 +126,7 @@ function submitChangeStateForm(targetEl , formId) {
     }
     
     nodes = YAHOO.util.Selector.query("input:checked", formId);
-    var newTagStateEl = YAHOO.util.Dom.getNextSibling(nodes[0]);
+    var newTagStateEl = YAHOO.utilecitizenContactPanel.Dom.getNextSibling(nodes[0]);
     
     doAjaxFormSubmitCall ( handleSubmitStateChangeFormSuccess,
                            [oldTagStateEl, newTagStateEl], 
@@ -205,10 +219,7 @@ function getRequestDocument(targetEl) {
     if (action.indexOf("/") != 0)
         action = "/" + action;
         
-    doAjaxCall(
-            action,
-            handleGetRequestDocumentSuccess,
-            null);
+    doAjaxCall( action, handleGetRequestDocumentSuccess, null);
 }
  
 function requestDocumentEventdispatcher(e) {
@@ -223,5 +234,35 @@ function requestDocumentEventdispatcher(e) {
 
 YAHOO.util.Event.addListener('requestDocument', 'click', requestDocumentEventdispatcher);
 
+
+
+/*
+ * ecitizen contact management 
+ */
+ 
+
+var handleGetEcitizenContactPanelSuccess = function(o) {
+   YAHOO.capdematBo.ecitizenContactPanel.setBody(o.responseText);
+   YAHOO.capdematBo.ecitizenContactPanel.show();
+}
+
+function getEcitizenContactPanel(targetEl) {
+    // hacks for ie6
+    var action = targetEl.pathname;
+    if (action.indexOf("/") != 0)
+        action = "/" + action;
+        
+    doAjaxCall(action, handleGetEcitizenContactPanelSuccess, null);
+}
+ 
+function ecitizenContactEventdispatcher(e) {
+    YAHOO.util.Event.preventDefault(e);
+    
+    var targetEl = YAHOO.util.Event.getTarget(e);
+    if (targetEl.id === "ecitizenContactLink")
+        getEcitizenContactPanel(targetEl); 
+}
+
+YAHOO.util.Event.addListener('ecitizenContact', 'click', ecitizenContactEventdispatcher);
 
 

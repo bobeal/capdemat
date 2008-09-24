@@ -153,7 +153,9 @@
 #instructionStatePanel ul li { padding: .1em 0; }
 
 
+
 /* request document panel
+ * TODO : merge panel style
 -------------------------------------------------------------- */
 
 #requestDocumentPanel {
@@ -171,7 +173,6 @@
   margin: 0 0 1em 0; padding: .5em 0;
   font-size: 1.8em;
   font-weight: normal;
-/*  background: #DCE5FA;*/
   border-bottom: 1px dashed #000000;
   overflow: auto;
 }
@@ -201,4 +202,27 @@
 /* for tag floating TODO : to be refactor */
 #requestDocumentPanel .mainbox ul li span { float: right }
 
+
+/* ecitizen contact panel
+ * TODO : merge panel style
+-------------------------------------------------------------- */
+
+#ecitizenContactPanel {
+  padding: 0;
+  border: 6px solid #bbb;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  text-align: left;
+  background: #ffffff;
+}
+
+#ecitizenContactPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
+#ecitizenContactPanel .hd { height: 2.5em; padding: 0; background: #bbb; border: 0; }
+
+#ecitizenContactPanel .bd h1 { 
+  margin: 0 0 1em 0; padding: .5em 0;
+  font-size: 1.8em;
+  font-weight: normal;
+  border-bottom: 1px dashed #000000;
+}
 

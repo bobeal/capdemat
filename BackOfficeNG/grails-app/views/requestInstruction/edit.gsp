@@ -15,8 +15,15 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <div class="txt-right">
-             <a href=""><g:message code="request.action.contactEcitizen" /></a>
+          <div id="ecitizenContact" class="txt-right">
+            <a id="ecitizenContactLink" href="/contactInformation/${request.id}">
+              <g:message code="request.action.contactEcitizen" />
+            </a>
+            <!-- ecitizen contact panel [default display = none] -->
+            <div id="ecitizenContactPanel">
+              <div class="hd"></div>
+              <div class="bd"></div>
+            </div>
           </div>
           <h1><g:message code="request.header.request" /> : ${requestLabel} (Réf : ${request.id})</h1>
         </div>
@@ -49,7 +56,7 @@
             </g:each>
             </ul>
           </div>
-          <!-- instruction state panel [default display = none] -->
+          <!-- document managment panel [default display = none] -->
           <div id="requestDocumentPanel">
             <div class="hd"></div>
             <div class="bd"></div>

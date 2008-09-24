@@ -2,7 +2,7 @@
     <g:message code="state.noTransition" />
   </g:if>
   <g:else>
-    <form method="post" id="stateChangeForm" action="<g:createLink action="postNewState" />" />
+    <form method="post" id="changeStateForm" action="<g:createLink action="changeState" />" />
       <ul>
         <g:each var="state" status="i" in="${states}">
           <li>

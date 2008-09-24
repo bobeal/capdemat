@@ -9,8 +9,6 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.util.Critere
 
-//import leo.codecs.Base64
-
 import grails.converters.JSON
 
 class RequestInstructionController {
@@ -39,7 +37,7 @@ class RequestInstructionController {
 		        documentList.add( 
                 [ "id": it.id,
                   "name": it.documentType.name,
-                  "state": adaptCapdematState(it.state, "documentState")
+                  "state": CapdematUtils.adaptCapdematState(it.state, "documentState")
 		            ])
 		    }
 		    
@@ -60,17 +58,16 @@ class RequestInstructionController {
 		    }
 		    
 		    [ "request": request,
-		      "requestState": adaptCapdematState(request.state, "requestState"),
-		      "requestDataState": adaptCapdematState(request.dataState, "requestDataState"),
+		      "requestState": CapdematUtils.adaptCapdematState(request.state, "requestState"),
+		      "requestDataState": CapdematUtils.adaptCapdematState(request.dataState, "requestDataState"),
 		      "requestLabel": requestLabel,
 		      "documentList": documentList
 		    ]
     }
     
     // called asynchronously
-    // TODO - rename this action
-    def getStatePossibleTransition = {
-        def stateAsString = toPascalCase(params.stateCssClass.replace("tag-", ""))
+    def stateTransitions = {
+        def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
         def stateType = params.stateType
         
         def transitionStates = [] 
@@ -90,15 +87,14 @@ class RequestInstructionController {
         }
         
         def states = []
-        transitionStates.each { states.add(adaptCapdematState(it, stateType)) }
+        transitionStates.each { states.add(CapdematUtils.adaptCapdematState(it, stateType)) }
         
         render( template: "possibleTransitionStates", 
                 model: ["states": states, "stateType": stateType, "id": params.id])
     }
     
     // called asynchronously
-    // TODO - rename this action
-    def postNewState = {
+    def changeState = {
         if (params.stateType == null || params.newState == null || params.id == null )
              return
 
@@ -148,7 +144,7 @@ class RequestInstructionController {
                   "label": it.label,
                   "note": it.note,
                   "date": it.date,
-                  "resultingState": adaptCapdematState(it.resultingState, "documentState")
+                  "resultingState": CapdematUtils.adaptCapdematState(it.resultingState, "documentState")
                 ])
         }
         
@@ -156,9 +152,9 @@ class RequestInstructionController {
                 model: [ "document": 
                             [ "id": document.id,
                               "name": document.documentType.name,
-                              "state": adaptCapdematState(document.state, "documentState"),
-                              "depositType": adaptCapdematState(document.depositType, "depositType"),
-                              "depositOrigin": adaptCapdematState(document.depositOrigin, "depositOrigin"),
+                              "state": CapdematUtils.adaptCapdematState(document.state, "documentState"),
+                              "depositType": CapdematUtils.adaptCapdematState(document.depositType, "depositType"),
+                              "depositOrigin": CapdematUtils.adaptCapdematState(document.depositOrigin, "depositOrigin"),
                               "endValidityDate": document.endValidityDate,
                               "ecitizenNote": document.ecitizenNote,
                               "agentNote": document.agentNote,
@@ -280,63 +276,6 @@ class RequestInstructionController {
     	    render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
-    /*
-     * Generic method to adapt Capdemat 'State' class (Like RequestState / DocumentState / DataState ...)
-     * TODO - move to a utils class
-     */
-    def adaptCapdematState (capdematState, i18nKeyPrefix) {
-        return [
-            "cssClass": "tag-" + capdematState.toString().toLowerCase(), 
-            "i18nKey": i18nKeyPrefix + "." + toCamelCase(capdematState.toString()),
-            "enumString": capdematState.toString()
-        ]         
-    }
-    
-    /* 
-     * Transforme a string like 'FIRST_NAME' in 'firstName'
-     * TODO - move to a utils class
-     */
-    def toCamelCase (String s) {
-        def camelCaseSb = new StringBuffer()
-        def isNewWord = false
-        
-        s.toLowerCase().each {
-            if (it != '_') {
-                if (! isNewWord)
-                    camelCaseSb << it
-                else {
-                  camelCaseSb << it.toUpperCase()
-                  isNewWord = false
-                }
-            } else
-                isNewWord = true
-        }
-        return camelCaseSb.toString()
-    }
-    
-     /* 
-     * Transforme a string like 'FIRST_NAME' in 'FirstName'
-     * TODO - move to a utils class
-     */
-    def toPascalCase (String s) { 
-        def pascalCaseSb = new StringBuffer()
-        def isNewWord = false
-        
-        s.toLowerCase().eachWithIndex { obj, i ->
-            if (obj != '_') {
-                if (i == 0) 
-                    pascalCaseSb << obj.toUpperCase()
-                else if (! isNewWord)
-                    pascalCaseSb << obj
-                else {
-                  pascalCaseSb << obj.toUpperCase()
-                  isNewWord = false
-                }
-            } else
-                isNewWord = true
-        }
-        return pascalCaseSb.toString()
-    }
 }
 
 

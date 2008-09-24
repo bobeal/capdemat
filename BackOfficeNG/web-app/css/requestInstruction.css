@@ -64,7 +64,7 @@
 
 #requestDocument h2 { margin-top : 0; border-color: #FFD053; }
   
-#requestDocument a       { color: #CC0000; text-decoration: none; }
+#requestDocument a       { font-size: 1.2em; color: #CC0000; text-decoration: none; }
 #requestDocument a:hover { color: #ffffff; background-color: #CC0000; }
 
 /*TODO - generalize this selector and rename it !! */
@@ -197,7 +197,8 @@
   padding: .5em 0 .5em 0; 
   border-bottom:1px dashed #C1CFE2;
 }
+
 /* for tag floating TODO : to be refactor */
-#requestDocumentPanel .mainbox ul li span { float: right } 
+#requestDocumentPanel .mainbox ul li span { float: right }
 
 

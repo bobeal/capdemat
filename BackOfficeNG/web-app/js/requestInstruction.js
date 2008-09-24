@@ -172,11 +172,31 @@ YAHOO.util.Event.addListener('narrow', 'click', requestStateEventdispatcher);
  * request document management 
  */
  
+var handleSubmitModifyDocumentFormuccess = function(o) {
+    var response = YAHOO.lang.JSON.parse(o.responseText);
+    if (response.status === "ok") {
+        YAHOO.util.Dom.setStyle(o.argument[0], "background", "#aaffaa");
+    } else {
+        displayResponseResult('modelError', response.error_msg);
+    }
+}
+
+function submitModifyDocumentForm(formId) {
+    doAjaxFormSubmitCall ( handleSubmitModifyDocumentFormuccess,
+                           [formId], 
+                           formId);
+}
+
 var handleGetRequestDocumentSuccess = function(o) {
    YAHOO.capdematBo.requestDocumentPanel.setBody(o.responseText);
    YAHOO.capdematBo.requestDocumentPanel.show();
    // request document tabview
-   var requestDocumentDataTabView = new YAHOO.widget.TabView('requestDocumentData');  
+   var requestDocumentDataTabView = new YAHOO.widget.TabView('requestDocumentData');
+   
+   YAHOO.capdematBo.calendar.cal = new Array(1);
+   YAHOO.util.Event.onDOMReady(
+      YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"}
+   );
 }
 
 function getRequestDocument(targetEl) {
@@ -195,8 +215,10 @@ function requestDocumentEventdispatcher(e) {
     YAHOO.util.Event.preventDefault(e);
     
     var targetEl = YAHOO.util.Event.getTarget(e);
-    if (targetEl.tagName === "A")
+    if (targetEl.className === "documentLink")
         getRequestDocument(targetEl);
+    else if (targetEl.id === "submitModifyDocumentForm")
+        submitModifyDocumentForm("modifyDocumentForm"); 
 }
 
 YAHOO.util.Event.addListener('requestDocument', 'click', requestDocumentEventdispatcher);

@@ -45,8 +45,10 @@ form br { clear: left; }
 
 .form-button { margin: 1em 0 0 36.5%; }
 
-form .error { margin: 0 0 0 36.5%; text-align: left;}; 
+form .error { margin: 0 0 0 36.5%; text-align: left;}
 
+/* yui-calendar */
+form .yui-cal { display: none;  position: absolute;}
 
 
 /* Overrides for simple search forms
@@ -71,10 +73,6 @@ form.advanced-search label {
   float: none;
   width: 100%;
   text-align: left;
-}
-form.advanced-search .yui-cal {
-  position:absolute; 
-  display:none;
 }
 
 form.advanced-search input,

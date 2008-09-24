@@ -8,6 +8,7 @@ import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.util.Critere
+import java.util.Date
 
 import grails.converters.JSON
 
@@ -34,11 +35,14 @@ class RequestInstructionController {
 		    def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
 		    
 		    requestDocuments.each {
-		        documentList.add( 
+		        documentList.add(
                 [ "id": it.id,
                   "name": it.documentType.name,
+                  "endValidityDate" : DateUtils.formatDate((Date)it.endValidityDate),
+                  "pageNumber": documentService.getPagesNumber(it.id),
                   "state": CapdematUtils.adaptCapdematState(it.state, "documentState")
 		            ])
+		               log.debug(DateUtils.formatDate((Date)it.endValidityDate))
 		    }
 		    
 		    // manage allow and associated documents of a request
@@ -165,13 +169,30 @@ class RequestInstructionController {
                        ])
     }
     
-    
+    // render document data as PNG image
     def documentPage = {
         def documentBinary = documentService.getPage(
             Long.valueOf(params.documentId), Integer.valueOf(params.pageNumber))
 
         response.contentType = "image/png"
         response.outputStream << documentBinary.data
+    }
+    
+    def modifyDocument = {
+        def document = documentService.getById(Long.valueOf(params.documentId))
+        
+        document.endValidityDate = params.endValidityDate == "" ? 
+                document.endValidityDate : DateUtils.stringToDate(params.endValidityDate)
+        document.agentNote = params.agentNote
+        
+        try {
+            documentService.modify(document)
+            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } catch (CvqException ce) {
+            ce.printStackTrace()
+            log.error "postNewState() error while updating state (request, data, or document)"
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }            
     }
     
     def loadHomeFolderData = {

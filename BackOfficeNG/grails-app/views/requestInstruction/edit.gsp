@@ -6,6 +6,8 @@
     <script type="text/javascript">
         YAHOO.capdematBo.requestId = '${request.id}';
     </script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
+  </head>
     <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'requestInstruction.css')}" />      
   </head>
   <body>
@@ -34,20 +36,24 @@
         <div id="requestDocument"> 
           <!-- Request attached document -->
           <h2><g:message code="requestType.configuration.documents" /></h2>
-          <div class="box-raduis"> 
+          <div class="box-raduis">
+            <ul>
             <g:each var="document" status="i" in="${documentList}">
-              <g:if test="${i > 0}">| </g:if>
               <g:if test="${document.id != 0}">
-                <a href="/document/${document.id}">${document.name}</a>
+                <li>
+                  <a class="documentLink" href="/document/${document.id}">${document.name}</a>
+                   - ${document.pageNumber} pages
+                    ( ${document.endValidityDate} )
+                </li>
               </g:if>
             </g:each>
+            </ul>
           </div>
-        </div>
-        
-        <!-- instruction state panel [default display = none] -->
-        <div id="requestDocumentPanel">
-          <div class="hd"></div>
-          <div class="bd"></div>
+          <!-- instruction state panel [default display = none] -->
+          <div id="requestDocumentPanel">
+            <div class="hd"></div>
+            <div class="bd"></div>
+          </div>
         </div>
    
         <!-- Request TabView -->

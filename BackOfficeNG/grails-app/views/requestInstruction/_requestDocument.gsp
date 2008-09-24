@@ -32,7 +32,7 @@
     <div class="yui-content"> 
       <g:each var="page" in="${document.pages}">
         <div id="page${page.pageNumber}">
-          <img src="<g:createLink action="documentPage" params="[ documentId: document.id, pageNumber: page.pageNumber]" />"/>
+          <img src="<g:createLink action="documentPage" params="[documentId: document.id, pageNumber: page.pageNumber]" />"/>
         </div>
       </g:each>
 
@@ -43,18 +43,26 @@
   <div class="mainbox mainbox-yellow">
     <h2>Information</h2>
     
-    <form method="POST" id="" action="<g:createLink action="" />">
-      
+    <form method="POST" id="modifyDocumentForm" action="<g:createLink action="modifyDocument" />">
+    
       <label for="endValidityDate" class="required">Validity end :</label>
-      <input type="text" name="endValidityDate" class="required" size="40" 
+      <input type="text" id="endValidityDate" name="endValidityDate" class="required" size="10" 
           title="" value="<g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>" />
+      <a onclick="showCalendar('endValidityDateShow', 0);">
+        <img id="endValidityDateShow" src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+      </a>
+      <div id="endValidityDateCalContainer" class="yui-cal"></div>
       
       <label for="ecitizenNote" class="required">eCitizen Note :</label>
-      <input type="text" name="ecitizenNote" size="60" title="" value="${document.ecitizenNote}" />
+      <input type="text" name="ecitizenNote" size="50" title="" value="${document.ecitizenNote}" disabled="disabled" />
           
       <label for="agentNote" class="required">Agent Note :</label>
-      <input type="text" name="agentNote" size="60" title="" value="${document.agentNote}" />
-
+      <input type="text" name="agentNote" size="50" title="" value="${document.agentNote}"  />
+      
+      <input type="hidden" name="documentId" value="${document.id}" />
+      
+      <input type="button" id="submitModifyDocumentForm" class="form-button" value="submit" />
+      
     </form>
   </div>
 
@@ -75,4 +83,6 @@
       </g:each>
     </ul> 
   </div>
+  
+  
             

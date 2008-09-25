@@ -38,11 +38,10 @@ class RequestInstructionController {
 		        documentList.add(
                 [ "id": it.id,
                   "name": it.documentType.name,
-                  "endValidityDate" : DateUtils.formatDate((Date)it.endValidityDate),
+                  "endValidityDate" : it.endValidityDate == null ? "" : DateUtils.formatDate((Date)it.endValidityDate),
                   "pageNumber": documentService.getPagesNumber(it.id),
                   "state": CapdematUtils.adaptCapdematState(it.state, "documentState")
 		            ])
-		               log.debug(DateUtils.formatDate((Date)it.endValidityDate))
 		    }
 		    
 		    // manage allow and associated documents of a request

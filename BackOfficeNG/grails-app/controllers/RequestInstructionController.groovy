@@ -1,8 +1,11 @@
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.business.request.RequestNoteType
+import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.DataState
+import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.service.authority.IAgentService
@@ -18,6 +21,7 @@ class RequestInstructionController {
     IHomeFolderService homeFolderService
     IAgentService agentService
     IDocumentService documentService
+    IMeansOfContactService meansOfContactService
    
     def translationService
     
@@ -194,10 +198,67 @@ class RequestInstructionController {
         }            
     }
     
-    
+    // TODO : rename action
     def contactInformation = {
-        def request = defaultRequestService.getById(Long.valueOf(params.id)) 
-        render(template:'ecitizenContact', model: ["request": request])
+        def request = defaultRequestService.getById(Long.valueOf(params.id))
+        
+        def requesterMeansOfContacts = []
+        meansOfContactService.getAdultEnabledMeansOfContact(request.requester).each {
+            requesterMeansOfContacts.add(
+                CapdematUtils.adaptCapdematState(it.type, "meansOfContact"))
+        }
+        
+        def requestForms = []
+        defaultRequestService.getRequestTypeForms(request.requestType.id, RequestFormType.REQUEST_CERTIFICAT).each {
+            requestForms.add(
+                [ "id": it.id,
+                  "shortLabel": it.shortLabel,
+                  "xslFoFilename": it.xslFoFilename,
+                  "type": CapdematUtils.adaptCapdematState(it.type, "meansOfContact")
+                ]
+            )
+        }
+        
+        // this task must maybe be done by a service
+        def defaultContactReciepient
+        if (request.meansOfContact.type == MeansOfContactEnum.EMAIL)
+            defaultContactReciepient = request.requester.email
+        else if (request.meansOfContact.type == MeansOfContactEnum.SMS)
+            defaultContactReciepient = request.requester.mobilePhone
+        
+        render( template: "ecitizenContact", 
+                model: 
+                    [ "requesterMeansOfContacts": requesterMeansOfContacts,
+                      "requestForms": requestForms,
+                      "request": 
+                          [ "state": CapdematUtils.adaptCapdematState(request.state, "requestState"),
+                            "requesterMobilePhone": request.requester.mobilePhone,
+                            "requesterEmail": request.requester.email,
+                            "meansOfContact": CapdematUtils.adaptCapdematState(request.meansOfContact.type, "meansOfContact")
+                          ],
+                      "defaultContactReciepient": defaultContactReciepient
+                    ]
+        )
+    }
+    
+    // TODO test field
+    def notifyContact = {
+        def meansOfContact = MeansOfContactEnum.forString(params.meansOfContact)
+        def to = params.contactReciepient
+        def body = params.contactMessage
+        
+        try {
+            if (meansOfContact == MeansOfContactEnum.EMAIL)
+                meansOfContactService.notifyRequesterByEmail(null, to , "", body, null)
+            else if (meansOfContact == MeansOfContactEnum.SMS)
+                meansOfContactService.notifyRequesterBySms(to, body)
+                
+            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } catch (CvqException ce) {
+            ce.printStackTrace()
+            log.error "notifyContact() error while notifying requester)"
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }            
     }
     
     def loadHomeFolderData = {
@@ -230,7 +291,7 @@ class RequestInstructionController {
               'state':it.state.toString(),
               'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
               'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
-              'permanent':!it.homeFolder.boundToRequest,
+              'prmanent':!it.homeFolder.boundToRequest,
               'quality':quality
           ]
           records.add(record)
@@ -288,18 +349,18 @@ class RequestInstructionController {
     }
     
     def addRequestNote = {
-    	    try {
-            	if (params.requestId != null && params.newRequestNote != null)
-            			defaultRequestService.addNote(Long.valueOf(params.requestId), 
-            					RequestNoteType.DEFAULT_NOTE, params.newRequestNote)
-            	else
-            		 redirect(controller:"request")
-            } catch (CvqException cvqe) {
-            	log.error "save() error while adding a note to request " + params.id
-                render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-                return        
-            }
-    	    render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        try {
+            if (params.requestId != null && params.newRequestNote != null)
+          			defaultRequestService.addNote(Long.valueOf(params.requestId), 
+          					RequestNoteType.DEFAULT_NOTE, params.newRequestNote)
+          	else
+          		 redirect(controller:"request")
+          } catch (CvqException cvqe) {
+          	log.error "save() error while adding a note to request " + params.id
+              render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+              return        
+          }
+        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
 }

@@ -52,7 +52,7 @@ function initRequestInstruction() {
               visible: false, 
               constraintoviewport: false,
               draggable: true,
-              underlay: "none",
+              underlay: "shadow",
               close: true
             }
     );
@@ -62,11 +62,11 @@ function initRequestInstruction() {
     // ecitizen contact panel
     YAHOO.capdematBo.ecitizenContactPanel = new YAHOO.widget.Panel(
             "ecitizenContactPanel", 
-            { width: "600px",
+            { width: "650px",
               visible: false, 
               constraintoviewport: false,
               draggable: true,
-              underlay: "none",
+              underlay: "shadow",
               close: true
             }
     );
@@ -185,32 +185,18 @@ YAHOO.util.Event.addListener('narrow', 'click', requestStateEventdispatcher);
 /*
  * request document management 
  */
- 
-var handleSubmitModifyDocumentFormuccess = function(o) {
-    var response = YAHOO.lang.JSON.parse(o.responseText);
-    if (response.status === "ok") {
-        YAHOO.util.Dom.setStyle(o.argument[0], "background", "#aaffaa");
-    } else {
-        displayResponseResult('modelError', response.error_msg);
-    }
-}
 
 function submitModifyDocumentForm(formId) {
-    doAjaxFormSubmitCall ( handleSubmitModifyDocumentFormuccess,
-                           [formId], 
-                           formId);
-}
-
-var handleGetRequestDocumentSuccess = function(o) {
-   YAHOO.capdematBo.requestDocumentPanel.setBody(o.responseText);
-   YAHOO.capdematBo.requestDocumentPanel.show();
-   // request document tabview
-   var requestDocumentDataTabView = new YAHOO.widget.TabView('requestDocumentData');
-   
-   YAHOO.capdematBo.calendar.cal = new Array(1);
-   YAHOO.util.Event.onDOMReady(
-      YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"}
-   );
+    doAjaxFormSubmitCall ( 
+        function(o) {
+            var response = YAHOO.lang.JSON.parse(o.responseText);
+            if (response.status === "ok") {
+                YAHOO.util.Dom.setStyle(o.argument[0], "background", "#aaffaa");
+            } else {
+                displayResponseResult('modelError', response.error_msg);
+            }
+        }, 
+        [formId], formId );
 }
 
 function getRequestDocument(targetEl) {
@@ -219,7 +205,18 @@ function getRequestDocument(targetEl) {
     if (action.indexOf("/") != 0)
         action = "/" + action;
         
-    doAjaxCall( action, handleGetRequestDocumentSuccess, null);
+    doAjaxCall(
+        action,
+        function(o) {
+            YAHOO.capdematBo.requestDocumentPanel.setBody(o.responseText);
+            YAHOO.capdematBo.requestDocumentPanel.show();
+            // request document tabview
+            var requestDocumentDataTabView = new YAHOO.widget.TabView('requestDocumentData');
+
+            YAHOO.capdematBo.calendar.cal = new Array(1);
+            YAHOO.util.Event.onDOMReady(
+                YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"} );
+        }, null);
 }
  
 function requestDocumentEventdispatcher(e) {
@@ -239,11 +236,13 @@ YAHOO.util.Event.addListener('requestDocument', 'click', requestDocumentEventdis
 /*
  * ecitizen contact management 
  */
- 
 
-var handleGetEcitizenContactPanelSuccess = function(o) {
-   YAHOO.capdematBo.ecitizenContactPanel.setBody(o.responseText);
-   YAHOO.capdematBo.ecitizenContactPanel.show();
+function submitContactForm(formId) {
+    doAjaxFormSubmitCall ( 
+        function(o) {
+            YAHOO.capdematBo.ecitizenContactPanel.hide();
+        }, 
+        null, formId );
 }
 
 function getEcitizenContactPanel(targetEl) {
@@ -252,17 +251,50 @@ function getEcitizenContactPanel(targetEl) {
     if (action.indexOf("/") != 0)
         action = "/" + action;
         
-    doAjaxCall(action, handleGetEcitizenContactPanelSuccess, null);
+    doAjaxCall(
+        action,
+        function(o) {
+           YAHOO.capdematBo.ecitizenContactPanel.setBody(o.responseText);
+           YAHOO.capdematBo.ecitizenContactPanel.show();
+        }, 
+        null );
 }
  
 function ecitizenContactEventdispatcher(e) {
-    YAHOO.util.Event.preventDefault(e);
     
     var targetEl = YAHOO.util.Event.getTarget(e);
-    if (targetEl.id === "ecitizenContactLink")
+    if (targetEl.id === "ecitizenContactLink") {
+        YAHOO.util.Event.preventDefault(e);
         getEcitizenContactPanel(targetEl); 
+    } else if (targetEl.id === "submitContactForm") {
+        if (FIC_checkForm(e, YAHOO.util.Dom.get("contactFormErrors")))
+            submitContactForm("contactForm");
+    } else if (targetEl.id === "discardContactForm") {
+        YAHOO.capdematBo.ecitizenContactPanel.hide();
+    }
 }
 
 YAHOO.util.Event.addListener('ecitizenContact', 'click', ecitizenContactEventdispatcher);
+
+
+/* available  means of contact */
+function changeContactReciepient(e) {
+    var targetEl = YAHOO.util.Event.getTarget(e);
+
+    if (targetEl.name === "meansOfContact") {
+        var contactReciepientEl = YAHOO.util.Dom.get("contactReciepient"); 
+        
+        if (targetEl.value === "Email") {
+            var requesterEmailEl = YAHOO.util.Dom.get("requesterEmail"); 
+            contactReciepientEl.value = requesterEmailEl.value;
+        }
+        else if (targetEl.value === "Sms") {
+            var requesterMobilePhoneEl = YAHOO.util.Dom.get("requesterMobilePhone");
+            contactReciepientEl.value = requesterMobilePhoneEl.value;
+        }
+    }
+}
+
+YAHOO.util.Event.addListener('ecitizenContact', 'change', changeContactReciepient);
 
 

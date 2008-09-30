@@ -1,9 +1,10 @@
 <form method="POST" id="agentEditForm_${agent.id}" action="<g:createLink action="editAgent" />" class="form-list-edition" >
+  <div id="agentEditForm_${agent.id}Errors" class="error"></div> 
   <ul>
     <g:each var="profile" in="${profiles}" status="i">
       <li>
         <span class="${profile.cssClass}"><g:message code="${profile.i18nKey}"/></span>
-        <input name="profileIndex" value="${i}" type="radio" 
+        <input name="profileIndex" value="${i}" type="radio" class="validate-one-required" 
             ${profile.i18nKey == agent?.profile?.i18nKey ? 'checked="checked"' : ''} />
       </li>
     </g:each>

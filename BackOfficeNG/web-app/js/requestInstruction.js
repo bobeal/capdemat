@@ -32,88 +32,54 @@ function initRequestInstruction() {
     
     // Instruction State Panel
     YAHOO.capdematBo.instructionStatePanel = new YAHOO.widget.Panel(
-            "instructionStatePanel", 
-            { width: "135%", 
-              visible: false, 
-              constraintoviewport: true,
-              draggable: false,
-              underlay: "none",
-              close: false
-            }
+        "instructionStatePanel", 
+        { width: "135%", 
+          visible: false, 
+          constraintoviewport: true,
+          draggable: false,
+          underlay: "none",
+          close: false
+        }
     );
     YAHOO.capdematBo.instructionStatePanel.render();
     
     
     // request document panel
     YAHOO.capdematBo.requestDocumentPanel = new YAHOO.widget.Panel(
-            "requestDocumentPanel", 
-            { width: "800px",
-              y: 120,
-              visible: false, 
-              constraintoviewport: false,
-              draggable: true,
-              underlay: "shadow",
-              close: true
-            }
+        "requestDocumentPanel", 
+        { width: "800px",
+          y: 120,
+          visible: false, 
+          constraintoviewport: false,
+          draggable: true,
+          underlay: "shadow",
+          close: true
+        }
     );
     YAHOO.capdematBo.requestDocumentPanel.render();
     
     
     // ecitizen contact panel
     YAHOO.capdematBo.ecitizenContactPanel = new YAHOO.widget.Panel(
-            "ecitizenContactPanel", 
-            { width: "650px",
-              visible: false, 
-              constraintoviewport: false,
-              draggable: true,
-              underlay: "shadow",
-              close: true
-            }
+        "ecitizenContactPanel", 
+        { width: "650px",
+          visible: false, 
+          constraintoviewport: false,
+          draggable: true,
+          underlay: "shadow",
+          close: true
+        }
     );
     YAHOO.capdematBo.ecitizenContactPanel.render();
 }
 
 YAHOO.util.Event.onDOMReady(initRequestInstruction);
 
-/*
-function handleAddRequestNoteSuccess(o) {
-	var requestInformationTabs = new YAHOO.widget.TabView('requestInformation'); 
-	var requestNoteTab = requestInformationTabs.get('activeTab');
-	requestNoteTab.set('contentVisible', true);
-}
-
-function doAddRequestNote() {
-    var queryUrl = YAHOO.capdematBo.baseUrl + "/addRequestNote?" +  collectSearchFormValues('requestNoteForm');   
-    doAjaxFormSubmitCall(handleAddRequestNoteSuccess, null, 'requestNoteForm');    
-}
-
-YAHOO.util.Event.addListener("submitNewRequestNote","click",doAddRequestNote);
-*/
-
-
 
 /*
  * Request Instruction Worflow managment
  */
- 
- 
-var handleSubmitStateChangeFormSuccess = function(o) {
-    var response = YAHOO.lang.JSON.parse(o.responseText);
-    if (response.status === "ok") {
-        var oldTagState = o.argument[0];
-        var newTagState = o.argument[1];
-        
-        oldTagState.className = newTagState.className;
-        oldTagState.innerHTML = newTagState.innerHTML;
-        
-        YAHOO.capdematBo.instructionStatePanel.hide();
-    } else {
-        displayResponseResult('modelError', response.error_msg);
-    }
-}
-
 function submitChangeStateForm(targetEl , formId) {
-    
     // bad strategy to refresh tag state ...
     var nodes = YAHOO.util.Selector.query("input[name=stateType]", formId);
     var oldTagStateEl;
@@ -126,17 +92,24 @@ function submitChangeStateForm(targetEl , formId) {
     }
     
     nodes = YAHOO.util.Selector.query("input:checked", formId);
-    var newTagStateEl = YAHOO.utilecitizenContactPanel.Dom.getNextSibling(nodes[0]);
+    var newTagStateEl = YAHOO.util.Dom.getNextSibling(nodes[0]);
     
-    doAjaxFormSubmitCall ( handleSubmitStateChangeFormSuccess,
-                           [oldTagStateEl, newTagStateEl], 
-                           formId);
+    doAjaxFormSubmitCall ( 
+        function(o) {
+            var response = YAHOO.lang.JSON.parse(o.responseText);
+            if (response.status === "ok") {        
+                oldTagStateEl.className = newTagStateEl.className;
+                oldTagStateEl.innerHTML = newTagStateEl.innerHTML;
+                
+                YAHOO.capdematBo.instructionStatePanel.hide();
+            } else {
+                displayResponseResult('modelError', response.error_msg);
+            }
+        },
+       null, 
+       formId);
 }
 
-var handleGetStateTransitionsSuccess = function(o) {
-   YAHOO.capdematBo.instructionStatePanel.setBody(o.responseText);
-   YAHOO.capdematBo.instructionStatePanel.show();
-}
 
 function getStateTransitions(stateCssClass, stateType) {   
     var id;
@@ -148,12 +121,13 @@ function getStateTransitions(stateCssClass, stateType) {
     }
       
     doAjaxCall(
-            '/stateTransitions/'
-                    + '?id=' + id
-                    + '&stateCssClass=' + stateCssClass 
-                    + '&stateType=' + stateType,
-            handleGetStateTransitionsSuccess,
-            null);
+        '/stateTransitions/' + '?id=' + id 
+            + '&stateCssClass=' + stateCssClass + '&stateType=' + stateType,
+        function(o) {
+            YAHOO.capdematBo.instructionStatePanel.setBody(o.responseText);
+            YAHOO.capdematBo.instructionStatePanel.show();
+        },
+        null);
 }
 
 function switchStatePanel(targetEl) {
@@ -191,12 +165,12 @@ function submitModifyDocumentForm(formId) {
         function(o) {
             var response = YAHOO.lang.JSON.parse(o.responseText);
             if (response.status === "ok") {
-                YAHOO.util.Dom.setStyle(o.argument[0], "background", "#aaffaa");
+                YAHOO.util.Dom.setStyle(formId, "background", "#aaffaa");
             } else {
                 displayResponseResult('modelError', response.error_msg);
             }
         }, 
-        [formId], formId );
+        null, formId );
 }
 
 function getRequestDocument(targetEl) {
@@ -239,7 +213,7 @@ YAHOO.util.Event.addListener('requestDocument', 'click', requestDocumentEventdis
 
 function submitContactForm(formId) {
     doAjaxFormSubmitCall ( 
-        function(o) {
+        function(o) { 
             YAHOO.capdematBo.ecitizenContactPanel.hide();
         }, 
         null, formId );

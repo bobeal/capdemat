@@ -17,9 +17,7 @@ class CategoryController {
     
     def defaultAction = "list"
     
-    def beforeInterceptor = {
-        session["currentMenu"] = "category"
-    }
+    def beforeInterceptor = { session["currentMenu"] = "category" }
 
     def list = {
         log.debug "list() returning all categories"
@@ -220,30 +218,12 @@ class CategoryController {
         log.debug "loadAgentEditTemplate()"
         def agent = agentService.getById(Long.valueOf(params.agentId));
         def profiles = []
-        CategoryProfile.allCategoryProfiles.each {
-            profiles.add(adaptCategoryProfile(it))
-        }
+        CategoryProfile.allCategoryProfiles.each { profiles.add(adaptCategoryProfile(it)) }
         
         render( template: "categoryAgentEdit",
-                model: [categoryId: new Long(params.id),
-                       agent: adaptAgent(agent),
-                       profiles: profiles])
+            model: [categoryId: new Long(params.id), agent: adaptAgent(agent), profiles: profiles])
     }
     
-    // TODO - not used
-    def associateAgent = {
-        log.debug "associateAgent() associating agent ${params.agentId} to ${params.categoryId} with profile ${params.profileIndex}"    
-        try {
-        	  agentService.addCategoryRole(Long.valueOf(params.agentId), Long.valueOf(params.categoryId),
-        	        getProfileFromIndex(0/*Integer.valueOf(params.profileIndex)*/))
-
-    	    	render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-        } catch (CvqException ce) {
-        	  log.error "associateAgent() error while associating agent to category"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-            return
-        }            
-    }
     
     def unassociateAgent = {
         log.debug "unassociateAgent() unassociating agent ${params.agentId} to ${params.categoryId}"    
@@ -259,9 +239,8 @@ class CategoryController {
     }
     
     def editAgent = {
-        if (params.agentId == null || params.categoryId == null) {
-//            return
-        }
+        if (params.agentId == null || params.categoryId == null)
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
           
         log.debug "editAgent() editAgent agent ${params.agentId} to ${params.categoryId}"
         try {
@@ -272,6 +251,7 @@ class CategoryController {
 
     		    render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
+            log.debug(ce.printStackTrace())
             log.error "editAgent() error while editAgent agent to category"
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }            
@@ -302,6 +282,7 @@ class CategoryController {
         ]
     }
     
+    // TODO - use CapdematUtils 
     def adaptCategoryProfile(categoryProfile) {
         def cssClass
         def i18nKey

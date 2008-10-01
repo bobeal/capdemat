@@ -37,10 +37,10 @@ public interface IAgentService {
     void delete(final String agentLogin)
         throws CvqException;
     
-    Set<Agent> getAll()
+    List<Agent> getAll()
         throws CvqException;
     
-    Set<Agent> get(final Set criteriaSet)
+    List<Agent> get(final Set criteriaSet)
         throws CvqException;
 
     /**

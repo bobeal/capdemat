@@ -45,17 +45,20 @@
             <ul>
               <li>
                 <label><g:message code="property.date" /></label>
-                <input type="radio" id="creationDate" onchange="sortSearchRequest('creationDate');"
+                <input type="radio" id="creationDate" 
+                  onchange="YAHOO.capdematBo.request.search.sortSearchRequest('creationDate');"
                   ${sortBy == 'creationDate' ? 'checked' : ''} />
               </li>
               <li>
                 <label><g:message code="property.requester" /></label>
-                <input type="radio" id="requesterLastName" onchange="sortSearchRequest('requesterLastName');"
+                <input type="radio" id="requesterLastName" 
+                  onchange="YAHOO.capdematBo.request.search.sortSearchRequest('requesterLastName');"
                   ${sortBy == 'requesterLastName' ? 'checked' : ''} />
               </li>
               <li>
                 <label><g:message code="property.homeFolder" /></label>
-                <input type="radio" id="homeFolderId" onchange="sortSearchRequest('homeFolderId');" 
+                <input type="radio" id="homeFolderId" 
+                onchange="YAHOO.capdematBo.request.search.sortSearchRequest('homeFolderId');" 
                   ${sortBy == 'homeFolderId' ? 'checked' : ''} />
               </li>
             </ul>
@@ -69,7 +72,7 @@
           <form action="#">
             <label for="categoryId"><g:message code="property.category" /> :</label>
             <select name="categoryIdFilter" id="categoryIdFilter" 
-              onchange="filterSearchRequest('categoryIdFilter');">
+              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('categoryIdFilter');">
               <option value=""></option>
               <g:each in="${allCategories}" var="category">
                 <option value="${category.id}" ${filters['categoryIdFilter'] == category.id.toString() ? 'selected' : ''}>
@@ -80,11 +83,11 @@
             
             <label for="requestType"><g:message code="property.requestType" /> :</label>
             <select name="requestTypeFilter" id="requestTypeFilter" 
-              onchange="filterSearchRequest('requestTypeFilter');" style="width:100%;">
+              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('requestTypeFilter');" style="width:100%;">
               <option value=""></option>
               <g:each in="${allRequestTypes}" var="requestType">
-                <option value="${requestType.key}" ${filters['requestTypeFilter'] == requestType.key.toString() ? 'selected' : ''}>
-                  ${requestType.value}
+                <option value="${requestType.id}" ${filters['requestTypeFilter'] == requestType.id.toString() ? 'selected' : ''}>
+                  ${requestType.label}
                 </option>
               </g:each>
             </select>

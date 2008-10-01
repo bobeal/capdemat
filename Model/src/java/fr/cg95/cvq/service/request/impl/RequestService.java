@@ -169,9 +169,10 @@ public abstract class RequestService implements IRequestService {
     public Set get(Set criteriaSet, final String orderedBy, final boolean onlyIds)
         throws CvqException {
 
-        criteriaSet.add(getCurrentUserFilter());
-        List results = null;
-        results = requestDAO.search(criteriaSet, orderedBy, null, -1, 0, onlyIds);
+        Critere userFilterCritere = getCurrentUserFilter();
+        if (userFilterCritere != null)
+            criteriaSet.add(getCurrentUserFilter());
+        List results = requestDAO.search(criteriaSet, orderedBy, null, -1, 0, onlyIds);
 
         return new LinkedHashSet(results);
     }
@@ -182,9 +183,10 @@ public abstract class RequestService implements IRequestService {
         
         if (criteriaSet == null)
             criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(getCurrentUserFilter());
-        List results = null;
-        results = requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, false);
+        Critere userFilterCritere = getCurrentUserFilter();
+        if (userFilterCritere != null)
+            criteriaSet.add(getCurrentUserFilter());
+        List results = requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, false);
         
         return new LinkedHashSet(results);
     }
@@ -193,7 +195,9 @@ public abstract class RequestService implements IRequestService {
         
         if (criteriaSet == null)
             criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(getCurrentUserFilter());
+        Critere userFilterCritere = getCurrentUserFilter();
+        if (userFilterCritere != null)
+            criteriaSet.add(getCurrentUserFilter());
 
         return requestDAO.count(criteriaSet);
     }

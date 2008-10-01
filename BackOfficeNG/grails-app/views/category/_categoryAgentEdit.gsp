@@ -1,10 +1,15 @@
 <form method="POST" id="agentEditForm_${agent.id}" action="<g:createLink action="editAgent" />" class="form-list-edition" >
+  <div id="agentEditForm_${agent.id}Errors" class="error"></div> 
   <ul>
     <g:each var="profile" in="${profiles}" status="i">
       <li>
-        <span class="${profile.cssClass}"><g:message code="${profile.i18nKey}"/></span>
-        <input name="profileIndex" value="${i}" type="radio" 
-            ${profile.i18nKey == agent?.profile?.i18nKey ? 'checked="checked"' : ''} />
+        <span class="${profile.cssClass}"><g:message code="${profile.i18nKey}"/></span>        
+        <input name="profileIndex" value="${i}" type="radio"
+            <g:if test="${i == 0}">
+            class="validate-one-required" title="Agent category profile is required"
+            </g:if> 
+            ${profile.i18nKey == agent?.profile?.i18nKey ? 'checked="checked"' : ''}
+        />
       </li>
     </g:each>
   </ul>

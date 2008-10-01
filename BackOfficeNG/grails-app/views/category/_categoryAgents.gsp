@@ -1,4 +1,4 @@
-
+  
 <g:each in="${agents}" var="agent">
   <g:if test="${agent?.notBelong}">
     <li id="agent_${agent.id}" class="notBelong">

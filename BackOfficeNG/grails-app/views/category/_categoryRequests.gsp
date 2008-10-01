@@ -20,7 +20,7 @@
   <g:else>
       <span>${requestType.label}</span>
   </g:else>
-  <g:if test="${requestType?.categoryId != categoryId}">
+  <g:if test="${requestType?.categoryId != categoryId && requestType.categoryId != null}">
     <span class="categoryName">(${requestType?.categoryName})</span>
   </g:if>
     </li>

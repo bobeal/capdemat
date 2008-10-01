@@ -71,7 +71,7 @@
 .editableList li a.associate       { background-image: url(../images/icons/associate.png); }
 .editableList li a.unassociate     { background-image: url(../images/icons/unassociate.png); }
 .editableList li a.editItem        { background-image: url(../images/icons/edit.png); }
-.editableList li a.currentEditItem { background-image: url(../images/icons/edit.png); cursor: default; }
+.editableList li a.currentEditItem { cursor: default; }
 .editableList li a:hover           { background-color: transparent;}
 
 .editableList li span.agentName     { width: 35%; float: left; }
@@ -107,10 +107,11 @@
   clear: both; /* hack for tag alignment */
 }
 
+.form-list-edition .error { margin: 0 40% 1em 0; }
 .form-list-edition label, 
-.form-list-edition input { display: inline; width: auto; }
+.form-list-edition input  { display: inline; width: auto; }
 
-.form-list-edition ul    { margin: 0; }
+.form-list-edition ul     { margin: 0; }
 
 .form-list-edition ul li {
   width: 20%;

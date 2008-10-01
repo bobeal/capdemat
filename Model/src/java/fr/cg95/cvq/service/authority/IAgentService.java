@@ -39,6 +39,7 @@ public interface IAgentService {
     
     Set<Agent> getAll()
         throws CvqException;
+    
     Set<Agent> get(final Set criteriaSet)
         throws CvqException;
 
@@ -83,6 +84,9 @@ public interface IAgentService {
     void modifyProfiles(Agent agent, final List newGroups, final List administratorGroups,
             final List agentGroups, final LocalAuthority localAuthority)
         throws CvqException;
+    
+    void updateUserProfiles(String username, List<String> groups, 
+            Map<String, String> informations) throws CvqException;
     
     /**
      * Set or unset (if category profile is {@link CategoryProfile#NONE}) the agent's profile 

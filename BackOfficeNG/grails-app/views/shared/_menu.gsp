@@ -1,4 +1,7 @@
 <h1><a class="logo" href="<g:createLink controller='request' action='taskBoard'/>">CapDémat</a></h1>
+<div id="userInfo">
+  ${session.currentUser} - <a href="${createLinkTo(dir:'',file:'casLogout.gsp')}"><g:message code="action.logout" /></a>
+</div>
 <div id="menu">
   <a id="requestMenuItem" href="<g:createLink controller='request'/>">
     <g:message code="menu.requests" />

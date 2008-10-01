@@ -29,8 +29,8 @@ form label span {
 
 form input, form textarea, form select {
 	/* display: inline; inline display must not be set or will hide submit buttons in IE 5x mac */
-	width:auto;      /* set width of form elements to auto-size, otherwise watch for wrap on resize */
-	margin:5px 0 0 1%; /* set margin on left of form elements rather than right of
+	width: auto;      /* set width of form elements to auto-size, otherwise watch for wrap on resize */
+	margin: 3px 0 5px 1%; /* set margin on left of form elements rather than right of
                               label aligns textarea better in IE */
 }
 
@@ -43,7 +43,7 @@ form .required {
 /* TODO - Verify usefullness */
 form br { clear: left; }
 
-.form-button { margin: 1em 0 0 36.5%; }
+form .form-button { margin: 1em 0 0 36.5%; }
 
 form .error { margin: 0 0 0 36.5%; text-align: left;}
 

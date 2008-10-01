@@ -32,88 +32,54 @@ function initRequestInstruction() {
     
     // Instruction State Panel
     YAHOO.capdematBo.instructionStatePanel = new YAHOO.widget.Panel(
-            "instructionStatePanel", 
-            { width: "135%", 
-              visible: false, 
-              constraintoviewport: true,
-              draggable: false,
-              underlay: "none",
-              close: false
-            }
+        "instructionStatePanel", 
+        { width: "135%", 
+          visible: false, 
+          constraintoviewport: true,
+          draggable: false,
+          underlay: "none",
+          close: false
+        }
     );
     YAHOO.capdematBo.instructionStatePanel.render();
     
     
     // request document panel
     YAHOO.capdematBo.requestDocumentPanel = new YAHOO.widget.Panel(
-            "requestDocumentPanel", 
-            { width: "800px",
-              y: 120,
-              visible: false, 
-              constraintoviewport: false,
-              draggable: true,
-              underlay: "none",
-              close: true
-            }
+        "requestDocumentPanel", 
+        { width: "800px",
+          y: 120,
+          visible: false, 
+          constraintoviewport: false,
+          draggable: true,
+          underlay: "shadow",
+          close: true
+        }
     );
     YAHOO.capdematBo.requestDocumentPanel.render();
     
     
     // ecitizen contact panel
     YAHOO.capdematBo.ecitizenContactPanel = new YAHOO.widget.Panel(
-            "ecitizenContactPanel", 
-            { width: "600px",
-              visible: false, 
-              constraintoviewport: false,
-              draggable: true,
-              underlay: "none",
-              close: true
-            }
+        "ecitizenContactPanel", 
+        { width: "650px",
+          visible: false, 
+          constraintoviewport: false,
+          draggable: true,
+          underlay: "shadow",
+          close: true
+        }
     );
     YAHOO.capdematBo.ecitizenContactPanel.render();
 }
 
 YAHOO.util.Event.onDOMReady(initRequestInstruction);
 
-/*
-function handleAddRequestNoteSuccess(o) {
-	var requestInformationTabs = new YAHOO.widget.TabView('requestInformation'); 
-	var requestNoteTab = requestInformationTabs.get('activeTab');
-	requestNoteTab.set('contentVisible', true);
-}
-
-function doAddRequestNote() {
-    var queryUrl = YAHOO.capdematBo.baseUrl + "/addRequestNote?" +  collectSearchFormValues('requestNoteForm');   
-    doAjaxFormSubmitCall(handleAddRequestNoteSuccess, null, 'requestNoteForm');    
-}
-
-YAHOO.util.Event.addListener("submitNewRequestNote","click",doAddRequestNote);
-*/
-
-
 
 /*
  * Request Instruction Worflow managment
  */
- 
- 
-var handleSubmitStateChangeFormSuccess = function(o) {
-    var response = YAHOO.lang.JSON.parse(o.responseText);
-    if (response.status === "ok") {
-        var oldTagState = o.argument[0];
-        var newTagState = o.argument[1];
-        
-        oldTagState.className = newTagState.className;
-        oldTagState.innerHTML = newTagState.innerHTML;
-        
-        YAHOO.capdematBo.instructionStatePanel.hide();
-    } else {
-        displayResponseResult('modelError', response.error_msg);
-    }
-}
-
 function submitChangeStateForm(targetEl , formId) {
-    
     // bad strategy to refresh tag state ...
     var nodes = YAHOO.util.Selector.query("input[name=stateType]", formId);
     var oldTagStateEl;
@@ -126,17 +92,24 @@ function submitChangeStateForm(targetEl , formId) {
     }
     
     nodes = YAHOO.util.Selector.query("input:checked", formId);
-    var newTagStateEl = YAHOO.utilecitizenContactPanel.Dom.getNextSibling(nodes[0]);
+    var newTagStateEl = YAHOO.util.Dom.getNextSibling(nodes[0]);
     
-    doAjaxFormSubmitCall ( handleSubmitStateChangeFormSuccess,
-                           [oldTagStateEl, newTagStateEl], 
-                           formId);
+    doAjaxFormSubmitCall ( 
+        function(o) {
+            var response = YAHOO.lang.JSON.parse(o.responseText);
+            if (response.status === "ok") {        
+                oldTagStateEl.className = newTagStateEl.className;
+                oldTagStateEl.innerHTML = newTagStateEl.innerHTML;
+                
+                YAHOO.capdematBo.instructionStatePanel.hide();
+            } else {
+                displayResponseResult('modelError', response.error_msg);
+            }
+        },
+       null, 
+       formId);
 }
 
-var handleGetStateTransitionsSuccess = function(o) {
-   YAHOO.capdematBo.instructionStatePanel.setBody(o.responseText);
-   YAHOO.capdematBo.instructionStatePanel.show();
-}
 
 function getStateTransitions(stateCssClass, stateType) {   
     var id;
@@ -148,12 +121,13 @@ function getStateTransitions(stateCssClass, stateType) {
     }
       
     doAjaxCall(
-            '/stateTransitions/'
-                    + '?id=' + id
-                    + '&stateCssClass=' + stateCssClass 
-                    + '&stateType=' + stateType,
-            handleGetStateTransitionsSuccess,
-            null);
+        '/stateTransitions/' + '?id=' + id 
+            + '&stateCssClass=' + stateCssClass + '&stateType=' + stateType,
+        function(o) {
+            YAHOO.capdematBo.instructionStatePanel.setBody(o.responseText);
+            YAHOO.capdematBo.instructionStatePanel.show();
+        },
+        null);
 }
 
 function switchStatePanel(targetEl) {
@@ -185,32 +159,18 @@ YAHOO.util.Event.addListener('narrow', 'click', requestStateEventdispatcher);
 /*
  * request document management 
  */
- 
-var handleSubmitModifyDocumentFormuccess = function(o) {
-    var response = YAHOO.lang.JSON.parse(o.responseText);
-    if (response.status === "ok") {
-        YAHOO.util.Dom.setStyle(o.argument[0], "background", "#aaffaa");
-    } else {
-        displayResponseResult('modelError', response.error_msg);
-    }
-}
 
 function submitModifyDocumentForm(formId) {
-    doAjaxFormSubmitCall ( handleSubmitModifyDocumentFormuccess,
-                           [formId], 
-                           formId);
-}
-
-var handleGetRequestDocumentSuccess = function(o) {
-   YAHOO.capdematBo.requestDocumentPanel.setBody(o.responseText);
-   YAHOO.capdematBo.requestDocumentPanel.show();
-   // request document tabview
-   var requestDocumentDataTabView = new YAHOO.widget.TabView('requestDocumentData');
-   
-   YAHOO.capdematBo.calendar.cal = new Array(1);
-   YAHOO.util.Event.onDOMReady(
-      YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"}
-   );
+    doAjaxFormSubmitCall ( 
+        function(o) {
+            var response = YAHOO.lang.JSON.parse(o.responseText);
+            if (response.status === "ok") {
+                YAHOO.util.Dom.setStyle(formId, "background", "#aaffaa");
+            } else {
+                displayResponseResult('modelError', response.error_msg);
+            }
+        }, 
+        null, formId );
 }
 
 function getRequestDocument(targetEl) {
@@ -219,7 +179,18 @@ function getRequestDocument(targetEl) {
     if (action.indexOf("/") != 0)
         action = "/" + action;
         
-    doAjaxCall( action, handleGetRequestDocumentSuccess, null);
+    doAjaxCall(
+        action,
+        function(o) {
+            YAHOO.capdematBo.requestDocumentPanel.setBody(o.responseText);
+            YAHOO.capdematBo.requestDocumentPanel.show();
+            // request document tabview
+            var requestDocumentDataTabView = new YAHOO.widget.TabView('requestDocumentData');
+
+            YAHOO.capdematBo.calendar.cal = new Array(1);
+            YAHOO.util.Event.onDOMReady(
+                YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"} );
+        }, null);
 }
  
 function requestDocumentEventdispatcher(e) {
@@ -239,11 +210,13 @@ YAHOO.util.Event.addListener('requestDocument', 'click', requestDocumentEventdis
 /*
  * ecitizen contact management 
  */
- 
 
-var handleGetEcitizenContactPanelSuccess = function(o) {
-   YAHOO.capdematBo.ecitizenContactPanel.setBody(o.responseText);
-   YAHOO.capdematBo.ecitizenContactPanel.show();
+function submitContactForm(formId) {
+    doAjaxFormSubmitCall ( 
+        function(o) { 
+            YAHOO.capdematBo.ecitizenContactPanel.hide();
+        }, 
+        null, formId );
 }
 
 function getEcitizenContactPanel(targetEl) {
@@ -252,17 +225,50 @@ function getEcitizenContactPanel(targetEl) {
     if (action.indexOf("/") != 0)
         action = "/" + action;
         
-    doAjaxCall(action, handleGetEcitizenContactPanelSuccess, null);
+    doAjaxCall(
+        action,
+        function(o) {
+           YAHOO.capdematBo.ecitizenContactPanel.setBody(o.responseText);
+           YAHOO.capdematBo.ecitizenContactPanel.show();
+        }, 
+        null );
 }
  
 function ecitizenContactEventdispatcher(e) {
-    YAHOO.util.Event.preventDefault(e);
     
     var targetEl = YAHOO.util.Event.getTarget(e);
-    if (targetEl.id === "ecitizenContactLink")
+    if (targetEl.id === "ecitizenContactLink") {
+        YAHOO.util.Event.preventDefault(e);
         getEcitizenContactPanel(targetEl); 
+    } else if (targetEl.id === "submitContactForm") {
+        if (FIC_checkForm(e, YAHOO.util.Dom.get("contactFormErrors")))
+            submitContactForm("contactForm");
+    } else if (targetEl.id === "discardContactForm") {
+        YAHOO.capdematBo.ecitizenContactPanel.hide();
+    }
 }
 
 YAHOO.util.Event.addListener('ecitizenContact', 'click', ecitizenContactEventdispatcher);
+
+
+/* available  means of contact */
+function changeContactReciepient(e) {
+    var targetEl = YAHOO.util.Event.getTarget(e);
+
+    if (targetEl.name === "meansOfContact") {
+        var contactReciepientEl = YAHOO.util.Dom.get("contactReciepient"); 
+        
+        if (targetEl.value === "Email") {
+            var requesterEmailEl = YAHOO.util.Dom.get("requesterEmail"); 
+            contactReciepientEl.value = requesterEmailEl.value;
+        }
+        else if (targetEl.value === "Sms") {
+            var requesterMobilePhoneEl = YAHOO.util.Dom.get("requesterMobilePhone");
+            contactReciepientEl.value = requesterMobilePhoneEl.value;
+        }
+    }
+}
+
+YAHOO.util.Event.addListener('ecitizenContact', 'change', changeContactReciepient);
 
 

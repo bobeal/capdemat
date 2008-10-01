@@ -160,14 +160,14 @@
 
 #requestDocumentPanel {
   padding: 0;
-  border: 6px solid #bbb;
+  border: 6px solid #636e80;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em;
   background: #ffffff;
 }
 
 #requestDocumentPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
-#requestDocumentPanel .hd { height: 2.5em; padding: 0; background: #bbb; border: 0; }
+#requestDocumentPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
 
 #requestDocumentPanel .bd h1 { 
   margin: 0 0 1em 0; padding: .5em 0;
@@ -209,7 +209,7 @@
 
 #ecitizenContactPanel {
   padding: 0;
-  border: 6px solid #bbb;
+  border: 6px solid #636e80;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em;
   text-align: left;
@@ -217,7 +217,7 @@
 }
 
 #ecitizenContactPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
-#ecitizenContactPanel .hd { height: 2.5em; padding: 0; background: #bbb; border: 0; }
+#ecitizenContactPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
 
 #ecitizenContactPanel .bd h1 { 
   margin: 0 0 1em 0; padding: .5em 0;
@@ -225,4 +225,17 @@
   font-weight: normal;
   border-bottom: 1px dashed #000000;
 }
+
+#ecitizenContactPanel .bd h1 span { float: right; font-size: .7em; } 
+
+/* color just for mainbox-yellow !! */
+#ecitizenContactPanel .bd form fieldset               { margin: 1em 0; padding: .2em 0; border-top: 1px dashed #FFD053; border-bottom: 1px dashed #FFD053; }
+#ecitizenContactPanel .bd form label                  { width: 25% !important; }
+#ecitizenContactPanel .bd form hr                     { margin: 0; border: 0 !important; }
+#ecitizenContactPanel .bd form .required              { font-size: 1em }
+#ecitizenContactPanel .bd form .error                 {  margin: 0 0 0 26%; font-size: 1.4em; font-style: italic; }
+#ecitizenContactPanel .bd form .form-button           { margin: 0 0 0 26% !important; }
+#ecitizenContactPanel .bd form input[type="button"]   { font-size: 1.4em; }
+#ecitizenContactPanel .bd form input[type="checkbox"] { margin: 6px 0 0 1%; }
+
 

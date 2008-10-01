@@ -26,6 +26,7 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.permission.PrivilegeDescriptor;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILdapService;
 import fr.cg95.cvq.service.request.IRequestService;
@@ -299,6 +300,36 @@ public final class AgentService implements IAgentService {
         agentDAO.update(agent);
 
         logger.debug("Modified agent : " + agent.getId());
+    }
+
+
+    public void updateUserProfiles(String username, List<String> groups,
+            Map<String, String> informations) throws CvqException {
+
+        Agent agent = null;
+        try {
+            agent = getByLogin(username);
+        } catch (CvqObjectNotFoundException confe) {
+            agent = new Agent();
+            agent.setLogin(username);
+            Set<SiteRoles> agentSiteRoles = new HashSet<SiteRoles>();
+            SiteRoles defaultSiteRole = new SiteRoles();
+            defaultSiteRole.setProfile(SiteProfile.AGENT);
+            defaultSiteRole.setAgent(agent);
+            agentSiteRoles.add(defaultSiteRole);
+            agent.setSitesRoles(agentSiteRoles);
+
+            create(agent);
+        }
+
+        if (informations.get("firstName") != null)
+            agent.setFirstName(informations.get("firstName"));
+        if (informations.get("lastName") != null)
+            agent.setLastName(informations.get("lastName"));
+        modify(agent);
+
+        modifyProfiles(agent, groups, SecurityContext.getAdministratorGroups(),
+                SecurityContext.getAgentGroups(), SecurityContext.getCurrentSite());
     }
 
     public void setCategoryProfile(final Long agentId, final Long categoryId, 

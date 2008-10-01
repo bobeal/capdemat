@@ -35,6 +35,7 @@ import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
  * @see HibernateUtil
  * @author Christian Bauer <christian@hibernate.org>
  */
+@Deprecated
 public class CvqOpenSessionInViewFilter extends GenericFilterBean {
 
 	private static Logger logger = Logger.getLogger(CvqOpenSessionInViewFilter.class);

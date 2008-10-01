@@ -60,6 +60,8 @@
 
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'common.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'validation.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'tools.js')}"></script>
+  
   <script type="text/javascript">
   YAHOO.capdematBo.imagesUrl = "${createLinkTo(dir:'images')}";
   YAHOO.capdematBo.currentMenu = "${session['currentMenu']}";

@@ -34,7 +34,6 @@ body {
 /* global menu 
 -------------------------------------------------------------- */
 #menu {
-  height:1%;
   padding:4px;
 	font-weight:normal;
 	font-size: 1.1em;
@@ -57,6 +56,10 @@ body {
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 	color:black;
+}
+
+#userInfo {
+  float: right;
 }
 
 /* global body 

@@ -7,6 +7,8 @@
 /* common/layout.css
 -------------------------------------------------------------- */
 
+#menu { height:1%; }
+
 #bd { background-position: left 22px; }
 #narrow { background-position: 3px 22px; }
 #narrow { _height: 500px; background-color: transparent; overflow:hidden; }

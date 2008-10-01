@@ -41,9 +41,9 @@
         <div id="categoryRequestTypesBox" class="mainbox mainbox-yellow">
           <h2><g:message code="menu.requests" /></h2>
           <div class="editableListSwithcher">
-            
-            <form id="sortRequestTypeForm" method="post" action="<g:createLink action="sortAllRequestTypesTemplate" />" />
+            <form id="sortRequestTypeForm" method="post" action="<g:createLink action="requestTypes" />" />
               <select name="orderRequestTypeBy" onchange="sortRequestTypes();">
+                <option value="">sort by</option>
                 <option value="label">by label</option>
                 <option value="categoryName">by category</option>
               </select>
@@ -60,8 +60,16 @@
         <div id="categoryAgentsBox" class="mainbox mainbox-yellow">
           <h2><g:message code="category.header.agents" /></h2>
           <div class="editableListSwithcher">
-            <a id="viewCategoryAgentsLink" class="current" onclick="viewAgents('Category');">view actived</a> / 
-            <a id="viewAllAgentsLink" onclick="viewAgents('All');">view all</a>
+            <form id="sortAgentForm" method="post" action="<g:createLink action="agents" />" />
+              <select name="orderAgentBy" onchange="sortAgents();">
+                <option value="">sort by</option>
+                <option value="lastName">by Name</option>
+              </select>
+              <input type="hidden" name="id" value="${category?.id}" />
+
+              <a id="viewCategoryAgentsLink" class="current" onclick="viewAgents('Category');">view actived</a> / 
+              <a id="viewAllAgentsLink" onclick="viewAgents('All');">view all</a>
+            </form>
           </div>
           <ul id="categoryAgents" class="editableList">
           </ul>

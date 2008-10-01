@@ -3,9 +3,13 @@
   <ul>
     <g:each var="profile" in="${profiles}" status="i">
       <li>
-        <span class="${profile.cssClass}"><g:message code="${profile.i18nKey}"/></span>
-        <input name="profileIndex" value="${i}" type="radio" class="validate-one-required" 
-            ${profile.i18nKey == agent?.profile?.i18nKey ? 'checked="checked"' : ''} />
+        <span class="${profile.cssClass}"><g:message code="${profile.i18nKey}"/></span>        
+        <input name="profileIndex" value="${i}" type="radio"
+            <g:if test="${i == 0}">
+            class="validate-one-required" title="Agent category profile is required"
+            </g:if> 
+            ${profile.i18nKey == agent?.profile?.i18nKey ? 'checked="checked"' : ''}
+        />
       </li>
     </g:each>
   </ul>

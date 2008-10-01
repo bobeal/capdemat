@@ -17,13 +17,14 @@ var handleViewRequestTypesSuccess = function(o) {
 
 function viewRequestTypes(scope) {
     doAjaxCall(
-        "/load"+ scope +"RequestTypesTemplate/" + YAHOO.capdematBo.categoryId,
+        "/requestTypes/?id=" + YAHOO.capdematBo.categoryId + "&scope=" + scope,
         handleViewRequestTypesSuccess, 
         [scope]);
 }
 
 function sortRequestTypes() {
-    doAjaxFormSubmitCall ( handleViewRequestTypesSuccess, ["All"], "sortRequestTypeForm");
+    if (YAHOO.util.Selector.query("select[name=orderRequestTypeBy]", "sortRequestTypeForm", true).value != "")
+        doAjaxFormSubmitCall ( handleViewRequestTypesSuccess, ["All"], "sortRequestTypeForm");
 }
 
 /* association */	

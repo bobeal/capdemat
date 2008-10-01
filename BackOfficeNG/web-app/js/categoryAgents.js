@@ -4,20 +4,28 @@
  */
 
 /* display */
+
+var handleViewAgentsSuccess =  function(o) {
+    if (o.argument[0] === "All") {
+        YAHOO.util.Dom.addClass("viewAllAgentsLink", "current");
+        YAHOO.util.Dom.removeClass("viewCategoryAgentsLink", "current");
+    } else {
+        YAHOO.util.Dom.removeClass("viewAllAgentsLink", "current");
+        YAHOO.util.Dom.addClass("viewCategoryAgentsLink", "current");
+    }
+    YAHOO.util.Dom.get("categoryAgents").innerHTML = o.responseText;
+}
+        
 function viewAgents(scope) {
     doAjaxCall(
-        "/load"+ scope +"AgentsTemplate/" + YAHOO.capdematBo.categoryId,
-        function(o) {
-            if (scope === "All") {
-                YAHOO.util.Dom.addClass("viewAllAgentsLink", "current");
-                YAHOO.util.Dom.removeClass("viewCategoryAgentsLink", "current");
-            } else {
-                YAHOO.util.Dom.removeClass("viewAllAgentsLink", "current");
-                YAHOO.util.Dom.addClass("viewCategoryAgentsLink", "current");
-            }
-            YAHOO.util.Dom.get("categoryAgents").innerHTML = o.responseText;
-        }, 
-        null);
+        "/agents/?id=" + YAHOO.capdematBo.categoryId + "&scope=" + scope,
+        handleViewAgentsSuccess, 
+        [scope]);
+}
+
+function sortAgents() {
+    if (YAHOO.util.Selector.query("select[name=orderAgentBy]", "sortAgentForm", true).value != "")
+        doAjaxFormSubmitCall ( handleViewAgentsSuccess, ["All"], "sortAgentForm");
 }
 
 /* update current editing agent profile */
@@ -85,7 +93,7 @@ function submitAgentEditForm(agentId) {
 /* view editable list item form */
 function viewAgentEditForm(agentId, targetElClassName) {
     doAjaxCall(
-        "/loadAgentEditTemplate/"
+        "/editAgent/"
                 + "?id=" + YAHOO.capdematBo.categoryId 
                 + "&agentId=" + agentId,
         function(o) {

@@ -72,8 +72,15 @@ public class CategoryService implements ICategoryService {
         // else only return those categories it has a role on
         List<Category> results = new ArrayList<Category>();        
         Set<CategoryRoles> agentCategoriesRoles = agent.getCategoriesRoles();
-        for (CategoryRoles categoryRole : agentCategoriesRoles)
-                results.add(categoryRole.getCategory());
+        for (Object object : categoryDAO.listAll()) {
+            Category category = (Category) object;
+            if (agentCategoriesRoles != null) {
+                for (CategoryRoles categoryRole : agentCategoriesRoles)
+                    // it is one of the authorized categories for the current agent
+                    if (categoryRole.getCategory().getId().equals(category.getId()))
+                        results.add(category);
+            }
+        }
 
         return results;
     }
@@ -134,7 +141,7 @@ public class CategoryService implements ICategoryService {
             category.setRequestTypes(null);
         }
 
-        Set<Agent> allAgents = agentService.getAll();
+        List<Agent> allAgents = agentService.getAll();
         for (Agent agent : allAgents) {
             if (agent.getCategoriesRoles() != null) {
                 Set<CategoryRoles> newCategoriesRoles = new HashSet<CategoryRoles>();

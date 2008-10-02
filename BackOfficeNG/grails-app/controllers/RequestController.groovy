@@ -32,20 +32,15 @@ class RequestController {
     }
         
     def initSearch = {
-    	// TODO : this should be cached 
-    	def allRequestTypes = defaultRequestService.getAllRequestTypes()
-        def allRequestTypesTranslated =  [:]
-        allRequestTypes.each {
-    		allRequestTypesTranslated[it.id] = translationService.getEncodedRequestTypeLabelTranslation(it.label)
-    	}
-    	def filters = [:]
-        render(view:'search', model:[allStates:RequestState.allRequestStates,
-         allAgents:agentService.getAll(),
-         allCategories:categoryService.getAll(),
-         allRequestTypes:allRequestTypesTranslated,
-         mode:'simple',
-         'sortBy':defaultSortBy,
-         'filters':filters])
+
+        render(view:'search', model:['allStates':RequestState.allRequestStates,
+                                     'allAgents':agentService.getAll(),
+                                     'allCategories':categoryService.getAll(),
+                                     'allRequestTypes':translatedAndSortRequestTypes(),
+                                     'mode':'simple',
+                                     'inSearch':false,
+                                     'sortBy':defaultSortBy,
+                                     'filters':[:]])
     }
     
     def search = {
@@ -129,11 +124,6 @@ class RequestController {
         }
 
         // fill referential
-        def allRequestTypes = defaultRequestService.getAllRequestTypes()
-        def allRequestTypesTranslated =  [:]
-        allRequestTypes.each {
-            allRequestTypesTranslated[it.id] = translationService.getEncodedRequestTypeLabelTranslation(it.label)
-        }
         def allStates = RequestState.allRequestStates
         def allAgents = agentService.getAll()
         def allCategories = categoryService.getAll()
@@ -149,21 +139,16 @@ class RequestController {
                    'recordOffset':recordOffset,
                    'sortBy':sortBy,
                    'dir':params.dir,
+                   'inSearch':true,
                    
                    'allStates':allStates,
                    'allAgents':allAgents,
                    'allCategories':allCategories,
-                   'allRequestTypes':allRequestTypesTranslated])
+                   'allRequestTypes':translatedAndSortRequestTypes()])
     }
 
     def taskBoard = {
             
-            def allRequestTypes = defaultRequestService.getAllRequestTypes()
-            def allRequestTypesTranslated =  [:]
-            allRequestTypes.each {
-                allRequestTypesTranslated[it.id] = translationService.getEncodedRequestTypeLabelTranslation(it.label)
-            }
-
             Set<Critere> redCriteria = new HashSet<Critere>()
              
             Critere qualityRedCritere = new Critere()
@@ -188,14 +173,26 @@ class RequestController {
                
             def currentAgent = SecurityContext.getCurrentAgent()
             def agentLogin = currentAgent.getLogin()
-            def requestMap = agentService.extendedGetAgentTasks(agentLogin,params.sort, params.dir, 
-                    10, 0)
+            def requestMap = [:]
+            def agentTasksMap = 
+            	agentService.extendedGetAgentTasks(agentLogin,params.sort, params.dir, 10, 0)
+            if (agentTasksMap != null)
+            	requestMap.putAll(agentTasksMap)
             
             requestMap.put("cvq.tasks.qualityOrange",orangeRequests)
             requestMap.put("cvq.tasks.qualityRed",redRequests)
                  
             render (view:'taskBoard', model:["requestMap":requestMap,
                                            "allCategories":categoryService.getAll(),
-                                           "allRequestTypes":allRequestTypesTranslated])
+                                           "allRequestTypes":translatedAndSortRequestTypes()])
+    }
+    
+    def translatedAndSortRequestTypes() {
+        def allRequestTypes = defaultRequestService.getAllRequestTypes()
+        def allRequestTypesTranslated =  []
+        allRequestTypes.each {
+            allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label)])
+        }
+        return allRequestTypesTranslated.sort{it.label}
     }
 }

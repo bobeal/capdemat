@@ -27,7 +27,9 @@
       <select name="state" id="state">
         <option value=""></option>
         <g:each in="${allStates}" var="state">
-          <option value="${state}" ${params?.state == state.toString() ? 'selected' : ''}>${state}</option>
+          <option value="${state}" ${params?.state == state.toString() ? 'selected' : ''}>
+            ${state}
+          </option>
         </g:each>
       </select>
       
@@ -36,24 +38,28 @@
         <option value=""></option>
         <g:each in="${allAgents}" var="agent">
           <option value="${agent.id}" ${params?.lastInterveningAgentId == agent.id.toString() ? 'selected' : ''}>
-            ${agent.getLastName() + " " + agent.getFirstName()}
+            ${agent.getLastName() != null ? agent.getLastName() + " " + agent.getFirstName() : agent.getLogin()}
           </option>
         </g:each>
       </select>
 
-      <label for="requestTypeId"><g:message code="property.requestType" /> :</label>
+      <label for="requestType"><g:message code="property.requestType" /> :</label>
       <select name="requestType" id="requestType" style="width:60%;">
         <option value=""></option>
         <g:each in="${allRequestTypes}" var="requestType">
-          <option value="${requestType.key}" ${params?.requestType == requestType.key.toString() ? 'selected' : ''}>${requestType.value}</option>
+          <option value="${requestType.id}" ${params?.requestType == requestType.id.toString() ? 'selected' : ''}>
+            ${requestType.label}
+          </option>
         </g:each>
       </select>
 
-      <label for="categoryName"><g:message code="property.category" /> :</label>
+      <label for="categoryId"><g:message code="property.category" /> :</label>
       <select name="categoryId" id="categoryId">
         <option value=""></option>
         <g:each in="${allCategories}" var="category">
-          <option value="${category.id}" ${params?.categoryId == category.id.toString() ? 'selected' : ''}>${category.name}</option>
+          <option value="${category.id}" ${params?.categoryId == category.id.toString() ? 'selected' : ''}>
+            ${category.name}
+          </option>
         </g:each>
       </select>
     </div>

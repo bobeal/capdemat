@@ -101,7 +101,7 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
 		cvqPolicy.check(new Agent(), PrivilegeDescriptor.READ);
 
         StringBuffer sb = new StringBuffer(100);
-        sb.append("from Agent as agent");
+        sb.append("from Agent as agent order by agent.lastName asc");
 
         return HibernateUtil.getSession()
                 .createQuery(sb.toString())

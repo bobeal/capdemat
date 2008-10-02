@@ -79,32 +79,25 @@ public final class AgentService implements IAgentService {
             agentDAO.delete(agent);
     }
 
-    public Set<Agent> get(final Set criteriaSet)
+    public List<Agent> get(final Set criteriaSet)
         throws CvqException {
 
-        List<Agent> agents = null;
-        agents = agentDAO.search(criteriaSet);
+        List<Agent> agents = agentDAO.search(criteriaSet);
         for (Agent agent : agents)
         	feedWithLdapData(agent);
 
-        return new LinkedHashSet<Agent>(agents);
+        return agents;
     }
 
-    public Set<Agent> getAll()
+    public List<Agent> getAll()
         throws CvqException {
 
-        List<Agent> agents = null;
-        try {
-            agents = agentDAO.listAll();
-        } catch (RuntimeException e) {
-            throw new CvqException("Could not list agents " + e.getMessage());
-        }
-
+        List<Agent> agents = agentDAO.listAll();
         for (Agent agent : agents) {
         	feedWithLdapData(agent);
         }
 
-        return new LinkedHashSet<Agent>(agents);
+        return agents;
     }
 
     public Map<String, List> extendedGetAgentTasks(final String agentLogin,final String sort, final String dir, 
@@ -311,6 +304,7 @@ public final class AgentService implements IAgentService {
             agent = getByLogin(username);
         } catch (CvqObjectNotFoundException confe) {
             agent = new Agent();
+            agent.setActive(true);
             agent.setLogin(username);
             Set<SiteRoles> agentSiteRoles = new HashSet<SiteRoles>();
             SiteRoles defaultSiteRole = new SiteRoles();

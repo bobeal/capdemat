@@ -2,31 +2,21 @@
   <head>
     <title><g:message code="request.header.simpleSearch" /></title>
     <meta name="layout" content="main" />
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'request.js')}"></script>
   </head>
   <body>
 
     <div id="yui-main">
       <div class="yui-b">
-        <div class="head">
-        <g:if test="${mode == 'simple'}">
-           <div class="txt-right">
-            <g:message code="action.goToSimpleSearch" /> |
-            <a href="${createLink(action:'search')}?mode=advanced"><g:message code="action.goToAdvancedSearch" /></a>
-          </div>
-          <div id="search-form">
+      
+        <div id="head" class="head">
+          <g:if test="${mode == 'simple'}">
             <g:render template="simpleSearchForm" />
-          </div>
-        </g:if>
-        <g:else>
-          <div class="txt-right">
-            <a href="${createLink(action:'search')}?mode=simple"><g:message code="action.goToSimpleSearch" /></a> |
-            <g:message code="action.goToAdvancedSearch" />
-          </div>
-          <div id="search-form">
+          </g:if>
+          <g:else>
             <g:render template="advancedSearchForm" />
-          </div>
-        </g:else>
+          </g:else>
         </div>
 
         <div id="search-results">
@@ -70,8 +60,8 @@
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
           <form action="#">
-            <label for="categoryId"><g:message code="property.category" /> :</label>
-            <select name="categoryIdFilter" id="categoryIdFilter" 
+            <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
+            <select id="categoryIdFilter" 
               onchange="YAHOO.capdematBo.request.search.filterSearchRequest('categoryIdFilter');">
               <option value=""></option>
               <g:each in="${allCategories}" var="category">
@@ -81,9 +71,9 @@
               </g:each>
             </select>
             
-            <label for="requestType"><g:message code="property.requestType" /> :</label>
-            <select name="requestTypeFilter" id="requestTypeFilter" 
-              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('requestTypeFilter');" style="width:100%;">
+            <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
+            <select id="requestTypeFilter" 
+              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('requestTypeFilter');">
               <option value=""></option>
               <g:each in="${allRequestTypes}" var="requestType">
                 <option value="${requestType.id}" ${filters['requestTypeFilter'] == requestType.id.toString() ? 'selected' : ''}>
@@ -91,6 +81,30 @@
                 </option>
               </g:each>
             </select>
+
+            <label for="stateFilter"><g:message code="property.state" /> :</label>
+            <select id="stateFilter"
+              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('stateFilter');">
+              <option value=""></option>
+              <g:each in="${allStates}" var="state">
+                <option value="${state}" ${filters['stateFilter'] == state.toString() ? 'selected' : ''}>
+                  ${state}
+                </option>
+              </g:each>
+            </select>
+        
+            <label for="lastInterveningAgentIdFilter"><g:message code="request.property.lastInterveningAgent" /> :</label>
+            <select id="lastInterveningAgentIdFilter"
+              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('lastInterveningAgentIdFilter');">
+              <option value=""></option>
+              <g:each in="${allAgents}" var="agent">
+                <option value="${agent.id}"
+                    ${filters['lastInterveningAgentIdFilter'] == agent.id.toString() ? 'selected' : ''}>
+                  ${agent.getLastName() != null ? agent.getLastName() + " " + agent.getFirstName() : agent.getLogin()}
+                </option>
+              </g:each>
+            </select>
+
           </form>
         </div>
       </div>

@@ -100,22 +100,20 @@ public final class AgentService implements IAgentService {
         return agents;
     }
 
-    public Map<String, List> extendedGetAgentTasks(final String agentLogin,final String sort, final String dir, 
-            final int recordsReturned, final int startIndex)
-    throws CvqException {
+    public Map<String, List<Request>> extendedGetAgentTasks(final String agentLogin,
+            final String sort, final String dir, final int recordsReturned, final int startIndex)
+            throws CvqException {
 
         logger.debug("extendedGetAgentTasks()");
         
-        Map<String, List> resultMap = new LinkedHashMap<String,List>();
+        Map<String, List<Request>> resultMap = new LinkedHashMap<String,List<Request>>();
        
         Agent agent = getByLogin(agentLogin);
-        Set agentCategoryRoles = agent.getCategoriesRoles();
+        Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
         if (agentCategoryRoles == null || agentCategoryRoles.size() == 0)
             return null;
-        Iterator agentCategorysIt = agentCategoryRoles.iterator();
         StringBuffer sb = new StringBuffer();
-        while (agentCategorysIt.hasNext()) {
-            CategoryRoles categoryRoles = (CategoryRoles) agentCategorysIt.next();
+        for (CategoryRoles categoryRoles : agentCategoryRoles) {
             if (sb.length() > 0)
                 sb.append(",");
             sb.append("'")
@@ -136,12 +134,12 @@ public final class AgentService implements IAgentService {
         Set<Critere> criteriaSet = new HashSet<Critere>();
         criteriaSet.add(categoryCrit);
         criteriaSet.add(stateCrit);
-        List requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
+        List<Request> requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
         resultMap.put(TASKS_PENDING, requestList);
 
         //search in-progress requests
         RequestState states[] = requestService.getPossibleTransitions(RequestState.PENDING);
-        List tempList = new ArrayList();        
+        List<Request> tempList = new ArrayList<Request>();        
         for (int i = 0; i < states.length; i++) {
             stateCrit.setValue(states[i]);
             requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
@@ -155,7 +153,7 @@ public final class AgentService implements IAgentService {
         resultMap.put(TASKS_VALIDATED, requestList);
         
         return resultMap;
-        }
+    }
     
     public Map<String, Long> getAgentTasks(final String agentLogin)
         throws CvqException {

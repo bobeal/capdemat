@@ -44,7 +44,7 @@ class RequestInstructionController {
                   "name": it.documentType.name,
                   "endValidityDate" : it.endValidityDate == null ? "" : DateUtils.formatDate((Date)it.endValidityDate),
                   "pageNumber": documentService.getPagesNumber(it.id),
-                  "state": CapdematUtils.adaptCapdematState(it.state, "documentState")
+                  "state": CapdematUtils.adaptCapdematState(it.state, "document.state")
 		            ])
 		    }
 		    
@@ -60,13 +60,13 @@ class RequestInstructionController {
 		            documentList.add(
 		                [ "id": 0,
                       "name": documentTypeIt.name,
-                      "state": ["cssClass": "tag-not_provided", "i18nKey": "documentType.notProvided"]
+                      "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
 		                ])
 		    }
 		    
 		    [ "request": request,
-		      "requestState": CapdematUtils.adaptCapdematState(request.state, "requestState"),
-		      "requestDataState": CapdematUtils.adaptCapdematState(request.dataState, "requestDataState"),
+		      "requestState": CapdematUtils.adaptCapdematState(request.state, "request.state"),
+		      "requestDataState": CapdematUtils.adaptCapdematState(request.dataState, "request.dataState"),
 		      "requestLabel": requestLabel,
 		      "documentList": documentList
 		    ]
@@ -77,24 +77,28 @@ class RequestInstructionController {
         def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
         def stateType = params.stateType
         
-        def transitionStates = [] 
+        def transitionStates = []
+        def stateTypeI18nKey
         switch (stateType) {
             case "requestDataState":
                 transitionStates = 
                     defaultRequestService.getPossibleTransitions(DataState.forString(stateAsString))
+                stateTypeI18nKey = "request.dataState"
                 break
             case "documentState":
                 transitionStates =
                     documentService.getPossibleTransitions(DocumentState.forString(stateAsString))
+                stateTypeI18nKey = "document.state"
                 break
             case "requestState":
                 transitionStates = 
                     defaultRequestService.getPossibleTransitions(RequestState.forString(stateAsString))
+                 stateTypeI18nKey = "request.state"
                  break
         }
         
         def states = []
-        transitionStates.each { states.add(CapdematUtils.adaptCapdematState(it, stateType)) }
+        transitionStates.each { states.add(CapdematUtils.adaptCapdematState(it, stateTypeI18nKey)) }
         
         render( template: "possibleTransitionStates", 
                 model: ["states": states, "stateType": stateType, "id": params.id])
@@ -151,7 +155,7 @@ class RequestInstructionController {
                   "label": it.label,
                   "note": it.note,
                   "date": it.date,
-                  "resultingState": CapdematUtils.adaptCapdematState(it.resultingState, "documentState")
+                  "resultingState": CapdematUtils.adaptCapdematState(it.resultingState, "document.state")
                 ])
         }
         
@@ -159,9 +163,9 @@ class RequestInstructionController {
                 model: [ "document": 
                             [ "id": document.id,
                               "name": document.documentType.name,
-                              "state": CapdematUtils.adaptCapdematState(document.state, "documentState"),
-                              "depositType": CapdematUtils.adaptCapdematState(document.depositType, "depositType"),
-                              "depositOrigin": CapdematUtils.adaptCapdematState(document.depositOrigin, "depositOrigin"),
+                              "state": CapdematUtils.adaptCapdematState(document.state, "document.state"),
+                              "depositType": CapdematUtils.adaptCapdematState(document.depositType, "document.depositType"),
+                              "depositOrigin": CapdematUtils.adaptCapdematState(document.depositOrigin, "document.depositOrigin"),
                               "endValidityDate": document.endValidityDate,
                               "ecitizenNote": document.ecitizenNote,
                               "agentNote": document.agentNote,
@@ -205,7 +209,7 @@ class RequestInstructionController {
         def requesterMeansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(request.requester).each {
             requesterMeansOfContacts.add(
-                CapdematUtils.adaptCapdematState(it.type, "meansOfContact"))
+                CapdematUtils.adaptCapdematState(it.type, "request.meansOfContact"))
         }
         
         def requestForms = []
@@ -214,7 +218,7 @@ class RequestInstructionController {
                 [ "id": it.id,
                   "shortLabel": it.shortLabel,
                   "xslFoFilename": it.xslFoFilename,
-                  "type": CapdematUtils.adaptCapdematState(it.type, "meansOfContact")
+                  "type": CapdematUtils.adaptCapdematState(it.type, "request.meansOfContact")
                 ]
             )
         }
@@ -231,10 +235,10 @@ class RequestInstructionController {
                     [ "requesterMeansOfContacts": requesterMeansOfContacts,
                       "requestForms": requestForms,
                       "request": 
-                          [ "state": CapdematUtils.adaptCapdematState(request.state, "requestState"),
+                          [ "state": CapdematUtils.adaptCapdematState(request.state, "request.state"),
                             "requesterMobilePhone": request.requester.mobilePhone,
                             "requesterEmail": request.requester.email,
-                            "meansOfContact": CapdematUtils.adaptCapdematState(request.meansOfContact.type, "meansOfContact")
+                            "meansOfContact": CapdematUtils.adaptCapdematState(request.meansOfContact.type, "request.meansOfContact")
                           ],
                       "defaultContactReciepient": defaultContactReciepient
                     ]

@@ -1,5 +1,5 @@
   <g:if test="${states.size() == 0}">
-    <g:message code="state.noTransition" />
+    <g:message code="request.message.noTransition" />
   </g:if>
   <g:else>
     <form method="post" id="changeStateForm" action="<g:createLink action="changeState" />" />

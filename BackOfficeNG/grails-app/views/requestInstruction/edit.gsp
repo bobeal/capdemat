@@ -25,7 +25,10 @@
               <div class="bd"></div>
             </div>
           </div>
-          <h1><g:message code="request.header.request" /> : ${requestLabel} (Réf : ${request.id})</h1>
+          <h1>
+            <g:message code="request.header.request" /> : 
+            ${requestLabel} (<g:message code="property.id" /> : ${request.id})
+          </h1>
         </div>
         
         <!-- request data template selectection by request type -->
@@ -111,7 +114,7 @@
       
       <!-- instruction state panel [default display = none] -->
       <div id="instructionStatePanel">
-        <div class="hd">Change state</div>
+        <div class="hd"><g:message code="request.header.changeState" /></div>
         <div class="bd">
         </div>
         <div class="ft"></div>

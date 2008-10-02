@@ -2,7 +2,9 @@
     <span id="documentState" class="${document.state.cssClass}">
       <g:message code="${document.state.i18nKey}" />
     </span>
-    Document: ${document.name} (ref: ${document.id})
+    
+    <g:message code="document.header.document" /> : ${document.name} 
+    (<g:message code="property.id" />: ${document.id})
     
     <span id="documentDepositType" class="${document.depositType.cssClass}">
       <g:message code="${document.depositType.i18nKey}" />
@@ -13,7 +15,7 @@
     </span>
     
     <span id="documentExpirationDate" class="tag-disable">
-      validity end: <g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>
+      <g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>
     </span>
   </h1>
   
@@ -41,11 +43,13 @@
 
   <!-- editable field bloc-->
   <div class="mainbox mainbox-yellow">
-    <h2>Information</h2>
+    <h2><g:message code="document.header.information" /></h2>
     
     <form method="POST" id="modifyDocumentForm" action="<g:createLink action="modifyDocument" />">
     
-      <label for="endValidityDate" class="required">Validity end :</label>
+      <label for="endValidityDate" class="required">
+        <g:message code="document.property.endValidityDate" /> :
+      </label>
       <input type="text" id="endValidityDate" name="endValidityDate" class="required" size="10" 
           title="" value="<g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>" />
       <a onclick="showCalendar('endValidityDateShow', 0);">
@@ -53,10 +57,14 @@
       </a>
       <div id="endValidityDateCalContainer" class="yui-cal"></div>
       
-      <label for="ecitizenNote" class="required">eCitizen Note :</label>
+      <label for="ecitizenNote" class="required">
+        <g:message code="document.property.ecitizenNote" /> :
+      </label>
       <input type="text" name="ecitizenNote" size="50" title="" value="${document.ecitizenNote}" disabled="disabled" />
           
-      <label for="agentNote" class="required">Agent Note :</label>
+      <label for="agentNote" class="required">
+        <g:message code="document.property.agentNote" /> :
+      </label>
       <input type="text" name="agentNote" size="50" title="" value="${document.agentNote}"  />
       
       <input type="hidden" name="documentId" value="${document.id}" />
@@ -68,7 +76,7 @@
 
   <!-- document action bloc -->
   <div class="mainbox mainbox-blue">
-    <h2>Historique</h2>
+    <h2><g:message code="document.header.actionHistory" /></h2>
     <ul>
       <g:each var="action" in="${document.actions}">
         <li>
@@ -78,7 +86,7 @@
           
           <strong>${action.label}</strong>
           - <stron><g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/></stron>
-          - par <strong>${action.agentName}</strong>
+          - <strong>${action.agentName}</strong>
         </li>
       </g:each>
     </ul> 

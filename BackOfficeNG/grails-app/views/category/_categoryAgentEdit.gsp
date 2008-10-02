@@ -6,7 +6,7 @@
         <span class="${profile.cssClass}"><g:message code="${profile.i18nKey}"/></span>        
         <input name="profileIndex" value="${i}" type="radio"
             <g:if test="${i == 0}">
-            class="validate-one-required" title="Agent category profile is required"
+            class="validate-one-required" title="<g:message code="category.error.profileRequired"/>"
             </g:if> 
             ${profile.i18nKey == agent?.profile?.i18nKey ? 'checked="checked"' : ''}
         />

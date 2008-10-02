@@ -174,42 +174,6 @@
 // declare the namespace for our application
 YAHOO.namespace("capdematBo");
 
-// used to format table colums that display active/inactive information
-// (eg for request types, agents, ...)
-function activeColumnFormatter(elCell, oRecord, oColumn, oData) {
-	var imgTag = ' <img src="' + zenexity.capdemat.bong.imagesUrl + '/';        	
-    if (!oData) {
-		imgTag += 'disabled.png';
-    } else {
-		imgTag += 'enabled.png';
-    }
-    imgTag += '">';
-	elCell.innerHTML = imgTag;
-};
-
-// used to switch the visual look of a selected element in a list
-// item with the given id will be applied the given classname
-// other items with the given classname will set it removed
-// currently used by the main menu and the category menu
-function switchSelectedItemDisplay(itemId, className) {
-	// first, deselect any previously selected item
-	var elements = YAHOO.util.Dom.getElementsByClassName(className);
-	var i = 0;
-    for (i=0;i < elements.length; i++) {
-    	var element = elements[i];
-        YAHOO.util.Dom.removeClass(elements[i], className); 
-    }
-    // then add the class name to the newly selected item
-    var selectedItem = document.getElementById(itemId);
-    YAHOO.util.Dom.addClass(selectedItem, className); 
-}
-
-// used to refresh visually a row of a DataTable after a record update
-YAHOO.widget.DataTable.prototype.refreshRow = function(row) {
-	var $D = YAHOO.util.Dom;
-	$D.batch($D.getChildren(this.getTrEl(row)),this.formatCell,this,true);
-};
-
 var messagesAreaId = 'errorMessages';
 
 YAHOO.capdematBo.responseResultAnimation = function(hexaColor) {
@@ -362,9 +326,3 @@ YAHOO.capdematBo.errorMessageDialog = function(divId,handleSendErrorLog,body) {
 };
 
 YAHOO.lang.extend(YAHOO.capdematBo.errorMessageDialog, YAHOO.widget.SimpleDialog);
-
-function setMenu() {
-    switchSelectedItemDisplay(YAHOO.capdematBo.currentMenu + 'MenuItem', 'selected-menu-entry');
-};
-
-YAHOO.util.Event.onDOMReady(setMenu);

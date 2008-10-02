@@ -36,19 +36,19 @@
               <li>
                 <label><g:message code="property.date" /></label>
                 <input type="radio" id="creationDate" 
-                  onchange="YAHOO.capdematBo.request.search.sortSearchRequest('creationDate');"
+                  onchange="zenexity.capdemat.bong.request.search.sortSearchRequest('creationDate');"
                   ${sortBy == 'creationDate' ? 'checked' : ''} />
               </li>
               <li>
                 <label><g:message code="property.requester" /></label>
                 <input type="radio" id="requesterLastName" 
-                  onchange="YAHOO.capdematBo.request.search.sortSearchRequest('requesterLastName');"
+                  onchange="zenexity.capdemat.bong.request.search.sortSearchRequest('requesterLastName');"
                   ${sortBy == 'requesterLastName' ? 'checked' : ''} />
               </li>
               <li>
                 <label><g:message code="property.homeFolder" /></label>
                 <input type="radio" id="homeFolderId" 
-                onchange="YAHOO.capdematBo.request.search.sortSearchRequest('homeFolderId');" 
+                onchange="zenexity.capdemat.bong.request.search.sortSearchRequest('homeFolderId');" 
                   ${sortBy == 'homeFolderId' ? 'checked' : ''} />
               </li>
             </ul>
@@ -62,7 +62,7 @@
           <form action="#">
             <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
             <select id="categoryIdFilter" 
-              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('categoryIdFilter');">
+              onchange="zenexity.capdemat.bong.request.search.filterSearchRequest('categoryIdFilter');">
               <option value=""></option>
               <g:each in="${allCategories}" var="category">
                 <option value="${category.id}" ${filters['categoryIdFilter'] == category.id.toString() ? 'selected' : ''}>
@@ -73,7 +73,7 @@
             
             <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
             <select id="requestTypeFilter" 
-              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('requestTypeFilter');">
+              onchange="zenexity.capdemat.bong.request.search.filterSearchRequest('requestTypeFilter');">
               <option value=""></option>
               <g:each in="${allRequestTypes}" var="requestType">
                 <option value="${requestType.id}" ${filters['requestTypeFilter'] == requestType.id.toString() ? 'selected' : ''}>
@@ -84,7 +84,7 @@
 
             <label for="stateFilter"><g:message code="property.state" /> :</label>
             <select id="stateFilter"
-              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('stateFilter');">
+              onchange="zenexity.capdemat.bong.request.search.filterSearchRequest('stateFilter');">
               <option value=""></option>
               <g:each in="${allStates}" var="state">
                 <option value="${state}" ${filters['stateFilter'] == state.toString() ? 'selected' : ''}>
@@ -95,7 +95,7 @@
         
             <label for="lastInterveningAgentIdFilter"><g:message code="request.property.lastInterveningAgent" /> :</label>
             <select id="lastInterveningAgentIdFilter"
-              onchange="YAHOO.capdematBo.request.search.filterSearchRequest('lastInterveningAgentIdFilter');">
+              onchange="zenexity.capdemat.bong.request.search.filterSearchRequest('lastInterveningAgentIdFilter');">
               <option value=""></option>
               <g:each in="${allAgents}" var="agent">
                 <option value="${agent.id}"
@@ -113,4 +113,3 @@
   
   </body>
 </html>
-

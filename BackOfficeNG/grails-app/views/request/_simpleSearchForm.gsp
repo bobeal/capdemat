@@ -1,6 +1,6 @@
 <div class="txt-right">
   <g:message code="action.goToSimpleSearch" /> |
-  <a href="javascript:void(0);" onclick="YAHOO.capdematBo.request.search.switchSearchForm('advanced');">
+  <a href="javascript:void(0);" onclick="zenexity.capdemat.bong.request.search.switchSearchForm('advanced');">
     <g:message code="action.goToAdvancedSearch" />
   </a>
 </div>
@@ -13,7 +13,7 @@
     <input type="hidden" id="recordOffset" name="recordOffset" value="${recordOffset}" />
     <input type="hidden" id="sortBy" name="sortBy" value="${sortBy}" />
     <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
-    <input type="hidden" name="mode" value="simple" />
+    <input type="hidden" id="mode" name="mode" value="simple" />
     <input type="text" name="searchQuery" size="80" value="${searchQuery}" />
     <span class="form-button">
       <input type="button" id="submitSearchRequest" name="submitSearchRequest" 

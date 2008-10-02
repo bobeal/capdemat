@@ -1,5 +1,5 @@
 <div class="txt-right">
-  <a href="javascript:void(0);" onclick="YAHOO.capdematBo.request.search.switchSearchForm('simple');">
+  <a href="javascript:void(0);" onclick="zenexity.capdemat.bong.request.search.switchSearchForm('simple');">
     <g:message code="action.goToSimpleSearch" />
   </a> | 
   <g:message code="action.goToAdvancedSearch" />

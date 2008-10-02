@@ -58,11 +58,12 @@
   <!-- Selector -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/selector',file:'selector-beta-min.js')}"></script>
 
+  <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'tools.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'common.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'validation.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'tools.js')}"></script>
   
   <script type="text/javascript">
-  YAHOO.capdematBo.imagesUrl = "${createLinkTo(dir:'images')}";
-  YAHOO.capdematBo.currentMenu = "${session['currentMenu']}";
+    zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
+    zenexity.capdemat.bong.imagesUrl = "${createLinkTo(dir:'images')}";
+    zenexity.capdemat.bong.currentMenu = "${session['currentMenu']}";
   </script>

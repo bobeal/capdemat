@@ -6,17 +6,17 @@
  **/
 (function() {
 	
-	zenexity = {tools : {}};
+  zenexity = { capdemat : {tools : {}}};
+  
 	var userAgent = navigator.userAgent.toLowerCase();
 	var s = YAHOO.util.Selector;
-	var con = YAHOO.util.Connect;
-	var t = zenexity.tools;
+	var zct = zenexity.capdemat.tools;
 	
-	t.ajaxError = function(o) {
+	zct.ajaxError = function(o) {
 		throw(o.statusText);
 	};
 	
-	t.browser = {
+	zct.browser = {
 		version: (userAgent.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [])[1],
 		safari: /webkit/.test( userAgent ),
 		opera: /opera/.test( userAgent ),
@@ -24,7 +24,7 @@
 		mozilla: /mozilla/.test( userAgent ) && !/(compatible|webkit)/.test( userAgent )
 	};
 	
-	t.namespace = function () {
+	zct.namespace = function () {
 		var a=arguments, o=null, i, j, d;
 		for (i=0; i<a .length; i=i+1) {
 			d=a[i].split(".");
@@ -37,7 +37,7 @@
 		return o;
 	};
 	
-	t.each = function(object, callback, args ) {
+	zct.each = function(object, callback, args ) {
 		var name, i = 0, length = object.length;
 		if ( args ) {
 			if ( length == undefined ) {
@@ -60,7 +60,7 @@
 		return object;
 	};
 	
-	t.grep = function( elems, callback, inv ) {
+	zct.grep = function( elems, callback, inv ) {
 		var ret = [];
 		for ( var i = 0, length = elems.length; i < length; i++ )
 			if ( !inv != !callback( elems[ i ], i ) )
@@ -68,7 +68,7 @@
 		return ret;
 	};
 	
-	t.map = function( elems, callback ) {
+	zct.map = function( elems, callback ) {
 		var ret = [];
 		for ( var i = 0, length = elems.length; i < length; i++ ) {
 			var value = callback( elems[ i ], i );
@@ -78,11 +78,11 @@
 		return ret.concat.apply( [], ret );
 	};
 	
-	t.nodeName = function( elem, name ) {
+	zct.nodeName = function( elem, name ) {
 		return elem.nodeName && elem.nodeName.toUpperCase() == name.toUpperCase();
 	};
 	
-	t.makeArray = function( array ) {
+	zct.makeArray = function( array ) {
 		var ret = [];
 		if( array != null ){
 			var i = array.length;
@@ -95,8 +95,8 @@
 		return ret;
 	}
 	
-	t.merge =  function( first, second ) {
-		var browser = t.browser;
+	zct.merge =  function( first, second ) {
+		var browser = zct.browser;
 		var i = 0, elem, pos = first.length;
 		
 		if ( browser.msie ) {
@@ -110,14 +110,14 @@
 		return first;
 	};
 	
-	t.inArray = function( elem, array ) {
+	zct.inArray = function( elem, array ) {
 		for ( var i = 0, length = array.length; i < length; i++ )
 			if ( array[ i ] === elem )
 				return i;
 		return -1;
 	};
 	
-	t.swap =  function( elem, options, callback ) {
+	zct.swap =  function( elem, options, callback ) {
 		var old = {};
 		for ( var name in options ) {
 			old[ name ] = elem.style[ name ];
@@ -127,50 +127,40 @@
 		for ( var name in options )
 			elem.style[ name ] = old[ name ];
 	};
-	
-	t.isXMLDoc = function( elem ) {
-		return elem.documentElement && !elem.body ||
-			elem.tagName && elem.ownerDocument && !elem.ownerDocument.body;
-	};
-	
-	t.isFunction = function( fn ) {
+		
+	zct.isFunction = function( fn ) {
 		return !!fn && typeof fn != "string" && !fn.nodeName &&
 			fn.constructor != Array && /^[\s[]?function/.test( fn + "" );
 	};
 	
-	t.is = function(el, expr) {
-		var element = el || document || window ;
-		return s.test(element,expr);
-	};
-	
-	t.param = function(a) {
+	zct.param = function(a) {
 		var s = [];
-		var c = t.grep(a,function(n){
+		var c = zct.grep(a,function(n){
 			return (!!n['name'] && typeof n['value'] != 'undefined');
 		});
 		if ( a.constructor == Array && c.length > 0)
-			t.each(c, function(){
+			zct.each(c, function(){
 				s.push( encodeURIComponent(this.name) + "=" + encodeURIComponent( this.value ) );
 			});
 		else
 			for ( var j in a ) {
 				if ( a[j] && a[j].constructor == Array )
-					t.each( a[j], function(){
+					zct.each( a[j], function(){
 						s.push( encodeURIComponent(j) + "=" + encodeURIComponent( this ) );
 					});
 				else
-					s.push( encodeURIComponent(j) + "=" + encodeURIComponent( t.isFunction(a[j]) ? a[j]() : a[j] ) );
+					s.push( encodeURIComponent(j) + "=" + encodeURIComponent( zct.isFunction(a[j]) ? a[j]() : a[j] ) );
 			}
 		return s.join("&").replace(/%20/g, "+");
 	};
 	
-	t.serializeArray = function(nodeId) {
+	zct.serializeArray = function(nodeId) {
 		var node = s.query('#'+nodeId)[0];
 		var a = [], n = [];
-		if(t.nodeName(node,'form')) a = node.elements;
+		if(zct.nodeName(node,'form')) a = node.elements;
 		else a = s.query('#'+nodeId+' *');
 		
-		n = t.grep(a,function(o){
+		n = zct.grep(a,function(o){
 			return o.name && !o.disabled &&
 				(o.checked ||
 					/select|textarea/i.test(o.nodeName) ||
@@ -178,26 +168,26 @@
 				);
 		});
 		
-		n = t.map(n,function(elem,i){
-			var val = t.val(elem);
+		n = zct.map(n,function(elem,i){
+			var val = zct.val(elem);
 			return val == null ? null :
 				val.constructor == Array ?
-					t.map( val, function(val, i){
+					zct.map( val, function(val, i){
 						return {name: elem.name, value: val};
 					}) :
 					{name: elem.name, value: val};
 		});
-		return t.makeArray(n);
+		return zct.makeArray(n);
 	};
 	
-	t.serialize = function(nodeId) {
-		return t.param(t.serializeArray(nodeId));
+	zct.serialize = function(nodeId) {
+		return zct.param(zct.serializeArray(nodeId));
 	};
 	
-	t.val = function( element, value ) {
+	zct.val = function( element, value ) {
 		if ( value == undefined ) {
 			if ( !!element ) {
-				if ( t.nodeName( element, "select" ) ) {
+				if ( zct.nodeName( element, "select" ) ) {
 					var index = element.selectedIndex,
 						values = [],
 						options = element.options,
@@ -207,7 +197,7 @@
 					for ( var i = one ? index : 0, max = one ? index + 1 : options.length; i < max; i++ ) {
 						var option = options[ i ];
 						if ( option.selected ) {
-							value = t.browser.msie && !option.attributes.value.specified ? option.text : option.value;
+							value = zct.browser.msie && !option.attributes.value.specified ? option.text : option.value;
 							if ( one )
 								return value;
 							values.push( value );
@@ -223,14 +213,14 @@
 		return (function(){
 			if ( element.nodeType != 1 ) return;
 			if ( value.constructor == Array && /radio|checkbox/.test( element.type ) )
-				element.checked = (t.inArray(element.value, value) >= 0 ||
-					t.inArray(element.name, value) >= 0);
-			else if ( t.nodeName( element, "select" ) ) {
-				var values = t.makeArray(value);
+				element.checked = (zct.inArray(element.value, value) >= 0 ||
+					zct.inArray(element.name, value) >= 0);
+			else if ( zct.nodeName( element, "select" ) ) {
+				var values = zct.makeArray(value);
 				var options = s.filter(element,"option");
-				t.each(options,function(i){
-					this.selected = (t.inArray( this.value, values ) >= 0 ||
-						t.inArray( this.text, values ) >= 0);
+				zct.each(options,function(i){
+					this.selected = (zct.inArray( this.value, values ) >= 0 ||
+						zct.inArray( this.text, values ) >= 0);
 				});
 				if ( !values.length )
 					element.selectedIndex = -1;
@@ -246,22 +236,21 @@
 	 * @param url {string} The URL of the page to load.
 	 * @param data {string} Key/value pairs that will be sent to the server.
 	 * @param callback {function} A function to be executed whenever the data is loaded successfully.
-	 * 
+   *
 	**/
-	t.post = function(url, data, callback) {
+	zct.post = function(url, data, callback) {
 		var hanlers = {
 			success:callback,
-			failure: t.ajaxError
+			failure: zct.ajaxError
 		};
 		
 		YAHOO.util.Connect.asyncRequest('POST', url, hanlers, data);
 	};
 	
-	t.each([ "Height", "Width" ], function(i, name){
+	zct.each([ "Height", "Width" ], function(i, name){
 		var type = name.toLowerCase();
-		var browser = t.browser;
-		zenexity.tools[ type ] = function(element ,size) {
-			var result;
+		var browser = zct.browser;
+		zct[ type ] = function(element ,size) {
 			var el = new YAHOO.util.Element(element);
 			
 			return element == window ?
@@ -279,4 +268,4 @@
 		};
 	});
 	
-})()
+}());

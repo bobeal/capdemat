@@ -155,7 +155,7 @@ class CategoryController {
             agentService.getAll().each { agents.add(adaptAgent(it)) }
             
             if (params.orderAgentBy == "lastName")
-                agents = agents.sort{ it.lastName }
+                agents = agents.sort{ it.lastName != null ? it.lastName : "zzz"}
         } 
         else if (params.scope == "All")
             agentService.getAll().each { agents.add(adaptAgent(it)) }

@@ -297,6 +297,7 @@ class RequestTypeController {
                 render ([status:"ok",uuid:params.seasonUuid,
                                  success_msg:message(code:"requestSeason.message.confirmDelete")] as JSON)
     }
+    
 }
 
 class RequestTypeConfigurationData {

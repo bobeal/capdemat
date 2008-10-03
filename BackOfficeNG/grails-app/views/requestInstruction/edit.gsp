@@ -2,11 +2,11 @@
   <head>
     <title><g:message code="request.header.requestTreatment" /></title>
     <meta name="layout" content="main" />
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestInstruction.js')}"></script>
     <script type="text/javascript">
-        YAHOO.capdematBo.requestId = '${request.id}';
+        zenexity.capdemat.bong.requestId = '${request.id}';
     </script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
   </head>
     <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'requestInstruction.css')}" />      
   </head>

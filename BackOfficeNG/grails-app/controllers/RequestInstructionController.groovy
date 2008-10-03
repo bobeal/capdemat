@@ -265,7 +265,7 @@ class RequestInstructionController {
         }            
     }
     
-    def loadHomeFolderData = {
+    def homefolder = {
 //        def homeFolder = homeFolderService.getByrequestId(Long.valueOf(params.id))
 //        def adults = homeFolderService.getAdults(homeFolder.id)
 //        def children = homeFolderService.getChildren(homeFolder.id)
@@ -273,7 +273,7 @@ class RequestInstructionController {
     		render(template:'homeFolderData')
     }
     
-    def loadHomeFolderRequests = {
+    def homeFolderRequests = {
     		def request = defaultRequestService.getById(Long.valueOf(params.id))
         def homeFolderRequests = defaultRequestService.getByHomeFolderId(request.homeFolder.id);
         
@@ -304,7 +304,7 @@ class RequestInstructionController {
         render(template:'/request/searchResult', collection: records, var:'record')
     }
 
-    def loadRequestHistory = {
+    def requestActions = {
             def requestActions = defaultRequestService.getActions(Long.valueOf(params.id))
             def requestActionList = []
             requestActions.each {
@@ -329,7 +329,7 @@ class RequestInstructionController {
             render(template:'requestHistory', model: ['requestActionList':requestActionList])
     }
 
-    def loadRequestNotes = {
+    def requestNotes = {
     		def requestNotes = defaultRequestService.getNotes(Long.valueOf(params.id))
     		def requestNoteList = []
     		requestNotes.each {

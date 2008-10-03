@@ -26,12 +26,15 @@
         <label for="contactReciepient" class="required">
           <g:message code="request.contact.contactReciepient" />
         </label>
-        <input type="text" id="contactReciepient" name="contactReciepient" size="55" class="required"
-                value="${defaultContactReciepient}" />
+        <input type="text" id="contactReciepient" name="contactReciepient" size="55" 
+            class="required" title="<g:message code="request.contact.error.contactReciepientRequired" />"
+            value="${defaultContactReciepient}" />
       </fieldset>
       
       <label for="contactMessage" class="required"><g:message code="request.contact.message" /></label>
-      <textarea name="contactMessage" rows="5" cols="53" class="required"></textarea>
+      <textarea name="contactMessage" rows="5" cols="53" 
+        class="required"  title="<g:message code="request.contact.error.messageRequired" />">
+      </textarea>
 
       <fieldset>
         <label for="requestForm"><g:message code="request.contact.mailTemplate" /></label>

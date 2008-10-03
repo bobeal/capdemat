@@ -147,11 +147,12 @@
 #instructionStatePanel .bd { padding: .1em; background: transparent; border: 0; }
 #instructionStatePanel .ft { padding: 0; background: transparent; border: 0; }
 
-#instructionStatePanel form { margin: 0; padding: 0;}
-#instructionStatePanel form input[type="button"] { font-size: .8em;  }
-#instructionStatePanel ul { margin: .2em 0 .5em .5em; text-align: left }
-#instructionStatePanel ul li { padding: .1em 0; }
+#instructionStatePanel form                      { margin: 0; padding: 0;}
+#instructionStatePanel form input[type="button"] { font-size: .8em; }
+#instructionStatePanel form .error               { margin: 0; font-size: .8em; font-style: italic; text-align: center }
 
+#instructionStatePanel ul    { margin: .2em 0 .5em .5em; text-align: left }
+#instructionStatePanel ul li { padding: .1em 0; }
 
 
 /* request document panel

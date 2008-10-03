@@ -64,6 +64,5 @@
   
   <script type="text/javascript">
     zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
-    zenexity.capdemat.bong.imagesUrl = "${createLinkTo(dir:'images')}";
     zenexity.capdemat.bong.currentMenu = "${session['currentMenu']}";
   </script>

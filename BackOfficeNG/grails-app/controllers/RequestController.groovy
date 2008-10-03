@@ -20,10 +20,9 @@ class RequestController {
     
     def defaultAction = "initSearch"
     
-    def supportedKeys = ["requesterLastName", "id", "homeFolderId", 
-                         "state", "lastInterveningAgentId", "requestType", "categoryId"]
-    def longKeys = ["id", "homeFolderId", "requestType", "lastInterveningAgentId", 
-                    "categoryId"]
+    def supportedKeys = ["requesterLastName", "id", "homeFolderId", "creationDateFrom", "creationDateTo"]
+    def longKeys = ["id", "homeFolderId"]
+    def dateKeys = ["creationDateFrom", "creationDateTo"]
     def defaultSortBy = 'creationDate'
     def resultsPerPage = 15
     
@@ -43,6 +42,26 @@ class RequestController {
                                      'filters':[:]])
     }
     
+    def loadSearchForm = {
+    		def model = ['allStates':RequestState.allRequestStates,
+                         'allAgents':agentService.getAll(),
+                         'allCategories':categoryService.getAll(),
+                         'allRequestTypes':translatedAndSortRequestTypes(),
+                         'totalRecords':params.totalRecords,
+                         'recordOffset':params.recordOffset,
+                         'recordsReturned':params.recordsReturned,
+                         'sortBy':params.sortBy,
+                         'filterBy':params.filterBy]
+
+    		if (params.formType == 'simple') {
+    			model['mode'] = 'simple'
+    			render(template:'simpleSearchForm', model:model)
+    		} else {
+    			model['mode'] = 'advanced'
+    			render(template:'advancedSearchForm', model:model)
+    		}
+    }
+    
     def search = {
        
         // deal with search criteria
@@ -52,12 +71,21 @@ class RequestController {
         		Critere critere = new Critere()
         		critere.attribut = key
         		critere.comparatif = Critere.EQUALS
-        		if (longKeys.contains(key))
+        		if (longKeys.contains(key)) {
         			critere.value = Long.valueOf(value)
-        		else
+        		} else if (dateKeys.contains(key)) {
+                    critere.value = DateUtils.stringToDate(value)
+        			if (key == 'creationDateFrom') {
+        				critere.attribut = 'creationDate'
+        				critere.comparatif = Critere.GTE
+        			} else { 
+                        critere.attribut = 'creationDate'
+        				critere.comparatif = Critere.LTE
+        			}
+        		} else {
         			critere.value = value
+        		}
         		criteria.add(critere)
-                log.debug "added criteria ${value} to ${key}"
         	}
         }
         
@@ -81,9 +109,12 @@ class RequestController {
        		Critere critere = new Critere()
        		critere.attribut = key.replaceAll("Filter","")
        		critere.comparatif = Critere.EQUALS
-       		critere.value = Long.valueOf(value)
+       		if (key == 'stateFilter')
+       			critere.value = value
+       		else
+       			critere.value = Long.valueOf(value)
        		criteria.add(critere)
-       		log.debug "added criteria ${Long.valueOf(value)} to ${key.replaceAll('Filter','')} (dynamic filter)"
+       		log.debug "added criteria ${value} to ${key.replaceAll('Filter','')} (dynamic filter)"
             filterBy += '@' + key + '=' + value
        	}
 

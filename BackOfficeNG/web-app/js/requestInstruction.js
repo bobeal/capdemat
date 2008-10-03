@@ -174,9 +174,9 @@ zenexity.capdemat.bong.requestIntruction = function() {
           zcb.requestDocumentPanel.show();
           // request document tabview
           var requestDocumentDataTabView = new ywtv('requestDocumentData');
-          zcb.calendar.cal = new Array(1);
+          YAHOO.capdematBo.calendar.cal = new Array(1);
           yue.onDOMReady(
-            zcb.calendar.init, {id: 0, label: "endValidityDate"} );
+            YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"} );
         });
   }
   

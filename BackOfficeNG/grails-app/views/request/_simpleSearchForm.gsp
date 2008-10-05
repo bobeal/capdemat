@@ -1,8 +1,6 @@
-<div class="txt-right">
+<div class="txt-right" id="requestSearchSwitcher">
   <g:message code="action.goToSimpleSearch" /> |
-  <a href="javascript:void(0);" onclick="zenexity.capdemat.bong.request.search.switchSearchForm('advanced');">
-    <g:message code="action.goToAdvancedSearch" />
-  </a>
+  <a href="javascript:void(0);" class="advanced"><g:message code="action.goToAdvancedSearch" /></a>
 </div>
 
 <div id="search-form">

@@ -1,7 +1,5 @@
-<div class="txt-right">
-  <a href="javascript:void(0);" onclick="zenexity.capdemat.bong.request.search.switchSearchForm('simple');">
-    <g:message code="action.goToSimpleSearch" />
-  </a> | 
+<div class="txt-right" id="requestSearchSwitcher">
+  <a href="javascript:void(0);" class="simple"><g:message code="action.goToSimpleSearch" /></a> | 
   <g:message code="action.goToAdvancedSearch" />
 </div>
 

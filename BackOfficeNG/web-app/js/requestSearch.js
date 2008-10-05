@@ -43,30 +43,57 @@
       }
     };
   
-    return {
-      filterSearchRequest: function(filterType) {
-        document.getElementById('filterBy').value = 
-          document.getElementById('filterBy').value + 
-          '@' + filterType + '=' + document.getElementById(filterType).value;                
-        document.getElementById('requestForm').submit();
-      },
-      sortSearchRequest: function(sortType) {
-        document.getElementById('sortBy').value = sortType;
-        document.getElementById('requestForm').submit();
-      },
-      switchSearchForm: function(formType) {
+    var initSwitcher = function() {
+        yue.addListener("requestSearchSwitcher", "click", 
+          function(e) {
+            var targetEl = yue.getTarget(e);
+            if (targetEl.tagName === "A") {
+              switchSearchForm(targetEl.className);
+            }
+          }
+        );        
+    };
+    
+    var sortSearchRequest = function(sortType) {
+      document.getElementById('sortBy').value = sortType;
+      document.getElementById('requestForm').submit();
+    };
+
+    var filterSearchRequest = function(filterType) {
+      document.getElementById('filterBy').value = 
+        document.getElementById('filterBy').value + 
+        '@' + filterType + '=' + document.getElementById(filterType).value;                
+      document.getElementById('requestForm').submit();
+    };
+      
+    var switchSearchForm = function(formType) {
         var url = '/loadSearchForm?formType=' + formType + '&' + zcc.collectSearchFormValues('requestForm');
         zcc.doAjaxCall(url, null,
           function(o) {
             document.getElementById('head').innerHTML = o.responseText;
             initButton();
             initCalendars();
-          });
-      },
+            initSwitcher();
+          }
+        );
+    };
+    
+    return {
       init: function() {
         initButton();
-        displayPaginator();
         initCalendars();
+        initSwitcher();
+        displayPaginator();
+        yue.addListener("requestSearchSorters", "change", 
+          function(e) {
+            sortSearchRequest(yue.getTarget(e).id);
+          }
+        );
+        yue.addListener("requestSearchFilters", "change", 
+          function(e) {
+            filterSearchRequest(yue.getTarget(e).id);
+          }
+        );
       }
     }; 
   }();

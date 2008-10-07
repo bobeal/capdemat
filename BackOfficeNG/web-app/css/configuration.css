@@ -163,3 +163,26 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
   float : right;
 }
 
+.editorForm .bd {
+  overflow:auto !important;
+}
+
+.editable-work-area {
+  background-color: #fff;
+  margin: 2em;
+  padding: 4em;
+}
+
+.editable-zone {
+	cursor: pointer;
+	margin: 2em; padding: 2em;
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+	border-bottom: 1px solid #aaa;
+	border-right: 1px solid #aaa;
+	/*background-color: #FFDFBF;*/
+}
+.editable-zone:hover {
+  background-color: #FFDFBF;
+}
+

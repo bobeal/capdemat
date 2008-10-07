@@ -38,7 +38,7 @@
                   var response = YAHOO.lang.JSON.parse(o.responseText);
                   if (response.status === "ok") {
                       if (editMode === "create")
-                          window.location = YAHOO.capdematBo.baseUrl + "/edit/" + response.id ;
+                          window.location = zenexity.capdemat.bong.baseUrl + "/edit/" + response.id ;
                       else {
                         // Is message useful
                         zcc.displayResponseResult('success', response.success_msg);

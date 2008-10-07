@@ -8,23 +8,23 @@
 			
 			requestInformationTabview.addTab( new YAHOO.widget.Tab({
 					label: 'Historique',
-					dataSrc: YAHOO.capdematBo.baseUrl + '/loadRequestHistory/' + YAHOO.capdematBo.requestId,
+					dataSrc: zenexity.capdemat.bong.baseUrl + '/loadRequestHistory/' + YAHOO.capdematBo.requestId,
 					cacheData: true,
 					active: true
 			}));
 			requestInformationTabview.addTab( new YAHOO.widget.Tab({
 					label: 'Commentaires',
-					dataSrc: YAHOO.capdematBo.baseUrl + '/loadRequestNotes/' + YAHOO.capdematBo.requestId,
+					dataSrc: zenexity.capdemat.bong.baseUrl + '/loadRequestNotes/' + YAHOO.capdematBo.requestId,
 					cacheData: false
 			}));
 			requestInformationTabview.addTab( new YAHOO.widget.Tab({
 					label: 'Compte',
-					dataSrc: YAHOO.capdematBo.baseUrl + '/loadHomeFolderData',
+					dataSrc: zenexity.capdemat.bong.baseUrl + '/loadHomeFolderData',
 					cacheData: true
 			}));
 			requestInformationTabview.addTab( new YAHOO.widget.Tab({
 					label: 'Demandes',
-					dataSrc: YAHOO.capdematBo.baseUrl + '/loadHomeFolderRequests/' + YAHOO.capdematBo.requestId,
+					dataSrc: zenexity.capdemat.bong.baseUrl + '/loadHomeFolderRequests/' + YAHOO.capdematBo.requestId,
 					cacheData: true
 			}));
 			

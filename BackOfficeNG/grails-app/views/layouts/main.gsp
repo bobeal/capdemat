@@ -6,7 +6,9 @@
     <g:render template="/shared/resources" />
     <g:layoutHead />
     <script type="text/javascript">
-      YAHOO.capdematBo.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
+      /*zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
+      zenexity.capdemat.bong.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';*/
+      //YAHOO.capdematBo.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
     </script>
   </head>
   <body>

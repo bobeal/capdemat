@@ -38,6 +38,12 @@
         <g:elseif test="${request.requestType.label == 'Domestic Help'}">
           <g:render template="/requestInstruction/requestType/domesticHelpRequest" model="['request':request]" />
         </g:elseif>
+        <g:elseif test="${request.requestType.label == 'VO Card Request'}">
+          <g:render template="/requestInstruction/requestType/voCardRequest" model="['request':request]" />
+        </g:elseif>
+        <g:elseif test="${request.requestType.label == 'Home Folder Modification'}">
+          <g:render template="/requestInstruction/requestType/homeFolderModificationRequest" model="['request':request]" />
+        </g:elseif>
         <g:else>
           <g:render template="/requestInstruction/requestType/defaultRequest" model="['request':request]" />
         </g:else>

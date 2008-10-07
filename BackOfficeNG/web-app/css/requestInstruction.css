@@ -35,24 +35,32 @@
   border-width: 1px 0 0 0;
 }
 
+/* header hn*/
+#requestData h3 { margin-bottom: 0;  border: 0; font-size: 1.3em; font-style: italic; }
+
 /* definition list */
 #requestData dl {
   margin : 10px;
   overflow: auto;
   border-bottom: 1px dashed #FFD053;
   color: #333;
+  background: #ffffbb;
 }
  
 #requestData dl dt,
 #requestData dl dd {
-  width: 12.5em;
   float: left;
   margin: 0;
-  padding:.5em;
+  padding: .5em;
   border-top: 1px dashed #FFD053;
 }
-#requestData dl dt { clear: both; }
-#requestData dl dd { font-weight: bold; }
+
+#requestData dl dt { width: 10em; clear: both; }
+
+#requestData dl dd { width: 15em; font-weight: bold; }
+#requestData dl dd:hover { background: #ffffff; cursor: pointer;}
+
+#requestData dl dd ul li { padding: .3em 0; }
 
 /* request attached document
 -------------------------------------------------------------- */

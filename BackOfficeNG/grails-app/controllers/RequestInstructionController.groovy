@@ -1,5 +1,6 @@
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.service.users.IChildService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestFormType
@@ -19,6 +20,7 @@ class RequestInstructionController {
 
     IRequestService defaultRequestService
     IHomeFolderService homeFolderService
+    IChildService childService
     IAgentService agentService
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
@@ -48,7 +50,7 @@ class RequestInstructionController {
 		            ])
 		    }
 		    
-		    // manage allow and associated documents of a request
+		    // manage allowed and associated documents to a request
 		    def isDocumentProvide
 		    defaultRequestService.getAllowedDocuments(request.getRequestType()).each { documentTypeIt ->
 		        isDocumentProvide = false
@@ -64,7 +66,23 @@ class RequestInstructionController {
 		                ])
 		    }
 		    
+		    // just for VoCardRequest and HomeFolderModificationRequest
+		    def adults
+		    def children
+		    def clr = [:]
+		    if (request instanceof  fr.cg95.cvq.business.ecitizen.VoCardRequest
+		        || request instanceof fr.cg95.cvq.business.request.HomeFolderModificationRequest) {
+		        adults = homeFolderService.getAdults(request.homeFolder.id)
+            children = homeFolderService.getChildren(request.homeFolder.id)
+            children.each {
+              clr.put(it.id, childService.getLegalResponsibles(it.id))
+            }
+        }
+
 		    [ "request": request,
+		      "adults" : adults,
+		      "children" : children,
+		      "childrenLegalResponsibles" : clr,
 		      "requestState": CapdematUtils.adaptCapdematState(request.state, "request.state"),
 		      "requestDataState": CapdematUtils.adaptCapdematState(request.dataState, "request.dataState"),
 		      "requestLabel": requestLabel,
@@ -265,7 +283,7 @@ class RequestInstructionController {
         }            
     }
     
-    def homefolder = {
+    def homeFolder = {
 //        def homeFolder = homeFolderService.getByrequestId(Long.valueOf(params.id))
 //        def adults = homeFolderService.getAdults(homeFolder.id)
 //        def children = homeFolderService.getChildren(homeFolder.id)

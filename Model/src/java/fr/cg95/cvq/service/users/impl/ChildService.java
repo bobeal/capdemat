@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.users.impl;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -87,6 +88,11 @@ public class ChildService extends IndividualService implements IChildService {
     public Child getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
             return (Child) childDAO.findById(Child.class, id);
+    }
+    
+    public List<ChildLegalResponsible> getLegalResponsibles(final Long id)
+            throws CvqException, CvqObjectNotFoundException {
+        return childDAO.listChildLegalResponsibles(id);
     }
 
     public void removeLegalResponsible(final Long childId, final Long adultId, 

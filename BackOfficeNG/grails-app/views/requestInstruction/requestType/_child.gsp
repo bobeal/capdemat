@@ -6,23 +6,23 @@
     <dl>
       
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
-      <dd>${child.lastName}</dd>
+      <dd id="homeFolder.individual.lastName" class="string">${child.lastName}</dd>
       
       <dt><g:message code="homeFolder.individual.property.firstName" /> : </dt>
-      <dd>${child.firstName}</dd>
+      <dd id="homeFolder.individual.firstName" class="string">${child.firstName}</dd>
       
       <dt><g:message code="homeFolder.individual.property.secondFirstName" /> : </dt>
-      <dd>${child.firstName3}</dd>
+      <dd class="string">${child.firstName3}</dd>
       
       <dt><g:message code="homeFolder.individual.property.thirdFirstName" /> : </dt>
-      <dd>${child.firstName3}</dd>
+      <dd class="string">${child.firstName3}</dd>
       
       
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
-      <dd><g:formatDate format="dd/MM/yyyy" date="${child.birthDate}"/></dd>
+      <dd class="date"><g:formatDate format="dd/MM/yyyy" date="${child.birthDate}"/></dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>
-      <dd>${child.birthCity}</dd>
+      <dd class="string">${child.birthCity}</dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCountry" /> : </dt>
       <dd>${child.birthCountry}</dd>

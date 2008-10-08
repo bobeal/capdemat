@@ -8,7 +8,7 @@
 (function() {
   
   var zct = zenexity.capdemat.tools;
-  var zcc = zct.namespace('zenexity.capdemat.common');
+  var zcc = zenexity.capdemat.common;
   
   zcc.messageAreaId = 'errorMessages';
   
@@ -77,11 +77,11 @@
 
   zcc.doAjaxCall = function(callUrl,args,callback) {
     var handlers = {
-      failure: handleUnexpectedError
+      failure: zcc.handleUnexpectedError
     };
     if (zct.isFunction(callback)) handlers.success = callback;
     if (args) handlers.argument = args;
-    var url = YAHOO.capdematBo.baseUrl + callUrl;
+    var url = zenexity.capdemat.bong.baseUrl + callUrl;
     YAHOO.util.Connect.asyncRequest('GET', url, handlers, null);
   };
 
@@ -93,7 +93,7 @@
     else
       YAHOO.util.Connect.setForm(document.getElementById(formId));
     var handlers = {
-      failure: handleUnexpectedError
+      failure: zcc.handleUnexpectedError
     };
     if (zct.isFunction(callback)) handlers.success = callback;
     if (args) handlers.argument = args;
@@ -245,7 +245,7 @@ function doAjaxCall(callUrl,successCallback,args) {
         callback.success = successCallback;
     if (args)
         callback.argument = args;
-    var url = YAHOO.capdematBo.baseUrl + callUrl;
+    var url = zenexity.capdemat.bong.baseUrl + callUrl;
     var transaction = YAHOO.util.Connect.asyncRequest('GET', url, callback, null);
 }
 

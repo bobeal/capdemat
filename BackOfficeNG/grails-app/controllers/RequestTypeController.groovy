@@ -11,6 +11,7 @@ import fr.cg95.cvq.business.request.RequestSeason
 import fr.cg95.cvq.exception.*
 
 import grails.converters.JSON
+import grails.converters.XML
 
 
 class RequestTypeController {
@@ -298,6 +299,19 @@ class RequestTypeController {
                                  success_msg:message(code:"requestSeason.message.confirmDelete")] as JSON)
     }
     
+    def mailTemplate = {
+        if(request.post) {
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } 
+        else {
+            render (view: 'mailTemplate', model:['name':params.id])
+        }        
+    }
+    
+    def loadMailTemplate = {
+        
+        render(template:"tmp",model:['name':params.id])
+    }
 }
 
 class RequestTypeConfigurationData {

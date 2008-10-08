@@ -2,12 +2,14 @@ zenexity.capdemat.bong.requestIntruction = function() {
   var zcb = zenexity.capdemat.bong;
   var zcc = zenexity.capdemat.common;
   var yud = YAHOO.util.Dom;
+  var yuel = YAHOO.util.Element;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
   var ylj = YAHOO.lang.JSON;
   var ywtv = YAHOO.widget.TabView;
   var ywt = YAHOO.widget.Tab;
   var ywp = YAHOO.widget.Panel;
+  var yl = YAHOO.lang;
   
   function init() {
     /* tabiews */
@@ -251,6 +253,81 @@ zenexity.capdemat.bong.requestIntruction = function() {
             contactReciepientEl.value = yud.get("requesterMobilePhone").value;
         } 
       });
+      
+  
+  /*
+   * request data inline edition managment
+   */
+  
+  function submitEditProperty(targetEl, formId) {
+    zcc.doAjaxFormSubmitCall(
+        formId,
+        null, 
+        function(o) {
+          var response = ylj.parse(o.responseText);
+          if (response.status === "ok") {
+            hideEditProperty(targetEl, true);
+            yud.setStyle(formId.replace("_Form", ""), "background", "#aaffaa");
+          }
+          else {
+            yud.get(formId + "Error").innerHTML = response.error_msg;
+//            zcc.displayResponseResult('modelError', response.error_msg);
+          }
+        });
+  }
+  
+  function hideEditProperty(targetEl, isSubmit) {
+    var formEl = yud.getAncestorByTagName(targetEl, "form");
+    var oldPropertyValue;
+    if (!isSubmit)
+      oldPropertyValue = yus.query("input[name=oldPropertyValue]", formEl, true).value;
+    else {
+      var elName = formEl.id.replace("_Form", "") + "_tp";
+      oldPropertyValue = yud.get(elName).value;
+//      var elName = formEl.id.replace("_Form", "");
+//      oldPropertyValue = yus.query("input[name=" + elName + "]", formEl, true).value;
+    }
+    
+    var ddEl = yud.getAncestorByTagName(targetEl, "dd");
+    new yuel(ddEl).removeChild(yud.getAncestorByTagName(targetEl, "form"));
+    yud.removeClass(ddEl, "currentEditProperty");
+    ddEl.innerHTML = oldPropertyValue;
+  }
+  
+  function showEditProperty(targetEl, widgetType) {
+    zcc.doAjaxCall(
+        "/widget/?"
+          + "id=" + zenexity.capdemat.bong.requestId
+          + "&type=" + widgetType
+          + "&propertyName=" + targetEl.id
+          + "&propertyValue=" + yl.trim(targetEl.innerHTML),  
+        null,
+        function(o) {
+          yud.addClass(targetEl, "currentEditProperty");
+          targetEl.innerHTML = o.responseText;   
+        });
+  }
+  
+  yue.addListener(
+      "requestData", 
+      "click",
+      function(e) {
+        var targetEl = yue.getTarget(e);
+        
+        switch(targetEl.className) {
+          case "string" :
+            showEditProperty(targetEl, "string");
+            break;
+          case "submit" :
+            var formEl = yud.getAncestorByTagName(targetEl, "form");
+            if (FIC_checkForm(e, yud.get(formEl.id + "Errors")))
+              submitEditProperty(targetEl, formEl.id);
+            break;
+          case "discard" :
+            hideEditProperty(targetEl, false);
+            break;
+        }
+      });
    
   return {
     init: function() { init(); }
@@ -259,5 +336,6 @@ zenexity.capdemat.bong.requestIntruction = function() {
 }();
 
 YAHOO.util.Event.onDOMReady(zenexity.capdemat.bong.requestIntruction.init);
+
 
 

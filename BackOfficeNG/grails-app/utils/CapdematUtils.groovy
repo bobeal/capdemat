@@ -7,7 +7,7 @@ class CapdematUtils {
     public static adaptCapdematState (capdematState, i18nKeyPrefix) {
         return [
             "cssClass": "tag-" + capdematState.toString().toLowerCase(), 
-            "i18nKey": i18nKeyPrefix + "." + StringUtils.toCamelCase(capdematState.toString()),
+            "i18nKey": i18nKeyPrefix + "." + StringUtils.pascalToCamelCase(capdematState.toString()),
             "enumString": capdematState.toString()
         ]         
     }

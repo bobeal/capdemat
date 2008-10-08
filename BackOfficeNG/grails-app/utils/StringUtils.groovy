@@ -2,6 +2,7 @@
 public class StringUtils {
     /* 
      * Transforme a string like 'FIRST_NAME' in 'firstName'
+     * FIXME : not ever used 
      */
     public static toCamelCase (String s) {
         def camelCaseSb = new StringBuffer()
@@ -42,5 +43,17 @@ public class StringUtils {
                 isNewWord = true
         }
         return pascalCaseSb.toString()
+    }
+    
+    
+    public static pascalToCamelCase (String s) {
+        def camelCaseSb = new StringBuffer()
+        s.eachWithIndex { obj, i ->
+            if (i == 0)
+                camelCaseSb << obj.toLowerCase()
+            else         
+              camelCaseSb << obj
+        }
+        return camelCaseSb.toString()
     }
 }

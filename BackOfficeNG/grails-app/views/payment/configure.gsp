@@ -15,9 +15,9 @@
         <div class="head">
           <h1>Payment configuration</h1>
         </div>
-			<form method="post" id="form1" action="configure" class="editorForm">
+			<form method="post" id="form1" action="configure" class="editor-form">
 				<textarea id="editor" name="editor">${editorContent}</textarea>
-				<input type="button" id="submit" name="submit" value="Save">
+				<input type="button" id="submit" name="submit" value="Save" />
 			</form>
       </div>
     </div>

@@ -8,7 +8,7 @@
 (function() {
   
   var zct = zenexity.capdemat.tools;
-  var zcc = zct.namespace('zenexity.capdemat.common');
+  var zcc = zenexity.capdemat.common;
   
   zcc.messageAreaId = 'errorMessages';
   

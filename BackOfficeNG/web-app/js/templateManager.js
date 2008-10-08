@@ -16,12 +16,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
     group: 'textstyle', label: 'Variables',
     buttons: [
       { type: 'select', label: '...', value: 'insertvars', disabled: false,
-            menu: [
-              { text: '...', value:'0', checked: true },
-              { text: 'Name', value:'${NAME}' },
-              { text: 'Nick', value:'${NICK}' },
-              { text: 'Phone', value:'${PHONE}' }
-            ]
+        menu: [
+          { text: '...', value:'0', checked: true },
+          { text: 'Name', value:'${NAME}' },
+          { text: 'Nick', value:'${NICK}' },
+          { text: 'Phone', value:'${PHONE}' }
+        ]
       }]
   });
   
@@ -41,7 +41,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
           .replace(/.*<body>(.*)<\/body>.*/gi,'$1')
           .replace(/\uffff/g,'\n');
         
-        yus.query('div#trash div#wrapper')[0].innerHTML = ['<!--',zcbrt.manager.wrapper,'-->'].join('');
+        //yus.query('div#trash div#wrapper')[0].innerHTML = ['<!--',zcbrt.manager.wrapper,'-->'].join('');
+        zct.style('workArea',{display:'block'});
         YAHOO.util.Dom.setStyle('workArea','display','block');
         zcbrt.manager.tabView = new YAHOO.widget.TabView('workArea');
         
@@ -77,11 +78,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       });
       
       zcbrt.manager.panel.beforeShowEvent.subscribe(function(ev){
-        YAHOO.util.Dom.setStyle('bd-editor','display','block');
+        zct.style('bd-editor',{display:'block'});
         zcbrt.manager.panel.center();
       });
       zcbrt.manager.panel.beforeHideEvent.subscribe(function(ev){
-        YAHOO.util.Dom.setStyle('bd-editor','display','none');
+        zct.style('bd-editor',{display:'none'});
       });
       
       zcbrt.manager.panel.render();
@@ -111,12 +112,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
             var button = zcbet.def.buttons[zcbet.def.buttons.length - 1].buttons[0];
             var select = yus.query('select',button.container)[0];
             
-            yue.on(select.options,'click',function(ev){
-              if(this.value != '0') {
+            yue.on(select,'change',function(ev){
+              if(zct.val(select) != '0') {
                 zcbrt.manager.editor.execCommand('inserthtml', zct.val(select));
                 zct.val(select,'0');
               }
             })
+            
+            
           }
         });
       },

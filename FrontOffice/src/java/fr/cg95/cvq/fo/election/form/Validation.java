@@ -11,6 +11,7 @@ import fr.cg95.cvq.xml.election.ElectoralRollRegistrationRequestDocument.Elector
 
 public class Validation extends IStageForm {
 
+	private String subjectAdultLastName;
   	private String subjectAddressOutsideCityAdditionalDeliveryInformation;
 	private String subjectAddressOutsideCityAdditionalGeographicalInformation;
 	private String subjectAddressOutsideCityStreetNumber;
@@ -19,10 +20,7 @@ public class Validation extends IStageForm {
 	private String subjectAddressOutsideCityPostalCode;
 	private String subjectAddressOutsideCityCity;
 	private Calendar subjectAdultBirthDate;
-	private String subjectAdultFirstName3;
-	private String subjectAdultSex;
-	private String subjectOldCity;
-	private String motive;
+	private String subjectNationality;
   	private String subjectAdultAddressAdditionalDeliveryInformation;
 	private String subjectAdultAddressAdditionalGeographicalInformation;
 	private String subjectAdultAddressStreetNumber;
@@ -30,10 +28,12 @@ public class Validation extends IStageForm {
 	private String subjectAdultAddressPlaceNameOrService;
 	private String subjectAdultAddressPostalCode;
 	private String subjectAdultAddressCity;
-	private String subjectAdultLastName;
-	private String subjectNationality;
+	private String subjectOldCity;
 	private String subjectAdultFirstName2;
+	private String subjectAdultFirstName3;
 	private String subjectAdultFirstName;
+	private String motive;
+	private String subjectAdultSex;
 
 	public Validation() {
 		super();
@@ -51,6 +51,7 @@ public class Validation extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof ElectoralRollRegistrationRequest)) {
 			ElectoralRollRegistrationRequest request = (ElectoralRollRegistrationRequest)xmlbRequest;
+			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
   			this.subjectAddressOutsideCityAdditionalDeliveryInformation = request.getSubjectAddressOutsideCity().getAdditionalDeliveryInformation();
 			this.subjectAddressOutsideCityAdditionalGeographicalInformation = request.getSubjectAddressOutsideCity().getAdditionalGeographicalInformation();
 			this.subjectAddressOutsideCityStreetNumber = request.getSubjectAddressOutsideCity().getStreetNumber();
@@ -59,12 +60,7 @@ public class Validation extends IStageForm {
 			this.subjectAddressOutsideCityPostalCode = request.getSubjectAddressOutsideCity().getPostalCode();
 			this.subjectAddressOutsideCityCity = request.getSubjectAddressOutsideCity().getCity();
 			this.subjectAdultBirthDate = request.getSubject().getAdult().getBirthDate();
-			this.subjectAdultFirstName3 = request.getSubject().getAdult().getFirstName3();
-			if (request.getSubject().getAdult().getSex() != null)
-			this.subjectAdultSex = request.getSubject().getAdult().getSex().toString();
-			this.subjectOldCity = request.getSubjectOldCity();
-			if (request.getMotive() != null)
-			this.motive = request.getMotive().toString();
+			this.subjectNationality = request.getSubjectNationality();
   			this.subjectAdultAddressAdditionalDeliveryInformation = request.getSubject().getAdult().getAddress().getAdditionalDeliveryInformation();
 			this.subjectAdultAddressAdditionalGeographicalInformation = request.getSubject().getAdult().getAddress().getAdditionalGeographicalInformation();
 			this.subjectAdultAddressStreetNumber = request.getSubject().getAdult().getAddress().getStreetNumber();
@@ -72,16 +68,21 @@ public class Validation extends IStageForm {
 			this.subjectAdultAddressPlaceNameOrService = request.getSubject().getAdult().getAddress().getPlaceNameOrService();
 			this.subjectAdultAddressPostalCode = request.getSubject().getAdult().getAddress().getPostalCode();
 			this.subjectAdultAddressCity = request.getSubject().getAdult().getAddress().getCity();
-			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
-			this.subjectNationality = request.getSubjectNationality();
+			this.subjectOldCity = request.getSubjectOldCity();
 			this.subjectAdultFirstName2 = request.getSubject().getAdult().getFirstName2();
+			this.subjectAdultFirstName3 = request.getSubject().getAdult().getFirstName3();
 			this.subjectAdultFirstName = request.getSubject().getAdult().getFirstName();
+			if (request.getMotive() != null)
+			this.motive = request.getMotive().toString();
+			if (request.getSubject().getAdult().getSex() != null)
+			this.subjectAdultSex = request.getSubject().getAdult().getSex().toString();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof ElectoralRollRegistrationRequest)) {
 			ElectoralRollRegistrationRequest request = (ElectoralRollRegistrationRequest)xmlbRequest;
+			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
   			request.getSubjectAddressOutsideCity().setAdditionalDeliveryInformation(this.subjectAddressOutsideCityAdditionalDeliveryInformation);
 			request.getSubjectAddressOutsideCity().setAdditionalGeographicalInformation(this.subjectAddressOutsideCityAdditionalGeographicalInformation);
 			request.getSubjectAddressOutsideCity().setStreetNumber(this.subjectAddressOutsideCityStreetNumber);
@@ -90,10 +91,7 @@ public class Validation extends IStageForm {
 			request.getSubjectAddressOutsideCity().setPostalCode(this.subjectAddressOutsideCityPostalCode);
 			request.getSubjectAddressOutsideCity().setCity(this.subjectAddressOutsideCityCity);
 			request.getSubject().getAdult().setBirthDate(this.subjectAdultBirthDate);
-			request.getSubject().getAdult().setFirstName3(this.subjectAdultFirstName3);
-			request.getSubject().getAdult().setSex(SexType.Enum.forString(this.subjectAdultSex));
-			request.setSubjectOldCity(this.subjectOldCity);
-			request.setMotive(ElectoralMotiveType.Enum.forString(this.motive));
+			request.setSubjectNationality(this.subjectNationality);
   			request.getSubject().getAdult().getAddress().setAdditionalDeliveryInformation(this.subjectAdultAddressAdditionalDeliveryInformation);
 			request.getSubject().getAdult().getAddress().setAdditionalGeographicalInformation(this.subjectAdultAddressAdditionalGeographicalInformation);
 			request.getSubject().getAdult().getAddress().setStreetNumber(this.subjectAdultAddressStreetNumber);
@@ -101,14 +99,19 @@ public class Validation extends IStageForm {
 			request.getSubject().getAdult().getAddress().setPlaceNameOrService(this.subjectAdultAddressPlaceNameOrService);
 			request.getSubject().getAdult().getAddress().setPostalCode(this.subjectAdultAddressPostalCode);
 			request.getSubject().getAdult().getAddress().setCity(this.subjectAdultAddressCity);
-			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
-			request.setSubjectNationality(this.subjectNationality);
+			request.setSubjectOldCity(this.subjectOldCity);
 			request.getSubject().getAdult().setFirstName2(this.subjectAdultFirstName2);
+			request.getSubject().getAdult().setFirstName3(this.subjectAdultFirstName3);
 			request.getSubject().getAdult().setFirstName(this.subjectAdultFirstName);
+			request.setMotive(ElectoralMotiveType.Enum.forString(this.motive));
+			request.getSubject().getAdult().setSex(SexType.Enum.forString(this.subjectAdultSex));
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkSubjectAdultLastName() &&
+			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
+			return false;
   		if (this.checkSubjectAddressOutsideCityStreetName() &&
 			((this.subjectAddressOutsideCityStreetName == null) || (this.subjectAddressOutsideCityStreetName.length() == 0)))
 			return false;
@@ -118,8 +121,8 @@ public class Validation extends IStageForm {
 		if (this.checkSubjectAddressOutsideCityCity() &&
 			((this.subjectAddressOutsideCityCity == null) || (this.subjectAddressOutsideCityCity.length() == 0)))
 			return false;
-		if (this.checkMotive() &&
-			((this.motive == null) || (this.motive.length() == 0)))
+		if (this.checkSubjectNationality() &&
+			((this.subjectNationality == null) || (this.subjectNationality.length() == 0)))
 			return false;
   		if (this.checkSubjectAdultAddressStreetName() &&
 			((this.subjectAdultAddressStreetName == null) || (this.subjectAdultAddressStreetName.length() == 0)))
@@ -130,18 +133,27 @@ public class Validation extends IStageForm {
 		if (this.checkSubjectAdultAddressCity() &&
 			((this.subjectAdultAddressCity == null) || (this.subjectAdultAddressCity.length() == 0)))
 			return false;
-		if (this.checkSubjectAdultLastName() &&
-			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
-			return false;
-		if (this.checkSubjectNationality() &&
-			((this.subjectNationality == null) || (this.subjectNationality.length() == 0)))
-			return false;
 		if (this.checkSubjectAdultFirstName() &&
 			((this.subjectAdultFirstName == null) || (this.subjectAdultFirstName.length() == 0)))
+			return false;
+		if (this.checkMotive() &&
+			((this.motive == null) || (this.motive.length() == 0)))
 			return false;
 		return true;
 	}
 	
+	public void setSubjectAdultLastName(String subjectAdultLastName) {
+		this.subjectAdultLastName = subjectAdultLastName;
+	}
+	
+	public String getSubjectAdultLastName() {
+		return this.subjectAdultLastName;
+	}
+	
+	public boolean checkSubjectAdultLastName() {
+		return true;
+	}
+
   	public void setSubjectAddressOutsideCityAdditionalDeliveryInformation(String subjectAddressOutsideCityAdditionalDeliveryInformation) {
 		this.subjectAddressOutsideCityAdditionalDeliveryInformation = subjectAddressOutsideCityAdditionalDeliveryInformation;
 	}
@@ -238,51 +250,15 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultFirstName3(String subjectAdultFirstName3) {
-		this.subjectAdultFirstName3 = subjectAdultFirstName3;
+	public void setSubjectNationality(String subjectNationality) {
+		this.subjectNationality = subjectNationality;
 	}
 	
-	public String getSubjectAdultFirstName3() {
-		return this.subjectAdultFirstName3;
+	public String getSubjectNationality() {
+		return this.subjectNationality;
 	}
 	
-	public boolean checkSubjectAdultFirstName3() {
-		return true;
-	}
-
-	public void setSubjectAdultSex(String subjectAdultSex) {
-		this.subjectAdultSex = subjectAdultSex;
-	}
-	
-	public String getSubjectAdultSex() {
-		return this.subjectAdultSex;
-	}
-	
-	public boolean checkSubjectAdultSex() {
-		return true;
-	}
-
-	public void setSubjectOldCity(String subjectOldCity) {
-		this.subjectOldCity = subjectOldCity;
-	}
-	
-	public String getSubjectOldCity() {
-		return this.subjectOldCity;
-	}
-	
-	public boolean checkSubjectOldCity() {
-		return true;
-	}
-
-	public void setMotive(String motive) {
-		this.motive = motive;
-	}
-	
-	public String getMotive() {
-		return this.motive;
-	}
-	
-	public boolean checkMotive() {
+	public boolean checkSubjectNationality() {
 		return true;
 	}
 
@@ -370,27 +346,15 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultLastName(String subjectAdultLastName) {
-		this.subjectAdultLastName = subjectAdultLastName;
+	public void setSubjectOldCity(String subjectOldCity) {
+		this.subjectOldCity = subjectOldCity;
 	}
 	
-	public String getSubjectAdultLastName() {
-		return this.subjectAdultLastName;
+	public String getSubjectOldCity() {
+		return this.subjectOldCity;
 	}
 	
-	public boolean checkSubjectAdultLastName() {
-		return true;
-	}
-
-	public void setSubjectNationality(String subjectNationality) {
-		this.subjectNationality = subjectNationality;
-	}
-	
-	public String getSubjectNationality() {
-		return this.subjectNationality;
-	}
-	
-	public boolean checkSubjectNationality() {
+	public boolean checkSubjectOldCity() {
 		return true;
 	}
 
@@ -406,6 +370,18 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
+	public void setSubjectAdultFirstName3(String subjectAdultFirstName3) {
+		this.subjectAdultFirstName3 = subjectAdultFirstName3;
+	}
+	
+	public String getSubjectAdultFirstName3() {
+		return this.subjectAdultFirstName3;
+	}
+	
+	public boolean checkSubjectAdultFirstName3() {
+		return true;
+	}
+
 	public void setSubjectAdultFirstName(String subjectAdultFirstName) {
 		this.subjectAdultFirstName = subjectAdultFirstName;
 	}
@@ -415,6 +391,30 @@ public class Validation extends IStageForm {
 	}
 	
 	public boolean checkSubjectAdultFirstName() {
+		return true;
+	}
+
+	public void setMotive(String motive) {
+		this.motive = motive;
+	}
+	
+	public String getMotive() {
+		return this.motive;
+	}
+	
+	public boolean checkMotive() {
+		return true;
+	}
+
+	public void setSubjectAdultSex(String subjectAdultSex) {
+		this.subjectAdultSex = subjectAdultSex;
+	}
+	
+	public String getSubjectAdultSex() {
+		return this.subjectAdultSex;
+	}
+	
+	public boolean checkSubjectAdultSex() {
 		return true;
 	}
 

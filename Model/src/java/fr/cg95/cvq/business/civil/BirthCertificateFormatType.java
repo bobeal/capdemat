@@ -15,6 +15,7 @@ public final class BirthCertificateFormatType extends PersistentStringEnum {
     public static final BirthCertificateFormatType FULL_COPY = new BirthCertificateFormatType("FullCopy");
     public static final BirthCertificateFormatType EXTRACT_WITH_RELATIONSHIP = new BirthCertificateFormatType("ExtractWithRelationship");
     public static final BirthCertificateFormatType EXTRACT_WITHOUT_RELATIONSHIP = new BirthCertificateFormatType("ExtractWithoutRelationship");
+    public static final BirthCertificateFormatType MULTILINGUAL_EXTRACT = new BirthCertificateFormatType("MultilingualExtract");
 
 
     /**
@@ -44,6 +45,8 @@ public final class BirthCertificateFormatType extends PersistentStringEnum {
             return EXTRACT_WITH_RELATIONSHIP;
         else if (enumAsString.equals(EXTRACT_WITHOUT_RELATIONSHIP.toString()))
             return EXTRACT_WITHOUT_RELATIONSHIP;
+        else if (enumAsString.equals(MULTILINGUAL_EXTRACT.toString()))
+            return MULTILINGUAL_EXTRACT;
 
         return getDefaultBirthCertificateFormatType();
     }

@@ -11,78 +11,87 @@ import fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest;
 
 public class Type extends IStageForm {
 
-	private java.math.BigInteger copies;
-	private String motherFirstNames;
-	private String motherMaidenName;
-	private String relationship;
-	private String fatherFirstNames;
-	private String usage;
 	private String format;
+	private java.math.BigInteger copies;
 	private String fatherLastName;
+	private String comment;
+	private String motherFirstNames;
+	private String fatherFirstNames;
+	private String motive;
+	private String motherMaidenName;
 
 	public Type() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("type")) {
-		}
 		if (state.equals("parents")) {
+		}
+		if (state.equals("type")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof BirthDetailsRequest)) {
 			BirthDetailsRequest request = (BirthDetailsRequest)xmlbRequest;
-			this.copies = request.getCopies();
-			this.motherFirstNames = request.getMotherFirstNames();
-			this.motherMaidenName = request.getMotherMaidenName();
-			if (request.getRelationship() != null)
-			this.relationship = request.getRelationship().toString();
-			this.fatherFirstNames = request.getFatherFirstNames();
-			this.usage = request.getUsage();
 			if (request.getFormat() != null)
 			this.format = request.getFormat().toString();
+			this.copies = request.getCopies();
 			this.fatherLastName = request.getFatherLastName();
+			this.comment = request.getComment();
+			this.motherFirstNames = request.getMotherFirstNames();
+			this.fatherFirstNames = request.getFatherFirstNames();
+			if (request.getMotive() != null)
+			this.motive = request.getMotive().toString();
+			this.motherMaidenName = request.getMotherMaidenName();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof BirthDetailsRequest)) {
 			BirthDetailsRequest request = (BirthDetailsRequest)xmlbRequest;
-			request.setCopies(this.copies);
-			request.setMotherFirstNames(this.motherFirstNames);
-			request.setMotherMaidenName(this.motherMaidenName);
-			request.setRelationship(BirthRelationshipType.Enum.forString(this.relationship));
-			request.setFatherFirstNames(this.fatherFirstNames);
-			request.setUsage(this.usage);
 			request.setFormat(BirthCertificateFormatType.Enum.forString(this.format));
+			request.setCopies(this.copies);
 			request.setFatherLastName(this.fatherLastName);
+			request.setComment(this.comment);
+			request.setMotherFirstNames(this.motherFirstNames);
+			request.setFatherFirstNames(this.fatherFirstNames);
+			request.setMotive(BirthCertificateMotiveType.Enum.forString(this.motive));
+			request.setMotherMaidenName(this.motherMaidenName);
 		}
 	}
 	
 	public boolean isComplete() {
-		if (this.checkMotherFirstNames() &&
-			((this.motherFirstNames == null) || (this.motherFirstNames.length() == 0)))
-			return false;
-		if (this.checkMotherMaidenName() &&
-			((this.motherMaidenName == null) || (this.motherMaidenName.length() == 0)))
-			return false;
-		if (this.checkRelationship() &&
-			((this.relationship == null) || (this.relationship.length() == 0)))
-			return false;
-		if (this.checkFatherFirstNames() &&
-			((this.fatherFirstNames == null) || (this.fatherFirstNames.length() == 0)))
-			return false;
 		if (this.checkFormat() &&
 			((this.format == null) || (this.format.length() == 0)))
 			return false;
 		if (this.checkFatherLastName() &&
 			((this.fatherLastName == null) || (this.fatherLastName.length() == 0)))
 			return false;
+		if (this.checkMotherFirstNames() &&
+			((this.motherFirstNames == null) || (this.motherFirstNames.length() == 0)))
+			return false;
+		if (this.checkFatherFirstNames() &&
+			((this.fatherFirstNames == null) || (this.fatherFirstNames.length() == 0)))
+			return false;
+		if (this.checkMotherMaidenName() &&
+			((this.motherMaidenName == null) || (this.motherMaidenName.length() == 0)))
+			return false;
 		return true;
 	}
 	
+	public void setFormat(String format) {
+		this.format = format;
+	}
+	
+	public String getFormat() {
+		return this.format;
+	}
+	
+	public boolean checkFormat() {
+		return true;
+	}
+
 	public void setCopies(java.math.BigInteger copies) {
 		this.copies = copies;
 	}
@@ -92,6 +101,30 @@ public class Type extends IStageForm {
 	}
 	
 	public boolean checkCopies() {
+		return true;
+	}
+
+	public void setFatherLastName(String fatherLastName) {
+		this.fatherLastName = fatherLastName;
+	}
+	
+	public String getFatherLastName() {
+		return this.fatherLastName;
+	}
+	
+	public boolean checkFatherLastName() {
+		return format.equals("ExtractWithRelationship");
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	
+	public String getComment() {
+		return this.comment;
+	}
+	
+	public boolean checkComment() {
 		return true;
 	}
 
@@ -107,30 +140,6 @@ public class Type extends IStageForm {
 		return format.equals("ExtractWithRelationship");
 	}
 
-	public void setMotherMaidenName(String motherMaidenName) {
-		this.motherMaidenName = motherMaidenName;
-	}
-	
-	public String getMotherMaidenName() {
-		return this.motherMaidenName;
-	}
-	
-	public boolean checkMotherMaidenName() {
-		return format.equals("ExtractWithRelationship");
-	}
-
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
-	}
-	
-	public String getRelationship() {
-		return this.relationship;
-	}
-	
-	public boolean checkRelationship() {
-		return format.equals("ExtractWithRelationship");
-	}
-
 	public void setFatherFirstNames(String fatherFirstNames) {
 		this.fatherFirstNames = fatherFirstNames;
 	}
@@ -143,39 +152,27 @@ public class Type extends IStageForm {
 		return format.equals("ExtractWithRelationship");
 	}
 
-	public void setUsage(String usage) {
-		this.usage = usage;
+	public void setMotive(String motive) {
+		this.motive = motive;
 	}
 	
-	public String getUsage() {
-		return this.usage;
+	public String getMotive() {
+		return this.motive;
 	}
 	
-	public boolean checkUsage() {
+	public boolean checkMotive() {
 		return true;
 	}
 
-	public void setFormat(String format) {
-		this.format = format;
+	public void setMotherMaidenName(String motherMaidenName) {
+		this.motherMaidenName = motherMaidenName;
 	}
 	
-	public String getFormat() {
-		return this.format;
+	public String getMotherMaidenName() {
+		return this.motherMaidenName;
 	}
 	
-	public boolean checkFormat() {
-		return true;
-	}
-
-	public void setFatherLastName(String fatherLastName) {
-		this.fatherLastName = fatherLastName;
-	}
-	
-	public String getFatherLastName() {
-		return this.fatherLastName;
-	}
-	
-	public boolean checkFatherLastName() {
+	public boolean checkMotherMaidenName() {
 		return format.equals("ExtractWithRelationship");
 	}
 

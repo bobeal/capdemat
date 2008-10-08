@@ -11,8 +11,8 @@ import fr.cg95.cvq.xml.localpolice.HolidaySecurityRequestDocument.HolidaySecurit
 
 public class Absencedate extends IStageForm {
 
-	private Calendar absenceEndDate;
 	private Calendar absenceStartDate;
+	private Calendar absenceEndDate;
 
 	public Absencedate() {
 		super();
@@ -26,16 +26,16 @@ public class Absencedate extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HolidaySecurityRequest)) {
 			HolidaySecurityRequest request = (HolidaySecurityRequest)xmlbRequest;
-			this.absenceEndDate = request.getAbsenceEndDate();
 			this.absenceStartDate = request.getAbsenceStartDate();
+			this.absenceEndDate = request.getAbsenceEndDate();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HolidaySecurityRequest)) {
 			HolidaySecurityRequest request = (HolidaySecurityRequest)xmlbRequest;
-			request.setAbsenceEndDate(this.absenceEndDate);
 			request.setAbsenceStartDate(this.absenceStartDate);
+			request.setAbsenceEndDate(this.absenceEndDate);
 		}
 	}
 	
@@ -43,18 +43,6 @@ public class Absencedate extends IStageForm {
 		return true;
 	}
 	
-	public void setAbsenceEndDate(Calendar absenceEndDate) {
-		this.absenceEndDate = absenceEndDate;
-	}
-	
-	public Calendar getAbsenceEndDate() {
-		return this.absenceEndDate;
-	}
-	
-	public boolean checkAbsenceEndDate() {
-		return true;
-	}
-
 	public void setAbsenceStartDate(Calendar absenceStartDate) {
 		this.absenceStartDate = absenceStartDate;
 	}
@@ -64,6 +52,18 @@ public class Absencedate extends IStageForm {
 	}
 	
 	public boolean checkAbsenceStartDate() {
+		return true;
+	}
+
+	public void setAbsenceEndDate(Calendar absenceEndDate) {
+		this.absenceEndDate = absenceEndDate;
+	}
+	
+	public Calendar getAbsenceEndDate() {
+		return this.absenceEndDate;
+	}
+	
+	public boolean checkAbsenceEndDate() {
 		return true;
 	}
 

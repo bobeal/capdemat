@@ -51,16 +51,9 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
 
         DeathDetailsRequest request = new DeathDetailsRequest();
           request.setCopies(BigInteger.valueOf(1));
-                request.setMotherFirstNames("MotherFirstNames");
-                    request.setDeathFirstNames("DeathFirstNames");
-                    request.setRequesterQualityPrecision("RequesterQualityPrecision");
-                  request.setRelationship(DeathRelationshipType.HUSBAND);
-                request.setUsage("Usage");
-              request.setRequesterQuality(DeathRequesterQualityType.SPOUSE);
-                  if ("FatherLastName".length() > 38)
-        request.setFatherLastName("FatherLastName".substring(0, 38));
-      else
-        request.setFatherLastName("FatherLastName");
+            request.setComment("Comment");
+                request.setDeathFirstNames("DeathFirstNames");
+                  request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
                 request.setDeathDate(new Date());
               if ("DeathCity".length() > 32)
         request.setDeathCity("DeathCity".substring(0, 32));
@@ -70,15 +63,10 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
         request.setDeathPostalCode("DeathPostalCode".substring(0, 2));
       else
         request.setDeathPostalCode("DeathPostalCode");
-                  if ("MotherMaidenName".length() > 38)
-        request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
-      else
-        request.setMotherMaidenName("MotherMaidenName");
                   if ("DeathLastName".length() > 38)
         request.setDeathLastName("DeathLastName".substring(0, 38));
       else
         request.setDeathLastName("DeathLastName");
-                    request.setFatherFirstNames("FatherFirstNames");
                   request.setFormat(DeathCertificateFormatType.FULL_COPY);
       
         // Means Of Contact

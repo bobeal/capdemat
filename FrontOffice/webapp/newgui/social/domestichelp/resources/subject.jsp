@@ -25,10 +25,10 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.requesterIncomesRequesterPensions = new Function("key","this.label='Pensions et retraites'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.requesterIncomesRequesterAllowances = new Function("key","this.label='Allocations diverses'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.requesterIncomesRequesterInvestmentIncome = new Function("key","this.label='Revenus du capital'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.requesterIncomesRequesterNetIncome = new Function("key","this.label='Salaire'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.requesterIncomesRequesterPensions = new Function("key","this.label='Pensions et retraites'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.requesterIncomesRequesterAllowances = new Function("key","this.label='Allocations diverses'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.requesterIncomesRequesterInvestmentIncome = new Function("key","this.label='Revenus du capital'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.requesterIncomesRequesterNetIncome = new Function("key","this.label='Salaire'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Resources");
 	</script>

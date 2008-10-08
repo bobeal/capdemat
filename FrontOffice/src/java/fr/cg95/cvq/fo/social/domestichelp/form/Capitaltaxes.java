@@ -11,12 +11,12 @@ import fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest;
 
 public class Capitaltaxes extends IStageForm {
 
-	private java.math.BigInteger capitalsSharesAmount;
-	private java.math.BigInteger taxesAmountLocalRate;
-	private java.math.BigInteger taxesAmountPropertyTaxes;
 	private java.math.BigInteger taxesAmountIncomeTax;
-	private java.math.BigInteger capitalsBondsAmount;
 	private java.math.BigInteger taxesAmountProfessionalTaxes;
+	private java.math.BigInteger taxesAmountPropertyTaxes;
+	private java.math.BigInteger capitalsSharesAmount;
+	private java.math.BigInteger capitalsBondsAmount;
+	private java.math.BigInteger taxesAmountLocalRate;
 
 	public Capitaltaxes() {
 		super();
@@ -32,24 +32,24 @@ public class Capitaltaxes extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DomesticHelpRequest)) {
 			DomesticHelpRequest request = (DomesticHelpRequest)xmlbRequest;
-			this.capitalsSharesAmount = request.getCapitals().getSharesAmount();
-			this.taxesAmountLocalRate = request.getTaxesAmount().getLocalRate();
-			this.taxesAmountPropertyTaxes = request.getTaxesAmount().getPropertyTaxes();
 			this.taxesAmountIncomeTax = request.getTaxesAmount().getIncomeTax();
-			this.capitalsBondsAmount = request.getCapitals().getBondsAmount();
 			this.taxesAmountProfessionalTaxes = request.getTaxesAmount().getProfessionalTaxes();
+			this.taxesAmountPropertyTaxes = request.getTaxesAmount().getPropertyTaxes();
+			this.capitalsSharesAmount = request.getCapitals().getSharesAmount();
+			this.capitalsBondsAmount = request.getCapitals().getBondsAmount();
+			this.taxesAmountLocalRate = request.getTaxesAmount().getLocalRate();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DomesticHelpRequest)) {
 			DomesticHelpRequest request = (DomesticHelpRequest)xmlbRequest;
-			request.getCapitals().setSharesAmount(this.capitalsSharesAmount);
-			request.getTaxesAmount().setLocalRate(this.taxesAmountLocalRate);
-			request.getTaxesAmount().setPropertyTaxes(this.taxesAmountPropertyTaxes);
 			request.getTaxesAmount().setIncomeTax(this.taxesAmountIncomeTax);
-			request.getCapitals().setBondsAmount(this.capitalsBondsAmount);
 			request.getTaxesAmount().setProfessionalTaxes(this.taxesAmountProfessionalTaxes);
+			request.getTaxesAmount().setPropertyTaxes(this.taxesAmountPropertyTaxes);
+			request.getCapitals().setSharesAmount(this.capitalsSharesAmount);
+			request.getCapitals().setBondsAmount(this.capitalsBondsAmount);
+			request.getTaxesAmount().setLocalRate(this.taxesAmountLocalRate);
 		}
 	}
 	
@@ -57,27 +57,27 @@ public class Capitaltaxes extends IStageForm {
 		return true;
 	}
 	
-	public void setCapitalsSharesAmount(java.math.BigInteger capitalsSharesAmount) {
-		this.capitalsSharesAmount = capitalsSharesAmount;
+	public void setTaxesAmountIncomeTax(java.math.BigInteger taxesAmountIncomeTax) {
+		this.taxesAmountIncomeTax = taxesAmountIncomeTax;
 	}
 	
-	public java.math.BigInteger getCapitalsSharesAmount() {
-		return this.capitalsSharesAmount;
+	public java.math.BigInteger getTaxesAmountIncomeTax() {
+		return this.taxesAmountIncomeTax;
 	}
 	
-	public boolean checkCapitalsSharesAmount() {
+	public boolean checkTaxesAmountIncomeTax() {
 		return true;
 	}
 
-	public void setTaxesAmountLocalRate(java.math.BigInteger taxesAmountLocalRate) {
-		this.taxesAmountLocalRate = taxesAmountLocalRate;
+	public void setTaxesAmountProfessionalTaxes(java.math.BigInteger taxesAmountProfessionalTaxes) {
+		this.taxesAmountProfessionalTaxes = taxesAmountProfessionalTaxes;
 	}
 	
-	public java.math.BigInteger getTaxesAmountLocalRate() {
-		return this.taxesAmountLocalRate;
+	public java.math.BigInteger getTaxesAmountProfessionalTaxes() {
+		return this.taxesAmountProfessionalTaxes;
 	}
 	
-	public boolean checkTaxesAmountLocalRate() {
+	public boolean checkTaxesAmountProfessionalTaxes() {
 		return true;
 	}
 
@@ -93,15 +93,15 @@ public class Capitaltaxes extends IStageForm {
 		return true;
 	}
 
-	public void setTaxesAmountIncomeTax(java.math.BigInteger taxesAmountIncomeTax) {
-		this.taxesAmountIncomeTax = taxesAmountIncomeTax;
+	public void setCapitalsSharesAmount(java.math.BigInteger capitalsSharesAmount) {
+		this.capitalsSharesAmount = capitalsSharesAmount;
 	}
 	
-	public java.math.BigInteger getTaxesAmountIncomeTax() {
-		return this.taxesAmountIncomeTax;
+	public java.math.BigInteger getCapitalsSharesAmount() {
+		return this.capitalsSharesAmount;
 	}
 	
-	public boolean checkTaxesAmountIncomeTax() {
+	public boolean checkCapitalsSharesAmount() {
 		return true;
 	}
 
@@ -117,15 +117,15 @@ public class Capitaltaxes extends IStageForm {
 		return true;
 	}
 
-	public void setTaxesAmountProfessionalTaxes(java.math.BigInteger taxesAmountProfessionalTaxes) {
-		this.taxesAmountProfessionalTaxes = taxesAmountProfessionalTaxes;
+	public void setTaxesAmountLocalRate(java.math.BigInteger taxesAmountLocalRate) {
+		this.taxesAmountLocalRate = taxesAmountLocalRate;
 	}
 	
-	public java.math.BigInteger getTaxesAmountProfessionalTaxes() {
-		return this.taxesAmountProfessionalTaxes;
+	public java.math.BigInteger getTaxesAmountLocalRate() {
+		return this.taxesAmountLocalRate;
 	}
 	
-	public boolean checkTaxesAmountProfessionalTaxes() {
+	public boolean checkTaxesAmountLocalRate() {
 		return true;
 	}
 

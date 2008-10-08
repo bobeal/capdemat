@@ -11,23 +11,24 @@ import fr.cg95.cvq.xml.civil.MarriageDetailsRequestDocument.MarriageDetailsReque
 
 public class Validation extends IStageForm {
 
-	private java.math.BigInteger copies;
-	private String motherFirstNames;
-	private String requesterQualityPrecision;
-	private String marriageCity;
-	private String relationship;
-	private String marriagePostalCode;
-	private String usage;
-	private String requesterQuality;
-	private String fatherLastName;
-	private String motherMaidenName;
-	private String marriageWifeFirstNames;
-	private Calendar marriageDate;
-	private String marriageWifeLastName;
-	private String marriageHusbandLastName;
-	private String fatherFirstNames;
-	private String marriageHusbandFirstNames;
 	private String format;
+	private java.math.BigInteger copies;
+	private String marriageHusbandFirstNames;
+	private String comment;
+	private String marriageCity;
+	private String marriageWifeLastName;
+	private String motive;
+	private String requesterQualityPrecision;
+	private String requesterQuality;
+	private Calendar marriageDate;
+	private String fatherLastName;
+	private String marriageHusbandLastName;
+	private String relationship;
+	private String marriageWifeFirstNames;
+	private String motherFirstNames;
+	private String fatherFirstNames;
+	private String marriagePostalCode;
+	private String motherMaidenName;
 
 	public Validation() {
 		super();
@@ -43,92 +44,107 @@ public class Validation extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof MarriageDetailsRequest)) {
 			MarriageDetailsRequest request = (MarriageDetailsRequest)xmlbRequest;
-			this.copies = request.getCopies();
-			this.motherFirstNames = request.getMotherFirstNames();
-			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
-			this.marriageCity = request.getMarriageCity();
-			if (request.getRelationship() != null)
-			this.relationship = request.getRelationship().toString();
-			this.marriagePostalCode = request.getMarriagePostalCode();
-			this.usage = request.getUsage();
-			if (request.getRequesterQuality() != null)
-			this.requesterQuality = request.getRequesterQuality().toString();
-			this.fatherLastName = request.getFatherLastName();
-			this.motherMaidenName = request.getMotherMaidenName();
-			this.marriageWifeFirstNames = request.getMarriageWifeFirstNames();
-			this.marriageDate = request.getMarriageDate();
-			this.marriageWifeLastName = request.getMarriageWifeLastName();
-			this.marriageHusbandLastName = request.getMarriageHusbandLastName();
-			this.fatherFirstNames = request.getFatherFirstNames();
-			this.marriageHusbandFirstNames = request.getMarriageHusbandFirstNames();
 			if (request.getFormat() != null)
 			this.format = request.getFormat().toString();
+			this.copies = request.getCopies();
+			this.marriageHusbandFirstNames = request.getMarriageHusbandFirstNames();
+			this.comment = request.getComment();
+			this.marriageCity = request.getMarriageCity();
+			this.marriageWifeLastName = request.getMarriageWifeLastName();
+			if (request.getMotive() != null)
+			this.motive = request.getMotive().toString();
+			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
+			if (request.getRequesterQuality() != null)
+			this.requesterQuality = request.getRequesterQuality().toString();
+			this.marriageDate = request.getMarriageDate();
+			this.fatherLastName = request.getFatherLastName();
+			this.marriageHusbandLastName = request.getMarriageHusbandLastName();
+			if (request.getRelationship() != null)
+			this.relationship = request.getRelationship().toString();
+			this.marriageWifeFirstNames = request.getMarriageWifeFirstNames();
+			this.motherFirstNames = request.getMotherFirstNames();
+			this.fatherFirstNames = request.getFatherFirstNames();
+			this.marriagePostalCode = request.getMarriagePostalCode();
+			this.motherMaidenName = request.getMotherMaidenName();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof MarriageDetailsRequest)) {
 			MarriageDetailsRequest request = (MarriageDetailsRequest)xmlbRequest;
-			request.setCopies(this.copies);
-			request.setMotherFirstNames(this.motherFirstNames);
-			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
-			request.setMarriageCity(this.marriageCity);
-			request.setRelationship(MarriageRelationshipType.Enum.forString(this.relationship));
-			request.setMarriagePostalCode(this.marriagePostalCode);
-			request.setUsage(this.usage);
-			request.setRequesterQuality(MarriageRequesterQualityType.Enum.forString(this.requesterQuality));
-			request.setFatherLastName(this.fatherLastName);
-			request.setMotherMaidenName(this.motherMaidenName);
-			request.setMarriageWifeFirstNames(this.marriageWifeFirstNames);
-			request.setMarriageDate(this.marriageDate);
-			request.setMarriageWifeLastName(this.marriageWifeLastName);
-			request.setMarriageHusbandLastName(this.marriageHusbandLastName);
-			request.setFatherFirstNames(this.fatherFirstNames);
-			request.setMarriageHusbandFirstNames(this.marriageHusbandFirstNames);
 			request.setFormat(MarriageCertificateFormatType.Enum.forString(this.format));
+			request.setCopies(this.copies);
+			request.setMarriageHusbandFirstNames(this.marriageHusbandFirstNames);
+			request.setComment(this.comment);
+			request.setMarriageCity(this.marriageCity);
+			request.setMarriageWifeLastName(this.marriageWifeLastName);
+			request.setMotive(MarriageCertificateMotiveType.Enum.forString(this.motive));
+			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
+			request.setRequesterQuality(MarriageRequesterQualityType.Enum.forString(this.requesterQuality));
+			request.setMarriageDate(this.marriageDate);
+			request.setFatherLastName(this.fatherLastName);
+			request.setMarriageHusbandLastName(this.marriageHusbandLastName);
+			request.setRelationship(MarriageRelationshipType.Enum.forString(this.relationship));
+			request.setMarriageWifeFirstNames(this.marriageWifeFirstNames);
+			request.setMotherFirstNames(this.motherFirstNames);
+			request.setFatherFirstNames(this.fatherFirstNames);
+			request.setMarriagePostalCode(this.marriagePostalCode);
+			request.setMotherMaidenName(this.motherMaidenName);
 		}
 	}
 	
 	public boolean isComplete() {
-		if (this.checkMotherFirstNames() &&
-			((this.motherFirstNames == null) || (this.motherFirstNames.length() == 0)))
-			return false;
-		if (this.checkMarriageCity() &&
-			((this.marriageCity == null) || (this.marriageCity.length() == 0)))
-			return false;
-		if (this.checkRelationship() &&
-			((this.relationship == null) || (this.relationship.length() == 0)))
-			return false;
-		if (this.checkMarriagePostalCode() &&
-			((this.marriagePostalCode == null) || (this.marriagePostalCode.length() == 0)))
-			return false;
-		if (this.checkFatherLastName() &&
-			((this.fatherLastName == null) || (this.fatherLastName.length() == 0)))
-			return false;
-		if (this.checkMotherMaidenName() &&
-			((this.motherMaidenName == null) || (this.motherMaidenName.length() == 0)))
-			return false;
-		if (this.checkMarriageWifeFirstNames() &&
-			((this.marriageWifeFirstNames == null) || (this.marriageWifeFirstNames.length() == 0)))
-			return false;
-		if (this.checkMarriageWifeLastName() &&
-			((this.marriageWifeLastName == null) || (this.marriageWifeLastName.length() == 0)))
-			return false;
-		if (this.checkMarriageHusbandLastName() &&
-			((this.marriageHusbandLastName == null) || (this.marriageHusbandLastName.length() == 0)))
-			return false;
-		if (this.checkFatherFirstNames() &&
-			((this.fatherFirstNames == null) || (this.fatherFirstNames.length() == 0)))
+		if (this.checkFormat() &&
+			((this.format == null) || (this.format.length() == 0)))
 			return false;
 		if (this.checkMarriageHusbandFirstNames() &&
 			((this.marriageHusbandFirstNames == null) || (this.marriageHusbandFirstNames.length() == 0)))
 			return false;
-		if (this.checkFormat() &&
-			((this.format == null) || (this.format.length() == 0)))
+		if (this.checkMarriageCity() &&
+			((this.marriageCity == null) || (this.marriageCity.length() == 0)))
+			return false;
+		if (this.checkMarriageWifeLastName() &&
+			((this.marriageWifeLastName == null) || (this.marriageWifeLastName.length() == 0)))
+			return false;
+		if (this.checkFatherLastName() &&
+			((this.fatherLastName == null) || (this.fatherLastName.length() == 0)))
+			return false;
+		if (this.checkMarriageHusbandLastName() &&
+			((this.marriageHusbandLastName == null) || (this.marriageHusbandLastName.length() == 0)))
+			return false;
+		if (this.checkRelationship() &&
+			((this.relationship == null) || (this.relationship.length() == 0)))
+			return false;
+		if (this.checkMarriageWifeFirstNames() &&
+			((this.marriageWifeFirstNames == null) || (this.marriageWifeFirstNames.length() == 0)))
+			return false;
+		if (this.checkMotherFirstNames() &&
+			((this.motherFirstNames == null) || (this.motherFirstNames.length() == 0)))
+			return false;
+		if (this.checkFatherFirstNames() &&
+			((this.fatherFirstNames == null) || (this.fatherFirstNames.length() == 0)))
+			return false;
+		if (this.checkMarriagePostalCode() &&
+			((this.marriagePostalCode == null) || (this.marriagePostalCode.length() == 0)))
+			return false;
+		if (this.checkMotherMaidenName() &&
+			((this.motherMaidenName == null) || (this.motherMaidenName.length() == 0)))
 			return false;
 		return true;
 	}
 	
+	public void setFormat(String format) {
+		this.format = format;
+	}
+	
+	public String getFormat() {
+		return this.format;
+	}
+	
+	public boolean checkFormat() {
+		return true;
+	}
+
 	public void setCopies(java.math.BigInteger copies) {
 		this.copies = copies;
 	}
@@ -138,174 +154,6 @@ public class Validation extends IStageForm {
 	}
 	
 	public boolean checkCopies() {
-		return true;
-	}
-
-	public void setMotherFirstNames(String motherFirstNames) {
-		this.motherFirstNames = motherFirstNames;
-	}
-	
-	public String getMotherFirstNames() {
-		return this.motherFirstNames;
-	}
-	
-	public boolean checkMotherFirstNames() {
-		return true;
-	}
-
-	public void setRequesterQualityPrecision(String requesterQualityPrecision) {
-		this.requesterQualityPrecision = requesterQualityPrecision;
-	}
-	
-	public String getRequesterQualityPrecision() {
-		return this.requesterQualityPrecision;
-	}
-	
-	public boolean checkRequesterQualityPrecision() {
-		return true;
-	}
-
-	public void setMarriageCity(String marriageCity) {
-		this.marriageCity = marriageCity;
-	}
-	
-	public String getMarriageCity() {
-		return this.marriageCity;
-	}
-	
-	public boolean checkMarriageCity() {
-		return true;
-	}
-
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
-	}
-	
-	public String getRelationship() {
-		return this.relationship;
-	}
-	
-	public boolean checkRelationship() {
-		return true;
-	}
-
-	public void setMarriagePostalCode(String marriagePostalCode) {
-		this.marriagePostalCode = marriagePostalCode;
-	}
-	
-	public String getMarriagePostalCode() {
-		return this.marriagePostalCode;
-	}
-	
-	public boolean checkMarriagePostalCode() {
-		return true;
-	}
-
-	public void setUsage(String usage) {
-		this.usage = usage;
-	}
-	
-	public String getUsage() {
-		return this.usage;
-	}
-	
-	public boolean checkUsage() {
-		return true;
-	}
-
-	public void setRequesterQuality(String requesterQuality) {
-		this.requesterQuality = requesterQuality;
-	}
-	
-	public String getRequesterQuality() {
-		return this.requesterQuality;
-	}
-	
-	public boolean checkRequesterQuality() {
-		return true;
-	}
-
-	public void setFatherLastName(String fatherLastName) {
-		this.fatherLastName = fatherLastName;
-	}
-	
-	public String getFatherLastName() {
-		return this.fatherLastName;
-	}
-	
-	public boolean checkFatherLastName() {
-		return true;
-	}
-
-	public void setMotherMaidenName(String motherMaidenName) {
-		this.motherMaidenName = motherMaidenName;
-	}
-	
-	public String getMotherMaidenName() {
-		return this.motherMaidenName;
-	}
-	
-	public boolean checkMotherMaidenName() {
-		return true;
-	}
-
-	public void setMarriageWifeFirstNames(String marriageWifeFirstNames) {
-		this.marriageWifeFirstNames = marriageWifeFirstNames;
-	}
-	
-	public String getMarriageWifeFirstNames() {
-		return this.marriageWifeFirstNames;
-	}
-	
-	public boolean checkMarriageWifeFirstNames() {
-		return true;
-	}
-
-	public void setMarriageDate(Calendar marriageDate) {
-		this.marriageDate = marriageDate;
-	}
-	
-	public Calendar getMarriageDate() {
-		return this.marriageDate;
-	}
-	
-	public boolean checkMarriageDate() {
-		return true;
-	}
-
-	public void setMarriageWifeLastName(String marriageWifeLastName) {
-		this.marriageWifeLastName = marriageWifeLastName;
-	}
-	
-	public String getMarriageWifeLastName() {
-		return this.marriageWifeLastName;
-	}
-	
-	public boolean checkMarriageWifeLastName() {
-		return true;
-	}
-
-	public void setMarriageHusbandLastName(String marriageHusbandLastName) {
-		this.marriageHusbandLastName = marriageHusbandLastName;
-	}
-	
-	public String getMarriageHusbandLastName() {
-		return this.marriageHusbandLastName;
-	}
-	
-	public boolean checkMarriageHusbandLastName() {
-		return true;
-	}
-
-	public void setFatherFirstNames(String fatherFirstNames) {
-		this.fatherFirstNames = fatherFirstNames;
-	}
-	
-	public String getFatherFirstNames() {
-		return this.fatherFirstNames;
-	}
-	
-	public boolean checkFatherFirstNames() {
 		return true;
 	}
 
@@ -321,15 +169,183 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setFormat(String format) {
-		this.format = format;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
-	public String getFormat() {
-		return this.format;
+	public String getComment() {
+		return this.comment;
 	}
 	
-	public boolean checkFormat() {
+	public boolean checkComment() {
+		return true;
+	}
+
+	public void setMarriageCity(String marriageCity) {
+		this.marriageCity = marriageCity;
+	}
+	
+	public String getMarriageCity() {
+		return this.marriageCity;
+	}
+	
+	public boolean checkMarriageCity() {
+		return true;
+	}
+
+	public void setMarriageWifeLastName(String marriageWifeLastName) {
+		this.marriageWifeLastName = marriageWifeLastName;
+	}
+	
+	public String getMarriageWifeLastName() {
+		return this.marriageWifeLastName;
+	}
+	
+	public boolean checkMarriageWifeLastName() {
+		return true;
+	}
+
+	public void setMotive(String motive) {
+		this.motive = motive;
+	}
+	
+	public String getMotive() {
+		return this.motive;
+	}
+	
+	public boolean checkMotive() {
+		return true;
+	}
+
+	public void setRequesterQualityPrecision(String requesterQualityPrecision) {
+		this.requesterQualityPrecision = requesterQualityPrecision;
+	}
+	
+	public String getRequesterQualityPrecision() {
+		return this.requesterQualityPrecision;
+	}
+	
+	public boolean checkRequesterQualityPrecision() {
+		return true;
+	}
+
+	public void setRequesterQuality(String requesterQuality) {
+		this.requesterQuality = requesterQuality;
+	}
+	
+	public String getRequesterQuality() {
+		return this.requesterQuality;
+	}
+	
+	public boolean checkRequesterQuality() {
+		return true;
+	}
+
+	public void setMarriageDate(Calendar marriageDate) {
+		this.marriageDate = marriageDate;
+	}
+	
+	public Calendar getMarriageDate() {
+		return this.marriageDate;
+	}
+	
+	public boolean checkMarriageDate() {
+		return true;
+	}
+
+	public void setFatherLastName(String fatherLastName) {
+		this.fatherLastName = fatherLastName;
+	}
+	
+	public String getFatherLastName() {
+		return this.fatherLastName;
+	}
+	
+	public boolean checkFatherLastName() {
+		return true;
+	}
+
+	public void setMarriageHusbandLastName(String marriageHusbandLastName) {
+		this.marriageHusbandLastName = marriageHusbandLastName;
+	}
+	
+	public String getMarriageHusbandLastName() {
+		return this.marriageHusbandLastName;
+	}
+	
+	public boolean checkMarriageHusbandLastName() {
+		return true;
+	}
+
+	public void setRelationship(String relationship) {
+		this.relationship = relationship;
+	}
+	
+	public String getRelationship() {
+		return this.relationship;
+	}
+	
+	public boolean checkRelationship() {
+		return true;
+	}
+
+	public void setMarriageWifeFirstNames(String marriageWifeFirstNames) {
+		this.marriageWifeFirstNames = marriageWifeFirstNames;
+	}
+	
+	public String getMarriageWifeFirstNames() {
+		return this.marriageWifeFirstNames;
+	}
+	
+	public boolean checkMarriageWifeFirstNames() {
+		return true;
+	}
+
+	public void setMotherFirstNames(String motherFirstNames) {
+		this.motherFirstNames = motherFirstNames;
+	}
+	
+	public String getMotherFirstNames() {
+		return this.motherFirstNames;
+	}
+	
+	public boolean checkMotherFirstNames() {
+		return true;
+	}
+
+	public void setFatherFirstNames(String fatherFirstNames) {
+		this.fatherFirstNames = fatherFirstNames;
+	}
+	
+	public String getFatherFirstNames() {
+		return this.fatherFirstNames;
+	}
+	
+	public boolean checkFatherFirstNames() {
+		return true;
+	}
+
+	public void setMarriagePostalCode(String marriagePostalCode) {
+		this.marriagePostalCode = marriagePostalCode;
+	}
+	
+	public String getMarriagePostalCode() {
+		return this.marriagePostalCode;
+	}
+	
+	public boolean checkMarriagePostalCode() {
+		return true;
+	}
+
+	public void setMotherMaidenName(String motherMaidenName) {
+		this.motherMaidenName = motherMaidenName;
+	}
+	
+	public String getMotherMaidenName() {
+		return this.motherMaidenName;
+	}
+	
+	public boolean checkMotherMaidenName() {
 		return true;
 	}
 

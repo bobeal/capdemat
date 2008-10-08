@@ -8,6 +8,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.ecitizen.VoCardRequestDocument;
 
 /**
@@ -56,6 +57,14 @@ public class VoCardRequest extends Request implements Serializable {
         VoCardRequest voCardRequest = new VoCardRequest();
         voCardRequest.fillCommonModelInfo(voCardRequest,voCardRequestXml);
         return voCardRequest;
+    }
+
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        VoCardRequestDocument voCardRequestDocument = 
+            (VoCardRequestDocument) modelToXml();
+        return voCardRequestDocument.getVoCardRequest();
     }
 
 }

@@ -7,7 +7,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.xml.request.HomeFolderModificationRequestDocument;
-
+import fr.cg95.cvq.xml.common.RequestType;
 
 /**
  * @hibernate.joined-subclass
@@ -45,6 +45,13 @@ public class HomeFolderModificationRequest extends Request implements Serializab
             hfmrRequestDoc.addNewHomeFolderModificationRequest();
         super.fillCommonXmlInfo(hfmrRequest);
         return hfmrRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        HomeFolderModificationRequestDocument hfmrRequestDocument = 
+            (HomeFolderModificationRequestDocument) modelToXml();
+        return hfmrRequestDocument.getHomeFolderModificationRequest();
     }
 
     public String toString() {

@@ -1,10 +1,7 @@
 package fr.cg95.cvq.service.authority;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,7 +12,7 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.payment.IPaymentProviderService;
 import fr.cg95.cvq.payment.PaymentServiceBean;
 
@@ -67,120 +64,21 @@ public final class LocalAuthorityConfigurationBean {
     private SessionFactory sessionFactory;
     
     private Map<IPaymentProviderService, PaymentServiceBean> paymentServices;
-    private Map<IExternalService, ExternalServiceBean> externalServices;
+    private Map<IExternalProviderService, ExternalServiceBean> externalProviderServices;
     
     private Map<String, String> ecitizenCreationNotifications;
     private Map ecitizenValidationNotifications;
     private Map agentNotifications;
     private Map paymentNotifications;
 
-    public Object getExternalServiceProperty(Class serviceClass, String propertyName) {
-        if (externalServices == null || externalServices.isEmpty())
-            return null;
-
-        logger.debug("getExternalServiceProperty() Searching property " + propertyName
-                     + " for service " + serviceClass);
-
-        for (IExternalService service : externalServices.keySet()) {
-            logger.debug("getExternalServiceProperty() Looking at " + service.getClass());
-            if (service.getClass().equals(serviceClass)) {
-                logger.debug("getExternalServiceProperty() Got a matching service");
-                ExternalServiceBean esb = externalServices.get(service);
-                return esb.getProperty(propertyName);
-            }
-        }
-        
-        return null;
-    }
-
-    /**
-     * Get the list of external services objects for the current local authority
-     * interested in events about the given request type.
-     *
-     * @return a list of objects implementing the {@link IExternalService} interface
-     */
-    public Set<IExternalService> getExternalServicesByRequestType(final String requestTypeLabel) {
-        if (externalServices == null || externalServices.isEmpty())
-            return null;
-
-        Set<IExternalService> resultSet = new HashSet<IExternalService>();
-        for (IExternalService service : externalServices.keySet()) {
-            ExternalServiceBean esb = externalServices.get(service);
-            if (esb.supportRequestType(requestTypeLabel)) {
-                resultSet.add(service);
-            }
-        }
-
-        return resultSet;
-    }
-
-    public IExternalService getExternalServiceByLabel(final String externalServiceLabel) {
-        
-        if (externalServices == null || externalServices.isEmpty())
-            return null;
-
-        for (IExternalService service : externalServices.keySet()) {
-            if (service.getLabel().equals(externalServiceLabel)) 
-                return service;
-        }
-
-        return null;
-    }
-    
-    /**
-     * Get the list of external services objects for the current local authority.
-     *
-     * @return a list of objects implementing the {@link IExternalService} interface
-     */
-    public Set<IExternalService> getExternalServicesObjects() {
-        if (externalServices == null || externalServices.isEmpty())
-            return null;
-
-        return externalServices.keySet();
-    }
-
-    /**
-     * Return the service bean associated to the given external service.
-     */
-    public ExternalServiceBean getExternalServiceBean(IExternalService service) {
-        if (externalServices == null || externalServices.isEmpty())
-            return null;
-
-        return externalServices.get(service);
-    }
-
-    /**
-     * Return the service bean associated to the given external service label.
-     */
-    public ExternalServiceBean getExternalServiceBean(String serviceLabel) {
-        if (externalServices == null || externalServices.isEmpty())
-            return null;
-
-        for (IExternalService service : externalServices.keySet()) {
-            if (service.getLabel().equals(serviceLabel))
-                return externalServices.get(service);
-        }
-        
-        return null;
-    }
-
     /**
      * Get the list of payment services objects for the current local authority.
-     *
-     * @return a list of objects implementing the {@link IPaymentProviderService} interface
      */
     public Set<IPaymentProviderService> getPaymentServicesObjects() {
         if (paymentServices == null || paymentServices.isEmpty())
             return null;
 
         return paymentServices.keySet();
-    }
-    
-    public Collection<PaymentServiceBean> getPaymentServicesBeans() {
-        if (paymentServices == null || paymentServices.isEmpty())
-            return null;
-
-        return paymentServices.values();
     }
     
     /**
@@ -307,12 +205,11 @@ public final class LocalAuthorityConfigurationBean {
             }
         }
 
-        if (externalServices != null && externalServices.size() > 0) {
-            Iterator it = externalServices.keySet().iterator();
-            while (it.hasNext()) {
-                IExternalService service = (IExternalService) it.next();
+        // FIXME : this should be done by the external service
+        if (externalProviderServices != null && externalProviderServices.size() > 0) {
+            for (IExternalProviderService service : externalProviderServices.keySet()) {
                 logger.debug("init() Looking at " + service.getClass());
-                service.checkConfiguration((ExternalServiceBean) externalServices.get(service));
+                service.checkConfiguration(externalProviderServices.get(service));
             }
         }
 
@@ -401,10 +298,25 @@ public final class LocalAuthorityConfigurationBean {
         return paymentServices;
     }
 
-    public void setExternalServices(final Map<IExternalService, ExternalServiceBean> externalServices) {
-        this.externalServices = externalServices;
+    public void setExternalServices(final Map<IExternalProviderService, ExternalServiceBean> externalProviderServices) {
+        this.externalProviderServices = externalProviderServices;
     }
 
+    public Map<IExternalProviderService, ExternalServiceBean> getExternalServices() {
+        return externalProviderServices;
+    }
+    
+    public void registerExternalService(IExternalProviderService service, ExternalServiceBean esb) 
+        throws CvqConfigurationException {
+        
+        service.checkConfiguration(esb);
+        externalProviderServices.put(service, esb);
+    }
+    
+    public void unregisterExternalService(IExternalProviderService service) {
+        externalProviderServices.remove(service);
+    }
+    
     public void setEcitizenValidationNotifications(Map ecitizenValidationNotifications) {
         this.ecitizenValidationNotifications = ecitizenValidationNotifications;
     }

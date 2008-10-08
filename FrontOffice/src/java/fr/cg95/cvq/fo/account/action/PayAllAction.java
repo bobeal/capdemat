@@ -62,6 +62,8 @@ public class PayAllAction extends CaddyManager {
                 if (isOnTerminal(pRequest))
                     payment.addPaymentSpecificData("terminal", getTerminal(pRequest));
                 
+                payment.addPaymentSpecificData("domainName", pRequest.getServerName());
+                
                 URL paymentUrl = paymentService.initPayment(payment);
 
                 if (paymentUrl != null)

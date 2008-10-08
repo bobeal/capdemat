@@ -11,17 +11,16 @@ import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqRemoteException;
-import fr.cg95.cvq.external.ExternalServiceUtils;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.users.IChildService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,6 +55,7 @@ import org.apache.log4j.Logger;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
+import org.jdom.output.XMLOutputter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
@@ -66,7 +66,7 @@ import org.xml.sax.SAXException;
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class HoranetService implements IExternalService {
+public class HoranetService implements IExternalProviderService {
 
     private static Logger logger = Logger.getLogger(HoranetService.class);
 
@@ -96,15 +96,6 @@ public class HoranetService implements IExternalService {
     public void init() {
     }
     
-    /**
-     * @deprecated badge number is now entirely managed by HoraNet
-     */
-    private boolean isBadgeNumberManagedByHN() {
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        return new Boolean((String) lacb.getExternalServiceProperty(this.getClass(),
-                BADGE_NUMBER_MANAGED_BY_HN));
-    }
-
     private String getPostalCodeFromRequest(final Request request)
         throws CvqModelException {
 
@@ -200,17 +191,8 @@ public class HoranetService implements IExternalService {
         }
     }
 
-    public final void creditRequestAccounts(final Long requestId, final String transaction,
-                                            final Collection purchaseItems, final Date date,
-                                            final String bankGrantId)
-        throws CvqException {
-        
-        logger.warn("creditRequestAccounts() not applicable for Horanet service");
-        throw new CvqException("credit request account is not applicable for Horanet service");
-    }
-
     public final void creditHomeFolderAccounts(final Collection purchaseItems, final String cvqReference,
-            final String bankReference, final Long homeFolderId, final Date validationDate)
+            final String bankReference, final Long homeFolderId, String externalHomeFolderId, String externalId, final Date validationDate)
         throws CvqException {
 
         try {
@@ -235,7 +217,7 @@ public class HoranetService implements IExternalService {
             HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
             String xmlPayment = null;
             try {
-                xmlPayment = ExternalServiceUtils.paymentToXml(purchaseItems, cvqReference, 
+                xmlPayment = paymentToXml(purchaseItems, cvqReference, 
                         bankReference, homeFolder, validationDate);
                 logger.debug("creditHomeFolderAccounts() got XML payment " + xmlPayment);
             } catch (IOException ioe) {
@@ -350,10 +332,6 @@ public class HoranetService implements IExternalService {
         return results;
     }
 
-    public final Map<String, List<ExternalAccountItem> > getAccountsByRequest(final Long requestId) throws CvqException {
-        return null;
-    }
-
     private final Document getHomeFolderAccountsDocument(final Long homeFolderId)
         throws CvqException {
         
@@ -412,7 +390,7 @@ public class HoranetService implements IExternalService {
         }
     }
     
-    public final Map<String, List<ExternalAccountItem> > getAccountsByHomeFolder(final Long homeFolderId) 
+    public final Map<String, List<ExternalAccountItem> > getAccountsByHomeFolder(final Long homeFolderId, String externalHomeFolderId, String externalId) 
         throws CvqException {
 
         Map<String, List<ExternalAccountItem> > results = 
@@ -549,7 +527,7 @@ public class HoranetService implements IExternalService {
     }
 
 
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId) throws CvqException {
+    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, String externalHomeFolderId, String externalId) throws CvqException {
 
         Map<Individual, Map<String, String> > results =
             new HashMap<Individual, Map<String, String> >();
@@ -825,6 +803,83 @@ public class HoranetService implements IExternalService {
             throw new CvqRemoteException("Failed to connect to Horanet service : " 
                     + re.getMessage());
         }
+    }
+
+    /**
+     * Only used by Horanet service : do not use for newer external services.
+     * 
+     *  Newer external services have to use XML schemas instead.
+     */
+    private String paymentToXml(final Collection<PurchaseItem> purchaseItems, 
+            final String cvqReference, final String bankReference, final HomeFolder homeFolder, 
+            final Date validationDate) 
+        throws IOException {
+        
+        int total = 0;
+        for (PurchaseItem purchaseItem : purchaseItems) {
+            total = total + purchaseItem.getAmount().intValue();
+        }
+
+        // build XML attachment
+        // TODO : use XMLBeans to generate all that shit according to BankTransaction.xsd
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+        org.jdom.Document document = new org.jdom.Document();
+        org.jdom.Element rootNode = new org.jdom.Element("bank-transaction");
+        rootNode.setAttribute("version", "1.0");
+        org.jdom.Element payment = new org.jdom.Element("payment");
+        payment.setAttribute("payment-date", simpleDateFormat.format(validationDate));
+        payment.setAttribute("payment-amount", total + "");
+        payment.setAttribute("payment-ack", bankReference);
+        payment.setAttribute("cvq-ack", cvqReference);
+        rootNode.addContent(payment);
+        org.jdom.Element family = new org.jdom.Element("family");
+        family.setAttribute("id", homeFolder.getId().toString());
+        family.setAttribute("zip", SecurityContext.getCurrentSite().getPostalCode());
+        rootNode.addContent(family);
+        org.jdom.Element accounts = new org.jdom.Element("accounts");
+        rootNode.addContent(accounts);
+        document.setRootElement(rootNode);
+        for (Iterator i = purchaseItems.iterator(); i.hasNext();) {
+            ExternalAccountItem eai = (ExternalAccountItem) i.next();
+            org.jdom.Element account = new org.jdom.Element("account");
+            account.setAttribute("account-id", eai.getExternalItemId());
+            if (eai.getRequest() != null)
+                account.setAttribute("request-id", eai.getRequest().getId().toString());
+            if (eai instanceof ExternalDepositAccountItem) {
+                ExternalDepositAccountItem edai = (ExternalDepositAccountItem) eai;
+                account.setAttribute("account-old-value", edai.getOldValue().intValue() + "");
+                account.setAttribute("account-old-value-date", 
+                        simpleDateFormat.format(edai.getOldValueDate()));
+                account.setAttribute("account-new-value", 
+                        String.valueOf(edai.getOldValue().intValue() 
+                                + edai.getAmount().intValue()));
+                // FIX for HoraNet that wants a quantity and price attribute even
+                // when it has no sense
+                account.setAttribute("qantity", "0");
+                account.setAttribute("price", "0");
+            } else if (eai instanceof ExternalTicketingContractItem) {
+                ExternalTicketingContractItem etci = (ExternalTicketingContractItem) eai;
+                // FIX for HoraNet that wants accounts related values even
+                // when it has no sense
+//                account.setAttribute("account-old-value", "0");
+//                account.setAttribute("account-old-value-date", 
+//                        simpleDateFormat.format(new Date()));
+//                account.setAttribute("account-new-value", "0");
+                account.setAttribute("qantity", etci.getQuantity() + "");
+                account.setAttribute("price", etci.getUnitPrice().intValue() + "");
+                account.setAttribute("child-id", String.valueOf(etci.getSubjectId()));
+            }
+            account.setAttribute("amount", String.valueOf(eai.getAmount().intValue()));
+            accounts.addContent(account);
+        }
+        StringWriter stringWriter = new StringWriter();
+        XMLOutputter outputter = new XMLOutputter();
+        outputter.getFormat().setEncoding(encoding);
+        outputter.output(document, stringWriter);
+        stringWriter.close();
+        logger.debug("paymentsToXml() Preparing to send : " + stringWriter.toString());
+        
+        return stringWriter.toString();
     }
 
     public final void setEndPoint(final String url) throws MalformedURLException {

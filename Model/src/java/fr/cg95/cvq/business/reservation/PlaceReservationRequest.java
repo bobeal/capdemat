@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.reservation.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -55,7 +57,6 @@ public class PlaceReservationRequest extends Request implements Serializable {
         placeReservationRequest.setSubscriberNumber(this.subscriberNumber);
         if (this.isSubscriber != null)
             placeReservationRequest.setIsSubscriber(this.isSubscriber.booleanValue());
-        placeReservationRequest.setPaymentReference(this.paymentReference);
         int i = 0;
         if (placeReservation != null) {
             fr.cg95.cvq.xml.common.PlaceReservationDataType[] placeReservationTypeTab = new fr.cg95.cvq.xml.common.PlaceReservationDataType[placeReservation.size()];
@@ -67,7 +68,15 @@ public class PlaceReservationRequest extends Request implements Serializable {
             }
             placeReservationRequest.setPlaceReservationArray(placeReservationTypeTab);
         }
+        placeReservationRequest.setPaymentReference(this.paymentReference);
         return placeReservationRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        PlaceReservationRequestDocument placeReservationRequestDoc =
+            (PlaceReservationRequestDocument) modelToXml();
+        return placeReservationRequestDoc.getPlaceReservationRequest();
     }
 
     public static PlaceReservationRequest xmlToModel(PlaceReservationRequestDocument placeReservationRequestDoc) {
@@ -79,7 +88,6 @@ public class PlaceReservationRequest extends Request implements Serializable {
         placeReservationRequest.fillCommonModelInfo(placeReservationRequest,placeReservationRequestXml);
         placeReservationRequest.setSubscriberNumber(placeReservationRequestXml.getSubscriberNumber());
         placeReservationRequest.setIsSubscriber(Boolean.valueOf(placeReservationRequestXml.getIsSubscriber()));
-        placeReservationRequest.setPaymentReference(placeReservationRequestXml.getPaymentReference());
         HashSet placeReservationSet = new HashSet();
         if ( placeReservationRequestXml.sizeOfPlaceReservationArray() > 0) {
             for (int i = 0; i < placeReservationRequestXml.getPlaceReservationArray().length; i++) {
@@ -87,6 +95,7 @@ public class PlaceReservationRequest extends Request implements Serializable {
             }
         }
         placeReservationRequest.setPlaceReservation(placeReservationSet);
+        placeReservationRequest.setPaymentReference(placeReservationRequestXml.getPaymentReference());
         return placeReservationRequest;
     }
 
@@ -120,21 +129,6 @@ public class PlaceReservationRequest extends Request implements Serializable {
         return this.isSubscriber;
     }
 
-    private String paymentReference;
-
-    public final void setPaymentReference(final String paymentReference) {
-        this.paymentReference = paymentReference;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="payment_reference"
-     */
-    public final String getPaymentReference() {
-        return this.paymentReference;
-    }
-
     private Set placeReservation;
 
     public final void setPlaceReservation(final Set placeReservation) {
@@ -155,6 +149,21 @@ public class PlaceReservationRequest extends Request implements Serializable {
      */
     public final Set getPlaceReservation() {
         return this.placeReservation;
+    }
+
+    private String paymentReference;
+
+    public final void setPaymentReference(final String paymentReference) {
+        this.paymentReference = paymentReference;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="payment_reference"
+     */
+    public final String getPaymentReference() {
+        return this.paymentReference;
     }
 
 }

@@ -67,6 +67,7 @@ public class StateManager implements IWizardSession, Serializable {
     
 	private UserRecord currentUser = null;
 	private SearchForm currentSearch = null;
+	private LetterTypeRecord currentLetterTypeRecord = null;
 
     private ArrayList<IResultRecord> selectedRecords = new ArrayList<IResultRecord>();
     private ArrayList<IResultRecord> previousRecords = new ArrayList<IResultRecord>();
@@ -433,26 +434,36 @@ public class StateManager implements IWizardSession, Serializable {
 	}
 	
 	public LetterTypeRecord getDeliveryCertificat(String type) {
-        IResultRecord selectedRecord = getSelectedRecord();
+	    LetterTypeRecord certificat = null;
+	    IResultRecord selectedRecord = getSelectedRecord();
 		if ((selectedRecord != null) && (selectedRecord instanceof RequestRecord)) {
 			RequestRecord requestRecord = (RequestRecord)selectedRecord;
 
-            LetterTypeRecord certificat = requestManager.getLetterType(requestRecord.getRequestType(), type);
+            certificat = requestManager.getLetterType(requestRecord.getRequestType(), type);
             
-            if (certificat != null)
-                return certificat;
+            if (certificat == null) {
             
-            Iterator iter = requestRecord.getCertificats().iterator();
-			while (iter.hasNext()) {
-				certificat = (LetterTypeRecord)iter.next();
-				
-				if (certificat.getShortLabel().equals(type))
-					return certificat;
-			}
+                Iterator iter = requestRecord.getCertificats().iterator();
+    			while (iter.hasNext()) {
+    				certificat = (LetterTypeRecord)iter.next();
+    				
+    				if (certificat.getShortLabel().equals(type))
+    					break;
+    			}
+            }
 		}
-		return null;
+        setCurrentLetterTypeRecord(certificat);
+		return certificat;
 	}
 	
+    public LetterTypeRecord getCurrentLetterTypeRecord() {
+        return currentLetterTypeRecord;
+    }
+
+    public void setCurrentLetterTypeRecord(LetterTypeRecord currentletterTypeRecord) {
+        this.currentLetterTypeRecord = currentletterTypeRecord;
+    }
+
     public Collection getMeansOfContact() {
         try {
             return BusinessManager.getEnabledMeansOfContact();

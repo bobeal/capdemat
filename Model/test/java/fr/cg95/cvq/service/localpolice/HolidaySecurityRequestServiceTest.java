@@ -50,30 +50,30 @@ public class HolidaySecurityRequestServiceTest extends ServiceTestCase {
     protected HolidaySecurityRequest fillMeARequest() throws CvqException {
 
         HolidaySecurityRequest request = new HolidaySecurityRequest();
-          request.setAbsenceStartDate(new Date());
-              if ("OtherContactLastName".length() > 38)
+            if ("OtherContactLastName".length() > 38)
         request.setOtherContactLastName("OtherContactLastName".substring(0, 38));
       else
         request.setOtherContactLastName("OtherContactLastName");
+                  if ("OtherContactFirstName".length() > 38)
+        request.setOtherContactFirstName("OtherContactFirstName".substring(0, 38));
+      else
+        request.setOtherContactFirstName("OtherContactFirstName");
                 request.setLight(Boolean.valueOf(true));
+            request.setAbsenceEndDate(new Date());
               if ("OtherContactPhone".length() > 10)
         request.setOtherContactPhone("OtherContactPhone".substring(0, 10));
       else
         request.setOtherContactPhone("OtherContactPhone");
                 request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-            request.setAlarm(Boolean.valueOf(true));
-              if ("OtherContactFirstName".length() > 38)
-        request.setOtherContactFirstName("OtherContactFirstName".substring(0, 38));
-      else
-        request.setOtherContactFirstName("OtherContactFirstName");
-                                Address OtherContactAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
-            request.setOtherContactAddress(OtherContactAddress);
-    	                request.setAbsenceEndDate(new Date());
               if ("AlertPhone".length() > 10)
         request.setAlertPhone("AlertPhone".substring(0, 10));
       else
         request.setAlertPhone("AlertPhone");
-      
+                request.setAlarm(Boolean.valueOf(true));
+                            Address OtherContactAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setOtherContactAddress(OtherContactAddress);
+    	                request.setAbsenceStartDate(new Date());
+  
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

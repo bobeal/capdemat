@@ -105,6 +105,7 @@
     #if (${wizard.logout()})
       <div class="logout" onclick="document.location.href='${wizard.logout()}'">${wizard.logoutLabel()}</div>
     #end
+      <div class="help"><a href="javascript:popup('help/helpcapdematbo.pdf');">?</a></div>
     </div>
   #end
   </div>

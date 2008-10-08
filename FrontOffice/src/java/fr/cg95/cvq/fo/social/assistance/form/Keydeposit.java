@@ -11,10 +11,10 @@ import fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest;
 
 public class Keydeposit extends IStageForm {
 
-	private String trusteeFirstName;
-	private String trusteeName;
-	private String trusteePhone;
 	private String trustee;
+	private String trusteeFirstName;
+	private String trusteePhone;
+	private String trusteeName;
 
 	public Keydeposit() {
 		super();
@@ -30,21 +30,21 @@ public class Keydeposit extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof RemoteSupportRequest)) {
 			RemoteSupportRequest request = (RemoteSupportRequest)xmlbRequest;
-			this.trusteeFirstName = request.getTrusteeFirstName();
-			this.trusteeName = request.getTrusteeName();
-			this.trusteePhone = request.getTrusteePhone();
 			if (request.getTrustee() != null)
 			this.trustee = request.getTrustee().toString();
+			this.trusteeFirstName = request.getTrusteeFirstName();
+			this.trusteePhone = request.getTrusteePhone();
+			this.trusteeName = request.getTrusteeName();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof RemoteSupportRequest)) {
 			RemoteSupportRequest request = (RemoteSupportRequest)xmlbRequest;
-			request.setTrusteeFirstName(this.trusteeFirstName);
-			request.setTrusteeName(this.trusteeName);
-			request.setTrusteePhone(this.trusteePhone);
 			request.setTrustee(TrusteeType.Enum.forString(this.trustee));
+			request.setTrusteeFirstName(this.trusteeFirstName);
+			request.setTrusteePhone(this.trusteePhone);
+			request.setTrusteeName(this.trusteeName);
 		}
 	}
 	
@@ -52,6 +52,18 @@ public class Keydeposit extends IStageForm {
 		return true;
 	}
 	
+	public void setTrustee(String trustee) {
+		this.trustee = trustee;
+	}
+	
+	public String getTrustee() {
+		return this.trustee;
+	}
+	
+	public boolean checkTrustee() {
+		return true;
+	}
+
 	public void setTrusteeFirstName(String trusteeFirstName) {
 		this.trusteeFirstName = trusteeFirstName;
 	}
@@ -61,18 +73,6 @@ public class Keydeposit extends IStageForm {
 	}
 	
 	public boolean checkTrusteeFirstName() {
-		return trustee.equals("Other");
-	}
-
-	public void setTrusteeName(String trusteeName) {
-		this.trusteeName = trusteeName;
-	}
-	
-	public String getTrusteeName() {
-		return this.trusteeName;
-	}
-	
-	public boolean checkTrusteeName() {
 		return trustee.equals("Other");
 	}
 
@@ -88,16 +88,16 @@ public class Keydeposit extends IStageForm {
 		return trustee.equals("Other");
 	}
 
-	public void setTrustee(String trustee) {
-		this.trustee = trustee;
+	public void setTrusteeName(String trusteeName) {
+		this.trusteeName = trusteeName;
 	}
 	
-	public String getTrustee() {
-		return this.trustee;
+	public String getTrusteeName() {
+		return this.trusteeName;
 	}
 	
-	public boolean checkTrustee() {
-		return true;
+	public boolean checkTrusteeName() {
+		return trustee.equals("Other");
 	}
 
 }

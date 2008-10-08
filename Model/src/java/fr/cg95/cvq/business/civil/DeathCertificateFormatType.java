@@ -13,8 +13,7 @@ public final class DeathCertificateFormatType extends PersistentStringEnum {
     private static final long serialVersionUID = 1L;
 
     public static final DeathCertificateFormatType FULL_COPY = new DeathCertificateFormatType("FullCopy");
-    public static final DeathCertificateFormatType EXTRACT_WITH_RELATIONSHIP = new DeathCertificateFormatType("ExtractWithRelationship");
-    public static final DeathCertificateFormatType EXTRACT_WITHOUT_RELATIONSHIP = new DeathCertificateFormatType("ExtractWithoutRelationship");
+    public static final DeathCertificateFormatType MULTILINGUAL_EXTRACT = new DeathCertificateFormatType("MultilingualExtract");
 
 
     /**
@@ -40,10 +39,8 @@ public final class DeathCertificateFormatType extends PersistentStringEnum {
 
         if (enumAsString.equals(FULL_COPY.toString()))
             return FULL_COPY;
-        else if (enumAsString.equals(EXTRACT_WITH_RELATIONSHIP.toString()))
-            return EXTRACT_WITH_RELATIONSHIP;
-        else if (enumAsString.equals(EXTRACT_WITHOUT_RELATIONSHIP.toString()))
-            return EXTRACT_WITHOUT_RELATIONSHIP;
+        else if (enumAsString.equals(MULTILINGUAL_EXTRACT.toString()))
+            return MULTILINGUAL_EXTRACT;
 
         return getDefaultDeathCertificateFormatType();
     }

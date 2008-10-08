@@ -12,7 +12,9 @@
     <property name="urls">
       <list>
         <value>localhost</value>
+        <value>127.0.0.1</value>
         <value>vosdemarches.valdoise.fr</value>
+        <value>cartevaloise.valdoise.fr</value>
       </list>
     </property>
     <property name="foAccountTabs">
@@ -44,7 +46,7 @@
     </property>
     <property name="paymentServices">
       <map>
-        <!-- 
+<!--
         <entry>
           <key>
             <ref bean="paylinePaymentProvider" />
@@ -75,7 +77,7 @@
                   <key>
                     <value>paylineCallbackUrl</value>
                   </key>
-                  <value>https://vosdemarches.valdoise.fr/FrontOffice/paymentResult.do</value>
+                  <value>/FrontOffice/paymentResult.do</value>
                 </entry>
                 <entry>
                   <key>
@@ -93,7 +95,7 @@
             </property>
           </bean>
         </entry>
-        -->
+-->
         <entry>
           <key>
             <ref bean="fakePaymentProviderService" />
@@ -114,7 +116,7 @@
                   <key>
                     <value>callbackUrl</value>
                   </key>
-                  <value>https://vosdemarches.valdoise.fr/FrontOffice/paymentResult.do</value>
+                  <value>/FrontOffice/paymentResult.do</value>
                 </entry>
               </map>
             </property>
@@ -157,7 +159,6 @@
             </property>
           </bean>
         </entry>
-        -->
         <!--
         <entry>
           <key>
@@ -216,6 +217,31 @@
             </property>
           </bean>
         </entry>
+        
+        <entry>
+          <key>
+            <ref bean="xsarnetExternalService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
+              </list>
+            </property>
+            <property name="supportAccountsByHomeFolder">
+              <value>false</value>
+            </property>
+            <property name="supportAccountsByRequest">
+              <value>false</value>
+            </property>
+            <property name="password">
+              <value>Dude</value>
+            </property>
+          </bean>
+        </entry>
+        
         <!-- 
         <entry>
           <key>

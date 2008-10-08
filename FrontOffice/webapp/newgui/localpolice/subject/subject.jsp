@@ -58,7 +58,7 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.subjectAdultMobilePhone = new Function("key","this.label='Téléphone portable'; this.msg=null; this.required=false; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.subjectAdultMobilePhone = new Function("key","this.label='Téléphone portable'; this.msg=null; this.required=false; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
      		  this.subjectAdultEmail = new Function("key","this.label='Courriel'; this.msg=null; this.required=true; this.mask=/[a-zA-Z0-9._%\-]+@[a-zA-Z0-9._%\-]+\.[a-zA-Z0-9._%\-]{2,4}/; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
   		}
   		setFocus("Subject");

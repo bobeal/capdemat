@@ -14,8 +14,8 @@ import fr.cg95.cvq.business.social.*;
 
 public class DhrSavings extends RequestRecord {
 
-	private java.math.BigInteger savingsPaybookAmount;
 	private String savingsPaybookNumber;
+	private java.math.BigInteger savingsPaybookAmount;
 
 	public DhrSavings() {
 		super();
@@ -37,8 +37,8 @@ public class DhrSavings extends RequestRecord {
     public void load(DhrPersonalEstateAndSaving request) {
     	if (request != null) {
 
-			this.savingsPaybookAmount = request.getPaybookAmount();
 			this.savingsPaybookNumber = request.getPaybookNumber();
+			this.savingsPaybookAmount = request.getPaybookAmount();
         }
     }
     
@@ -55,20 +55,20 @@ public class DhrSavings extends RequestRecord {
         }
     }
     
-	public void setSavingsPaybookAmount(java.math.BigInteger savingsPaybookAmount) {
-		this.savingsPaybookAmount = savingsPaybookAmount;
-	}
-	
-	public java.math.BigInteger getSavingsPaybookAmount() {
-		return this.savingsPaybookAmount;
-	}
-
 	public void setSavingsPaybookNumber(String savingsPaybookNumber) {
 		this.savingsPaybookNumber = savingsPaybookNumber;
 	}
 	
 	public String getSavingsPaybookNumber() {
 		return this.savingsPaybookNumber;
+	}
+
+	public void setSavingsPaybookAmount(java.math.BigInteger savingsPaybookAmount) {
+		this.savingsPaybookAmount = savingsPaybookAmount;
+	}
+	
+	public java.math.BigInteger getSavingsPaybookAmount() {
+		return this.savingsPaybookAmount;
 	}
 
 }

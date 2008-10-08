@@ -48,7 +48,7 @@
    		  		  this.foodDiet = new Function("key","this.label='Régime alimentaire'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type='list'; return this[key];");
      		  this.foodAllergy = new Function("key","this.label='Allergie'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
      		  this.doctorName = new Function("key","this.label='Nom'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.doctorPhone = new Function("key","this.label='Téléphone'; this.msg=null; this.required=false; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.doctorPhone = new Function("key","this.label='Téléphone'; this.msg=null; this.required=false; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
         updateDisplay("foodDiet");
         updateDisplay("foodAllergy");

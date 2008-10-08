@@ -22,7 +22,7 @@ public final class ChildDiplomaType extends PersistentStringEnum {
     public static final ChildDiplomaType D_E_A = new ChildDiplomaType("DEA");
     public static final ChildDiplomaType D_E_U_G = new ChildDiplomaType("DEUG");
     public static final ChildDiplomaType LICENCE = new ChildDiplomaType("Licence");
-    public static final ChildDiplomaType MAÎTRISE = new ChildDiplomaType("Maîtrise");
+    public static final ChildDiplomaType MAITRISE = new ChildDiplomaType("Maitrise");
     public static final ChildDiplomaType UNKNOWN = new ChildDiplomaType("Unknown");
 
 
@@ -67,8 +67,8 @@ public final class ChildDiplomaType extends PersistentStringEnum {
             return D_E_U_G;
         else if (enumAsString.equals(LICENCE.toString()))
             return LICENCE;
-        else if (enumAsString.equals(MAÎTRISE.toString()))
-            return MAÎTRISE;
+        else if (enumAsString.equals(MAITRISE.toString()))
+            return MAITRISE;
         else if (enumAsString.equals(UNKNOWN.toString()))
             return UNKNOWN;
 

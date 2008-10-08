@@ -135,8 +135,6 @@ public class ToggleInputTag extends BaseBodyTag {
             String value = getRequestValue(result);
             if ((value == null) || (value.length() == 0))
                 value = "&nbsp;";
-            else
-                value = StringUtils.split(value, 25);
 
             if (!readOnly) {
                 if (request.getAttribute(ToggleInputTag.ID) == null) {
@@ -223,7 +221,7 @@ public class ToggleInputTag extends BaseBodyTag {
             String[] values = (String[]) result;
 
             for (int i = 0; i < values.length - 1; i++)
-                value += values[i] + ", ";
+                value += StringUtils.split(values[i], 25) + ", ";
 
             if (values.length > 0)
                 value += values[values.length - 1];
@@ -246,7 +244,7 @@ public class ToggleInputTag extends BaseBodyTag {
 
         value = (result != null) ? result.toString() : "";
 
-        return value;
+        return StringUtils.split(value, 25);
     }
 
     private String formatDate(Date date, String format) {
@@ -424,8 +422,8 @@ public class ToggleInputTag extends BaseBodyTag {
 
     private String formatListData(List list) {
         if ((list != null) && !list.isEmpty()) {
-            String value = "<br/><table class=\"tabcontenu\" cellspacing=\"0\" width=\"100%\">";
-            value += displayHeader();
+            String value = "</span><span class=\"list\"><table class=\"tabcontenu\" cellspacing=\"5\" width=\"100%\">";
+//            value += displayHeader();
             for (int i = 0; i < list.size(); i++)
                 value += displayItem(list.get(i), (i % 2) + 1);
 

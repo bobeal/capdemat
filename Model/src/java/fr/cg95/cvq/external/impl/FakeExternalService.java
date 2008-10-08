@@ -30,7 +30,6 @@ import org.xml.sax.SAXException;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.school.SchoolCanteenRegistrationRequest;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
@@ -38,18 +37,27 @@ import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.users.payment.ExternalTicketingContractItem;
+import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.ExternalServiceUtils;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
-public class FakeExternalService implements IExternalService {
+/**
+ * A fake implementation of the {@link IExternalProviderService external provider service interface}
+ * that is meant to be used for demonstration purposes only.
+ *
+ * TODO : this service has to be migrated to use the XML schemas APIs 
+ * instead of custom XML mapping.
+ * 
+ * @author bor@zenexity.fr
+ */
+public class FakeExternalService implements IExternalProviderService {
 
     private static Logger logger = Logger.getLogger(FakeExternalService.class);
 
@@ -71,29 +79,25 @@ public class FakeExternalService implements IExternalService {
         return null;
     }
 
-    public final void creditRequestAccounts(final Long requestId, final String transaction,
-            final Collection purchaseItems, final Date date, final String bankGrantId)
-            throws CvqException {
-    }
-
-    public final void creditHomeFolderAccounts(final Collection purchaseItems, 
+    public final void creditHomeFolderAccounts(final Collection<PurchaseItem> purchaseItems, 
             final String cvqReference, final String bankReference, final Long homeFolderId, 
-            final Date validationDate)
+            String externalHomeFolderId, String externalId, final Date validationDate)
         throws CvqException {
 
         logger.debug("creditHomeFolderAccounts() Gonna credit home folder " + homeFolderId);
         logger.debug("creditHomeFolderAccounts() for transaction " + cvqReference + " / "
                 + bankReference);
-        HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
-        try {
-            String xmlPayment = ExternalServiceUtils.paymentToXml(purchaseItems, cvqReference, 
-                    bankReference, homeFolder, validationDate);
-            logger.debug("creditHomeFolderAccounts() got XML payment " + xmlPayment);
-        } catch (IOException ioe) {
-            logger.error("creditHomeFolderAccounts() Error while preparing XML payment"
-                    + ioe.getMessage());
-            throw new CvqException("Error while preparing XML payment");
-        }
+        // TODO : port it to the new XML schemas
+//        HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
+//        try {
+//            String xmlPayment = ExternalServiceUtils.paymentToXml(purchaseItems, cvqReference, 
+//                    bankReference, homeFolder, validationDate);
+//            logger.debug("creditHomeFolderAccounts() got XML payment " + xmlPayment);
+//        } catch (IOException ioe) {
+//            logger.error("creditHomeFolderAccounts() Error while preparing XML payment"
+//                    + ioe.getMessage());
+//            throw new CvqException("Error while preparing XML payment");
+//        }
     }
 
     public final Map<Date, String> getConsumptionsByRequest(final Request request, 
@@ -133,13 +137,7 @@ public class FakeExternalService implements IExternalService {
         }
     }
 
-    public final Map<String, List<ExternalAccountItem> > getAccountsByRequest(final Long requestId) 
-        throws CvqException {
-        
-        return null;
-    }
-
-    public final Map<String, List<ExternalAccountItem> > getAccountsByHomeFolder(final Long homeFolderId) 
+    public final Map<String, List<ExternalAccountItem> > getAccountsByHomeFolder(final Long homeFolderId, String externalHomeFolderId, String externalId) 
         throws CvqException {
         
         logger.debug("getAccountsByHomeFolder() home folder " + homeFolderId);
@@ -150,13 +148,13 @@ public class FakeExternalService implements IExternalService {
         try {
             IRequestService requestService = 
                 requestServiceRegistry.getDefaultRequestService();
-            Set requests = 
+            Set<Request> requests = 
                 requestService.getByHomeFolderIdAndRequestLabel(homeFolderId,
                         authorizingRequestLabel);
             if (requests == null || requests.size() == 0)
                 return null;
             // pick the first request
-            Request request = (Request) requests.iterator().next();
+            Request request = requests.iterator().next();
             logger.debug("getAccountsByHomeFolder() using request : " + request.getId());
             
             String pathToFile = testDataDirectory + xmlDirectory + "/" + accountsFile;
@@ -279,7 +277,7 @@ public class FakeExternalService implements IExternalService {
     }
 
 
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId) 
+    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, String externalHomeFolderId, String externalId) 
         throws CvqException {
         
         Map<Individual, Map<String, String> > results =
@@ -288,13 +286,13 @@ public class FakeExternalService implements IExternalService {
         try {
             IRequestService requestService = 
                 requestServiceRegistry.getDefaultRequestService();
-            Set requests = 
+            Set<Request> requests = 
                 requestService.getByHomeFolderIdAndRequestLabel(homeFolderId,
                         authorizingRequestLabel);
             if (requests == null || requests.size() == 0)
                 return null;
             // pick the first request
-            Request request = (Request) requests.iterator().next();
+            Request request = requests.iterator().next();
             logger.debug("getIndividualAccountsInformation() using request : " + request.getId());
             
             String pathToFile = testDataDirectory + xmlDirectory + "/" + accountsFile;

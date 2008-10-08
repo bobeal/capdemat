@@ -23,6 +23,12 @@ public class RequestPolicy implements PartOfPolicy {
         if (user.isBoContext() || (user.isFoContext() && user.getAgent() != null)) {
             // we are called by the Back Office
 
+            // FIXME : what da hack !!
+            if (user.getExternalService() != null) {
+                logger.debug("called by an external service, bypassing checks");
+                return true;
+            }
+            
             Category category = request.getRequestType().getCategory();
             // in case this request type is not yet associated to a category
             if (category == null) {

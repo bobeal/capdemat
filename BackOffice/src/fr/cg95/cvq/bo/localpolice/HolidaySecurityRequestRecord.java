@@ -14,7 +14,19 @@ import fr.cg95.cvq.business.localpolice.*;
 
 public class HolidaySecurityRequestRecord extends RequestRecord {
 
+	private String subjectAdultLastName;
+  	private String subjectAdultAddressAdditionalDeliveryInformation;
+	private String subjectAdultAddressAdditionalGeographicalInformation;
+	private String subjectAdultAddressStreetNumber;
+	private String subjectAdultAddressStreetName;
+	private String subjectAdultAddressPlaceNameOrService;
+	private String subjectAdultAddressPostalCode;
+	private String subjectAdultAddressCity;
+	private String subjectAdultMobilePhone;
+	private String alertPhone;
 	private String otherContactLastName;
+	private Calendar absenceEndDate;
+	private boolean alarm;
 	private boolean rulesAndRegulationsAcceptance;
   	private String otherContactAddressAdditionalDeliveryInformation;
 	private String otherContactAddressAdditionalGeographicalInformation;
@@ -23,23 +35,11 @@ public class HolidaySecurityRequestRecord extends RequestRecord {
 	private String otherContactAddressPlaceNameOrService;
 	private String otherContactAddressPostalCode;
 	private String otherContactAddressCity;
-	private boolean light;
-	private String subjectAdultEmail;
-	private Calendar absenceEndDate;
 	private Calendar absenceStartDate;
-	private String subjectAdultLastName;
-	private String alertPhone;
-	private boolean alarm;
-	private String otherContactPhone;
-	private String subjectAdultMobilePhone;
-  	private String subjectAdultAddressAdditionalDeliveryInformation;
-	private String subjectAdultAddressAdditionalGeographicalInformation;
-	private String subjectAdultAddressStreetNumber;
-	private String subjectAdultAddressStreetName;
-	private String subjectAdultAddressPlaceNameOrService;
-	private String subjectAdultAddressPostalCode;
-	private String subjectAdultAddressCity;
 	private String otherContactFirstName;
+	private String subjectAdultEmail;
+	private String otherContactPhone;
+	private boolean light;
 	private String subjectAdultFirstName;
 
 	public HolidaySecurityRequestRecord() {
@@ -63,7 +63,25 @@ public class HolidaySecurityRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof HolidaySecurityRequest)) {
             HolidaySecurityRequest request = (HolidaySecurityRequest)xmlRequest; 
 
+			this.subjectAdultLastName = ((Adult)request.getSubject()).getLastName();
+			if (((Adult)request.getSubject()).getAdress() != null) {
+				this.subjectAdultAddressAdditionalDeliveryInformation = ((Adult)request.getSubject()).getAdress().getAdditionalDeliveryInformation();
+				this.subjectAdultAddressAdditionalGeographicalInformation = ((Adult)request.getSubject()).getAdress().getAdditionalGeographicalInformation();
+				this.subjectAdultAddressStreetNumber = ((Adult)request.getSubject()).getAdress().getStreetNumber();
+				this.subjectAdultAddressStreetName = ((Adult)request.getSubject()).getAdress().getStreetName();
+				this.subjectAdultAddressPlaceNameOrService = ((Adult)request.getSubject()).getAdress().getPlaceNameOrService();
+				this.subjectAdultAddressPostalCode = ((Adult)request.getSubject()).getAdress().getPostalCode();
+				this.subjectAdultAddressCity = ((Adult)request.getSubject()).getAdress().getCity();
+			}
+			this.subjectAdultMobilePhone = ((Adult)request.getSubject()).getMobilePhone();
+			this.alertPhone = request.getAlertPhone();
 			this.otherContactLastName = request.getOtherContactLastName();
+			if (request.getAbsenceEndDate() != null) {
+				this.absenceEndDate = Calendar.getInstance(); 
+	            this.absenceEndDate.setTime(request.getAbsenceEndDate());
+			}
+            if ((request.getAlarm() != null))
+			this.alarm = request.getAlarm();
             if ((request.getRulesAndRegulationsAcceptance() != null))
 			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
 			if (request.getOtherContactAddress() != null) {
@@ -75,33 +93,15 @@ public class HolidaySecurityRequestRecord extends RequestRecord {
 				this.otherContactAddressPostalCode = request.getOtherContactAddress().getPostalCode();
 				this.otherContactAddressCity = request.getOtherContactAddress().getCity();
 			}
-            if ((request.getLight() != null))
-			this.light = request.getLight();
-			this.subjectAdultEmail = ((Adult)request.getSubject()).getEmail();
-			if (request.getAbsenceEndDate() != null) {
-				this.absenceEndDate = Calendar.getInstance(); 
-	            this.absenceEndDate.setTime(request.getAbsenceEndDate());
-			}
 			if (request.getAbsenceStartDate() != null) {
 				this.absenceStartDate = Calendar.getInstance(); 
 	            this.absenceStartDate.setTime(request.getAbsenceStartDate());
 			}
-			this.subjectAdultLastName = ((Adult)request.getSubject()).getLastName();
-			this.alertPhone = request.getAlertPhone();
-            if ((request.getAlarm() != null))
-			this.alarm = request.getAlarm();
-			this.otherContactPhone = request.getOtherContactPhone();
-			this.subjectAdultMobilePhone = ((Adult)request.getSubject()).getMobilePhone();
-			if (((Adult)request.getSubject()).getAdress() != null) {
-				this.subjectAdultAddressAdditionalDeliveryInformation = ((Adult)request.getSubject()).getAdress().getAdditionalDeliveryInformation();
-				this.subjectAdultAddressAdditionalGeographicalInformation = ((Adult)request.getSubject()).getAdress().getAdditionalGeographicalInformation();
-				this.subjectAdultAddressStreetNumber = ((Adult)request.getSubject()).getAdress().getStreetNumber();
-				this.subjectAdultAddressStreetName = ((Adult)request.getSubject()).getAdress().getStreetName();
-				this.subjectAdultAddressPlaceNameOrService = ((Adult)request.getSubject()).getAdress().getPlaceNameOrService();
-				this.subjectAdultAddressPostalCode = ((Adult)request.getSubject()).getAdress().getPostalCode();
-				this.subjectAdultAddressCity = ((Adult)request.getSubject()).getAdress().getCity();
-			}
 			this.otherContactFirstName = request.getOtherContactFirstName();
+			this.subjectAdultEmail = ((Adult)request.getSubject()).getEmail();
+			this.otherContactPhone = request.getOtherContactPhone();
+            if ((request.getLight() != null))
+			this.light = request.getLight();
 			this.subjectAdultFirstName = ((Adult)request.getSubject()).getFirstName();
         }
     }
@@ -121,12 +121,108 @@ public class HolidaySecurityRequestRecord extends RequestRecord {
         }
     }
     
+	public void setSubjectAdultLastName(String subjectAdultLastName) {
+		this.subjectAdultLastName = subjectAdultLastName;
+	}
+	
+	public String getSubjectAdultLastName() {
+		return this.subjectAdultLastName;
+	}
+
+	public void setSubjectAdultAddressAdditionalDeliveryInformation(String subjectAdultAddressAdditionalDeliveryInformation) {
+		this.subjectAdultAddressAdditionalDeliveryInformation = subjectAdultAddressAdditionalDeliveryInformation;
+	}
+	
+	public String getSubjectAdultAddressAdditionalDeliveryInformation() {
+		return this.subjectAdultAddressAdditionalDeliveryInformation;
+	}
+
+	public void setSubjectAdultAddressAdditionalGeographicalInformation(String subjectAdultAddressAdditionalGeographicalInformation) {
+		this.subjectAdultAddressAdditionalGeographicalInformation = subjectAdultAddressAdditionalGeographicalInformation;
+	}
+	
+	public String getSubjectAdultAddressAdditionalGeographicalInformation() {
+		return this.subjectAdultAddressAdditionalGeographicalInformation;
+	}
+
+	public void setSubjectAdultAddressStreetNumber(String subjectAdultAddressStreetNumber) {
+		this.subjectAdultAddressStreetNumber = subjectAdultAddressStreetNumber;
+	}
+	
+	public String getSubjectAdultAddressStreetNumber() {
+		return this.subjectAdultAddressStreetNumber;
+	}
+
+	public void setSubjectAdultAddressStreetName(String subjectAdultAddressStreetName) {
+		this.subjectAdultAddressStreetName = subjectAdultAddressStreetName;
+	}
+	
+	public String getSubjectAdultAddressStreetName() {
+		return this.subjectAdultAddressStreetName;
+	}
+
+	public void setSubjectAdultAddressPlaceNameOrService(String subjectAdultAddressPlaceNameOrService) {
+		this.subjectAdultAddressPlaceNameOrService = subjectAdultAddressPlaceNameOrService;
+	}
+	
+	public String getSubjectAdultAddressPlaceNameOrService() {
+		return this.subjectAdultAddressPlaceNameOrService;
+	}
+
+	public void setSubjectAdultAddressPostalCode(String subjectAdultAddressPostalCode) {
+		this.subjectAdultAddressPostalCode = subjectAdultAddressPostalCode;
+	}
+	
+	public String getSubjectAdultAddressPostalCode() {
+		return this.subjectAdultAddressPostalCode;
+	}
+
+	public void setSubjectAdultAddressCity(String subjectAdultAddressCity) {
+		this.subjectAdultAddressCity = subjectAdultAddressCity;
+	}
+	
+	public String getSubjectAdultAddressCity() {
+		return this.subjectAdultAddressCity;
+	}
+
+	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
+		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
+	}
+	
+	public String getSubjectAdultMobilePhone() {
+		return this.subjectAdultMobilePhone;
+	}
+
+	public void setAlertPhone(String alertPhone) {
+		this.alertPhone = alertPhone;
+	}
+	
+	public String getAlertPhone() {
+		return this.alertPhone;
+	}
+
 	public void setOtherContactLastName(String otherContactLastName) {
 		this.otherContactLastName = otherContactLastName;
 	}
 	
 	public String getOtherContactLastName() {
 		return this.otherContactLastName;
+	}
+
+	public void setAbsenceEndDate(Calendar absenceEndDate) {
+		this.absenceEndDate = absenceEndDate;
+	}
+	
+	public Calendar getAbsenceEndDate() {
+		return this.absenceEndDate;
+	}
+
+	public void setAlarm(boolean alarm) {
+		this.alarm = alarm;
+	}
+	
+	public boolean getAlarm() {
+		return this.alarm;
 	}
 
 	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
@@ -193,12 +289,20 @@ public class HolidaySecurityRequestRecord extends RequestRecord {
 		return this.otherContactAddressCity;
 	}
 
-	public void setLight(boolean light) {
-		this.light = light;
+	public void setAbsenceStartDate(Calendar absenceStartDate) {
+		this.absenceStartDate = absenceStartDate;
 	}
 	
-	public boolean getLight() {
-		return this.light;
+	public Calendar getAbsenceStartDate() {
+		return this.absenceStartDate;
+	}
+
+	public void setOtherContactFirstName(String otherContactFirstName) {
+		this.otherContactFirstName = otherContactFirstName;
+	}
+	
+	public String getOtherContactFirstName() {
+		return this.otherContactFirstName;
 	}
 
 	public void setSubjectAdultEmail(String subjectAdultEmail) {
@@ -209,46 +313,6 @@ public class HolidaySecurityRequestRecord extends RequestRecord {
 		return this.subjectAdultEmail;
 	}
 
-	public void setAbsenceEndDate(Calendar absenceEndDate) {
-		this.absenceEndDate = absenceEndDate;
-	}
-	
-	public Calendar getAbsenceEndDate() {
-		return this.absenceEndDate;
-	}
-
-	public void setAbsenceStartDate(Calendar absenceStartDate) {
-		this.absenceStartDate = absenceStartDate;
-	}
-	
-	public Calendar getAbsenceStartDate() {
-		return this.absenceStartDate;
-	}
-
-	public void setSubjectAdultLastName(String subjectAdultLastName) {
-		this.subjectAdultLastName = subjectAdultLastName;
-	}
-	
-	public String getSubjectAdultLastName() {
-		return this.subjectAdultLastName;
-	}
-
-	public void setAlertPhone(String alertPhone) {
-		this.alertPhone = alertPhone;
-	}
-	
-	public String getAlertPhone() {
-		return this.alertPhone;
-	}
-
-	public void setAlarm(boolean alarm) {
-		this.alarm = alarm;
-	}
-	
-	public boolean getAlarm() {
-		return this.alarm;
-	}
-
 	public void setOtherContactPhone(String otherContactPhone) {
 		this.otherContactPhone = otherContactPhone;
 	}
@@ -257,76 +321,12 @@ public class HolidaySecurityRequestRecord extends RequestRecord {
 		return this.otherContactPhone;
 	}
 
-	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
-		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
+	public void setLight(boolean light) {
+		this.light = light;
 	}
 	
-	public String getSubjectAdultMobilePhone() {
-		return this.subjectAdultMobilePhone;
-	}
-
-	public void setSubjectAdultAddressAdditionalDeliveryInformation(String subjectAdultAddressAdditionalDeliveryInformation) {
-		this.subjectAdultAddressAdditionalDeliveryInformation = subjectAdultAddressAdditionalDeliveryInformation;
-	}
-	
-	public String getSubjectAdultAddressAdditionalDeliveryInformation() {
-		return this.subjectAdultAddressAdditionalDeliveryInformation;
-	}
-
-	public void setSubjectAdultAddressAdditionalGeographicalInformation(String subjectAdultAddressAdditionalGeographicalInformation) {
-		this.subjectAdultAddressAdditionalGeographicalInformation = subjectAdultAddressAdditionalGeographicalInformation;
-	}
-	
-	public String getSubjectAdultAddressAdditionalGeographicalInformation() {
-		return this.subjectAdultAddressAdditionalGeographicalInformation;
-	}
-
-	public void setSubjectAdultAddressStreetNumber(String subjectAdultAddressStreetNumber) {
-		this.subjectAdultAddressStreetNumber = subjectAdultAddressStreetNumber;
-	}
-	
-	public String getSubjectAdultAddressStreetNumber() {
-		return this.subjectAdultAddressStreetNumber;
-	}
-
-	public void setSubjectAdultAddressStreetName(String subjectAdultAddressStreetName) {
-		this.subjectAdultAddressStreetName = subjectAdultAddressStreetName;
-	}
-	
-	public String getSubjectAdultAddressStreetName() {
-		return this.subjectAdultAddressStreetName;
-	}
-
-	public void setSubjectAdultAddressPlaceNameOrService(String subjectAdultAddressPlaceNameOrService) {
-		this.subjectAdultAddressPlaceNameOrService = subjectAdultAddressPlaceNameOrService;
-	}
-	
-	public String getSubjectAdultAddressPlaceNameOrService() {
-		return this.subjectAdultAddressPlaceNameOrService;
-	}
-
-	public void setSubjectAdultAddressPostalCode(String subjectAdultAddressPostalCode) {
-		this.subjectAdultAddressPostalCode = subjectAdultAddressPostalCode;
-	}
-	
-	public String getSubjectAdultAddressPostalCode() {
-		return this.subjectAdultAddressPostalCode;
-	}
-
-	public void setSubjectAdultAddressCity(String subjectAdultAddressCity) {
-		this.subjectAdultAddressCity = subjectAdultAddressCity;
-	}
-	
-	public String getSubjectAdultAddressCity() {
-		return this.subjectAdultAddressCity;
-	}
-
-	public void setOtherContactFirstName(String otherContactFirstName) {
-		this.otherContactFirstName = otherContactFirstName;
-	}
-	
-	public String getOtherContactFirstName() {
-		return this.otherContactFirstName;
+	public boolean getLight() {
+		return this.light;
 	}
 
 	public void setSubjectAdultFirstName(String subjectAdultFirstName) {

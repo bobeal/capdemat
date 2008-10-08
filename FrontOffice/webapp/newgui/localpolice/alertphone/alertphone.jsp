@@ -13,7 +13,7 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.alertPhone = new Function("key","this.label='Numero de téléphone en cas d&quote;alerte'; this.msg=null; this.required=true; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.alertPhone = new Function("key","this.label='Numero de téléphone en cas d&quote;alerte'; this.msg=null; this.required=true; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Alertphone");
 	</script>

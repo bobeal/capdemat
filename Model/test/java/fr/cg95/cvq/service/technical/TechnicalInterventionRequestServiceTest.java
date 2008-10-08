@@ -50,10 +50,10 @@ public class TechnicalInterventionRequestServiceTest extends ServiceTestCase {
     protected TechnicalInterventionRequest fillMeARequest() throws CvqException {
 
         TechnicalInterventionRequest request = new TechnicalInterventionRequest();
-                                  Address InterventionPlace = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+              request.setInterventionDescription("InterventionDescription");
+                                Address InterventionPlace = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
             request.setInterventionPlace(InterventionPlace);
-    	                    request.setInterventionDescription("InterventionDescription");
-      
+    	              
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

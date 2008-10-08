@@ -15,8 +15,10 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
 public class MeansOfContactServiceTest extends ServiceTestCase {
     
     public void testAll() throws CvqException {
-        // Availables Means of Contact are initializing during Srping Contenor bootstrap
+        // Available Means of Contact are initialized during Spring Container bootstrap
         
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+
         // Simple get by type
         MeansOfContact mocMail = iMeansOfContactService.getMeansOfContactByType(
                 MeansOfContactEnum.MAIL);

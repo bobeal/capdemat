@@ -144,7 +144,9 @@
 			<fileset refid="generated-requests" />
 			<plugins>
 				<fileset dir="${src.xml.plugins.dir}">
-					<include name="newfo_plugin.xml" />
+				  <include name="newfo_plugin.xml" />
+				  <include name="bo_plugin.xml" />
+				  <include name="xslfo_plugin.xml" />
 					  <!--
                   <include name="model_plugin.xml" />
 				  <include name="enumeration_plugin.xml" />
@@ -155,23 +157,6 @@
           			-->
     			</fileset>
     		</plugins>
-		</generator>
-	</target>
-
-	<!-- temp task -->
-	<target name="generator-bofo" description="Code Generator In Action" depends="dist">
-
-		<taskdef name="generator" classname="fr.cg95.cvq.generator.tool.GeneratorTask" classpathref="classpath.generator">
-		</taskdef>
-
-		<generator>
-			<fileset refid="generated-requests" />
-			<plugins>
-				<fileset dir="${src.xml.plugins.dir}">
-					<include name="fo_plugin.xml" />
-					<include name="bo_plugin.xml" />
-				</fileset>
-			</plugins>
 		</generator>
 	</target>
 

@@ -14,15 +14,15 @@ import fr.cg95.cvq.business.school.*;
 
 public class SchoolRegistrationRequestRecord extends RequestRecord {
 
-	private String section;
-	private boolean rulesAndRegulationsAcceptance;
-	private String urgencyPhone;
-	private String subjectChildFirstName;
-	private String schoolName;
 	private String subjectChildLastName;
-	private String currentSection;
-	private String currentSchoolAddress;
+	private String schoolName;
 	private Calendar subjectChildBirthDate;
+	private boolean rulesAndRegulationsAcceptance;
+	private String section;
+	private String urgencyPhone;
+	private String currentSchoolAddress;
+	private String currentSection;
+	private String subjectChildFirstName;
 	private String currentSchoolName;
 
 	public SchoolRegistrationRequestRecord() {
@@ -46,26 +46,26 @@ public class SchoolRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof SchoolRegistrationRequest)) {
             SchoolRegistrationRequest request = (SchoolRegistrationRequest)xmlRequest; 
 
-			if (request.getSection() != null)
-                this.section = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest.class.getName(), 
-                        "Section", request.getSection().toString());
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
-			this.urgencyPhone = request.getUrgencyPhone();
-			this.subjectChildFirstName = ((Child)request.getSubject()).getFirstName();
+			this.subjectChildLastName = ((Child)request.getSubject()).getLastName();
             if ((request.getSchool() != null))
 			this.schoolName = request.getSchool().getName();
-			this.subjectChildLastName = ((Child)request.getSubject()).getLastName();
-			if (request.getCurrentSection() != null)
-                this.currentSection = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest.class.getName(), 
-                        "CurrentSection", request.getCurrentSection().toString());
-			this.currentSchoolAddress = request.getCurrentSchoolAddress();
 			if (((Child)request.getSubject()).getBirthDate() != null) {
 				this.subjectChildBirthDate = Calendar.getInstance(); 
 	            this.subjectChildBirthDate.setTime(((Child)request.getSubject()).getBirthDate());
 			}
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
+			if (request.getSection() != null)
+                this.section = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest.class.getName(), 
+                        "Section", request.getSection().toString());
+			this.urgencyPhone = request.getUrgencyPhone();
+			this.currentSchoolAddress = request.getCurrentSchoolAddress();
+			if (request.getCurrentSection() != null)
+                this.currentSection = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest.class.getName(), 
+                        "CurrentSection", request.getCurrentSection().toString());
+			this.subjectChildFirstName = ((Child)request.getSubject()).getFirstName();
 			this.currentSchoolName = request.getCurrentSchoolName();
         }
     }
@@ -80,6 +80,10 @@ public class SchoolRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof SchoolRegistrationRequest)) {
             SchoolRegistrationRequest request = (SchoolRegistrationRequest)xmlRequest; 
 
+            if ((request.getSchool() != null))
+			request.getSchool().setName(this.schoolName);
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
 			if (this.section != null)
                 request.setSection(
                     SectionType.forString(
@@ -88,11 +92,8 @@ public class SchoolRegistrationRequestRecord extends RequestRecord {
                             "Section", this.section)
                     )
                 );
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
 			request.setUrgencyPhone(this.urgencyPhone);
-            if ((request.getSchool() != null))
-			request.getSchool().setName(this.schoolName);
+			request.setCurrentSchoolAddress(this.currentSchoolAddress);
 			if (this.currentSection != null)
                 request.setCurrentSection(
                     SectionType.forString(
@@ -101,41 +102,16 @@ public class SchoolRegistrationRequestRecord extends RequestRecord {
                             "CurrentSection", this.currentSection)
                     )
                 );
-			request.setCurrentSchoolAddress(this.currentSchoolAddress);
 			request.setCurrentSchoolName(this.currentSchoolName);
         }
     }
     
-	public void setSection(String section) {
-		this.section = section;
+	public void setSubjectChildLastName(String subjectChildLastName) {
+		this.subjectChildLastName = subjectChildLastName;
 	}
 	
-	public String getSection() {
-		return this.section;
-	}
-
-	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
-		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
-	}
-	
-	public boolean getRulesAndRegulationsAcceptance() {
-		return this.rulesAndRegulationsAcceptance;
-	}
-
-	public void setUrgencyPhone(String urgencyPhone) {
-		this.urgencyPhone = urgencyPhone;
-	}
-	
-	public String getUrgencyPhone() {
-		return this.urgencyPhone;
-	}
-
-	public void setSubjectChildFirstName(String subjectChildFirstName) {
-		this.subjectChildFirstName = subjectChildFirstName;
-	}
-	
-	public String getSubjectChildFirstName() {
-		return this.subjectChildFirstName;
+	public String getSubjectChildLastName() {
+		return this.subjectChildLastName;
 	}
 
 	public void setSchoolName(String schoolName) {
@@ -146,20 +122,36 @@ public class SchoolRegistrationRequestRecord extends RequestRecord {
 		return this.schoolName;
 	}
 
-	public void setSubjectChildLastName(String subjectChildLastName) {
-		this.subjectChildLastName = subjectChildLastName;
+	public void setSubjectChildBirthDate(Calendar subjectChildBirthDate) {
+		this.subjectChildBirthDate = subjectChildBirthDate;
 	}
 	
-	public String getSubjectChildLastName() {
-		return this.subjectChildLastName;
+	public Calendar getSubjectChildBirthDate() {
+		return this.subjectChildBirthDate;
 	}
 
-	public void setCurrentSection(String currentSection) {
-		this.currentSection = currentSection;
+	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
+		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
 	}
 	
-	public String getCurrentSection() {
-		return this.currentSection;
+	public boolean getRulesAndRegulationsAcceptance() {
+		return this.rulesAndRegulationsAcceptance;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+	
+	public String getSection() {
+		return this.section;
+	}
+
+	public void setUrgencyPhone(String urgencyPhone) {
+		this.urgencyPhone = urgencyPhone;
+	}
+	
+	public String getUrgencyPhone() {
+		return this.urgencyPhone;
 	}
 
 	public void setCurrentSchoolAddress(String currentSchoolAddress) {
@@ -170,12 +162,20 @@ public class SchoolRegistrationRequestRecord extends RequestRecord {
 		return this.currentSchoolAddress;
 	}
 
-	public void setSubjectChildBirthDate(Calendar subjectChildBirthDate) {
-		this.subjectChildBirthDate = subjectChildBirthDate;
+	public void setCurrentSection(String currentSection) {
+		this.currentSection = currentSection;
 	}
 	
-	public Calendar getSubjectChildBirthDate() {
-		return this.subjectChildBirthDate;
+	public String getCurrentSection() {
+		return this.currentSection;
+	}
+
+	public void setSubjectChildFirstName(String subjectChildFirstName) {
+		this.subjectChildFirstName = subjectChildFirstName;
+	}
+	
+	public String getSubjectChildFirstName() {
+		return this.subjectChildFirstName;
 	}
 
 	public void setCurrentSchoolName(String currentSchoolName) {

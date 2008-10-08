@@ -59,23 +59,23 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
 
         if (initDateFrom != null) {
             sb.append(" and payment.initializationDate > :initializationDateFrom ");
-            parametersValues.put("initializationDateFrom",initDateFrom);
-            parametersTypes.put("initializationDateFrom",Hibernate.DATE);
+            parametersValues.put("initializationDateFrom", initDateFrom);
+            parametersTypes.put("initializationDateFrom", Hibernate.TIMESTAMP);
         }
         if (initDateTo != null) {
             sb.append(" and payment.initializationDate < :initializationDateTo");
-            parametersValues.put("initializationDateTo",initDateTo);
-            parametersTypes.put("initializationDateTo",Hibernate.DATE);
+            parametersValues.put("initializationDateTo", initDateTo);
+            parametersTypes.put("initializationDateTo", Hibernate.TIMESTAMP);
         }
         if (commitDateFrom != null) {
             sb.append(" and payment.commitDate > :commitDateFrom");
-            parametersValues.put("commitDateFrom",commitDateFrom);
-            parametersTypes.put("commitDateFrom",Hibernate.DATE);
+            parametersValues.put("commitDateFrom", commitDateFrom);
+            parametersTypes.put("commitDateFrom", Hibernate.TIMESTAMP);
         }
         if (commitDateTo != null) {
             sb.append(" and payment.commitDate < :commitDateTo");
-            parametersValues.put("commitDateTo",commitDateTo);
-            parametersTypes.put("commitDateTo",Hibernate.DATE);
+            parametersValues.put("commitDateTo", commitDateTo);
+            parametersTypes.put("commitDateTo", Hibernate.TIMESTAMP);
         }
 
         if (paymentState != null) {

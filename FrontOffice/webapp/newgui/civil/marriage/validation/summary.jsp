@@ -103,6 +103,7 @@
               <option value="FullCopy">Copie intégrale</option>
               <option value="ExtractWithRelationship">Extrait avec filiation</option>
               <option value="ExtractWithoutRelationship">Extrait sans filiation</option>
+              <option value="MultilingualExtract">Extrait plurilingue</option>
             </cvqf:select>
           </p>
         </li>
@@ -116,10 +117,28 @@
         </li>
         <li class="text_row">
           <p class="label">
-            Usage : 
+            Commentaire : 
           </p>
           <p class="text">
-            <cvqf:text name="usage" mode="static"/>
+            <cvqf:text name="comment" mode="static"/>
+          </p>
+        </li>
+        <li class="text_row">
+          <p class="label">
+            Motif : 
+          </p>
+          <p class="text">
+            <cvqf:select name="motive" mode="static">
+              <option value="">Choisissez un motif</option>
+              <option value="NotaryAct">Acte de notaire</option>
+              <option value="FrenchNationalityCertificate">Certificat de nationalité française</option>
+              <option value="MaritalRegimeChange">Changement de régime matrimonial</option>
+              <option value="FrenchNationalityAcquisitionDeclaration">Déclaration d'acquisition de la nationalité française</option>
+              <option value="DivorceSeparation">Divorce, séparation</option>
+              <option value="Passport">Passeport</option>
+              <option value="Pension">Pension</option>
+              <option value="Other">Autre</option>
+            </cvqf:select>
           </p>
         </li>
       </ul>

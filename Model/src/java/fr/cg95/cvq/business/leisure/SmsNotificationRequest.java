@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.leisure.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -52,6 +54,8 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequestDocument.SmsNotificationRequest smsNotificationRequest = smsNotificationRequestDoc.addNewSmsNotificationRequest();
         super.fillCommonXmlInfo(smsNotificationRequest);
         smsNotificationRequest.setCleverSmsContactId(this.cleverSmsContactId);
+        if (this.subscription != null)
+            smsNotificationRequest.setSubscription(this.subscription.booleanValue());
         int i = 0;
         if (interests != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] interestsTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[interests.size()];
@@ -63,9 +67,14 @@ public class SmsNotificationRequest extends Request implements Serializable {
             }
             smsNotificationRequest.setInterestsArray(interestsTypeTab);
         }
-        if (this.subscription != null)
-            smsNotificationRequest.setSubscription(this.subscription.booleanValue());
         return smsNotificationRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        SmsNotificationRequestDocument smsNotificationRequestDoc =
+            (SmsNotificationRequestDocument) modelToXml();
+        return smsNotificationRequestDoc.getSmsNotificationRequest();
     }
 
     public static SmsNotificationRequest xmlToModel(SmsNotificationRequestDocument smsNotificationRequestDoc) {
@@ -76,6 +85,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequest smsNotificationRequest = new SmsNotificationRequest();
         smsNotificationRequest.fillCommonModelInfo(smsNotificationRequest,smsNotificationRequestXml);
         smsNotificationRequest.setCleverSmsContactId(smsNotificationRequestXml.getCleverSmsContactId());
+        smsNotificationRequest.setSubscription(Boolean.valueOf(smsNotificationRequestXml.getSubscription()));
         HashSet interestsSet = new HashSet();
         if ( smsNotificationRequestXml.sizeOfInterestsArray() > 0) {
             for (int i = 0; i < smsNotificationRequestXml.getInterestsArray().length; i++) {
@@ -83,7 +93,6 @@ public class SmsNotificationRequest extends Request implements Serializable {
             }
         }
         smsNotificationRequest.setInterests(interestsSet);
-        smsNotificationRequest.setSubscription(Boolean.valueOf(smsNotificationRequestXml.getSubscription()));
         return smsNotificationRequest;
     }
 
@@ -100,6 +109,21 @@ public class SmsNotificationRequest extends Request implements Serializable {
      */
     public final String getCleverSmsContactId() {
         return this.cleverSmsContactId;
+    }
+
+    private Boolean subscription;
+
+    public final void setSubscription(final Boolean subscription) {
+        this.subscription = subscription;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="subscription"
+     */
+    public final Boolean getSubscription() {
+        return this.subscription;
     }
 
     private Set interests;
@@ -122,21 +146,6 @@ public class SmsNotificationRequest extends Request implements Serializable {
      */
     public final Set getInterests() {
         return this.interests;
-    }
-
-    private Boolean subscription;
-
-    public final void setSubscription(final Boolean subscription) {
-        this.subscription = subscription;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="subscription"
-     */
-    public final Boolean getSubscription() {
-        return this.subscription;
     }
 
 }

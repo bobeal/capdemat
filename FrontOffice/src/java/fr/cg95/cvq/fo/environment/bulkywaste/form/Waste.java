@@ -12,19 +12,19 @@ import fr.cg95.cvq.xml.environment.BulkyWasteCollectionRequestDocument.BulkyWast
 public class Waste extends IStageForm {
 
 	private String collectionAddress;
-	private String otherWaste;
 	private boolean[] bulkyWasteType;
+	private String otherWaste;
 
 	public Waste() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("waste")) {
 			for (int i = 0; i < this.bulkyWasteType.length; i++)
 				this.bulkyWasteType[i] = false;
+		}
+		if (state.equals("display")) {
 		}
 	}
 	
@@ -32,8 +32,8 @@ public class Waste extends IStageForm {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof BulkyWasteCollectionRequest)) {
 			BulkyWasteCollectionRequest request = (BulkyWasteCollectionRequest)xmlbRequest;
 			this.collectionAddress = request.getCollectionAddress();
-			this.otherWaste = request.getOtherWaste();
 			this.bulkyWasteType = loadForm(this.bulkyWasteType,(Collection)session.getAttribute("bulkywaste"),request.getBulkyWasteTypeArray());
+			this.otherWaste = request.getOtherWaste();
 		}
 	}
 	
@@ -41,8 +41,8 @@ public class Waste extends IStageForm {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof BulkyWasteCollectionRequest)) {
 			BulkyWasteCollectionRequest request = (BulkyWasteCollectionRequest)xmlbRequest;
 			request.setCollectionAddress(this.collectionAddress);
-			request.setOtherWaste(this.otherWaste);
 			request.setBulkyWasteTypeArray(saveForm(this.bulkyWasteType,(Collection)session.getAttribute("bulkywaste")));
+			request.setOtherWaste(this.otherWaste);
 		}
 	}
 	
@@ -59,18 +59,6 @@ public class Waste extends IStageForm {
 	}
 	
 	public boolean checkCollectionAddress() {
-		return true;
-	}
-
-	public void setOtherWaste(String otherWaste) {
-		this.otherWaste = otherWaste;
-	}
-	
-	public String getOtherWaste() {
-		return this.otherWaste;
-	}
-	
-	public boolean checkOtherWaste() {
 		return true;
 	}
 
@@ -109,5 +97,17 @@ public class Waste extends IStageForm {
                 count++;
         return count;
     }
+
+	public void setOtherWaste(String otherWaste) {
+		this.otherWaste = otherWaste;
+	}
+	
+	public String getOtherWaste() {
+		return this.otherWaste;
+	}
+	
+	public boolean checkOtherWaste() {
+		return true;
+	}
 
 }

@@ -81,14 +81,24 @@ public class ImportAction extends BaseAction {
 		
         ManagerWizardState wizardState = ManagerWizardState.getWizardState(request);
         
+        request.setAttribute(ManagerWizardState.EMPTY_REQUEST_PARAMETER, "");
+
         if (request.getParameter("clear") != null) {
             importForm.setCurrentSearch(null);
         }
 
         if ((action != null) && action.equals("load")) {
             importForm.setCurrentSearch(null);
-            FormFile formFile = importForm.getFile();
 
+            if ((importForm.getDataType() == null) || (importForm.getDataType().length() == 0))
+                throw new Exception("Le type de donn�es � importer n'est pas renseign�!");
+
+            FormFile formFile = importForm.getFile();
+            if ((formFile == null) || 
+                    (formFile.getFileName() == null) || 
+                    (formFile.getFileName().length() == 0))
+                throw new Exception("Le nom du fichier � importer n'est pas renseign�!");
+            
             if (importForm.getDataType().equals("Concerto")) {
                 ICsvParserService parserService = BusinessManager.getCsvParserService();
                 parserService.parseData("Concerto", formFile.getFileData());
@@ -101,12 +111,6 @@ public class ImportAction extends BaseAction {
             
             } else if (importForm.getDataType().equals("FrontOfficeInformation")) {
                 File assetsFile = DispatchFilter.getAssetsBaseFile("html/information.html");
-    //            DispatchFilter.backupFile(assetsFile);
-                DispatchFilter.copyFile(formFile.getInputStream(), assetsFile);
-                wizardState.setAlert("Le fichier " + formFile.getFileName() + " a été importé.");
-    
-            } else if (importForm.getDataType().equals("LetterLayout")) {
-                File assetsFile = DispatchFilter.getAssetsBaseFile("xsl/" + formFile.getFileName());
     //            DispatchFilter.backupFile(assetsFile);
                 DispatchFilter.copyFile(formFile.getInputStream(), assetsFile);
                 wizardState.setAlert("Le fichier " + formFile.getFileName() + " a été importé.");
@@ -154,7 +158,6 @@ public class ImportAction extends BaseAction {
         // check if we have results to display
 //        if ((importForm.getCurrentSearch() == null) || 
 //                (importForm.getCurrentSearch().getWholeResultsList() == null))
-            request.setAttribute(ManagerWizardState.EMPTY_REQUEST_PARAMETER, "");
         
 		return null;
 	}

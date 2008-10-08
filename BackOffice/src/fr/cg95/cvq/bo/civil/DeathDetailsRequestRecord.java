@@ -14,21 +14,15 @@ import fr.cg95.cvq.business.civil.*;
 
 public class DeathDetailsRequestRecord extends RequestRecord {
 
-	private java.math.BigInteger copies;
-	private String motherFirstNames;
-	private String requesterQualityPrecision;
 	private String deathFirstNames;
-	private String relationship;
-	private String usage;
-	private String requesterQuality;
-	private String fatherLastName;
-	private Calendar deathDate;
 	private String deathCity;
-	private String deathPostalCode;
-	private String motherMaidenName;
-	private String deathLastName;
-	private String fatherFirstNames;
 	private String format;
+	private String deathLastName;
+	private java.math.BigInteger copies;
+	private String comment;
+	private Calendar deathDate;
+	private String motive;
+	private String deathPostalCode;
 
 	public DeathDetailsRequestRecord() {
 		super();
@@ -51,33 +45,24 @@ public class DeathDetailsRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof DeathDetailsRequest)) {
             DeathDetailsRequest request = (DeathDetailsRequest)xmlRequest; 
 
-			this.copies = request.getCopies();
-			this.motherFirstNames = request.getMotherFirstNames();
-			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
 			this.deathFirstNames = request.getDeathFirstNames();
-			if (request.getRelationship() != null)
-                this.relationship = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest.class.getName(), 
-                        "Relationship", request.getRelationship().toString());
-			this.usage = request.getUsage();
-			if (request.getRequesterQuality() != null)
-                this.requesterQuality = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest.class.getName(), 
-                        "RequesterQuality", request.getRequesterQuality().toString());
-			this.fatherLastName = request.getFatherLastName();
-			if (request.getDeathDate() != null) {
-				this.deathDate = Calendar.getInstance(); 
-	            this.deathDate.setTime(request.getDeathDate());
-			}
 			this.deathCity = request.getDeathCity();
-			this.deathPostalCode = request.getDeathPostalCode();
-			this.motherMaidenName = request.getMotherMaidenName();
-			this.deathLastName = request.getDeathLastName();
-			this.fatherFirstNames = request.getFatherFirstNames();
 			if (request.getFormat() != null)
                 this.format = getEnumElementTranslation(
                         fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest.class.getName(), 
                         "Format", request.getFormat().toString());
+			this.deathLastName = request.getDeathLastName();
+			this.copies = request.getCopies();
+			this.comment = request.getComment();
+			if (request.getDeathDate() != null) {
+				this.deathDate = Calendar.getInstance(); 
+	            this.deathDate.setTime(request.getDeathDate());
+			}
+			if (request.getMotive() != null)
+                this.motive = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest.class.getName(), 
+                        "Motive", request.getMotive().toString());
+			this.deathPostalCode = request.getDeathPostalCode();
         }
     }
     
@@ -91,35 +76,8 @@ public class DeathDetailsRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof DeathDetailsRequest)) {
             DeathDetailsRequest request = (DeathDetailsRequest)xmlRequest; 
 
-			request.setCopies(this.copies);
-			request.setMotherFirstNames(this.motherFirstNames);
-			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
 			request.setDeathFirstNames(this.deathFirstNames);
-			if (this.relationship != null)
-                request.setRelationship(
-                    DeathRelationshipType.forString(
-                        getEnumKeyTranslation(
-                            fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest.class.getName(), 
-                            "Relationship", this.relationship)
-                    )
-                );
-			request.setUsage(this.usage);
-			if (this.requesterQuality != null)
-                request.setRequesterQuality(
-                    DeathRequesterQualityType.forString(
-                        getEnumKeyTranslation(
-                            fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest.class.getName(), 
-                            "RequesterQuality", this.requesterQuality)
-                    )
-                );
-			request.setFatherLastName(this.fatherLastName);
-			if (this.deathDate != null)
-			request.setDeathDate(this.deathDate.getTime());
 			request.setDeathCity(this.deathCity);
-			request.setDeathPostalCode(this.deathPostalCode);
-			request.setMotherMaidenName(this.motherMaidenName);
-			request.setDeathLastName(this.deathLastName);
-			request.setFatherFirstNames(this.fatherFirstNames);
 			if (this.format != null)
                 request.setFormat(
                     DeathCertificateFormatType.forString(
@@ -128,79 +86,29 @@ public class DeathDetailsRequestRecord extends RequestRecord {
                             "Format", this.format)
                     )
                 );
+			request.setDeathLastName(this.deathLastName);
+			request.setCopies(this.copies);
+			request.setComment(this.comment);
+			if (this.deathDate != null)
+			request.setDeathDate(this.deathDate.getTime());
+			if (this.motive != null)
+                request.setMotive(
+                    DeathCertificateMotiveType.forString(
+                        getEnumKeyTranslation(
+                            fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest.class.getName(), 
+                            "Motive", this.motive)
+                    )
+                );
+			request.setDeathPostalCode(this.deathPostalCode);
         }
     }
     
-	public void setCopies(java.math.BigInteger copies) {
-		this.copies = copies;
-	}
-	
-	public java.math.BigInteger getCopies() {
-		return this.copies;
-	}
-
-	public void setMotherFirstNames(String motherFirstNames) {
-		this.motherFirstNames = motherFirstNames;
-	}
-	
-	public String getMotherFirstNames() {
-		return this.motherFirstNames;
-	}
-
-	public void setRequesterQualityPrecision(String requesterQualityPrecision) {
-		this.requesterQualityPrecision = requesterQualityPrecision;
-	}
-	
-	public String getRequesterQualityPrecision() {
-		return this.requesterQualityPrecision;
-	}
-
 	public void setDeathFirstNames(String deathFirstNames) {
 		this.deathFirstNames = deathFirstNames;
 	}
 	
 	public String getDeathFirstNames() {
 		return this.deathFirstNames;
-	}
-
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
-	}
-	
-	public String getRelationship() {
-		return this.relationship;
-	}
-
-	public void setUsage(String usage) {
-		this.usage = usage;
-	}
-	
-	public String getUsage() {
-		return this.usage;
-	}
-
-	public void setRequesterQuality(String requesterQuality) {
-		this.requesterQuality = requesterQuality;
-	}
-	
-	public String getRequesterQuality() {
-		return this.requesterQuality;
-	}
-
-	public void setFatherLastName(String fatherLastName) {
-		this.fatherLastName = fatherLastName;
-	}
-	
-	public String getFatherLastName() {
-		return this.fatherLastName;
-	}
-
-	public void setDeathDate(Calendar deathDate) {
-		this.deathDate = deathDate;
-	}
-	
-	public Calendar getDeathDate() {
-		return this.deathDate;
 	}
 
 	public void setDeathCity(String deathCity) {
@@ -211,20 +119,12 @@ public class DeathDetailsRequestRecord extends RequestRecord {
 		return this.deathCity;
 	}
 
-	public void setDeathPostalCode(String deathPostalCode) {
-		this.deathPostalCode = deathPostalCode;
+	public void setFormat(String format) {
+		this.format = format;
 	}
 	
-	public String getDeathPostalCode() {
-		return this.deathPostalCode;
-	}
-
-	public void setMotherMaidenName(String motherMaidenName) {
-		this.motherMaidenName = motherMaidenName;
-	}
-	
-	public String getMotherMaidenName() {
-		return this.motherMaidenName;
+	public String getFormat() {
+		return this.format;
 	}
 
 	public void setDeathLastName(String deathLastName) {
@@ -235,20 +135,44 @@ public class DeathDetailsRequestRecord extends RequestRecord {
 		return this.deathLastName;
 	}
 
-	public void setFatherFirstNames(String fatherFirstNames) {
-		this.fatherFirstNames = fatherFirstNames;
+	public void setCopies(java.math.BigInteger copies) {
+		this.copies = copies;
 	}
 	
-	public String getFatherFirstNames() {
-		return this.fatherFirstNames;
+	public java.math.BigInteger getCopies() {
+		return this.copies;
 	}
 
-	public void setFormat(String format) {
-		this.format = format;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
-	public String getFormat() {
-		return this.format;
+	public String getComment() {
+		return this.comment;
+	}
+
+	public void setDeathDate(Calendar deathDate) {
+		this.deathDate = deathDate;
+	}
+	
+	public Calendar getDeathDate() {
+		return this.deathDate;
+	}
+
+	public void setMotive(String motive) {
+		this.motive = motive;
+	}
+	
+	public String getMotive() {
+		return this.motive;
+	}
+
+	public void setDeathPostalCode(String deathPostalCode) {
+		this.deathPostalCode = deathPostalCode;
+	}
+	
+	public String getDeathPostalCode() {
+		return this.deathPostalCode;
 	}
 
 }

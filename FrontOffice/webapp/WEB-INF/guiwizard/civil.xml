@@ -77,6 +77,7 @@
 				<button transition="parents" action="format=FullCopy" >Copie intégrale</button>
 				<button transition="parents" action="format=ExtractWithRelationship" >Extrait avec filiation</button>
 				<button transition="noparents" action="format=ExtractWithoutRelationship" >Extrait sans filiation</button>
+				<button transition="noparents" action="format=MultilingualExtract" >Extrait plurilingue</button>
 			</menu>
 		</stage>
 
@@ -194,6 +195,7 @@
 				<button transition="parents" action="format=FullCopy" >Copie intégrale</button>
 				<button transition="parents" action="format=ExtractWithRelationship" >Extrait avec filiation</button>
 				<button transition="noparents" action="format=ExtractWithoutRelationship" >Extrait sans filiation</button>
+				<button transition="noparents" action="format=MultilingualExtract" >Extrait plurilingue</button>
 			</menu>
 		</stage>
 
@@ -293,12 +295,6 @@
 				<form>/civil/death/type/default</form>
 			</state>
 
-			<state name="parents">
-				<title>Demande d'acte civil</title>
-				<form>/civil/death/type/parents</form>
-				<button default="true" script="processSubmit" action="next">Enregistrer</button>
-			</state>
-
 			<state name="noparents">
 				<title>Demande d'acte civil</title>
 				<form>/civil/death/type/type</form>
@@ -307,9 +303,8 @@
 
 			<menu state="default">
 				<title>Type de l'acte</title>
-				<button transition="parents" action="format=FullCopy" >Copie intégrale</button>
-				<button transition="parents" action="format=ExtractWithRelationship" >Extrait avec filiation</button>
-				<button transition="noparents" action="format=ExtractWithoutRelationship" >Extrait sans filiation</button>
+				<button transition="noparents" action="format=FullCopy" >Copie intégrale</button>
+				<button transition="noparents" action="format=MultilingualExtract" >Extrait multilingue</button>
 			</menu>
 		</stage>
 
@@ -325,8 +320,10 @@
 			<state name="summary" mode="static">
 				<form>/common/validation/requester</form>
 				<form>/civil/death/validation/summary</form>
+				<!-- 
 				<form condition="format==FullCopy">/civil/death/validation/summaryrelation</form>
 				<form condition="format==ExtractWithRelationship">/civil/death/validation/summaryrelation</form>
+				-->
 				<button type="quit" script="cancelRequest()">Annuler la demande</button>
 				<button type="next" default="true" script="processSubmit" action="" transition="validation">Page suivante</button>
 			</state>

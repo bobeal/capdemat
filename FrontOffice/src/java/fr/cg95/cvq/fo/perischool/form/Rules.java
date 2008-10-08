@@ -11,9 +11,9 @@ import fr.cg95.cvq.xml.school.PerischoolActivityRegistrationRequestDocument.Peri
 
 public class Rules extends IStageForm {
 
-	private boolean classTripPermission;
-	private boolean childPhotoExploitationPermission;
 	private boolean rulesAndRegulationsAcceptance;
+	private boolean childPhotoExploitationPermission;
+	private boolean classTripPermission;
 	private boolean hospitalizationPermission;
 
 	public Rules() {
@@ -28,9 +28,9 @@ public class Rules extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof PerischoolActivityRegistrationRequest)) {
 			PerischoolActivityRegistrationRequest request = (PerischoolActivityRegistrationRequest)xmlbRequest;
-			this.classTripPermission = request.getClassTripPermission();
-			this.childPhotoExploitationPermission = request.getChildPhotoExploitationPermission();
 			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
+			this.childPhotoExploitationPermission = request.getChildPhotoExploitationPermission();
+			this.classTripPermission = request.getClassTripPermission();
 			this.hospitalizationPermission = request.getHospitalizationPermission();
 		}
 	}
@@ -38,9 +38,9 @@ public class Rules extends IStageForm {
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof PerischoolActivityRegistrationRequest)) {
 			PerischoolActivityRegistrationRequest request = (PerischoolActivityRegistrationRequest)xmlbRequest;
-			request.setClassTripPermission(this.classTripPermission);
-			request.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission);
 			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
+			request.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission);
+			request.setClassTripPermission(this.classTripPermission);
 			request.setHospitalizationPermission(this.hospitalizationPermission);
 		}
 	}
@@ -49,15 +49,15 @@ public class Rules extends IStageForm {
 		return true;
 	}
 	
-	public void setClassTripPermission(boolean classTripPermission) {
-		this.classTripPermission = classTripPermission;
+	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
+		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
 	}
 	
-	public boolean getClassTripPermission() {
-		return this.classTripPermission;
+	public boolean getRulesAndRegulationsAcceptance() {
+		return this.rulesAndRegulationsAcceptance;
 	}
 	
-	public boolean checkClassTripPermission() {
+	public boolean checkRulesAndRegulationsAcceptance() {
 		return true;
 	}
 
@@ -73,15 +73,15 @@ public class Rules extends IStageForm {
 		return true;
 	}
 
-	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
-		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+	public void setClassTripPermission(boolean classTripPermission) {
+		this.classTripPermission = classTripPermission;
 	}
 	
-	public boolean getRulesAndRegulationsAcceptance() {
-		return this.rulesAndRegulationsAcceptance;
+	public boolean getClassTripPermission() {
+		return this.classTripPermission;
 	}
 	
-	public boolean checkRulesAndRegulationsAcceptance() {
+	public boolean checkClassTripPermission() {
 		return true;
 	}
 

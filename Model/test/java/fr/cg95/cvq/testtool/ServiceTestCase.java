@@ -3,7 +3,6 @@ package fr.cg95.cvq.testtool;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,7 +34,6 @@ import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.payment.IPaymentProviderService;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
@@ -105,7 +103,6 @@ public class ServiceTestCase
     protected static IRequestStatisticsService iRequestStatisticsService;
     protected static IVoCardRequestService iVoCardRequestService;
     
-    protected static IExternalService iFakeExternalService;
     protected static IPaymentProviderService iFakePaymentProviderService;
     
     protected static IMeansOfContactService iMeansOfContactService;
@@ -137,7 +134,6 @@ public class ServiceTestCase
 
                 iFakePaymentProviderService = 
                     (IPaymentProviderService) cac.getBean("fakePaymentProviderService");
-                iFakeExternalService = (IExternalService) cac.getBean("fakeExternalService");
 
                 iDocumentService = (IDocumentService) cac.getBean("documentService");
                 iIndividualService = (IIndividualService) cac.getBean("individualService");
@@ -183,10 +179,8 @@ public class ServiceTestCase
 
                 Category category = new Category();
                 category.setName("General");
-                Set requestTypesSet = iRequestService.getAllRequestTypes();
-                Iterator requestTypesIt = requestTypesSet.iterator();
-                while (requestTypesIt.hasNext()) {
-                    RequestType requestType = (RequestType) requestTypesIt.next();
+                Set<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+                for (RequestType requestType : requestTypesSet) {
                     requestType.setCategory(category);
                     genericDAO.update(requestType);
                 }
@@ -311,6 +305,11 @@ public class ServiceTestCase
             e.printStackTrace();
             fail("Error during tear down : " + e.getMessage());
         }
+    }
+    
+    public Object getBean(final String beanName) throws Exception {
+        ConfigurableApplicationContext cac = getContext(getConfigLocations());
+        return cac.getBean(beanName);
     }
     
     public void setAuthenticationService(IAuthenticationService authenticationService) {

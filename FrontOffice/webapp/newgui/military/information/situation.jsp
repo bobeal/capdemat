@@ -170,7 +170,7 @@
               <option value="DEA">DEA</option>
               <option value="DEUG">DEUG</option>
               <option value="Licence">Licence</option>
-              <option value="Maîtrise">Maîtrise</option>
+              <option value="Maitrise">Maîtrise</option>
               <option value="Unknown">Inconnu</option>
             </cvqf:select>
           </li>
@@ -187,9 +187,9 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.aliveChildren = new Function("key","this.label='Nombre de frères et soeurs vivants'; this.msg=null; this.required=true; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.aliveChildren = new Function("key","this.label='Nombre de frères et soeurs vivants'; this.msg=null; this.required=true; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
      		  this.childStatus = new Function("key","this.label='Situation familiale'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.childrenInCharge = new Function("key","this.label='Nombre d&quote;enfants à charge'; this.msg=null; this.required=true; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.childrenInCharge = new Function("key","this.label='Nombre d&quote;enfants à charge'; this.msg=null; this.required=true; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
      		  this.otherSituation = new Function("key","this.label='Autre situation'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
      		  this.statePupil = new Function("key","this.label='Pupille de l&quote;état'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
      		  this.prefectPupil = new Function("key","this.label='Pupille du préfet'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");

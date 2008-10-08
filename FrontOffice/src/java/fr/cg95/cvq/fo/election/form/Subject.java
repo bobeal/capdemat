@@ -11,9 +11,9 @@ import fr.cg95.cvq.xml.election.ElectoralRollRegistrationRequestDocument.Elector
 
 public class Subject extends IStageForm {
 
+	private String subjectAdultLastName;
 	private Calendar subjectAdultBirthDate;
-	private String subjectAdultFirstName3;
-	private String subjectAdultSex;
+	private String subjectNationality;
   	private String subjectAdultAddressAdditionalDeliveryInformation;
 	private String subjectAdultAddressAdditionalGeographicalInformation;
 	private String subjectAdultAddressStreetNumber;
@@ -21,29 +21,28 @@ public class Subject extends IStageForm {
 	private String subjectAdultAddressPlaceNameOrService;
 	private String subjectAdultAddressPostalCode;
 	private String subjectAdultAddressCity;
-	private String subjectAdultLastName;
-	private String subjectNationality;
 	private String subjectAdultFirstName2;
+	private String subjectAdultFirstName3;
 	private String subjectAdultFirstName;
+	private String subjectAdultSex;
 
 	public Subject() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("subject")) {
+		}
+		if (state.equals("display")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof ElectoralRollRegistrationRequest)) {
 			ElectoralRollRegistrationRequest request = (ElectoralRollRegistrationRequest)xmlbRequest;
+			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
 			this.subjectAdultBirthDate = request.getSubject().getAdult().getBirthDate();
-			this.subjectAdultFirstName3 = request.getSubject().getAdult().getFirstName3();
-			if (request.getSubject().getAdult().getSex() != null)
-			this.subjectAdultSex = request.getSubject().getAdult().getSex().toString();
+			this.subjectNationality = request.getSubjectNationality();
   			this.subjectAdultAddressAdditionalDeliveryInformation = request.getSubject().getAdult().getAddress().getAdditionalDeliveryInformation();
 			this.subjectAdultAddressAdditionalGeographicalInformation = request.getSubject().getAdult().getAddress().getAdditionalGeographicalInformation();
 			this.subjectAdultAddressStreetNumber = request.getSubject().getAdult().getAddress().getStreetNumber();
@@ -51,19 +50,20 @@ public class Subject extends IStageForm {
 			this.subjectAdultAddressPlaceNameOrService = request.getSubject().getAdult().getAddress().getPlaceNameOrService();
 			this.subjectAdultAddressPostalCode = request.getSubject().getAdult().getAddress().getPostalCode();
 			this.subjectAdultAddressCity = request.getSubject().getAdult().getAddress().getCity();
-			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
-			this.subjectNationality = request.getSubjectNationality();
 			this.subjectAdultFirstName2 = request.getSubject().getAdult().getFirstName2();
+			this.subjectAdultFirstName3 = request.getSubject().getAdult().getFirstName3();
 			this.subjectAdultFirstName = request.getSubject().getAdult().getFirstName();
+			if (request.getSubject().getAdult().getSex() != null)
+			this.subjectAdultSex = request.getSubject().getAdult().getSex().toString();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof ElectoralRollRegistrationRequest)) {
 			ElectoralRollRegistrationRequest request = (ElectoralRollRegistrationRequest)xmlbRequest;
+			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
 			request.getSubject().getAdult().setBirthDate(this.subjectAdultBirthDate);
-			request.getSubject().getAdult().setFirstName3(this.subjectAdultFirstName3);
-			request.getSubject().getAdult().setSex(SexType.Enum.forString(this.subjectAdultSex));
+			request.setSubjectNationality(this.subjectNationality);
   			request.getSubject().getAdult().getAddress().setAdditionalDeliveryInformation(this.subjectAdultAddressAdditionalDeliveryInformation);
 			request.getSubject().getAdult().getAddress().setAdditionalGeographicalInformation(this.subjectAdultAddressAdditionalGeographicalInformation);
 			request.getSubject().getAdult().getAddress().setStreetNumber(this.subjectAdultAddressStreetNumber);
@@ -71,14 +71,20 @@ public class Subject extends IStageForm {
 			request.getSubject().getAdult().getAddress().setPlaceNameOrService(this.subjectAdultAddressPlaceNameOrService);
 			request.getSubject().getAdult().getAddress().setPostalCode(this.subjectAdultAddressPostalCode);
 			request.getSubject().getAdult().getAddress().setCity(this.subjectAdultAddressCity);
-			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
-			request.setSubjectNationality(this.subjectNationality);
 			request.getSubject().getAdult().setFirstName2(this.subjectAdultFirstName2);
+			request.getSubject().getAdult().setFirstName3(this.subjectAdultFirstName3);
 			request.getSubject().getAdult().setFirstName(this.subjectAdultFirstName);
+			request.getSubject().getAdult().setSex(SexType.Enum.forString(this.subjectAdultSex));
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkSubjectAdultLastName() &&
+			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
+			return false;
+		if (this.checkSubjectNationality() &&
+			((this.subjectNationality == null) || (this.subjectNationality.length() == 0)))
+			return false;
   		if (this.checkSubjectAdultAddressStreetName() &&
 			((this.subjectAdultAddressStreetName == null) || (this.subjectAdultAddressStreetName.length() == 0)))
 			return false;
@@ -88,18 +94,24 @@ public class Subject extends IStageForm {
 		if (this.checkSubjectAdultAddressCity() &&
 			((this.subjectAdultAddressCity == null) || (this.subjectAdultAddressCity.length() == 0)))
 			return false;
-		if (this.checkSubjectAdultLastName() &&
-			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
-			return false;
-		if (this.checkSubjectNationality() &&
-			((this.subjectNationality == null) || (this.subjectNationality.length() == 0)))
-			return false;
 		if (this.checkSubjectAdultFirstName() &&
 			((this.subjectAdultFirstName == null) || (this.subjectAdultFirstName.length() == 0)))
 			return false;
 		return true;
 	}
 	
+	public void setSubjectAdultLastName(String subjectAdultLastName) {
+		this.subjectAdultLastName = subjectAdultLastName;
+	}
+	
+	public String getSubjectAdultLastName() {
+		return this.subjectAdultLastName;
+	}
+	
+	public boolean checkSubjectAdultLastName() {
+		return true;
+	}
+
 	public void setSubjectAdultBirthDate(Calendar subjectAdultBirthDate) {
 		this.subjectAdultBirthDate = subjectAdultBirthDate;
 	}
@@ -112,27 +124,15 @@ public class Subject extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultFirstName3(String subjectAdultFirstName3) {
-		this.subjectAdultFirstName3 = subjectAdultFirstName3;
+	public void setSubjectNationality(String subjectNationality) {
+		this.subjectNationality = subjectNationality;
 	}
 	
-	public String getSubjectAdultFirstName3() {
-		return this.subjectAdultFirstName3;
+	public String getSubjectNationality() {
+		return this.subjectNationality;
 	}
 	
-	public boolean checkSubjectAdultFirstName3() {
-		return true;
-	}
-
-	public void setSubjectAdultSex(String subjectAdultSex) {
-		this.subjectAdultSex = subjectAdultSex;
-	}
-	
-	public String getSubjectAdultSex() {
-		return this.subjectAdultSex;
-	}
-	
-	public boolean checkSubjectAdultSex() {
+	public boolean checkSubjectNationality() {
 		return true;
 	}
 
@@ -220,30 +220,6 @@ public class Subject extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultLastName(String subjectAdultLastName) {
-		this.subjectAdultLastName = subjectAdultLastName;
-	}
-	
-	public String getSubjectAdultLastName() {
-		return this.subjectAdultLastName;
-	}
-	
-	public boolean checkSubjectAdultLastName() {
-		return true;
-	}
-
-	public void setSubjectNationality(String subjectNationality) {
-		this.subjectNationality = subjectNationality;
-	}
-	
-	public String getSubjectNationality() {
-		return this.subjectNationality;
-	}
-	
-	public boolean checkSubjectNationality() {
-		return true;
-	}
-
 	public void setSubjectAdultFirstName2(String subjectAdultFirstName2) {
 		this.subjectAdultFirstName2 = subjectAdultFirstName2;
 	}
@@ -256,6 +232,18 @@ public class Subject extends IStageForm {
 		return true;
 	}
 
+	public void setSubjectAdultFirstName3(String subjectAdultFirstName3) {
+		this.subjectAdultFirstName3 = subjectAdultFirstName3;
+	}
+	
+	public String getSubjectAdultFirstName3() {
+		return this.subjectAdultFirstName3;
+	}
+	
+	public boolean checkSubjectAdultFirstName3() {
+		return true;
+	}
+
 	public void setSubjectAdultFirstName(String subjectAdultFirstName) {
 		this.subjectAdultFirstName = subjectAdultFirstName;
 	}
@@ -265,6 +253,18 @@ public class Subject extends IStageForm {
 	}
 	
 	public boolean checkSubjectAdultFirstName() {
+		return true;
+	}
+
+	public void setSubjectAdultSex(String subjectAdultSex) {
+		this.subjectAdultSex = subjectAdultSex;
+	}
+	
+	public String getSubjectAdultSex() {
+		return this.subjectAdultSex;
+	}
+	
+	public boolean checkSubjectAdultSex() {
 		return true;
 	}
 

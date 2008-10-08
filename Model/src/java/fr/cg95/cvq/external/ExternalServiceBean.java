@@ -1,6 +1,5 @@
 package fr.cg95.cvq.external;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +10,20 @@ import java.util.Map;
  * @author bor@zenexity.fr
  */
 public class ExternalServiceBean {
+    
+    /**
+     * Flag that specify if generation job must be launched for an autority
+     */
+    protected boolean generateTracedRequest = false;
+    
+
+    /**
+     *  Authentication paraphrase
+     */
+    protected String password = "";
 
     /** a map of service specific properties */
-    protected Map serviceProperties;
+    protected Map<String, Object> serviceProperties;
 
     /** a list of request types this service is interested in */
     protected List<String> requestTypes;
@@ -31,16 +41,13 @@ public class ExternalServiceBean {
     protected boolean supportAccountsByRequest;
 
     /**
-     * Retrieve a service specific property by name
+     * Retrieve a service specific property by name.
      */
     public Object getProperty(String propertyName) {
-        if (serviceProperties == null
-            || serviceProperties.isEmpty())
+        if (serviceProperties == null || serviceProperties.isEmpty())
             return null;
 
-        Iterator it = serviceProperties.keySet().iterator();
-        while (it.hasNext()) {
-            String property = (String) it.next();
+        for (String property : serviceProperties.keySet()) {
             if (property.equals(propertyName)) {
                 return serviceProperties.get(property);
             }
@@ -56,7 +63,7 @@ public class ExternalServiceBean {
         return false;
     }
 
-    public void setServiceProperties(Map serviceProperties) {
+    public void setServiceProperties(Map<String, Object> serviceProperties) {
         this.serviceProperties = serviceProperties;
     }
 
@@ -82,5 +89,21 @@ public class ExternalServiceBean {
 
     public void setSupportAccountsByRequest(boolean supportAccountsByRequest) {
         this.supportAccountsByRequest = supportAccountsByRequest;
+    }
+    
+    public boolean getGenerateTracedRequest() {
+        return this.generateTracedRequest;
+    }
+
+    public void setGenerateTracedRequest(boolean generateTracedRequest) {
+        this.generateTracedRequest = generateTracedRequest;
+    }
+    
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

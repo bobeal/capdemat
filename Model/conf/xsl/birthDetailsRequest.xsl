@@ -49,7 +49,7 @@
         
                                             
                   <fo:table xsl:use-attribute-sets="request.field.inline.table">
-              <xsl:variable name="mod_column" select="'2'"/>
+              <xsl:variable name="mod_column" select="'4'"/>
               <xsl:variable name="enum_tokens">
                 <xsl:call-template name="split-string">
                         <xsl:with-param name="string" select="//bdr:Format/text()"/>
@@ -109,8 +109,8 @@
                                     <fo:table xsl:use-attribute-sets="request.field.inline.table">
                         <fo:table-column column-width="proportional-column-width(200 * 1) - 30pt" />
           <fo:table-column column-width="30pt" />
-                                <fo:table-column column-width="proportional-column-width(200)" />
-          <fo:table-column column-width="proportional-column-width(200)" />
+                                <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(300)" />
                     	      <fo:table-body>
 		<fo:table-row>
       	                        		  <fo:table-cell>
@@ -132,14 +132,14 @@
 		  </fo:table-cell>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Précisez le ou les usage(s) de ce ou ces document(s)
+		      Commentaire
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//bdr:Usage and //bdr:Usage != ''">
-                                    <xsl:value-of select="//bdr:Usage" />
+                        <xsl:when test="//bdr:Comment and //bdr:Comment != ''">
+                                    <xsl:value-of select="//bdr:Comment" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -150,6 +150,65 @@
             		</fo:table-row>
 	      </fo:table-body>
 	    </fo:table>
+
+    
+          
+                                        
+                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
+              <xsl:variable name="mod_column" select="'5'"/>
+              <xsl:variable name="enum_tokens">
+                <xsl:call-template name="split-string">
+                        <xsl:with-param name="string" select="//bdr:Motive/text()"/>
+                      </xsl:call-template>
+              </xsl:variable>
+                    <fo:table-column column-width="100pt" />
+      
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/bdr','BirthCertificateMotiveType','fr')//ref:data[@name = 'BirthCertificateMotiveType']/ref:entry">
+                <xsl:if test="not(position() &gt; ($mod_column + 1))">
+                  <fo:table-column column-width="30pt" />
+                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
+                </xsl:if>
+              </xsl:for-each>
+
+              <fo:table-body>
+                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+                <fo:table-cell>
+	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		    Motif
+		  </fo:block>
+	        </fo:table-cell>
+      
+                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/bdr','BirthCertificateMotiveType','fr')//ref:data[@name = 'BirthCertificateMotiveType']/ref:entry">
+
+	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
+	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
+      	          </xsl:if>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
+		      <xsl:variable name="current_value" select="@key"/>
+		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
+			<xsl:choose>
+			  <xsl:when test="text() = $current_value">X</xsl:when>
+			  <xsl:otherwise>&#160;</xsl:otherwise>
+			</xsl:choose>
+                      </xsl:for-each>
+	            </fo:block>
+	          </fo:table-cell>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
+                      <xsl:value-of select="./ref:label[@lang='fr']"/>
+      	            </fo:block>
+	          </fo:table-cell>
+	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
+	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
+	            	            <xsl:if test="not(position() = last())">
+	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
+	            </xsl:if>
+	          </xsl:if>
+	        </xsl:for-each>
+              </fo:table-body>
+            </fo:table>
 
     
       
@@ -257,7 +316,9 @@
 
     
       
-              <fo:block break-after="page"/>
+              <fo:block>
+              <fo:leader leader-pattern="space" />
+            </fo:block>
   
                   <fo:block xsl:use-attribute-sets="request.section.header">Etat civil de la personne dont vous demandez l'acte de naissance</fo:block>
 	    <fo:block>
@@ -406,65 +467,6 @@
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                                            
-                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
-              <xsl:variable name="mod_column" select="'2'"/>
-              <xsl:variable name="enum_tokens">
-                <xsl:call-template name="split-string">
-                        <xsl:with-param name="string" select="//bdr:Relationship/text()"/>
-                      </xsl:call-template>
-              </xsl:variable>
-                    <fo:table-column column-width="100pt" />
-      
-              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/bdr','BirthRelationshipType','fr')//ref:data[@name = 'BirthRelationshipType']/ref:entry">
-                <xsl:if test="not(position() &gt; ($mod_column + 1))">
-                  <fo:table-column column-width="30pt" />
-                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
-                </xsl:if>
-              </xsl:for-each>
-
-              <fo:table-body>
-                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
-                <fo:table-cell>
-	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		    Filiation de*
-		  </fo:block>
-	        </fo:table-cell>
-      
-                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/bdr','BirthRelationshipType','fr')//ref:data[@name = 'BirthRelationshipType']/ref:entry">
-
-	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
-	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
-	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
-      	          </xsl:if>
-	          <fo:table-cell>
-	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
-		      <xsl:variable name="current_value" select="@key"/>
-		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
-			<xsl:choose>
-			  <xsl:when test="text() = $current_value">X</xsl:when>
-			  <xsl:otherwise>&#160;</xsl:otherwise>
-			</xsl:choose>
-                      </xsl:for-each>
-	            </fo:block>
-	          </fo:table-cell>
-	          <fo:table-cell>
-	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
-                      <xsl:value-of select="./ref:label[@lang='fr']"/>
-      	            </fo:block>
-	          </fo:table-cell>
-	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
-	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
-	            	            <xsl:if test="not(position() = last())">
-	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
-	            </xsl:if>
-	          </xsl:if>
-	        </xsl:for-each>
-              </fo:table-body>
-            </fo:table>
-
-    
-          
                               <fo:table xsl:use-attribute-sets="request.field.inline.table">
                         <fo:table-column column-width="proportional-column-width(50)" />
           <fo:table-column column-width="proportional-column-width(150)" />
@@ -598,9 +600,9 @@
     </fo:root>
   </xsl:template>
 
-                            <xsl:template match="//cvq:Requester">
+                                  <xsl:template match="//cvq:Requester">
           <xsl:call-template name="AdultType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                              </xsl:stylesheet>
+                                                                        </xsl:stylesheet>

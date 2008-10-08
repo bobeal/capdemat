@@ -136,6 +136,8 @@ public class LocalAuthorityRegistry
             filePath.append(XSL_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(HTML_RESOURCE_TYPE)) {
             filePath.append(HTML_RESOURCE_TYPE).append("/");
+        } else if (resourceType.equals(REQUEST_XML_RESOURCE_TYPE)) {
+            filePath.append(REQUEST_XML_RESOURCE_TYPE).append("/");
         } else {
             logger.warn("getAssetsFile() unrecognized resource type : " + resourceType);
             return null;
@@ -190,6 +192,17 @@ public class LocalAuthorityRegistry
         return getAssetsFile(resourceType, currentSiteName, filename, fallbackToDefault);
     }
 
+    public File getRequestXmlResource(Long id) {
+        return new File(getRequestXmlPath(id));
+    }
+    
+    private String getRequestXmlPath(Long id) {
+        return String.format("%1$s/%2$s/%3$s/%4$s.xml", 
+                this.getAssetsBase(),
+                this.getCurrentLocalAuthorityName(),
+                REQUEST_XML_RESOURCE_TYPE,
+                id);
+    }
 
     public String getBufferedCurrentLocalAuthorityResource(final String resourceType, 
             final String filename, final boolean fallbackToDefault) {
@@ -329,12 +342,16 @@ public class LocalAuthorityRegistry
                 if (!file.exists())
                     file.mkdir();
                 
-                String requestXmlDirBase = assetsBase + lacb.getName() + "/"
-                + HTML_RESOURCE_TYPE;
-                file = new File(requestXmlDirBase);
+                String htmlDirBase = assetsBase + lacb.getName() + "/" + HTML_RESOURCE_TYPE;
+                file = new File(htmlDirBase);
                 if (!file.exists())
                     file.mkdir(); 
                 
+                String requestXmlDirBase = assetsBase + lacb.getName() + "/"
+                    + REQUEST_XML_RESOURCE_TYPE;
+                file = new File(requestXmlDirBase);
+                if (!file.exists())
+                    file.mkdir();                
             }
             
             // notify listener services of the new local authority

@@ -32,8 +32,8 @@
    		  this.otherIndividualLastName = new Function("key","this.label='Nom'; this.msg=null; this.required=true; this.mask=/[A-Z.]*/; this.minlength=0; this.maxlength=38; this.transform='uppercase'; this.type=null; return this[key];");
      		  this.otherIndividualFirstName = new Function("key","this.label='Prénom'; this.msg=null; this.required=true; this.mask=/[A-Z]?.*/; this.minlength=0; this.maxlength=38; this.transform='firstupper'; this.type=null; return this[key];");
      		  this.otherIndividualAddress = new Function("key","this.label='Adresse'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.otherIndividualHomePhone = new Function("key","this.label='Téléphone domicile'; this.msg=null; this.required=false; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.otherIndividualOfficePhone = new Function("key","this.label='Téléphone bureau'; this.msg=null; this.required=false; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.otherIndividualHomePhone = new Function("key","this.label='Téléphone domicile'; this.msg=null; this.required=false; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.otherIndividualOfficePhone = new Function("key","this.label='Téléphone bureau'; this.msg=null; this.required=false; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Authorized");
 	</script>

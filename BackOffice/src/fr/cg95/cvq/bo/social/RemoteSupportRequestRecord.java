@@ -14,22 +14,10 @@ import fr.cg95.cvq.business.social.*;
 
 public class RemoteSupportRequestRecord extends RequestRecord {
 
-	private String subjectAdultHomePhone;
-	private String contactName;
-	private boolean emergency;
 	private String subjectAdultLastName;
-	private String subjectAdultFirstName2;
-	private String trusteeFirstName;
-	private boolean seniorAssitanceBeneficiary;
-	private java.math.BigInteger appartmentNumber;
-	private String trusteeName;
-	private java.math.BigInteger floor;
-	private boolean taxable;
-	private String contactFirstName;
+	private String trustee;
 	private Calendar subjectAdultBirthDate;
-	private String contact;
-	private String subjectAdultSex;
-	private String trusteePhone;
+	private String subjectAdultHomePhone;
   	private String subjectAdultAddressAdditionalDeliveryInformation;
 	private String subjectAdultAddressAdditionalGeographicalInformation;
 	private String subjectAdultAddressStreetNumber;
@@ -37,10 +25,22 @@ public class RemoteSupportRequestRecord extends RequestRecord {
 	private String subjectAdultAddressPlaceNameOrService;
 	private String subjectAdultAddressPostalCode;
 	private String subjectAdultAddressCity;
-	private String trustee;
-	private String subjectAdultFirstName;
-	private String dwelling;
+	private boolean seniorAssitanceBeneficiary;
+	private String contactName;
+	private String contact;
+	private String trusteePhone;
 	private String contactPhone;
+	private String subjectAdultSex;
+	private java.math.BigInteger floor;
+	private String dwelling;
+	private boolean emergency;
+	private String contactFirstName;
+	private String trusteeFirstName;
+	private boolean taxable;
+	private String subjectAdultFirstName2;
+	private String trusteeName;
+	private String subjectAdultFirstName;
+	private java.math.BigInteger appartmentNumber;
 
 	public RemoteSupportRequestRecord() {
 		super();
@@ -63,30 +63,16 @@ public class RemoteSupportRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof RemoteSupportRequest)) {
             RemoteSupportRequest request = (RemoteSupportRequest)xmlRequest; 
 
-			this.subjectAdultHomePhone = ((Adult)request.getSubject()).getHomePhone();
-			this.contactName = request.getContactName();
-            if ((request.getEmergency() != null))
-			this.emergency = request.getEmergency();
 			this.subjectAdultLastName = ((Adult)request.getSubject()).getLastName();
-			this.subjectAdultFirstName2 = ((Adult)request.getSubject()).getFirstName2();
-			this.trusteeFirstName = request.getTrusteeFirstName();
-            if ((request.getSeniorAssitanceBeneficiary() != null))
-			this.seniorAssitanceBeneficiary = request.getSeniorAssitanceBeneficiary();
-			this.appartmentNumber = request.getAppartmentNumber();
-			this.trusteeName = request.getTrusteeName();
-			this.floor = request.getFloor();
-            if ((request.getTaxable() != null))
-			this.taxable = request.getTaxable();
-			this.contactFirstName = request.getContactFirstName();
+			if (request.getTrustee() != null)
+                this.trustee = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest.class.getName(), 
+                        "Trustee", request.getTrustee().toString());
 			if (((Adult)request.getSubject()).getBirthDate() != null) {
 				this.subjectAdultBirthDate = Calendar.getInstance(); 
 	            this.subjectAdultBirthDate.setTime(((Adult)request.getSubject()).getBirthDate());
 			}
-			if (request.getContact() != null)
-                this.contact = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest.class.getName(), 
-                        "Contact", request.getContact().toString());
-			this.trusteePhone = request.getTrusteePhone();
+			this.subjectAdultHomePhone = ((Adult)request.getSubject()).getHomePhone();
 			if (((Adult)request.getSubject()).getAdress() != null) {
 				this.subjectAdultAddressAdditionalDeliveryInformation = ((Adult)request.getSubject()).getAdress().getAdditionalDeliveryInformation();
 				this.subjectAdultAddressAdditionalGeographicalInformation = ((Adult)request.getSubject()).getAdress().getAdditionalGeographicalInformation();
@@ -96,16 +82,30 @@ public class RemoteSupportRequestRecord extends RequestRecord {
 				this.subjectAdultAddressPostalCode = ((Adult)request.getSubject()).getAdress().getPostalCode();
 				this.subjectAdultAddressCity = ((Adult)request.getSubject()).getAdress().getCity();
 			}
-			if (request.getTrustee() != null)
-                this.trustee = getEnumElementTranslation(
+            if ((request.getSeniorAssitanceBeneficiary() != null))
+			this.seniorAssitanceBeneficiary = request.getSeniorAssitanceBeneficiary();
+			this.contactName = request.getContactName();
+			if (request.getContact() != null)
+                this.contact = getEnumElementTranslation(
                         fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest.class.getName(), 
-                        "Trustee", request.getTrustee().toString());
-			this.subjectAdultFirstName = ((Adult)request.getSubject()).getFirstName();
+                        "Contact", request.getContact().toString());
+			this.trusteePhone = request.getTrusteePhone();
+			this.contactPhone = request.getContactPhone();
+			this.floor = request.getFloor();
 			if (request.getDwelling() != null)
                 this.dwelling = getEnumElementTranslation(
                         fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest.class.getName(), 
                         "Dwelling", request.getDwelling().toString());
-			this.contactPhone = request.getContactPhone();
+            if ((request.getEmergency() != null))
+			this.emergency = request.getEmergency();
+			this.contactFirstName = request.getContactFirstName();
+			this.trusteeFirstName = request.getTrusteeFirstName();
+            if ((request.getTaxable() != null))
+			this.taxable = request.getTaxable();
+			this.subjectAdultFirstName2 = ((Adult)request.getSubject()).getFirstName2();
+			this.trusteeName = request.getTrusteeName();
+			this.subjectAdultFirstName = ((Adult)request.getSubject()).getFirstName();
+			this.appartmentNumber = request.getAppartmentNumber();
         }
     }
     
@@ -119,18 +119,17 @@ public class RemoteSupportRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof RemoteSupportRequest)) {
             RemoteSupportRequest request = (RemoteSupportRequest)xmlRequest; 
 
-			request.setContactName(this.contactName);
-            if ((request.getEmergency() != null))
-			request.setEmergency(this.emergency);
-			request.setTrusteeFirstName(this.trusteeFirstName);
+			if (this.trustee != null)
+                request.setTrustee(
+                    TrusteeType.forString(
+                        getEnumKeyTranslation(
+                            fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest.class.getName(), 
+                            "Trustee", this.trustee)
+                    )
+                );
             if ((request.getSeniorAssitanceBeneficiary() != null))
 			request.setSeniorAssitanceBeneficiary(this.seniorAssitanceBeneficiary);
-			request.setAppartmentNumber(this.appartmentNumber);
-			request.setTrusteeName(this.trusteeName);
-			request.setFloor(this.floor);
-            if ((request.getTaxable() != null))
-			request.setTaxable(this.taxable);
-			request.setContactFirstName(this.contactFirstName);
+			request.setContactName(this.contactName);
 			if (this.contact != null)
                 request.setContact(
                     RsrContactType.forString(
@@ -140,14 +139,8 @@ public class RemoteSupportRequestRecord extends RequestRecord {
                     )
                 );
 			request.setTrusteePhone(this.trusteePhone);
-			if (this.trustee != null)
-                request.setTrustee(
-                    TrusteeType.forString(
-                        getEnumKeyTranslation(
-                            fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest.class.getName(), 
-                            "Trustee", this.trustee)
-                    )
-                );
+			request.setContactPhone(this.contactPhone);
+			request.setFloor(this.floor);
 			if (this.dwelling != null)
                 request.setDwelling(
                     RsrDwellingType.forString(
@@ -156,34 +149,17 @@ public class RemoteSupportRequestRecord extends RequestRecord {
                             "Dwelling", this.dwelling)
                     )
                 );
-			request.setContactPhone(this.contactPhone);
+            if ((request.getEmergency() != null))
+			request.setEmergency(this.emergency);
+			request.setContactFirstName(this.contactFirstName);
+			request.setTrusteeFirstName(this.trusteeFirstName);
+            if ((request.getTaxable() != null))
+			request.setTaxable(this.taxable);
+			request.setTrusteeName(this.trusteeName);
+			request.setAppartmentNumber(this.appartmentNumber);
         }
     }
     
-	public void setSubjectAdultHomePhone(String subjectAdultHomePhone) {
-		this.subjectAdultHomePhone = subjectAdultHomePhone;
-	}
-	
-	public String getSubjectAdultHomePhone() {
-		return this.subjectAdultHomePhone;
-	}
-
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
-	}
-	
-	public String getContactName() {
-		return this.contactName;
-	}
-
-	public void setEmergency(boolean emergency) {
-		this.emergency = emergency;
-	}
-	
-	public boolean getEmergency() {
-		return this.emergency;
-	}
-
 	public void setSubjectAdultLastName(String subjectAdultLastName) {
 		this.subjectAdultLastName = subjectAdultLastName;
 	}
@@ -192,68 +168,12 @@ public class RemoteSupportRequestRecord extends RequestRecord {
 		return this.subjectAdultLastName;
 	}
 
-	public void setSubjectAdultFirstName2(String subjectAdultFirstName2) {
-		this.subjectAdultFirstName2 = subjectAdultFirstName2;
+	public void setTrustee(String trustee) {
+		this.trustee = trustee;
 	}
 	
-	public String getSubjectAdultFirstName2() {
-		return this.subjectAdultFirstName2;
-	}
-
-	public void setTrusteeFirstName(String trusteeFirstName) {
-		this.trusteeFirstName = trusteeFirstName;
-	}
-	
-	public String getTrusteeFirstName() {
-		return this.trusteeFirstName;
-	}
-
-	public void setSeniorAssitanceBeneficiary(boolean seniorAssitanceBeneficiary) {
-		this.seniorAssitanceBeneficiary = seniorAssitanceBeneficiary;
-	}
-	
-	public boolean getSeniorAssitanceBeneficiary() {
-		return this.seniorAssitanceBeneficiary;
-	}
-
-	public void setAppartmentNumber(java.math.BigInteger appartmentNumber) {
-		this.appartmentNumber = appartmentNumber;
-	}
-	
-	public java.math.BigInteger getAppartmentNumber() {
-		return this.appartmentNumber;
-	}
-
-	public void setTrusteeName(String trusteeName) {
-		this.trusteeName = trusteeName;
-	}
-	
-	public String getTrusteeName() {
-		return this.trusteeName;
-	}
-
-	public void setFloor(java.math.BigInteger floor) {
-		this.floor = floor;
-	}
-	
-	public java.math.BigInteger getFloor() {
-		return this.floor;
-	}
-
-	public void setTaxable(boolean taxable) {
-		this.taxable = taxable;
-	}
-	
-	public boolean getTaxable() {
-		return this.taxable;
-	}
-
-	public void setContactFirstName(String contactFirstName) {
-		this.contactFirstName = contactFirstName;
-	}
-	
-	public String getContactFirstName() {
-		return this.contactFirstName;
+	public String getTrustee() {
+		return this.trustee;
 	}
 
 	public void setSubjectAdultBirthDate(Calendar subjectAdultBirthDate) {
@@ -264,28 +184,12 @@ public class RemoteSupportRequestRecord extends RequestRecord {
 		return this.subjectAdultBirthDate;
 	}
 
-	public void setContact(String contact) {
-		this.contact = contact;
+	public void setSubjectAdultHomePhone(String subjectAdultHomePhone) {
+		this.subjectAdultHomePhone = subjectAdultHomePhone;
 	}
 	
-	public String getContact() {
-		return this.contact;
-	}
-
-	public void setSubjectAdultSex(String subjectAdultSex) {
-		this.subjectAdultSex = subjectAdultSex;
-	}
-	
-	public String getSubjectAdultSex() {
-		return this.subjectAdultSex;
-	}
-
-	public void setTrusteePhone(String trusteePhone) {
-		this.trusteePhone = trusteePhone;
-	}
-	
-	public String getTrusteePhone() {
-		return this.trusteePhone;
+	public String getSubjectAdultHomePhone() {
+		return this.subjectAdultHomePhone;
 	}
 
 	public void setSubjectAdultAddressAdditionalDeliveryInformation(String subjectAdultAddressAdditionalDeliveryInformation) {
@@ -344,20 +248,60 @@ public class RemoteSupportRequestRecord extends RequestRecord {
 		return this.subjectAdultAddressCity;
 	}
 
-	public void setTrustee(String trustee) {
-		this.trustee = trustee;
+	public void setSeniorAssitanceBeneficiary(boolean seniorAssitanceBeneficiary) {
+		this.seniorAssitanceBeneficiary = seniorAssitanceBeneficiary;
 	}
 	
-	public String getTrustee() {
-		return this.trustee;
+	public boolean getSeniorAssitanceBeneficiary() {
+		return this.seniorAssitanceBeneficiary;
 	}
 
-	public void setSubjectAdultFirstName(String subjectAdultFirstName) {
-		this.subjectAdultFirstName = subjectAdultFirstName;
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
 	}
 	
-	public String getSubjectAdultFirstName() {
-		return this.subjectAdultFirstName;
+	public String getContactName() {
+		return this.contactName;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	
+	public String getContact() {
+		return this.contact;
+	}
+
+	public void setTrusteePhone(String trusteePhone) {
+		this.trusteePhone = trusteePhone;
+	}
+	
+	public String getTrusteePhone() {
+		return this.trusteePhone;
+	}
+
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
+	}
+	
+	public String getContactPhone() {
+		return this.contactPhone;
+	}
+
+	public void setSubjectAdultSex(String subjectAdultSex) {
+		this.subjectAdultSex = subjectAdultSex;
+	}
+	
+	public String getSubjectAdultSex() {
+		return this.subjectAdultSex;
+	}
+
+	public void setFloor(java.math.BigInteger floor) {
+		this.floor = floor;
+	}
+	
+	public java.math.BigInteger getFloor() {
+		return this.floor;
 	}
 
 	public void setDwelling(String dwelling) {
@@ -368,12 +312,68 @@ public class RemoteSupportRequestRecord extends RequestRecord {
 		return this.dwelling;
 	}
 
-	public void setContactPhone(String contactPhone) {
-		this.contactPhone = contactPhone;
+	public void setEmergency(boolean emergency) {
+		this.emergency = emergency;
 	}
 	
-	public String getContactPhone() {
-		return this.contactPhone;
+	public boolean getEmergency() {
+		return this.emergency;
+	}
+
+	public void setContactFirstName(String contactFirstName) {
+		this.contactFirstName = contactFirstName;
+	}
+	
+	public String getContactFirstName() {
+		return this.contactFirstName;
+	}
+
+	public void setTrusteeFirstName(String trusteeFirstName) {
+		this.trusteeFirstName = trusteeFirstName;
+	}
+	
+	public String getTrusteeFirstName() {
+		return this.trusteeFirstName;
+	}
+
+	public void setTaxable(boolean taxable) {
+		this.taxable = taxable;
+	}
+	
+	public boolean getTaxable() {
+		return this.taxable;
+	}
+
+	public void setSubjectAdultFirstName2(String subjectAdultFirstName2) {
+		this.subjectAdultFirstName2 = subjectAdultFirstName2;
+	}
+	
+	public String getSubjectAdultFirstName2() {
+		return this.subjectAdultFirstName2;
+	}
+
+	public void setTrusteeName(String trusteeName) {
+		this.trusteeName = trusteeName;
+	}
+	
+	public String getTrusteeName() {
+		return this.trusteeName;
+	}
+
+	public void setSubjectAdultFirstName(String subjectAdultFirstName) {
+		this.subjectAdultFirstName = subjectAdultFirstName;
+	}
+	
+	public String getSubjectAdultFirstName() {
+		return this.subjectAdultFirstName;
+	}
+
+	public void setAppartmentNumber(java.math.BigInteger appartmentNumber) {
+		this.appartmentNumber = appartmentNumber;
+	}
+	
+	public java.math.BigInteger getAppartmentNumber() {
+		return this.appartmentNumber;
 	}
 
 }

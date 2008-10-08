@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.localpolice.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -52,29 +54,36 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         HolidaySecurityRequestDocument holidaySecurityRequestDoc = HolidaySecurityRequestDocument.Factory.newInstance();
         HolidaySecurityRequestDocument.HolidaySecurityRequest holidaySecurityRequest = holidaySecurityRequestDoc.addNewHolidaySecurityRequest();
         super.fillCommonXmlInfo(holidaySecurityRequest);
-        date = this.absenceStartDate;
-        if (date != null) {
-            calendar.setTime(date);
-            holidaySecurityRequest.setAbsenceStartDate(calendar);
-        }
         holidaySecurityRequest.setOtherContactLastName(this.otherContactLastName);
+        holidaySecurityRequest.setOtherContactFirstName(this.otherContactFirstName);
         if (this.light != null)
             holidaySecurityRequest.setLight(this.light.booleanValue());
-        holidaySecurityRequest.setOtherContactPhone(this.otherContactPhone);
-        if (this.rulesAndRegulationsAcceptance != null)
-            holidaySecurityRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
-        if (this.alarm != null)
-            holidaySecurityRequest.setAlarm(this.alarm.booleanValue());
-        holidaySecurityRequest.setOtherContactFirstName(this.otherContactFirstName);
-        if (this.otherContactAddress != null)
-            holidaySecurityRequest.setOtherContactAddress(Address.modelToXml(this.otherContactAddress));
         date = this.absenceEndDate;
         if (date != null) {
             calendar.setTime(date);
             holidaySecurityRequest.setAbsenceEndDate(calendar);
         }
+        holidaySecurityRequest.setOtherContactPhone(this.otherContactPhone);
+        if (this.rulesAndRegulationsAcceptance != null)
+            holidaySecurityRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
         holidaySecurityRequest.setAlertPhone(this.alertPhone);
+        if (this.alarm != null)
+            holidaySecurityRequest.setAlarm(this.alarm.booleanValue());
+        if (this.otherContactAddress != null)
+            holidaySecurityRequest.setOtherContactAddress(Address.modelToXml(this.otherContactAddress));
+        date = this.absenceStartDate;
+        if (date != null) {
+            calendar.setTime(date);
+            holidaySecurityRequest.setAbsenceStartDate(calendar);
+        }
         return holidaySecurityRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        HolidaySecurityRequestDocument holidaySecurityRequestDoc =
+            (HolidaySecurityRequestDocument) modelToXml();
+        return holidaySecurityRequestDoc.getHolidaySecurityRequest();
     }
 
     public static HolidaySecurityRequest xmlToModel(HolidaySecurityRequestDocument holidaySecurityRequestDoc) {
@@ -84,39 +93,24 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         List list = new ArrayList();
         HolidaySecurityRequest holidaySecurityRequest = new HolidaySecurityRequest();
         holidaySecurityRequest.fillCommonModelInfo(holidaySecurityRequest,holidaySecurityRequestXml);
-        calendar = holidaySecurityRequestXml.getAbsenceStartDate();
-        if (calendar != null) {
-            holidaySecurityRequest.setAbsenceStartDate(calendar.getTime());
-        }
         holidaySecurityRequest.setOtherContactLastName(holidaySecurityRequestXml.getOtherContactLastName());
-        holidaySecurityRequest.setLight(Boolean.valueOf(holidaySecurityRequestXml.getLight()));
-        holidaySecurityRequest.setOtherContactPhone(holidaySecurityRequestXml.getOtherContactPhone());
-        holidaySecurityRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(holidaySecurityRequestXml.getRulesAndRegulationsAcceptance()));
-        holidaySecurityRequest.setAlarm(Boolean.valueOf(holidaySecurityRequestXml.getAlarm()));
         holidaySecurityRequest.setOtherContactFirstName(holidaySecurityRequestXml.getOtherContactFirstName());
-        if (holidaySecurityRequestXml.getOtherContactAddress() != null)
-            holidaySecurityRequest.setOtherContactAddress(Address.xmlToModel(holidaySecurityRequestXml.getOtherContactAddress()));
+        holidaySecurityRequest.setLight(Boolean.valueOf(holidaySecurityRequestXml.getLight()));
         calendar = holidaySecurityRequestXml.getAbsenceEndDate();
         if (calendar != null) {
             holidaySecurityRequest.setAbsenceEndDate(calendar.getTime());
         }
+        holidaySecurityRequest.setOtherContactPhone(holidaySecurityRequestXml.getOtherContactPhone());
+        holidaySecurityRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(holidaySecurityRequestXml.getRulesAndRegulationsAcceptance()));
         holidaySecurityRequest.setAlertPhone(holidaySecurityRequestXml.getAlertPhone());
+        holidaySecurityRequest.setAlarm(Boolean.valueOf(holidaySecurityRequestXml.getAlarm()));
+        if (holidaySecurityRequestXml.getOtherContactAddress() != null)
+            holidaySecurityRequest.setOtherContactAddress(Address.xmlToModel(holidaySecurityRequestXml.getOtherContactAddress()));
+        calendar = holidaySecurityRequestXml.getAbsenceStartDate();
+        if (calendar != null) {
+            holidaySecurityRequest.setAbsenceStartDate(calendar.getTime());
+        }
         return holidaySecurityRequest;
-    }
-
-    private java.util.Date absenceStartDate;
-
-    public final void setAbsenceStartDate(final java.util.Date absenceStartDate) {
-        this.absenceStartDate = absenceStartDate;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="absence_start_date"
-     */
-    public final java.util.Date getAbsenceStartDate() {
-        return this.absenceStartDate;
     }
 
     private String otherContactLastName;
@@ -135,6 +129,22 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         return this.otherContactLastName;
     }
 
+    private String otherContactFirstName;
+
+    public final void setOtherContactFirstName(final String otherContactFirstName) {
+        this.otherContactFirstName = otherContactFirstName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="other_contact_first_name"
+     *  length="38"
+     */
+    public final String getOtherContactFirstName() {
+        return this.otherContactFirstName;
+    }
+
     private Boolean light;
 
     public final void setLight(final Boolean light) {
@@ -148,6 +158,21 @@ public class HolidaySecurityRequest extends Request implements Serializable {
      */
     public final Boolean getLight() {
         return this.light;
+    }
+
+    private java.util.Date absenceEndDate;
+
+    public final void setAbsenceEndDate(final java.util.Date absenceEndDate) {
+        this.absenceEndDate = absenceEndDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="absence_end_date"
+     */
+    public final java.util.Date getAbsenceEndDate() {
+        return this.absenceEndDate;
     }
 
     private String otherContactPhone;
@@ -181,6 +206,22 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         return this.rulesAndRegulationsAcceptance;
     }
 
+    private String alertPhone;
+
+    public final void setAlertPhone(final String alertPhone) {
+        this.alertPhone = alertPhone;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="alert_phone"
+     *  length="10"
+     */
+    public final String getAlertPhone() {
+        return this.alertPhone;
+    }
+
     private Boolean alarm;
 
     public final void setAlarm(final Boolean alarm) {
@@ -194,22 +235,6 @@ public class HolidaySecurityRequest extends Request implements Serializable {
      */
     public final Boolean getAlarm() {
         return this.alarm;
-    }
-
-    private String otherContactFirstName;
-
-    public final void setOtherContactFirstName(final String otherContactFirstName) {
-        this.otherContactFirstName = otherContactFirstName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="other_contact_first_name"
-     *  length="38"
-     */
-    public final String getOtherContactFirstName() {
-        return this.otherContactFirstName;
     }
 
     private fr.cg95.cvq.business.users.Address otherContactAddress;
@@ -229,35 +254,19 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         return this.otherContactAddress;
     }
 
-    private java.util.Date absenceEndDate;
+    private java.util.Date absenceStartDate;
 
-    public final void setAbsenceEndDate(final java.util.Date absenceEndDate) {
-        this.absenceEndDate = absenceEndDate;
+    public final void setAbsenceStartDate(final java.util.Date absenceStartDate) {
+        this.absenceStartDate = absenceStartDate;
     }
 
 
     /**
      * @hibernate.property
-     *  column="absence_end_date"
+     *  column="absence_start_date"
      */
-    public final java.util.Date getAbsenceEndDate() {
-        return this.absenceEndDate;
-    }
-
-    private String alertPhone;
-
-    public final void setAlertPhone(final String alertPhone) {
-        this.alertPhone = alertPhone;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="alert_phone"
-     *  length="10"
-     */
-    public final String getAlertPhone() {
-        return this.alertPhone;
+    public final java.util.Date getAbsenceStartDate() {
+        return this.absenceStartDate;
     }
 
 }

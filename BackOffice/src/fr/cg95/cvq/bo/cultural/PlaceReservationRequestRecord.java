@@ -14,12 +14,12 @@ import fr.cg95.cvq.business.reservation.*;
 
 public class PlaceReservationRequestRecord extends RequestRecord {
 
-	private String paymentReference;
 	private String requesterFirstName;
-	private boolean isSubscriber;
-	private String subscriberNumber;
 	private String requesterLastName;
+	private String subscriberNumber;
    	private ReservationNode placeReservation;
+	private boolean isSubscriber;
+	private String paymentReference;
 
 	public PlaceReservationRequestRecord() {
 		super();
@@ -42,15 +42,15 @@ public class PlaceReservationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof PlaceReservationRequest)) {
             PlaceReservationRequest request = (PlaceReservationRequest)xmlRequest; 
 
-			this.paymentReference = request.getPaymentReference();
             if ((request.getRequester() != null))
 			this.requesterFirstName = request.getRequester().getFirstName();
-            if ((request.getIsSubscriber() != null))
-			this.isSubscriber = request.getIsSubscriber();
-			this.subscriberNumber = request.getSubscriberNumber();
             if ((request.getRequester() != null))
 			this.requesterLastName = request.getRequester().getLastName();
+			this.subscriberNumber = request.getSubscriberNumber();
             this.setPlaceReservation(getReservations(this.getList("Place Reservation"), request.getPlaceReservation()));
+            if ((request.getIsSubscriber() != null))
+			this.isSubscriber = request.getIsSubscriber();
+			this.paymentReference = request.getPaymentReference();
         }
     }
     
@@ -68,36 +68,12 @@ public class PlaceReservationRequestRecord extends RequestRecord {
         }
     }
     
-	public void setPaymentReference(String paymentReference) {
-		this.paymentReference = paymentReference;
-	}
-	
-	public String getPaymentReference() {
-		return this.paymentReference;
-	}
-
 	public void setRequesterFirstName(String requesterFirstName) {
 		this.requesterFirstName = requesterFirstName;
 	}
 	
 	public String getRequesterFirstName() {
 		return this.requesterFirstName;
-	}
-
-	public void setIsSubscriber(boolean isSubscriber) {
-		this.isSubscriber = isSubscriber;
-	}
-	
-	public boolean getIsSubscriber() {
-		return this.isSubscriber;
-	}
-
-	public void setSubscriberNumber(String subscriberNumber) {
-		this.subscriberNumber = subscriberNumber;
-	}
-	
-	public String getSubscriberNumber() {
-		return this.subscriberNumber;
 	}
 
 	public void setRequesterLastName(String requesterLastName) {
@@ -108,12 +84,36 @@ public class PlaceReservationRequestRecord extends RequestRecord {
 		return this.requesterLastName;
 	}
 
+	public void setSubscriberNumber(String subscriberNumber) {
+		this.subscriberNumber = subscriberNumber;
+	}
+	
+	public String getSubscriberNumber() {
+		return this.subscriberNumber;
+	}
+
 	public void setPlaceReservation(ReservationNode placeReservation) {
 		this.placeReservation = placeReservation;
 	}
 	
 	public ReservationNode getPlaceReservation() {
 		return this.placeReservation;
+	}
+
+	public void setIsSubscriber(boolean isSubscriber) {
+		this.isSubscriber = isSubscriber;
+	}
+	
+	public boolean getIsSubscriber() {
+		return this.isSubscriber;
+	}
+
+	public void setPaymentReference(String paymentReference) {
+		this.paymentReference = paymentReference;
+	}
+	
+	public String getPaymentReference() {
+		return this.paymentReference;
 	}
 
 }

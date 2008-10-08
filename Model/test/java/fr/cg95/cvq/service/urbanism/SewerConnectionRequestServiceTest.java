@@ -50,20 +50,20 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
     protected SewerConnectionRequest fillMeARequest() throws CvqException {
 
         SewerConnectionRequest request = new SewerConnectionRequest();
-                          Address OwnerAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
-            request.setOwnerAddress(OwnerAddress);
-    	                    request.setSection("Section");
-                  request.setRequesterQuality(ScrRequesterQualityType.OWNER);
+          request.setMoreThanTwoYears(Boolean.valueOf(true));
+                request.setTransportationRoute("TransportationRoute");
+                    request.setLocality("Locality");
                   if ("OwnerLastName".length() > 38)
         request.setOwnerLastName("OwnerLastName".substring(0, 38));
       else
         request.setOwnerLastName("OwnerLastName");
-                    request.setOwnerFirstNames("OwnerFirstNames");
-                    request.setTransportationRoute("TransportationRoute");
-                    request.setLocality("Locality");
-                request.setMoreThanTwoYears(Boolean.valueOf(true));
-            request.setNumber(BigInteger.valueOf(1));
-  
+                request.setNumber(BigInteger.valueOf(1));
+                request.setOwnerFirstNames("OwnerFirstNames");
+                                Address OwnerAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setOwnerAddress(OwnerAddress);
+    	                  request.setRequesterQuality(ScrRequesterQualityType.OWNER);
+                    request.setSection("Section");
+      
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

@@ -11,8 +11,8 @@ import fr.cg95.cvq.xml.reservation.PlaceReservationRequestDocument.PlaceReservat
 
 public class Abonnee extends IStageForm {
 
-	private boolean isSubscriber;
 	private String subscriberNumber;
+	private boolean isSubscriber;
 
 	public Abonnee() {
 		super();
@@ -26,16 +26,16 @@ public class Abonnee extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof PlaceReservationRequest)) {
 			PlaceReservationRequest request = (PlaceReservationRequest)xmlbRequest;
-			this.isSubscriber = request.getIsSubscriber();
 			this.subscriberNumber = request.getSubscriberNumber();
+			this.isSubscriber = request.getIsSubscriber();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof PlaceReservationRequest)) {
 			PlaceReservationRequest request = (PlaceReservationRequest)xmlbRequest;
-			request.setIsSubscriber(this.isSubscriber);
 			request.setSubscriberNumber(this.subscriberNumber);
+			request.setIsSubscriber(this.isSubscriber);
 		}
 	}
 	
@@ -43,18 +43,6 @@ public class Abonnee extends IStageForm {
 		return true;
 	}
 	
-	public void setIsSubscriber(boolean isSubscriber) {
-		this.isSubscriber = isSubscriber;
-	}
-	
-	public boolean getIsSubscriber() {
-		return this.isSubscriber;
-	}
-	
-	public boolean checkIsSubscriber() {
-		return true;
-	}
-
 	public void setSubscriberNumber(String subscriberNumber) {
 		this.subscriberNumber = subscriberNumber;
 	}
@@ -64,6 +52,18 @@ public class Abonnee extends IStageForm {
 	}
 	
 	public boolean checkSubscriberNumber() {
+		return true;
+	}
+
+	public void setIsSubscriber(boolean isSubscriber) {
+		this.isSubscriber = isSubscriber;
+	}
+	
+	public boolean getIsSubscriber() {
+		return this.isSubscriber;
+	}
+	
+	public boolean checkIsSubscriber() {
 		return true;
 	}
 

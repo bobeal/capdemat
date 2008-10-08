@@ -1512,7 +1512,8 @@ public class BusinessManager implements IBusinessConstants {
 
                 while (iter.hasNext()) {
                     UserRecord record = BusinessFactory.getUserRecord(iter.next());
-                    results.add(record);
+                    if (record.isActive())
+                        results.add(record);
                 }
             } catch (CvqException ce) {
                 logger.warn("getUsers", ce);

@@ -72,8 +72,8 @@
 	<script type="text/javascript">
 		function validationData() {
    		  this.dwelling = new Function("key","this.label='Type d&quote;habitation'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.appartmentNumber = new Function("key","this.label='Numéro'; this.msg=null; this.required=true; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.floor = new Function("key","this.label='Etage'; this.msg=null; this.required=true; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.appartmentNumber = new Function("key","this.label='Numéro'; this.msg=null; this.required=true; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.floor = new Function("key","this.label='Etage'; this.msg=null; this.required=true; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
      		  this.taxable = new Function("key","this.label='Imposable'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
      		  this.seniorAssitanceBeneficiary = new Function("key","this.label='Bénéficiaire APA'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
   		}

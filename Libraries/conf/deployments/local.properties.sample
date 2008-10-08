@@ -32,6 +32,7 @@ data.properties.path=/home/bor/cvq.svn/trunk/Model/test/data/
 
 mail.sender_host=127.0.0.1
 mail.admin_address=root@localhost
+mail.sender_port=25
 
 agent.administrator_group=CVQ_ADMINISTRATORS
 agent.contributor_group=CVQ_CONTRIBUTORS

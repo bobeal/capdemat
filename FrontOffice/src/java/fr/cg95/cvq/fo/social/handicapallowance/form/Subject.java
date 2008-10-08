@@ -11,7 +11,6 @@ import fr.cg95.cvq.xml.social.HandicapAllowanceRequestDocument.HandicapAllowance
 
 public class Subject extends IStageForm {
 
-	private String subjectIndividualLastName;
   	private String subjectIndividualAddressAdditionalDeliveryInformation;
 	private String subjectIndividualAddressAdditionalGeographicalInformation;
 	private String subjectIndividualAddressStreetNumber;
@@ -20,22 +19,22 @@ public class Subject extends IStageForm {
 	private String subjectIndividualAddressPostalCode;
 	private String subjectIndividualAddressCity;
 	private String subjectIndividualFirstName;
+	private String subjectIndividualLastName;
 
 	public Subject() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("subject")) {
+		}
+		if (state.equals("display")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HandicapAllowanceRequest)) {
 			HandicapAllowanceRequest request = (HandicapAllowanceRequest)xmlbRequest;
-			this.subjectIndividualLastName = request.getSubject().getIndividual().getLastName();
   			this.subjectIndividualAddressAdditionalDeliveryInformation = request.getSubject().getIndividual().getAddress().getAdditionalDeliveryInformation();
 			this.subjectIndividualAddressAdditionalGeographicalInformation = request.getSubject().getIndividual().getAddress().getAdditionalGeographicalInformation();
 			this.subjectIndividualAddressStreetNumber = request.getSubject().getIndividual().getAddress().getStreetNumber();
@@ -44,13 +43,13 @@ public class Subject extends IStageForm {
 			this.subjectIndividualAddressPostalCode = request.getSubject().getIndividual().getAddress().getPostalCode();
 			this.subjectIndividualAddressCity = request.getSubject().getIndividual().getAddress().getCity();
 			this.subjectIndividualFirstName = request.getSubject().getIndividual().getFirstName();
+			this.subjectIndividualLastName = request.getSubject().getIndividual().getLastName();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HandicapAllowanceRequest)) {
 			HandicapAllowanceRequest request = (HandicapAllowanceRequest)xmlbRequest;
-			request.getSubject().getIndividual().setLastName(this.subjectIndividualLastName);
   			request.getSubject().getIndividual().getAddress().setAdditionalDeliveryInformation(this.subjectIndividualAddressAdditionalDeliveryInformation);
 			request.getSubject().getIndividual().getAddress().setAdditionalGeographicalInformation(this.subjectIndividualAddressAdditionalGeographicalInformation);
 			request.getSubject().getIndividual().getAddress().setStreetNumber(this.subjectIndividualAddressStreetNumber);
@@ -59,13 +58,11 @@ public class Subject extends IStageForm {
 			request.getSubject().getIndividual().getAddress().setPostalCode(this.subjectIndividualAddressPostalCode);
 			request.getSubject().getIndividual().getAddress().setCity(this.subjectIndividualAddressCity);
 			request.getSubject().getIndividual().setFirstName(this.subjectIndividualFirstName);
+			request.getSubject().getIndividual().setLastName(this.subjectIndividualLastName);
 		}
 	}
 	
 	public boolean isComplete() {
-		if (this.checkSubjectIndividualLastName() &&
-			((this.subjectIndividualLastName == null) || (this.subjectIndividualLastName.length() == 0)))
-			return false;
   		if (this.checkSubjectIndividualAddressStreetName() &&
 			((this.subjectIndividualAddressStreetName == null) || (this.subjectIndividualAddressStreetName.length() == 0)))
 			return false;
@@ -78,21 +75,12 @@ public class Subject extends IStageForm {
 		if (this.checkSubjectIndividualFirstName() &&
 			((this.subjectIndividualFirstName == null) || (this.subjectIndividualFirstName.length() == 0)))
 			return false;
+		if (this.checkSubjectIndividualLastName() &&
+			((this.subjectIndividualLastName == null) || (this.subjectIndividualLastName.length() == 0)))
+			return false;
 		return true;
 	}
 	
-	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
-		this.subjectIndividualLastName = subjectIndividualLastName;
-	}
-	
-	public String getSubjectIndividualLastName() {
-		return this.subjectIndividualLastName;
-	}
-	
-	public boolean checkSubjectIndividualLastName() {
-		return true;
-	}
-
   	public void setSubjectIndividualAddressAdditionalDeliveryInformation(String subjectIndividualAddressAdditionalDeliveryInformation) {
 		this.subjectIndividualAddressAdditionalDeliveryInformation = subjectIndividualAddressAdditionalDeliveryInformation;
 	}
@@ -186,6 +174,18 @@ public class Subject extends IStageForm {
 	}
 	
 	public boolean checkSubjectIndividualFirstName() {
+		return true;
+	}
+
+	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
+		this.subjectIndividualLastName = subjectIndividualLastName;
+	}
+	
+	public String getSubjectIndividualLastName() {
+		return this.subjectIndividualLastName;
+	}
+	
+	public boolean checkSubjectIndividualLastName() {
 		return true;
 	}
 

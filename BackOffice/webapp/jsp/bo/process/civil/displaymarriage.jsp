@@ -30,12 +30,21 @@
     	</span>
        </div>
            <div class="form_cell form_cell1">
-         <label for="usage" class="label">Usage :</label>
+         <label for="comment" class="label">Commentaire :</label>
          <span class="input">
    
     
 
-    	 <cvq:toggleInput name="record" property="usage" id="id" profile="profile"/>
+    	 <cvq:toggleInput name="record" property="comment" id="id" profile="profile"/>
+    	</span>
+       </div>
+           <div class="form_cell form_cell1">
+         <label for="motive" class="label">Motif :</label>
+         <span class="input">
+   
+    
+
+    	 <cvq:toggleInput name="record" property="motive" id="id" profile="profile"/>
     	</span>
        </div>
            <div class="form_cell form_cell1">
@@ -170,8 +179,9 @@
 
 <script type="text/javascript">
 	function selectionData() {
-              		this.format = new Function("key","this.values=new Array('Copie intégrale','Extrait avec filiation','Extrait sans filiation'); return this[key];");
-                                                                        		this.requesterQuality = new Function("key","this.values=new Array('Titulaire de l&rsquo;acte','Son conjoint','Son père / sa mère','Son grand-père / sa grand-mère','Son fils / sa fille','Son représentant légal','Son mandataire','Son héritier et aussi son frère ou sa soeur','Son héritier sans être son frère ou sa soeur','Autorisé par le procureur de la République','Avocat, notaire','Autre'); return this[key];");
+              		this.format = new Function("key","this.values=new Array('Copie intégrale','Extrait avec filiation','Extrait sans filiation','Extrait plurilingue'); return this[key];");
+                                                                        		this.motive = new Function("key","this.values=new Array('Acte de notaire','Certificat de nationalité française','Changement de régime matrimonial','Déclaration d&rsquo;acquisition de la nationalité française','Divorce, séparation','Passeport','Pension','Autre'); return this[key];");
+                            		this.requesterQuality = new Function("key","this.values=new Array('Titulaire de l&rsquo;acte','Son conjoint','Son père / sa mère','Son grand-père / sa grand-mère','Son fils / sa fille','Son représentant légal','Son mandataire','Son héritier et aussi son frère ou sa soeur','Son héritier sans être son frère ou sa soeur','Autorisé par le procureur de la République','Avocat, notaire','Autre'); return this[key];");
                                                                                                                                                                                                             		this.relationship = new Function("key","this.values=new Array('L&rsquo;époux','L&rsquo;épouse'); return this[key];");
                                                                                                       		}
 </script>

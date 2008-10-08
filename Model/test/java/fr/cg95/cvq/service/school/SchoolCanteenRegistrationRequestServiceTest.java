@@ -50,21 +50,21 @@ public class SchoolCanteenRegistrationRequestServiceTest extends ServiceTestCase
     protected SchoolCanteenRegistrationRequest fillMeARequest() throws CvqException {
 
         SchoolCanteenRegistrationRequest request = new SchoolCanteenRegistrationRequest();
-            if ("DoctorPhone".length() > 10)
+                     request.setSchool((School) schoolService.getAll().iterator().next());
+                        request.setHospitalizationPermission(Boolean.valueOf(true));
+            request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+            request.setFoodAllergy(Boolean.valueOf(true));
+              if ("DoctorPhone".length() > 10)
         request.setDoctorPhone("DoctorPhone".substring(0, 10));
       else
         request.setDoctorPhone("DoctorPhone");
-                    request.setDoctorName("DoctorName");
-                request.setHospitalizationPermission(Boolean.valueOf(true));
-              request.setSection(SectionType.BEFORE_FIRST_SECTION);
-                   request.setSchool((School) schoolService.getAll().iterator().next());
-                request.setFoodAllergy(Boolean.valueOf(true));
-              if ("UrgencyPhone".length() > 10)
+                  if ("UrgencyPhone".length() > 10)
         request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
       else
         request.setUrgencyPhone("UrgencyPhone");
-                        request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-          
+                    request.setDoctorName("DoctorName");
+                  request.setSection(SectionType.BEFORE_FIRST_SECTION);
+      
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

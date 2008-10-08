@@ -52,8 +52,8 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
         PlaceReservationRequest request = new PlaceReservationRequest();
               request.setSubscriberNumber("SubscriberNumber");
                 request.setIsSubscriber(Boolean.valueOf(true));
-                request.setPaymentReference("PaymentReference");
-              
+                        request.setPaymentReference("PaymentReference");
+      
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

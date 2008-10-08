@@ -14,11 +14,11 @@ import fr.cg95.cvq.business.environment.*;
 
 public class CompostableWasteCollectionRequestRecord extends RequestRecord {
 
-	private String collectionAddress;
 	private String requesterFirstName;
+	private String requesterLastName;
+	private String collectionAddress;
 	private boolean[] compostableWasteType;
    	private List compostableWasteTypeList;
-	private String requesterLastName;
 	private String otherWaste;
 
 	public CompostableWasteCollectionRequestRecord() {
@@ -43,12 +43,12 @@ public class CompostableWasteCollectionRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof CompostableWasteCollectionRequest)) {
             CompostableWasteCollectionRequest request = (CompostableWasteCollectionRequest)xmlRequest; 
 
-			this.collectionAddress = request.getCollectionAddress();
             if ((request.getRequester() != null))
 			this.requesterFirstName = request.getRequester().getFirstName();
-            this.setCompostableWasteType(this.getList("CompostableWasteType"), request.getCompostableWasteType());
             if ((request.getRequester() != null))
 			this.requesterLastName = request.getRequester().getLastName();
+			this.collectionAddress = request.getCollectionAddress();
+            this.setCompostableWasteType(this.getList("CompostableWasteType"), request.getCompostableWasteType());
 			this.otherWaste = request.getOtherWaste();
         }
     }
@@ -69,20 +69,28 @@ public class CompostableWasteCollectionRequestRecord extends RequestRecord {
         }
     }
     
-	public void setCollectionAddress(String collectionAddress) {
-		this.collectionAddress = collectionAddress;
-	}
-	
-	public String getCollectionAddress() {
-		return this.collectionAddress;
-	}
-
 	public void setRequesterFirstName(String requesterFirstName) {
 		this.requesterFirstName = requesterFirstName;
 	}
 	
 	public String getRequesterFirstName() {
 		return this.requesterFirstName;
+	}
+
+	public void setRequesterLastName(String requesterLastName) {
+		this.requesterLastName = requesterLastName;
+	}
+	
+	public String getRequesterLastName() {
+		return this.requesterLastName;
+	}
+
+	public void setCollectionAddress(String collectionAddress) {
+		this.collectionAddress = collectionAddress;
+	}
+	
+	public String getCollectionAddress() {
+		return this.collectionAddress;
 	}
 
 	public void setCompostableWasteType(List referential, Set values) {
@@ -132,14 +140,6 @@ public class CompostableWasteCollectionRequestRecord extends RequestRecord {
 			compostableWasteType[i] = values.indexOf("<" + ((ReferentialData)compostableWasteTypeList.get(i)).getValue() + ">") != -1;
 		}
 	}
-	public void setRequesterLastName(String requesterLastName) {
-		this.requesterLastName = requesterLastName;
-	}
-	
-	public String getRequesterLastName() {
-		return this.requesterLastName;
-	}
-
 	public void setOtherWaste(String otherWaste) {
 		this.otherWaste = otherWaste;
 	}

@@ -2,6 +2,7 @@ package fr.cg95.cvq.exporter.service.endpoint;
 
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.oxm.Marshaller;
 import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint;
 
@@ -16,8 +17,10 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
-public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoint {
+public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoint{
 
+    private Logger logger = Logger.getLogger(HomeFolderServiceEndpoint.class);
+    
     private IHomeFolderService homeFolderService;
     
     public HomeFolderServiceEndpoint(Marshaller marshaller) {
@@ -26,9 +29,11 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
 
    @Override
     protected Object invokeInternal(Object request) throws Exception {
-        GetHomeFoldersResponseDocument responseDocument =
+       logger.debug("invokeInternal() received request : " + request);
+       
+       GetHomeFoldersResponseDocument responseDocument =
             GetHomeFoldersResponseDocument.Factory.newInstance();
-        GetHomeFoldersResponse response = 
+       GetHomeFoldersResponse response = 
             responseDocument.addNewGetHomeFoldersResponse();
         Set<HomeFolder> homeFolders = homeFolderService.getAll();
         for (HomeFolder homeFolder : homeFolders) {
@@ -53,6 +58,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
             }
         }
 
+        logger.debug("invokeInternal() returning " + response.toString());
         return response;
     }
 

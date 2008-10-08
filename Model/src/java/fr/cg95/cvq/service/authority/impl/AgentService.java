@@ -26,6 +26,7 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.permission.PrivilegeDescriptor;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILdapService;
 import fr.cg95.cvq.service.request.IRequestService;
@@ -78,50 +79,41 @@ public final class AgentService implements IAgentService {
             agentDAO.delete(agent);
     }
 
-    public Set<Agent> get(final Set criteriaSet)
+    public List<Agent> get(final Set criteriaSet)
         throws CvqException {
 
-        List<Agent> agents = null;
-        agents = agentDAO.search(criteriaSet);
+        List<Agent> agents = agentDAO.search(criteriaSet);
         for (Agent agent : agents)
         	feedWithLdapData(agent);
 
-        return new LinkedHashSet<Agent>(agents);
+        return agents;
     }
 
-    public Set<Agent> getAll()
+    public List<Agent> getAll()
         throws CvqException {
 
-        List<Agent> agents = null;
-        try {
-            agents = agentDAO.listAll();
-        } catch (RuntimeException e) {
-            throw new CvqException("Could not list agents " + e.getMessage());
-        }
-
+        List<Agent> agents = agentDAO.listAll();
         for (Agent agent : agents) {
         	feedWithLdapData(agent);
         }
 
-        return new LinkedHashSet<Agent>(agents);
+        return agents;
     }
 
-    public Map<String, List> extendedGetAgentTasks(final String agentLogin,final String sort, final String dir, 
-            final int recordsReturned, final int startIndex)
-    throws CvqException {
+    public Map<String, List<Request>> extendedGetAgentTasks(final String agentLogin,
+            final String sort, final String dir, final int recordsReturned, final int startIndex)
+            throws CvqException {
 
         logger.debug("extendedGetAgentTasks()");
         
-        Map<String, List> resultMap = new LinkedHashMap<String,List>();
+        Map<String, List<Request>> resultMap = new LinkedHashMap<String,List<Request>>();
        
         Agent agent = getByLogin(agentLogin);
-        Set agentCategoryRoles = agent.getCategoriesRoles();
+        Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
         if (agentCategoryRoles == null || agentCategoryRoles.size() == 0)
             return null;
-        Iterator agentCategorysIt = agentCategoryRoles.iterator();
         StringBuffer sb = new StringBuffer();
-        while (agentCategorysIt.hasNext()) {
-            CategoryRoles categoryRoles = (CategoryRoles) agentCategorysIt.next();
+        for (CategoryRoles categoryRoles : agentCategoryRoles) {
             if (sb.length() > 0)
                 sb.append(",");
             sb.append("'")
@@ -142,12 +134,12 @@ public final class AgentService implements IAgentService {
         Set<Critere> criteriaSet = new HashSet<Critere>();
         criteriaSet.add(categoryCrit);
         criteriaSet.add(stateCrit);
-        List requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
+        List<Request> requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
         resultMap.put(TASKS_PENDING, requestList);
 
         //search in-progress requests
         RequestState states[] = requestService.getPossibleTransitions(RequestState.PENDING);
-        List tempList = new ArrayList();        
+        List<Request> tempList = new ArrayList<Request>();        
         for (int i = 0; i < states.length; i++) {
             stateCrit.setValue(states[i]);
             requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
@@ -161,7 +153,7 @@ public final class AgentService implements IAgentService {
         resultMap.put(TASKS_VALIDATED, requestList);
         
         return resultMap;
-        }
+    }
     
     public Map<String, Long> getAgentTasks(final String agentLogin)
         throws CvqException {
@@ -299,6 +291,37 @@ public final class AgentService implements IAgentService {
         agentDAO.update(agent);
 
         logger.debug("Modified agent : " + agent.getId());
+    }
+
+
+    public void updateUserProfiles(String username, List<String> groups,
+            Map<String, String> informations) throws CvqException {
+
+        Agent agent = null;
+        try {
+            agent = getByLogin(username);
+        } catch (CvqObjectNotFoundException confe) {
+            agent = new Agent();
+            agent.setActive(true);
+            agent.setLogin(username);
+            Set<SiteRoles> agentSiteRoles = new HashSet<SiteRoles>();
+            SiteRoles defaultSiteRole = new SiteRoles();
+            defaultSiteRole.setProfile(SiteProfile.AGENT);
+            defaultSiteRole.setAgent(agent);
+            agentSiteRoles.add(defaultSiteRole);
+            agent.setSitesRoles(agentSiteRoles);
+
+            create(agent);
+        }
+
+        if (informations.get("firstName") != null)
+            agent.setFirstName(informations.get("firstName"));
+        if (informations.get("lastName") != null)
+            agent.setLastName(informations.get("lastName"));
+        modify(agent);
+
+        modifyProfiles(agent, groups, SecurityContext.getAdministratorGroups(),
+                SecurityContext.getAgentGroups(), SecurityContext.getCurrentSite());
     }
 
     public void setCategoryProfile(final Long agentId, final Long categoryId, 

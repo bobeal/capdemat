@@ -188,6 +188,13 @@ public interface IDocumentService {
     void checkDocumentsValidity() throws CvqException;
 
     /**
+     * Dispatcher method for workflow document method
+     */
+    void updateDocumentState(final Long id, final DocumentState ds, final String message, 
+            final Date validityDate)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
+    
+    /**
      * Validate a document
      *
      * @param id the document's id

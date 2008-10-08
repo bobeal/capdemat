@@ -7,10 +7,10 @@
     <script type="text/javascript">
       YAHOO.capdematBo.calendar.cal = new Array(2);
       YAHOO.util.Event.onDOMReady(
-          YAHOO.capdematBo.calendar.init, 
-          {id : 0, label : "initDateFrom"});
-          YAHOO.util.Event.onDOMReady(YAHOO.capdematBo.calendar.init, 
-          {id : 1, label : "initDateTo"}
+          YAHOO.capdematBo.calendar.init, {id : 0, label : "initDateFrom"}
+      );
+      YAHOO.util.Event.onDOMReady(
+          YAHOO.capdematBo.calendar.init, {id : 1, label : "initDateTo"}
       );
     </script>
   </head>

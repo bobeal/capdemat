@@ -1,13 +1,12 @@
-
 <g:each in="${agents}" var="agent">
   <g:if test="${agent?.notBelong}">
     <li id="agent_${agent.id}" class="notBelong">
-    <a class="associate"><span>associate</span></a>
+    <a class="associate"><span><g:message code="category.action.associate" /></span></a>
   </g:if>
   <g:else>
     <li id="agent_${agent.id}">
-    <a class="unassociate"><span>unassociate</span></a>
-    <a class="editItem"><span>edit</span></a>
+    <a class="unassociate"><span><g:message code="category.action.unassociate" /></span></a>
+    <a class="editItem"><span><g:message code="category.action.edit" /></span></a>
   </g:else>
     <span class="agentName">
       <g:if test="${agent.active}">
@@ -20,4 +19,3 @@
     <span class="${agent?.profile?.cssClass}"><g:message code="${agent?.profile?.i18nKey}"/></span>
   </li>
 </g:each>
-

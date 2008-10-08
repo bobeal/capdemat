@@ -25,7 +25,6 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
@@ -55,7 +54,6 @@ import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
-import fr.cg95.cvq.dao.document.hibernate.DocumentTypeDAO;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
@@ -171,9 +169,10 @@ public abstract class RequestService implements IRequestService {
     public Set get(Set criteriaSet, final String orderedBy, final boolean onlyIds)
         throws CvqException {
 
-        criteriaSet.add(getCurrentUserFilter());
-        List results = null;
-        results = requestDAO.search(criteriaSet, orderedBy, null, -1, 0, onlyIds);
+        Critere userFilterCritere = getCurrentUserFilter();
+        if (userFilterCritere != null)
+            criteriaSet.add(getCurrentUserFilter());
+        List results = requestDAO.search(criteriaSet, orderedBy, null, -1, 0, onlyIds);
 
         return new LinkedHashSet(results);
     }
@@ -184,11 +183,23 @@ public abstract class RequestService implements IRequestService {
         
         if (criteriaSet == null)
             criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(getCurrentUserFilter());
-        List results = null;
-        results = requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, false);
+        Critere userFilterCritere = getCurrentUserFilter();
+        if (userFilterCritere != null)
+            criteriaSet.add(getCurrentUserFilter());
+        List results = requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, false);
         
         return new LinkedHashSet(results);
+    }
+    
+    public Long getCount(Set<Critere> criteriaSet) throws CvqException {
+        
+        if (criteriaSet == null)
+            criteriaSet = new HashSet<Critere>();
+        Critere userFilterCritere = getCurrentUserFilter();
+        if (userFilterCritere != null)
+            criteriaSet.add(getCurrentUserFilter());
+
+        return requestDAO.count(criteriaSet);
     }
     
     public Request getById(final Long id)
@@ -1238,7 +1249,63 @@ public abstract class RequestService implements IRequestService {
         }
     }
 
-
+    //////////////////////////////////////////////////////////
+    // Request Workflow related methods
+    //////////////////////////////////////////////////////////
+    
+    
+    // Request data state treatment
+    /////////////////////////////////////////////////////////
+    
+    public void updateRequestDataState(final Long id, final DataState rs)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        if (rs.equals(DataState.VALID))
+            validData(id);
+        else if (rs.equals(DataState.INVALID))
+            invalidData(id);
+    }
+    
+    private void validData(final Long id)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        Request request = getById(id);
+        requestWorkflowService.validData(request);
+    }
+    
+    private void invalidData(final Long id)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        Request request = getById(id);
+        requestWorkflowService.invalidData(request);
+    }
+    
+    
+    // Request state treatment
+    // TODO : make workflow method private - migrate unit tests
+    /////////////////////////////////////////////////////////
+    
+    public void updateRequestState(final Long id, final RequestState rs, final String motive)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        if (rs.equals(RequestState.COMPLETE))
+            complete(id);
+        else if (rs.equals(RequestState.UNCOMPLETE))
+            specify(id, motive);
+        else if (rs.equals(RequestState.REJECTED))
+            reject(id, motive);
+        else if (rs.equals(RequestState.CANCELLED))
+            cancel(id);
+        else if (rs.equals(RequestState.VALIDATED))
+            validate(id);
+        else if (rs.equals(RequestState.NOTIFIED))
+            notify(id, motive);
+        else if (rs.equals(RequestState.ACTIVE))
+            activate(id);
+        else if (rs.equals(RequestState.EXPIRED))
+            expire(id);
+        else if (rs.equals(RequestState.CLOSED))
+            close(id);
+        else if (rs.equals(RequestState.ARCHIVED))
+            archive(id);
+    }
+    
     public void complete(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1507,6 +1574,16 @@ public abstract class RequestService implements IRequestService {
     public RequestState[] getPossibleTransitions(RequestState rs) {
 
         return requestWorkflowService.getPossibleTransitions(rs);
+    }
+    
+    public DataState[] getPossibleTransitions(DataState ds) {        
+        List<DataState> dataStateList = new ArrayList<DataState>();
+
+        if (ds.equals(DataState.PENDING)) {
+            dataStateList.add(DataState.VALID);
+            dataStateList.add(DataState.INVALID);
+        }
+        return (DataState[]) dataStateList.toArray(new DataState[0]);
     }
 
     public Set<RequestState> getStatesBefore(RequestState rs) {

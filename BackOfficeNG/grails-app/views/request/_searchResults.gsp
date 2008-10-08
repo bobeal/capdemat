@@ -5,6 +5,6 @@
   </ul>
   <div class="pagination" id="pagination-bottom"></div>
 </g:if>
-<g:else>
+<g:elseif test="${inSearch}">
   <strong><g:message code="message.noResultFound" /></strong>
-</g:else>
+</g:elseif>

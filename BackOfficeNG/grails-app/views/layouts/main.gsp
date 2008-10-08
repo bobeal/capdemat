@@ -7,6 +7,7 @@
     <g:layoutHead />
     <script type="text/javascript">
       YAHOO.capdematBo.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
+      zenexity.capdemat.bong.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
     </script>
   </head>
   <body>

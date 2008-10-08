@@ -7,6 +7,7 @@ import java.util.Set;
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
@@ -37,9 +38,10 @@ public interface IAgentService {
     void delete(final String agentLogin)
         throws CvqException;
     
-    Set<Agent> getAll()
+    List<Agent> getAll()
         throws CvqException;
-    Set<Agent> get(final Set criteriaSet)
+    
+    List<Agent> get(final Set criteriaSet)
         throws CvqException;
 
     /**
@@ -56,9 +58,10 @@ public interface IAgentService {
      * 
      * @param agentLogin login of agent whom we want to know tasks
      */
-    Map<String, List> extendedGetAgentTasks(final String agentLogin,final String sort, final String dir, 
+    Map<String, List<Request>> extendedGetAgentTasks(final String agentLogin, final String sort, final String dir, 
             final int recordsReturned, final int startIndex)
         throws CvqException;
+    
     /**
      * Return a map of tasks belonging to given agent.
      * 
@@ -83,6 +86,9 @@ public interface IAgentService {
     void modifyProfiles(Agent agent, final List newGroups, final List administratorGroups,
             final List agentGroups, final LocalAuthority localAuthority)
         throws CvqException;
+    
+    void updateUserProfiles(String username, List<String> groups, 
+            Map<String, String> informations) throws CvqException;
     
     /**
      * Set or unset (if category profile is {@link CategoryProfile#NONE}) the agent's profile 

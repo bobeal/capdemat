@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------
 
-    tag description
+    tag and flag description
     TODO : Name tag by state / action ...
     TODO : choice colors ...
     
@@ -10,11 +10,32 @@
       red=#EC7000
 
 -------------------------------------------------------------- */
+/*
+request state: pending, complete, uncomplete, validated, notified, active, expired, closed, rejected, cancelled, archived
+document state: pending, validated, checked, refused, outdated
+data state: pending, valid, unvalid
+deposit type: pc, terminal, mailed_paper, brought_paper
+deposit origin: agent, ecitizen
+*/
 
 
-.tag-pending,   .tag-validated,  .tag-rejected,
-.tag-enable,    .tag-disable,
-.tag-read_only, .tag-read_write, .tag-manager { 
+/* deposit type */
+.tag-pc, .tag-terminal, .tag-mailed_paper, .tag-brought_paper,
+/* deposit origin */
+.tag-agent, .tag-ecitizen,
+/* request, document and data state */
+.tag-pending, .tag-complete, .tag-uncomplete, .tag-validated, .tag-notified, .tag-active,
+.tag-expired, .tag-closed, .tag-rejected, .tag-cancelled, .tag-archived,
+/* specific data state */
+.tag-valid, .tag-invalid,
+/* specific document state */
+.tag-checked, .tag-refused, .tag-outdated, .tag-not_provided,
+/* general flag */
+.tag-enable, .tag-disable,
+/* category profils */
+.tag-read_only, .tag-read_write, .tag-manager,
+/* legal responsible role */
+.tag-mother, .tag-father, .tag-tutor { 
   padding: 0 .2em;
   border-bottom: 1px solid;
   border-right: 1px solid;
@@ -27,19 +48,54 @@
 }
 
 /* yellow */
-.tag-pending    { background: #ffcc20; border-color:#ffaa20; }
+.tag-pending,
+.tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
+
 /* green */
+.tag-valid,
 .tag-validated,
-.tag-enable     { background: #20cc20; border-color:#20aa20; }
+.tag-complete,
+.tag-notified,
+.tag-enable        { background: #20cc20; border-color:#20aa20; }
+
 /* red */
+.tag-invalid,
+.tag-expired,
 .tag-rejected,
-.tag-disable    { background: #cc2020; border-color:#aa2020; }
+.tag-refused,
+.tag-outdated,
+.tag-disable       { background: #cc2020; border-color:#aa2020; }
+
+/* negative red */
+.tag-not_provided  { background: #dedede; color: #cc2020; border-color: #aa2020; }
+
 /* blue */
-.tag-read_only  { background: #2020cc; border-color:#2020aa; }
+.tag-father,
+.tag-active,
+.tag-checked,
+.tag-read_only     { background: #2020cc; border-color:#2020aa; }
+
 /* orange*/
-.tag-read_write { background: #ec7000; border-color:#da7000; }
+.tag-read_write,
+.tag-agent         { background: #ec7000; border-color:#da7000; }
+
 /* violet */
-.tag-manager    { background: #aa00ff; border-color:#aa00ff; }
+.tag-ecitizen,
+.tag-manager       { background: #aa00ff; border-color:#aa00ff; }
+
+/* pink */
+.tag-mother        { background: #ff00aa; border-color:#ff0088; }
+
 /* gray */
-.tag-no_right       { background: #eeeeee; border-color:#cccccc; color:#000000; }
+.tag-tutor,
+.tag-closed,
+.tag-cancelled,
+.tag-archived,
+.tag-no_right      { background: #aaaaaa; border-color:#cccccc; color:#ffffff; }
+
+/* gray black */
+.tag-pc,
+.tag-terminal,
+.tag-mailed_paper,
+.tag-brought_paper { background: #333333; border-color:#cccccc; color:#ffffff; }
 

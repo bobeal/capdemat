@@ -29,6 +29,8 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo',file:'yahoo-min.js')}"></script>
   <!-- Dependencies for Dialog Container, Button, Menu, Datatable, Tabview -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo-dom-event',file:'yahoo-dom-event.js')}"></script>
+  <!-- Dependencie for Dialog Container, Drag and Drop -->
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/dragdrop',file:'dragdrop-min.js')}"></script>
   <!-- Dependencies for Button, Datatable, Tabview -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/element',file:'element-beta-min.js')}"></script>
   <!-- Used for Custom Events and event listener bindings (Connection Manager) -->
@@ -56,9 +58,11 @@
   <!-- Selector -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/selector',file:'selector-beta-min.js')}"></script>
 
+  <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'tools.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'common.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'validation.js')}"></script>
+  
   <script type="text/javascript">
-  YAHOO.capdematBo.imagesUrl = "${createLinkTo(dir:'images')}";
-  YAHOO.capdematBo.currentMenu = "${session['currentMenu']}";
+    zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
+    zenexity.capdemat.bong.currentMenu = "${session['currentMenu']}";
   </script>

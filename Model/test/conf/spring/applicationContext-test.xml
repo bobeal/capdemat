@@ -3,4 +3,11 @@
 
 <beans>
 
+  <bean id="configurer"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location">
+      <value>model.properties</value>
+    </property>
+  </bean>
+
 </beans>

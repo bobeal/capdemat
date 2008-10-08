@@ -2,31 +2,21 @@
   <head>
     <title><g:message code="request.header.simpleSearch" /></title>
     <meta name="layout" content="main" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'request.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestSearch.js')}"></script>
   </head>
   <body>
 
     <div id="yui-main">
       <div class="yui-b">
-        <div class="head">
-        <g:if test="${mode == 'simple'}">
-           <div class="txt-right">
-            <g:message code="action.goToSimpleSearch" /> |
-            <a href="${createLink(action:'search')}?mode=advanced"><g:message code="action.goToAdvancedSearch" /></a>
-          </div>
-          <div id="search-form">
+      
+        <div id="head" class="head">
+          <g:if test="${mode == 'simple'}">
             <g:render template="simpleSearchForm" />
-          </div>
-        </g:if>
-        <g:else>
-          <div class="txt-right">
-            <a href="${createLink(action:'search')}?mode=simple"><g:message code="action.goToSimpleSearch" /></a> |
-            <g:message code="action.goToAdvancedSearch" />
-          </div>
-          <div id="search-form">
+          </g:if>
+          <g:else>
             <g:render template="advancedSearchForm" />
-          </div>
-        </g:else>
+          </g:else>
         </div>
 
         <div id="search-results">
@@ -41,22 +31,19 @@
       <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>
         <div class="body">
-          <form action="#">
+          <form action="#" id="requestSearchSorters">
             <ul>
               <li>
-                <label><g:message code="property.date" /></label>
-                <input type="radio" id="creationDate" onchange="sortSearchRequest('creationDate');"
-                  ${sortBy == 'creationDate' ? 'checked' : ''} />
+                <label for="creationDate"><g:message code="property.date" /></label>
+                <input type="radio" id="creationDate" ${sortBy == 'creationDate' ? 'checked' : ''} />
               </li>
               <li>
-                <label><g:message code="property.requester" /></label>
-                <input type="radio" id="requesterLastName" onchange="sortSearchRequest('requesterLastName');"
-                  ${sortBy == 'requesterLastName' ? 'checked' : ''} />
+                <label for="requesterLastName"><g:message code="property.requester" /></label>
+                <input type="radio" id="requesterLastName" ${sortBy == 'requesterLastName' ? 'checked' : ''} />
               </li>
               <li>
-                <label><g:message code="property.homeFolder" /></label>
-                <input type="radio" id="homeFolderId" onchange="sortSearchRequest('homeFolderId');" 
-                  ${sortBy == 'homeFolderId' ? 'checked' : ''} />
+                <label for="homeFolderId"><g:message code="property.homeFolder" /></label>
+                <input type="radio" id="homeFolderId" ${sortBy == 'homeFolderId' ? 'checked' : ''} />
               </li>
             </ul>
           </form>
@@ -66,10 +53,9 @@
       <div class="nobox">
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
-          <form action="#">
-            <label for="categoryId"><g:message code="property.category" /> :</label>
-            <select name="categoryIdFilter" id="categoryIdFilter" 
-              onchange="filterSearchRequest('categoryIdFilter');">
+          <form action="#" id="requestSearchFilters">
+            <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
+            <select id="categoryIdFilter" 
               <option value=""></option>
               <g:each in="${allCategories}" var="category">
                 <option value="${category.id}" ${filters['categoryIdFilter'] == category.id.toString() ? 'selected' : ''}>
@@ -78,16 +64,37 @@
               </g:each>
             </select>
             
-            <label for="requestType"><g:message code="property.requestType" /> :</label>
-            <select name="requestTypeFilter" id="requestTypeFilter" 
-              onchange="filterSearchRequest('requestTypeFilter');" style="width:100%;">
+            <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
+            <select id="requestTypeFilter" 
               <option value=""></option>
               <g:each in="${allRequestTypes}" var="requestType">
-                <option value="${requestType.key}" ${filters['requestTypeFilter'] == requestType.key.toString() ? 'selected' : ''}>
-                  ${requestType.value}
+                <option value="${requestType.id}" ${filters['requestTypeFilter'] == requestType.id.toString() ? 'selected' : ''}>
+                  ${requestType.label}
                 </option>
               </g:each>
             </select>
+
+            <label for="stateFilter"><g:message code="property.state" /> :</label>
+            <select id="stateFilter"
+              <option value=""></option>
+              <g:each in="${allStates}" var="state">
+                <option value="${state}" ${filters['stateFilter'] == state.toString() ? 'selected' : ''}>
+                  ${state}
+                </option>
+              </g:each>
+            </select>
+        
+            <label for="lastInterveningAgentIdFilter"><g:message code="request.property.lastInterveningAgent" /> :</label>
+            <select id="lastInterveningAgentIdFilter">
+              <option value=""></option>
+              <g:each in="${allAgents}" var="agent">
+                <option value="${agent.id}"
+                    ${filters['lastInterveningAgentIdFilter'] == agent.id.toString() ? 'selected' : ''}>
+                  ${agent.getLastName() != null ? agent.getLastName() + " " + agent.getFirstName() : agent.getLogin()}
+                </option>
+              </g:each>
+            </select>
+
           </form>
         </div>
       </div>
@@ -96,4 +103,3 @@
   
   </body>
 </html>
-

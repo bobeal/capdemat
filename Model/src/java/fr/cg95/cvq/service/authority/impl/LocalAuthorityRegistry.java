@@ -134,7 +134,8 @@ public class LocalAuthorityRegistry
             filePath.append(TXT_ASSETS_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(XSL_RESOURCE_TYPE)) {
             filePath.append(XSL_RESOURCE_TYPE).append("/");
-        
+        } else if (resourceType.equals(HTML_RESOURCE_TYPE)) {
+            filePath.append(HTML_RESOURCE_TYPE).append("/");
         } else {
             logger.warn("getAssetsFile() unrecognized resource type : " + resourceType);
             return null;
@@ -160,6 +161,8 @@ public class LocalAuthorityRegistry
             filePath.append("xsl/");
         } else if (resourceType.equals(LOCAL_REFERENTIAL_RESOURCE_TYPE)) {
             filePath.append("local_referential/");
+        } else if (resourceType.equals(HTML_RESOURCE_TYPE)) {
+            filePath.append("html/");
         } else if (resourceType.equals(EXTERNAL_REFERENTIAL_RESOURCE_TYPE)) {
             filePath.append("external_referential/");            
         } else {
@@ -325,6 +328,13 @@ public class LocalAuthorityRegistry
                 File file = new File(externalReferentialDirBase);
                 if (!file.exists())
                     file.mkdir();
+                
+                String requestXmlDirBase = assetsBase + lacb.getName() + "/"
+                + HTML_RESOURCE_TYPE;
+                file = new File(requestXmlDirBase);
+                if (!file.exists())
+                    file.mkdir(); 
+                
             }
             
             // notify listener services of the new local authority

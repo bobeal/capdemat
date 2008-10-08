@@ -93,7 +93,7 @@
 .yui-skin-sam .yellow-yui-tabview .yui-nav .selected a,
 .yui-skin-sam .yellow-yui-tabview .yui-nav .selected a:focus, 
 .yui-skin-sam .yellow-yui-tabview .yui-nav .selected a:hover { 
-  background:#FFFFCC ;  /* selected tab background */
+  background:#FFFFAB ;  /* selected tab background */
   border: 1px solid #FFD053;
   border-bottom: 0; 
   text-decoration:none;
@@ -111,7 +111,7 @@
   border:solid #FFD053; /* content border */ 
   border-width: 1px 0 1px 0;
   padding:0.25em 0.5em; /* content padding */ 
-  background-color:#FFFFCC;
+  background-color:#FFFFAB;
 }
 
 .yui-skin-sam .yellow-yui-tabview .yui-content h2 {

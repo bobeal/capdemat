@@ -20,10 +20,9 @@ class RequestController {
     
     def defaultAction = "initSearch"
     
-    def supportedKeys = ["requesterLastName", "id", "homeFolderId", 
-                         "state", "lastInterveningAgentId", "requestType", "categoryId"]
-    def longKeys = ["id", "homeFolderId", "requestType", "lastInterveningAgentId", 
-                    "categoryId"]
+    def supportedKeys = ["requesterLastName", "id", "homeFolderId", "creationDateFrom", "creationDateTo"]
+    def longKeys = ["id", "homeFolderId"]
+    def dateKeys = ["creationDateFrom", "creationDateTo"]
     def defaultSortBy = 'creationDate'
     def resultsPerPage = 15
     
@@ -32,20 +31,35 @@ class RequestController {
     }
         
     def initSearch = {
-    	// TODO : this should be cached 
-    	def allRequestTypes = defaultRequestService.getAllRequestTypes()
-        def allRequestTypesTranslated =  [:]
-        allRequestTypes.each {
-    		allRequestTypesTranslated[it.id] = translationService.getEncodedRequestTypeLabelTranslation(it.label)
-    	}
-    	def filters = [:]
-        render(view:'search', model:[allStates:RequestState.allRequestStates,
-         allAgents:agentService.getAll(),
-         allCategories:categoryService.getAll(),
-         allRequestTypes:allRequestTypesTranslated,
-         mode:'simple',
-         'sortBy':defaultSortBy,
-         'filters':filters])
+
+        render(view:'search', model:['allStates':RequestState.allRequestStates,
+                                     'allAgents':agentService.getAll(),
+                                     'allCategories':categoryService.getAll(),
+                                     'allRequestTypes':translatedAndSortRequestTypes(),
+                                     'mode':'simple',
+                                     'inSearch':false,
+                                     'sortBy':defaultSortBy,
+                                     'filters':[:]])
+    }
+    
+    def loadSearchForm = {
+    		def model = ['allStates':RequestState.allRequestStates,
+                         'allAgents':agentService.getAll(),
+                         'allCategories':categoryService.getAll(),
+                         'allRequestTypes':translatedAndSortRequestTypes(),
+                         'totalRecords':params.totalRecords,
+                         'recordOffset':params.recordOffset,
+                         'recordsReturned':params.recordsReturned,
+                         'sortBy':params.sortBy,
+                         'filterBy':params.filterBy]
+
+    		if (params.formType == 'simple') {
+    			model['mode'] = 'simple'
+    			render(template:'simpleSearchForm', model:model)
+    		} else {
+    			model['mode'] = 'advanced'
+    			render(template:'advancedSearchForm', model:model)
+    		}
     }
     
     def search = {
@@ -57,12 +71,21 @@ class RequestController {
         		Critere critere = new Critere()
         		critere.attribut = key
         		critere.comparatif = Critere.EQUALS
-        		if (longKeys.contains(key))
+        		if (longKeys.contains(key)) {
         			critere.value = Long.valueOf(value)
-        		else
+        		} else if (dateKeys.contains(key)) {
+                    critere.value = DateUtils.stringToDate(value)
+        			if (key == 'creationDateFrom') {
+        				critere.attribut = 'creationDate'
+        				critere.comparatif = Critere.GTE
+        			} else { 
+                        critere.attribut = 'creationDate'
+        				critere.comparatif = Critere.LTE
+        			}
+        		} else {
         			critere.value = value
+        		}
         		criteria.add(critere)
-                log.debug "added criteria ${value} to ${key}"
         	}
         }
         
@@ -86,9 +109,12 @@ class RequestController {
        		Critere critere = new Critere()
        		critere.attribut = key.replaceAll("Filter","")
        		critere.comparatif = Critere.EQUALS
-       		critere.value = Long.valueOf(value)
+       		if (key == 'stateFilter')
+       			critere.value = value
+       		else
+       			critere.value = Long.valueOf(value)
        		criteria.add(critere)
-       		log.debug "added criteria ${Long.valueOf(value)} to ${key.replaceAll('Filter','')} (dynamic filter)"
+       		log.debug "added criteria ${value} to ${key.replaceAll('Filter','')} (dynamic filter)"
             filterBy += '@' + key + '=' + value
        	}
 
@@ -129,11 +155,6 @@ class RequestController {
         }
 
         // fill referential
-        def allRequestTypes = defaultRequestService.getAllRequestTypes()
-        def allRequestTypesTranslated =  [:]
-        allRequestTypes.each {
-            allRequestTypesTranslated[it.id] = translationService.getEncodedRequestTypeLabelTranslation(it.label)
-        }
         def allStates = RequestState.allRequestStates
         def allAgents = agentService.getAll()
         def allCategories = categoryService.getAll()
@@ -141,7 +162,7 @@ class RequestController {
         render(view:'search', 
         	model:['records':recordsList,
         	       'recordsReturned':requests.size(),
-                   'totalRecords':requestStatisticsService.getCount(criteria),
+                   'totalRecords':defaultRequestService.getCount(criteria),
                    
                    'filters':filters,                   
                    'filterBy':filterBy,
@@ -149,21 +170,16 @@ class RequestController {
                    'recordOffset':recordOffset,
                    'sortBy':sortBy,
                    'dir':params.dir,
+                   'inSearch':true,
                    
                    'allStates':allStates,
                    'allAgents':allAgents,
                    'allCategories':allCategories,
-                   'allRequestTypes':allRequestTypesTranslated])
+                   'allRequestTypes':translatedAndSortRequestTypes()])
     }
 
     def taskBoard = {
             
-            def allRequestTypes = defaultRequestService.getAllRequestTypes()
-            def allRequestTypesTranslated =  [:]
-            allRequestTypes.each {
-                allRequestTypesTranslated[it.id] = translationService.getEncodedRequestTypeLabelTranslation(it.label)
-            }
-
             Set<Critere> redCriteria = new HashSet<Critere>()
              
             Critere qualityRedCritere = new Critere()
@@ -188,14 +204,26 @@ class RequestController {
                
             def currentAgent = SecurityContext.getCurrentAgent()
             def agentLogin = currentAgent.getLogin()
-            def requestMap = agentService.extendedGetAgentTasks(agentLogin,params.sort, params.dir, 
-                    10, 0)
+            def requestMap = [:]
+            def agentTasksMap = 
+            	agentService.extendedGetAgentTasks(agentLogin,params.sort, params.dir, 10, 0)
+            if (agentTasksMap != null)
+            	requestMap.putAll(agentTasksMap)
             
             requestMap.put("cvq.tasks.qualityOrange",orangeRequests)
             requestMap.put("cvq.tasks.qualityRed",redRequests)
                  
             render (view:'taskBoard', model:["requestMap":requestMap,
                                            "allCategories":categoryService.getAll(),
-                                           "allRequestTypes":allRequestTypesTranslated])
+                                           "allRequestTypes":translatedAndSortRequestTypes()])
+    }
+    
+    def translatedAndSortRequestTypes() {
+        def allRequestTypes = defaultRequestService.getAllRequestTypes()
+        def allRequestTypesTranslated =  []
+        allRequestTypes.each {
+            allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label)])
+        }
+        return allRequestTypesTranslated.sort{it.label}
     }
 }

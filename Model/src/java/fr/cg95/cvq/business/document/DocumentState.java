@@ -1,5 +1,6 @@
 package fr.cg95.cvq.business.document;
 
+import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
 /** 
@@ -19,8 +20,29 @@ public final class DocumentState extends PersistentStringEnum {
      * Prevent instantiation and subclassing with a private constructor.
      */
     private DocumentState(String state) {
-	super(state);
+        super(state);
     }
 
     public DocumentState() {}
+    
+    public static final DocumentState[] allDocumentStates = 
+            { PENDING, VALIDATED, CHECKED, REFUSED, OUTDATED };
+    
+    public static DocumentState forString(String enumAsString) {
+        if (enumAsString == null || enumAsString.equals(""))
+            return PENDING;
+
+        if (enumAsString.equals(PENDING.toString()))
+            return PENDING;
+        else if (enumAsString.equals(VALIDATED.toString()))
+            return VALIDATED;
+        else if (enumAsString.equals(CHECKED.toString()))
+            return CHECKED;
+        else if (enumAsString.equals(REFUSED.toString()))
+            return REFUSED;
+        else if (enumAsString.equals(OUTDATED.toString()))
+            return OUTDATED;
+
+        return PENDING;
+    }
 }

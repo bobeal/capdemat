@@ -34,7 +34,6 @@ body {
 /* global menu 
 -------------------------------------------------------------- */
 #menu {
-  height:1%;
   padding:4px;
 	font-weight:normal;
 	font-size: 1.1em;
@@ -57,6 +56,10 @@ body {
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 	color:black;
+}
+
+#userInfo {
+  float: right;
 }
 
 /* global body 
@@ -119,7 +122,7 @@ body {
 
 /* form */
 #narrow .nobox .body form          { padding: 0; }
-#narrow .nobox .body form select   { margin-bottom: 1em; }
+#narrow .nobox .body form select    { width: 100%; }
 #narrow .nobox .body form label    { width: 100%; text-align: left; }
 #narrow .nobox .body form li label { width: 85% ; text-align: left; }
 

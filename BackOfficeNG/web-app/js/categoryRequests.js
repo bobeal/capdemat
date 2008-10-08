@@ -3,84 +3,87 @@
  * sort display , add, del
  */
 
-/* display , sort */
-var handleViewRequestTypesSuccess = function(o) {
+zenexity.capdemat.bong.categoryRequestType = function() {
+  
+  var zcb = zenexity.capdemat.bong;
+  var zcc = zenexity.capdemat.common;
+  var yud = YAHOO.util.Dom;
+  var yue = YAHOO.util.Event;
+  var yus = YAHOO.util.Selector;
+  var ylj = YAHOO.lang.JSON;
+  
+  /* display , sort */
+  var handleViewRequestTypesSuccess = function(o) {
     if (o.argument[0] === "All") {
-        YAHOO.util.Dom.addClass('viewAllRequestTypesLink', 'current');
-        YAHOO.util.Dom.removeClass('viewCategoryRequestTypesLink', 'current');
+      yud.addClass("viewAllRequestTypesLink", "current");
+      yud.removeClass("viewCategoryRequestTypesLink", "current");
     } else {
-        YAHOO.util.Dom.removeClass('viewAllRequestTypesLink', 'current');
-        YAHOO.util.Dom.addClass('viewCategoryRequestTypesLink', 'current');
+      yud.removeClass("viewAllRequestTypesLink", "current");
+      yud.addClass("viewCategoryRequestTypesLink", "current");
     }
-    var element = document.getElementById('categoryRequestTypes');
-    element.innerHTML = o.responseText;
-}
-
-function viewRequestTypes(scope) {
-    doAjaxCall(
-            '/load'+ scope +'RequestTypesTemplate/' + YAHOO.capdematBo.categoryId,
-            handleViewRequestTypesSuccess, 
-            [scope]);
-}
-
-function sortRequestTypes() {
-    doAjaxFormSubmitCall ( handleViewRequestTypesSuccess,
-                           ["All"], 
-                           "sortRequestTypeForm");
-}
-
-/* association */	
-function handleAssociateRequestToCategorySuccess(o) {
-    var response = YAHOO.lang.JSON.parse(o.responseText);
-    if (response.status === "ok") {
-        var currentLiEl = new YAHOO.util.Element('requestType_' + o.argument[0]);
-        
-        var targetAnchorEl = new YAHOO.util.Element(
-                YAHOO.util.Dom.getElementsByClassName(
-                        o.argument[1], 'a', 'requestType_' + o.argument[0])[0]);
-                        
-        var categorySpanElArray = YAHOO.util.Dom.getElementsByClassName(
-                        'category', 'span', 'requestType_' + o.argument[0]);
-        
-        if (o.argument[1] === 'associate') {
-            currentLiEl.removeClass('notBelong');
-            targetAnchorEl.replaceClass(o.argument[1], 'unassociate');
-            if (categorySpanElArray != null && categorySpanElArray.length > 0) {
-                var categorySpanEl = new YAHOO.util.Element(categorySpanElArray[0]);
-                categorySpanEl.replaceClass('category', 'invisible');
+    yud.get("categoryRequestTypes").innerHTML = o.responseText;
+  }
+  
+  function viewRequestTypes(scope) {
+    zcc.doAjaxCall(
+      "/requestTypes/?id=" + zcb.categoryId + "&scope=" + scope,
+      [scope],
+      handleViewRequestTypesSuccess);
+  }
+  
+  function sortRequestTypes() {
+    if (yus.query("select[name=orderRequestTypeBy]", "sortRequestTypeForm", true).value != "")
+      zcc.doAjaxFormSubmitCall ("sortRequestTypeForm", ["All"], handleViewRequestTypesSuccess);
+  }
+  
+  /* association */	
+  function associateRequestTypeToCategory(requestTypeId, action) {
+    var url = "";
+    
+    url += action === "associate" ? "/associateRequestType/" : "/unassociateRequestType/";
+    url += "?categoryId=" + zcb.categoryId +  "&requestTypeId=" + requestTypeId;
+    
+    zcc.doAjaxCall(
+      url,null,
+      function(o) {
+        var response = ylj.parse(o.responseText);
+        if (response.status === "ok") {
+          var currentLiEl = yud.get("requestType_" + requestTypeId);
+          var targetAnchorEl = yus.query("a." + action, "requestType_" + requestTypeId, true);    
+          var categorySpanEl = yus.query("span.categoryName", "requestType_" + requestTypeId, true);
+              
+          if (action === "associate") {
+            yud.removeClass(currentLiEl, "notBelong");
+            yud.replaceClass(targetAnchorEl, action, "unassociate");
+            if (categorySpanEl != null) {
+              // TODO : it may be better to remove node
+              yud.replaceClass(categorySpanEl, "categoryName", "invisible");
             }
+          } else {
+            yud.addClass(currentLiEl, "notBelong");
+            yud.replaceClass(targetAnchorEl, action, "associate");
+          } 
         } else {
-            currentLiEl.addClass("notBelong");
-            targetAnchorEl.replaceClass(o.argument[1], 'associate');
-        } 
-//        displayResponseResult('success', response.success_msg);
-    } else {
-        displayResponseResult('modelError', response.error_msg);
-    }
-    
-}
+          zcc.displayResponseResult("modelError", response.error_msg);
+        }  
+      });
+  }
+  
+  yue.addListener(
+      "categoryRequestTypes",
+      "click",
+      function(e) {
+        var targetEl = yue.getTarget(e);
+        if (targetEl.className === "associate" || targetEl.className === "unassociate" ) {
+          associateRequestTypeToCategory(
+            targetEl.parentNode.id.replace("requestType_", ""),
+            targetEl.className);
+        }
+      });
+  
+  return {
+    viewRequestTypes : function(scope) { viewRequestTypes(scope); },
+    sortRequestTypes : function() { sortRequestTypes(); }
+  };
 
-function associateRequestTypeToCategory(associatedTo, requestTypeId) {
-    var url = '';
-    if (associatedTo === 'associate') {
-        url += '/associateRequestType/';
-    } else {
-    	  url += '/unassociateRequestType/';
-    }
-    url += 
-        '?categoryId=' + YAHOO.capdematBo.categoryId + 
-        '&requestTypeId=' + requestTypeId;
-    
-    doAjaxCall(url, handleAssociateRequestToCategorySuccess, [requestTypeId, associatedTo]);
-}
-
-function editableListEventdispatcher(e) {
-    var targetEl = YAHOO.util.Event.getTarget(e);
-    if (targetEl.className === 'associate' || targetEl.className === 'unassociate' ) {
-        var requestTypeId = YAHOO.util.Event.getTarget(e).parentNode.id.replace('requestType_', '');
-        associateRequestTypeToCategory(targetEl.className, requestTypeId);
-    }
-}
-
-YAHOO.util.Event.addListener('categoryRequestTypes', 'click', editableListEventdispatcher); 
-
+}();

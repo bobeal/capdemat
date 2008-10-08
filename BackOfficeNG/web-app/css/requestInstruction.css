@@ -7,14 +7,25 @@
 
 /* request instruction state tag
 -------------------------------------------------------------- */
-.taskstate .tag-pending,
-.taskstate .tag-validated,
-.taskstate .tag-rejected { float: right; margin: 0; }
+
+.taskstate .tag-pending, .taskstate .tag-complete, .taskstate .tag-uncomplete, .taskstate .tag-validated, .taskstate .tag-notified, .taskstate .tag-active,
+.taskstate .tag-expired, .taskstate .tag-closed, .taskstate .tag-rejected, .taskstate .tag-cancelled, .taskstate .tag-archived,
+.taskstate .tag-checked, .taskstate .tag-refused, .taskstate .tag-outdated,
+.taskstate .tag-valid, .taskstate .tag-invalid,
+.taskstate  .tag-not_provided
+{ float: right; margin: 0; font-size: 1.1em;}
+
+.taskstate .tag-pending:hover, .taskstate .tag-complete:hover, .taskstate .tag-uncomplete:hover, .taskstate .tag-validated:hover, .taskstate .tag-notified:hover, .taskstate .tag-active:hover,
+.taskstate .tag-expired:hover, .taskstate .tag-closed:hover, .taskstate .tag-rejected:hover, .taskstate .tag-cancelled:hover, .taskstate .tag-archived:hover,
+.taskstate .tag-checked:hover, .taskstate .tag-refused:hover, .taskstate .tag-outdated:hover,
+.taskstate .tag-valid:hover, .taskstate .tag-invalid:hover
+{ cursor: pointer; border-color: #000000; color: #000000; }
 
 /* request instruction state list
 -------------------------------------------------------------- */
 .taskstate ul { margin: 0; padding: .5em 0 0 0; clear:both; }
-.taskstate ul li { padding: .2em; }
+.taskstate ul li { padding: .4em; }
+.taskstate ul li { font-size: .85em; }
 
 /* request instruction data
 -------------------------------------------------------------- */
@@ -24,36 +35,44 @@
   border-width: 1px 0 0 0;
 }
 
+/* header hn*/
+#requestData h3 { margin-bottom: 0;  border: 0; font-size: 1.3em; font-style: italic; }
+
 /* definition list */
 #requestData dl {
   margin : 10px;
   overflow: auto;
   border-bottom: 1px dashed #FFD053;
   color: #333;
+  background: #ffffbb;
 }
  
 #requestData dl dt,
 #requestData dl dd {
-  width: 12.5em;
   float: left;
   margin: 0;
-  padding:.5em;
+  padding: .5em;
   border-top: 1px dashed #FFD053;
 }
-#requestData dl dt { clear: both; }
-#requestData dl dd { font-weight: bold; }
+
+#requestData dl dt { width: 10em; clear: both; }
+
+#requestData dl dd { width: 15em; font-weight: bold; }
+#requestData dl dd:hover { background: #ffffff; cursor: pointer;}
+
+#requestData dl dd ul li { padding: .3em 0; }
 
 /* request attached document
 -------------------------------------------------------------- */
 #requestDocument {
   margin: 0; 
   border-bottom: 1px solid #FFD053;
-  background: #FFFFCC;
+  background: #FFFFAB;
 }
 
 #requestDocument h2 { margin-top : 0; border-color: #FFD053; }
   
-#requestDocument a       { color: #CC0000; text-decoration: none; }
+#requestDocument a       { font-size: 1.2em; color: #CC0000; text-decoration: none; }
 #requestDocument a:hover { color: #ffffff; background-color: #CC0000; }
 
 /*TODO - generalize this selector and rename it !! */
@@ -118,4 +137,114 @@
   padding: 0 0 .5em .5em;
   border-left: 1px dashed #aaaaaa;
 }
+
+/* request instruction worflow panel
+-------------------------------------------------------------- */
+
+#instructionStatePanel {
+  font-size: 1.4em;
+  border:5px solid #ddd;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  padding: .1em 0 .3em 0;
+  background: #efefef;
+  text-align: center;
+}
+
+#instructionStatePanel .hd { padding: 0; font-weight: normal; border: 0; background: transparent;}
+#instructionStatePanel .bd { padding: .1em; background: transparent; border: 0; }
+#instructionStatePanel .ft { padding: 0; background: transparent; border: 0; }
+
+#instructionStatePanel form                      { margin: 0; padding: 0;}
+#instructionStatePanel form input[type="button"] { font-size: .8em; }
+#instructionStatePanel form .error               { margin: 0; font-size: .8em; font-style: italic; text-align: center }
+
+#instructionStatePanel ul    { margin: .2em 0 .5em .5em; text-align: left }
+#instructionStatePanel ul li { padding: .1em 0; }
+
+
+/* request document panel
+ * TODO : merge panel style
+-------------------------------------------------------------- */
+
+#requestDocumentPanel {
+  padding: 0;
+  border: 6px solid #636e80;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background: #ffffff;
+}
+
+#requestDocumentPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
+#requestDocumentPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
+
+#requestDocumentPanel .bd h1 { 
+  margin: 0 0 1em 0; padding: .5em 0;
+  font-size: 1.8em;
+  font-weight: normal;
+  border-bottom: 1px dashed #000000;
+  overflow: auto;
+}
+
+#requestDocumentPanel .bd h1 #documentState { float: right; font-size: .8em; }
+#requestDocumentPanel .bd h1 #documentDepositType,
+#requestDocumentPanel .bd h1 #documentExpirationDate,
+#requestDocumentPanel .bd h1 #documentOrigin { float: left; margin-right: .5em; font-size: 0.6em; }
+
+/* yui tabview special rendering */
+.yui-skin-sam #requestDocumentPanel .bd .yellow-yui-tabview .yui-content, 
+.yui-skin-sam #requestDocumentPanel .bd .yellow-yui-tabview .yui-navset-top .yui-content { 
+  border-width: 1px 0;
+  text-align: center;
+  padding: 1em 0;
+}
+
+#requestDocumentPanel .bd img { max-width: 100%; }
+
+/* list */
+#requestDocumentPanel .mainbox ul { margin: 10px; color: #333;}
+#requestDocumentPanel .mainbox ul li { 
+  padding: .5em 0 .5em 0; 
+  border-bottom:1px dashed #C1CFE2;
+}
+
+/* for tag floating TODO : to be refactor */
+#requestDocumentPanel .mainbox ul li span { float: right }
+
+
+/* ecitizen contact panel
+ * TODO : merge panel style
+-------------------------------------------------------------- */
+
+#ecitizenContactPanel {
+  padding: 0;
+  border: 6px solid #636e80;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  text-align: left;
+  background: #ffffff;
+}
+
+#ecitizenContactPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
+#ecitizenContactPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
+
+#ecitizenContactPanel .bd h1 { 
+  margin: 0 0 1em 0; padding: .5em 0;
+  font-size: 1.8em;
+  font-weight: normal;
+  border-bottom: 1px dashed #000000;
+}
+
+#ecitizenContactPanel .bd h1 span { float: right; font-size: .7em; } 
+
+/* color just for mainbox-yellow !! */
+#ecitizenContactPanel .bd form fieldset               { margin: 1em 0; padding: .2em 0; border-top: 1px dashed #FFD053; border-bottom: 1px dashed #FFD053; }
+#ecitizenContactPanel .bd form label                  { width: 25% !important; }
+#ecitizenContactPanel .bd form hr                     { margin: 0; border: 0 !important; }
+#ecitizenContactPanel .bd form .required              { font-size: 1em }
+#ecitizenContactPanel .bd form .error                 {  margin: 0 0 0 26%; font-size: 1.4em; font-style: italic; }
+#ecitizenContactPanel .bd form .form-button           { margin: 0 0 0 26% !important; }
+#ecitizenContactPanel .bd form input[type="button"]   { font-size: 1.4em; }
+#ecitizenContactPanel .bd form input[type="checkbox"] { margin: 6px 0 0 1%; }
+
 

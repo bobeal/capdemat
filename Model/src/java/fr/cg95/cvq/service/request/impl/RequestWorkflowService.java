@@ -42,6 +42,34 @@ public final class RequestWorkflowService {
     private IRequestActionDAO requestActionDAO;
     private IRequestDAO requestDAO;
     
+    // TODO : must we trace as request action 
+    public void validData(Request request)
+            throws CvqException, CvqInvalidTransitionException {
+    
+        // if no state change asked, just return silently
+        if (request.getDataState().equals(DataState.VALID))
+            return;
+    
+        if (request.getDataState().equals(DataState.PENDING))
+            request.setDataState(DataState.VALID);
+        else
+            throw new CvqInvalidTransitionException();
+    }
+    
+    // TODO : must we trace as request action 
+    public void invalidData(Request request)
+            throws CvqException, CvqInvalidTransitionException {
+    
+        // if no state change asked, just return silently
+        if (request.getDataState().equals(DataState.INVALID))
+            return;
+    
+        if (request.getDataState().equals(DataState.PENDING))
+            request.setDataState(DataState.INVALID);
+        else
+            throw new CvqInvalidTransitionException();
+    }
+    
     public void complete(Request request)
         throws CvqException, CvqInvalidTransitionException {
 

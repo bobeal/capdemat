@@ -9,9 +9,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
@@ -52,82 +50,80 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Iterator critIt = criteria.iterator();
 
-        Map<String, Object> parametersValues = new TreeMap<String, Object>();
-        Map<String, Type> parametersTypes = new TreeMap<String, Type>();
+        List<Object> parametersValues = new ArrayList<Object>();
+        List<Type> parametersTypes = new ArrayList<Type>();
         
         // go through all the criteria and create the query
         while (critIt.hasNext()) {
             Critere searchCrit = (Critere) critIt.next();
             if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_ID)) {
-                sb.append(" and request.id " + searchCrit.getComparatif() + " :id");
-                parametersValues.put("id", searchCrit.getLongValue());
-                parametersTypes.put("id", Hibernate.LONG);
+                sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_HOME_FOLDER_ID)) {
-                sb.append(" and request.homeFolder " + searchCrit.getComparatif() + " :homeFolderId");
-                parametersValues.put("homeFolderId", searchCrit.getLongValue());
-                parametersTypes.put("homeFolderId", Hibernate.LONG);
+                sb.append(" and request.homeFolder " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUESTER_LASTNAME)) {
                 sb.append(" and lower(request.requester.lastName) "
-                        + searchCrit.getSqlComparatif() + " lower(:requesterLastName)");
-                parametersValues.put("requesterLastName", searchCrit.getSqlStringValue());
-                parametersTypes.put("requesterLastName", Hibernate.STRING);
+                        + searchCrit.getSqlComparatif() + " lower(?)");
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUESTER_FIRSTNAME)) {
                 sb.append(" and lower(request.requester.firstName) "
-                        + searchCrit.getSqlComparatif() + " lower(:requesterFirstName)");
-                parametersValues.put("requesterFirstName", searchCrit.getSqlStringValue());
-                parametersTypes.put("requesterFirstName", Hibernate.STRING);
+                        + searchCrit.getSqlComparatif() + " lower(?)");
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_NAME)) {
                 sb.append(" and request.requestType.category.name "
-                        + searchCrit.getComparatif() + " :categoryName");
-                parametersValues.put("categoryName", searchCrit.getValue());
-                parametersTypes.put("categoryName", Hibernate.STRING);
+                        + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getValue());
+                parametersTypes.add(Hibernate.STRING);
             
             } else if (searchCrit.getAttribut().equals("categoryId")) {
                 sb.append(" and request.requestType.category.id "
-                        + searchCrit.getComparatif() + " :categoryId");
-                parametersValues.put("categoryId", searchCrit.getLongValue());
-                parametersTypes.put("categoryId", Hibernate.LONG);
+                        + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
 
             } else if (searchCrit.getAttribut().equals("requestType")) {
-                sb.append(" and request.requestType " + searchCrit.getComparatif() + " :requestType");
-                parametersValues.put("requestType", searchCrit.getLongValue());
-                parametersTypes.put("requestType", Hibernate.LONG);
+                sb.append(" and request.requestType " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
 
             } else if (searchCrit.getAttribut().equals("requestTypeLabel")) {
-                sb.append(" and request.requestType.label " + searchCrit.getComparatif()
-                        + " :requestTypeLabel");
-                parametersValues.put("requestTypeLabel", searchCrit.getValue());
-                parametersTypes.put("requestTypeLabel", Hibernate.STRING);
+                sb.append(" and request.requestType.label " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getValue());
+                parametersTypes.add(Hibernate.STRING);
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
-                sb.append(" and request.state " + searchCrit.getComparatif() + " :state");
+                sb.append(" and request.state " + searchCrit.getComparatif() + " ?");
                 // To ensure we put the good type in the object list
                 // FIXME : all states criteria should be sent as RequestState objects
                 if (searchCrit.getValue() instanceof RequestState)
-                    parametersValues.put("state", searchCrit.getValue().toString());
+                    parametersValues.add(searchCrit.getValue().toString());
                 else
-                    parametersValues.put("state", searchCrit.getValue());
-                parametersTypes.put("state", Hibernate.STRING);
+                    parametersValues.add(searchCrit.getValue());
+                parametersTypes.add(Hibernate.STRING);
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CREATION_DATE)) {
-                sb.append(" and request.creationDate " + searchCrit.getComparatif() + " :creationDate");
-                parametersValues.put("creationDate", searchCrit.getDateValue());
-                parametersTypes.put("creationDate", Hibernate.TIMESTAMP);
+                sb.append(" and request.creationDate " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getDateValue());
+                parametersTypes.add(Hibernate.TIMESTAMP);
 
             } else if (searchCrit.getAttribut().equals("lastModificationDate")) {
-                sb.append(" and request.lastModificationDate " + searchCrit.getComparatif() + " :lastModificationDate");
-                parametersValues.put("lastModificationDate", searchCrit.getDateValue());
-                parametersTypes.put("lastModificationDate", Hibernate.DATE);
+                sb.append(" and request.lastModificationDate " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getDateValue());
+                parametersTypes.add(Hibernate.DATE);
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID)) {
-                sb.append(" and request.lastInterveningAgentId "
-                        + searchCrit.getComparatif() + " :lastInterveningAgentId");
-                parametersValues.put("lastInterveningAgentId", searchCrit.getLongValue());
-                parametersTypes.put("lastInterveningAgentId", Hibernate.LONG);
+                sb.append(" and request.lastInterveningAgentId " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
 
             } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(" and request.requestType.category.id in ( "
@@ -173,10 +169,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             sb.append(" desc");
         
         Query query = HibernateUtil.getSession().createQuery(sb.toString());
-        for (String parameter : parametersValues.keySet()) {
-            query.setParameter(parameter, parametersValues.get(parameter), 
-                    parametersTypes.get(parameter));
-        }
+        query.setParameters(parametersValues.toArray(), parametersTypes.toArray(new Type[0]));
+        
         if (recordsReturned > 0)
             query.setMaxResults(recordsReturned);
         query.setFirstResult(startIndex);
@@ -252,7 +246,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             } else if (searchCrit.getAttribut().equals("requestType")) {
                 sb.append(" and request.requestType " + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());
-	        typeList.add(Hibernate.LONG);
+                typeList.add(Hibernate.LONG);
                 
             } else if (searchCrit.getAttribut().equals("requestTypeLabel")) {
                 sb.append(" and request.requestType.label " + searchCrit.getComparatif()

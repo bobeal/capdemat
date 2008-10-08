@@ -7,7 +7,7 @@
     
     <!-- Request Page 1 -->
     <div id="page1">
-      <h2><g:message code="request.requester.property.form" /><span> - <g:message code="property.page" /> 2</span></h2>
+      <h2><g:message code="property.form" /><span> - <g:message code="property.page" /> 2</span></h2>
       <div class="yui-g">
         <div class="yui-u first">
           <dl>
@@ -52,7 +52,7 @@
     
       <!-- Request Page 2 -->
       <div id="page2">
-        <h2><g:message code="request.requester.property.form" /><span> - <g:message code="property.page" /> 2</span></h2>
+        <h2><g:message code="property.form" /><span> - <g:message code="property.page" /> 2</span></h2>
       </div>
       
     </div>

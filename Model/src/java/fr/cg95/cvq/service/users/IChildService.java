@@ -1,6 +1,9 @@
 package fr.cg95.cvq.service.users;
 
+import java.util.List;
+
 import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -41,5 +44,11 @@ public interface IChildService extends IIndividualService {
      * Get a child by id.
      */
     Child getById(final Long id)
+        throws CvqException, CvqObjectNotFoundException;
+    
+    /**
+     * Get a child legal responsible by child id
+     */
+    List<ChildLegalResponsible> getLegalResponsibles(final Long id)
         throws CvqException, CvqObjectNotFoundException;
 }

@@ -9,7 +9,7 @@
       && session?.getAttribute(fr.cg95.cvq.util.web.filter.CASFilter.CAS_FILTER_USER) == null) {
       response.sendRedirect("./cas.gsp");
     } else {
-      response.sendRedirect("request/taskBoard"); 
+      response.sendRedirect("request"); 
     }  
     %>
   </body>

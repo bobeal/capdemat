@@ -5,11 +5,6 @@
     <title><g:layoutTitle default="Back Office CapDémat" /></title>
     <g:render template="/shared/resources" />
     <g:layoutHead />
-    <script type="text/javascript">
-      /*zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
-      zenexity.capdemat.bong.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';*/
-      //YAHOO.capdematBo.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
-    </script>
   </head>
   <body>
 

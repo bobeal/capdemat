@@ -2,11 +2,11 @@
   <head>
     <title><g:message code="request.header.requestTreatment" /></title>
     <meta name="layout" content="main" />
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestInstruction.js')}"></script>
     <script type="text/javascript">
-        YAHOO.capdematBo.requestId = '${request.id}';
+        zenexity.capdemat.bong.requestId = '${request.id}';
     </script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
   </head>
     <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'requestInstruction.css')}" />      
   </head>
@@ -25,7 +25,10 @@
               <div class="bd"></div>
             </div>
           </div>
-          <h1><g:message code="request.header.request" /> : ${requestLabel} (Réf : ${request.id})</h1>
+          <h1>
+            <g:message code="request.header.request" /> : 
+            ${requestLabel} (<g:message code="property.id" /> : ${request.id})
+          </h1>
         </div>
         
         <!-- request data template selectection by request type -->
@@ -34,6 +37,12 @@
         </g:if>
         <g:elseif test="${request.requestType.label == 'Domestic Help'}">
           <g:render template="/requestInstruction/requestType/domesticHelpRequest" model="['request':request]" />
+        </g:elseif>
+        <g:elseif test="${request.requestType.label == 'VO Card Request'}">
+          <g:render template="/requestInstruction/requestType/voCardRequest" model="['request':request]" />
+        </g:elseif>
+        <g:elseif test="${request.requestType.label == 'Home Folder Modification'}">
+          <g:render template="/requestInstruction/requestType/homeFolderModificationRequest" model="['request':request]" />
         </g:elseif>
         <g:else>
           <g:render template="/requestInstruction/requestType/defaultRequest" model="['request':request]" />
@@ -111,7 +120,7 @@
       
       <!-- instruction state panel [default display = none] -->
       <div id="instructionStatePanel">
-        <div class="hd">Change state</div>
+        <div class="hd"><g:message code="request.header.changeState" /></div>
         <div class="bd">
         </div>
         <div class="ft"></div>

@@ -155,7 +155,7 @@ class CategoryController {
             agentService.getAll().each { agents.add(adaptAgent(it)) }
             
             if (params.orderAgentBy == "lastName")
-                agents = agents.sort{ it.lastName }
+                agents = agents.sort{ it.lastName != null ? it.lastName : "zzz"}
         } 
         else if (params.scope == "All")
             agentService.getAll().each { agents.add(adaptAgent(it)) }
@@ -242,15 +242,15 @@ class CategoryController {
         def cssClass
         def i18nKey
         if (categoryProfile == CategoryProfile.READ_ONLY) {
-   	        i18nKey = "categoryProfile.readOnly"
+   	        i18nKey = "category.profile.readOnly"
    	        cssClass = "tag-read_only"
    	    }
    	    else if (categoryProfile == CategoryProfile.READ_WRITE) {
-   	        i18nKey = "categoryProfile.readWrite"
+   	        i18nKey = "category.profile.readWrite"
    	        cssClass = "tag-read_write"
    	    }
    	    else if (categoryProfile == CategoryProfile.MANAGER) {
-            i18nKey = "categoryProfile.manager"
+            i18nKey = "category.profile.manager"
             cssClass = "tag-manager"
         }
         return [ i18nKey: i18nKey, cssClass: cssClass ]         

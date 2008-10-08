@@ -1,6 +1,6 @@
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
-    <li class="selected"><a href="#page1"><em><g:message code="property.requester" /></em></a></li>
+    <li class="selected"><a href="#page1"><em><g:message code="request.property.requester" /></em></a></li>
     <li><a href="#page2"><em><g:message code="request.requester.property.dwelling" /></em></a></li>
     <li><a href="#page3"><em><g:message code="request.requester.property.incomes" /></em></a></li>
     <li><a href="#page4"><em><g:message code="request.requester.property.heritage" /></em></a></li>
@@ -11,8 +11,8 @@
     
     <!-- Request Page 1 -->
     <div id="page1">
-      <h2><g:message code="request.requester.property.form" />
-        <span> - <g:message code="property.requester" /></span>
+      <h2><g:message code="property.form" />
+        <span> - <g:message code="request.property.requester" /></span>
       </h2>
       <div class="yui-g">
         <div class="yui-u first">
@@ -60,7 +60,7 @@
     
     <!-- Request Page 2 -->
     <div id="page2">
-      <h2><g:message code="request.requester.property.form" />
+      <h2><g:message code="property.form" />
         <span>-<g:message code="request.requester.property.dwelling" /></span>
       </h2>
       <div class="yui-g">
@@ -113,7 +113,7 @@
     
     <!-- Request Page 3 -->
     <div id="page3">
-      <h2><g:message code="request.requester.property.form" />
+      <h2><g:message code="property.form" />
         <span>- <g:message code="request.requester.property.incomes" /></span>
       </h2>
       <div class="yui-g">
@@ -134,14 +134,14 @@
     
     <!-- Request Page 3 -->
     <div id="page3">
-      <h2><g:message code="request.requester.property.form" />
+      <h2><g:message code="property.form" />
         <span>- <g:message code="request.requester.property.heritage" /></span>
       </h2>
     </div>
     
     <!-- Request Page 3 -->
     <div id="page3">
-      <h2><g:message code="request.requester.property.form" />
+      <h2><g:message code="property.form" />
         <span>- <g:message code="request.requester.property.charges" /></span>
        </h2>
     </div>

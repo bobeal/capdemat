@@ -4,17 +4,13 @@
  * @author vba@zenexity.fr
  * 
  **/
+ 
 (function() {
-	
-  zenexity = { capdemat : {tools : {}}};
+	window.zenexity = { capdemat : {tools : {},common : {}}};
   
 	var userAgent = navigator.userAgent.toLowerCase();
 	var s = YAHOO.util.Selector;
 	var zct = zenexity.capdemat.tools;
-	
-	zct.ajaxError = function(o) {
-		throw(o.statusText);
-	};
 	
 	zct.browser = {
 		version: (userAgent.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [])[1],
@@ -115,17 +111,6 @@
 			if ( array[ i ] === elem )
 				return i;
 		return -1;
-	};
-	
-	zct.swap =  function( elem, options, callback ) {
-		var old = {};
-		for ( var name in options ) {
-			old[ name ] = elem.style[ name ];
-			elem.style[ name ] = options[ name ];
-		}
-		callback.call( elem );
-		for ( var name in options )
-			elem.style[ name ] = old[ name ];
 	};
 		
 	zct.isFunction = function( fn ) {
@@ -228,25 +213,35 @@
 				this.value = value;
 		})();
 	};
-	
-	/**
-	 * Sends data to the server side via post request, in async mode 
-	 * 
-	 * @author vba@zenexity.fr
-	 * @param url {string} The URL of the page to load.
-	 * @param data {string} Key/value pairs that will be sent to the server.
-	 * @param callback {function} A function to be executed whenever the data is loaded successfully.
-   *
-	**/
-	zct.post = function(url, data, callback) {
-		var hanlers = {
-			success:callback,
-			failure: zct.ajaxError
-		};
-		
-		YAHOO.util.Connect.asyncRequest('POST', url, hanlers, data);
-	};
-	
+
+  /** 
+   * Strips HTML tags
+   * @method stripTags
+   * @param {String} string Striping scope.
+   * @author vba@zenexity.fr
+   **/
+  zct.stripTags = function(string) {
+    return string.replace(/<\/?[^>]+>/gi, '');
+  };
+  
+  /**
+   * HTMLElement styles setter/getter
+   * @method style
+   * @param {String | HTMLElement | Array} el Accepts a string to use as an ID, an actual DOM reference, or an Array of IDs and/or HTMLElements.
+   * @param {Array} JSON object that describes styles to set
+   * @author vba@zenexity.fr
+   **/
+  zct.style = function(el,styles) {
+    if(typeof styles != 'undefined' ) {
+      zct.each(styles,function(key){
+        var value = this.toString();
+        YAHOO.util.Dom.setStyle(el,key.toString(),value);
+      });
+    } else {
+      YAHOO.util.Dom.getStyle(el);
+    }
+  };
+  
 	zct.each([ "Height", "Width" ], function(i, name){
 		var type = name.toLowerCase();
 		var browser = zct.browser;
@@ -267,5 +262,5 @@
 						(el.setStyle(type,size.constructor == String ? size : size + "px"));
 		};
 	});
-	
+  
 }());

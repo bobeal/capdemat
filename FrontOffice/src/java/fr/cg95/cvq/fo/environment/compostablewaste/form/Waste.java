@@ -20,11 +20,11 @@ public class Waste extends IStageForm {
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("waste")) {
 			for (int i = 0; i < this.compostableWasteType.length; i++)
 				this.compostableWasteType[i] = false;
+		}
+		if (state.equals("display")) {
 		}
 	}
 	

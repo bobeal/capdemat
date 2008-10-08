@@ -50,18 +50,18 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
     protected ElectoralRollRegistrationRequest fillMeARequest() throws CvqException {
 
         ElectoralRollRegistrationRequest request = new ElectoralRollRegistrationRequest();
-          request.setPollingStation(new Long(1));
-                request.setPollingSchoolName("PollingSchoolName");
-                request.setElectoralNumber(new Long(1));
-              if ("SubjectOldCity".length() > 32)
+              request.setSubjectNationality("SubjectNationality");
+                  if ("SubjectOldCity".length() > 32)
         request.setSubjectOldCity("SubjectOldCity".substring(0, 32));
       else
         request.setSubjectOldCity("SubjectOldCity");
-                  request.setMotive(ElectoralMotiveType.NEW_CITY_RESIDENT);
-                    request.setSubjectNationality("SubjectNationality");
                                 Address SubjectAddressOutsideCity = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
             request.setSubjectAddressOutsideCity(SubjectAddressOutsideCity);
-    	      
+    	                request.setPollingStation(new Long(1));
+                request.setPollingSchoolName("PollingSchoolName");
+                  request.setMotive(ElectoralMotiveType.NEW_CITY_RESIDENT);
+                request.setElectoralNumber(new Long(1));
+  
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

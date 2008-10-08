@@ -11,9 +11,7 @@ import fr.cg95.cvq.xml.leisure.SmsNotificationRequestDocument.SmsNotificationReq
 
 public class Validation extends IStageForm {
 
-	private String subjectAdultMobilePhone;
-	private boolean[] interests;
-	private boolean subscription;
+	private String subjectAdultLastName;
   	private String subjectAdultAddressAdditionalDeliveryInformation;
 	private String subjectAdultAddressAdditionalGeographicalInformation;
 	private String subjectAdultAddressStreetNumber;
@@ -21,7 +19,9 @@ public class Validation extends IStageForm {
 	private String subjectAdultAddressPlaceNameOrService;
 	private String subjectAdultAddressPostalCode;
 	private String subjectAdultAddressCity;
-	private String subjectAdultLastName;
+	private boolean subscription;
+	private String subjectAdultMobilePhone;
+	private boolean[] interests;
 	private String subjectAdultFirstName;
 
 	public Validation() {
@@ -36,9 +36,7 @@ public class Validation extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof SmsNotificationRequest)) {
 			SmsNotificationRequest request = (SmsNotificationRequest)xmlbRequest;
-			this.subjectAdultMobilePhone = request.getSubject().getAdult().getMobilePhone();
-			this.interests = loadForm(this.interests,(Collection)session.getAttribute("Interests"),request.getInterestsArray());
-			this.subscription = request.getSubscription();
+			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
   			this.subjectAdultAddressAdditionalDeliveryInformation = request.getSubject().getAdult().getAddress().getAdditionalDeliveryInformation();
 			this.subjectAdultAddressAdditionalGeographicalInformation = request.getSubject().getAdult().getAddress().getAdditionalGeographicalInformation();
 			this.subjectAdultAddressStreetNumber = request.getSubject().getAdult().getAddress().getStreetNumber();
@@ -46,7 +44,9 @@ public class Validation extends IStageForm {
 			this.subjectAdultAddressPlaceNameOrService = request.getSubject().getAdult().getAddress().getPlaceNameOrService();
 			this.subjectAdultAddressPostalCode = request.getSubject().getAdult().getAddress().getPostalCode();
 			this.subjectAdultAddressCity = request.getSubject().getAdult().getAddress().getCity();
-			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
+			this.subscription = request.getSubscription();
+			this.subjectAdultMobilePhone = request.getSubject().getAdult().getMobilePhone();
+			this.interests = loadForm(this.interests,(Collection)session.getAttribute("Interests"),request.getInterestsArray());
 			this.subjectAdultFirstName = request.getSubject().getAdult().getFirstName();
 		}
 	}
@@ -54,9 +54,7 @@ public class Validation extends IStageForm {
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof SmsNotificationRequest)) {
 			SmsNotificationRequest request = (SmsNotificationRequest)xmlbRequest;
-			request.getSubject().getAdult().setMobilePhone(this.subjectAdultMobilePhone);
-			request.setInterestsArray(saveForm(this.interests,(Collection)session.getAttribute("Interests")));
-			request.setSubscription(this.subscription);
+			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
   			request.getSubject().getAdult().getAddress().setAdditionalDeliveryInformation(this.subjectAdultAddressAdditionalDeliveryInformation);
 			request.getSubject().getAdult().getAddress().setAdditionalGeographicalInformation(this.subjectAdultAddressAdditionalGeographicalInformation);
 			request.getSubject().getAdult().getAddress().setStreetNumber(this.subjectAdultAddressStreetNumber);
@@ -64,12 +62,17 @@ public class Validation extends IStageForm {
 			request.getSubject().getAdult().getAddress().setPlaceNameOrService(this.subjectAdultAddressPlaceNameOrService);
 			request.getSubject().getAdult().getAddress().setPostalCode(this.subjectAdultAddressPostalCode);
 			request.getSubject().getAdult().getAddress().setCity(this.subjectAdultAddressCity);
-			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
+			request.setSubscription(this.subscription);
+			request.getSubject().getAdult().setMobilePhone(this.subjectAdultMobilePhone);
+			request.setInterestsArray(saveForm(this.interests,(Collection)session.getAttribute("Interests")));
 			request.getSubject().getAdult().setFirstName(this.subjectAdultFirstName);
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkSubjectAdultLastName() &&
+			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
+			return false;
   		if (this.checkSubjectAdultAddressStreetName() &&
 			((this.subjectAdultAddressStreetName == null) || (this.subjectAdultAddressStreetName.length() == 0)))
 			return false;
@@ -79,72 +82,21 @@ public class Validation extends IStageForm {
 		if (this.checkSubjectAdultAddressCity() &&
 			((this.subjectAdultAddressCity == null) || (this.subjectAdultAddressCity.length() == 0)))
 			return false;
-		if (this.checkSubjectAdultLastName() &&
-			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
-			return false;
 		if (this.checkSubjectAdultFirstName() &&
 			((this.subjectAdultFirstName == null) || (this.subjectAdultFirstName.length() == 0)))
 			return false;
 		return true;
 	}
 	
-	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
-		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
+	public void setSubjectAdultLastName(String subjectAdultLastName) {
+		this.subjectAdultLastName = subjectAdultLastName;
 	}
 	
-	public String getSubjectAdultMobilePhone() {
-		return this.subjectAdultMobilePhone;
+	public String getSubjectAdultLastName() {
+		return this.subjectAdultLastName;
 	}
 	
-	public boolean checkSubjectAdultMobilePhone() {
-		return true;
-	}
-
-	public void setInterests(boolean[] interests) {
-		this.interests = interests;
-	}
-	
-	public boolean[] getInterests() {
-		return this.interests;
-	}
-	
-	public boolean checkInterests() {
-		return true;
-	}
-
-	public void setInterests(int i, boolean interests) {
-		this.interests[i] = interests;
-	}
-	
-	public boolean getInterests(int i) {
-		return this.interests[i];
-	}
-	
-	public int getSizeOfInterests() {
-        return this.interests.length;
-    }
-    
-    public void setSizeOfInterests(int size) {
-        this.interests = new boolean[size];
-    }
-    
-    public int getNbSelectedInterests() {
-        int count = 0;
-        for (int i = 0; i < interests.length; i++)
-            if (interests[i])
-                count++;
-        return count;
-    }
-
-	public void setSubscription(boolean subscription) {
-		this.subscription = subscription;
-	}
-	
-	public boolean getSubscription() {
-		return this.subscription;
-	}
-	
-	public boolean checkSubscription() {
+	public boolean checkSubjectAdultLastName() {
 		return true;
 	}
 
@@ -232,17 +184,65 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultLastName(String subjectAdultLastName) {
-		this.subjectAdultLastName = subjectAdultLastName;
+	public void setSubscription(boolean subscription) {
+		this.subscription = subscription;
 	}
 	
-	public String getSubjectAdultLastName() {
-		return this.subjectAdultLastName;
+	public boolean getSubscription() {
+		return this.subscription;
 	}
 	
-	public boolean checkSubjectAdultLastName() {
+	public boolean checkSubscription() {
 		return true;
 	}
+
+	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
+		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
+	}
+	
+	public String getSubjectAdultMobilePhone() {
+		return this.subjectAdultMobilePhone;
+	}
+	
+	public boolean checkSubjectAdultMobilePhone() {
+		return true;
+	}
+
+	public void setInterests(boolean[] interests) {
+		this.interests = interests;
+	}
+	
+	public boolean[] getInterests() {
+		return this.interests;
+	}
+	
+	public boolean checkInterests() {
+		return true;
+	}
+
+	public void setInterests(int i, boolean interests) {
+		this.interests[i] = interests;
+	}
+	
+	public boolean getInterests(int i) {
+		return this.interests[i];
+	}
+	
+	public int getSizeOfInterests() {
+        return this.interests.length;
+    }
+    
+    public void setSizeOfInterests(int size) {
+        this.interests = new boolean[size];
+    }
+    
+    public int getNbSelectedInterests() {
+        int count = 0;
+        for (int i = 0; i < interests.length; i++)
+            if (interests[i])
+                count++;
+        return count;
+    }
 
 	public void setSubjectAdultFirstName(String subjectAdultFirstName) {
 		this.subjectAdultFirstName = subjectAdultFirstName;

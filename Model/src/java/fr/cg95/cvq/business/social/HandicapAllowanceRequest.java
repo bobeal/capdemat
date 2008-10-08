@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.social.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -51,24 +53,31 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
         HandicapAllowanceRequestDocument handicapAllowanceRequestDoc = HandicapAllowanceRequestDocument.Factory.newInstance();
         HandicapAllowanceRequestDocument.HandicapAllowanceRequest handicapAllowanceRequest = handicapAllowanceRequestDoc.addNewHandicapAllowanceRequest();
         super.fillCommonXmlInfo(handicapAllowanceRequest);
+        if (this.writingHelp != null)
+            handicapAllowanceRequest.setWritingHelp(this.writingHelp.booleanValue());
+        handicapAllowanceRequest.setHelperResponsability(this.helperResponsability);
+        handicapAllowanceRequest.setLegalRepresentativeName(this.legalRepresentativeName);
+        handicapAllowanceRequest.setComments(this.comments);
+        handicapAllowanceRequest.setLegalRepresentativeFirstame(this.legalRepresentativeFirstame);
         if (this.legalRepresentativeAddress != null)
             handicapAllowanceRequest.setLegalRepresentativeAddress(Address.modelToXml(this.legalRepresentativeAddress));
+        handicapAllowanceRequest.setLegalRepresentativeFamilyRelationship(this.legalRepresentativeFamilyRelationship);
         if (this.legalRepresentative != null)
             handicapAllowanceRequest.setLegalRepresentative(this.legalRepresentative.booleanValue());
         if (this.hopesAndNeeds != null)
             handicapAllowanceRequest.setHopesAndNeeds(this.hopesAndNeeds.booleanValue());
-        if (this.writingHelp != null)
-            handicapAllowanceRequest.setWritingHelp(this.writingHelp.booleanValue());
         handicapAllowanceRequest.setNeeds(this.needs);
-        handicapAllowanceRequest.setHelperResponsability(this.helperResponsability);
         handicapAllowanceRequest.setLegalRepresentativePhone(this.legalRepresentativePhone);
-        handicapAllowanceRequest.setLegalRepresentativeFamilyRelationship(this.legalRepresentativeFamilyRelationship);
         handicapAllowanceRequest.setHelperName(this.helperName);
-        handicapAllowanceRequest.setLegalRepresentativeName(this.legalRepresentativeName);
-        handicapAllowanceRequest.setLegalRepresentativeFirstame(this.legalRepresentativeFirstame);
-        handicapAllowanceRequest.setComments(this.comments);
         handicapAllowanceRequest.setHopes(this.hopes);
         return handicapAllowanceRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        HandicapAllowanceRequestDocument handicapAllowanceRequestDoc =
+            (HandicapAllowanceRequestDocument) modelToXml();
+        return handicapAllowanceRequestDoc.getHandicapAllowanceRequest();
     }
 
     public static HandicapAllowanceRequest xmlToModel(HandicapAllowanceRequestDocument handicapAllowanceRequestDoc) {
@@ -78,21 +87,98 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
         List list = new ArrayList();
         HandicapAllowanceRequest handicapAllowanceRequest = new HandicapAllowanceRequest();
         handicapAllowanceRequest.fillCommonModelInfo(handicapAllowanceRequest,handicapAllowanceRequestXml);
+        handicapAllowanceRequest.setWritingHelp(Boolean.valueOf(handicapAllowanceRequestXml.getWritingHelp()));
+        handicapAllowanceRequest.setHelperResponsability(handicapAllowanceRequestXml.getHelperResponsability());
+        handicapAllowanceRequest.setLegalRepresentativeName(handicapAllowanceRequestXml.getLegalRepresentativeName());
+        handicapAllowanceRequest.setComments(handicapAllowanceRequestXml.getComments());
+        handicapAllowanceRequest.setLegalRepresentativeFirstame(handicapAllowanceRequestXml.getLegalRepresentativeFirstame());
         if (handicapAllowanceRequestXml.getLegalRepresentativeAddress() != null)
             handicapAllowanceRequest.setLegalRepresentativeAddress(Address.xmlToModel(handicapAllowanceRequestXml.getLegalRepresentativeAddress()));
+        handicapAllowanceRequest.setLegalRepresentativeFamilyRelationship(handicapAllowanceRequestXml.getLegalRepresentativeFamilyRelationship());
         handicapAllowanceRequest.setLegalRepresentative(Boolean.valueOf(handicapAllowanceRequestXml.getLegalRepresentative()));
         handicapAllowanceRequest.setHopesAndNeeds(Boolean.valueOf(handicapAllowanceRequestXml.getHopesAndNeeds()));
-        handicapAllowanceRequest.setWritingHelp(Boolean.valueOf(handicapAllowanceRequestXml.getWritingHelp()));
         handicapAllowanceRequest.setNeeds(handicapAllowanceRequestXml.getNeeds());
-        handicapAllowanceRequest.setHelperResponsability(handicapAllowanceRequestXml.getHelperResponsability());
         handicapAllowanceRequest.setLegalRepresentativePhone(handicapAllowanceRequestXml.getLegalRepresentativePhone());
-        handicapAllowanceRequest.setLegalRepresentativeFamilyRelationship(handicapAllowanceRequestXml.getLegalRepresentativeFamilyRelationship());
         handicapAllowanceRequest.setHelperName(handicapAllowanceRequestXml.getHelperName());
-        handicapAllowanceRequest.setLegalRepresentativeName(handicapAllowanceRequestXml.getLegalRepresentativeName());
-        handicapAllowanceRequest.setLegalRepresentativeFirstame(handicapAllowanceRequestXml.getLegalRepresentativeFirstame());
-        handicapAllowanceRequest.setComments(handicapAllowanceRequestXml.getComments());
         handicapAllowanceRequest.setHopes(handicapAllowanceRequestXml.getHopes());
         return handicapAllowanceRequest;
+    }
+
+    private Boolean writingHelp;
+
+    public final void setWritingHelp(final Boolean writingHelp) {
+        this.writingHelp = writingHelp;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="writing_help"
+     */
+    public final Boolean getWritingHelp() {
+        return this.writingHelp;
+    }
+
+    private String helperResponsability;
+
+    public final void setHelperResponsability(final String helperResponsability) {
+        this.helperResponsability = helperResponsability;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="helper_responsability"
+     */
+    public final String getHelperResponsability() {
+        return this.helperResponsability;
+    }
+
+    private String legalRepresentativeName;
+
+    public final void setLegalRepresentativeName(final String legalRepresentativeName) {
+        this.legalRepresentativeName = legalRepresentativeName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="legal_representative_name"
+     *  length="38"
+     */
+    public final String getLegalRepresentativeName() {
+        return this.legalRepresentativeName;
+    }
+
+    private String comments;
+
+    public final void setComments(final String comments) {
+        this.comments = comments;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="comments"
+     */
+    public final String getComments() {
+        return this.comments;
+    }
+
+    private String legalRepresentativeFirstame;
+
+    public final void setLegalRepresentativeFirstame(final String legalRepresentativeFirstame) {
+        this.legalRepresentativeFirstame = legalRepresentativeFirstame;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="legal_representative_firstame"
+     *  length="38"
+     */
+    public final String getLegalRepresentativeFirstame() {
+        return this.legalRepresentativeFirstame;
     }
 
     private fr.cg95.cvq.business.users.Address legalRepresentativeAddress;
@@ -110,6 +196,21 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
      */
     public final fr.cg95.cvq.business.users.Address getLegalRepresentativeAddress() {
         return this.legalRepresentativeAddress;
+    }
+
+    private String legalRepresentativeFamilyRelationship;
+
+    public final void setLegalRepresentativeFamilyRelationship(final String legalRepresentativeFamilyRelationship) {
+        this.legalRepresentativeFamilyRelationship = legalRepresentativeFamilyRelationship;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="legal_representative_family_relationship"
+     */
+    public final String getLegalRepresentativeFamilyRelationship() {
+        return this.legalRepresentativeFamilyRelationship;
     }
 
     private Boolean legalRepresentative;
@@ -142,21 +243,6 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
         return this.hopesAndNeeds;
     }
 
-    private Boolean writingHelp;
-
-    public final void setWritingHelp(final Boolean writingHelp) {
-        this.writingHelp = writingHelp;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="writing_help"
-     */
-    public final Boolean getWritingHelp() {
-        return this.writingHelp;
-    }
-
     private String needs;
 
     public final void setNeeds(final String needs) {
@@ -170,21 +256,6 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
      */
     public final String getNeeds() {
         return this.needs;
-    }
-
-    private String helperResponsability;
-
-    public final void setHelperResponsability(final String helperResponsability) {
-        this.helperResponsability = helperResponsability;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="helper_responsability"
-     */
-    public final String getHelperResponsability() {
-        return this.helperResponsability;
     }
 
     private String legalRepresentativePhone;
@@ -203,21 +274,6 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
         return this.legalRepresentativePhone;
     }
 
-    private String legalRepresentativeFamilyRelationship;
-
-    public final void setLegalRepresentativeFamilyRelationship(final String legalRepresentativeFamilyRelationship) {
-        this.legalRepresentativeFamilyRelationship = legalRepresentativeFamilyRelationship;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="legal_representative_family_relationship"
-     */
-    public final String getLegalRepresentativeFamilyRelationship() {
-        return this.legalRepresentativeFamilyRelationship;
-    }
-
     private String helperName;
 
     public final void setHelperName(final String helperName) {
@@ -232,53 +288,6 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
      */
     public final String getHelperName() {
         return this.helperName;
-    }
-
-    private String legalRepresentativeName;
-
-    public final void setLegalRepresentativeName(final String legalRepresentativeName) {
-        this.legalRepresentativeName = legalRepresentativeName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="legal_representative_name"
-     *  length="38"
-     */
-    public final String getLegalRepresentativeName() {
-        return this.legalRepresentativeName;
-    }
-
-    private String legalRepresentativeFirstame;
-
-    public final void setLegalRepresentativeFirstame(final String legalRepresentativeFirstame) {
-        this.legalRepresentativeFirstame = legalRepresentativeFirstame;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="legal_representative_firstame"
-     *  length="38"
-     */
-    public final String getLegalRepresentativeFirstame() {
-        return this.legalRepresentativeFirstame;
-    }
-
-    private String comments;
-
-    public final void setComments(final String comments) {
-        this.comments = comments;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="comments"
-     */
-    public final String getComments() {
-        return this.comments;
     }
 
     private String hopes;

@@ -26,7 +26,7 @@ import fr.cg95.cvq.dao.users.IPaymentDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.external.ExternalServiceBean;
+import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.payment.CvqInvalidBrokerException;
 import fr.cg95.cvq.payment.IPaymentProviderService;
 import fr.cg95.cvq.payment.IPaymentService;
@@ -34,7 +34,6 @@ import fr.cg95.cvq.payment.PaymentResultBean;
 import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.payment.PaymentServiceBean;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
@@ -45,6 +44,7 @@ public final class PaymentService implements IPaymentService {
     private IPaymentDAO paymentDAO;
     private IRequestService requestService;
     private IHomeFolderService homeFolderService;
+    private IExternalService externalService;
 
 	public Map<String, String> getAllBrokers(PaymentMode paymentMode) throws CvqException {
         
@@ -349,10 +349,9 @@ public final class PaymentService implements IPaymentService {
             ExternalAccountItem eai = (ExternalAccountItem) purchaseItem;
             if (eai.getSupportedBroker() != null)
                 return eai.getSupportedBroker();
-            LocalAuthorityConfigurationBean lacb =
-                SecurityContext.getCurrentConfigurationBean();
-            ExternalServiceBean esb = lacb.getExternalServiceBean(eai.getExternalServiceLabel());
-            List<String> requestTypes = esb.getRequestTypes();
+
+            Set<String> requestTypes = 
+                externalService.getRequestTypesForExternalService(eai.getExternalServiceLabel());
             for (String requestType : requestTypes) {
                 broker = getBrokerFromRequestType(requestType, paymentMode);
                 if (broker != null)
@@ -398,4 +397,8 @@ public final class PaymentService implements IPaymentService {
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
 		this.homeFolderService = homeFolderService;
 	}
+
+    public void setExternalService(IExternalService externalService) {
+        this.externalService = externalService;
+    }
 }

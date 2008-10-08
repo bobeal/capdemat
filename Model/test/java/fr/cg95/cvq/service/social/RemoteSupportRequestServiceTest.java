@@ -50,38 +50,38 @@ public class RemoteSupportRequestServiceTest extends ServiceTestCase {
     protected RemoteSupportRequest fillMeARequest() throws CvqException {
 
         RemoteSupportRequest request = new RemoteSupportRequest();
-            if ("TrusteeFirstName".length() > 38)
-        request.setTrusteeFirstName("TrusteeFirstName".substring(0, 38));
+            if ("TrusteePhone".length() > 10)
+        request.setTrusteePhone("TrusteePhone".substring(0, 10));
       else
-        request.setTrusteeFirstName("TrusteeFirstName");
-                request.setTaxable(Boolean.valueOf(true));
-            request.setFloor(BigInteger.valueOf(1));
-              if ("ContactName".length() > 38)
-        request.setContactName("ContactName".substring(0, 38));
-      else
-        request.setContactName("ContactName");
-                request.setAppartmentNumber(BigInteger.valueOf(1));
-              if ("ContactFirstName".length() > 38)
-        request.setContactFirstName("ContactFirstName".substring(0, 38));
-      else
-        request.setContactFirstName("ContactFirstName");
-                  request.setContact(RsrContactType.REQUESTER);
-                  request.setDwelling(RsrDwellingType.APPARTMENT);
+        request.setTrusteePhone("TrusteePhone");
                 request.setEmergency(Boolean.valueOf(true));
-            request.setSeniorAssitanceBeneficiary(Boolean.valueOf(true));
               if ("TrusteeName".length() > 38)
         request.setTrusteeName("TrusteeName".substring(0, 38));
       else
         request.setTrusteeName("TrusteeName");
-                  if ("TrusteePhone".length() > 10)
-        request.setTrusteePhone("TrusteePhone".substring(0, 10));
-      else
-        request.setTrusteePhone("TrusteePhone");
-                  request.setTrustee(TrusteeType.REQUESTER);
+                request.setAppartmentNumber(BigInteger.valueOf(1));
+              request.setTrustee(TrusteeType.REQUESTER);
                   if ("ContactPhone".length() > 10)
         request.setContactPhone("ContactPhone".substring(0, 10));
       else
         request.setContactPhone("ContactPhone");
+                request.setFloor(BigInteger.valueOf(1));
+              request.setDwelling(RsrDwellingType.APPARTMENT);
+                  if ("ContactFirstName".length() > 38)
+        request.setContactFirstName("ContactFirstName".substring(0, 38));
+      else
+        request.setContactFirstName("ContactFirstName");
+                  if ("TrusteeFirstName".length() > 38)
+        request.setTrusteeFirstName("TrusteeFirstName".substring(0, 38));
+      else
+        request.setTrusteeFirstName("TrusteeFirstName");
+                request.setTaxable(Boolean.valueOf(true));
+            request.setSeniorAssitanceBeneficiary(Boolean.valueOf(true));
+              if ("ContactName".length() > 38)
+        request.setContactName("ContactName".substring(0, 38));
+      else
+        request.setContactName("ContactName");
+                  request.setContact(RsrContactType.REQUESTER);
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

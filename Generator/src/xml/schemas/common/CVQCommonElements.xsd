@@ -1408,7 +1408,7 @@
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:maxLength value="10" />
-      <xs:pattern value="[0-9]{10}" />
+      <xs:pattern value="^0[1-9][0-9]{8}" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -1764,6 +1764,8 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element name="Id" type="xs:long" />
+      <xs:element name="ExternalCapdematId" type="xs:string" minOccurs="0" />
+      <xs:element name="ExternalId" type="xs:string" minOccurs="0" />
       <xs:element name="Login" type="xs:string" minOccurs="0" />
       <xs:element name="PublicKey" type="xs:string" minOccurs="0" />
       <xs:element name="LastName" type="cvq:LastNameType" />
@@ -1917,6 +1919,8 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element name="Id" type="xs:long" />
+      <xs:element name="ExternalCapdematId" type="xs:string" minOccurs="0" />
+      <xs:element name="ExternalId" type="xs:string" minOccurs="0" />
       <xs:element name="Individuals" type="cvq:IndividualType" minOccurs="0" maxOccurs="unbounded" />
       <xs:element name="Address" type="cvq:AddressType" minOccurs="0" />
       <xs:element name="State" type="cvq:ActorStateType" />

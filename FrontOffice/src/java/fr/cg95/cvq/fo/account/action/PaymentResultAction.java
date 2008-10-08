@@ -63,20 +63,23 @@ public class PaymentResultAction extends CaddyManager {
         PaymentResultStatus result = paymentService.commitPayment(parameters);
 
         if (ProcessWizardState.getWizardState(pRequest) != null) {
-            // Redirect to Cap Demat from the client, in case the payment provider is calling us directly
+            // Redirect to Cap Demat from the client, in case the payment
+            // provider is calling us directly
             pRequest.setAttribute(URL, "processWizard.do?transition=payed");
-            
+
         } else if (ManagerWizardState.getWizardState(pRequest) != null) {
-            if (result.equals(PaymentResultStatus.OK) || 
-                    result.equals(PaymentResultStatus.CANCELLED))
+            if (result.equals(PaymentResultStatus.OK)
+                    || result.equals(PaymentResultStatus.CANCELLED))
                 removePurchaseItems(pRequest.getSession());
 
             ManagerWizardState wizardState = ManagerWizardState.getWizardState(pRequest);
             wizardState.setAlert(getPaymentMessage(result));
 
-            // Redirect to Cap Demat from the client, in case the payment provider is calling us directly
+            // Redirect to Cap Demat from the client, in case the payment
+            // provider is calling us directly
             pRequest.setAttribute(URL, "managerWizard.do?transition=caddy");
         }
+
         return pMapping.findForward("redirect");
     }
 

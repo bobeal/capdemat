@@ -281,6 +281,7 @@ CREATE TABLE means_of_contact (
      enabled bool,
      primary key (id)
  );
+ALTER TABLE means_of_contact OWNER TO cvq95;
 
 ALTER TABLE request ADD COLUMN means_of_contact_id int8;
 
@@ -469,3 +470,14 @@ alter table bulky_waste_collection_request drop column telephone;
 alter table compostable_waste_collection_request drop column email;
 alter table compostable_waste_collection_request drop column telephone;
 
+CREATE TABLE external_service_traces (
+  id bigint NOT NULL,
+  date timestamp without time zone,
+  "key" bigint,
+  key_owner character varying(255),
+  message character varying(255),
+  "name" character varying(255),
+  status character varying(255),
+  CONSTRAINT external_service_traces_pkey PRIMARY KEY (id)
+);
+ALTER TABLE external_service_traces OWNER TO cvq95;

@@ -51,8 +51,8 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
 
         SmsNotificationRequest request = new SmsNotificationRequest();
               request.setCleverSmsContactId("CleverSmsContactId");
-                        request.setSubscription(Boolean.valueOf(true));
-  
+                request.setSubscription(Boolean.valueOf(true));
+          
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

@@ -30,7 +30,7 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.urgencyPhone = new Function("key","this.label='Téléphone en cas d&quote;urgence'; this.msg=null; this.required=true; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.urgencyPhone = new Function("key","this.label='Téléphone en cas d&quote;urgence'; this.msg=null; this.required=true; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Inscription");
 	</script>

@@ -1,5 +1,3 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/tlds/cartevaloise.tld" prefix="cvq" %>
 
@@ -7,20 +5,19 @@
 
   <fieldset class="fieldset001">
     <div class="form_cell form_cell001">
-      <label for="dataType" class="label">Type de données :</label>
+      <label for="dataType" class="label">Type de donn�es :</label>
       <span class="input">
         <html:select name="ImportForm" property="dataType" styleId="dataType" styleClass="input_select">
-          <option value="">Choisissez un type de donnée</option>
+          <option value="">Choisissez un type de donn�e</option>
           <option value="XmlRequests">Demandes sous forme xml</option>
           <option value="Concerto">Export Concerto</option>
-          <option value="SubscribersList">Liste d'abonnés spectacles</option>
-          <option value="LetterLayout">Mise en page courrier type</option>
+          <option value="SubscribersList">Liste d'abonn�s spectacles</option>
           <option value="FrontOfficeInformation">Information pour les habitants</option>
         </html:select>
       </span>
     </div>
     <div class="form_cell form_cell002">
-      <label for="file" class="label">Fichier à importer :</label>
+      <label for="file" class="label">Fichier � importer :</label>
       <span class="input"><html:file name="ImportForm" property="file" styleId="file" styleClass="input_file"/></span>
     </div>
   </fieldset>

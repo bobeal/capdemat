@@ -1,3 +1,7 @@
+function popup(popupPage) {
+	window.open(popupPage,'popup','resizable=yes,top=30,left=140,width=820,height=740');
+}
+
 function DatVal(Q, J, C) { var Mon, x, Rex, B, Y, S, ND=0
     Q = trim(Q);
     if (J==0) { Rex = /(\d+)(\d{2})(\d{2})$/     // D5+ as Y+MMDD

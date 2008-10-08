@@ -14,12 +14,12 @@ import fr.cg95.cvq.business.environment.*;
 
 public class BulkyWasteCollectionRequestRecord extends RequestRecord {
 
-	private String collectionAddress;
 	private String requesterFirstName;
 	private String requesterLastName;
-	private String otherWaste;
+	private String collectionAddress;
 	private boolean[] bulkyWasteType;
    	private List bulkyWasteTypeList;
+	private String otherWaste;
 
 	public BulkyWasteCollectionRequestRecord() {
 		super();
@@ -43,13 +43,13 @@ public class BulkyWasteCollectionRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof BulkyWasteCollectionRequest)) {
             BulkyWasteCollectionRequest request = (BulkyWasteCollectionRequest)xmlRequest; 
 
-			this.collectionAddress = request.getCollectionAddress();
             if ((request.getRequester() != null))
 			this.requesterFirstName = request.getRequester().getFirstName();
             if ((request.getRequester() != null))
 			this.requesterLastName = request.getRequester().getLastName();
-			this.otherWaste = request.getOtherWaste();
+			this.collectionAddress = request.getCollectionAddress();
             this.setBulkyWasteType(this.getList("BulkyWasteType"), request.getBulkyWasteType());
+			this.otherWaste = request.getOtherWaste();
         }
     }
     
@@ -64,19 +64,11 @@ public class BulkyWasteCollectionRequestRecord extends RequestRecord {
             BulkyWasteCollectionRequest request = (BulkyWasteCollectionRequest)xmlRequest; 
 
 			request.setCollectionAddress(this.collectionAddress);
-			request.setOtherWaste(this.otherWaste);
 			request.setBulkyWasteType(this.getBulkyWasteTypeKeys());
+			request.setOtherWaste(this.otherWaste);
         }
     }
     
-	public void setCollectionAddress(String collectionAddress) {
-		this.collectionAddress = collectionAddress;
-	}
-	
-	public String getCollectionAddress() {
-		return this.collectionAddress;
-	}
-
 	public void setRequesterFirstName(String requesterFirstName) {
 		this.requesterFirstName = requesterFirstName;
 	}
@@ -93,12 +85,12 @@ public class BulkyWasteCollectionRequestRecord extends RequestRecord {
 		return this.requesterLastName;
 	}
 
-	public void setOtherWaste(String otherWaste) {
-		this.otherWaste = otherWaste;
+	public void setCollectionAddress(String collectionAddress) {
+		this.collectionAddress = collectionAddress;
 	}
 	
-	public String getOtherWaste() {
-		return this.otherWaste;
+	public String getCollectionAddress() {
+		return this.collectionAddress;
 	}
 
 	public void setBulkyWasteType(List referential, Set values) {
@@ -148,5 +140,13 @@ public class BulkyWasteCollectionRequestRecord extends RequestRecord {
 			bulkyWasteType[i] = values.indexOf("<" + ((ReferentialData)bulkyWasteTypeList.get(i)).getValue() + ">") != -1;
 		}
 	}
+	public void setOtherWaste(String otherWaste) {
+		this.otherWaste = otherWaste;
+	}
+	
+	public String getOtherWaste() {
+		return this.otherWaste;
+	}
+
 }
 

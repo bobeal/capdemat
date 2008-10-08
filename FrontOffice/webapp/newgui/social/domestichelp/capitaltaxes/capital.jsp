@@ -38,12 +38,12 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.capitalsSharesAmount = new Function("key","this.label='Montant actions'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.capitalsBondsAmount = new Function("key","this.label='Montant obligations'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.taxesAmountIncomeTax = new Function("key","this.label='Impôt sur le revenu'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.taxesAmountLocalRate = new Function("key","this.label='Taxe d&quote;habitation'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.taxesAmountPropertyTaxes = new Function("key","this.label='Taxes foncières'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.taxesAmountProfessionalTaxes = new Function("key","this.label='Taxes professionnelles'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.capitalsSharesAmount = new Function("key","this.label='Montant actions'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.capitalsBondsAmount = new Function("key","this.label='Montant obligations'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.taxesAmountIncomeTax = new Function("key","this.label='Impôt sur le revenu'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.taxesAmountLocalRate = new Function("key","this.label='Taxe d&quote;habitation'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.taxesAmountPropertyTaxes = new Function("key","this.label='Taxes foncières'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.taxesAmountProfessionalTaxes = new Function("key","this.label='Taxes professionnelles'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Capitaltaxes");
 	</script>

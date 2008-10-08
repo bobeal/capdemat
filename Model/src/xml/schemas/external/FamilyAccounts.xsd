@@ -15,12 +15,26 @@
             </xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="HomeFolderId" type="xs:long" >
+        <xs:element name="HomeFolderId" type="xs:long">
           <xs:annotation>
             <xs:documentation>
               The CapDemat identifier of the home folder for whom the accounts are requested
             </xs:documentation>
           </xs:annotation>        
+        </xs:element>
+        <xs:element name="ExternalCapDematId" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              The external CapDemat identifier of the home folder for whom the accounts are requested
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ExternalId" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              The external identifier of the home folder for whom the accounts are requested
+            </xs:documentation>
+          </xs:annotation>   
         </xs:element>
       </xs:sequence>
     </xs:complexType>
@@ -218,6 +232,13 @@
       <xs:annotation>
         <xs:documentation>
           The individual identifier used by CapDemat
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="capwebct-external-individual-id" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          The external individual identifier used by CapDemat
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

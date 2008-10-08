@@ -110,6 +110,7 @@ public abstract class RequestService implements IRequestService {
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     protected IMailService mailService;
     protected ILocalizationService localizationService;
+    protected IExternalService externalService;
     
     protected IGenericDAO genericDAO;
     protected IIndividualDAO individualDAO;
@@ -156,11 +157,15 @@ public abstract class RequestService implements IRequestService {
             crit.setAttribut("belongsToCategory");
             crit.setComparatif(Critere.EQUALS);
             crit.setValue(sb.toString());
-        } else {
+        } else if (SecurityContext.isFrontOfficeContext()) {
             Adult adult = SecurityContext.getCurrentEcitizen();
             crit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
             crit.setComparatif(Critere.EQUALS);
             crit.setValue(adult.getHomeFolder().getId());
+        } else if (SecurityContext.isAdminContext()) {
+            crit.setAttribut("");
+            crit.setComparatif(Critere.EQUALS);
+            crit.setValue("");
         }
     
         return crit;
@@ -833,31 +838,9 @@ public abstract class RequestService implements IRequestService {
         // for each different request found in purchased items list, notify the associated
         // service of payment result status
         Set<Request> requests = new HashSet<Request>();
-        Map<String, List<PurchaseItem>> externalServicesToNotify = 
-        	new HashMap<String, List<PurchaseItem>>();
-        Iterator purchaseItemsIt = payment.getPurchaseItems().iterator();
-        while (purchaseItemsIt.hasNext()) {
-            PurchaseItem purchaseItem = (PurchaseItem) purchaseItemsIt.next();
-            
-            // if payment is validated and purchase item is managed by an external service, 
-            // notify associated external service of the purchased item
-            if (payment.getState().equals(PaymentState.VALIDATED)
-                    && (purchaseItem instanceof ExternalAccountItem)) {
-                logger.debug("notifyPaymentResult() item managed by an external service : " 
-                        + purchaseItem.getFriendlyLabel());
-                ExternalAccountItem externalAccountItem = (ExternalAccountItem) purchaseItem;
-                externalAccountItem.setSupportedBroker(payment.getBroker());
-                String externalServiceLabel = externalAccountItem.getExternalServiceLabel();
-                if (externalServicesToNotify.get(externalServiceLabel) == null) {
-                    externalServicesToNotify.put(externalServiceLabel, 
-                    		new ArrayList<PurchaseItem>());
-                }
-                List<PurchaseItem> externalServicesItems = 
-                	externalServicesToNotify.get(externalServiceLabel);
-                externalServicesItems.add(purchaseItem);
-            }
-            
-            // if purchase item has a request id, notify the corresponding service
+        Set<PurchaseItem> purchaseItems = payment.getPurchaseItems();
+        for (PurchaseItem purchaseItem : purchaseItems) {
+            // if purchase item is bound to a request, notify the corresponding service
             if (purchaseItem.getRequest() != null)
                 requests.add(purchaseItem.getRequest());
         }
@@ -874,73 +857,27 @@ public abstract class RequestService implements IRequestService {
             }
         }
         
-        if (!externalServicesToNotify.isEmpty()) {
-            LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-            for (String externalServiceLabel : externalServicesToNotify.keySet()) {
-                IExternalService service = 
-                    (IExternalService) lacb.getExternalServiceByLabel(externalServiceLabel);
-                if (service == null) {
-                    logger.error("notifyPayments() No external service with label " + 
-                            externalServiceLabel + " has been found");
-                    continue;
-                }
-                Collection purchaseItems = externalServicesToNotify.get(externalServiceLabel);
-                service.creditHomeFolderAccounts(purchaseItems, payment.getCvqReference(),
-                        payment.getBankReference(), payment.getHomeFolder().getId(), 
-                        payment.getCommitDate());
-            }
-        }
+        externalService.creditHomeFolderAccounts(payment);
     }
     
-    public boolean hasConsumptions(final String requestLabel)
+    public boolean hasMatchingExternalService(final String requestLabel)
         throws CvqException {
 
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Set externalServices =
-            lacb.getExternalServicesByRequestType(requestLabel);
-        if (externalServices != null && externalServices.size() > 0) {
-            logger.debug("hasConsumptions() got at least one external service for request type "
-                         + requestLabel);
-            return true;
-        } else {
-            logger.debug("hasConsumptions() no external service for request type " + requestLabel);
-            return false;
-        }
+        return externalService.hasMatchingExternalService(requestLabel);
     }
 
-    public Map getConsumptionsByRequest(final Long requestId, final Date dateFrom, 
+    public Map<Date, String> getConsumptionsByRequest(final Long requestId, final Date dateFrom, 
             final Date dateTo)
         throws CvqException {
 
-        logger.debug("getConsumptionsByRequest() request id " + requestId);
-
-        Request request = null;
-        request = getById(requestId);
+        Request request = getById(requestId);
 
         if (request.getState().equals(RequestState.ARCHIVED)) {
             logger.debug("getConsumptionsByRequest() Filtering archived request");
             return null;
         }
 
-        Map resultMap = new LinkedHashMap();
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Set externalServices =
-            lacb.getExternalServicesByRequestType(request.getRequestType().getLabel());
-        if (externalServices != null) {
-            logger.debug("getConsumptionsByRequest() got " + externalServices.size() 
-                    + " external services for request " + request.getRequestType().getLabel());
-            Iterator externalServicesIt = externalServices.iterator();
-            while (externalServicesIt.hasNext()) {
-                IExternalService service = (IExternalService) externalServicesIt.next();
-                logger.debug("getConsumptionsByRequest() calling service : " + service);
-                Map serviceConsumptionsMap =
-                    service.getConsumptionsByRequest(request, dateFrom, dateTo);
-                if (serviceConsumptionsMap != null && serviceConsumptionsMap.size() > 0)
-                    resultMap.putAll(serviceConsumptionsMap);
-            }
-        }
-
-        return resultMap;
+        return externalService.getConsumptionsByRequest(request, dateFrom, dateTo);
     }
 
     public String getConsumptionsField()
@@ -1374,14 +1311,10 @@ public abstract class RequestService implements IRequestService {
 		}
 
 		// send request data to interested external services
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+		externalService.sendRequest(request);
+
+		LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         String requestTypeLabel = request.getRequestType().getLabel();
-        Set<IExternalService> externalServices = 
-            lacb.getExternalServicesByRequestType(requestTypeLabel);
-        if (externalServices != null) {
-            for (IExternalService externalService : externalServices)
-                externalService.sendRequest(request);
-        }
         
         // send notification to ecitizen if enabled
         if (lacb.hasEcitizenValidationNotification(requestTypeLabel)
@@ -2052,5 +1985,9 @@ public abstract class RequestService implements IRequestService {
 
     public void setCategoryService(ICategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    public void setExternalService(IExternalService externalService) {
+        this.externalService = externalService;
     }
 }

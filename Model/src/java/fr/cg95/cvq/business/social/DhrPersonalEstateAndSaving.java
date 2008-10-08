@@ -46,9 +46,9 @@ public class DhrPersonalEstateAndSaving implements Serializable {
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         DhrPersonalEstateAndSavingType dhrPersonalEstateAndSaving = DhrPersonalEstateAndSavingType.Factory.newInstance();
-        dhrPersonalEstateAndSaving.setPaybookNumber(this.paybookNumber);
         if (this.paybookAmount != null)
             dhrPersonalEstateAndSaving.setPaybookAmount(new BigInteger(this.paybookAmount.toString()));
+        dhrPersonalEstateAndSaving.setPaybookNumber(this.paybookNumber);
         return dhrPersonalEstateAndSaving;
     }
 
@@ -57,8 +57,8 @@ public class DhrPersonalEstateAndSaving implements Serializable {
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         DhrPersonalEstateAndSaving dhrPersonalEstateAndSaving = new DhrPersonalEstateAndSaving();
-        dhrPersonalEstateAndSaving.setPaybookNumber(dhrPersonalEstateAndSavingDoc.getPaybookNumber());
         dhrPersonalEstateAndSaving.setPaybookAmount(dhrPersonalEstateAndSavingDoc.getPaybookAmount());
+        dhrPersonalEstateAndSaving.setPaybookNumber(dhrPersonalEstateAndSavingDoc.getPaybookNumber());
         return dhrPersonalEstateAndSaving;
     }
 
@@ -79,22 +79,6 @@ public class DhrPersonalEstateAndSaving implements Serializable {
         return this.id;
     }
 
-    private String paybookNumber;
-
-    public final void setPaybookNumber(final String paybookNumber) {
-        this.paybookNumber = paybookNumber;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="paybook_number"
-     *  length="30"
-     */
-    public final String getPaybookNumber() {
-        return this.paybookNumber;
-    }
-
     private java.math.BigInteger paybookAmount;
 
     public final void setPaybookAmount(final java.math.BigInteger paybookAmount) {
@@ -109,6 +93,22 @@ public class DhrPersonalEstateAndSaving implements Serializable {
      */
     public final java.math.BigInteger getPaybookAmount() {
         return this.paybookAmount;
+    }
+
+    private String paybookNumber;
+
+    public final void setPaybookNumber(final String paybookNumber) {
+        this.paybookNumber = paybookNumber;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="paybook_number"
+     *  length="30"
+     */
+    public final String getPaybookNumber() {
+        return this.paybookNumber;
     }
 
 }

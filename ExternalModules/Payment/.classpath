@@ -46,6 +46,6 @@
 	<classpathentry kind="lib" path="lib/standard.jar"/>
 	<classpathentry kind="lib" path="lib/wsdl4j.jar"/>
 	<classpathentry kind="lib" path="lib/xbean.jar"/>
-	<classpathentry kind="lib" path="lib/CVQ-ExternalServicesSchemas-VERSION_SAINT_GERMAIN.jar"/>
+	<classpathentry kind="lib" path="lib/CVQ-ExternalServicesSchemas-3.2.0.jar"/>
 	<classpathentry kind="output" path="build/src"/>
 </classpath>

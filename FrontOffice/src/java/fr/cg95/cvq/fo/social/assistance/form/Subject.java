@@ -11,17 +11,17 @@ import fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest;
 
 public class Subject extends IStageForm {
 
-	private boolean seniorAssitanceBeneficiary;
-	private java.math.BigInteger appartmentNumber;
-	private boolean taxable;
-	private java.math.BigInteger floor;
+	private String subjectAdultLastName;
 	private Calendar subjectAdultBirthDate;
 	private String subjectAdultHomePhone;
-	private String subjectAdultSex;
+	private boolean seniorAssitanceBeneficiary;
 	private String subjectAdultAddressStreetName;
-	private String subjectAdultLastName;
+	private boolean taxable;
 	private String subjectAdultFirstName2;
 	private String subjectAdultFirstName;
+	private String subjectAdultSex;
+	private java.math.BigInteger floor;
+	private java.math.BigInteger appartmentNumber;
 	private String dwelling;
 
 	public Subject() {
@@ -29,27 +29,27 @@ public class Subject extends IStageForm {
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("subject")) {
+		}
+		if (state.equals("display")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof RemoteSupportRequest)) {
 			RemoteSupportRequest request = (RemoteSupportRequest)xmlbRequest;
-			this.seniorAssitanceBeneficiary = request.getSeniorAssitanceBeneficiary();
-			this.appartmentNumber = request.getAppartmentNumber();
-			this.taxable = request.getTaxable();
-			this.floor = request.getFloor();
+			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
 			this.subjectAdultBirthDate = request.getSubject().getAdult().getBirthDate();
 			this.subjectAdultHomePhone = request.getSubject().getAdult().getHomePhone();
-			if (request.getSubject().getAdult().getSex() != null)
-			this.subjectAdultSex = request.getSubject().getAdult().getSex().toString();
+			this.seniorAssitanceBeneficiary = request.getSeniorAssitanceBeneficiary();
 			this.subjectAdultAddressStreetName = request.getSubject().getAdult().getAddress().getStreetName();
-			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
+			this.taxable = request.getTaxable();
 			this.subjectAdultFirstName2 = request.getSubject().getAdult().getFirstName2();
 			this.subjectAdultFirstName = request.getSubject().getAdult().getFirstName();
+			if (request.getSubject().getAdult().getSex() != null)
+			this.subjectAdultSex = request.getSubject().getAdult().getSex().toString();
+			this.floor = request.getFloor();
+			this.appartmentNumber = request.getAppartmentNumber();
 			if (request.getDwelling() != null)
 			this.dwelling = request.getDwelling().toString();
 		}
@@ -58,30 +58,30 @@ public class Subject extends IStageForm {
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof RemoteSupportRequest)) {
 			RemoteSupportRequest request = (RemoteSupportRequest)xmlbRequest;
-			request.setSeniorAssitanceBeneficiary(this.seniorAssitanceBeneficiary);
-			request.setAppartmentNumber(this.appartmentNumber);
-			request.setTaxable(this.taxable);
-			request.setFloor(this.floor);
+			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
 			request.getSubject().getAdult().setBirthDate(this.subjectAdultBirthDate);
 			request.getSubject().getAdult().setHomePhone(this.subjectAdultHomePhone);
-			request.getSubject().getAdult().setSex(SexType.Enum.forString(this.subjectAdultSex));
+			request.setSeniorAssitanceBeneficiary(this.seniorAssitanceBeneficiary);
 			request.getSubject().getAdult().getAddress().setStreetName(this.subjectAdultAddressStreetName);
-			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
+			request.setTaxable(this.taxable);
 			request.getSubject().getAdult().setFirstName2(this.subjectAdultFirstName2);
 			request.getSubject().getAdult().setFirstName(this.subjectAdultFirstName);
+			request.getSubject().getAdult().setSex(SexType.Enum.forString(this.subjectAdultSex));
+			request.setFloor(this.floor);
+			request.setAppartmentNumber(this.appartmentNumber);
 			request.setDwelling(RsrDwellingType.Enum.forString(this.dwelling));
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkSubjectAdultLastName() &&
+			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
+			return false;
 		if (this.checkSubjectAdultHomePhone() &&
 			((this.subjectAdultHomePhone == null) || (this.subjectAdultHomePhone.length() == 0)))
 			return false;
 		if (this.checkSubjectAdultAddressStreetName() &&
 			((this.subjectAdultAddressStreetName == null) || (this.subjectAdultAddressStreetName.length() == 0)))
-			return false;
-		if (this.checkSubjectAdultLastName() &&
-			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
 			return false;
 		if (this.checkSubjectAdultFirstName() &&
 			((this.subjectAdultFirstName == null) || (this.subjectAdultFirstName.length() == 0)))
@@ -92,52 +92,16 @@ public class Subject extends IStageForm {
 		return true;
 	}
 	
-	public void setSeniorAssitanceBeneficiary(boolean seniorAssitanceBeneficiary) {
-		this.seniorAssitanceBeneficiary = seniorAssitanceBeneficiary;
+	public void setSubjectAdultLastName(String subjectAdultLastName) {
+		this.subjectAdultLastName = subjectAdultLastName;
 	}
 	
-	public boolean getSeniorAssitanceBeneficiary() {
-		return this.seniorAssitanceBeneficiary;
+	public String getSubjectAdultLastName() {
+		return this.subjectAdultLastName;
 	}
 	
-	public boolean checkSeniorAssitanceBeneficiary() {
+	public boolean checkSubjectAdultLastName() {
 		return true;
-	}
-
-	public void setAppartmentNumber(java.math.BigInteger appartmentNumber) {
-		this.appartmentNumber = appartmentNumber;
-	}
-	
-	public java.math.BigInteger getAppartmentNumber() {
-		return this.appartmentNumber;
-	}
-	
-	public boolean checkAppartmentNumber() {
-		return dwelling.equals("Appartment");
-	}
-
-	public void setTaxable(boolean taxable) {
-		this.taxable = taxable;
-	}
-	
-	public boolean getTaxable() {
-		return this.taxable;
-	}
-	
-	public boolean checkTaxable() {
-		return true;
-	}
-
-	public void setFloor(java.math.BigInteger floor) {
-		this.floor = floor;
-	}
-	
-	public java.math.BigInteger getFloor() {
-		return this.floor;
-	}
-	
-	public boolean checkFloor() {
-		return dwelling.equals("Appartment");
 	}
 
 	public void setSubjectAdultBirthDate(Calendar subjectAdultBirthDate) {
@@ -164,15 +128,15 @@ public class Subject extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultSex(String subjectAdultSex) {
-		this.subjectAdultSex = subjectAdultSex;
+	public void setSeniorAssitanceBeneficiary(boolean seniorAssitanceBeneficiary) {
+		this.seniorAssitanceBeneficiary = seniorAssitanceBeneficiary;
 	}
 	
-	public String getSubjectAdultSex() {
-		return this.subjectAdultSex;
+	public boolean getSeniorAssitanceBeneficiary() {
+		return this.seniorAssitanceBeneficiary;
 	}
 	
-	public boolean checkSubjectAdultSex() {
+	public boolean checkSeniorAssitanceBeneficiary() {
 		return true;
 	}
 
@@ -188,15 +152,15 @@ public class Subject extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultLastName(String subjectAdultLastName) {
-		this.subjectAdultLastName = subjectAdultLastName;
+	public void setTaxable(boolean taxable) {
+		this.taxable = taxable;
 	}
 	
-	public String getSubjectAdultLastName() {
-		return this.subjectAdultLastName;
+	public boolean getTaxable() {
+		return this.taxable;
 	}
 	
-	public boolean checkSubjectAdultLastName() {
+	public boolean checkTaxable() {
 		return true;
 	}
 
@@ -222,6 +186,42 @@ public class Subject extends IStageForm {
 	
 	public boolean checkSubjectAdultFirstName() {
 		return true;
+	}
+
+	public void setSubjectAdultSex(String subjectAdultSex) {
+		this.subjectAdultSex = subjectAdultSex;
+	}
+	
+	public String getSubjectAdultSex() {
+		return this.subjectAdultSex;
+	}
+	
+	public boolean checkSubjectAdultSex() {
+		return true;
+	}
+
+	public void setFloor(java.math.BigInteger floor) {
+		this.floor = floor;
+	}
+	
+	public java.math.BigInteger getFloor() {
+		return this.floor;
+	}
+	
+	public boolean checkFloor() {
+		return dwelling.equals("Appartment");
+	}
+
+	public void setAppartmentNumber(java.math.BigInteger appartmentNumber) {
+		this.appartmentNumber = appartmentNumber;
+	}
+	
+	public java.math.BigInteger getAppartmentNumber() {
+		return this.appartmentNumber;
+	}
+	
+	public boolean checkAppartmentNumber() {
+		return dwelling.equals("Appartment");
 	}
 
 	public void setDwelling(String dwelling) {

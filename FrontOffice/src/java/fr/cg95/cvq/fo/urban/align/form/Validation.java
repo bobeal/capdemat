@@ -11,6 +11,13 @@ import fr.cg95.cvq.xml.urbanism.AlignmentCertificateRequestDocument.AlignmentCer
 
 public class Validation extends IStageForm {
 
+	private String requesterQuality;
+	private String section;
+	private String transportationRoute;
+	private String ownerFirstNames;
+	private String locality;
+	private java.math.BigInteger number;
+	private String ownerLastName;
   	private String ownerAddressAdditionalDeliveryInformation;
 	private String ownerAddressAdditionalGeographicalInformation;
 	private String ownerAddressStreetNumber;
@@ -18,13 +25,6 @@ public class Validation extends IStageForm {
 	private String ownerAddressPlaceNameOrService;
 	private String ownerAddressPostalCode;
 	private String ownerAddressCity;
-	private String section;
-	private String transportationRoute;
-	private String locality;
-	private String ownerLastName;
-	private java.math.BigInteger number;
-	private String ownerFirstNames;
-	private String requesterQuality;
 
 	public Validation() {
 		super();
@@ -40,6 +40,14 @@ public class Validation extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof AlignmentCertificateRequest)) {
 			AlignmentCertificateRequest request = (AlignmentCertificateRequest)xmlbRequest;
+			if (request.getRequesterQuality() != null)
+			this.requesterQuality = request.getRequesterQuality().toString();
+			this.section = request.getSection();
+			this.transportationRoute = request.getTransportationRoute();
+			this.ownerFirstNames = request.getOwnerFirstNames();
+			this.locality = request.getLocality();
+			this.number = request.getNumber();
+			this.ownerLastName = request.getOwnerLastName();
   			this.ownerAddressAdditionalDeliveryInformation = request.getOwnerAddress().getAdditionalDeliveryInformation();
 			this.ownerAddressAdditionalGeographicalInformation = request.getOwnerAddress().getAdditionalGeographicalInformation();
 			this.ownerAddressStreetNumber = request.getOwnerAddress().getStreetNumber();
@@ -47,20 +55,19 @@ public class Validation extends IStageForm {
 			this.ownerAddressPlaceNameOrService = request.getOwnerAddress().getPlaceNameOrService();
 			this.ownerAddressPostalCode = request.getOwnerAddress().getPostalCode();
 			this.ownerAddressCity = request.getOwnerAddress().getCity();
-			this.section = request.getSection();
-			this.transportationRoute = request.getTransportationRoute();
-			this.locality = request.getLocality();
-			this.ownerLastName = request.getOwnerLastName();
-			this.number = request.getNumber();
-			this.ownerFirstNames = request.getOwnerFirstNames();
-			if (request.getRequesterQuality() != null)
-			this.requesterQuality = request.getRequesterQuality().toString();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof AlignmentCertificateRequest)) {
 			AlignmentCertificateRequest request = (AlignmentCertificateRequest)xmlbRequest;
+			request.setRequesterQuality(AcrRequesterQualityType.Enum.forString(this.requesterQuality));
+			request.setSection(this.section);
+			request.setTransportationRoute(this.transportationRoute);
+			request.setOwnerFirstNames(this.ownerFirstNames);
+			request.setLocality(this.locality);
+			request.setNumber(this.number);
+			request.setOwnerLastName(this.ownerLastName);
   			request.getOwnerAddress().setAdditionalDeliveryInformation(this.ownerAddressAdditionalDeliveryInformation);
 			request.getOwnerAddress().setAdditionalGeographicalInformation(this.ownerAddressAdditionalGeographicalInformation);
 			request.getOwnerAddress().setStreetNumber(this.ownerAddressStreetNumber);
@@ -68,17 +75,16 @@ public class Validation extends IStageForm {
 			request.getOwnerAddress().setPlaceNameOrService(this.ownerAddressPlaceNameOrService);
 			request.getOwnerAddress().setPostalCode(this.ownerAddressPostalCode);
 			request.getOwnerAddress().setCity(this.ownerAddressCity);
-			request.setSection(this.section);
-			request.setTransportationRoute(this.transportationRoute);
-			request.setLocality(this.locality);
-			request.setOwnerLastName(this.ownerLastName);
-			request.setNumber(this.number);
-			request.setOwnerFirstNames(this.ownerFirstNames);
-			request.setRequesterQuality(AcrRequesterQualityType.Enum.forString(this.requesterQuality));
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkRequesterQuality() &&
+			((this.requesterQuality == null) || (this.requesterQuality.length() == 0)))
+			return false;
+		if (this.checkSection() &&
+			((this.section == null) || (this.section.length() == 0)))
+			return false;
   		if (this.checkOwnerAddressStreetName() &&
 			((this.ownerAddressStreetName == null) || (this.ownerAddressStreetName.length() == 0)))
 			return false;
@@ -88,15 +94,93 @@ public class Validation extends IStageForm {
 		if (this.checkOwnerAddressCity() &&
 			((this.ownerAddressCity == null) || (this.ownerAddressCity.length() == 0)))
 			return false;
-		if (this.checkSection() &&
-			((this.section == null) || (this.section.length() == 0)))
-			return false;
-		if (this.checkRequesterQuality() &&
-			((this.requesterQuality == null) || (this.requesterQuality.length() == 0)))
-			return false;
 		return true;
 	}
 	
+	public void setRequesterQuality(String requesterQuality) {
+		this.requesterQuality = requesterQuality;
+	}
+	
+	public String getRequesterQuality() {
+		return this.requesterQuality;
+	}
+	
+	public boolean checkRequesterQuality() {
+		return true;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+	
+	public String getSection() {
+		return this.section;
+	}
+	
+	public boolean checkSection() {
+		return true;
+	}
+
+	public void setTransportationRoute(String transportationRoute) {
+		this.transportationRoute = transportationRoute;
+	}
+	
+	public String getTransportationRoute() {
+		return this.transportationRoute;
+	}
+	
+	public boolean checkTransportationRoute() {
+		return true;
+	}
+
+	public void setOwnerFirstNames(String ownerFirstNames) {
+		this.ownerFirstNames = ownerFirstNames;
+	}
+	
+	public String getOwnerFirstNames() {
+		return this.ownerFirstNames;
+	}
+	
+	public boolean checkOwnerFirstNames() {
+		return true;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
+	
+	public String getLocality() {
+		return this.locality;
+	}
+	
+	public boolean checkLocality() {
+		return true;
+	}
+
+	public void setNumber(java.math.BigInteger number) {
+		this.number = number;
+	}
+	
+	public java.math.BigInteger getNumber() {
+		return this.number;
+	}
+	
+	public boolean checkNumber() {
+		return true;
+	}
+
+	public void setOwnerLastName(String ownerLastName) {
+		this.ownerLastName = ownerLastName;
+	}
+	
+	public String getOwnerLastName() {
+		return this.ownerLastName;
+	}
+	
+	public boolean checkOwnerLastName() {
+		return true;
+	}
+
   	public void setOwnerAddressAdditionalDeliveryInformation(String ownerAddressAdditionalDeliveryInformation) {
 		this.ownerAddressAdditionalDeliveryInformation = ownerAddressAdditionalDeliveryInformation;
 	}
@@ -178,90 +262,6 @@ public class Validation extends IStageForm {
 	}
 	
 	public boolean checkOwnerAddressCity() {
-		return true;
-	}
-
-	public void setSection(String section) {
-		this.section = section;
-	}
-	
-	public String getSection() {
-		return this.section;
-	}
-	
-	public boolean checkSection() {
-		return true;
-	}
-
-	public void setTransportationRoute(String transportationRoute) {
-		this.transportationRoute = transportationRoute;
-	}
-	
-	public String getTransportationRoute() {
-		return this.transportationRoute;
-	}
-	
-	public boolean checkTransportationRoute() {
-		return true;
-	}
-
-	public void setLocality(String locality) {
-		this.locality = locality;
-	}
-	
-	public String getLocality() {
-		return this.locality;
-	}
-	
-	public boolean checkLocality() {
-		return true;
-	}
-
-	public void setOwnerLastName(String ownerLastName) {
-		this.ownerLastName = ownerLastName;
-	}
-	
-	public String getOwnerLastName() {
-		return this.ownerLastName;
-	}
-	
-	public boolean checkOwnerLastName() {
-		return true;
-	}
-
-	public void setNumber(java.math.BigInteger number) {
-		this.number = number;
-	}
-	
-	public java.math.BigInteger getNumber() {
-		return this.number;
-	}
-	
-	public boolean checkNumber() {
-		return true;
-	}
-
-	public void setOwnerFirstNames(String ownerFirstNames) {
-		this.ownerFirstNames = ownerFirstNames;
-	}
-	
-	public String getOwnerFirstNames() {
-		return this.ownerFirstNames;
-	}
-	
-	public boolean checkOwnerFirstNames() {
-		return true;
-	}
-
-	public void setRequesterQuality(String requesterQuality) {
-		this.requesterQuality = requesterQuality;
-	}
-	
-	public String getRequesterQuality() {
-		return this.requesterQuality;
-	}
-	
-	public boolean checkRequesterQuality() {
 		return true;
 	}
 

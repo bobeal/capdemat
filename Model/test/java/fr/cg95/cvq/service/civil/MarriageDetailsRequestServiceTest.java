@@ -50,26 +50,21 @@ public class MarriageDetailsRequestServiceTest extends ServiceTestCase {
     protected MarriageDetailsRequest fillMeARequest() throws CvqException {
 
         MarriageDetailsRequest request = new MarriageDetailsRequest();
-              request.setRequesterQualityPrecision("RequesterQualityPrecision");
+          request.setCopies(BigInteger.valueOf(1));
+                request.setMotherFirstNames("MotherFirstNames");
+                request.setComment("Comment");
+                request.setRequesterQualityPrecision("RequesterQualityPrecision");
+                  if ("MarriageCity".length() > 32)
+        request.setMarriageCity("MarriageCity".substring(0, 32));
+      else
+        request.setMarriageCity("MarriageCity");
                   request.setRelationship(MarriageRelationshipType.HUSBAND);
                   if ("MarriagePostalCode".length() > 2)
         request.setMarriagePostalCode("MarriagePostalCode".substring(0, 2));
       else
         request.setMarriagePostalCode("MarriagePostalCode");
-                    request.setMarriageWifeFirstNames("MarriageWifeFirstNames");
-                  if ("MarriageHusbandLastName".length() > 38)
-        request.setMarriageHusbandLastName("MarriageHusbandLastName".substring(0, 38));
-      else
-        request.setMarriageHusbandLastName("MarriageHusbandLastName");
-                    request.setFatherFirstNames("FatherFirstNames");
-                  request.setFormat(MarriageCertificateFormatType.FULL_COPY);
-                request.setCopies(BigInteger.valueOf(1));
-              if ("MarriageCity".length() > 32)
-        request.setMarriageCity("MarriageCity".substring(0, 32));
-      else
-        request.setMarriageCity("MarriageCity");
-                request.setUsage("Usage");
-              request.setRequesterQuality(MarriageRequesterQualityType.REQUESTER);
+                  request.setMotive(MarriageCertificateMotiveType.NOTARY_ACT);
+                  request.setRequesterQuality(MarriageRequesterQualityType.REQUESTER);
                   if ("FatherLastName".length() > 38)
         request.setFatherLastName("FatherLastName".substring(0, 38));
       else
@@ -78,13 +73,19 @@ public class MarriageDetailsRequestServiceTest extends ServiceTestCase {
         request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
       else
         request.setMotherMaidenName("MotherMaidenName");
+                request.setMarriageDate(new Date());
+                request.setMarriageWifeFirstNames("MarriageWifeFirstNames");
                   if ("MarriageWifeLastName".length() > 38)
         request.setMarriageWifeLastName("MarriageWifeLastName".substring(0, 38));
       else
         request.setMarriageWifeLastName("MarriageWifeLastName");
-                    request.setMotherFirstNames("MotherFirstNames");
-                request.setMarriageDate(new Date());
-                request.setMarriageHusbandFirstNames("MarriageHusbandFirstNames");
+                  if ("MarriageHusbandLastName".length() > 38)
+        request.setMarriageHusbandLastName("MarriageHusbandLastName".substring(0, 38));
+      else
+        request.setMarriageHusbandLastName("MarriageHusbandLastName");
+                    request.setFatherFirstNames("FatherFirstNames");
+                    request.setMarriageHusbandFirstNames("MarriageHusbandFirstNames");
+                  request.setFormat(MarriageCertificateFormatType.FULL_COPY);
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

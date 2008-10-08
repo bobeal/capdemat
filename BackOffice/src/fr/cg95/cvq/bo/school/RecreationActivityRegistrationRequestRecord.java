@@ -14,15 +14,16 @@ import fr.cg95.cvq.business.school.*;
 
 public class RecreationActivityRegistrationRequestRecord extends RequestRecord {
 
-	private boolean classTripPermission;
-	private boolean childPhotoExploitationPermission;
-	private boolean rulesAndRegulationsAcceptance;
-	private String urgencyPhone;
-	private String subjectChildFirstName;
-	private String recreationCenterName;
-	private boolean hospitalizationPermission;
 	private String subjectChildLastName;
 	private Calendar subjectChildBirthDate;
+	private boolean rulesAndRegulationsAcceptance;
+	private boolean childPhotoExploitationPermission;
+	private boolean classTripPermission;
+	private String recreationCenterName;
+	private String urgencyPhone;
+	private boolean hospitalizationPermission;
+	private List otherIndividual;
+	private String subjectChildFirstName;
 	private boolean[] recreationActivity;
    	private List recreationActivityList;
 
@@ -48,23 +49,23 @@ public class RecreationActivityRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof RecreationActivityRegistrationRequest)) {
             RecreationActivityRegistrationRequest request = (RecreationActivityRegistrationRequest)xmlRequest; 
 
-            if ((request.getClassTripPermission() != null))
-			this.classTripPermission = request.getClassTripPermission();
-            if ((request.getChildPhotoExploitationPermission() != null))
-			this.childPhotoExploitationPermission = request.getChildPhotoExploitationPermission();
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
-			this.urgencyPhone = request.getUrgencyPhone();
-			this.subjectChildFirstName = ((Child)request.getSubject()).getFirstName();
-            if ((request.getRecreationCenter() != null))
-			this.recreationCenterName = request.getRecreationCenter().getName();
-            if ((request.getHospitalizationPermission() != null))
-			this.hospitalizationPermission = request.getHospitalizationPermission();
 			this.subjectChildLastName = ((Child)request.getSubject()).getLastName();
 			if (((Child)request.getSubject()).getBirthDate() != null) {
 				this.subjectChildBirthDate = Calendar.getInstance(); 
 	            this.subjectChildBirthDate.setTime(((Child)request.getSubject()).getBirthDate());
 			}
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
+            if ((request.getChildPhotoExploitationPermission() != null))
+			this.childPhotoExploitationPermission = request.getChildPhotoExploitationPermission();
+            if ((request.getClassTripPermission() != null))
+			this.classTripPermission = request.getClassTripPermission();
+            if ((request.getRecreationCenter() != null))
+			this.recreationCenterName = request.getRecreationCenter().getName();
+			this.urgencyPhone = request.getUrgencyPhone();
+            if ((request.getHospitalizationPermission() != null))
+			this.hospitalizationPermission = request.getHospitalizationPermission();
+			this.subjectChildFirstName = ((Child)request.getSubject()).getFirstName();
             this.setRecreationActivity(this.getList("RecreationActivity"), request.getRecreationActivity());
         }
     }
@@ -79,77 +80,21 @@ public class RecreationActivityRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof RecreationActivityRegistrationRequest)) {
             RecreationActivityRegistrationRequest request = (RecreationActivityRegistrationRequest)xmlRequest; 
 
-            if ((request.getClassTripPermission() != null))
-			request.setClassTripPermission(this.classTripPermission);
-            if ((request.getChildPhotoExploitationPermission() != null))
-			request.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission);
             if ((request.getRulesAndRegulationsAcceptance() != null))
 			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
-			request.setUrgencyPhone(this.urgencyPhone);
+            if ((request.getChildPhotoExploitationPermission() != null))
+			request.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission);
+            if ((request.getClassTripPermission() != null))
+			request.setClassTripPermission(this.classTripPermission);
             if ((request.getRecreationCenter() != null))
 			request.getRecreationCenter().setName(this.recreationCenterName);
+			request.setUrgencyPhone(this.urgencyPhone);
             if ((request.getHospitalizationPermission() != null))
 			request.setHospitalizationPermission(this.hospitalizationPermission);
 			request.setRecreationActivity(this.getRecreationActivityKeys());
         }
     }
     
-	public void setClassTripPermission(boolean classTripPermission) {
-		this.classTripPermission = classTripPermission;
-	}
-	
-	public boolean getClassTripPermission() {
-		return this.classTripPermission;
-	}
-
-	public void setChildPhotoExploitationPermission(boolean childPhotoExploitationPermission) {
-		this.childPhotoExploitationPermission = childPhotoExploitationPermission;
-	}
-	
-	public boolean getChildPhotoExploitationPermission() {
-		return this.childPhotoExploitationPermission;
-	}
-
-	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
-		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
-	}
-	
-	public boolean getRulesAndRegulationsAcceptance() {
-		return this.rulesAndRegulationsAcceptance;
-	}
-
-	public void setUrgencyPhone(String urgencyPhone) {
-		this.urgencyPhone = urgencyPhone;
-	}
-	
-	public String getUrgencyPhone() {
-		return this.urgencyPhone;
-	}
-
-	public void setSubjectChildFirstName(String subjectChildFirstName) {
-		this.subjectChildFirstName = subjectChildFirstName;
-	}
-	
-	public String getSubjectChildFirstName() {
-		return this.subjectChildFirstName;
-	}
-
-	public void setRecreationCenterName(String recreationCenterName) {
-		this.recreationCenterName = recreationCenterName;
-	}
-	
-	public String getRecreationCenterName() {
-		return this.recreationCenterName;
-	}
-
-	public void setHospitalizationPermission(boolean hospitalizationPermission) {
-		this.hospitalizationPermission = hospitalizationPermission;
-	}
-	
-	public boolean getHospitalizationPermission() {
-		return this.hospitalizationPermission;
-	}
-
 	public void setSubjectChildLastName(String subjectChildLastName) {
 		this.subjectChildLastName = subjectChildLastName;
 	}
@@ -164,6 +109,70 @@ public class RecreationActivityRegistrationRequestRecord extends RequestRecord {
 	
 	public Calendar getSubjectChildBirthDate() {
 		return this.subjectChildBirthDate;
+	}
+
+	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
+		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+	}
+	
+	public boolean getRulesAndRegulationsAcceptance() {
+		return this.rulesAndRegulationsAcceptance;
+	}
+
+	public void setChildPhotoExploitationPermission(boolean childPhotoExploitationPermission) {
+		this.childPhotoExploitationPermission = childPhotoExploitationPermission;
+	}
+	
+	public boolean getChildPhotoExploitationPermission() {
+		return this.childPhotoExploitationPermission;
+	}
+
+	public void setClassTripPermission(boolean classTripPermission) {
+		this.classTripPermission = classTripPermission;
+	}
+	
+	public boolean getClassTripPermission() {
+		return this.classTripPermission;
+	}
+
+	public void setRecreationCenterName(String recreationCenterName) {
+		this.recreationCenterName = recreationCenterName;
+	}
+	
+	public String getRecreationCenterName() {
+		return this.recreationCenterName;
+	}
+
+	public void setUrgencyPhone(String urgencyPhone) {
+		this.urgencyPhone = urgencyPhone;
+	}
+	
+	public String getUrgencyPhone() {
+		return this.urgencyPhone;
+	}
+
+	public void setHospitalizationPermission(boolean hospitalizationPermission) {
+		this.hospitalizationPermission = hospitalizationPermission;
+	}
+	
+	public boolean getHospitalizationPermission() {
+		return this.hospitalizationPermission;
+	}
+
+	public void setOtherIndividual(List otherIndividual) {
+		this.otherIndividual = otherIndividual;
+	}
+	
+	public List getOtherIndividual() {
+		return this.otherIndividual;
+	}
+
+	public void setSubjectChildFirstName(String subjectChildFirstName) {
+		this.subjectChildFirstName = subjectChildFirstName;
+	}
+	
+	public String getSubjectChildFirstName() {
+		return this.subjectChildFirstName;
 	}
 
 	public void setRecreationActivity(List referential, Set values) {

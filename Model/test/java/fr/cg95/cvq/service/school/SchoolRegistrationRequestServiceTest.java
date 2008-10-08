@@ -50,16 +50,16 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
     protected SchoolRegistrationRequest fillMeARequest() throws CvqException {
 
         SchoolRegistrationRequest request = new SchoolRegistrationRequest();
-              request.setCurrentSchoolName("CurrentSchoolName");
-                  request.setSection(SectionType.BEFORE_FIRST_SECTION);
+              request.setCurrentSchoolAddress("CurrentSchoolAddress");
                    request.setSchool((School) schoolService.getAll().iterator().next());
-                    request.setCurrentSchoolAddress("CurrentSchoolAddress");
+                request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+                request.setCurrentSchoolName("CurrentSchoolName");
                   if ("UrgencyPhone".length() > 10)
         request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
       else
         request.setUrgencyPhone("UrgencyPhone");
-                request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-              request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
+                  request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
+                  request.setSection(SectionType.BEFORE_FIRST_SECTION);
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

@@ -160,18 +160,18 @@ public class FamilyAccountServiceTest extends ServiceTestCase {
 			familyAccountService.bindFamilyAccounts("88", externalApplication.getId(), 13, "BOR");
 			familyAccountService.bindFamilyAccounts("77", externalApplication.getId(), 13, "BOR");
 
-			List fetchList = familyAccountService.searchExternalFamilyAccount(null, null, 0, 0, null);
+			List fetchList = familyAccountService.searchExternalFamilyAccount(null, null, 0, 0, null, 0, 0, null, null);
 			assertEquals(5, fetchList.size());
 
-			fetchList = familyAccountService.searchExternalFamilyAccount("88", null, 0, 0, null);
+			fetchList = familyAccountService.searchExternalFamilyAccount("88", null, 0, 0, null, 0, 0, null, null);
 			assertEquals(2, fetchList.size());
 
-			fetchList = familyAccountService.searchExternalFamilyAccount(null, null, 0, 17, null);
+			fetchList = familyAccountService.searchExternalFamilyAccount(null, null, 0, 17, null, 0, 0, null, null);
 			assertEquals(2, fetchList.size());
 
 			fetchList = 
                 familyAccountService.searchExternalFamilyAccount(null, 
-                        null, externalApplication.getId(), 0, null);
+                        null, externalApplication.getId(), 0, null, 0, 0, null, null);
 			assertEquals(5, fetchList.size());
 
 		} catch (DataAccessException e) {

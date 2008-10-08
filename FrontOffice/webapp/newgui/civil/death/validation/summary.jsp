@@ -2,37 +2,7 @@
 <%@ taglib uri="/cvq-forms" prefix="cvqf" %>
 
 	<cvqf:form name="Validation" action="#" mode="static">
-      <cvqf:title stage="Nature"/>
       <ul class="validation_list">
-        <li class="text_row">
-          <p class="label">
-            Qualité du demandeur : 
-          </p>
-          <p class="text">
-            <cvqf:select name="requesterQuality" mode="static">
-              <option value="">Choisissez un qualité du demandeur</option>
-              <option value="Spouse">Son conjoint</option>
-              <option value="Parent">Son père / sa mère</option>
-              <option value="GrandParent">Son grand-père / sa grand-mère</option>
-              <option value="Child">Son fils / sa fille</option>
-              <option value="LegalRepresentant">Son représentant légal</option>
-              <option value="Agent">Son mandataire</option>
-              <option value="HeirFamily">Son héritier et aussi son frère ou sa soeur</option>
-              <option value="Heir">Son héritier sans être son frère ou sa soeur</option>
-              <option value="Authorized">Autorisé par le procureur de la République</option>
-              <option value="LawyerNotary">Avocat, notaire</option>
-              <option value="Other">Autre</option>
-            </cvqf:select>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">
-            Précisez : 
-          </p>
-          <p class="text">
-            <cvqf:text name="requesterQualityPrecision" mode="static"/>
-          </p>
-        </li>
         <li class="text_row">
           <p class="label">
             Nom : 
@@ -51,7 +21,7 @@
         </li>
         <li class="text_row">
           <p class="label">
-            Date du décès : 
+            Date de décès : 
           </p>
           <p class="text">
             <cvqf:text name="deathDate" mode="static" maxlength="10"/>
@@ -84,8 +54,7 @@
             <cvqf:select name="format" mode="static">
               <option value="">Choisissez un type de l'acte</option>
               <option value="FullCopy">Copie intégrale</option>
-              <option value="ExtractWithRelationship">Extrait avec filiation</option>
-              <option value="ExtractWithoutRelationship">Extrait sans filiation</option>
+              <option value="MultilingualExtract">Extrait plurilingue</option>
             </cvqf:select>
           </p>
         </li>
@@ -99,10 +68,25 @@
         </li>
         <li class="text_row">
           <p class="label">
-            Usage : 
+            Commentaire : 
           </p>
           <p class="text">
-            <cvqf:text name="usage" mode="static"/>
+            <cvqf:text name="comment" mode="static"/>
+          </p>
+        </li>
+        <li class="text_row">
+          <p class="label">
+            Motif : 
+          </p>
+          <p class="text">
+            <cvqf:select name="motive" mode="static">
+              <option value="">Choisissez un motif</option>
+              <option value="NotaryAct">Acte de notaire</option>
+              <option value="Marriage">Mariage</option>
+              <option value="Passport">Passeport</option>
+              <option value="Pension">Pension</option>
+              <option value="Other">Autre</option>
+            </cvqf:select>
           </p>
         </li>
       </ul>

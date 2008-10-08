@@ -50,17 +50,17 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
     protected PerischoolActivityRegistrationRequest fillMeARequest() throws CvqException {
 
         PerischoolActivityRegistrationRequest request = new PerischoolActivityRegistrationRequest();
-                  request.setHospitalizationPermission(Boolean.valueOf(true));
-              request.setSection(SectionType.BEFORE_FIRST_SECTION);
-                   request.setSchool((School) schoolService.getAll().iterator().next());
-                  if ("UrgencyPhone".length() > 10)
+          request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
+               request.setSchool((School) schoolService.getAll().iterator().next());
+                request.setHospitalizationPermission(Boolean.valueOf(true));
+            request.setClassTripPermission(Boolean.valueOf(true));
+                    request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+              if ("UrgencyPhone".length() > 10)
         request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
       else
         request.setUrgencyPhone("UrgencyPhone");
-                request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-                    request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
-            request.setClassTripPermission(Boolean.valueOf(true));
-  
+                          request.setSection(SectionType.BEFORE_FIRST_SECTION);
+      
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

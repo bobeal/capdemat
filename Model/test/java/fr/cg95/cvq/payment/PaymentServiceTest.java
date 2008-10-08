@@ -1,6 +1,7 @@
 package fr.cg95.cvq.payment;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,10 +23,35 @@ import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.external.ExternalServiceBean;
+import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class PaymentServiceTest extends ServiceTestCase {
+
+    private IExternalProviderService fakeExternalService;
+
+    public void onSetUp() throws Exception {
+        super.onSetUp();
+        fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
+
+        ExternalServiceBean esb = new ExternalServiceBean();
+        List<String> requestTypes = new ArrayList<String>();
+        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
+        esb.setRequestTypes(requestTypes);
+        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+        lacb.registerExternalService(fakeExternalService, esb);
+    }
+    
+    public void onTearDown() throws Exception {
+        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+        lacb.unregisterExternalService(fakeExternalService);    
+    }
 
     private Payment gimmePayment(final Long requestId) throws CvqException {
         
@@ -61,7 +87,7 @@ public class PaymentServiceTest extends ServiceTestCase {
         iPaymentService.addPurchaseItemToPayment(payment, internalRequestItem2);
 
         ExternalAccountItem eai = 
-            new ExternalDepositAccountItem("eai", Double.valueOf("30"), "Fake External Service", 
+            new ExternalDepositAccountItem("eai", Double.valueOf("30"), fakeExternalService.getLabel(), 
                     "Deposit Account Label", new Date(), Double.valueOf("70"));
         eai.addExternalServiceSpecificData("externalFamilyAccountId", "EFA-ID");
         eai.addExternalServiceSpecificData("externalApplicationLabel", "Cantine");
@@ -82,6 +108,7 @@ public class PaymentServiceTest extends ServiceTestCase {
         HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
         
         Payment payment = gimmePayment(cb.getRequestId());
+
         URL url = iPaymentService.initPayment(payment);
         Assert.assertNotNull(url);
         
@@ -184,14 +211,14 @@ public class PaymentServiceTest extends ServiceTestCase {
         from.add(Calendar.MINUTE, -1);
         Calendar to = Calendar.getInstance();
         to.add(Calendar.MINUTE, 1);
-        payments = iPaymentService.get(from.getTime(), to.getTime(), iPaymentService.DATE_TYPE_INITIALIZATION,
-                null,null, null, null, null, null);
+        payments = iPaymentService.get(from.getTime(), to.getTime(), 
+                IPaymentService.DATE_TYPE_INITIALIZATION, null, null, null, null, null, null);
         Assert.assertEquals(1, payments.size());
         payments = iPaymentService.get(from.getTime(), to.getTime(), null,
                 null,null, null, null, null, null);
         Assert.assertEquals(1, payments.size());
-        payments = iPaymentService.get(null, null, null, null,null, payments.get(0).getBankReference()
-                , null, null, null);
+        payments = iPaymentService.get(null, null, null, null,null, 
+                payments.get(0).getBankReference(), null, null, null);
         Assert.assertEquals(1, payments.size());
         
         continueWithNewTransaction();

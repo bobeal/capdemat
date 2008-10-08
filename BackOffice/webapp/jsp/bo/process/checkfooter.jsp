@@ -131,7 +131,7 @@ function submitPreview(form) {
 		        scope="session"
 		        key="shortLabel"
 		        label="shortLabel"
-		        value=""
+		        value="currentLetterTypeRecord"
 		        id="certificat"
 		        styleClass="input_select"
 		        onchange="checkValid('certificat','print')"

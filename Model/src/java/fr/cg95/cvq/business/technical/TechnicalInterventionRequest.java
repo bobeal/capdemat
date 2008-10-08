@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.technical.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -51,6 +53,9 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         TechnicalInterventionRequestDocument technicalInterventionRequestDoc = TechnicalInterventionRequestDocument.Factory.newInstance();
         TechnicalInterventionRequestDocument.TechnicalInterventionRequest technicalInterventionRequest = technicalInterventionRequestDoc.addNewTechnicalInterventionRequest();
         super.fillCommonXmlInfo(technicalInterventionRequest);
+        technicalInterventionRequest.setInterventionDescription(this.interventionDescription);
+        if (this.interventionPlace != null)
+            technicalInterventionRequest.setInterventionPlace(Address.modelToXml(this.interventionPlace));
         int i = 0;
         if (interventionType != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] interventionTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[interventionType.size()];
@@ -62,10 +67,14 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
             }
             technicalInterventionRequest.setInterventionTypeArray(interventionTypeTypeTab);
         }
-        if (this.interventionPlace != null)
-            technicalInterventionRequest.setInterventionPlace(Address.modelToXml(this.interventionPlace));
-        technicalInterventionRequest.setInterventionDescription(this.interventionDescription);
         return technicalInterventionRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        TechnicalInterventionRequestDocument technicalInterventionRequestDoc =
+            (TechnicalInterventionRequestDocument) modelToXml();
+        return technicalInterventionRequestDoc.getTechnicalInterventionRequest();
     }
 
     public static TechnicalInterventionRequest xmlToModel(TechnicalInterventionRequestDocument technicalInterventionRequestDoc) {
@@ -75,6 +84,9 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         List list = new ArrayList();
         TechnicalInterventionRequest technicalInterventionRequest = new TechnicalInterventionRequest();
         technicalInterventionRequest.fillCommonModelInfo(technicalInterventionRequest,technicalInterventionRequestXml);
+        technicalInterventionRequest.setInterventionDescription(technicalInterventionRequestXml.getInterventionDescription());
+        if (technicalInterventionRequestXml.getInterventionPlace() != null)
+            technicalInterventionRequest.setInterventionPlace(Address.xmlToModel(technicalInterventionRequestXml.getInterventionPlace()));
         HashSet interventionTypeSet = new HashSet();
         if ( technicalInterventionRequestXml.sizeOfInterventionTypeArray() > 0) {
             for (int i = 0; i < technicalInterventionRequestXml.getInterventionTypeArray().length; i++) {
@@ -82,10 +94,39 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
             }
         }
         technicalInterventionRequest.setInterventionType(interventionTypeSet);
-        if (technicalInterventionRequestXml.getInterventionPlace() != null)
-            technicalInterventionRequest.setInterventionPlace(Address.xmlToModel(technicalInterventionRequestXml.getInterventionPlace()));
-        technicalInterventionRequest.setInterventionDescription(technicalInterventionRequestXml.getInterventionDescription());
         return technicalInterventionRequest;
+    }
+
+    private String interventionDescription;
+
+    public final void setInterventionDescription(final String interventionDescription) {
+        this.interventionDescription = interventionDescription;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="intervention_description"
+     */
+    public final String getInterventionDescription() {
+        return this.interventionDescription;
+    }
+
+    private fr.cg95.cvq.business.users.Address interventionPlace;
+
+    public final void setInterventionPlace(final fr.cg95.cvq.business.users.Address interventionPlace) {
+        this.interventionPlace = interventionPlace;
+    }
+
+
+    /**
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="intervention_place_id"
+     *  class="fr.cg95.cvq.business.users.Address"
+     */
+    public final fr.cg95.cvq.business.users.Address getInterventionPlace() {
+        return this.interventionPlace;
     }
 
     private Set interventionType;
@@ -108,38 +149,6 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
      */
     public final Set getInterventionType() {
         return this.interventionType;
-    }
-
-    private fr.cg95.cvq.business.users.Address interventionPlace;
-
-    public final void setInterventionPlace(final fr.cg95.cvq.business.users.Address interventionPlace) {
-        this.interventionPlace = interventionPlace;
-    }
-
-
-    /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="intervention_place_id"
-     *  class="fr.cg95.cvq.business.users.Address"
-     */
-    public final fr.cg95.cvq.business.users.Address getInterventionPlace() {
-        return this.interventionPlace;
-    }
-
-    private String interventionDescription;
-
-    public final void setInterventionDescription(final String interventionDescription) {
-        this.interventionDescription = interventionDescription;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="intervention_description"
-     */
-    public final String getInterventionDescription() {
-        return this.interventionDescription;
     }
 
 }

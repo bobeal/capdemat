@@ -5,6 +5,8 @@ cas_validate_url = https://localhost:8443/cas/proxyValidate
 cas_server_names = localhost:8083,localhost:8445
 cas_authorized_proxies = https://localhost:8444/@cas/proxyCallback
 cas_logout_url = https://localhost:8443/cas/logout
+cas_mocking = true
+cas_url_pattern = /*
 
 ldap.enabled=false
 ldap.host=localhost
@@ -25,6 +27,7 @@ assets.included_authorities=dummy
 data.properties.path=/home/capdemat/Model/test/data/
 
 mail.sender_host=127.0.0.1
+mail.sender_port=2500
 mail.admin_address=root@localhost
 
 agent.administrator_group=CVQ_ADMINISTRATORS

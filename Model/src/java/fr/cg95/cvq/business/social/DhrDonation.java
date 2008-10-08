@@ -46,22 +46,22 @@ public class DhrDonation implements Serializable {
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         DhrDonationType dhrDonation = DhrDonationType.Factory.newInstance();
+        if (this.donationNotaryAddress != null)
+            dhrDonation.setDonationNotaryAddress(Address.modelToXml(this.donationNotaryAddress));
+        dhrDonation.setDonationBeneficiaryName(this.donationBeneficiaryName);
+        dhrDonation.setDonationAssetPlace(this.donationAssetPlace);
+        if (this.donationValue != null)
+            dhrDonation.setDonationValue(new BigInteger(this.donationValue.toString()));
+        if (this.donationAsset != null)
+            dhrDonation.setDonationAsset(fr.cg95.cvq.xml.social.DhrDonationAssetType.Enum.forString(this.donationAsset.toString()));
+        dhrDonation.setDonationNotaryName(this.donationNotaryName);
+        dhrDonation.setDonationBeneficiaryFirstName(this.donationBeneficiaryFirstName);
+        dhrDonation.setDonationNotaryFirstName(this.donationNotaryFirstName);
         date = this.donationDate;
         if (date != null) {
             calendar.setTime(date);
             dhrDonation.setDonationDate(calendar);
         }
-        dhrDonation.setDonationNotaryFirstName(this.donationNotaryFirstName);
-        dhrDonation.setDonationBeneficiaryName(this.donationBeneficiaryName);
-        dhrDonation.setDonationBeneficiaryFirstName(this.donationBeneficiaryFirstName);
-        if (this.donationValue != null)
-            dhrDonation.setDonationValue(new BigInteger(this.donationValue.toString()));
-        dhrDonation.setDonationNotaryName(this.donationNotaryName);
-        if (this.donationNotaryAddress != null)
-            dhrDonation.setDonationNotaryAddress(Address.modelToXml(this.donationNotaryAddress));
-        dhrDonation.setDonationAssetPlace(this.donationAssetPlace);
-        if (this.donationAsset != null)
-            dhrDonation.setDonationAsset(fr.cg95.cvq.xml.social.DhrDonationAssetType.Enum.forString(this.donationAsset.toString()));
         return dhrDonation;
     }
 
@@ -70,22 +70,22 @@ public class DhrDonation implements Serializable {
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         DhrDonation dhrDonation = new DhrDonation();
-        calendar = dhrDonationDoc.getDonationDate();
-        if (calendar != null) {
-            dhrDonation.setDonationDate(calendar.getTime());
-        }
-        dhrDonation.setDonationNotaryFirstName(dhrDonationDoc.getDonationNotaryFirstName());
-        dhrDonation.setDonationBeneficiaryName(dhrDonationDoc.getDonationBeneficiaryName());
-        dhrDonation.setDonationBeneficiaryFirstName(dhrDonationDoc.getDonationBeneficiaryFirstName());
-        dhrDonation.setDonationValue(dhrDonationDoc.getDonationValue());
-        dhrDonation.setDonationNotaryName(dhrDonationDoc.getDonationNotaryName());
         if (dhrDonationDoc.getDonationNotaryAddress() != null)
             dhrDonation.setDonationNotaryAddress(Address.xmlToModel(dhrDonationDoc.getDonationNotaryAddress()));
+        dhrDonation.setDonationBeneficiaryName(dhrDonationDoc.getDonationBeneficiaryName());
         dhrDonation.setDonationAssetPlace(dhrDonationDoc.getDonationAssetPlace());
+        dhrDonation.setDonationValue(dhrDonationDoc.getDonationValue());
         if (dhrDonationDoc.getDonationAsset() != null)
             dhrDonation.setDonationAsset(fr.cg95.cvq.business.social.DhrDonationAssetType.forString(dhrDonationDoc.getDonationAsset().toString()));
         else
             dhrDonation.setDonationAsset(fr.cg95.cvq.business.social.DhrDonationAssetType.getDefaultDhrDonationAssetType());
+        dhrDonation.setDonationNotaryName(dhrDonationDoc.getDonationNotaryName());
+        dhrDonation.setDonationBeneficiaryFirstName(dhrDonationDoc.getDonationBeneficiaryFirstName());
+        dhrDonation.setDonationNotaryFirstName(dhrDonationDoc.getDonationNotaryFirstName());
+        calendar = dhrDonationDoc.getDonationDate();
+        if (calendar != null) {
+            dhrDonation.setDonationDate(calendar.getTime());
+        }
         return dhrDonation;
     }
 
@@ -106,35 +106,21 @@ public class DhrDonation implements Serializable {
         return this.id;
     }
 
-    private java.util.Date donationDate;
+    private fr.cg95.cvq.business.users.Address donationNotaryAddress;
 
-    public final void setDonationDate(final java.util.Date donationDate) {
-        this.donationDate = donationDate;
+    public final void setDonationNotaryAddress(final fr.cg95.cvq.business.users.Address donationNotaryAddress) {
+        this.donationNotaryAddress = donationNotaryAddress;
     }
 
 
     /**
-     * @hibernate.property
-     *  column="donation_date"
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="donation_notary_address_id"
+     *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final java.util.Date getDonationDate() {
-        return this.donationDate;
-    }
-
-    private String donationNotaryFirstName;
-
-    public final void setDonationNotaryFirstName(final String donationNotaryFirstName) {
-        this.donationNotaryFirstName = donationNotaryFirstName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="donation_notary_first_name"
-     *  length="38"
-     */
-    public final String getDonationNotaryFirstName() {
-        return this.donationNotaryFirstName;
+    public final fr.cg95.cvq.business.users.Address getDonationNotaryAddress() {
+        return this.donationNotaryAddress;
     }
 
     private String donationBeneficiaryName;
@@ -153,20 +139,20 @@ public class DhrDonation implements Serializable {
         return this.donationBeneficiaryName;
     }
 
-    private String donationBeneficiaryFirstName;
+    private String donationAssetPlace;
 
-    public final void setDonationBeneficiaryFirstName(final String donationBeneficiaryFirstName) {
-        this.donationBeneficiaryFirstName = donationBeneficiaryFirstName;
+    public final void setDonationAssetPlace(final String donationAssetPlace) {
+        this.donationAssetPlace = donationAssetPlace;
     }
 
 
     /**
      * @hibernate.property
-     *  column="donation_beneficiary_first_name"
-     *  length="38"
+     *  column="donation_asset_place"
+     *  length="200"
      */
-    public final String getDonationBeneficiaryFirstName() {
-        return this.donationBeneficiaryFirstName;
+    public final String getDonationAssetPlace() {
+        return this.donationAssetPlace;
     }
 
     private java.math.BigInteger donationValue;
@@ -185,6 +171,21 @@ public class DhrDonation implements Serializable {
         return this.donationValue;
     }
 
+    private fr.cg95.cvq.business.social.DhrDonationAssetType donationAsset;
+
+    public final void setDonationAsset(final fr.cg95.cvq.business.social.DhrDonationAssetType donationAsset) {
+        this.donationAsset = donationAsset;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="donation_asset"
+     */
+    public final fr.cg95.cvq.business.social.DhrDonationAssetType getDonationAsset() {
+        return this.donationAsset;
+    }
+
     private String donationNotaryName;
 
     public final void setDonationNotaryName(final String donationNotaryName) {
@@ -201,52 +202,51 @@ public class DhrDonation implements Serializable {
         return this.donationNotaryName;
     }
 
-    private fr.cg95.cvq.business.users.Address donationNotaryAddress;
+    private String donationBeneficiaryFirstName;
 
-    public final void setDonationNotaryAddress(final fr.cg95.cvq.business.users.Address donationNotaryAddress) {
-        this.donationNotaryAddress = donationNotaryAddress;
-    }
-
-
-    /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="donation_notary_address_id"
-     *  class="fr.cg95.cvq.business.users.Address"
-     */
-    public final fr.cg95.cvq.business.users.Address getDonationNotaryAddress() {
-        return this.donationNotaryAddress;
-    }
-
-    private String donationAssetPlace;
-
-    public final void setDonationAssetPlace(final String donationAssetPlace) {
-        this.donationAssetPlace = donationAssetPlace;
+    public final void setDonationBeneficiaryFirstName(final String donationBeneficiaryFirstName) {
+        this.donationBeneficiaryFirstName = donationBeneficiaryFirstName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="donation_asset_place"
-     *  length="200"
+     *  column="donation_beneficiary_first_name"
+     *  length="38"
      */
-    public final String getDonationAssetPlace() {
-        return this.donationAssetPlace;
+    public final String getDonationBeneficiaryFirstName() {
+        return this.donationBeneficiaryFirstName;
     }
 
-    private fr.cg95.cvq.business.social.DhrDonationAssetType donationAsset;
+    private String donationNotaryFirstName;
 
-    public final void setDonationAsset(final fr.cg95.cvq.business.social.DhrDonationAssetType donationAsset) {
-        this.donationAsset = donationAsset;
+    public final void setDonationNotaryFirstName(final String donationNotaryFirstName) {
+        this.donationNotaryFirstName = donationNotaryFirstName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="donation_asset"
+     *  column="donation_notary_first_name"
+     *  length="38"
      */
-    public final fr.cg95.cvq.business.social.DhrDonationAssetType getDonationAsset() {
-        return this.donationAsset;
+    public final String getDonationNotaryFirstName() {
+        return this.donationNotaryFirstName;
+    }
+
+    private java.util.Date donationDate;
+
+    public final void setDonationDate(final java.util.Date donationDate) {
+        this.donationDate = donationDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="donation_date"
+     */
+    public final java.util.Date getDonationDate() {
+        return this.donationDate;
     }
 
 }

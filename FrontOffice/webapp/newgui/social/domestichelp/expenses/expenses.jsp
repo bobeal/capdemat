@@ -17,8 +17,8 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.mensualExpensesRent = new Function("key","this.label='Loyer'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.mensualExpensesAlimonies = new Function("key","this.label='Pensions et obligations alimentaires'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.mensualExpensesRent = new Function("key","this.label='Loyer'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.mensualExpensesAlimonies = new Function("key","this.label='Pensions et obligations alimentaires'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Expenses");
 	</script>

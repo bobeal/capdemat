@@ -38,6 +38,7 @@
     </delete>
     <delete dir="${webapp.inf.classes.dir}" />
     <delete dir="${webapp.inf.lib.dir}" />
+  	<delete dir="${webapp.applets.dir}" />
     <delete>
       <fileset dir="${webapp.inf.dir}">
         <include name="*.properties" />

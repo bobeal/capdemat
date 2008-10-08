@@ -11,8 +11,11 @@ import fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest;
 
 public class Residence extends IStageForm {
 
+	private List previousDwellings;
 	private java.math.BigInteger currentDwellingCurrentDwellingNetFloorArea;
 	private java.math.BigInteger currentDwellingCurrentDwellingRoomNumber;
+	private String currentDwellingCurrentDwellingStatus;
+	private Calendar currentDwellingCurrentDwellingArrivalDate;
   	private String currentDwellingCurrentDwellingAddressAdditionalDeliveryInformation;
 	private String currentDwellingCurrentDwellingAddressAdditionalGeographicalInformation;
 	private String currentDwellingCurrentDwellingAddressStreetNumber;
@@ -20,9 +23,6 @@ public class Residence extends IStageForm {
 	private String currentDwellingCurrentDwellingAddressPlaceNameOrService;
 	private String currentDwellingCurrentDwellingAddressPostalCode;
 	private String currentDwellingCurrentDwellingAddressCity;
-	private String currentDwellingCurrentDwellingStatus;
-	private Calendar currentDwellingCurrentDwellingArrivalDate;
-	private List previousDwellings;
 	private String currentDwellingCurrentDwellingType;
 
 	public Residence() {
@@ -30,9 +30,9 @@ public class Residence extends IStageForm {
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("current")) {
+		}
+		if (state.equals("display")) {
 		}
 	}
 	
@@ -41,6 +41,9 @@ public class Residence extends IStageForm {
 			DomesticHelpRequest request = (DomesticHelpRequest)xmlbRequest;
 			this.currentDwellingCurrentDwellingNetFloorArea = request.getCurrentDwelling().getCurrentDwellingNetFloorArea();
 			this.currentDwellingCurrentDwellingRoomNumber = request.getCurrentDwelling().getCurrentDwellingRoomNumber();
+			if (request.getCurrentDwelling().getCurrentDwellingStatus() != null)
+			this.currentDwellingCurrentDwellingStatus = request.getCurrentDwelling().getCurrentDwellingStatus().toString();
+			this.currentDwellingCurrentDwellingArrivalDate = request.getCurrentDwelling().getCurrentDwellingArrivalDate();
   			this.currentDwellingCurrentDwellingAddressAdditionalDeliveryInformation = request.getCurrentDwelling().getCurrentDwellingAddress().getAdditionalDeliveryInformation();
 			this.currentDwellingCurrentDwellingAddressAdditionalGeographicalInformation = request.getCurrentDwelling().getCurrentDwellingAddress().getAdditionalGeographicalInformation();
 			this.currentDwellingCurrentDwellingAddressStreetNumber = request.getCurrentDwelling().getCurrentDwellingAddress().getStreetNumber();
@@ -48,9 +51,6 @@ public class Residence extends IStageForm {
 			this.currentDwellingCurrentDwellingAddressPlaceNameOrService = request.getCurrentDwelling().getCurrentDwellingAddress().getPlaceNameOrService();
 			this.currentDwellingCurrentDwellingAddressPostalCode = request.getCurrentDwelling().getCurrentDwellingAddress().getPostalCode();
 			this.currentDwellingCurrentDwellingAddressCity = request.getCurrentDwelling().getCurrentDwellingAddress().getCity();
-			if (request.getCurrentDwelling().getCurrentDwellingStatus() != null)
-			this.currentDwellingCurrentDwellingStatus = request.getCurrentDwelling().getCurrentDwellingStatus().toString();
-			this.currentDwellingCurrentDwellingArrivalDate = request.getCurrentDwelling().getCurrentDwellingArrivalDate();
 			if (request.getCurrentDwelling().getCurrentDwellingType() != null)
 			this.currentDwellingCurrentDwellingType = request.getCurrentDwelling().getCurrentDwellingType().toString();
 		}
@@ -61,6 +61,8 @@ public class Residence extends IStageForm {
 			DomesticHelpRequest request = (DomesticHelpRequest)xmlbRequest;
 			request.getCurrentDwelling().setCurrentDwellingNetFloorArea(this.currentDwellingCurrentDwellingNetFloorArea);
 			request.getCurrentDwelling().setCurrentDwellingRoomNumber(this.currentDwellingCurrentDwellingRoomNumber);
+			request.getCurrentDwelling().setCurrentDwellingStatus(DhrDwellingStatusType.Enum.forString(this.currentDwellingCurrentDwellingStatus));
+			request.getCurrentDwelling().setCurrentDwellingArrivalDate(this.currentDwellingCurrentDwellingArrivalDate);
   			request.getCurrentDwelling().getCurrentDwellingAddress().setAdditionalDeliveryInformation(this.currentDwellingCurrentDwellingAddressAdditionalDeliveryInformation);
 			request.getCurrentDwelling().getCurrentDwellingAddress().setAdditionalGeographicalInformation(this.currentDwellingCurrentDwellingAddressAdditionalGeographicalInformation);
 			request.getCurrentDwelling().getCurrentDwellingAddress().setStreetNumber(this.currentDwellingCurrentDwellingAddressStreetNumber);
@@ -68,8 +70,6 @@ public class Residence extends IStageForm {
 			request.getCurrentDwelling().getCurrentDwellingAddress().setPlaceNameOrService(this.currentDwellingCurrentDwellingAddressPlaceNameOrService);
 			request.getCurrentDwelling().getCurrentDwellingAddress().setPostalCode(this.currentDwellingCurrentDwellingAddressPostalCode);
 			request.getCurrentDwelling().getCurrentDwellingAddress().setCity(this.currentDwellingCurrentDwellingAddressCity);
-			request.getCurrentDwelling().setCurrentDwellingStatus(DhrDwellingStatusType.Enum.forString(this.currentDwellingCurrentDwellingStatus));
-			request.getCurrentDwelling().setCurrentDwellingArrivalDate(this.currentDwellingCurrentDwellingArrivalDate);
 			request.getCurrentDwelling().setCurrentDwellingType(DhrDwellingType.Enum.forString(this.currentDwellingCurrentDwellingType));
 		}
 	}
@@ -87,6 +87,22 @@ public class Residence extends IStageForm {
 		return true;
 	}
 	
+	public void setPreviousDwellings(List previousDwellings) {
+		this.previousDwellings = previousDwellings;
+	}
+	
+	public List getPreviousDwellings() {
+		return this.previousDwellings;
+	}
+	
+	public boolean checkPreviousDwellings() {
+		return true;
+	}
+
+    public int getSizeOfPreviousDwellings() {
+        return this.previousDwellings.size();
+    }
+
 	public void setCurrentDwellingCurrentDwellingNetFloorArea(java.math.BigInteger currentDwellingCurrentDwellingNetFloorArea) {
 		this.currentDwellingCurrentDwellingNetFloorArea = currentDwellingCurrentDwellingNetFloorArea;
 	}
@@ -109,6 +125,30 @@ public class Residence extends IStageForm {
 	
 	public boolean checkCurrentDwellingCurrentDwellingRoomNumber() {
 		return !currentDwellingCurrentDwellingType.equals("Domicile");
+	}
+
+	public void setCurrentDwellingCurrentDwellingStatus(String currentDwellingCurrentDwellingStatus) {
+		this.currentDwellingCurrentDwellingStatus = currentDwellingCurrentDwellingStatus;
+	}
+	
+	public String getCurrentDwellingCurrentDwellingStatus() {
+		return this.currentDwellingCurrentDwellingStatus;
+	}
+	
+	public boolean checkCurrentDwellingCurrentDwellingStatus() {
+		return !currentDwellingCurrentDwellingType.equals("Domicile");
+	}
+
+	public void setCurrentDwellingCurrentDwellingArrivalDate(Calendar currentDwellingCurrentDwellingArrivalDate) {
+		this.currentDwellingCurrentDwellingArrivalDate = currentDwellingCurrentDwellingArrivalDate;
+	}
+	
+	public Calendar getCurrentDwellingCurrentDwellingArrivalDate() {
+		return this.currentDwellingCurrentDwellingArrivalDate;
+	}
+	
+	public boolean checkCurrentDwellingCurrentDwellingArrivalDate() {
+		return true;
 	}
 
   	public void setCurrentDwellingCurrentDwellingAddressAdditionalDeliveryInformation(String currentDwellingCurrentDwellingAddressAdditionalDeliveryInformation) {
@@ -194,46 +234,6 @@ public class Residence extends IStageForm {
 	public boolean checkCurrentDwellingCurrentDwellingAddressCity() {
 		return true;
 	}
-
-	public void setCurrentDwellingCurrentDwellingStatus(String currentDwellingCurrentDwellingStatus) {
-		this.currentDwellingCurrentDwellingStatus = currentDwellingCurrentDwellingStatus;
-	}
-	
-	public String getCurrentDwellingCurrentDwellingStatus() {
-		return this.currentDwellingCurrentDwellingStatus;
-	}
-	
-	public boolean checkCurrentDwellingCurrentDwellingStatus() {
-		return !currentDwellingCurrentDwellingType.equals("Domicile");
-	}
-
-	public void setCurrentDwellingCurrentDwellingArrivalDate(Calendar currentDwellingCurrentDwellingArrivalDate) {
-		this.currentDwellingCurrentDwellingArrivalDate = currentDwellingCurrentDwellingArrivalDate;
-	}
-	
-	public Calendar getCurrentDwellingCurrentDwellingArrivalDate() {
-		return this.currentDwellingCurrentDwellingArrivalDate;
-	}
-	
-	public boolean checkCurrentDwellingCurrentDwellingArrivalDate() {
-		return true;
-	}
-
-	public void setPreviousDwellings(List previousDwellings) {
-		this.previousDwellings = previousDwellings;
-	}
-	
-	public List getPreviousDwellings() {
-		return this.previousDwellings;
-	}
-	
-	public boolean checkPreviousDwellings() {
-		return true;
-	}
-
-    public int getSizeOfPreviousDwellings() {
-        return this.previousDwellings.size();
-    }
 
 	public void setCurrentDwellingCurrentDwellingType(String currentDwellingCurrentDwellingType) {
 		this.currentDwellingCurrentDwellingType = currentDwellingCurrentDwellingType;

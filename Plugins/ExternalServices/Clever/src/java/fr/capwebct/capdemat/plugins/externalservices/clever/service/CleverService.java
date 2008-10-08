@@ -31,10 +31,10 @@ import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.authority.ILocalReferentialService;
 
-public class CleverService implements IExternalService {
+public class CleverService implements IExternalProviderService {
     private static Logger logger = Logger.getLogger(CleverService.class);
     
     private static final String YES_LABEL = "oui";
@@ -146,24 +146,13 @@ public class CleverService implements IExternalService {
     }
 
     public void creditHomeFolderAccounts(Collection purchaseItems, String cvqReference,
-            String bankReference, Long homeFolderId, Date validationDate) throws CvqException {
+            String bankReference, Long homeFolderId, String externalHomeFolderId, String externalId, Date validationDate) throws CvqException {
         logger.info("creditHomeFolderAccounts() no action associated");
     }
 
-    public void creditRequestAccounts(Long requestId, String transaction, Collection purchaseItems,
-            Date date, String bankGrantId) throws CvqException {
-        logger.info("creditRequestAccounts() no action associated");
-    }
-
-    public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId)
+    public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId, String externalHomeFolderId, String externalId)
             throws CvqException {
         logger.info("getAccountsByHomeFolder() no action associated");
-        return null;
-    }
-
-    public Map<String, List<ExternalAccountItem>> getAccountsByRequest(Long requestId)
-            throws CvqException {
-        logger.info("creditRequestAccounts() no action associated");
         return null;
     }
 
@@ -173,7 +162,7 @@ public class CleverService implements IExternalService {
         return null;
     }
 
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId)
+    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, String externalHomeFolderId, String externalId)
             throws CvqException {
         logger.info("getIndividualAccountsInformation() no action associated");
         return null;

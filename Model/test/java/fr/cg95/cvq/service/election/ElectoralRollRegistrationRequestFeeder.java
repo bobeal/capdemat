@@ -1,7 +1,11 @@
 package fr.cg95.cvq.service.election;
 
+import java.util.Set;
+
 import fr.cg95.cvq.business.election.ElectoralRollRegistrationRequest;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 
 public class ElectoralRollRegistrationRequestFeeder {
 
@@ -10,9 +14,16 @@ public class ElectoralRollRegistrationRequestFeeder {
     
     public static void setSubject(ElectoralRollRegistrationRequest request,
             HomeFolder homeFolder) {
-        if (homeFolder != null)
-            request.setSubject(homeFolder.getIndividuals().iterator().next());
-        else
+        if (homeFolder != null) {
+            Set<Individual> individuals = homeFolder.getIndividuals();
+            for (Individual individual : individuals) {
+                if (individual instanceof Adult) {
+                    request.setSubject(individual);
+                    break;
+                }
+            }
+        } else {
             request.setSubject(request.getRequester());
+        }
     }
 }

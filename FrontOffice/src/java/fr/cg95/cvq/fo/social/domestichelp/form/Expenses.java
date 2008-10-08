@@ -11,8 +11,8 @@ import fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest;
 
 public class Expenses extends IStageForm {
 
-	private java.math.BigInteger mensualExpensesAlimonies;
 	private java.math.BigInteger mensualExpensesRent;
+	private java.math.BigInteger mensualExpensesAlimonies;
 
 	public Expenses() {
 		super();
@@ -28,16 +28,16 @@ public class Expenses extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DomesticHelpRequest)) {
 			DomesticHelpRequest request = (DomesticHelpRequest)xmlbRequest;
-			this.mensualExpensesAlimonies = request.getMensualExpenses().getAlimonies();
 			this.mensualExpensesRent = request.getMensualExpenses().getRent();
+			this.mensualExpensesAlimonies = request.getMensualExpenses().getAlimonies();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DomesticHelpRequest)) {
 			DomesticHelpRequest request = (DomesticHelpRequest)xmlbRequest;
-			request.getMensualExpenses().setAlimonies(this.mensualExpensesAlimonies);
 			request.getMensualExpenses().setRent(this.mensualExpensesRent);
+			request.getMensualExpenses().setAlimonies(this.mensualExpensesAlimonies);
 		}
 	}
 	
@@ -45,18 +45,6 @@ public class Expenses extends IStageForm {
 		return true;
 	}
 	
-	public void setMensualExpensesAlimonies(java.math.BigInteger mensualExpensesAlimonies) {
-		this.mensualExpensesAlimonies = mensualExpensesAlimonies;
-	}
-	
-	public java.math.BigInteger getMensualExpensesAlimonies() {
-		return this.mensualExpensesAlimonies;
-	}
-	
-	public boolean checkMensualExpensesAlimonies() {
-		return true;
-	}
-
 	public void setMensualExpensesRent(java.math.BigInteger mensualExpensesRent) {
 		this.mensualExpensesRent = mensualExpensesRent;
 	}
@@ -66,6 +54,18 @@ public class Expenses extends IStageForm {
 	}
 	
 	public boolean checkMensualExpensesRent() {
+		return true;
+	}
+
+	public void setMensualExpensesAlimonies(java.math.BigInteger mensualExpensesAlimonies) {
+		this.mensualExpensesAlimonies = mensualExpensesAlimonies;
+	}
+	
+	public java.math.BigInteger getMensualExpensesAlimonies() {
+		return this.mensualExpensesAlimonies;
+	}
+	
+	public boolean checkMensualExpensesAlimonies() {
 		return true;
 	}
 

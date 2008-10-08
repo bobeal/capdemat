@@ -11,15 +11,16 @@ import fr.cg95.cvq.xml.military.MilitaryCensusRequestDocument.MilitaryCensusRequ
 
 public class Inscription extends IStageForm {
 
-	private String subjectChildFirstName;
+	private String maidenName;
 	private String childTitle;
-	private String childMail;
+	private String childBirthCountry;
 	private String childConvention;
+	private String childPhone;
+	private String childOtherCountry;
+	private String childMail;
 	private String subjectChildLastName;
 	private String subjectChildBirthPlaceCity;
-	private String maidenName;
-	private String childOtherCountry;
-	private String childResidenceCountry;
+	private String childCountry;
   	private String subjectChildAddressAdditionalDeliveryInformation;
 	private String subjectChildAddressAdditionalGeographicalInformation;
 	private String subjectChildAddressStreetNumber;
@@ -27,41 +28,42 @@ public class Inscription extends IStageForm {
 	private String subjectChildAddressPlaceNameOrService;
 	private String subjectChildAddressPostalCode;
 	private String subjectChildAddressCity;
-	private String childBirthCountry;
-	private String childCountry;
+	private String subjectChildFirstName;
+	private String childResidenceCountry;
 	private String subjectChildBirthPlacePostalCode;
-	private String childPhone;
 
 	public Inscription() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
-		if (state.equals("military")) {
-		}
 		if (state.equals("nationality")) {
 		}
 		if (state.equals("*")) {
+		}
+		if (state.equals("display")) {
+		}
+		if (state.equals("military")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof MilitaryCensusRequest)) {
 			MilitaryCensusRequest request = (MilitaryCensusRequest)xmlbRequest;
-			this.subjectChildFirstName = request.getSubject().getChild().getFirstName();
+			this.maidenName = request.getMaidenName();
 			if (request.getChildTitle() != null)
 			this.childTitle = request.getChildTitle().toString();
-			this.childMail = request.getChildMail();
+			if (request.getChildBirthCountry() != null)
+			this.childBirthCountry = request.getChildBirthCountry().toString();
 			this.childConvention = request.getChildConvention();
-			this.subjectChildLastName = request.getSubject().getChild().getLastName();
-			this.subjectChildBirthPlaceCity = request.getSubject().getChild().getBirthPlace().getCity();
-			this.maidenName = request.getMaidenName();
+			this.childPhone = request.getChildPhone();
 			if (request.getChildOtherCountry() != null)
 			this.childOtherCountry = request.getChildOtherCountry().toString();
-			if (request.getChildResidenceCountry() != null)
-			this.childResidenceCountry = request.getChildResidenceCountry().toString();
+			this.childMail = request.getChildMail();
+			this.subjectChildLastName = request.getSubject().getChild().getLastName();
+			this.subjectChildBirthPlaceCity = request.getSubject().getChild().getBirthPlace().getCity();
+			if (request.getChildCountry() != null)
+			this.childCountry = request.getChildCountry().toString();
   			this.subjectChildAddressAdditionalDeliveryInformation = request.getSubject().getChild().getAddress().getAdditionalDeliveryInformation();
 			this.subjectChildAddressAdditionalGeographicalInformation = request.getSubject().getChild().getAddress().getAdditionalGeographicalInformation();
 			this.subjectChildAddressStreetNumber = request.getSubject().getChild().getAddress().getStreetNumber();
@@ -69,27 +71,26 @@ public class Inscription extends IStageForm {
 			this.subjectChildAddressPlaceNameOrService = request.getSubject().getChild().getAddress().getPlaceNameOrService();
 			this.subjectChildAddressPostalCode = request.getSubject().getChild().getAddress().getPostalCode();
 			this.subjectChildAddressCity = request.getSubject().getChild().getAddress().getCity();
-			if (request.getChildBirthCountry() != null)
-			this.childBirthCountry = request.getChildBirthCountry().toString();
-			if (request.getChildCountry() != null)
-			this.childCountry = request.getChildCountry().toString();
+			this.subjectChildFirstName = request.getSubject().getChild().getFirstName();
+			if (request.getChildResidenceCountry() != null)
+			this.childResidenceCountry = request.getChildResidenceCountry().toString();
 			this.subjectChildBirthPlacePostalCode = request.getSubject().getChild().getBirthPlace().getPostalCode();
-			this.childPhone = request.getChildPhone();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof MilitaryCensusRequest)) {
 			MilitaryCensusRequest request = (MilitaryCensusRequest)xmlbRequest;
-			request.getSubject().getChild().setFirstName(this.subjectChildFirstName);
+			request.setMaidenName(this.maidenName);
 			request.setChildTitle(TitleType.Enum.forString(this.childTitle));
-			request.setChildMail(this.childMail);
+			request.setChildBirthCountry(CountryType.Enum.forString(this.childBirthCountry));
 			request.setChildConvention(this.childConvention);
+			request.setChildPhone(this.childPhone);
+			request.setChildOtherCountry(FullNationalityType.Enum.forString(this.childOtherCountry));
+			request.setChildMail(this.childMail);
 			request.getSubject().getChild().setLastName(this.subjectChildLastName);
 			request.getSubject().getChild().getBirthPlace().setCity(this.subjectChildBirthPlaceCity);
-			request.setMaidenName(this.maidenName);
-			request.setChildOtherCountry(FullNationalityType.Enum.forString(this.childOtherCountry));
-			request.setChildResidenceCountry(CountryType.Enum.forString(this.childResidenceCountry));
+			request.setChildCountry(FullNationalityType.Enum.forString(this.childCountry));
   			request.getSubject().getChild().getAddress().setAdditionalDeliveryInformation(this.subjectChildAddressAdditionalDeliveryInformation);
 			request.getSubject().getChild().getAddress().setAdditionalGeographicalInformation(this.subjectChildAddressAdditionalGeographicalInformation);
 			request.getSubject().getChild().getAddress().setStreetNumber(this.subjectChildAddressStreetNumber);
@@ -97,25 +98,30 @@ public class Inscription extends IStageForm {
 			request.getSubject().getChild().getAddress().setPlaceNameOrService(this.subjectChildAddressPlaceNameOrService);
 			request.getSubject().getChild().getAddress().setPostalCode(this.subjectChildAddressPostalCode);
 			request.getSubject().getChild().getAddress().setCity(this.subjectChildAddressCity);
-			request.setChildBirthCountry(CountryType.Enum.forString(this.childBirthCountry));
-			request.setChildCountry(FullNationalityType.Enum.forString(this.childCountry));
+			request.getSubject().getChild().setFirstName(this.subjectChildFirstName);
+			request.setChildResidenceCountry(CountryType.Enum.forString(this.childResidenceCountry));
 			request.getSubject().getChild().getBirthPlace().setPostalCode(this.subjectChildBirthPlacePostalCode);
-			request.setChildPhone(this.childPhone);
 		}
 	}
 	
 	public boolean isComplete() {
-		if (this.checkSubjectChildFirstName() &&
-			((this.subjectChildFirstName == null) || (this.subjectChildFirstName.length() == 0)))
-			return false;
 		if (this.checkChildTitle() &&
 			((this.childTitle == null) || (this.childTitle.length() == 0)))
+			return false;
+		if (this.checkChildBirthCountry() &&
+			((this.childBirthCountry == null) || (this.childBirthCountry.length() == 0)))
+			return false;
+		if (this.checkChildPhone() &&
+			((this.childPhone == null) || (this.childPhone.length() == 0)))
 			return false;
 		if (this.checkSubjectChildLastName() &&
 			((this.subjectChildLastName == null) || (this.subjectChildLastName.length() == 0)))
 			return false;
 		if (this.checkSubjectChildBirthPlaceCity() &&
 			((this.subjectChildBirthPlaceCity == null) || (this.subjectChildBirthPlaceCity.length() == 0)))
+			return false;
+		if (this.checkChildCountry() &&
+			((this.childCountry == null) || (this.childCountry.length() == 0)))
 			return false;
   		if (this.checkSubjectChildAddressStreetName() &&
 			((this.subjectChildAddressStreetName == null) || (this.subjectChildAddressStreetName.length() == 0)))
@@ -126,30 +132,24 @@ public class Inscription extends IStageForm {
 		if (this.checkSubjectChildAddressCity() &&
 			((this.subjectChildAddressCity == null) || (this.subjectChildAddressCity.length() == 0)))
 			return false;
-		if (this.checkChildBirthCountry() &&
-			((this.childBirthCountry == null) || (this.childBirthCountry.length() == 0)))
-			return false;
-		if (this.checkChildCountry() &&
-			((this.childCountry == null) || (this.childCountry.length() == 0)))
+		if (this.checkSubjectChildFirstName() &&
+			((this.subjectChildFirstName == null) || (this.subjectChildFirstName.length() == 0)))
 			return false;
 		if (this.checkSubjectChildBirthPlacePostalCode() &&
 			((this.subjectChildBirthPlacePostalCode == null) || (this.subjectChildBirthPlacePostalCode.length() == 0)))
 			return false;
-		if (this.checkChildPhone() &&
-			((this.childPhone == null) || (this.childPhone.length() == 0)))
-			return false;
 		return true;
 	}
 	
-	public void setSubjectChildFirstName(String subjectChildFirstName) {
-		this.subjectChildFirstName = subjectChildFirstName;
+	public void setMaidenName(String maidenName) {
+		this.maidenName = maidenName;
 	}
 	
-	public String getSubjectChildFirstName() {
-		return this.subjectChildFirstName;
+	public String getMaidenName() {
+		return this.maidenName;
 	}
 	
-	public boolean checkSubjectChildFirstName() {
+	public boolean checkMaidenName() {
 		return true;
 	}
 
@@ -165,15 +165,15 @@ public class Inscription extends IStageForm {
 		return true;
 	}
 
-	public void setChildMail(String childMail) {
-		this.childMail = childMail;
+	public void setChildBirthCountry(String childBirthCountry) {
+		this.childBirthCountry = childBirthCountry;
 	}
 	
-	public String getChildMail() {
-		return this.childMail;
+	public String getChildBirthCountry() {
+		return this.childBirthCountry;
 	}
 	
-	public boolean checkChildMail() {
+	public boolean checkChildBirthCountry() {
 		return true;
 	}
 
@@ -186,6 +186,42 @@ public class Inscription extends IStageForm {
 	}
 	
 	public boolean checkChildConvention() {
+		return true;
+	}
+
+	public void setChildPhone(String childPhone) {
+		this.childPhone = childPhone;
+	}
+	
+	public String getChildPhone() {
+		return this.childPhone;
+	}
+	
+	public boolean checkChildPhone() {
+		return true;
+	}
+
+	public void setChildOtherCountry(String childOtherCountry) {
+		this.childOtherCountry = childOtherCountry;
+	}
+	
+	public String getChildOtherCountry() {
+		return this.childOtherCountry;
+	}
+	
+	public boolean checkChildOtherCountry() {
+		return true;
+	}
+
+	public void setChildMail(String childMail) {
+		this.childMail = childMail;
+	}
+	
+	public String getChildMail() {
+		return this.childMail;
+	}
+	
+	public boolean checkChildMail() {
 		return true;
 	}
 
@@ -213,39 +249,15 @@ public class Inscription extends IStageForm {
 		return true;
 	}
 
-	public void setMaidenName(String maidenName) {
-		this.maidenName = maidenName;
+	public void setChildCountry(String childCountry) {
+		this.childCountry = childCountry;
 	}
 	
-	public String getMaidenName() {
-		return this.maidenName;
+	public String getChildCountry() {
+		return this.childCountry;
 	}
 	
-	public boolean checkMaidenName() {
-		return true;
-	}
-
-	public void setChildOtherCountry(String childOtherCountry) {
-		this.childOtherCountry = childOtherCountry;
-	}
-	
-	public String getChildOtherCountry() {
-		return this.childOtherCountry;
-	}
-	
-	public boolean checkChildOtherCountry() {
-		return true;
-	}
-
-	public void setChildResidenceCountry(String childResidenceCountry) {
-		this.childResidenceCountry = childResidenceCountry;
-	}
-	
-	public String getChildResidenceCountry() {
-		return this.childResidenceCountry;
-	}
-	
-	public boolean checkChildResidenceCountry() {
+	public boolean checkChildCountry() {
 		return true;
 	}
 
@@ -333,27 +345,27 @@ public class Inscription extends IStageForm {
 		return true;
 	}
 
-	public void setChildBirthCountry(String childBirthCountry) {
-		this.childBirthCountry = childBirthCountry;
+	public void setSubjectChildFirstName(String subjectChildFirstName) {
+		this.subjectChildFirstName = subjectChildFirstName;
 	}
 	
-	public String getChildBirthCountry() {
-		return this.childBirthCountry;
+	public String getSubjectChildFirstName() {
+		return this.subjectChildFirstName;
 	}
 	
-	public boolean checkChildBirthCountry() {
+	public boolean checkSubjectChildFirstName() {
 		return true;
 	}
 
-	public void setChildCountry(String childCountry) {
-		this.childCountry = childCountry;
+	public void setChildResidenceCountry(String childResidenceCountry) {
+		this.childResidenceCountry = childResidenceCountry;
 	}
 	
-	public String getChildCountry() {
-		return this.childCountry;
+	public String getChildResidenceCountry() {
+		return this.childResidenceCountry;
 	}
 	
-	public boolean checkChildCountry() {
+	public boolean checkChildResidenceCountry() {
 		return true;
 	}
 
@@ -366,18 +378,6 @@ public class Inscription extends IStageForm {
 	}
 	
 	public boolean checkSubjectChildBirthPlacePostalCode() {
-		return true;
-	}
-
-	public void setChildPhone(String childPhone) {
-		this.childPhone = childPhone;
-	}
-	
-	public String getChildPhone() {
-		return this.childPhone;
-	}
-	
-	public boolean checkChildPhone() {
 		return true;
 	}
 

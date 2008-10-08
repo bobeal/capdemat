@@ -2,7 +2,10 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-
+    <bean id="jsmtpdMailService" class="fr.cg95.cvq.testtool.JsmtpdMailService"
+        init-method="init" destroy-method="destroy">
+        <property name="port" value="${mail.sender_port}" />
+    </bean>
   <bean id="configurer"
     class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="location">

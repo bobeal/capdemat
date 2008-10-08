@@ -11,8 +11,7 @@ import fr.cg95.cvq.xml.localpolice.HolidaySecurityRequestDocument.HolidaySecurit
 
 public class Subject extends IStageForm {
 
-	private String subjectAdultEmail;
-	private String subjectAdultMobilePhone;
+	private String subjectAdultLastName;
   	private String subjectAdultAddressAdditionalDeliveryInformation;
 	private String subjectAdultAddressAdditionalGeographicalInformation;
 	private String subjectAdultAddressStreetNumber;
@@ -20,7 +19,8 @@ public class Subject extends IStageForm {
 	private String subjectAdultAddressPlaceNameOrService;
 	private String subjectAdultAddressPostalCode;
 	private String subjectAdultAddressCity;
-	private String subjectAdultLastName;
+	private String subjectAdultMobilePhone;
+	private String subjectAdultEmail;
 	private String subjectAdultFirstName;
 
 	public Subject() {
@@ -28,17 +28,16 @@ public class Subject extends IStageForm {
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("subject")) {
+		}
+		if (state.equals("display")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HolidaySecurityRequest)) {
 			HolidaySecurityRequest request = (HolidaySecurityRequest)xmlbRequest;
-			this.subjectAdultEmail = request.getSubject().getAdult().getEmail();
-			this.subjectAdultMobilePhone = request.getSubject().getAdult().getMobilePhone();
+			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
   			this.subjectAdultAddressAdditionalDeliveryInformation = request.getSubject().getAdult().getAddress().getAdditionalDeliveryInformation();
 			this.subjectAdultAddressAdditionalGeographicalInformation = request.getSubject().getAdult().getAddress().getAdditionalGeographicalInformation();
 			this.subjectAdultAddressStreetNumber = request.getSubject().getAdult().getAddress().getStreetNumber();
@@ -46,7 +45,8 @@ public class Subject extends IStageForm {
 			this.subjectAdultAddressPlaceNameOrService = request.getSubject().getAdult().getAddress().getPlaceNameOrService();
 			this.subjectAdultAddressPostalCode = request.getSubject().getAdult().getAddress().getPostalCode();
 			this.subjectAdultAddressCity = request.getSubject().getAdult().getAddress().getCity();
-			this.subjectAdultLastName = request.getSubject().getAdult().getLastName();
+			this.subjectAdultMobilePhone = request.getSubject().getAdult().getMobilePhone();
+			this.subjectAdultEmail = request.getSubject().getAdult().getEmail();
 			this.subjectAdultFirstName = request.getSubject().getAdult().getFirstName();
 		}
 	}
@@ -54,8 +54,7 @@ public class Subject extends IStageForm {
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HolidaySecurityRequest)) {
 			HolidaySecurityRequest request = (HolidaySecurityRequest)xmlbRequest;
-			request.getSubject().getAdult().setEmail(this.subjectAdultEmail);
-			request.getSubject().getAdult().setMobilePhone(this.subjectAdultMobilePhone);
+			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
   			request.getSubject().getAdult().getAddress().setAdditionalDeliveryInformation(this.subjectAdultAddressAdditionalDeliveryInformation);
 			request.getSubject().getAdult().getAddress().setAdditionalGeographicalInformation(this.subjectAdultAddressAdditionalGeographicalInformation);
 			request.getSubject().getAdult().getAddress().setStreetNumber(this.subjectAdultAddressStreetNumber);
@@ -63,14 +62,15 @@ public class Subject extends IStageForm {
 			request.getSubject().getAdult().getAddress().setPlaceNameOrService(this.subjectAdultAddressPlaceNameOrService);
 			request.getSubject().getAdult().getAddress().setPostalCode(this.subjectAdultAddressPostalCode);
 			request.getSubject().getAdult().getAddress().setCity(this.subjectAdultAddressCity);
-			request.getSubject().getAdult().setLastName(this.subjectAdultLastName);
+			request.getSubject().getAdult().setMobilePhone(this.subjectAdultMobilePhone);
+			request.getSubject().getAdult().setEmail(this.subjectAdultEmail);
 			request.getSubject().getAdult().setFirstName(this.subjectAdultFirstName);
 		}
 	}
 	
 	public boolean isComplete() {
-		if (this.checkSubjectAdultEmail() &&
-			((this.subjectAdultEmail == null) || (this.subjectAdultEmail.length() == 0)))
+		if (this.checkSubjectAdultLastName() &&
+			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
 			return false;
   		if (this.checkSubjectAdultAddressStreetName() &&
 			((this.subjectAdultAddressStreetName == null) || (this.subjectAdultAddressStreetName.length() == 0)))
@@ -81,8 +81,8 @@ public class Subject extends IStageForm {
 		if (this.checkSubjectAdultAddressCity() &&
 			((this.subjectAdultAddressCity == null) || (this.subjectAdultAddressCity.length() == 0)))
 			return false;
-		if (this.checkSubjectAdultLastName() &&
-			((this.subjectAdultLastName == null) || (this.subjectAdultLastName.length() == 0)))
+		if (this.checkSubjectAdultEmail() &&
+			((this.subjectAdultEmail == null) || (this.subjectAdultEmail.length() == 0)))
 			return false;
 		if (this.checkSubjectAdultFirstName() &&
 			((this.subjectAdultFirstName == null) || (this.subjectAdultFirstName.length() == 0)))
@@ -90,27 +90,15 @@ public class Subject extends IStageForm {
 		return true;
 	}
 	
-	public void setSubjectAdultEmail(String subjectAdultEmail) {
-		this.subjectAdultEmail = subjectAdultEmail;
+	public void setSubjectAdultLastName(String subjectAdultLastName) {
+		this.subjectAdultLastName = subjectAdultLastName;
 	}
 	
-	public String getSubjectAdultEmail() {
-		return this.subjectAdultEmail;
+	public String getSubjectAdultLastName() {
+		return this.subjectAdultLastName;
 	}
 	
-	public boolean checkSubjectAdultEmail() {
-		return true;
-	}
-
-	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
-		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
-	}
-	
-	public String getSubjectAdultMobilePhone() {
-		return this.subjectAdultMobilePhone;
-	}
-	
-	public boolean checkSubjectAdultMobilePhone() {
+	public boolean checkSubjectAdultLastName() {
 		return true;
 	}
 
@@ -198,15 +186,27 @@ public class Subject extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultLastName(String subjectAdultLastName) {
-		this.subjectAdultLastName = subjectAdultLastName;
+	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
+		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
 	}
 	
-	public String getSubjectAdultLastName() {
-		return this.subjectAdultLastName;
+	public String getSubjectAdultMobilePhone() {
+		return this.subjectAdultMobilePhone;
 	}
 	
-	public boolean checkSubjectAdultLastName() {
+	public boolean checkSubjectAdultMobilePhone() {
+		return true;
+	}
+
+	public void setSubjectAdultEmail(String subjectAdultEmail) {
+		this.subjectAdultEmail = subjectAdultEmail;
+	}
+	
+	public String getSubjectAdultEmail() {
+		return this.subjectAdultEmail;
+	}
+	
+	public boolean checkSubjectAdultEmail() {
 		return true;
 	}
 

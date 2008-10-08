@@ -51,7 +51,11 @@ public final class PaylineService implements IPaymentProviderService {
                                + "." + (valueS.substring(valueS.length() - 2)));
             passapi.setcard_type("CB");
             passapi.setdevise_montant("EUR");
-            passapi.seturlretour((String) paymentServiceBean.getProperty(PAYLINE_CALLBACK_URL));
+	    
+	    String domainName = payment.getPaymentSpecificData().get("domainName");
+	    String callbackUrl = "https://" + domainName + ((String) paymentServiceBean.getProperty(PAYLINE_CALLBACK_URL));
+            passapi.seturlretour(callbackUrl);
+
             passapi.setreference(reference);
             passapi.setpersonnalisation((String) paymentServiceBean.getProperty(PAYLINE_PERSONNALISATION));
             passapi.setlangue("FR");
@@ -158,10 +162,10 @@ public final class PaylineService implements IPaymentProviderService {
             throw new CvqConfigurationException("Payline port must be an integer");
         }
     		
-        String callbackUrl = (String) paymentServiceBean.getProperty(PAYLINE_CALLBACK_URL);
-        if (callbackUrl == null || !callbackUrl.startsWith("https://"))
-            throw new CvqConfigurationException("Missing " + PAYLINE_CALLBACK_URL
-                    + " configuration parameter");
+	//        String callbackUrl = (String) paymentServiceBean.getProperty(PAYLINE_CALLBACK_URL);
+        //if (callbackUrl == null || !callbackUrl.startsWith("https://"))
+        //    throw new CvqConfigurationException("Missing " + PAYLINE_CALLBACK_URL
+        //            + " configuration parameter");
 
         String sessionsPath = (String) paymentServiceBean.getProperty(PAYLINE_SESSIONS_PATH);
         if (sessionsPath == null)

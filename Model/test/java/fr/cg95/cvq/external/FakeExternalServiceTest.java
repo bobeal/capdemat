@@ -3,7 +3,6 @@ package fr.cg95.cvq.external;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,10 +22,19 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class FakeExternalServiceTest extends ServiceTestCase {
 
+    private IExternalProviderService fakeExternalService;
+
+    public void onSetUp() throws Exception {
+        super.onSetUp();
+        fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
+    }
+    
     public void testContracts() {
         try {
 
@@ -48,18 +56,28 @@ public class FakeExternalServiceTest extends ServiceTestCase {
             HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
             Long homeFolderId = homeFolder.getId();
 
+            // register the mock external provider service with the LACB
+            ExternalServiceBean esb = new ExternalServiceBean();
+            List<String> requestTypes = new ArrayList<String>();
+            requestTypes.add(IVoCardRequestService.VO_CARD_REGISTRATION_REQUEST);
+            esb.setRequestTypes(requestTypes);
+            esb.setSupportAccountsByHomeFolder(true);
+            LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+            lacb.registerExternalService(fakeExternalService, esb);
+
             // retrieve all external accounts directly from fake external service
-            Map completeAccount = iFakeExternalService.getAccountsByHomeFolder(homeFolderId);
+            Map<String, List<ExternalAccountItem>> completeAccount = 
+                fakeExternalService.getAccountsByHomeFolder(homeFolderId, null, null);
             if (completeAccount == null) {
                 logger.debug("testContracts() no contract found for home folder : " + homeFolderId);
                 return;
             }
-            List ticketingAccounts = (List) completeAccount.get(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS);
+            List<ExternalAccountItem> ticketingAccounts = 
+                completeAccount.get(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS);
             Assert.assertEquals(16, ticketingAccounts.size());
             
-            for (Iterator i = ticketingAccounts.iterator(); i.hasNext();) {
-                ExternalTicketingContractItem etci =
-                    (ExternalTicketingContractItem) i.next();
+            for (ExternalAccountItem eai : ticketingAccounts) {
+                ExternalTicketingContractItem etci = (ExternalTicketingContractItem) eai;
                 logger.debug(etci.getFriendlyLabel());
                 logger.debug(etci.getInformativeFriendlyLabel());
             }
@@ -85,8 +103,8 @@ public class FakeExternalServiceTest extends ServiceTestCase {
             etciToPayOn.setQuantity(Integer.valueOf(5));
             etciToPayOn.setAmount(etciToPayOn.getQuantity() * etciToPayOn.getUnitPrice());
             purchaseItems.add(etciToPayOn);
-            iFakeExternalService.creditHomeFolderAccounts(purchaseItems, "cvqReference", 
-                    "bankReference", homeFolderId, new Date());
+            fakeExternalService.creditHomeFolderAccounts(purchaseItems, "cvqReference", 
+                    "bankReference", homeFolderId, null, null, new Date());
             
             // retrieve external deposit accounts from home folder service
             externalAccounts = 

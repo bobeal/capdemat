@@ -11,13 +11,13 @@ import fr.cg95.cvq.xml.school.SchoolRegistrationRequestDocument.SchoolRegistrati
 
 public class Inscription extends IStageForm {
 
+	private String subjectChildLastName;
+	private Calendar subjectChildBirthDate;
 	private String section;
 	private String urgencyPhone;
-	private String subjectChildFirstName;
-	private String subjectChildLastName;
-	private String currentSection;
 	private String currentSchoolAddress;
-	private Calendar subjectChildBirthDate;
+	private String currentSection;
+	private String subjectChildFirstName;
 	private String currentSchoolName;
 
 	public Inscription() {
@@ -25,26 +25,26 @@ public class Inscription extends IStageForm {
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
+		if (state.equals("school")) {
 		}
 		if (state.equals("*")) {
 		}
-		if (state.equals("school")) {
+		if (state.equals("display")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof SchoolRegistrationRequest)) {
 			SchoolRegistrationRequest request = (SchoolRegistrationRequest)xmlbRequest;
+			this.subjectChildLastName = request.getSubject().getChild().getLastName();
+			this.subjectChildBirthDate = request.getSubject().getChild().getBirthDate();
 			if (request.getSection() != null)
 			this.section = request.getSection().toString();
 			this.urgencyPhone = request.getUrgencyPhone();
-			this.subjectChildFirstName = request.getSubject().getChild().getFirstName();
-			this.subjectChildLastName = request.getSubject().getChild().getLastName();
+			this.currentSchoolAddress = request.getCurrentSchoolAddress();
 			if (request.getCurrentSection() != null)
 			this.currentSection = request.getCurrentSection().toString();
-			this.currentSchoolAddress = request.getCurrentSchoolAddress();
-			this.subjectChildBirthDate = request.getSubject().getChild().getBirthDate();
+			this.subjectChildFirstName = request.getSubject().getChild().getFirstName();
 			this.currentSchoolName = request.getCurrentSchoolName();
 		}
 	}
@@ -52,18 +52,21 @@ public class Inscription extends IStageForm {
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof SchoolRegistrationRequest)) {
 			SchoolRegistrationRequest request = (SchoolRegistrationRequest)xmlbRequest;
+			request.getSubject().getChild().setLastName(this.subjectChildLastName);
+			request.getSubject().getChild().setBirthDate(this.subjectChildBirthDate);
 			request.setSection(SectionType.Enum.forString(this.section));
 			request.setUrgencyPhone(this.urgencyPhone);
-			request.getSubject().getChild().setFirstName(this.subjectChildFirstName);
-			request.getSubject().getChild().setLastName(this.subjectChildLastName);
-			request.setCurrentSection(SectionType.Enum.forString(this.currentSection));
 			request.setCurrentSchoolAddress(this.currentSchoolAddress);
-			request.getSubject().getChild().setBirthDate(this.subjectChildBirthDate);
+			request.setCurrentSection(SectionType.Enum.forString(this.currentSection));
+			request.getSubject().getChild().setFirstName(this.subjectChildFirstName);
 			request.setCurrentSchoolName(this.currentSchoolName);
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkSubjectChildLastName() &&
+			((this.subjectChildLastName == null) || (this.subjectChildLastName.length() == 0)))
+			return false;
 		if (this.checkSection() &&
 			((this.section == null) || (this.section.length() == 0)))
 			return false;
@@ -73,12 +76,33 @@ public class Inscription extends IStageForm {
 		if (this.checkSubjectChildFirstName() &&
 			((this.subjectChildFirstName == null) || (this.subjectChildFirstName.length() == 0)))
 			return false;
-		if (this.checkSubjectChildLastName() &&
-			((this.subjectChildLastName == null) || (this.subjectChildLastName.length() == 0)))
-			return false;
 		return true;
 	}
 	
+	public void setSubjectChildLastName(String subjectChildLastName) {
+		this.subjectChildLastName = subjectChildLastName;
+	}
+	
+	public String getSubjectChildLastName() {
+		return this.subjectChildLastName;
+	}
+	
+	public boolean checkSubjectChildLastName() {
+		return true;
+	}
+
+	public void setSubjectChildBirthDate(Calendar subjectChildBirthDate) {
+		this.subjectChildBirthDate = subjectChildBirthDate;
+	}
+	
+	public Calendar getSubjectChildBirthDate() {
+		return this.subjectChildBirthDate;
+	}
+	
+	public boolean checkSubjectChildBirthDate() {
+		return true;
+	}
+
 	public void setSection(String section) {
 		this.section = section;
 	}
@@ -103,27 +127,15 @@ public class Inscription extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectChildFirstName(String subjectChildFirstName) {
-		this.subjectChildFirstName = subjectChildFirstName;
+	public void setCurrentSchoolAddress(String currentSchoolAddress) {
+		this.currentSchoolAddress = currentSchoolAddress;
 	}
 	
-	public String getSubjectChildFirstName() {
-		return this.subjectChildFirstName;
+	public String getCurrentSchoolAddress() {
+		return this.currentSchoolAddress;
 	}
 	
-	public boolean checkSubjectChildFirstName() {
-		return true;
-	}
-
-	public void setSubjectChildLastName(String subjectChildLastName) {
-		this.subjectChildLastName = subjectChildLastName;
-	}
-	
-	public String getSubjectChildLastName() {
-		return this.subjectChildLastName;
-	}
-	
-	public boolean checkSubjectChildLastName() {
+	public boolean checkCurrentSchoolAddress() {
 		return true;
 	}
 
@@ -139,27 +151,15 @@ public class Inscription extends IStageForm {
 		return true;
 	}
 
-	public void setCurrentSchoolAddress(String currentSchoolAddress) {
-		this.currentSchoolAddress = currentSchoolAddress;
+	public void setSubjectChildFirstName(String subjectChildFirstName) {
+		this.subjectChildFirstName = subjectChildFirstName;
 	}
 	
-	public String getCurrentSchoolAddress() {
-		return this.currentSchoolAddress;
+	public String getSubjectChildFirstName() {
+		return this.subjectChildFirstName;
 	}
 	
-	public boolean checkCurrentSchoolAddress() {
-		return true;
-	}
-
-	public void setSubjectChildBirthDate(Calendar subjectChildBirthDate) {
-		this.subjectChildBirthDate = subjectChildBirthDate;
-	}
-	
-	public Calendar getSubjectChildBirthDate() {
-		return this.subjectChildBirthDate;
-	}
-	
-	public boolean checkSubjectChildBirthDate() {
+	public boolean checkSubjectChildFirstName() {
 		return true;
 	}
 

@@ -46,13 +46,13 @@ public class DhrRealAsset implements Serializable {
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         DhrRealAssetType dhrRealAsset = DhrRealAssetType.Factory.newInstance();
+        dhrRealAsset.setRealAssetCadastre(this.realAssetCadastre);
         if (this.realAssetValue != null)
             dhrRealAsset.setRealAssetValue(new BigInteger(this.realAssetValue.toString()));
-        if (this.realAssetAddress != null)
-            dhrRealAsset.setRealAssetAddress(Address.modelToXml(this.realAssetAddress));
         if (this.realAssetNetFloorArea != null)
             dhrRealAsset.setRealAssetNetFloorArea(new BigInteger(this.realAssetNetFloorArea.toString()));
-        dhrRealAsset.setRealAssetCadastre(this.realAssetCadastre);
+        if (this.realAssetAddress != null)
+            dhrRealAsset.setRealAssetAddress(Address.modelToXml(this.realAssetAddress));
         return dhrRealAsset;
     }
 
@@ -61,11 +61,11 @@ public class DhrRealAsset implements Serializable {
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         DhrRealAsset dhrRealAsset = new DhrRealAsset();
+        dhrRealAsset.setRealAssetCadastre(dhrRealAssetDoc.getRealAssetCadastre());
         dhrRealAsset.setRealAssetValue(dhrRealAssetDoc.getRealAssetValue());
+        dhrRealAsset.setRealAssetNetFloorArea(dhrRealAssetDoc.getRealAssetNetFloorArea());
         if (dhrRealAssetDoc.getRealAssetAddress() != null)
             dhrRealAsset.setRealAssetAddress(Address.xmlToModel(dhrRealAssetDoc.getRealAssetAddress()));
-        dhrRealAsset.setRealAssetNetFloorArea(dhrRealAssetDoc.getRealAssetNetFloorArea());
-        dhrRealAsset.setRealAssetCadastre(dhrRealAssetDoc.getRealAssetCadastre());
         return dhrRealAsset;
     }
 
@@ -86,6 +86,21 @@ public class DhrRealAsset implements Serializable {
         return this.id;
     }
 
+    private String realAssetCadastre;
+
+    public final void setRealAssetCadastre(final String realAssetCadastre) {
+        this.realAssetCadastre = realAssetCadastre;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="real_asset_cadastre"
+     */
+    public final String getRealAssetCadastre() {
+        return this.realAssetCadastre;
+    }
+
     private java.math.BigInteger realAssetValue;
 
     public final void setRealAssetValue(final java.math.BigInteger realAssetValue) {
@@ -100,23 +115,6 @@ public class DhrRealAsset implements Serializable {
      */
     public final java.math.BigInteger getRealAssetValue() {
         return this.realAssetValue;
-    }
-
-    private fr.cg95.cvq.business.users.Address realAssetAddress;
-
-    public final void setRealAssetAddress(final fr.cg95.cvq.business.users.Address realAssetAddress) {
-        this.realAssetAddress = realAssetAddress;
-    }
-
-
-    /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="real_asset_address_id"
-     *  class="fr.cg95.cvq.business.users.Address"
-     */
-    public final fr.cg95.cvq.business.users.Address getRealAssetAddress() {
-        return this.realAssetAddress;
     }
 
     private java.math.BigInteger realAssetNetFloorArea;
@@ -135,19 +133,21 @@ public class DhrRealAsset implements Serializable {
         return this.realAssetNetFloorArea;
     }
 
-    private String realAssetCadastre;
+    private fr.cg95.cvq.business.users.Address realAssetAddress;
 
-    public final void setRealAssetCadastre(final String realAssetCadastre) {
-        this.realAssetCadastre = realAssetCadastre;
+    public final void setRealAssetAddress(final fr.cg95.cvq.business.users.Address realAssetAddress) {
+        this.realAssetAddress = realAssetAddress;
     }
 
 
     /**
-     * @hibernate.property
-     *  column="real_asset_cadastre"
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="real_asset_address_id"
+     *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final String getRealAssetCadastre() {
-        return this.realAssetCadastre;
+    public final fr.cg95.cvq.business.users.Address getRealAssetAddress() {
+        return this.realAssetAddress;
     }
 
 }

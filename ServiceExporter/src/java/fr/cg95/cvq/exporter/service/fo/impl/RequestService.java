@@ -42,7 +42,7 @@ public class RequestService implements IRequestService {
 	
 	public boolean hasConsumptions(String requestLabel) throws CvqException {
 		
-		return requestService.hasConsumptions(requestLabel);
+		return requestService.hasMatchingExternalService(requestLabel);
 	}
 	
 	public Set getBySubjectId(Long subjectId) throws CvqException, CvqObjectNotFoundException {

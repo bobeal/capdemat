@@ -54,7 +54,7 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.subjectAdultMobilePhone = new Function("key","this.label='Téléphone portable'; this.msg=null; this.required=false; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.subjectAdultMobilePhone = new Function("key","this.label='Téléphone portable'; this.msg=null; this.required=false; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Subscriber");
 	</script>

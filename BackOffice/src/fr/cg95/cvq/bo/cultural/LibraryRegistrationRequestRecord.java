@@ -14,10 +14,7 @@ import fr.cg95.cvq.business.leisure.culture.*;
 
 public class LibraryRegistrationRequestRecord extends RequestRecord {
 
-	private Calendar subjectIndividualBirthDate;
-	private String subjectIndividualFirstName2;
-	private String subjectIndividualLastName;
-	private String registrationNumber;
+	private boolean rulesAndRegulationsAcceptance;
   	private String subjectIndividualAddressAdditionalDeliveryInformation;
 	private String subjectIndividualAddressAdditionalGeographicalInformation;
 	private String subjectIndividualAddressStreetNumber;
@@ -25,14 +22,17 @@ public class LibraryRegistrationRequestRecord extends RequestRecord {
 	private String subjectIndividualAddressPlaceNameOrService;
 	private String subjectIndividualAddressPostalCode;
 	private String subjectIndividualAddressCity;
-	private boolean rulesAndRegulationsAcceptance;
-	private String subjectIndividualFirstName;
-	private Short subscriptionPrice;
-	private String subjectIndividualFirstName3;
+	private String subjectIndividualSex;
+	private Calendar subjectIndividualBirthDate;
+	private String registrationNumber;
+	private String subjectIndividualFirstName2;
+	private boolean parentalAuthorization;
 	private boolean[] subscription;
    	private List subscriptionList;
-	private String subjectIndividualSex;
-	private boolean parentalAuthorization;
+	private String subjectIndividualFirstName3;
+	private String subjectIndividualFirstName;
+	private String subjectIndividualLastName;
+	private Short subscriptionPrice;
 
 	public LibraryRegistrationRequestRecord() {
 		super();
@@ -56,13 +56,8 @@ public class LibraryRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof LibraryRegistrationRequest)) {
             LibraryRegistrationRequest request = (LibraryRegistrationRequest)xmlRequest; 
 
-			if (((Individual)request.getSubject()).getBirthDate() != null) {
-				this.subjectIndividualBirthDate = Calendar.getInstance(); 
-	            this.subjectIndividualBirthDate.setTime(((Individual)request.getSubject()).getBirthDate());
-			}
-			this.subjectIndividualFirstName2 = ((Individual)request.getSubject()).getFirstName2();
-			this.subjectIndividualLastName = ((Individual)request.getSubject()).getLastName();
-			this.registrationNumber = request.getRegistrationNumber();
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
 			if (((Individual)request.getSubject()).getAdress() != null) {
 				this.subjectIndividualAddressAdditionalDeliveryInformation = ((Individual)request.getSubject()).getAdress().getAdditionalDeliveryInformation();
 				this.subjectIndividualAddressAdditionalGeographicalInformation = ((Individual)request.getSubject()).getAdress().getAdditionalGeographicalInformation();
@@ -72,14 +67,19 @@ public class LibraryRegistrationRequestRecord extends RequestRecord {
 				this.subjectIndividualAddressPostalCode = ((Individual)request.getSubject()).getAdress().getPostalCode();
 				this.subjectIndividualAddressCity = ((Individual)request.getSubject()).getAdress().getCity();
 			}
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
-			this.subjectIndividualFirstName = ((Individual)request.getSubject()).getFirstName();
-			this.subscriptionPrice = request.getSubscriptionPrice();
-			this.subjectIndividualFirstName3 = ((Individual)request.getSubject()).getFirstName3();
-            this.setSubscription(this.getList("Subscription"), request.getSubscription());
+			if (((Individual)request.getSubject()).getBirthDate() != null) {
+				this.subjectIndividualBirthDate = Calendar.getInstance(); 
+	            this.subjectIndividualBirthDate.setTime(((Individual)request.getSubject()).getBirthDate());
+			}
+			this.registrationNumber = request.getRegistrationNumber();
+			this.subjectIndividualFirstName2 = ((Individual)request.getSubject()).getFirstName2();
             if ((request.getParentalAuthorization() != null))
 			this.parentalAuthorization = request.getParentalAuthorization();
+            this.setSubscription(this.getList("Subscription"), request.getSubscription());
+			this.subjectIndividualFirstName3 = ((Individual)request.getSubject()).getFirstName3();
+			this.subjectIndividualFirstName = ((Individual)request.getSubject()).getFirstName();
+			this.subjectIndividualLastName = ((Individual)request.getSubject()).getLastName();
+			this.subscriptionPrice = request.getSubscriptionPrice();
         }
     }
     
@@ -93,46 +93,22 @@ public class LibraryRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof LibraryRegistrationRequest)) {
             LibraryRegistrationRequest request = (LibraryRegistrationRequest)xmlRequest; 
 
-			request.setRegistrationNumber(this.registrationNumber);
             if ((request.getRulesAndRegulationsAcceptance() != null))
 			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
-			request.setSubscriptionPrice(this.subscriptionPrice);
-			request.setSubscription(this.getSubscriptionKeys());
+			request.setRegistrationNumber(this.registrationNumber);
             if ((request.getParentalAuthorization() != null))
 			request.setParentalAuthorization(this.parentalAuthorization);
+			request.setSubscription(this.getSubscriptionKeys());
+			request.setSubscriptionPrice(this.subscriptionPrice);
         }
     }
     
-	public void setSubjectIndividualBirthDate(Calendar subjectIndividualBirthDate) {
-		this.subjectIndividualBirthDate = subjectIndividualBirthDate;
+	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
+		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
 	}
 	
-	public Calendar getSubjectIndividualBirthDate() {
-		return this.subjectIndividualBirthDate;
-	}
-
-	public void setSubjectIndividualFirstName2(String subjectIndividualFirstName2) {
-		this.subjectIndividualFirstName2 = subjectIndividualFirstName2;
-	}
-	
-	public String getSubjectIndividualFirstName2() {
-		return this.subjectIndividualFirstName2;
-	}
-
-	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
-		this.subjectIndividualLastName = subjectIndividualLastName;
-	}
-	
-	public String getSubjectIndividualLastName() {
-		return this.subjectIndividualLastName;
-	}
-
-	public void setRegistrationNumber(String registrationNumber) {
-		this.registrationNumber = registrationNumber;
-	}
-	
-	public String getRegistrationNumber() {
-		return this.registrationNumber;
+	public boolean getRulesAndRegulationsAcceptance() {
+		return this.rulesAndRegulationsAcceptance;
 	}
 
 	public void setSubjectIndividualAddressAdditionalDeliveryInformation(String subjectIndividualAddressAdditionalDeliveryInformation) {
@@ -191,36 +167,44 @@ public class LibraryRegistrationRequestRecord extends RequestRecord {
 		return this.subjectIndividualAddressCity;
 	}
 
-	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
-		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+	public void setSubjectIndividualSex(String subjectIndividualSex) {
+		this.subjectIndividualSex = subjectIndividualSex;
 	}
 	
-	public boolean getRulesAndRegulationsAcceptance() {
-		return this.rulesAndRegulationsAcceptance;
+	public String getSubjectIndividualSex() {
+		return this.subjectIndividualSex;
 	}
 
-	public void setSubjectIndividualFirstName(String subjectIndividualFirstName) {
-		this.subjectIndividualFirstName = subjectIndividualFirstName;
+	public void setSubjectIndividualBirthDate(Calendar subjectIndividualBirthDate) {
+		this.subjectIndividualBirthDate = subjectIndividualBirthDate;
 	}
 	
-	public String getSubjectIndividualFirstName() {
-		return this.subjectIndividualFirstName;
+	public Calendar getSubjectIndividualBirthDate() {
+		return this.subjectIndividualBirthDate;
 	}
 
-	public void setSubscriptionPrice(Short subscriptionPrice) {
-		this.subscriptionPrice = subscriptionPrice;
+	public void setRegistrationNumber(String registrationNumber) {
+		this.registrationNumber = registrationNumber;
 	}
 	
-	public Short getSubscriptionPrice() {
-		return this.subscriptionPrice;
+	public String getRegistrationNumber() {
+		return this.registrationNumber;
 	}
 
-	public void setSubjectIndividualFirstName3(String subjectIndividualFirstName3) {
-		this.subjectIndividualFirstName3 = subjectIndividualFirstName3;
+	public void setSubjectIndividualFirstName2(String subjectIndividualFirstName2) {
+		this.subjectIndividualFirstName2 = subjectIndividualFirstName2;
 	}
 	
-	public String getSubjectIndividualFirstName3() {
-		return this.subjectIndividualFirstName3;
+	public String getSubjectIndividualFirstName2() {
+		return this.subjectIndividualFirstName2;
+	}
+
+	public void setParentalAuthorization(boolean parentalAuthorization) {
+		this.parentalAuthorization = parentalAuthorization;
+	}
+	
+	public boolean getParentalAuthorization() {
+		return this.parentalAuthorization;
 	}
 
 	public void setSubscription(List referential, Set values) {
@@ -270,20 +254,36 @@ public class LibraryRegistrationRequestRecord extends RequestRecord {
 			subscription[i] = values.indexOf("<" + ((ReferentialData)subscriptionList.get(i)).getValue() + ">") != -1;
 		}
 	}
-	public void setSubjectIndividualSex(String subjectIndividualSex) {
-		this.subjectIndividualSex = subjectIndividualSex;
+	public void setSubjectIndividualFirstName3(String subjectIndividualFirstName3) {
+		this.subjectIndividualFirstName3 = subjectIndividualFirstName3;
 	}
 	
-	public String getSubjectIndividualSex() {
-		return this.subjectIndividualSex;
+	public String getSubjectIndividualFirstName3() {
+		return this.subjectIndividualFirstName3;
 	}
 
-	public void setParentalAuthorization(boolean parentalAuthorization) {
-		this.parentalAuthorization = parentalAuthorization;
+	public void setSubjectIndividualFirstName(String subjectIndividualFirstName) {
+		this.subjectIndividualFirstName = subjectIndividualFirstName;
 	}
 	
-	public boolean getParentalAuthorization() {
-		return this.parentalAuthorization;
+	public String getSubjectIndividualFirstName() {
+		return this.subjectIndividualFirstName;
+	}
+
+	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
+		this.subjectIndividualLastName = subjectIndividualLastName;
+	}
+	
+	public String getSubjectIndividualLastName() {
+		return this.subjectIndividualLastName;
+	}
+
+	public void setSubscriptionPrice(Short subscriptionPrice) {
+		this.subscriptionPrice = subscriptionPrice;
+	}
+	
+	public Short getSubscriptionPrice() {
+		return this.subscriptionPrice;
 	}
 
 }

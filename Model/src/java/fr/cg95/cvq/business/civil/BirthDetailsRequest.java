@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.civil.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -30,7 +32,6 @@ public class BirthDetailsRequest extends Request implements Serializable {
 
     public BirthDetailsRequest() {
         super();
-        relationship = fr.cg95.cvq.business.civil.BirthRelationshipType.HUSBAND;
     }
 
 
@@ -57,10 +58,10 @@ public class BirthDetailsRequest extends Request implements Serializable {
             birthDetailsRequest.setCopies(new BigInteger(this.copies.toString()));
         birthDetailsRequest.setMotherFirstNames(this.motherFirstNames);
         birthDetailsRequest.setBirthLastName(this.birthLastName);
+        birthDetailsRequest.setComment(this.comment);
         birthDetailsRequest.setRequesterQualityPrecision(this.requesterQualityPrecision);
-        if (this.relationship != null)
-            birthDetailsRequest.setRelationship(fr.cg95.cvq.xml.civil.BirthRelationshipType.Enum.forString(this.relationship.toString()));
-        birthDetailsRequest.setUsage(this.usage);
+        if (this.motive != null)
+            birthDetailsRequest.setMotive(fr.cg95.cvq.xml.civil.BirthCertificateMotiveType.Enum.forString(this.motive.toString()));
         if (this.requesterQuality != null)
             birthDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.civil.BirthRequesterQualityType.Enum.forString(this.requesterQuality.toString()));
         birthDetailsRequest.setFatherLastName(this.fatherLastName);
@@ -78,6 +79,13 @@ public class BirthDetailsRequest extends Request implements Serializable {
         return birthDetailsRequestDoc;
     }
 
+    @Override
+    public RequestType modelToXmlRequest() {
+        BirthDetailsRequestDocument birthDetailsRequestDoc =
+            (BirthDetailsRequestDocument) modelToXml();
+        return birthDetailsRequestDoc.getBirthDetailsRequest();
+    }
+
     public static BirthDetailsRequest xmlToModel(BirthDetailsRequestDocument birthDetailsRequestDoc) {
 
         BirthDetailsRequestDocument.BirthDetailsRequest birthDetailsRequestXml = birthDetailsRequestDoc.getBirthDetailsRequest();
@@ -89,12 +97,12 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequest.setCopies(birthDetailsRequestXml.getCopies());
         birthDetailsRequest.setMotherFirstNames(birthDetailsRequestXml.getMotherFirstNames());
         birthDetailsRequest.setBirthLastName(birthDetailsRequestXml.getBirthLastName());
+        birthDetailsRequest.setComment(birthDetailsRequestXml.getComment());
         birthDetailsRequest.setRequesterQualityPrecision(birthDetailsRequestXml.getRequesterQualityPrecision());
-        if (birthDetailsRequestXml.getRelationship() != null)
-            birthDetailsRequest.setRelationship(fr.cg95.cvq.business.civil.BirthRelationshipType.forString(birthDetailsRequestXml.getRelationship().toString()));
+        if (birthDetailsRequestXml.getMotive() != null)
+            birthDetailsRequest.setMotive(fr.cg95.cvq.business.civil.BirthCertificateMotiveType.forString(birthDetailsRequestXml.getMotive().toString()));
         else
-            birthDetailsRequest.setRelationship(fr.cg95.cvq.business.civil.BirthRelationshipType.getDefaultBirthRelationshipType());
-        birthDetailsRequest.setUsage(birthDetailsRequestXml.getUsage());
+            birthDetailsRequest.setMotive(fr.cg95.cvq.business.civil.BirthCertificateMotiveType.getDefaultBirthCertificateMotiveType());
         if (birthDetailsRequestXml.getRequesterQuality() != null)
             birthDetailsRequest.setRequesterQuality(fr.cg95.cvq.business.civil.BirthRequesterQualityType.forString(birthDetailsRequestXml.getRequesterQuality().toString()));
         else
@@ -177,6 +185,21 @@ public class BirthDetailsRequest extends Request implements Serializable {
         return this.birthLastName;
     }
 
+    private String comment;
+
+    public final void setComment(final String comment) {
+        this.comment = comment;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="comment"
+     */
+    public final String getComment() {
+        return this.comment;
+    }
+
     private String requesterQualityPrecision;
 
     public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
@@ -192,34 +215,19 @@ public class BirthDetailsRequest extends Request implements Serializable {
         return this.requesterQualityPrecision;
     }
 
-    private fr.cg95.cvq.business.civil.BirthRelationshipType relationship;
+    private fr.cg95.cvq.business.civil.BirthCertificateMotiveType motive;
 
-    public final void setRelationship(final fr.cg95.cvq.business.civil.BirthRelationshipType relationship) {
-        this.relationship = relationship;
+    public final void setMotive(final fr.cg95.cvq.business.civil.BirthCertificateMotiveType motive) {
+        this.motive = motive;
     }
 
 
     /**
      * @hibernate.property
-     *  column="relationship"
+     *  column="motive"
      */
-    public final fr.cg95.cvq.business.civil.BirthRelationshipType getRelationship() {
-        return this.relationship;
-    }
-
-    private String usage;
-
-    public final void setUsage(final String usage) {
-        this.usage = usage;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="usage"
-     */
-    public final String getUsage() {
-        return this.usage;
+    public final fr.cg95.cvq.business.civil.BirthCertificateMotiveType getMotive() {
+        return this.motive;
     }
 
     private fr.cg95.cvq.business.civil.BirthRequesterQualityType requesterQuality;

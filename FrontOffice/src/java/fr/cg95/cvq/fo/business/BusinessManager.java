@@ -51,6 +51,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Card;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectAlreadyExistsException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -362,11 +363,17 @@ public class BusinessManager {
 
         Request request;
         try {
-            request = getRequestService().getById(id);
-            ICertificateService service = (ICertificateService) _applicationContext
-                    .getBean(ICertificateService.SERVICE_NAME);
-
-            byte[] data = service.generateRequestCertificate(request, null);
+            IRequestService requestService = getRequestService(); 
+            request = requestService.getById(id);
+            
+            byte[] data = requestService.getCertificate(id, RequestState.VALIDATED);
+            if ((data == null) || (data.length == 0))
+                data = requestService.getCertificate(id, RequestState.PENDING);
+                
+//            ICertificateService service = (ICertificateService) _applicationContext
+//                    .getBean(ICertificateService.SERVICE_NAME);
+//
+//            byte[] data = service.generateRequestCertificate(request, null);
 
             if (data != null) {
                 FileOutputStream fos = new FileOutputStream(pdf);

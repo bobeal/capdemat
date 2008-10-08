@@ -15,6 +15,7 @@ public final class MarriageCertificateFormatType extends PersistentStringEnum {
     public static final MarriageCertificateFormatType FULL_COPY = new MarriageCertificateFormatType("FullCopy");
     public static final MarriageCertificateFormatType EXTRACT_WITH_RELATIONSHIP = new MarriageCertificateFormatType("ExtractWithRelationship");
     public static final MarriageCertificateFormatType EXTRACT_WITHOUT_RELATIONSHIP = new MarriageCertificateFormatType("ExtractWithoutRelationship");
+    public static final MarriageCertificateFormatType MULTILINGUAL_EXTRACT = new MarriageCertificateFormatType("MultilingualExtract");
 
 
     /**
@@ -44,6 +45,8 @@ public final class MarriageCertificateFormatType extends PersistentStringEnum {
             return EXTRACT_WITH_RELATIONSHIP;
         else if (enumAsString.equals(EXTRACT_WITHOUT_RELATIONSHIP.toString()))
             return EXTRACT_WITHOUT_RELATIONSHIP;
+        else if (enumAsString.equals(MULTILINGUAL_EXTRACT.toString()))
+            return MULTILINGUAL_EXTRACT;
 
         return getDefaultMarriageCertificateFormatType();
     }

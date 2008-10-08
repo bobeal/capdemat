@@ -12,8 +12,8 @@ import fr.cg95.cvq.xml.social.RemoteSupportRequestDocument.RemoteSupportRequest;
 public class Contactperson extends IStageForm {
 
 	private String contactFirstName;
-	private String contact;
 	private String contactName;
+	private String contact;
 	private String contactPhone;
 
 	public Contactperson() {
@@ -31,9 +31,9 @@ public class Contactperson extends IStageForm {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof RemoteSupportRequest)) {
 			RemoteSupportRequest request = (RemoteSupportRequest)xmlbRequest;
 			this.contactFirstName = request.getContactFirstName();
+			this.contactName = request.getContactName();
 			if (request.getContact() != null)
 			this.contact = request.getContact().toString();
-			this.contactName = request.getContactName();
 			this.contactPhone = request.getContactPhone();
 		}
 	}
@@ -42,8 +42,8 @@ public class Contactperson extends IStageForm {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof RemoteSupportRequest)) {
 			RemoteSupportRequest request = (RemoteSupportRequest)xmlbRequest;
 			request.setContactFirstName(this.contactFirstName);
-			request.setContact(RsrContactType.Enum.forString(this.contact));
 			request.setContactName(this.contactName);
+			request.setContact(RsrContactType.Enum.forString(this.contact));
 			request.setContactPhone(this.contactPhone);
 		}
 	}
@@ -64,18 +64,6 @@ public class Contactperson extends IStageForm {
 		return contact.equals("Other");
 	}
 
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
-	
-	public String getContact() {
-		return this.contact;
-	}
-	
-	public boolean checkContact() {
-		return true;
-	}
-
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
 	}
@@ -86,6 +74,18 @@ public class Contactperson extends IStageForm {
 	
 	public boolean checkContactName() {
 		return contact.equals("Other");
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	
+	public String getContact() {
+		return this.contact;
+	}
+	
+	public boolean checkContact() {
+		return true;
 	}
 
 	public void setContactPhone(String contactPhone) {

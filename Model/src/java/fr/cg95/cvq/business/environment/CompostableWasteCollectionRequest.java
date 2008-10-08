@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.environment.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -51,7 +53,6 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         CompostableWasteCollectionRequestDocument compostableWasteCollectionRequestDoc = CompostableWasteCollectionRequestDocument.Factory.newInstance();
         CompostableWasteCollectionRequestDocument.CompostableWasteCollectionRequest compostableWasteCollectionRequest = compostableWasteCollectionRequestDoc.addNewCompostableWasteCollectionRequest();
         super.fillCommonXmlInfo(compostableWasteCollectionRequest);
-        compostableWasteCollectionRequest.setCollectionAddress(this.collectionAddress);
         int i = 0;
         if (compostableWasteType != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] compostableWasteTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[compostableWasteType.size()];
@@ -63,8 +64,16 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
             }
             compostableWasteCollectionRequest.setCompostableWasteTypeArray(compostableWasteTypeTypeTab);
         }
+        compostableWasteCollectionRequest.setCollectionAddress(this.collectionAddress);
         compostableWasteCollectionRequest.setOtherWaste(this.otherWaste);
         return compostableWasteCollectionRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        CompostableWasteCollectionRequestDocument compostableWasteCollectionRequestDoc =
+            (CompostableWasteCollectionRequestDocument) modelToXml();
+        return compostableWasteCollectionRequestDoc.getCompostableWasteCollectionRequest();
     }
 
     public static CompostableWasteCollectionRequest xmlToModel(CompostableWasteCollectionRequestDocument compostableWasteCollectionRequestDoc) {
@@ -74,7 +83,6 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         List list = new ArrayList();
         CompostableWasteCollectionRequest compostableWasteCollectionRequest = new CompostableWasteCollectionRequest();
         compostableWasteCollectionRequest.fillCommonModelInfo(compostableWasteCollectionRequest,compostableWasteCollectionRequestXml);
-        compostableWasteCollectionRequest.setCollectionAddress(compostableWasteCollectionRequestXml.getCollectionAddress());
         HashSet compostableWasteTypeSet = new HashSet();
         if ( compostableWasteCollectionRequestXml.sizeOfCompostableWasteTypeArray() > 0) {
             for (int i = 0; i < compostableWasteCollectionRequestXml.getCompostableWasteTypeArray().length; i++) {
@@ -82,23 +90,9 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
             }
         }
         compostableWasteCollectionRequest.setCompostableWasteType(compostableWasteTypeSet);
+        compostableWasteCollectionRequest.setCollectionAddress(compostableWasteCollectionRequestXml.getCollectionAddress());
         compostableWasteCollectionRequest.setOtherWaste(compostableWasteCollectionRequestXml.getOtherWaste());
         return compostableWasteCollectionRequest;
-    }
-
-    private String collectionAddress;
-
-    public final void setCollectionAddress(final String collectionAddress) {
-        this.collectionAddress = collectionAddress;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="collection_address"
-     */
-    public final String getCollectionAddress() {
-        return this.collectionAddress;
     }
 
     private Set compostableWasteType;
@@ -121,6 +115,21 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
      */
     public final Set getCompostableWasteType() {
         return this.compostableWasteType;
+    }
+
+    private String collectionAddress;
+
+    public final void setCollectionAddress(final String collectionAddress) {
+        this.collectionAddress = collectionAddress;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="collection_address"
+     */
+    public final String getCollectionAddress() {
+        return this.collectionAddress;
     }
 
     private String otherWaste;

@@ -14,6 +14,7 @@ import fr.cg95.cvq.business.social.*;
 
 public class DhrRealAssets extends RequestRecord {
 
+	private String realAssetsRealAssetCadastre;
   	private String realAssetsRealAssetAddressAdditionalDeliveryInformation;
 	private String realAssetsRealAssetAddressAdditionalGeographicalInformation;
 	private String realAssetsRealAssetAddressStreetNumber;
@@ -21,9 +22,8 @@ public class DhrRealAssets extends RequestRecord {
 	private String realAssetsRealAssetAddressPlaceNameOrService;
 	private String realAssetsRealAssetAddressPostalCode;
 	private String realAssetsRealAssetAddressCity;
-	private java.math.BigInteger realAssetsRealAssetValue;
-	private String realAssetsRealAssetCadastre;
 	private java.math.BigInteger realAssetsRealAssetNetFloorArea;
+	private java.math.BigInteger realAssetsRealAssetValue;
 
 	public DhrRealAssets() {
 		super();
@@ -45,6 +45,7 @@ public class DhrRealAssets extends RequestRecord {
     public void load(DhrRealAsset request) {
     	if (request != null) {
 
+			this.realAssetsRealAssetCadastre = request.getRealAssetCadastre();
 			if (request.getRealAssetAddress() != null) {
 				this.realAssetsRealAssetAddressAdditionalDeliveryInformation = request.getRealAssetAddress().getAdditionalDeliveryInformation();
 				this.realAssetsRealAssetAddressAdditionalGeographicalInformation = request.getRealAssetAddress().getAdditionalGeographicalInformation();
@@ -54,9 +55,8 @@ public class DhrRealAssets extends RequestRecord {
 				this.realAssetsRealAssetAddressPostalCode = request.getRealAssetAddress().getPostalCode();
 				this.realAssetsRealAssetAddressCity = request.getRealAssetAddress().getCity();
 			}
-			this.realAssetsRealAssetValue = request.getRealAssetValue();
-			this.realAssetsRealAssetCadastre = request.getRealAssetCadastre();
 			this.realAssetsRealAssetNetFloorArea = request.getRealAssetNetFloorArea();
+			this.realAssetsRealAssetValue = request.getRealAssetValue();
         }
     }
     
@@ -73,6 +73,14 @@ public class DhrRealAssets extends RequestRecord {
         }
     }
     
+	public void setRealAssetsRealAssetCadastre(String realAssetsRealAssetCadastre) {
+		this.realAssetsRealAssetCadastre = realAssetsRealAssetCadastre;
+	}
+	
+	public String getRealAssetsRealAssetCadastre() {
+		return this.realAssetsRealAssetCadastre;
+	}
+
 	public void setRealAssetsRealAssetAddressAdditionalDeliveryInformation(String realAssetsRealAssetAddressAdditionalDeliveryInformation) {
 		this.realAssetsRealAssetAddressAdditionalDeliveryInformation = realAssetsRealAssetAddressAdditionalDeliveryInformation;
 	}
@@ -129,28 +137,20 @@ public class DhrRealAssets extends RequestRecord {
 		return this.realAssetsRealAssetAddressCity;
 	}
 
-	public void setRealAssetsRealAssetValue(java.math.BigInteger realAssetsRealAssetValue) {
-		this.realAssetsRealAssetValue = realAssetsRealAssetValue;
-	}
-	
-	public java.math.BigInteger getRealAssetsRealAssetValue() {
-		return this.realAssetsRealAssetValue;
-	}
-
-	public void setRealAssetsRealAssetCadastre(String realAssetsRealAssetCadastre) {
-		this.realAssetsRealAssetCadastre = realAssetsRealAssetCadastre;
-	}
-	
-	public String getRealAssetsRealAssetCadastre() {
-		return this.realAssetsRealAssetCadastre;
-	}
-
 	public void setRealAssetsRealAssetNetFloorArea(java.math.BigInteger realAssetsRealAssetNetFloorArea) {
 		this.realAssetsRealAssetNetFloorArea = realAssetsRealAssetNetFloorArea;
 	}
 	
 	public java.math.BigInteger getRealAssetsRealAssetNetFloorArea() {
 		return this.realAssetsRealAssetNetFloorArea;
+	}
+
+	public void setRealAssetsRealAssetValue(java.math.BigInteger realAssetsRealAssetValue) {
+		this.realAssetsRealAssetValue = realAssetsRealAssetValue;
+	}
+	
+	public java.math.BigInteger getRealAssetsRealAssetValue() {
+		return this.realAssetsRealAssetValue;
 	}
 
 }

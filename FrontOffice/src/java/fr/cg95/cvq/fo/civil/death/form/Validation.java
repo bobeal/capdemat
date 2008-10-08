@@ -11,21 +11,15 @@ import fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest;
 
 public class Validation extends IStageForm {
 
-	private java.math.BigInteger copies;
-	private String motherFirstNames;
-	private String requesterQualityPrecision;
 	private String deathFirstNames;
-	private String relationship;
-	private String usage;
-	private String requesterQuality;
-	private String fatherLastName;
-	private Calendar deathDate;
 	private String deathCity;
-	private String deathPostalCode;
-	private String motherMaidenName;
-	private String deathLastName;
-	private String fatherFirstNames;
 	private String format;
+	private String deathLastName;
+	private java.math.BigInteger copies;
+	private String comment;
+	private Calendar deathDate;
+	private String motive;
+	private String deathPostalCode;
 
 	public Validation() {
 		super();
@@ -34,125 +28,59 @@ public class Validation extends IStageForm {
 	public void reset(String state) {
 		if (state.equals("summary")) {
 		}
-		if (state.equals("summaryrelation")) {
-		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DeathDetailsRequest)) {
 			DeathDetailsRequest request = (DeathDetailsRequest)xmlbRequest;
-			this.copies = request.getCopies();
-			this.motherFirstNames = request.getMotherFirstNames();
-			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
 			this.deathFirstNames = request.getDeathFirstNames();
-			if (request.getRelationship() != null)
-			this.relationship = request.getRelationship().toString();
-			this.usage = request.getUsage();
-			if (request.getRequesterQuality() != null)
-			this.requesterQuality = request.getRequesterQuality().toString();
-			this.fatherLastName = request.getFatherLastName();
-			this.deathDate = request.getDeathDate();
 			this.deathCity = request.getDeathCity();
-			this.deathPostalCode = request.getDeathPostalCode();
-			this.motherMaidenName = request.getMotherMaidenName();
-			this.deathLastName = request.getDeathLastName();
-			this.fatherFirstNames = request.getFatherFirstNames();
 			if (request.getFormat() != null)
 			this.format = request.getFormat().toString();
+			this.deathLastName = request.getDeathLastName();
+			this.copies = request.getCopies();
+			this.comment = request.getComment();
+			this.deathDate = request.getDeathDate();
+			if (request.getMotive() != null)
+			this.motive = request.getMotive().toString();
+			this.deathPostalCode = request.getDeathPostalCode();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DeathDetailsRequest)) {
 			DeathDetailsRequest request = (DeathDetailsRequest)xmlbRequest;
-			request.setCopies(this.copies);
-			request.setMotherFirstNames(this.motherFirstNames);
-			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
 			request.setDeathFirstNames(this.deathFirstNames);
-			request.setRelationship(DeathRelationshipType.Enum.forString(this.relationship));
-			request.setUsage(this.usage);
-			request.setRequesterQuality(DeathRequesterQualityType.Enum.forString(this.requesterQuality));
-			request.setFatherLastName(this.fatherLastName);
-			request.setDeathDate(this.deathDate);
 			request.setDeathCity(this.deathCity);
-			request.setDeathPostalCode(this.deathPostalCode);
-			request.setMotherMaidenName(this.motherMaidenName);
-			request.setDeathLastName(this.deathLastName);
-			request.setFatherFirstNames(this.fatherFirstNames);
 			request.setFormat(DeathCertificateFormatType.Enum.forString(this.format));
+			request.setDeathLastName(this.deathLastName);
+			request.setCopies(this.copies);
+			request.setComment(this.comment);
+			request.setDeathDate(this.deathDate);
+			request.setMotive(DeathCertificateMotiveType.Enum.forString(this.motive));
+			request.setDeathPostalCode(this.deathPostalCode);
 		}
 	}
 	
 	public boolean isComplete() {
-		if (this.checkMotherFirstNames() &&
-			((this.motherFirstNames == null) || (this.motherFirstNames.length() == 0)))
-			return false;
 		if (this.checkDeathFirstNames() &&
 			((this.deathFirstNames == null) || (this.deathFirstNames.length() == 0)))
-			return false;
-		if (this.checkRelationship() &&
-			((this.relationship == null) || (this.relationship.length() == 0)))
-			return false;
-		if (this.checkFatherLastName() &&
-			((this.fatherLastName == null) || (this.fatherLastName.length() == 0)))
 			return false;
 		if (this.checkDeathCity() &&
 			((this.deathCity == null) || (this.deathCity.length() == 0)))
 			return false;
-		if (this.checkDeathPostalCode() &&
-			((this.deathPostalCode == null) || (this.deathPostalCode.length() == 0)))
-			return false;
-		if (this.checkMotherMaidenName() &&
-			((this.motherMaidenName == null) || (this.motherMaidenName.length() == 0)))
+		if (this.checkFormat() &&
+			((this.format == null) || (this.format.length() == 0)))
 			return false;
 		if (this.checkDeathLastName() &&
 			((this.deathLastName == null) || (this.deathLastName.length() == 0)))
 			return false;
-		if (this.checkFatherFirstNames() &&
-			((this.fatherFirstNames == null) || (this.fatherFirstNames.length() == 0)))
-			return false;
-		if (this.checkFormat() &&
-			((this.format == null) || (this.format.length() == 0)))
+		if (this.checkDeathPostalCode() &&
+			((this.deathPostalCode == null) || (this.deathPostalCode.length() == 0)))
 			return false;
 		return true;
 	}
 	
-	public void setCopies(java.math.BigInteger copies) {
-		this.copies = copies;
-	}
-	
-	public java.math.BigInteger getCopies() {
-		return this.copies;
-	}
-	
-	public boolean checkCopies() {
-		return true;
-	}
-
-	public void setMotherFirstNames(String motherFirstNames) {
-		this.motherFirstNames = motherFirstNames;
-	}
-	
-	public String getMotherFirstNames() {
-		return this.motherFirstNames;
-	}
-	
-	public boolean checkMotherFirstNames() {
-		return true;
-	}
-
-	public void setRequesterQualityPrecision(String requesterQualityPrecision) {
-		this.requesterQualityPrecision = requesterQualityPrecision;
-	}
-	
-	public String getRequesterQualityPrecision() {
-		return this.requesterQualityPrecision;
-	}
-	
-	public boolean checkRequesterQualityPrecision() {
-		return true;
-	}
-
 	public void setDeathFirstNames(String deathFirstNames) {
 		this.deathFirstNames = deathFirstNames;
 	}
@@ -162,66 +90,6 @@ public class Validation extends IStageForm {
 	}
 	
 	public boolean checkDeathFirstNames() {
-		return true;
-	}
-
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
-	}
-	
-	public String getRelationship() {
-		return this.relationship;
-	}
-	
-	public boolean checkRelationship() {
-		return true;
-	}
-
-	public void setUsage(String usage) {
-		this.usage = usage;
-	}
-	
-	public String getUsage() {
-		return this.usage;
-	}
-	
-	public boolean checkUsage() {
-		return true;
-	}
-
-	public void setRequesterQuality(String requesterQuality) {
-		this.requesterQuality = requesterQuality;
-	}
-	
-	public String getRequesterQuality() {
-		return this.requesterQuality;
-	}
-	
-	public boolean checkRequesterQuality() {
-		return true;
-	}
-
-	public void setFatherLastName(String fatherLastName) {
-		this.fatherLastName = fatherLastName;
-	}
-	
-	public String getFatherLastName() {
-		return this.fatherLastName;
-	}
-	
-	public boolean checkFatherLastName() {
-		return true;
-	}
-
-	public void setDeathDate(Calendar deathDate) {
-		this.deathDate = deathDate;
-	}
-	
-	public Calendar getDeathDate() {
-		return this.deathDate;
-	}
-	
-	public boolean checkDeathDate() {
 		return true;
 	}
 
@@ -237,27 +105,15 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setDeathPostalCode(String deathPostalCode) {
-		this.deathPostalCode = deathPostalCode;
+	public void setFormat(String format) {
+		this.format = format;
 	}
 	
-	public String getDeathPostalCode() {
-		return this.deathPostalCode;
+	public String getFormat() {
+		return this.format;
 	}
 	
-	public boolean checkDeathPostalCode() {
-		return true;
-	}
-
-	public void setMotherMaidenName(String motherMaidenName) {
-		this.motherMaidenName = motherMaidenName;
-	}
-	
-	public String getMotherMaidenName() {
-		return this.motherMaidenName;
-	}
-	
-	public boolean checkMotherMaidenName() {
+	public boolean checkFormat() {
 		return true;
 	}
 
@@ -273,27 +129,63 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setFatherFirstNames(String fatherFirstNames) {
-		this.fatherFirstNames = fatherFirstNames;
+	public void setCopies(java.math.BigInteger copies) {
+		this.copies = copies;
 	}
 	
-	public String getFatherFirstNames() {
-		return this.fatherFirstNames;
+	public java.math.BigInteger getCopies() {
+		return this.copies;
 	}
 	
-	public boolean checkFatherFirstNames() {
+	public boolean checkCopies() {
 		return true;
 	}
 
-	public void setFormat(String format) {
-		this.format = format;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
-	public String getFormat() {
-		return this.format;
+	public String getComment() {
+		return this.comment;
 	}
 	
-	public boolean checkFormat() {
+	public boolean checkComment() {
+		return true;
+	}
+
+	public void setDeathDate(Calendar deathDate) {
+		this.deathDate = deathDate;
+	}
+	
+	public Calendar getDeathDate() {
+		return this.deathDate;
+	}
+	
+	public boolean checkDeathDate() {
+		return true;
+	}
+
+	public void setMotive(String motive) {
+		this.motive = motive;
+	}
+	
+	public String getMotive() {
+		return this.motive;
+	}
+	
+	public boolean checkMotive() {
+		return true;
+	}
+
+	public void setDeathPostalCode(String deathPostalCode) {
+		this.deathPostalCode = deathPostalCode;
+	}
+	
+	public String getDeathPostalCode() {
+		return this.deathPostalCode;
+	}
+	
+	public boolean checkDeathPostalCode() {
 		return true;
 	}
 

@@ -50,62 +50,62 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
     protected MilitaryCensusRequest fillMeARequest() throws CvqException {
 
         MilitaryCensusRequest request = new MilitaryCensusRequest();
-            request.setFatherBirthCountry(CountryType.UNKNOWN);
-                  if ("MotherFirstName".length() > 38)
-        request.setMotherFirstName("MotherFirstName".substring(0, 38));
-      else
-        request.setMotherFirstName("MotherFirstName");
-                request.setStatePupil(Boolean.valueOf(true));
-                request.setOtherSituation("OtherSituation");
-                  request.setMotherBirthCountry(CountryType.UNKNOWN);
+            request.setFatherBirthDepartment(InseeDepartementCodeType.NONE);
+                    request.setChildProfession("ChildProfession");
+                    request.setChildSpeciality("ChildSpeciality");
+                  request.setChildOtherCountry(FullNationalityType.NONE);
+                  request.setChildStatus(FamilyStatusType.MARRIED);
                 request.setAliveChildren(BigInteger.valueOf(1));
-              if ("FatherFirstName".length() > 38)
-        request.setFatherFirstName("FatherFirstName".substring(0, 38));
-      else
-        request.setFatherFirstName("FatherFirstName");
+            request.setChildrenInCharge(BigInteger.valueOf(1));
+            request.setAffectionOrDisease(Boolean.valueOf(true));
+            request.setJapdExemption(Boolean.valueOf(true));
+              request.setChildSituation(ChildSituationType.COLLEGE);
                   if ("MaidenName".length() > 38)
         request.setMaidenName("MaidenName".substring(0, 38));
       else
         request.setMaidenName("MaidenName");
-                    request.setFatherBirthCity("FatherBirthCity");
-                    request.setMotherBirthCity("MotherBirthCity");
-                    request.setChildSpeciality("ChildSpeciality");
-                request.setPrefectPupil(Boolean.valueOf(true));
-              request.setChildDiploma(ChildDiplomaType.B_A_C);
-                  request.setChildResidenceCountry(CountryType.UNKNOWN);
-                  request.setFatherNationality(FullNationalityType.NONE);
-                  request.setChildCountry(FullNationalityType.NONE);
-                  request.setFatherBirthDepartment(InseeDepartementCodeType.NONE);
-                  request.setMotherNationality(FullNationalityType.NONE);
-                request.setAffectionOrDisease(Boolean.valueOf(true));
-              request.setChildStatus(FamilyStatusType.MARRIED);
-                request.setMotherBirthDate(new Date());
-            request.setChildrenInCharge(BigInteger.valueOf(1));
-              if ("MotherLastName".length() > 38)
-        request.setMotherLastName("MotherLastName".substring(0, 38));
-      else
-        request.setMotherLastName("MotherLastName");
-                  request.setChildTitle(TitleType.MISTER);
-                request.setFatherBirthDate(new Date());
-                request.setChildConvention("ChildConvention");
-                    request.setChildMail("ChildMail");
-                  request.setMotherBirthDepartment(InseeDepartementCodeType.NONE);
-                  request.setChildSituation(ChildSituationType.COLLEGE);
-                  request.setChildOtherCountry(FullNationalityType.NONE);
-                  if ("FatherLastName".length() > 38)
-        request.setFatherLastName("FatherLastName".substring(0, 38));
-      else
-        request.setFatherLastName("FatherLastName");
-                    request.setChildProfession("ChildProfession");
-                  request.setChildBirthCountry(CountryType.UNKNOWN);
-                request.setJapdExemption(Boolean.valueOf(true));
-            request.setHighlyInfirm(Boolean.valueOf(true));
-              request.setPrefectPupilDepartment(InseeDepartementCodeType.NONE);
+                request.setStatePupil(Boolean.valueOf(true));
+              request.setChildTitle(TitleType.MISTER);
                   if ("ChildPhone".length() > 10)
         request.setChildPhone("ChildPhone".substring(0, 10));
       else
         request.setChildPhone("ChildPhone");
-      
+                  if ("MotherLastName".length() > 38)
+        request.setMotherLastName("MotherLastName".substring(0, 38));
+      else
+        request.setMotherLastName("MotherLastName");
+                    request.setChildMail("ChildMail");
+                  request.setChildDiploma(ChildDiplomaType.B_A_C);
+                  request.setMotherBirthCountry(CountryType.UNKNOWN);
+                  if ("FatherLastName".length() > 38)
+        request.setFatherLastName("FatherLastName".substring(0, 38));
+      else
+        request.setFatherLastName("FatherLastName");
+                  request.setPrefectPupilDepartment(InseeDepartementCodeType.NONE);
+                  request.setMotherBirthDepartment(InseeDepartementCodeType.NONE);
+                  request.setChildResidenceCountry(CountryType.UNKNOWN);
+                    request.setFatherBirthCity("FatherBirthCity");
+                request.setFatherBirthDate(new Date());
+              if ("FatherFirstName".length() > 38)
+        request.setFatherFirstName("FatherFirstName".substring(0, 38));
+      else
+        request.setFatherFirstName("FatherFirstName");
+                    request.setOtherSituation("OtherSituation");
+                    request.setMotherBirthCity("MotherBirthCity");
+                  request.setFatherNationality(FullNationalityType.NONE);
+                request.setMotherBirthDate(new Date());
+            request.setPrefectPupil(Boolean.valueOf(true));
+              request.setChildCountry(FullNationalityType.NONE);
+                  if ("MotherFirstName".length() > 38)
+        request.setMotherFirstName("MotherFirstName".substring(0, 38));
+      else
+        request.setMotherFirstName("MotherFirstName");
+                    request.setChildConvention("ChildConvention");
+                  request.setChildBirthCountry(CountryType.UNKNOWN);
+                  request.setMotherNationality(FullNationalityType.NONE);
+                  request.setFatherBirthCountry(CountryType.UNKNOWN);
+                request.setHighlyInfirm(Boolean.valueOf(true));
+  
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

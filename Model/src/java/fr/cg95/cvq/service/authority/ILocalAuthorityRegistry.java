@@ -21,6 +21,7 @@ public interface ILocalAuthorityRegistry {
     String XSL_RESOURCE_TYPE = "xsl";
     String LOCAL_REFERENTIAL_RESOURCE_TYPE = "local_referential";
     String EXTERNAL_REFERENTIAL_RESOURCE_TYPE = "external_referential";
+    String REQUEST_XML_RESOURCE_TYPE = "xml_request";
     
     String IMAGE_ASSETS_RESOURCE_TYPE = "img";
     String TXT_ASSETS_RESOURCE_TYPE = "txt";
@@ -72,6 +73,8 @@ public interface ILocalAuthorityRegistry {
     File getLocalAuthorityResource(final String resourceType, final String localAuthorityName,
             final String filename, final boolean fallbackToDefault);
 
+    File getRequestXmlResource(Long id);
+    
     String getCurrentLocalAuthorityName();
     LocalAuthorityConfigurationBean getCurrentLocalAuthorityBean();
     

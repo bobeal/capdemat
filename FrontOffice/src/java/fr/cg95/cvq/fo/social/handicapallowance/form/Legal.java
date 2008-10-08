@@ -11,7 +11,6 @@ import fr.cg95.cvq.xml.social.HandicapAllowanceRequestDocument.HandicapAllowance
 
 public class Legal extends IStageForm {
 
-	private String legalRepresentativeFamilyRelationship;
   	private String legalRepresentativeAddressAdditionalDeliveryInformation;
 	private String legalRepresentativeAddressAdditionalGeographicalInformation;
 	private String legalRepresentativeAddressStreetNumber;
@@ -20,25 +19,25 @@ public class Legal extends IStageForm {
 	private String legalRepresentativeAddressPostalCode;
 	private String legalRepresentativeAddressCity;
 	private String legalRepresentativeName;
-	private String legalRepresentativeFirstame;
+	private String legalRepresentativeFamilyRelationship;
 	private boolean legalRepresentative;
 	private String legalRepresentativePhone;
+	private String legalRepresentativeFirstame;
 
 	public Legal() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("legal")) {
+		}
+		if (state.equals("display")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HandicapAllowanceRequest)) {
 			HandicapAllowanceRequest request = (HandicapAllowanceRequest)xmlbRequest;
-			this.legalRepresentativeFamilyRelationship = request.getLegalRepresentativeFamilyRelationship();
   			this.legalRepresentativeAddressAdditionalDeliveryInformation = request.getLegalRepresentativeAddress().getAdditionalDeliveryInformation();
 			this.legalRepresentativeAddressAdditionalGeographicalInformation = request.getLegalRepresentativeAddress().getAdditionalGeographicalInformation();
 			this.legalRepresentativeAddressStreetNumber = request.getLegalRepresentativeAddress().getStreetNumber();
@@ -47,16 +46,16 @@ public class Legal extends IStageForm {
 			this.legalRepresentativeAddressPostalCode = request.getLegalRepresentativeAddress().getPostalCode();
 			this.legalRepresentativeAddressCity = request.getLegalRepresentativeAddress().getCity();
 			this.legalRepresentativeName = request.getLegalRepresentativeName();
-			this.legalRepresentativeFirstame = request.getLegalRepresentativeFirstame();
+			this.legalRepresentativeFamilyRelationship = request.getLegalRepresentativeFamilyRelationship();
 			this.legalRepresentative = request.getLegalRepresentative();
 			this.legalRepresentativePhone = request.getLegalRepresentativePhone();
+			this.legalRepresentativeFirstame = request.getLegalRepresentativeFirstame();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HandicapAllowanceRequest)) {
 			HandicapAllowanceRequest request = (HandicapAllowanceRequest)xmlbRequest;
-			request.setLegalRepresentativeFamilyRelationship(this.legalRepresentativeFamilyRelationship);
   			request.getLegalRepresentativeAddress().setAdditionalDeliveryInformation(this.legalRepresentativeAddressAdditionalDeliveryInformation);
 			request.getLegalRepresentativeAddress().setAdditionalGeographicalInformation(this.legalRepresentativeAddressAdditionalGeographicalInformation);
 			request.getLegalRepresentativeAddress().setStreetNumber(this.legalRepresentativeAddressStreetNumber);
@@ -65,9 +64,10 @@ public class Legal extends IStageForm {
 			request.getLegalRepresentativeAddress().setPostalCode(this.legalRepresentativeAddressPostalCode);
 			request.getLegalRepresentativeAddress().setCity(this.legalRepresentativeAddressCity);
 			request.setLegalRepresentativeName(this.legalRepresentativeName);
-			request.setLegalRepresentativeFirstame(this.legalRepresentativeFirstame);
+			request.setLegalRepresentativeFamilyRelationship(this.legalRepresentativeFamilyRelationship);
 			request.setLegalRepresentative(this.legalRepresentative);
 			request.setLegalRepresentativePhone(this.legalRepresentativePhone);
+			request.setLegalRepresentativeFirstame(this.legalRepresentativeFirstame);
 		}
 	}
 	
@@ -84,18 +84,6 @@ public class Legal extends IStageForm {
 		return true;
 	}
 	
-	public void setLegalRepresentativeFamilyRelationship(String legalRepresentativeFamilyRelationship) {
-		this.legalRepresentativeFamilyRelationship = legalRepresentativeFamilyRelationship;
-	}
-	
-	public String getLegalRepresentativeFamilyRelationship() {
-		return this.legalRepresentativeFamilyRelationship;
-	}
-	
-	public boolean checkLegalRepresentativeFamilyRelationship() {
-		return legalRepresentative;
-	}
-
   	public void setLegalRepresentativeAddressAdditionalDeliveryInformation(String legalRepresentativeAddressAdditionalDeliveryInformation) {
 		this.legalRepresentativeAddressAdditionalDeliveryInformation = legalRepresentativeAddressAdditionalDeliveryInformation;
 	}
@@ -192,15 +180,15 @@ public class Legal extends IStageForm {
 		return legalRepresentative;
 	}
 
-	public void setLegalRepresentativeFirstame(String legalRepresentativeFirstame) {
-		this.legalRepresentativeFirstame = legalRepresentativeFirstame;
+	public void setLegalRepresentativeFamilyRelationship(String legalRepresentativeFamilyRelationship) {
+		this.legalRepresentativeFamilyRelationship = legalRepresentativeFamilyRelationship;
 	}
 	
-	public String getLegalRepresentativeFirstame() {
-		return this.legalRepresentativeFirstame;
+	public String getLegalRepresentativeFamilyRelationship() {
+		return this.legalRepresentativeFamilyRelationship;
 	}
 	
-	public boolean checkLegalRepresentativeFirstame() {
+	public boolean checkLegalRepresentativeFamilyRelationship() {
 		return legalRepresentative;
 	}
 
@@ -225,6 +213,18 @@ public class Legal extends IStageForm {
 	}
 	
 	public boolean checkLegalRepresentativePhone() {
+		return legalRepresentative;
+	}
+
+	public void setLegalRepresentativeFirstame(String legalRepresentativeFirstame) {
+		this.legalRepresentativeFirstame = legalRepresentativeFirstame;
+	}
+	
+	public String getLegalRepresentativeFirstame() {
+		return this.legalRepresentativeFirstame;
+	}
+	
+	public boolean checkLegalRepresentativeFirstame() {
 		return legalRepresentative;
 	}
 

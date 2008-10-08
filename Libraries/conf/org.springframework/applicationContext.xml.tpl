@@ -93,6 +93,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
       </list>
     </property>
   </bean>
+  
+  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService">
+  	<property name="genericDAO" ref="genericDAO" />
+    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+  </bean>
 
   <!-- *******************************************************************  -->
   <!-- ******************** AUTHORITIES SERVICES**************************  -->
@@ -196,6 +201,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="localAuthorityRegistry">
       <ref bean="localAuthorityRegistry"/>
     </property>
+    <property name="externalService" ref="externalService"/>
     <property name="requestWorkflowService">
       <bean class="fr.cg95.cvq.service.request.impl.RequestWorkflowService">
         <property name="requestDAO" ref="requestDAO" />
@@ -294,6 +300,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="paymentService">
       <ref local="paymentService"/>
     </property>
+    <property name="externalService" ref="externalService" />
     <property name="genericDAO">
       <ref local="genericDAO"/>
     </property>
@@ -633,6 +640,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="paymentDAO" ref="paymentDAO" />
     <property name="requestService" ref="defaultRequestService" />
     <property name="homeFolderService" ref="homeFolderService" />
+    <property name="externalService" ref="externalService" />
   </bean>
 
   <!-- ======================================================= -->
@@ -699,4 +707,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.request.hibernate.MeansOfContactDAO" parent="genericDAO"/>
 
+  <bean id="externalServiceTraceDAO" class="fr.cg95.cvq.dao.external.hibernate.ExternalServiceTraceDAO" parent="genericDAO" />
+  
 </beans>

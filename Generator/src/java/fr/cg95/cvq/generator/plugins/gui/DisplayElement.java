@@ -510,7 +510,7 @@ public class DisplayElement {
                 mask = "[0-9]{1,2}[\\\\/][0-9]{1,2}[\\\\/][0-9]{4}";
 
             else if (xsdType.indexOf("XmlPositiveInteger") > 0)
-                mask = "[0-9]+";
+                mask = "^[0-9]+$";
 
             else if (xsdType.indexOf("XmlDouble") > 0)
                 mask = "^[0-9]+([\\\\,][0-9]{2})?$";

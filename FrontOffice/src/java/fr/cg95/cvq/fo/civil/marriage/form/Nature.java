@@ -11,59 +11,65 @@ import fr.cg95.cvq.xml.civil.MarriageDetailsRequestDocument.MarriageDetailsReque
 
 public class Nature extends IStageForm {
 
-	private String requesterQualityPrecision;
-	private String marriageCity;
+	private String requesterQuality;
 	private Calendar marriageDate;
+	private String marriageHusbandFirstNames;
+	private String marriageHusbandLastName;
+	private String marriageCity;
 	private String marriageWifeFirstNames;
 	private String marriageWifeLastName;
 	private String marriagePostalCode;
-	private String marriageHusbandLastName;
-	private String marriageHusbandFirstNames;
-	private String requesterQuality;
+	private String requesterQualityPrecision;
 
 	public Nature() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("marriage")) {
-		}
 		if (state.equals("displaymarriage")) {
+		}
+		if (state.equals("marriage")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof MarriageDetailsRequest)) {
 			MarriageDetailsRequest request = (MarriageDetailsRequest)xmlbRequest;
-			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
-			this.marriageCity = request.getMarriageCity();
+			if (request.getRequesterQuality() != null)
+			this.requesterQuality = request.getRequesterQuality().toString();
 			this.marriageDate = request.getMarriageDate();
+			this.marriageHusbandFirstNames = request.getMarriageHusbandFirstNames();
+			this.marriageHusbandLastName = request.getMarriageHusbandLastName();
+			this.marriageCity = request.getMarriageCity();
 			this.marriageWifeFirstNames = request.getMarriageWifeFirstNames();
 			this.marriageWifeLastName = request.getMarriageWifeLastName();
 			this.marriagePostalCode = request.getMarriagePostalCode();
-			this.marriageHusbandLastName = request.getMarriageHusbandLastName();
-			this.marriageHusbandFirstNames = request.getMarriageHusbandFirstNames();
-			if (request.getRequesterQuality() != null)
-			this.requesterQuality = request.getRequesterQuality().toString();
+			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof MarriageDetailsRequest)) {
 			MarriageDetailsRequest request = (MarriageDetailsRequest)xmlbRequest;
-			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
-			request.setMarriageCity(this.marriageCity);
+			request.setRequesterQuality(MarriageRequesterQualityType.Enum.forString(this.requesterQuality));
 			request.setMarriageDate(this.marriageDate);
+			request.setMarriageHusbandFirstNames(this.marriageHusbandFirstNames);
+			request.setMarriageHusbandLastName(this.marriageHusbandLastName);
+			request.setMarriageCity(this.marriageCity);
 			request.setMarriageWifeFirstNames(this.marriageWifeFirstNames);
 			request.setMarriageWifeLastName(this.marriageWifeLastName);
 			request.setMarriagePostalCode(this.marriagePostalCode);
-			request.setMarriageHusbandLastName(this.marriageHusbandLastName);
-			request.setMarriageHusbandFirstNames(this.marriageHusbandFirstNames);
-			request.setRequesterQuality(MarriageRequesterQualityType.Enum.forString(this.requesterQuality));
+			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkMarriageHusbandFirstNames() &&
+			((this.marriageHusbandFirstNames == null) || (this.marriageHusbandFirstNames.length() == 0)))
+			return false;
+		if (this.checkMarriageHusbandLastName() &&
+			((this.marriageHusbandLastName == null) || (this.marriageHusbandLastName.length() == 0)))
+			return false;
 		if (this.checkMarriageCity() &&
 			((this.marriageCity == null) || (this.marriageCity.length() == 0)))
 			return false;
@@ -76,36 +82,18 @@ public class Nature extends IStageForm {
 		if (this.checkMarriagePostalCode() &&
 			((this.marriagePostalCode == null) || (this.marriagePostalCode.length() == 0)))
 			return false;
-		if (this.checkMarriageHusbandLastName() &&
-			((this.marriageHusbandLastName == null) || (this.marriageHusbandLastName.length() == 0)))
-			return false;
-		if (this.checkMarriageHusbandFirstNames() &&
-			((this.marriageHusbandFirstNames == null) || (this.marriageHusbandFirstNames.length() == 0)))
-			return false;
 		return true;
 	}
 	
-	public void setRequesterQualityPrecision(String requesterQualityPrecision) {
-		this.requesterQualityPrecision = requesterQualityPrecision;
+	public void setRequesterQuality(String requesterQuality) {
+		this.requesterQuality = requesterQuality;
 	}
 	
-	public String getRequesterQualityPrecision() {
-		return this.requesterQualityPrecision;
+	public String getRequesterQuality() {
+		return this.requesterQuality;
 	}
 	
-	public boolean checkRequesterQualityPrecision() {
-		return true;
-	}
-
-	public void setMarriageCity(String marriageCity) {
-		this.marriageCity = marriageCity;
-	}
-	
-	public String getMarriageCity() {
-		return this.marriageCity;
-	}
-	
-	public boolean checkMarriageCity() {
+	public boolean checkRequesterQuality() {
 		return true;
 	}
 
@@ -118,6 +106,42 @@ public class Nature extends IStageForm {
 	}
 	
 	public boolean checkMarriageDate() {
+		return true;
+	}
+
+	public void setMarriageHusbandFirstNames(String marriageHusbandFirstNames) {
+		this.marriageHusbandFirstNames = marriageHusbandFirstNames;
+	}
+	
+	public String getMarriageHusbandFirstNames() {
+		return this.marriageHusbandFirstNames;
+	}
+	
+	public boolean checkMarriageHusbandFirstNames() {
+		return true;
+	}
+
+	public void setMarriageHusbandLastName(String marriageHusbandLastName) {
+		this.marriageHusbandLastName = marriageHusbandLastName;
+	}
+	
+	public String getMarriageHusbandLastName() {
+		return this.marriageHusbandLastName;
+	}
+	
+	public boolean checkMarriageHusbandLastName() {
+		return true;
+	}
+
+	public void setMarriageCity(String marriageCity) {
+		this.marriageCity = marriageCity;
+	}
+	
+	public String getMarriageCity() {
+		return this.marriageCity;
+	}
+	
+	public boolean checkMarriageCity() {
 		return true;
 	}
 
@@ -157,39 +181,15 @@ public class Nature extends IStageForm {
 		return true;
 	}
 
-	public void setMarriageHusbandLastName(String marriageHusbandLastName) {
-		this.marriageHusbandLastName = marriageHusbandLastName;
+	public void setRequesterQualityPrecision(String requesterQualityPrecision) {
+		this.requesterQualityPrecision = requesterQualityPrecision;
 	}
 	
-	public String getMarriageHusbandLastName() {
-		return this.marriageHusbandLastName;
+	public String getRequesterQualityPrecision() {
+		return this.requesterQualityPrecision;
 	}
 	
-	public boolean checkMarriageHusbandLastName() {
-		return true;
-	}
-
-	public void setMarriageHusbandFirstNames(String marriageHusbandFirstNames) {
-		this.marriageHusbandFirstNames = marriageHusbandFirstNames;
-	}
-	
-	public String getMarriageHusbandFirstNames() {
-		return this.marriageHusbandFirstNames;
-	}
-	
-	public boolean checkMarriageHusbandFirstNames() {
-		return true;
-	}
-
-	public void setRequesterQuality(String requesterQuality) {
-		this.requesterQuality = requesterQuality;
-	}
-	
-	public String getRequesterQuality() {
-		return this.requesterQuality;
-	}
-	
-	public boolean checkRequesterQuality() {
+	public boolean checkRequesterQualityPrecision() {
 		return true;
 	}
 

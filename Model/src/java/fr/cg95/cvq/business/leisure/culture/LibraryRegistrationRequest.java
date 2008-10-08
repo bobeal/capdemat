@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.leisure.culture.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -53,6 +55,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         LibraryRegistrationRequestDocument libraryRegistrationRequestDoc = LibraryRegistrationRequestDocument.Factory.newInstance();
         LibraryRegistrationRequestDocument.LibraryRegistrationRequest libraryRegistrationRequest = libraryRegistrationRequestDoc.addNewLibraryRegistrationRequest();
         super.fillCommonXmlInfo(libraryRegistrationRequest);
+        libraryRegistrationRequest.setRegistrationNumber(this.registrationNumber);
         if (this.parentalAuthorization != null)
             libraryRegistrationRequest.setParentalAuthorization(this.parentalAuthorization.booleanValue());
         int i = 0;
@@ -68,8 +71,14 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         }
         if (this.rulesAndRegulationsAcceptance != null)
             libraryRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
-        libraryRegistrationRequest.setRegistrationNumber(this.registrationNumber);
         return libraryRegistrationRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        LibraryRegistrationRequestDocument libraryRegistrationRequestDoc =
+            (LibraryRegistrationRequestDocument) modelToXml();
+        return libraryRegistrationRequestDoc.getLibraryRegistrationRequest();
     }
 
     public static LibraryRegistrationRequest xmlToModel(LibraryRegistrationRequestDocument libraryRegistrationRequestDoc) {
@@ -79,6 +88,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         List list = new ArrayList();
         LibraryRegistrationRequest libraryRegistrationRequest = new LibraryRegistrationRequest();
         libraryRegistrationRequest.fillCommonModelInfo(libraryRegistrationRequest,libraryRegistrationRequestXml);
+        libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
         libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
         HashSet subscriptionSet = new HashSet();
         if ( libraryRegistrationRequestXml.sizeOfSubscriptionArray() > 0) {
@@ -88,8 +98,22 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         }
         libraryRegistrationRequest.setSubscription(subscriptionSet);
         libraryRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(libraryRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
-        libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
         return libraryRegistrationRequest;
+    }
+
+    private String registrationNumber;
+
+    public final void setRegistrationNumber(final String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="registration_number"
+     */
+    public final String getRegistrationNumber() {
+        return this.registrationNumber;
     }
 
     private Boolean parentalAuthorization;
@@ -129,21 +153,6 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return this.subscription;
     }
 
-    private Short subscriptionPrice;
-
-    public final void setSubscriptionPrice(final Short subscriptionPrice) {
-        this.subscriptionPrice = subscriptionPrice;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="subscription_price"
-     */
-    public final Short getSubscriptionPrice() {
-        return this.subscriptionPrice;
-    }
-
     private Boolean rulesAndRegulationsAcceptance;
 
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
@@ -159,19 +168,19 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return this.rulesAndRegulationsAcceptance;
     }
 
-    private String registrationNumber;
+    private Short subscriptionPrice;
 
-    public final void setRegistrationNumber(final String registrationNumber) {
-        this.registrationNumber = registrationNumber;
+    public final void setSubscriptionPrice(final Short subscriptionPrice) {
+        this.subscriptionPrice = subscriptionPrice;
     }
 
 
     /**
      * @hibernate.property
-     *  column="registration_number"
+     *  column="subscription_price"
      */
-    public final String getRegistrationNumber() {
-        return this.registrationNumber;
+    public final Short getSubscriptionPrice() {
+        return this.subscriptionPrice;
     }
 
 }

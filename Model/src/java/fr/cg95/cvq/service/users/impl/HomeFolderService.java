@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.users.impl;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -29,7 +28,6 @@ import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
@@ -63,6 +61,7 @@ public class HomeFolderService implements IHomeFolderService {
     protected IChildDAO childDAO;
     protected IAdultDAO adultDAO;
     protected IPaymentService paymentService;
+    protected IExternalService externalService;
     
 	public HomeFolderService() {
         super();
@@ -242,163 +241,39 @@ public class HomeFolderService implements IHomeFolderService {
         
         logger.debug("getExternalAccounts() Home folder : " + homeFolderId);
 
-        Set<ExternalAccountItem> accountsInfoSet = new HashSet<ExternalAccountItem>();
-
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Set<IExternalService> externalServices = lacb.getExternalServicesObjects();
-
-        if (externalServices != null && externalServices.size() > 0) {
-
-            Set<Request> requests = requestService.getByHomeFolderId(homeFolderId);
-
-            for (IExternalService service : externalServices) {
-                ExternalServiceBean esb = lacb.getExternalServiceBean(service);
-                // ask accounts information by home folder or by request
-                // according to what the external service supports
-                if (esb.supportAccountsByHomeFolder()) {
-                    // check service supports at least one of the home folder current requests
-                    boolean supportAtLeastOne = false;
-                    if (requests != null) {
-                        for (Request request : requests) {
-                            if (esb.supportRequestType(request.getRequestType().getLabel())) {
-                                supportAtLeastOne = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (supportAtLeastOne) {
-                        Map<String, List<ExternalAccountItem>> homeFolderAccounts = 
-                                service.getAccountsByHomeFolder(homeFolderId);
-                        if (homeFolderAccounts != null && homeFolderAccounts.get(type) != null) {
-                                accountsInfoSet.addAll(homeFolderAccounts.get(type));
-                        }
-                    }
-                } else {
-                    for (Request request : requests) {
-                        if (esb.supportRequestType(request.getRequestType().getLabel())) {
-                            Map<String, List<ExternalAccountItem>> requestAccounts = 
-                                service.getAccountsByRequest(request.getId());
-                            if (requestAccounts != null && requestAccounts.get(type) != null)
-                                accountsInfoSet.addAll(requestAccounts.get(type));
-                        }
-                    }
-                }
-            }
-        } else {
-            logger.info("getExternalAccounts() No external service defined for this local authority");
+        Set<Request> requests = requestService.getByHomeFolderId(homeFolderId);
+        Set<String> homeFolderRequestsTypes = new HashSet<String>();
+        for (Request request : requests) {
+            homeFolderRequestsTypes.add(request.getRequestType().getLabel());
         }
 
-        return accountsInfoSet;
+        return externalService.getExternalAccounts(homeFolderId, 
+                homeFolderRequestsTypes, type);
     }
 
-    /**
-     * Get the list of external services for which the given home folder has a relation
-     * (ie an account).
-     */
-    private Set<IExternalService> getRelatedExternalServices(Long homeFolderId) 
+    public Map<Individual, Map<String, String>> getIndividualExternalAccountsInformation(Long homeFolderId) 
         throws CvqException {
-    
-        logger.debug("getRelatedExternalServices() Home folder : " + homeFolderId);
 
-        Set<IExternalService> relatedExternalServices = new HashSet<IExternalService>();
-
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Set externalServices = lacb.getExternalServicesObjects();
-
-        if (externalServices != null && externalServices.size() > 0) {
-            Iterator externalServicesIt = externalServices.iterator();
-
-            Set requests = requestService.getByHomeFolderId(homeFolderId);
-
-            while (externalServicesIt.hasNext()) {
-                IExternalService service = (IExternalService) externalServicesIt.next();
-                ExternalServiceBean esb = lacb.getExternalServiceBean(service);
-
-                if (esb.supportAccountsByHomeFolder()) {
-                    // check service supports at least one of the home folder current requests
-                    if (requests != null) {
-                        Iterator requestsIt = requests.iterator();
-                        while (requestsIt.hasNext()) {
-                            Request request = (Request) requestsIt.next();
-                            if (esb.supportRequestType(request.getRequestType().getLabel())) {
-                                relatedExternalServices.add(service);
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    Iterator requestsIt = requests.iterator();
-                    while (requestsIt.hasNext()) {
-                        Request request = (Request) requestsIt.next();
-                        if (esb.supportRequestType(request.getRequestType().getLabel())) {
-                            relatedExternalServices.add(service);
-                        }
-                    }
-                }
-            }
-        } else {
-            logger.info("getRelatedExternalServices() No external service defined for this local authority");
+        Set<Request> requests = requestService.getByHomeFolderId(homeFolderId);
+        Set<String> homeFolderRequestsTypes = new HashSet<String>();
+        for (Request request : requests) {
+            homeFolderRequestsTypes.add(request.getRequestType().getLabel());
         }
 
-        return relatedExternalServices;
-    }
-    
-    public Map<Individual, Map<String, String>> getIndividualExternalAccountsInformation(Long homeFolderId) throws CvqException {
-
-        Map<Individual, Map<String, String>> result = new HashMap<Individual, Map<String,String>>();
-        Set<IExternalService> relatedExternalServices = getRelatedExternalServices(homeFolderId);
-        for (IExternalService externalService : relatedExternalServices) {
-            Map<Individual, Map<String, String> > serviceResults =
-                externalService.getIndividualAccountsInformation(homeFolderId);
-            for (Individual individual : serviceResults.keySet()) {
-                if (result.get(individual) == null) {
-                    result.put(individual, serviceResults.get(individual));
-                } else {
-                    Map<String, String> currentIndividualInfo = result.get(individual);
-                    currentIndividualInfo.putAll(serviceResults.get(individual));
-                }
-            }
-        }
-        
-        return result;
+        return externalService.getIndividualAccountsInformation(homeFolderId, 
+                homeFolderRequestsTypes);
     }
 
     public void loadExternalDepositAccountDetails(ExternalDepositAccountItem edai) 
         throws CvqException {
         
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Set externalServices = lacb.getExternalServicesObjects();
-
-        if (externalServices != null && externalServices.size() > 0) {
-            Iterator externalServicesIt = externalServices.iterator();
-
-            while (externalServicesIt.hasNext()) {
-                IExternalService service = (IExternalService) externalServicesIt.next();
-                if (service.getLabel().equals(edai.getExternalServiceLabel())) {
-                    service.loadDepositAccountDetails(edai);
-                    return;
-                }
-            }
-        }
+        externalService.loadDepositAccountDetails(edai);
     }
 
     public void loadExternalInvoiceDetails(ExternalInvoiceItem eii) 
         throws CvqException {
-    
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Set externalServices = lacb.getExternalServicesObjects();
 
-        if (externalServices != null && externalServices.size() > 0) {
-            Iterator externalServicesIt = externalServices.iterator();
-
-            while (externalServicesIt.hasNext()) {
-                IExternalService service = (IExternalService) externalServicesIt.next();
-                if (service.getLabel().equals(eii.getExternalServiceLabel())) {
-                    service.loadInvoiceDetails(eii);
-                    return;
-                }
-            }
-        }
+        externalService.loadInvoiceDetails(eii);
     }
 
     @SuppressWarnings("unchecked")
@@ -482,6 +357,13 @@ public class HomeFolderService implements IHomeFolderService {
                 localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
                         ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE, mailBodyFilename, false);
 			
+            if (mailBody == null) {
+                logger.warn("notifyPaymentByMail() did not find mail template "
+                        + mailBodyFilename + " for local authority " 
+                        + SecurityContext.getCurrentSite().getName());
+                return;
+            }
+            
 			//	Mail body variable
 			mailBody = mailBody.replace("${broker}",
 					payment.getBroker() != null ? payment.getBroker() : "" );
@@ -541,6 +423,10 @@ public class HomeFolderService implements IHomeFolderService {
 
     public void setChildService(IChildService childService) {
         this.childService = childService;
+    }
+
+    public void setExternalService(IExternalService externalService) {
+        this.externalService = externalService;
     }
 }
 

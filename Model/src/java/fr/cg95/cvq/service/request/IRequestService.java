@@ -462,13 +462,14 @@ public interface IRequestService {
     /**
      * Return whether given request type can provide consumptions summary.
      */
-    boolean hasConsumptions(final String requestLabel)
+    boolean hasMatchingExternalService(final String requestLabel)
         throws CvqException;
 
     /**
      * Get consumption events for a given request.
      */
-    Map getConsumptionsByRequest(final Long requestId, final Date dateFrom, final Date dateTo)
+    Map<Date, String> getConsumptionsByRequest(final Long requestId, 
+            final Date dateFrom, final Date dateTo)
         throws CvqException;
 
     String getConsumptionsField()

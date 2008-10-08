@@ -52,6 +52,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/social/DhrPersonalEstateAndSaving.hbm.xml</value>
         <value>fr/cg95/cvq/business/social/DhrRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
+        <value>fr/cg95/cvq/business/external/ExternalServiceTrace.hbm.xml</value>
+        <value>fr/cg95/cvq/business/external/ExternalServiceIdentifierMapping.hbm.xml</value>
       </list>
     </property>
 
@@ -128,6 +130,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="host">
       <value>${mail.sender_host}</value>
     </property>
+    <property name="port">
+      <value>${mail.sender_port}</value>
+    </property>
   </bean>
 
   <bean id="localAuthorityRegistry"
@@ -165,5 +170,20 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="invoiceDetailsFile" value="invoiceDetails.xml" />
     <property name="testDataDirectory" value="${data.properties.path}"/>
   </bean>
+  
+  
+  
+  <!-- ================================================================ -->
+  <!-- ================= XSARNET SERVICES DEFINITION ================== -->
+  <!-- ================================================================ -->
+  
+  <bean id="xsarnetExternalService" class="fr.cg95.cvq.external.impl.EntryPointExternalService">
+    <property name="label" value="Xsarnet External Service" />
+  </bean>
+  
+  <bean id="fakePointExternalService" class="fr.cg95.cvq.external.impl.EntryPointExternalService">
+    <property name="label" value="Fake Point External Service" />
+  </bean>
+
 
 </beans>

@@ -1346,7 +1346,7 @@
               <option value="DEA">DEA</option>
               <option value="DEUG">DEUG</option>
               <option value="Licence">Licence</option>
-              <option value="Maîtrise">Maîtrise</option>
+              <option value="Maitrise">Maîtrise</option>
               <option value="Unknown">Inconnu</option>
             </cvqf:select>
           </p>

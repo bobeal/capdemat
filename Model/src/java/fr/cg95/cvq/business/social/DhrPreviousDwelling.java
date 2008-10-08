@@ -46,6 +46,11 @@ public class DhrPreviousDwelling implements Serializable {
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         DhrPreviousDwellingType dhrPreviousDwelling = DhrPreviousDwellingType.Factory.newInstance();
+        date = this.previousDwellingDepartureDate;
+        if (date != null) {
+            calendar.setTime(date);
+            dhrPreviousDwelling.setPreviousDwellingDepartureDate(calendar);
+        }
         date = this.previousDwellingArrivalDate;
         if (date != null) {
             calendar.setTime(date);
@@ -53,11 +58,6 @@ public class DhrPreviousDwelling implements Serializable {
         }
         if (this.previousDwellingAddress != null)
             dhrPreviousDwelling.setPreviousDwellingAddress(Address.modelToXml(this.previousDwellingAddress));
-        date = this.previousDwellingDepartureDate;
-        if (date != null) {
-            calendar.setTime(date);
-            dhrPreviousDwelling.setPreviousDwellingDepartureDate(calendar);
-        }
         return dhrPreviousDwelling;
     }
 
@@ -66,16 +66,16 @@ public class DhrPreviousDwelling implements Serializable {
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         DhrPreviousDwelling dhrPreviousDwelling = new DhrPreviousDwelling();
+        calendar = dhrPreviousDwellingDoc.getPreviousDwellingDepartureDate();
+        if (calendar != null) {
+            dhrPreviousDwelling.setPreviousDwellingDepartureDate(calendar.getTime());
+        }
         calendar = dhrPreviousDwellingDoc.getPreviousDwellingArrivalDate();
         if (calendar != null) {
             dhrPreviousDwelling.setPreviousDwellingArrivalDate(calendar.getTime());
         }
         if (dhrPreviousDwellingDoc.getPreviousDwellingAddress() != null)
             dhrPreviousDwelling.setPreviousDwellingAddress(Address.xmlToModel(dhrPreviousDwellingDoc.getPreviousDwellingAddress()));
-        calendar = dhrPreviousDwellingDoc.getPreviousDwellingDepartureDate();
-        if (calendar != null) {
-            dhrPreviousDwelling.setPreviousDwellingDepartureDate(calendar.getTime());
-        }
         return dhrPreviousDwelling;
     }
 
@@ -94,6 +94,21 @@ public class DhrPreviousDwelling implements Serializable {
      */
     public final Long getId() {
         return this.id;
+    }
+
+    private java.util.Date previousDwellingDepartureDate;
+
+    public final void setPreviousDwellingDepartureDate(final java.util.Date previousDwellingDepartureDate) {
+        this.previousDwellingDepartureDate = previousDwellingDepartureDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="previous_dwelling_departure_date"
+     */
+    public final java.util.Date getPreviousDwellingDepartureDate() {
+        return this.previousDwellingDepartureDate;
     }
 
     private java.util.Date previousDwellingArrivalDate;
@@ -126,21 +141,6 @@ public class DhrPreviousDwelling implements Serializable {
      */
     public final fr.cg95.cvq.business.users.Address getPreviousDwellingAddress() {
         return this.previousDwellingAddress;
-    }
-
-    private java.util.Date previousDwellingDepartureDate;
-
-    public final void setPreviousDwellingDepartureDate(final java.util.Date previousDwellingDepartureDate) {
-        this.previousDwellingDepartureDate = previousDwellingDepartureDate;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="previous_dwelling_departure_date"
-     */
-    public final java.util.Date getPreviousDwellingDepartureDate() {
-        return this.previousDwellingDepartureDate;
     }
 
 }

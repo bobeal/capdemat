@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.urbanism.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -51,18 +53,25 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         AlignmentCertificateRequestDocument alignmentCertificateRequestDoc = AlignmentCertificateRequestDocument.Factory.newInstance();
         AlignmentCertificateRequestDocument.AlignmentCertificateRequest alignmentCertificateRequest = alignmentCertificateRequestDoc.addNewAlignmentCertificateRequest();
         super.fillCommonXmlInfo(alignmentCertificateRequest);
-        if (this.ownerAddress != null)
-            alignmentCertificateRequest.setOwnerAddress(Address.modelToXml(this.ownerAddress));
-        alignmentCertificateRequest.setSection(this.section);
-        alignmentCertificateRequest.setTransportationRoute(this.transportationRoute);
-        alignmentCertificateRequest.setLocality(this.locality);
-        alignmentCertificateRequest.setOwnerLastName(this.ownerLastName);
-        if (this.number != null)
-            alignmentCertificateRequest.setNumber(new BigInteger(this.number.toString()));
-        alignmentCertificateRequest.setOwnerFirstNames(this.ownerFirstNames);
         if (this.requesterQuality != null)
             alignmentCertificateRequest.setRequesterQuality(fr.cg95.cvq.xml.urbanism.AcrRequesterQualityType.Enum.forString(this.requesterQuality.toString()));
+        alignmentCertificateRequest.setSection(this.section);
+        alignmentCertificateRequest.setTransportationRoute(this.transportationRoute);
+        alignmentCertificateRequest.setOwnerFirstNames(this.ownerFirstNames);
+        alignmentCertificateRequest.setLocality(this.locality);
+        if (this.number != null)
+            alignmentCertificateRequest.setNumber(new BigInteger(this.number.toString()));
+        alignmentCertificateRequest.setOwnerLastName(this.ownerLastName);
+        if (this.ownerAddress != null)
+            alignmentCertificateRequest.setOwnerAddress(Address.modelToXml(this.ownerAddress));
         return alignmentCertificateRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        AlignmentCertificateRequestDocument alignmentCertificateRequestDoc =
+            (AlignmentCertificateRequestDocument) modelToXml();
+        return alignmentCertificateRequestDoc.getAlignmentCertificateRequest();
     }
 
     public static AlignmentCertificateRequest xmlToModel(AlignmentCertificateRequestDocument alignmentCertificateRequestDoc) {
@@ -72,36 +81,34 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         List list = new ArrayList();
         AlignmentCertificateRequest alignmentCertificateRequest = new AlignmentCertificateRequest();
         alignmentCertificateRequest.fillCommonModelInfo(alignmentCertificateRequest,alignmentCertificateRequestXml);
-        if (alignmentCertificateRequestXml.getOwnerAddress() != null)
-            alignmentCertificateRequest.setOwnerAddress(Address.xmlToModel(alignmentCertificateRequestXml.getOwnerAddress()));
-        alignmentCertificateRequest.setSection(alignmentCertificateRequestXml.getSection());
-        alignmentCertificateRequest.setTransportationRoute(alignmentCertificateRequestXml.getTransportationRoute());
-        alignmentCertificateRequest.setLocality(alignmentCertificateRequestXml.getLocality());
-        alignmentCertificateRequest.setOwnerLastName(alignmentCertificateRequestXml.getOwnerLastName());
-        alignmentCertificateRequest.setNumber(alignmentCertificateRequestXml.getNumber());
-        alignmentCertificateRequest.setOwnerFirstNames(alignmentCertificateRequestXml.getOwnerFirstNames());
         if (alignmentCertificateRequestXml.getRequesterQuality() != null)
             alignmentCertificateRequest.setRequesterQuality(fr.cg95.cvq.business.urbanism.AcrRequesterQualityType.forString(alignmentCertificateRequestXml.getRequesterQuality().toString()));
         else
             alignmentCertificateRequest.setRequesterQuality(fr.cg95.cvq.business.urbanism.AcrRequesterQualityType.getDefaultAcrRequesterQualityType());
+        alignmentCertificateRequest.setSection(alignmentCertificateRequestXml.getSection());
+        alignmentCertificateRequest.setTransportationRoute(alignmentCertificateRequestXml.getTransportationRoute());
+        alignmentCertificateRequest.setOwnerFirstNames(alignmentCertificateRequestXml.getOwnerFirstNames());
+        alignmentCertificateRequest.setLocality(alignmentCertificateRequestXml.getLocality());
+        alignmentCertificateRequest.setNumber(alignmentCertificateRequestXml.getNumber());
+        alignmentCertificateRequest.setOwnerLastName(alignmentCertificateRequestXml.getOwnerLastName());
+        if (alignmentCertificateRequestXml.getOwnerAddress() != null)
+            alignmentCertificateRequest.setOwnerAddress(Address.xmlToModel(alignmentCertificateRequestXml.getOwnerAddress()));
         return alignmentCertificateRequest;
     }
 
-    private fr.cg95.cvq.business.users.Address ownerAddress;
+    private fr.cg95.cvq.business.urbanism.AcrRequesterQualityType requesterQuality;
 
-    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
-        this.ownerAddress = ownerAddress;
+    public final void setRequesterQuality(final fr.cg95.cvq.business.urbanism.AcrRequesterQualityType requesterQuality) {
+        this.requesterQuality = requesterQuality;
     }
 
 
     /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="owner_address_id"
-     *  class="fr.cg95.cvq.business.users.Address"
+     * @hibernate.property
+     *  column="requester_quality"
      */
-    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
-        return this.ownerAddress;
+    public final fr.cg95.cvq.business.urbanism.AcrRequesterQualityType getRequesterQuality() {
+        return this.requesterQuality;
     }
 
     private String section;
@@ -134,6 +141,21 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         return this.transportationRoute;
     }
 
+    private String ownerFirstNames;
+
+    public final void setOwnerFirstNames(final String ownerFirstNames) {
+        this.ownerFirstNames = ownerFirstNames;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="owner_first_names"
+     */
+    public final String getOwnerFirstNames() {
+        return this.ownerFirstNames;
+    }
+
     private String locality;
 
     public final void setLocality(final String locality) {
@@ -147,22 +169,6 @@ public class AlignmentCertificateRequest extends Request implements Serializable
      */
     public final String getLocality() {
         return this.locality;
-    }
-
-    private String ownerLastName;
-
-    public final void setOwnerLastName(final String ownerLastName) {
-        this.ownerLastName = ownerLastName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="owner_last_name"
-     *  length="38"
-     */
-    public final String getOwnerLastName() {
-        return this.ownerLastName;
     }
 
     private java.math.BigInteger number;
@@ -181,34 +187,37 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         return this.number;
     }
 
-    private String ownerFirstNames;
+    private String ownerLastName;
 
-    public final void setOwnerFirstNames(final String ownerFirstNames) {
-        this.ownerFirstNames = ownerFirstNames;
+    public final void setOwnerLastName(final String ownerLastName) {
+        this.ownerLastName = ownerLastName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="owner_first_names"
+     *  column="owner_last_name"
+     *  length="38"
      */
-    public final String getOwnerFirstNames() {
-        return this.ownerFirstNames;
+    public final String getOwnerLastName() {
+        return this.ownerLastName;
     }
 
-    private fr.cg95.cvq.business.urbanism.AcrRequesterQualityType requesterQuality;
+    private fr.cg95.cvq.business.users.Address ownerAddress;
 
-    public final void setRequesterQuality(final fr.cg95.cvq.business.urbanism.AcrRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
+    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
+        this.ownerAddress = ownerAddress;
     }
 
 
     /**
-     * @hibernate.property
-     *  column="requester_quality"
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="owner_address_id"
+     *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final fr.cg95.cvq.business.urbanism.AcrRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
+    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
+        return this.ownerAddress;
     }
 
 }

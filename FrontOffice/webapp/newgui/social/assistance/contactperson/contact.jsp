@@ -41,7 +41,7 @@
    		  this.contact = new Function("key","this.label='Type de contact'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
      		  this.contactName = new Function("key","this.label='Nom du contact'; this.msg=null; this.required=false; this.mask=/[A-Z.]*/; this.minlength=0; this.maxlength=38; this.transform='uppercase'; this.type=null; return this[key];");
      		  this.contactFirstName = new Function("key","this.label='Prénom du contact'; this.msg=null; this.required=false; this.mask=/[A-Z]?.*/; this.minlength=0; this.maxlength=38; this.transform='firstupper'; this.type=null; return this[key];");
-     		  this.contactPhone = new Function("key","this.label='Téléphone du contact'; this.msg=null; this.required=false; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.contactPhone = new Function("key","this.label='Téléphone du contact'; this.msg=null; this.required=false; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
         updateDisplay("contact");
   		setFocus("Contactperson");

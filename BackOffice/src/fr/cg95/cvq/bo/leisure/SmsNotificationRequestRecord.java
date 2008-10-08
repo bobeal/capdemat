@@ -14,11 +14,7 @@ import fr.cg95.cvq.business.leisure.*;
 
 public class SmsNotificationRequestRecord extends RequestRecord {
 
-	private String subjectAdultMobilePhone;
-	private boolean[] interests;
-   	private List interestsList;
-	private boolean subscription;
-	private String cleverSmsContactId;
+	private String subjectAdultLastName;
   	private String subjectAdultAddressAdditionalDeliveryInformation;
 	private String subjectAdultAddressAdditionalGeographicalInformation;
 	private String subjectAdultAddressStreetNumber;
@@ -26,7 +22,11 @@ public class SmsNotificationRequestRecord extends RequestRecord {
 	private String subjectAdultAddressPlaceNameOrService;
 	private String subjectAdultAddressPostalCode;
 	private String subjectAdultAddressCity;
-	private String subjectAdultLastName;
+	private String cleverSmsContactId;
+	private boolean subscription;
+	private String subjectAdultMobilePhone;
+	private boolean[] interests;
+   	private List interestsList;
 	private String subjectAdultFirstName;
 
 	public SmsNotificationRequestRecord() {
@@ -51,11 +51,7 @@ public class SmsNotificationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof SmsNotificationRequest)) {
             SmsNotificationRequest request = (SmsNotificationRequest)xmlRequest; 
 
-			this.subjectAdultMobilePhone = ((Adult)request.getSubject()).getMobilePhone();
-            this.setInterests(this.getList("Interests"), request.getInterests());
-            if ((request.getSubscription() != null))
-			this.subscription = request.getSubscription();
-			this.cleverSmsContactId = request.getCleverSmsContactId();
+			this.subjectAdultLastName = ((Adult)request.getSubject()).getLastName();
 			if (((Adult)request.getSubject()).getAdress() != null) {
 				this.subjectAdultAddressAdditionalDeliveryInformation = ((Adult)request.getSubject()).getAdress().getAdditionalDeliveryInformation();
 				this.subjectAdultAddressAdditionalGeographicalInformation = ((Adult)request.getSubject()).getAdress().getAdditionalGeographicalInformation();
@@ -65,7 +61,11 @@ public class SmsNotificationRequestRecord extends RequestRecord {
 				this.subjectAdultAddressPostalCode = ((Adult)request.getSubject()).getAdress().getPostalCode();
 				this.subjectAdultAddressCity = ((Adult)request.getSubject()).getAdress().getCity();
 			}
-			this.subjectAdultLastName = ((Adult)request.getSubject()).getLastName();
+			this.cleverSmsContactId = request.getCleverSmsContactId();
+            if ((request.getSubscription() != null))
+			this.subscription = request.getSubscription();
+			this.subjectAdultMobilePhone = ((Adult)request.getSubject()).getMobilePhone();
+            this.setInterests(this.getList("Interests"), request.getInterests());
 			this.subjectAdultFirstName = ((Adult)request.getSubject()).getFirstName();
         }
     }
@@ -83,75 +83,12 @@ public class SmsNotificationRequestRecord extends RequestRecord {
         }
     }
     
-	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
-		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
+	public void setSubjectAdultLastName(String subjectAdultLastName) {
+		this.subjectAdultLastName = subjectAdultLastName;
 	}
 	
-	public String getSubjectAdultMobilePhone() {
-		return this.subjectAdultMobilePhone;
-	}
-
-	public void setInterests(List referential, Set values) {
-		if (referential != null) {
-			this.interests = new boolean[referential.size()];
-			this.interestsList = referential;
-			
-			if (values != null) {
-				for (int i = 0; i < interests.length; i++) {
-					String key = ((ReferentialData)interestsList.get(i)).getKey();
-					interests[i] = containsRefData(values, key);
-				}
-			}
-		}
-	}
-	
-	public List getInterestsList() {
-		return this.interestsList;
-	}
-	
-	public Set getInterestsKeys() {
-		return getRefDataSet(interests, interestsList);
-	}
-
-	public String[] getInterests() {
-		Vector values = new Vector();
-		
-		for (int i = 0; i < interests.length; i++) {
-			if (interests[i]) {
-				values.add(((ReferentialData)interestsList.get(i)).getValue());
-			}
-		}
-
-		String[] value = new String[values.size()];
-		for (int i = 0; i < values.size(); i++)
-			value[i] = (String)values.get(i);
-
-		return value;
-	}
-
-	public void setInterests(String[] value) {
-		String values = "";
-		for (int i = 0; i < value.length; i++)
-			values += "<" + value[i] + ">";
-		
-		for (int i = 0; i < interests.length; i++) {
-			interests[i] = values.indexOf("<" + ((ReferentialData)interestsList.get(i)).getValue() + ">") != -1;
-		}
-	}
-	public void setSubscription(boolean subscription) {
-		this.subscription = subscription;
-	}
-	
-	public boolean getSubscription() {
-		return this.subscription;
-	}
-
-	public void setCleverSmsContactId(String cleverSmsContactId) {
-		this.cleverSmsContactId = cleverSmsContactId;
-	}
-	
-	public String getCleverSmsContactId() {
-		return this.cleverSmsContactId;
+	public String getSubjectAdultLastName() {
+		return this.subjectAdultLastName;
 	}
 
 	public void setSubjectAdultAddressAdditionalDeliveryInformation(String subjectAdultAddressAdditionalDeliveryInformation) {
@@ -210,14 +147,77 @@ public class SmsNotificationRequestRecord extends RequestRecord {
 		return this.subjectAdultAddressCity;
 	}
 
-	public void setSubjectAdultLastName(String subjectAdultLastName) {
-		this.subjectAdultLastName = subjectAdultLastName;
+	public void setCleverSmsContactId(String cleverSmsContactId) {
+		this.cleverSmsContactId = cleverSmsContactId;
 	}
 	
-	public String getSubjectAdultLastName() {
-		return this.subjectAdultLastName;
+	public String getCleverSmsContactId() {
+		return this.cleverSmsContactId;
 	}
 
+	public void setSubscription(boolean subscription) {
+		this.subscription = subscription;
+	}
+	
+	public boolean getSubscription() {
+		return this.subscription;
+	}
+
+	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
+		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
+	}
+	
+	public String getSubjectAdultMobilePhone() {
+		return this.subjectAdultMobilePhone;
+	}
+
+	public void setInterests(List referential, Set values) {
+		if (referential != null) {
+			this.interests = new boolean[referential.size()];
+			this.interestsList = referential;
+			
+			if (values != null) {
+				for (int i = 0; i < interests.length; i++) {
+					String key = ((ReferentialData)interestsList.get(i)).getKey();
+					interests[i] = containsRefData(values, key);
+				}
+			}
+		}
+	}
+	
+	public List getInterestsList() {
+		return this.interestsList;
+	}
+	
+	public Set getInterestsKeys() {
+		return getRefDataSet(interests, interestsList);
+	}
+
+	public String[] getInterests() {
+		Vector values = new Vector();
+		
+		for (int i = 0; i < interests.length; i++) {
+			if (interests[i]) {
+				values.add(((ReferentialData)interestsList.get(i)).getValue());
+			}
+		}
+
+		String[] value = new String[values.size()];
+		for (int i = 0; i < values.size(); i++)
+			value[i] = (String)values.get(i);
+
+		return value;
+	}
+
+	public void setInterests(String[] value) {
+		String values = "";
+		for (int i = 0; i < value.length; i++)
+			values += "<" + value[i] + ">";
+		
+		for (int i = 0; i < interests.length; i++) {
+			interests[i] = values.indexOf("<" + ((ReferentialData)interestsList.get(i)).getValue() + ">") != -1;
+		}
+	}
 	public void setSubjectAdultFirstName(String subjectAdultFirstName) {
 		this.subjectAdultFirstName = subjectAdultFirstName;
 	}

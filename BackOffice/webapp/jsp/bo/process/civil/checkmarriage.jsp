@@ -28,12 +28,22 @@
     	</span>
        </div>
            <div class="form_cell">
-         <label for="usage" class="label">Usage :</label>
+         <label for="comment" class="label">Commentaire :</label>
          <span class="input">
    
     
 
-    	 <cvq:toggleInput name="record" property="usage"/>
+    	 <cvq:toggleInput name="record" property="comment"/>
+    
+    	</span>
+       </div>
+           <div class="form_cell">
+         <label for="motive" class="label">Motif :</label>
+         <span class="input">
+   
+    
+
+    	 <cvq:toggleInput name="record" property="motive"/>
     
     	</span>
        </div>
@@ -42,6 +52,6 @@
 
 <script type="text/javascript">
 	function selectionData() {
-      		}
+        		}
 </script>
 

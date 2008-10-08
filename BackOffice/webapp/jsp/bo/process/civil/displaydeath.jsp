@@ -30,30 +30,21 @@
     	</span>
        </div>
            <div class="form_cell form_cell1">
-         <label for="usage" class="label">Usage :</label>
+         <label for="comment" class="label">Commentaire :</label>
          <span class="input">
    
     
 
-    	 <cvq:toggleInput name="record" property="usage" id="id" profile="profile"/>
+    	 <cvq:toggleInput name="record" property="comment" id="id" profile="profile"/>
     	</span>
        </div>
            <div class="form_cell form_cell1">
-         <label for="requesterQuality" class="label">Qualité du demandeur :</label>
+         <label for="motive" class="label">Motif :</label>
          <span class="input">
    
     
 
-    	 <cvq:toggleInput name="record" property="requesterQuality" id="id" profile="profile"/>
-    	</span>
-       </div>
-           <div class="form_cell form_cell1">
-         <label for="requesterQualityPrecision" class="label">Précision :</label>
-         <span class="input">
-   
-    
-
-    	 <cvq:toggleInput name="record" property="requesterQualityPrecision" id="id" profile="profile"/>
+    	 <cvq:toggleInput name="record" property="motive" id="id" profile="profile"/>
     	</span>
        </div>
            <div class="form_cell form_cell1">
@@ -75,7 +66,7 @@
     	</span>
        </div>
            <div class="form_cell form_cell1">
-         <label for="deathDate" class="label">Date du décès :</label>
+         <label for="deathDate" class="label">Date de décès :</label>
          <span class="input">
    
     
@@ -101,61 +92,15 @@
     	 <cvq:toggleInput name="record" property="deathPostalCode" id="id" profile="profile"/>
     	</span>
        </div>
-           <div class="form_cell form_cell1">
-         <label for="relationship" class="label">Filiation de :</label>
-         <span class="input">
-   
-    
-
-    	 <cvq:toggleInput name="record" property="relationship" id="id" profile="profile"/>
-    	</span>
-       </div>
-           <div class="form_cell form_cell1">
-         <label for="fatherLastName" class="label">Nom du père :</label>
-         <span class="input">
-   
-    
-
-    	 <cvq:toggleInput name="record" property="fatherLastName" id="id" profile="profile"/>
-    	</span>
-       </div>
-           <div class="form_cell form_cell1">
-         <label for="fatherFirstNames" class="label">Prénom(s) du père :</label>
-         <span class="input">
-   
-    
-
-    	 <cvq:toggleInput name="record" property="fatherFirstNames" id="id" profile="profile"/>
-    	</span>
-       </div>
-           <div class="form_cell form_cell1">
-         <label for="motherMaidenName" class="label">Nom de jeune fille de la mère :</label>
-         <span class="input">
-   
-    
-
-    	 <cvq:toggleInput name="record" property="motherMaidenName" id="id" profile="profile"/>
-    	</span>
-       </div>
-           <div class="form_cell form_cell1">
-         <label for="motherFirstNames" class="label">Prénom(s) de la mère :</label>
-         <span class="input">
-   
-    
-
-    	 <cvq:toggleInput name="record" property="motherFirstNames" id="id" profile="profile"/>
-    	</span>
-       </div>
        </fieldset>
    </div>
  </div>
 
 <script type="text/javascript">
 	function selectionData() {
-              		this.format = new Function("key","this.values=new Array('Copie intégrale','Extrait avec filiation','Extrait sans filiation'); return this[key];");
-                                                                        		this.requesterQuality = new Function("key","this.values=new Array('Son conjoint','Son père / sa mère','Son grand-père / sa grand-mère','Son fils / sa fille','Son représentant légal','Son mandataire','Son héritier et aussi son frère ou sa soeur','Son héritier sans être son frère ou sa soeur','Autorisé par le procureur de la République','Avocat, notaire','Autre'); return this[key];");
-                                                                                                                                                                		this.relationship = new Function("key","this.values=new Array('L&rsquo;époux','L&rsquo;épouse'); return this[key];");
-                                                                                                      		}
+              		this.format = new Function("key","this.values=new Array('Copie intégrale','Extrait plurilingue'); return this[key];");
+                                                                        		this.motive = new Function("key","this.values=new Array('Acte de notaire','Mariage','Passeport','Pension','Autre'); return this[key];");
+                                                                                                                            		}
 </script>
  <div class="clear-both"></div>
 

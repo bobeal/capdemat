@@ -3,25 +3,25 @@
         drop constraint FK58621BA71A211CC;
 
     alter table agent_category_roles 
-        drop constraint FKBAFB98B6FB8D007D;
+        drop constraint FKBAFB98B6CE4D7137;
 
     alter table agent_category_roles 
-        drop constraint FKBAFB98B6CE4D7137;
+        drop constraint FKBAFB98B6FB8D007D;
 
     alter table agent_site_roles 
         drop constraint FK1C3B6D3FFB8D007D;
 
     alter table alignment_certificate_request 
-        drop constraint FK9EBFB38B1F88D72E;
+        drop constraint FK9EBFB38B82587E99;
 
     alter table alignment_certificate_request 
-        drop constraint FK9EBFB38BED1B9492;
+        drop constraint FK9EBFB38B1F88D72E;
 
     alter table birth_details_request 
-        drop constraint FKB3569612ED1B9492;
+        drop constraint FKB356961282587E99;
 
     alter table bulky_waste_collection_request 
-        drop constraint FK1F104ECBED1B9492;
+        drop constraint FK1F104ECB82587E99;
 
     alter table bulky_waste_collection_request_bulky_waste_type 
         drop constraint FK7E2C4DCBAEAD5FA0;
@@ -36,22 +36,22 @@
         drop constraint FK5A3F51C71A211CC;
 
     alter table child_legal_responsible_map 
-        drop constraint FK62E1102AC5C931EC;
-
-    alter table child_legal_responsible_map 
         drop constraint FK62E1102A30CABB22;
 
-    alter table compostable_waste_collection_request 
-        drop constraint FKAFF72877ED1B9492;
+    alter table child_legal_responsible_map 
+        drop constraint FK62E1102AC5C931EC;
 
-    alter table compostable_waste_collection_request_compostable_waste_type 
-        drop constraint FK765E424BAC577A08;
+    alter table compostable_waste_collection_request 
+        drop constraint FKAFF7287782587E99;
 
     alter table compostable_waste_collection_request_compostable_waste_type 
         drop constraint FK765E424BC1F23BD7;
 
+    alter table compostable_waste_collection_request_compostable_waste_type 
+        drop constraint FK765E424BAC577A08;
+
     alter table death_details_request 
-        drop constraint FK85B0A9C7ED1B9492;
+        drop constraint FK85B0A9C782587E99;
 
     alter table dhr_donation 
         drop constraint FK91725043E45A0A7F;
@@ -63,10 +63,10 @@
         drop constraint FK5EFB376766C81F29;
 
     alter table dhr_previous_dwelling 
-        drop constraint FKB0B96E27F802E509;
+        drop constraint FKB0B96E2766C81F29;
 
     alter table dhr_previous_dwelling 
-        drop constraint FKB0B96E2766C81F29;
+        drop constraint FKB0B96E27F802E509;
 
     alter table dhr_real_asset 
         drop constraint FK6AA7D980A3F3FF52;
@@ -75,22 +75,25 @@
         drop constraint FK6AA7D98066C81F29;
 
     alter table document 
-        drop constraint FK335CD11B59302132;
+        drop constraint FK335CD11B8EAF8712;
 
     alter table document 
-        drop constraint FK335CD11BDDD47DCE;
+        drop constraint FK335CD11B59302132;
 
     alter table document 
         drop constraint FK335CD11B8BD77771;
 
     alter table document_action 
-        drop constraint FKA42545DA1F561FF2;
+        drop constraint FKA42545DA7A6C6B5B;
 
     alter table document_binary 
-        drop constraint FKA62BD3A51F561FF2;
+        drop constraint FKA62BD3A57A6C6B5B;
 
     alter table domestic_help_request 
-        drop constraint FK3C0081121C4A2C9A;
+        drop constraint FK3C0081126FFC52CB;
+
+    alter table domestic_help_request 
+        drop constraint FK3C00811282587E99;
 
     alter table domestic_help_request 
         drop constraint FK3C008112A2B2928B;
@@ -99,52 +102,52 @@
         drop constraint FK3C008112B3BAD17C;
 
     alter table domestic_help_request 
-        drop constraint FK3C0081126FFC52CB;
+        drop constraint FK3C0081121C4A2C9A;
 
-    alter table domestic_help_request 
-        drop constraint FK3C008112ED1B9492;
+    alter table electoral_roll_registration_request 
+        drop constraint FK4562552982587E99;
 
     alter table electoral_roll_registration_request 
         drop constraint FK45625529F0159453;
 
-    alter table electoral_roll_registration_request 
-        drop constraint FK45625529ED1B9492;
+    alter table external_service_individual_mapping 
+        drop constraint FK5BC5D7E648C97698;
 
     alter table forms 
-        drop constraint FK5D18C2F1808DF5C;
+        drop constraint FK5D18C2FC5FD0068;
 
     alter table forms 
-        drop constraint FK5D18C2FD97439C;
+        drop constraint FK5D18C2FD06E9C28;
+
+    alter table handicap_allowance_request 
+        drop constraint FKF20630A182587E99;
 
     alter table handicap_allowance_request 
         drop constraint FKF20630A16D27AFFE;
 
-    alter table handicap_allowance_request 
-        drop constraint FKF20630A1ED1B9492;
+    alter table holiday_security_request 
+        drop constraint FKED34C59782587E99;
 
     alter table holiday_security_request 
         drop constraint FKED34C597E2AF3D30;
-
-    alter table holiday_security_request 
-        drop constraint FKED34C597ED1B9492;
 
     alter table home_folder 
         drop constraint FKDB87BBCE6AB1E860;
 
     alter table home_folder_modification_request 
-        drop constraint FK26ED7ABDED1B9492;
+        drop constraint FK26ED7ABD82587E99;
 
     alter table individual 
         drop constraint FKFD3DA2996AB1E860;
 
     alter table individual 
-        drop constraint FKFD3DA2998BD77771;
-
-    alter table individual 
         drop constraint FKFD3DA29948B0ABD2;
 
+    alter table individual 
+        drop constraint FKFD3DA2998BD77771;
+
     alter table library_registration_request 
-        drop constraint FKEA37820DED1B9492;
+        drop constraint FKEA37820D82587E99;
 
     alter table library_registration_request_subscription 
         drop constraint FK56C4BE0F6E60AC03;
@@ -162,19 +165,19 @@
         drop constraint FK49407E74DBACE805;
 
     alter table marriage_details_request 
-        drop constraint FK38315C1DED1B9492;
+        drop constraint FK38315C1D82587E99;
 
     alter table military_census_request 
-        drop constraint FK56137C47ED1B9492;
+        drop constraint FK56137C4782587E99;
 
     alter table music_school_registration_request 
-        drop constraint FK51A399DAED1B9492;
-
-    alter table music_school_registration_request_activity 
-        drop constraint FK6393FFD4F5425501;
+        drop constraint FK51A399DA82587E99;
 
     alter table music_school_registration_request_activity 
         drop constraint FK6393FFD4696ECB;
+
+    alter table music_school_registration_request_activity 
+        drop constraint FK6393FFD4F5425501;
 
     alter table payment 
         drop constraint FKD11C32061BC4A960;
@@ -183,49 +186,49 @@
         drop constraint FKD11C32068BD77771;
 
     alter table perischool_activity_registration_request 
-        drop constraint FK76BAA59A20540B7;
+        drop constraint FK76BAA59A82587E99;
 
     alter table perischool_activity_registration_request 
-        drop constraint FK76BAA59AED1B9492;
-
-    alter table perischool_activity_registration_request_other_individual 
-        drop constraint FKD6BDD32DDCC9C993;
+        drop constraint FK76BAA59A20540B7;
 
     alter table perischool_activity_registration_request_other_individual 
         drop constraint FKD6BDD32D4B24749F;
 
-    alter table perischool_activity_registration_request_perischool_activity 
-        drop constraint FK2007A4E9D633AA6C;
+    alter table perischool_activity_registration_request_other_individual 
+        drop constraint FKD6BDD32DDCC9C993;
 
     alter table perischool_activity_registration_request_perischool_activity 
         drop constraint FK2007A4E94B24749F;
 
+    alter table perischool_activity_registration_request_perischool_activity 
+        drop constraint FK2007A4E9D633AA6C;
+
     alter table personal_details_request 
-        drop constraint FKDA412593ED1B9492;
+        drop constraint FKDA41259382587E99;
 
     alter table place_reservation_request 
-        drop constraint FK10FCEDE4ED1B9492;
-
-    alter table place_reservation_request_place_reservation 
-        drop constraint FK9493CEF96E5CE64D;
+        drop constraint FK10FCEDE482587E99;
 
     alter table place_reservation_request_place_reservation 
         drop constraint FK9493CEF9E2EAB80C;
 
-    alter table purchase_item 
-        drop constraint FKB113279154BCD4FA;
+    alter table place_reservation_request_place_reservation 
+        drop constraint FK9493CEF96E5CE64D;
 
     alter table purchase_item 
-        drop constraint FKB1132791EF51C842;
+        drop constraint FKB1132791848EB249;
+
+    alter table purchase_item 
+        drop constraint FKB113279154BCD4FA;
 
     alter table purchase_item_specific_data 
         drop constraint FK455E96692BA69830;
 
     alter table recreation_activity_registration_request 
-        drop constraint FKD1F8ECCF8EE79C;
+        drop constraint FKD1F8ECC82587E99;
 
     alter table recreation_activity_registration_request 
-        drop constraint FKD1F8ECCED1B9492;
+        drop constraint FKD1F8ECCF8EE79C;
 
     alter table recreation_activity_registration_request_other_individual 
         drop constraint FK8026343BDCC9C993;
@@ -234,52 +237,52 @@
         drop constraint FK8026343B14E9A3B;
 
     alter table recreation_activity_registration_request_recreation_activity 
-        drop constraint FK54117CA914E9A3B;
-
-    alter table recreation_activity_registration_request_recreation_activity 
         drop constraint FK54117CA97F2ADC1E;
 
+    alter table recreation_activity_registration_request_recreation_activity 
+        drop constraint FK54117CA914E9A3B;
+
     alter table remote_support_request 
-        drop constraint FKEAA6DC26ED1B9492;
+        drop constraint FKEAA6DC2682587E99;
 
     alter table request 
         drop constraint FK414EF28F1BC4A960;
 
     alter table request 
-        drop constraint FK414EF28F3FFD6284;
+        drop constraint FK414EF28FC5FD0068;
 
     alter table request 
-        drop constraint FK414EF28FD97439C;
+        drop constraint FK414EF28F396D729D;
 
     alter table request 
         drop constraint FK414EF28F8BD77771;
 
     alter table request_action 
-        drop constraint FK7AC459E6EF51C842;
+        drop constraint FK7AC459E6848EB249;
 
     alter table request_document_map 
-        drop constraint FKCBC2F7E81F561FF2;
+        drop constraint FKCBC2F7E87A6C6B5B;
 
     alter table request_document_map 
-        drop constraint FKCBC2F7E8EF51C842;
+        drop constraint FKCBC2F7E8848EB249;
 
     alter table request_note 
-        drop constraint FK4DABB7A2EF51C842;
+        drop constraint FK4DABB7A2848EB249;
 
     alter table request_type 
         drop constraint FK4DAE96EACE4D7137;
 
     alter table requirement 
-        drop constraint FK15A8DC43DDD47DCE;
+        drop constraint FK15A8DC438EAF8712;
 
     alter table requirement 
-        drop constraint FK15A8DC43D97439C;
+        drop constraint FK15A8DC43C5FD0068;
+
+    alter table school_canteen_registration_request 
+        drop constraint FKDC4CBC6982587E99;
 
     alter table school_canteen_registration_request 
         drop constraint FKDC4CBC6920540B7;
-
-    alter table school_canteen_registration_request 
-        drop constraint FKDC4CBC69ED1B9492;
 
     alter table school_canteen_registration_request_canteen_attending_days 
         drop constraint FK1323D9F9AAB3F7;
@@ -294,34 +297,34 @@
         drop constraint FK5768CADFE5E30099;
 
     alter table school_registration_request 
-        drop constraint FK7BDFE8F420540B7;
+        drop constraint FK7BDFE8F482587E99;
 
     alter table school_registration_request 
-        drop constraint FK7BDFE8F4ED1B9492;
+        drop constraint FK7BDFE8F420540B7;
 
     alter table seasons 
-        drop constraint FK7552F1F0D97439C;
+        drop constraint FK7552F1F0C5FD0068;
+
+    alter table sewer_connection_request 
+        drop constraint FK50B057BB82587E99;
 
     alter table sewer_connection_request 
         drop constraint FK50B057BB1F88D72E;
 
-    alter table sewer_connection_request 
-        drop constraint FK50B057BBED1B9492;
-
     alter table sms_notification_request 
-        drop constraint FK33CA6661ED1B9492;
-
-    alter table sms_notification_request_interests 
-        drop constraint FKCE60DA2B37C4119F;
+        drop constraint FK33CA666182587E99;
 
     alter table sms_notification_request_interests 
         drop constraint FKCE60DA2B756FB911;
+
+    alter table sms_notification_request_interests 
+        drop constraint FKCE60DA2B37C4119F;
 
     alter table technical_intervention_request 
         drop constraint FKC051B8C974526C97;
 
     alter table technical_intervention_request 
-        drop constraint FKC051B8C9ED1B9492;
+        drop constraint FKC051B8C982587E99;
 
     alter table technical_intervention_request_intervention_type 
         drop constraint FK5ADF79AC7CF39D58;
@@ -336,22 +339,22 @@
         drop constraint FK2890BF7ACE7A2F50;
 
     alter table vacations_registration_request 
+        drop constraint FK92F4987282587E99;
+
+    alter table vacations_registration_request 
         drop constraint FK92F4987230CABB22;
 
     alter table vacations_registration_request 
         drop constraint FK92F49872F8EE79C;
 
-    alter table vacations_registration_request 
-        drop constraint FK92F49872ED1B9492;
+    alter table vacations_registration_request_other_individual 
+        drop constraint FK567CEB55CE7A2F50;
 
     alter table vacations_registration_request_other_individual 
         drop constraint FK567CEB55DCC9C993;
 
-    alter table vacations_registration_request_other_individual 
-        drop constraint FK567CEB55CE7A2F50;
-
     alter table vo_card_request 
-        drop constraint FKC295D426ED1B9492;
+        drop constraint FKC295D42682587E99;
 
     drop table address;
 
@@ -406,6 +409,12 @@
     drop table domestic_help_request;
 
     drop table electoral_roll_registration_request;
+
+    drop table external_service_identifier_mapping;
+
+    drop table external_service_individual_mapping;
+
+    drop table external_service_traces;
 
     drop table forms;
 
@@ -575,14 +584,14 @@
 
     create table alignment_certificate_request (
         id int8 not null,
-        owner_address_id int8,
+        requester_quality varchar(255),
         section varchar(255),
         transportation_route varchar(255),
-        locality varchar(255),
-        owner_last_name varchar(38),
-        number bytea,
         owner_first_names varchar(255),
-        requester_quality varchar(255),
+        locality varchar(255),
+        number bytea,
+        owner_last_name varchar(38),
+        owner_address_id int8,
         primary key (id)
     );
 
@@ -592,9 +601,9 @@
         copies bytea,
         mother_first_names varchar(255),
         birth_last_name varchar(38),
+        comment varchar(255),
         requester_quality_precision varchar(255),
-        relationship varchar(255),
-        usage varchar(255),
+        motive varchar(255),
         requester_quality varchar(255),
         father_last_name varchar(38),
         birth_postal_code varchar(2),
@@ -674,61 +683,55 @@
     create table death_details_request (
         id int8 not null,
         copies bytea,
-        mother_first_names varchar(255),
+        comment varchar(255),
         death_first_names varchar(255),
-        requester_quality_precision varchar(255),
-        relationship varchar(255),
-        usage varchar(255),
-        requester_quality varchar(255),
-        father_last_name varchar(38),
+        motive varchar(255),
         death_date timestamp,
         death_city varchar(32),
         death_postal_code varchar(2),
-        mother_maiden_name varchar(38),
         death_last_name varchar(38),
-        father_first_names varchar(255),
         format varchar(255),
         primary key (id)
     );
 
     create table dhr_donation (
         id int8 not null,
-        donation_date timestamp,
-        donation_notary_first_name varchar(38),
-        donation_beneficiary_name varchar(38),
-        donation_beneficiary_first_name varchar(38),
-        donation_value bytea,
-        donation_notary_name varchar(38),
         donation_notary_address_id int8,
+        donation_beneficiary_name varchar(38),
         donation_asset_place varchar(200),
+        donation_value bytea,
         donation_asset varchar(255),
+        donation_notary_name varchar(38),
+        donation_beneficiary_first_name varchar(38),
+        donation_notary_first_name varchar(38),
+        donation_date timestamp,
         domestic_help_request_id int8,
         primary key (id)
     );
 
     create table dhr_personal_estate_and_saving (
         id int8 not null,
-        paybook_number varchar(30),
         paybook_amount bytea,
+        paybook_number varchar(30),
         domestic_help_request_id int8,
         primary key (id)
     );
 
     create table dhr_previous_dwelling (
         id int8 not null,
+        previous_dwelling_departure_date timestamp,
         previous_dwelling_arrival_date timestamp,
         previous_dwelling_address_id int8,
-        previous_dwelling_departure_date timestamp,
         domestic_help_request_id int8,
         primary key (id)
     );
 
     create table dhr_real_asset (
         id int8 not null,
-        real_asset_value bytea,
-        real_asset_address_id int8,
-        real_asset_net_floor_area bytea,
         real_asset_cadastre varchar(255),
+        real_asset_value bytea,
+        real_asset_net_floor_area bytea,
+        real_asset_address_id int8,
         domestic_help_request_id int8,
         primary key (id)
     );
@@ -782,68 +785,95 @@
 
     create table domestic_help_request (
         id int8 not null,
-        current_dwelling_status varchar(255),
-        tutor_name varchar(38),
-        spouse_france_arrival_date timestamp,
-        spouse_social_security_key_number varchar(2),
-        social_security_number varchar(13),
-        taxes_total bytea,
-        capital_amount_total bytea,
-        rent bytea,
-        requester_incomes_annual_total bytea,
-        spouse_pensionner bool,
-        tutor_address_id int8,
         expenses_total bytea,
-        spouse_employer_address_id int8,
-        current_dwelling_room_number bytea,
-        spouse_information_id int8,
-        spouse_pensions bytea,
-        tutor_first_name varchar(38),
-        current_dwelling_arrival_date timestamp,
-        current_dwelling_net_floor_area bytea,
-        spouse_nationality varchar(32),
-        savings_total bytea,
-        current_dwelling_address_id int8,
-        spouse_incomes_annual_total bytea,
-        requester_allowances bytea,
-        requester_pension_plan varchar(255),
-        spouse_allowances bytea,
-        income_tax bytea,
-        requester_investment_income bytea,
-        nationality varchar(32),
-        requester_pensions bytea,
-        property_taxes bytea,
-        spouse_employer varchar(50),
-        tutor varchar(255),
-        donations_values_total bytea,
-        spouse_pension_plan varchar(255),
-        alimonies bytea,
-        spouse_occupation varchar(50),
         current_dwelling_type varchar(255),
-        bonds_amount bytea,
-        spouse_investment_income bytea,
-        social_security_key_number varchar(2),
-        spouse_net_income bytea,
-        france_arrival_date timestamp,
-        requester_net_income bytea,
         professional_taxes bytea,
-        shares_amount bytea,
-        tutor_presence bool,
-        local_rate bytea,
-        real_assets_values_total bytea,
         spouse_social_security_number varchar(13),
+        spouse_pensions bytea,
+        taxes_total bytea,
+        tutor_address_id int8,
+        requester_investment_income bytea,
+        alimonies bytea,
+        shares_amount bytea,
+        current_dwelling_arrival_date timestamp,
+        income_tax bytea,
+        tutor_name varchar(38),
+        spouse_allowances bytea,
+        current_dwelling_net_floor_area bytea,
+        current_dwelling_status varchar(255),
+        spouse_employer varchar(50),
+        requester_pension_plan varchar(255),
+        nationality varchar(32),
+        real_assets_values_total bytea,
+        spouse_employer_address_id int8,
+        spouse_nationality varchar(32),
+        current_dwelling_address_id int8,
+        spouse_information_id int8,
+        tutor_presence bool,
+        social_security_number varchar(13),
+        requester_incomes_annual_total bytea,
+        tutor varchar(255),
+        local_rate bytea,
+        requester_pensions bytea,
+        spouse_france_arrival_date timestamp,
+        capital_amount_total bytea,
+        property_taxes bytea,
+        tutor_first_name varchar(38),
+        donations_values_total bytea,
+        savings_total bytea,
+        spouse_incomes_annual_total bytea,
+        social_security_key_number varchar(2),
+        spouse_social_security_key_number varchar(2),
+        spouse_occupation varchar(50),
+        france_arrival_date timestamp,
+        requester_allowances bytea,
+        spouse_investment_income bytea,
+        spouse_pension_plan varchar(255),
+        bonds_amount bytea,
+        spouse_net_income bytea,
+        spouse_pensionner bool,
+        requester_net_income bytea,
+        rent bytea,
+        current_dwelling_room_number bytea,
         primary key (id)
     );
 
     create table electoral_roll_registration_request (
         id int8 not null,
+        subject_nationality varchar(255),
+        subject_old_city varchar(32),
+        subject_address_outside_city_id int8,
         polling_station int8,
         polling_school_name varchar(255),
-        electoral_number int8,
-        subject_old_city varchar(32),
         motive varchar(255),
-        subject_nationality varchar(255),
-        subject_address_outside_city_id int8,
+        electoral_number int8,
+        primary key (id)
+    );
+
+    create table external_service_identifier_mapping (
+        id int8 not null,
+        external_service_label varchar(255),
+        home_folder_id int8,
+        external_capdemat_id varchar(255),
+        external_id varchar(255),
+        primary key (id)
+    );
+
+    create table external_service_individual_mapping (
+        mapping_id int8 not null,
+        individual_id int8,
+        external_capdemat_id varchar(255),
+        external_id varchar(255)
+    );
+
+    create table external_service_traces (
+        id int8 not null,
+        date timestamp,
+        key int8,
+        key_owner varchar(255),
+        message varchar(255),
+        name varchar(255),
+        status varchar(255),
         primary key (id)
     );
 
@@ -855,18 +885,18 @@
 
     create table handicap_allowance_request (
         id int8 not null,
+        writing_help bool,
+        helper_responsability varchar(255),
+        legal_representative_name varchar(38),
+        comments varchar(255),
+        legal_representative_firstame varchar(38),
         legal_representative_address_id int8,
+        legal_representative_family_relationship varchar(255),
         legal_representative bool,
         hopes_and_needs bool,
-        writing_help bool,
         needs varchar(255),
-        helper_responsability varchar(255),
         legal_representative_phone varchar(10),
-        legal_representative_family_relationship varchar(255),
         helper_name varchar(38),
-        legal_representative_name varchar(38),
-        legal_representative_firstame varchar(38),
-        comments varchar(255),
         hopes varchar(255),
         primary key (id)
     );
@@ -886,16 +916,16 @@
 
     create table holiday_security_request (
         id int8 not null,
-        absence_start_date timestamp,
         other_contact_last_name varchar(38),
+        other_contact_first_name varchar(38),
         light bool,
+        absence_end_date timestamp,
         other_contact_phone varchar(10),
         rules_and_regulations_acceptance bool,
-        alarm bool,
-        other_contact_first_name varchar(38),
-        other_contact_address_id int8,
-        absence_end_date timestamp,
         alert_phone varchar(10),
+        alarm bool,
+        other_contact_address_id int8,
+        absence_start_date timestamp,
         primary key (id)
     );
 
@@ -940,10 +970,10 @@
 
     create table library_registration_request (
         id int8 not null,
-        parental_authorization bool,
-        subscription_price int2,
-        rules_and_regulations_acceptance bool,
         registration_number varchar(255),
+        parental_authorization bool,
+        rules_and_regulations_acceptance bool,
+        subscription_price int2,
         primary key (id)
     );
 
@@ -978,23 +1008,24 @@
 
     create table marriage_details_request (
         id int8 not null,
+        copies bytea,
+        mother_first_names varchar(255),
+        comment varchar(255),
         requester_quality_precision varchar(255),
+        marriage_city varchar(32),
         relationship varchar(255),
         marriage_postal_code varchar(2),
-        marriage_wife_first_names varchar(255),
-        marriage_husband_last_name varchar(38),
-        father_first_names varchar(255),
-        format varchar(255),
-        copies bytea,
-        marriage_city varchar(32),
-        usage varchar(255),
+        motive varchar(255),
         requester_quality varchar(255),
         father_last_name varchar(38),
         mother_maiden_name varchar(38),
-        marriage_wife_last_name varchar(38),
-        mother_first_names varchar(255),
         marriage_date timestamp,
+        marriage_wife_first_names varchar(255),
+        marriage_wife_last_name varchar(38),
+        marriage_husband_last_name varchar(38),
+        father_first_names varchar(255),
         marriage_husband_first_names varchar(255),
+        format varchar(255),
         primary key (id)
     );
 
@@ -1007,43 +1038,43 @@
 
     create table military_census_request (
         id int8 not null,
-        father_birth_country varchar(255),
-        mother_first_name varchar(38),
-        state_pupil bool,
-        other_situation varchar(255),
-        mother_birth_country varchar(255),
-        alive_children bytea,
-        father_first_name varchar(38),
-        maiden_name varchar(38),
-        father_birth_city varchar(255),
-        mother_birth_city varchar(255),
-        child_speciality varchar(255),
-        prefect_pupil bool,
-        child_diploma varchar(255),
-        child_residence_country varchar(255),
-        father_nationality varchar(255),
-        child_country varchar(255),
         father_birth_department varchar(255),
-        mother_nationality varchar(255),
-        affection_or_disease bool,
-        child_status varchar(255),
-        mother_birth_date timestamp,
-        children_in_charge bytea,
-        mother_last_name varchar(38),
-        child_title varchar(255),
-        father_birth_date timestamp,
-        child_convention varchar(255),
-        child_mail varchar(255),
-        mother_birth_department varchar(255),
-        child_situation varchar(255),
-        child_other_country varchar(255),
-        father_last_name varchar(38),
         child_profession varchar(255),
-        child_birth_country varchar(255),
+        child_speciality varchar(255),
+        child_other_country varchar(255),
+        child_status varchar(255),
+        alive_children bytea,
+        children_in_charge bytea,
+        affection_or_disease bool,
         japd_exemption bool,
-        highly_infirm bool,
-        prefect_pupil_department varchar(255),
+        child_situation varchar(255),
+        maiden_name varchar(38),
+        state_pupil bool,
+        child_title varchar(255),
         child_phone varchar(10),
+        mother_last_name varchar(38),
+        child_mail varchar(255),
+        child_diploma varchar(255),
+        mother_birth_country varchar(255),
+        father_last_name varchar(38),
+        prefect_pupil_department varchar(255),
+        mother_birth_department varchar(255),
+        child_residence_country varchar(255),
+        father_birth_city varchar(255),
+        father_birth_date timestamp,
+        father_first_name varchar(38),
+        other_situation varchar(255),
+        mother_birth_city varchar(255),
+        father_nationality varchar(255),
+        mother_birth_date timestamp,
+        prefect_pupil bool,
+        child_country varchar(255),
+        mother_first_name varchar(38),
+        child_convention varchar(255),
+        child_birth_country varchar(255),
+        mother_nationality varchar(255),
+        father_birth_country varchar(255),
+        highly_infirm bool,
         primary key (id)
     );
 
@@ -1088,13 +1119,13 @@
 
     create table perischool_activity_registration_request (
         id int8 not null,
-        hospitalization_permission bool,
-        section varchar(32),
-        school_id int8,
-        urgency_phone varchar(10),
-        rules_and_regulations_acceptance bool,
         child_photo_exploitation_permission bool,
+        school_id int8,
+        hospitalization_permission bool,
         class_trip_permission bool,
+        rules_and_regulations_acceptance bool,
+        urgency_phone varchar(10),
+        section varchar(32),
         primary key (id)
     );
 
@@ -1112,34 +1143,34 @@
 
     create table personal_details_request (
         id int8 not null,
-        birth_last_name varchar(38),
         death_first_names varchar(255),
-        requester_quality_precision varchar(255),
-        relationship varchar(255),
-        marriage_postal_code varchar(2),
-        birth_date timestamp,
-        marriage_wife_first_names varchar(255),
-        marriage_husband_last_name varchar(38),
-        father_first_names varchar(255),
         format varchar(255),
         copies bytea,
+        birth_postal_code varchar(2),
+        birth_city varchar(32),
+        marriage_date timestamp,
+        marriage_husband_last_name varchar(38),
+        marriage_wife_first_names varchar(255),
+        death_date timestamp,
+        birth_date timestamp,
+        requester_quality_precision varchar(255),
+        death_postal_code varchar(2),
+        father_last_name varchar(38),
+        relationship varchar(255),
+        mother_first_names varchar(255),
+        father_first_names varchar(255),
+        marriage_postal_code varchar(2),
         certificate varchar(255),
-        marriage_city varchar(32),
+        mother_maiden_name varchar(38),
+        death_city varchar(32),
+        marriage_husband_first_names varchar(255),
         usage varchar(255),
         requester_quality varchar(255),
-        father_last_name varchar(38),
-        birth_city varchar(32),
-        mother_maiden_name varchar(38),
-        birth_first_names varchar(255),
-        death_date timestamp,
-        birth_postal_code varchar(2),
-        death_postal_code varchar(2),
+        marriage_city varchar(32),
         marriage_wife_last_name varchar(38),
-        mother_first_names varchar(255),
-        death_city varchar(32),
+        birth_first_names varchar(255),
         death_last_name varchar(38),
-        marriage_date timestamp,
-        marriage_husband_first_names varchar(255),
+        birth_last_name varchar(38),
         primary key (id)
     );
 
@@ -1196,12 +1227,12 @@
 
     create table recreation_activity_registration_request (
         id int8 not null,
-        hospitalization_permission bool,
-        urgency_phone varchar(10),
-        rules_and_regulations_acceptance bool,
         child_photo_exploitation_permission bool,
-        class_trip_permission bool,
         recreation_center_id int8,
+        hospitalization_permission bool,
+        class_trip_permission bool,
+        rules_and_regulations_acceptance bool,
+        urgency_phone varchar(10),
         primary key (id)
     );
 
@@ -1227,20 +1258,20 @@
 
     create table remote_support_request (
         id int8 not null,
-        trustee_first_name varchar(38),
-        taxable bool,
-        floor bytea,
-        contact_name varchar(38),
-        appartment_number bytea,
-        contact_first_name varchar(38),
-        contact varchar(255),
-        dwelling varchar(255),
-        emergency bool,
-        senior_assitance_beneficiary bool,
-        trustee_name varchar(38),
         trustee_phone varchar(10),
+        emergency bool,
+        trustee_name varchar(38),
+        appartment_number bytea,
         trustee varchar(255),
         contact_phone varchar(10),
+        floor bytea,
+        dwelling varchar(255),
+        contact_first_name varchar(38),
+        trustee_first_name varchar(38),
+        taxable bool,
+        senior_assitance_beneficiary bool,
+        contact_name varchar(38),
+        contact varchar(255),
         primary key (id)
     );
 
@@ -1331,14 +1362,14 @@
 
     create table school_canteen_registration_request (
         id int8 not null,
-        doctor_phone varchar(10),
-        doctor_name varchar(255),
-        hospitalization_permission bool,
-        section varchar(32),
         school_id int8,
-        food_allergy bool,
-        urgency_phone varchar(10),
+        hospitalization_permission bool,
         rules_and_regulations_acceptance bool,
+        food_allergy bool,
+        doctor_phone varchar(10),
+        urgency_phone varchar(10),
+        doctor_name varchar(255),
+        section varchar(32),
         primary key (id)
     );
 
@@ -1356,13 +1387,13 @@
 
     create table school_registration_request (
         id int8 not null,
-        current_school_name varchar(255),
-        section varchar(32),
-        school_id int8,
         current_school_address varchar(255),
-        urgency_phone varchar(10),
+        school_id int8,
         rules_and_regulations_acceptance bool,
+        current_school_name varchar(255),
+        urgency_phone varchar(10),
         current_section varchar(32),
+        section varchar(32),
         primary key (id)
     );
 
@@ -1379,15 +1410,15 @@
 
     create table sewer_connection_request (
         id int8 not null,
-        owner_address_id int8,
-        section varchar(255),
-        requester_quality varchar(255),
-        owner_last_name varchar(38),
-        owner_first_names varchar(255),
+        more_than_two_years bool,
         transportation_route varchar(255),
         locality varchar(255),
-        more_than_two_years bool,
+        owner_last_name varchar(38),
         number bytea,
+        owner_first_names varchar(255),
+        owner_address_id int8,
+        requester_quality varchar(255),
+        section varchar(255),
         primary key (id)
     );
 
@@ -1406,8 +1437,8 @@
 
     create table technical_intervention_request (
         id int8 not null,
-        intervention_place_id int8,
         intervention_description varchar(255),
+        intervention_place_id int8,
         primary key (id)
     );
 
@@ -1462,14 +1493,14 @@
         references individual;
 
     alter table agent_category_roles 
-        add constraint FKBAFB98B6FB8D007D 
-        foreign key (agent_id) 
-        references agent;
-
-    alter table agent_category_roles 
         add constraint FKBAFB98B6CE4D7137 
         foreign key (category_id) 
         references category;
+
+    alter table agent_category_roles 
+        add constraint FKBAFB98B6FB8D007D 
+        foreign key (agent_id) 
+        references agent;
 
     alter table agent_site_roles 
         add constraint FK1C3B6D3FFB8D007D 
@@ -1477,22 +1508,22 @@
         references agent;
 
     alter table alignment_certificate_request 
+        add constraint FK9EBFB38B82587E99 
+        foreign key (id) 
+        references request;
+
+    alter table alignment_certificate_request 
         add constraint FK9EBFB38B1F88D72E 
         foreign key (owner_address_id) 
         references address;
 
-    alter table alignment_certificate_request 
-        add constraint FK9EBFB38BED1B9492 
-        foreign key (id) 
-        references request;
-
     alter table birth_details_request 
-        add constraint FKB3569612ED1B9492 
+        add constraint FKB356961282587E99 
         foreign key (id) 
         references request;
 
     alter table bulky_waste_collection_request 
-        add constraint FK1F104ECBED1B9492 
+        add constraint FK1F104ECB82587E99 
         foreign key (id) 
         references request;
 
@@ -1517,32 +1548,32 @@
         references individual;
 
     alter table child_legal_responsible_map 
-        add constraint FK62E1102AC5C931EC 
-        foreign key (legal_responsible_id) 
-        references adult;
-
-    alter table child_legal_responsible_map 
         add constraint FK62E1102A30CABB22 
         foreign key (child_id) 
         references child;
 
+    alter table child_legal_responsible_map 
+        add constraint FK62E1102AC5C931EC 
+        foreign key (legal_responsible_id) 
+        references adult;
+
     alter table compostable_waste_collection_request 
-        add constraint FKAFF72877ED1B9492 
+        add constraint FKAFF7287782587E99 
         foreign key (id) 
         references request;
-
-    alter table compostable_waste_collection_request_compostable_waste_type 
-        add constraint FK765E424BAC577A08 
-        foreign key (compostable_waste_collection_request_id) 
-        references compostable_waste_collection_request;
 
     alter table compostable_waste_collection_request_compostable_waste_type 
         add constraint FK765E424BC1F23BD7 
         foreign key (compostable_waste_type_id) 
         references local_referential_data;
 
+    alter table compostable_waste_collection_request_compostable_waste_type 
+        add constraint FK765E424BAC577A08 
+        foreign key (compostable_waste_collection_request_id) 
+        references compostable_waste_collection_request;
+
     alter table death_details_request 
-        add constraint FK85B0A9C7ED1B9492 
+        add constraint FK85B0A9C782587E99 
         foreign key (id) 
         references request;
 
@@ -1562,14 +1593,14 @@
         references domestic_help_request;
 
     alter table dhr_previous_dwelling 
-        add constraint FKB0B96E27F802E509 
-        foreign key (previous_dwelling_address_id) 
-        references address;
-
-    alter table dhr_previous_dwelling 
         add constraint FKB0B96E2766C81F29 
         foreign key (domestic_help_request_id) 
         references domestic_help_request;
+
+    alter table dhr_previous_dwelling 
+        add constraint FKB0B96E27F802E509 
+        foreign key (previous_dwelling_address_id) 
+        references address;
 
     alter table dhr_real_asset 
         add constraint FK6AA7D980A3F3FF52 
@@ -1582,14 +1613,14 @@
         references domestic_help_request;
 
     alter table document 
+        add constraint FK335CD11B8EAF8712 
+        foreign key (document_type_id) 
+        references document_type;
+
+    alter table document 
         add constraint FK335CD11B59302132 
         foreign key (individual_id) 
         references individual;
-
-    alter table document 
-        add constraint FK335CD11BDDD47DCE 
-        foreign key (document_type_id) 
-        references document_type;
 
     alter table document 
         add constraint FK335CD11B8BD77771 
@@ -1597,19 +1628,24 @@
         references home_folder;
 
     alter table document_action 
-        add constraint FKA42545DA1F561FF2 
+        add constraint FKA42545DA7A6C6B5B 
         foreign key (document_id) 
         references document;
 
     alter table document_binary 
-        add constraint FKA62BD3A51F561FF2 
+        add constraint FKA62BD3A57A6C6B5B 
         foreign key (document_id) 
         references document;
 
     alter table domestic_help_request 
-        add constraint FK3C0081121C4A2C9A 
-        foreign key (spouse_information_id) 
-        references adult;
+        add constraint FK3C0081126FFC52CB 
+        foreign key (tutor_address_id) 
+        references address;
+
+    alter table domestic_help_request 
+        add constraint FK3C00811282587E99 
+        foreign key (id) 
+        references request;
 
     alter table domestic_help_request 
         add constraint FK3C008112A2B2928B 
@@ -1622,12 +1658,12 @@
         references address;
 
     alter table domestic_help_request 
-        add constraint FK3C0081126FFC52CB 
-        foreign key (tutor_address_id) 
-        references address;
+        add constraint FK3C0081121C4A2C9A 
+        foreign key (spouse_information_id) 
+        references adult;
 
-    alter table domestic_help_request 
-        add constraint FK3C008112ED1B9492 
+    alter table electoral_roll_registration_request 
+        add constraint FK4562552982587E99 
         foreign key (id) 
         references request;
 
@@ -1636,28 +1672,33 @@
         foreign key (subject_address_outside_city_id) 
         references address;
 
-    alter table electoral_roll_registration_request 
-        add constraint FK45625529ED1B9492 
-        foreign key (id) 
-        references request;
+    alter table external_service_individual_mapping 
+        add constraint FK5BC5D7E648C97698 
+        foreign key (mapping_id) 
+        references external_service_identifier_mapping;
 
     alter table forms 
-        add constraint FK5D18C2F1808DF5C 
+        add constraint FK5D18C2FC5FD0068 
+        foreign key (request_type_id) 
+        references request_type;
+
+    alter table forms 
+        add constraint FK5D18C2FD06E9C28 
         foreign key (request_form_id) 
         references request_form;
 
-    alter table forms 
-        add constraint FK5D18C2FD97439C 
-        foreign key (request_type_id) 
-        references request_type;
+    alter table handicap_allowance_request 
+        add constraint FKF20630A182587E99 
+        foreign key (id) 
+        references request;
 
     alter table handicap_allowance_request 
         add constraint FKF20630A16D27AFFE 
         foreign key (legal_representative_address_id) 
         references address;
 
-    alter table handicap_allowance_request 
-        add constraint FKF20630A1ED1B9492 
+    alter table holiday_security_request 
+        add constraint FKED34C59782587E99 
         foreign key (id) 
         references request;
 
@@ -1666,18 +1707,13 @@
         foreign key (other_contact_address_id) 
         references address;
 
-    alter table holiday_security_request 
-        add constraint FKED34C597ED1B9492 
-        foreign key (id) 
-        references request;
-
     alter table home_folder 
         add constraint FKDB87BBCE6AB1E860 
         foreign key (adress_id) 
         references address;
 
     alter table home_folder_modification_request 
-        add constraint FK26ED7ABDED1B9492 
+        add constraint FK26ED7ABD82587E99 
         foreign key (id) 
         references request;
 
@@ -1687,17 +1723,17 @@
         references address;
 
     alter table individual 
-        add constraint FKFD3DA2998BD77771 
-        foreign key (home_folder_id) 
-        references home_folder;
-
-    alter table individual 
         add constraint FKFD3DA29948B0ABD2 
         foreign key (card_id) 
         references card;
 
+    alter table individual 
+        add constraint FKFD3DA2998BD77771 
+        foreign key (home_folder_id) 
+        references home_folder;
+
     alter table library_registration_request 
-        add constraint FKEA37820DED1B9492 
+        add constraint FKEA37820D82587E99 
         foreign key (id) 
         references request;
 
@@ -1727,29 +1763,29 @@
         references local_referential_data;
 
     alter table marriage_details_request 
-        add constraint FK38315C1DED1B9492 
+        add constraint FK38315C1D82587E99 
         foreign key (id) 
         references request;
 
     alter table military_census_request 
-        add constraint FK56137C47ED1B9492 
+        add constraint FK56137C4782587E99 
         foreign key (id) 
         references request;
 
     alter table music_school_registration_request 
-        add constraint FK51A399DAED1B9492 
+        add constraint FK51A399DA82587E99 
         foreign key (id) 
         references request;
-
-    alter table music_school_registration_request_activity 
-        add constraint FK6393FFD4F5425501 
-        foreign key (music_school_registration_request_id) 
-        references music_school_registration_request;
 
     alter table music_school_registration_request_activity 
         add constraint FK6393FFD4696ECB 
         foreign key (activity_id) 
         references local_referential_data;
+
+    alter table music_school_registration_request_activity 
+        add constraint FK6393FFD4F5425501 
+        foreign key (music_school_registration_request_id) 
+        references music_school_registration_request;
 
     alter table payment 
         add constraint FKD11C32061BC4A960 
@@ -1762,22 +1798,27 @@
         references home_folder;
 
     alter table perischool_activity_registration_request 
+        add constraint FK76BAA59A82587E99 
+        foreign key (id) 
+        references request;
+
+    alter table perischool_activity_registration_request 
         add constraint FK76BAA59A20540B7 
         foreign key (school_id) 
         references school;
 
-    alter table perischool_activity_registration_request 
-        add constraint FK76BAA59AED1B9492 
-        foreign key (id) 
-        references request;
+    alter table perischool_activity_registration_request_other_individual 
+        add constraint FKD6BDD32D4B24749F 
+        foreign key (perischool_activity_registration_request_id) 
+        references perischool_activity_registration_request;
 
     alter table perischool_activity_registration_request_other_individual 
         add constraint FKD6BDD32DDCC9C993 
         foreign key (other_individual_id) 
         references other_individual;
 
-    alter table perischool_activity_registration_request_other_individual 
-        add constraint FKD6BDD32D4B24749F 
+    alter table perischool_activity_registration_request_perischool_activity 
+        add constraint FK2007A4E94B24749F 
         foreign key (perischool_activity_registration_request_id) 
         references perischool_activity_registration_request;
 
@@ -1786,40 +1827,35 @@
         foreign key (perischool_activity_id) 
         references local_referential_data;
 
-    alter table perischool_activity_registration_request_perischool_activity 
-        add constraint FK2007A4E94B24749F 
-        foreign key (perischool_activity_registration_request_id) 
-        references perischool_activity_registration_request;
-
     alter table personal_details_request 
-        add constraint FKDA412593ED1B9492 
+        add constraint FKDA41259382587E99 
         foreign key (id) 
         references request;
 
     alter table place_reservation_request 
-        add constraint FK10FCEDE4ED1B9492 
+        add constraint FK10FCEDE482587E99 
         foreign key (id) 
         references request;
-
-    alter table place_reservation_request_place_reservation 
-        add constraint FK9493CEF96E5CE64D 
-        foreign key (place_reservation_id) 
-        references place_reservation_data;
 
     alter table place_reservation_request_place_reservation 
         add constraint FK9493CEF9E2EAB80C 
         foreign key (place_reservation_request_id) 
         references place_reservation_request;
 
+    alter table place_reservation_request_place_reservation 
+        add constraint FK9493CEF96E5CE64D 
+        foreign key (place_reservation_id) 
+        references place_reservation_data;
+
+    alter table purchase_item 
+        add constraint FKB1132791848EB249 
+        foreign key (request_id) 
+        references request;
+
     alter table purchase_item 
         add constraint FKB113279154BCD4FA 
         foreign key (payment_id) 
         references payment;
-
-    alter table purchase_item 
-        add constraint FKB1132791EF51C842 
-        foreign key (request_id) 
-        references request;
 
     alter table purchase_item_specific_data 
         add constraint FK455E96692BA69830 
@@ -1827,14 +1863,14 @@
         references purchase_item;
 
     alter table recreation_activity_registration_request 
+        add constraint FKD1F8ECC82587E99 
+        foreign key (id) 
+        references request;
+
+    alter table recreation_activity_registration_request 
         add constraint FKD1F8ECCF8EE79C 
         foreign key (recreation_center_id) 
         references recreation_center;
-
-    alter table recreation_activity_registration_request 
-        add constraint FKD1F8ECCED1B9492 
-        foreign key (id) 
-        references request;
 
     alter table recreation_activity_registration_request_other_individual 
         add constraint FK8026343BDCC9C993 
@@ -1847,17 +1883,17 @@
         references recreation_activity_registration_request;
 
     alter table recreation_activity_registration_request_recreation_activity 
-        add constraint FK54117CA914E9A3B 
-        foreign key (recreation_activity_registration_request_id) 
-        references recreation_activity_registration_request;
-
-    alter table recreation_activity_registration_request_recreation_activity 
         add constraint FK54117CA97F2ADC1E 
         foreign key (recreation_activity_id) 
         references local_referential_data;
 
+    alter table recreation_activity_registration_request_recreation_activity 
+        add constraint FK54117CA914E9A3B 
+        foreign key (recreation_activity_registration_request_id) 
+        references recreation_activity_registration_request;
+
     alter table remote_support_request 
-        add constraint FKEAA6DC26ED1B9492 
+        add constraint FKEAA6DC2682587E99 
         foreign key (id) 
         references request;
 
@@ -1867,14 +1903,14 @@
         references adult;
 
     alter table request 
-        add constraint FK414EF28F3FFD6284 
-        foreign key (means_of_contact_id) 
-        references means_of_contact;
-
-    alter table request 
-        add constraint FK414EF28FD97439C 
+        add constraint FK414EF28FC5FD0068 
         foreign key (request_type_id) 
         references request_type;
+
+    alter table request 
+        add constraint FK414EF28F396D729D 
+        foreign key (means_of_contact_id) 
+        references means_of_contact;
 
     alter table request 
         add constraint FK414EF28F8BD77771 
@@ -1882,22 +1918,22 @@
         references home_folder;
 
     alter table request_action 
-        add constraint FK7AC459E6EF51C842 
+        add constraint FK7AC459E6848EB249 
         foreign key (request_id) 
         references request;
 
     alter table request_document_map 
-        add constraint FKCBC2F7E81F561FF2 
+        add constraint FKCBC2F7E87A6C6B5B 
         foreign key (document_id) 
         references document;
 
     alter table request_document_map 
-        add constraint FKCBC2F7E8EF51C842 
+        add constraint FKCBC2F7E8848EB249 
         foreign key (request_id) 
         references request;
 
     alter table request_note 
-        add constraint FK4DABB7A2EF51C842 
+        add constraint FK4DABB7A2848EB249 
         foreign key (request_id) 
         references request;
 
@@ -1907,24 +1943,24 @@
         references category;
 
     alter table requirement 
-        add constraint FK15A8DC43DDD47DCE 
+        add constraint FK15A8DC438EAF8712 
         foreign key (document_type_id) 
         references document_type;
 
     alter table requirement 
-        add constraint FK15A8DC43D97439C 
+        add constraint FK15A8DC43C5FD0068 
         foreign key (request_type_id) 
         references request_type;
+
+    alter table school_canteen_registration_request 
+        add constraint FKDC4CBC6982587E99 
+        foreign key (id) 
+        references request;
 
     alter table school_canteen_registration_request 
         add constraint FKDC4CBC6920540B7 
         foreign key (school_id) 
         references school;
-
-    alter table school_canteen_registration_request 
-        add constraint FKDC4CBC69ED1B9492 
-        foreign key (id) 
-        references request;
 
     alter table school_canteen_registration_request_canteen_attending_days 
         add constraint FK1323D9F9AAB3F7 
@@ -1947,44 +1983,44 @@
         references school_canteen_registration_request;
 
     alter table school_registration_request 
+        add constraint FK7BDFE8F482587E99 
+        foreign key (id) 
+        references request;
+
+    alter table school_registration_request 
         add constraint FK7BDFE8F420540B7 
         foreign key (school_id) 
         references school;
 
-    alter table school_registration_request 
-        add constraint FK7BDFE8F4ED1B9492 
-        foreign key (id) 
-        references request;
-
     alter table seasons 
-        add constraint FK7552F1F0D97439C 
+        add constraint FK7552F1F0C5FD0068 
         foreign key (request_type_id) 
         references request_type;
+
+    alter table sewer_connection_request 
+        add constraint FK50B057BB82587E99 
+        foreign key (id) 
+        references request;
 
     alter table sewer_connection_request 
         add constraint FK50B057BB1F88D72E 
         foreign key (owner_address_id) 
         references address;
 
-    alter table sewer_connection_request 
-        add constraint FK50B057BBED1B9492 
-        foreign key (id) 
-        references request;
-
     alter table sms_notification_request 
-        add constraint FK33CA6661ED1B9492 
+        add constraint FK33CA666182587E99 
         foreign key (id) 
         references request;
-
-    alter table sms_notification_request_interests 
-        add constraint FKCE60DA2B37C4119F 
-        foreign key (sms_notification_request_id) 
-        references sms_notification_request;
 
     alter table sms_notification_request_interests 
         add constraint FKCE60DA2B756FB911 
         foreign key (interests_id) 
         references local_referential_data;
+
+    alter table sms_notification_request_interests 
+        add constraint FKCE60DA2B37C4119F 
+        foreign key (sms_notification_request_id) 
+        references sms_notification_request;
 
     alter table technical_intervention_request 
         add constraint FKC051B8C974526C97 
@@ -1992,7 +2028,7 @@
         references address;
 
     alter table technical_intervention_request 
-        add constraint FKC051B8C9ED1B9492 
+        add constraint FKC051B8C982587E99 
         foreign key (id) 
         references request;
 
@@ -2017,6 +2053,11 @@
         references vacations_registration_request;
 
     alter table vacations_registration_request 
+        add constraint FK92F4987282587E99 
+        foreign key (id) 
+        references request;
+
+    alter table vacations_registration_request 
         add constraint FK92F4987230CABB22 
         foreign key (child_id) 
         references child;
@@ -2026,23 +2067,18 @@
         foreign key (recreation_center_id) 
         references recreation_center;
 
-    alter table vacations_registration_request 
-        add constraint FK92F49872ED1B9492 
-        foreign key (id) 
-        references request;
+    alter table vacations_registration_request_other_individual 
+        add constraint FK567CEB55CE7A2F50 
+        foreign key (vacations_registration_request_id) 
+        references vacations_registration_request;
 
     alter table vacations_registration_request_other_individual 
         add constraint FK567CEB55DCC9C993 
         foreign key (other_individual_id) 
         references other_individual;
 
-    alter table vacations_registration_request_other_individual 
-        add constraint FK567CEB55CE7A2F50 
-        foreign key (vacations_registration_request_id) 
-        references vacations_registration_request;
-
     alter table vo_card_request 
-        add constraint FKC295D426ED1B9492 
+        add constraint FKC295D42682587E99 
         foreign key (id) 
         references request;
 

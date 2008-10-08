@@ -15,6 +15,7 @@ import fr.cg95.cvq.business.social.*;
 public class DhrPreviousDwellings extends RequestRecord {
 
 	private Calendar previousDwellingsPreviousDwellingDepartureDate;
+	private Calendar previousDwellingsPreviousDwellingArrivalDate;
   	private String previousDwellingsPreviousDwellingAddressAdditionalDeliveryInformation;
 	private String previousDwellingsPreviousDwellingAddressAdditionalGeographicalInformation;
 	private String previousDwellingsPreviousDwellingAddressStreetNumber;
@@ -22,7 +23,6 @@ public class DhrPreviousDwellings extends RequestRecord {
 	private String previousDwellingsPreviousDwellingAddressPlaceNameOrService;
 	private String previousDwellingsPreviousDwellingAddressPostalCode;
 	private String previousDwellingsPreviousDwellingAddressCity;
-	private Calendar previousDwellingsPreviousDwellingArrivalDate;
 
 	public DhrPreviousDwellings() {
 		super();
@@ -48,6 +48,10 @@ public class DhrPreviousDwellings extends RequestRecord {
 				this.previousDwellingsPreviousDwellingDepartureDate = Calendar.getInstance(); 
 	            this.previousDwellingsPreviousDwellingDepartureDate.setTime(request.getPreviousDwellingDepartureDate());
 			}
+			if (request.getPreviousDwellingArrivalDate() != null) {
+				this.previousDwellingsPreviousDwellingArrivalDate = Calendar.getInstance(); 
+	            this.previousDwellingsPreviousDwellingArrivalDate.setTime(request.getPreviousDwellingArrivalDate());
+			}
 			if (request.getPreviousDwellingAddress() != null) {
 				this.previousDwellingsPreviousDwellingAddressAdditionalDeliveryInformation = request.getPreviousDwellingAddress().getAdditionalDeliveryInformation();
 				this.previousDwellingsPreviousDwellingAddressAdditionalGeographicalInformation = request.getPreviousDwellingAddress().getAdditionalGeographicalInformation();
@@ -56,10 +60,6 @@ public class DhrPreviousDwellings extends RequestRecord {
 				this.previousDwellingsPreviousDwellingAddressPlaceNameOrService = request.getPreviousDwellingAddress().getPlaceNameOrService();
 				this.previousDwellingsPreviousDwellingAddressPostalCode = request.getPreviousDwellingAddress().getPostalCode();
 				this.previousDwellingsPreviousDwellingAddressCity = request.getPreviousDwellingAddress().getCity();
-			}
-			if (request.getPreviousDwellingArrivalDate() != null) {
-				this.previousDwellingsPreviousDwellingArrivalDate = Calendar.getInstance(); 
-	            this.previousDwellingsPreviousDwellingArrivalDate.setTime(request.getPreviousDwellingArrivalDate());
 			}
         }
     }
@@ -83,6 +83,14 @@ public class DhrPreviousDwellings extends RequestRecord {
 	
 	public Calendar getPreviousDwellingsPreviousDwellingDepartureDate() {
 		return this.previousDwellingsPreviousDwellingDepartureDate;
+	}
+
+	public void setPreviousDwellingsPreviousDwellingArrivalDate(Calendar previousDwellingsPreviousDwellingArrivalDate) {
+		this.previousDwellingsPreviousDwellingArrivalDate = previousDwellingsPreviousDwellingArrivalDate;
+	}
+	
+	public Calendar getPreviousDwellingsPreviousDwellingArrivalDate() {
+		return this.previousDwellingsPreviousDwellingArrivalDate;
 	}
 
 	public void setPreviousDwellingsPreviousDwellingAddressAdditionalDeliveryInformation(String previousDwellingsPreviousDwellingAddressAdditionalDeliveryInformation) {
@@ -139,14 +147,6 @@ public class DhrPreviousDwellings extends RequestRecord {
 	
 	public String getPreviousDwellingsPreviousDwellingAddressCity() {
 		return this.previousDwellingsPreviousDwellingAddressCity;
-	}
-
-	public void setPreviousDwellingsPreviousDwellingArrivalDate(Calendar previousDwellingsPreviousDwellingArrivalDate) {
-		this.previousDwellingsPreviousDwellingArrivalDate = previousDwellingsPreviousDwellingArrivalDate;
-	}
-	
-	public Calendar getPreviousDwellingsPreviousDwellingArrivalDate() {
-		return this.previousDwellingsPreviousDwellingArrivalDate;
 	}
 
 }

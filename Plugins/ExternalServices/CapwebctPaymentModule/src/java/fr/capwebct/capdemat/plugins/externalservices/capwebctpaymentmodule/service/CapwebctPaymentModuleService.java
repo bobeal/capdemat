@@ -49,11 +49,11 @@ import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.payment.impl.PaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 
-public class CapwebctPaymentModuleService implements IExternalService {
+public class CapwebctPaymentModuleService implements IExternalProviderService {
 
     private static Logger logger = Logger.getLogger(CapwebctPaymentModuleService.class);
     
@@ -72,7 +72,7 @@ public class CapwebctPaymentModuleService implements IExternalService {
     public void init() {
     }
     
-    public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId)
+    public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId, String externalHomeFolderId, String externalId)
         throws CvqException {
         
         FamilyAccountsRequestDocument farDocument = 
@@ -256,7 +256,7 @@ public class CapwebctPaymentModuleService implements IExternalService {
     }
 
     public void creditHomeFolderAccounts(Collection purchaseItems, String cvqReference,
-            String bankReference, Long homeFolderId, Date validationDate) throws CvqException {
+            String bankReference, Long homeFolderId, String externalHomeFolderId, String externalId, Date validationDate) throws CvqException {
         
         BankTransactionDocument bankTransactionDocument = 
             BankTransactionDocument.Factory.newInstance();
@@ -361,20 +361,9 @@ public class CapwebctPaymentModuleService implements IExternalService {
         return null;
     }
 
-    public Map<String, List<ExternalAccountItem>> getAccountsByRequest(Long requestId)
+    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, String externalHomeFolderId, String externalId)
             throws CvqException {
         return null;
-    }
-
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId)
-            throws CvqException {
-        return null;
-    }
-
-    public void creditRequestAccounts(Long requestId, String transaction, Collection purchaseItems,
-            Date date, String bankGrantId) throws CvqException {
-        logger.warn("creditRequestAccounts() not applicable for Capwect Payment Module Service");
-        throw new CvqException("credit request account is not applicable for Horanet service");
     }
 
     public void checkConfiguration(ExternalServiceBean externalServiceBean)

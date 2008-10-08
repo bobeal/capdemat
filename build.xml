@@ -123,6 +123,10 @@
     <ant dir="${model.dir}" target="compile" />
   </target>
 
+  <target name="compile-model-tests" depends="init">
+    <ant dir="${model.dir}" target="compile-tests" />
+  </target>
+	  
   <!-- ================================================================================= -->
   <!-- ========================== LIBS PREPARATION TARGETS ============================= -->
   <!-- ========= TODO : Remove these targets and use compile targets instead =========== -->

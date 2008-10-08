@@ -1,16 +1,23 @@
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IChildService
-import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.document.IDocumentService
+
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.MeansOfContactEnum
+import fr.cg95.cvq.business.users.Individual
+import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.Child
+
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.service.authority.IAgentService
-import fr.cg95.cvq.service.document.IDocumentService
+
 import fr.cg95.cvq.util.Critere
 import java.util.Date
 
@@ -21,7 +28,7 @@ class RequestInstructionController {
     IRequestService defaultRequestService
     IHomeFolderService homeFolderService
     IChildService childService
-    IAgentService agentService
+    IIndividualService individualService
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
    
@@ -88,6 +95,34 @@ class RequestInstructionController {
 		      "requestLabel": requestLabel,
 		      "documentList": documentList
 		    ]
+    }
+    
+    def widget = {
+      def propertyNameTokens = params.propertyName.tokenize(".")
+      def individualIdTokens = params.propertyName.tokenize("[]")
+      render( template: "/requestInstruction/widget/" + params.type,
+              model:
+                  [ "requestId": Long.valueOf(params.id), 
+                    "individualId": individualIdTokens[1],
+                    "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                    "propertyName": params.propertyName,
+                    "propertyValue": params.propertyValue
+                  ])
+    }
+    
+    def modify = {
+        if (params.requestId == null || params.individualId == null )
+             return
+        try {
+          def individual = individualService.getById(Long.valueOf(params.individualId))
+          bindData(individual, params)
+          individualService.modify(individual)
+          render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } catch (CvqException ce) {
+            ce.printStackTrace()
+            log.error "save() error while saving property of request"
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }
     }
     
     // called asynchronously
@@ -386,6 +421,5 @@ class RequestInstructionController {
     }
     
 }
-
 
 

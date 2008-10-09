@@ -124,6 +124,7 @@ public class LocalAuthorityRegistry
         StringBuffer filePath = new StringBuffer().append(assetsBase)
             .append(localAuthorityName.toLowerCase()).append("/");
         
+        // TODO Refactor this part, put it more flexible
         if (resourceType.equals(IMAGE_ASSETS_RESOURCE_TYPE)) {
             filePath.append(IMAGE_ASSETS_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(LOCAL_REFERENTIAL_RESOURCE_TYPE)) {
@@ -138,6 +139,8 @@ public class LocalAuthorityRegistry
             filePath.append(HTML_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(REQUEST_XML_RESOURCE_TYPE)) {
             filePath.append(REQUEST_XML_RESOURCE_TYPE).append("/");
+        } else if (resourceType.equals(MAIL_TEMPLATES_TYPE)) {
+            filePath.append(MAIL_TEMPLATES_TYPE).append("/");
         } else {
             logger.warn("getAssetsFile() unrecognized resource type : " + resourceType);
             return null;
@@ -159,12 +162,15 @@ public class LocalAuthorityRegistry
 
         StringBuffer filePath = new StringBuffer().append(referentialBase);
 
+        // TODO Refactor this part, put it more flexible
         if (resourceType.equals(XSL_RESOURCE_TYPE)) {
             filePath.append("xsl/");
         } else if (resourceType.equals(LOCAL_REFERENTIAL_RESOURCE_TYPE)) {
             filePath.append("local_referential/");
         } else if (resourceType.equals(HTML_RESOURCE_TYPE)) {
             filePath.append("html/");
+        } else if (resourceType.equals(MAIL_TEMPLATES_TYPE)) { 
+            filePath.append(MAIL_TEMPLATES_TYPE).append("/");
         } else if (resourceType.equals(EXTERNAL_REFERENTIAL_RESOURCE_TYPE)) {
             filePath.append("external_referential/");            
         } else {
@@ -342,10 +348,18 @@ public class LocalAuthorityRegistry
                 if (!file.exists())
                     file.mkdir();
                 
-                String htmlDirBase = assetsBase + lacb.getName() + "/" + HTML_RESOURCE_TYPE;
+                // TODO Refactor this part, put it more flexible
+                String htmlDirBase = assetsBase + lacb.getName() + "/" + 
+                    HTML_RESOURCE_TYPE;
                 file = new File(htmlDirBase);
                 if (!file.exists())
-                    file.mkdir(); 
+                    file.mkdir();
+                
+                String mailTemplates = assetsBase + lacb.getName() + "/" + 
+                    MAIL_TEMPLATES_TYPE;
+                file = new File(mailTemplates);
+                if (!file.exists())
+                    file.mkdirs();
                 
                 String requestXmlDirBase = assetsBase + lacb.getName() + "/"
                     + REQUEST_XML_RESOURCE_TYPE;

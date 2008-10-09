@@ -23,12 +23,12 @@
         <input type="hidden" id="requesterEmail" name="requesterEmail" value="${request.requesterEmail}" />
         <input type="hidden" id="requesterMobilePhone" name="requesterMobilePhone" value="${request.requesterMobilePhone}" />
         
-        <label for="contactReciepient" class="required">
-          <g:message code="request.contact.contactReciepient" />
+        <label for="contactRecipient" class="required">
+          <g:message code="request.contact.contactRecipient" />
         </label>
-        <input type="text" id="contactReciepient" name="contactReciepient" size="55" 
-            class="required" title="<g:message code="request.contact.error.contactReciepientRequired" />"
-            value="${defaultContactReciepient}" />
+        <input type="text" id="contactRecipient" name="contactRecipient" size="55" 
+            class="required" title="<g:message code="request.contact.error.contactRecipientRequired" />"
+            value="${defaultContactRecipient}" />
       </fieldset>
       
       <label for="contactMessage" class="required"><g:message code="request.contact.message" /></label>
@@ -53,9 +53,9 @@
       </fieldset>
       
       <input type="button" id="submitContactForm" name="submitContactForm" class="form-button" 
-          value="<g:message code="request.contact.send" />" />
+          value="<g:message code="action.send" />" />
       <input type="button" id="discardContactForm" name="discardContactForm" 
-          value="<g:message code="request.contact.discard" />" />
+          value="<g:message code="action.discard" />" />
       
     </form>
   </div>

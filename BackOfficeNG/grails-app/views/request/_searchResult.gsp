@@ -1,23 +1,22 @@
 <li>
-  <span class="first-line">
-    <a href="${createLink(controller:'requestInstruction', action:'edit',id:record.id)}"><strong>${record.label}</strong></a>
+  <p class="first-line">
+    <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
+    <a href="${createLink(controller:'requestInstruction', action:'edit',id:record.id)}">${record.label}
     - <g:message code="request.searchResult.requestId" /> <strong>${record.id}</strong>
-    - <g:message code="layout.from" /> <strong>${record.requesterLastName}</strong>
+    - <g:message code="layout.from" /> ${record.requesterLastName}
     <g:if test="${record.subjectLastName && record.subjectLastName != ''}">
-     <g:message code="layout.for" /> <strong>${record.subjectLastName}</strong> -
+     <g:message code="layout.for" /> ${record.subjectLastName}
     </g:if>
-    <g:else> - </g:else>
-    <g:message code="request.searchResult.creationDate" /> <strong>${record.creationDate}</strong>
-  </span>
-  <br/>
+    </a>
+  </p>
 
-  <span class="second-line">
+  <p class="second-line">
+    <g:message code="request.searchResult.creationDate" /> ${record.creationDate} - 
     <g:message code="request.property.lastModificationDate" /> ${record.lastModificationDate} 
     <g:message code="layout.by" /> ${record.lastInterveningAgentId}
-  </span>
-  <br/>
+  </p>
 
-  <span class="third-line">
+  <p class="third-line">
     CP : 
     <g:if test="${record.permanent}">
       <img src="${createLinkTo(dir:'images',file:'12-em-check.png')}"/>
@@ -35,7 +34,7 @@
     <g:else>
       <img src="${createLinkTo(dir:'images',file:'circle-green-10.png')}"/>
     </g:else>
-    - <span class="state">${record.state}</span>
-  </span>
+  </p>
+  
 </li>
 

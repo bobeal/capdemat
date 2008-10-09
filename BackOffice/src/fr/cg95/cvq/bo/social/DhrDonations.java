@@ -15,9 +15,7 @@ import fr.cg95.cvq.business.social.*;
 public class DhrDonations extends RequestRecord {
 
 	private String donationsDonationAssetPlace;
-	private String donationsDonationNotaryFirstName;
-	private java.math.BigInteger donationsDonationValue;
-	private String donationsDonationBeneficiaryFirstName;
+	private String donationsDonationBeneficiaryName;
 	private Calendar donationsDonationDate;
   	private String donationsDonationNotaryAddressAdditionalDeliveryInformation;
 	private String donationsDonationNotaryAddressAdditionalGeographicalInformation;
@@ -26,9 +24,11 @@ public class DhrDonations extends RequestRecord {
 	private String donationsDonationNotaryAddressPlaceNameOrService;
 	private String donationsDonationNotaryAddressPostalCode;
 	private String donationsDonationNotaryAddressCity;
-	private String donationsDonationBeneficiaryName;
-	private String donationsDonationNotaryName;
+	private String donationsDonationNotaryFirstName;
 	private String donationsDonationAsset;
+	private java.math.BigInteger donationsDonationValue;
+	private String donationsDonationBeneficiaryFirstName;
+	private String donationsDonationNotaryName;
 
 	public DhrDonations() {
 		super();
@@ -51,9 +51,7 @@ public class DhrDonations extends RequestRecord {
     	if (request != null) {
 
 			this.donationsDonationAssetPlace = request.getDonationAssetPlace();
-			this.donationsDonationNotaryFirstName = request.getDonationNotaryFirstName();
-			this.donationsDonationValue = request.getDonationValue();
-			this.donationsDonationBeneficiaryFirstName = request.getDonationBeneficiaryFirstName();
+			this.donationsDonationBeneficiaryName = request.getDonationBeneficiaryName();
 			if (request.getDonationDate() != null) {
 				this.donationsDonationDate = Calendar.getInstance(); 
 	            this.donationsDonationDate.setTime(request.getDonationDate());
@@ -67,12 +65,14 @@ public class DhrDonations extends RequestRecord {
 				this.donationsDonationNotaryAddressPostalCode = request.getDonationNotaryAddress().getPostalCode();
 				this.donationsDonationNotaryAddressCity = request.getDonationNotaryAddress().getCity();
 			}
-			this.donationsDonationBeneficiaryName = request.getDonationBeneficiaryName();
-			this.donationsDonationNotaryName = request.getDonationNotaryName();
+			this.donationsDonationNotaryFirstName = request.getDonationNotaryFirstName();
 			if (request.getDonationAsset() != null)
                 this.donationsDonationAsset = getEnumElementTranslation(
                         fr.cg95.cvq.xml.social.DhrDonationType.class.getName(), 
                         "DonationAsset", request.getDonationAsset().toString());
+			this.donationsDonationValue = request.getDonationValue();
+			this.donationsDonationBeneficiaryFirstName = request.getDonationBeneficiaryFirstName();
+			this.donationsDonationNotaryName = request.getDonationNotaryName();
         }
     }
     
@@ -97,28 +97,12 @@ public class DhrDonations extends RequestRecord {
 		return this.donationsDonationAssetPlace;
 	}
 
-	public void setDonationsDonationNotaryFirstName(String donationsDonationNotaryFirstName) {
-		this.donationsDonationNotaryFirstName = donationsDonationNotaryFirstName;
+	public void setDonationsDonationBeneficiaryName(String donationsDonationBeneficiaryName) {
+		this.donationsDonationBeneficiaryName = donationsDonationBeneficiaryName;
 	}
 	
-	public String getDonationsDonationNotaryFirstName() {
-		return this.donationsDonationNotaryFirstName;
-	}
-
-	public void setDonationsDonationValue(java.math.BigInteger donationsDonationValue) {
-		this.donationsDonationValue = donationsDonationValue;
-	}
-	
-	public java.math.BigInteger getDonationsDonationValue() {
-		return this.donationsDonationValue;
-	}
-
-	public void setDonationsDonationBeneficiaryFirstName(String donationsDonationBeneficiaryFirstName) {
-		this.donationsDonationBeneficiaryFirstName = donationsDonationBeneficiaryFirstName;
-	}
-	
-	public String getDonationsDonationBeneficiaryFirstName() {
-		return this.donationsDonationBeneficiaryFirstName;
+	public String getDonationsDonationBeneficiaryName() {
+		return this.donationsDonationBeneficiaryName;
 	}
 
 	public void setDonationsDonationDate(Calendar donationsDonationDate) {
@@ -185,20 +169,12 @@ public class DhrDonations extends RequestRecord {
 		return this.donationsDonationNotaryAddressCity;
 	}
 
-	public void setDonationsDonationBeneficiaryName(String donationsDonationBeneficiaryName) {
-		this.donationsDonationBeneficiaryName = donationsDonationBeneficiaryName;
+	public void setDonationsDonationNotaryFirstName(String donationsDonationNotaryFirstName) {
+		this.donationsDonationNotaryFirstName = donationsDonationNotaryFirstName;
 	}
 	
-	public String getDonationsDonationBeneficiaryName() {
-		return this.donationsDonationBeneficiaryName;
-	}
-
-	public void setDonationsDonationNotaryName(String donationsDonationNotaryName) {
-		this.donationsDonationNotaryName = donationsDonationNotaryName;
-	}
-	
-	public String getDonationsDonationNotaryName() {
-		return this.donationsDonationNotaryName;
+	public String getDonationsDonationNotaryFirstName() {
+		return this.donationsDonationNotaryFirstName;
 	}
 
 	public void setDonationsDonationAsset(String donationsDonationAsset) {
@@ -207,6 +183,30 @@ public class DhrDonations extends RequestRecord {
 	
 	public String getDonationsDonationAsset() {
 		return this.donationsDonationAsset;
+	}
+
+	public void setDonationsDonationValue(java.math.BigInteger donationsDonationValue) {
+		this.donationsDonationValue = donationsDonationValue;
+	}
+	
+	public java.math.BigInteger getDonationsDonationValue() {
+		return this.donationsDonationValue;
+	}
+
+	public void setDonationsDonationBeneficiaryFirstName(String donationsDonationBeneficiaryFirstName) {
+		this.donationsDonationBeneficiaryFirstName = donationsDonationBeneficiaryFirstName;
+	}
+	
+	public String getDonationsDonationBeneficiaryFirstName() {
+		return this.donationsDonationBeneficiaryFirstName;
+	}
+
+	public void setDonationsDonationNotaryName(String donationsDonationNotaryName) {
+		this.donationsDonationNotaryName = donationsDonationNotaryName;
+	}
+	
+	public String getDonationsDonationNotaryName() {
+		return this.donationsDonationNotaryName;
 	}
 
 }

@@ -50,19 +50,19 @@ public class AlignmentCertificateRequestServiceTest extends ServiceTestCase {
     protected AlignmentCertificateRequest fillMeARequest() throws CvqException {
 
         AlignmentCertificateRequest request = new AlignmentCertificateRequest();
-                          Address OwnerAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
-            request.setOwnerAddress(OwnerAddress);
-    	                    request.setSection("Section");
+            request.setRequesterQuality(AcrRequesterQualityType.OWNER);
+                    request.setSection("Section");
                     request.setTransportationRoute("TransportationRoute");
+                    request.setOwnerFirstNames("OwnerFirstNames");
                     request.setLocality("Locality");
-                  if ("OwnerLastName".length() > 38)
+                request.setNumber(BigInteger.valueOf(1));
+              if ("OwnerLastName".length() > 38)
         request.setOwnerLastName("OwnerLastName".substring(0, 38));
       else
         request.setOwnerLastName("OwnerLastName");
-                request.setNumber(BigInteger.valueOf(1));
-                request.setOwnerFirstNames("OwnerFirstNames");
-                  request.setRequesterQuality(AcrRequesterQualityType.OWNER);
-      
+                                Address OwnerAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setOwnerAddress(OwnerAddress);
+    	      
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

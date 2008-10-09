@@ -64,7 +64,7 @@
                   <key>
                     <value>paylineCallbackUrl</value>
                   </key>
-                  <value>https://cartevaloise.ville-franconville.fr/FrontOffice/paymentResult.do</value>
+                  <value>/FrontOffice/paymentResult.do</value>
                 </entry>
                 <entry>
                   <key>

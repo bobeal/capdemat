@@ -14,18 +14,19 @@ import fr.cg95.cvq.business.school.*;
 
 public class PerischoolActivityRegistrationRequestRecord extends RequestRecord {
 
-	private boolean classTripPermission;
-	private String section;
-	private boolean childPhotoExploitationPermission;
-	private boolean rulesAndRegulationsAcceptance;
-	private String urgencyPhone;
-	private String subjectChildFirstName;
-	private String schoolName;
-	private boolean hospitalizationPermission;
 	private String subjectChildLastName;
+	private String schoolName;
 	private Calendar subjectChildBirthDate;
+	private boolean rulesAndRegulationsAcceptance;
 	private boolean[] perischoolActivity;
    	private List perischoolActivityList;
+	private String section;
+	private boolean childPhotoExploitationPermission;
+	private boolean classTripPermission;
+	private String urgencyPhone;
+	private boolean hospitalizationPermission;
+	private List otherIndividual;
+	private String subjectChildFirstName;
 
 	public PerischoolActivityRegistrationRequestRecord() {
 		super();
@@ -49,28 +50,28 @@ public class PerischoolActivityRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof PerischoolActivityRegistrationRequest)) {
             PerischoolActivityRegistrationRequest request = (PerischoolActivityRegistrationRequest)xmlRequest; 
 
-            if ((request.getClassTripPermission() != null))
-			this.classTripPermission = request.getClassTripPermission();
+			this.subjectChildLastName = ((Child)request.getSubject()).getLastName();
+            if ((request.getSchool() != null))
+			this.schoolName = request.getSchool().getName();
+			if (((Child)request.getSubject()).getBirthDate() != null) {
+				this.subjectChildBirthDate = Calendar.getInstance(); 
+	            this.subjectChildBirthDate.setTime(((Child)request.getSubject()).getBirthDate());
+			}
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
+            this.setPerischoolActivity(this.getList("PerischoolActivity"), request.getPerischoolActivity());
 			if (request.getSection() != null)
                 this.section = getEnumElementTranslation(
                         fr.cg95.cvq.xml.school.PerischoolActivityRegistrationRequestDocument.PerischoolActivityRegistrationRequest.class.getName(), 
                         "Section", request.getSection().toString());
             if ((request.getChildPhotoExploitationPermission() != null))
 			this.childPhotoExploitationPermission = request.getChildPhotoExploitationPermission();
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
+            if ((request.getClassTripPermission() != null))
+			this.classTripPermission = request.getClassTripPermission();
 			this.urgencyPhone = request.getUrgencyPhone();
-			this.subjectChildFirstName = ((Child)request.getSubject()).getFirstName();
-            if ((request.getSchool() != null))
-			this.schoolName = request.getSchool().getName();
             if ((request.getHospitalizationPermission() != null))
 			this.hospitalizationPermission = request.getHospitalizationPermission();
-			this.subjectChildLastName = ((Child)request.getSubject()).getLastName();
-			if (((Child)request.getSubject()).getBirthDate() != null) {
-				this.subjectChildBirthDate = Calendar.getInstance(); 
-	            this.subjectChildBirthDate.setTime(((Child)request.getSubject()).getBirthDate());
-			}
-            this.setPerischoolActivity(this.getList("PerischoolActivity"), request.getPerischoolActivity());
+			this.subjectChildFirstName = ((Child)request.getSubject()).getFirstName();
         }
     }
     
@@ -84,8 +85,11 @@ public class PerischoolActivityRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof PerischoolActivityRegistrationRequest)) {
             PerischoolActivityRegistrationRequest request = (PerischoolActivityRegistrationRequest)xmlRequest; 
 
-            if ((request.getClassTripPermission() != null))
-			request.setClassTripPermission(this.classTripPermission);
+            if ((request.getSchool() != null))
+			request.getSchool().setName(this.schoolName);
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
+			request.setPerischoolActivity(this.getPerischoolActivityKeys());
 			if (this.section != null)
                 request.setSection(
                     SectionType.forString(
@@ -96,63 +100,20 @@ public class PerischoolActivityRegistrationRequestRecord extends RequestRecord {
                 );
             if ((request.getChildPhotoExploitationPermission() != null))
 			request.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission);
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
+            if ((request.getClassTripPermission() != null))
+			request.setClassTripPermission(this.classTripPermission);
 			request.setUrgencyPhone(this.urgencyPhone);
-            if ((request.getSchool() != null))
-			request.getSchool().setName(this.schoolName);
             if ((request.getHospitalizationPermission() != null))
 			request.setHospitalizationPermission(this.hospitalizationPermission);
-			request.setPerischoolActivity(this.getPerischoolActivityKeys());
         }
     }
     
-	public void setClassTripPermission(boolean classTripPermission) {
-		this.classTripPermission = classTripPermission;
+	public void setSubjectChildLastName(String subjectChildLastName) {
+		this.subjectChildLastName = subjectChildLastName;
 	}
 	
-	public boolean getClassTripPermission() {
-		return this.classTripPermission;
-	}
-
-	public void setSection(String section) {
-		this.section = section;
-	}
-	
-	public String getSection() {
-		return this.section;
-	}
-
-	public void setChildPhotoExploitationPermission(boolean childPhotoExploitationPermission) {
-		this.childPhotoExploitationPermission = childPhotoExploitationPermission;
-	}
-	
-	public boolean getChildPhotoExploitationPermission() {
-		return this.childPhotoExploitationPermission;
-	}
-
-	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
-		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
-	}
-	
-	public boolean getRulesAndRegulationsAcceptance() {
-		return this.rulesAndRegulationsAcceptance;
-	}
-
-	public void setUrgencyPhone(String urgencyPhone) {
-		this.urgencyPhone = urgencyPhone;
-	}
-	
-	public String getUrgencyPhone() {
-		return this.urgencyPhone;
-	}
-
-	public void setSubjectChildFirstName(String subjectChildFirstName) {
-		this.subjectChildFirstName = subjectChildFirstName;
-	}
-	
-	public String getSubjectChildFirstName() {
-		return this.subjectChildFirstName;
+	public String getSubjectChildLastName() {
+		return this.subjectChildLastName;
 	}
 
 	public void setSchoolName(String schoolName) {
@@ -163,28 +124,20 @@ public class PerischoolActivityRegistrationRequestRecord extends RequestRecord {
 		return this.schoolName;
 	}
 
-	public void setHospitalizationPermission(boolean hospitalizationPermission) {
-		this.hospitalizationPermission = hospitalizationPermission;
-	}
-	
-	public boolean getHospitalizationPermission() {
-		return this.hospitalizationPermission;
-	}
-
-	public void setSubjectChildLastName(String subjectChildLastName) {
-		this.subjectChildLastName = subjectChildLastName;
-	}
-	
-	public String getSubjectChildLastName() {
-		return this.subjectChildLastName;
-	}
-
 	public void setSubjectChildBirthDate(Calendar subjectChildBirthDate) {
 		this.subjectChildBirthDate = subjectChildBirthDate;
 	}
 	
 	public Calendar getSubjectChildBirthDate() {
 		return this.subjectChildBirthDate;
+	}
+
+	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
+		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+	}
+	
+	public boolean getRulesAndRegulationsAcceptance() {
+		return this.rulesAndRegulationsAcceptance;
 	}
 
 	public void setPerischoolActivity(List referential, Set values) {
@@ -234,5 +187,61 @@ public class PerischoolActivityRegistrationRequestRecord extends RequestRecord {
 			perischoolActivity[i] = values.indexOf("<" + ((ReferentialData)perischoolActivityList.get(i)).getValue() + ">") != -1;
 		}
 	}
+	public void setSection(String section) {
+		this.section = section;
+	}
+	
+	public String getSection() {
+		return this.section;
+	}
+
+	public void setChildPhotoExploitationPermission(boolean childPhotoExploitationPermission) {
+		this.childPhotoExploitationPermission = childPhotoExploitationPermission;
+	}
+	
+	public boolean getChildPhotoExploitationPermission() {
+		return this.childPhotoExploitationPermission;
+	}
+
+	public void setClassTripPermission(boolean classTripPermission) {
+		this.classTripPermission = classTripPermission;
+	}
+	
+	public boolean getClassTripPermission() {
+		return this.classTripPermission;
+	}
+
+	public void setUrgencyPhone(String urgencyPhone) {
+		this.urgencyPhone = urgencyPhone;
+	}
+	
+	public String getUrgencyPhone() {
+		return this.urgencyPhone;
+	}
+
+	public void setHospitalizationPermission(boolean hospitalizationPermission) {
+		this.hospitalizationPermission = hospitalizationPermission;
+	}
+	
+	public boolean getHospitalizationPermission() {
+		return this.hospitalizationPermission;
+	}
+
+	public void setOtherIndividual(List otherIndividual) {
+		this.otherIndividual = otherIndividual;
+	}
+	
+	public List getOtherIndividual() {
+		return this.otherIndividual;
+	}
+
+	public void setSubjectChildFirstName(String subjectChildFirstName) {
+		this.subjectChildFirstName = subjectChildFirstName;
+	}
+	
+	public String getSubjectChildFirstName() {
+		return this.subjectChildFirstName;
+	}
+
 }
 

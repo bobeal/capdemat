@@ -14,6 +14,15 @@ import fr.cg95.cvq.business.urbanism.*;
 
 public class AlignmentCertificateRequestRecord extends RequestRecord {
 
+	private String requesterFirstName;
+	private String requesterQuality;
+	private String requesterLastName;
+	private String section;
+	private String transportationRoute;
+	private String ownerFirstNames;
+	private String locality;
+	private java.math.BigInteger number;
+	private String ownerLastName;
   	private String ownerAddressAdditionalDeliveryInformation;
 	private String ownerAddressAdditionalGeographicalInformation;
 	private String ownerAddressStreetNumber;
@@ -21,15 +30,6 @@ public class AlignmentCertificateRequestRecord extends RequestRecord {
 	private String ownerAddressPlaceNameOrService;
 	private String ownerAddressPostalCode;
 	private String ownerAddressCity;
-	private String section;
-	private String requesterFirstName;
-	private String transportationRoute;
-	private String requesterLastName;
-	private String locality;
-	private String ownerLastName;
-	private java.math.BigInteger number;
-	private String ownerFirstNames;
-	private String requesterQuality;
 
 	public AlignmentCertificateRequestRecord() {
 		super();
@@ -52,6 +52,20 @@ public class AlignmentCertificateRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof AlignmentCertificateRequest)) {
             AlignmentCertificateRequest request = (AlignmentCertificateRequest)xmlRequest; 
 
+            if ((request.getRequester() != null))
+			this.requesterFirstName = request.getRequester().getFirstName();
+			if (request.getRequesterQuality() != null)
+                this.requesterQuality = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.urbanism.AlignmentCertificateRequestDocument.AlignmentCertificateRequest.class.getName(), 
+                        "RequesterQuality", request.getRequesterQuality().toString());
+            if ((request.getRequester() != null))
+			this.requesterLastName = request.getRequester().getLastName();
+			this.section = request.getSection();
+			this.transportationRoute = request.getTransportationRoute();
+			this.ownerFirstNames = request.getOwnerFirstNames();
+			this.locality = request.getLocality();
+			this.number = request.getNumber();
+			this.ownerLastName = request.getOwnerLastName();
 			if (request.getOwnerAddress() != null) {
 				this.ownerAddressAdditionalDeliveryInformation = request.getOwnerAddress().getAdditionalDeliveryInformation();
 				this.ownerAddressAdditionalGeographicalInformation = request.getOwnerAddress().getAdditionalGeographicalInformation();
@@ -61,20 +75,6 @@ public class AlignmentCertificateRequestRecord extends RequestRecord {
 				this.ownerAddressPostalCode = request.getOwnerAddress().getPostalCode();
 				this.ownerAddressCity = request.getOwnerAddress().getCity();
 			}
-			this.section = request.getSection();
-            if ((request.getRequester() != null))
-			this.requesterFirstName = request.getRequester().getFirstName();
-			this.transportationRoute = request.getTransportationRoute();
-            if ((request.getRequester() != null))
-			this.requesterLastName = request.getRequester().getLastName();
-			this.locality = request.getLocality();
-			this.ownerLastName = request.getOwnerLastName();
-			this.number = request.getNumber();
-			this.ownerFirstNames = request.getOwnerFirstNames();
-			if (request.getRequesterQuality() != null)
-                this.requesterQuality = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.urbanism.AlignmentCertificateRequestDocument.AlignmentCertificateRequest.class.getName(), 
-                        "RequesterQuality", request.getRequesterQuality().toString());
         }
     }
     
@@ -88,6 +88,20 @@ public class AlignmentCertificateRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof AlignmentCertificateRequest)) {
             AlignmentCertificateRequest request = (AlignmentCertificateRequest)xmlRequest; 
 
+			if (this.requesterQuality != null)
+                request.setRequesterQuality(
+                    AcrRequesterQualityType.forString(
+                        getEnumKeyTranslation(
+                            fr.cg95.cvq.xml.urbanism.AlignmentCertificateRequestDocument.AlignmentCertificateRequest.class.getName(), 
+                            "RequesterQuality", this.requesterQuality)
+                    )
+                );
+			request.setSection(this.section);
+			request.setTransportationRoute(this.transportationRoute);
+			request.setOwnerFirstNames(this.ownerFirstNames);
+			request.setLocality(this.locality);
+			request.setNumber(this.number);
+			request.setOwnerLastName(this.ownerLastName);
   			if (request.getOwnerAddress() != null) {
 				request.getOwnerAddress().setAdditionalDeliveryInformation(this.ownerAddressAdditionalDeliveryInformation);
 				request.getOwnerAddress().setAdditionalGeographicalInformation(this.ownerAddressAdditionalGeographicalInformation);
@@ -97,23 +111,81 @@ public class AlignmentCertificateRequestRecord extends RequestRecord {
 				request.getOwnerAddress().setPostalCode(this.ownerAddressPostalCode);
 				request.getOwnerAddress().setCity(this.ownerAddressCity);
 			}
-			request.setSection(this.section);
-			request.setTransportationRoute(this.transportationRoute);
-			request.setLocality(this.locality);
-			request.setOwnerLastName(this.ownerLastName);
-			request.setNumber(this.number);
-			request.setOwnerFirstNames(this.ownerFirstNames);
-			if (this.requesterQuality != null)
-                request.setRequesterQuality(
-                    AcrRequesterQualityType.forString(
-                        getEnumKeyTranslation(
-                            fr.cg95.cvq.xml.urbanism.AlignmentCertificateRequestDocument.AlignmentCertificateRequest.class.getName(), 
-                            "RequesterQuality", this.requesterQuality)
-                    )
-                );
         }
     }
     
+	public void setRequesterFirstName(String requesterFirstName) {
+		this.requesterFirstName = requesterFirstName;
+	}
+	
+	public String getRequesterFirstName() {
+		return this.requesterFirstName;
+	}
+
+	public void setRequesterQuality(String requesterQuality) {
+		this.requesterQuality = requesterQuality;
+	}
+	
+	public String getRequesterQuality() {
+		return this.requesterQuality;
+	}
+
+	public void setRequesterLastName(String requesterLastName) {
+		this.requesterLastName = requesterLastName;
+	}
+	
+	public String getRequesterLastName() {
+		return this.requesterLastName;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+	
+	public String getSection() {
+		return this.section;
+	}
+
+	public void setTransportationRoute(String transportationRoute) {
+		this.transportationRoute = transportationRoute;
+	}
+	
+	public String getTransportationRoute() {
+		return this.transportationRoute;
+	}
+
+	public void setOwnerFirstNames(String ownerFirstNames) {
+		this.ownerFirstNames = ownerFirstNames;
+	}
+	
+	public String getOwnerFirstNames() {
+		return this.ownerFirstNames;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
+	
+	public String getLocality() {
+		return this.locality;
+	}
+
+	public void setNumber(java.math.BigInteger number) {
+		this.number = number;
+	}
+	
+	public java.math.BigInteger getNumber() {
+		return this.number;
+	}
+
+	public void setOwnerLastName(String ownerLastName) {
+		this.ownerLastName = ownerLastName;
+	}
+	
+	public String getOwnerLastName() {
+		return this.ownerLastName;
+	}
+
 	public void setOwnerAddressAdditionalDeliveryInformation(String ownerAddressAdditionalDeliveryInformation) {
 		this.ownerAddressAdditionalDeliveryInformation = ownerAddressAdditionalDeliveryInformation;
 	}
@@ -168,78 +240,6 @@ public class AlignmentCertificateRequestRecord extends RequestRecord {
 	
 	public String getOwnerAddressCity() {
 		return this.ownerAddressCity;
-	}
-
-	public void setSection(String section) {
-		this.section = section;
-	}
-	
-	public String getSection() {
-		return this.section;
-	}
-
-	public void setRequesterFirstName(String requesterFirstName) {
-		this.requesterFirstName = requesterFirstName;
-	}
-	
-	public String getRequesterFirstName() {
-		return this.requesterFirstName;
-	}
-
-	public void setTransportationRoute(String transportationRoute) {
-		this.transportationRoute = transportationRoute;
-	}
-	
-	public String getTransportationRoute() {
-		return this.transportationRoute;
-	}
-
-	public void setRequesterLastName(String requesterLastName) {
-		this.requesterLastName = requesterLastName;
-	}
-	
-	public String getRequesterLastName() {
-		return this.requesterLastName;
-	}
-
-	public void setLocality(String locality) {
-		this.locality = locality;
-	}
-	
-	public String getLocality() {
-		return this.locality;
-	}
-
-	public void setOwnerLastName(String ownerLastName) {
-		this.ownerLastName = ownerLastName;
-	}
-	
-	public String getOwnerLastName() {
-		return this.ownerLastName;
-	}
-
-	public void setNumber(java.math.BigInteger number) {
-		this.number = number;
-	}
-	
-	public java.math.BigInteger getNumber() {
-		return this.number;
-	}
-
-	public void setOwnerFirstNames(String ownerFirstNames) {
-		this.ownerFirstNames = ownerFirstNames;
-	}
-	
-	public String getOwnerFirstNames() {
-		return this.ownerFirstNames;
-	}
-
-	public void setRequesterQuality(String requesterQuality) {
-		this.requesterQuality = requesterQuality;
-	}
-	
-	public String getRequesterQuality() {
-		return this.requesterQuality;
 	}
 
 }

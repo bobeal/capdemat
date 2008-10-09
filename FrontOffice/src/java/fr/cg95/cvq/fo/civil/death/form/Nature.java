@@ -11,13 +11,11 @@ import fr.cg95.cvq.xml.civil.DeathDetailsRequestDocument.DeathDetailsRequest;
 
 public class Nature extends IStageForm {
 
-	private Calendar deathDate;
-	private String deathCity;
-	private String deathPostalCode;
-	private String deathLastName;
 	private String deathFirstNames;
-	private String requesterQualityPrecision;
-	private String requesterQuality;
+	private String deathCity;
+	private String deathLastName;
+	private Calendar deathDate;
+	private String deathPostalCode;
 
 	public Nature() {
 		super();
@@ -33,55 +31,50 @@ public class Nature extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DeathDetailsRequest)) {
 			DeathDetailsRequest request = (DeathDetailsRequest)xmlbRequest;
-			this.deathDate = request.getDeathDate();
-			this.deathCity = request.getDeathCity();
-			this.deathPostalCode = request.getDeathPostalCode();
-			this.deathLastName = request.getDeathLastName();
 			this.deathFirstNames = request.getDeathFirstNames();
-			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
-			if (request.getRequesterQuality() != null)
-			this.requesterQuality = request.getRequesterQuality().toString();
+			this.deathCity = request.getDeathCity();
+			this.deathLastName = request.getDeathLastName();
+			this.deathDate = request.getDeathDate();
+			this.deathPostalCode = request.getDeathPostalCode();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DeathDetailsRequest)) {
 			DeathDetailsRequest request = (DeathDetailsRequest)xmlbRequest;
-			request.setDeathDate(this.deathDate);
-			request.setDeathCity(this.deathCity);
-			request.setDeathPostalCode(this.deathPostalCode);
-			request.setDeathLastName(this.deathLastName);
 			request.setDeathFirstNames(this.deathFirstNames);
-			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
-			request.setRequesterQuality(DeathRequesterQualityType.Enum.forString(this.requesterQuality));
+			request.setDeathCity(this.deathCity);
+			request.setDeathLastName(this.deathLastName);
+			request.setDeathDate(this.deathDate);
+			request.setDeathPostalCode(this.deathPostalCode);
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkDeathFirstNames() &&
+			((this.deathFirstNames == null) || (this.deathFirstNames.length() == 0)))
+			return false;
 		if (this.checkDeathCity() &&
 			((this.deathCity == null) || (this.deathCity.length() == 0)))
-			return false;
-		if (this.checkDeathPostalCode() &&
-			((this.deathPostalCode == null) || (this.deathPostalCode.length() == 0)))
 			return false;
 		if (this.checkDeathLastName() &&
 			((this.deathLastName == null) || (this.deathLastName.length() == 0)))
 			return false;
-		if (this.checkDeathFirstNames() &&
-			((this.deathFirstNames == null) || (this.deathFirstNames.length() == 0)))
+		if (this.checkDeathPostalCode() &&
+			((this.deathPostalCode == null) || (this.deathPostalCode.length() == 0)))
 			return false;
 		return true;
 	}
 	
-	public void setDeathDate(Calendar deathDate) {
-		this.deathDate = deathDate;
+	public void setDeathFirstNames(String deathFirstNames) {
+		this.deathFirstNames = deathFirstNames;
 	}
 	
-	public Calendar getDeathDate() {
-		return this.deathDate;
+	public String getDeathFirstNames() {
+		return this.deathFirstNames;
 	}
 	
-	public boolean checkDeathDate() {
+	public boolean checkDeathFirstNames() {
 		return true;
 	}
 
@@ -97,18 +90,6 @@ public class Nature extends IStageForm {
 		return true;
 	}
 
-	public void setDeathPostalCode(String deathPostalCode) {
-		this.deathPostalCode = deathPostalCode;
-	}
-	
-	public String getDeathPostalCode() {
-		return this.deathPostalCode;
-	}
-	
-	public boolean checkDeathPostalCode() {
-		return true;
-	}
-
 	public void setDeathLastName(String deathLastName) {
 		this.deathLastName = deathLastName;
 	}
@@ -121,39 +102,27 @@ public class Nature extends IStageForm {
 		return true;
 	}
 
-	public void setDeathFirstNames(String deathFirstNames) {
-		this.deathFirstNames = deathFirstNames;
+	public void setDeathDate(Calendar deathDate) {
+		this.deathDate = deathDate;
 	}
 	
-	public String getDeathFirstNames() {
-		return this.deathFirstNames;
+	public Calendar getDeathDate() {
+		return this.deathDate;
 	}
 	
-	public boolean checkDeathFirstNames() {
+	public boolean checkDeathDate() {
 		return true;
 	}
 
-	public void setRequesterQualityPrecision(String requesterQualityPrecision) {
-		this.requesterQualityPrecision = requesterQualityPrecision;
+	public void setDeathPostalCode(String deathPostalCode) {
+		this.deathPostalCode = deathPostalCode;
 	}
 	
-	public String getRequesterQualityPrecision() {
-		return this.requesterQualityPrecision;
+	public String getDeathPostalCode() {
+		return this.deathPostalCode;
 	}
 	
-	public boolean checkRequesterQualityPrecision() {
-		return true;
-	}
-
-	public void setRequesterQuality(String requesterQuality) {
-		this.requesterQuality = requesterQuality;
-	}
-	
-	public String getRequesterQuality() {
-		return this.requesterQuality;
-	}
-	
-	public boolean checkRequesterQuality() {
+	public boolean checkDeathPostalCode() {
 		return true;
 	}
 

@@ -528,7 +528,7 @@
 	  this.subjectChildAddressPostalCode = new Function("key","this.label='Code postal'; this.msg=null; this.required=true; this.mask=/[0-9]{5}/; this.minlength=0; this.maxlength=5; this.type=null; return this[key];");
 	  this.subjectChildAddressCity = new Function("key","this.label='Localité'; this.msg=null; this.transform='uppercase'; this.required=true; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
      		  this.childResidenceCountry = new Function("key","this.label='Pays de résidence'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.childPhone = new Function("key","this.label='Téléphone'; this.msg=null; this.required=true; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.childPhone = new Function("key","this.label='Téléphone'; this.msg=null; this.required=true; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
      		  this.childMail = new Function("key","this.label='Courriel'; this.msg=null; this.required=false; this.mask=/[a-zA-Z0-9._%\-]+@[a-zA-Z0-9._%\-]+\.[a-zA-Z0-9._%\-]{2,4}/; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
   		}
         updateDisplay("childTitle");

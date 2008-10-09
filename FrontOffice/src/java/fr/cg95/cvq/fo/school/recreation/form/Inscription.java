@@ -11,10 +11,10 @@ import fr.cg95.cvq.xml.school.RecreationActivityRegistrationRequestDocument.Recr
 
 public class Inscription extends IStageForm {
 
-	private String urgencyPhone;
-	private String subjectChildFirstName;
 	private String subjectChildLastName;
 	private Calendar subjectChildBirthDate;
+	private String urgencyPhone;
+	private String subjectChildFirstName;
 	private boolean[] recreationActivity;
 
 	public Inscription() {
@@ -22,25 +22,25 @@ public class Inscription extends IStageForm {
 	}
 	
 	public void reset(String state) {
+		if (state.equals("school")) {
+		}
+		if (state.equals("*")) {
+		}
 		if (state.equals("display")) {
 		}
 		if (state.equals("recreation")) {
 			for (int i = 0; i < this.recreationActivity.length; i++)
 				this.recreationActivity[i] = false;
 		}
-		if (state.equals("*")) {
-		}
-		if (state.equals("school")) {
-		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof RecreationActivityRegistrationRequest)) {
 			RecreationActivityRegistrationRequest request = (RecreationActivityRegistrationRequest)xmlbRequest;
-			this.urgencyPhone = request.getUrgencyPhone();
-			this.subjectChildFirstName = request.getSubject().getChild().getFirstName();
 			this.subjectChildLastName = request.getSubject().getChild().getLastName();
 			this.subjectChildBirthDate = request.getSubject().getChild().getBirthDate();
+			this.urgencyPhone = request.getUrgencyPhone();
+			this.subjectChildFirstName = request.getSubject().getChild().getFirstName();
 			this.recreationActivity = loadForm(this.recreationActivity,(Collection)session.getAttribute("activityList"),request.getRecreationActivityArray());
 		}
 	}
@@ -48,51 +48,27 @@ public class Inscription extends IStageForm {
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof RecreationActivityRegistrationRequest)) {
 			RecreationActivityRegistrationRequest request = (RecreationActivityRegistrationRequest)xmlbRequest;
-			request.setUrgencyPhone(this.urgencyPhone);
-			request.getSubject().getChild().setFirstName(this.subjectChildFirstName);
 			request.getSubject().getChild().setLastName(this.subjectChildLastName);
 			request.getSubject().getChild().setBirthDate(this.subjectChildBirthDate);
+			request.setUrgencyPhone(this.urgencyPhone);
+			request.getSubject().getChild().setFirstName(this.subjectChildFirstName);
 			request.setRecreationActivityArray(saveForm(this.recreationActivity,(Collection)session.getAttribute("activityList")));
 		}
 	}
 	
 	public boolean isComplete() {
+		if (this.checkSubjectChildLastName() &&
+			((this.subjectChildLastName == null) || (this.subjectChildLastName.length() == 0)))
+			return false;
 		if (this.checkUrgencyPhone() &&
 			((this.urgencyPhone == null) || (this.urgencyPhone.length() == 0)))
 			return false;
 		if (this.checkSubjectChildFirstName() &&
 			((this.subjectChildFirstName == null) || (this.subjectChildFirstName.length() == 0)))
 			return false;
-		if (this.checkSubjectChildLastName() &&
-			((this.subjectChildLastName == null) || (this.subjectChildLastName.length() == 0)))
-			return false;
 		return true;
 	}
 	
-	public void setUrgencyPhone(String urgencyPhone) {
-		this.urgencyPhone = urgencyPhone;
-	}
-	
-	public String getUrgencyPhone() {
-		return this.urgencyPhone;
-	}
-	
-	public boolean checkUrgencyPhone() {
-		return true;
-	}
-
-	public void setSubjectChildFirstName(String subjectChildFirstName) {
-		this.subjectChildFirstName = subjectChildFirstName;
-	}
-	
-	public String getSubjectChildFirstName() {
-		return this.subjectChildFirstName;
-	}
-	
-	public boolean checkSubjectChildFirstName() {
-		return true;
-	}
-
 	public void setSubjectChildLastName(String subjectChildLastName) {
 		this.subjectChildLastName = subjectChildLastName;
 	}
@@ -114,6 +90,30 @@ public class Inscription extends IStageForm {
 	}
 	
 	public boolean checkSubjectChildBirthDate() {
+		return true;
+	}
+
+	public void setUrgencyPhone(String urgencyPhone) {
+		this.urgencyPhone = urgencyPhone;
+	}
+	
+	public String getUrgencyPhone() {
+		return this.urgencyPhone;
+	}
+	
+	public boolean checkUrgencyPhone() {
+		return true;
+	}
+
+	public void setSubjectChildFirstName(String subjectChildFirstName) {
+		this.subjectChildFirstName = subjectChildFirstName;
+	}
+	
+	public String getSubjectChildFirstName() {
+		return this.subjectChildFirstName;
+	}
+	
+	public boolean checkSubjectChildFirstName() {
 		return true;
 	}
 

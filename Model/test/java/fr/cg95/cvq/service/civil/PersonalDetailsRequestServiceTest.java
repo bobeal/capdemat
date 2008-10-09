@@ -50,70 +50,70 @@ public class PersonalDetailsRequestServiceTest extends ServiceTestCase {
     protected PersonalDetailsRequest fillMeARequest() throws CvqException {
 
         PersonalDetailsRequest request = new PersonalDetailsRequest();
-            if ("BirthLastName".length() > 38)
-        request.setBirthLastName("BirthLastName".substring(0, 38));
-      else
-        request.setBirthLastName("BirthLastName");
-                    request.setDeathFirstNames("DeathFirstNames");
-                    request.setRequesterQualityPrecision("RequesterQualityPrecision");
-                  request.setRelationship(RelationshipType.HUSBAND);
-                  if ("MarriagePostalCode".length() > 2)
-        request.setMarriagePostalCode("MarriagePostalCode".substring(0, 2));
-      else
-        request.setMarriagePostalCode("MarriagePostalCode");
-                request.setBirthDate(new Date());
-                request.setMarriageWifeFirstNames("MarriageWifeFirstNames");
-                  if ("MarriageHusbandLastName".length() > 38)
-        request.setMarriageHusbandLastName("MarriageHusbandLastName".substring(0, 38));
-      else
-        request.setMarriageHusbandLastName("MarriageHusbandLastName");
-                    request.setFatherFirstNames("FatherFirstNames");
+              request.setDeathFirstNames("DeathFirstNames");
                   request.setFormat(CertificateFormatType.FULL_COPY);
                 request.setCopies(BigInteger.valueOf(1));
-              request.setCertificate(CertificateType.BIRTH);
-                  if ("MarriageCity".length() > 32)
-        request.setMarriageCity("MarriageCity".substring(0, 32));
-      else
-        request.setMarriageCity("MarriageCity");
-                request.setUsage("Usage");
-              request.setRequesterQuality(RequesterQualityType.REQUESTER);
-                  if ("FatherLastName".length() > 38)
-        request.setFatherLastName("FatherLastName".substring(0, 38));
-      else
-        request.setFatherLastName("FatherLastName");
-                  if ("BirthCity".length() > 32)
-        request.setBirthCity("BirthCity".substring(0, 32));
-      else
-        request.setBirthCity("BirthCity");
-                  if ("MotherMaidenName".length() > 38)
-        request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
-      else
-        request.setMotherMaidenName("MotherMaidenName");
-                    request.setBirthFirstNames("BirthFirstNames");
-                request.setDeathDate(new Date());
               if ("BirthPostalCode".length() > 2)
         request.setBirthPostalCode("BirthPostalCode".substring(0, 2));
       else
         request.setBirthPostalCode("BirthPostalCode");
+                  if ("BirthCity".length() > 32)
+        request.setBirthCity("BirthCity".substring(0, 32));
+      else
+        request.setBirthCity("BirthCity");
+                request.setMarriageDate(new Date());
+              if ("MarriageHusbandLastName".length() > 38)
+        request.setMarriageHusbandLastName("MarriageHusbandLastName".substring(0, 38));
+      else
+        request.setMarriageHusbandLastName("MarriageHusbandLastName");
+                    request.setMarriageWifeFirstNames("MarriageWifeFirstNames");
+                request.setDeathDate(new Date());
+            request.setBirthDate(new Date());
+                request.setRequesterQualityPrecision("RequesterQualityPrecision");
                   if ("DeathPostalCode".length() > 2)
         request.setDeathPostalCode("DeathPostalCode".substring(0, 2));
       else
         request.setDeathPostalCode("DeathPostalCode");
-                  if ("MarriageWifeLastName".length() > 38)
-        request.setMarriageWifeLastName("MarriageWifeLastName".substring(0, 38));
+                  if ("FatherLastName".length() > 38)
+        request.setFatherLastName("FatherLastName".substring(0, 38));
       else
-        request.setMarriageWifeLastName("MarriageWifeLastName");
+        request.setFatherLastName("FatherLastName");
+                  request.setRelationship(RelationshipType.HUSBAND);
                     request.setMotherFirstNames("MotherFirstNames");
+                    request.setFatherFirstNames("FatherFirstNames");
+                  if ("MarriagePostalCode".length() > 2)
+        request.setMarriagePostalCode("MarriagePostalCode".substring(0, 2));
+      else
+        request.setMarriagePostalCode("MarriagePostalCode");
+                  request.setCertificate(CertificateType.BIRTH);
+                  if ("MotherMaidenName".length() > 38)
+        request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
+      else
+        request.setMotherMaidenName("MotherMaidenName");
                   if ("DeathCity".length() > 32)
         request.setDeathCity("DeathCity".substring(0, 32));
       else
         request.setDeathCity("DeathCity");
+                    request.setMarriageHusbandFirstNames("MarriageHusbandFirstNames");
+                request.setUsage("Usage");
+              request.setRequesterQuality(RequesterQualityType.REQUESTER);
+                  if ("MarriageCity".length() > 32)
+        request.setMarriageCity("MarriageCity".substring(0, 32));
+      else
+        request.setMarriageCity("MarriageCity");
+                  if ("MarriageWifeLastName".length() > 38)
+        request.setMarriageWifeLastName("MarriageWifeLastName".substring(0, 38));
+      else
+        request.setMarriageWifeLastName("MarriageWifeLastName");
+                    request.setBirthFirstNames("BirthFirstNames");
                   if ("DeathLastName".length() > 38)
         request.setDeathLastName("DeathLastName".substring(0, 38));
       else
         request.setDeathLastName("DeathLastName");
-                request.setMarriageDate(new Date());
-                request.setMarriageHusbandFirstNames("MarriageHusbandFirstNames");
+                  if ("BirthLastName".length() > 38)
+        request.setBirthLastName("BirthLastName".substring(0, 38));
+      else
+        request.setBirthLastName("BirthLastName");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

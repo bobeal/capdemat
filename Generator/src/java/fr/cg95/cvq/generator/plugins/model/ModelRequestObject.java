@@ -18,6 +18,8 @@ import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.plugins.tool.VelocityManager;
+import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.ecitizen.VoCardRequestDocument;
 
 /**
  * An in-memory representation of the to-be-generated request.
@@ -340,6 +342,7 @@ public class ModelRequestObject {
         currentSb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + "." + requestNamespaceLastParticle + ".*;\n\n");
         currentSb.append("import org.apache.xmlbeans.XmlOptions;\n");
         currentSb.append("import org.apache.xmlbeans.XmlObject;\n\n");
+        currentSb.append("import fr.cg95.cvq.xml.common.RequestType;\n\n");
         currentSb.append("import java.io.Serializable;\n");
         currentSb.append("import java.math.BigInteger;\n");
         currentSb.append("import java.util.*;\n\n");
@@ -584,6 +587,15 @@ public class ModelRequestObject {
 
         currentSb.append("    }\n\n");
 
+        if (isDocument) {
+            currentSb.append("    @Override\n");
+            currentSb.append("    public RequestType modelToXmlRequest() {\n");
+            currentSb.append("        " + xmlBeansReturnType + " " + xmlBeansDocInstance + " =\n"); 
+            currentSb.append("            (" + xmlBeansReturnType + ") modelToXml();\n");
+            currentSb.append("        return " + xmlBeansDocInstance + ".get" + typeName + "();\n");
+            currentSb.append("    }\n\n");
+        }
+        
         //////////////////////////////////////////////////////////
         // finish with XMLBeans -> Model conversion             //
         //////////////////////////////////////////////////////////

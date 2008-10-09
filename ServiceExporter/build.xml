@@ -18,6 +18,7 @@
 
   	<path id="classpath.compile">
       <fileset dir="${libraries.dir}">
+      	<exclude name="**/CVQ-ServiceExporter*.jar" />
         <include name="**/*.jar" />
       </fileset>
 	  <fileset dir="${web.dir}/WEB-INF/ext">
@@ -28,12 +29,23 @@
     <path id="classpath.compile.test">
       <path refid="classpath.compile" />
       <path location="${web.dir}/WEB-INF/classes" />
+
+      <fileset dir="${model.dir}/${lib.dir}">
+        <include name="**/spring-mock.jar" />
+        <include name="**/junit.jar" />
+      </fileset>
+
+      <pathelement path="${model.dir}/${build.test.dir}"/>
+      <pathelement path="${basedir}/${build.classes.dir}"/>
+
     </path>
   </target>
 
   <target name="clean" depends="init">
     <delete dir="${web.dir}/WEB-INF/classes" />
     <delete dir="${web.dir}/WEB-INF/lib" />
+    <delete dir="${web.dir}/WEB-INF/xsd" />
+  	<delete dir="${build.dir}" />
     <delete file="${jar.name}.jar" />
     <delete>
       <fileset dir="${basedir}">
@@ -87,6 +99,7 @@
           todir="${web.dir}/WEB-INF"
           overwrite="true" />
     <copy file="${libraries.dir}/org.hibernate/c3p0.properties" todir="${web.dir}/WEB-INF/classes" />
+  	<copy file="${basedir}/securityPolicy.xml" todir="${web.dir}/WEB-INF/classes" />
   </target>
 
   <target name="compile" depends="init">
@@ -111,13 +124,14 @@
     </jar>
   </target>
 
-  <target name="deploy" depends="dist">
+  <target name="deploy" depends="dist,compile-tests">
     <move file="${jar.name}.jar" todir="${deploy.model.dir}" />
   </target>
   
   <target name="prepare-webapp" description="Build the webapp" 
     depends="prepare-configfiles, compile">
     <mkdir dir="${web.dir}/WEB-INF/lib" />
+    <mkdir dir="${web.dir}/WEB-INF/xsd" />
     <!-- copy common libraries -->
     <ant dir="${libraries.dir}" target="runtime-libs">
       <property name="project.lib.dir" value="${web.dir}/WEB-INF/lib" />
@@ -129,6 +143,12 @@
     <copy todir="${web.dir}/WEB-INF/lib" flatten="true">
       <fileset dir="${web.dir}/WEB-INF/ext" />
     </copy>
+  	<!-- copy WS-related XSDs in order to generate a WSDL from them -->
+  	<copy todir="${web.dir}/WEB-INF/xsd">
+  	  <fileset dir="${model.dir}/src/xml/schemas/external">
+  	  	<include name="*.xsd"/>
+  	  </fileset>
+  	</copy>
   </target>
 
   <target name="war" depends="prepare-webapp" description="Create the WAR file">
@@ -141,7 +161,8 @@
   </target>
 
   <target name="compile-tests">
-    <javac destdir="${web.dir}/WEB-INF/classes"
+  	<mkdir dir="${basedir}/build/test" />
+    <javac destdir="${basedir}/build/test"
            debug="true"
            deprecation="false"
            optimize="false"

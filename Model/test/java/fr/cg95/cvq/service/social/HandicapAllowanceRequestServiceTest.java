@@ -50,31 +50,31 @@ public class HandicapAllowanceRequestServiceTest extends ServiceTestCase {
     protected HandicapAllowanceRequest fillMeARequest() throws CvqException {
 
         HandicapAllowanceRequest request = new HandicapAllowanceRequest();
-                          Address LegalRepresentativeAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
-            request.setLegalRepresentativeAddress(LegalRepresentativeAddress);
-    	                request.setLegalRepresentative(Boolean.valueOf(true));
-            request.setHopesAndNeeds(Boolean.valueOf(true));
-            request.setWritingHelp(Boolean.valueOf(true));
-                request.setNeeds("Needs");
-                    request.setHelperResponsability("HelperResponsability");
-                  if ("LegalRepresentativePhone".length() > 10)
-        request.setLegalRepresentativePhone("LegalRepresentativePhone".substring(0, 10));
-      else
-        request.setLegalRepresentativePhone("LegalRepresentativePhone");
-                    request.setLegalRepresentativeFamilyRelationship("LegalRepresentativeFamilyRelationship");
-                  if ("HelperName".length() > 38)
-        request.setHelperName("HelperName".substring(0, 38));
-      else
-        request.setHelperName("HelperName");
+          request.setWritingHelp(Boolean.valueOf(true));
+                request.setHelperResponsability("HelperResponsability");
                   if ("LegalRepresentativeName".length() > 38)
         request.setLegalRepresentativeName("LegalRepresentativeName".substring(0, 38));
       else
         request.setLegalRepresentativeName("LegalRepresentativeName");
+                    request.setComments("Comments");
                   if ("LegalRepresentativeFirstame".length() > 38)
         request.setLegalRepresentativeFirstame("LegalRepresentativeFirstame".substring(0, 38));
       else
         request.setLegalRepresentativeFirstame("LegalRepresentativeFirstame");
-                    request.setComments("Comments");
+                                Address LegalRepresentativeAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setLegalRepresentativeAddress(LegalRepresentativeAddress);
+    	                    request.setLegalRepresentativeFamilyRelationship("LegalRepresentativeFamilyRelationship");
+                request.setLegalRepresentative(Boolean.valueOf(true));
+            request.setHopesAndNeeds(Boolean.valueOf(true));
+                request.setNeeds("Needs");
+                  if ("LegalRepresentativePhone".length() > 10)
+        request.setLegalRepresentativePhone("LegalRepresentativePhone".substring(0, 10));
+      else
+        request.setLegalRepresentativePhone("LegalRepresentativePhone");
+                  if ("HelperName".length() > 38)
+        request.setHelperName("HelperName".substring(0, 38));
+      else
+        request.setHelperName("HelperName");
                     request.setHopes("Hopes");
       
         // Means Of Contact

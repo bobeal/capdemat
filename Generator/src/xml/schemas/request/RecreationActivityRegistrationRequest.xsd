@@ -221,6 +221,17 @@
                       <display field="OfficePhone" line="12" mode="static" label="Téléphone bureau" />
                     </display>
                   </fo>
+			      <bo>
+                    <display field="" type="list" page="displayrecreation" line="101" class="RarOtherIndividuals"
+                      mode="static">
+                      <display field="Type" line="1" mode="static" />
+                      <display field="LastName" line="2" mode="static" />
+                      <display field="FirstName" line="3" mode="static" />
+                      <display field="Address" line="4" mode="static" />
+                      <display field="HomePhone" line="5" mode="static" label="Téléphone domicile" />
+                      <display field="OfficePhone" line="6" mode="static" label="Téléphone bureau" />
+                    </display>
+			      </bo>
                   <xslfo>
                     <element blockId="3" line="0" column="0" columnSpan="2">
                       <complexTemplate />

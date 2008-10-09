@@ -179,6 +179,38 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <!-- *******************************************************************  -->
+  <!-- ************************ Request Xml Generation *******************  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="requestXmlGenerationJob" 
+    class="fr.cg95.cvq.service.request.job.RequestXmlGenerationJob">
+    <property name="externalService">
+      <ref bean="externalService"/>
+    </property>
+    <property name="localAuthorityRegistry">
+      <ref bean="localAuthorityRegistry"/>
+    </property>
+    <property name="requestDAO">
+      <ref bean="requestDAO"/>
+    </property>
+  </bean>
+  
+  <bean id="requestXmlGenerationJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="requestXmlGenerationJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+  
+  <bean id="requestXmlGenerationJobTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail">
+      <ref bean="requestXmlGenerationJobInvoker" />
+    </property>
+    <property name="cronExpression" value="0 0 3 * * ?" />
+  </bean>
+
+  <!-- *******************************************************************  -->
   <!-- ***** Documents Validity Dates Checking Job Configuration *********  -->
   <!-- *******************************************************************  -->
 

@@ -32,7 +32,7 @@ import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.users.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.school.IPerischoolActivityRegistrationRequestService;
@@ -45,7 +45,7 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
  */
 public class HoranetServiceTest extends ServiceTestCase {
 
-	private IExternalService externalService;
+	private IExternalProviderService externalProviderService;
 	private ISchoolRegistrationRequestService srrService;
 	private ISchoolCanteenRegistrationRequestService scrrService;
 	private IPerischoolActivityRegistrationRequestService parrService;
@@ -54,7 +54,7 @@ public class HoranetServiceTest extends ServiceTestCase {
 		ConfigurableApplicationContext cac;
         try {
             cac = getContext(getConfigLocations());
-    		externalService = (IExternalService) cac.getBean("horanetExternalService");
+    		externalProviderService = (IExternalProviderService) cac.getBean("horanetExternalService");
             srrService =
             	(ISchoolRegistrationRequestService) cac.getBean("schoolRegistrationRequestService");
     		scrrService = 
@@ -71,7 +71,7 @@ public class HoranetServiceTest extends ServiceTestCase {
 //		setServices();
 //		
 //		try {
-//			String helloWorldResult = externalService.helloWorld();
+//			String helloWorldResult = externalProviderService.helloWorld();
 //			Assert.assertEquals(helloWorldResult, "Hello World");
 //		} catch (CvqException e) {
 //			e.printStackTrace();
@@ -210,7 +210,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         
         // Step 1 : load accounts and choose one deposit and one ticketing
         Map<String, List<ExternalAccountItem>> externalAccounts = 
-        	externalService.getAccountsByHomeFolder(homeFolder.getId());
+        	externalProviderService.getAccountsByHomeFolder(homeFolder.getId(), null, null);
         for (String accountType : externalAccounts.keySet()) {
         	logger.debug("inspecting account type " + accountType);
         	List<ExternalAccountItem> accountsByType = externalAccounts.get(accountType);
@@ -222,7 +222,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         			edai = (ExternalDepositAccountItem) eai;
 
                     // load account details
-                    externalService.loadDepositAccountDetails(edai);
+                    externalProviderService.loadDepositAccountDetails(edai);
                     Set<ExternalDepositAccountItemDetail> accountDetails = edai.getAccountDetails();
                     if (accountDetails != null) {
                         for (ExternalDepositAccountItemDetail edaiDetail : accountDetails) {
@@ -241,7 +241,7 @@ public class HoranetServiceTest extends ServiceTestCase {
                     ExternalInvoiceItem eii = (ExternalInvoiceItem) eai;
                     
                     // load invoice details
-                    externalService.loadInvoiceDetails(eii);
+                    externalProviderService.loadInvoiceDetails(eii);
                     Set<ExternalInvoiceItemDetail> eiiDetails = eii.getInvoiceDetails();
                     if (eiiDetails != null) {
                         for (ExternalInvoiceItemDetail eiiDetail : eiiDetails) {
@@ -271,13 +271,13 @@ public class HoranetServiceTest extends ServiceTestCase {
         	edai.setAmount(Double.valueOf("2000"));
         	purchaseItems.add(edai);
         }
-        externalService.creditHomeFolderAccounts(purchaseItems, "CVQ_REF_1234", "BANK_REF_1234", 
-        		homeFolder.getId(), new Date());
+        externalProviderService.creditHomeFolderAccounts(purchaseItems, "CVQ_REF_1234", "BANK_REF_1234", 
+        		homeFolder.getId(), null, null, new Date());
         
         // TODO : check account credit ... when horanet finished integration !
 
         // load account details
-        externalService.loadDepositAccountDetails(edai);
+        externalProviderService.loadDepositAccountDetails(edai);
         Set<ExternalDepositAccountItemDetail> accountDetails = edai.getAccountDetails();
         if (accountDetails != null) {
             for (ExternalDepositAccountItemDetail edaiDetail : accountDetails) {
@@ -296,14 +296,14 @@ public class HoranetServiceTest extends ServiceTestCase {
         calendar.add(Calendar.MONTH, -3);
         Date dateFrom = calendar.getTime();
         Map<Date, String> consumptions = 
-        	externalService.getConsumptionsByRequest(scrrRequest, dateFrom, dateTo);
+        	externalProviderService.getConsumptionsByRequest(scrrRequest, dateFrom, dateTo);
         for (Date date : consumptions.keySet()) {
         	logger.debug("on date " + date + ", got consumption : " + consumptions.get(date));
         }
 
         // test loading administrative information for BO display
         Map<Individual, Map<String, String>> accountsInfo = 
-            externalService.getIndividualAccountsInformation(homeFolder.getId());
+            externalProviderService.getIndividualAccountsInformation(homeFolder.getId(), null, null);
         for (Individual individual : accountsInfo.keySet()) {
             logger.debug("account info for individual : " + individual.getFirstName());
             for (String key : accountsInfo.get(individual).keySet()) {

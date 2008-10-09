@@ -10,7 +10,7 @@ import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
@@ -21,12 +21,12 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
  */
 public class CleverServiceTest extends ServiceTestCase {
 
-    private IExternalService externalService;
+    private IExternalProviderService externalProviderService;
 
     protected void onSetUp() throws Exception {
         super.onSetUp();
         ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        externalService = (IExternalService) cac.getBean("cleverExternalService");
+        externalProviderService = (IExternalProviderService) cac.getBean("cleverExternalService");
     }
 
     protected SmsNotificationRequest gimmeRequest() throws CvqException {
@@ -54,17 +54,17 @@ public class CleverServiceTest extends ServiceTestCase {
         SmsNotificationRequest snr = gimmeRequest();
         
         // Create Clever SMS Contact
-        String sendRequestResult = externalService.sendRequest(snr);
+        String sendRequestResult = externalProviderService.sendRequest(snr);
         assertNotNull(sendRequestResult);
         
         // Update Clever SMS Contact
         snr.setCleverSmsContactId(sendRequestResult);
-        String sendRequestResult2 = externalService.sendRequest(snr);
+        String sendRequestResult2 = externalProviderService.sendRequest(snr);
         assertNotNull(sendRequestResult2);
         
         // Remove Clever SMS Contact
         snr.setSubscription(false);
-        String sendRequestResult3 = externalService.sendRequest(snr);
+        String sendRequestResult3 = externalProviderService.sendRequest(snr);
         assertNull(sendRequestResult3);
         
     }

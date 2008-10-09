@@ -57,10 +57,10 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
         request.setBirthLastName("BirthLastName".substring(0, 38));
       else
         request.setBirthLastName("BirthLastName");
-                    request.setRequesterQualityPrecision("RequesterQualityPrecision");
-                  request.setRelationship(BirthRelationshipType.HUSBAND);
-                request.setUsage("Usage");
-              request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
+                request.setComment("Comment");
+                request.setRequesterQualityPrecision("RequesterQualityPrecision");
+                  request.setMotive(BirthCertificateMotiveType.NOTARY_ACT);
+                  request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
                   if ("FatherLastName".length() > 38)
         request.setFatherLastName("FatherLastName".substring(0, 38));
       else

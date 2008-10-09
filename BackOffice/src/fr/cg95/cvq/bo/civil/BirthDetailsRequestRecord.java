@@ -14,21 +14,21 @@ import fr.cg95.cvq.business.civil.*;
 
 public class BirthDetailsRequestRecord extends RequestRecord {
 
-	private String birthFirstNames;
-	private java.math.BigInteger copies;
-	private String motherFirstNames;
-	private String birthLastName;
-	private String requesterQualityPrecision;
-	private String relationship;
-	private String usage;
-	private String requesterQuality;
-	private String fatherLastName;
-	private String birthPostalCode;
-	private String birthCity;
-	private Calendar birthDate;
-	private String motherMaidenName;
-	private String fatherFirstNames;
 	private String format;
+	private java.math.BigInteger copies;
+	private String birthPostalCode;
+	private String comment;
+	private String birthFirstNames;
+	private String motive;
+	private String requesterQualityPrecision;
+	private Calendar birthDate;
+	private String requesterQuality;
+	private String birthCity;
+	private String fatherLastName;
+	private String motherFirstNames;
+	private String fatherFirstNames;
+	private String motherMaidenName;
+	private String birthLastName;
 
 	public BirthDetailsRequestRecord() {
 		super();
@@ -51,33 +51,33 @@ public class BirthDetailsRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof BirthDetailsRequest)) {
             BirthDetailsRequest request = (BirthDetailsRequest)xmlRequest; 
 
-			this.birthFirstNames = request.getBirthFirstNames();
-			this.copies = request.getCopies();
-			this.motherFirstNames = request.getMotherFirstNames();
-			this.birthLastName = request.getBirthLastName();
-			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
-			if (request.getRelationship() != null)
-                this.relationship = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
-                        "Relationship", request.getRelationship().toString());
-			this.usage = request.getUsage();
-			if (request.getRequesterQuality() != null)
-                this.requesterQuality = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
-                        "RequesterQuality", request.getRequesterQuality().toString());
-			this.fatherLastName = request.getFatherLastName();
-			this.birthPostalCode = request.getBirthPostalCode();
-			this.birthCity = request.getBirthCity();
-			if (request.getBirthDate() != null) {
-				this.birthDate = Calendar.getInstance(); 
-	            this.birthDate.setTime(request.getBirthDate());
-			}
-			this.motherMaidenName = request.getMotherMaidenName();
-			this.fatherFirstNames = request.getFatherFirstNames();
 			if (request.getFormat() != null)
                 this.format = getEnumElementTranslation(
                         fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
                         "Format", request.getFormat().toString());
+			this.copies = request.getCopies();
+			this.birthPostalCode = request.getBirthPostalCode();
+			this.comment = request.getComment();
+			this.birthFirstNames = request.getBirthFirstNames();
+			if (request.getMotive() != null)
+                this.motive = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
+                        "Motive", request.getMotive().toString());
+			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
+			if (request.getBirthDate() != null) {
+				this.birthDate = Calendar.getInstance(); 
+	            this.birthDate.setTime(request.getBirthDate());
+			}
+			if (request.getRequesterQuality() != null)
+                this.requesterQuality = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
+                        "RequesterQuality", request.getRequesterQuality().toString());
+			this.birthCity = request.getBirthCity();
+			this.fatherLastName = request.getFatherLastName();
+			this.motherFirstNames = request.getMotherFirstNames();
+			this.fatherFirstNames = request.getFatherFirstNames();
+			this.motherMaidenName = request.getMotherMaidenName();
+			this.birthLastName = request.getBirthLastName();
         }
     }
     
@@ -91,35 +91,6 @@ public class BirthDetailsRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof BirthDetailsRequest)) {
             BirthDetailsRequest request = (BirthDetailsRequest)xmlRequest; 
 
-			request.setBirthFirstNames(this.birthFirstNames);
-			request.setCopies(this.copies);
-			request.setMotherFirstNames(this.motherFirstNames);
-			request.setBirthLastName(this.birthLastName);
-			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
-			if (this.relationship != null)
-                request.setRelationship(
-                    BirthRelationshipType.forString(
-                        getEnumKeyTranslation(
-                            fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
-                            "Relationship", this.relationship)
-                    )
-                );
-			request.setUsage(this.usage);
-			if (this.requesterQuality != null)
-                request.setRequesterQuality(
-                    BirthRequesterQualityType.forString(
-                        getEnumKeyTranslation(
-                            fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
-                            "RequesterQuality", this.requesterQuality)
-                    )
-                );
-			request.setFatherLastName(this.fatherLastName);
-			request.setBirthPostalCode(this.birthPostalCode);
-			request.setBirthCity(this.birthCity);
-			if (this.birthDate != null)
-			request.setBirthDate(this.birthDate.getTime());
-			request.setMotherMaidenName(this.motherMaidenName);
-			request.setFatherFirstNames(this.fatherFirstNames);
 			if (this.format != null)
                 request.setFormat(
                     BirthCertificateFormatType.forString(
@@ -128,15 +99,44 @@ public class BirthDetailsRequestRecord extends RequestRecord {
                             "Format", this.format)
                     )
                 );
+			request.setCopies(this.copies);
+			request.setBirthPostalCode(this.birthPostalCode);
+			request.setComment(this.comment);
+			request.setBirthFirstNames(this.birthFirstNames);
+			if (this.motive != null)
+                request.setMotive(
+                    BirthCertificateMotiveType.forString(
+                        getEnumKeyTranslation(
+                            fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
+                            "Motive", this.motive)
+                    )
+                );
+			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
+			if (this.birthDate != null)
+			request.setBirthDate(this.birthDate.getTime());
+			if (this.requesterQuality != null)
+                request.setRequesterQuality(
+                    BirthRequesterQualityType.forString(
+                        getEnumKeyTranslation(
+                            fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest.class.getName(), 
+                            "RequesterQuality", this.requesterQuality)
+                    )
+                );
+			request.setBirthCity(this.birthCity);
+			request.setFatherLastName(this.fatherLastName);
+			request.setMotherFirstNames(this.motherFirstNames);
+			request.setFatherFirstNames(this.fatherFirstNames);
+			request.setMotherMaidenName(this.motherMaidenName);
+			request.setBirthLastName(this.birthLastName);
         }
     }
     
-	public void setBirthFirstNames(String birthFirstNames) {
-		this.birthFirstNames = birthFirstNames;
+	public void setFormat(String format) {
+		this.format = format;
 	}
 	
-	public String getBirthFirstNames() {
-		return this.birthFirstNames;
+	public String getFormat() {
+		return this.format;
 	}
 
 	public void setCopies(java.math.BigInteger copies) {
@@ -147,20 +147,36 @@ public class BirthDetailsRequestRecord extends RequestRecord {
 		return this.copies;
 	}
 
-	public void setMotherFirstNames(String motherFirstNames) {
-		this.motherFirstNames = motherFirstNames;
+	public void setBirthPostalCode(String birthPostalCode) {
+		this.birthPostalCode = birthPostalCode;
 	}
 	
-	public String getMotherFirstNames() {
-		return this.motherFirstNames;
+	public String getBirthPostalCode() {
+		return this.birthPostalCode;
 	}
 
-	public void setBirthLastName(String birthLastName) {
-		this.birthLastName = birthLastName;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
-	public String getBirthLastName() {
-		return this.birthLastName;
+	public String getComment() {
+		return this.comment;
+	}
+
+	public void setBirthFirstNames(String birthFirstNames) {
+		this.birthFirstNames = birthFirstNames;
+	}
+	
+	public String getBirthFirstNames() {
+		return this.birthFirstNames;
+	}
+
+	public void setMotive(String motive) {
+		this.motive = motive;
+	}
+	
+	public String getMotive() {
+		return this.motive;
 	}
 
 	public void setRequesterQualityPrecision(String requesterQualityPrecision) {
@@ -171,20 +187,12 @@ public class BirthDetailsRequestRecord extends RequestRecord {
 		return this.requesterQualityPrecision;
 	}
 
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
+	public void setBirthDate(Calendar birthDate) {
+		this.birthDate = birthDate;
 	}
 	
-	public String getRelationship() {
-		return this.relationship;
-	}
-
-	public void setUsage(String usage) {
-		this.usage = usage;
-	}
-	
-	public String getUsage() {
-		return this.usage;
+	public Calendar getBirthDate() {
+		return this.birthDate;
 	}
 
 	public void setRequesterQuality(String requesterQuality) {
@@ -195,22 +203,6 @@ public class BirthDetailsRequestRecord extends RequestRecord {
 		return this.requesterQuality;
 	}
 
-	public void setFatherLastName(String fatherLastName) {
-		this.fatherLastName = fatherLastName;
-	}
-	
-	public String getFatherLastName() {
-		return this.fatherLastName;
-	}
-
-	public void setBirthPostalCode(String birthPostalCode) {
-		this.birthPostalCode = birthPostalCode;
-	}
-	
-	public String getBirthPostalCode() {
-		return this.birthPostalCode;
-	}
-
 	public void setBirthCity(String birthCity) {
 		this.birthCity = birthCity;
 	}
@@ -219,20 +211,20 @@ public class BirthDetailsRequestRecord extends RequestRecord {
 		return this.birthCity;
 	}
 
-	public void setBirthDate(Calendar birthDate) {
-		this.birthDate = birthDate;
+	public void setFatherLastName(String fatherLastName) {
+		this.fatherLastName = fatherLastName;
 	}
 	
-	public Calendar getBirthDate() {
-		return this.birthDate;
+	public String getFatherLastName() {
+		return this.fatherLastName;
 	}
 
-	public void setMotherMaidenName(String motherMaidenName) {
-		this.motherMaidenName = motherMaidenName;
+	public void setMotherFirstNames(String motherFirstNames) {
+		this.motherFirstNames = motherFirstNames;
 	}
 	
-	public String getMotherMaidenName() {
-		return this.motherMaidenName;
+	public String getMotherFirstNames() {
+		return this.motherFirstNames;
 	}
 
 	public void setFatherFirstNames(String fatherFirstNames) {
@@ -243,12 +235,20 @@ public class BirthDetailsRequestRecord extends RequestRecord {
 		return this.fatherFirstNames;
 	}
 
-	public void setFormat(String format) {
-		this.format = format;
+	public void setMotherMaidenName(String motherMaidenName) {
+		this.motherMaidenName = motherMaidenName;
 	}
 	
-	public String getFormat() {
-		return this.format;
+	public String getMotherMaidenName() {
+		return this.motherMaidenName;
+	}
+
+	public void setBirthLastName(String birthLastName) {
+		this.birthLastName = birthLastName;
+	}
+	
+	public String getBirthLastName() {
+		return this.birthLastName;
 	}
 
 }

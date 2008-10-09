@@ -4,7 +4,9 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.xml.common.*;
+import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.school.*;
+import fr.cg95.cvq.xml.request.HomeFolderModificationRequestDocument;
 
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
@@ -42,6 +44,13 @@ public class VacationsRegistrationRequest extends Request implements Serializabl
         opts.setUseDefaultNamespace();
         opts.setCharacterEncoding("UTF-8");
         return object.xmlText(opts);
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        VacationsRegistrationRequestDocument vrrDocument = 
+            (VacationsRegistrationRequestDocument) modelToXml();
+        return vrrDocument.getVacationsRegistrationRequest();
     }
 
     public final XmlObject modelToXml() {

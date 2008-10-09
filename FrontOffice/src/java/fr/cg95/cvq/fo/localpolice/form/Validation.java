@@ -11,7 +11,18 @@ import fr.cg95.cvq.xml.localpolice.HolidaySecurityRequestDocument.HolidaySecurit
 
 public class Validation extends IStageForm {
 
+  	private String subjectAdultAddressAdditionalDeliveryInformation;
+	private String subjectAdultAddressAdditionalGeographicalInformation;
+	private String subjectAdultAddressStreetNumber;
+	private String subjectAdultAddressStreetName;
+	private String subjectAdultAddressPlaceNameOrService;
+	private String subjectAdultAddressPostalCode;
+	private String subjectAdultAddressCity;
+	private String subjectAdultMobilePhone;
+	private String alertPhone;
 	private String otherContactLastName;
+	private Calendar absenceEndDate;
+	private boolean alarm;
 	private boolean rulesAndRegulationsAcceptance;
   	private String otherContactAddressAdditionalDeliveryInformation;
 	private String otherContactAddressAdditionalGeographicalInformation;
@@ -20,22 +31,11 @@ public class Validation extends IStageForm {
 	private String otherContactAddressPlaceNameOrService;
 	private String otherContactAddressPostalCode;
 	private String otherContactAddressCity;
-	private boolean light;
-	private Calendar absenceEndDate;
-	private String subjectAdultEmail;
 	private Calendar absenceStartDate;
-	private String alertPhone;
-	private boolean alarm;
-	private String otherContactPhone;
-	private String subjectAdultMobilePhone;
-  	private String subjectAdultAddressAdditionalDeliveryInformation;
-	private String subjectAdultAddressAdditionalGeographicalInformation;
-	private String subjectAdultAddressStreetNumber;
-	private String subjectAdultAddressStreetName;
-	private String subjectAdultAddressPlaceNameOrService;
-	private String subjectAdultAddressPostalCode;
-	private String subjectAdultAddressCity;
 	private String otherContactFirstName;
+	private String otherContactPhone;
+	private String subjectAdultEmail;
+	private boolean light;
 
 	public Validation() {
 		super();
@@ -49,7 +49,18 @@ public class Validation extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HolidaySecurityRequest)) {
 			HolidaySecurityRequest request = (HolidaySecurityRequest)xmlbRequest;
+  			this.subjectAdultAddressAdditionalDeliveryInformation = request.getSubject().getAdult().getAddress().getAdditionalDeliveryInformation();
+			this.subjectAdultAddressAdditionalGeographicalInformation = request.getSubject().getAdult().getAddress().getAdditionalGeographicalInformation();
+			this.subjectAdultAddressStreetNumber = request.getSubject().getAdult().getAddress().getStreetNumber();
+			this.subjectAdultAddressStreetName = request.getSubject().getAdult().getAddress().getStreetName();
+			this.subjectAdultAddressPlaceNameOrService = request.getSubject().getAdult().getAddress().getPlaceNameOrService();
+			this.subjectAdultAddressPostalCode = request.getSubject().getAdult().getAddress().getPostalCode();
+			this.subjectAdultAddressCity = request.getSubject().getAdult().getAddress().getCity();
+			this.subjectAdultMobilePhone = request.getSubject().getAdult().getMobilePhone();
+			this.alertPhone = request.getAlertPhone();
 			this.otherContactLastName = request.getOtherContactLastName();
+			this.absenceEndDate = request.getAbsenceEndDate();
+			this.alarm = request.getAlarm();
 			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
   			this.otherContactAddressAdditionalDeliveryInformation = request.getOtherContactAddress().getAdditionalDeliveryInformation();
 			this.otherContactAddressAdditionalGeographicalInformation = request.getOtherContactAddress().getAdditionalGeographicalInformation();
@@ -58,29 +69,29 @@ public class Validation extends IStageForm {
 			this.otherContactAddressPlaceNameOrService = request.getOtherContactAddress().getPlaceNameOrService();
 			this.otherContactAddressPostalCode = request.getOtherContactAddress().getPostalCode();
 			this.otherContactAddressCity = request.getOtherContactAddress().getCity();
-			this.light = request.getLight();
-			this.absenceEndDate = request.getAbsenceEndDate();
-			this.subjectAdultEmail = request.getSubject().getAdult().getEmail();
 			this.absenceStartDate = request.getAbsenceStartDate();
-			this.alertPhone = request.getAlertPhone();
-			this.alarm = request.getAlarm();
-			this.otherContactPhone = request.getOtherContactPhone();
-			this.subjectAdultMobilePhone = request.getSubject().getAdult().getMobilePhone();
-  			this.subjectAdultAddressAdditionalDeliveryInformation = request.getSubject().getAdult().getAddress().getAdditionalDeliveryInformation();
-			this.subjectAdultAddressAdditionalGeographicalInformation = request.getSubject().getAdult().getAddress().getAdditionalGeographicalInformation();
-			this.subjectAdultAddressStreetNumber = request.getSubject().getAdult().getAddress().getStreetNumber();
-			this.subjectAdultAddressStreetName = request.getSubject().getAdult().getAddress().getStreetName();
-			this.subjectAdultAddressPlaceNameOrService = request.getSubject().getAdult().getAddress().getPlaceNameOrService();
-			this.subjectAdultAddressPostalCode = request.getSubject().getAdult().getAddress().getPostalCode();
-			this.subjectAdultAddressCity = request.getSubject().getAdult().getAddress().getCity();
 			this.otherContactFirstName = request.getOtherContactFirstName();
+			this.otherContactPhone = request.getOtherContactPhone();
+			this.subjectAdultEmail = request.getSubject().getAdult().getEmail();
+			this.light = request.getLight();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HolidaySecurityRequest)) {
 			HolidaySecurityRequest request = (HolidaySecurityRequest)xmlbRequest;
+  			request.getSubject().getAdult().getAddress().setAdditionalDeliveryInformation(this.subjectAdultAddressAdditionalDeliveryInformation);
+			request.getSubject().getAdult().getAddress().setAdditionalGeographicalInformation(this.subjectAdultAddressAdditionalGeographicalInformation);
+			request.getSubject().getAdult().getAddress().setStreetNumber(this.subjectAdultAddressStreetNumber);
+			request.getSubject().getAdult().getAddress().setStreetName(this.subjectAdultAddressStreetName);
+			request.getSubject().getAdult().getAddress().setPlaceNameOrService(this.subjectAdultAddressPlaceNameOrService);
+			request.getSubject().getAdult().getAddress().setPostalCode(this.subjectAdultAddressPostalCode);
+			request.getSubject().getAdult().getAddress().setCity(this.subjectAdultAddressCity);
+			request.getSubject().getAdult().setMobilePhone(this.subjectAdultMobilePhone);
+			request.setAlertPhone(this.alertPhone);
 			request.setOtherContactLastName(this.otherContactLastName);
+			request.setAbsenceEndDate(this.absenceEndDate);
+			request.setAlarm(this.alarm);
 			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
   			request.getOtherContactAddress().setAdditionalDeliveryInformation(this.otherContactAddressAdditionalDeliveryInformation);
 			request.getOtherContactAddress().setAdditionalGeographicalInformation(this.otherContactAddressAdditionalGeographicalInformation);
@@ -89,26 +100,27 @@ public class Validation extends IStageForm {
 			request.getOtherContactAddress().setPlaceNameOrService(this.otherContactAddressPlaceNameOrService);
 			request.getOtherContactAddress().setPostalCode(this.otherContactAddressPostalCode);
 			request.getOtherContactAddress().setCity(this.otherContactAddressCity);
-			request.setLight(this.light);
-			request.setAbsenceEndDate(this.absenceEndDate);
-			request.getSubject().getAdult().setEmail(this.subjectAdultEmail);
 			request.setAbsenceStartDate(this.absenceStartDate);
-			request.setAlertPhone(this.alertPhone);
-			request.setAlarm(this.alarm);
-			request.setOtherContactPhone(this.otherContactPhone);
-			request.getSubject().getAdult().setMobilePhone(this.subjectAdultMobilePhone);
-  			request.getSubject().getAdult().getAddress().setAdditionalDeliveryInformation(this.subjectAdultAddressAdditionalDeliveryInformation);
-			request.getSubject().getAdult().getAddress().setAdditionalGeographicalInformation(this.subjectAdultAddressAdditionalGeographicalInformation);
-			request.getSubject().getAdult().getAddress().setStreetNumber(this.subjectAdultAddressStreetNumber);
-			request.getSubject().getAdult().getAddress().setStreetName(this.subjectAdultAddressStreetName);
-			request.getSubject().getAdult().getAddress().setPlaceNameOrService(this.subjectAdultAddressPlaceNameOrService);
-			request.getSubject().getAdult().getAddress().setPostalCode(this.subjectAdultAddressPostalCode);
-			request.getSubject().getAdult().getAddress().setCity(this.subjectAdultAddressCity);
 			request.setOtherContactFirstName(this.otherContactFirstName);
+			request.setOtherContactPhone(this.otherContactPhone);
+			request.getSubject().getAdult().setEmail(this.subjectAdultEmail);
+			request.setLight(this.light);
 		}
 	}
 	
 	public boolean isComplete() {
+  		if (this.checkSubjectAdultAddressStreetName() &&
+			((this.subjectAdultAddressStreetName == null) || (this.subjectAdultAddressStreetName.length() == 0)))
+			return false;
+		if (this.checkSubjectAdultAddressPostalCode() &&
+			((this.subjectAdultAddressPostalCode == null) || (this.subjectAdultAddressPostalCode.length() == 0)))
+			return false;
+		if (this.checkSubjectAdultAddressCity() &&
+			((this.subjectAdultAddressCity == null) || (this.subjectAdultAddressCity.length() == 0)))
+			return false;
+		if (this.checkAlertPhone() &&
+			((this.alertPhone == null) || (this.alertPhone.length() == 0)))
+			return false;
 		if (this.checkOtherContactLastName() &&
 			((this.otherContactLastName == null) || (this.otherContactLastName.length() == 0)))
 			return false;
@@ -121,30 +133,126 @@ public class Validation extends IStageForm {
 		if (this.checkOtherContactAddressCity() &&
 			((this.otherContactAddressCity == null) || (this.otherContactAddressCity.length() == 0)))
 			return false;
-		if (this.checkSubjectAdultEmail() &&
-			((this.subjectAdultEmail == null) || (this.subjectAdultEmail.length() == 0)))
-			return false;
-		if (this.checkAlertPhone() &&
-			((this.alertPhone == null) || (this.alertPhone.length() == 0)))
+		if (this.checkOtherContactFirstName() &&
+			((this.otherContactFirstName == null) || (this.otherContactFirstName.length() == 0)))
 			return false;
 		if (this.checkOtherContactPhone() &&
 			((this.otherContactPhone == null) || (this.otherContactPhone.length() == 0)))
 			return false;
-  		if (this.checkSubjectAdultAddressStreetName() &&
-			((this.subjectAdultAddressStreetName == null) || (this.subjectAdultAddressStreetName.length() == 0)))
-			return false;
-		if (this.checkSubjectAdultAddressPostalCode() &&
-			((this.subjectAdultAddressPostalCode == null) || (this.subjectAdultAddressPostalCode.length() == 0)))
-			return false;
-		if (this.checkSubjectAdultAddressCity() &&
-			((this.subjectAdultAddressCity == null) || (this.subjectAdultAddressCity.length() == 0)))
-			return false;
-		if (this.checkOtherContactFirstName() &&
-			((this.otherContactFirstName == null) || (this.otherContactFirstName.length() == 0)))
+		if (this.checkSubjectAdultEmail() &&
+			((this.subjectAdultEmail == null) || (this.subjectAdultEmail.length() == 0)))
 			return false;
 		return true;
 	}
 	
+  	public void setSubjectAdultAddressAdditionalDeliveryInformation(String subjectAdultAddressAdditionalDeliveryInformation) {
+		this.subjectAdultAddressAdditionalDeliveryInformation = subjectAdultAddressAdditionalDeliveryInformation;
+	}
+	
+	public String getSubjectAdultAddressAdditionalDeliveryInformation() {
+		return this.subjectAdultAddressAdditionalDeliveryInformation;
+	}
+	
+	public boolean checkSubjectAdultAddressAdditionalDeliveryInformation() {
+		return true;
+	}
+
+	public void setSubjectAdultAddressAdditionalGeographicalInformation(String subjectAdultAddressAdditionalGeographicalInformation) {
+		this.subjectAdultAddressAdditionalGeographicalInformation = subjectAdultAddressAdditionalGeographicalInformation;
+	}
+	
+	public String getSubjectAdultAddressAdditionalGeographicalInformation() {
+		return this.subjectAdultAddressAdditionalGeographicalInformation;
+	}
+	
+	public boolean checkSubjectAdultAddressAdditionalGeographicalInformation() {
+		return true;
+	}
+
+	public void setSubjectAdultAddressStreetNumber(String subjectAdultAddressStreetNumber) {
+		this.subjectAdultAddressStreetNumber = subjectAdultAddressStreetNumber;
+	}
+	
+	public String getSubjectAdultAddressStreetNumber() {
+		return this.subjectAdultAddressStreetNumber;
+	}
+	
+	public boolean checkSubjectAdultAddressStreetNumber() {
+		return true;
+	}
+
+	public void setSubjectAdultAddressStreetName(String subjectAdultAddressStreetName) {
+		this.subjectAdultAddressStreetName = subjectAdultAddressStreetName;
+	}
+	
+	public String getSubjectAdultAddressStreetName() {
+		return this.subjectAdultAddressStreetName;
+	}
+	
+	public boolean checkSubjectAdultAddressStreetName() {
+		return true;
+	}
+
+	public void setSubjectAdultAddressPlaceNameOrService(String subjectAdultAddressPlaceNameOrService) {
+		this.subjectAdultAddressPlaceNameOrService = subjectAdultAddressPlaceNameOrService;
+	}
+	
+	public String getSubjectAdultAddressPlaceNameOrService() {
+		return this.subjectAdultAddressPlaceNameOrService;
+	}
+	
+	public boolean checkSubjectAdultAddressPlaceNameOrService() {
+		return true;
+	}
+
+	public void setSubjectAdultAddressPostalCode(String subjectAdultAddressPostalCode) {
+		this.subjectAdultAddressPostalCode = subjectAdultAddressPostalCode;
+	}
+	
+	public String getSubjectAdultAddressPostalCode() {
+		return this.subjectAdultAddressPostalCode;
+	}
+	
+	public boolean checkSubjectAdultAddressPostalCode() {
+		return true;
+	}
+
+	public void setSubjectAdultAddressCity(String subjectAdultAddressCity) {
+		this.subjectAdultAddressCity = subjectAdultAddressCity;
+	}
+	
+	public String getSubjectAdultAddressCity() {
+		return this.subjectAdultAddressCity;
+	}
+	
+	public boolean checkSubjectAdultAddressCity() {
+		return true;
+	}
+
+	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
+		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
+	}
+	
+	public String getSubjectAdultMobilePhone() {
+		return this.subjectAdultMobilePhone;
+	}
+	
+	public boolean checkSubjectAdultMobilePhone() {
+		return true;
+	}
+
+	public void setAlertPhone(String alertPhone) {
+		this.alertPhone = alertPhone;
+	}
+	
+	public String getAlertPhone() {
+		return this.alertPhone;
+	}
+	
+	public boolean checkAlertPhone() {
+		return true;
+	}
+
 	public void setOtherContactLastName(String otherContactLastName) {
 		this.otherContactLastName = otherContactLastName;
 	}
@@ -154,6 +262,30 @@ public class Validation extends IStageForm {
 	}
 	
 	public boolean checkOtherContactLastName() {
+		return true;
+	}
+
+	public void setAbsenceEndDate(Calendar absenceEndDate) {
+		this.absenceEndDate = absenceEndDate;
+	}
+	
+	public Calendar getAbsenceEndDate() {
+		return this.absenceEndDate;
+	}
+	
+	public boolean checkAbsenceEndDate() {
+		return true;
+	}
+
+	public void setAlarm(boolean alarm) {
+		this.alarm = alarm;
+	}
+	
+	public boolean getAlarm() {
+		return this.alarm;
+	}
+	
+	public boolean checkAlarm() {
 		return true;
 	}
 
@@ -253,42 +385,6 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setLight(boolean light) {
-		this.light = light;
-	}
-	
-	public boolean getLight() {
-		return this.light;
-	}
-	
-	public boolean checkLight() {
-		return true;
-	}
-
-	public void setAbsenceEndDate(Calendar absenceEndDate) {
-		this.absenceEndDate = absenceEndDate;
-	}
-	
-	public Calendar getAbsenceEndDate() {
-		return this.absenceEndDate;
-	}
-	
-	public boolean checkAbsenceEndDate() {
-		return true;
-	}
-
-	public void setSubjectAdultEmail(String subjectAdultEmail) {
-		this.subjectAdultEmail = subjectAdultEmail;
-	}
-	
-	public String getSubjectAdultEmail() {
-		return this.subjectAdultEmail;
-	}
-	
-	public boolean checkSubjectAdultEmail() {
-		return true;
-	}
-
 	public void setAbsenceStartDate(Calendar absenceStartDate) {
 		this.absenceStartDate = absenceStartDate;
 	}
@@ -301,27 +397,15 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setAlertPhone(String alertPhone) {
-		this.alertPhone = alertPhone;
+	public void setOtherContactFirstName(String otherContactFirstName) {
+		this.otherContactFirstName = otherContactFirstName;
 	}
 	
-	public String getAlertPhone() {
-		return this.alertPhone;
+	public String getOtherContactFirstName() {
+		return this.otherContactFirstName;
 	}
 	
-	public boolean checkAlertPhone() {
-		return true;
-	}
-
-	public void setAlarm(boolean alarm) {
-		this.alarm = alarm;
-	}
-	
-	public boolean getAlarm() {
-		return this.alarm;
-	}
-	
-	public boolean checkAlarm() {
+	public boolean checkOtherContactFirstName() {
 		return true;
 	}
 
@@ -337,111 +421,27 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setSubjectAdultMobilePhone(String subjectAdultMobilePhone) {
-		this.subjectAdultMobilePhone = subjectAdultMobilePhone;
+	public void setSubjectAdultEmail(String subjectAdultEmail) {
+		this.subjectAdultEmail = subjectAdultEmail;
 	}
 	
-	public String getSubjectAdultMobilePhone() {
-		return this.subjectAdultMobilePhone;
+	public String getSubjectAdultEmail() {
+		return this.subjectAdultEmail;
 	}
 	
-	public boolean checkSubjectAdultMobilePhone() {
+	public boolean checkSubjectAdultEmail() {
 		return true;
 	}
 
-  	public void setSubjectAdultAddressAdditionalDeliveryInformation(String subjectAdultAddressAdditionalDeliveryInformation) {
-		this.subjectAdultAddressAdditionalDeliveryInformation = subjectAdultAddressAdditionalDeliveryInformation;
+	public void setLight(boolean light) {
+		this.light = light;
 	}
 	
-	public String getSubjectAdultAddressAdditionalDeliveryInformation() {
-		return this.subjectAdultAddressAdditionalDeliveryInformation;
+	public boolean getLight() {
+		return this.light;
 	}
 	
-	public boolean checkSubjectAdultAddressAdditionalDeliveryInformation() {
-		return true;
-	}
-
-	public void setSubjectAdultAddressAdditionalGeographicalInformation(String subjectAdultAddressAdditionalGeographicalInformation) {
-		this.subjectAdultAddressAdditionalGeographicalInformation = subjectAdultAddressAdditionalGeographicalInformation;
-	}
-	
-	public String getSubjectAdultAddressAdditionalGeographicalInformation() {
-		return this.subjectAdultAddressAdditionalGeographicalInformation;
-	}
-	
-	public boolean checkSubjectAdultAddressAdditionalGeographicalInformation() {
-		return true;
-	}
-
-	public void setSubjectAdultAddressStreetNumber(String subjectAdultAddressStreetNumber) {
-		this.subjectAdultAddressStreetNumber = subjectAdultAddressStreetNumber;
-	}
-	
-	public String getSubjectAdultAddressStreetNumber() {
-		return this.subjectAdultAddressStreetNumber;
-	}
-	
-	public boolean checkSubjectAdultAddressStreetNumber() {
-		return true;
-	}
-
-	public void setSubjectAdultAddressStreetName(String subjectAdultAddressStreetName) {
-		this.subjectAdultAddressStreetName = subjectAdultAddressStreetName;
-	}
-	
-	public String getSubjectAdultAddressStreetName() {
-		return this.subjectAdultAddressStreetName;
-	}
-	
-	public boolean checkSubjectAdultAddressStreetName() {
-		return true;
-	}
-
-	public void setSubjectAdultAddressPlaceNameOrService(String subjectAdultAddressPlaceNameOrService) {
-		this.subjectAdultAddressPlaceNameOrService = subjectAdultAddressPlaceNameOrService;
-	}
-	
-	public String getSubjectAdultAddressPlaceNameOrService() {
-		return this.subjectAdultAddressPlaceNameOrService;
-	}
-	
-	public boolean checkSubjectAdultAddressPlaceNameOrService() {
-		return true;
-	}
-
-	public void setSubjectAdultAddressPostalCode(String subjectAdultAddressPostalCode) {
-		this.subjectAdultAddressPostalCode = subjectAdultAddressPostalCode;
-	}
-	
-	public String getSubjectAdultAddressPostalCode() {
-		return this.subjectAdultAddressPostalCode;
-	}
-	
-	public boolean checkSubjectAdultAddressPostalCode() {
-		return true;
-	}
-
-	public void setSubjectAdultAddressCity(String subjectAdultAddressCity) {
-		this.subjectAdultAddressCity = subjectAdultAddressCity;
-	}
-	
-	public String getSubjectAdultAddressCity() {
-		return this.subjectAdultAddressCity;
-	}
-	
-	public boolean checkSubjectAdultAddressCity() {
-		return true;
-	}
-
-	public void setOtherContactFirstName(String otherContactFirstName) {
-		this.otherContactFirstName = otherContactFirstName;
-	}
-	
-	public String getOtherContactFirstName() {
-		return this.otherContactFirstName;
-	}
-	
-	public boolean checkOtherContactFirstName() {
+	public boolean checkLight() {
 		return true;
 	}
 

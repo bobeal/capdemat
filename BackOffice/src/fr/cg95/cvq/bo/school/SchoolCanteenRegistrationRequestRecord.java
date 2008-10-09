@@ -14,21 +14,21 @@ import fr.cg95.cvq.business.school.*;
 
 public class SchoolCanteenRegistrationRequestRecord extends RequestRecord {
 
-	private boolean rulesAndRegulationsAcceptance;
-	private boolean[] foodDiet;
-   	private List foodDietList;
-	private String doctorPhone;
-	private String subjectChildFirstName;
+	private String schoolName;
+	private String urgencyPhone;
 	private String doctorName;
 	private boolean[] canteenAttendingDays;
    	private List canteenAttendingDaysList;
-	private boolean hospitalizationPermission;
 	private String subjectChildLastName;
-	private boolean foodAllergy;
 	private String section;
-	private String urgencyPhone;
-	private String schoolName;
+	private boolean rulesAndRegulationsAcceptance;
 	private Calendar subjectChildBirthDate;
+	private boolean foodAllergy;
+	private String doctorPhone;
+	private boolean hospitalizationPermission;
+	private boolean[] foodDiet;
+   	private List foodDietList;
+	private String subjectChildFirstName;
 
 	public SchoolCanteenRegistrationRequestRecord() {
 		super();
@@ -36,8 +36,8 @@ public class SchoolCanteenRegistrationRequestRecord extends RequestRecord {
 	
 	protected Object clone() throws CloneNotSupportedException {
 		SchoolCanteenRegistrationRequestRecord clonedRecord = (SchoolCanteenRegistrationRequestRecord)super.clone();
-		clonedRecord.foodDiet = (boolean[])this.foodDiet.clone();
 		clonedRecord.canteenAttendingDays = (boolean[])this.canteenAttendingDays.clone();
+		clonedRecord.foodDiet = (boolean[])this.foodDiet.clone();
 		return clonedRecord;
 	}
 	
@@ -53,29 +53,29 @@ public class SchoolCanteenRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof SchoolCanteenRegistrationRequest)) {
             SchoolCanteenRegistrationRequest request = (SchoolCanteenRegistrationRequest)xmlRequest; 
 
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
-            this.setFoodDiet(this.getList("FoodDiet"), request.getFoodDiet());
-			this.doctorPhone = request.getDoctorPhone();
-			this.subjectChildFirstName = ((Child)request.getSubject()).getFirstName();
+            if ((request.getSchool() != null))
+			this.schoolName = request.getSchool().getName();
+			this.urgencyPhone = request.getUrgencyPhone();
 			this.doctorName = request.getDoctorName();
             this.setCanteenAttendingDays(this.getList("CanteenAttendingDays"), request.getCanteenAttendingDays());
-            if ((request.getHospitalizationPermission() != null))
-			this.hospitalizationPermission = request.getHospitalizationPermission();
 			this.subjectChildLastName = ((Child)request.getSubject()).getLastName();
-            if ((request.getFoodAllergy() != null))
-			this.foodAllergy = request.getFoodAllergy();
 			if (request.getSection() != null)
                 this.section = getEnumElementTranslation(
                         fr.cg95.cvq.xml.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest.class.getName(), 
                         "Section", request.getSection().toString());
-			this.urgencyPhone = request.getUrgencyPhone();
-            if ((request.getSchool() != null))
-			this.schoolName = request.getSchool().getName();
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
 			if (((Child)request.getSubject()).getBirthDate() != null) {
 				this.subjectChildBirthDate = Calendar.getInstance(); 
 	            this.subjectChildBirthDate.setTime(((Child)request.getSubject()).getBirthDate());
 			}
+            if ((request.getFoodAllergy() != null))
+			this.foodAllergy = request.getFoodAllergy();
+			this.doctorPhone = request.getDoctorPhone();
+            if ((request.getHospitalizationPermission() != null))
+			this.hospitalizationPermission = request.getHospitalizationPermission();
+            this.setFoodDiet(this.getList("FoodDiet"), request.getFoodDiet());
+			this.subjectChildFirstName = ((Child)request.getSubject()).getFirstName();
         }
     }
     
@@ -89,89 +89,34 @@ public class SchoolCanteenRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof SchoolCanteenRegistrationRequest)) {
             SchoolCanteenRegistrationRequest request = (SchoolCanteenRegistrationRequest)xmlRequest; 
 
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
-			request.setFoodDiet(this.getFoodDietKeys());
-			request.setDoctorPhone(this.doctorPhone);
+			request.setUrgencyPhone(this.urgencyPhone);
 			request.setDoctorName(this.doctorName);
 			request.setCanteenAttendingDays(this.getCanteenAttendingDaysKeys());
-            if ((request.getHospitalizationPermission() != null))
-			request.setHospitalizationPermission(this.hospitalizationPermission);
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			request.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance);
             if ((request.getFoodAllergy() != null))
 			request.setFoodAllergy(this.foodAllergy);
-			request.setUrgencyPhone(this.urgencyPhone);
+			request.setDoctorPhone(this.doctorPhone);
+            if ((request.getHospitalizationPermission() != null))
+			request.setHospitalizationPermission(this.hospitalizationPermission);
+			request.setFoodDiet(this.getFoodDietKeys());
         }
     }
     
-	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
-		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
 	}
 	
-	public boolean getRulesAndRegulationsAcceptance() {
-		return this.rulesAndRegulationsAcceptance;
+	public String getSchoolName() {
+		return this.schoolName;
 	}
 
-	public void setFoodDiet(List referential, Set values) {
-		if (referential != null) {
-			this.foodDiet = new boolean[referential.size()];
-			this.foodDietList = referential;
-			
-			if (values != null) {
-				for (int i = 0; i < foodDiet.length; i++) {
-					String key = ((ReferentialData)foodDietList.get(i)).getKey();
-					foodDiet[i] = containsRefData(values, key);
-				}
-			}
-		}
+	public void setUrgencyPhone(String urgencyPhone) {
+		this.urgencyPhone = urgencyPhone;
 	}
 	
-	public List getFoodDietList() {
-		return this.foodDietList;
-	}
-	
-	public Set getFoodDietKeys() {
-		return getRefDataSet(foodDiet, foodDietList);
-	}
-
-	public String[] getFoodDiet() {
-		Vector values = new Vector();
-		
-		for (int i = 0; i < foodDiet.length; i++) {
-			if (foodDiet[i]) {
-				values.add(((ReferentialData)foodDietList.get(i)).getValue());
-			}
-		}
-
-		String[] value = new String[values.size()];
-		for (int i = 0; i < values.size(); i++)
-			value[i] = (String)values.get(i);
-
-		return value;
-	}
-
-	public void setFoodDiet(String[] value) {
-		String values = "";
-		for (int i = 0; i < value.length; i++)
-			values += "<" + value[i] + ">";
-		
-		for (int i = 0; i < foodDiet.length; i++) {
-			foodDiet[i] = values.indexOf("<" + ((ReferentialData)foodDietList.get(i)).getValue() + ">") != -1;
-		}
-	}
-	public void setDoctorPhone(String doctorPhone) {
-		this.doctorPhone = doctorPhone;
-	}
-	
-	public String getDoctorPhone() {
-		return this.doctorPhone;
-	}
-
-	public void setSubjectChildFirstName(String subjectChildFirstName) {
-		this.subjectChildFirstName = subjectChildFirstName;
-	}
-	
-	public String getSubjectChildFirstName() {
-		return this.subjectChildFirstName;
+	public String getUrgencyPhone() {
+		return this.urgencyPhone;
 	}
 
 	public void setDoctorName(String doctorName) {
@@ -229,28 +174,12 @@ public class SchoolCanteenRegistrationRequestRecord extends RequestRecord {
 			canteenAttendingDays[i] = values.indexOf("<" + ((ReferentialData)canteenAttendingDaysList.get(i)).getValue() + ">") != -1;
 		}
 	}
-	public void setHospitalizationPermission(boolean hospitalizationPermission) {
-		this.hospitalizationPermission = hospitalizationPermission;
-	}
-	
-	public boolean getHospitalizationPermission() {
-		return this.hospitalizationPermission;
-	}
-
 	public void setSubjectChildLastName(String subjectChildLastName) {
 		this.subjectChildLastName = subjectChildLastName;
 	}
 	
 	public String getSubjectChildLastName() {
 		return this.subjectChildLastName;
-	}
-
-	public void setFoodAllergy(boolean foodAllergy) {
-		this.foodAllergy = foodAllergy;
-	}
-	
-	public boolean getFoodAllergy() {
-		return this.foodAllergy;
 	}
 
 	public void setSection(String section) {
@@ -261,20 +190,12 @@ public class SchoolCanteenRegistrationRequestRecord extends RequestRecord {
 		return this.section;
 	}
 
-	public void setUrgencyPhone(String urgencyPhone) {
-		this.urgencyPhone = urgencyPhone;
+	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
+		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
 	}
 	
-	public String getUrgencyPhone() {
-		return this.urgencyPhone;
-	}
-
-	public void setSchoolName(String schoolName) {
-		this.schoolName = schoolName;
-	}
-	
-	public String getSchoolName() {
-		return this.schoolName;
+	public boolean getRulesAndRegulationsAcceptance() {
+		return this.rulesAndRegulationsAcceptance;
 	}
 
 	public void setSubjectChildBirthDate(Calendar subjectChildBirthDate) {
@@ -283,6 +204,85 @@ public class SchoolCanteenRegistrationRequestRecord extends RequestRecord {
 	
 	public Calendar getSubjectChildBirthDate() {
 		return this.subjectChildBirthDate;
+	}
+
+	public void setFoodAllergy(boolean foodAllergy) {
+		this.foodAllergy = foodAllergy;
+	}
+	
+	public boolean getFoodAllergy() {
+		return this.foodAllergy;
+	}
+
+	public void setDoctorPhone(String doctorPhone) {
+		this.doctorPhone = doctorPhone;
+	}
+	
+	public String getDoctorPhone() {
+		return this.doctorPhone;
+	}
+
+	public void setHospitalizationPermission(boolean hospitalizationPermission) {
+		this.hospitalizationPermission = hospitalizationPermission;
+	}
+	
+	public boolean getHospitalizationPermission() {
+		return this.hospitalizationPermission;
+	}
+
+	public void setFoodDiet(List referential, Set values) {
+		if (referential != null) {
+			this.foodDiet = new boolean[referential.size()];
+			this.foodDietList = referential;
+			
+			if (values != null) {
+				for (int i = 0; i < foodDiet.length; i++) {
+					String key = ((ReferentialData)foodDietList.get(i)).getKey();
+					foodDiet[i] = containsRefData(values, key);
+				}
+			}
+		}
+	}
+	
+	public List getFoodDietList() {
+		return this.foodDietList;
+	}
+	
+	public Set getFoodDietKeys() {
+		return getRefDataSet(foodDiet, foodDietList);
+	}
+
+	public String[] getFoodDiet() {
+		Vector values = new Vector();
+		
+		for (int i = 0; i < foodDiet.length; i++) {
+			if (foodDiet[i]) {
+				values.add(((ReferentialData)foodDietList.get(i)).getValue());
+			}
+		}
+
+		String[] value = new String[values.size()];
+		for (int i = 0; i < values.size(); i++)
+			value[i] = (String)values.get(i);
+
+		return value;
+	}
+
+	public void setFoodDiet(String[] value) {
+		String values = "";
+		for (int i = 0; i < value.length; i++)
+			values += "<" + value[i] + ">";
+		
+		for (int i = 0; i < foodDiet.length; i++) {
+			foodDiet[i] = values.indexOf("<" + ((ReferentialData)foodDietList.get(i)).getValue() + ">") != -1;
+		}
+	}
+	public void setSubjectChildFirstName(String subjectChildFirstName) {
+		this.subjectChildFirstName = subjectChildFirstName;
+	}
+	
+	public String getSubjectChildFirstName() {
+		return this.subjectChildFirstName;
 	}
 
 }

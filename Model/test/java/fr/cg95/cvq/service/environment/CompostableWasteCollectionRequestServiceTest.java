@@ -50,8 +50,8 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
     protected CompostableWasteCollectionRequest fillMeARequest() throws CvqException {
 
         CompostableWasteCollectionRequest request = new CompostableWasteCollectionRequest();
-              request.setCollectionAddress("CollectionAddress");
-                            request.setOtherWaste("OtherWaste");
+                      request.setCollectionAddress("CollectionAddress");
+                    request.setOtherWaste("OtherWaste");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

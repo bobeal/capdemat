@@ -1257,7 +1257,7 @@
         <enum key="DEA" value="DEA" />
         <enum key="DEUG" value="DEUG" />
         <enum key="Licence" value="Licence" />
-        <enum key="Maîtrise" value="Maîtrise" />
+        <enum key="Maitrise" value="Maîtrise" />
         <enum key="Unknown" value="Inconnu" />
       </xs:documentation>
     </xs:annotation>
@@ -1272,7 +1272,7 @@
       <xs:enumeration value="DEA" />
       <xs:enumeration value="DEUG" />
       <xs:enumeration value="Licence" />
-      <xs:enumeration value="Maîtrise" />
+      <xs:enumeration value="Maitrise" />
       <xs:enumeration value="Unknown" />
     </xs:restriction>
   </xs:simpleType>

@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.leisure.music.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -65,6 +67,13 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         if (this.rulesAndRegulationsAcceptance != null)
             musicSchoolRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
         return musicSchoolRegistrationRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        MusicSchoolRegistrationRequestDocument musicSchoolRegistrationRequestDoc =
+            (MusicSchoolRegistrationRequestDocument) modelToXml();
+        return musicSchoolRegistrationRequestDoc.getMusicSchoolRegistrationRequest();
     }
 
     public static MusicSchoolRegistrationRequest xmlToModel(MusicSchoolRegistrationRequestDocument musicSchoolRegistrationRequestDoc) {

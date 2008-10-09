@@ -5,18 +5,6 @@
       <ul class="validation_list">
         <li class="text_row">
           <p class="label">
-            Filiation de : 
-          </p>
-          <p class="text">
-            <cvqf:select name="relationship" mode="static">
-              <option value="">Choisissez un filiation de</option>
-              <option value="Husband">L'époux</option>
-              <option value="Wife">L'épouse</option>
-            </cvqf:select>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">
             Nom du père : 
           </p>
           <p class="text">

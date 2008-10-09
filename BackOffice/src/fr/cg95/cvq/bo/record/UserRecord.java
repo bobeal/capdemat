@@ -45,6 +45,7 @@ public class UserRecord implements IResultRecord {
 	private String lastName;
 	private String password;
 	private String profile;
+	private Boolean active;
 	
 	private boolean RO;
     private boolean RW;
@@ -186,6 +187,14 @@ public class UserRecord implements IResultRecord {
 
     public void setManager(boolean manage) {
         this.manager = manage;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
 }

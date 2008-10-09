@@ -1,0 +1,87 @@
+<xs:schema targetNamespace="http://www.capwebct.fr/capdemat"
+  xmlns:capdemat="http://www.capwebct.fr/capdemat"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:common="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="http://capdemat.capwebct.fr/browser/tags/CVQ_3_2_0/Generator/src/xml/schemas/common/CVQCommonElements.xsd" />
+
+  <xs:element name="GetRequestsRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RequestTypeLabel" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              The label of the request types. If not provided, all authorized 
+	      request types will be returned.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="DateFrom" type="xs:dateTime">
+          <xs:annotation>
+            <xs:documentation>
+              The date to search from. 
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="DateTo" type="xs:dateTime" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              The date to search to. Defaults to today (included) if not provided.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="State" type="common:RequestStateType" default="Validated" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="GetRequestsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element name="Error" type="xs:string" minOccurs="0" />
+          <xs:element name="Request" type="common:RequestType" minOccurs="0" maxOccurs="unbounded" />          
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AckRequestsRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="AckElements" type="capdemat:AckRequestType" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AckRequestsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Accomplished" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="AckRequestType">
+    <xs:sequence>
+      <xs:element name="RequestId" type="xs:long">
+        <xs:annotation>
+          <xs:documentation>
+            Processed request identifier
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Erroneous" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation>
+            Error flag
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>  
+
+</xs:schema>

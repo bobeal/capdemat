@@ -31,8 +31,7 @@
             <block id="0" label="Renseignements concernant l'acte de naissance" column="3" />
             <block id="1" label="Renseignements concernant le demandeur" column="2" />
             <block id="2"
-              label="Qualité du demandeur (lien de parent&#x00E9; avec la personne dont vous demandez l'acte)"
-              breakAfter="true" />
+              label="Qualité du demandeur (lien de parent&#x00E9; avec la personne dont vous demandez l'acte)" />
             <block id="3" label="Etat civil de la personne dont vous demandez l'acte de naissance"
               column="2" />
             <block id="4" label="Informations de filiation de la personne dont vous demandez l'acte"
@@ -65,7 +64,7 @@
 
                   <xslfo>
                     <element blockId="0" line="1" column="0">
-                      <varargCheckbox displayModulo="2" />
+                      <varargCheckbox displayModulo="4" />
                     </element>
                   </xslfo>
 
@@ -101,13 +100,13 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="Usage" type="xs:token" minOccurs="0">
+            <xs:element name="Comment" type="xs:token" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Pr&#x00E9;cisez le ou les usage(s) de ce ou ces document(s)
+                  Commentaire
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Usage
+                  Commentaire
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
@@ -122,7 +121,34 @@
                   </bo>
                   <xslfo>
                     <element blockId="0" line="2" column="1" columnSpan="2" useLongDesc="true">
-                      <string />
+                      <string valueWeight="3"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Motive" type="bdr:BirthCertificateMotiveType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Motif de la demande
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Motif
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="type" page="type" line="4" />
+                    <display field="" stage="type" page="parents" line="4" />
+                    <display field="" stage="validation" page="summary" line="14" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="23" />
+                    <display field="" page="checkbirth" line="5" mode="static" />
+                    <display field="" page="printbirth" line="5" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="3" column="0">
+                      <varargCheckbox displayModulo="5" />
                     </element>
                   </xslfo>
                 </xs:appinfo>
@@ -304,28 +330,6 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="Relationship" type="bdr:BirthRelationshipType" default="Husband">
-              <xs:annotation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" stage="type" page="parents" line="5"
-                      condition="format == ExtractWithRelationship" />
-                    <display field="" stage="validation" page="summaryrelation" line="36"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaybirth" line="151" />
-                  </bo>
-
-                  <xslfo>
-                    <element blockId="4" line="0" column="0">
-                      <varargCheckbox displayModulo="2" />
-                    </element>
-                  </xslfo>
-
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
             <xs:element name="FatherLastName" type="cvq:LastNameType" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
@@ -444,12 +448,14 @@
         <enum key="FullCopy" value="Copie int&#x00E9;grale" />
         <enum key="ExtractWithRelationship" value="Extrait avec filiation" />
         <enum key="ExtractWithoutRelationship" value="Extrait sans filiation" />
+        <enum key="MultilingualExtract" value="Extrait plurilingue" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="FullCopy" />
       <xs:enumeration value="ExtractWithRelationship" />
       <xs:enumeration value="ExtractWithoutRelationship" />
+      <xs:enumeration value="MultilingualExtract" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -493,19 +499,36 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="BirthRelationshipType">
+  <xs:simpleType name="BirthCertificateMotiveType">
     <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations relatives au motif de la demande
+      </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Filiation de
+        Motif
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Husband" value="L'&#x00E9;poux" />
-        <enum key="Wife" value="L'&#x00E9;pouse" />
+        <enum key="NotaryAct" value="Acte de notaire" />
+        <enum key="NationalIdentityCard" value="Carte nationale d'identité" />
+        <enum key="FrenchNationalityCertificate" value="Certificat de nationalité française" />
+        <enum key="Marriage" value="Mariage" />
+        <enum key="Pacs" value="Pacte civil de solidarité" />
+        <enum key="Passport" value="Passeport" />
+        <enum key="Pension" value="Pension" />
+        <enum key="LegalProceedings" value="Procédure judiciaire" />
+        <enum key="Other" value="Autre" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:enumeration value="Husband" />
-      <xs:enumeration value="Wife" />
+      <xs:enumeration value="NotaryAct" />
+      <xs:enumeration value="NationalIdentityCard" />
+      <xs:enumeration value="FrenchNationalityCertificate" />
+      <xs:enumeration value="Marriage" />
+      <xs:enumeration value="Pacs" />
+      <xs:enumeration value="Passport" />
+      <xs:enumeration value="Pension" />
+      <xs:enumeration value="LegalProceedings" />
+      <xs:enumeration value="Other" />
     </xs:restriction>
   </xs:simpleType>
 

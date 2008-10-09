@@ -9,6 +9,8 @@ import fr.cg95.cvq.xml.environment.*;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestType;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
@@ -65,6 +67,13 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         }
         bulkyWasteCollectionRequest.setOtherWaste(this.otherWaste);
         return bulkyWasteCollectionRequestDoc;
+    }
+
+    @Override
+    public RequestType modelToXmlRequest() {
+        BulkyWasteCollectionRequestDocument bulkyWasteCollectionRequestDoc =
+            (BulkyWasteCollectionRequestDocument) modelToXml();
+        return bulkyWasteCollectionRequestDoc.getBulkyWasteCollectionRequest();
     }
 
     public static BulkyWasteCollectionRequest xmlToModel(BulkyWasteCollectionRequestDocument bulkyWasteCollectionRequestDoc) {

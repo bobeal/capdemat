@@ -90,8 +90,8 @@
      		  this.currentDwellingCurrentDwellingType = new Function("key","this.label='Nature de la résidence'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
      		  this.currentDwellingCurrentDwellingArrivalDate = new Function("key","this.label='Date d&quote;arrivée'; this.msg=null; this.required=false; this.mask=/[0-9]{1,2}[\\/][0-9]{1,2}[\\/][0-9]{4}/; this.minlength=0; this.maxlength=10; this.transform='date'; this.type=null; return this[key];");
      		  this.currentDwellingCurrentDwellingStatus = new Function("key","this.label='Statut Habitation'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.currentDwellingCurrentDwellingRoomNumber = new Function("key","this.label='Nombre de pièces'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.currentDwellingCurrentDwellingNetFloorArea = new Function("key","this.label='Surface habitable'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.currentDwellingCurrentDwellingRoomNumber = new Function("key","this.label='Nombre de pièces'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.currentDwellingCurrentDwellingNetFloorArea = new Function("key","this.label='Surface habitable'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
         window.onload = function () {
 	        addresseTypeAhead("currentDwellingCurrentDwellingAddressCity", "currentDwellingCurrentDwellingAddressPostalCode");

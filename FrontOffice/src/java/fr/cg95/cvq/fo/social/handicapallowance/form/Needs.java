@@ -11,39 +11,39 @@ import fr.cg95.cvq.xml.social.HandicapAllowanceRequestDocument.HandicapAllowance
 
 public class Needs extends IStageForm {
 
-	private String comments;
 	private String needs;
-	private String hopes;
+	private String comments;
 	private boolean hopesAndNeeds;
+	private String hopes;
 
 	public Needs() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("display")) {
-		}
 		if (state.equals("needs")) {
+		}
+		if (state.equals("display")) {
 		}
 	}
 	
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HandicapAllowanceRequest)) {
 			HandicapAllowanceRequest request = (HandicapAllowanceRequest)xmlbRequest;
-			this.comments = request.getComments();
 			this.needs = request.getNeeds();
-			this.hopes = request.getHopes();
+			this.comments = request.getComments();
 			this.hopesAndNeeds = request.getHopesAndNeeds();
+			this.hopes = request.getHopes();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HandicapAllowanceRequest)) {
 			HandicapAllowanceRequest request = (HandicapAllowanceRequest)xmlbRequest;
-			request.setComments(this.comments);
 			request.setNeeds(this.needs);
-			request.setHopes(this.hopes);
+			request.setComments(this.comments);
 			request.setHopesAndNeeds(this.hopesAndNeeds);
+			request.setHopes(this.hopes);
 		}
 	}
 	
@@ -51,18 +51,6 @@ public class Needs extends IStageForm {
 		return true;
 	}
 	
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-	
-	public String getComments() {
-		return this.comments;
-	}
-	
-	public boolean checkComments() {
-		return hopesAndNeeds;
-	}
-
 	public void setNeeds(String needs) {
 		this.needs = needs;
 	}
@@ -75,15 +63,15 @@ public class Needs extends IStageForm {
 		return hopesAndNeeds;
 	}
 
-	public void setHopes(String hopes) {
-		this.hopes = hopes;
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 	
-	public String getHopes() {
-		return this.hopes;
+	public String getComments() {
+		return this.comments;
 	}
 	
-	public boolean checkHopes() {
+	public boolean checkComments() {
 		return hopesAndNeeds;
 	}
 
@@ -97,6 +85,18 @@ public class Needs extends IStageForm {
 	
 	public boolean checkHopesAndNeeds() {
 		return true;
+	}
+
+	public void setHopes(String hopes) {
+		this.hopes = hopes;
+	}
+	
+	public String getHopes() {
+		return this.hopes;
+	}
+	
+	public boolean checkHopes() {
+		return hopesAndNeeds;
 	}
 
 }

@@ -50,10 +50,10 @@ public class LibraryRegistrationRequestServiceTest extends ServiceTestCase {
     protected LibraryRegistrationRequest fillMeARequest() throws CvqException {
 
         LibraryRegistrationRequest request = new LibraryRegistrationRequest();
-          request.setParentalAuthorization(Boolean.valueOf(true));
-                      request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-                request.setRegistrationNumber("RegistrationNumber");
-      
+              request.setRegistrationNumber("RegistrationNumber");
+                request.setParentalAuthorization(Boolean.valueOf(true));
+                    request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+    
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

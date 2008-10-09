@@ -809,6 +809,17 @@ input[type=text].toggle_field
   width: 207px;
 }
 
+.form_block .fieldset005 .form_cell .list
+{
+  color: #006ea9;
+  display: block;
+  float: right;
+  font-size: 0.95em;
+  font-weight: bold;
+  line-height: 1.3em;
+  padding: 2px 5px;
+  width: 337px;
+}
 /* FORM TYPE 6 */
 .form_block .fieldset006
 {

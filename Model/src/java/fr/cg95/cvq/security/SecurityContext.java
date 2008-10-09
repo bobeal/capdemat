@@ -201,6 +201,28 @@ public class SecurityContext {
         setCurrentEcitizen((Adult) individual);
     }
 
+    public static String getCurrentExternalService() throws CvqException {
+        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        if (credentialBean == null)
+            throw new CvqException("No user yet in security context");
+
+        if (!credentialBean.isBoContext())
+            throw new CvqException("External service only exists in Back Office context");
+
+        return credentialBean.getExternalService();
+    }
+
+    public static void setCurrentExternalService(String externalService) throws CvqException {
+        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        if (credentialBean == null)
+            throw new CvqException("setCurrentSite() has to be called before setCurrentEcitizen()");
+
+        if (!credentialBean.isBoContext())
+            throw new CvqException("External service can only be set in Back Office context");
+        
+        credentialBean.setExternalService(externalService);
+    }
+
     /**
      * Return the login of the current user ("administrator" if admin context, 
      * whether it is an agent or an e-citizen.

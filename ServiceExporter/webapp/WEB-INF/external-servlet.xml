@@ -5,20 +5,67 @@
   <bean id="homeFolderServiceEndpoint" 
     class="fr.cg95.cvq.exporter.service.endpoint.HomeFolderServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
-    <property name="homeFolderService" ref="homeFolderService"></property>  
+    <property name="homeFolderService" ref="homeFolderService" />  
   </bean>
+  
+  <bean id="requestServiceEndpoint" 
+    class="fr.cg95.cvq.exporter.service.endpoint.RequestServiceEndpoint">
+    <constructor-arg ref="xmlBeanMarshaller" />
+    <property name="defaultRequestService" ref="defaultRequestService" />
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="externalServiceOrchestrator" ref="externalServiceOrchestrator" />  
+  </bean>
+  
+  <bean id="ackRequestServiceEndpoint" 
+    class="fr.cg95.cvq.exporter.service.endpoint.AckRequestServiceEndpoint">
+    <constructor-arg ref="xmlBeanMarshaller" />
+    <property name="externalServiceOrchestrator" ref="externalServiceOrchestrator" />  
+  </bean>    
   
   <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
     <property name="mappings">
         <props>
             <prop key="{http://www.capwebct.fr/capdemat}GetHomeFoldersRequest">homeFolderServiceEndpoint</prop>
+            <prop key="{http://www.capwebct.fr/capdemat}GetRequestsRequest">requestServiceEndpoint</prop>
+            <prop key="{http://www.capwebct.fr/capdemat}AckRequestsRequest">ackRequestServiceEndpoint</prop>
         </props>
     </property>
     <property name="interceptors">
-        <bean class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor"/>
+      <list>
+        <!-- <bean class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor"/> -->
+        <ref bean="wsSecurityInterceptor" />
+      </list>
     </property>
   </bean>
 
   <bean id="xmlBeanMarshaller" class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller" />
+  
+  <!-- Security -->
+  <bean id="wsSecurityInterceptor"
+	class="org.springframework.ws.soap.security.xwss.XwsSecurityInterceptor">
+	<property name="secureResponse" value="false" />
+	<property name="policyConfiguration" value="classpath:securityPolicy.xml" />
+	<property name="callbackHandler" >
+	  <ref bean="passwordValidationHandler"  />
+	</property>
+  </bean>
+	
+  <bean id="passwordValidationHandler"
+	class="fr.cg95.cvq.exporter.service.handlers.SimpleValidationCallbackHandler">
+	<property name="externalServiceOrchestrator">
+		<ref bean="externalServiceOrchestrator" />
+	</property>
+  </bean>
 
+  <!-- To export a WSDL of the service -->
+  <bean id="requests" class="org.springframework.ws.wsdl.wsdl11.DynamicWsdl11Definition">
+    <property name="builder">
+      <bean class="org.springframework.ws.wsdl.wsdl11.builder.XsdBasedSoap11Wsdl4jDefinitionBuilder">
+        <property name="schema" value="/WEB-INF/xsd/RequestService.xsd"/>
+        <property name="portTypeName" value="requests"/>
+        <property name="locationUri" value="/wsdl"/>
+      </bean>
+    </property>
+  </bean>
+  
 </beans>

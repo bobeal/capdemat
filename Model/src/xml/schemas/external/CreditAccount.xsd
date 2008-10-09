@@ -114,6 +114,18 @@
         <xs:documentation xml:lang="en">CapDemat identifier for the home folder</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="externalCapDematId" type="xs:string">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Identifiant CapDemat externe du foyer</xs:documentation>
+        <xs:documentation xml:lang="en">Home folder's external CapDemat identifier</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="externalId" type="xs:string">
+      <xs:annotation>
+        <xs:documentation xml:lang="fr">Identifiant externe du foyer</xs:documentation>
+        <xs:documentation xml:lang="en">Home folder's external identifier</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="zip" type="xs:string">
       <xs:annotation>
         <xs:documentation xml:lang="fr">Code postal de la collectivité d'inscription du foyer</xs:documentation>
@@ -133,6 +145,7 @@
     <xs:attribute name="external-family-account-id" type="xs:string" />
     <xs:attribute name="external-application-id" type="xs:long" />
     <xs:attribute name="capwebct-individual-id" type="xs:long" />
+    <xs:attribute name="capwebct-external-individual-id" type="xs:string" />
     <xs:attribute name="quantity" type="xs:int" />
     <xs:attribute name="price" type="xs:int" />
     <xs:attribute name="amount" type="xs:int" />

@@ -110,7 +110,7 @@ public class ShowChildCountsAction extends BasePersonalAction {
                 IRequestService currentRequestService =
                     BusinessManager.getInstance().getRequestService(request);
                 try {
-                    if (requestService.hasConsumptions(request.getRequestType().getLabel())) {
+                    if (requestService.hasMatchingExternalService(request.getRequestType().getLabel())) {
                         ReferentialData refData = new ReferentialData(currentRequestService.getLabel(), 
                                 requestManager.getRequestTypeLabel(request.getRequestType().getLabel()));
                         selectList.add(refData);

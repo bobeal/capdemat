@@ -3,7 +3,7 @@
 
 <beans>
 
-  <bean id="configurationBean_valdoise"
+  <bean id="configurationBean_dummy"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="dummy" />
     <property name="postalCode" value="95999"/>
@@ -15,13 +15,6 @@
         <value>localhost</value>
       </list>
     </property>
-    <!--
-      <property name="displayProperties">
-      <list>
-      <value>adeline</value>
-      </list>
-      </property>
-    -->
     <property name="requestsCreationNotificationEnabled" value="true" />
     <property name="instructionAlertsEnabled" value="true" />
     <property name="instructionAlertsDetailed" value="true" />
@@ -165,39 +158,7 @@
       </map>
     </property>
     <property name="externalServices">
-      <map>
-        <entry>
-          <key>
-            <ref bean="fakeExternalService" />
-          </key>
-          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
-            <property name="requestTypes">
-              <list>
-                <value>School Canteen Registration</value>
-                <value>Perischool Activity Registration</value>
-                <value>VO Card Request</value>
-                <value>Home Folder Modification</value>
-              </list>
-            </property>
-            <property name="supportAccountsByHomeFolder">
-              <value>true</value>
-            </property>
-            <property name="supportAccountsByRequest">
-              <value>false</value>
-            </property>
-            <property name="serviceProperties">
-              <map>
-                <entry>
-                  <key>
-                    <value>badgeNumberManagedByHN</value>
-                  </key>
-                  <value>true</value>
-                </entry>
-              </map>
-            </property>
-          </bean>
-        </entry>
-      </map>
+      <map></map>
     </property>
     <property name="ecitizenCreationNotifications">
       <map>

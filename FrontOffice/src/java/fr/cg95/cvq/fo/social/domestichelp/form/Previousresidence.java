@@ -12,6 +12,7 @@ import fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest;
 public class Previousresidence extends IStageForm {
 
 	private Calendar previousDwellingsPreviousDwellingDepartureDate;
+	private Calendar previousDwellingsPreviousDwellingArrivalDate;
   	private String previousDwellingsPreviousDwellingAddressAdditionalDeliveryInformation;
 	private String previousDwellingsPreviousDwellingAddressAdditionalGeographicalInformation;
 	private String previousDwellingsPreviousDwellingAddressStreetNumber;
@@ -19,16 +20,15 @@ public class Previousresidence extends IStageForm {
 	private String previousDwellingsPreviousDwellingAddressPlaceNameOrService;
 	private String previousDwellingsPreviousDwellingAddressPostalCode;
 	private String previousDwellingsPreviousDwellingAddressCity;
-	private Calendar previousDwellingsPreviousDwellingArrivalDate;
 
 	public Previousresidence() {
 		super();
 	}
 	
 	public void reset(String state) {
-		if (state.equals("displayprevious")) {
-		}
 		if (state.equals("previous")) {
+		}
+		if (state.equals("displayprevious")) {
 		}
 	}
 	
@@ -66,6 +66,18 @@ public class Previousresidence extends IStageForm {
 	}
 	
 	public boolean checkPreviousDwellingsPreviousDwellingDepartureDate() {
+		return true;
+	}
+
+	public void setPreviousDwellingsPreviousDwellingArrivalDate(Calendar previousDwellingsPreviousDwellingArrivalDate) {
+		this.previousDwellingsPreviousDwellingArrivalDate = previousDwellingsPreviousDwellingArrivalDate;
+	}
+	
+	public Calendar getPreviousDwellingsPreviousDwellingArrivalDate() {
+		return this.previousDwellingsPreviousDwellingArrivalDate;
+	}
+	
+	public boolean checkPreviousDwellingsPreviousDwellingArrivalDate() {
 		return true;
 	}
 
@@ -150,18 +162,6 @@ public class Previousresidence extends IStageForm {
 	}
 	
 	public boolean checkPreviousDwellingsPreviousDwellingAddressCity() {
-		return true;
-	}
-
-	public void setPreviousDwellingsPreviousDwellingArrivalDate(Calendar previousDwellingsPreviousDwellingArrivalDate) {
-		this.previousDwellingsPreviousDwellingArrivalDate = previousDwellingsPreviousDwellingArrivalDate;
-	}
-	
-	public Calendar getPreviousDwellingsPreviousDwellingArrivalDate() {
-		return this.previousDwellingsPreviousDwellingArrivalDate;
-	}
-	
-	public boolean checkPreviousDwellingsPreviousDwellingArrivalDate() {
 		return true;
 	}
 

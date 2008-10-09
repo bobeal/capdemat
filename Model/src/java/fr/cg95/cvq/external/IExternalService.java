@@ -1,33 +1,46 @@
 package fr.cg95.cvq.external;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
+import fr.cg95.cvq.business.external.ExternalServiceTrace;
+import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.exception.CvqConfigurationException;
+import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.payment.IPaymentService;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.permission.CvqPermissionException;
+import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 
-/**
- * The interface all external services must implement.
- *
- * @author Benoit Orihuela (bor@zenexity.fr)
- */
 public interface IExternalService {
 
     /**
-     * Send a new (validated) request to an external service.
-     * 
-     * @param request we want to send
-     * @return business id coming from the plugged application
+     * Authenticate an external service.
      */
-    String sendRequest(final Request request)
+    boolean authenticate(final String externalServiceLabel, final String password);
+    
+    /**
+     * Send a new (validated) request to an external service.
+     */
+    void sendRequest(final Request request)
+        throws CvqException;
+
+    /**
+     * Dispatch a payment's information and data to the appropriate external services.
+     */
+    void creditHomeFolderAccounts(final Payment payment)
+        throws CvqException;
+
+    /**
+     * Return whether given request type has at least an associated external service.
+     */
+    boolean hasMatchingExternalService(final String requestLabel)
         throws CvqException;
 
     /**
@@ -36,39 +49,31 @@ public interface IExternalService {
      * @param request the request we want associated consumptions of
      * @param dateFrom date down limit for the returned consumptions for this request
      * @param dateTo date up limit for the returned consumptions for this request
-     *
-     * @return a map of (date, label) pairs
      */
     Map<Date, String> getConsumptionsByRequest(final Request request, final Date dateFrom, 
             final Date dateTo)
         throws CvqException;
 
     /**
-     * Get accounts grouped by home folder.
-     *
-     * @return Map of accounts for this home folder, keys are
-     *               {@link IPaymentService#EXTERNAL_INVOICES}, 
-     *               {@link IPaymentService#EXTERNAL_TICKETING_ACCOUNTS},
-     *               {@link IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS}
+     * Get external accounts information and state for the given home folder. Designed
+     * to be called by an ecitizen from the Front Office.
+     * 
+     * @param homeFolderRequestTypes the request types for whom the given home folder
+     *              has at least a request
+     * @param type the "account type" for which we want information (one of
+     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_INVOICES}, 
+     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS},
+     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_TICKETING_ACCOUNTS}
      */
-    Map<String, List<ExternalAccountItem> > getAccountsByHomeFolder(final Long homeFolderId) 
+    Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, 
+            Set<String> homeFolderRequestTypes, String type) 
         throws CvqException;
-
-    /**
-     * Get accounts for a given request.
-     *
-     * @return Map of accounts for this request, keys are
-     *               {@link IPaymentService#EXTERNAL_INVOICES}, 
-     *               {@link IPaymentService#EXTERNAL_TICKETING_ACCOUNTS},
-     *               {@link IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS}
-     */
-    Map<String, List<ExternalAccountItem> > getAccountsByRequest(final Long requestId) 
-        throws CvqException;
-
+    
     /**
      * Get information about individual's accounts. 
      */
-    Map<Individual, Map<String, String> > getIndividualAccountsInformation(final Long homeFolderId)
+    Map<Individual, Map<String, String> > getIndividualAccountsInformation(final Long homeFolderId, 
+            Set<String> homeFolderRequestTypes)
         throws CvqException;
 
     /**
@@ -84,38 +89,84 @@ public interface IExternalService {
         throws CvqException;
     
     /**
-     * Credit accounts of a given home folder with the provided purchase items.
+     * Get the list of request types labels associated to the given external service.
      */
-    void creditHomeFolderAccounts(final Collection purchaseItems, final String cvqReference,
-            final String bankReference, final Long homeFolderId, final Date validationDate)
-        throws CvqException;
-
-    /**
-     * Credit accounts of a given request with the provided purchase items.
-     */
-    void creditRequestAccounts(final Long requestId, final String transaction,
-            final Collection purchaseItems, final Date date, final String bankGrantId)
-        throws CvqException;
-
-    /**
-     * Initialization callback called for each declared local authority.
-     * It's then up to the external service to check that it has all the configuration
-     * parameters required to function properly
-     */
-    void checkConfiguration(final ExternalServiceBean externalServiceBean)
-        throws CvqConfigurationException;
-
-    /**
-     * Utility method that can be used for integration tests with external services
-     * @fixme is it really a good idea ?
-     */
-    String helloWorld()
-        throws CvqException;
+    Set<String> getRequestTypesForExternalService(final String externalServiceLabel);
     
     /**
-     * A label to uniquely identify an external service.
-     * 
-     * It is currently used to know when we have to transmit payments results to an external service.
+     * Get the list of request types for which a pre-generation is asked.
      */
-    String getLabel();
+    Set<String> getGenerableRequestTypes();
+
+    /**
+     * Add a new mapping for the given object.
+     * 
+     * If a mapping already exists for the given external service label and home folder id,
+     * its external id will be replaced by the given one.
+     */
+    void addHomeFolderMapping(ExternalServiceIdentifierMapping esim) 
+            throws CvqPermissionException;
+    
+    /**
+     * Add a new mapping for the given identifiers.
+     * 
+     * If a mapping already exists for the given external service label and home folder id,
+     * its external id will be replaced by the given one.
+     */
+    void addHomeFolderMapping(final String externalServiceLabel, final Long homeFolderId,
+            final String externalId) throws CvqPermissionException;
+    
+    /**
+     * Add a new mapping for the given individual identifiers.
+     * 
+     * If a mapping already exists for the given individual id, it will be replaced by the 
+     * new one.
+     * 
+     * @throws CvqException if no mapping exists for the given external service label 
+     *      and home folder id.
+     */
+    void addIndividualMapping(final String externalServiceLabel, final Long homeFolderId,
+            final Long individualId, final String externalId) throws CvqException;
+
+    void deleteHomeFolderMapping(final String externalServiceLabel, final Long homeFolderId) 
+        throws CvqPermissionException;
+    
+    void deleteHomeFoldersMappings(final String externalServiceLabel) 
+        throws CvqPermissionException;
+    
+    ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel, 
+            final Long homeFolderId);
+
+    ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel, 
+            final String externalId);
+    
+    Set<ExternalServiceIdentifierMapping> getIdentifiersMappings(final String externalServiceLabel);
+    
+    Long addTrace(ExternalServiceTrace trace) throws CvqPermissionException;
+    
+    Set<ExternalServiceTrace> getTraces(Long key, String name, 
+            TraceStatusEnum status, Date dateFrom, Date dateTo);
+    
+    Set<ExternalServiceTrace> getTracesByStatus(TraceStatusEnum status);
+    
+    Set<Long> getTraceKeysByStatus(Set<Long> ids, Set<String> statuses);
+    
+    int deleteTraces(Long key, String keyOwner) 
+        throws CvqPermissionException, CvqObjectNotFoundException;
+    
+    int deleteTraces(String name) throws CvqPermissionException, CvqObjectNotFoundException;
+    
+    /**
+     * Get ids of requests that match the given search criteria.
+     * 
+     * TODO move to request service after DAOs improvements
+     */
+    Set<Long> getRequestIds(Set<ISearchCriteria> searchCriterias);
+    
+    /**
+     * Get ids of validated requests with the given types within the given previous days.
+     * 
+     * TODO move to request service after DAOs improvements
+     */
+    Set<Long> getValidatedRequestIds(Set<String> requestTypesLabels, int numberOfDays);    
 }

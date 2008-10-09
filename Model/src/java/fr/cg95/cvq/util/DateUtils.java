@@ -1,5 +1,6 @@
 package fr.cg95.cvq.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,6 +28,10 @@ public class DateUtils {
     
     public static String format(Date date) {
         return dateFormat.format(date);
+    }
+    
+    public static Date parseDate(String source) throws ParseException {
+       return dateFormat.parse(source);
     }
     
     public static Date getShiftedDate(int shiftUnit, int shiftAmount) {

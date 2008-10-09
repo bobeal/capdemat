@@ -11,14 +11,7 @@ import fr.cg95.cvq.xml.social.HandicapAllowanceRequestDocument.HandicapAllowance
 
 public class Validation extends IStageForm {
 
-	private String subjectIndividualLastName;
-  	private String legalRepresentativeAddressAdditionalDeliveryInformation;
-	private String legalRepresentativeAddressAdditionalGeographicalInformation;
-	private String legalRepresentativeAddressStreetNumber;
-	private String legalRepresentativeAddressStreetName;
-	private String legalRepresentativeAddressPlaceNameOrService;
-	private String legalRepresentativeAddressPostalCode;
-	private String legalRepresentativeAddressCity;
+	private String legalRepresentativeName;
   	private String subjectIndividualAddressAdditionalDeliveryInformation;
 	private String subjectIndividualAddressAdditionalGeographicalInformation;
 	private String subjectIndividualAddressStreetNumber;
@@ -26,19 +19,26 @@ public class Validation extends IStageForm {
 	private String subjectIndividualAddressPlaceNameOrService;
 	private String subjectIndividualAddressPostalCode;
 	private String subjectIndividualAddressCity;
-	private String needs;
-	private boolean writingHelp;
-	private boolean legalRepresentative;
-	private boolean hopesAndNeeds;
-	private String helperResponsability;
-	private String legalRepresentativeFamilyRelationship;
-	private String helperName;
-	private String legalRepresentativeName;
-	private String subjectIndividualFirstName;
 	private String comments;
+	private boolean hopesAndNeeds;
+	private String subjectIndividualFirstName;
+	private boolean writingHelp;
 	private String legalRepresentativeFirstame;
-	private String hopes;
+  	private String legalRepresentativeAddressAdditionalDeliveryInformation;
+	private String legalRepresentativeAddressAdditionalGeographicalInformation;
+	private String legalRepresentativeAddressStreetNumber;
+	private String legalRepresentativeAddressStreetName;
+	private String legalRepresentativeAddressPlaceNameOrService;
+	private String legalRepresentativeAddressPostalCode;
+	private String legalRepresentativeAddressCity;
+	private String needs;
+	private String legalRepresentativeFamilyRelationship;
+	private String helperResponsability;
+	private boolean legalRepresentative;
+	private String helperName;
 	private String legalRepresentativePhone;
+	private String subjectIndividualLastName;
+	private String hopes;
 
 	public Validation() {
 		super();
@@ -52,14 +52,7 @@ public class Validation extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HandicapAllowanceRequest)) {
 			HandicapAllowanceRequest request = (HandicapAllowanceRequest)xmlbRequest;
-			this.subjectIndividualLastName = request.getSubject().getIndividual().getLastName();
-  			this.legalRepresentativeAddressAdditionalDeliveryInformation = request.getLegalRepresentativeAddress().getAdditionalDeliveryInformation();
-			this.legalRepresentativeAddressAdditionalGeographicalInformation = request.getLegalRepresentativeAddress().getAdditionalGeographicalInformation();
-			this.legalRepresentativeAddressStreetNumber = request.getLegalRepresentativeAddress().getStreetNumber();
-			this.legalRepresentativeAddressStreetName = request.getLegalRepresentativeAddress().getStreetName();
-			this.legalRepresentativeAddressPlaceNameOrService = request.getLegalRepresentativeAddress().getPlaceNameOrService();
-			this.legalRepresentativeAddressPostalCode = request.getLegalRepresentativeAddress().getPostalCode();
-			this.legalRepresentativeAddressCity = request.getLegalRepresentativeAddress().getCity();
+			this.legalRepresentativeName = request.getLegalRepresentativeName();
   			this.subjectIndividualAddressAdditionalDeliveryInformation = request.getSubject().getIndividual().getAddress().getAdditionalDeliveryInformation();
 			this.subjectIndividualAddressAdditionalGeographicalInformation = request.getSubject().getIndividual().getAddress().getAdditionalGeographicalInformation();
 			this.subjectIndividualAddressStreetNumber = request.getSubject().getIndividual().getAddress().getStreetNumber();
@@ -67,33 +60,33 @@ public class Validation extends IStageForm {
 			this.subjectIndividualAddressPlaceNameOrService = request.getSubject().getIndividual().getAddress().getPlaceNameOrService();
 			this.subjectIndividualAddressPostalCode = request.getSubject().getIndividual().getAddress().getPostalCode();
 			this.subjectIndividualAddressCity = request.getSubject().getIndividual().getAddress().getCity();
-			this.needs = request.getNeeds();
-			this.writingHelp = request.getWritingHelp();
-			this.legalRepresentative = request.getLegalRepresentative();
-			this.hopesAndNeeds = request.getHopesAndNeeds();
-			this.helperResponsability = request.getHelperResponsability();
-			this.legalRepresentativeFamilyRelationship = request.getLegalRepresentativeFamilyRelationship();
-			this.helperName = request.getHelperName();
-			this.legalRepresentativeName = request.getLegalRepresentativeName();
-			this.subjectIndividualFirstName = request.getSubject().getIndividual().getFirstName();
 			this.comments = request.getComments();
+			this.hopesAndNeeds = request.getHopesAndNeeds();
+			this.subjectIndividualFirstName = request.getSubject().getIndividual().getFirstName();
+			this.writingHelp = request.getWritingHelp();
 			this.legalRepresentativeFirstame = request.getLegalRepresentativeFirstame();
-			this.hopes = request.getHopes();
+  			this.legalRepresentativeAddressAdditionalDeliveryInformation = request.getLegalRepresentativeAddress().getAdditionalDeliveryInformation();
+			this.legalRepresentativeAddressAdditionalGeographicalInformation = request.getLegalRepresentativeAddress().getAdditionalGeographicalInformation();
+			this.legalRepresentativeAddressStreetNumber = request.getLegalRepresentativeAddress().getStreetNumber();
+			this.legalRepresentativeAddressStreetName = request.getLegalRepresentativeAddress().getStreetName();
+			this.legalRepresentativeAddressPlaceNameOrService = request.getLegalRepresentativeAddress().getPlaceNameOrService();
+			this.legalRepresentativeAddressPostalCode = request.getLegalRepresentativeAddress().getPostalCode();
+			this.legalRepresentativeAddressCity = request.getLegalRepresentativeAddress().getCity();
+			this.needs = request.getNeeds();
+			this.legalRepresentativeFamilyRelationship = request.getLegalRepresentativeFamilyRelationship();
+			this.helperResponsability = request.getHelperResponsability();
+			this.legalRepresentative = request.getLegalRepresentative();
+			this.helperName = request.getHelperName();
 			this.legalRepresentativePhone = request.getLegalRepresentativePhone();
+			this.subjectIndividualLastName = request.getSubject().getIndividual().getLastName();
+			this.hopes = request.getHopes();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof HandicapAllowanceRequest)) {
 			HandicapAllowanceRequest request = (HandicapAllowanceRequest)xmlbRequest;
-			request.getSubject().getIndividual().setLastName(this.subjectIndividualLastName);
-  			request.getLegalRepresentativeAddress().setAdditionalDeliveryInformation(this.legalRepresentativeAddressAdditionalDeliveryInformation);
-			request.getLegalRepresentativeAddress().setAdditionalGeographicalInformation(this.legalRepresentativeAddressAdditionalGeographicalInformation);
-			request.getLegalRepresentativeAddress().setStreetNumber(this.legalRepresentativeAddressStreetNumber);
-			request.getLegalRepresentativeAddress().setStreetName(this.legalRepresentativeAddressStreetName);
-			request.getLegalRepresentativeAddress().setPlaceNameOrService(this.legalRepresentativeAddressPlaceNameOrService);
-			request.getLegalRepresentativeAddress().setPostalCode(this.legalRepresentativeAddressPostalCode);
-			request.getLegalRepresentativeAddress().setCity(this.legalRepresentativeAddressCity);
+			request.setLegalRepresentativeName(this.legalRepresentativeName);
   			request.getSubject().getIndividual().getAddress().setAdditionalDeliveryInformation(this.subjectIndividualAddressAdditionalDeliveryInformation);
 			request.getSubject().getIndividual().getAddress().setAdditionalGeographicalInformation(this.subjectIndividualAddressAdditionalGeographicalInformation);
 			request.getSubject().getIndividual().getAddress().setStreetNumber(this.subjectIndividualAddressStreetNumber);
@@ -101,35 +94,30 @@ public class Validation extends IStageForm {
 			request.getSubject().getIndividual().getAddress().setPlaceNameOrService(this.subjectIndividualAddressPlaceNameOrService);
 			request.getSubject().getIndividual().getAddress().setPostalCode(this.subjectIndividualAddressPostalCode);
 			request.getSubject().getIndividual().getAddress().setCity(this.subjectIndividualAddressCity);
-			request.setNeeds(this.needs);
-			request.setWritingHelp(this.writingHelp);
-			request.setLegalRepresentative(this.legalRepresentative);
-			request.setHopesAndNeeds(this.hopesAndNeeds);
-			request.setHelperResponsability(this.helperResponsability);
-			request.setLegalRepresentativeFamilyRelationship(this.legalRepresentativeFamilyRelationship);
-			request.setHelperName(this.helperName);
-			request.setLegalRepresentativeName(this.legalRepresentativeName);
-			request.getSubject().getIndividual().setFirstName(this.subjectIndividualFirstName);
 			request.setComments(this.comments);
+			request.setHopesAndNeeds(this.hopesAndNeeds);
+			request.getSubject().getIndividual().setFirstName(this.subjectIndividualFirstName);
+			request.setWritingHelp(this.writingHelp);
 			request.setLegalRepresentativeFirstame(this.legalRepresentativeFirstame);
-			request.setHopes(this.hopes);
+  			request.getLegalRepresentativeAddress().setAdditionalDeliveryInformation(this.legalRepresentativeAddressAdditionalDeliveryInformation);
+			request.getLegalRepresentativeAddress().setAdditionalGeographicalInformation(this.legalRepresentativeAddressAdditionalGeographicalInformation);
+			request.getLegalRepresentativeAddress().setStreetNumber(this.legalRepresentativeAddressStreetNumber);
+			request.getLegalRepresentativeAddress().setStreetName(this.legalRepresentativeAddressStreetName);
+			request.getLegalRepresentativeAddress().setPlaceNameOrService(this.legalRepresentativeAddressPlaceNameOrService);
+			request.getLegalRepresentativeAddress().setPostalCode(this.legalRepresentativeAddressPostalCode);
+			request.getLegalRepresentativeAddress().setCity(this.legalRepresentativeAddressCity);
+			request.setNeeds(this.needs);
+			request.setLegalRepresentativeFamilyRelationship(this.legalRepresentativeFamilyRelationship);
+			request.setHelperResponsability(this.helperResponsability);
+			request.setLegalRepresentative(this.legalRepresentative);
+			request.setHelperName(this.helperName);
 			request.setLegalRepresentativePhone(this.legalRepresentativePhone);
+			request.getSubject().getIndividual().setLastName(this.subjectIndividualLastName);
+			request.setHopes(this.hopes);
 		}
 	}
 	
 	public boolean isComplete() {
-		if (this.checkSubjectIndividualLastName() &&
-			((this.subjectIndividualLastName == null) || (this.subjectIndividualLastName.length() == 0)))
-			return false;
-  		if (this.checkLegalRepresentativeAddressStreetName() &&
-			((this.legalRepresentativeAddressStreetName == null) || (this.legalRepresentativeAddressStreetName.length() == 0)))
-			return false;
-		if (this.checkLegalRepresentativeAddressPostalCode() &&
-			((this.legalRepresentativeAddressPostalCode == null) || (this.legalRepresentativeAddressPostalCode.length() == 0)))
-			return false;
-		if (this.checkLegalRepresentativeAddressCity() &&
-			((this.legalRepresentativeAddressCity == null) || (this.legalRepresentativeAddressCity.length() == 0)))
-			return false;
   		if (this.checkSubjectIndividualAddressStreetName() &&
 			((this.subjectIndividualAddressStreetName == null) || (this.subjectIndividualAddressStreetName.length() == 0)))
 			return false;
@@ -142,102 +130,30 @@ public class Validation extends IStageForm {
 		if (this.checkSubjectIndividualFirstName() &&
 			((this.subjectIndividualFirstName == null) || (this.subjectIndividualFirstName.length() == 0)))
 			return false;
+  		if (this.checkLegalRepresentativeAddressStreetName() &&
+			((this.legalRepresentativeAddressStreetName == null) || (this.legalRepresentativeAddressStreetName.length() == 0)))
+			return false;
+		if (this.checkLegalRepresentativeAddressPostalCode() &&
+			((this.legalRepresentativeAddressPostalCode == null) || (this.legalRepresentativeAddressPostalCode.length() == 0)))
+			return false;
+		if (this.checkLegalRepresentativeAddressCity() &&
+			((this.legalRepresentativeAddressCity == null) || (this.legalRepresentativeAddressCity.length() == 0)))
+			return false;
+		if (this.checkSubjectIndividualLastName() &&
+			((this.subjectIndividualLastName == null) || (this.subjectIndividualLastName.length() == 0)))
+			return false;
 		return true;
 	}
 	
-	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
-		this.subjectIndividualLastName = subjectIndividualLastName;
+	public void setLegalRepresentativeName(String legalRepresentativeName) {
+		this.legalRepresentativeName = legalRepresentativeName;
 	}
 	
-	public String getSubjectIndividualLastName() {
-		return this.subjectIndividualLastName;
+	public String getLegalRepresentativeName() {
+		return this.legalRepresentativeName;
 	}
 	
-	public boolean checkSubjectIndividualLastName() {
-		return true;
-	}
-
-  	public void setLegalRepresentativeAddressAdditionalDeliveryInformation(String legalRepresentativeAddressAdditionalDeliveryInformation) {
-		this.legalRepresentativeAddressAdditionalDeliveryInformation = legalRepresentativeAddressAdditionalDeliveryInformation;
-	}
-	
-	public String getLegalRepresentativeAddressAdditionalDeliveryInformation() {
-		return this.legalRepresentativeAddressAdditionalDeliveryInformation;
-	}
-	
-	public boolean checkLegalRepresentativeAddressAdditionalDeliveryInformation() {
-		return true;
-	}
-
-	public void setLegalRepresentativeAddressAdditionalGeographicalInformation(String legalRepresentativeAddressAdditionalGeographicalInformation) {
-		this.legalRepresentativeAddressAdditionalGeographicalInformation = legalRepresentativeAddressAdditionalGeographicalInformation;
-	}
-	
-	public String getLegalRepresentativeAddressAdditionalGeographicalInformation() {
-		return this.legalRepresentativeAddressAdditionalGeographicalInformation;
-	}
-	
-	public boolean checkLegalRepresentativeAddressAdditionalGeographicalInformation() {
-		return true;
-	}
-
-	public void setLegalRepresentativeAddressStreetNumber(String legalRepresentativeAddressStreetNumber) {
-		this.legalRepresentativeAddressStreetNumber = legalRepresentativeAddressStreetNumber;
-	}
-	
-	public String getLegalRepresentativeAddressStreetNumber() {
-		return this.legalRepresentativeAddressStreetNumber;
-	}
-	
-	public boolean checkLegalRepresentativeAddressStreetNumber() {
-		return true;
-	}
-
-	public void setLegalRepresentativeAddressStreetName(String legalRepresentativeAddressStreetName) {
-		this.legalRepresentativeAddressStreetName = legalRepresentativeAddressStreetName;
-	}
-	
-	public String getLegalRepresentativeAddressStreetName() {
-		return this.legalRepresentativeAddressStreetName;
-	}
-	
-	public boolean checkLegalRepresentativeAddressStreetName() {
-		return true;
-	}
-
-	public void setLegalRepresentativeAddressPlaceNameOrService(String legalRepresentativeAddressPlaceNameOrService) {
-		this.legalRepresentativeAddressPlaceNameOrService = legalRepresentativeAddressPlaceNameOrService;
-	}
-	
-	public String getLegalRepresentativeAddressPlaceNameOrService() {
-		return this.legalRepresentativeAddressPlaceNameOrService;
-	}
-	
-	public boolean checkLegalRepresentativeAddressPlaceNameOrService() {
-		return true;
-	}
-
-	public void setLegalRepresentativeAddressPostalCode(String legalRepresentativeAddressPostalCode) {
-		this.legalRepresentativeAddressPostalCode = legalRepresentativeAddressPostalCode;
-	}
-	
-	public String getLegalRepresentativeAddressPostalCode() {
-		return this.legalRepresentativeAddressPostalCode;
-	}
-	
-	public boolean checkLegalRepresentativeAddressPostalCode() {
-		return true;
-	}
-
-	public void setLegalRepresentativeAddressCity(String legalRepresentativeAddressCity) {
-		this.legalRepresentativeAddressCity = legalRepresentativeAddressCity;
-	}
-	
-	public String getLegalRepresentativeAddressCity() {
-		return this.legalRepresentativeAddressCity;
-	}
-	
-	public boolean checkLegalRepresentativeAddressCity() {
+	public boolean checkLegalRepresentativeName() {
 		return true;
 	}
 
@@ -325,39 +241,15 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setNeeds(String needs) {
-		this.needs = needs;
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 	
-	public String getNeeds() {
-		return this.needs;
+	public String getComments() {
+		return this.comments;
 	}
 	
-	public boolean checkNeeds() {
-		return true;
-	}
-
-	public void setWritingHelp(boolean writingHelp) {
-		this.writingHelp = writingHelp;
-	}
-	
-	public boolean getWritingHelp() {
-		return this.writingHelp;
-	}
-	
-	public boolean checkWritingHelp() {
-		return true;
-	}
-
-	public void setLegalRepresentative(boolean legalRepresentative) {
-		this.legalRepresentative = legalRepresentative;
-	}
-	
-	public boolean getLegalRepresentative() {
-		return this.legalRepresentative;
-	}
-	
-	public boolean checkLegalRepresentative() {
+	public boolean checkComments() {
 		return true;
 	}
 
@@ -373,54 +265,6 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setHelperResponsability(String helperResponsability) {
-		this.helperResponsability = helperResponsability;
-	}
-	
-	public String getHelperResponsability() {
-		return this.helperResponsability;
-	}
-	
-	public boolean checkHelperResponsability() {
-		return true;
-	}
-
-	public void setLegalRepresentativeFamilyRelationship(String legalRepresentativeFamilyRelationship) {
-		this.legalRepresentativeFamilyRelationship = legalRepresentativeFamilyRelationship;
-	}
-	
-	public String getLegalRepresentativeFamilyRelationship() {
-		return this.legalRepresentativeFamilyRelationship;
-	}
-	
-	public boolean checkLegalRepresentativeFamilyRelationship() {
-		return true;
-	}
-
-	public void setHelperName(String helperName) {
-		this.helperName = helperName;
-	}
-	
-	public String getHelperName() {
-		return this.helperName;
-	}
-	
-	public boolean checkHelperName() {
-		return true;
-	}
-
-	public void setLegalRepresentativeName(String legalRepresentativeName) {
-		this.legalRepresentativeName = legalRepresentativeName;
-	}
-	
-	public String getLegalRepresentativeName() {
-		return this.legalRepresentativeName;
-	}
-	
-	public boolean checkLegalRepresentativeName() {
-		return true;
-	}
-
 	public void setSubjectIndividualFirstName(String subjectIndividualFirstName) {
 		this.subjectIndividualFirstName = subjectIndividualFirstName;
 	}
@@ -433,15 +277,15 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setComments(String comments) {
-		this.comments = comments;
+	public void setWritingHelp(boolean writingHelp) {
+		this.writingHelp = writingHelp;
 	}
 	
-	public String getComments() {
-		return this.comments;
+	public boolean getWritingHelp() {
+		return this.writingHelp;
 	}
 	
-	public boolean checkComments() {
+	public boolean checkWritingHelp() {
 		return true;
 	}
 
@@ -457,15 +301,147 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setHopes(String hopes) {
-		this.hopes = hopes;
+  	public void setLegalRepresentativeAddressAdditionalDeliveryInformation(String legalRepresentativeAddressAdditionalDeliveryInformation) {
+		this.legalRepresentativeAddressAdditionalDeliveryInformation = legalRepresentativeAddressAdditionalDeliveryInformation;
 	}
 	
-	public String getHopes() {
-		return this.hopes;
+	public String getLegalRepresentativeAddressAdditionalDeliveryInformation() {
+		return this.legalRepresentativeAddressAdditionalDeliveryInformation;
 	}
 	
-	public boolean checkHopes() {
+	public boolean checkLegalRepresentativeAddressAdditionalDeliveryInformation() {
+		return true;
+	}
+
+	public void setLegalRepresentativeAddressAdditionalGeographicalInformation(String legalRepresentativeAddressAdditionalGeographicalInformation) {
+		this.legalRepresentativeAddressAdditionalGeographicalInformation = legalRepresentativeAddressAdditionalGeographicalInformation;
+	}
+	
+	public String getLegalRepresentativeAddressAdditionalGeographicalInformation() {
+		return this.legalRepresentativeAddressAdditionalGeographicalInformation;
+	}
+	
+	public boolean checkLegalRepresentativeAddressAdditionalGeographicalInformation() {
+		return true;
+	}
+
+	public void setLegalRepresentativeAddressStreetNumber(String legalRepresentativeAddressStreetNumber) {
+		this.legalRepresentativeAddressStreetNumber = legalRepresentativeAddressStreetNumber;
+	}
+	
+	public String getLegalRepresentativeAddressStreetNumber() {
+		return this.legalRepresentativeAddressStreetNumber;
+	}
+	
+	public boolean checkLegalRepresentativeAddressStreetNumber() {
+		return true;
+	}
+
+	public void setLegalRepresentativeAddressStreetName(String legalRepresentativeAddressStreetName) {
+		this.legalRepresentativeAddressStreetName = legalRepresentativeAddressStreetName;
+	}
+	
+	public String getLegalRepresentativeAddressStreetName() {
+		return this.legalRepresentativeAddressStreetName;
+	}
+	
+	public boolean checkLegalRepresentativeAddressStreetName() {
+		return true;
+	}
+
+	public void setLegalRepresentativeAddressPlaceNameOrService(String legalRepresentativeAddressPlaceNameOrService) {
+		this.legalRepresentativeAddressPlaceNameOrService = legalRepresentativeAddressPlaceNameOrService;
+	}
+	
+	public String getLegalRepresentativeAddressPlaceNameOrService() {
+		return this.legalRepresentativeAddressPlaceNameOrService;
+	}
+	
+	public boolean checkLegalRepresentativeAddressPlaceNameOrService() {
+		return true;
+	}
+
+	public void setLegalRepresentativeAddressPostalCode(String legalRepresentativeAddressPostalCode) {
+		this.legalRepresentativeAddressPostalCode = legalRepresentativeAddressPostalCode;
+	}
+	
+	public String getLegalRepresentativeAddressPostalCode() {
+		return this.legalRepresentativeAddressPostalCode;
+	}
+	
+	public boolean checkLegalRepresentativeAddressPostalCode() {
+		return true;
+	}
+
+	public void setLegalRepresentativeAddressCity(String legalRepresentativeAddressCity) {
+		this.legalRepresentativeAddressCity = legalRepresentativeAddressCity;
+	}
+	
+	public String getLegalRepresentativeAddressCity() {
+		return this.legalRepresentativeAddressCity;
+	}
+	
+	public boolean checkLegalRepresentativeAddressCity() {
+		return true;
+	}
+
+	public void setNeeds(String needs) {
+		this.needs = needs;
+	}
+	
+	public String getNeeds() {
+		return this.needs;
+	}
+	
+	public boolean checkNeeds() {
+		return true;
+	}
+
+	public void setLegalRepresentativeFamilyRelationship(String legalRepresentativeFamilyRelationship) {
+		this.legalRepresentativeFamilyRelationship = legalRepresentativeFamilyRelationship;
+	}
+	
+	public String getLegalRepresentativeFamilyRelationship() {
+		return this.legalRepresentativeFamilyRelationship;
+	}
+	
+	public boolean checkLegalRepresentativeFamilyRelationship() {
+		return true;
+	}
+
+	public void setHelperResponsability(String helperResponsability) {
+		this.helperResponsability = helperResponsability;
+	}
+	
+	public String getHelperResponsability() {
+		return this.helperResponsability;
+	}
+	
+	public boolean checkHelperResponsability() {
+		return true;
+	}
+
+	public void setLegalRepresentative(boolean legalRepresentative) {
+		this.legalRepresentative = legalRepresentative;
+	}
+	
+	public boolean getLegalRepresentative() {
+		return this.legalRepresentative;
+	}
+	
+	public boolean checkLegalRepresentative() {
+		return true;
+	}
+
+	public void setHelperName(String helperName) {
+		this.helperName = helperName;
+	}
+	
+	public String getHelperName() {
+		return this.helperName;
+	}
+	
+	public boolean checkHelperName() {
 		return true;
 	}
 
@@ -478,6 +454,30 @@ public class Validation extends IStageForm {
 	}
 	
 	public boolean checkLegalRepresentativePhone() {
+		return true;
+	}
+
+	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
+		this.subjectIndividualLastName = subjectIndividualLastName;
+	}
+	
+	public String getSubjectIndividualLastName() {
+		return this.subjectIndividualLastName;
+	}
+	
+	public boolean checkSubjectIndividualLastName() {
+		return true;
+	}
+
+	public void setHopes(String hopes) {
+		this.hopes = hopes;
+	}
+	
+	public String getHopes() {
+		return this.hopes;
+	}
+	
+	public boolean checkHopes() {
 		return true;
 	}
 

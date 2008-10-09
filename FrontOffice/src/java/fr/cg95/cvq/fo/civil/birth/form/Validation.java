@@ -11,21 +11,21 @@ import fr.cg95.cvq.xml.civil.BirthDetailsRequestDocument.BirthDetailsRequest;
 
 public class Validation extends IStageForm {
 
-	private String birthFirstNames;
-	private java.math.BigInteger copies;
-	private String motherFirstNames;
-	private String birthLastName;
-	private String requesterQualityPrecision;
-	private String relationship;
-	private String usage;
-	private String requesterQuality;
-	private String fatherLastName;
-	private String birthPostalCode;
-	private String birthCity;
-	private Calendar birthDate;
-	private String motherMaidenName;
-	private String fatherFirstNames;
 	private String format;
+	private java.math.BigInteger copies;
+	private String birthPostalCode;
+	private String comment;
+	private String birthFirstNames;
+	private String motive;
+	private String requesterQualityPrecision;
+	private Calendar birthDate;
+	private String requesterQuality;
+	private String birthCity;
+	private String fatherLastName;
+	private String motherFirstNames;
+	private String fatherFirstNames;
+	private String motherMaidenName;
+	private String birthLastName;
 
 	public Validation() {
 		super();
@@ -41,91 +41,88 @@ public class Validation extends IStageForm {
 	public void load(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof BirthDetailsRequest)) {
 			BirthDetailsRequest request = (BirthDetailsRequest)xmlbRequest;
-			this.birthFirstNames = request.getBirthFirstNames();
-			this.copies = request.getCopies();
-			this.motherFirstNames = request.getMotherFirstNames();
-			this.birthLastName = request.getBirthLastName();
-			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
-			if (request.getRelationship() != null)
-			this.relationship = request.getRelationship().toString();
-			this.usage = request.getUsage();
-			if (request.getRequesterQuality() != null)
-			this.requesterQuality = request.getRequesterQuality().toString();
-			this.fatherLastName = request.getFatherLastName();
-			this.birthPostalCode = request.getBirthPostalCode();
-			this.birthCity = request.getBirthCity();
-			this.birthDate = request.getBirthDate();
-			this.motherMaidenName = request.getMotherMaidenName();
-			this.fatherFirstNames = request.getFatherFirstNames();
 			if (request.getFormat() != null)
 			this.format = request.getFormat().toString();
+			this.copies = request.getCopies();
+			this.birthPostalCode = request.getBirthPostalCode();
+			this.comment = request.getComment();
+			this.birthFirstNames = request.getBirthFirstNames();
+			if (request.getMotive() != null)
+			this.motive = request.getMotive().toString();
+			this.requesterQualityPrecision = request.getRequesterQualityPrecision();
+			this.birthDate = request.getBirthDate();
+			if (request.getRequesterQuality() != null)
+			this.requesterQuality = request.getRequesterQuality().toString();
+			this.birthCity = request.getBirthCity();
+			this.fatherLastName = request.getFatherLastName();
+			this.motherFirstNames = request.getMotherFirstNames();
+			this.fatherFirstNames = request.getFatherFirstNames();
+			this.motherMaidenName = request.getMotherMaidenName();
+			this.birthLastName = request.getBirthLastName();
 		}
 	}
 	
 	public void save(HttpSession session, Object xmlbRequest) {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof BirthDetailsRequest)) {
 			BirthDetailsRequest request = (BirthDetailsRequest)xmlbRequest;
-			request.setBirthFirstNames(this.birthFirstNames);
-			request.setCopies(this.copies);
-			request.setMotherFirstNames(this.motherFirstNames);
-			request.setBirthLastName(this.birthLastName);
-			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
-			request.setRelationship(BirthRelationshipType.Enum.forString(this.relationship));
-			request.setUsage(this.usage);
-			request.setRequesterQuality(BirthRequesterQualityType.Enum.forString(this.requesterQuality));
-			request.setFatherLastName(this.fatherLastName);
-			request.setBirthPostalCode(this.birthPostalCode);
-			request.setBirthCity(this.birthCity);
-			request.setBirthDate(this.birthDate);
-			request.setMotherMaidenName(this.motherMaidenName);
-			request.setFatherFirstNames(this.fatherFirstNames);
 			request.setFormat(BirthCertificateFormatType.Enum.forString(this.format));
+			request.setCopies(this.copies);
+			request.setBirthPostalCode(this.birthPostalCode);
+			request.setComment(this.comment);
+			request.setBirthFirstNames(this.birthFirstNames);
+			request.setMotive(BirthCertificateMotiveType.Enum.forString(this.motive));
+			request.setRequesterQualityPrecision(this.requesterQualityPrecision);
+			request.setBirthDate(this.birthDate);
+			request.setRequesterQuality(BirthRequesterQualityType.Enum.forString(this.requesterQuality));
+			request.setBirthCity(this.birthCity);
+			request.setFatherLastName(this.fatherLastName);
+			request.setMotherFirstNames(this.motherFirstNames);
+			request.setFatherFirstNames(this.fatherFirstNames);
+			request.setMotherMaidenName(this.motherMaidenName);
+			request.setBirthLastName(this.birthLastName);
 		}
 	}
 	
 	public boolean isComplete() {
-		if (this.checkBirthFirstNames() &&
-			((this.birthFirstNames == null) || (this.birthFirstNames.length() == 0)))
-			return false;
-		if (this.checkMotherFirstNames() &&
-			((this.motherFirstNames == null) || (this.motherFirstNames.length() == 0)))
-			return false;
-		if (this.checkBirthLastName() &&
-			((this.birthLastName == null) || (this.birthLastName.length() == 0)))
-			return false;
-		if (this.checkRelationship() &&
-			((this.relationship == null) || (this.relationship.length() == 0)))
-			return false;
-		if (this.checkFatherLastName() &&
-			((this.fatherLastName == null) || (this.fatherLastName.length() == 0)))
+		if (this.checkFormat() &&
+			((this.format == null) || (this.format.length() == 0)))
 			return false;
 		if (this.checkBirthPostalCode() &&
 			((this.birthPostalCode == null) || (this.birthPostalCode.length() == 0)))
 			return false;
+		if (this.checkBirthFirstNames() &&
+			((this.birthFirstNames == null) || (this.birthFirstNames.length() == 0)))
+			return false;
 		if (this.checkBirthCity() &&
 			((this.birthCity == null) || (this.birthCity.length() == 0)))
 			return false;
-		if (this.checkMotherMaidenName() &&
-			((this.motherMaidenName == null) || (this.motherMaidenName.length() == 0)))
+		if (this.checkFatherLastName() &&
+			((this.fatherLastName == null) || (this.fatherLastName.length() == 0)))
+			return false;
+		if (this.checkMotherFirstNames() &&
+			((this.motherFirstNames == null) || (this.motherFirstNames.length() == 0)))
 			return false;
 		if (this.checkFatherFirstNames() &&
 			((this.fatherFirstNames == null) || (this.fatherFirstNames.length() == 0)))
 			return false;
-		if (this.checkFormat() &&
-			((this.format == null) || (this.format.length() == 0)))
+		if (this.checkMotherMaidenName() &&
+			((this.motherMaidenName == null) || (this.motherMaidenName.length() == 0)))
+			return false;
+		if (this.checkBirthLastName() &&
+			((this.birthLastName == null) || (this.birthLastName.length() == 0)))
 			return false;
 		return true;
 	}
 	
-	public void setBirthFirstNames(String birthFirstNames) {
-		this.birthFirstNames = birthFirstNames;
+	public void setFormat(String format) {
+		this.format = format;
 	}
 	
-	public String getBirthFirstNames() {
-		return this.birthFirstNames;
+	public String getFormat() {
+		return this.format;
 	}
 	
-	public boolean checkBirthFirstNames() {
+	public boolean checkFormat() {
 		return true;
 	}
 
@@ -141,27 +138,51 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setMotherFirstNames(String motherFirstNames) {
-		this.motherFirstNames = motherFirstNames;
+	public void setBirthPostalCode(String birthPostalCode) {
+		this.birthPostalCode = birthPostalCode;
 	}
 	
-	public String getMotherFirstNames() {
-		return this.motherFirstNames;
+	public String getBirthPostalCode() {
+		return this.birthPostalCode;
 	}
 	
-	public boolean checkMotherFirstNames() {
+	public boolean checkBirthPostalCode() {
 		return true;
 	}
 
-	public void setBirthLastName(String birthLastName) {
-		this.birthLastName = birthLastName;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
-	public String getBirthLastName() {
-		return this.birthLastName;
+	public String getComment() {
+		return this.comment;
 	}
 	
-	public boolean checkBirthLastName() {
+	public boolean checkComment() {
+		return true;
+	}
+
+	public void setBirthFirstNames(String birthFirstNames) {
+		this.birthFirstNames = birthFirstNames;
+	}
+	
+	public String getBirthFirstNames() {
+		return this.birthFirstNames;
+	}
+	
+	public boolean checkBirthFirstNames() {
+		return true;
+	}
+
+	public void setMotive(String motive) {
+		this.motive = motive;
+	}
+	
+	public String getMotive() {
+		return this.motive;
+	}
+	
+	public boolean checkMotive() {
 		return true;
 	}
 
@@ -177,27 +198,15 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
+	public void setBirthDate(Calendar birthDate) {
+		this.birthDate = birthDate;
 	}
 	
-	public String getRelationship() {
-		return this.relationship;
+	public Calendar getBirthDate() {
+		return this.birthDate;
 	}
 	
-	public boolean checkRelationship() {
-		return true;
-	}
-
-	public void setUsage(String usage) {
-		this.usage = usage;
-	}
-	
-	public String getUsage() {
-		return this.usage;
-	}
-	
-	public boolean checkUsage() {
+	public boolean checkBirthDate() {
 		return true;
 	}
 
@@ -213,30 +222,6 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setFatherLastName(String fatherLastName) {
-		this.fatherLastName = fatherLastName;
-	}
-	
-	public String getFatherLastName() {
-		return this.fatherLastName;
-	}
-	
-	public boolean checkFatherLastName() {
-		return true;
-	}
-
-	public void setBirthPostalCode(String birthPostalCode) {
-		this.birthPostalCode = birthPostalCode;
-	}
-	
-	public String getBirthPostalCode() {
-		return this.birthPostalCode;
-	}
-	
-	public boolean checkBirthPostalCode() {
-		return true;
-	}
-
 	public void setBirthCity(String birthCity) {
 		this.birthCity = birthCity;
 	}
@@ -249,27 +234,27 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setBirthDate(Calendar birthDate) {
-		this.birthDate = birthDate;
+	public void setFatherLastName(String fatherLastName) {
+		this.fatherLastName = fatherLastName;
 	}
 	
-	public Calendar getBirthDate() {
-		return this.birthDate;
+	public String getFatherLastName() {
+		return this.fatherLastName;
 	}
 	
-	public boolean checkBirthDate() {
+	public boolean checkFatherLastName() {
 		return true;
 	}
 
-	public void setMotherMaidenName(String motherMaidenName) {
-		this.motherMaidenName = motherMaidenName;
+	public void setMotherFirstNames(String motherFirstNames) {
+		this.motherFirstNames = motherFirstNames;
 	}
 	
-	public String getMotherMaidenName() {
-		return this.motherMaidenName;
+	public String getMotherFirstNames() {
+		return this.motherFirstNames;
 	}
 	
-	public boolean checkMotherMaidenName() {
+	public boolean checkMotherFirstNames() {
 		return true;
 	}
 
@@ -285,15 +270,27 @@ public class Validation extends IStageForm {
 		return true;
 	}
 
-	public void setFormat(String format) {
-		this.format = format;
+	public void setMotherMaidenName(String motherMaidenName) {
+		this.motherMaidenName = motherMaidenName;
 	}
 	
-	public String getFormat() {
-		return this.format;
+	public String getMotherMaidenName() {
+		return this.motherMaidenName;
 	}
 	
-	public boolean checkFormat() {
+	public boolean checkMotherMaidenName() {
+		return true;
+	}
+
+	public void setBirthLastName(String birthLastName) {
+		this.birthLastName = birthLastName;
+	}
+	
+	public String getBirthLastName() {
+		return this.birthLastName;
+	}
+	
+	public boolean checkBirthLastName() {
 		return true;
 	}
 

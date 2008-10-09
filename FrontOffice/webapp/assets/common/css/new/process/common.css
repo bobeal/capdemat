@@ -209,7 +209,7 @@ a:hover
 {
   float: left;
   display: block;
-  width: 40px;
+  width: 80px;
   margin-top: 10px;
   text-align: center;
 }
@@ -245,7 +245,7 @@ a:hover
   width: 500px;
   text-align: center;
   font-size: 0.8em;
-  left: 105px;
+  left: 160px;
   top: 10px;
   padding-bottom: 20px;
 }

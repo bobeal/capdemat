@@ -78,6 +78,8 @@ public abstract class Request implements Serializable {
 
     public abstract XmlObject modelToXml() ;
 
+    public abstract fr.cg95.cvq.xml.common.RequestType modelToXmlRequest();
+    
     public void fillCommonXmlInfo(fr.cg95.cvq.xml.common.RequestType requestType) {
         Calendar calendar = Calendar.getInstance();
 

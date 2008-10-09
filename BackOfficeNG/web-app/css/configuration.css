@@ -18,7 +18,6 @@
   border-bottom: 1px dashed #999999;
 }
 
-
 /* tags extension */
 .overviewConfigurationList li .tag-enable, 
 .overviewConfigurationList li .tag-disable {
@@ -44,7 +43,6 @@
 }
 #createCategory a:hover       { background-color: #0000ff; }
 #cancelCreateCategory a:hover { background: transparent; }
-
 
 /* editable list
 -------------------------------------------------------------- */
@@ -95,6 +93,7 @@
   text-decoration: none;
   color: #444444;
 }
+
 .editableListSwithcher a.current:hover { background: transparent; }
 
 /* inline editable list form 

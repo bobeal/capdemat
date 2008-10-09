@@ -23,6 +23,19 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
 
 	/** identifier field */
     private Long id;
+    
+    /**
+     * the external identifier that is dynamically set for external services
+     * that provide us this information.
+     */
+    private String externalId;
+    
+    /**
+     * the external CapDemat identifier that is dynamically set before
+     * talking to an external service.
+     */
+    private String externalCapDematId;
+    
     private ActorState state;
     private Address adress;
     private Boolean enabled;
@@ -45,6 +58,10 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         HomeFolderType homeFolderType = HomeFolderType.Factory.newInstance();
         if (this.id != null)
             homeFolderType.setId(this.id.longValue());
+        if (this.externalId != null)
+            homeFolderType.setExternalId(this.externalId);
+        if (this.externalCapDematId != null)
+            homeFolderType.setExternalCapdematId(this.externalCapDematId);
         if (this.adress != null)
             homeFolderType.setAddress(Address.modelToXml(this.adress));
 
@@ -103,6 +120,22 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public String getExternalCapDematId() {
+        return externalCapDematId;
+    }
+
+    public void setExternalCapDematId(String externalCapDematId) {
+        this.externalCapDematId = externalCapDematId;
     }
 
     public Adult getHomeFolderResponsible() {

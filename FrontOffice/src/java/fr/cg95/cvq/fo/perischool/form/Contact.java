@@ -11,11 +11,11 @@ import fr.cg95.cvq.xml.school.PerischoolActivityRegistrationRequestDocument.Peri
 
 public class Contact extends IStageForm {
 
-	private String otherIndividualLastName;
 	private String otherIndividualOfficePhone;
-	private String otherIndividualAddress;
-	private String otherIndividualHomePhone;
 	private String otherIndividualFirstName;
+	private String otherIndividualHomePhone;
+	private String otherIndividualAddress;
+	private String otherIndividualLastName;
 
 	public Contact() {
 		super();
@@ -41,30 +41,18 @@ public class Contact extends IStageForm {
 	}
 	
 	public boolean isComplete() {
-		if (this.checkOtherIndividualLastName() &&
-			((this.otherIndividualLastName == null) || (this.otherIndividualLastName.length() == 0)))
+		if (this.checkOtherIndividualFirstName() &&
+			((this.otherIndividualFirstName == null) || (this.otherIndividualFirstName.length() == 0)))
 			return false;
 		if (this.checkOtherIndividualAddress() &&
 			((this.otherIndividualAddress == null) || (this.otherIndividualAddress.length() == 0)))
 			return false;
-		if (this.checkOtherIndividualFirstName() &&
-			((this.otherIndividualFirstName == null) || (this.otherIndividualFirstName.length() == 0)))
+		if (this.checkOtherIndividualLastName() &&
+			((this.otherIndividualLastName == null) || (this.otherIndividualLastName.length() == 0)))
 			return false;
 		return true;
 	}
 	
-	public void setOtherIndividualLastName(String otherIndividualLastName) {
-		this.otherIndividualLastName = otherIndividualLastName;
-	}
-	
-	public String getOtherIndividualLastName() {
-		return this.otherIndividualLastName;
-	}
-	
-	public boolean checkOtherIndividualLastName() {
-		return true;
-	}
-
 	public void setOtherIndividualOfficePhone(String otherIndividualOfficePhone) {
 		this.otherIndividualOfficePhone = otherIndividualOfficePhone;
 	}
@@ -77,15 +65,15 @@ public class Contact extends IStageForm {
 		return true;
 	}
 
-	public void setOtherIndividualAddress(String otherIndividualAddress) {
-		this.otherIndividualAddress = otherIndividualAddress;
+	public void setOtherIndividualFirstName(String otherIndividualFirstName) {
+		this.otherIndividualFirstName = otherIndividualFirstName;
 	}
 	
-	public String getOtherIndividualAddress() {
-		return this.otherIndividualAddress;
+	public String getOtherIndividualFirstName() {
+		return this.otherIndividualFirstName;
 	}
 	
-	public boolean checkOtherIndividualAddress() {
+	public boolean checkOtherIndividualFirstName() {
 		return true;
 	}
 
@@ -101,15 +89,27 @@ public class Contact extends IStageForm {
 		return true;
 	}
 
-	public void setOtherIndividualFirstName(String otherIndividualFirstName) {
-		this.otherIndividualFirstName = otherIndividualFirstName;
+	public void setOtherIndividualAddress(String otherIndividualAddress) {
+		this.otherIndividualAddress = otherIndividualAddress;
 	}
 	
-	public String getOtherIndividualFirstName() {
-		return this.otherIndividualFirstName;
+	public String getOtherIndividualAddress() {
+		return this.otherIndividualAddress;
 	}
 	
-	public boolean checkOtherIndividualFirstName() {
+	public boolean checkOtherIndividualAddress() {
+		return true;
+	}
+
+	public void setOtherIndividualLastName(String otherIndividualLastName) {
+		this.otherIndividualLastName = otherIndividualLastName;
+	}
+	
+	public String getOtherIndividualLastName() {
+		return this.otherIndividualLastName;
+	}
+	
+	public boolean checkOtherIndividualLastName() {
 		return true;
 	}
 

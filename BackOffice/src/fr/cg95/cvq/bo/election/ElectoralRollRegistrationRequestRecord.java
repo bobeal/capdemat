@@ -14,21 +14,6 @@ import fr.cg95.cvq.business.election.*;
 
 public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
 
-	private String subjectIndividualFirstName2;
-	private Calendar subjectIndividualBirthDate;
-	private String subjectIndividualLastName;
-  	private String subjectIndividualAddressAdditionalDeliveryInformation;
-	private String subjectIndividualAddressAdditionalGeographicalInformation;
-	private String subjectIndividualAddressStreetNumber;
-	private String subjectIndividualAddressStreetName;
-	private String subjectIndividualAddressPlaceNameOrService;
-	private String subjectIndividualAddressPostalCode;
-	private String subjectIndividualAddressCity;
-	private String motive;
-	private String subjectOldCity;
-	private String subjectNationality;
-   	private List subjectNationalityList;
-	private long pollingStation;
   	private String subjectAddressOutsideCityAdditionalDeliveryInformation;
 	private String subjectAddressOutsideCityAdditionalGeographicalInformation;
 	private String subjectAddressOutsideCityStreetNumber;
@@ -36,11 +21,26 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
 	private String subjectAddressOutsideCityPlaceNameOrService;
 	private String subjectAddressOutsideCityPostalCode;
 	private String subjectAddressOutsideCityCity;
-	private String pollingSchoolName;
-	private String subjectIndividualFirstName;
-	private long electoralNumber;
-	private String subjectIndividualFirstName3;
+  	private String subjectIndividualAddressAdditionalDeliveryInformation;
+	private String subjectIndividualAddressAdditionalGeographicalInformation;
+	private String subjectIndividualAddressStreetNumber;
+	private String subjectIndividualAddressStreetName;
+	private String subjectIndividualAddressPlaceNameOrService;
+	private String subjectIndividualAddressPostalCode;
+	private String subjectIndividualAddressCity;
 	private String subjectIndividualSex;
+	private String subjectIndividualFirstName;
+	private String pollingSchoolName;
+	private String motive;
+	private String subjectNationality;
+   	private List subjectNationalityList;
+	private String subjectOldCity;
+	private Calendar subjectIndividualBirthDate;
+	private long electoralNumber;
+	private long pollingStation;
+	private String subjectIndividualFirstName2;
+	private String subjectIndividualFirstName3;
+	private String subjectIndividualLastName;
 
 	public ElectoralRollRegistrationRequestRecord() {
 		super();
@@ -63,29 +63,6 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof ElectoralRollRegistrationRequest)) {
             ElectoralRollRegistrationRequest request = (ElectoralRollRegistrationRequest)xmlRequest; 
 
-			this.subjectIndividualFirstName2 = ((Individual)request.getSubject()).getFirstName2();
-			if (((Individual)request.getSubject()).getBirthDate() != null) {
-				this.subjectIndividualBirthDate = Calendar.getInstance(); 
-	            this.subjectIndividualBirthDate.setTime(((Individual)request.getSubject()).getBirthDate());
-			}
-			this.subjectIndividualLastName = ((Individual)request.getSubject()).getLastName();
-			if (((Individual)request.getSubject()).getAdress() != null) {
-				this.subjectIndividualAddressAdditionalDeliveryInformation = ((Individual)request.getSubject()).getAdress().getAdditionalDeliveryInformation();
-				this.subjectIndividualAddressAdditionalGeographicalInformation = ((Individual)request.getSubject()).getAdress().getAdditionalGeographicalInformation();
-				this.subjectIndividualAddressStreetNumber = ((Individual)request.getSubject()).getAdress().getStreetNumber();
-				this.subjectIndividualAddressStreetName = ((Individual)request.getSubject()).getAdress().getStreetName();
-				this.subjectIndividualAddressPlaceNameOrService = ((Individual)request.getSubject()).getAdress().getPlaceNameOrService();
-				this.subjectIndividualAddressPostalCode = ((Individual)request.getSubject()).getAdress().getPostalCode();
-				this.subjectIndividualAddressCity = ((Individual)request.getSubject()).getAdress().getCity();
-			}
-			if (request.getMotive() != null)
-                this.motive = getEnumElementTranslation(
-                        fr.cg95.cvq.xml.election.ElectoralRollRegistrationRequestDocument.ElectoralRollRegistrationRequest.class.getName(), 
-                        "Motive", request.getMotive().toString());
-			this.subjectOldCity = request.getSubjectOldCity();
-            this.setSubjectNationality(this.getList("Nationality"), request.getSubjectNationality());
-            if ((request.getPollingStation() != null))
-			this.pollingStation = request.getPollingStation();
 			if (request.getSubjectAddressOutsideCity() != null) {
 				this.subjectAddressOutsideCityAdditionalDeliveryInformation = request.getSubjectAddressOutsideCity().getAdditionalDeliveryInformation();
 				this.subjectAddressOutsideCityAdditionalGeographicalInformation = request.getSubjectAddressOutsideCity().getAdditionalGeographicalInformation();
@@ -95,11 +72,34 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
 				this.subjectAddressOutsideCityPostalCode = request.getSubjectAddressOutsideCity().getPostalCode();
 				this.subjectAddressOutsideCityCity = request.getSubjectAddressOutsideCity().getCity();
 			}
-			this.pollingSchoolName = request.getPollingSchoolName();
+			if (((Individual)request.getSubject()).getAdress() != null) {
+				this.subjectIndividualAddressAdditionalDeliveryInformation = ((Individual)request.getSubject()).getAdress().getAdditionalDeliveryInformation();
+				this.subjectIndividualAddressAdditionalGeographicalInformation = ((Individual)request.getSubject()).getAdress().getAdditionalGeographicalInformation();
+				this.subjectIndividualAddressStreetNumber = ((Individual)request.getSubject()).getAdress().getStreetNumber();
+				this.subjectIndividualAddressStreetName = ((Individual)request.getSubject()).getAdress().getStreetName();
+				this.subjectIndividualAddressPlaceNameOrService = ((Individual)request.getSubject()).getAdress().getPlaceNameOrService();
+				this.subjectIndividualAddressPostalCode = ((Individual)request.getSubject()).getAdress().getPostalCode();
+				this.subjectIndividualAddressCity = ((Individual)request.getSubject()).getAdress().getCity();
+			}
 			this.subjectIndividualFirstName = ((Individual)request.getSubject()).getFirstName();
+			this.pollingSchoolName = request.getPollingSchoolName();
+			if (request.getMotive() != null)
+                this.motive = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.election.ElectoralRollRegistrationRequestDocument.ElectoralRollRegistrationRequest.class.getName(), 
+                        "Motive", request.getMotive().toString());
+            this.setSubjectNationality(this.getList("Nationality"), request.getSubjectNationality());
+			this.subjectOldCity = request.getSubjectOldCity();
+			if (((Individual)request.getSubject()).getBirthDate() != null) {
+				this.subjectIndividualBirthDate = Calendar.getInstance(); 
+	            this.subjectIndividualBirthDate.setTime(((Individual)request.getSubject()).getBirthDate());
+			}
             if ((request.getElectoralNumber() != null))
 			this.electoralNumber = request.getElectoralNumber();
+            if ((request.getPollingStation() != null))
+			this.pollingStation = request.getPollingStation();
+			this.subjectIndividualFirstName2 = ((Individual)request.getSubject()).getFirstName2();
 			this.subjectIndividualFirstName3 = ((Individual)request.getSubject()).getFirstName3();
+			this.subjectIndividualLastName = ((Individual)request.getSubject()).getLastName();
         }
     }
     
@@ -113,18 +113,6 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof ElectoralRollRegistrationRequest)) {
             ElectoralRollRegistrationRequest request = (ElectoralRollRegistrationRequest)xmlRequest; 
 
-			if (this.motive != null)
-                request.setMotive(
-                    ElectoralMotiveType.forString(
-                        getEnumKeyTranslation(
-                            fr.cg95.cvq.xml.election.ElectoralRollRegistrationRequestDocument.ElectoralRollRegistrationRequest.class.getName(), 
-                            "Motive", this.motive)
-                    )
-                );
-			request.setSubjectOldCity(this.subjectOldCity);
-			request.setSubjectNationality(this.getSubjectNationalityKey());
-            if ((request.getPollingStation() != null))
-			request.setPollingStation(this.pollingStation);
   			if (request.getSubjectAddressOutsideCity() != null) {
 				request.getSubjectAddressOutsideCity().setAdditionalDeliveryInformation(this.subjectAddressOutsideCityAdditionalDeliveryInformation);
 				request.getSubjectAddressOutsideCity().setAdditionalGeographicalInformation(this.subjectAddressOutsideCityAdditionalGeographicalInformation);
@@ -135,33 +123,77 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
 				request.getSubjectAddressOutsideCity().setCity(this.subjectAddressOutsideCityCity);
 			}
 			request.setPollingSchoolName(this.pollingSchoolName);
+			if (this.motive != null)
+                request.setMotive(
+                    ElectoralMotiveType.forString(
+                        getEnumKeyTranslation(
+                            fr.cg95.cvq.xml.election.ElectoralRollRegistrationRequestDocument.ElectoralRollRegistrationRequest.class.getName(), 
+                            "Motive", this.motive)
+                    )
+                );
+			request.setSubjectNationality(this.getSubjectNationalityKey());
+			request.setSubjectOldCity(this.subjectOldCity);
             if ((request.getElectoralNumber() != null))
 			request.setElectoralNumber(this.electoralNumber);
+            if ((request.getPollingStation() != null))
+			request.setPollingStation(this.pollingStation);
         }
     }
     
-	public void setSubjectIndividualFirstName2(String subjectIndividualFirstName2) {
-		this.subjectIndividualFirstName2 = subjectIndividualFirstName2;
+	public void setSubjectAddressOutsideCityAdditionalDeliveryInformation(String subjectAddressOutsideCityAdditionalDeliveryInformation) {
+		this.subjectAddressOutsideCityAdditionalDeliveryInformation = subjectAddressOutsideCityAdditionalDeliveryInformation;
 	}
 	
-	public String getSubjectIndividualFirstName2() {
-		return this.subjectIndividualFirstName2;
+	public String getSubjectAddressOutsideCityAdditionalDeliveryInformation() {
+		return this.subjectAddressOutsideCityAdditionalDeliveryInformation;
 	}
 
-	public void setSubjectIndividualBirthDate(Calendar subjectIndividualBirthDate) {
-		this.subjectIndividualBirthDate = subjectIndividualBirthDate;
+	public void setSubjectAddressOutsideCityAdditionalGeographicalInformation(String subjectAddressOutsideCityAdditionalGeographicalInformation) {
+		this.subjectAddressOutsideCityAdditionalGeographicalInformation = subjectAddressOutsideCityAdditionalGeographicalInformation;
 	}
 	
-	public Calendar getSubjectIndividualBirthDate() {
-		return this.subjectIndividualBirthDate;
+	public String getSubjectAddressOutsideCityAdditionalGeographicalInformation() {
+		return this.subjectAddressOutsideCityAdditionalGeographicalInformation;
 	}
 
-	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
-		this.subjectIndividualLastName = subjectIndividualLastName;
+	public void setSubjectAddressOutsideCityStreetNumber(String subjectAddressOutsideCityStreetNumber) {
+		this.subjectAddressOutsideCityStreetNumber = subjectAddressOutsideCityStreetNumber;
 	}
 	
-	public String getSubjectIndividualLastName() {
-		return this.subjectIndividualLastName;
+	public String getSubjectAddressOutsideCityStreetNumber() {
+		return this.subjectAddressOutsideCityStreetNumber;
+	}
+
+	public void setSubjectAddressOutsideCityStreetName(String subjectAddressOutsideCityStreetName) {
+		this.subjectAddressOutsideCityStreetName = subjectAddressOutsideCityStreetName;
+	}
+	
+	public String getSubjectAddressOutsideCityStreetName() {
+		return this.subjectAddressOutsideCityStreetName;
+	}
+
+	public void setSubjectAddressOutsideCityPlaceNameOrService(String subjectAddressOutsideCityPlaceNameOrService) {
+		this.subjectAddressOutsideCityPlaceNameOrService = subjectAddressOutsideCityPlaceNameOrService;
+	}
+	
+	public String getSubjectAddressOutsideCityPlaceNameOrService() {
+		return this.subjectAddressOutsideCityPlaceNameOrService;
+	}
+
+	public void setSubjectAddressOutsideCityPostalCode(String subjectAddressOutsideCityPostalCode) {
+		this.subjectAddressOutsideCityPostalCode = subjectAddressOutsideCityPostalCode;
+	}
+	
+	public String getSubjectAddressOutsideCityPostalCode() {
+		return this.subjectAddressOutsideCityPostalCode;
+	}
+
+	public void setSubjectAddressOutsideCityCity(String subjectAddressOutsideCityCity) {
+		this.subjectAddressOutsideCityCity = subjectAddressOutsideCityCity;
+	}
+	
+	public String getSubjectAddressOutsideCityCity() {
+		return this.subjectAddressOutsideCityCity;
 	}
 
 	public void setSubjectIndividualAddressAdditionalDeliveryInformation(String subjectIndividualAddressAdditionalDeliveryInformation) {
@@ -220,20 +252,36 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
 		return this.subjectIndividualAddressCity;
 	}
 
+	public void setSubjectIndividualSex(String subjectIndividualSex) {
+		this.subjectIndividualSex = subjectIndividualSex;
+	}
+	
+	public String getSubjectIndividualSex() {
+		return this.subjectIndividualSex;
+	}
+
+	public void setSubjectIndividualFirstName(String subjectIndividualFirstName) {
+		this.subjectIndividualFirstName = subjectIndividualFirstName;
+	}
+	
+	public String getSubjectIndividualFirstName() {
+		return this.subjectIndividualFirstName;
+	}
+
+	public void setPollingSchoolName(String pollingSchoolName) {
+		this.pollingSchoolName = pollingSchoolName;
+	}
+	
+	public String getPollingSchoolName() {
+		return this.pollingSchoolName;
+	}
+
 	public void setMotive(String motive) {
 		this.motive = motive;
 	}
 	
 	public String getMotive() {
 		return this.motive;
-	}
-
-	public void setSubjectOldCity(String subjectOldCity) {
-		this.subjectOldCity = subjectOldCity;
-	}
-	
-	public String getSubjectOldCity() {
-		return this.subjectOldCity;
 	}
 
 	public void setSubjectNationality(String subjectNationality) {
@@ -264,84 +312,20 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
 		return this.subjectNationalityList;
 	}
 	
-	public void setPollingStation(long pollingStation) {
-		this.pollingStation = pollingStation;
+	public void setSubjectOldCity(String subjectOldCity) {
+		this.subjectOldCity = subjectOldCity;
 	}
 	
-	public long getPollingStation() {
-		return this.pollingStation;
+	public String getSubjectOldCity() {
+		return this.subjectOldCity;
 	}
 
-	public void setSubjectAddressOutsideCityAdditionalDeliveryInformation(String subjectAddressOutsideCityAdditionalDeliveryInformation) {
-		this.subjectAddressOutsideCityAdditionalDeliveryInformation = subjectAddressOutsideCityAdditionalDeliveryInformation;
+	public void setSubjectIndividualBirthDate(Calendar subjectIndividualBirthDate) {
+		this.subjectIndividualBirthDate = subjectIndividualBirthDate;
 	}
 	
-	public String getSubjectAddressOutsideCityAdditionalDeliveryInformation() {
-		return this.subjectAddressOutsideCityAdditionalDeliveryInformation;
-	}
-
-	public void setSubjectAddressOutsideCityAdditionalGeographicalInformation(String subjectAddressOutsideCityAdditionalGeographicalInformation) {
-		this.subjectAddressOutsideCityAdditionalGeographicalInformation = subjectAddressOutsideCityAdditionalGeographicalInformation;
-	}
-	
-	public String getSubjectAddressOutsideCityAdditionalGeographicalInformation() {
-		return this.subjectAddressOutsideCityAdditionalGeographicalInformation;
-	}
-
-	public void setSubjectAddressOutsideCityStreetNumber(String subjectAddressOutsideCityStreetNumber) {
-		this.subjectAddressOutsideCityStreetNumber = subjectAddressOutsideCityStreetNumber;
-	}
-	
-	public String getSubjectAddressOutsideCityStreetNumber() {
-		return this.subjectAddressOutsideCityStreetNumber;
-	}
-
-	public void setSubjectAddressOutsideCityStreetName(String subjectAddressOutsideCityStreetName) {
-		this.subjectAddressOutsideCityStreetName = subjectAddressOutsideCityStreetName;
-	}
-	
-	public String getSubjectAddressOutsideCityStreetName() {
-		return this.subjectAddressOutsideCityStreetName;
-	}
-
-	public void setSubjectAddressOutsideCityPlaceNameOrService(String subjectAddressOutsideCityPlaceNameOrService) {
-		this.subjectAddressOutsideCityPlaceNameOrService = subjectAddressOutsideCityPlaceNameOrService;
-	}
-	
-	public String getSubjectAddressOutsideCityPlaceNameOrService() {
-		return this.subjectAddressOutsideCityPlaceNameOrService;
-	}
-
-	public void setSubjectAddressOutsideCityPostalCode(String subjectAddressOutsideCityPostalCode) {
-		this.subjectAddressOutsideCityPostalCode = subjectAddressOutsideCityPostalCode;
-	}
-	
-	public String getSubjectAddressOutsideCityPostalCode() {
-		return this.subjectAddressOutsideCityPostalCode;
-	}
-
-	public void setSubjectAddressOutsideCityCity(String subjectAddressOutsideCityCity) {
-		this.subjectAddressOutsideCityCity = subjectAddressOutsideCityCity;
-	}
-	
-	public String getSubjectAddressOutsideCityCity() {
-		return this.subjectAddressOutsideCityCity;
-	}
-
-	public void setPollingSchoolName(String pollingSchoolName) {
-		this.pollingSchoolName = pollingSchoolName;
-	}
-	
-	public String getPollingSchoolName() {
-		return this.pollingSchoolName;
-	}
-
-	public void setSubjectIndividualFirstName(String subjectIndividualFirstName) {
-		this.subjectIndividualFirstName = subjectIndividualFirstName;
-	}
-	
-	public String getSubjectIndividualFirstName() {
-		return this.subjectIndividualFirstName;
+	public Calendar getSubjectIndividualBirthDate() {
+		return this.subjectIndividualBirthDate;
 	}
 
 	public void setElectoralNumber(long electoralNumber) {
@@ -352,6 +336,22 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
 		return this.electoralNumber;
 	}
 
+	public void setPollingStation(long pollingStation) {
+		this.pollingStation = pollingStation;
+	}
+	
+	public long getPollingStation() {
+		return this.pollingStation;
+	}
+
+	public void setSubjectIndividualFirstName2(String subjectIndividualFirstName2) {
+		this.subjectIndividualFirstName2 = subjectIndividualFirstName2;
+	}
+	
+	public String getSubjectIndividualFirstName2() {
+		return this.subjectIndividualFirstName2;
+	}
+
 	public void setSubjectIndividualFirstName3(String subjectIndividualFirstName3) {
 		this.subjectIndividualFirstName3 = subjectIndividualFirstName3;
 	}
@@ -360,12 +360,12 @@ public class ElectoralRollRegistrationRequestRecord extends RequestRecord {
 		return this.subjectIndividualFirstName3;
 	}
 
-	public void setSubjectIndividualSex(String subjectIndividualSex) {
-		this.subjectIndividualSex = subjectIndividualSex;
+	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
+		this.subjectIndividualLastName = subjectIndividualLastName;
 	}
 	
-	public String getSubjectIndividualSex() {
-		return this.subjectIndividualSex;
+	public String getSubjectIndividualLastName() {
+		return this.subjectIndividualLastName;
 	}
 
 }

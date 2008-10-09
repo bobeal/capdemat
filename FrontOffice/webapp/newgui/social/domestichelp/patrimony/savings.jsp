@@ -18,7 +18,7 @@
 	<script type="text/javascript">
 		function validationData() {
    		  this.savingsPaybookNumber = new Function("key","this.label='Numéro de Livret'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=30; this.type=null; return this[key];");
-     		  this.savingsPaybookAmount = new Function("key","this.label='Montant du Livret'; this.msg=null; this.required=false; this.mask=/[0-9]+/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.savingsPaybookAmount = new Function("key","this.label='Montant du Livret'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Patrimony");
 	</script>

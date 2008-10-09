@@ -32,7 +32,9 @@
 			<fileset dir="${basedir}/${lib.dir}">
 				<include name="**/spring-mock.jar" />
 				<include name="**/junit.jar" />
-				<include name="**/hsqldb-*.jar" />
+				<include name="**/jsmtpd-core-*.jar" />
+				<include name="**/jmock-*.jar" />
+                <include name="**/hamcrest-*.jar" />
 			</fileset>
 
 			<pathelement path="${basedir}/${build.classes.dir}" />
@@ -49,6 +51,12 @@
 			<!-- any brother hidden in a third party jar -->
 			<pathelement path="${basedir}/test/conf/log4j" />
 			<path refid="classpath.compile.test" />
+            <fileset dir="${basedir}/${lib.dir}">
+                <include name="**/hsqldb-*.jar" />
+                <include name="**/mina-core-*.jar" />
+                <include name="**/slf4j-api-*.jar" />
+                <include name="**/slf4j-log4j12-*.jar" />
+            </fileset>
 			<pathelement path="${basedir}/${build.test.dir}" />
 			<pathelement path="${conf.dir}/spring" />
 			<pathelement path="${basedir}/${src.xml.hibernate.dir}" />
@@ -57,8 +65,9 @@
 			<fileset dir="${libraries.dir}/fr.cg95/plugins">
 				<include name="**/*.jar" />
 			</fileset>
+			<pathelement path="${basedir}/../ServiceExporter/build/test" />
 			<!-- need c3p0 configuration file on the classpath -->
-			<fileset dir="${libraries.dir}/net.sf/hibernate" file="c3p0.properties" />
+			<fileset dir="${libraries.dir}/org.hibernate" file="c3p0.properties" />
 			<!-- libraries required for load testing -->
 			<fileset dir="${basedir}/${lib.dir}/java.net">
 				<include name="**/*.jar" />
@@ -81,13 +90,14 @@
 		<delete dir="${basedir}/${src.xml.hibernate.dir}/fr" />
 		<delete dir="${conf.dir.spring}" />
 	    <delete dir="${basedir}/utils/lib" />
+		<antcall target="clean-tests" />
 		<antcall target="clean-documentation" />
 	</target>
 
 	<target name="compile">
 		<antcall target="compile-external-schemas" />
 		<antcall target="compile-sources" />
-		<antcall target="compiletests" />
+		<antcall target="compile-tests" />
 	</target>
 	
 	<target name="compile-sources" depends="init">
@@ -203,7 +213,7 @@
 	</target>
 
 	<!-- copy Model production to the common lib repository -->
-	<target name="deploy" depends="compile-external-schemas, dist">
+	<target name="deploy" depends="compile-external-schemas, dist, compile-tests">
 		<copy todir="${deploy.model.dir}" 
 			file="${basedir}/${build.archives.dir}/${application.name}-${module.name}-${application.version}.jar" />
 		<copy todir="${deploy.model.dir}" 
@@ -270,7 +280,7 @@
 	<!--                     Tests                                           -->
 	<!-- =================================================================== -->
 
-	<target name="compiletests" depends="compile-sources">
+	<target name="compile-tests" depends="compile-sources">
 		<mkdir dir="${basedir}/${build.test.dir}" />
 		<javac optimize="on" deprecation="on" debug="on" verbose="off" srcdir="${basedir}/${test.java.dir}" destdir="${basedir}/${build.test.dir}">
 			<classpath refid="classpath.compile.test" />
@@ -278,7 +288,19 @@
 		</javac>
 	</target>
 
-	<target name="run-tests" depends="prepare-configfiles, compiletests, schemaexport" description="Runs the Junit test suite. Notice: A known Ant/Junit bug prevents this
+	<!--
+    <target name="dist-tests" depends="compile-tests" 
+        description="Build the Model test jar for inclusion by other modules of the application">
+        <jar compress="on" jarfile="${basedir}/lib/${application.name}-${module.name}-Test-${application.version}.jar" 
+        	manifest="${basedir}/${src.java.dir}/META-INF/manifest.mf">
+            <fileset dir="${basedir}/${build.test.dir}">
+                <include name="**/**" />
+            </fileset>
+        </jar>
+    </target>
+    -->
+	
+	<target name="run-tests" depends="prepare-configfiles, compile-tests, schemaexport" description="Runs the Junit test suite. Notice: A known Ant/Junit bug prevents this
   	task to automatically work so add lib/junit/junit.jar to your CLASSPATH environment
 	variable prior to running the test suite">
 
@@ -332,15 +354,8 @@
 			<formatter type="plain" usefile="false" />
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-				    <!-- <include name="**/CapdematTestSuite.class"/> -->
+				    <include name="**/PaymentServiceTest.class"/>
 				    <!-- include name="**/*Test.class" /-->
-				  <include name="**/RequestServiceTest.class" />
-				  <include name="**/CategoryServiceTest.class" />
-				  <include name="**/AgentServiceTest.class" />
-				                    
-				  <!--include name="**/TechnicalInterventionRequestServiceTest.class" /-->
-				  <!--include name="**/HolidaySecurityRequestServiceTest.class" /-->
-
 					<!-- not maintained any more -->
 					<exclude name="**/VacationsRegistrationRequestServiceTest.class" />
 					<!-- requires mail sending infrastructure -->
@@ -355,23 +370,38 @@
       		      <include name="**/*Test.class" />
       	        </fileset>
       	        -->
+				<!-- ServiceExporter unit tests -->
+				<!--
+				<fileset dir="${basedir}/../ServiceExporter/build/test">
+					<include name="**/HomeFolderServiceEndpointTest.class" />
+				</fileset>
+				-->
 			</batchtest>
 		</junit>
 
 	</target>
 
+	<target name="clean-tests">
+	    <delete>
+			<fileset dir="${test.assets.dir}">
+	            <include name="local_authorities_list.txt" />
+	            <include name="dummy/localAuthority-dummy.xml" />
+			</fileset>
+		</delete>
+	</target>
+	
 	<!-- =================================================================== -->
 	<!--                 Quality targets                       -->
 	<!-- =================================================================== -->
 
-	<target name="run-grinder" depends="prepare-configfiles, compiletests, schemaexport">
+	<target name="run-grinder" depends="prepare-configfiles, compile-tests, schemaexport">
 		<java classname="net.grinder.Grinder" classpathref="classpath.run.test" fork="true" dir="${basedir}/..">
 			<arg value="Model/test/perf/grinder.properties" />
 		</java>
 	</target>
 
 	<!-- depends on compiletests to be sure to instrument the classes that will be tested -->
-	<target name="run-coverage-report" depends="clean, compiletests">
+	<target name="run-coverage-report" depends="clean, compile-tests">
 
     	<taskdef classpathref="classpath.compile.test" resource="tasks.properties" />
 

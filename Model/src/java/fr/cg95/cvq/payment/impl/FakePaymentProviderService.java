@@ -29,10 +29,13 @@ public final class FakePaymentProviderService implements IPaymentProviderService
                 + "_" + System.currentTimeMillis();
             payment.setCvqReference(cvqReference);
             
+            String domainName = payment.getPaymentSpecificData().get("domainName");
+            String callbackUrl = "https://" + domainName + ((String) paymentServiceBean.getProperty("callbackUrl"));
+
             StringBuffer urlBuffer = new StringBuffer().append(paymentUrl)
                 .append("?cvqReference=").append(cvqReference)
                 .append("&amount=").append(payment.getEuroAmount())
-                .append("&callbackUrl=").append(paymentServiceBean.getProperty("callbackUrl"))
+                .append("&callbackUrl=").append(callbackUrl)
                 .append("&capDematFake=true");
             
             String email = payment.getRequester().getEmail();

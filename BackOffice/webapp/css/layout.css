@@ -84,7 +84,8 @@ body
 }
 
 #navigation #identifier .user,
-#navigation #identifier .logout
+#navigation #identifier .logout,
+#navigation #identifier .help
 {
   display: block;
   float: left;

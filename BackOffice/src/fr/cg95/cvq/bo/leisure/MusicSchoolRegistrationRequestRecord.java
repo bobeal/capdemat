@@ -14,10 +14,7 @@ import fr.cg95.cvq.business.leisure.music.*;
 
 public class MusicSchoolRegistrationRequestRecord extends RequestRecord {
 
-	private Calendar subjectIndividualBirthDate;
-	private String subjectIndividualFirstName2;
-   	private ReferentialData activity;
-	private String subjectIndividualLastName;
+	private boolean rulesAndRegulationsAcceptance;
   	private String subjectIndividualAddressAdditionalDeliveryInformation;
 	private String subjectIndividualAddressAdditionalGeographicalInformation;
 	private String subjectIndividualAddressStreetNumber;
@@ -25,10 +22,13 @@ public class MusicSchoolRegistrationRequestRecord extends RequestRecord {
 	private String subjectIndividualAddressPlaceNameOrService;
 	private String subjectIndividualAddressPostalCode;
 	private String subjectIndividualAddressCity;
-	private boolean rulesAndRegulationsAcceptance;
-	private String subjectIndividualFirstName;
-	private String subjectIndividualFirstName3;
 	private String subjectIndividualSex;
+	private Calendar subjectIndividualBirthDate;
+	private String subjectIndividualFirstName2;
+	private String subjectIndividualFirstName3;
+	private String subjectIndividualFirstName;
+	private String subjectIndividualLastName;
+   	private ReferentialData activity;
 
 	public MusicSchoolRegistrationRequestRecord() {
 		super();
@@ -51,13 +51,8 @@ public class MusicSchoolRegistrationRequestRecord extends RequestRecord {
         if ((xmlRequest != null) && (xmlRequest instanceof MusicSchoolRegistrationRequest)) {
             MusicSchoolRegistrationRequest request = (MusicSchoolRegistrationRequest)xmlRequest; 
 
-			if (((Individual)request.getSubject()).getBirthDate() != null) {
-				this.subjectIndividualBirthDate = Calendar.getInstance(); 
-	            this.subjectIndividualBirthDate.setTime(((Individual)request.getSubject()).getBirthDate());
-			}
-			this.subjectIndividualFirstName2 = ((Individual)request.getSubject()).getFirstName2();
-            this.setActivity(getReferentialData(this.getList("Activity"), request.getActivity()));
-			this.subjectIndividualLastName = ((Individual)request.getSubject()).getLastName();
+            if ((request.getRulesAndRegulationsAcceptance() != null))
+			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
 			if (((Individual)request.getSubject()).getAdress() != null) {
 				this.subjectIndividualAddressAdditionalDeliveryInformation = ((Individual)request.getSubject()).getAdress().getAdditionalDeliveryInformation();
 				this.subjectIndividualAddressAdditionalGeographicalInformation = ((Individual)request.getSubject()).getAdress().getAdditionalGeographicalInformation();
@@ -67,10 +62,15 @@ public class MusicSchoolRegistrationRequestRecord extends RequestRecord {
 				this.subjectIndividualAddressPostalCode = ((Individual)request.getSubject()).getAdress().getPostalCode();
 				this.subjectIndividualAddressCity = ((Individual)request.getSubject()).getAdress().getCity();
 			}
-            if ((request.getRulesAndRegulationsAcceptance() != null))
-			this.rulesAndRegulationsAcceptance = request.getRulesAndRegulationsAcceptance();
-			this.subjectIndividualFirstName = ((Individual)request.getSubject()).getFirstName();
+			if (((Individual)request.getSubject()).getBirthDate() != null) {
+				this.subjectIndividualBirthDate = Calendar.getInstance(); 
+	            this.subjectIndividualBirthDate.setTime(((Individual)request.getSubject()).getBirthDate());
+			}
+			this.subjectIndividualFirstName2 = ((Individual)request.getSubject()).getFirstName2();
 			this.subjectIndividualFirstName3 = ((Individual)request.getSubject()).getFirstName3();
+			this.subjectIndividualFirstName = ((Individual)request.getSubject()).getFirstName();
+			this.subjectIndividualLastName = ((Individual)request.getSubject()).getLastName();
+            this.setActivity(getReferentialData(this.getList("Activity"), request.getActivity()));
         }
     }
     
@@ -89,36 +89,12 @@ public class MusicSchoolRegistrationRequestRecord extends RequestRecord {
         }
     }
     
-	public void setSubjectIndividualBirthDate(Calendar subjectIndividualBirthDate) {
-		this.subjectIndividualBirthDate = subjectIndividualBirthDate;
+	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
+		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
 	}
 	
-	public Calendar getSubjectIndividualBirthDate() {
-		return this.subjectIndividualBirthDate;
-	}
-
-	public void setSubjectIndividualFirstName2(String subjectIndividualFirstName2) {
-		this.subjectIndividualFirstName2 = subjectIndividualFirstName2;
-	}
-	
-	public String getSubjectIndividualFirstName2() {
-		return this.subjectIndividualFirstName2;
-	}
-
-	public void setActivity(ReferentialData activity) {
-		this.activity = activity;
-	}
-	
-	public ReferentialData getActivity() {
-		return this.activity;
-	}
-
-	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
-		this.subjectIndividualLastName = subjectIndividualLastName;
-	}
-	
-	public String getSubjectIndividualLastName() {
-		return this.subjectIndividualLastName;
+	public boolean getRulesAndRegulationsAcceptance() {
+		return this.rulesAndRegulationsAcceptance;
 	}
 
 	public void setSubjectIndividualAddressAdditionalDeliveryInformation(String subjectIndividualAddressAdditionalDeliveryInformation) {
@@ -177,20 +153,28 @@ public class MusicSchoolRegistrationRequestRecord extends RequestRecord {
 		return this.subjectIndividualAddressCity;
 	}
 
-	public void setRulesAndRegulationsAcceptance(boolean rulesAndRegulationsAcceptance) {
-		this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+	public void setSubjectIndividualSex(String subjectIndividualSex) {
+		this.subjectIndividualSex = subjectIndividualSex;
 	}
 	
-	public boolean getRulesAndRegulationsAcceptance() {
-		return this.rulesAndRegulationsAcceptance;
+	public String getSubjectIndividualSex() {
+		return this.subjectIndividualSex;
 	}
 
-	public void setSubjectIndividualFirstName(String subjectIndividualFirstName) {
-		this.subjectIndividualFirstName = subjectIndividualFirstName;
+	public void setSubjectIndividualBirthDate(Calendar subjectIndividualBirthDate) {
+		this.subjectIndividualBirthDate = subjectIndividualBirthDate;
 	}
 	
-	public String getSubjectIndividualFirstName() {
-		return this.subjectIndividualFirstName;
+	public Calendar getSubjectIndividualBirthDate() {
+		return this.subjectIndividualBirthDate;
+	}
+
+	public void setSubjectIndividualFirstName2(String subjectIndividualFirstName2) {
+		this.subjectIndividualFirstName2 = subjectIndividualFirstName2;
+	}
+	
+	public String getSubjectIndividualFirstName2() {
+		return this.subjectIndividualFirstName2;
 	}
 
 	public void setSubjectIndividualFirstName3(String subjectIndividualFirstName3) {
@@ -201,12 +185,28 @@ public class MusicSchoolRegistrationRequestRecord extends RequestRecord {
 		return this.subjectIndividualFirstName3;
 	}
 
-	public void setSubjectIndividualSex(String subjectIndividualSex) {
-		this.subjectIndividualSex = subjectIndividualSex;
+	public void setSubjectIndividualFirstName(String subjectIndividualFirstName) {
+		this.subjectIndividualFirstName = subjectIndividualFirstName;
 	}
 	
-	public String getSubjectIndividualSex() {
-		return this.subjectIndividualSex;
+	public String getSubjectIndividualFirstName() {
+		return this.subjectIndividualFirstName;
+	}
+
+	public void setSubjectIndividualLastName(String subjectIndividualLastName) {
+		this.subjectIndividualLastName = subjectIndividualLastName;
+	}
+	
+	public String getSubjectIndividualLastName() {
+		return this.subjectIndividualLastName;
+	}
+
+	public void setActivity(ReferentialData activity) {
+		this.activity = activity;
+	}
+	
+	public ReferentialData getActivity() {
+		return this.activity;
 	}
 
 }

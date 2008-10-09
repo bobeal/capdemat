@@ -40,7 +40,7 @@ public class DocumentServiceTest extends ServiceTestCase {
 
         // ensure all document types have been bootstrapped
         Set allDocumentTypes = iDocumentService.getAllDocumentTypes();
-        Assert.assertEquals(allDocumentTypes.size(), 33);
+        Assert.assertEquals(34, allDocumentTypes.size());
         
         // create background data
         CreationBean cb = gimmeAnHomeFolder();

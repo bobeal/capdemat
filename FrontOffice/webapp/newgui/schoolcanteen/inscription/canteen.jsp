@@ -38,7 +38,7 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.urgencyPhone = new Function("key","this.label='Téléphone en cas d&quote;urgence'; this.msg=null; this.required=true; this.mask=/[0-9]{10}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+   		  this.urgencyPhone = new Function("key","this.label='Téléphone en cas d&quote;urgence'; this.msg=null; this.required=true; this.mask=/^0[1-9][0-9]{8}/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
      		  		  this.canteenAttendingDays = new Function("key","this.label='Jours de présence'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type='list'; return this[key];");
   		}
         updateDisplay("canteenAttendingDays");

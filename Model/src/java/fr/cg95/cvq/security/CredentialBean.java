@@ -42,6 +42,7 @@ public class CredentialBean {
 
     private Agent agent;
     private Adult adult;
+    private String externalService;
 
     private LocalAuthority localAuthority;
 
@@ -128,7 +129,18 @@ public class CredentialBean {
 		resetCaches();
 	}
 	
-	public LocalAuthority getSite() {
+    public String getExternalService() {
+        return externalService;
+    }
+
+    public void setExternalService(String externalService) {
+        this.externalService = externalService;
+        
+        // in case we are changing of user inside a transaction, reset the cache
+        resetCaches();        
+    }
+
+    public LocalAuthority getSite() {
         return localAuthority;
     }
 

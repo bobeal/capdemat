@@ -85,6 +85,22 @@
     	 <cvq:toggleInput name="record" property="rulesAndRegulationsAcceptance" id="id" profile="profile"/>
     	</span>
        </div>
+           <div class="form_cell form_cell1">
+         <label for="otherIndividual" class="label">Personne à contacter :</label>
+         <span class="input">
+   
+    
+
+    	 <cvq:toggleInput name="record" property="otherIndividual">
+                    <otherIndividualType,Personne à contacter ou prenant l'enfant>
+        	                <otherIndividualLastName,Nom>
+        	                <otherIndividualFirstName,Prénom>
+        	                <otherIndividualAddress,Adresse>
+        	                <otherIndividualHomePhone,Téléphone domicile>
+        	                <otherIndividualOfficePhone,Téléphone bureau>
+        	  	</cvq:toggleInput>
+    	</span>
+       </div>
        </fieldset>
    </div>
  </div>
@@ -96,7 +112,7 @@
                             		this.hospitalizationPermission = new Function("key","this.values=new Array('Oui','Non'); return this[key];");
                             		this.childPhotoExploitationPermission = new Function("key","this.values=new Array('Oui','Non'); return this[key];");
                             		this.rulesAndRegulationsAcceptance = new Function("key","this.values=new Array('Oui','Non'); return this[key];");
-              		}
+                		}
 </script>
  <div class="clear-both"></div>
 

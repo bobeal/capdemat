@@ -30,12 +30,21 @@
     	</span>
        </div>
            <div class="form_cell form_cell1">
-         <label for="usage" class="label">Usage :</label>
+         <label for="comment" class="label">Commentaire :</label>
          <span class="input">
    
     
 
-    	 <cvq:toggleInput name="record" property="usage" id="id" profile="profile"/>
+    	 <cvq:toggleInput name="record" property="comment" id="id" profile="profile"/>
+    	</span>
+       </div>
+           <div class="form_cell form_cell1">
+         <label for="motive" class="label">Motif :</label>
+         <span class="input">
+   
+    
+
+    	 <cvq:toggleInput name="record" property="motive" id="id" profile="profile"/>
     	</span>
        </div>
            <div class="form_cell form_cell1">
@@ -102,15 +111,6 @@
     	</span>
        </div>
            <div class="form_cell form_cell1">
-         <label for="relationship" class="label">Filiation de :</label>
-         <span class="input">
-   
-    
-
-    	 <cvq:toggleInput name="record" property="relationship" id="id" profile="profile"/>
-    	</span>
-       </div>
-           <div class="form_cell form_cell1">
          <label for="fatherLastName" class="label">Nom du père :</label>
          <span class="input">
    
@@ -152,10 +152,10 @@
 
 <script type="text/javascript">
 	function selectionData() {
-              		this.format = new Function("key","this.values=new Array('Copie intégrale','Extrait avec filiation','Extrait sans filiation'); return this[key];");
-                                                                        		this.requesterQuality = new Function("key","this.values=new Array('Titulaire de l&rsquo;acte','Son conjoint','Son père / sa mère','Son grand-père / sa grand-mère','Son fils / sa fille','Son représentant légal','Son mandataire','Son héritier et aussi son frère ou sa soeur','Son héritier sans être son frère ou sa soeur','Autorisé par le procureur de la République','Avocat, notaire','Autre'); return this[key];");
-                                                                                                                                                                		this.relationship = new Function("key","this.values=new Array('L&rsquo;époux','L&rsquo;épouse'); return this[key];");
-                                                                                                      		}
+              		this.format = new Function("key","this.values=new Array('Copie intégrale','Extrait avec filiation','Extrait sans filiation','Extrait plurilingue'); return this[key];");
+                                                                        		this.motive = new Function("key","this.values=new Array('Acte de notaire','Carte nationale d&rsquo;identité','Certificat de nationalité française','Mariage','Pacte civil de solidarité','Passeport','Pension','Procédure judiciaire','Autre'); return this[key];");
+                            		this.requesterQuality = new Function("key","this.values=new Array('Titulaire de l&rsquo;acte','Son conjoint','Son père / sa mère','Son grand-père / sa grand-mère','Son fils / sa fille','Son représentant légal','Son mandataire','Son héritier et aussi son frère ou sa soeur','Son héritier sans être son frère ou sa soeur','Autorisé par le procureur de la République','Avocat, notaire','Autre'); return this[key];");
+                                                                                                                                                                                                                                          		}
 </script>
  <div class="clear-both"></div>
 

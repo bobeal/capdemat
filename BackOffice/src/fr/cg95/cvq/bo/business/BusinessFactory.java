@@ -398,7 +398,8 @@ public class BusinessFactory implements IBusinessConstants {
         userRecord.setFirstName(user.getFirstName());
         userRecord.setLastName(user.getLastName());
         userRecord.setProfile(BusinessDictionary.getSiteProfile(SiteProfile.AGENT));
-
+        userRecord.setActive(user.getActive());
+        
         Set sitesRoles = user.getSitesRoles();
         if (sitesRoles != null) {
             Iterator iter = sitesRoles.iterator();

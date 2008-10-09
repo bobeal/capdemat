@@ -298,7 +298,7 @@ zenexity.capdemat.bong.requestIntruction = function() {
     zcc.doAjaxCall(
         "/widget/?"
           + "id=" + zenexity.capdemat.bong.requestId
-          + "&type=" + widgetType
+          + "&widget=" + widgetType
           + "&propertyName=" + targetEl.id
           + "&propertyValue=" + yl.trim(targetEl.innerHTML),  
         null,

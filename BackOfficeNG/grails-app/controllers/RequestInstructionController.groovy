@@ -100,7 +100,7 @@ class RequestInstructionController {
     def widget = {
       def propertyNameTokens = params.propertyName.tokenize(".")
       def individualIdTokens = params.propertyName.tokenize("[]")
-      render( template: "/requestInstruction/widget/" + params.type,
+      render( template: "/requestInstruction/widget/" + params.widget,
               model:
                   [ "requestId": Long.valueOf(params.id), 
                     "individualId": individualIdTokens[1],
@@ -115,8 +115,10 @@ class RequestInstructionController {
              return
         try {
           def individual = individualService.getById(Long.valueOf(params.individualId))
+
           bindData(individual, params)
           individualService.modify(individual)
+            
           render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             ce.printStackTrace()

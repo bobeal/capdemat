@@ -21,10 +21,10 @@
       <dd id="homeFolder.individual[${adult.id}].firstName" class="string">${adult.firstName}</dd>
       
       <dt><g:message code="homeFolder.individual.property.secondFirstName" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].secondFirstName" class="string">${adult.firstName3}</dd>
+      <dd id="homeFolder.individual[${adult.id}].firstName2" class="string">${adult.firstName3}</dd>
       
       <dt><g:message code="homeFolder.individual.property.thirdFirstName" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].thirdFirstName" class="string">${adult.firstName3}</dd>
+      <dd id="homeFolder.individual[${adult.id}].firstName3" class="string">${adult.firstName3}</dd>
       
       
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>

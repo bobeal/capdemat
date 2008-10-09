@@ -4,7 +4,7 @@
   <input id="${propertyName}_tp" name="${propertyNameTp}" type="text" value="${propertyValue}" 
       class="required" title="<g:message code="request.error.propertyValueRequired" />" />
   
-  <input name="oldPropertyValue" type="hidden" value="${propertyValue}" />sdsd
+  <input name="oldPropertyValue" type="hidden" value="${propertyValue}" />
   <input name="requestId" type="hidden" value="${requestId}" />
   <input name="individualId" type="hidden" value="${individualId}" />
 

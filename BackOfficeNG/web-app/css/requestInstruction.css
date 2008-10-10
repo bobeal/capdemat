@@ -57,9 +57,14 @@
 
 #requestData dl dt { width: 9em; text-align: right; clear: both; }
 
-#requestData dl dd { width: 16em; font-weight: bold; }
+#requestData dl dd { width: 16em; min-height: 1.2em; font-weight: bold; }
 
-#requestData dl dd.string:hover { background: #ffffff; cursor: pointer; }
+#requestData dl dd.string:hover,
+#requestData dl dd.email:hover,
+#requestData dl dd.address:hover,
+#requestData dl dd.number:hover,
+#requestData dl dd.date:hover,
+#requestData dl dd.capdematEnum:hover        { background: #ffffff; cursor: pointer; }
 #requestData dl dd.currentEditProperty:hover { background: transparent; cursor: default; }/* not used ! */
 
 #requestData dl dd ul li { padding: .3em 0; }
@@ -71,24 +76,22 @@
   -webkit-border-radius: .5em;
   background: #ffffff;
   border: 1px dashed #FFD053;
+  font-size: .9em;  
   font-weight: normal;
   clear: both; /* hack for tag alignment */
 }
 
 /* TODO - Merge form-list-edition declaration with configuration.css version  */
-.form-list-edition .error { margin: 0 40% 0 0; }
+.form-list-edition .error             { margin: 0; }
+.form-list-edition .required          { font-size: 1em; }
 .form-list-edition label, 
-.form-list-edition input  { display: inline; width: auto; }
-.form-list-edition input[type=text]  { width: 95%; }
-
-.form-list-edition ul     { margin: 0; }
-
-.form-list-edition ul li {
-  width: 20%;
-  float: left;
-  padding: .2em 0;
-  border: none;
-}
+.form-list-edition input              { width: auto; display: inline; margin: 0 0 .2em 0; }
+.form-list-edition label              { display: block; float: none; margin: .3em; 0 .2em 0; text-align: left; } 
+.form-list-edition input[type=text]   { width: 98%; }
+.form-list-edition input[type=button] { margin: .5em 0 0 0 }
+.form-list-edition input.line1        { width: 18%; }
+.form-list-edition input.line2        { width: 74%; }
+.form-list-edition input.validate-date-au { width: 80%; }
 
 /* request attached document
 -------------------------------------------------------------- */

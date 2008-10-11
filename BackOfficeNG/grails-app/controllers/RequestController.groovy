@@ -180,6 +180,8 @@ class RequestController {
 
     def taskBoard = {
             
+   	       session["currentMenu"] = "taskBoard"
+
             Set<Critere> redCriteria = new HashSet<Critere>()
              
             Critere qualityRedCritere = new Critere()

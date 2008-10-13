@@ -17,7 +17,6 @@
       <dt><g:message code="homeFolder.individual.property.thirdFirstName" /> : </dt>
       <dd class="string">${child.firstName3}</dd>
       
-      
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
       <dd class="date"><g:formatDate format="dd/MM/yyyy" date="${child.birthDate}"/></dd>
       

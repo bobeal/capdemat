@@ -97,17 +97,52 @@ class RequestInstructionController {
 		    ]
     }
     
+    // TODO - refactor enum managment
     def widget = {
-      def propertyNameTokens = params.propertyName.tokenize(".")
-      def individualIdTokens = params.propertyName.tokenize("[]")
-      render( template: "/requestInstruction/widget/" + params.widget,
-              model:
-                  [ "requestId": Long.valueOf(params.id), 
-                    "individualId": individualIdTokens[1],
-                    "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
-                    "propertyName": params.propertyName,
-                    "propertyValue": params.propertyValue
-                  ])
+        def widgetMap = [ string:"string", email:"string", number:"string", string:"string",
+                          date:"date", address:"address", capdematEnum:"capdematEnum" ]
+        
+        // tp implementation          
+        def propertyNameTokens = params.propertyName.tokenize(".")
+        def individualIdTokens = params.propertyName.tokenize("[]")
+        
+        def propertyTypeList = params.propertyType.tokenize(" ")
+        
+        def propertyValue
+        def allPropertyValue = []
+        def i18nKeyPrefix
+        if (propertyTypeList[0] == "address")
+            JSON.parse(params.propertyValue)
+        else if (propertyTypeList[0] == "capdematEnum") {
+            allPropertyValue = Class.forName("fr.cg95.cvq.business.users." + propertyTypeList[1])
+                           .getField("all" + propertyTypeList[1] + "s")
+                           .get()
+            propertyValue = params.propertyValue
+            
+            switch(propertyTypeList[1]) {
+                case "TitleType": 
+                    i18nKeyPrefix = "homeFolder.adult.title"
+                    break;
+                case "FamilyStatusType": 
+                    i18nKeyPrefix = "homeFolder.adult.familyStatus"
+                    break;
+            }
+        }
+        else if (propertyTypeList[0] != "address")
+            propertyValue = params.propertyValue
+            
+        render( template: "/requestInstruction/widget/" + widgetMap[propertyTypeList[0]],
+                model:
+                    [ "requestId": Long.valueOf(params.id), 
+                      "individualId": individualIdTokens[1],
+                      "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                      "propertyName": params.propertyName,
+                      "propertyValue": propertyValue,
+                      "allPropertyValue" : allPropertyValue,
+                      "i18nKeyPrefix" : i18nKeyPrefix,
+                      "propertyType": propertyTypeList[0],
+                      "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""
+                    ])
     }
     
     def modify = {
@@ -115,9 +150,7 @@ class RequestInstructionController {
              return
         try {
           def individual = individualService.getById(Long.valueOf(params.individualId))
-
           bindData(individual, params)
-          individualService.modify(individual)
             
           render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
@@ -127,7 +160,6 @@ class RequestInstructionController {
         }
     }
     
-    // called asynchronously
     def stateTransitions = {
         def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
         def stateType = params.stateType
@@ -159,7 +191,6 @@ class RequestInstructionController {
                 model: ["states": states, "stateType": stateType, "id": params.id])
     }
     
-    // called asynchronously
     def changeState = {
         if (params.stateType == null || params.newState == null || params.id == null )
              return

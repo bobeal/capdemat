@@ -84,7 +84,7 @@
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.eMail" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].eMail" class="email required">
+      <dd id="homeFolder.individual[${adult.id}].email" class="email required">
         <span>${adult.email}</span>
       </dd>
       

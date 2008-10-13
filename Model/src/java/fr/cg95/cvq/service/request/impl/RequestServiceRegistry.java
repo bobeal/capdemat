@@ -181,7 +181,7 @@ public class RequestServiceRegistry
         if (requestForm == null) {
             requestForm = new RequestForm();
             requestForm.setType(RequestFormType.REQUEST_CERTIFICAT);
-            requestForm.setXslFoFilename(service.getXslFoFilename());
+            //requestForm.setXslFoFilename(service.getXslFoFilename());
             requestFormDAO.create(requestForm);
         }
         

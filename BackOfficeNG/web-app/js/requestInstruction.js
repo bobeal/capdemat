@@ -322,8 +322,10 @@ zenexity.capdemat.bong.requestIntruction = function() {
         "city": addressFields[6].innerHTML,
         "countryName": addressFields[7].innerHTML,  
       }
-
       propertyValue = ylj.stringify(jsonAddress);
+    }
+    else if (yud.hasClass(targetEl, "capdematEnum")) {
+      propertyValue = wrapperPropertyValueEl.className;
     }
     else {
       propertyValue = wrapperPropertyValueEl.innerHTML;
@@ -336,7 +338,7 @@ zenexity.capdemat.bong.requestIntruction = function() {
           + "id=" + zenexity.capdemat.bong.requestId
           + "&propertyType=" + targetEl.className
           + "&propertyName=" + targetEl.id
-          + "&propertyValue=" + propertyValue,  
+          + "&propertyValue=" + propertyValue,
         null,
         function(o) {
           yud.addClass(targetEl, "currentEditProperty");

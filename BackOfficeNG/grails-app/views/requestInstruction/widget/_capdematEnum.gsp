@@ -2,8 +2,8 @@
   <span id="${propertyName}_FormErrors" class="error"></span> 
   <select id="${propertyName}_Input" name="${propertyNameTp}">
     <g:each var="it" in="${allPropertyValue}">
-    <option value="${it}" ${it.toString() == propertyValue ? 'selected="selected"' : ''}>
-      <g:capdematEnumToText var="${it}" i18nKeyPrefix="${i18nKeyPrefix}" />
+    <option value="${it}" ${it.toString() == propertyValue.enumString ? 'selected="selected"' : ''}>
+      <g:capdematEnumToText var="${it}" i18nKeyPrefix="${propertyValue.i18nKeyPrefix}" />
     </option>
     </g:each>
   </select>

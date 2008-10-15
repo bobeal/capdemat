@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.authority;
 
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.core.io.Resource;
@@ -101,4 +102,6 @@ public interface ILocalAuthorityRegistry {
     void renameLocalAuthorityResource(String resourceType, String filename, String newFilename) throws CvqException;
     void removeLocalAuthorityResource(String resourceType, String filename);
     
+    List<File> getLocalResourceContent(String resourceType) throws CvqException;
+    List<File> getLocalResourceContent(String resourceType, String pattern) throws CvqException;
 }

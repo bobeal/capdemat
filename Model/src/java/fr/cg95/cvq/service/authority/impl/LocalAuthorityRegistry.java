@@ -4,17 +4,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.SessionFactory;
-
 import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -494,6 +496,29 @@ public class LocalAuthorityRegistry
             this.referentialBase = referentialBase + "/";
         else
             this.referentialBase = referentialBase;
+    }
+    
+    public List<File> getLocalResourceContent(String resourceType) 
+        throws CvqException {
+        return this.getLocalResourceContent(resourceType, "*");
+    }
+    public List<File> getLocalResourceContent(String resourceType, final String pattern) 
+        throws CvqException {
+        StringBuffer path = new StringBuffer();
+        if (pattern == null) 
+            throw new CvqException("localresources.mask_cannt_be_null");
+        
+        path.append(assetsBase).append("/")
+            .append(SecurityContext.getCurrentSite().getName())
+            .append("/").append(resourceType);
+        
+        FilenameFilter filter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().matches(pattern);
+            }
+        };
+        File file = new File(path.toString());
+        return Arrays.asList(file.listFiles(filter));
     }
 
     public String getReferentialBase() {

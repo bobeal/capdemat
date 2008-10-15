@@ -403,6 +403,12 @@ public interface IRequestService {
     // RequestForm related Methods
     //////////////////////////////////////////////////////////
     
+    RequestForm getRequestFormById(Long id) throws CvqException;
+    
+    List<File> getMailTemplates(String pattern) throws CvqException;
+    
+    Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) throws CvqException;
+    
     /**
      * Add a new requestForm to the requestType identify requestTypeId parameter
      * <ul>

@@ -5,13 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +46,6 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
@@ -1729,6 +1726,13 @@ public abstract class RequestService implements IRequestService {
         }
     }
     
+    public List<File> getMailTemplates(String pattern) throws CvqException {
+        if(pattern == null) pattern="*";
+        return this.localAuthorityRegistry.getLocalResourceContent(
+            ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE,
+            pattern);
+    }
+    
     public File getTemplateByName(String name) {
         return this.localAuthorityRegistry.getCurrentLocalAuthorityResource(
             ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE, name, false);
@@ -1876,11 +1880,15 @@ public abstract class RequestService implements IRequestService {
     
     public List<RequestForm> getRequestTypeForms(Long requestTypeId, 
             RequestFormType requestFormType) throws CvqException {
-       
+        
         List<RequestForm> result = 
             requestFormDAO.findByTypeAndRequestTypeId(requestFormType, requestTypeId);
         return result;
         
+    }
+    
+    public RequestForm getRequestFormById(Long id) throws CvqException {
+        return (RequestForm)requestFormDAO.findById(RequestForm.class, id);
     }
     
     public void onPaymentValidated(Request request, String paymentReference) 

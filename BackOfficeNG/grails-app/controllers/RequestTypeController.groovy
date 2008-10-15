@@ -45,10 +45,7 @@ class RequestTypeController {
 
     // the configuration items all request types will have
     // the boolean indicates if it's a mandatory step
-    def baseConfigurationItems = [
-    	"general":["requestType.configuration.general", true] 
-//        "documents":["requestType.configuration.documents", false]
-    ]
+    def baseConfigurationItems = ["general":["requestType.configuration.general", true] ]
     
     def configure = {
     	def requestType = 
@@ -310,6 +307,31 @@ class RequestTypeController {
                                  success_msg:message(code:"requestSeason.message.confirmDelete")] as JSON)
     }
     
+    
+    // retrives request form list using passed request type id
+    def requestFormList = {
+        def id = Long.valueOf(params.id)
+        def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
+        def forms = defaultRequestService.getRequestTypeForms(id, mailType)
+        
+        render(template:"requestForms",model:["requestForms":forms])
+    }
+    
+    def requestFormDatasheet = {
+        if(request.post) {
+            
+        } else {
+            def requestForm = null
+            def templates = defaultRequestService.getMailTemplates('.*[.]html$')
+            if(params.id) 
+                requestForm = defaultRequestService
+                    .getRequestFormById(Long.valueOf(params.id))
+            render(template:"datasheet",model:["requestForm":requestForm,
+                                               "templates":templates])
+        }
+    }
+    
+    
     def mailTemplate = {
         if(request.post) {
             if(params?.editor != "" && params?.element != "") {
@@ -329,7 +351,8 @@ class RequestTypeController {
             }
         } 
         else {
-            render (view: 'mailTemplate', model:['name':params.id])
+            def templates = defaultRequestService.getMailTemplates('.*[.]html$')
+            render (view: 'mailTemplate', model:['name':params.id,'templates':templates])
         }
     }
     

@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.document;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.document.Document;
@@ -77,24 +78,27 @@ public interface IDocumentService {
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Modify an existing document
-     *
-     * @todo needs SSO to be finished
+     * Modify an existing document.
      */
     void modify(final Document document)
         throws CvqException;
+    
 	/**
-     * Delete an existing document
-     *
-     * @todo needs SSO to be finished
+     * Delete an existing document.
      */
     void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException;
     
-    Set getAll()
+    /**
+     * Delete documents belonging to the given home folder.
+     */
+    void deleteHomeFolderDocuments(final Long homeFolderId)
         throws CvqException;
-
-    Set get(final Set criteriaSet)
+    
+    /**
+     * Delete documents belonging to the given individual.
+     */
+    void deleteIndividualDocuments(final Long individualId)
         throws CvqException;
 
     Document getById(final Long id)
@@ -108,30 +112,26 @@ public interface IDocumentService {
      * @throws CvqBadPageNumberException if a page is specified for the
      *         binary but page already exists
      */
-    Long addPage(final Long documentId,
-                 final DocumentBinary documentBinary)
+    Long addPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException,
                CvqBadPageNumberException;
 
     /**
      * Modify a page of an existing document
      */
-    void modifyPage(final Long documentId,
-                    final DocumentBinary documentBinary)
+    void modifyPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqBadPageNumberException;
 
     /**
      * Remove a page from an existing document
      */
-    void deletePage(final Long documentId,
-                    final Integer pageId)
+    void deletePage(final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get a specific page of an existing document
      */
-    DocumentBinary getPage(final Long documentId,
-                           final Integer pageId)
+    DocumentBinary getPage(final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
@@ -141,15 +141,13 @@ public interface IDocumentService {
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Get all binary data associated to a document
-     *
-     * @return a set of {@link DocumentBinary} objects
+     * Get all binary data associated to a document.
      */
-    Set getAllPages(final Long documentId)
+    Set<DocumentBinary> getAllPages(final Long documentId)
         throws CvqException;
 
     /**
-     * Get a document type by its id
+     * Get a document type by its id.
      *
      * @param id the id of the document type, one among the (long) list of static
      *           integer constant defined in this class
@@ -158,25 +156,34 @@ public interface IDocumentService {
         throws CvqException;
 
     /**
-     * Get all known document types
+     * Get all known document types.
      */
-    Set getAllDocumentTypes()
+    List<DocumentType> getAllDocumentTypes()
         throws CvqException;
 
     /**
      * Get already provided documents for the given
-     *       {@link fr.cg95.cvq.business.document.DocumentType}
+     *       {@link fr.cg95.cvq.business.document.DocumentType}.
      *
      * @param docType the document type to search for
      * @param homeFolderId the home folder for which we are searching
      * @param individualId an optional individual to restrict the search to
-     *
-     * @return a set of {@link fr.cg95.cvq.business.document.Document} objects
      */
-    Set getProvidedDocuments(final DocumentType docType,
-                             final Long homeFolderId,
-                             final Long individualId)
+    List<Document> getProvidedDocuments(final DocumentType docType, final Long homeFolderId, 
+            final Long individualId)
         throws CvqException;
+
+    /**
+     * Get documents associated to an home folder.
+     */
+    List<Document> getHomeFolderDocuments(final Long homeFolderId)
+        throws CvqException, CvqObjectNotFoundException;
+
+    /**
+     * Get documents associated to an individual.
+     */
+    List<Document> getIndividualDocuments(final Long individualId)
+        throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Check, for all known local authorities, that the end validity date of documents 
@@ -192,7 +199,7 @@ public interface IDocumentService {
      */
     void updateDocumentState(final Long id, final DocumentState ds, final String message, 
             final Date validityDate)
-            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
+        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
     
     /**
      * Validate a document
@@ -202,8 +209,7 @@ public interface IDocumentService {
      *                     default value is used
      * @param message a optional message associated with the validation
      */
-    void validate(final Long id, final Date validityDate,
-                  final String message)
+    void validate(final Long id, final Date validityDate, final String message)
         throws CvqException, CvqObjectNotFoundException,
                CvqInvalidTransitionException;
 

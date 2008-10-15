@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -39,8 +39,8 @@ public class DocumentServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         // ensure all document types have been bootstrapped
-        Set allDocumentTypes = iDocumentService.getAllDocumentTypes();
-        Assert.assertEquals(34, allDocumentTypes.size());
+        List<DocumentType> allDocumentTypes = iDocumentService.getAllDocumentTypes();
+        assertEquals(34, allDocumentTypes.size());
         
         // create background data
         CreationBean cb = gimmeAnHomeFolder();
@@ -52,7 +52,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         // get home folder id from request id
         HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
         Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
+        assertNotNull(homeFolderId);
 
         // get individuals from home folder id
         Critere crit = new Critere();
@@ -62,7 +62,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         Set<Critere> criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
         Set individualsSet = iIndividualService.get(criteriaSet, null, false, false);
-        Assert.assertEquals(individualsSet.size(), 5);
+        Assert.assertEquals(5, individualsSet.size());
 
         Individual anIndividual = (Individual) individualsSet.iterator().next();
 
@@ -103,22 +103,21 @@ public class DocumentServiceTest extends ServiceTestCase {
 
         // check the document and its two binary have been successfully added ...
         // ... to the home folder
-        Set documentsSet = iHomeFolderService.getAssociatedDocuments(homeFolderId);
-        Assert.assertEquals("Bad number of associated documents on home folder", documentsSet.size(), 1);
-        Set docBinarySet = iDocumentService.getAllPages(docId);
-        Assert.assertEquals("Bad number of associated data on document", docBinarySet.size(), 2);
+        List<Document> documentsList = iDocumentService.getHomeFolderDocuments(homeFolderId);
+        assertEquals("Bad number of associated documents on home folder", 1, documentsList.size());
+        Set<DocumentBinary> docBinarySet = iDocumentService.getAllPages(docId);
+        assertEquals("Bad number of associated data on document", 2, docBinarySet.size());
         Integer pagesNumber = iDocumentService.getPagesNumber(docId);
-        Assert.assertEquals("Bad number of associated pages on document", pagesNumber.intValue(), 2);
+        assertEquals("Bad number of associated pages on document", 2, pagesNumber.intValue());
 
         // ... and to the individual
-        documentsSet = iIndividualService.getAssociatedDocuments(anIndividual.getId());
-        Assert.assertEquals("Bad number of associated documents on individual", documentsSet.size(), 1);
-        documentsSet = iIndividualService.getAssociatedDocuments(new Long(0));
-        Assert.assertEquals("Bad number of associated documents on individual", documentsSet.size(), 0);
+        documentsList = iDocumentService.getIndividualDocuments(anIndividual.getId());
+        assertEquals("Bad number of associated documents on individual", 1, documentsList.size());
+        documentsList = iDocumentService.getIndividualDocuments(new Long(0));
+        assertEquals("Bad number of associated documents on individual", 0, documentsList.size());
 
         // modify a page
-        Iterator docBinaryIt = docBinarySet.iterator();
-        DocumentBinary docBin1 = (DocumentBinary) docBinaryIt.next();
+        DocumentBinary docBin1 = docBinarySet.iterator().next();
         file = getResourceFile("family_notebook.jpg");
         data = new byte[(int) file.length()];
         fis = new FileInputStream(file);
@@ -129,9 +128,9 @@ public class DocumentServiceTest extends ServiceTestCase {
         // remove a page
         iDocumentService.deletePage(docId, new Integer(2));
         docBinarySet = iDocumentService.getAllPages(doc.getId());
-        Assert.assertEquals("Bad number of associated data on document", docBinarySet.size(), 1);
+        assertEquals("Bad number of associated data on document", 1, docBinarySet.size());
         docBin1 = iDocumentService.getPage(docId, new Integer(1));
-        Assert.assertNotNull("Could find page", docBin1);
+        assertNotNull("Could find page", docBin1);
 
         try {
             docBin1 = iDocumentService.getPage(docId, new Integer(2));
@@ -143,18 +142,18 @@ public class DocumentServiceTest extends ServiceTestCase {
         // try to retrieve the list of identity pieces for home folder
         DocumentType docType =
             iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE);
-        documentsSet =
+        documentsList =
             iDocumentService.getProvidedDocuments(docType, homeFolderId, null);
-        Assert.assertEquals("Bad number of docs for home folder (1)", documentsSet.size(), 1);
+        assertEquals("Bad number of docs for home folder (1)", 1, documentsList.size());
         // and try other successful and unsuccessful searches among provided documents
-        documentsSet =
+        documentsList =
             iDocumentService.getProvidedDocuments(docType, homeFolderId, anIndividual.getId());
-        Assert.assertEquals("Bad number of docs for home folder and individual", documentsSet.size(), 1);
+        assertEquals("Bad number of docs for home folder and individual", 1, documentsList.size());
         docType =
             iDocumentService.getDocumentTypeById(IDocumentService.MEDICAL_CERTIFICATE_TYPE);
-        documentsSet =
+        documentsList =
             iDocumentService.getProvidedDocuments(docType, homeFolderId, null);
-        Assert.assertEquals("Bad number of docs for home folder (2)", documentsSet.size(), 0);
+        assertEquals("Bad number of docs for home folder (2)", 0, documentsList.size());
 
         // test end validity durations by creating different sort of doc types
         // based on example data from $BASE_DIR/db/init_ref_data.sql
@@ -249,8 +248,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         
         commitTransaction();
         
-        Set fetchDocuments = iDocumentService.getAll();
-        Assert.assertEquals(fetchDocuments.size(), 3);
-
+        assertEquals(2, iDocumentService.getHomeFolderDocuments(homeFolder.getId()));
+        assertEquals(2, iDocumentService.getIndividualDocuments(individual.getId()));
     }
 }

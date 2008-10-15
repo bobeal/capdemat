@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -65,8 +64,6 @@ public class Individual implements Historizable, Serializable {
     private Address adress;
     private Card card;
     private HomeFolder homeFolder;
-
-    private Set documents;
 
     /** default constructor */
     public Individual() {
@@ -467,24 +464,6 @@ public class Individual implements Historizable, Serializable {
 
     public void setHomeFolder(HomeFolder homeFolder) {
         this.homeFolder = homeFolder;
-    }
-
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     *  cascade="all-delete-orphan"
-     * @hibernate.key
-     *  column="individual_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.document.Document"
-     */
-    public Set getDocuments() {
-        return this.documents;
-    }
-
-    public void setDocuments(Set documents) {
-        this.documents = documents;
     }
 
     public String toString() {

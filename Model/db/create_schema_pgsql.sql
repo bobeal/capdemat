@@ -74,12 +74,6 @@
     alter table document 
         drop constraint FK335CD11B8EAF8712;
 
-    alter table document 
-        drop constraint FK335CD11B59302132;
-
-    alter table document 
-        drop constraint FK335CD11B8BD77771;
-
     alter table document_action 
         drop constraint FKA42545DA7A6C6B5B;
 
@@ -1417,8 +1411,8 @@
     );
 
     create table request_document_map (
-        document_id int8 not null,
         request_id int8 not null,
+        document_id int8 not null,
         primary key (request_id, document_id)
     );
 
@@ -1721,16 +1715,6 @@
         add constraint FK335CD11B8EAF8712 
         foreign key (document_type_id) 
         references document_type;
-
-    alter table document 
-        add constraint FK335CD11B59302132 
-        foreign key (individual_id) 
-        references individual;
-
-    alter table document 
-        add constraint FK335CD11B8BD77771 
-        foreign key (home_folder_id) 
-        references home_folder;
 
     alter table document_action 
         add constraint FKA42545DA7A6C6B5B 

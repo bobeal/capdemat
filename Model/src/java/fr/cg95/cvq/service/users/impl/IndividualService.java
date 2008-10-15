@@ -16,11 +16,11 @@ import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.users.IIndividualService;
 
 /**
@@ -36,7 +36,7 @@ public class IndividualService implements IIndividualService {
         Collections.synchronizedCollection(new ArrayList<String>());
     
     protected IIndividualDAO individualDAO;
-    protected IDocumentDAO documentDAO;
+    protected IDocumentService documentService;
     protected IAuthenticationService authenticationService;
 
     public IndividualService() {
@@ -78,16 +78,6 @@ public class IndividualService implements IIndividualService {
         Individual individual = null;
         individual = individualDAO.findByFederationKey(federationKey);
         return individual;
-    }
-
-    // TODO : use document service instead
-    public Set getAssociatedDocuments(final Long individualId)
-        throws CvqException {
-
-        logger.debug("getAssociatedDocuments() searching documents for individual id : " + individualId);
-
-        List documentsList = documentDAO.listByIndividual(individualId);
-        return new LinkedHashSet(documentsList);
     }
 
     public String encryptPassword(final String clearPassword)
@@ -204,13 +194,7 @@ public class IndividualService implements IIndividualService {
     protected void delete(final Individual individual) 
         throws CvqException {
 
-		logger.debug("Gonna delete individual with id : " + individual.getId());
-//            individual.setAdress(null);
-            
-            // TODO : remove orphan documents ?
-		if (individual.getDocuments() != null)
-			individual.getDocuments().clear();
-        
+        documentService.deleteIndividualDocuments(individual.getId());
 		individualDAO.delete(individual);
 	}
 
@@ -226,8 +210,8 @@ public class IndividualService implements IIndividualService {
         this.individualDAO = individualDAO;
     }
 
-    public void setDocumentDAO(IDocumentDAO documentDAO) {
-        this.documentDAO = documentDAO;
+    public void setDocumentService(IDocumentService documentService) {
+        this.documentService = documentService;
     }
 
     public void setAuthenticationService(IAuthenticationService authenticationService) {

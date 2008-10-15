@@ -1,7 +1,6 @@
 package fr.cg95.cvq.security;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
@@ -252,34 +251,21 @@ public class CredentialBean {
             return false;
         }
 
-        Set homeFolderAdults = null;
-        HomeFolder homeFolder = null;
-        if (document.getHomeFolder() != null) {
-            homeFolderAdults = new HashSet();
-            homeFolder = document.getHomeFolder();
-            homeFolderAdults = homeFolder.getIndividuals();
-        } else if (document.getIndividual() != null) {
-            Individual individual = document.getIndividual();
-            homeFolder = individual.getHomeFolder();
-            homeFolderAdults = homeFolder.getIndividuals();
-        } else {
-            logger.error("belongsToSameHomeFolder() document has no home folder and no individual associated to it !");
-            return false;
-        }
-
-        Iterator it = homeFolderAdults.iterator();
-        while (it.hasNext()) {
-            Object individual = it.next();
-            // don't check children, they can't log in :-)
-            if (individual instanceof Adult) {
-                Adult tempAdult = (Adult) individual;
-                if (adult.getLogin().equals(tempAdult.getLogin())) {
-                    logger.debug("belongsToSameHomeFolder() adult effectively belongs to home folder " + homeFolder);
+        Long homeFolderId = document.getHomeFolderId();
+        Long individualId = document.getIndividualId();
+        if (homeFolderId != null) {
+            // current user and inspected document belong to the same home folder, that's ok
+            if (adult.getHomeFolder().getId().equals(homeFolderId))
+                return true;
+        } else if (individualId != null) {
+            Set<Individual> homeFolderIndividuals = adult.getHomeFolder().getIndividuals();
+            for (Individual individual : homeFolderIndividuals) {
+                // one of the home folder's individuals is the owner of the inspected document, that',ok
+                if (individual.getId().equals(individualId))
                     return true;
-                }
             }
         }
-
+        
         return false;
     }
 

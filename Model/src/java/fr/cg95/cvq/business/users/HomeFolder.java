@@ -44,7 +44,6 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     private Long originRequestId;
     private Boolean boundToRequest;
     
-    private Set documents;
     private Set payments;
     private Set individuals;
     private Set requests;
@@ -181,24 +180,6 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
 
     public void setAdress(Address adress) {
         this.adress = adress;
-    }
-
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     *  cascade="all-delete-orphan"
-     * @hibernate.key
-     *  column="home_folder_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.document.Document"
-     */
-    public Set getDocuments() {
-        return this.documents;
-    }
-
-    public void setDocuments(Set documents) {
-        this.documents = documents;
     }
 
     /**

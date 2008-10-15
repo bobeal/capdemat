@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -306,10 +307,10 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         Assert.assertNotNull("Retrieved cartevaloise request is null !", dcvoRetr);
 
         // test attachment of the documents
-        Set homeFolderDocuments = iHomeFolderService.getAssociatedDocuments(homeFolder.getId());
-        Assert.assertEquals(homeFolderDocuments.size(), 1);
-        Document homeFolderDoc = (Document) homeFolderDocuments.iterator().next();
-        Assert.assertEquals(homeFolderDoc.getEcitizenNote(), "Mon livret de famille");
+        List<Document> homeFolderDocuments = iDocumentService.getHomeFolderDocuments(homeFolder.getId());
+        assertEquals(1, homeFolderDocuments.size());
+        Document homeFolderDoc = homeFolderDocuments.get(0);
+        assertEquals("Mon livret de famille", homeFolderDoc.getEcitizenNote());
 
         /////////////////////////////////////////////////////////
         // Complete & Validate the home folder                 //

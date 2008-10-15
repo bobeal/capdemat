@@ -3,7 +3,6 @@ package fr.cg95.cvq.dao.document.hibernate;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
@@ -27,12 +26,12 @@ public class DocumentTypeDAO extends GenericDAO implements IDocumentTypeDAO {
 
     public DocumentType findByType(final Integer typeId) {
         // no meaning in restricting read access to document types
-            Criteria crit = HibernateUtil.getSession().createCriteria(DocumentType.class);
-            crit.add(Critere.compose("type", typeId, Critere.EQUALS));
-            return (DocumentType) crit.uniqueResult();
+        Criteria crit = HibernateUtil.getSession().createCriteria(DocumentType.class);
+        crit.add(Critere.compose("type", typeId, Critere.EQUALS));
+        return (DocumentType) crit.uniqueResult();
     }
 
-    public List listAll() {
+    public List<DocumentType> listAll() {
         // no meaning in restricting read access to document types
         StringBuffer sb = new StringBuffer(100);
         sb.append("from DocumentType as documentType");

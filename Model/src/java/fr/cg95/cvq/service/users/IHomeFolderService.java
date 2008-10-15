@@ -53,17 +53,6 @@ public interface IHomeFolderService {
     HomeFolder getByRequestId(final Long requestId)
         throws CvqException;
 
-    /**
-     * Get documents associated to an home folder.
-     *
-     * As they are not automatically loaded from DB, they have to be explicitely
-     * asked for.
-     *
-     * @return a set of {@link fr.cg95.cvq.business.document.Document documents}.
-     */
-    Set getAssociatedDocuments(final Long homeFolderId)
-        throws CvqException, CvqObjectNotFoundException;
-
     void modify(final HomeFolder homeFolder)
         throws CvqException;
 

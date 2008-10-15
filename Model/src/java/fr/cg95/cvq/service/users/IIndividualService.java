@@ -24,17 +24,6 @@ public interface IIndividualService {
     void modify(final Individual individual)
         throws CvqException;
 
-    /**
-     * Get documents associated to an individual.
-     *
-     * As they are not automatically loaded from DB, they have to be explicitely
-     * asked for.
-     *
-     * @return a set of {@link fr.cg95.cvq.business.document.Document} objects
-     */
-    Set getAssociatedDocuments(final Long individualId)
-        throws CvqException, CvqObjectNotFoundException;
-
     Set get(final Set criteriaSet, final String orderedBy, final boolean onlyIds,
             final boolean searchAmongArchived)
         throws CvqException;

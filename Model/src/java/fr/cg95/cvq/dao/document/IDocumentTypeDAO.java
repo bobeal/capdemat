@@ -18,5 +18,5 @@ public interface IDocumentTypeDAO extends IGenericDAO {
     /**
      * Return the list of all known documents types.
      */
-    List listAll();
+    List<DocumentType> listAll();
 }

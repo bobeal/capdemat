@@ -247,9 +247,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="individualDAO">
       <ref local="individualDAO"/>
     </property>
-    <property name="documentDAO">
-      <ref local="documentDAO"/>
-    </property>
+    <property name="documentService" ref="documentService" />
     <property name="authenticationService">
       <ref bean="authenticationService"/>
     </property>
@@ -307,9 +305,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="homeFolderDAO">
       <ref local="homeFolderDAO"/>
     </property>
-    <property name="documentDAO">
-      <ref local="documentDAO"/>
-    </property>
+    <property name="documentService" ref="documentService" />
     <property name="childDAO">
       <ref local="childDAO"/>
     </property>
@@ -375,12 +371,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
     <property name="genericDAO">
       <ref local="genericDAO"/>
-    </property>
-    <property name="homeFolderDAO">
-      <ref local="homeFolderDAO"/>
-    </property>
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
     </property>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="performDbUpdates" value="@perform_db_updates@"/>

@@ -21,7 +21,6 @@ import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.dao.IGenericDAO;
-import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
@@ -33,6 +32,7 @@ import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IAdultService;
 import fr.cg95.cvq.service.users.IChildService;
@@ -55,9 +55,9 @@ public class HomeFolderService implements IHomeFolderService {
     protected IAdultService adultService;
     protected IChildService childService;
     protected IRequestService requestService;
+    protected IDocumentService documentService;
     protected IGenericDAO genericDAO;
     protected IHomeFolderDAO homeFolderDAO;
-    protected IDocumentDAO documentDAO;
     protected IChildDAO childDAO;
     protected IAdultDAO adultDAO;
     protected IPaymentService paymentService;
@@ -103,17 +103,6 @@ public class HomeFolderService implements IHomeFolderService {
 
         List adultList = adultDAO.listByHomeFolder(homeFolderId);
         return new LinkedHashSet(adultList);
-    }
-
-    // TODO : use document service instead
-    public final Set getAssociatedDocuments(final Long homeFolderId)
-        throws CvqException {
-
-        logger.debug("getAssociatedDocuments() searching documents for home folder id : "
-                     + homeFolderId);
-
-        List documentsList = documentDAO.listByHomeFolder(homeFolderId);
-        return new LinkedHashSet(documentsList);
     }
 
     public HomeFolder create(final Adult adult) throws CvqException {
@@ -222,16 +211,16 @@ public class HomeFolderService implements IHomeFolderService {
         }
         
         for (Adult adult : adults) {
+            documentService.deleteIndividualDocuments(adult.getId());
             adultService.delete(adult, true);
         }
         
         for (Child child : children) {
+            documentService.deleteIndividualDocuments(child.getId());
             childService.delete(child, true);
         }
         
-        // then home folder itself
-        if (homeFolder.getDocuments() != null)
-            homeFolder.getDocuments().clear();
+        documentService.deleteHomeFolderDocuments(homeFolder.getId());
 
         homeFolderDAO.delete(homeFolder);
     }
@@ -397,10 +386,6 @@ public class HomeFolderService implements IHomeFolderService {
         this.homeFolderDAO = homeFolderDAO;
     }
 
-   public final void setDocumentDAO(final IDocumentDAO documentDAO) {
-        this.documentDAO = documentDAO;
-    }
-
     public final void setChildDAO(final IChildDAO childDAO) {
         this.childDAO = childDAO;
     }
@@ -423,6 +408,10 @@ public class HomeFolderService implements IHomeFolderService {
 
     public void setChildService(IChildService childService) {
         this.childService = childService;
+    }
+
+    public void setDocumentService(IDocumentService documentService) {
+        this.documentService = documentService;
     }
 
     public void setExternalService(IExternalService externalService) {

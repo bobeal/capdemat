@@ -213,10 +213,12 @@ public class HomeFolderService implements IHomeFolderService {
         }
         
         for (Adult adult : adults) {
+            documentService.deleteIndividualDocuments(adult.getId());
             adultService.delete(adult, true);
         }
         
         for (Child child : children) {
+            documentService.deleteIndividualDocuments(child.getId());
             childService.delete(child, true);
         }
         

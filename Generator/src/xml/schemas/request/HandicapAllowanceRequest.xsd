@@ -1,439 +1,1675 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/har"
-  xmlns:har="http://www.cg95.fr/cvq/schema/har" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" elementFormDefault="qualified"
-  attributeFormDefault="unqualified">
+	xmlns:har="http://www.cg95.fr/cvq/schema/har" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cvq="http://www.cg95.fr/cvq/schema/common" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+		schemaLocation="../common/CVQCommonElements.xsd" />
+	<xs:element name="HandicapAllowanceRequest">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Demande de compensation du handicap</xs:documentation>
+			<xs:documentation xml:lang="en"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Handicap Allowance request</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Demande de compensation du handicap</xs:documentation>
+			<xs:documentation xml:lang="en"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Handicap Allowance request</xs:documentation>
+			<xs:appinfo>
+				<model namespace="social" />
+				<xslfo>
+					<blocks-def>
+						<block id="0" label="Demandeur" column="2" />
+						<block id="1" label="Souhaits" column="1" />
+						<block id="2" label="Besoins" column="1" />
+						<block id="3" label="Observations Complémentaires" column="1" />
+						<block id="4" label="Aide à la formulation" column="1" />
+						<block id="5" label="Représantant légal" column="1" />
+						<block id="6" label="Moyen de contact*" />
+					</blocks-def>
+					<element blockId="0" line="0" column="0" link="Subject">
+						<complexTemplate selectXPath="cvq:HomePhone" />
+					</element>
+					<element blockId="6" line="0" column="0" link="MeansOfContact"
+				prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+						<complexTemplate />
+					</element>
+				</xslfo>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cvq:RequestType">
+					<xs:sequence>
+						<xs:element name="RequestInformation" type="har:RequestInformationType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> La demande</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> La demande</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AdultRequester" type="har:AdultRequesterType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Le demandeur (adulte)</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Le demandeur</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AdultLegalAccess" type="har:AdultLegalAccessType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Protection juridique du demandeur</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Protection juridique du demandeur</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LessThan20Requester" type="har:LessThan20RequesterType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Le demandeur (age moins de 20 ans)</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Le demandeur demandeur</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LessThan20Father" type="har:LessThan20FatherType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Père du demandeur (si moins 20 ans)</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Père du demandeur</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LessThan20Mother" type="har:LessThan20MotherType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Mère du demandeur (si moins de 20 ans)</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Mère du demandeur</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LessThan20LegalRepresentative"
+							type="har:LessThan20LegalRepresentativeType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Repésentant légal du demandeur (si moins de 20 ans)</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Repésentant légal du demandeur</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LessThan20Referent"
+							type="har:LessThan20ReferentType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Référent du demandeur (si moins de 20 ans)</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Référent du demandeur</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LessThan20ParentalAuthority"
+							type="har:LessThan20ParentalAuthorityType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Autorité parentale</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Autorité parentale</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Dwelling" type="har:DwellingType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Habitation</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Habitation</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Family" type="har:FamilyType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Famille</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Famille</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="FamilyDependents" type="har:HarFamilyDependentType"
+							minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Enfants et personnes à charge</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Enfants et personnes à charge</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="SocialSecurity" type="har:SocialSecurityType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Sécurité sociale</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Sécurité sociale</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PaymentAgency" type="har:PaymentAgencyType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Organisme payeur</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Organisme payeur</xs:documentation>
+								<xs:appinfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						
+						
+						
+						
+						<xs:element name="HopesAndNeeds" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Souhaits et Besoins</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Souhaits et Besoins</xs:documentation>
+								<xs:appinfo>
+									<fo>
+										<display field="" type="yesno" stage="needs" page="needs"
+									line="1"
+									label="Souhaits et besoins de la personne permettant d'élaborer le plan de compensation le plus adapté possible" />
+										<display field="" type="yesno" stage="needs" page="display"
+									line="1" mode="static" />
+										<display mode="labelonly" type="stagetitle" label="Needs"
+									stage="validation" page="summary" line="10" />
+										<display field="" type="yesno" stage="validation"
+									page="summary" line="11" mode="static" />
+									</fo>
+									<bo>
+										<display field="" type="yesno" page="displayhandicapallowance"
+									line="11" />
+									</bo>
+									<xslfo>
+										<element blockId="0" line="1" column="0">
+											<yesnoCheckbox />
+										</element>
+									</xslfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Hopes" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Souhaits</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Souhaits</xs:documentation>
+								<xs:appinfo>
+									<fo>
+										<display field="" type="text[3]" stage="needs" page="needs"
+									line="2" block="Oui" condition="hopesAndNeeds" />
+										<display field="" type="text[3]" stage="needs" page="display"
+									line="2" mode="static" />
+										<display field="" type="text[3]" stage="validation"
+									page="summary" line="12" mode="static" />
+									</fo>
+									<bo>
+										<display field="" page="displayhandicapallowance"
+									line="12" />
+									</bo>
+									<xslfo>
+										<element blockId="1" line="0" column="0">
+											<string valueWeight="3" />
+										</element>
+									</xslfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Needs" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Besoins</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Besoins</xs:documentation>
+								<xs:appinfo>
+									<fo>
+										<display field="" type="text[3]" stage="needs" page="needs"
+									line="3" block="Oui" condition="hopesAndNeeds" />
+										<display field="" type="text[3]" stage="needs" page="display"
+									line="3" mode="static" />
+										<display field="" type="text[3]" stage="validation"
+									page="summary" line="13" mode="static" />
+									</fo>
+									<bo>
+										<display field="" page="displayhandicapallowance"
+									line="13" />
+									</bo>
+									<xslfo>
+										<element blockId="2" line="0" column="0">
+											<string valueWeight="3" />
+										</element>
+									</xslfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Comments" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Observations</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Observations</xs:documentation>
+								<xs:appinfo>
+									<fo>
+										<display field="" type="text[3]" stage="needs" page="needs"
+									line="4" block="Oui" condition="hopesAndNeeds" />
+										<display field="" type="text[3]" stage="needs" page="display"
+									line="4" mode="static" />
+										<display field="" type="text[3]" stage="validation"
+									page="summary" line="14" mode="static" />
+									</fo>
+									<bo>
+										<display field="" page="displayhandicapallowance"
+									line="14" />
+									</bo>
+									<xslfo>
+										<element blockId="3" line="0" column="0">
+											<string valueWeight="3" />
+										</element>
+									</xslfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="WritingHelp" type="xs:boolean"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Aide à la formulation</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Aide à la formulation</xs:documentation>
+								<xs:appinfo>
+									<fo>
+										<display field="" type="yesno" stage="help" page="help"
+									line="1"
+									label="Assistance d'une tierce personne pour la formulation des besoins" />
+										<display field="" type="yesno" stage="help" page="display"
+									line="1" mode="static" />
+										<display mode="labelonly" type="stagetitle" label="Help"
+									stage="validation" page="summary" line="20" />
+										<display field="" type="yesno" stage="validation"
+									page="summary" line="21" mode="static" />
+									</fo>
+									<bo>
+										<display field="" type="yesno" page="displayhandicapallowance"
+									line="21" />
+									</bo>
+									<xslfo>
+										<element blockId="4" line="0" column="0">
+											<yesnoCheckbox />
+										</element>
+									</xslfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="HelperName" type="cvq:LastNameType"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Nom de l'aidant</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom de l'aidant</xs:documentation>
+								<xs:appinfo>
+									<fo>
+										<display field="" stage="help" page="help" line="2"
+									block="Oui" condition="writingHelp" />
+										<display field="" stage="help" page="display" line="2"
+									mode="static" />
+										<display field="" stage="validation" page="summary"
+									line="22" mode="static" />
+									</fo>
+									<bo>
+										<display field="" page="displayhandicapallowance"
+									line="22" />
+									</bo>
+									<xslfo>
+										<element blockId="4" line="1" column="0">
+											<string valueWeight="3" />
+										</element>
+									</xslfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="HelperResponsability" type="xs:string"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/longdesc"> Fonction de l'aidant</xs:documentation>
+								<xs:documentation xml:lang="fr"
+									source="http://www.cg95.fr/cvq/schema/shortdesc"> Fonction de l'aidant</xs:documentation>
+								<xs:appinfo>
+									<fo>
+										<display field="" stage="help" page="help" line="3"
+									block="Oui" condition="writingHelp" />
+										<display field="" stage="help" page="display" line="3"
+									mode="static" />
+										<display field="" stage="validation" page="summary"
+									line="23" mode="static" />
+									</fo>
+									<bo>
+										<display field="" page="displayhandicapallowance"
+									line="23" />
+									</bo>
+									<xslfo>
+										<element blockId="4" line="2" column="0">
+											<string valueWeight="3" />
+										</element>
+									</xslfo>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="RequestInformationType">
+		<xs:sequence>
+			<xs:element name="RequestInformationKind" type="har:HarRequestInformationKindType">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Type de la demande</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Type de la demande</xs:documentation>
+					<xs:appinfo>
+						<fo>
+							<display field="" type="radiolist" stage="subject" page="requestkind"
+						line="1" mode="inline" />
+							<display field="" type="radiolist" stage="subject"
+						page="display_requestkind" line="1" mode="static" />
+							<!--
+								display field="" type="radiolist"" stage="validation"
+								page="summarytutor" line="215" mode="static" />
+							-->
+						</fo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RequestInformationRequesterProfile"
+				type="har:HarRequestInformationProfileType">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Profil du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Profil du demandeur</xs:documentation>
+					<xs:appinfo>
+						<fo>
+							<display field="" type="radiolist" stage="subject"
+						page="display_requestkind" line="2" mode="static" />
+						</fo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RequestInformationExpirationDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Date d'échéance</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Date d'échéance</xs:documentation>
+					<xs:appinfo>
+						<fo>
+							<display field="" stage="subject" page="requestkind"
+						line="3" mode="inline" block="Renewal"
+						condition="requestInformationRequestInformationKind == Renewal" />
+							<display field="" stage="subject" page="display_requestkind"
+						line="3" mode="static" />
+						</fo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="HarRequestInformationKindType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Type de la demande</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Type de la demande</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="First" value="Première demande" />
+				<enum key="Renewal" value="Renouvellement" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="First" />
+			<xs:enumeration value="Renewal" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HarRequestInformationProfileType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Profil du demandeur</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Profil du demandeur</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="Adult" value="Adulte" />
+				<enum key="LessThan20" value="Enfants de moins de 20 ans" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Adult" />
+			<xs:enumeration value="LessThan20" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AdultRequesterType">
+		<xs:sequence>
+			<xs:element name="AdultRequesterTitle" type="cvq:TitleType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Civilité</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Civilité</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterLastName" type="cvq:LastNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterFirstName" type="cvq:FirstNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Prénoms</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Prénoms</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterAddress" type="cvq:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterHomePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone fixe du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone fixe</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterMobilePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone portable du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone portable</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" isTiedToRequest="true" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterEmail" type="cvq:EmailType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Courriel du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Courriel</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterBirthDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Date de naissance</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Date de naissance</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterBirthPlaceCity" type="cvq:CityType">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Ville du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Ville</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultRequesterBirthPlaceCountry" type="cvq:CountryType">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Pays du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Pays</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AdultLegalAccessType">
+		<xs:sequence>
+			<xs:element name="AdultLegalAccessPresence" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Présence de protection juridique</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Présence de protection juridique</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultLegalAccessKind" type="har:HarAdultLegalAccessKindType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Mesure de protection juridique</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Mesure de protection juridique</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultLegalAccessRepresentativeKind"
+				type="har:HarAdultLegalAccessRepresentativeKindType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nature du représentant</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nature du représentant</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultLegalAccessRepresentativePrecision"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Préciser</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Préciser</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AdultLegalAccessRepresentativeLastName"
+				type="cvq:LastNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom du représentant</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom du représentant</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultLegalAccessRepresentativeFirstName"
+				type="cvq:FirstNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Prénoms du représentant</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Prénoms du représentant</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultLegalAccessRepresentativeAddress"
+				type="cvq:AddressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse du représentant</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse du représentant</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultLegalAccessRepresentativeHomePhone"
+				type="cvq:PhoneType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone fixe du représentant</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone fixe</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultLegalAccessRepresentativeMobilePhone"
+				type="cvq:PhoneType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone portable du représentant</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone portable</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" isTiedToRequest="true" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdultLegalAccessRepresentativeEmail"
+				type="cvq:EmailType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Courriel du représentant</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Courriel</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="HarAdultLegalAccessKindType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Mesure de protection juridique</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Mesure de protection juridique</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="SauvegardeJustice" value="Sauvegarde de Justice" />
+        		<enum key="Tutelle" value="Tutelle" />
+        		<enum key="Curatelle" value="Curatelle" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SauvegardeJustice" />
+			<xs:enumeration value="Tutelle" />
+			<xs:enumeration value="Curatelle" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HarAdultLegalAccessRepresentativeKindType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Nature du représentant</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Nature du représentant</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="FamilyMember" value="Membre de la famille" />
+        		<enum key="Agency" value="Organisme" />
+        		<enum key="Other" value="Autre" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FamilyMember" />
+			<xs:enumeration value="Agency" />
+			<xs:enumeration value="Other" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="LessThan20RequesterType">
+		<xs:sequence>
+			<xs:element name="LessThan20Requester" type="cvq:IndividualType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Représentant légal</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />		
+				    </xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20RequesterHomePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone fixe du représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone fixe</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20RequesterMobilePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone portable du représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone portable</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20RequesterEmail" type="cvq:EmailType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Courriel du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Courriel</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="LessThan20ReferentType">
+		<xs:sequence>
+			<xs:element name="LessThan20ReferentTitle" type="cvq:TitleType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Civilité  du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Civilité</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentLastName" type="cvq:LastNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom  du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentFirstName" type="cvq:FirstNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Prénoms  du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Prénoms</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentAddress" type="cvq:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse  du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentHomePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone fixe du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone fixe</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentMobilePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone portable du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone portable</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" isTiedToRequest="true" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentEmail" type="cvq:EmailType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Courriel du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Courriel</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentBirthDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Date de naissance  du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Date de naissance</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentBirthPlaceCity" type="cvq:CityType">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Ville du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Ville</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ReferentBirthPlaceCountry" type="cvq:CountryType">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Pays du référent du demandeur</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Pays</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="LessThan20LegalRepresentativeType">
+		<xs:sequence>
+			<xs:element name="LessThan20LegalRepresentative" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Représentant légal</xs:documentation>
+					<xs:appinfo>
+									
+				    </xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20LegalRepresentativeLastName"
+				type="cvq:LastNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom du représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20LegalRepresentativeFirstName"
+				type="cvq:FirstNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Prénom du représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Prénom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20LegalRepresentativeAddress"
+				type="cvq:AddressType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse du représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20LegalRepresentativeHomePhone"
+				type="cvq:PhoneType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone fixe du représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone fixe</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20LegalRepresentativeMobilePhone"
+				type="cvq:PhoneType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone portable du représentant légal</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone portable</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LessThan20MotherType">
+		<xs:sequence>
+			<xs:element name="LessThan20MotherLastName" type="cvq:LastNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom de la mère</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20MotherFirstName" type="cvq:FirstNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Prénom de la mère</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Prénom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20MotherAddress" type="cvq:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse de la mère</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20MotherHomePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone fixe de la mère</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone fixe</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20MotherMobilePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone portable de la mère</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone portable</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20MotherJob" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Profession de la mère</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Profession</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20MotherActivityReduction" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Réduction de l'activité </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Réduction de l'activité </xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20MotherReductionRatio" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Proportion de la réduction</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Proportion de la réduction</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LessThan20FatherType">
+		<xs:sequence>
+			<xs:element name="LessThan20FatherLastName" type="cvq:LastNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom du père</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20FatherFirstName" type="cvq:FirstNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Prénom du père</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Prénom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20FatherAddress" type="cvq:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse du père</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20FatherHomePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone fixe du père</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone fixe</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20FatherMobilePhone" type="cvq:PhoneType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Téléphone portable du père</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Téléphone portable</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20FatherJob" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Profession du père</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Profession</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20FatherActivityReduction" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Réduction de l'activité </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Réduction de l'activité </xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20FatherReductionRatio" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Proportion de la réduction</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Proportion de la réduction</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="LessThan20ParentalAuthorityType">
+		<xs:sequence>
+			<xs:element name="LessThan20ParentalAuthorityHolder" type="har:HarLessThan20ParentalAuthorityHolderType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Détenteur de l'autorité parentale</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Détenteur de l'autorité parentale</xs:documentation>
+					<xs:appinfo>	
+				    </xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ParentalAuthorityName" type="cvq:LastNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom du détenteur de l'autorité parentale</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LessThan20ParentalAuthorityDepartment" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Département du détenteur de l'autorité parentale</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Département</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="HarLessThan20ParentalAuthorityHolderType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Détenteur de l'autorité parentale</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Détenteur de l'autorité parentale</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="Father" value="Père" />
+        		<enum key="Mother" value="Mère" />
+        		<enum key="Other" value="Autre représentant légal" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Father" />
+			<xs:enumeration value="Mother" />
+			<xs:enumeration value="Other" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="DwellingType">
+		<xs:sequence>
+			<xs:element name="DwellingKind" type="har:HarDwellingKindType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nature de l'habitation</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nature de l'habitation</xs:documentation>
+					<xs:appinfo>
+						
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DwellingPrecision" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Préciser</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Préciser</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DwellingEstablishmentReception" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Accueil en établissement </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Accueil en établissement</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DwellingReceptionType" type="har:HarDwellingReceptionType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Type d'accueil </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Type d'accuei</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DwellingReceptionNaming" type="har:HarDwellingReceptionType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Dénomination de l'accueil </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Dénomination </xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DwellingReceptionAddress" type="cvq:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse de l'établissement d'accueil </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse </xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DwellingSocialReception" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Accueil en établissement social </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Accueil social</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DwellingSocialReceptionNaming" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Dénomination de l'accueil social </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Dénomination</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DwellingSocialReceptionAddress" type="cvq:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse l'accueil social </xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse </xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="HarDwellingKindType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Nature de l'habitation</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Nature de l'habitation</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="Domicile" value="Domicile" />
+        		<enum key="ThirdPartyDomicile" value="Domicile d'un tiers (famille, amis)" />
+        		<enum key="Other" value="Autre" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Domicile" />
+			<xs:enumeration value="ThirdPartyDomicile" />
+			<xs:enumeration value="Other" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HarDwellingReceptionType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Type d'accueil</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Type d'accueil</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="Internship" value="Internat" />
+        		<enum key="Clerkship" value="Externat" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Internship" />
+			<xs:enumeration value="Clerkship" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="FamilyType">
+		<xs:sequence>
+			<xs:element name="FamilyStatus" type="cvq:FamilyStatusType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Situation de famille</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Situation de famille</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FamilyHasFamilyDependents" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Enfants et personnes à charges</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Enfants et personnes à charges</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="HarFamilyDependentType">
+		<xs:sequence>
+			<xs:element name="FamilyDependentLastName" type="cvq:LastNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom de la personne à charge</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FamilyDependentFirstName" type="cvq:FirstNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Prénom de la personne à charge</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Prénom</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FamilyDependentBirthDate" type="xs:date"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Date de naissance de la personne à charge</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Date de naissance</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FamilyDependentActualSituation" type="har:HarFamilyDependentActualSituationType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Situation actuelle de la personne à charge</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Situation actuelle </xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="HarFamilyDependentActualSituationType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Situation actuelle de la personne à charge</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Situation actuelle</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="Schooling" value="Scolarité" />
+				<enum key="Learning" value="Apprentissage" />
+				<enum key="MedicoSocial" value="Etablissement de soins ou médico-social" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Schooling" />
+			<xs:enumeration value="Learning" />
+			<xs:enumeration value="MedicoSocial" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="SocialSecurityType">
+		<xs:sequence>
+			<xs:element name="SocialSecurityMemberShipKind" type="har:HarSocialSecurityMemberShipKindType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nature de l'affiliation</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nature de l'affiliation</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SocialSecurityNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Numéro de sécurité sociale</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Numéro de sécurité sociale</xs:documentation>
+					<xs:appinfo>	
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="13" />
+						<xs:pattern value="[0-9]{13}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SocialSecurityAgencyName" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom de l'organisme</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom de l'organisme</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SocialSecurityAgencyAddress" type="cvq:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-    schemaLocation="../common/CVQCommonElements.xsd" />
-
-  <xs:element name="HandicapAllowanceRequest">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande de compensation du handicap
-      </xs:documentation>
-      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Handicap Allowance request
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Demande de compensation du handicap
-      </xs:documentation>
-      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Handicap Allowance request
-      </xs:documentation>
-      <xs:appinfo>
-        <model namespace="social" />
-        <fo namespace="social.handicapallowance">
-          <display field="Subject.Individual.LastName" stage="subject" page="subject" line="1"
-            mode="static" />
-          <display field="Subject.Individual.FirstName" stage="subject" page="subject" line="2"
-            mode="static" />
-          <display field="Subject.Individual.Address" stage="subject" page="subject" line="3" mode="static"/>
-
-          <display field="Subject.Individual.LastName" stage="subject" page="display" line="1"
-            mode="static" />
-          <display field="Subject.Individual.FirstName" stage="subject" page="display" line="2"
-            mode="static" />
-          <display field="Subject.Individual.Address" stage="subject" page="display" line="3" mode="static"/>
-
-          <display mode="labelonly" type="stagetitle" label="Subject" stage="validation" page="summary" line="0" />
-          <display field="Subject.Individual.LastName" stage="validation" page="summary" line="1"
-            mode="static" />
-          <display field="Subject.Individual.FirstName" stage="validation" page="summary" line="2"
-            mode="static" />
-          <display field="Subject.Individual.Address" stage="validation" page="summary" line="3" 
-            mode="static"/>
-		</fo>
-        <bo namespace="social">
-          <display field="Subject.Individual.LastName" page="displayhandicapallowance" line="1" mode="static" />
-          <display field="Subject.Individual.FirstName" page="displayhandicapallowance" line="2" mode="static" />
-          <display field="Subject.Individual.Address" page="displayhandicapallowance" line="3" mode="static"/>
-
-          <display field="Subject.Individual.LastName" page="checkhandicapallowance" line="1" mode="static" />
-          <display field="Subject.Individual.FirstName" page="checkhandicapallowance" line="2" mode="static" />
-
-          <display field="Subject.Individual.LastName" page="printhandicapallowance" line="1" mode="static" />
-          <display field="Subject.Individual.FirstName" page="printhandicapallowance" line="2" mode="static" />
-		</bo>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Demandeur" column="2" />
-            <block id="1" label="Souhaits" column="1" />
-            <block id="2" label="Besoins" column="1" />
-            <block id="3" label="Observations Complémentaires" column="1" />
-            <block id="4" label="Aide à la formulation" column="1" />
-            <block id="5" label="Représantant légal" column="1" />
-            <block id="6" label="Moyen de contact*" />
-          </blocks-def>
-          <element blockId="0" line="0" column="0" link="Requester">
-            <complexTemplate />
-          </element>
-          <element blockId="6" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
-            <complexTemplate/>
-          </element>
-        </xslfo>
-      </xs:appinfo>
-    </xs:annotation>
-
-    <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="cvq:RequestType">
-          <xs:sequence>
-
-            <xs:element name="HopesAndNeeds" type="xs:boolean">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Souhaits et Besoins
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Souhaits et Besoins
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" type="yesno" stage="needs" page="needs" line="1" 
-				    	label="Souhaits et besoins de la personne permettant d'élaborer le plan de compensation le plus adapté possible"/>
-				    <display field="" type="yesno" stage="needs" page="display" line="1" mode="static"/>
-          			<display mode="labelonly" type="stagetitle" label="Needs" stage="validation" page="summary" line="10" />
-				    <display field="" type="yesno" stage="validation" page="summary" line="11" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" type="yesno" page="displayhandicapallowance" line="11" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="0" line="1" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="Hopes" type="xs:string" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Souhaits
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Souhaits
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" type="text[3]" stage="needs" page="needs" line="2" block="Oui" condition="hopesAndNeeds" />
-				    <display field="" type="text[3]" stage="needs" page="display" line="2" mode="static"/>
-				    <display field="" type="text[3]" stage="validation" page="summary" line="12" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="12" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="1" line="0" column="0">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="Needs" type="xs:string" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Besoins
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Besoins
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" type="text[3]" stage="needs" page="needs" line="3" block="Oui" condition="hopesAndNeeds"/>
-				    <display field="" type="text[3]" stage="needs" page="display" line="3" mode="static"/>
-				    <display field="" type="text[3]" stage="validation" page="summary" line="13" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="13" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="2" line="0" column="0">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="Comments" type="xs:string" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Observations
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Observations
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" type="text[3]" stage="needs" page="needs" line="4" block="Oui" condition="hopesAndNeeds"/>
-				    <display field="" type="text[3]" stage="needs" page="display" line="4" mode="static"/>
-				    <display field="" type="text[3]" stage="validation" page="summary" line="14" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="14" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="3" line="0" column="0">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="WritingHelp" type="xs:boolean" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Aide à la formulation
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Aide à la formulation
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" type="yesno" stage="help" page="help" line="1" 
-				    	label="Assistance d'une tierce personne pour la formulation des besoins"/>
-				    <display field="" type="yesno" stage="help" page="display" line="1" mode="static"/>
-			        <display mode="labelonly" type="stagetitle" label="Help" stage="validation" page="summary" line="20" />
-				    <display field="" type="yesno" stage="validation" page="summary" line="21" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" type="yesno" page="displayhandicapallowance" line="21" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="4" line="0" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="HelperName" type="cvq:LastNameType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Nom de l'aidant
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom de l'aidant
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" stage="help" page="help" line="2" block="Oui" condition="writingHelp"/>
-				    <display field="" stage="help" page="display" line="2" mode="static"/>
-				    <display field="" stage="validation" page="summary" line="22" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="22" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="4" line="1" column="0">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="HelperResponsability" type="xs:string" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Fonction de l'aidant
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Fonction de l'aidant
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" stage="help" page="help" line="3" block="Oui" condition="writingHelp"/>
-				    <display field="" stage="help" page="display" line="3" mode="static"/>
-				    <display field="" stage="validation" page="summary" line="23" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="23" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="4" line="2" column="0">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="LegalRepresentative" type="xs:boolean" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Représentant légal
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Représentant légal
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" type="yesno" stage="legal" page="legal" line="1" 
-				    	label="Représentant légal de la personne concernée par la demande"/>
-				    <display field="" type="yesno" stage="legal" page="display" line="1" mode="static"/>
-          			<display mode="labelonly" type="stagetitle" label="Legal" stage="validation" page="summary" line="30" />
-				    <display field="" type="yesno" stage="validation" page="summary" line="31" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" type="yesno" page="displayhandicapallowance" line="31" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="5" line="0" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="LegalRepresentativeName" type="cvq:LastNameType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Nom du représentant légal
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom du représentant légal
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" stage="legal" page="legal" line="2" label="Nom" 
-				    	block="Oui" condition="legalRepresentative"/>
-				    <display field="" stage="legal" page="display" line="2" label="Nom" mode="static"/>
-				    <display field="" stage="validation" page="summary" line="32" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="32" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="5" line="1" column="0">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="LegalRepresentativeFirstame" type="cvq:FirstNameType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Prénom du représentant légal
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Prénom du représentant légal
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" stage="legal" page="legal" line="3" label="Prénom" 
-				    	block="Oui" condition="legalRepresentative"/>
-				    <display field="" stage="legal" page="display" line="3" label="Prénom" mode="static"/>
-				    <display field="" stage="validation" page="summary" line="33" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="33" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="5" line="2" column="0">
-                      <string valueWeight="3"/>
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="LegalRepresentativeFamilyRelationship" type="xs:string"
-              minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Lien de parenté du représentant légal
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Lien de parenté du représentant légal
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" stage="legal" page="legal" line="4" label="Lien de parenté" 
-				    	block="Oui" condition="legalRepresentative"/>
-				    <display field="" stage="legal" page="display" line="4" label="Lien de parenté" mode="static"/>
-				    <display field="" stage="validation" page="summary" line="34" mode="static"/>
-				  </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="34" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="5" line="3" column="0">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="LegalRepresentativeAddress" type="cvq:AddressType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Adresse du représentant légal
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Adresse du représentant légal
-                </xs:documentation>
-                <xs:appinfo>
-                  <model namespace="users" isTiedToRequest="true" />
-			      <fo>
-		            <display field="" stage="legal" page="legal" line="5" 
-		            	block="Oui" condition="legalRepresentative" mode="notrequired"/>
-		            <display field="" stage="legal" page="display" line="5" mode="static"/>
-		            <display field="" stage="validation" page="summary" line="35" mode="static"/>
-		          </fo>
-				  <bo>
-          			<display field="" page="displayhandicapallowance" line="35" />
-				  </bo>
-                  <xslfo>
-                    <element blockId="5" line="4" column="0">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="LegalRepresentativePhone" type="cvq:PhoneType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Téléphone du représentant légal
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Téléphone du représentant légal
-                </xs:documentation>
-                <xs:appinfo>
-				  <fo>
-				    <display field="" stage="legal" page="legal" line="8" label="Téléphone" 
-				    	block="Oui" condition="legalRepresentative"/>
-				    <display field="" stage="legal" page="display" line="8" label="Téléphone" mode="static"/>
-				    <display field="" stage="validation" page="summary" line="38" mode="static"/>
-				  </fo>
-          			<display field="" page="displayhandicapallowance" line="38" />
-                  <xslfo>
-                    <element blockId="5" line="5" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-          </xs:sequence>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-
+	<xs:simpleType name="HarSocialSecurityMemberShipKindType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Nature de l'affiliation </xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Nature de l'affiliation</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="Insured" value="Assuré" />
+				<enum key="Claimant" value="Ayant droit" />
+				<enum key="NoMemberShip" value="Aucune affiliation à un organisme" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Insured" />
+			<xs:enumeration value="Claimant" />
+			<xs:enumeration value="NoMemberShip" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="PaymentAgencyType">
+		<xs:sequence>
+			<xs:element name="PaymentAgencyBeneficiary" type="har:HarPaymentAgencyBeneficiaryType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Allocataire</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Allocataire</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PaymentAgencyBeneficiaryNumber" 
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Numéro d'allocataire</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Numéro d'allocataire</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[0-9]" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PaymentAgencyName" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Nom de l'organisme</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Nom de l'organisme</xs:documentation>
+					<xs:appinfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PaymentAgencyAddress" type="cvq:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/longdesc"> Adresse</xs:documentation>
+					<xs:documentation xml:lang="fr"
+						source="http://www.cg95.fr/cvq/schema/shortdesc"> Adresse</xs:documentation>
+					<xs:appinfo>
+						<model namespace="users" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+		
+	<xs:simpleType name="HarPaymentAgencyBeneficiaryType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/longdesc"> Nature de l'affiliation </xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/shortdesc"> Nature de l'affiliation</xs:documentation>
+			<xs:documentation xml:lang="fr"
+				source="http://www.cg95.fr/cvq/schema/translation/enum">
+				<enum key="Insured" value="Assuré" />
+				<enum key="Claimant" value="Ayant droit" />
+				<enum key="NoMemberShip" value="Aucune affiliation à un organisme" />
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Insured" />
+			<xs:enumeration value="Claimant" />
+			<xs:enumeration value="NoMemberShip" />
+		</xs:restriction>
+	</xs:simpleType>
+	
 </xs:schema>

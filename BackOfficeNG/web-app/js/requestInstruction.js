@@ -283,13 +283,15 @@ zenexity.capdemat.bong.requestIntruction = function() {
     var ddEl = yud.getAncestorByTagName(targetEl, "dd");
     var wrapperPropertyValueEl = yud.getFirstChild(ddEl);
     
-    if (isSubmit && !yud.hasClass(ddEl, "address")) {
-      var elName = formEl.id.replace("_Form", "") + "_Input";
-      propertyValue = yud.get(elName).value;
-//      var elName = formEl.id.replace("_Form", "");
-//      oldPropertyValue = yus.query("input[name=" + elName + "]", formEl, true).value;
+    if (isSubmit && yud.hasClass(ddEl, "capdematEnum")) {
+      zct.each(
+          yud.get(formEl.id.replace("_Form", "") + "_Field").options,
+          function() {
+            if (this.selected === true)
+             propertyValue = this.text;
+          });
       wrapperPropertyValueEl.innerHTML = propertyValue;
-    } 
+    }
     else if (isSubmit && yud.hasClass(ddEl, "address")) {
       var addressFields = yud.getChildren(wrapperPropertyValueEl);
       var newAddressFields = yus.query("fieldset input", formEl);
@@ -298,6 +300,11 @@ zenexity.capdemat.bong.requestIntruction = function() {
           function(i) {
             addressFields[i].innerHTML = this.value ;
           });
+    }
+    else if (isSubmit) {
+      var elName = formEl.id.replace("_Form", "") + "_Field";
+      propertyValue = yud.get(elName).value;
+      wrapperPropertyValueEl.innerHTML = propertyValue;
     }
     yud.removeClass(wrapperPropertyValueEl, "invisible");
     
@@ -391,6 +398,5 @@ zenexity.capdemat.bong.requestIntruction = function() {
 }();
 
 YAHOO.util.Event.onDOMReady(zenexity.capdemat.bong.requestIntruction.init);
-
 
 

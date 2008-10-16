@@ -32,7 +32,7 @@ class RequestInstructionController {
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
     IAgentService agentService
-   
+    
     def translationService
     
     def defaultAction = "edit"
@@ -42,6 +42,8 @@ class RequestInstructionController {
     }
     
     def edit = {
+        this.each { log.debug(it) }
+        
 		    def request = defaultRequestService.getById(Long.valueOf(params.id))
 		    def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
 		
@@ -110,7 +112,8 @@ class RequestInstructionController {
         
         def propertyValue
         def allPropertyValue = []
-        def i18nKeyPrefix
+        def propertyValueType
+        
         if (propertyTypeList[0] == "address")
             propertyValue = JSON.parse(params.propertyValue)
         else if (propertyTypeList[0] == "capdematEnum") {
@@ -120,6 +123,8 @@ class RequestInstructionController {
             
             def propertyValueTokens = params.propertyValue.tokenize(" ")
             propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
+            
+            propertyValueType = propertyTypeList[1]
         }
         else if (propertyTypeList[0] != "address")
             propertyValue = params.propertyValue
@@ -133,7 +138,8 @@ class RequestInstructionController {
                       
                       "propertyName": params.propertyName,
                       "propertyValue": propertyValue,
-                      "allPropertyValue" : allPropertyValue,
+                      "allPropertyValue": allPropertyValue,
+                      "propertyValueType": propertyValueType,
                       "propertyType": propertyTypeList[0],
                       "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""
                     ])
@@ -144,7 +150,14 @@ class RequestInstructionController {
              return
         try {
           def individual = individualService.getById(Long.valueOf(params.individualId))
-          bindData(individual, params)
+          
+          log.debug("Binder custum editor PersistentStringEnum = " +
+              getBinder(individual)
+                  .propertyEditorRegistry
+                  .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
+          )
+//          bindData(individual, params)
+          bind(individual)
             
           render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {

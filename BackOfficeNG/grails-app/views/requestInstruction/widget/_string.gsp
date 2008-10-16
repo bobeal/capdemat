@@ -1,7 +1,7 @@
 <form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="form-list-edition" >
   <span id="${propertyName}_FormErrors" class="error"></span> 
   
-  <input id="${propertyName}_Input" name="${propertyNameTp}" type="text" value="${propertyValue}" 
+  <input id="${propertyName}_Field" name="${propertyNameTp}" type="text" value="${propertyValue}" 
       class="${propertyType != "" ? 'validate-' + propertyType : ''} ${required}" 
       title=" <g:if test="${propertyType == 'email'}">
                 <g:message code="request.error.emailRequired" />

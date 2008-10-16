@@ -1,12 +1,14 @@
 package fr.cg95.cvq.service.${request.requestNamespaceLastParticle};
 
 import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.business.document.*;
+import fr.cg95.cvq.business.social.*;
 import fr.cg95.cvq.business.${request.requestNamespaceLastParticle}.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IDocumentService;
-import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.${request.requestNamespaceLastParticle}.I${request.requestName}Service;
 import fr.cg95.cvq.util.Critere;
 

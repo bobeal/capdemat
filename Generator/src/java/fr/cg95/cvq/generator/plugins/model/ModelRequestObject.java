@@ -336,6 +336,7 @@ public class ModelRequestObject {
 
         // print general information (package, imports and class declaration)
         currentSb.append("package " + IPluginGenerator.MODEL_BASE_TARGET_NS + "." + requestNamespaceLastParticle + ";\n\n");
+        currentSb.append("import fr.cg95.cvq.business.request.*;\n");
         currentSb.append("import fr.cg95.cvq.business.users.*;\n");
         currentSb.append("import fr.cg95.cvq.business.authority.*;\n");
         currentSb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + ".common.*;\n");

@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.users;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -199,7 +200,7 @@ public class RequestServiceTest extends ServiceTestCase {
                 "test.xsl", 
                 "<xsl:stylesheet>ADD MAIL TEMPLATE</xsl:stylesheet>".getBytes());
         
-        Set<RequestForm> resultSet = iRequestService.getRequestTypeForms(requestType.getId(), 
+        List<RequestForm> resultSet = iRequestService.getRequestTypeForms(requestType.getId(), 
                 RequestFormType.REQUEST_MAIL_TEMPLATE);
         Assert.assertEquals(1, resultSet.size());
         

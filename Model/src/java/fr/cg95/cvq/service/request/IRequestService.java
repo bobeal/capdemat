@@ -1,6 +1,8 @@
 package fr.cg95.cvq.service.request;
 
+import java.io.File;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -125,6 +127,8 @@ public interface IRequestService {
     Set extendedGet(Set<Critere> criteriaSet, final String sort, final String dir, 
             final int recordsReturned, final int startIndex)
         throws CvqException;
+    
+    File getTemplateByName(String name);
     
     Long getCount(Set<Critere> criteriaSet) throws CvqException;
     
@@ -399,6 +403,12 @@ public interface IRequestService {
     // RequestForm related Methods
     //////////////////////////////////////////////////////////
     
+    RequestForm getRequestFormById(Long id) throws CvqException;
+    
+    List<File> getMailTemplates(String pattern) throws CvqException;
+    
+    Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) throws CvqException;
+    
     /**
      * Add a new requestForm to the requestType identify requestTypeId parameter
      * <ul>
@@ -440,7 +450,7 @@ public interface IRequestService {
     /**
      * Get requestForms by request_type and by request_form_type
      */
-    Set<RequestForm> getRequestTypeForms(Long requestTypeId, 
+    List<RequestForm> getRequestTypeForms(Long requestTypeId, 
             RequestFormType requestFormType) throws CvqException;
     
     

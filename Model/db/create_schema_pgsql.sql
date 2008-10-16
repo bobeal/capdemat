@@ -1320,6 +1320,8 @@
         xsl_fo_filename varchar(255),
         label varchar(255),
         short_label varchar(255),
+        personalized_data bytea,
+        template_name varchar(255),
         primary key (id)
     );
 

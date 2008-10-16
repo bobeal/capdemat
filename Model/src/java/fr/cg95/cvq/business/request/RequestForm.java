@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+
 
 /**
  * @hibernate.class
@@ -14,12 +16,18 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * @author bor@zenexity.fr
  */
 public class RequestForm implements Serializable {
-
+    
 	private static final long serialVersionUID = 1L;
 
 	/** identifier field */
     private Long id;
+    
+    /* Template personalized data */
+    private byte[] personalizedData;
 
+    /* Template file name */
+    private String templateName;
+    
     private RequestFormType type;
     
     /**
@@ -31,10 +39,10 @@ public class RequestForm implements Serializable {
      * Short name, used to display requestForm name in little space (like in a drop down list)
      */
     private String shortLabel;
-
+    
     /**
-     * the name of the XSL file used to generate certificates after some states transitions
-     */
+    * the name of the XSL file used to generate certificates after some states transitions
+    */
     private String xslFoFilename;
 
     /** the request types that use this form */
@@ -68,18 +76,6 @@ public class RequestForm implements Serializable {
 
     public void setType(RequestFormType type) {
         this.type = type;
-    }
-
-    /**
-     * @hibernate.property
-     *  column="xsl_fo_filename"
-     */
-    public String getXslFoFilename() {
-        return this.xslFoFilename;
-    }
-
-    public void setXslFoFilename(String xslFoFilename) {
-        this.xslFoFilename = xslFoFilename;
     }
 
     /**
@@ -122,6 +118,42 @@ public class RequestForm implements Serializable {
 
     public void setShortLabel(String shortLabel) {
         this.shortLabel = shortLabel;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="personalized_data"
+     */
+    public byte[] getPersonalizedData() {
+        return this.personalizedData;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="template_name"
+     */
+    public String getTemplateName() {
+        return this.templateName;
+    }
+
+    public void setPersonalizedData(byte[] personalizedData) {
+        this.personalizedData = personalizedData;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
+    
+    /**
+     * @hibernate.property
+     *  column="xsl_fo_filename"
+     */
+    public String getXslFoFilename() {
+        return this.xslFoFilename;
+    }
+    
+    public void setXslFoFilename(String xslFoFilename) {
+        this.xslFoFilename = xslFoFilename;
     }
 
     public String toString() {

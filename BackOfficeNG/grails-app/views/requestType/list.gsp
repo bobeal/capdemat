@@ -3,7 +3,7 @@
   <head>
     <title><g:message code="requestType.header.requestList" /></title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'configuration.css')}" >
+    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'configuration.css')}" ></link>
   </head>
   
   <body>

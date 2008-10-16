@@ -19,7 +19,7 @@
 		msie: /msie/.test( userAgent ) && !/opera/.test( userAgent ),
 		mozilla: /mozilla/.test( userAgent ) && !/(compatible|webkit)/.test( userAgent )
 	};
-	
+  
 	zct.namespace = function () {
 		var a=arguments, o=null, i, j, d;
 		for (i=0; i<a .length; i=i+1) {

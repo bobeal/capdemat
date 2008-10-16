@@ -1,0 +1,74 @@
+ul.radio_list
+{
+  list-style-type: none;
+}
+
+li.radio_inline
+{
+  display: inline !important;
+}
+
+
+div.error_request
+{
+  font-weight: bold;
+  background: #FFFFFF ;
+  margin: 0 0 0 0; 
+  text-align: center;
+  color: red; 
+}
+
+.span-required {
+	color: red;
+	display: inline !important;
+}
+
+input, textarea, select {
+	border:1px solid #000;
+	background-color:#FFFFFF;
+	border: 1px solid #cdcdcd;
+  	border-top-color: #7fa646;
+}
+
+.validation-failed { /* for textboxes, textareas, passwords */
+	border:1px dashed #FF3333;
+	background-color:#FFCCCC;
+}
+
+.validation-failed-cr { /* for checkboxes and radios */
+
+}
+
+.validation-failed-sel { /* for selects */
+
+}
+
+.validation-passed { /* for textboxes, textareas, passwords */
+	border:1px solid #66CC66;
+	background-color:#fcfcfc;
+}
+
+.validation-passed-cr { /* for checkboxes and radios */
+
+}
+
+.validation-passed-sel { /* for selects */
+
+}
+
+.yui-cal {
+display:none;
+position:absolute;
+}
+
+.error { 
+	color: red; 
+	font-style: italic;
+	text-align: center; 
+	margin: 1em;
+	padding: 1em;
+} 
+
+.submit-button {
+	color: red;
+}

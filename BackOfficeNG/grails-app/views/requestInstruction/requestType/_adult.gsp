@@ -6,8 +6,8 @@
   <div class="yui-u first">
     <dl>
       <dt><g:message code="homeFolder.adult.property.title" /> : </dt> 
-      <dd id="homeFolder.individual[${adult.id}].title" class="capdematEnum TitleType">
-        <span><g:capdematEnumToText var="${adult.title}" i18nKeyPrefix="homeFolder.adult.title" /></span>
+      <dd id="homeFolder.individual[${adult.id}].title" class="capdematEnum fr.cg95.cvq.business.users.TitleType">
+          <g:capdematEnumToField var="${adult.title}" i18nKeyPrefix="homeFolder.adult.title" />
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
@@ -57,8 +57,8 @@
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.familyStatus" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].familyStatus" class="capdematEnum FamilyStatusType">
-        <span><g:capdematEnumToText var="${adult.familyStatus}" i18nKeyPrefix="homeFolder.adult.familyStatus" /></span>
+      <dd id="homeFolder.individual[${adult.id}].familyStatus" class="capdematEnum fr.cg95.cvq.business.users.FamilyStatusType">
+        <g:capdematEnumToField var="${adult.familyStatus}" i18nKeyPrefix="homeFolder.adult.familyStatus" />
       </dd>
     </dl>
   </div>
@@ -84,7 +84,7 @@
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.eMail" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].eMail" class="email required">
+      <dd id="homeFolder.individual[${adult.id}].email" class="email required">
         <span>${adult.email}</span>
       </dd>
       

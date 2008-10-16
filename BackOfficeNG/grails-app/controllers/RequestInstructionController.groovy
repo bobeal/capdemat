@@ -31,7 +31,8 @@ class RequestInstructionController {
     IIndividualService individualService
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
-   
+    IAgentService agentService
+    
     def translationService
     
     def defaultAction = "edit"
@@ -41,6 +42,8 @@ class RequestInstructionController {
     }
     
     def edit = {
+        this.each { log.debug(it) }
+        
 		    def request = defaultRequestService.getById(Long.valueOf(params.id))
 		    def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
 		
@@ -97,7 +100,6 @@ class RequestInstructionController {
 		    ]
     }
     
-    // TODO - refactor enum managment
     def widget = {
         def widgetMap = [ string:"string", email:"string", number:"string", string:"string",
                           date:"date", address:"address", capdematEnum:"capdematEnum" ]
@@ -110,36 +112,34 @@ class RequestInstructionController {
         
         def propertyValue
         def allPropertyValue = []
-        def i18nKeyPrefix
+        def propertyValueType
+        
         if (propertyTypeList[0] == "address")
-            JSON.parse(params.propertyValue)
+            propertyValue = JSON.parse(params.propertyValue)
         else if (propertyTypeList[0] == "capdematEnum") {
-            allPropertyValue = Class.forName("fr.cg95.cvq.business.users." + propertyTypeList[1])
-                           .getField("all" + propertyTypeList[1] + "s")
-                           .get()
-            propertyValue = params.propertyValue
+            def propertyJavaType = propertyTypeList[1].tokenize(".")
+            allPropertyValue = Class.forName(propertyTypeList[1])
+                    .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
             
-            switch(propertyTypeList[1]) {
-                case "TitleType": 
-                    i18nKeyPrefix = "homeFolder.adult.title"
-                    break;
-                case "FamilyStatusType": 
-                    i18nKeyPrefix = "homeFolder.adult.familyStatus"
-                    break;
-            }
+            def propertyValueTokens = params.propertyValue.tokenize(" ")
+            propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
+            
+            propertyValueType = propertyTypeList[1]
         }
         else if (propertyTypeList[0] != "address")
             propertyValue = params.propertyValue
             
         render( template: "/requestInstruction/widget/" + widgetMap[propertyTypeList[0]],
                 model:
-                    [ "requestId": Long.valueOf(params.id), 
+                    [ "requestId": Long.valueOf(params.id),
+                    
                       "individualId": individualIdTokens[1],
                       "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                      
                       "propertyName": params.propertyName,
                       "propertyValue": propertyValue,
-                      "allPropertyValue" : allPropertyValue,
-                      "i18nKeyPrefix" : i18nKeyPrefix,
+                      "allPropertyValue": allPropertyValue,
+                      "propertyValueType": propertyValueType,
                       "propertyType": propertyTypeList[0],
                       "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""
                     ])
@@ -150,7 +150,14 @@ class RequestInstructionController {
              return
         try {
           def individual = individualService.getById(Long.valueOf(params.individualId))
-          bindData(individual, params)
+          
+          log.debug("Binder custum editor PersistentStringEnum = " +
+              getBinder(individual)
+                  .propertyEditorRegistry
+                  .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
+          )
+//          bindData(individual, params)
+          bind(individual)
             
           render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {

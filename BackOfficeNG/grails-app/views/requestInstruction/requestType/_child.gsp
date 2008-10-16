@@ -4,42 +4,64 @@
 <div class="yui-g">
   <div class="yui-u first">
     <dl>
-      
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
-      <dd id="homeFolder.individual.lastName" class="string">${child.lastName}</dd>
+      <dd id="homeFolder.individual[${child.id}].lastName" class="string required">
+        <span>${child.lastName}</span>
+      </dd>
       
       <dt><g:message code="homeFolder.individual.property.firstName" /> : </dt>
-      <dd id="homeFolder.individual.firstName" class="string">${child.firstName}</dd>
+      <dd id="homeFolder.individual[${child.id}].firstName" class="string required">
+        <span>${child.firstName}</span>
+      </dd>
       
       <dt><g:message code="homeFolder.individual.property.secondFirstName" /> : </dt>
-      <dd class="string">${child.firstName3}</dd>
+      <dd id="homeFolder.individual[${child.id}].firstName2" class="string">
+        <span>${child.firstName2}</span>
+      </dd>
       
       <dt><g:message code="homeFolder.individual.property.thirdFirstName" /> : </dt>
-      <dd class="string">${child.firstName3}</dd>
+      <dd id="homeFolder.individual[${child.id}].firstName3" class="string">
+        <span>${child.firstName3}</span>
+      </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
-      <dd class="date"><g:formatDate format="dd/MM/yyyy" date="${child.birthDate}"/></dd>
+      <dd id="homeFolder.individual[${child.id}].birthDate" class="date">
+        <span><g:formatDate format="dd/MM/yyyy" date="${child.birthDate}"/></span>
+      </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>
-      <dd class="string">${child.birthCity}</dd>
+      <dd id="homeFolder.individual[${child.id}].birthCity" class="string">
+        <span>${child.birthCity}</span>
+      </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCountry" /> : </dt>
-      <dd>${child.birthCountry}</dd>
-      
+      <dd id="homeFolder.individual[${child.id}].birthCountry" class="string">
+        <span>${child.birthCountry}</span>
+      </dd>
     </dl>
   </div>
   
   <div class="yui-u">
     <dl>
       <dt><g:message code="homeFolder.individual.property.address" /> : </dt>
-      <dd>
-        <p>${child.adress.streetName}</p>
-        <p>
-          ${child.adress.postalCode}&nbsp;
-          ${child.adress.city}
-        </p>
+      <dd id="homeFolder.individual[${child.id}].adress" class="address required">
+        <div>
+          <p>${child.adress.additionalDeliveryInformation}</p>
+          <p>${child.adress.additionalGeographicalInformation}</p>
+          
+          <span>${child.adress.streetNumber}</span>
+          <span>${child.adress.streetName}</span>
+          
+          <p>${child.adress.placeNameOrService}</p>
+          
+          <span>${child.adress.postalCode}</span>
+          <span>${child.adress.city}</span>
+          
+          <p>${child.adress.countryName}</p>
+        </div>
       </dd>
-       <dt><g:message code="homeFolder.child.property.legalResponsibles" /> : </dt>
+      
+      <dt><g:message code="homeFolder.child.property.legalResponsibles" /> : </dt>
       <dd>
         <ul>
         <g:each var="clr" in="${childLegalResponsibles}">
@@ -50,7 +72,6 @@
         </g:each>
         </ul>
       </dd>
-      
      </dl>
   </div>
 </div>

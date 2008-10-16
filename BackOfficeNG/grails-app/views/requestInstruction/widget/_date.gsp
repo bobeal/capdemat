@@ -1,7 +1,7 @@
 <form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="form-list-edition" >
   <span id="${propertyName}_FormErrors" class="error"></span> 
   
-  <input id="${propertyName}_Input" name="${propertyNameTp}" type="text" maxlength="10" 
+  <input id="${propertyName}_Field" name="${propertyNameTp}" type="text" maxlength="10" 
       value="${propertyValue}" 
       class="validate-date-au ${required}" 
       title="<g:message code="request.error.dateRequired" />" 

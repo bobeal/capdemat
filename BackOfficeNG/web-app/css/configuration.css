@@ -187,4 +187,37 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
   background-color: #FFDFBF;
 }
 
+.datasheet-panel {
+	margin-bottom: 1.5em;
+  padding-bottom: 1.5em;
+  padding-right: 0.5em;
+}
 
+.datasheet-panel span,a {
+  /*margin-top: 0.5em !important;*/
+  float : right;
+}
+
+.datasheet p{
+	width: 300px;
+	clear: left;
+	margin: 0;
+	padding: 5px 0 8px 0;
+	padding-left: 155px; 
+	height: 1%;
+}
+
+.datasheet label{
+	float: left;
+	margin-left: -155px; 
+	width: 150px; 
+}
+
+.datasheet input[type="text"]{
+  width: 180px;
+}
+
+.datasheet textarea{
+	width: 250px;
+	height: 150px;
+}

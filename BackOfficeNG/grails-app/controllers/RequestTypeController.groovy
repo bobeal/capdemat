@@ -1,4 +1,7 @@
+import java.io.File;
+
 import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.exception.CvqException
@@ -8,6 +11,10 @@ import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.business.request.RequestSeason
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import org.springframework.web.context.request.RequestContextHolder
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
+import java.util.Set
 import fr.cg95.cvq.exception.*
 
 import grails.converters.JSON
@@ -20,6 +27,9 @@ class RequestTypeController {
     IRequestServiceRegistry requestServiceRegistry
     IDocumentService documentService
 	ICategoryService categoryService
+	GroovyPagesTemplateEngine groovyPagesTemplateEngine
+	//ILocalAuthorityRegistry localAuthorityRegistry
+	
     def translationService
     
     def defaultAction = "list"
@@ -35,10 +45,7 @@ class RequestTypeController {
 
     // the configuration items all request types will have
     // the boolean indicates if it's a mandatory step
-    def baseConfigurationItems = [
-    	"general":["requestType.configuration.general", true] 
-//        "documents":["requestType.configuration.documents", false]
-    ]
+    def baseConfigurationItems = ["general":["requestType.configuration.general", true] ]
     
     def configure = {
     	def requestType = 
@@ -207,6 +214,7 @@ class RequestTypeController {
     // called asynchronously
     // return a JSON array of all the document types
     def loadAllDocumentTypes = {
+        
         log.debug "loadAllDocumentTypes()"
         def requestTypeDocuments = []
     	def requestType = 
@@ -299,18 +307,75 @@ class RequestTypeController {
                                  success_msg:message(code:"requestSeason.message.confirmDelete")] as JSON)
     }
     
+    
+    // retrives request form list using passed request type id
+    def requestFormList = {
+        def id = Long.valueOf(params.id)
+        def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
+        def forms = defaultRequestService.getRequestTypeForms(id, mailType)
+        
+        render(template:"requestForms",model:["requestForms":forms])
+    }
+    
+    def requestFormDatasheet = {
+        if(request.post) {
+            
+        } else {
+            def requestForm = null
+            def templates = defaultRequestService.getMailTemplates('.*[.]html$')
+            if(params.id) 
+                requestForm = defaultRequestService
+                    .getRequestFormById(Long.valueOf(params.id))
+            render(template:"datasheet",model:["requestForm":requestForm,
+                                               "templates":templates])
+        }
+    }
+    
+    
     def mailTemplate = {
         if(request.post) {
-            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            if(params?.editor != "" && params?.element != "") {
+                def args = params.element.split(':').toList()
+                
+                RequestForm form = new RequestForm()
+                form.setId((Long)args[1])
+                form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
+                form.setPersonalizedData(params.editor.getBytes())
+                form.setLabel("MyLabel")
+                form.setShortLabel("MyShortLabel")
+                
+                defaultRequestService.processRequestTypeForm(0,form)
+                render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            } else {
+                throw new Exception("mail_templates.some_of_mandatory_fields_is_empty")
+            }
         } 
         else {
-            render (view: 'mailTemplate', model:['name':params.id])
-        }        
+            def templates = defaultRequestService.getMailTemplates('.*[.]html$')
+            render (view: 'mailTemplate', model:['name':params.id,'templates':templates])
+        }
     }
     
     def loadMailTemplate = {
+        //def name  = params.id
+        def name = 'tmp.html'
+        def requestAttributes = RequestContextHolder.currentRequestAttributes()
         
-        render(template:"tmp",model:['name':params.id])
+        File templateFile = defaultRequestService.getTemplateByName(name)
+        if(templateFile.exists()) {
+            List<RequestForm> forms = defaultRequestService.getRequestTypeForms(1,RequestFormType.REQUEST_MAIL_TEMPLATE)
+            
+            def template = groovyPagesTemplateEngine.createTemplate(templateFile);
+            def out = new StringWriter();
+            def originalOut = requestAttributes.getOut()
+            
+            requestAttributes.setOut(out)
+            template.make(['name':params.id,'forms':forms]).writeTo(out);
+            requestAttributes.setOut(originalOut)
+            return render(template:"mail",model:['template':out.toString()])
+        }
+        
+        //render(template:"tmp",model:['name':params.id])
     }
 }
 

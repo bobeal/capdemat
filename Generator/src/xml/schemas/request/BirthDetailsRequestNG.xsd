@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/bdr"
+  xmlns:bdr="http://www.cg95.fr/cvq/schema/bdr" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="BirthDetailsRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande extrait d'acte naissance
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Birth details request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Acte de naissance
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Birth details request
+      </xs:documentation>
+      <xs:appinfo>
+        <common>
+          <namespace name="civil" />
+          <steps>
+            <step id="0" name="requester" />
+            <step id="1" name="nature" />
+            <step id="2" name="type" />
+            <step id="3" ref="document" />
+            <step id="4" ref="validation" />
+          </steps>
+          <conditions>
+            <condition name="formatSelected" />
+          </conditions>
+        </common>
+        <xslfo>
+          <blocks-def>
+            <block id="0" label="Renseignements concernant l'acte de naissance" column="3" />
+            <block id="1" label="Renseignements concernant le demandeur" column="2" />
+            <block id="2"
+              label="Qualité du demandeur (lien de parent&#x00E9; avec la personne dont vous demandez l'acte)" />
+            <block id="3" label="Etat civil de la personne dont vous demandez l'acte de naissance"
+              column="2" />
+            <block id="4" label="Informations de filiation de la personne dont vous demandez l'acte"
+              displayCondition="//bdr:Format/text() = 'ExtractWithRelationship' or //bdr:Format/text() = 'FullCopy'" />
+          </blocks-def>
+          <element blockId="1" line="0" column="0" link="Requester">
+            <complexTemplate />
+          </element>
+        </xslfo>
+
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="Format" type="bdr:BirthCertificateFormatType">
+              <xs:annotation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="type" type="javaOnly" />
+				            <display mode="labelonly" type="stagetitle" label="Type" stage="validation" page="summary" line="10"/>
+                    <display field="" stage="validation" page="summary" line="11" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="12" />
+                    <display field="" page="checkbirth" line="2" mode="static" />
+                    <display field="" page="printbirth" line="2" mode="static" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="0" line="1" column="0">
+                      <varargCheckbox displayModulo="4" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Copies" type="xs:positiveInteger" default="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nombre d'actes souhait&#x00E9;
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nombre d'actes souhait&#x00E9;
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="type" page="type" line="2" label="Nombre d'actes"/>
+                    <display field="" stage="type" page="parents" line="2" label="Nombre d'actes"/>
+                    <display field="" stage="validation" page="summary" line="12" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="21" />
+                    <display field="" page="checkbirth" line="3" mode="static" />
+                    <display field="" page="printbirth" line="3" mode="static" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="0" line="2" column="0" columnSpan="1" useLongDesc="true">
+                      <string restrictToChar="true" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Comment" type="xs:token" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Commentaire
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Commentaire
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="type" page="type" line="3" />
+                    <display field="" stage="type" page="parents" line="3" />
+                    <display field="" stage="validation" page="summary" line="13" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="22" />
+                    <display field="" page="checkbirth" line="4" mode="static" />
+                    <display field="" page="printbirth" line="4" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="2" column="1" columnSpan="2" useLongDesc="true">
+                      <string valueWeight="3"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Motive" type="bdr:BirthCertificateMotiveType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Motif de la demande
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Motif
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="type" page="type" line="4" />
+                    <display field="" stage="type" page="parents" line="4" />
+                    <display field="" stage="validation" page="summary" line="14" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="23" />
+                    <display field="" page="checkbirth" line="5" mode="static" />
+                    <display field="" page="printbirth" line="5" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="3" column="0">
+                      <varargCheckbox displayModulo="5" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="RequesterQuality" type="bdr:BirthRequesterQualityType"
+              minOccurs="0">
+              <xs:annotation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="nature" page="birth" line="1" help="Choisissez la qualit&#x00E9; du demandeur" />
+                    <display field="" stage="nature" page="displaybirth" line="1"
+                      mode="static" />
+		  			<display mode="labelonly" type="stagetitle" label="Nature" stage="validation" page="summary" line="1"/>
+                    <display field="" stage="validation" page="summary" line="2"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="41" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="0" column="0" usePrefixLabel="false">
+                      <varargCheckbox displayModulo="2"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="RequesterQualityPrecision" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Précisions
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="nature" page="birth" line="2" label="Précisez" block="LawyerNotary"
+                      info="Avocat, Notaire précisez votre qualité (art. 197-5 de l'IGREC)." />
+                    <display field="" stage="nature" page="birth" line="3" label="Précisez" block="Other"
+                      info="Autre précisez votre lien." />
+                    <display field="" stage="nature" page="displaybirth" line="2"
+                      label="Précisez" mode="static" />
+                    <display field="" stage="validation" page="summary" line="3"
+                      mode="static" label="Précisez" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="42" label="Précision" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="1" column="0" prefixLabel="Précisez (votre lien si autre, votre qualité (art. 197-5 de l'IGREC) si avocat ou notaire)">
+                      <string valueWeight="3"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="BirthLastName" type="cvq:LastNameType" minOccurs="1">
+              <xs:annotation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="nature" page="birth" line="4" seperator="true" />
+                    <display field="" stage="nature" page="displaybirth" line="3" mode="static" />
+                    <display field="" stage="validation" page="summary" line="4"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="51" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="3" line="0" column="0" columnSpan="2">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="BirthFirstNames" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pr&#x00E9;nom(s)
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="nature" page="birth" line="5" />
+                    <display field="" stage="nature" page="displaybirth" line="4" mode="static" />
+                    <display field="" stage="validation" page="summary" line="5"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="52" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="3" line="1" column="0" columnSpan="2">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="BirthDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de naissance
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="nature" page="birth" line="6" help="ex: 21/06/1956" />
+                    <display field="" stage="nature" page="displaybirth" line="5" mode="static" />
+                    <display field="" stage="validation" page="summary" line="6"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="61" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="3" line="2" column="0">
+                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="BirthCity" type="cvq:CityType" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ville de naissance
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="nature" page="birth" line="7" />
+                    <display field="" stage="nature" page="displaybirth" line="6" mode="static" />
+                    <display field="" stage="validation" page="summary" line="7"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="62" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="3" line="3" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="BirthPostalCode" type="cvq:DepartmentCodeType" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  D&#x00E9;partement de naissance
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="nature" page="birth" line="8" />
+                    <display field="" stage="nature" page="displaybirth" line="7" mode="static" />
+                    <display field="" stage="validation" page="summary" line="8"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="71" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="3" line="3" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="FatherInformation" type="bdr:FatherInformationType" minOccurs="0" />
+            
+            <!-- 
+            <xs:element name="FatherLastName" type="cvq:LastNameType" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom du p&#x00E8;re
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+       	      		  <display mode="labelonly" label="Le p&#x00E8;re" stage="type" page="parents" line="6" />
+                    <display field="" stage="type" page="parents" line="7" label="Nom"
+                      condition="format == ExtractWithRelationship" />
+                    <display field="" stage="validation" page="summaryrelation" line="37"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="152" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="4" line="1" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="FatherFirstNames" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pr&#x00E9;nom(s) du p&#x00E8;re
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="type" page="parents" line="8" label="Pr&#x00E9;nom(s)"
+                      condition="format == ExtractWithRelationship" />
+                    <display field="" stage="validation" page="summaryrelation" line="38"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="161" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="4" line="2" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            -->
+            
+            <xs:element name="MotherMaidenName" type="cvq:LastNameType" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom de jeune fille de la m&#x00E8;re
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+       	      		<display mode="labelonly" label="La m&#x00E8;re" stage="type" page="parents" line="9" />
+                    <display field="" stage="type" page="parents" line="10" label="Nom de jeune fille"
+                      condition="format == ExtractWithRelationship" />
+                    <display field="" stage="validation" page="summaryrelation" line="39"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="162" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="4" line="3" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="MotherFirstNames" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pr&#x00E9;nom(s) de la m&#x00E8;re
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="type" page="parents" line="11" label="Pr&#x00E9;nom(s)"
+                      condition="format == ExtractWithRelationship" />
+                    <display field="" stage="validation" page="summaryrelation" line="40"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="171" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="4" line="4" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="BirthCertificateFormatType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations relatives au type de l'acte d'&#x00E9;tat civil
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type de l'acte
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="FullCopy" value="Copie int&#x00E9;grale" />
+        <enum key="ExtractWithRelationship" value="Extrait avec filiation" />
+        <enum key="ExtractWithoutRelationship" value="Extrait sans filiation" />
+        <enum key="MultilingualExtract" value="Extrait plurilingue" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FullCopy" />
+      <xs:enumeration value="ExtractWithRelationship" />
+      <xs:enumeration value="ExtractWithoutRelationship" />
+      <xs:enumeration value="MultilingualExtract" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BirthRequesterQualityType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Qualit&#x00E9; du demandeur (lien de parent&#x00E9; avec la personne dont vous demandez
+        l'acte)
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Qualit&#x00E9; du demandeur
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Requester" value="Titulaire de l'acte" />
+        <enum key="Spouse" value="Son conjoint" />
+        <enum key="Parent" value="Son p&#x00E8;re / sa m&#x00E8;re" />
+        <enum key="GrandParent" value="Son grand-p&#x00E8;re / sa grand-m&#x00E8;re" />
+        <enum key="Child" value="Son fils / sa fille" />
+        <enum key="LegalRepresentant" value="Son repr&#x00E9;sentant l&#x00E9;gal" />
+        <enum key="Agent" value="Son mandataire" />
+        <enum key="HeirFamily" value="Son h&#x00E9;ritier et aussi son fr&#x00E8;re ou sa soeur" />
+        <enum key="Heir" value="Son h&#x00E9;ritier sans être son fr&#x00E8;re ou sa soeur" />
+        <enum key="Authorized" value="Autoris&#x00E9; par le procureur de la R&#x00E9;publique" />
+        <enum key="LawyerNotary" value="Avocat, notaire" />
+        <enum key="Other" value="Autre" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Requester" />
+      <xs:enumeration value="Spouse" />
+      <xs:enumeration value="Parent" />
+      <xs:enumeration value="GrandParent" />
+      <xs:enumeration value="Child" />
+      <xs:enumeration value="LegalRepresentant" />
+      <xs:enumeration value="Agent" />
+      <xs:enumeration value="HeirFamily" />
+      <xs:enumeration value="Heir" />
+      <xs:enumeration value="Authorized" />
+      <xs:enumeration value="LawyerNotary" />
+      <xs:enumeration value="Other" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BirthCertificateMotiveType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations relatives au motif de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Motif
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="NotaryAct" value="Acte de notaire" />
+        <enum key="NationalIdentityCard" value="Carte nationale d'identité" />
+        <enum key="FrenchNationalityCertificate" value="Certificat de nationalité française" />
+        <enum key="Marriage" value="Mariage" />
+        <enum key="Pacs" value="Pacte civil de solidarité" />
+        <enum key="Passport" value="Passeport" />
+        <enum key="Pension" value="Pension" />
+        <enum key="LegalProceedings" value="Procédure judiciaire" />
+        <enum key="Other" value="Autre" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NotaryAct" />
+      <xs:enumeration value="NationalIdentityCard" />
+      <xs:enumeration value="FrenchNationalityCertificate" />
+      <xs:enumeration value="Marriage" />
+      <xs:enumeration value="Pacs" />
+      <xs:enumeration value="Passport" />
+      <xs:enumeration value="Pension" />
+      <xs:enumeration value="LegalProceedings" />
+      <xs:enumeration value="Other" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="FatherInformationType">
+    <xs:sequence>
+            <xs:element name="FatherLastName" type="cvq:LastNameType" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom du p&#x00E8;re
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display mode="labelonly" label="Le p&#x00E8;re" stage="type" page="parents" line="6" />
+                    <display field="" stage="type" page="parents" line="7" label="Nom"
+                      condition="format == ExtractWithRelationship" />
+                    <display field="" stage="validation" page="summaryrelation" line="37"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="152" />
+                  </bo>
+
+                  <xslfo>
+                    <element blockId="4" line="1" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="FatherFirstNames" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pr&#x00E9;nom(s) du p&#x00E8;re
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="type" page="parents" line="8" label="Pr&#x00E9;nom(s)"
+                      condition="format == ExtractWithRelationship" />
+                    <display field="" stage="validation" page="summaryrelation" line="38"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaybirth" line="161" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="4" line="2" column="0">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>      
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -47,10 +47,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/users/TicketTypeSelection.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/payment/Payment.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/payment/PurchaseItem.hbm.xml</value>
-        <value>fr/cg95/cvq/business/social/DhrPreviousDwelling.hbm.xml</value>
-        <value>fr/cg95/cvq/business/social/DhrDonation.hbm.xml</value>
-        <value>fr/cg95/cvq/business/social/DhrPersonalEstateAndSaving.hbm.xml</value>
-        <value>fr/cg95/cvq/business/social/DhrRealAsset.hbm.xml</value>
+		<value>fr/cg95/cvq/business/social/DhrRealAsset.hbm.xml</value>
+        <value>fr/cg95/cvq/business/social/DhrNotRealAsset.hbm.xml</value>
+        <value>fr/cg95/cvq/business/social/HarFamilyDependent.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
         <value>fr/cg95/cvq/business/external/ExternalServiceTrace.hbm.xml</value>
         <value>fr/cg95/cvq/business/external/ExternalServiceIdentifierMapping.hbm.xml</value>

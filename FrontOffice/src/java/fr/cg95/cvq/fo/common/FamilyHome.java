@@ -53,8 +53,10 @@ import fr.cg95.cvq.fo.common.form.LoginForm;
 import fr.cg95.cvq.fo.dispatcher.DispatchFilter;
 import fr.cg95.cvq.fo.dispatcher.SessionManager;
 import fr.cg95.cvq.fo.util.Constants;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.users.IRequestService;
+import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.wizard.IProcessWizard;
+import fr.cg95.cvq.xml.common.FamilyStatusType;
 
 public class FamilyHome implements Serializable {
 
@@ -62,36 +64,36 @@ public class FamilyHome implements Serializable {
 
     private static Logger logger = Logger.getLogger(FamilyHome.class);
     
-	private Long id;
+    private Long id;
 
-	private Long responsibleId;
+    private Long responsibleId;
 
-	private HashMap adults = new HashMap();
+    private HashMap adults = new HashMap();
 
     private HashMap children = new HashMap();
 
     private HashMap<String,DocumentForm> documents = new HashMap<String,DocumentForm>();
     private DocumentForm currentDocument = null;
 
-	private Collection selectionList = null;
+    private Collection selectionList = null;
     private IndividualForm individualToRegister = null;
     private boolean spouse = false;
     
-	private LoginForm login = new LoginForm();
+    private LoginForm login = new LoginForm();
 
     private boolean boundToRequest = false;
     private String familyQuotient = null;
    
     private HttpSession session = null;
     
-	public FamilyHome(HttpSession session) {
-		super();
+    public FamilyHome(HttpSession session) {
+        super();
         this.session = session;
-	}
+    }
 
-	public void addDocument(DocumentForm documentForm) {
-		this.documents.put(documentForm.getId().toString(), documentForm);
-	}
+    public void addDocument(DocumentForm documentForm) {
+        this.documents.put(documentForm.getId().toString(), documentForm);
+    }
 
     public DocumentForm getDocumentByTypeId(Integer typeId) {
         
@@ -109,12 +111,12 @@ public class FamilyHome implements Serializable {
     }
 
     public Collection getChildren() {
-		return this.children.values();
-	}
+        return this.children.values();
+    }
 
-	public Collection getAdults() {
-		return this.adults.values();
-	}
+    public Collection getAdults() {
+        return this.adults.values();
+    }
     
     public Collection getIndividuals() {
         ArrayList individuals = new ArrayList(getAdults());
@@ -231,339 +233,339 @@ public class FamilyHome implements Serializable {
         return groupedDocuments.values();
     }
     
-	/**
-	 * @param pAdults
-	 *            The adults to set.
-	 */
-	public void setAdults(Collection pAdults) {
-		this.adults = convertAdult(pAdults);
-	}
+    /**
+     * @param pAdults
+     *            The adults to set.
+     */
+    public void setAdults(Collection pAdults) {
+        this.adults = convertAdult(pAdults);
+    }
 
-	/**
-	 * @param pChildren
-	 *            The children to set.
-	 */
-	public void setChildren(Collection pChildren) {
-		this.children = convertChild(pChildren);
-	}
+    /**
+     * @param pChildren
+     *            The children to set.
+     */
+    public void setChildren(Collection pChildren) {
+        this.children = convertChild(pChildren);
+    }
 
-	public ChildForm getChildById(Long pChildId) throws Exception {
-		Iterator it = this.children.values().iterator();
+    public ChildForm getChildById(Long pChildId) throws Exception {
+        Iterator it = this.children.values().iterator();
 
-		// Iterating over the elements in the collection
-		while (it.hasNext()) {
-			// Get Child
-			ChildForm child = (ChildForm) it.next();
-			if (child.getId().equals(pChildId)) {
-				return child;
-			}
-		}
-		// must never arrived !
-		throw new Exception("There is no child with this Id!");
-	}
+        // Iterating over the elements in the collection
+        while (it.hasNext()) {
+            // Get Child
+            ChildForm child = (ChildForm) it.next();
+            if (child.getId().equals(pChildId)) {
+                return child;
+            }
+        }
+        // must never arrived !
+        throw new Exception("There is no child with this Id!");
+    }
 
-	public AdultForm getFamilyHomeResponsible() throws Exception {
+    public AdultForm getFamilyHomeResponsible() throws Exception {
 
-		Iterator it = this.adults.values().iterator();
+        Iterator it = this.adults.values().iterator();
 
-		// Iterating over the elements in the collection
-		while (it.hasNext()) {
-			// Get Adult
-			AdultForm adult = (AdultForm) it.next();
-			if (adult.isFamilyHomeResponsible()) {
-				return adult;
-			}
-		}
-		// must never arrived !
-		throw new Exception("There is no family home responsible!");
-	}
+        // Iterating over the elements in the collection
+        while (it.hasNext()) {
+            // Get Adult
+            AdultForm adult = (AdultForm) it.next();
+            if (adult.isFamilyHomeResponsible()) {
+                return adult;
+            }
+        }
+        // must never arrived !
+        throw new Exception("There is no family home responsible!");
+    }
 
-	/**
-	 * @return Returns the id.
-	 */
-	public Long getId() {
-		return this.id;
-	}
+    /**
+     * @return Returns the id.
+     */
+    public Long getId() {
+        return this.id;
+    }
 
-	/**
-	 * @param pId
-	 *            The id to set.
-	 */
-	public void setId(Long pId) {
-		this.id = pId;
-	}
+    /**
+     * @param pId
+     *            The id to set.
+     */
+    public void setId(Long pId) {
+        this.id = pId;
+    }
 
-	/**
-	 * @return Returns the login.
-	 */
-	public LoginForm getLogin() {
-		return this.login;
-	}
+    /**
+     * @return Returns the login.
+     */
+    public LoginForm getLogin() {
+        return this.login;
+    }
 
-	/**
-	 * @param pLogin
-	 *            The login to set.
-	 */
-	public void setLogin(LoginForm pLogin) {
-		this.login = pLogin;
-	}
+    /**
+     * @param pLogin
+     *            The login to set.
+     */
+    public void setLogin(LoginForm pLogin) {
+        this.login = pLogin;
+    }
 
-	private HashMap convertChild(Collection pCollection) {
+    private HashMap convertChild(Collection pCollection) {
 
-		HashMap map = new HashMap();
+        HashMap map = new HashMap();
 
-		for (Iterator it = pCollection.iterator(); it.hasNext();) {
-			ChildForm child = (ChildForm) it.next();
-			map.put(child.getFirstName() + child.getLastName(), child);
+        for (Iterator it = pCollection.iterator(); it.hasNext();) {
+            ChildForm child = (ChildForm) it.next();
+            map.put(child.getFirstName() + child.getLastName(), child);
 
-		}
+        }
 
-		return map;
-	}
+        return map;
+    }
 
-	private HashMap convertAdult(Collection pCollection) {
+    private HashMap convertAdult(Collection pCollection) {
 
-		HashMap map = new HashMap();
+        HashMap map = new HashMap();
 
-		for (Iterator it = pCollection.iterator(); it.hasNext();) {
-			AdultForm adult = (AdultForm) it.next();
-			map.put(adult.getFirstName() + adult.getLastName(), adult);
+        for (Iterator it = pCollection.iterator(); it.hasNext();) {
+            AdultForm adult = (AdultForm) it.next();
+            map.put(adult.getFirstName() + adult.getLastName(), adult);
 
-		}
+        }
 
-		return map;
-	}
+        return map;
+    }
 
-	public Collection getEmails() {
+    public Collection getEmails() {
 
-		// hashset to exclude the doublon
-		Set emails = new HashSet();
+        // hashset to exclude the doublon
+        Set emails = new HashSet();
 
-		// parse the adults
-		Collection adults = this.adults.values();
-		Iterator itAdults = adults.iterator();
+        // parse the adults
+        Collection adults = this.adults.values();
+        Iterator itAdults = adults.iterator();
 
-		while (itAdults.hasNext()) {
-			AdultForm adult = (AdultForm) itAdults.next();
-			String email = adult.getEmail();
+        while (itAdults.hasNext()) {
+            AdultForm adult = (AdultForm) itAdults.next();
+            String email = adult.getEmail();
 
-			if ((null != email) && (false == email.equals(""))) {
-				emails.add(email);
-			}
+            if ((null != email) && (false == email.equals(""))) {
+                emails.add(email);
+            }
 
-		}
-		// parse the legal responsibles
-		// Collection children = this.children.values();
-		// Iterator itChildren = children.iterator();
-		//
-		// while (itChildren.hasNext()) {
-		// ChildForm child = (ChildForm) itChildren.next();
-		//
-		// Collection externalLegacyResponsibles = child
-		// .getExternalAdultResponsibles();
-		// Iterator itExternalLegacyResponsibles = externalLegacyResponsibles
-		// .iterator();
-		//
-		// while (itExternalLegacyResponsibles.hasNext()) {
-		// AdultForm externalLegacyResponsible = (AdultForm) itExternalLegacyResponsibles
-		// .next();
-		// String email = externalLegacyResponsible.getEmail();
-		//
-		// if ((null != email) && (false == email.equals(""))) {
-		// emails.add(email);
-		// }
-		// }
-		// }
+        }
+        // parse the legal responsibles
+        // Collection children = this.children.values();
+        // Iterator itChildren = children.iterator();
+        //
+        // while (itChildren.hasNext()) {
+        // ChildForm child = (ChildForm) itChildren.next();
+        //
+        // Collection externalLegacyResponsibles = child
+        // .getExternalAdultResponsibles();
+        // Iterator itExternalLegacyResponsibles = externalLegacyResponsibles
+        // .iterator();
+        //
+        // while (itExternalLegacyResponsibles.hasNext()) {
+        // AdultForm externalLegacyResponsible = (AdultForm) itExternalLegacyResponsibles
+        // .next();
+        // String email = externalLegacyResponsible.getEmail();
+        //
+        // if ((null != email) && (false == email.equals(""))) {
+        // emails.add(email);
+        // }
+        // }
+        // }
 
-		return emails;
-	}
+        return emails;
+    }
 
-	public Collection getOfficePhones() {
+    public Collection getOfficePhones() {
 
-		// hashset to exclude the doublon
-		Set officePhones = new HashSet();
+        // hashset to exclude the doublon
+        Set officePhones = new HashSet();
 
-		// parse the adults
-		Collection adults = this.adults.values();
-		Iterator itAdults = adults.iterator();
-		while (itAdults.hasNext()) {
-			AdultForm adult = (AdultForm) itAdults.next();
-			String officePhone = adult.getOfficePhone();
-			if ((null != officePhone) && (false == officePhone.equals(""))) {
-				officePhones.add(officePhone);
-			}
-		}
+        // parse the adults
+        Collection adults = this.adults.values();
+        Iterator itAdults = adults.iterator();
+        while (itAdults.hasNext()) {
+            AdultForm adult = (AdultForm) itAdults.next();
+            String officePhone = adult.getOfficePhone();
+            if ((null != officePhone) && (false == officePhone.equals(""))) {
+                officePhones.add(officePhone);
+            }
+        }
 
-		// parse the legal responsibles
-		// Collection children = this.children.values();
-		// Iterator itChildren = children.iterator();
-		//
-		// while (itChildren.hasNext()) {
-		// ChildForm child = (ChildForm) itChildren.next();
-		//
-		// Collection externalLegacyResponsibles = child
-		// .getExternalAdultResponsibles();
-		// Iterator itExternalLegacyResponsibles = externalLegacyResponsibles
-		// .iterator();
-		//
-		// while (itExternalLegacyResponsibles.hasNext()) {
-		// AdultForm externalLegacyResponsible = (AdultForm) itExternalLegacyResponsibles
-		// .next();
-		// String officePhone = externalLegacyResponsible.getOfficePhone();
-		//
-		// if ((null != officePhone) && (false == officePhone.equals(""))) {
-		// officePhones.add(officePhone);
-		// }
-		// }
-		// }
+        // parse the legal responsibles
+        // Collection children = this.children.values();
+        // Iterator itChildren = children.iterator();
+        //
+        // while (itChildren.hasNext()) {
+        // ChildForm child = (ChildForm) itChildren.next();
+        //
+        // Collection externalLegacyResponsibles = child
+        // .getExternalAdultResponsibles();
+        // Iterator itExternalLegacyResponsibles = externalLegacyResponsibles
+        // .iterator();
+        //
+        // while (itExternalLegacyResponsibles.hasNext()) {
+        // AdultForm externalLegacyResponsible = (AdultForm) itExternalLegacyResponsibles
+        // .next();
+        // String officePhone = externalLegacyResponsible.getOfficePhone();
+        //
+        // if ((null != officePhone) && (false == officePhone.equals(""))) {
+        // officePhones.add(officePhone);
+        // }
+        // }
+        // }
 
-		return officePhones;
-	}
+        return officePhones;
+    }
 
-	public Collection getMobilePhones() {
+    public Collection getMobilePhones() {
 
-		// hashset to exclude the doublon
-		Set mobilePhones = new HashSet();
+        // hashset to exclude the doublon
+        Set mobilePhones = new HashSet();
 
-		Collection adults = this.adults.values();
-		Iterator itAdults = adults.iterator();
-		while (itAdults.hasNext()) {
-			AdultForm adult = (AdultForm) itAdults.next();
-			String mobilePhone = adult.getMobilePhone();
-			if ((null != mobilePhone) && (false == mobilePhone.equals(""))) {
-				mobilePhones.add(mobilePhone);
-			}
-		}
+        Collection adults = this.adults.values();
+        Iterator itAdults = adults.iterator();
+        while (itAdults.hasNext()) {
+            AdultForm adult = (AdultForm) itAdults.next();
+            String mobilePhone = adult.getMobilePhone();
+            if ((null != mobilePhone) && (false == mobilePhone.equals(""))) {
+                mobilePhones.add(mobilePhone);
+            }
+        }
 
-		// parse the legal responsibles
-		// Collection children = this.children.values();
-		// Iterator itChildren = children.iterator();
-		//
-		// while (itChildren.hasNext()) {
-		// ChildForm child = (ChildForm) itChildren.next();
-		//
-		// Collection externalLegacyResponsibles = child
-		// .getExternalAdultResponsibles();
-		// Iterator itExternalLegacyResponsibles = externalLegacyResponsibles
-		// .iterator();
-		//
-		// while (itExternalLegacyResponsibles.hasNext()) {
-		// AdultForm externalLegacyResponsible = (AdultForm) itExternalLegacyResponsibles
-		// .next();
-		// String mobilePhone = externalLegacyResponsible.getMobilePhone();
-		//
-		// if ((null != mobilePhone) && (false == mobilePhone.equals(""))) {
-		// mobilePhones.add(mobilePhone);
-		// }
-		// }
-		// }
+        // parse the legal responsibles
+        // Collection children = this.children.values();
+        // Iterator itChildren = children.iterator();
+        //
+        // while (itChildren.hasNext()) {
+        // ChildForm child = (ChildForm) itChildren.next();
+        //
+        // Collection externalLegacyResponsibles = child
+        // .getExternalAdultResponsibles();
+        // Iterator itExternalLegacyResponsibles = externalLegacyResponsibles
+        // .iterator();
+        //
+        // while (itExternalLegacyResponsibles.hasNext()) {
+        // AdultForm externalLegacyResponsible = (AdultForm) itExternalLegacyResponsibles
+        // .next();
+        // String mobilePhone = externalLegacyResponsible.getMobilePhone();
+        //
+        // if ((null != mobilePhone) && (false == mobilePhone.equals(""))) {
+        // mobilePhones.add(mobilePhone);
+        // }
+        // }
+        // }
 
-		return mobilePhones;
-	}
+        return mobilePhones;
+    }
 
-	public Collection getDomicilePhones() {
+    public Collection getDomicilePhones() {
 
-		// hashset to exclude the doublon
-		Set domicilePhones = new HashSet();
+        // hashset to exclude the doublon
+        Set domicilePhones = new HashSet();
 
-		Collection adults = this.adults.values();
-		Iterator itAdults = adults.iterator();
-		while (itAdults.hasNext()) {
-			AdultForm adult = (AdultForm) itAdults.next();
-			String domicilePhone = adult.getDomicilePhone();
-			if ((null != domicilePhone) && (false == domicilePhone.equals(""))) {
-				domicilePhones.add(domicilePhone);
-			}
+        Collection adults = this.adults.values();
+        Iterator itAdults = adults.iterator();
+        while (itAdults.hasNext()) {
+            AdultForm adult = (AdultForm) itAdults.next();
+            String domicilePhone = adult.getDomicilePhone();
+            if ((null != domicilePhone) && (false == domicilePhone.equals(""))) {
+                domicilePhones.add(domicilePhone);
+            }
 
-		}
+        }
 
-		// parse the legal responsibles
-		// Collection children = this.children.values();
-		// Iterator itChildren = children.iterator();
-		//
-		// while (itChildren.hasNext()) {
-		// ChildForm child = (ChildForm) itChildren.next();
-		//
-		// Collection externalLegacyResponsibles = child
-		// .getExternalAdultResponsibles();
-		// Iterator itExternalLegacyResponsibles = externalLegacyResponsibles
-		// .iterator();
-		//
-		// while (itExternalLegacyResponsibles.hasNext()) {
-		// AdultForm externalLegacyResponsible = (AdultForm) itExternalLegacyResponsibles
-		// .next();
-		// String domicilePhone = externalLegacyResponsible
-		// .getDomicilePhone();
-		//
-		// if ((null != domicilePhone)
-		// && (false == domicilePhone.equals(""))) {
-		// domicilePhones.add(domicilePhone);
-		// }
-		// }
-		// }
+        // parse the legal responsibles
+        // Collection children = this.children.values();
+        // Iterator itChildren = children.iterator();
+        //
+        // while (itChildren.hasNext()) {
+        // ChildForm child = (ChildForm) itChildren.next();
+        //
+        // Collection externalLegacyResponsibles = child
+        // .getExternalAdultResponsibles();
+        // Iterator itExternalLegacyResponsibles = externalLegacyResponsibles
+        // .iterator();
+        //
+        // while (itExternalLegacyResponsibles.hasNext()) {
+        // AdultForm externalLegacyResponsible = (AdultForm) itExternalLegacyResponsibles
+        // .next();
+        // String domicilePhone = externalLegacyResponsible
+        // .getDomicilePhone();
+        //
+        // if ((null != domicilePhone)
+        // && (false == domicilePhone.equals(""))) {
+        // domicilePhones.add(domicilePhone);
+        // }
+        // }
+        // }
 
-		return domicilePhones;
-	}
+        return domicilePhones;
+    }
 
-	public String getEmergencyPhone() {
+    public String getEmergencyPhone() {
 
-		// String emergencyPhoneSchool =
-		// getSchoolChildRegistrationRequest().getSchool().getEmergencyPhone();
-		// String emergencyPhonePeriSchool =
-		// getPeriSchoolChildRegistrationRequest().getPeriSchool().getEmergencyPhone();
-		// String emergencyPhoneSchoolCanteen =
-		// getSchoolCanteenChildRegistrationRequest().getSchoolCanteen().getEmergencyPhone();
-		String emergencyPhone = "";
+        // String emergencyPhoneSchool =
+        // getSchoolChildRegistrationRequest().getSchool().getEmergencyPhone();
+        // String emergencyPhonePeriSchool =
+        // getPeriSchoolChildRegistrationRequest().getPeriSchool().getEmergencyPhone();
+        // String emergencyPhoneSchoolCanteen =
+        // getSchoolCanteenChildRegistrationRequest().getSchoolCanteen().getEmergencyPhone();
+        String emergencyPhone = "";
 
-		// if ((null != emergencyPhoneSchool) && (false == emergencyPhoneSchool.equals(""))) {
-		// emergencyPhone = emergencyPhoneSchool;
-		// }
-		// if (emergencyPhonePeriSchool != null) {
-		// emergencyPhone = emergencyPhonePeriSchool;
-		// }
-		// if (emergencyPhoneSchoolCanteen != null) {
-		// emergencyPhone = emergencyPhoneSchoolCanteen;
-		// }
-		return emergencyPhone;
-	}
+        // if ((null != emergencyPhoneSchool) && (false == emergencyPhoneSchool.equals(""))) {
+        // emergencyPhone = emergencyPhoneSchool;
+        // }
+        // if (emergencyPhonePeriSchool != null) {
+        // emergencyPhone = emergencyPhonePeriSchool;
+        // }
+        // if (emergencyPhoneSchoolCanteen != null) {
+        // emergencyPhone = emergencyPhoneSchoolCanteen;
+        // }
+        return emergencyPhone;
+    }
 
-	public Collection getPhones() {
+    public Collection getPhones() {
 
-		// hashset to exclude the doublon
-		Set phones = new HashSet();
-		phones.addAll(getMobilePhones());
-		phones.addAll(getOfficePhones());
-		phones.addAll(getDomicilePhones());
-		phones.add(getEmergencyPhone());
+        // hashset to exclude the doublon
+        Set phones = new HashSet();
+        phones.addAll(getMobilePhones());
+        phones.addAll(getOfficePhones());
+        phones.addAll(getDomicilePhones());
+        phones.add(getEmergencyPhone());
 
-		return phones;
-	}
+        return phones;
+    }
 
-	public boolean isNewResponsible() {
+    public boolean isNewResponsible() {
 
-		try {
-			return (this.responsibleId == null)
-					|| !this.responsibleId.equals(getFamilyHomeResponsible().getId());
-		} catch (Exception e) {
-		}
-		return true;
-	}
+        try {
+            return (this.responsibleId == null)
+                    || !this.responsibleId.equals(getFamilyHomeResponsible().getId());
+        } catch (Exception e) {
+        }
+        return true;
+    }
 
-	public void setResponsibleId(Long long1) {
-		this.responsibleId = long1;
-	}
+    public void setResponsibleId(Long long1) {
+        this.responsibleId = long1;
+    }
 
-	public Long getResponsibleId() {
-		return this.responsibleId;
-	}
+    public Long getResponsibleId() {
+        return this.responsibleId;
+    }
 
-	public IndividualForm getIndividualToRegister() {
-		return this.individualToRegister;
-	}
+    public IndividualForm getIndividualToRegister() {
+        return this.individualToRegister;
+    }
 
-	public void setIndividualToRegister(IndividualForm childToRegister) {
-		this.individualToRegister = childToRegister;
-	}
+    public void setIndividualToRegister(IndividualForm childToRegister) {
+        this.individualToRegister = childToRegister;
+    }
 
     public boolean getSpouse() {
         return spouse;
@@ -599,6 +601,29 @@ public class FamilyHome implements Serializable {
         return false;
     }
 
+    
+    public boolean getHasSpouse() {
+        Collection adults = getAdults();
+        ILocalizationService service = (ILocalizationService) BusinessManager.getAc().getBean(
+                ILocalizationService.SERVICE_NAME);
+        if (adults.size() == 1) {
+
+            Iterator itAdults = adults.iterator();
+            while (itAdults.hasNext()) {
+                AdultForm adult = (AdultForm) itAdults.next();
+                String adultFamilyStatus = service.getEnumKeyFromTranslation(
+                        fr.cg95.cvq.xml.common.AdultType.class.getName(), "FamilyStatus", adult
+                                .getFamilyStatus(), "fr");
+                if (FamilyStatusType.MARRIED.toString().equals(adultFamilyStatus)
+                        || FamilyStatusType.COMMON_LAW_MARRIAGE.toString()
+                                .equals(adultFamilyStatus)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
     public boolean getBoundToRequest() {
         return this.boundToRequest;
     }
@@ -634,5 +659,4 @@ public class FamilyHome implements Serializable {
     public void setFamilyQuotient(String familyQuotient) {
         this.familyQuotient = familyQuotient;
     }
-
 }

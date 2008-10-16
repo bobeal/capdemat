@@ -26,11 +26,10 @@ public class TitleTag extends CvqFormTag {
     public String getCaption() {
         
         StageType stageType = getStageType();
-        
         if (stageType != null)
             return stageType.getCaption();
         
-        return null;
+        return stage;
     }
     
     public String getStyle() {

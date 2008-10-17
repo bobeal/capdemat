@@ -14,8 +14,6 @@ public class Capitaltaxes extends IStageForm {
 	private java.math.BigInteger taxesAmountIncomeTax;
 	private java.math.BigInteger taxesAmountProfessionalTaxes;
 	private java.math.BigInteger taxesAmountPropertyTaxes;
-	private java.math.BigInteger capitalsSharesAmount;
-	private java.math.BigInteger capitalsBondsAmount;
 	private java.math.BigInteger taxesAmountLocalRate;
 
 	public Capitaltaxes() {
@@ -35,8 +33,6 @@ public class Capitaltaxes extends IStageForm {
 			this.taxesAmountIncomeTax = request.getTaxesAmount().getIncomeTax();
 			this.taxesAmountProfessionalTaxes = request.getTaxesAmount().getProfessionalTaxes();
 			this.taxesAmountPropertyTaxes = request.getTaxesAmount().getPropertyTaxes();
-			this.capitalsSharesAmount = request.getCapitals().getSharesAmount();
-			this.capitalsBondsAmount = request.getCapitals().getBondsAmount();
 			this.taxesAmountLocalRate = request.getTaxesAmount().getLocalRate();
 		}
 	}
@@ -47,8 +43,6 @@ public class Capitaltaxes extends IStageForm {
 			request.getTaxesAmount().setIncomeTax(this.taxesAmountIncomeTax);
 			request.getTaxesAmount().setProfessionalTaxes(this.taxesAmountProfessionalTaxes);
 			request.getTaxesAmount().setPropertyTaxes(this.taxesAmountPropertyTaxes);
-			request.getCapitals().setSharesAmount(this.capitalsSharesAmount);
-			request.getCapitals().setBondsAmount(this.capitalsBondsAmount);
 			request.getTaxesAmount().setLocalRate(this.taxesAmountLocalRate);
 		}
 	}
@@ -90,30 +84,6 @@ public class Capitaltaxes extends IStageForm {
 	}
 	
 	public boolean checkTaxesAmountPropertyTaxes() {
-		return true;
-	}
-
-	public void setCapitalsSharesAmount(java.math.BigInteger capitalsSharesAmount) {
-		this.capitalsSharesAmount = capitalsSharesAmount;
-	}
-	
-	public java.math.BigInteger getCapitalsSharesAmount() {
-		return this.capitalsSharesAmount;
-	}
-	
-	public boolean checkCapitalsSharesAmount() {
-		return true;
-	}
-
-	public void setCapitalsBondsAmount(java.math.BigInteger capitalsBondsAmount) {
-		this.capitalsBondsAmount = capitalsBondsAmount;
-	}
-	
-	public java.math.BigInteger getCapitalsBondsAmount() {
-		return this.capitalsBondsAmount;
-	}
-	
-	public boolean checkCapitalsBondsAmount() {
 		return true;
 	}
 

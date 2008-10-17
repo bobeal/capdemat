@@ -139,6 +139,8 @@ public class Validation extends IStageForm {
 		if (this.checkFormat() &&
 			((this.format == null) || (this.format.length() == 0)))
 			return false;
+		if (this.checkCopies() && (this.copies == null))
+			return false;
 		if (this.checkBirthPostalCode() &&
 			((this.birthPostalCode == null) || (this.birthPostalCode.length() == 0)))
 			return false;
@@ -148,11 +150,15 @@ public class Validation extends IStageForm {
 		if (this.checkBirthCity() &&
 			((this.birthCity == null) || (this.birthCity.length() == 0)))
 			return false;
+		if (this.checkMarriageDate() && (this.marriageDate == null))
+			return false;
 		if (this.checkMarriageHusbandLastName() &&
 			((this.marriageHusbandLastName == null) || (this.marriageHusbandLastName.length() == 0)))
 			return false;
 		if (this.checkMarriageWifeFirstNames() &&
 			((this.marriageWifeFirstNames == null) || (this.marriageWifeFirstNames.length() == 0)))
+			return false;
+		if (this.checkDeathDate() && (this.deathDate == null))
 			return false;
 		if (this.checkMarriageCity() &&
 			((this.marriageCity == null) || (this.marriageCity.length() == 0)))
@@ -162,6 +168,8 @@ public class Validation extends IStageForm {
 			return false;
 		if (this.checkMarriageWifeLastName() &&
 			((this.marriageWifeLastName == null) || (this.marriageWifeLastName.length() == 0)))
+			return false;
+		if (this.checkBirthDate() && (this.birthDate == null))
 			return false;
 		if (this.checkDeathPostalCode() &&
 			((this.deathPostalCode == null) || (this.deathPostalCode.length() == 0)))

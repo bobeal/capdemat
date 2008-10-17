@@ -48,7 +48,7 @@
 
         <li class="text_row">
           <p class="label">            
-            Valeur du bien
+            Valeur estimée
           </p>
           <p class="text">
             <cvqf:text name="realAssetsRealAssetValue" mode="static" maxlength="10"/>
@@ -56,18 +56,10 @@
         </li>
         <li class="text_row">
           <p class="label">            
-            Superficie du bien
+            Superficie
           </p>
           <p class="text">
             <cvqf:text name="realAssetsRealAssetNetFloorArea" mode="static" maxlength="10"/>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">            
-            Cadastre du bien
-          </p>
-          <p class="text">
-            <cvqf:text name="realAssetsRealAssetCadastre" mode="static"/>
           </p>
         </li>
       </ul>

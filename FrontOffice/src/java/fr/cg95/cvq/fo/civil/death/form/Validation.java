@@ -75,6 +75,10 @@ public class Validation extends IStageForm {
 		if (this.checkDeathLastName() &&
 			((this.deathLastName == null) || (this.deathLastName.length() == 0)))
 			return false;
+		if (this.checkCopies() && (this.copies == null))
+			return false;
+		if (this.checkDeathDate() && (this.deathDate == null))
+			return false;
 		if (this.checkDeathPostalCode() &&
 			((this.deathPostalCode == null) || (this.deathPostalCode.length() == 0)))
 			return false;

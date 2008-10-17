@@ -96,39 +96,20 @@
 
 .editableListSwithcher a.current:hover { background: transparent; }
 
-/* inline editable list form 
- * TODO - merge with request instruction data form 
- */
-.form-list-edition {
-  margin: .5em 2em; padding: .5em;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  background: #fefefe;
-  border: 1px dashed #FFD053;
-  clear: both; /* hack for tag alignment */
-}
 
-.form-list-edition .error { margin: 0 40% 0 0; }
-.form-list-edition label, 
-.form-list-edition input  { display: inline; width: auto; }
+/* agent profile inline edition form */
+form.editable-list-form ul          { margin: .5em 0; }
+form.editable-list-form ul li       { width: 20%; }
+form.editable-list-form ul li span  { float: left; }
+form.editable-list-form ul li input { margin: 0 0 0 .5em; }
 
-.form-list-edition ul     { margin: 0; }
+form.editable-list-form ul li .tag-read_only,
+form.editable-list-form ul li .tag-read_write,
+form.editable-list-form ul li .tag-manager    { color: #2020cc; border: none; background: transparent;}
 
-.form-list-edition ul li {
-  width: 20%;
-  float: left;
-  padding: .2em 0;
-  border: none;
-}
-
-/* agent profile inline edition */
-.form-list-edition ul li .tag-read_only,
-.form-list-edition ul li .tag-read_write,
-.form-list-edition ul li .tag-manager    { color: #2020cc; border:none; background: transparent;}
-
-.form-list-edition ul li .tag-read_only  { color: #2020cc; }
-.form-list-edition ul li .tag-read_write { color: #ec7000; }
-.form-list-edition ul li .tag-manager    { color: #aa00ff; }
+form.editable-list-form ul li .tag-read_only  { color: #2020cc; }
+form.editable-list-form ul li .tag-read_write { color: #ec7000; }
+form.editable-list-form ul li .tag-manager    { color: #aa00ff; }
 
   
 /* second level menu styles
@@ -187,37 +168,3 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
   background-color: #FFDFBF;
 }
 
-.datasheet-panel {
-	margin-bottom: 1.5em;
-  padding-bottom: 1.5em;
-  padding-right: 0.5em;
-}
-
-.datasheet-panel span,a {
-  /*margin-top: 0.5em !important;*/
-  float : right;
-}
-
-.datasheet p{
-	width: 300px;
-	clear: left;
-	margin: 0;
-	padding: 5px 0 8px 0;
-	padding-left: 155px; 
-	height: 1%;
-}
-
-.datasheet label{
-	float: left;
-	margin-left: -155px; 
-	width: 150px; 
-}
-
-.datasheet input[type="text"]{
-  width: 180px;
-}
-
-.datasheet textarea{
-	width: 250px;
-	height: 150px;
-}

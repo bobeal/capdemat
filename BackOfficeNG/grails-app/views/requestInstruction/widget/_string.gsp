@@ -1,4 +1,4 @@
-<form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="form-list-edition" >
+<form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
   <span id="${propertyName}_FormErrors" class="error"></span> 
   
   <input id="${propertyName}_Field" name="${propertyNameTp}" type="text" value="${propertyValue}" 

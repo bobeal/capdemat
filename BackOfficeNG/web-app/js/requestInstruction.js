@@ -354,7 +354,7 @@ zenexity.capdemat.bong.requestIntruction = function() {
           
           if (yud.hasClass(targetEl, "date")) {
             YAHOO.capdematBo.calendar.cal = new Array(1);
-            yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + "_Input"} );
+            yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + "_Field"} );
           }
         });
   }

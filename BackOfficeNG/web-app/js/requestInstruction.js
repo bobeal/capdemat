@@ -327,9 +327,10 @@ zenexity.capdemat.bong.requestIntruction = function() {
         "placeNameOrService": addressFields[4].innerHTML,
         "postalCode": addressFields[5].innerHTML,
         "city": addressFields[6].innerHTML,
-        "countryName": addressFields[7].innerHTML,  
+        "countryName": addressFields[7].innerHTMLs
       }
       propertyValue = ylj.stringify(jsonAddress);
+      
     }
     else if (yud.hasClass(targetEl, "capdematEnum")) {
       propertyValue = wrapperPropertyValueEl.className;

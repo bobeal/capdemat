@@ -41,10 +41,10 @@
 /* definition list */
 #requestData dl {
   margin : 10px;
-  overflow: auto;
   border-bottom: 1px dashed #FFD053;
   color: #333;
   background: #ffffbb;
+  overflow: auto;
 }
  
 #requestData dl dt,
@@ -195,6 +195,9 @@
   background: #ffffff;
 }
 
+#requestDocumentPanel a       { font-size: 1em; color: #000; text-decoration: none; }
+#requestDocumentPanel a:hover { color: #000; background: transparent; text-decoration: underline; }
+
 #requestDocumentPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
 #requestDocumentPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
 
@@ -219,7 +222,7 @@
   padding: 1em 0;
 }
 
-#requestDocumentPanel .bd img { max-width: 100%; }
+#requestDocumentPanel #requestDocumentData img { max-width: 100%; }
 
 /* list */
 #requestDocumentPanel .mainbox ul { margin: 10px; color: #333;}

@@ -121,7 +121,7 @@ form.editable-list-form p.same-line input.form-button { width: auto; margin: 1.5
 form.editable-list-form p.same-line label             { clear: none; }
 
 form.editable-list-form ul    { margin: .5em 0  0 21%; clear: both; overflow: auto; }
-form.editable-list-form ul li { width: 30%;  float: left; padding: .2em 0; }
+form.editable-list-form ul li { width: 30%;  float: left; padding: .2em 0; border: 0; }
 form.editable-list-form ul li:hover { background: transparent !important; }
 form.editable-list-form ul li label { width: 66%; }
 

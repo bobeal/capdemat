@@ -22,13 +22,29 @@ img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
 
 /* configation.css
 -------------------------------------------------------------- */
-.editableList li { _height: 1%; }
-
 .overviewConfigurationList li h3 { display: inline; }
 
-.form-list-edition ul li { width: 22% !important;}
+.editableList li { _height: 1%; }
+
+.editable-list-form { _height: 1%; }
+.editable-list-form  ul li { width: 22% !important; }
 
 .editor-form .bd {
 	height: 1% !important;
 	overflow: hidden !important;
 }
+
+
+/* requestInstruction.css
+-------------------------------------------------------------- */
+#requestData dl { height: 1%; }
+#requestData dl dd { width: 14em !important; height: 1%; }
+#requestData dl dt { height: 1.3em; width: 10.5em !important; overflow: hidden; }
+
+#requestDocumentPanel #requestDocumentData img { width: 100% ; }
+
+#requestDocumentPanel .bd h1 { height: 1%; }
+
+#requestDocumentPanel .bd form input { width: 50%; }
+#requestDocumentPanel .bd form input.form-button { width: auto; }
+

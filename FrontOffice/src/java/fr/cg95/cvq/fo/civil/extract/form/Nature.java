@@ -127,11 +127,15 @@ public class Nature extends IStageForm {
 		if (this.checkMarriageWifeLastName() &&
 			((this.marriageWifeLastName == null) || (this.marriageWifeLastName.length() == 0)))
 			return false;
+		if (this.checkBirthDate() && (this.birthDate == null))
+			return false;
 		if (this.checkDeathPostalCode() &&
 			((this.deathPostalCode == null) || (this.deathPostalCode.length() == 0)))
 			return false;
 		if (this.checkBirthCity() &&
 			((this.birthCity == null) || (this.birthCity.length() == 0)))
+			return false;
+		if (this.checkMarriageDate() && (this.marriageDate == null))
 			return false;
 		if (this.checkDeathLastName() &&
 			((this.deathLastName == null) || (this.deathLastName.length() == 0)))
@@ -147,6 +151,8 @@ public class Nature extends IStageForm {
 			return false;
 		if (this.checkCertificate() &&
 			((this.certificate == null) || (this.certificate.length() == 0)))
+			return false;
+		if (this.checkDeathDate() && (this.deathDate == null))
 			return false;
 		if (this.checkBirthLastName() &&
 			((this.birthLastName == null) || (this.birthLastName.length() == 0)))

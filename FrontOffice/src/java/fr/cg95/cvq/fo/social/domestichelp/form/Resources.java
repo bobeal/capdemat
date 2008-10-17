@@ -12,13 +12,15 @@ import fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest;
 public class Resources extends IStageForm {
 
 	private java.math.BigInteger requesterSpouseIncomesSpousePensions;
-	private java.math.BigInteger requesterSpouseIncomesSpouseInvestmentIncome;
 	private java.math.BigInteger requesterIncomesRequesterNetIncome;
+	private java.math.BigInteger requesterSpouseIncomesSpouseRealEstateInvestmentIncome;
 	private java.math.BigInteger requesterIncomesRequesterPensions;
-	private java.math.BigInteger requesterIncomesRequesterInvestmentIncome;
+	private java.math.BigInteger requesterIncomesRequesterRealEstateInvestmentIncome;
 	private java.math.BigInteger requesterIncomesRequesterAllowances;
 	private java.math.BigInteger requesterSpouseIncomesSpouseNetIncome;
+	private java.math.BigInteger requesterIncomesRequesterFurnitureInvestmentIncome;
 	private java.math.BigInteger requesterSpouseIncomesSpouseAllowances;
+	private java.math.BigInteger requesterSpouseIncomesSpouseFurnitureInvestmentIncome;
 
 	public Resources() {
 		super();
@@ -29,6 +31,8 @@ public class Resources extends IStageForm {
 		}
 		if (state.equals("subject")) {
 		}
+		if (state.equals("displayspouse")) {
+		}
 		if (state.equals("display")) {
 		}
 	}
@@ -37,13 +41,15 @@ public class Resources extends IStageForm {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DomesticHelpRequest)) {
 			DomesticHelpRequest request = (DomesticHelpRequest)xmlbRequest;
 			this.requesterSpouseIncomesSpousePensions = request.getRequesterSpouseIncomes().getSpousePensions();
-			this.requesterSpouseIncomesSpouseInvestmentIncome = request.getRequesterSpouseIncomes().getSpouseInvestmentIncome();
 			this.requesterIncomesRequesterNetIncome = request.getRequesterIncomes().getRequesterNetIncome();
+			this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome = request.getRequesterSpouseIncomes().getSpouseRealEstateInvestmentIncome();
 			this.requesterIncomesRequesterPensions = request.getRequesterIncomes().getRequesterPensions();
-			this.requesterIncomesRequesterInvestmentIncome = request.getRequesterIncomes().getRequesterInvestmentIncome();
+			this.requesterIncomesRequesterRealEstateInvestmentIncome = request.getRequesterIncomes().getRequesterRealEstateInvestmentIncome();
 			this.requesterIncomesRequesterAllowances = request.getRequesterIncomes().getRequesterAllowances();
 			this.requesterSpouseIncomesSpouseNetIncome = request.getRequesterSpouseIncomes().getSpouseNetIncome();
+			this.requesterIncomesRequesterFurnitureInvestmentIncome = request.getRequesterIncomes().getRequesterFurnitureInvestmentIncome();
 			this.requesterSpouseIncomesSpouseAllowances = request.getRequesterSpouseIncomes().getSpouseAllowances();
+			this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome = request.getRequesterSpouseIncomes().getSpouseFurnitureInvestmentIncome();
 		}
 	}
 	
@@ -51,13 +57,15 @@ public class Resources extends IStageForm {
 		if ((xmlbRequest != null) && (xmlbRequest instanceof DomesticHelpRequest)) {
 			DomesticHelpRequest request = (DomesticHelpRequest)xmlbRequest;
 			request.getRequesterSpouseIncomes().setSpousePensions(this.requesterSpouseIncomesSpousePensions);
-			request.getRequesterSpouseIncomes().setSpouseInvestmentIncome(this.requesterSpouseIncomesSpouseInvestmentIncome);
 			request.getRequesterIncomes().setRequesterNetIncome(this.requesterIncomesRequesterNetIncome);
+			request.getRequesterSpouseIncomes().setSpouseRealEstateInvestmentIncome(this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome);
 			request.getRequesterIncomes().setRequesterPensions(this.requesterIncomesRequesterPensions);
-			request.getRequesterIncomes().setRequesterInvestmentIncome(this.requesterIncomesRequesterInvestmentIncome);
+			request.getRequesterIncomes().setRequesterRealEstateInvestmentIncome(this.requesterIncomesRequesterRealEstateInvestmentIncome);
 			request.getRequesterIncomes().setRequesterAllowances(this.requesterIncomesRequesterAllowances);
 			request.getRequesterSpouseIncomes().setSpouseNetIncome(this.requesterSpouseIncomesSpouseNetIncome);
+			request.getRequesterIncomes().setRequesterFurnitureInvestmentIncome(this.requesterIncomesRequesterFurnitureInvestmentIncome);
 			request.getRequesterSpouseIncomes().setSpouseAllowances(this.requesterSpouseIncomesSpouseAllowances);
+			request.getRequesterSpouseIncomes().setSpouseFurnitureInvestmentIncome(this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome);
 		}
 	}
 	
@@ -77,18 +85,6 @@ public class Resources extends IStageForm {
 		return true;
 	}
 
-	public void setRequesterSpouseIncomesSpouseInvestmentIncome(java.math.BigInteger requesterSpouseIncomesSpouseInvestmentIncome) {
-		this.requesterSpouseIncomesSpouseInvestmentIncome = requesterSpouseIncomesSpouseInvestmentIncome;
-	}
-	
-	public java.math.BigInteger getRequesterSpouseIncomesSpouseInvestmentIncome() {
-		return this.requesterSpouseIncomesSpouseInvestmentIncome;
-	}
-	
-	public boolean checkRequesterSpouseIncomesSpouseInvestmentIncome() {
-		return true;
-	}
-
 	public void setRequesterIncomesRequesterNetIncome(java.math.BigInteger requesterIncomesRequesterNetIncome) {
 		this.requesterIncomesRequesterNetIncome = requesterIncomesRequesterNetIncome;
 	}
@@ -98,6 +94,18 @@ public class Resources extends IStageForm {
 	}
 	
 	public boolean checkRequesterIncomesRequesterNetIncome() {
+		return true;
+	}
+
+	public void setRequesterSpouseIncomesSpouseRealEstateInvestmentIncome(java.math.BigInteger requesterSpouseIncomesSpouseRealEstateInvestmentIncome) {
+		this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome = requesterSpouseIncomesSpouseRealEstateInvestmentIncome;
+	}
+	
+	public java.math.BigInteger getRequesterSpouseIncomesSpouseRealEstateInvestmentIncome() {
+		return this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome;
+	}
+	
+	public boolean checkRequesterSpouseIncomesSpouseRealEstateInvestmentIncome() {
 		return true;
 	}
 
@@ -113,15 +121,15 @@ public class Resources extends IStageForm {
 		return true;
 	}
 
-	public void setRequesterIncomesRequesterInvestmentIncome(java.math.BigInteger requesterIncomesRequesterInvestmentIncome) {
-		this.requesterIncomesRequesterInvestmentIncome = requesterIncomesRequesterInvestmentIncome;
+	public void setRequesterIncomesRequesterRealEstateInvestmentIncome(java.math.BigInteger requesterIncomesRequesterRealEstateInvestmentIncome) {
+		this.requesterIncomesRequesterRealEstateInvestmentIncome = requesterIncomesRequesterRealEstateInvestmentIncome;
 	}
 	
-	public java.math.BigInteger getRequesterIncomesRequesterInvestmentIncome() {
-		return this.requesterIncomesRequesterInvestmentIncome;
+	public java.math.BigInteger getRequesterIncomesRequesterRealEstateInvestmentIncome() {
+		return this.requesterIncomesRequesterRealEstateInvestmentIncome;
 	}
 	
-	public boolean checkRequesterIncomesRequesterInvestmentIncome() {
+	public boolean checkRequesterIncomesRequesterRealEstateInvestmentIncome() {
 		return true;
 	}
 
@@ -149,6 +157,18 @@ public class Resources extends IStageForm {
 		return true;
 	}
 
+	public void setRequesterIncomesRequesterFurnitureInvestmentIncome(java.math.BigInteger requesterIncomesRequesterFurnitureInvestmentIncome) {
+		this.requesterIncomesRequesterFurnitureInvestmentIncome = requesterIncomesRequesterFurnitureInvestmentIncome;
+	}
+	
+	public java.math.BigInteger getRequesterIncomesRequesterFurnitureInvestmentIncome() {
+		return this.requesterIncomesRequesterFurnitureInvestmentIncome;
+	}
+	
+	public boolean checkRequesterIncomesRequesterFurnitureInvestmentIncome() {
+		return true;
+	}
+
 	public void setRequesterSpouseIncomesSpouseAllowances(java.math.BigInteger requesterSpouseIncomesSpouseAllowances) {
 		this.requesterSpouseIncomesSpouseAllowances = requesterSpouseIncomesSpouseAllowances;
 	}
@@ -158,6 +178,18 @@ public class Resources extends IStageForm {
 	}
 	
 	public boolean checkRequesterSpouseIncomesSpouseAllowances() {
+		return true;
+	}
+
+	public void setRequesterSpouseIncomesSpouseFurnitureInvestmentIncome(java.math.BigInteger requesterSpouseIncomesSpouseFurnitureInvestmentIncome) {
+		this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome = requesterSpouseIncomesSpouseFurnitureInvestmentIncome;
+	}
+	
+	public java.math.BigInteger getRequesterSpouseIncomesSpouseFurnitureInvestmentIncome() {
+		return this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome;
+	}
+	
+	public boolean checkRequesterSpouseIncomesSpouseFurnitureInvestmentIncome() {
 		return true;
 	}
 

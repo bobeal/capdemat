@@ -1,20 +1,15 @@
 package fr.cg95.cvq.service.civil;
 
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.business.document.*;
+import fr.cg95.cvq.business.social.*;
 import fr.cg95.cvq.business.civil.*;
-import fr.cg95.cvq.business.document.DepositOrigin;
-import fr.cg95.cvq.business.document.DepositType;
-import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.civil.IBirthDetailsRequestService;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.civil.IBirthDetailsRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
@@ -50,36 +45,36 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
     protected BirthDetailsRequest fillMeARequest() throws CvqException {
 
         BirthDetailsRequest request = new BirthDetailsRequest();
-              request.setBirthFirstNames("BirthFirstNames");
+            request.setFormat(BirthCertificateFormatType.FULL_COPY);
                 request.setCopies(BigInteger.valueOf(1));
-                request.setMotherFirstNames("MotherFirstNames");
-                  if ("BirthLastName".length() > 38)
-        request.setBirthLastName("BirthLastName".substring(0, 38));
-      else
-        request.setBirthLastName("BirthLastName");
-                request.setComment("Comment");
-                request.setRequesterQualityPrecision("RequesterQualityPrecision");
-                  request.setMotive(BirthCertificateMotiveType.NOTARY_ACT);
-                  request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
-                  if ("FatherLastName".length() > 38)
-        request.setFatherLastName("FatherLastName".substring(0, 38));
-      else
-        request.setFatherLastName("FatherLastName");
-                  if ("BirthPostalCode".length() > 2)
+              if ("BirthPostalCode".length() > 2)
         request.setBirthPostalCode("BirthPostalCode".substring(0, 2));
       else
         request.setBirthPostalCode("BirthPostalCode");
+                request.setComment("Comment");
+                request.setBirthFirstNames("BirthFirstNames");
+                  request.setMotive(BirthCertificateMotiveType.NOTARY_ACT);
+                    request.setRequesterQualityPrecision("RequesterQualityPrecision");
+                request.setBirthDate(new Date());
+              request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
                   if ("BirthCity".length() > 32)
         request.setBirthCity("BirthCity".substring(0, 32));
       else
         request.setBirthCity("BirthCity");
-                request.setBirthDate(new Date());
-              if ("MotherMaidenName".length() > 38)
+                  if ("FatherLastName".length() > 38)
+        request.setFatherLastName("FatherLastName".substring(0, 38));
+      else
+        request.setFatherLastName("FatherLastName");
+                    request.setMotherFirstNames("MotherFirstNames");
+                    request.setFatherFirstNames("FatherFirstNames");
+                  if ("MotherMaidenName".length() > 38)
         request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
       else
         request.setMotherMaidenName("MotherMaidenName");
-                    request.setFatherFirstNames("FatherFirstNames");
-                  request.setFormat(BirthCertificateFormatType.FULL_COPY);
+                  if ("BirthLastName".length() > 38)
+        request.setBirthLastName("BirthLastName".substring(0, 38));
+      else
+        request.setBirthLastName("BirthLastName");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
@@ -98,7 +93,7 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
         ///////////////////////////////
 
         Document doc = new Document();
-        doc.setEcitizenNote("Ma carte d'identité !");
+        doc.setEcitizenNote("Ma carte d'identitÃ© !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
         doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));

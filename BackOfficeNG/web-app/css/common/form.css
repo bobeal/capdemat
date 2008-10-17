@@ -85,6 +85,47 @@ form.advanced-search .form-button {
 }
 
 
+/* Overrides for editable list form
+-------------------------------------------------------------- */
+form.editable-list-form {
+  margin: .5em 2em; padding: .5em;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background: #ffffff;
+  border: 1px dashed #FFD053;
+  clear: both; /* hack for tag alignment */
+  overflow : auto;
+}
+
+form.editable-list-form a:hover { background: transparent; cursor: pointer; }
+form.editable-list-form .error  { margin: 0; }
+
+form.editable-list-form label   { width: 20%; margin: .7em 0 .7em;  clear: both; }
+form.editable-list-form select,
+form.editable-list-form input   { float: left; margin: .5em 0 .5em 1%; }
+form.editable-list-form input.required { font-size: 1em; font-style: normal; }
+
+form.editable-list-form fieldset {
+  float: left;
+  width: 100%;
+  margin: .8em 0 ;
+  clear: both;
+  border: 1px dashed #FFD053; border-left: 0; border-right: 0;
+  background: #ffffca;
+}
+form.editable-list-form fieldset legend { font-size: 1.2em; color: #FFA000; }
+
+form.editable-list-form p.same-line                   { display: block; clear: both; margin: .5em; 0; }
+form.editable-list-form p.same-line input             { width: 25%; margin-left: 0; }
+form.editable-list-form p.same-line input.form-button { width: auto; margin: 1.5em 1em 0 0; }
+form.editable-list-form p.same-line label             { clear: none; }
+
+form.editable-list-form ul    { margin: .5em 0  0 21%; clear: both; overflow: auto; }
+form.editable-list-form ul li { width: 30%;  float: left; padding: .2em 0; border: 0; }
+form.editable-list-form ul li:hover { background: transparent !important; }
+form.editable-list-form ul li label { width: 66%; }
+
+
 /* Validation classes
 -------------------------------------------------------------- */
 /* for textboxes, textareas, passwords */

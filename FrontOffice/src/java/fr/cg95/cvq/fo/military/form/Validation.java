@@ -202,8 +202,14 @@ public class Validation extends IStageForm {
 		if (this.checkSubjectChildLastName() &&
 			((this.subjectChildLastName == null) || (this.subjectChildLastName.length() == 0)))
 			return false;
+		if (this.checkMotherBirthDate() && (this.motherBirthDate == null))
+			return false;
 		if (this.checkChildStatus() &&
 			((this.childStatus == null) || (this.childStatus.length() == 0)))
+			return false;
+		if (this.checkAliveChildren() && (this.aliveChildren == null))
+			return false;
+		if (this.checkChildrenInCharge() && (this.childrenInCharge == null))
 			return false;
 		if (this.checkChildCountry() &&
 			((this.childCountry == null) || (this.childCountry.length() == 0)))

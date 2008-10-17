@@ -5,22 +5,6 @@
       <ul class="confirm_list">
         <li class="text_row">
           <p class="label">            
-            Montant actions
-          </p>
-          <p class="text">
-            <cvqf:text name="capitalsSharesAmount" mode="static" maxlength="10"/>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">            
-            Montant obligations
-          </p>
-          <p class="text">
-            <cvqf:text name="capitalsBondsAmount" mode="static" maxlength="10"/>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">            
             Impôt sur le revenu
           </p>
           <p class="text">

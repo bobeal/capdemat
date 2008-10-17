@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/dhr"
-  xmlns:dhr="http://www.cg95.fr/cvq/schema/dhr" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" elementFormDefault="qualified"
+  xmlns:dhr="http://www.cg95.fr/cvq/schema/dhr" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified"
   attributeFormDefault="unqualified">
 
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
@@ -24,84 +26,69 @@
       <xs:appinfo>
         <model namespace="social" />
         <fo namespace="social.domestichelp">
-          <display field="Subject.Adult.LastName" stage="subject" page="subject" line="1"
-            mode="static" />
-          <display field="Subject.Adult.FirstName" stage="subject" page="subject" line="2"
-            mode="static" />
-          <display field="Subject.Adult.MaidenName" stage="subject" page="subject" line="3"
-            mode="static" />
-          <display field="Subject.Adult.BirthDate" stage="subject" page="subject" line="4"
-            label="Né(e) le" mode="static" />
-          <display field="Subject.Adult.BirthPlace.City" stage="subject" page="subject" line="5"
-            mode="static" />
+          <display field="Subject.Adult.Title" stage="subject" page="subject" line="1" mode="static" />
+          <display field="Subject.Adult.FamilyStatus" stage="subject" page="subject" line="2" mode="static" />
+          <display field="Subject.Adult.LastName" stage="subject" page="subject" line="3" mode="static" />
+          <display field="Subject.Adult.FirstName" stage="subject" page="subject" line="4" mode="static" />
+          <display field="Subject.Adult.MaidenName" stage="subject" page="subject" line="5" mode="static" />
+          <display field="Subject.Adult.BirthDate" stage="subject" page="subject" line="6" label="Né(e) le" mode="static" />
+          <display field="Subject.Adult.BirthPlace.City" stage="subject" page="subject" line="7" mode="static" />
+		  
+		  <display field="Subject.Adult.Title" stage="subject" page="display" line="1" mode="static" />
+          <display field="Subject.Adult.FamilyStatus" stage="subject" page="display" line="2" mode="static" />
+          <display field="Subject.Adult.LastName" stage="subject" page="display" line="3" mode="static" />
+          <display field="Subject.Adult.FirstName" stage="subject" page="display" line="4" mode="static" />
+          <display field="Subject.Adult.MaidenName" stage="subject" page="display" line="5" mode="static" />
+          <display field="Subject.Adult.BirthDate" stage="subject" page="display" line="6" label="Né(e) le" mode="static" />
+          <display field="Subject.Adult.BirthPlace.City" stage="subject" page="display" line="7" mode="static" />
 
-          <display field="Subject.Adult.LastName" stage="subject" page="display" line="1"
-            mode="static" />
-          <display field="Subject.Adult.FirstName" stage="subject" page="display" line="2"
-            mode="static" />
-          <display field="Subject.Adult.MaidenName" stage="subject" page="display" line="3"
-            mode="static" />
-          <display field="Subject.Adult.BirthDate" stage="subject" page="display" line="4"
-            label="Né(e) le" mode="static" />
-          <display field="Subject.Adult.BirthPlace.City" stage="subject" page="display" line="5"
-            mode="static" />
-
-          <display mode="labelonly" type="stagetitle" label="Subject" stage="validation"
-                 page="summary" line="0" />
-          <display field="Subject.Adult.LastName" stage="validation" page="summary" line="1"
-            mode="static" />
-          <display field="Subject.Adult.FirstName" stage="validation" page="summary" line="2"
-            mode="static" />
-          <display field="Subject.Adult.MaidenName" stage="validation" page="summary" line="3"
-            mode="static" />
-          <display field="Subject.Adult.BirthDate" stage="validation" page="summary" line="4"
-            label="Né(e) le" mode="static" />
-          <display field="Subject.Adult.BirthPlace.City" stage="validation" page="summary" line="5"
-            mode="static" />
+          <display mode="labelonly" label="Demandeur" stage="validation" page="summarysubject" line="200" />
+          <display field="Subject.Adult.Title" stage="validation" page="summarysubject" line="201" mode="static" />
+          <display field="Subject.Adult.FamilyStatus" stage="validation" page="summarysubject" line="202" mode="static" />
+          <display field="Subject.Adult.LastName" stage="validation" page="summarysubject" line="203" mode="static" />
+          <display field="Subject.Adult.FirstName" stage="validation" page="summarysubject" line="204" mode="static" />
+          <display field="Subject.Adult.MaidenName" stage="validation" page="summarysubject" line="205" mode="static" />
+          <display field="Subject.Adult.BirthDate" stage="validation" page="summarysubject" line="206" label="Né(e) le" mode="static" />
+          <display field="Subject.Adult.BirthPlace.City" stage="validation" page="summarysubject" line="207" mode="static" />
         </fo>
         <bo namespace="social">
-          <display mode="stagetitle" label="Informations administratives de la personne concernée" page="displaydomestichelp" line="0" />
-          <display field="Subject.Adult.LastName" page="displaydomestichelp" line="1" mode="static" />
-          <display field="Subject.Adult.FirstName" page="displaydomestichelp" line="2"
-            mode="static" />
-          <display field="Subject.Adult.MaidenName" page="displaydomestichelp" line="3"
-            mode="static" />
-          <display field="Subject.Adult.BirthDate" page="displaydomestichelp" line="4"
-            label="Né(e) le" mode="static" />
-          <display field="Subject.Adult.BirthPlace.City" method="Subject.Adult.BirthCity" page="displaydomestichelp" line="5"
+          <display mode="stagetitle" label="Demandeur" page="displaydomestichelp_subject" line="200" />
+          <display field="Subject.Adult.Title" page="displaydomestichelp_subject" line="201" mode="static" />
+          <display field="Subject.Adult.FamilyStatus" page="displaydomestichelp_subject" line="202" mode="static" />
+          <display field="Subject.Adult.LastName" page="displaydomestichelp_subject" line="203" mode="static" />
+          <display field="Subject.Adult.FirstName" page="displaydomestichelp_subject" line="204" mode="static" />
+          <display field="Subject.Adult.MaidenName" page="displaydomestichelp_subject" line="205" mode="static" />
+          <display field="Subject.Adult.BirthDate" page="displaydomestichelp_subject" line="206" label="Né(e) le" mode="static" />
+          <display field="Subject.Adult.BirthPlace.City" method="Subject.Adult.BirthCity" page="displaydomestichelp_subject" line="207"
             mode="static" />
 
-          <display field="Subject.Adult.LastName" page="checkdomestichelp" line="1" mode="static" />
-          <display field="Subject.Adult.FirstName" page="checkdomestichelp" line="2" mode="static" />
+          <display field="Subject.Adult.LastName" page="checkdomestichelp" line="201" mode="static" />
+          <display field="Subject.Adult.FirstName" page="checkdomestichelp" line="202" mode="static" />
 
-          <display field="Subject.Adult.LastName" page="printdomestichelp" line="1" mode="static" />
-          <display field="Subject.Adult.FirstName" page="printdomestichelp" line="2" mode="static" />
+          <display field="Subject.Adult.LastName" page="printdomestichelp" line="201" mode="static" />
+          <display field="Subject.Adult.FirstName" page="printdomestichelp" line="202" mode="static" />
         </bo>
         <xslfo>
           <blocks-def>
-            <block id="0" label="Informations administratives du demandeur" column="2" />
-            <block id="1" label="Informations administratives du conjoint" column="2" />
-            <block id="2" label="Habitation actuelle du demandeur" column="2" />
-            <block id="3" label="Habitation(s) antérieure(s) du demandeur" column="2" />
-            <block id="4" label="Situation du demandeur" column="2" />
-            <block id="5" label="Ressource du demandeur" column="2" />
-            <block id="6" label="Ressource du conjoint" column="2" />
-
-            <block id="7" label="Bien(s) immobilier(s) du foyer" column="2" />
-            <block id="8" label="Bien(s) partagé(s) et donation(s)" column="2" />
-            <block id="9" label="Biens(s) mobilier(s) et épargne(s) - Livrets et Comptes"
-              column="2" />
-            <block id="10" label="Biens mobiliers et épargnes - Capital placé" column="2" />
-            <block id="11" label="Montant des impositions" column="2" />
-
-            <block id="12" label="Charges mensuelles" column="2" />
-            <block id="13" label="Moyen de contact*" />
+          	<block id="0" label="Demande" column="2" />
+          	<block id="1" label="Référent du demandeur" column="2" />
+            <block id="2" label="Demandeur" column="2" />
+            <block id="3" label="Tuteur" column="2" />
+            <block id="4" label="Conjoint" column="2" displayCondition="//dhr:RequesterHasSpouse/text() = 'True'"/>
+            <block id="5" label="Habitation actuelle" column="2" />
+            <block id="6" label="Habitation(s) antérieure(s)" column="2" />
+            <block id="7" label="Ressources du demandeur" column="2" />
+            <block id="8" label="Ressources du conjoint" column="2" displayCondition="//dhr:RequesterHasSpouse/text() = 'True'"/>
+            <block id="9" label="Biens immobiliers" column="2" />
+            <block id="10" label="Biens partage, donation ou vente" column="2" />
+            <block id="11" label="Montant d'imposition" column="2" />
+            <block id="12" label="Moyen de contact*" />
           </blocks-def>
-          <element blockId="0" line="0" column="0" link="Requester">
+          <element blockId="2" line="0" column="0" link="Requester">
             <complexTemplate />
           </element>
-          <element blockId="13" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+          <element blockId="12" line="0" column="0" link="MeansOfContact"
+            prefixLabel="Comment souhaitez-vous être informé?">
             <complexTemplate />
           </element>
         </xslfo>
@@ -111,88 +98,72 @@
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
-          <xs:sequence>
-
-            <xs:element name="SocialSecurityNumber">
+          <xs:sequence>      
+			<xs:element name="RequesterRequestKind" type="dhr:DhrRequestKindType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Numéro de Sécurité Sociale
+                  Type de la demande
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Numéro de Sécurité Sociale
+                  Type de la demande
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-                    <display field="" stage="subject" page="subject" line="6" />
-                    <display field="" stage="subject" page="display" line="6" mode="static" />
-                    <display field="" stage="validation" page="summary" line="6" mode="static" />
+                  	<display field="" type="radiolist" stage="subject" page="requestkind" line="0" mode="inline"/>
+              		<display field="" type="radiolist" stage="subject" page="displayrequestkind" line="0" mode="static" />
+              		<display mode="labelonly" label="Demande" stage="validation" page="summaryrequestkind" line="0"/>
+              		<display field="" type="radiolist" stage="validation" page="summaryrequestkind" line="1" mode="static" />
+                  </fo>
+            	  <bo>
+            	  	<display mode="stagetitle" label="Demande" page="displaydomestichelp_requestkind" line="0" />
+              		<display field="" type="select" page="displaydomestichelp_requestkind" line="1" />
+            	  </bo>    
+                  <xslfo>
+                   <element blockId="0" line="0" column="0">
+		      			<varargCheckbox displayModulo="2"/>
+		    		</element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="RequesterFamilyReferent" type="dhr:RequesterFamilyReferentType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Référent du demandeur
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Référent du demandeur
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                  	 <display mode="labelonly" label="Référent du demandeur" stage="validation" page="summaryfamilyreferent" line="100" />       
                   </fo>
                   <bo>
-                    <display field="" page="displaydomestichelp" line="6" />
+                  	 <display mode="stagetitle" label="Référent du demandeur" page="displaydomestichelp_referent" line="100" />
                   </bo>
                   <xslfo>
-                    <element blockId="0" line="1" column="1">
-                      <string />
+                    <element blockId="1" line="0" column="0">
+                      <localComplexElement />
                     </element>
                   </xslfo>
                 </xs:appinfo>
               </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:length value="13" />
-                  <xs:pattern value="[0-9]{13}" />
-                </xs:restriction>
-              </xs:simpleType>
             </xs:element>
-
-            <xs:element name="SocialSecurityKeyNumber">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Clé du numéro de Sécurité Sociale
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Clé du numéro de Sécurité Sociale
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" stage="subject" page="subject" line="7" />
-                    <display field="" stage="subject" page="display" line="7" mode="static" />
-                    <display field="" stage="validation" page="summary" line="7" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaydomestichelp" line="7" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="0" line="1" column="2">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:length value="2" />
-                  <xs:pattern value="[0-9]{2}" />
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
-
+            
             <xs:element name="Nationality" type="cvq:NationalityType">
               <xs:annotation>
                 <xs:appinfo>
                   <model namespace="users" />
                   <fo>
                     <display field="" type="select" stage="subject" page="subject" line="8" />
-                    <display field="" type="select" stage="subject" page="display" line="8"
-                      mode="static" />
-                    <display field="" type="select" stage="validation" page="summary" line="8"
-                      mode="static" />
+                    <display field="" type="select" stage="subject" page="display" line="8" mode="static" />
+                    <display field="" type="select" stage="validation" page="summarysubject" line="208" mode="static" />
                   </fo>
                   <bo>
-                    <display field="" page="displaydomestichelp" line="8" />
+                    <display field="" type="select" page="displaydomestichelp_subject" line="208" />
                   </bo>
                   <xslfo>
-                    <element blockId="0" line="2" column="1">
+                    <element blockId="2" line="1" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -210,16 +181,15 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-                    <display field="" stage="subject" page="subject" line="9" block="NotFrench"
-                      condition="nationality != French" />
+                    <display field="" stage="subject" page="subject" line="9" block="OutsideEuropeanUnion" condition="nationality == OutsideEuropeanUnion" />
                     <display field="" stage="subject" page="display" line="9" mode="static" />
-                    <display field="" stage="validation" page="summary" line="9" mode="static" />
+                    <display field="" stage="validation" page="summarysubject" line="209" mode="static" />
                   </fo>
                   <bo>
-                    <display field="" page="displaydomestichelp" line="9" />
+                    <display field="" page="displaydomestichelp_subject" line="209" />
                   </bo>
                   <xslfo>
-                    <element blockId="0" line="3" column="1">
+                    <element blockId="2" line="2" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -227,32 +197,118 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="RequesterPensionPlan" type="dhr:DhrPensionPlanType" minOccurs="0">
+		 	<xs:element name="MoreThan15YearsInFrance" type="xs:boolean" default="false">
+		      <xs:annotation>
+		      	<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		            Je réside en France depuis plus de 15 ans de manière continue
+		        </xs:documentation>
+		        <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		            Je réside en France depuis plus de 15 ans de manière continue
+		        </xs:documentation>
+		         <xs:appinfo>
+		         <fo>
+                    <display field="" type="yesno" stage="subject" page="subject" line="10" block="OutsideEuropeanUnion" condition="nationality == OutsideEuropeanUnion" mode="inline"/>
+                    <display field="" type="yesno" stage="subject" page="display" line="10" mode="static" />
+                    <display field="" type="yesno" stage="validation" page="summarysubject" line="210" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaydomestichelp_subject" line="210" />
+                  </bo>
+		         	<xslfo>
+		              <element blockId="2" line="3" column="0">
+		                <yesnoCheckbox />
+		              </element>
+		            </xslfo>
+		          </xs:appinfo>
+		        </xs:annotation>
+		      </xs:element>
+            
+            <xs:element name="RequesterPensionPlan" type="dhr:DhrPensionPlanType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Régime retraite du demandeur
+                  Régime de retraite principal du demandeur
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Régime retraite du demandeur
+                  Régime de retraite principal
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-                    <display field="" label="Régime de retraite" type="select" stage="subject" page="subject" line="10" />
-                    <display field="" label="Régime de retraite" type="select" stage="subject" page="display" line="10"
-                      mode="static" />
-                    <display field="" label="Régime de retraite" type="select" stage="validation" page="summary" line="10"
-                      mode="static" />
+                    <display field=""  type="select" stage="subject" page="subject" line="11" />
+                    <display field=""  type="select" stage="subject" page="display" line="11" mode="static" />
+                    <display field=""  type="select" stage="validation" page="summarysubject" line="211" mode="static" />
                   </fo>
                   <bo>
-                    <display field="" type="select" page="displaydomestichelp" line="10" />
+                    <display field="" type="select" page="displaydomestichelp_subject" line="211" />
                   </bo>
                   <xslfo>
-                    <element blockId="0" line="4" column="0">
-                      <varargCheckbox displayModulo="2" />
+                    <element blockId="2" line="4" column="0" >
+                      <string />
                     </element>
                   </xslfo>
                 </xs:appinfo>
               </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="PensionPlanPrecision" >
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Précision si régime de retraite principal est Autre
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Préciser
+                </xs:documentation>
+                <xs:appinfo>
+                <fo>
+                    <display field="" stage="subject" page="subject" line="12" block="Other" condition="requesterPensionPlan == Other" />
+                    <display field="" stage="subject" page="display" line="12" mode="static" />
+                    <display field="" stage="validation" page="summarysubject" line="212" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaydomestichelp_subject" line="212" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="5" column="0" columnSpan="2">
+                      <string valueWeight="3"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+          		<xs:restriction base="xs:string">
+            	  <xs:maxLength value="50" />
+          		</xs:restriction>
+        		  </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="ComplementaryPensionPlanPrecision" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Régime de retraite complémentaire
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Régime de retraite complémentaire
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="subject" page="subject" line="13" />
+                    <display field="" stage="subject" page="display" line="13" mode="static" />
+                    <display field="" stage="validation" page="summarysubject" line="213" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaydomestichelp_subject" line="213" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="6" column="0" columnSpan="2">
+                      <string valueWeight="3"/>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+          		<xs:restriction base="xs:string">
+            		<xs:maxLength value="50" />
+          		</xs:restriction>
+        	  </xs:simpleType>
             </xs:element>
 
             <xs:element name="RequesterSpouse" type="dhr:RequesterSpouseType" minOccurs="0">
@@ -264,8 +320,14 @@
                   Informations administratives du conjoint
                 </xs:documentation>
                 <xs:appinfo>
+                  <fo>
+                  	<display mode="labelonly" label="Conjoint" stage="validation" page="summaryspouse" line="300" />
+                  </fo>
+                  <bo>
+                  	 <display mode="stagetitle" label="Conjoint" page="displaydomestichelp_spouse" line="300" />
+                  </bo>
                   <xslfo>
-                    <element blockId="1" line="0" column="0">
+                    <element blockId="4" line="0" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -282,8 +344,14 @@
                   Habitation actuelle
                 </xs:documentation>
                 <xs:appinfo>
+                  <fo>
+                  	<display mode="labelonly" label="Habitation actuelle" stage="validation" page="summarycurrentdwelling" line="400" />         
+                  </fo>
+                  <bo>
+                  	<display mode="stagetitle" label="Habitation actuelle" page="displaydomestichelp_currentdwelling" line="400" />
+                  </bo>
                   <xslfo>
-                    <element blockId="2" line="0" column="0">
+                    <element blockId="5" line="0" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -291,31 +359,45 @@
               </xs:annotation>
 
             </xs:element>
-
-            <xs:element name="PreviousDwellings" type="dhr:DhrPreviousDwellingType" minOccurs="0"
-              maxOccurs="unbounded">
+			  
+            <xs:element name="PreviousDwelling" type="dhr:DhrPreviousDwellingType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Habitation(s) antérieure(s) du demandeur
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Habitation(s) antérieure(s)
+                  Habitation(s)
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-					<display field="" type="javaOnly" stage="residence"/>
-                    <display type="list(residences)" stage="validation" page="summary" line="43" mode="static">
-		              <display field="PreviousDwellingAddress" line="43" mode="static" />
-              		  <display field="PreviousDwellingArrivalDate" line="46" mode="static" />
-              		  <display field="PreviousDwellingDepartureDate" line="47" mode="static" />
-                    </display>
+                  	 <display mode="labelonly" label="Habitation antérieure" stage="validation" page="summarypreviousdwelling" line="500"/>
                   </fo>
                   <bo>
-              		<display type="list" class="DhrPreviousDwellings" field="" page="displaydomestichelp" line="43" mode="static">
-		              <display field="PreviousDwellingAddress" line="43" mode="static" />
-              		  <display field="PreviousDwellingArrivalDate" line="46" mode="static" />
-              		  <display field="PreviousDwellingDepartureDate" line="47" mode="static" />
-                    </display>
+                  	<display mode="stagetitle" label="Habitation antérieure" page="displaydomestichelp_previousdwelling" line="500" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="6" line="0" column="0">
+                      <localComplexElement />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+			
+            <xs:element name="RequesterSituation" type="dhr:RequesterSituationType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Situation du demandeur
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Situation du demandeur
+                </xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                  	<display mode="labelonly" label="Tuteur" stage="validation" page="summarytutor" line="214" />
+                  </fo>
+                  <bo>
+                  	<display mode="stagetitle" label="Tuteur" page="displaydomestichelp_tutor" line="214" />
                   </bo>
                   <xslfo>
                     <element blockId="3" line="0" column="0">
@@ -325,25 +407,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-
-            <xs:element name="RequesterSituation" type="dhr:RequesterSituationType">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Situation du demandeur
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Situation du demandeur
-                </xs:documentation>
-                <xs:appinfo>
-                  <xslfo>
-                    <element blockId="4" line="0" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
+            
             <xs:element name="RequesterIncomes" type="dhr:RequesterIncomesType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -353,8 +417,14 @@
                   Ressources du demandeur
                 </xs:documentation>
                 <xs:appinfo>
+                  <fo>
+                  	<display mode="labelonly" label="Resources du demandeur" stage="validation" page="summarysubjectincomes" line="600"/>
+                  </fo>
+                  <bo>
+                  	<display mode="stagetitle" label="Ressources du demandeur" page="displaydomestichelp_requesterincomes" line="600" />
+                  </bo>
                   <xslfo>
-                    <element blockId="5" line="0" column="0">
+                    <element blockId="7" line="0" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -371,8 +441,14 @@
                   Ressources du conjoint
                 </xs:documentation>
                 <xs:appinfo>
+                  <fo>
+                  	<display mode="labelonly" label="Resources du conjoint" stage="validation" page="summaryspouseincomes" line="700"/>
+                  </fo>
+                  <bo>
+                  	 <display mode="stagetitle" label="Ressources du conjoint" page="displaydomestichelp_spouseincomes" line="700" />
+                  </bo>
                   <xslfo>
-                    <element blockId="6" line="0" column="0">
+                    <element blockId="8" line="0" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -387,33 +463,29 @@
                   Bien(s) immobilier(s) du foyer
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Bien(s) immobilier(s) du foyer
+                  Bien(s)
                 </xs:documentation>
 
                 <xs:appinfo>
                   <fo>
-                    <display mode="labelonly" type="stagetitle" label="Patrimony" stage="validation"
-                      page="summary" line="60" />
-                    <display type="list(assets)" stage="validation" page="summary" line="61"
+                    <display mode="labelonly" label="Biens immobiliers" stage="validation" page="summaryrealassets" line="800" />
+                    <display type="list(assets)" stage="validation" page="summaryrealassets" line="801"
                       mode="static">
-                      <display field="RealAssetAddress" line="61" mode="static" />
-                      <display field="RealAssetValue" line="64" mode="static" />
-                      <display field="RealAssetNetFloorArea" line="65" mode="static" />
-                      <display field="RealAssetCadastre" line="66" mode="static" />
+                      <display field="RealAssetAddress" line="802" mode="static" />
+                      <display field="RealAssetValue" line="803" mode="static" />
+                      <display field="RealAssetNetFloorArea" line="804" mode="static" />
                     </display>
                   </fo>
                   <bo>
-          			<display mode="stagetitle" label="Patrimoine - Immobiliers" page="displaydomestichelp" line="60" />
-                    <display field="" type="list" page="displaydomestichelp" line="61" class="DhrRealAssets"
-                      mode="static">
-                      <display field="RealAssetAddress" line="61" mode="static" />
-                      <display field="RealAssetValue" line="64" mode="static" />
-                      <display field="RealAssetNetFloorArea" line="65" mode="static" />
-                      <display field="RealAssetCadastre" line="66" mode="static" />
+          			<display mode="stagetitle" label="Biens Immobiliers" page="displaydomestichelp_realassets" line="800" />
+                    <display field="" type="list" page="displaydomestichelp_realassets" line="801" class="DhrRealAssets" mode="static">
+                      <display field="RealAssetAddress" line="802" mode="static" />
+                      <display field="RealAssetValue" line="803" mode="static" />
+                      <display field="RealAssetNetFloorArea" line="804" mode="static" />
                     </display>
                   </bo>
                   <xslfo>
-                    <element blockId="7" line="0" column="0">
+                    <element blockId="9" line="0" column="0">
                       <localComplexElement withTotal="true" />
                     </element>
                   </xslfo>
@@ -432,10 +504,10 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <bo>
-                    <display field="" page="displaydomestichelp" line="62" mode="static" />
+                    <display field="" page="displaydomestichelp_realassets" line="806" mode="static" />
                   </bo>
                   <xslfo>
-                    <element blockId="7" line="4" column="0">
+                    <element blockId="9" line="4" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -443,153 +515,77 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="Donations" type="dhr:DhrDonationType" minOccurs="0"
+            <xs:element name="NotRealAssets" type="dhr:DhrNotRealAssetType" minOccurs="0"
               maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Bien(s) partagé(s) et donation(s)
+                  Biens partage, donation ou vente 
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Bien(s) partagé(s) et donation(s)
+                  Biens partage, donation ou vente 
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-                    <display type="list(donation)" stage="validation" page="summary" line="71"
+                  	<display mode="labelonly" label="Biens partage, donation ou vente" stage="validation" page="summarynotrealassets" line="900" /> 
+                    <display type="list(notrealasset)" stage="validation" page="summarynotrealassets" line="901"
                       mode="static">
-                      <display field="DonationAsset" type="select" line="71" mode="static" />
-                      <display field="DonationAssetPlace" line="72" mode="static" />
-                      <display field="DonationBeneficiaryName" line="73" mode="static" />
-                      <display field="DonationBeneficiaryFirstName" line="74" mode="static" />
-                      <display field="DonationValue" line="75" mode="static" />
-                      <display field="DonationDate" line="76" mode="static" />
-                      <display field="DonationNotaryName" line="77" mode="static" />
-                      <display field="DonationNotaryFirstName" line="78" mode="static" />
-                      <display field="DonationNotaryAddress" line="79" mode="static" />
+                      <display field="AssetType" type="select" line="902" mode="static" />
+                      <display field="AssetKind" type="select" line="903" mode="static" />
+                      <display field="AssetAddress" line="904" mode="static" />
+                      <display field="AssetBeneficiaryName" line="905" mode="static" />
+                      <display field="AssetBeneficiaryFirstName" line="906" mode="static" />
+                      <display field="AssetBeneficiaryAddress" line="907" mode="static" />
+                      <display field="AssetValue" line="908" mode="static" />
+                      <display field="AssetDate" line="909" mode="static" />
+                      <display field="AssetNotaryName" line="910" mode="static" />
+                      <display field="AssetNotaryAddress" line="911" mode="static" />
                     </display>
                   </fo>
                   <bo>
-          			<display mode="stagetitle" label="Patrimoine - Donations" page="displaydomestichelp" line="70" />
-                    <display type="list"  class="DhrDonations" page="displaydomestichelp" line="71" mode="static">
-                      <display field="DonationAsset" type="select" line="71" mode="static" />
-                      <display field="DonationAssetPlace" line="72" mode="static" />
-                      <display field="DonationBeneficiaryName" line="73" mode="static" />
-                      <display field="DonationBeneficiaryFirstName" line="74" mode="static" />
-                      <display field="DonationValue" line="75" mode="static" />
-                      <display field="DonationDate" line="76" mode="static" />
-                      <display field="DonationNotaryName" line="77" mode="static" />
-                      <display field="DonationNotaryFirstName" line="78" mode="static" />
-                      <display field="DonationNotaryAddress" line="79" mode="static" />
-                    </display>
-                  </bo>
-                    <xslfo>
-                    <element blockId="8" line="0" column="0">
-                      <localComplexElement withTotal="true" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="DonationsValuesTotal" type="xs:positiveInteger" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Valeur totale des biens en donation
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Valeur totale des biens en donation
-                </xs:documentation>
-                <xs:appinfo>
-                  <bo>
-                    <display field="" page="displaydomestichelp" line="72" mode="static" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="8" line="7" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="Savings" type="dhr:DhrPersonalEstateAndSavingType" minOccurs="0"
-              maxOccurs="unbounded">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Biens(s) mobilier(s) et épargne(s) - Livrets et Compte
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Biens(s) mobilier(s) et épargne(s) - Livrets et Compte
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display type="list(savings)" stage="validation" page="summary" line="81"
-                      mode="static">
-                      <display field="PaybookNumber" line="81" mode="static" />
-                      <display field="PaybookAmount" line="82" mode="static" />
-                    </display>
-                  </fo>
-                  <bo>
-          			<display mode="stagetitle" label="Patrimoine - Epargne" page="displaydomestichelp" line="80" />
-                    <display type="list" class="DhrSavings" page="displaydomestichelp" line="81" mode="static">
-                      <display field="PaybookNumber" line="81" mode="static" />
-                      <display field="PaybookAmount" line="82" mode="static" />
+          			<display mode="stagetitle" label="Biens partage, donation ou vente" page="displaydomestichelp_notrealassets" line="900" />
+                    <display type="list" class="DhrNotRealAssets" page="displaydomestichelp_notrealassets" line="901"  mode="static">
+                      <display field="AssetType" type="select" line="901" mode="static" />
+                      <display field="AssetKind" type="select" line="902" mode="static" />
+                      <display field="AssetAddress" line="903" mode="static" />
+                      <display field="AssetBeneficiaryName" line="904" mode="static" />
+                      <display field="AssetBeneficiaryFirstName" line="905" mode="static" />
+                      <display field="AssetBeneficiaryAddress" line="906" mode="static" />
+                      <display field="AssetValue" line="907" mode="static" />
+                      <display field="AssetDate" line="908" mode="static"/>
+                      <display field="AssetNotaryName" line="909" mode="static" />
+                      <display field="AssetNotaryAddress" line="910" mode="static" />
                     </display>
                   </bo>
                   <xslfo>
-                    <element blockId="9" line="0" column="0">
-                      <localComplexElement withTotal="true" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="SavingsTotal" type="xs:positiveInteger" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Valeur totale des Livrets et Comptes
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Valeur totale des Livrets et Comptes
-                </xs:documentation>
-                <xs:appinfo>
-                  <bo>
-                    <display field="" page="displaydomestichelp" line="82" mode="static" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="9" line="2" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="Capitals" type="dhr:DhrPersonalEstateAndCapitalType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Biens mobiliers et épargnes - Capital placé
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Biens mobiliers et épargnes - Capital placé
-                </xs:documentation>
-		          <xs:appinfo>
-		            <fo>
-		       	      <display field="SharesAmount" stage="validation" page="summary" line="91" mode="static"/>
-		       	      <display field="BondsAmount" stage="validation" page="summary" line="92" mode="static"/>
-		            </fo>
-		            <bo>
-		  			  <display mode="stagetitle" label="Patrimoine - Capital et Taxes" page="displaydomestichelp" line="90" />
-		            </bo>
-                   <xslfo>
                     <element blockId="10" line="0" column="0">
-                      <localComplexElement />
+                      <localComplexElement withTotal="true" />
                     </element>
                   </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
+            <xs:element name="NotRealAssetsValuesTotal" type="xs:positiveInteger" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Valeur totale des biens en donation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Valeur totale des biens en donation
+                </xs:documentation>
+                <xs:appinfo>
+                  <bo>
+                    <display field="" page="displaydomestichelp_notrealassets" line="911" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="10" line="8" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
             <xs:element name="TaxesAmount" type="dhr:TaxesAmountType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -599,6 +595,12 @@
                   Montant des impositions
                 </xs:documentation>
                 <xs:appinfo>
+                  <fo>
+                  	<display mode="labelonly" type="stagetitle" label="Capitaltaxes" stage="validation" page="summarytaxesAmount" line="1000" />
+                  </fo>
+                  <bo>
+                  	<display mode="stagetitle" label="Montant d'imposition" page="displaydomestichelp_taxesamount" line="1000" />
+                  </bo>
                   <xslfo>
                     <element blockId="11" line="0" column="0">
                       <localComplexElement />
@@ -607,25 +609,25 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-
-            <xs:element name="MensualExpenses" type="dhr:MensualExpensesType" minOccurs="0">
+            
+            <xs:element name="RequesterHasSpouse" type="dhr:DhrRequesterHasSpouse">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Charges mensuelles
+                  Variable permettant de savoir si le demandeur possede un conjoint
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Charges mensuelles
+                  Variable permettant de savoir si le demandeur possede un conjoint
                 </xs:documentation>
                 <xs:appinfo>
-                  <xslfo>
-                    <element blockId="12" line="0" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <fo>
+                    <display field=""  type="javaOnly" stage="validation" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaydomestichelp_condition" line="0" />
+                  </bo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-
           </xs:sequence>
         </xs:extension>
       </xs:complexContent>
@@ -642,11 +644,21 @@
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="CRAMIF" value="CRAMIF" />
+        <enum key="CNAV" value="CNAV" />
+        <enum key="MSA" value="MSA" />
+        <enum key="CRAM" value="CRAM" />
+        <enum key="MGEN" value="MGEN" />
+        <enum key="SNCF" value="SNCF" />
         <enum key="Other" value="Autre" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="CRAMIF" />
+      <xs:enumeration value="CNAV" />
+      <xs:enumeration value="MSA" />
+      <xs:enumeration value="CRAM" />
+      <xs:enumeration value="MGEN" />
+      <xs:enumeration value="SNCF" />
       <xs:enumeration value="Other" />
     </xs:restriction>
   </xs:simpleType>
@@ -665,113 +677,52 @@
           <xs:appinfo>
             <model namespace="users" />
             <fo>
-              <display field="LastName" stage="subject" page="spouse" line="1" mode="static" />
-              <display field="FirstName" stage="subject" page="spouse" line="2" mode="static" />
-              <display field="MaidenName" stage="subject" page="spouse" line="3" mode="static" />
-              <display field="BirthDate" stage="subject" page="spouse" line="4" label="Né(e) le"
+              <display field="Title" stage="subject" page="spouse" line="1" mode="static" />
+              <display field="FamilyStatus" stage="subject" page="spouse" line="2" mode="static" />
+              <display field="LastName" stage="subject" page="spouse" line="3" mode="static" />
+              <display field="FirstName" stage="subject" page="spouse" line="4" mode="static" />
+              <display field="MaidenName" stage="subject" page="spouse" line="5" mode="static" />
+              <display field="BirthDate" stage="subject" page="spouse" line="6" label="Né(e) le"
                 mode="static" />
-              <display field="BirthPlace.City" stage="subject" page="spouse" line="5" mode="static" />
+              <display field="BirthPlace.City" stage="subject" page="spouse" line="7" mode="static" />
 
-              <display field="LastName" stage="subject" page="displayspouse" line="1" mode="static" />
-              <display field="FirstName" stage="subject" page="displayspouse" line="2"
-                mode="static" />
-              <display field="MaidenName" stage="subject" page="displayspouse" line="3"
-                mode="static" />
-              <display field="BirthDate" stage="subject" page="displayspouse" line="4"
-                label="Né(e) le" mode="static" />
-              <display field="BirthPlace.City" stage="subject" page="displayspouse" line="5"
-                mode="static" />
-
-              <display field="LastName" stage="validation" page="summary" line="11" mode="static" />
-              <display field="FirstName" stage="validation" page="summary" line="12" mode="static" />
-              <display field="MaidenName" stage="validation" page="summary" line="13" mode="static" />
-              <display field="BirthDate" stage="validation" page="summary" line="14"
-                label="Né(e) le" mode="static" />
-              <display field="BirthPlace.City" stage="validation" page="summary" line="15"
-                mode="static" />
+              <display field="Title" stage="subject" page="displayspouse" line="1" mode="static" />
+              <display field="FamilyStatus" stage="subject" page="displayspouse" line="2" mode="static" />
+              <display field="LastName" stage="subject" page="displayspouse" line="3" mode="static" />
+              <display field="FirstName" stage="subject" page="displayspouse" line="4" mode="static" />
+              <display field="MaidenName" stage="subject" page="displayspouse" line="5" mode="static" />
+              <display field="BirthDate" stage="subject" page="displayspouse" line="6" label="Né(e) le" mode="static" />
+              <display field="BirthPlace.City" stage="subject" page="displayspouse" line="7" mode="static" />
+			  
+			  <display field="Title" stage="validation" page="summaryspouse" line="301" mode="static" />
+              <display field="FamilyStatus" stage="validation" page="summaryspouse" line="302" mode="static" />
+              <display field="LastName" stage="validation" page="summaryspouse" line="303" mode="static" />
+              <display field="FirstName" stage="validation" page="summaryspouse" line="304" mode="static" />
+              <display field="MaidenName" stage="validation" page="summaryspouse" line="305" mode="static" />
+              <display field="BirthDate" stage="validation" page="summaryspouse" line="306" label="Né(e) le" mode="static" />
+              <display field="BirthPlace.City" stage="validation" page="summaryspouse" line="307" mode="static" />
             </fo>
             <bo>
-          	  <display mode="stagetitle" label="Informations administratives du conjoint" page="displaydomestichelp" line="10" />
-              <display field="LastName" page="displaydomestichelp" line="11" mode="static" />
-              <display field="FirstName" page="displaydomestichelp" line="12" mode="static" />
-              <display field="MaidenName" page="displaydomestichelp" line="13" mode="static" />
-              <display field="BirthDate" page="displaydomestichelp" line="14" label="Né(e) le"
+          	  <!--  
+          	  <display field="Title" page="displaydomestichelp" line="301" mode="static" />
+              <display field="FamilyStatus" page="displaydomestichelp" line="302" mode="static" />
+              -->
+              <display field="LastName" page="displaydomestichelp_spouse" line="303" mode="static" />
+              <display field="FirstName" page="displaydomestichelp_spouse" line="304" mode="static" />
+              <display field="MaidenName" page="displaydomestichelp_spouse" line="305" mode="static" />
+			  <display field="BirthDate" page="displaydomestichelp_spouse" line="306" label="Né(e) le"
                 mode="static" />
-              <display field="BirthPlace.City" method="BirthCity" page="displaydomestichelp" line="15" mode="static" />
+              <display field="BirthPlace.City" method="BirthCity" page="displaydomestichelp_spouse" line="307" mode="static" />
+           	 
             </bo>
             <xslfo>
-              <element blockId="1" line="1" column="0">
+              <element blockId="4" line="1" column="0">
                 <complexTemplate />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
-      <xs:element name="SpouseSocialSecurityNumber">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Numéro de sécurité sociale du conjoint
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Numéro de sécurité sociale
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="subject" page="spouse" line="6" />
-              <display field="" stage="subject" page="displayspouse" line="6" mode="static" />
-              <display field="" stage="validation" page="summary" line="16" mode="static" />
-            </fo>
-            <bo>
-              <display field="" page="displaydomestichelp" line="16" />
-            </bo>
-            <xslfo>
-              <element blockId="1" line="2" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:length value="13" />
-            <xs:pattern value="[0-9]{13}" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:element>
-
-      <xs:element name="SpouseSocialSecurityKeyNumber">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Clé de numéro de sécurité sociale du conjoint
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Clé de numéro de sécurité sociale
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="subject" page="spouse" line="7" />
-              <display field="" stage="subject" page="displayspouse" line="7" mode="static" />
-              <display field="" stage="validation" page="summary" line="17" mode="static" />
-            </fo>
-            <bo>
-              <display field="" page="displaydomestichelp" line="17" />
-            </bo>
-            <xslfo>
-              <element blockId="1" line="2" column="1">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:length value="2" />
-            <xs:pattern value="[0-9]{2}" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:element>
-
       <xs:element name="SpouseNationality" type="cvq:NationalityType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -784,16 +735,15 @@
             <model namespace="users" />
             <fo>
               <display field="" type="select" stage="subject" page="spouse" line="8" />
-              <display field="" type="select" stage="subject" page="displayspouse" line="8"
-                mode="static" />
-              <display field="" type="select" stage="validation" page="summary" line="18"
+              <display field="" type="select" stage="subject" page="displayspouse" line="8" mode="static" />
+              <display field="" type="select" stage="validation" page="summaryspouse" line="308"
                 mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="18" />
+              <display field="" page="displaydomestichelp_spouse" line="308" />
             </bo>
             <xslfo>
-              <element blockId="1" line="3" column="0">
+              <element blockId="4" line="3" column="0">
                 <string />
               </element>
             </xslfo>
@@ -811,22 +761,48 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="subject" page="spouse" line="9" block="NotFrench"
-                condition="requesterSpouseSpouseNationality != French" />
+              <display field="" stage="subject" page="spouse" line="9" block="OutsideEuropeanUnion" condition="requesterSpouseSpouseNationality == OutsideEuropeanUnion"/>
               <display field="" stage="subject" page="displayspouse" line="9" mode="static" />
-              <display field="" stage="validation" page="summary" line="19" mode="static" />
+              <display field="" stage="validation" page="summaryspouse" line="309" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="19" />
+              <display field="" page="displaydomestichelp_spouse" line="309" />
             </bo>
             <xslfo>
-              <element blockId="1" line="4" column="0">
+              <element blockId="4" line="4" column="0">
                 <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
+
+      
+      <xs:element name="SpouseMoreThan15YearsInFrance" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		    Je réside en France depuis plus de 15 ans de manière continue
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		    Je réside en France depuis plus de 15 ans de manière continue
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" type="yesno" stage="subject" page="spouse" line="10" mode="inline" block="OutsideEuropeanUnion" condition="requesterSpouseSpouseNationality == OutsideEuropeanUnion"/>
+              <display field="" type="yesno" stage="subject" page="displayspouse" line="10" mode="static" />
+              <display field="" type="yesno" stage="validation" page="summaryspouse" line="310" mode="static" />
+            </fo>
+            <bo>
+              <display field="" type="yesno" page="displaydomestichelp_spouse" line="310" />
+            </bo>
+            <xslfo>
+		     <element blockId="4" line="5" column="0">
+		        <yesnoCheckbox />
+		      </element>
+		    </xslfo>
+		  </xs:appinfo>
+		</xs:annotation>
+	  </xs:element>
 
       <xs:element name="SpousePensionner" type="xs:boolean">
         <xs:annotation>
@@ -838,17 +814,15 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" type="yesno" stage="subject" page="spouse" line="10" mode="inline" />
-              <display field="" type="yesno" stage="subject" page="displayspouse" line="10"
-                mode="static" />
-              <display field="" type="yesno" stage="validation" page="summary" line="20"
-                mode="static" />
+              <display field="" type="yesno" stage="subject" page="spouse" line="11" mode="inline" />
+              <display field="" type="yesno" stage="subject" page="displayspouse" line="11" mode="static" />
+              <display field="" type="yesno" stage="validation" page="summaryspouse" line="311" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="20" />
+              <display field="" type="yesno" page="displaydomestichelp_spouse" line="311" />
             </bo>
             <xslfo>
-              <element blockId="1" line="5" column="0">
+              <element blockId="4" line="6" column="0">
                 <yesnoCheckbox />
               </element>
             </xslfo>
@@ -859,33 +833,92 @@
       <xs:element name="SpousePensionPlan" type="dhr:DhrPensionPlanType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Régime retraite du conjoint
+            Régime de retraite principal du conjoint
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Régime retraite
+            Régime de retraite principal
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" type="select" stage="subject" page="spouse" line="11" block="Oui"
-                condition="requesterSpouseSpousePensionner" />
-              <display field="" type="select" stage="subject" page="displayspouse" line="11"
-                mode="static" />
-              <display field="" type="select" stage="validation" page="summary" line="21"
-                mode="static" />
+              <display field="" type="select" stage="subject" page="spouse" line="12" block="Oui" condition="requesterSpouseSpousePensionner" />
+              <display field="" type="select" stage="subject" page="displayspouse" line="12" mode="static" />
+              <display field="" type="select" stage="validation" page="summaryspouse" line="312" mode="static" />
             </fo>
             <bo>
-              <display field="" type="select" page="displaydomestichelp" line="21" />
+              <display field="" type="select" page="displaydomestichelp_spouse" line="312" />
             </bo>
             <xslfo>
-              <element blockId="1" line="5" column="1">
-                <varargCheckbox displayModulo="2" />
+              <element blockId="4" line="7" column="1" columnSpan="2">
+                <string valueWeight="3"/>
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
+      
+      <xs:element name="SpousePensionPlanPrecision" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Précision si régime de retraite principal est 'Autre'
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+          <fo>
+              <display field="" stage="subject" page="spouse" line="13" mode="inline" block="Other" condition="requesterSpouseSpousePensionPlan == Other"/>
+              <display field="" stage="subject" page="displayspouse" line="13" mode="static" />
+              <display field="" stage="validation" page="summaryspouse" line="313" mode="static" />
+            </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_spouse" line="313" />
+            </bo>
+          	<xslfo>
+              <element blockId="4" line="8" column="1">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+          
+      <xs:element name="SpouseComplementaryPensionPlanPrecision" minOccurs="0">
+      	<xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Régime de retraite complémentaire
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+          	Régime de retraite complémentaire
+          </xs:documentation>
+          <xs:appinfo>
+          <fo>
+              <display field="" stage="subject" page="spouse" line="14" mode="inline" block="Oui2" condition="requesterSpouseSpousePensionner"/>
+              <display field="" stage="subject" page="displayspouse" line="14" mode="static" />
+              <display field="" stage="validation" page="summaryspouse" line="314" mode="static" />
+            </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_spouse" line="314" />
+            </bo>
+          	<xslfo>
+              <element blockId="4" line="9" column="1">
+           		<string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+		 <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
 
-      <xs:element name="SpouseOccupation" minOccurs="0">
+      <xs:element name="SpouseOccupation" >
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Profession du conjoint
@@ -895,16 +928,16 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="subject" page="spouse" line="12" block="Non"
+              <display field="" stage="subject" page="spouse" line="15" block="Non"
                 condition="!requesterSpouseSpousePensionner" />
-              <display field="" stage="subject" page="displayspouse" line="12" mode="static" />
-              <display field="" stage="validation" page="summary" line="22" mode="static" />
+              <display field="" stage="subject" page="displayspouse" line="15" mode="static" />
+              <display field="" stage="validation" page="summaryspouse" line="315" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="22" />
+              <display field="" page="displaydomestichelp_spouse" line="315" />
             </bo>
             <xslfo>
-              <element blockId="1" line="6" column="0">
+              <element blockId="4" line="10" column="0">
                 <string />
               </element>
             </xslfo>
@@ -917,7 +950,7 @@
         </xs:simpleType>
       </xs:element>
 
-      <xs:element name="SpouseEmployer" minOccurs="0">
+      <xs:element name="SpouseEmployer" >
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Employeur du conjoint
@@ -927,16 +960,16 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="subject" page="spouse" line="13" block="Non"
+              <display field="" stage="subject" page="spouse" line="16" block="Non"
                 condition="!requesterSpouseSpousePensionner" />
-              <display field="" stage="subject" page="displayspouse" line="13" mode="static" />
-              <display field="" stage="validation" page="summary" line="23" mode="static" />
+              <display field="" stage="subject" page="displayspouse" line="16" mode="static" />
+              <display field="" stage="validation" page="summaryspouse" line="316" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="23" />
+              <display field="" page="displaydomestichelp_spouse" line="316" />
             </bo>
             <xslfo>
-              <element blockId="1" line="7" column="0">
+              <element blockId="4" line="11" column="0">
                 <string />
               </element>
             </xslfo>
@@ -949,7 +982,7 @@
         </xs:simpleType>
       </xs:element>
 
-      <xs:element name="SpouseEmployerAddress" type="cvq:AddressType" minOccurs="0">
+      <xs:element name="SpouseEmployerAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Adresse de l'employeur du conjoint
@@ -960,18 +993,16 @@
           <xs:appinfo>
             <model namespace="users" isTiedToRequest="true" />
             <fo>
-              <display field="" stage="subject" page="spouse" line="14"
+              <display field="" stage="subject" page="spouse" line="17"
                 block="Non" condition="!requesterSpouseSpousePensionner" />
-
-              <display field="" stage="subject" page="displayspouse" line="14" mode="static" />
-
-              <display field="" stage="validation" page="summary" line="24" mode="static" />
+              <display field="" stage="subject" page="displayspouse" line="17" mode="static" />
+              <display field="" stage="validation" page="summaryspouse" line="317" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="24" />
+              <display field="" page="displaydomestichelp_spouse" line="317" />
             </bo>
             <xslfo>
-              <element blockId="1" line="7" column="1">
+              <element blockId="4" line="12" column="1">
                 <string />
               </element>
             </xslfo>
@@ -985,10 +1016,10 @@
   <xs:simpleType name="DhrDwellingType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Nature de la résidence
+        Nature de l'habitation
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Nature de la résidence
+        Nature de l'habitation 
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="Domicile" value="Domicile" />
@@ -1025,9 +1056,8 @@
   </xs:simpleType>
 
   <xs:complexType name="CurrentDwellingType">
-    <xs:sequence>
-
-      <xs:element name="CurrentDwellingAddress" type="cvq:AddressType" minOccurs="0">
+    <xs:sequence> 
+      <xs:element name="CurrentDwellingAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Adresse de la résidence actuelle
@@ -1036,60 +1066,78 @@
             Adresse
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users" />
+            <model namespace="users" isTiedToRequest="true"/>
             <fo>
 			  <display mode="labelonly" label="Indication sur l'habitation de la personne concernée" 
-				stage="residence" page="current" line="0"/>
-              <display field="" stage="residence" page="current" line="1" />
-
-              <display field="" stage="residence" page="display" line="1" mode="static" />
-
-              <display mode="labelonly" type="stagetitle" label="Residence" stage="validation"
-                page="summary" line="30" />
-              <display field="" stage="validation" page="summary" line="35" mode="static" />
+				stage="residences" page="current" line="0"/>
+              <display field="" stage="residences" page="current" line="1" />
+              <display field="" stage="residences" page="display" line="1" mode="static" />
+              <display field="" stage="validation" page="summarycurrentdwelling" line="401" mode="static" />
             </fo>
             <bo>
-          	  <display mode="stagetitle" label="Habitation" page="displaydomestichelp" line="35" />
-              <display field="" page="displaydomestichelp" line="36" />
+              <display field="" page="displaydomestichelp_currentdwelling" line="401" />
             </bo>
             <xslfo>
-              <element blockId="2" line="0" column="0">
+              <element blockId="5" line="0" column="0">
                 <complexTemplate />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
-      <xs:element name="CurrentDwellingType" type="dhr:DhrDwellingType" minOccurs="0">
+      <xs:element name="CurrentDwellingPersonalPhone" type="cvq:PhoneType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nature de la résidence actuelle
+            Téléphone personnel de la résidence actuelle
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nature de la résidence
+            Téléphone personnel
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" type="select" stage="residence" page="current" line="5" />
-              <display field="" type="select" stage="residence" page="display" line="5"
-                mode="static" />
-              <display field="" type="select" stage="validation" page="summary" line="38"
-                mode="static" />
+              <display field="" stage="residences" page="current" line="2" />
+              <display field="" stage="residences" page="display" line="2" mode="static" />
+              <display field="" stage="validation" page="summarycurrentdwelling" line="402" mode="static" />
             </fo>
             <bo>
-              <display field="" type="select" page="displaydomestichelp" line="38" />
+              <display field="" type="select" page="displaydomestichelp_currentdwelling" line="402" />
             </bo>
             <xslfo>
-              <element blockId="2" line="1" column="0">
+              <element blockId="5" line="1" column="0">
                 <string />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
-      <xs:element name="CurrentDwellingArrivalDate" type="xs:date" minOccurs="0">
+	 
+      <xs:element name="CurrentDwellingType" type="dhr:DhrDwellingType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nature de l'habitation actuelle
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nature de l'habitation
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" type="select" stage="residences" page="current" line="3" />
+              <display field="" type="select" stage="residences" page="display" line="3" mode="static" />
+              <display field="" type="select" stage="validation" page="summarycurrentdwelling" line="403" mode="static" />
+            </fo>
+            <bo>
+              <display field="" type="select" page="displaydomestichelp_currentdwelling" line="403" />
+            </bo>
+            <xslfo>
+              <element blockId="5" line="1" column="0">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="CurrentDwellingArrivalDate" type="xs:date">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Date d'arrivée dans la résidence actuelle
@@ -1099,23 +1147,23 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="residence" page="current" line="6" />
-              <display field="" stage="residence" page="display" line="6" mode="static" />
-              <display field="" stage="validation" page="summary" line="39" mode="static" />
+              <display field="" stage="residences" page="current" line="4" />
+              <display field="" stage="residences" page="display" line="4" mode="static" />
+              <display field="" stage="validation" page="summarycurrentdwelling" line="404" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="39" />
+              <display field="" page="displaydomestichelp_currentdwelling" line="404" />
             </bo>
             <xslfo>
-              <element blockId="2" line="1" column="1">
+              <element blockId="5" line="1" column="1">
                 <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
-      <xs:element name="CurrentDwellingStatus" type="dhr:DhrDwellingStatusType" minOccurs="0">
+	   
+      <xs:element name="CurrentDwellingStatus" type="dhr:DhrDwellingStatusType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Statut de l'habitation actuelle
@@ -1125,18 +1173,16 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" type="select" stage="residence" page="current" line="7"
-                block="Domicile" condition="currentDwellingCurrentDwellingType != Domicile" />
-              <display field="" type="select" stage="residence" page="display" line="7"
-                mode="static" />
-              <display field="" type="select" stage="validation" page="summary" line="40"
-                mode="static" />
+              <display field="" type="select" stage="residences" page="current" line="5"
+                block="Domicile" condition="currentDwellingCurrentDwellingType == Domicile" />
+              <display field="" type="select" stage="residences" page="display" line="5" mode="static" />
+              <display field="" type="select" stage="validation" page="summarycurrentdwelling" line="405" mode="static" />
             </fo>
             <bo>
-              <display field="" type="select" page="displaydomestichelp" line="40" />
+              <display field="" type="select" page="displaydomestichelp_currentdwelling" line="405" />
             </bo>
             <xslfo>
-              <element blockId="2" line="2" column="0">
+              <element blockId="5" line="2" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1144,7 +1190,7 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="CurrentDwellingRoomNumber" type="xs:positiveInteger" minOccurs="0">
+      <xs:element name="CurrentDwellingRoomNumber" type="xs:positiveInteger">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Nombre de pièces de la résidence actuelle
@@ -1154,16 +1200,16 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="residence" page="current" line="8" block="Domicile"
-                condition="currentDwellingCurrentDwellingType != Domicile" />
-              <display field="" stage="residence" page="display" line="8" mode="static" />
-              <display field="" stage="validation" page="summary" line="41" mode="static" />
+              <display field="" stage="residences" page="current" line="6" block="Domicile"
+                condition="currentDwellingCurrentDwellingType == Domicile" />
+              <display field="" stage="residences" page="display" line="6" mode="static" />
+              <display field="" stage="validation" page="summarycurrentdwelling" line="406" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="41" />
+              <display field="" page="displaydomestichelp_currentdwelling" line="406" />
             </bo>
             <xslfo>
-              <element blockId="2" line="3" column="0">
+              <element blockId="5" line="3" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1171,7 +1217,7 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="CurrentDwellingNetFloorArea" type="xs:positiveInteger" minOccurs="0">
+      <xs:element name="CurrentDwellingNetFloorArea" type="xs:positiveInteger">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Surface habitable de la résidence actuelle
@@ -1181,33 +1227,31 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="residence" page="current" line="9" block="Domicile"
-                condition="currentDwellingCurrentDwellingType != Domicile" />
-              <display field="" stage="residence" page="display" line="9" mode="static" />
-              <display field="" stage="validation" page="summary" line="42" mode="static" />
+              <display field="" stage="residences" page="current" line="7" block="Domicile"
+                condition="currentDwellingCurrentDwellingType == Domicile" />
+              <display field="" stage="residences" page="display" line="7" mode="static" />
+              <display field="" stage="validation" page="summarycurrentdwelling" line="407" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="42" />
+              <display field="" page="displaydomestichelp_currentdwelling" line="407" />
             </bo>
             <xslfo>
-              <element blockId="2" line="3" column="1">
+              <element blockId="5" line="3" column="1">
                 <string />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="DhrPreviousDwellingType">
-    <xs:sequence>
-
-      <xs:element name="PreviousDwellingAddress" type="cvq:AddressType" minOccurs="0">
+    <xs:sequence>  
+      <xs:element name="PreviousDwellingAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse de l'habitation antérieure
+            Adresse de l'habitation anterieure
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Adresse
@@ -1215,21 +1259,22 @@
           <xs:appinfo>
             <model namespace="users" isTiedToRequest="true" />
             <fo>
-              <display field="" stage="previousresidence" page="previous" line="1" />
-
-              <display field="" stage="previousresidence" page="displayprevious" line="1"
-                mode="static" />
+              <display field="" stage="residences" page="previous" line="1" condition="false" />
+              <display field="" stage="residences" page="displayprevious" line="1" mode="static" />
+              <display field="" stage="validation" page="summarypreviousdwelling" line="501" mode="static" />          
             </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_previousdwelling" line="501" />
+            </bo>
             <xslfo>
-              <element blockId="3" line="0" column="0">
-                <complexTemplate />
+              <element blockId="6" line="1" column="0" columnSpan="2">
+                <string valueWeight="3"/>
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
-      </xs:element>
-
-      <xs:element name="PreviousDwellingArrivalDate" type="xs:date" minOccurs="0">
+      </xs:element>  
+      <xs:element name="PreviousDwellingArrivalDate" type="xs:date">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Date d'arrivée
@@ -1239,19 +1284,22 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="previousresidence" page="previous" line="4" />
-              <display field="" stage="previousresidence" page="displayprevious" line="4" mode="static" />
+              <display field="" stage="residences" page="previous" line="2" condition="false" />
+              <display field="" stage="residences" page="displayprevious" line="2" mode="static" />
+              <display field="" stage="validation" page="summarypreviousdwelling" line="502" mode="static" />
             </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_previousdwelling" line="502" />
+            </bo>
             <xslfo>
-              <element blockId="3" line="1" column="0">
+              <element blockId="6" line="2" column="0">
                 <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
-      <xs:element name="PreviousDwellingDepartureDate" type="xs:date" minOccurs="0">
+      <xs:element name="PreviousDwellingDepartureDate" type="xs:date">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Date de départ
@@ -1261,18 +1309,21 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="previousresidence" page="previous" line="5" />
-              <display field="" stage="previousresidence" page="displayprevious" line="5" mode="static" />
+              <display field="" stage="residences" page="previous" line="3" condition="false" />
+              <display field="" stage="residences" page="displayprevious" line="3" mode="static" />
+              <display field="" stage="validation" page="summarypreviousdwelling" line="503" mode="static" />
             </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_previousdwelling" line="503" />
+            </bo>
             <xslfo>
-              <element blockId="3" line="1" column="1">
+              <element blockId="6" line="3" column="1">
                 <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
     </xs:sequence>
   </xs:complexType>
 
@@ -1306,21 +1357,19 @@
             Présence d'un tuteur
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Présence d'un tuteur
+            Présence tuteur
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" type="yesno" stage="subject" page="subject" line="11" mode="inline" />
-              <display field="" type="yesno" stage="subject" page="display" line="11" mode="static" />
-              <display field="" type="yesno" stage="validation" page="summary" line="27"
-                mode="static" />
+              <display field="" type="yesno" stage="subject" page="subject" line="14" mode="inline" />
+              <display field="" type="yesno" stage="subject" page="display" line="14" mode="static" />
+              <display field="" type="yesno" stage="validation" page="summarytutor" line="215" mode="static" />
             </fo>
             <bo>
-          	  <display mode="stagetitle" label="Informations administratives du tuteur" page="displaydomestichelp" line="27" />
-              <display field="" type="yesno" page="displaydomestichelp" line="27" />
+          	  <display field="" type="yesno" page="displaydomestichelp_tutor" line="215" />
             </bo>
             <xslfo>
-              <element blockId="4" line="0" column="0">
+              <element blockId="3" line="0" column="0">
                 <yesnoCheckbox />
               </element>
             </xslfo>
@@ -1328,27 +1377,25 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="Tutor" type="dhr:DhrTutorType" minOccurs="0">
+      <xs:element name="Tutor" type="dhr:DhrTutorType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Mesure tuteur
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Mesure
+            Mesure tuteur
           </xs:documentation>
           <xs:appinfo>
             <fo>
               <display field="" type="select" stage="subject" page="tutor" line="1" />
-              <display field="" type="select" stage="subject" page="displaytutor" line="1"
-                mode="static" />
-              <display field="" type="select" stage="validation" page="summary" line="28"
-                mode="static" />
+              <display field="" type="select" stage="subject" page="displaytutor" line="1" mode="static" />
+              <display field="" type="select" stage="validation" page="summarytutor" line="216" mode="static" />
             </fo>
             <bo>
-              <display field="" type="select" page="displaydomestichelp" line="28" />
+              <display field="" type="select" page="displaydomestichelp_tutor" line="216" />
             </bo>
             <xslfo>
-              <element blockId="4" line="1" column="0">
+              <element blockId="3" line="1" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1356,59 +1403,34 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="TutorName" type="cvq:LastNameType" minOccurs="0">
+      <xs:element name="TutorName" type="cvq:LastNameType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom du tuteur
+            Nom du tuteur ou de l'association
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom
+            Nom du tuteur ou de l'association
           </xs:documentation>
           <xs:appinfo>
             <fo>
               <display field="" stage="subject" page="tutor" line="2" />
               <display field="" stage="subject" page="displaytutor" line="2" mode="static" />
-              <display field="" stage="validation" page="summary" line="29" mode="static" />
+              <display field="" stage="validation" page="summarytutor" line="217" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="29" />
+              <display field="" page="displaydomestichelp_tutor" line="217" />
             </bo>
             <xslfo>
-              <element blockId="4" line="2" column="0">
-                <string />
+              <element blockId="3" line="2" column="0" columnSpan="2">
+                <string valueWeight="3"/>
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="TutorFirstName" type="cvq:FirstNameType" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom du tuteur
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Prénom
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="subject" page="tutor" line="3" />
-              <display field="" stage="subject" page="displaytutor" line="3" mode="static" />
-              <display field="" stage="validation" page="summary" line="30" mode="static" />
-            </fo>
-            <bo>
-              <display field="" page="displaydomestichelp" line="30" />
-            </bo>
-            <xslfo>
-              <element blockId="4" line="2" column="1">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
 
-      <xs:element name="TutorAddress" type="cvq:AddressType" minOccurs="0">
+      <xs:element name="TutorAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Adresse du tuteur
@@ -1419,18 +1441,17 @@
           <xs:appinfo>
             <model namespace="users" isTiedToRequest="true" />
             <fo>
-              <display field="" stage="subject" page="tutor" line="4" />
-
-              <display field="" stage="subject" page="displaytutor" line="4" mode="static" />
-
-              <display field="" stage="validation" page="summary" line="31" mode="static" />
+              <display field="" stage="subject" page="tutor" line="3" />
+              <display field="" stage="subject" page="displaytutor" line="3" mode="static" />
+              <display field="" stage="validation" page="summarytutor" line="218" mode="static" />
+             
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="31" />
+              <display field="" page="displaydomestichelp_tutor" line="218" />
             </bo>
             <xslfo>
-              <element blockId="4" line="3" column="0">
-                <string />
+              <element blockId="3" line="3" column="0" columnSpan="2">
+                <complexTemplate />
               </element>
             </xslfo>
           </xs:appinfo>
@@ -1439,6 +1460,117 @@
 
     </xs:sequence>
   </xs:complexType>
+  
+  
+   <xs:complexType name="RequesterFamilyReferentType">
+    <xs:sequence>
+
+      <xs:element name="FamilyReferentDesignated" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Référent familial désigné
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Référent familial
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" type="yesno" stage="subject" page="referent" line="0" mode="inline" />
+              <display field="" type="yesno" stage="subject" page="displayreferent" line="0" mode="static" />
+              <display field="" type="yesno" stage="validation" page="summaryfamilyreferent" line="101" mode="static" />
+            </fo>
+            <bo>
+              <display field="" type="yesno" page="displaydomestichelp_referent" line="101" />
+            </bo>
+            <xslfo>
+              <element blockId="1" line="0" column="0">
+                <yesnoCheckbox />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FamilyReferentName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom du référent familial
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" stage="subject" page="referent" line="1" block="Oui" condition="requesterFamilyReferentFamilyReferentDesignated"/>
+              <display field="" stage="subject" page="displayreferent" line="1" mode="static" />
+              <display field="" stage="validation" page="summaryfamilyreferent" line="102" mode="static" />
+            </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_referent" line="102" />
+            </bo>          
+            <xslfo>
+              <element blockId="1" line="1" column="0">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="FamilyReferentFirstName" type="cvq:FirstNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénom référent familial
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénom
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" stage="subject" page="referent" line="2" block="Oui" condition="requesterFamilyReferentFamilyReferentDesignated" />
+              <display field="" stage="subject" page="displayreferent" line="2" mode="static" />
+              <display field="" stage="validation" page="summaryfamilyreferent" line="103" mode="static" />
+            </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_referent" line="103" />
+            </bo>
+            <xslfo>
+              <element blockId="1" line="2" column="0">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FamilyReferentAddress" type="cvq:AddressType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse du référent familial
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <fo>
+              <display field="" stage="subject" page="referent" line="3" block="Oui" condition="requesterFamilyReferentFamilyReferentDesignated"/>
+              <display field="" stage="subject" page="displayreferent" line="3" mode="static"/>
+              <display field="" stage="validation" page="summaryfamilyreferent" line="104" mode="static" />
+            </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_referent" line="104" />
+            </bo>
+            <xslfo>
+              <element blockId="1" line="3" column="0">
+                <complexTemplate />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
 
   <xs:complexType name="RequesterIncomesType">
     <xs:sequence>
@@ -1454,17 +1586,14 @@
           <xs:appinfo>
             <fo>
        	      <display field="" stage="resources" page="subject" line="1"/>
-       	      <display mode="labelonly" label="Le demandeur" stage="resources" page="display" line="0" />
        	      <display field="" stage="resources" page="display" line="1" mode="static"/>
-              <display mode="labelonly" type="stagetitle" label="Resources" stage="validation" page="summary" line="50"/>
-       	      <display field="" stage="validation" page="summary" line="51" mode="static"/>
+              <display field="" stage="validation" page="summarysubjectincomes" line="601" mode="static"/>
             </fo>
             <bo>
-              <display mode="stagetitle" label="Pensions et retraites" page="displaydomestichelp" line="50" />
-              <display field="" page="displaydomestichelp" line="51" />
+              <display field="" page="displaydomestichelp_requesterincomes" line="601" />
             </bo>
             <xslfo>
-              <element blockId="5" line="0" column="0">
+              <element blockId="7" line="0" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1484,39 +1613,65 @@
             <fo>
               <display field="" stage="resources" page="subject" line="2" />
               <display field="" stage="resources" page="display" line="2" mode="static" />
-              <display field="" stage="validation" page="summary" line="52" mode="static" />
+              <display field="" stage="validation" page="summarysubjectincomes" line="602" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="52" />
+              <display field="" page="displaydomestichelp_requesterincomes" line="602" />
             </bo>
             <xslfo>
-              <element blockId="5" line="1" column="0">
+              <element blockId="7" line="1" column="0">
                 <string />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
-      <xs:element name="RequesterInvestmentIncome" type="xs:positiveInteger" minOccurs="0">
+      
+      <xs:element name="RequesterFurnitureInvestmentIncome" type="xs:positiveInteger" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Revenus du capital mobilier et immobilier
+            Revenus du capital mobilier
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Revenus du capital
+            Revenus du capital mobilier
           </xs:documentation>
           <xs:appinfo>
             <fo>
               <display field="" stage="resources" page="subject" line="3" />
               <display field="" stage="resources" page="display" line="3" mode="static" />
-              <display field="" stage="validation" page="summary" line="53" mode="static" />
+              <display field="" stage="validation" page="summarysubjectincomes" line="603" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="53" />
+              <display field="" page="displaydomestichelp_requesterincomes" line="603" />
             </bo>
             <xslfo>
-              <element blockId="5" line="2" column="0">
+              <element blockId="7" line="2" column="0">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="RequesterRealEstateInvestmentIncome" type="xs:positiveInteger" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Revenus du capital immobilier
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Revenus du capital immobilier
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" stage="resources" page="subject" line="4" />
+              <display field="" stage="resources" page="display" line="4" mode="static" />
+              <display field="" stage="validation" page="summarysubjectincomes" line="604" mode="static" />
+            </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_requesterincomes" line="604" />
+            </bo>
+            <xslfo>
+              <element blockId="7" line="3" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1530,19 +1685,19 @@
             Salaire ou bénéfice déclaré
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Salaire
+            Salaire ou bénéfice déclaré
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="resources" page="subject" line="4" />
-              <display field="" stage="resources" page="display" line="4" mode="static" />
-              <display field="" stage="validation" page="summary" line="54" mode="static" />
+              <display field="" stage="resources" page="subject" line="5" />
+              <display field="" stage="resources" page="display" line="5" mode="static" />
+              <display field="" stage="validation" page="summarysubjectincomes" line="605" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="54" />
+              <display field="" page="displaydomestichelp_requesterincomes" line="605" />
             </bo>
             <xslfo>
-              <element blockId="5" line="3" column="0">
+              <element blockId="7" line="4" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1560,10 +1715,10 @@
           </xs:documentation>
           <xs:appinfo>
             <bo>
-              <display field="" page="displaydomestichelp" line="55" />
+              <display field="" page="displaydomestichelp_requesterincomes" line="606" />
             </bo>
             <xslfo>
-              <element blockId="5" line="4" column="0">
+              <element blockId="7" line="5" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1576,8 +1731,7 @@
 
   <xs:complexType name="SpouseIncomesType">
     <xs:sequence>
-
-      <xs:element name="SpousePensions" type="xs:positiveInteger" minOccurs="0">
+	  <xs:element name="SpousePensions" type="xs:positiveInteger" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Pensions et retraites
@@ -1588,21 +1742,21 @@
           <xs:appinfo>
             <fo>
        	      <display field="" stage="resources" page="spouse" line="1"/>
-       	      <display mode="labelonly" label="Le conjoint" stage="resources" page="display" line="10" />
-       	      <display field="" stage="resources" page="display" line="11" mode="static"/>
-       	      <display field="" stage="validation" page="summary" line="56" mode="static"/>
+       	      <display field="" stage="resources" page="displayspouse" line="1" mode="static"/>
+       	      <display field="" stage="validation" page="summaryspouseincomes" line="701" mode="static"/>
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="56" />
+             	<display field="" page="displaydomestichelp_spouseincomes" line="701" />
             </bo>
             <xslfo>
-              <element blockId="6" line="0" column="0">
+              <element blockId="8" line="0" column="0">
                 <string />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
+      
 
       <xs:element name="SpouseAllowances" type="xs:positiveInteger" minOccurs="0">
         <xs:annotation>
@@ -1615,14 +1769,14 @@
           <xs:appinfo>
             <fo>
               <display field="" stage="resources" page="spouse" line="2" />
-              <display field="" stage="resources" page="display" line="12" mode="static" />
-              <display field="" stage="validation" page="summary" line="57" mode="static" />
+              <display field="" stage="resources" page="displayspouse" line="2" mode="static" />
+              <display field="" stage="validation" page="summaryspouseincomes" line="702" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="57" />
+              <display field="" page="displaydomestichelp_spouseincomes" line="702" />
             </bo>
             <xslfo>
-              <element blockId="6" line="1" column="0">
+              <element blockId="8" line="1" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1630,31 +1784,58 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="SpouseInvestmentIncome" type="xs:positiveInteger" minOccurs="0">
+      <xs:element name="SpouseFurnitureInvestmentIncome" type="xs:positiveInteger" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Revenus du capital mobilier et immobilier
+            Revenus du capital mobilier
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Revenus du capital
+            Revenus du capital mobilier
           </xs:documentation>
           <xs:appinfo>
             <fo>
               <display field="" stage="resources" page="spouse" line="3" />
-              <display field="" stage="resources" page="display" line="13" mode="static" />
-              <display field="" stage="validation" page="summary" line="58" mode="static" />
+              <display field="" stage="resources" page="displayspouse" line="3" mode="static" />
+              <display field="" stage="validation" page="summaryspouseincomes" line="703" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="58" />
+              <display field="" page="displaydomestichelp_spouseincomes" line="703" />
             </bo>
             <xslfo>
-              <element blockId="6" line="2" column="0">
+              <element blockId="8" line="2" column="0">
                 <string />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
+      
+      <xs:element name="SpouseRealEstateInvestmentIncome" type="xs:positiveInteger" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Revenus du capital immobilier
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Revenus du capital immobilier
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" stage="resources" page="spouse" line="4" />
+              <display field="" stage="resources" page="displayspouse" line="4" mode="static" />
+              <display field="" stage="validation" page="summaryspouseincomes" line="704" mode="static" />
+            </fo>
+            <bo>
+              <display field="" page="displaydomestichelp_spouseincomes" line="704" />
+            </bo>
+            <xslfo>
+              <element blockId="8" line="3" column="0">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      
 
       <xs:element name="SpouseNetIncome" type="xs:positiveInteger" minOccurs="0">
         <xs:annotation>
@@ -1662,19 +1843,19 @@
             Salaire ou bénéfice déclaré
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Salaire
+            Salaire ou bénéfice déclaré
           </xs:documentation>
           <xs:appinfo>
             <fo>
-              <display field="" stage="resources" page="spouse" line="4" />
-              <display field="" stage="resources" page="display" line="14" mode="static" />
-              <display field="" stage="validation" page="summary" line="59" mode="static" />
+              <display field="" stage="resources" page="spouse" line="5" />
+              <display field="" stage="resources" page="displayspouse" line="5" mode="static" />
+              <display field="" stage="validation" page="summaryspouseincomes" line="705" mode="static" />
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="59" />
+              <display field="" page="displaydomestichelp_spouseincomes" line="705" />
             </bo>
             <xslfo>
-              <element blockId="6" line="3" column="0">
+              <element blockId="8" line="4" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1692,10 +1873,10 @@
           </xs:documentation>
           <xs:appinfo>
             <bo>
-              <display field="" page="displaydomestichelp" line="60" />
+              <display field="" page="displaydomestichelp_spouseincomes" line="706" />
             </bo>
             <xslfo>
-              <element blockId="6" line="4" column="0">
+              <element blockId="8" line="5" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1720,363 +1901,30 @@
             <model namespace="users" isTiedToRequest="true" />
             <fo>
               <display field="" stage="patrimony" page="assets" line="1" />
-
-              <display field="" stage="patrimony" page="displayassets" line="1"
-                mode="static" />
+              <display field="" stage="patrimony" page="displayassets" line="1" mode="static" />
             </fo>
             <xslfo>
-              <element blockId="7" line="0" column="0">
-                <string />
+              <element blockId="9" line="0" column="0">
+                 <complexTemplate />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RealAssetValue" type="xs:positiveInteger" minOccurs="0">
+      <xs:element name="RealAssetValue" type="xs:positiveInteger">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Valeur du bien immobilier
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Valeur du bien
+            Valeur estimée
           </xs:documentation>
           <xs:appinfo>
             <fo>
               <display field="" stage="patrimony" page="assets" line="4" />
               <display field="" stage="patrimony" page="displayassets" line="4" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="7" line="1" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RealAssetNetFloorArea" type="xs:positiveInteger" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Superficie du bien Immobilier
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Superficie du bien
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="assets" line="5" />
-              <display field="" stage="patrimony" page="displayassets" line="5" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="7" line="2" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RealAssetCadastre" type="xs:string" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Cadastre du bien Immobilier
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Cadastre du bien
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="assets" line="6" />
-              <display field="" stage="patrimony" page="displayassets" line="6" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="7" line="3" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:simpleType name="DhrDonationAssetType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Type de nature de biens en donation
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Type de nature de biens en donation
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Immobilier" value="Immobilier" />
-        <enum key="Autre" value="Autre" />
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Immobilier" />
-      <xs:enumeration value="Autre" />
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:complexType name="DhrDonationType">
-    <xs:sequence>
-
-      <xs:element name="DonationAsset" type="dhr:DhrDonationAssetType" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nature du bien en donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nature du bien
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" type="select" stage="patrimony" page="donation" line="1" />
-              <display field="" type="select" stage="patrimony" page="displaydonation" line="1"
-                mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="0" column="0">
-                <varargCheckbox displayModulo="2" />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DonationAssetPlace" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Lieu du bien (immobilier) en donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Lieu
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="donation" line="2" />
-              <display field="" stage="patrimony" page="displaydonation" line="2" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="1" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:maxLength value="200" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:element>
-
-      <xs:element name="DonationBeneficiaryName" type="cvq:LastNameType" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom du bénéficiaire de la donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom du bénéficiaire
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="donation" line="3" />
-              <display field="" stage="patrimony" page="displaydonation" line="3" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="2" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DonationBeneficiaryFirstName" type="cvq:FirstNameType" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom du bénéficiaire de la donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Prénom du bénéficiaire
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="donation" line="4" />
-              <display field="" stage="patrimony" page="displaydonation" line="4" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="2" column="1">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DonationValue" type="xs:positiveInteger" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Valeur de la donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Valeur de la donation
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="donation" line="5" />
-              <display field="" stage="patrimony" page="displaydonation" line="5" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="3" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DonationDate" type="xs:date" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Date de la donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Date de la donation
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="donation" line="6" />
-              <display field="" stage="patrimony" page="displaydonation" line="6" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="4" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DonationNotaryName" type="cvq:LastNameType" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom du notaire actant la donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom du notaire
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="donation" line="7" />
-              <display field="" stage="patrimony" page="displaydonation" line="7" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="5" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DonationNotaryFirstName" type="cvq:FirstNameType" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom du notaire actant la donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Prénom du notaire
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="donation" line="8" />
-              <display field="" stage="patrimony" page="displaydonation" line="8" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="5" column="1">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DonationNotaryAddress" type="cvq:AddressType" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse du notaire actant la donation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse du notaire
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users" isTiedToRequest="true" />
-            <fo>
-              <display field="" stage="patrimony" page="donation" line="9" />
-
-              <display field="" stage="patrimony" page="displaydonation" line="9"
-                mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="8" line="6" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="DhrPersonalEstateAndSavingType">
-    <xs:sequence>
-
-      <xs:element name="PaybookNumber" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Numéro de Livret
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Numéro de Livret
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="savings" line="1" />
-              <display field="" stage="patrimony" page="displaysavings" line="1" mode="static" />
-            </fo>
-            <xslfo>
-              <element blockId="9" line="0" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:maxLength value="30" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:element>
-
-      <xs:element name="PaybookAmount" type="xs:positiveInteger" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Montant du Livret
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Montant du Livret
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="patrimony" page="savings" line="2" />
-              <display field="" stage="patrimony" page="displaysavings" line="2" mode="static" />
-            </fo>
+            </fo>           
             <xslfo>
               <element blockId="9" line="1" column="0">
                 <string />
@@ -2086,57 +1934,158 @@
         </xs:annotation>
       </xs:element>
 
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="DhrPersonalEstateAndCapitalType">
-    <xs:sequence>
-
-      <xs:element name="SharesAmount" type="xs:positiveInteger" minOccurs="0">
+      <xs:element name="RealAssetNetFloorArea" type="xs:positiveInteger">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Montant actions
+            Superficie du bien Immobilier
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Montant actions
+            Superficie
           </xs:documentation>
           <xs:appinfo>
             <fo>
-			  <display mode="labelonly" label="Informations concernant les revenus de placements et taxes du foyer" 
-				stage="capitaltaxes" page="capital" line="0"/>
-       	      <display field="" stage="capitaltaxes" page="capital" line="1"/>
-       	      <display field="" stage="capitaltaxes" page="displaycapital" line="1" mode="static"/>
+              <display field="" stage="patrimony" page="assets" line="5" />
+              <display field="" stage="patrimony" page="displayassets" line="5" mode="static" />
             </fo>
-            <bo>
-     	      <display field="" page="displaydomestichelp" line="91" mode="static"/>
-            </bo>
+            <xslfo>
+              <element blockId="9" line="2" column="0">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="DhrAssetTypeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type de bien
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Share" value="Partage" />
+        <enum key="Gift" value="Donation" />
+        <enum key="Sale" value="Vente" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Share" />
+      <xs:enumeration value="Gift" />
+      <xs:enumeration value="Sale" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DhrAssetKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Nature du bien 
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Nature du bien 
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="RealEstate" value="Immobilier" />
+        <enum key="Other" value="Autre" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RealEstate" />
+      <xs:enumeration value="Other" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="DhrNotRealAssetType">
+    <xs:sequence>
+    
+	<xs:element name="AssetType" type="dhr:DhrAssetTypeType" >
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Type de bien
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Type
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" type="radiolist" stage="patrimony" page="notrealasset" line="1" mode="inline"/>
+              <display field="" type="radiolist" stage="patrimony" page="displaynotrealasset" line="1"
+                mode="static" />
+            </fo>
             <xslfo>
               <element blockId="10" line="0" column="0">
-                <string />
+                <varargCheckbox displayModulo="3" />
               </element>
             </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="BondsAmount" type="xs:positiveInteger" minOccurs="0">
+      <xs:element name="AssetKind" type="dhr:DhrAssetKindType" >
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Montant obligations
+            Nature du bien 
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Montant obligations
+            Nature du bien
           </xs:documentation>
           <xs:appinfo>
             <fo>
-       	      <display field="" stage="capitaltaxes" page="capital" line="2"/>
-       	      <display field="" stage="capitaltaxes" page="displaycapital" line="2" mode="static"/>
+              <display field="" type="radiolist" stage="patrimony" page="notrealasset" line="2" mode="inline" />
+              <display field="" type="radiolist" stage="patrimony" page="displaynotrealasset" line="2"
+                mode="static" />
             </fo>
-            <bo>
-       	      <display field="" page="displaydomestichelp" line="92" mode="static"/>
-            </bo>
             <xslfo>
               <element blockId="10" line="1" column="0">
+                <varargCheckbox displayModulo="2" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="AssetAddress" type="cvq:AddressType" >
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Lieu du bien 
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Lieu
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <fo>
+              <display field="" stage="patrimony" page="notrealasset" line="3" block="RealEstate" condition="notRealAssetsAssetKind == RealEstate"/>
+              <display field="" stage="patrimony" page="displaynotrealasset" line="3" mode="static" />
+            </fo>
+            <xslfo>
+              <element blockId="10" line="2" column="0">
+                <complexTemplate />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="AssetBeneficiaryName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom du bénéficiaire 
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom du bénéficiaire
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" stage="patrimony" page="notrealasset" line="4" />
+              <display field="" stage="patrimony" page="displaynotrealasset" line="4" mode="static" />
+            </fo>
+            <xslfo>
+              <element blockId="10" line="3" column="0">
                 <string />
               </element>
             </xslfo>
@@ -2144,21 +2093,135 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="CapitalAmountTotal" type="xs:positiveInteger" minOccurs="0">
+      <xs:element name="AssetBeneficiaryFirstName" type="cvq:FirstNameType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Montant total annuel du capital placé
+            Prénom du bénéficiaire 
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Montant total annuel du capital placé
+            Prénom du bénéficiaire
           </xs:documentation>
           <xs:appinfo>
-            <bo>
-       	      <display field="" page="displaydomestichelp" line="93" mode="static"/>
-            </bo>
+            <fo>
+              <display field="" stage="patrimony" page="notrealasset" line="5" />
+              <display field="" stage="patrimony" page="displaynotrealasset" line="5" mode="static" />
+            </fo>
             <xslfo>
-              <element blockId="10" line="2" column="0">
+              <element blockId="10" line="4" column="1">
                 <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="AssetBeneficiaryAddress" type="cvq:AddressType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse du bénéficiaire
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse du bénéficiaire
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <fo>
+              <display field="" stage="patrimony" page="notrealasset" line="6" />
+              <display field="" stage="patrimony" page="displaynotrealasset" line="6" mode="static" />
+            </fo>
+            <xslfo>
+              <element blockId="10" line="5" column="0">
+                <complexTemplate />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="AssetValue" type="xs:positiveInteger">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Valeur déclarée
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Valeur déclarée
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" stage="patrimony" page="notrealasset" line="7" />
+              <display field="" stage="patrimony" page="displaynotrealasset" line="7" mode="static" />
+            </fo>
+            <xslfo>
+              <element blockId="10" line="6" column="1">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="AssetDate" type="xs:date" >
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date partage, donation ou vente
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date partage, donation ou vente
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display field="" stage="patrimony" page="notrealasset" line="8" />
+              <display field="" stage="patrimony" page="displaynotrealasset" line="8" mode="static" />
+            </fo>
+            <xslfo>
+              <element blockId="10" line="7" column="0">
+                <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="AssetNotaryName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom du notaire actant 
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom du notaire
+          </xs:documentation>
+          <xs:appinfo>
+            <fo>
+              <display mode="labelonly" label="Informations sur le notaire" stage="patrimony" page="notrealasset" line="9" />
+              <display field="" stage="patrimony" page="notrealasset" line="10" />
+              <display field="" stage="patrimony" page="displaynotrealasset" line="10" mode="static" />
+            </fo>
+            <xslfo>
+              <element blockId="10" line="8" column="0">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="AssetNotaryAddress" type="cvq:AddressType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse du notaire actant 
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse du notaire
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <fo>
+              <display field="" stage="patrimony" page="notrealasset" line="11" />
+              <display field="" stage="patrimony" page="displaynotrealasset" line="11" mode="static" />
+            </fo>          
+            <xslfo>
+              <element blockId="10" line="9" column="0">
+                <complexTemplate />
               </element>
             </xslfo>
           </xs:appinfo>
@@ -2167,6 +2230,7 @@
 
     </xs:sequence>
   </xs:complexType>
+
 
   <xs:complexType name="TaxesAmountType">
     <xs:sequence>
@@ -2181,12 +2245,12 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-       	      <display field="" stage="capitaltaxes" page="capital" line="3"/>
-       	      <display field="" stage="capitaltaxes" page="displaycapital" line="3" mode="static"/>
-       	      <display field="" stage="validation" page="summary" line="101" mode="static"/>
+       	      <display field="" stage="capitaltaxes" page="capital" line="1"/>
+       	      <display field="" stage="capitaltaxes" page="displaycapital" line="1" mode="static"/>
+       	      <display field="" stage="validation" page="summarytaxesAmount" line="1001" mode="static"/>
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="101" />
+              <display field="" page="displaydomestichelp_taxesamount" line="1001" />
             </bo>
             <xslfo>
               <element blockId="11" line="0" column="0">
@@ -2207,12 +2271,12 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-       	      <display field="" stage="capitaltaxes" page="capital" line="4"/>
-       	      <display field="" stage="capitaltaxes" page="displaycapital" line="4" mode="static"/>
-       	      <display field="" stage="validation" page="summary" line="102" mode="static"/>
+       	      <display field="" stage="capitaltaxes" page="capital" line="2"/>
+       	      <display field="" stage="capitaltaxes" page="displaycapital" line="2" mode="static"/>
+       	      <display field="" stage="validation" page="summarytaxesAmount" line="1002" mode="static"/>
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="102" />
+              <display field="" page="displaydomestichelp_taxesamount" line="1002" />
             </bo>
             <xslfo>
               <element blockId="11" line="1" column="0">
@@ -2233,12 +2297,12 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-       	      <display field="" stage="capitaltaxes" page="capital" line="5"/>
-       	      <display field="" stage="capitaltaxes" page="displaycapital" line="5" mode="static"/>
-       	      <display field="" stage="validation" page="summary" line="103" mode="static"/>
+       	      <display field="" stage="capitaltaxes" page="capital" line="3"/>
+       	      <display field="" stage="capitaltaxes" page="displaycapital" line="3" mode="static"/>
+       	      <display field="" stage="validation" page="summarytaxesAmount" line="1003" mode="static"/>
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="103" />
+              <display field="" page="displaydomestichelp_taxesamount" line="1003" />
             </bo>
             <xslfo>
               <element blockId="11" line="2" column="0">
@@ -2259,12 +2323,12 @@
           </xs:documentation>
           <xs:appinfo>
             <fo>
-       	      <display field="" stage="capitaltaxes" page="capital" line="6"/>
-       	      <display field="" stage="capitaltaxes" page="displaycapital" line="6" mode="static"/>
-       	      <display field="" stage="validation" page="summary" line="104" mode="static"/>
+       	      <display field="" stage="capitaltaxes" page="capital" line="4"/>
+       	      <display field="" stage="capitaltaxes" page="displaycapital" line="4" mode="static"/>
+       	      <display field="" stage="validation" page="summarytaxesAmount" line="1004" mode="static"/>
             </fo>
             <bo>
-              <display field="" page="displaydomestichelp" line="104" />
+              <display field="" page="displaydomestichelp_taxesamount" line="1004" />
             </bo>
             <xslfo>
               <element blockId="11" line="3" column="0">
@@ -2285,7 +2349,7 @@
           </xs:documentation>
           <xs:appinfo>
             <bo>
-              <display field="" page="displaydomestichelp" line="105" />
+              <display field="" page="displaydomestichelp_taxesamount" line="1005" />
             </bo>
             <xslfo>
               <element blockId="11" line="4" column="0">
@@ -2298,87 +2362,42 @@
 
     </xs:sequence>
   </xs:complexType>
-
-  <xs:complexType name="MensualExpensesType">
-    <xs:sequence>
-
-      <xs:element name="Rent" type="xs:positiveInteger" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Loyer et charges d'habitation
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Loyer
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="expenses" page="expenses" line="1" />
-              <display field="" stage="expenses" page="display" line="1" mode="static" />
-              <display mode="labelonly" type="stagetitle" label="Expenses" stage="validation"
-                page="summary" line="110" />
-              <display field="" stage="validation" page="summary" line="111" mode="static" />
-            </fo>
-            <bo>
-              <display mode="stagetitle" label="Charges" page="displaydomestichelp" line="110" />
-              <display field="" page="displaydomestichelp" line="111" />
-            </bo>
-            <xslfo>
-              <element blockId="12" line="0" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="Alimonies" type="xs:positiveInteger" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Pensions et obligations alimentaires
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Pensions et obligations alimentaires
-          </xs:documentation>
-          <xs:appinfo>
-            <fo>
-              <display field="" stage="expenses" page="expenses" line="2" />
-              <display field="" stage="expenses" page="display" line="2" mode="static" />
-              <display field="" stage="validation" page="summary" line="112" mode="static" />
-            </fo>
-            <bo>
-              <display field="" page="displaydomestichelp" line="112" />
-            </bo>
-            <xslfo>
-              <element blockId="12" line="1" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="ExpensesTotal" type="xs:positiveInteger" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Total charges
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Total charges
-          </xs:documentation>
-          <xs:appinfo>
-            <bo>
-              <display field="" page="displaydomestichelp" line="113" />
-            </bo>
-            <xslfo>
-              <element blockId="12" line="2" column="0">
-                <string />
-              </element>
-            </xslfo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-    </xs:sequence>
-  </xs:complexType>
-
+  
+  <xs:simpleType name="DhrRequestKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Individual" value="Individuelle" />
+        <enum key="Couple" value="Couple" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Individual" />
+      <xs:enumeration value="Couple" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="DhrRequesterHasSpouse">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Conjoint 
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Conjoint 
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="True" value="True" />
+        <enum key="False" value="False" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="True" />
+      <xs:enumeration value="False" />
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>

@@ -87,11 +87,15 @@ public class Validation extends IStageForm {
 		if (this.checkFormat() &&
 			((this.format == null) || (this.format.length() == 0)))
 			return false;
+		if (this.checkCopies() && (this.copies == null))
+			return false;
 		if (this.checkBirthPostalCode() &&
 			((this.birthPostalCode == null) || (this.birthPostalCode.length() == 0)))
 			return false;
 		if (this.checkBirthFirstNames() &&
 			((this.birthFirstNames == null) || (this.birthFirstNames.length() == 0)))
+			return false;
+		if (this.checkBirthDate() && (this.birthDate == null))
 			return false;
 		if (this.checkBirthCity() &&
 			((this.birthCity == null) || (this.birthCity.length() == 0)))

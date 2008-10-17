@@ -14,7 +14,6 @@ import fr.cg95.cvq.business.social.*;
 
 public class DhrRealAssets extends RequestRecord {
 
-	private String realAssetsRealAssetCadastre;
   	private String realAssetsRealAssetAddressAdditionalDeliveryInformation;
 	private String realAssetsRealAssetAddressAdditionalGeographicalInformation;
 	private String realAssetsRealAssetAddressStreetNumber;
@@ -45,7 +44,6 @@ public class DhrRealAssets extends RequestRecord {
     public void load(DhrRealAsset request) {
     	if (request != null) {
 
-			this.realAssetsRealAssetCadastre = request.getRealAssetCadastre();
 			if (request.getRealAssetAddress() != null) {
 				this.realAssetsRealAssetAddressAdditionalDeliveryInformation = request.getRealAssetAddress().getAdditionalDeliveryInformation();
 				this.realAssetsRealAssetAddressAdditionalGeographicalInformation = request.getRealAssetAddress().getAdditionalGeographicalInformation();
@@ -73,14 +71,6 @@ public class DhrRealAssets extends RequestRecord {
         }
     }
     
-	public void setRealAssetsRealAssetCadastre(String realAssetsRealAssetCadastre) {
-		this.realAssetsRealAssetCadastre = realAssetsRealAssetCadastre;
-	}
-	
-	public String getRealAssetsRealAssetCadastre() {
-		return this.realAssetsRealAssetCadastre;
-	}
-
 	public void setRealAssetsRealAssetAddressAdditionalDeliveryInformation(String realAssetsRealAssetAddressAdditionalDeliveryInformation) {
 		this.realAssetsRealAssetAddressAdditionalDeliveryInformation = realAssetsRealAssetAddressAdditionalDeliveryInformation;
 	}

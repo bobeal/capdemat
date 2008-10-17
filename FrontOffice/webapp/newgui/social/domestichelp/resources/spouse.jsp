@@ -13,11 +13,15 @@
             <cvqf:text name="requesterSpouseIncomesSpouseAllowances" mode="" maxlength="10"/>
           </li>
           <li class="text_row">
-			<label for="requesterSpouseIncomesSpouseInvestmentIncome" class="label">Revenus du capital</label>
-            <cvqf:text name="requesterSpouseIncomesSpouseInvestmentIncome" mode="" maxlength="10"/>
+			<label for="requesterSpouseIncomesSpouseFurnitureInvestmentIncome" class="label">Revenus du capital mobilier</label>
+            <cvqf:text name="requesterSpouseIncomesSpouseFurnitureInvestmentIncome" mode="" maxlength="10"/>
           </li>
           <li class="text_row">
-			<label for="requesterSpouseIncomesSpouseNetIncome" class="label">Salaire</label>
+			<label for="requesterSpouseIncomesSpouseRealEstateInvestmentIncome" class="label">Revenus du capital immobilier</label>
+            <cvqf:text name="requesterSpouseIncomesSpouseRealEstateInvestmentIncome" mode="" maxlength="10"/>
+          </li>
+          <li class="text_row">
+			<label for="requesterSpouseIncomesSpouseNetIncome" class="label">Salaire ou bénéfice déclaré</label>
             <cvqf:text name="requesterSpouseIncomesSpouseNetIncome" mode="" maxlength="10"/>
           </li>
         </ul>
@@ -27,8 +31,9 @@
 		function validationData() {
    		  this.requesterSpouseIncomesSpousePensions = new Function("key","this.label='Pensions et retraites'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
      		  this.requesterSpouseIncomesSpouseAllowances = new Function("key","this.label='Allocations diverses'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.requesterSpouseIncomesSpouseInvestmentIncome = new Function("key","this.label='Revenus du capital'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.requesterSpouseIncomesSpouseNetIncome = new Function("key","this.label='Salaire'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome = new Function("key","this.label='Revenus du capital mobilier'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome = new Function("key","this.label='Revenus du capital immobilier'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.requesterSpouseIncomesSpouseNetIncome = new Function("key","this.label='Salaire ou bénéfice déclaré'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
   		setFocus("Resources");
 	</script>

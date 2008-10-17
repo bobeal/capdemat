@@ -4,7 +4,7 @@
 			xsi:noNamespaceSchemaLocation="managers.xsd" >
 					
   <processes group="social" caption="Social" icon="pictoSocial" order="8">
-	<process name="eAssistance">
+	<process name="eemprunt">
 		<label>Demande de télé-assistance</label>
 		<record>fr.cg95.cvq.bo.social.RemoteSupportRequestRecord</record>
 		<persistence>fr.cg95.cvq.bo.social.RemoteSupportPersistence</persistence>
@@ -27,7 +27,18 @@
 		
 	  	<state name="display">
 			<form>/jsp/bo/process/displayrequester</form>
-			<form scope="request">/jsp/bo/process/social/displaydomestichelp</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_requestkind</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_referent</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_subject</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_tutor</form>
+			<form scope="request" condition="requesterHasSpouse==True">/jsp/bo/process/social/displaydomestichelp_spouse</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_currentdwelling</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_previousdwelling</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_requesterincomes</form>
+			<form scope="request" condition="requesterHasSpouse==True">/jsp/bo/process/social/displaydomestichelp_spouseincomes</form>	
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_realassets</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_notrealassets</form>
+			<form scope="request">/jsp/bo/process/social/displaydomestichelp_taxesamount</form>
 		</state>
 	  	<state name="check">
 			<form scope="request">/jsp/bo/process/social/checkdomestichelp</form>

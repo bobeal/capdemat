@@ -4,6 +4,29 @@
 	<cvqf:form name="Subject" action="#" >
       <fieldset class="fieldset_zone">
         <ul class="insert_list">
+          <li class="select_row">
+			<label for="requesterSpouseSpouseInformationTitle" class="label">Civilité</label>
+            <cvqf:select name="requesterSpouseSpouseInformationTitle" mode="disabled">
+              <option value="">Choisissez un civilité</option>
+              <option value="Mister">Monsieur</option>
+              <option value="Madam">Madame</option>
+              <option value="Miss">Mademoiselle</option>
+              <option value="Agency">Organisme</option>
+              <option value="Unknown">Inconnue</option>
+            </cvqf:select>
+          </li>
+          <li class="select_row">
+			<label for="requesterSpouseSpouseInformationFamilyStatus" class="label">Situation familiale</label>
+            <cvqf:select name="requesterSpouseSpouseInformationFamilyStatus" mode="disabled">
+              <option value="">Choisissez un situation familiale</option>
+              <option value="Married">Marié(e)</option>
+              <option value="Single">Célibataire</option>
+              <option value="Divorced">Divorcé(e)</option>
+              <option value="Widow">Veuf(ve)</option>
+              <option value="CommonLawMarriage">Concubinage</option>
+              <option value="Other">Autre</option>
+            </cvqf:select>
+          </li>
           <li class="text_row">
 			<label for="requesterSpouseSpouseInformationLastName" class="label">Nom</label>
             <cvqf:text name="requesterSpouseSpouseInformationLastName" mode="disabled" maxlength="38"/>
@@ -24,14 +47,6 @@
 			<label for="requesterSpouseSpouseInformationBirthPlaceCity" class="label">Ville</label>
             <cvqf:text name="requesterSpouseSpouseInformationBirthPlaceCity" mode="disabled" maxlength="32"/>
           </li>
-          <li class="text_row">
-			<label for="requesterSpouseSpouseSocialSecurityNumber" class="label">Numéro de sécurité sociale<span class="required">*</span></label>
-            <cvqf:text name="requesterSpouseSpouseSocialSecurityNumber" mode="" maxlength="13"/>
-          </li>
-          <li class="text_row">
-			<label for="requesterSpouseSpouseSocialSecurityKeyNumber" class="label">Clé de numéro de sécurité sociale<span class="required">*</span></label>
-            <cvqf:text name="requesterSpouseSpouseSocialSecurityKeyNumber" mode="" maxlength="2"/>
-          </li>
           <li class="select_row">
 			<label for="requesterSpouseSpouseNationality" class="label">Nationalité<span class="required">*</span></label>
             <cvqf:select name="requesterSpouseSpouseNationality" mode="">
@@ -42,11 +57,15 @@
             </cvqf:select>
           </li>
         </ul>
-        <ul class="insert_list" id="NotFrench">
+        <ul class="insert_list" id="OutsideEuropeanUnion">
           <li class="date_row">
 			<label for="requesterSpouseSpouseFranceArrivalDate" class="label">Date d'arrivée en France<span class="required">*</span></label>
             <cvqf:text name="requesterSpouseSpouseFranceArrivalDate" mode="" maxlength="10"/>
           </li>
+          <li class="radio_row_inline">
+			<label for="requesterSpouseSpouseMoreThan15YearsInFrance" class="">Je réside en France depuis plus de 15 ans de manière continue<span class="required">*</span></label>
+          <cvqf:radio name="requesterSpouseSpouseMoreThan15YearsInFrance" mode="inline" label="[Oui,Non]" />
+		  </li>
         </ul>
 		<br class="clear-both" />
         <ul class="insert_list">
@@ -57,22 +76,41 @@
         </ul>
         <ul class="insert_list" id="Oui">
           <li class="select_row">
-			<label for="requesterSpouseSpousePensionPlan" class="label">Régime retraite<span class="required">*</span></label>
+			<label for="requesterSpouseSpousePensionPlan" class="label">Régime de retraite principal<span class="required">*</span></label>
             <cvqf:select name="requesterSpouseSpousePensionPlan" mode="">
-              <option value="">Choisissez un régime retraite</option>
+              <option value="">Choisissez un régime de retraite principal</option>
               <option value="CRAMIF">CRAMIF</option>
+              <option value="CNAV">CNAV</option>
+              <option value="MSA">MSA</option>
+              <option value="CRAM">CRAM</option>
+              <option value="MGEN">MGEN</option>
+              <option value="SNCF">SNCF</option>
               <option value="Other">Autre</option>
             </cvqf:select>
           </li>
         </ul>
 		<br class="clear-both" />
+        <ul class="insert_list" id="Other">
+          <li class="text_row">
+			<label for="requesterSpouseSpousePensionPlanPrecision" class="label">Préciser</label>
+            <cvqf:text name="requesterSpouseSpousePensionPlanPrecision" mode="inline" maxlength="50"/>
+          </li>
+        </ul>
+		<br class="clear-both" />
+        <ul class="insert_list" id="Oui2">
+          <li class="text_row">
+			<label for="requesterSpouseSpouseComplementaryPensionPlanPrecision" class="label">Régime de retraite complémentaire</label>
+            <cvqf:text name="requesterSpouseSpouseComplementaryPensionPlanPrecision" mode="inline" maxlength="50"/>
+          </li>
+        </ul>
+		<br class="clear-both" />
         <ul class="insert_list" id="Non">
           <li class="text_row">
-			<label for="requesterSpouseSpouseOccupation" class="label">Profession</label>
+			<label for="requesterSpouseSpouseOccupation" class="label">Profession<span class="required">*</span></label>
             <cvqf:text name="requesterSpouseSpouseOccupation" mode="" maxlength="50"/>
           </li>
           <li class="text_row">
-			<label for="requesterSpouseSpouseEmployer" class="label">Employeur</label>
+			<label for="requesterSpouseSpouseEmployer" class="label">Employeur<span class="required">*</span></label>
             <cvqf:text name="requesterSpouseSpouseEmployer" mode="" maxlength="50"/>
           </li>
           <li class="text_row">
@@ -114,14 +152,15 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.requesterSpouseSpouseSocialSecurityNumber = new Function("key","this.label='Numéro de sécurité sociale'; this.msg=null; this.required=true; this.mask=/[0-9]{13}/; this.minlength=13; this.maxlength=13; this.type=null; return this[key];");
-     		  this.requesterSpouseSpouseSocialSecurityKeyNumber = new Function("key","this.label='Clé de numéro de sécurité sociale'; this.msg=null; this.required=true; this.mask=/[0-9]{2}/; this.minlength=2; this.maxlength=2; this.type=null; return this[key];");
-     		  this.requesterSpouseSpouseNationality = new Function("key","this.label='Nationalité'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
+   		  this.requesterSpouseSpouseNationality = new Function("key","this.label='Nationalité'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
      		  this.requesterSpouseSpouseFranceArrivalDate = new Function("key","this.label='Date d&quote;arrivée en France'; this.msg=null; this.required=true; this.mask=/[0-9]{1,2}[\\/][0-9]{1,2}[\\/][0-9]{4}/; this.minlength=0; this.maxlength=10; this.transform='date'; this.type=null; return this[key];");
+     		  this.requesterSpouseSpouseMoreThan15YearsInFrance = new Function("key","this.label='Je réside en France depuis plus de 15 ans de manière continue'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
      		  this.requesterSpouseSpousePensionner = new Function("key","this.label='Retraité'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.requesterSpouseSpousePensionPlan = new Function("key","this.label='Régime retraite'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.requesterSpouseSpouseOccupation = new Function("key","this.label='Profession'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=50; this.type=null; return this[key];");
-     		  this.requesterSpouseSpouseEmployer = new Function("key","this.label='Employeur'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=50; this.type=null; return this[key];");
+     		  this.requesterSpouseSpousePensionPlan = new Function("key","this.label='Régime de retraite principal'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
+     		  this.requesterSpouseSpousePensionPlanPrecision = new Function("key","this.label='Préciser'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=50; this.type=null; return this[key];");
+     		  this.requesterSpouseSpouseComplementaryPensionPlanPrecision = new Function("key","this.label='Régime de retraite complémentaire'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=50; this.type=null; return this[key];");
+     		  this.requesterSpouseSpouseOccupation = new Function("key","this.label='Profession'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=50; this.type=null; return this[key];");
+     		  this.requesterSpouseSpouseEmployer = new Function("key","this.label='Employeur'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=50; this.type=null; return this[key];");
          	  this.requesterSpouseSpouseEmployerAddressAdditionalDeliveryInformation = new Function("key","this.label=''; this.msg=null; this.required=false; this.minlength=0; this.maxlength=38; this.type=null; return this[key];");
 	  this.requesterSpouseSpouseEmployerAddressAdditionalGeographicalInformation = new Function("key","this.label=''; this.msg=null; this.required=false; this.minlength=0; this.maxlength=38; this.type=null; return this[key];");
 	  this.requesterSpouseSpouseEmployerAddressStreetNumber = new Function("key","this.label='Numéro'; this.msg=null; this.transform='uppercase'; this.required=false; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
@@ -131,6 +170,7 @@
 	  this.requesterSpouseSpouseEmployerAddressCity = new Function("key","this.label='Localité'; this.msg=null; this.transform='uppercase'; this.required=true; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
   		}
         updateDisplay("requesterSpouseSpouseNationality");
+        updateDisplay("requesterSpouseSpouseMoreThan15YearsInFrance");
         updateDisplay("requesterSpouseSpousePensionner");
         updateDisplay("requesterSpouseSpousePensionPlan");
         window.onload = function () {

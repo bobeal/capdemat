@@ -97,6 +97,8 @@ public class Validation extends IStageForm {
 		if (this.checkFormat() &&
 			((this.format == null) || (this.format.length() == 0)))
 			return false;
+		if (this.checkCopies() && (this.copies == null))
+			return false;
 		if (this.checkMarriageHusbandFirstNames() &&
 			((this.marriageHusbandFirstNames == null) || (this.marriageHusbandFirstNames.length() == 0)))
 			return false;
@@ -105,6 +107,8 @@ public class Validation extends IStageForm {
 			return false;
 		if (this.checkMarriageWifeLastName() &&
 			((this.marriageWifeLastName == null) || (this.marriageWifeLastName.length() == 0)))
+			return false;
+		if (this.checkMarriageDate() && (this.marriageDate == null))
 			return false;
 		if (this.checkFatherLastName() &&
 			((this.fatherLastName == null) || (this.fatherLastName.length() == 0)))

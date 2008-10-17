@@ -46,7 +46,6 @@ public class DhrRealAsset implements Serializable {
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         DhrRealAssetType dhrRealAsset = DhrRealAssetType.Factory.newInstance();
-        dhrRealAsset.setRealAssetCadastre(this.realAssetCadastre);
         if (this.realAssetValue != null)
             dhrRealAsset.setRealAssetValue(new BigInteger(this.realAssetValue.toString()));
         if (this.realAssetNetFloorArea != null)
@@ -61,7 +60,6 @@ public class DhrRealAsset implements Serializable {
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         DhrRealAsset dhrRealAsset = new DhrRealAsset();
-        dhrRealAsset.setRealAssetCadastre(dhrRealAssetDoc.getRealAssetCadastre());
         dhrRealAsset.setRealAssetValue(dhrRealAssetDoc.getRealAssetValue());
         dhrRealAsset.setRealAssetNetFloorArea(dhrRealAssetDoc.getRealAssetNetFloorArea());
         if (dhrRealAssetDoc.getRealAssetAddress() != null)
@@ -84,21 +82,6 @@ public class DhrRealAsset implements Serializable {
      */
     public final Long getId() {
         return this.id;
-    }
-
-    private String realAssetCadastre;
-
-    public final void setRealAssetCadastre(final String realAssetCadastre) {
-        this.realAssetCadastre = realAssetCadastre;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="real_asset_cadastre"
-     */
-    public final String getRealAssetCadastre() {
-        return this.realAssetCadastre;
     }
 
     private java.math.BigInteger realAssetValue;

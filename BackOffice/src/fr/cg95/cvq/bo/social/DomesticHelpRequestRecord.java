@@ -15,14 +15,16 @@ import fr.cg95.cvq.business.social.*;
 public class DomesticHelpRequestRecord extends RequestRecord {
 
 	private java.math.BigInteger taxesAmountIncomeTax;
+	private java.math.BigInteger notRealAssetsValuesTotal;
 	private java.math.BigInteger currentDwellingCurrentDwellingRoomNumber;
 	private Calendar subjectAdultBirthDate;
-	private java.math.BigInteger capitalsCapitalAmountTotal;
 	private String requesterSpouseSpouseNationality;
 	private String requesterSpouseSpouseInformationLastName;
 	private java.math.BigInteger requesterSpouseIncomesSpousePensions;
 	private String requesterSituationTutor;
 	private String requesterSpouseSpouseEmployer;
+	private Calendar requesterSpouseSpouseFranceArrivalDate;
+	private String pensionPlanPrecision;
   	private String requesterSpouseSpouseEmployerAddressAdditionalDeliveryInformation;
 	private String requesterSpouseSpouseEmployerAddressAdditionalGeographicalInformation;
 	private String requesterSpouseSpouseEmployerAddressStreetNumber;
@@ -30,25 +32,31 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 	private String requesterSpouseSpouseEmployerAddressPlaceNameOrService;
 	private String requesterSpouseSpouseEmployerAddressPostalCode;
 	private String requesterSpouseSpouseEmployerAddressCity;
-	private Calendar requesterSpouseSpouseFranceArrivalDate;
 	private java.math.BigInteger requesterIncomesRequesterIncomesAnnualTotal;
+	private boolean requesterFamilyReferentFamilyReferentDesignated;
 	private java.math.BigInteger requesterIncomesRequesterAllowances;
+	private java.math.BigInteger requesterIncomesRequesterRealEstateInvestmentIncome;
 	private String subjectAdultFirstName;
+	private String subjectAdultFamilyStatus;
 	private String currentDwellingCurrentDwellingType;
 	private String subjectAdultMaidenName;
+	private String requesterRequestKind;
 	private String subjectAdultLastName;
+	private List notRealAssets;
 	private boolean requesterSpouseSpousePensionner;
 	private java.math.BigInteger taxesAmountTaxesTotal;
-	private String requesterSpouseSpouseSocialSecurityKeyNumber;
 	private java.math.BigInteger taxesAmountPropertyTaxes;
+	private boolean requesterSpouseSpouseMoreThan15YearsInFrance;
+	private String requesterFamilyReferentFamilyReferentFirstName;
 	private String requesterPensionPlan;
 	private java.math.BigInteger taxesAmountLocalRate;
 	private String nationality;
 	private java.math.BigInteger realAssetsValuesTotal;
 	private java.math.BigInteger currentDwellingCurrentDwellingNetFloorArea;
+	private String complementaryPensionPlanPrecision;
 	private Calendar currentDwellingCurrentDwellingArrivalDate;
+	private Calendar previousDwellingPreviousDwellingDepartureDate;
 	private String requesterSituationTutorName;
-	private java.math.BigInteger requesterSpouseIncomesSpouseInvestmentIncome;
   	private String requesterSituationTutorAddressAdditionalDeliveryInformation;
 	private String requesterSituationTutorAddressAdditionalGeographicalInformation;
 	private String requesterSituationTutorAddressStreetNumber;
@@ -59,32 +67,42 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 	private java.math.BigInteger requesterIncomesRequesterNetIncome;
 	private String requesterSpouseSpouseOccupation;
 	private String requesterSpouseSpouseInformationBirthPlaceCity;
-	private String requesterSpouseSpouseSocialSecurityNumber;
-	private String requesterSituationTutorFirstName;
-	private java.math.BigInteger capitalsSharesAmount;
-	private List savings;
-	private String socialSecurityNumber;
-	private java.math.BigInteger requesterIncomesRequesterInvestmentIncome;
+	private String currentDwellingCurrentDwellingPersonalPhone;
 	private java.math.BigInteger requesterSpouseIncomesSpouseNetIncome;
+	private java.math.BigInteger requesterIncomesRequesterFurnitureInvestmentIncome;
+  	private String requesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation;
+	private String requesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation;
+	private String requesterFamilyReferentFamilyReferentAddressStreetNumber;
+	private String requesterFamilyReferentFamilyReferentAddressStreetName;
+	private String requesterFamilyReferentFamilyReferentAddressPlaceNameOrService;
+	private String requesterFamilyReferentFamilyReferentAddressPostalCode;
+	private String requesterFamilyReferentFamilyReferentAddressCity;
 	private java.math.BigInteger requesterSpouseIncomesSpouseAllowances;
-	private String requesterSpouseSpouseInformationMaidenName;
 	private List realAssets;
+	private String requesterSpouseSpouseInformationMaidenName;
+	private String requesterFamilyReferentFamilyReferentName;
+	private String requesterHasSpouse;
 	private String currentDwellingCurrentDwellingStatus;
+	private String requesterSpouseSpouseComplementaryPensionPlanPrecision;
 	private Calendar requesterSpouseSpouseInformationBirthDate;
-	private java.math.BigInteger mensualExpensesAlimonies;
+  	private String previousDwellingPreviousDwellingAddressAdditionalDeliveryInformation;
+	private String previousDwellingPreviousDwellingAddressAdditionalGeographicalInformation;
+	private String previousDwellingPreviousDwellingAddressStreetNumber;
+	private String previousDwellingPreviousDwellingAddressStreetName;
+	private String previousDwellingPreviousDwellingAddressPlaceNameOrService;
+	private String previousDwellingPreviousDwellingAddressPostalCode;
+	private String previousDwellingPreviousDwellingAddressCity;
+	private String subjectAdultTitle;
 	private java.math.BigInteger taxesAmountProfessionalTaxes;
-	private java.math.BigInteger donationsValuesTotal;
-	private java.math.BigInteger mensualExpensesExpensesTotal;
-	private java.math.BigInteger savingsTotal;
-	private java.math.BigInteger capitalsBondsAmount;
+	private Calendar previousDwellingPreviousDwellingArrivalDate;
 	private boolean requesterSituationTutorPresence;
 	private String requesterSpouseSpousePensionPlan;
-	private String socialSecurityKeyNumber;
-	private java.math.BigInteger mensualExpensesRent;
-	private List donations;
+	private java.math.BigInteger requesterSpouseIncomesSpouseFurnitureInvestmentIncome;
+	private java.math.BigInteger requesterSpouseIncomesSpouseRealEstateInvestmentIncome;
 	private java.math.BigInteger requesterIncomesRequesterPensions;
 	private Calendar franceArrivalDate;
-	private List previousDwellings;
+	private boolean moreThan15YearsInFrance;
+	private String requesterSpouseSpousePensionPlanPrecision;
 	private String subjectAdultBirthPlaceCity;
   	private String currentDwellingCurrentDwellingAddressAdditionalDeliveryInformation;
 	private String currentDwellingCurrentDwellingAddressAdditionalGeographicalInformation;
@@ -118,12 +136,12 @@ public class DomesticHelpRequestRecord extends RequestRecord {
             DomesticHelpRequest request = (DomesticHelpRequest)xmlRequest; 
 
 			this.taxesAmountIncomeTax = request.getIncomeTax();
+			this.notRealAssetsValuesTotal = request.getNotRealAssetsValuesTotal();
 			this.currentDwellingCurrentDwellingRoomNumber = request.getCurrentDwellingRoomNumber();
 			if (((Adult)request.getSubject()).getBirthDate() != null) {
 				this.subjectAdultBirthDate = Calendar.getInstance(); 
 	            this.subjectAdultBirthDate.setTime(((Adult)request.getSubject()).getBirthDate());
 			}
-			this.capitalsCapitalAmountTotal = request.getCapitalAmountTotal();
 			if (request.getSpouseNationality() != null)
                 this.requesterSpouseSpouseNationality = getEnumElementTranslation(
                         fr.cg95.cvq.xml.social.RequesterSpouseType.class.getName(), 
@@ -136,6 +154,11 @@ public class DomesticHelpRequestRecord extends RequestRecord {
                         fr.cg95.cvq.xml.social.RequesterSituationType.class.getName(), 
                         "Tutor", request.getTutor().toString());
 			this.requesterSpouseSpouseEmployer = request.getSpouseEmployer();
+			if (request.getSpouseFranceArrivalDate() != null) {
+				this.requesterSpouseSpouseFranceArrivalDate = Calendar.getInstance(); 
+	            this.requesterSpouseSpouseFranceArrivalDate.setTime(request.getSpouseFranceArrivalDate());
+			}
+			this.pensionPlanPrecision = request.getPensionPlanPrecision();
 			if (request.getSpouseEmployerAddress() != null) {
 				this.requesterSpouseSpouseEmployerAddressAdditionalDeliveryInformation = request.getSpouseEmployerAddress().getAdditionalDeliveryInformation();
 				this.requesterSpouseSpouseEmployerAddressAdditionalGeographicalInformation = request.getSpouseEmployerAddress().getAdditionalGeographicalInformation();
@@ -145,23 +168,26 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 				this.requesterSpouseSpouseEmployerAddressPostalCode = request.getSpouseEmployerAddress().getPostalCode();
 				this.requesterSpouseSpouseEmployerAddressCity = request.getSpouseEmployerAddress().getCity();
 			}
-			if (request.getSpouseFranceArrivalDate() != null) {
-				this.requesterSpouseSpouseFranceArrivalDate = Calendar.getInstance(); 
-	            this.requesterSpouseSpouseFranceArrivalDate.setTime(request.getSpouseFranceArrivalDate());
-			}
 			this.requesterIncomesRequesterIncomesAnnualTotal = request.getRequesterIncomesAnnualTotal();
+			this.requesterFamilyReferentFamilyReferentDesignated = request.getFamilyReferentDesignated();
 			this.requesterIncomesRequesterAllowances = request.getRequesterAllowances();
+			this.requesterIncomesRequesterRealEstateInvestmentIncome = request.getRequesterRealEstateInvestmentIncome();
 			this.subjectAdultFirstName = ((Adult)request.getSubject()).getFirstName();
 			if (request.getCurrentDwellingType() != null)
                 this.currentDwellingCurrentDwellingType = getEnumElementTranslation(
                         fr.cg95.cvq.xml.social.CurrentDwellingType.class.getName(), 
                         "CurrentDwellingType", request.getCurrentDwellingType().toString());
 			this.subjectAdultMaidenName = ((Adult)request.getSubject()).getMaidenName();
+			if (request.getRequesterRequestKind() != null)
+                this.requesterRequestKind = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest.class.getName(), 
+                        "RequesterRequestKind", request.getRequesterRequestKind().toString());
 			this.subjectAdultLastName = ((Adult)request.getSubject()).getLastName();
 			this.requesterSpouseSpousePensionner = request.getSpousePensionner();
 			this.taxesAmountTaxesTotal = request.getTaxesTotal();
-			this.requesterSpouseSpouseSocialSecurityKeyNumber = request.getSpouseSocialSecurityKeyNumber();
 			this.taxesAmountPropertyTaxes = request.getPropertyTaxes();
+			this.requesterSpouseSpouseMoreThan15YearsInFrance = request.getSpouseMoreThan15YearsInFrance();
+			this.requesterFamilyReferentFamilyReferentFirstName = request.getFamilyReferentFirstName();
 			if (request.getRequesterPensionPlan() != null)
                 this.requesterPensionPlan = getEnumElementTranslation(
                         fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest.class.getName(), 
@@ -173,12 +199,16 @@ public class DomesticHelpRequestRecord extends RequestRecord {
                         "Nationality", request.getNationality().toString());
 			this.realAssetsValuesTotal = request.getRealAssetsValuesTotal();
 			this.currentDwellingCurrentDwellingNetFloorArea = request.getCurrentDwellingNetFloorArea();
+			this.complementaryPensionPlanPrecision = request.getComplementaryPensionPlanPrecision();
 			if (request.getCurrentDwellingArrivalDate() != null) {
 				this.currentDwellingCurrentDwellingArrivalDate = Calendar.getInstance(); 
 	            this.currentDwellingCurrentDwellingArrivalDate.setTime(request.getCurrentDwellingArrivalDate());
 			}
+			if (request.getPreviousDwellingDepartureDate() != null) {
+				this.previousDwellingPreviousDwellingDepartureDate = Calendar.getInstance(); 
+	            this.previousDwellingPreviousDwellingDepartureDate.setTime(request.getPreviousDwellingDepartureDate());
+			}
 			this.requesterSituationTutorName = request.getTutorName();
-			this.requesterSpouseIncomesSpouseInvestmentIncome = request.getSpouseInvestmentIncome();
 			if (request.getTutorAddress() != null) {
 				this.requesterSituationTutorAddressAdditionalDeliveryInformation = request.getTutorAddress().getAdditionalDeliveryInformation();
 				this.requesterSituationTutorAddressAdditionalGeographicalInformation = request.getTutorAddress().getAdditionalGeographicalInformation();
@@ -192,42 +222,65 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 			this.requesterSpouseSpouseOccupation = request.getSpouseOccupation();
             if ((request.getSpouseInformation() != null))
 			this.requesterSpouseSpouseInformationBirthPlaceCity = request.getSpouseInformation().getBirthCity();
-			this.requesterSpouseSpouseSocialSecurityNumber = request.getSpouseSocialSecurityNumber();
-			this.requesterSituationTutorFirstName = request.getTutorFirstName();
-			this.capitalsSharesAmount = request.getSharesAmount();
-			this.socialSecurityNumber = request.getSocialSecurityNumber();
-			this.requesterIncomesRequesterInvestmentIncome = request.getRequesterInvestmentIncome();
+			this.currentDwellingCurrentDwellingPersonalPhone = request.getCurrentDwellingPersonalPhone();
 			this.requesterSpouseIncomesSpouseNetIncome = request.getSpouseNetIncome();
+			this.requesterIncomesRequesterFurnitureInvestmentIncome = request.getRequesterFurnitureInvestmentIncome();
+			if (request.getFamilyReferentAddress() != null) {
+				this.requesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation = request.getFamilyReferentAddress().getAdditionalDeliveryInformation();
+				this.requesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation = request.getFamilyReferentAddress().getAdditionalGeographicalInformation();
+				this.requesterFamilyReferentFamilyReferentAddressStreetNumber = request.getFamilyReferentAddress().getStreetNumber();
+				this.requesterFamilyReferentFamilyReferentAddressStreetName = request.getFamilyReferentAddress().getStreetName();
+				this.requesterFamilyReferentFamilyReferentAddressPlaceNameOrService = request.getFamilyReferentAddress().getPlaceNameOrService();
+				this.requesterFamilyReferentFamilyReferentAddressPostalCode = request.getFamilyReferentAddress().getPostalCode();
+				this.requesterFamilyReferentFamilyReferentAddressCity = request.getFamilyReferentAddress().getCity();
+			}
 			this.requesterSpouseIncomesSpouseAllowances = request.getSpouseAllowances();
             if ((request.getSpouseInformation() != null))
 			this.requesterSpouseSpouseInformationMaidenName = request.getSpouseInformation().getMaidenName();
+			this.requesterFamilyReferentFamilyReferentName = request.getFamilyReferentName();
+			if (request.getRequesterHasSpouse() != null)
+                this.requesterHasSpouse = getEnumElementTranslation(
+                        fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest.class.getName(), 
+                        "RequesterHasSpouse", request.getRequesterHasSpouse().toString());
 			if (request.getCurrentDwellingStatus() != null)
                 this.currentDwellingCurrentDwellingStatus = getEnumElementTranslation(
                         fr.cg95.cvq.xml.social.CurrentDwellingType.class.getName(), 
                         "CurrentDwellingStatus", request.getCurrentDwellingStatus().toString());
+			this.requesterSpouseSpouseComplementaryPensionPlanPrecision = request.getSpouseComplementaryPensionPlanPrecision();
             if ((request.getSpouseInformation() != null))
 			if (request.getSpouseInformation().getBirthDate() != null) {
 				this.requesterSpouseSpouseInformationBirthDate = Calendar.getInstance(); 
 	            this.requesterSpouseSpouseInformationBirthDate.setTime(request.getSpouseInformation().getBirthDate());
 			}
-			this.mensualExpensesAlimonies = request.getAlimonies();
+			if (request.getPreviousDwellingAddress() != null) {
+				this.previousDwellingPreviousDwellingAddressAdditionalDeliveryInformation = request.getPreviousDwellingAddress().getAdditionalDeliveryInformation();
+				this.previousDwellingPreviousDwellingAddressAdditionalGeographicalInformation = request.getPreviousDwellingAddress().getAdditionalGeographicalInformation();
+				this.previousDwellingPreviousDwellingAddressStreetNumber = request.getPreviousDwellingAddress().getStreetNumber();
+				this.previousDwellingPreviousDwellingAddressStreetName = request.getPreviousDwellingAddress().getStreetName();
+				this.previousDwellingPreviousDwellingAddressPlaceNameOrService = request.getPreviousDwellingAddress().getPlaceNameOrService();
+				this.previousDwellingPreviousDwellingAddressPostalCode = request.getPreviousDwellingAddress().getPostalCode();
+				this.previousDwellingPreviousDwellingAddressCity = request.getPreviousDwellingAddress().getCity();
+			}
 			this.taxesAmountProfessionalTaxes = request.getProfessionalTaxes();
-			this.donationsValuesTotal = request.getDonationsValuesTotal();
-			this.mensualExpensesExpensesTotal = request.getExpensesTotal();
-			this.savingsTotal = request.getSavingsTotal();
-			this.capitalsBondsAmount = request.getBondsAmount();
+			if (request.getPreviousDwellingArrivalDate() != null) {
+				this.previousDwellingPreviousDwellingArrivalDate = Calendar.getInstance(); 
+	            this.previousDwellingPreviousDwellingArrivalDate.setTime(request.getPreviousDwellingArrivalDate());
+			}
 			this.requesterSituationTutorPresence = request.getTutorPresence();
 			if (request.getSpousePensionPlan() != null)
                 this.requesterSpouseSpousePensionPlan = getEnumElementTranslation(
                         fr.cg95.cvq.xml.social.RequesterSpouseType.class.getName(), 
                         "SpousePensionPlan", request.getSpousePensionPlan().toString());
-			this.socialSecurityKeyNumber = request.getSocialSecurityKeyNumber();
-			this.mensualExpensesRent = request.getRent();
+			this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome = request.getSpouseFurnitureInvestmentIncome();
+			this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome = request.getSpouseRealEstateInvestmentIncome();
 			this.requesterIncomesRequesterPensions = request.getRequesterPensions();
 			if (request.getFranceArrivalDate() != null) {
 				this.franceArrivalDate = Calendar.getInstance(); 
 	            this.franceArrivalDate.setTime(request.getFranceArrivalDate());
 			}
+            if ((request.getMoreThan15YearsInFrance() != null))
+			this.moreThan15YearsInFrance = request.getMoreThan15YearsInFrance();
+			this.requesterSpouseSpousePensionPlanPrecision = request.getSpousePensionPlanPrecision();
 			this.subjectAdultBirthPlaceCity = ((Adult)request.getSubject()).getBirthCity();
 			if (request.getCurrentDwellingAddress() != null) {
 				this.currentDwellingCurrentDwellingAddressAdditionalDeliveryInformation = request.getCurrentDwellingAddress().getAdditionalDeliveryInformation();
@@ -274,6 +327,9 @@ public class DomesticHelpRequestRecord extends RequestRecord {
                     )
                 );
 			request.setSpouseEmployer(this.requesterSpouseSpouseEmployer);
+			if (this.requesterSpouseSpouseFranceArrivalDate != null)
+			request.setSpouseFranceArrivalDate(this.requesterSpouseSpouseFranceArrivalDate.getTime());
+			request.setPensionPlanPrecision(this.pensionPlanPrecision);
   			if (request.getSpouseEmployerAddress() != null) {
 				request.getSpouseEmployerAddress().setAdditionalDeliveryInformation(this.requesterSpouseSpouseEmployerAddressAdditionalDeliveryInformation);
 				request.getSpouseEmployerAddress().setAdditionalGeographicalInformation(this.requesterSpouseSpouseEmployerAddressAdditionalGeographicalInformation);
@@ -283,10 +339,10 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 				request.getSpouseEmployerAddress().setPostalCode(this.requesterSpouseSpouseEmployerAddressPostalCode);
 				request.getSpouseEmployerAddress().setCity(this.requesterSpouseSpouseEmployerAddressCity);
 			}
-			if (this.requesterSpouseSpouseFranceArrivalDate != null)
-			request.setSpouseFranceArrivalDate(this.requesterSpouseSpouseFranceArrivalDate.getTime());
 			request.setRequesterIncomesAnnualTotal(this.requesterIncomesRequesterIncomesAnnualTotal);
+			request.setFamilyReferentDesignated(this.requesterFamilyReferentFamilyReferentDesignated);
 			request.setRequesterAllowances(this.requesterIncomesRequesterAllowances);
+			request.setRequesterRealEstateInvestmentIncome(this.requesterIncomesRequesterRealEstateInvestmentIncome);
 			if (this.currentDwellingCurrentDwellingType != null)
                 request.setCurrentDwellingType(
                     DhrDwellingType.forString(
@@ -295,10 +351,19 @@ public class DomesticHelpRequestRecord extends RequestRecord {
                             "CurrentDwellingType", this.currentDwellingCurrentDwellingType)
                     )
                 );
+			if (this.requesterRequestKind != null)
+                request.setRequesterRequestKind(
+                    DhrRequestKindType.forString(
+                        getEnumKeyTranslation(
+                            fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest.class.getName(), 
+                            "RequesterRequestKind", this.requesterRequestKind)
+                    )
+                );
 			request.setSpousePensionner(this.requesterSpouseSpousePensionner);
 			request.setTaxesTotal(this.taxesAmountTaxesTotal);
-			request.setSpouseSocialSecurityKeyNumber(this.requesterSpouseSpouseSocialSecurityKeyNumber);
 			request.setPropertyTaxes(this.taxesAmountPropertyTaxes);
+			request.setSpouseMoreThan15YearsInFrance(this.requesterSpouseSpouseMoreThan15YearsInFrance);
+			request.setFamilyReferentFirstName(this.requesterFamilyReferentFamilyReferentFirstName);
 			if (this.requesterPensionPlan != null)
                 request.setRequesterPensionPlan(
                     DhrPensionPlanType.forString(
@@ -317,10 +382,12 @@ public class DomesticHelpRequestRecord extends RequestRecord {
                     )
                 );
 			request.setCurrentDwellingNetFloorArea(this.currentDwellingCurrentDwellingNetFloorArea);
+			request.setComplementaryPensionPlanPrecision(this.complementaryPensionPlanPrecision);
 			if (this.currentDwellingCurrentDwellingArrivalDate != null)
 			request.setCurrentDwellingArrivalDate(this.currentDwellingCurrentDwellingArrivalDate.getTime());
+			if (this.previousDwellingPreviousDwellingDepartureDate != null)
+			request.setPreviousDwellingDepartureDate(this.previousDwellingPreviousDwellingDepartureDate.getTime());
 			request.setTutorName(this.requesterSituationTutorName);
-			request.setSpouseInvestmentIncome(this.requesterSpouseIncomesSpouseInvestmentIncome);
   			if (request.getTutorAddress() != null) {
 				request.getTutorAddress().setAdditionalDeliveryInformation(this.requesterSituationTutorAddressAdditionalDeliveryInformation);
 				request.getTutorAddress().setAdditionalGeographicalInformation(this.requesterSituationTutorAddressAdditionalGeographicalInformation);
@@ -332,12 +399,28 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 			}
 			request.setRequesterNetIncome(this.requesterIncomesRequesterNetIncome);
 			request.setSpouseOccupation(this.requesterSpouseSpouseOccupation);
-			request.setSpouseSocialSecurityNumber(this.requesterSpouseSpouseSocialSecurityNumber);
-			request.setTutorFirstName(this.requesterSituationTutorFirstName);
-			request.setSocialSecurityNumber(this.socialSecurityNumber);
-			request.setRequesterInvestmentIncome(this.requesterIncomesRequesterInvestmentIncome);
+			request.setCurrentDwellingPersonalPhone(this.currentDwellingCurrentDwellingPersonalPhone);
 			request.setSpouseNetIncome(this.requesterSpouseIncomesSpouseNetIncome);
+			request.setRequesterFurnitureInvestmentIncome(this.requesterIncomesRequesterFurnitureInvestmentIncome);
+  			if (request.getFamilyReferentAddress() != null) {
+				request.getFamilyReferentAddress().setAdditionalDeliveryInformation(this.requesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation);
+				request.getFamilyReferentAddress().setAdditionalGeographicalInformation(this.requesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation);
+				request.getFamilyReferentAddress().setStreetNumber(this.requesterFamilyReferentFamilyReferentAddressStreetNumber);
+				request.getFamilyReferentAddress().setStreetName(this.requesterFamilyReferentFamilyReferentAddressStreetName);
+				request.getFamilyReferentAddress().setPlaceNameOrService(this.requesterFamilyReferentFamilyReferentAddressPlaceNameOrService);
+				request.getFamilyReferentAddress().setPostalCode(this.requesterFamilyReferentFamilyReferentAddressPostalCode);
+				request.getFamilyReferentAddress().setCity(this.requesterFamilyReferentFamilyReferentAddressCity);
+			}
 			request.setSpouseAllowances(this.requesterSpouseIncomesSpouseAllowances);
+			request.setFamilyReferentName(this.requesterFamilyReferentFamilyReferentName);
+			if (this.requesterHasSpouse != null)
+                request.setRequesterHasSpouse(
+                    DhrRequesterHasSpouse.forString(
+                        getEnumKeyTranslation(
+                            fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest.class.getName(), 
+                            "RequesterHasSpouse", this.requesterHasSpouse)
+                    )
+                );
 			if (this.currentDwellingCurrentDwellingStatus != null)
                 request.setCurrentDwellingStatus(
                     DhrDwellingStatusType.forString(
@@ -346,9 +429,19 @@ public class DomesticHelpRequestRecord extends RequestRecord {
                             "CurrentDwellingStatus", this.currentDwellingCurrentDwellingStatus)
                     )
                 );
-			request.setAlimonies(this.mensualExpensesAlimonies);
+			request.setSpouseComplementaryPensionPlanPrecision(this.requesterSpouseSpouseComplementaryPensionPlanPrecision);
+  			if (request.getPreviousDwellingAddress() != null) {
+				request.getPreviousDwellingAddress().setAdditionalDeliveryInformation(this.previousDwellingPreviousDwellingAddressAdditionalDeliveryInformation);
+				request.getPreviousDwellingAddress().setAdditionalGeographicalInformation(this.previousDwellingPreviousDwellingAddressAdditionalGeographicalInformation);
+				request.getPreviousDwellingAddress().setStreetNumber(this.previousDwellingPreviousDwellingAddressStreetNumber);
+				request.getPreviousDwellingAddress().setStreetName(this.previousDwellingPreviousDwellingAddressStreetName);
+				request.getPreviousDwellingAddress().setPlaceNameOrService(this.previousDwellingPreviousDwellingAddressPlaceNameOrService);
+				request.getPreviousDwellingAddress().setPostalCode(this.previousDwellingPreviousDwellingAddressPostalCode);
+				request.getPreviousDwellingAddress().setCity(this.previousDwellingPreviousDwellingAddressCity);
+			}
 			request.setProfessionalTaxes(this.taxesAmountProfessionalTaxes);
-			request.setExpensesTotal(this.mensualExpensesExpensesTotal);
+			if (this.previousDwellingPreviousDwellingArrivalDate != null)
+			request.setPreviousDwellingArrivalDate(this.previousDwellingPreviousDwellingArrivalDate.getTime());
 			request.setTutorPresence(this.requesterSituationTutorPresence);
 			if (this.requesterSpouseSpousePensionPlan != null)
                 request.setSpousePensionPlan(
@@ -358,11 +451,14 @@ public class DomesticHelpRequestRecord extends RequestRecord {
                             "SpousePensionPlan", this.requesterSpouseSpousePensionPlan)
                     )
                 );
-			request.setSocialSecurityKeyNumber(this.socialSecurityKeyNumber);
-			request.setRent(this.mensualExpensesRent);
+			request.setSpouseFurnitureInvestmentIncome(this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome);
+			request.setSpouseRealEstateInvestmentIncome(this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome);
 			request.setRequesterPensions(this.requesterIncomesRequesterPensions);
 			if (this.franceArrivalDate != null)
 			request.setFranceArrivalDate(this.franceArrivalDate.getTime());
+            if ((request.getMoreThan15YearsInFrance() != null))
+			request.setMoreThan15YearsInFrance(this.moreThan15YearsInFrance);
+			request.setSpousePensionPlanPrecision(this.requesterSpouseSpousePensionPlanPrecision);
   			if (request.getCurrentDwellingAddress() != null) {
 				request.getCurrentDwellingAddress().setAdditionalDeliveryInformation(this.currentDwellingCurrentDwellingAddressAdditionalDeliveryInformation);
 				request.getCurrentDwellingAddress().setAdditionalGeographicalInformation(this.currentDwellingCurrentDwellingAddressAdditionalGeographicalInformation);
@@ -384,6 +480,14 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.taxesAmountIncomeTax;
 	}
 
+	public void setNotRealAssetsValuesTotal(java.math.BigInteger notRealAssetsValuesTotal) {
+		this.notRealAssetsValuesTotal = notRealAssetsValuesTotal;
+	}
+	
+	public java.math.BigInteger getNotRealAssetsValuesTotal() {
+		return this.notRealAssetsValuesTotal;
+	}
+
 	public void setCurrentDwellingCurrentDwellingRoomNumber(java.math.BigInteger currentDwellingCurrentDwellingRoomNumber) {
 		this.currentDwellingCurrentDwellingRoomNumber = currentDwellingCurrentDwellingRoomNumber;
 	}
@@ -398,14 +502,6 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 	
 	public Calendar getSubjectAdultBirthDate() {
 		return this.subjectAdultBirthDate;
-	}
-
-	public void setCapitalsCapitalAmountTotal(java.math.BigInteger capitalsCapitalAmountTotal) {
-		this.capitalsCapitalAmountTotal = capitalsCapitalAmountTotal;
-	}
-	
-	public java.math.BigInteger getCapitalsCapitalAmountTotal() {
-		return this.capitalsCapitalAmountTotal;
 	}
 
 	public void setRequesterSpouseSpouseNationality(String requesterSpouseSpouseNationality) {
@@ -446,6 +542,22 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 	
 	public String getRequesterSpouseSpouseEmployer() {
 		return this.requesterSpouseSpouseEmployer;
+	}
+
+	public void setRequesterSpouseSpouseFranceArrivalDate(Calendar requesterSpouseSpouseFranceArrivalDate) {
+		this.requesterSpouseSpouseFranceArrivalDate = requesterSpouseSpouseFranceArrivalDate;
+	}
+	
+	public Calendar getRequesterSpouseSpouseFranceArrivalDate() {
+		return this.requesterSpouseSpouseFranceArrivalDate;
+	}
+
+	public void setPensionPlanPrecision(String pensionPlanPrecision) {
+		this.pensionPlanPrecision = pensionPlanPrecision;
+	}
+	
+	public String getPensionPlanPrecision() {
+		return this.pensionPlanPrecision;
 	}
 
 	public void setRequesterSpouseSpouseEmployerAddressAdditionalDeliveryInformation(String requesterSpouseSpouseEmployerAddressAdditionalDeliveryInformation) {
@@ -504,20 +616,20 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.requesterSpouseSpouseEmployerAddressCity;
 	}
 
-	public void setRequesterSpouseSpouseFranceArrivalDate(Calendar requesterSpouseSpouseFranceArrivalDate) {
-		this.requesterSpouseSpouseFranceArrivalDate = requesterSpouseSpouseFranceArrivalDate;
-	}
-	
-	public Calendar getRequesterSpouseSpouseFranceArrivalDate() {
-		return this.requesterSpouseSpouseFranceArrivalDate;
-	}
-
 	public void setRequesterIncomesRequesterIncomesAnnualTotal(java.math.BigInteger requesterIncomesRequesterIncomesAnnualTotal) {
 		this.requesterIncomesRequesterIncomesAnnualTotal = requesterIncomesRequesterIncomesAnnualTotal;
 	}
 	
 	public java.math.BigInteger getRequesterIncomesRequesterIncomesAnnualTotal() {
 		return this.requesterIncomesRequesterIncomesAnnualTotal;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentDesignated(boolean requesterFamilyReferentFamilyReferentDesignated) {
+		this.requesterFamilyReferentFamilyReferentDesignated = requesterFamilyReferentFamilyReferentDesignated;
+	}
+	
+	public boolean getRequesterFamilyReferentFamilyReferentDesignated() {
+		return this.requesterFamilyReferentFamilyReferentDesignated;
 	}
 
 	public void setRequesterIncomesRequesterAllowances(java.math.BigInteger requesterIncomesRequesterAllowances) {
@@ -528,12 +640,28 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.requesterIncomesRequesterAllowances;
 	}
 
+	public void setRequesterIncomesRequesterRealEstateInvestmentIncome(java.math.BigInteger requesterIncomesRequesterRealEstateInvestmentIncome) {
+		this.requesterIncomesRequesterRealEstateInvestmentIncome = requesterIncomesRequesterRealEstateInvestmentIncome;
+	}
+	
+	public java.math.BigInteger getRequesterIncomesRequesterRealEstateInvestmentIncome() {
+		return this.requesterIncomesRequesterRealEstateInvestmentIncome;
+	}
+
 	public void setSubjectAdultFirstName(String subjectAdultFirstName) {
 		this.subjectAdultFirstName = subjectAdultFirstName;
 	}
 	
 	public String getSubjectAdultFirstName() {
 		return this.subjectAdultFirstName;
+	}
+
+	public void setSubjectAdultFamilyStatus(String subjectAdultFamilyStatus) {
+		this.subjectAdultFamilyStatus = subjectAdultFamilyStatus;
+	}
+	
+	public String getSubjectAdultFamilyStatus() {
+		return this.subjectAdultFamilyStatus;
 	}
 
 	public void setCurrentDwellingCurrentDwellingType(String currentDwellingCurrentDwellingType) {
@@ -552,12 +680,28 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.subjectAdultMaidenName;
 	}
 
+	public void setRequesterRequestKind(String requesterRequestKind) {
+		this.requesterRequestKind = requesterRequestKind;
+	}
+	
+	public String getRequesterRequestKind() {
+		return this.requesterRequestKind;
+	}
+
 	public void setSubjectAdultLastName(String subjectAdultLastName) {
 		this.subjectAdultLastName = subjectAdultLastName;
 	}
 	
 	public String getSubjectAdultLastName() {
 		return this.subjectAdultLastName;
+	}
+
+	public void setNotRealAssets(List notRealAssets) {
+		this.notRealAssets = notRealAssets;
+	}
+	
+	public List getNotRealAssets() {
+		return this.notRealAssets;
 	}
 
 	public void setRequesterSpouseSpousePensionner(boolean requesterSpouseSpousePensionner) {
@@ -576,20 +720,28 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.taxesAmountTaxesTotal;
 	}
 
-	public void setRequesterSpouseSpouseSocialSecurityKeyNumber(String requesterSpouseSpouseSocialSecurityKeyNumber) {
-		this.requesterSpouseSpouseSocialSecurityKeyNumber = requesterSpouseSpouseSocialSecurityKeyNumber;
-	}
-	
-	public String getRequesterSpouseSpouseSocialSecurityKeyNumber() {
-		return this.requesterSpouseSpouseSocialSecurityKeyNumber;
-	}
-
 	public void setTaxesAmountPropertyTaxes(java.math.BigInteger taxesAmountPropertyTaxes) {
 		this.taxesAmountPropertyTaxes = taxesAmountPropertyTaxes;
 	}
 	
 	public java.math.BigInteger getTaxesAmountPropertyTaxes() {
 		return this.taxesAmountPropertyTaxes;
+	}
+
+	public void setRequesterSpouseSpouseMoreThan15YearsInFrance(boolean requesterSpouseSpouseMoreThan15YearsInFrance) {
+		this.requesterSpouseSpouseMoreThan15YearsInFrance = requesterSpouseSpouseMoreThan15YearsInFrance;
+	}
+	
+	public boolean getRequesterSpouseSpouseMoreThan15YearsInFrance() {
+		return this.requesterSpouseSpouseMoreThan15YearsInFrance;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentFirstName(String requesterFamilyReferentFamilyReferentFirstName) {
+		this.requesterFamilyReferentFamilyReferentFirstName = requesterFamilyReferentFamilyReferentFirstName;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentFirstName() {
+		return this.requesterFamilyReferentFamilyReferentFirstName;
 	}
 
 	public void setRequesterPensionPlan(String requesterPensionPlan) {
@@ -632,6 +784,14 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.currentDwellingCurrentDwellingNetFloorArea;
 	}
 
+	public void setComplementaryPensionPlanPrecision(String complementaryPensionPlanPrecision) {
+		this.complementaryPensionPlanPrecision = complementaryPensionPlanPrecision;
+	}
+	
+	public String getComplementaryPensionPlanPrecision() {
+		return this.complementaryPensionPlanPrecision;
+	}
+
 	public void setCurrentDwellingCurrentDwellingArrivalDate(Calendar currentDwellingCurrentDwellingArrivalDate) {
 		this.currentDwellingCurrentDwellingArrivalDate = currentDwellingCurrentDwellingArrivalDate;
 	}
@@ -640,20 +800,20 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.currentDwellingCurrentDwellingArrivalDate;
 	}
 
+	public void setPreviousDwellingPreviousDwellingDepartureDate(Calendar previousDwellingPreviousDwellingDepartureDate) {
+		this.previousDwellingPreviousDwellingDepartureDate = previousDwellingPreviousDwellingDepartureDate;
+	}
+	
+	public Calendar getPreviousDwellingPreviousDwellingDepartureDate() {
+		return this.previousDwellingPreviousDwellingDepartureDate;
+	}
+
 	public void setRequesterSituationTutorName(String requesterSituationTutorName) {
 		this.requesterSituationTutorName = requesterSituationTutorName;
 	}
 	
 	public String getRequesterSituationTutorName() {
 		return this.requesterSituationTutorName;
-	}
-
-	public void setRequesterSpouseIncomesSpouseInvestmentIncome(java.math.BigInteger requesterSpouseIncomesSpouseInvestmentIncome) {
-		this.requesterSpouseIncomesSpouseInvestmentIncome = requesterSpouseIncomesSpouseInvestmentIncome;
-	}
-	
-	public java.math.BigInteger getRequesterSpouseIncomesSpouseInvestmentIncome() {
-		return this.requesterSpouseIncomesSpouseInvestmentIncome;
 	}
 
 	public void setRequesterSituationTutorAddressAdditionalDeliveryInformation(String requesterSituationTutorAddressAdditionalDeliveryInformation) {
@@ -736,52 +896,12 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.requesterSpouseSpouseInformationBirthPlaceCity;
 	}
 
-	public void setRequesterSpouseSpouseSocialSecurityNumber(String requesterSpouseSpouseSocialSecurityNumber) {
-		this.requesterSpouseSpouseSocialSecurityNumber = requesterSpouseSpouseSocialSecurityNumber;
+	public void setCurrentDwellingCurrentDwellingPersonalPhone(String currentDwellingCurrentDwellingPersonalPhone) {
+		this.currentDwellingCurrentDwellingPersonalPhone = currentDwellingCurrentDwellingPersonalPhone;
 	}
 	
-	public String getRequesterSpouseSpouseSocialSecurityNumber() {
-		return this.requesterSpouseSpouseSocialSecurityNumber;
-	}
-
-	public void setRequesterSituationTutorFirstName(String requesterSituationTutorFirstName) {
-		this.requesterSituationTutorFirstName = requesterSituationTutorFirstName;
-	}
-	
-	public String getRequesterSituationTutorFirstName() {
-		return this.requesterSituationTutorFirstName;
-	}
-
-	public void setCapitalsSharesAmount(java.math.BigInteger capitalsSharesAmount) {
-		this.capitalsSharesAmount = capitalsSharesAmount;
-	}
-	
-	public java.math.BigInteger getCapitalsSharesAmount() {
-		return this.capitalsSharesAmount;
-	}
-
-	public void setSavings(List savings) {
-		this.savings = savings;
-	}
-	
-	public List getSavings() {
-		return this.savings;
-	}
-
-	public void setSocialSecurityNumber(String socialSecurityNumber) {
-		this.socialSecurityNumber = socialSecurityNumber;
-	}
-	
-	public String getSocialSecurityNumber() {
-		return this.socialSecurityNumber;
-	}
-
-	public void setRequesterIncomesRequesterInvestmentIncome(java.math.BigInteger requesterIncomesRequesterInvestmentIncome) {
-		this.requesterIncomesRequesterInvestmentIncome = requesterIncomesRequesterInvestmentIncome;
-	}
-	
-	public java.math.BigInteger getRequesterIncomesRequesterInvestmentIncome() {
-		return this.requesterIncomesRequesterInvestmentIncome;
+	public String getCurrentDwellingCurrentDwellingPersonalPhone() {
+		return this.currentDwellingCurrentDwellingPersonalPhone;
 	}
 
 	public void setRequesterSpouseIncomesSpouseNetIncome(java.math.BigInteger requesterSpouseIncomesSpouseNetIncome) {
@@ -792,20 +912,76 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.requesterSpouseIncomesSpouseNetIncome;
 	}
 
+	public void setRequesterIncomesRequesterFurnitureInvestmentIncome(java.math.BigInteger requesterIncomesRequesterFurnitureInvestmentIncome) {
+		this.requesterIncomesRequesterFurnitureInvestmentIncome = requesterIncomesRequesterFurnitureInvestmentIncome;
+	}
+	
+	public java.math.BigInteger getRequesterIncomesRequesterFurnitureInvestmentIncome() {
+		return this.requesterIncomesRequesterFurnitureInvestmentIncome;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation(String requesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation) {
+		this.requesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation = requesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation() {
+		return this.requesterFamilyReferentFamilyReferentAddressAdditionalDeliveryInformation;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation(String requesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation) {
+		this.requesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation = requesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation() {
+		return this.requesterFamilyReferentFamilyReferentAddressAdditionalGeographicalInformation;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentAddressStreetNumber(String requesterFamilyReferentFamilyReferentAddressStreetNumber) {
+		this.requesterFamilyReferentFamilyReferentAddressStreetNumber = requesterFamilyReferentFamilyReferentAddressStreetNumber;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentAddressStreetNumber() {
+		return this.requesterFamilyReferentFamilyReferentAddressStreetNumber;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentAddressStreetName(String requesterFamilyReferentFamilyReferentAddressStreetName) {
+		this.requesterFamilyReferentFamilyReferentAddressStreetName = requesterFamilyReferentFamilyReferentAddressStreetName;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentAddressStreetName() {
+		return this.requesterFamilyReferentFamilyReferentAddressStreetName;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentAddressPlaceNameOrService(String requesterFamilyReferentFamilyReferentAddressPlaceNameOrService) {
+		this.requesterFamilyReferentFamilyReferentAddressPlaceNameOrService = requesterFamilyReferentFamilyReferentAddressPlaceNameOrService;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentAddressPlaceNameOrService() {
+		return this.requesterFamilyReferentFamilyReferentAddressPlaceNameOrService;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentAddressPostalCode(String requesterFamilyReferentFamilyReferentAddressPostalCode) {
+		this.requesterFamilyReferentFamilyReferentAddressPostalCode = requesterFamilyReferentFamilyReferentAddressPostalCode;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentAddressPostalCode() {
+		return this.requesterFamilyReferentFamilyReferentAddressPostalCode;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentAddressCity(String requesterFamilyReferentFamilyReferentAddressCity) {
+		this.requesterFamilyReferentFamilyReferentAddressCity = requesterFamilyReferentFamilyReferentAddressCity;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentAddressCity() {
+		return this.requesterFamilyReferentFamilyReferentAddressCity;
+	}
+
 	public void setRequesterSpouseIncomesSpouseAllowances(java.math.BigInteger requesterSpouseIncomesSpouseAllowances) {
 		this.requesterSpouseIncomesSpouseAllowances = requesterSpouseIncomesSpouseAllowances;
 	}
 	
 	public java.math.BigInteger getRequesterSpouseIncomesSpouseAllowances() {
 		return this.requesterSpouseIncomesSpouseAllowances;
-	}
-
-	public void setRequesterSpouseSpouseInformationMaidenName(String requesterSpouseSpouseInformationMaidenName) {
-		this.requesterSpouseSpouseInformationMaidenName = requesterSpouseSpouseInformationMaidenName;
-	}
-	
-	public String getRequesterSpouseSpouseInformationMaidenName() {
-		return this.requesterSpouseSpouseInformationMaidenName;
 	}
 
 	public void setRealAssets(List realAssets) {
@@ -816,12 +992,44 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.realAssets;
 	}
 
+	public void setRequesterSpouseSpouseInformationMaidenName(String requesterSpouseSpouseInformationMaidenName) {
+		this.requesterSpouseSpouseInformationMaidenName = requesterSpouseSpouseInformationMaidenName;
+	}
+	
+	public String getRequesterSpouseSpouseInformationMaidenName() {
+		return this.requesterSpouseSpouseInformationMaidenName;
+	}
+
+	public void setRequesterFamilyReferentFamilyReferentName(String requesterFamilyReferentFamilyReferentName) {
+		this.requesterFamilyReferentFamilyReferentName = requesterFamilyReferentFamilyReferentName;
+	}
+	
+	public String getRequesterFamilyReferentFamilyReferentName() {
+		return this.requesterFamilyReferentFamilyReferentName;
+	}
+
+	public void setRequesterHasSpouse(String requesterHasSpouse) {
+		this.requesterHasSpouse = requesterHasSpouse;
+	}
+	
+	public String getRequesterHasSpouse() {
+		return this.requesterHasSpouse;
+	}
+
 	public void setCurrentDwellingCurrentDwellingStatus(String currentDwellingCurrentDwellingStatus) {
 		this.currentDwellingCurrentDwellingStatus = currentDwellingCurrentDwellingStatus;
 	}
 	
 	public String getCurrentDwellingCurrentDwellingStatus() {
 		return this.currentDwellingCurrentDwellingStatus;
+	}
+
+	public void setRequesterSpouseSpouseComplementaryPensionPlanPrecision(String requesterSpouseSpouseComplementaryPensionPlanPrecision) {
+		this.requesterSpouseSpouseComplementaryPensionPlanPrecision = requesterSpouseSpouseComplementaryPensionPlanPrecision;
+	}
+	
+	public String getRequesterSpouseSpouseComplementaryPensionPlanPrecision() {
+		return this.requesterSpouseSpouseComplementaryPensionPlanPrecision;
 	}
 
 	public void setRequesterSpouseSpouseInformationBirthDate(Calendar requesterSpouseSpouseInformationBirthDate) {
@@ -832,12 +1040,68 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.requesterSpouseSpouseInformationBirthDate;
 	}
 
-	public void setMensualExpensesAlimonies(java.math.BigInteger mensualExpensesAlimonies) {
-		this.mensualExpensesAlimonies = mensualExpensesAlimonies;
+	public void setPreviousDwellingPreviousDwellingAddressAdditionalDeliveryInformation(String previousDwellingPreviousDwellingAddressAdditionalDeliveryInformation) {
+		this.previousDwellingPreviousDwellingAddressAdditionalDeliveryInformation = previousDwellingPreviousDwellingAddressAdditionalDeliveryInformation;
 	}
 	
-	public java.math.BigInteger getMensualExpensesAlimonies() {
-		return this.mensualExpensesAlimonies;
+	public String getPreviousDwellingPreviousDwellingAddressAdditionalDeliveryInformation() {
+		return this.previousDwellingPreviousDwellingAddressAdditionalDeliveryInformation;
+	}
+
+	public void setPreviousDwellingPreviousDwellingAddressAdditionalGeographicalInformation(String previousDwellingPreviousDwellingAddressAdditionalGeographicalInformation) {
+		this.previousDwellingPreviousDwellingAddressAdditionalGeographicalInformation = previousDwellingPreviousDwellingAddressAdditionalGeographicalInformation;
+	}
+	
+	public String getPreviousDwellingPreviousDwellingAddressAdditionalGeographicalInformation() {
+		return this.previousDwellingPreviousDwellingAddressAdditionalGeographicalInformation;
+	}
+
+	public void setPreviousDwellingPreviousDwellingAddressStreetNumber(String previousDwellingPreviousDwellingAddressStreetNumber) {
+		this.previousDwellingPreviousDwellingAddressStreetNumber = previousDwellingPreviousDwellingAddressStreetNumber;
+	}
+	
+	public String getPreviousDwellingPreviousDwellingAddressStreetNumber() {
+		return this.previousDwellingPreviousDwellingAddressStreetNumber;
+	}
+
+	public void setPreviousDwellingPreviousDwellingAddressStreetName(String previousDwellingPreviousDwellingAddressStreetName) {
+		this.previousDwellingPreviousDwellingAddressStreetName = previousDwellingPreviousDwellingAddressStreetName;
+	}
+	
+	public String getPreviousDwellingPreviousDwellingAddressStreetName() {
+		return this.previousDwellingPreviousDwellingAddressStreetName;
+	}
+
+	public void setPreviousDwellingPreviousDwellingAddressPlaceNameOrService(String previousDwellingPreviousDwellingAddressPlaceNameOrService) {
+		this.previousDwellingPreviousDwellingAddressPlaceNameOrService = previousDwellingPreviousDwellingAddressPlaceNameOrService;
+	}
+	
+	public String getPreviousDwellingPreviousDwellingAddressPlaceNameOrService() {
+		return this.previousDwellingPreviousDwellingAddressPlaceNameOrService;
+	}
+
+	public void setPreviousDwellingPreviousDwellingAddressPostalCode(String previousDwellingPreviousDwellingAddressPostalCode) {
+		this.previousDwellingPreviousDwellingAddressPostalCode = previousDwellingPreviousDwellingAddressPostalCode;
+	}
+	
+	public String getPreviousDwellingPreviousDwellingAddressPostalCode() {
+		return this.previousDwellingPreviousDwellingAddressPostalCode;
+	}
+
+	public void setPreviousDwellingPreviousDwellingAddressCity(String previousDwellingPreviousDwellingAddressCity) {
+		this.previousDwellingPreviousDwellingAddressCity = previousDwellingPreviousDwellingAddressCity;
+	}
+	
+	public String getPreviousDwellingPreviousDwellingAddressCity() {
+		return this.previousDwellingPreviousDwellingAddressCity;
+	}
+
+	public void setSubjectAdultTitle(String subjectAdultTitle) {
+		this.subjectAdultTitle = subjectAdultTitle;
+	}
+	
+	public String getSubjectAdultTitle() {
+		return this.subjectAdultTitle;
 	}
 
 	public void setTaxesAmountProfessionalTaxes(java.math.BigInteger taxesAmountProfessionalTaxes) {
@@ -848,36 +1112,12 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.taxesAmountProfessionalTaxes;
 	}
 
-	public void setDonationsValuesTotal(java.math.BigInteger donationsValuesTotal) {
-		this.donationsValuesTotal = donationsValuesTotal;
+	public void setPreviousDwellingPreviousDwellingArrivalDate(Calendar previousDwellingPreviousDwellingArrivalDate) {
+		this.previousDwellingPreviousDwellingArrivalDate = previousDwellingPreviousDwellingArrivalDate;
 	}
 	
-	public java.math.BigInteger getDonationsValuesTotal() {
-		return this.donationsValuesTotal;
-	}
-
-	public void setMensualExpensesExpensesTotal(java.math.BigInteger mensualExpensesExpensesTotal) {
-		this.mensualExpensesExpensesTotal = mensualExpensesExpensesTotal;
-	}
-	
-	public java.math.BigInteger getMensualExpensesExpensesTotal() {
-		return this.mensualExpensesExpensesTotal;
-	}
-
-	public void setSavingsTotal(java.math.BigInteger savingsTotal) {
-		this.savingsTotal = savingsTotal;
-	}
-	
-	public java.math.BigInteger getSavingsTotal() {
-		return this.savingsTotal;
-	}
-
-	public void setCapitalsBondsAmount(java.math.BigInteger capitalsBondsAmount) {
-		this.capitalsBondsAmount = capitalsBondsAmount;
-	}
-	
-	public java.math.BigInteger getCapitalsBondsAmount() {
-		return this.capitalsBondsAmount;
+	public Calendar getPreviousDwellingPreviousDwellingArrivalDate() {
+		return this.previousDwellingPreviousDwellingArrivalDate;
 	}
 
 	public void setRequesterSituationTutorPresence(boolean requesterSituationTutorPresence) {
@@ -896,28 +1136,20 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.requesterSpouseSpousePensionPlan;
 	}
 
-	public void setSocialSecurityKeyNumber(String socialSecurityKeyNumber) {
-		this.socialSecurityKeyNumber = socialSecurityKeyNumber;
+	public void setRequesterSpouseIncomesSpouseFurnitureInvestmentIncome(java.math.BigInteger requesterSpouseIncomesSpouseFurnitureInvestmentIncome) {
+		this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome = requesterSpouseIncomesSpouseFurnitureInvestmentIncome;
 	}
 	
-	public String getSocialSecurityKeyNumber() {
-		return this.socialSecurityKeyNumber;
+	public java.math.BigInteger getRequesterSpouseIncomesSpouseFurnitureInvestmentIncome() {
+		return this.requesterSpouseIncomesSpouseFurnitureInvestmentIncome;
 	}
 
-	public void setMensualExpensesRent(java.math.BigInteger mensualExpensesRent) {
-		this.mensualExpensesRent = mensualExpensesRent;
+	public void setRequesterSpouseIncomesSpouseRealEstateInvestmentIncome(java.math.BigInteger requesterSpouseIncomesSpouseRealEstateInvestmentIncome) {
+		this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome = requesterSpouseIncomesSpouseRealEstateInvestmentIncome;
 	}
 	
-	public java.math.BigInteger getMensualExpensesRent() {
-		return this.mensualExpensesRent;
-	}
-
-	public void setDonations(List donations) {
-		this.donations = donations;
-	}
-	
-	public List getDonations() {
-		return this.donations;
+	public java.math.BigInteger getRequesterSpouseIncomesSpouseRealEstateInvestmentIncome() {
+		return this.requesterSpouseIncomesSpouseRealEstateInvestmentIncome;
 	}
 
 	public void setRequesterIncomesRequesterPensions(java.math.BigInteger requesterIncomesRequesterPensions) {
@@ -936,12 +1168,20 @@ public class DomesticHelpRequestRecord extends RequestRecord {
 		return this.franceArrivalDate;
 	}
 
-	public void setPreviousDwellings(List previousDwellings) {
-		this.previousDwellings = previousDwellings;
+	public void setMoreThan15YearsInFrance(boolean moreThan15YearsInFrance) {
+		this.moreThan15YearsInFrance = moreThan15YearsInFrance;
 	}
 	
-	public List getPreviousDwellings() {
-		return this.previousDwellings;
+	public boolean getMoreThan15YearsInFrance() {
+		return this.moreThan15YearsInFrance;
+	}
+
+	public void setRequesterSpouseSpousePensionPlanPrecision(String requesterSpouseSpousePensionPlanPrecision) {
+		this.requesterSpouseSpousePensionPlanPrecision = requesterSpouseSpousePensionPlanPrecision;
+	}
+	
+	public String getRequesterSpouseSpousePensionPlanPrecision() {
+		return this.requesterSpouseSpousePensionPlanPrecision;
 	}
 
 	public void setSubjectAdultBirthPlaceCity(String subjectAdultBirthPlaceCity) {

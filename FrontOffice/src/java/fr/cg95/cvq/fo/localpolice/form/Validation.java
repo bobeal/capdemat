@@ -124,6 +124,8 @@ public class Validation extends IStageForm {
 		if (this.checkOtherContactLastName() &&
 			((this.otherContactLastName == null) || (this.otherContactLastName.length() == 0)))
 			return false;
+		if (this.checkAbsenceEndDate() && (this.absenceEndDate == null))
+			return false;
   		if (this.checkOtherContactAddressStreetName() &&
 			((this.otherContactAddressStreetName == null) || (this.otherContactAddressStreetName.length() == 0)))
 			return false;
@@ -132,6 +134,8 @@ public class Validation extends IStageForm {
 			return false;
 		if (this.checkOtherContactAddressCity() &&
 			((this.otherContactAddressCity == null) || (this.otherContactAddressCity.length() == 0)))
+			return false;
+		if (this.checkAbsenceStartDate() && (this.absenceStartDate == null))
 			return false;
 		if (this.checkOtherContactFirstName() &&
 			((this.otherContactFirstName == null) || (this.otherContactFirstName.length() == 0)))

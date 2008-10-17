@@ -210,6 +210,9 @@ public class ${clazz.Name} extends IStageForm {
 		if (this.check${field.javaName("method")}() &&
 			((this.${field.javaName("")} == null) || (this.${field.javaName("")}.length() == 0)))
 			return false;
+#elseif ($field.javaType() != "boolean")
+		if (this.check${field.javaName("method")}() && (this.${field.javaName("")} == null))
+			return false;
 #end
 #end
 #end

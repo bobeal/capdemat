@@ -64,6 +64,8 @@ public class Nature extends IStageForm {
 	}
 	
 	public boolean isComplete() {
+		if (this.checkMarriageDate() && (this.marriageDate == null))
+			return false;
 		if (this.checkMarriageHusbandFirstNames() &&
 			((this.marriageHusbandFirstNames == null) || (this.marriageHusbandFirstNames.length() == 0)))
 			return false;

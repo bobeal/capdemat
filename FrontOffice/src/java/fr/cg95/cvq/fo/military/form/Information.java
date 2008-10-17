@@ -126,8 +126,14 @@ public class Information extends IStageForm {
 		if (this.checkMotherBirthCity() &&
 			((this.motherBirthCity == null) || (this.motherBirthCity.length() == 0)))
 			return false;
+		if (this.checkMotherBirthDate() && (this.motherBirthDate == null))
+			return false;
 		if (this.checkChildStatus() &&
 			((this.childStatus == null) || (this.childStatus.length() == 0)))
+			return false;
+		if (this.checkAliveChildren() && (this.aliveChildren == null))
+			return false;
+		if (this.checkChildrenInCharge() && (this.childrenInCharge == null))
 			return false;
 		if (this.checkChildSituation() &&
 			((this.childSituation == null) || (this.childSituation.length() == 0)))

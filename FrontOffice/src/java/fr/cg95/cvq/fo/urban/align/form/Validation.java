@@ -85,6 +85,8 @@ public class Validation extends IStageForm {
 		if (this.checkSection() &&
 			((this.section == null) || (this.section.length() == 0)))
 			return false;
+		if (this.checkNumber() && (this.number == null))
+			return false;
   		if (this.checkOwnerAddressStreetName() &&
 			((this.ownerAddressStreetName == null) || (this.ownerAddressStreetName.length() == 0)))
 			return false;

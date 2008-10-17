@@ -1,6 +1,6 @@
 package fr.cg95.cvq.business.social;
 
-import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.xml.common.*;
@@ -32,7 +32,10 @@ public class DomesticHelpRequest extends Request implements Serializable {
 
     public DomesticHelpRequest() {
         super();
+        familyReferentDesignated = Boolean.valueOf(false);
+        spouseMoreThan15YearsInFrance = Boolean.valueOf(false);
         tutorPresence = Boolean.valueOf(false);
+        moreThan15YearsInFrance = Boolean.valueOf(false);
     }
 
 
@@ -54,39 +57,25 @@ public class DomesticHelpRequest extends Request implements Serializable {
         DomesticHelpRequestDocument domesticHelpRequestDoc = DomesticHelpRequestDocument.Factory.newInstance();
         DomesticHelpRequestDocument.DomesticHelpRequest domesticHelpRequest = domesticHelpRequestDoc.addNewDomesticHelpRequest();
         super.fillCommonXmlInfo(domesticHelpRequest);
-        MensualExpensesType mensualExpensesTypeMensualExpenses = domesticHelpRequest.addNewMensualExpenses();
-        if (this.expensesTotal != null)
-            mensualExpensesTypeMensualExpenses.setExpensesTotal(new BigInteger(this.expensesTotal.toString()));
+        if (this.notRealAssetsValuesTotal != null)
+            domesticHelpRequest.setNotRealAssetsValuesTotal(new BigInteger(this.notRealAssetsValuesTotal.toString()));
+        int i = 0;
+        if (notRealAssets != null) {
+            fr.cg95.cvq.xml.social.DhrNotRealAssetType[] notRealAssetsTypeTab = new fr.cg95.cvq.xml.social.DhrNotRealAssetType[notRealAssets.size()];
+            Iterator notRealAssetsIt = notRealAssets.iterator();
+            while (notRealAssetsIt.hasNext()) {
+                DhrNotRealAsset object = (DhrNotRealAsset) notRealAssetsIt.next();
+                notRealAssetsTypeTab[i] = (DhrNotRealAssetType) object.modelToXml();
+                i = i + 1;
+            }
+            domesticHelpRequest.setNotRealAssetsArray(notRealAssetsTypeTab);
+        }
         CurrentDwellingType currentDwellingTypeCurrentDwelling = domesticHelpRequest.addNewCurrentDwelling();
         if (this.currentDwellingType != null)
             currentDwellingTypeCurrentDwelling.setCurrentDwellingType(fr.cg95.cvq.xml.social.DhrDwellingType.Enum.forString(this.currentDwellingType.toString()));
-        int i = 0;
-        if (savings != null) {
-            fr.cg95.cvq.xml.social.DhrPersonalEstateAndSavingType[] savingsTypeTab = new fr.cg95.cvq.xml.social.DhrPersonalEstateAndSavingType[savings.size()];
-            Iterator savingsIt = savings.iterator();
-            while (savingsIt.hasNext()) {
-                DhrPersonalEstateAndSaving object = (DhrPersonalEstateAndSaving) savingsIt.next();
-                savingsTypeTab[i] = (DhrPersonalEstateAndSavingType) object.modelToXml();
-                i = i + 1;
-            }
-            domesticHelpRequest.setSavingsArray(savingsTypeTab);
-        }
         TaxesAmountType taxesAmountTypeTaxesAmount = domesticHelpRequest.addNewTaxesAmount();
         if (this.professionalTaxes != null)
             taxesAmountTypeTaxesAmount.setProfessionalTaxes(new BigInteger(this.professionalTaxes.toString()));
-        RequesterSpouseType requesterSpouseTypeRequesterSpouse = domesticHelpRequest.addNewRequesterSpouse();
-        requesterSpouseTypeRequesterSpouse.setSpouseSocialSecurityNumber(this.spouseSocialSecurityNumber);
-        i = 0;
-        if (donations != null) {
-            fr.cg95.cvq.xml.social.DhrDonationType[] donationsTypeTab = new fr.cg95.cvq.xml.social.DhrDonationType[donations.size()];
-            Iterator donationsIt = donations.iterator();
-            while (donationsIt.hasNext()) {
-                DhrDonation object = (DhrDonation) donationsIt.next();
-                donationsTypeTab[i] = (DhrDonationType) object.modelToXml();
-                i = i + 1;
-            }
-            domesticHelpRequest.setDonationsArray(donationsTypeTab);
-        }
         SpouseIncomesType spouseIncomesTypeRequesterSpouseIncomes = domesticHelpRequest.addNewRequesterSpouseIncomes();
         if (this.spousePensions != null)
             spouseIncomesTypeRequesterSpouseIncomes.setSpousePensions(new BigInteger(this.spousePensions.toString()));
@@ -95,11 +84,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         RequesterSituationType requesterSituationTypeRequesterSituation = domesticHelpRequest.addNewRequesterSituation();
         if (this.tutorAddress != null)
             requesterSituationTypeRequesterSituation.setTutorAddress(Address.modelToXml(this.tutorAddress));
-        RequesterIncomesType requesterIncomesTypeRequesterIncomes = domesticHelpRequest.addNewRequesterIncomes();
-        if (this.requesterInvestmentIncome != null)
-            requesterIncomesTypeRequesterIncomes.setRequesterInvestmentIncome(new BigInteger(this.requesterInvestmentIncome.toString()));
-        if (this.alimonies != null)
-            mensualExpensesTypeMensualExpenses.setAlimonies(new BigInteger(this.alimonies.toString()));
         i = 0;
         if (realAssets != null) {
             fr.cg95.cvq.xml.social.DhrRealAssetType[] realAssetsTypeTab = new fr.cg95.cvq.xml.social.DhrRealAssetType[realAssets.size()];
@@ -111,9 +95,14 @@ public class DomesticHelpRequest extends Request implements Serializable {
             }
             domesticHelpRequest.setRealAssetsArray(realAssetsTypeTab);
         }
-        DhrPersonalEstateAndCapitalType dhrPersonalEstateAndCapitalTypeCapitals = domesticHelpRequest.addNewCapitals();
-        if (this.sharesAmount != null)
-            dhrPersonalEstateAndCapitalTypeCapitals.setSharesAmount(new BigInteger(this.sharesAmount.toString()));
+        domesticHelpRequest.setPensionPlanPrecision(this.pensionPlanPrecision);
+        RequesterSpouseType requesterSpouseTypeRequesterSpouse = domesticHelpRequest.addNewRequesterSpouse();
+        requesterSpouseTypeRequesterSpouse.setSpouseComplementaryPensionPlanPrecision(this.spouseComplementaryPensionPlanPrecision);
+        RequesterFamilyReferentType requesterFamilyReferentTypeRequesterFamilyReferent = domesticHelpRequest.addNewRequesterFamilyReferent();
+        if (this.familyReferentAddress != null)
+            requesterFamilyReferentTypeRequesterFamilyReferent.setFamilyReferentAddress(Address.modelToXml(this.familyReferentAddress));
+        if (this.familyReferentDesignated != null)
+            requesterFamilyReferentTypeRequesterFamilyReferent.setFamilyReferentDesignated(this.familyReferentDesignated.booleanValue());
         date = this.currentDwellingArrivalDate;
         if (date != null) {
             calendar.setTime(date);
@@ -121,6 +110,10 @@ public class DomesticHelpRequest extends Request implements Serializable {
         }
         if (this.incomeTax != null)
             taxesAmountTypeTaxesAmount.setIncomeTax(new BigInteger(this.incomeTax.toString()));
+        if (this.spouseMoreThan15YearsInFrance != null)
+            requesterSpouseTypeRequesterSpouse.setSpouseMoreThan15YearsInFrance(this.spouseMoreThan15YearsInFrance.booleanValue());
+        if (this.requesterRequestKind != null)
+            domesticHelpRequest.setRequesterRequestKind(fr.cg95.cvq.xml.social.DhrRequestKindType.Enum.forString(this.requesterRequestKind.toString()));
         requesterSituationTypeRequesterSituation.setTutorName(this.tutorName);
         if (this.spouseAllowances != null)
             spouseIncomesTypeRequesterSpouseIncomes.setSpouseAllowances(new BigInteger(this.spouseAllowances.toString()));
@@ -137,19 +130,27 @@ public class DomesticHelpRequest extends Request implements Serializable {
             domesticHelpRequest.setRealAssetsValuesTotal(new BigInteger(this.realAssetsValuesTotal.toString()));
         if (this.spouseEmployerAddress != null)
             requesterSpouseTypeRequesterSpouse.setSpouseEmployerAddress(Address.modelToXml(this.spouseEmployerAddress));
+        domesticHelpRequest.setComplementaryPensionPlanPrecision(this.complementaryPensionPlanPrecision);
         if (this.spouseNationality != null)
             requesterSpouseTypeRequesterSpouse.setSpouseNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(this.spouseNationality.toString()));
+        DhrPreviousDwellingType dhrPreviousDwellingTypePreviousDwelling = domesticHelpRequest.addNewPreviousDwelling();
+        if (this.previousDwellingAddress != null)
+            dhrPreviousDwellingTypePreviousDwelling.setPreviousDwellingAddress(Address.modelToXml(this.previousDwellingAddress));
         if (this.currentDwellingAddress != null)
             currentDwellingTypeCurrentDwelling.setCurrentDwellingAddress(Address.modelToXml(this.currentDwellingAddress));
+        currentDwellingTypeCurrentDwelling.setCurrentDwellingPersonalPhone(this.currentDwellingPersonalPhone);
         if (this.spouseInformation != null)
             requesterSpouseTypeRequesterSpouse.setSpouseInformation(Adult.modelToXml(this.spouseInformation));
         if (this.tutorPresence != null)
             requesterSituationTypeRequesterSituation.setTutorPresence(this.tutorPresence.booleanValue());
-        domesticHelpRequest.setSocialSecurityNumber(this.socialSecurityNumber);
+        RequesterIncomesType requesterIncomesTypeRequesterIncomes = domesticHelpRequest.addNewRequesterIncomes();
         if (this.requesterIncomesAnnualTotal != null)
             requesterIncomesTypeRequesterIncomes.setRequesterIncomesAnnualTotal(new BigInteger(this.requesterIncomesAnnualTotal.toString()));
         if (this.tutor != null)
             requesterSituationTypeRequesterSituation.setTutor(fr.cg95.cvq.xml.social.DhrTutorType.Enum.forString(this.tutor.toString()));
+        requesterFamilyReferentTypeRequesterFamilyReferent.setFamilyReferentName(this.familyReferentName);
+        if (this.spouseRealEstateInvestmentIncome != null)
+            spouseIncomesTypeRequesterSpouseIncomes.setSpouseRealEstateInvestmentIncome(new BigInteger(this.spouseRealEstateInvestmentIncome.toString()));
         if (this.localRate != null)
             taxesAmountTypeTaxesAmount.setLocalRate(new BigInteger(this.localRate.toString()));
         if (this.requesterPensions != null)
@@ -159,19 +160,18 @@ public class DomesticHelpRequest extends Request implements Serializable {
             calendar.setTime(date);
             requesterSpouseTypeRequesterSpouse.setSpouseFranceArrivalDate(calendar);
         }
-        if (this.capitalAmountTotal != null)
-            dhrPersonalEstateAndCapitalTypeCapitals.setCapitalAmountTotal(new BigInteger(this.capitalAmountTotal.toString()));
+        requesterFamilyReferentTypeRequesterFamilyReferent.setFamilyReferentFirstName(this.familyReferentFirstName);
+        if (this.requesterHasSpouse != null)
+            domesticHelpRequest.setRequesterHasSpouse(fr.cg95.cvq.xml.social.DhrRequesterHasSpouse.Enum.forString(this.requesterHasSpouse.toString()));
         if (this.propertyTaxes != null)
             taxesAmountTypeTaxesAmount.setPropertyTaxes(new BigInteger(this.propertyTaxes.toString()));
-        requesterSituationTypeRequesterSituation.setTutorFirstName(this.tutorFirstName);
-        if (this.donationsValuesTotal != null)
-            domesticHelpRequest.setDonationsValuesTotal(new BigInteger(this.donationsValuesTotal.toString()));
-        if (this.savingsTotal != null)
-            domesticHelpRequest.setSavingsTotal(new BigInteger(this.savingsTotal.toString()));
+        date = this.previousDwellingArrivalDate;
+        if (date != null) {
+            calendar.setTime(date);
+            dhrPreviousDwellingTypePreviousDwelling.setPreviousDwellingArrivalDate(calendar);
+        }
         if (this.spouseIncomesAnnualTotal != null)
             spouseIncomesTypeRequesterSpouseIncomes.setSpouseIncomesAnnualTotal(new BigInteger(this.spouseIncomesAnnualTotal.toString()));
-        domesticHelpRequest.setSocialSecurityKeyNumber(this.socialSecurityKeyNumber);
-        requesterSpouseTypeRequesterSpouse.setSpouseSocialSecurityKeyNumber(this.spouseSocialSecurityKeyNumber);
         requesterSpouseTypeRequesterSpouse.setSpouseOccupation(this.spouseOccupation);
         date = this.franceArrivalDate;
         if (date != null) {
@@ -180,31 +180,28 @@ public class DomesticHelpRequest extends Request implements Serializable {
         }
         if (this.requesterAllowances != null)
             requesterIncomesTypeRequesterIncomes.setRequesterAllowances(new BigInteger(this.requesterAllowances.toString()));
-        i = 0;
-        if (previousDwellings != null) {
-            fr.cg95.cvq.xml.social.DhrPreviousDwellingType[] previousDwellingsTypeTab = new fr.cg95.cvq.xml.social.DhrPreviousDwellingType[previousDwellings.size()];
-            Iterator previousDwellingsIt = previousDwellings.iterator();
-            while (previousDwellingsIt.hasNext()) {
-                DhrPreviousDwelling object = (DhrPreviousDwelling) previousDwellingsIt.next();
-                previousDwellingsTypeTab[i] = (DhrPreviousDwellingType) object.modelToXml();
-                i = i + 1;
-            }
-            domesticHelpRequest.setPreviousDwellingsArray(previousDwellingsTypeTab);
-        }
-        if (this.spouseInvestmentIncome != null)
-            spouseIncomesTypeRequesterSpouseIncomes.setSpouseInvestmentIncome(new BigInteger(this.spouseInvestmentIncome.toString()));
         if (this.spousePensionPlan != null)
             requesterSpouseTypeRequesterSpouse.setSpousePensionPlan(fr.cg95.cvq.xml.social.DhrPensionPlanType.Enum.forString(this.spousePensionPlan.toString()));
-        if (this.bondsAmount != null)
-            dhrPersonalEstateAndCapitalTypeCapitals.setBondsAmount(new BigInteger(this.bondsAmount.toString()));
+        if (this.moreThan15YearsInFrance != null)
+            domesticHelpRequest.setMoreThan15YearsInFrance(this.moreThan15YearsInFrance.booleanValue());
+        if (this.requesterFurnitureInvestmentIncome != null)
+            requesterIncomesTypeRequesterIncomes.setRequesterFurnitureInvestmentIncome(new BigInteger(this.requesterFurnitureInvestmentIncome.toString()));
+        if (this.spouseFurnitureInvestmentIncome != null)
+            spouseIncomesTypeRequesterSpouseIncomes.setSpouseFurnitureInvestmentIncome(new BigInteger(this.spouseFurnitureInvestmentIncome.toString()));
+        date = this.previousDwellingDepartureDate;
+        if (date != null) {
+            calendar.setTime(date);
+            dhrPreviousDwellingTypePreviousDwelling.setPreviousDwellingDepartureDate(calendar);
+        }
+        requesterSpouseTypeRequesterSpouse.setSpousePensionPlanPrecision(this.spousePensionPlanPrecision);
         if (this.spouseNetIncome != null)
             spouseIncomesTypeRequesterSpouseIncomes.setSpouseNetIncome(new BigInteger(this.spouseNetIncome.toString()));
+        if (this.requesterRealEstateInvestmentIncome != null)
+            requesterIncomesTypeRequesterIncomes.setRequesterRealEstateInvestmentIncome(new BigInteger(this.requesterRealEstateInvestmentIncome.toString()));
         if (this.spousePensionner != null)
             requesterSpouseTypeRequesterSpouse.setSpousePensionner(this.spousePensionner.booleanValue());
         if (this.requesterNetIncome != null)
             requesterIncomesTypeRequesterIncomes.setRequesterNetIncome(new BigInteger(this.requesterNetIncome.toString()));
-        if (this.rent != null)
-            mensualExpensesTypeMensualExpenses.setRent(new BigInteger(this.rent.toString()));
         if (this.currentDwellingRoomNumber != null)
             currentDwellingTypeCurrentDwelling.setCurrentDwellingRoomNumber(new BigInteger(this.currentDwellingRoomNumber.toString()));
         return domesticHelpRequestDoc;
@@ -224,33 +221,23 @@ public class DomesticHelpRequest extends Request implements Serializable {
         List list = new ArrayList();
         DomesticHelpRequest domesticHelpRequest = new DomesticHelpRequest();
         domesticHelpRequest.fillCommonModelInfo(domesticHelpRequest,domesticHelpRequestXml);
-        domesticHelpRequest.setExpensesTotal(domesticHelpRequestXml.getMensualExpenses().getExpensesTotal());
+        domesticHelpRequest.setNotRealAssetsValuesTotal(domesticHelpRequestXml.getNotRealAssetsValuesTotal());
+        HashSet notRealAssetsSet = new HashSet();
+        if ( domesticHelpRequestXml.sizeOfNotRealAssetsArray() > 0) {
+            for (int i = 0; i < domesticHelpRequestXml.getNotRealAssetsArray().length; i++) {
+                notRealAssetsSet.add(DhrNotRealAsset.xmlToModel(domesticHelpRequestXml.getNotRealAssetsArray(i)));
+            }
+        }
+        domesticHelpRequest.setNotRealAssets(notRealAssetsSet);
         if (domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingType() != null)
             domesticHelpRequest.setCurrentDwellingType(fr.cg95.cvq.business.social.DhrDwellingType.forString(domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingType().toString()));
         else
             domesticHelpRequest.setCurrentDwellingType(fr.cg95.cvq.business.social.DhrDwellingType.getDefaultDhrDwellingType());
-        HashSet savingsSet = new HashSet();
-        if ( domesticHelpRequestXml.sizeOfSavingsArray() > 0) {
-            for (int i = 0; i < domesticHelpRequestXml.getSavingsArray().length; i++) {
-                savingsSet.add(DhrPersonalEstateAndSaving.xmlToModel(domesticHelpRequestXml.getSavingsArray(i)));
-            }
-        }
-        domesticHelpRequest.setSavings(savingsSet);
         domesticHelpRequest.setProfessionalTaxes(domesticHelpRequestXml.getTaxesAmount().getProfessionalTaxes());
-        domesticHelpRequest.setSpouseSocialSecurityNumber(domesticHelpRequestXml.getRequesterSpouse().getSpouseSocialSecurityNumber());
-        HashSet donationsSet = new HashSet();
-        if ( domesticHelpRequestXml.sizeOfDonationsArray() > 0) {
-            for (int i = 0; i < domesticHelpRequestXml.getDonationsArray().length; i++) {
-                donationsSet.add(DhrDonation.xmlToModel(domesticHelpRequestXml.getDonationsArray(i)));
-            }
-        }
-        domesticHelpRequest.setDonations(donationsSet);
         domesticHelpRequest.setSpousePensions(domesticHelpRequestXml.getRequesterSpouseIncomes().getSpousePensions());
         domesticHelpRequest.setTaxesTotal(domesticHelpRequestXml.getTaxesAmount().getTaxesTotal());
         if (domesticHelpRequestXml.getRequesterSituation().getTutorAddress() != null)
             domesticHelpRequest.setTutorAddress(Address.xmlToModel(domesticHelpRequestXml.getRequesterSituation().getTutorAddress()));
-        domesticHelpRequest.setRequesterInvestmentIncome(domesticHelpRequestXml.getRequesterIncomes().getRequesterInvestmentIncome());
-        domesticHelpRequest.setAlimonies(domesticHelpRequestXml.getMensualExpenses().getAlimonies());
         HashSet realAssetsSet = new HashSet();
         if ( domesticHelpRequestXml.sizeOfRealAssetsArray() > 0) {
             for (int i = 0; i < domesticHelpRequestXml.getRealAssetsArray().length; i++) {
@@ -258,12 +245,21 @@ public class DomesticHelpRequest extends Request implements Serializable {
             }
         }
         domesticHelpRequest.setRealAssets(realAssetsSet);
-        domesticHelpRequest.setSharesAmount(domesticHelpRequestXml.getCapitals().getSharesAmount());
+        domesticHelpRequest.setPensionPlanPrecision(domesticHelpRequestXml.getPensionPlanPrecision());
+        domesticHelpRequest.setSpouseComplementaryPensionPlanPrecision(domesticHelpRequestXml.getRequesterSpouse().getSpouseComplementaryPensionPlanPrecision());
+        if (domesticHelpRequestXml.getRequesterFamilyReferent().getFamilyReferentAddress() != null)
+            domesticHelpRequest.setFamilyReferentAddress(Address.xmlToModel(domesticHelpRequestXml.getRequesterFamilyReferent().getFamilyReferentAddress()));
+        domesticHelpRequest.setFamilyReferentDesignated(Boolean.valueOf(domesticHelpRequestXml.getRequesterFamilyReferent().getFamilyReferentDesignated()));
         calendar = domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingArrivalDate();
         if (calendar != null) {
             domesticHelpRequest.setCurrentDwellingArrivalDate(calendar.getTime());
         }
         domesticHelpRequest.setIncomeTax(domesticHelpRequestXml.getTaxesAmount().getIncomeTax());
+        domesticHelpRequest.setSpouseMoreThan15YearsInFrance(Boolean.valueOf(domesticHelpRequestXml.getRequesterSpouse().getSpouseMoreThan15YearsInFrance()));
+        if (domesticHelpRequestXml.getRequesterRequestKind() != null)
+            domesticHelpRequest.setRequesterRequestKind(fr.cg95.cvq.business.social.DhrRequestKindType.forString(domesticHelpRequestXml.getRequesterRequestKind().toString()));
+        else
+            domesticHelpRequest.setRequesterRequestKind(fr.cg95.cvq.business.social.DhrRequestKindType.getDefaultDhrRequestKindType());
         domesticHelpRequest.setTutorName(domesticHelpRequestXml.getRequesterSituation().getTutorName());
         domesticHelpRequest.setSpouseAllowances(domesticHelpRequestXml.getRequesterSpouseIncomes().getSpouseAllowances());
         domesticHelpRequest.setCurrentDwellingNetFloorArea(domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingNetFloorArea());
@@ -283,76 +279,104 @@ public class DomesticHelpRequest extends Request implements Serializable {
         domesticHelpRequest.setRealAssetsValuesTotal(domesticHelpRequestXml.getRealAssetsValuesTotal());
         if (domesticHelpRequestXml.getRequesterSpouse().getSpouseEmployerAddress() != null)
             domesticHelpRequest.setSpouseEmployerAddress(Address.xmlToModel(domesticHelpRequestXml.getRequesterSpouse().getSpouseEmployerAddress()));
+        domesticHelpRequest.setComplementaryPensionPlanPrecision(domesticHelpRequestXml.getComplementaryPensionPlanPrecision());
         if (domesticHelpRequestXml.getRequesterSpouse().getSpouseNationality() != null)
             domesticHelpRequest.setSpouseNationality(fr.cg95.cvq.business.users.NationalityType.forString(domesticHelpRequestXml.getRequesterSpouse().getSpouseNationality().toString()));
         else
             domesticHelpRequest.setSpouseNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
+        if (domesticHelpRequestXml.getPreviousDwelling().getPreviousDwellingAddress() != null)
+            domesticHelpRequest.setPreviousDwellingAddress(Address.xmlToModel(domesticHelpRequestXml.getPreviousDwelling().getPreviousDwellingAddress()));
         if (domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingAddress() != null)
             domesticHelpRequest.setCurrentDwellingAddress(Address.xmlToModel(domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingAddress()));
+        domesticHelpRequest.setCurrentDwellingPersonalPhone(domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingPersonalPhone());
         if (domesticHelpRequestXml.getRequesterSpouse().getSpouseInformation() != null)
             domesticHelpRequest.setSpouseInformation(Adult.xmlToModel(domesticHelpRequestXml.getRequesterSpouse().getSpouseInformation()));
         domesticHelpRequest.setTutorPresence(Boolean.valueOf(domesticHelpRequestXml.getRequesterSituation().getTutorPresence()));
-        domesticHelpRequest.setSocialSecurityNumber(domesticHelpRequestXml.getSocialSecurityNumber());
         domesticHelpRequest.setRequesterIncomesAnnualTotal(domesticHelpRequestXml.getRequesterIncomes().getRequesterIncomesAnnualTotal());
         if (domesticHelpRequestXml.getRequesterSituation().getTutor() != null)
             domesticHelpRequest.setTutor(fr.cg95.cvq.business.social.DhrTutorType.forString(domesticHelpRequestXml.getRequesterSituation().getTutor().toString()));
         else
             domesticHelpRequest.setTutor(fr.cg95.cvq.business.social.DhrTutorType.getDefaultDhrTutorType());
+        domesticHelpRequest.setFamilyReferentName(domesticHelpRequestXml.getRequesterFamilyReferent().getFamilyReferentName());
+        domesticHelpRequest.setSpouseRealEstateInvestmentIncome(domesticHelpRequestXml.getRequesterSpouseIncomes().getSpouseRealEstateInvestmentIncome());
         domesticHelpRequest.setLocalRate(domesticHelpRequestXml.getTaxesAmount().getLocalRate());
         domesticHelpRequest.setRequesterPensions(domesticHelpRequestXml.getRequesterIncomes().getRequesterPensions());
         calendar = domesticHelpRequestXml.getRequesterSpouse().getSpouseFranceArrivalDate();
         if (calendar != null) {
             domesticHelpRequest.setSpouseFranceArrivalDate(calendar.getTime());
         }
-        domesticHelpRequest.setCapitalAmountTotal(domesticHelpRequestXml.getCapitals().getCapitalAmountTotal());
+        domesticHelpRequest.setFamilyReferentFirstName(domesticHelpRequestXml.getRequesterFamilyReferent().getFamilyReferentFirstName());
+        if (domesticHelpRequestXml.getRequesterHasSpouse() != null)
+            domesticHelpRequest.setRequesterHasSpouse(fr.cg95.cvq.business.social.DhrRequesterHasSpouse.forString(domesticHelpRequestXml.getRequesterHasSpouse().toString()));
+        else
+            domesticHelpRequest.setRequesterHasSpouse(fr.cg95.cvq.business.social.DhrRequesterHasSpouse.getDefaultDhrRequesterHasSpouse());
         domesticHelpRequest.setPropertyTaxes(domesticHelpRequestXml.getTaxesAmount().getPropertyTaxes());
-        domesticHelpRequest.setTutorFirstName(domesticHelpRequestXml.getRequesterSituation().getTutorFirstName());
-        domesticHelpRequest.setDonationsValuesTotal(domesticHelpRequestXml.getDonationsValuesTotal());
-        domesticHelpRequest.setSavingsTotal(domesticHelpRequestXml.getSavingsTotal());
+        calendar = domesticHelpRequestXml.getPreviousDwelling().getPreviousDwellingArrivalDate();
+        if (calendar != null) {
+            domesticHelpRequest.setPreviousDwellingArrivalDate(calendar.getTime());
+        }
         domesticHelpRequest.setSpouseIncomesAnnualTotal(domesticHelpRequestXml.getRequesterSpouseIncomes().getSpouseIncomesAnnualTotal());
-        domesticHelpRequest.setSocialSecurityKeyNumber(domesticHelpRequestXml.getSocialSecurityKeyNumber());
-        domesticHelpRequest.setSpouseSocialSecurityKeyNumber(domesticHelpRequestXml.getRequesterSpouse().getSpouseSocialSecurityKeyNumber());
         domesticHelpRequest.setSpouseOccupation(domesticHelpRequestXml.getRequesterSpouse().getSpouseOccupation());
         calendar = domesticHelpRequestXml.getFranceArrivalDate();
         if (calendar != null) {
             domesticHelpRequest.setFranceArrivalDate(calendar.getTime());
         }
         domesticHelpRequest.setRequesterAllowances(domesticHelpRequestXml.getRequesterIncomes().getRequesterAllowances());
-        HashSet previousDwellingsSet = new HashSet();
-        if ( domesticHelpRequestXml.sizeOfPreviousDwellingsArray() > 0) {
-            for (int i = 0; i < domesticHelpRequestXml.getPreviousDwellingsArray().length; i++) {
-                previousDwellingsSet.add(DhrPreviousDwelling.xmlToModel(domesticHelpRequestXml.getPreviousDwellingsArray(i)));
-            }
-        }
-        domesticHelpRequest.setPreviousDwellings(previousDwellingsSet);
-        domesticHelpRequest.setSpouseInvestmentIncome(domesticHelpRequestXml.getRequesterSpouseIncomes().getSpouseInvestmentIncome());
         if (domesticHelpRequestXml.getRequesterSpouse().getSpousePensionPlan() != null)
             domesticHelpRequest.setSpousePensionPlan(fr.cg95.cvq.business.social.DhrPensionPlanType.forString(domesticHelpRequestXml.getRequesterSpouse().getSpousePensionPlan().toString()));
         else
             domesticHelpRequest.setSpousePensionPlan(fr.cg95.cvq.business.social.DhrPensionPlanType.getDefaultDhrPensionPlanType());
-        domesticHelpRequest.setBondsAmount(domesticHelpRequestXml.getCapitals().getBondsAmount());
+        domesticHelpRequest.setMoreThan15YearsInFrance(Boolean.valueOf(domesticHelpRequestXml.getMoreThan15YearsInFrance()));
+        domesticHelpRequest.setRequesterFurnitureInvestmentIncome(domesticHelpRequestXml.getRequesterIncomes().getRequesterFurnitureInvestmentIncome());
+        domesticHelpRequest.setSpouseFurnitureInvestmentIncome(domesticHelpRequestXml.getRequesterSpouseIncomes().getSpouseFurnitureInvestmentIncome());
+        calendar = domesticHelpRequestXml.getPreviousDwelling().getPreviousDwellingDepartureDate();
+        if (calendar != null) {
+            domesticHelpRequest.setPreviousDwellingDepartureDate(calendar.getTime());
+        }
+        domesticHelpRequest.setSpousePensionPlanPrecision(domesticHelpRequestXml.getRequesterSpouse().getSpousePensionPlanPrecision());
         domesticHelpRequest.setSpouseNetIncome(domesticHelpRequestXml.getRequesterSpouseIncomes().getSpouseNetIncome());
+        domesticHelpRequest.setRequesterRealEstateInvestmentIncome(domesticHelpRequestXml.getRequesterIncomes().getRequesterRealEstateInvestmentIncome());
         domesticHelpRequest.setSpousePensionner(Boolean.valueOf(domesticHelpRequestXml.getRequesterSpouse().getSpousePensionner()));
         domesticHelpRequest.setRequesterNetIncome(domesticHelpRequestXml.getRequesterIncomes().getRequesterNetIncome());
-        domesticHelpRequest.setRent(domesticHelpRequestXml.getMensualExpenses().getRent());
         domesticHelpRequest.setCurrentDwellingRoomNumber(domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingRoomNumber());
         return domesticHelpRequest;
     }
 
-    private java.math.BigInteger expensesTotal;
+    private java.math.BigInteger notRealAssetsValuesTotal;
 
-    public final void setExpensesTotal(final java.math.BigInteger expensesTotal) {
-        this.expensesTotal = expensesTotal;
+    public final void setNotRealAssetsValuesTotal(final java.math.BigInteger notRealAssetsValuesTotal) {
+        this.notRealAssetsValuesTotal = notRealAssetsValuesTotal;
     }
 
 
     /**
      * @hibernate.property
-     *  column="expenses_total"
+     *  column="not_real_assets_values_total"
      *  type="serializable"
      */
-    public final java.math.BigInteger getExpensesTotal() {
-        return this.expensesTotal;
+    public final java.math.BigInteger getNotRealAssetsValuesTotal() {
+        return this.notRealAssetsValuesTotal;
+    }
+
+    private Set notRealAssets;
+
+    public final void setNotRealAssets(final Set notRealAssets) {
+        this.notRealAssets = notRealAssets;
+    }
+
+
+    /**
+     * @hibernate.set
+     *  inverse="false"
+     *  lazy="false"
+     *  cascade="all"
+     * @hibernate.key
+     *  column="domestic_help_request_id"
+     * @hibernate.one-to-many
+     *  class="fr.cg95.cvq.business.social.DhrNotRealAsset"
+     */
+    public final Set getNotRealAssets() {
+        return this.notRealAssets;
     }
 
     private fr.cg95.cvq.business.social.DhrDwellingType currentDwellingType;
@@ -370,27 +394,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.currentDwellingType;
     }
 
-    private Set savings;
-
-    public final void setSavings(final Set savings) {
-        this.savings = savings;
-    }
-
-
-    /**
-     * @hibernate.set
-     *  inverse="false"
-     *  lazy="false"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="domestic_help_request_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.social.DhrPersonalEstateAndSaving"
-     */
-    public final Set getSavings() {
-        return this.savings;
-    }
-
     private java.math.BigInteger professionalTaxes;
 
     public final void setProfessionalTaxes(final java.math.BigInteger professionalTaxes) {
@@ -405,43 +408,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
      */
     public final java.math.BigInteger getProfessionalTaxes() {
         return this.professionalTaxes;
-    }
-
-    private String spouseSocialSecurityNumber;
-
-    public final void setSpouseSocialSecurityNumber(final String spouseSocialSecurityNumber) {
-        this.spouseSocialSecurityNumber = spouseSocialSecurityNumber;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="spouse_social_security_number"
-     *  length="13"
-     */
-    public final String getSpouseSocialSecurityNumber() {
-        return this.spouseSocialSecurityNumber;
-    }
-
-    private Set donations;
-
-    public final void setDonations(final Set donations) {
-        this.donations = donations;
-    }
-
-
-    /**
-     * @hibernate.set
-     *  inverse="false"
-     *  lazy="false"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="domestic_help_request_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.social.DhrDonation"
-     */
-    public final Set getDonations() {
-        return this.donations;
     }
 
     private java.math.BigInteger spousePensions;
@@ -493,38 +459,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.tutorAddress;
     }
 
-    private java.math.BigInteger requesterInvestmentIncome;
-
-    public final void setRequesterInvestmentIncome(final java.math.BigInteger requesterInvestmentIncome) {
-        this.requesterInvestmentIncome = requesterInvestmentIncome;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="requester_investment_income"
-     *  type="serializable"
-     */
-    public final java.math.BigInteger getRequesterInvestmentIncome() {
-        return this.requesterInvestmentIncome;
-    }
-
-    private java.math.BigInteger alimonies;
-
-    public final void setAlimonies(final java.math.BigInteger alimonies) {
-        this.alimonies = alimonies;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="alimonies"
-     *  type="serializable"
-     */
-    public final java.math.BigInteger getAlimonies() {
-        return this.alimonies;
-    }
-
     private Set realAssets;
 
     public final void setRealAssets(final Set realAssets) {
@@ -546,20 +480,68 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.realAssets;
     }
 
-    private java.math.BigInteger sharesAmount;
+    private String pensionPlanPrecision;
 
-    public final void setSharesAmount(final java.math.BigInteger sharesAmount) {
-        this.sharesAmount = sharesAmount;
+    public final void setPensionPlanPrecision(final String pensionPlanPrecision) {
+        this.pensionPlanPrecision = pensionPlanPrecision;
     }
 
 
     /**
      * @hibernate.property
-     *  column="shares_amount"
-     *  type="serializable"
+     *  column="pension_plan_precision"
+     *  length="50"
      */
-    public final java.math.BigInteger getSharesAmount() {
-        return this.sharesAmount;
+    public final String getPensionPlanPrecision() {
+        return this.pensionPlanPrecision;
+    }
+
+    private String spouseComplementaryPensionPlanPrecision;
+
+    public final void setSpouseComplementaryPensionPlanPrecision(final String spouseComplementaryPensionPlanPrecision) {
+        this.spouseComplementaryPensionPlanPrecision = spouseComplementaryPensionPlanPrecision;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="spouse_complementary_pension_plan_precision"
+     *  length="50"
+     */
+    public final String getSpouseComplementaryPensionPlanPrecision() {
+        return this.spouseComplementaryPensionPlanPrecision;
+    }
+
+    private fr.cg95.cvq.business.users.Address familyReferentAddress;
+
+    public final void setFamilyReferentAddress(final fr.cg95.cvq.business.users.Address familyReferentAddress) {
+        this.familyReferentAddress = familyReferentAddress;
+    }
+
+
+    /**
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="family_referent_address_id"
+     *  class="fr.cg95.cvq.business.users.Address"
+     */
+    public final fr.cg95.cvq.business.users.Address getFamilyReferentAddress() {
+        return this.familyReferentAddress;
+    }
+
+    private Boolean familyReferentDesignated;
+
+    public final void setFamilyReferentDesignated(final Boolean familyReferentDesignated) {
+        this.familyReferentDesignated = familyReferentDesignated;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="family_referent_designated"
+     */
+    public final Boolean getFamilyReferentDesignated() {
+        return this.familyReferentDesignated;
     }
 
     private java.util.Date currentDwellingArrivalDate;
@@ -591,6 +573,36 @@ public class DomesticHelpRequest extends Request implements Serializable {
      */
     public final java.math.BigInteger getIncomeTax() {
         return this.incomeTax;
+    }
+
+    private Boolean spouseMoreThan15YearsInFrance;
+
+    public final void setSpouseMoreThan15YearsInFrance(final Boolean spouseMoreThan15YearsInFrance) {
+        this.spouseMoreThan15YearsInFrance = spouseMoreThan15YearsInFrance;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="spouse_more_than15_years_in_france"
+     */
+    public final Boolean getSpouseMoreThan15YearsInFrance() {
+        return this.spouseMoreThan15YearsInFrance;
+    }
+
+    private fr.cg95.cvq.business.social.DhrRequestKindType requesterRequestKind;
+
+    public final void setRequesterRequestKind(final fr.cg95.cvq.business.social.DhrRequestKindType requesterRequestKind) {
+        this.requesterRequestKind = requesterRequestKind;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="requester_request_kind"
+     */
+    public final fr.cg95.cvq.business.social.DhrRequestKindType getRequesterRequestKind() {
+        return this.requesterRequestKind;
     }
 
     private String tutorName;
@@ -736,6 +748,22 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.spouseEmployerAddress;
     }
 
+    private String complementaryPensionPlanPrecision;
+
+    public final void setComplementaryPensionPlanPrecision(final String complementaryPensionPlanPrecision) {
+        this.complementaryPensionPlanPrecision = complementaryPensionPlanPrecision;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="complementary_pension_plan_precision"
+     *  length="50"
+     */
+    public final String getComplementaryPensionPlanPrecision() {
+        return this.complementaryPensionPlanPrecision;
+    }
+
     private fr.cg95.cvq.business.users.NationalityType spouseNationality;
 
     public final void setSpouseNationality(final fr.cg95.cvq.business.users.NationalityType spouseNationality) {
@@ -752,6 +780,23 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.spouseNationality;
     }
 
+    private fr.cg95.cvq.business.users.Address previousDwellingAddress;
+
+    public final void setPreviousDwellingAddress(final fr.cg95.cvq.business.users.Address previousDwellingAddress) {
+        this.previousDwellingAddress = previousDwellingAddress;
+    }
+
+
+    /**
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="previous_dwelling_address_id"
+     *  class="fr.cg95.cvq.business.users.Address"
+     */
+    public final fr.cg95.cvq.business.users.Address getPreviousDwellingAddress() {
+        return this.previousDwellingAddress;
+    }
+
     private fr.cg95.cvq.business.users.Address currentDwellingAddress;
 
     public final void setCurrentDwellingAddress(final fr.cg95.cvq.business.users.Address currentDwellingAddress) {
@@ -761,11 +806,28 @@ public class DomesticHelpRequest extends Request implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="current_dwelling_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
     public final fr.cg95.cvq.business.users.Address getCurrentDwellingAddress() {
         return this.currentDwellingAddress;
+    }
+
+    private String currentDwellingPersonalPhone;
+
+    public final void setCurrentDwellingPersonalPhone(final String currentDwellingPersonalPhone) {
+        this.currentDwellingPersonalPhone = currentDwellingPersonalPhone;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="current_dwelling_personal_phone"
+     *  length="10"
+     */
+    public final String getCurrentDwellingPersonalPhone() {
+        return this.currentDwellingPersonalPhone;
     }
 
     private fr.cg95.cvq.business.users.Adult spouseInformation;
@@ -799,22 +861,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.tutorPresence;
     }
 
-    private String socialSecurityNumber;
-
-    public final void setSocialSecurityNumber(final String socialSecurityNumber) {
-        this.socialSecurityNumber = socialSecurityNumber;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="social_security_number"
-     *  length="13"
-     */
-    public final String getSocialSecurityNumber() {
-        return this.socialSecurityNumber;
-    }
-
     private java.math.BigInteger requesterIncomesAnnualTotal;
 
     public final void setRequesterIncomesAnnualTotal(final java.math.BigInteger requesterIncomesAnnualTotal) {
@@ -844,6 +890,38 @@ public class DomesticHelpRequest extends Request implements Serializable {
      */
     public final fr.cg95.cvq.business.social.DhrTutorType getTutor() {
         return this.tutor;
+    }
+
+    private String familyReferentName;
+
+    public final void setFamilyReferentName(final String familyReferentName) {
+        this.familyReferentName = familyReferentName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="family_referent_name"
+     *  length="38"
+     */
+    public final String getFamilyReferentName() {
+        return this.familyReferentName;
+    }
+
+    private java.math.BigInteger spouseRealEstateInvestmentIncome;
+
+    public final void setSpouseRealEstateInvestmentIncome(final java.math.BigInteger spouseRealEstateInvestmentIncome) {
+        this.spouseRealEstateInvestmentIncome = spouseRealEstateInvestmentIncome;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="spouse_real_estate_investment_income"
+     *  type="serializable"
+     */
+    public final java.math.BigInteger getSpouseRealEstateInvestmentIncome() {
+        return this.spouseRealEstateInvestmentIncome;
     }
 
     private java.math.BigInteger localRate;
@@ -893,20 +971,35 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.spouseFranceArrivalDate;
     }
 
-    private java.math.BigInteger capitalAmountTotal;
+    private String familyReferentFirstName;
 
-    public final void setCapitalAmountTotal(final java.math.BigInteger capitalAmountTotal) {
-        this.capitalAmountTotal = capitalAmountTotal;
+    public final void setFamilyReferentFirstName(final String familyReferentFirstName) {
+        this.familyReferentFirstName = familyReferentFirstName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="capital_amount_total"
-     *  type="serializable"
+     *  column="family_referent_first_name"
+     *  length="38"
      */
-    public final java.math.BigInteger getCapitalAmountTotal() {
-        return this.capitalAmountTotal;
+    public final String getFamilyReferentFirstName() {
+        return this.familyReferentFirstName;
+    }
+
+    private fr.cg95.cvq.business.social.DhrRequesterHasSpouse requesterHasSpouse;
+
+    public final void setRequesterHasSpouse(final fr.cg95.cvq.business.social.DhrRequesterHasSpouse requesterHasSpouse) {
+        this.requesterHasSpouse = requesterHasSpouse;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="requester_has_spouse"
+     */
+    public final fr.cg95.cvq.business.social.DhrRequesterHasSpouse getRequesterHasSpouse() {
+        return this.requesterHasSpouse;
     }
 
     private java.math.BigInteger propertyTaxes;
@@ -925,52 +1018,19 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.propertyTaxes;
     }
 
-    private String tutorFirstName;
+    private java.util.Date previousDwellingArrivalDate;
 
-    public final void setTutorFirstName(final String tutorFirstName) {
-        this.tutorFirstName = tutorFirstName;
+    public final void setPreviousDwellingArrivalDate(final java.util.Date previousDwellingArrivalDate) {
+        this.previousDwellingArrivalDate = previousDwellingArrivalDate;
     }
 
 
     /**
      * @hibernate.property
-     *  column="tutor_first_name"
-     *  length="38"
+     *  column="previous_dwelling_arrival_date"
      */
-    public final String getTutorFirstName() {
-        return this.tutorFirstName;
-    }
-
-    private java.math.BigInteger donationsValuesTotal;
-
-    public final void setDonationsValuesTotal(final java.math.BigInteger donationsValuesTotal) {
-        this.donationsValuesTotal = donationsValuesTotal;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="donations_values_total"
-     *  type="serializable"
-     */
-    public final java.math.BigInteger getDonationsValuesTotal() {
-        return this.donationsValuesTotal;
-    }
-
-    private java.math.BigInteger savingsTotal;
-
-    public final void setSavingsTotal(final java.math.BigInteger savingsTotal) {
-        this.savingsTotal = savingsTotal;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="savings_total"
-     *  type="serializable"
-     */
-    public final java.math.BigInteger getSavingsTotal() {
-        return this.savingsTotal;
+    public final java.util.Date getPreviousDwellingArrivalDate() {
+        return this.previousDwellingArrivalDate;
     }
 
     private java.math.BigInteger spouseIncomesAnnualTotal;
@@ -987,38 +1047,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
      */
     public final java.math.BigInteger getSpouseIncomesAnnualTotal() {
         return this.spouseIncomesAnnualTotal;
-    }
-
-    private String socialSecurityKeyNumber;
-
-    public final void setSocialSecurityKeyNumber(final String socialSecurityKeyNumber) {
-        this.socialSecurityKeyNumber = socialSecurityKeyNumber;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="social_security_key_number"
-     *  length="2"
-     */
-    public final String getSocialSecurityKeyNumber() {
-        return this.socialSecurityKeyNumber;
-    }
-
-    private String spouseSocialSecurityKeyNumber;
-
-    public final void setSpouseSocialSecurityKeyNumber(final String spouseSocialSecurityKeyNumber) {
-        this.spouseSocialSecurityKeyNumber = spouseSocialSecurityKeyNumber;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="spouse_social_security_key_number"
-     *  length="2"
-     */
-    public final String getSpouseSocialSecurityKeyNumber() {
-        return this.spouseSocialSecurityKeyNumber;
     }
 
     private String spouseOccupation;
@@ -1068,43 +1096,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.requesterAllowances;
     }
 
-    private Set previousDwellings;
-
-    public final void setPreviousDwellings(final Set previousDwellings) {
-        this.previousDwellings = previousDwellings;
-    }
-
-
-    /**
-     * @hibernate.set
-     *  inverse="false"
-     *  lazy="false"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="domestic_help_request_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.social.DhrPreviousDwelling"
-     */
-    public final Set getPreviousDwellings() {
-        return this.previousDwellings;
-    }
-
-    private java.math.BigInteger spouseInvestmentIncome;
-
-    public final void setSpouseInvestmentIncome(final java.math.BigInteger spouseInvestmentIncome) {
-        this.spouseInvestmentIncome = spouseInvestmentIncome;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="spouse_investment_income"
-     *  type="serializable"
-     */
-    public final java.math.BigInteger getSpouseInvestmentIncome() {
-        return this.spouseInvestmentIncome;
-    }
-
     private fr.cg95.cvq.business.social.DhrPensionPlanType spousePensionPlan;
 
     public final void setSpousePensionPlan(final fr.cg95.cvq.business.social.DhrPensionPlanType spousePensionPlan) {
@@ -1120,20 +1111,82 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.spousePensionPlan;
     }
 
-    private java.math.BigInteger bondsAmount;
+    private Boolean moreThan15YearsInFrance;
 
-    public final void setBondsAmount(final java.math.BigInteger bondsAmount) {
-        this.bondsAmount = bondsAmount;
+    public final void setMoreThan15YearsInFrance(final Boolean moreThan15YearsInFrance) {
+        this.moreThan15YearsInFrance = moreThan15YearsInFrance;
     }
 
 
     /**
      * @hibernate.property
-     *  column="bonds_amount"
+     *  column="more_than15_years_in_france"
+     */
+    public final Boolean getMoreThan15YearsInFrance() {
+        return this.moreThan15YearsInFrance;
+    }
+
+    private java.math.BigInteger requesterFurnitureInvestmentIncome;
+
+    public final void setRequesterFurnitureInvestmentIncome(final java.math.BigInteger requesterFurnitureInvestmentIncome) {
+        this.requesterFurnitureInvestmentIncome = requesterFurnitureInvestmentIncome;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="requester_furniture_investment_income"
      *  type="serializable"
      */
-    public final java.math.BigInteger getBondsAmount() {
-        return this.bondsAmount;
+    public final java.math.BigInteger getRequesterFurnitureInvestmentIncome() {
+        return this.requesterFurnitureInvestmentIncome;
+    }
+
+    private java.math.BigInteger spouseFurnitureInvestmentIncome;
+
+    public final void setSpouseFurnitureInvestmentIncome(final java.math.BigInteger spouseFurnitureInvestmentIncome) {
+        this.spouseFurnitureInvestmentIncome = spouseFurnitureInvestmentIncome;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="spouse_furniture_investment_income"
+     *  type="serializable"
+     */
+    public final java.math.BigInteger getSpouseFurnitureInvestmentIncome() {
+        return this.spouseFurnitureInvestmentIncome;
+    }
+
+    private java.util.Date previousDwellingDepartureDate;
+
+    public final void setPreviousDwellingDepartureDate(final java.util.Date previousDwellingDepartureDate) {
+        this.previousDwellingDepartureDate = previousDwellingDepartureDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="previous_dwelling_departure_date"
+     */
+    public final java.util.Date getPreviousDwellingDepartureDate() {
+        return this.previousDwellingDepartureDate;
+    }
+
+    private String spousePensionPlanPrecision;
+
+    public final void setSpousePensionPlanPrecision(final String spousePensionPlanPrecision) {
+        this.spousePensionPlanPrecision = spousePensionPlanPrecision;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="spouse_pension_plan_precision"
+     *  length="50"
+     */
+    public final String getSpousePensionPlanPrecision() {
+        return this.spousePensionPlanPrecision;
     }
 
     private java.math.BigInteger spouseNetIncome;
@@ -1150,6 +1203,22 @@ public class DomesticHelpRequest extends Request implements Serializable {
      */
     public final java.math.BigInteger getSpouseNetIncome() {
         return this.spouseNetIncome;
+    }
+
+    private java.math.BigInteger requesterRealEstateInvestmentIncome;
+
+    public final void setRequesterRealEstateInvestmentIncome(final java.math.BigInteger requesterRealEstateInvestmentIncome) {
+        this.requesterRealEstateInvestmentIncome = requesterRealEstateInvestmentIncome;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="requester_real_estate_investment_income"
+     *  type="serializable"
+     */
+    public final java.math.BigInteger getRequesterRealEstateInvestmentIncome() {
+        return this.requesterRealEstateInvestmentIncome;
     }
 
     private Boolean spousePensionner;
@@ -1181,22 +1250,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
      */
     public final java.math.BigInteger getRequesterNetIncome() {
         return this.requesterNetIncome;
-    }
-
-    private java.math.BigInteger rent;
-
-    public final void setRent(final java.math.BigInteger rent) {
-        this.rent = rent;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="rent"
-     *  type="serializable"
-     */
-    public final java.math.BigInteger getRent() {
-        return this.rent;
     }
 
     private java.math.BigInteger currentDwellingRoomNumber;

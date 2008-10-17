@@ -42,60 +42,197 @@
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
-                <fo:block xsl:use-attribute-sets="request.section.header">Informations administratives du demandeur</fo:block>
+                <fo:block xsl:use-attribute-sets="request.section.header">Demande</fo:block>
+	    <fo:block>
+	      <fo:leader leader-pattern="space" />
+	    </fo:block>
+        
+                                            
+                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
+              <xsl:variable name="mod_column" select="'2'"/>
+              <xsl:variable name="enum_tokens">
+                <xsl:call-template name="split-string">
+                        <xsl:with-param name="string" select="//dhr:RequesterRequestKind/text()"/>
+                      </xsl:call-template>
+              </xsl:variable>
+                    <fo:table-column column-width="100pt" />
+      
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrRequestKindType','fr')//ref:data[@name = 'DhrRequestKindType']/ref:entry">
+                <xsl:if test="not(position() &gt; ($mod_column + 1))">
+                  <fo:table-column column-width="30pt" />
+                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
+                </xsl:if>
+              </xsl:for-each>
+
+              <fo:table-body>
+                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+                <fo:table-cell>
+	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		    Type de la demande*
+		  </fo:block>
+	        </fo:table-cell>
+      
+                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrRequestKindType','fr')//ref:data[@name = 'DhrRequestKindType']/ref:entry">
+
+	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
+	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
+      	          </xsl:if>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
+		      <xsl:variable name="current_value" select="@key"/>
+		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
+			<xsl:choose>
+			  <xsl:when test="text() = $current_value">X</xsl:when>
+			  <xsl:otherwise>&#160;</xsl:otherwise>
+			</xsl:choose>
+                      </xsl:for-each>
+	            </fo:block>
+	          </fo:table-cell>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
+                      <xsl:value-of select="./ref:label[@lang='fr']"/>
+      	            </fo:block>
+	          </fo:table-cell>
+	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
+	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
+	            	            <xsl:if test="not(position() = last())">
+	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
+	            </xsl:if>
+	          </xsl:if>
+	        </xsl:for-each>
+              </fo:table-body>
+            </fo:table>
+
+    
+      
+              <fo:block>
+              <fo:leader leader-pattern="space" />
+            </fo:block>
+  
+                  <fo:block xsl:use-attribute-sets="request.section.header">Référent du demandeur</fo:block>
+	    <fo:block>
+	      <fo:leader leader-pattern="space" />
+	    </fo:block>
+        
+                  <xsl:variable name="withTotal" select="'false'" />
+
+    <xsl:for-each select="//dhr:RequesterFamilyReferent">
+                                                                    
+    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+    <fo:table-column column-width="proportional-column-width(2 * 1)" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(4)" />
+
+    <fo:table-body>
+      <fo:table-row>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+  Référent familial
+          </fo:block>
+        </fo:table-cell>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./dhr:FamilyReferentDesignated = &quot;true&quot;">X</xsl:if>
+           <xsl:if test="./dhr:FamilyReferentDesignated = &quot;false&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./dhr:FamilyReferentDesignated = &quot;false&quot;">X</xsl:if>
+           <xsl:if test="./dhr:FamilyReferentDesignated = &quot;true&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block>&#160;</fo:block>
+       </fo:table-cell>
+     </fo:table-row>
+   </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:FamilyReferentName and ./dhr:FamilyReferentName != ''">
+                  <xsl:value-of select="./dhr:FamilyReferentName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Prénom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:FamilyReferentFirstName and ./dhr:FamilyReferentFirstName != ''">
+                  <xsl:value-of select="./dhr:FamilyReferentFirstName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                                <xsl:apply-templates select="./dhr:FamilyReferentAddress"/>
+                      <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
+    
+      
+              <fo:block>
+              <fo:leader leader-pattern="space" />
+            </fo:block>
+  
+                  <fo:block xsl:use-attribute-sets="request.section.header">Demandeur</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
                     	    <xsl:apply-templates select="//cvq:Requester"/>
       
-    
-          
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Numéro de Sécurité Sociale*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//dhr:SocialSecurityNumber and //dhr:SocialSecurityNumber != ''">
-                                    <xsl:value-of select="//dhr:SocialSecurityNumber" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Clé du numéro de Sécurité Sociale*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//dhr:SocialSecurityKeyNumber and //dhr:SocialSecurityKeyNumber != ''">
-                                    <xsl:value-of select="//dhr:SocialSecurityKeyNumber" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
     
           
                               <fo:table xsl:use-attribute-sets="request.field.inline.table">
@@ -162,62 +299,133 @@
 
     
           
-                                        
-                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
-              <xsl:variable name="mod_column" select="'2'"/>
-              <xsl:variable name="enum_tokens">
-                <xsl:call-template name="split-string">
-                        <xsl:with-param name="string" select="//dhr:RequesterPensionPlan/text()"/>
-                      </xsl:call-template>
-              </xsl:variable>
-                    <fo:table-column column-width="100pt" />
-      
-              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrPensionPlanType','fr')//ref:data[@name = 'DhrPensionPlanType']/ref:entry">
-                <xsl:if test="not(position() &gt; ($mod_column + 1))">
-                  <fo:table-column column-width="30pt" />
-                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
-                </xsl:if>
-              </xsl:for-each>
+                                
+      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+      	      <fo:table-column column-width="proportional-column-width(4)" />
+      	      <fo:table-body>
+		<fo:table-row>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Je réside en France depuis plus de 15 ans de manière continue*
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//dhr:MoreThan15YearsInFrance = &quot;true&quot;">X</xsl:if>
+		      <xsl:if test="//dhr:MoreThan15YearsInFrance = &quot;false&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//dhr:MoreThan15YearsInFrance = &quot;false&quot;">X</xsl:if>
+		      <xsl:if test="//dhr:MoreThan15YearsInFrance = &quot;true&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+      		  <fo:table-cell>
+		    <fo:block>&#160;</fo:block>
+		  </fo:table-cell>
+      		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
 
-              <fo:table-body>
-                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
-                <fo:table-cell>
-	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		    Régime retraite du demandeur
-		  </fo:block>
-	        </fo:table-cell>
-      
-                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrPensionPlanType','fr')//ref:data[@name = 'DhrPensionPlanType']/ref:entry">
+    
+          
+                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                        <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(100)" />
+                    	      <fo:table-column column-width="proportional-column-width(200)" />
+      	      <fo:table-body>
+		<fo:table-row>
+      	                        		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Régime de retraite principal*
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+                                      <xsl:choose>
+                        <xsl:when test="//dhr:RequesterPensionPlan and //dhr:RequesterPensionPlan != ''">
+                                    <xsl:value-of select="//dhr:RequesterPensionPlan" />
+                                  </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>&#160;</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+        		    </fo:block>
+		  </fo:table-cell>
+            		  <fo:table-cell>
+		    <fo:block>&#160;</fo:block>
+		  </fo:table-cell>
+      		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
 
-	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
-	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
-	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
-      	          </xsl:if>
-	          <fo:table-cell>
-	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
-		      <xsl:variable name="current_value" select="@key"/>
-		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
-			<xsl:choose>
-			  <xsl:when test="text() = $current_value">X</xsl:when>
-			  <xsl:otherwise>&#160;</xsl:otherwise>
-			</xsl:choose>
-                      </xsl:for-each>
-	            </fo:block>
-	          </fo:table-cell>
-	          <fo:table-cell>
-	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
-                      <xsl:value-of select="./ref:label[@lang='fr']"/>
-      	            </fo:block>
-	          </fo:table-cell>
-	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
-	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
-	            	            <xsl:if test="not(position() = last())">
-	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
-	            </xsl:if>
-	          </xsl:if>
-	        </xsl:for-each>
-              </fo:table-body>
-            </fo:table>
+    
+          
+                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                        <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(300)" />
+                    	      <fo:table-body>
+		<fo:table-row>
+      	                        		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Préciser*
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+                                      <xsl:choose>
+                        <xsl:when test="//dhr:PensionPlanPrecision and //dhr:PensionPlanPrecision != ''">
+                                    <xsl:value-of select="//dhr:PensionPlanPrecision" />
+                                  </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>&#160;</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+        		    </fo:block>
+		  </fo:table-cell>
+            		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
+
+    
+          
+                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                        <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(300)" />
+                    	      <fo:table-body>
+		<fo:table-row>
+      	                    		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Régime de retraite complémentaire
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+                                      <xsl:choose>
+                        <xsl:when test="//dhr:ComplementaryPensionPlanPrecision and //dhr:ComplementaryPensionPlanPrecision != ''">
+                                    <xsl:value-of select="//dhr:ComplementaryPensionPlanPrecision" />
+                                  </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>&#160;</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+        		    </fo:block>
+		  </fo:table-cell>
+            		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
 
     
       
@@ -225,7 +433,124 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Informations administratives du conjoint</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Tuteur</fo:block>
+	    <fo:block>
+	      <fo:leader leader-pattern="space" />
+	    </fo:block>
+        
+                  <xsl:variable name="withTotal" select="'false'" />
+
+    <xsl:for-each select="//dhr:RequesterSituation">
+                                                                    
+    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+    <fo:table-column column-width="proportional-column-width(2 * 1)" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(4)" />
+
+    <fo:table-body>
+      <fo:table-row>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+  Présence tuteur
+          </fo:block>
+        </fo:table-cell>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./dhr:TutorPresence = &quot;true&quot;">X</xsl:if>
+           <xsl:if test="./dhr:TutorPresence = &quot;false&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./dhr:TutorPresence = &quot;false&quot;">X</xsl:if>
+           <xsl:if test="./dhr:TutorPresence = &quot;true&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block>&#160;</fo:block>
+       </fo:table-cell>
+     </fo:table-row>
+   </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Mesure tuteur
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:Tutor and ./dhr:Tutor != ''">
+                  <xsl:value-of select="./dhr:Tutor" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom du tuteur ou de l'association
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:TutorName and ./dhr:TutorName != ''">
+                  <xsl:value-of select="./dhr:TutorName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                                <xsl:apply-templates select="./dhr:TutorAddress"/>
+                      <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
+    
+      
+              <fo:block>
+              <fo:leader leader-pattern="space" />
+            </fo:block>
+  
+                <xsl:if test="//dhr:RequesterHasSpouse/text() = 'True'">
+                <fo:block xsl:use-attribute-sets="request.section.header">Conjoint</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -235,60 +560,6 @@
     <xsl:for-each select="//dhr:RequesterSpouse">
                                                         <xsl:apply-templates select="./dhr:SpouseInformation"/>
                                                               <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Numéro de sécurité sociale
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:SpouseSocialSecurityNumber and ./dhr:SpouseSocialSecurityNumber != ''">
-                  <xsl:value-of select="./dhr:SpouseSocialSecurityNumber" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Clé de numéro de sécurité sociale
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:SpouseSocialSecurityKeyNumber and ./dhr:SpouseSocialSecurityKeyNumber != ''">
-                  <xsl:value-of select="./dhr:SpouseSocialSecurityKeyNumber" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
   <fo:table-column column-width="proportional-column-width(200)" />
   <fo:table-column column-width="proportional-column-width(100)" />
@@ -352,6 +623,46 @@
       <fo:table-row>
         <fo:table-cell>
           <fo:block xsl:use-attribute-sets="request.field.inline.label">
+  Je réside en France depuis plus de 15 ans de manière continue
+          </fo:block>
+        </fo:table-cell>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./dhr:SpouseMoreThan15YearsInFrance = &quot;true&quot;">X</xsl:if>
+           <xsl:if test="./dhr:SpouseMoreThan15YearsInFrance = &quot;false&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./dhr:SpouseMoreThan15YearsInFrance = &quot;false&quot;">X</xsl:if>
+           <xsl:if test="./dhr:SpouseMoreThan15YearsInFrance = &quot;true&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block>&#160;</fo:block>
+       </fo:table-cell>
+     </fo:table-row>
+   </fo:table-body>
+</fo:table>
+                                                                            
+    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+    <fo:table-column column-width="proportional-column-width(2 * 1)" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(4)" />
+
+    <fo:table-body>
+      <fo:table-row>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.inline.label">
   Retraité
           </fo:block>
         </fo:table-cell>
@@ -379,62 +690,87 @@
      </fo:table-row>
    </fo:table-body>
 </fo:table>
-                                                                                                
-                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
-              <xsl:variable name="mod_column" select="'2'"/>
-              <xsl:variable name="enum_tokens">
-                <xsl:call-template name="split-string">
-                        <xsl:with-param name="string" select="./dhr:SpousePensionPlan/text()"/>
-                      </xsl:call-template>
-              </xsl:variable>
-                    <fo:table-column column-width="100pt" />
-      
-              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrPensionPlanType','fr')//ref:data[@name = 'DhrPensionPlanType']/ref:entry">
-                <xsl:if test="not(position() &gt; ($mod_column + 1))">
-                  <fo:table-column column-width="30pt" />
-                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
-                </xsl:if>
-              </xsl:for-each>
-
-              <fo:table-body>
-                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
-                <fo:table-cell>
-	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		    Régime retraite
-		  </fo:block>
-	        </fo:table-cell>
-      
-                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrPensionPlanType','fr')//ref:data[@name = 'DhrPensionPlanType']/ref:entry">
-
-	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
-	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
-	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
-      	          </xsl:if>
-	          <fo:table-cell>
-	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
-		      <xsl:variable name="current_value" select="@key"/>
-		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
-			<xsl:choose>
-			  <xsl:when test="text() = $current_value">X</xsl:when>
-			  <xsl:otherwise>&#160;</xsl:otherwise>
-			</xsl:choose>
-                      </xsl:for-each>
-	            </fo:block>
-	          </fo:table-cell>
-	          <fo:table-cell>
-	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
-                      <xsl:value-of select="./ref:label[@lang='fr']"/>
-      	            </fo:block>
-	          </fo:table-cell>
-	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
-	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
-	            	            <xsl:if test="not(position() = last())">
-	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
-	            </xsl:if>
-	          </xsl:if>
-	        </xsl:for-each>
-              </fo:table-body>
-            </fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Régime de retraite principal
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:SpousePensionPlan and ./dhr:SpousePensionPlan != ''">
+                  <xsl:value-of select="./dhr:SpousePensionPlan" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Préciser
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:SpousePensionPlanPrecision and ./dhr:SpousePensionPlanPrecision != ''">
+                  <xsl:value-of select="./dhr:SpousePensionPlanPrecision" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Régime de retraite complémentaire
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:SpouseComplementaryPensionPlanPrecision and ./dhr:SpouseComplementaryPensionPlanPrecision != ''">
+                  <xsl:value-of select="./dhr:SpouseComplementaryPensionPlanPrecision" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
                                                             <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
   <fo:table-column column-width="proportional-column-width(200)" />
@@ -529,7 +865,8 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Habitation actuelle du demandeur</fo:block>
+              </xsl:if>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Habitation actuelle</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -547,7 +884,34 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Nature de la résidence
+	Téléphone personnel
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:CurrentDwellingPersonalPhone and ./dhr:CurrentDwellingPersonalPhone != ''">
+                  <xsl:value-of select="./dhr:CurrentDwellingPersonalPhone" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nature de l'habitation
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
@@ -683,16 +1047,42 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Habitation(s) antérieure(s) du demandeur</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Habitation(s) antérieure(s)</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
                   <xsl:variable name="withTotal" select="'false'" />
 
-    <xsl:for-each select="//dhr:PreviousDwellings">
-                                                        <xsl:apply-templates select="./dhr:PreviousDwellingAddress"/>
-                                                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+    <xsl:for-each select="//dhr:PreviousDwelling">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Adresse
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:PreviousDwellingAddress and ./dhr:PreviousDwellingAddress != ''">
+                  <xsl:value-of select="./dhr:PreviousDwellingAddress" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
   <fo:table-column column-width="proportional-column-width(200)" />
   <fo:table-column column-width="proportional-column-width(100)" />
@@ -753,176 +1143,7 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Situation du demandeur</fo:block>
-	    <fo:block>
-	      <fo:leader leader-pattern="space" />
-	    </fo:block>
-        
-                  <xsl:variable name="withTotal" select="'false'" />
-
-    <xsl:for-each select="//dhr:RequesterSituation">
-                                                                    
-    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-    <fo:table-column column-width="proportional-column-width(2 * 1)" />
-    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-    <fo:table-column column-width="30pt" />
-    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-    <fo:table-column column-width="30pt" />
-    <fo:table-column column-width="proportional-column-width(4)" />
-
-    <fo:table-body>
-      <fo:table-row>
-        <fo:table-cell>
-          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-  Présence d'un tuteur
-          </fo:block>
-        </fo:table-cell>
-        <fo:table-cell>
-          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-           <xsl:if test="./dhr:TutorPresence = &quot;true&quot;">X</xsl:if>
-           <xsl:if test="./dhr:TutorPresence = &quot;false&quot;">&#160;</xsl:if>
-         </fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-           <xsl:if test="./dhr:TutorPresence = &quot;false&quot;">X</xsl:if>
-           <xsl:if test="./dhr:TutorPresence = &quot;true&quot;">&#160;</xsl:if>
-         </fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block>&#160;</fo:block>
-       </fo:table-cell>
-     </fo:table-row>
-   </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Mesure
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:Tutor and ./dhr:Tutor != ''">
-                  <xsl:value-of select="./dhr:Tutor" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Nom
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:TutorName and ./dhr:TutorName != ''">
-                  <xsl:value-of select="./dhr:TutorName" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Prénom
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:TutorFirstName and ./dhr:TutorFirstName != ''">
-                  <xsl:value-of select="./dhr:TutorFirstName" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Adresse
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:TutorAddress and ./dhr:TutorAddress != ''">
-                  <xsl:value-of select="./dhr:TutorAddress" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
-        <fo:block>
-          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
-          <fo:leader leader-pattern="space" />
-        </fo:block>
-      </xsl:if>
-    </xsl:for-each>
-    
-      
-              <fo:block>
-              <fo:leader leader-pattern="space" />
-            </fo:block>
-  
-                  <fo:block xsl:use-attribute-sets="request.section.header">Ressource du demandeur</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Ressources du demandeur</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -993,14 +1214,14 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Revenus du capital
+	Revenus du capital mobilier
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./dhr:RequesterInvestmentIncome and ./dhr:RequesterInvestmentIncome != ''">
-                  <xsl:value-of select="./dhr:RequesterInvestmentIncome" />
+            <xsl:when test="./dhr:RequesterFurnitureInvestmentIncome and ./dhr:RequesterFurnitureInvestmentIncome != ''">
+                  <xsl:value-of select="./dhr:RequesterFurnitureInvestmentIncome" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -1020,7 +1241,34 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Salaire
+	Revenus du capital immobilier
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:RequesterRealEstateInvestmentIncome and ./dhr:RequesterRealEstateInvestmentIncome != ''">
+                  <xsl:value-of select="./dhr:RequesterRealEstateInvestmentIncome" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Salaire ou bénéfice déclaré
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
@@ -1078,7 +1326,8 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Ressource du conjoint</fo:block>
+                <xsl:if test="//dhr:RequesterHasSpouse/text() = 'True'">
+                <fo:block xsl:use-attribute-sets="request.section.header">Ressources du conjoint</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -1149,14 +1398,14 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Revenus du capital
+	Revenus du capital mobilier
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./dhr:SpouseInvestmentIncome and ./dhr:SpouseInvestmentIncome != ''">
-                  <xsl:value-of select="./dhr:SpouseInvestmentIncome" />
+            <xsl:when test="./dhr:SpouseFurnitureInvestmentIncome and ./dhr:SpouseFurnitureInvestmentIncome != ''">
+                  <xsl:value-of select="./dhr:SpouseFurnitureInvestmentIncome" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -1176,7 +1425,34 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Salaire
+	Revenus du capital immobilier
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:SpouseRealEstateInvestmentIncome and ./dhr:SpouseRealEstateInvestmentIncome != ''">
+                  <xsl:value-of select="./dhr:SpouseRealEstateInvestmentIncome" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Salaire ou bénéfice déclaré
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
@@ -1234,7 +1510,8 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Bien(s) immobilier(s) du foyer</fo:block>
+              </xsl:if>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Biens immobiliers</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -1242,7 +1519,8 @@
                   <xsl:variable name="withTotal" select="'true'" />
 
     <xsl:for-each select="//dhr:RealAssets">
-                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                                                        <xsl:apply-templates select="./dhr:RealAssetAddress"/>
+                                                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
   <fo:table-column column-width="proportional-column-width(200)" />
   <fo:table-column column-width="proportional-column-width(100)" />
@@ -1251,34 +1529,7 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Adresse
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:RealAssetAddress and ./dhr:RealAssetAddress != ''">
-                  <xsl:value-of select="./dhr:RealAssetAddress" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Valeur du bien
+	Valeur estimée
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
@@ -1305,7 +1556,7 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Superficie du bien
+	Superficie
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
@@ -1313,33 +1564,6 @@
             <xsl:choose>
             <xsl:when test="./dhr:RealAssetNetFloorArea and ./dhr:RealAssetNetFloorArea != ''">
                   <xsl:value-of select="./dhr:RealAssetNetFloorArea" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Cadastre du bien
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:RealAssetCadastre and ./dhr:RealAssetCadastre != ''">
-                  <xsl:value-of select="./dhr:RealAssetCadastre" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -1395,25 +1619,25 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Bien(s) partagé(s) et donation(s)</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Biens partage, donation ou vente</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
                   <xsl:variable name="withTotal" select="'true'" />
 
-    <xsl:for-each select="//dhr:Donations">
+    <xsl:for-each select="//dhr:NotRealAssets">
                                                                                         
                   <fo:table xsl:use-attribute-sets="request.field.inline.table">
-              <xsl:variable name="mod_column" select="'2'"/>
+              <xsl:variable name="mod_column" select="'3'"/>
               <xsl:variable name="enum_tokens">
                 <xsl:call-template name="split-string">
-                        <xsl:with-param name="string" select="./dhr:DonationAsset/text()"/>
+                        <xsl:with-param name="string" select="./dhr:AssetType/text()"/>
                       </xsl:call-template>
               </xsl:variable>
                     <fo:table-column column-width="100pt" />
       
-              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrDonationAssetType','fr')//ref:data[@name = 'DhrDonationAssetType']/ref:entry">
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrAssetTypeType','fr')//ref:data[@name = 'DhrAssetTypeType']/ref:entry">
                 <xsl:if test="not(position() &gt; ($mod_column + 1))">
                   <fo:table-column column-width="30pt" />
                   <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
@@ -1424,11 +1648,11 @@
                       <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
                 <fo:table-cell>
 	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		    Nature du bien
+		    Type
 		  </fo:block>
 	        </fo:table-cell>
       
-                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrDonationAssetType','fr')//ref:data[@name = 'DhrDonationAssetType']/ref:entry">
+                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrAssetTypeType','fr')//ref:data[@name = 'DhrAssetTypeType']/ref:entry">
 
 	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
 	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
@@ -1459,34 +1683,64 @@
 	        </xsl:for-each>
               </fo:table-body>
             </fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Lieu
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:DonationAssetPlace and ./dhr:DonationAssetPlace != ''">
-                  <xsl:value-of select="./dhr:DonationAssetPlace" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                                                                                                
+                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
+              <xsl:variable name="mod_column" select="'2'"/>
+              <xsl:variable name="enum_tokens">
+                <xsl:call-template name="split-string">
+                        <xsl:with-param name="string" select="./dhr:AssetKind/text()"/>
+                      </xsl:call-template>
+              </xsl:variable>
+                    <fo:table-column column-width="100pt" />
+      
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrAssetKindType','fr')//ref:data[@name = 'DhrAssetKindType']/ref:entry">
+                <xsl:if test="not(position() &gt; ($mod_column + 1))">
+                  <fo:table-column column-width="30pt" />
+                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
+                </xsl:if>
+              </xsl:for-each>
+
+              <fo:table-body>
+                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+                <fo:table-cell>
+	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		    Nature du bien
+		  </fo:block>
+	        </fo:table-cell>
+      
+                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/dhr','DhrAssetKindType','fr')//ref:data[@name = 'DhrAssetKindType']/ref:entry">
+
+	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
+	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
+      	          </xsl:if>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
+		      <xsl:variable name="current_value" select="@key"/>
+		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
+			<xsl:choose>
+			  <xsl:when test="text() = $current_value">X</xsl:when>
+			  <xsl:otherwise>&#160;</xsl:otherwise>
+			</xsl:choose>
+                      </xsl:for-each>
+	            </fo:block>
+	          </fo:table-cell>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
+                      <xsl:value-of select="./ref:label[@lang='fr']"/>
+      	            </fo:block>
+	          </fo:table-cell>
+	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
+	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
+	            	            <xsl:if test="not(position() = last())">
+	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
+	            </xsl:if>
+	          </xsl:if>
+	        </xsl:for-each>
+              </fo:table-body>
+            </fo:table>
+                                                                <xsl:apply-templates select="./dhr:AssetAddress"/>
+                                                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
   <fo:table-column column-width="proportional-column-width(200)" />
   <fo:table-column column-width="proportional-column-width(100)" />
@@ -1501,8 +1755,8 @@
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./dhr:DonationBeneficiaryName and ./dhr:DonationBeneficiaryName != ''">
-                  <xsl:value-of select="./dhr:DonationBeneficiaryName" />
+            <xsl:when test="./dhr:AssetBeneficiaryName and ./dhr:AssetBeneficiaryName != ''">
+                  <xsl:value-of select="./dhr:AssetBeneficiaryName" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -1528,8 +1782,36 @@
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./dhr:DonationBeneficiaryFirstName and ./dhr:DonationBeneficiaryFirstName != ''">
-                  <xsl:value-of select="./dhr:DonationBeneficiaryFirstName" />
+            <xsl:when test="./dhr:AssetBeneficiaryFirstName and ./dhr:AssetBeneficiaryFirstName != ''">
+                  <xsl:value-of select="./dhr:AssetBeneficiaryFirstName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                                <xsl:apply-templates select="./dhr:AssetBeneficiaryAddress"/>
+                                                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Valeur déclarée
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./dhr:AssetValue and ./dhr:AssetValue != ''">
+                  <xsl:value-of select="./dhr:AssetValue" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -1549,46 +1831,16 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Valeur de la donation
+	Date partage, donation ou vente
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:DonationValue and ./dhr:DonationValue != ''">
-                  <xsl:value-of select="./dhr:DonationValue" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Date de la donation
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:DonationDate and ./dhr:DonationDate != ''">
-                  <xsl:value-of select="./dhr:DonationDate" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
+            <xsl:call-template name="cvq:DisplayDate">
+            <xsl:with-param name="DateToDisplay">
+              <xsl:value-of select="./dhr:AssetDate"/>
+            </xsl:with-param>
+          </xsl:call-template>
           </fo:block>
       </fo:table-cell>
     </fo:table-row>
@@ -1609,8 +1861,8 @@
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./dhr:DonationNotaryName and ./dhr:DonationNotaryName != ''">
-                  <xsl:value-of select="./dhr:DonationNotaryName" />
+            <xsl:when test="./dhr:AssetNotaryName and ./dhr:AssetNotaryName != ''">
+                  <xsl:value-of select="./dhr:AssetNotaryName" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -1621,61 +1873,8 @@
     </fo:table-row>
   </fo:table-body>
 </fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Prénom du notaire
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:DonationNotaryFirstName and ./dhr:DonationNotaryFirstName != ''">
-                  <xsl:value-of select="./dhr:DonationNotaryFirstName" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Adresse du notaire
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:DonationNotaryAddress and ./dhr:DonationNotaryAddress != ''">
-                  <xsl:value-of select="./dhr:DonationNotaryAddress" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+                                                                <xsl:apply-templates select="./dhr:AssetNotaryAddress"/>
+                      <xsl:if test="$withTotal = 'true'  or not(position() = last())">
         <fo:block>
           <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
           <fo:leader leader-pattern="space" />
@@ -1698,8 +1897,8 @@
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//dhr:DonationsValuesTotal and //dhr:DonationsValuesTotal != ''">
-                                    <xsl:value-of select="//dhr:DonationsValuesTotal" />
+                        <xsl:when test="//dhr:NotRealAssetsValuesTotal and //dhr:NotRealAssetsValuesTotal != ''">
+                                    <xsl:value-of select="//dhr:NotRealAssetsValuesTotal" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -1720,216 +1919,7 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Biens(s) mobilier(s) et épargne(s) - Livrets et Comptes</fo:block>
-	    <fo:block>
-	      <fo:leader leader-pattern="space" />
-	    </fo:block>
-        
-                  <xsl:variable name="withTotal" select="'true'" />
-
-    <xsl:for-each select="//dhr:Savings">
-                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Numéro de Livret
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:PaybookNumber and ./dhr:PaybookNumber != ''">
-                  <xsl:value-of select="./dhr:PaybookNumber" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Montant du Livret
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:PaybookAmount and ./dhr:PaybookAmount != ''">
-                  <xsl:value-of select="./dhr:PaybookAmount" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
-        <fo:block>
-          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
-          <fo:leader leader-pattern="space" />
-        </fo:block>
-      </xsl:if>
-    </xsl:for-each>
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Valeur totale des Livrets et Comptes
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//dhr:SavingsTotal and //dhr:SavingsTotal != ''">
-                                    <xsl:value-of select="//dhr:SavingsTotal" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-      
-              <fo:block>
-              <fo:leader leader-pattern="space" />
-            </fo:block>
-  
-                  <fo:block xsl:use-attribute-sets="request.section.header">Biens mobiliers et épargnes - Capital placé</fo:block>
-	    <fo:block>
-	      <fo:leader leader-pattern="space" />
-	    </fo:block>
-        
-                  <xsl:variable name="withTotal" select="'false'" />
-
-    <xsl:for-each select="//dhr:Capitals">
-                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Montant actions
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:SharesAmount and ./dhr:SharesAmount != ''">
-                  <xsl:value-of select="./dhr:SharesAmount" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Montant obligations
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:BondsAmount and ./dhr:BondsAmount != ''">
-                  <xsl:value-of select="./dhr:BondsAmount" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Montant total annuel du capital placé
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:CapitalAmountTotal and ./dhr:CapitalAmountTotal != ''">
-                  <xsl:value-of select="./dhr:CapitalAmountTotal" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
-        <fo:block>
-          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
-          <fo:leader leader-pattern="space" />
-        </fo:block>
-      </xsl:if>
-    </xsl:for-each>
-    
-      
-              <fo:block>
-              <fo:leader leader-pattern="space" />
-            </fo:block>
-  
-                  <fo:block xsl:use-attribute-sets="request.section.header">Montant des impositions</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Montant d'imposition</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -2085,108 +2075,6 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Charges mensuelles</fo:block>
-	    <fo:block>
-	      <fo:leader leader-pattern="space" />
-	    </fo:block>
-        
-                  <xsl:variable name="withTotal" select="'false'" />
-
-    <xsl:for-each select="//dhr:MensualExpenses">
-                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Loyer
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:Rent and ./dhr:Rent != ''">
-                  <xsl:value-of select="./dhr:Rent" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Pensions et obligations alimentaires
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:Alimonies and ./dhr:Alimonies != ''">
-                  <xsl:value-of select="./dhr:Alimonies" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Total charges
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./dhr:ExpensesTotal and ./dhr:ExpensesTotal != ''">
-                  <xsl:value-of select="./dhr:ExpensesTotal" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
-        <fo:block>
-          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
-          <fo:leader leader-pattern="space" />
-        </fo:block>
-      </xsl:if>
-    </xsl:for-each>
-    
-      
-              <fo:block>
-              <fo:leader leader-pattern="space" />
-            </fo:block>
-  
                   <fo:block xsl:use-attribute-sets="request.section.header">Moyen de contact*</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
@@ -2216,27 +2104,52 @@
     </fo:root>
   </xsl:template>
 
-              <xsl:template match="//cvq:Requester">
+                                                                                                <xsl:template match="//dhr:RequesterFamilyReferent/dhr:FamilyReferentAddress">
+              <xsl:call-template name="AddressType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+                                  <xsl:template match="//cvq:Requester">
           <xsl:call-template name="AdultType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                            <xsl:template match="//dhr:RequesterSpouse/dhr:SpouseInformation">
+                                                                                                                                  <xsl:template match="//dhr:RequesterSituation/dhr:TutorAddress">
+              <xsl:call-template name="AddressType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+                                                                  <xsl:template match="//dhr:RequesterSpouse/dhr:SpouseInformation">
               <xsl:call-template name="AdultType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                                                                                                                                                <xsl:template match="//dhr:CurrentDwelling/dhr:CurrentDwellingAddress">
+                                                                                                                                                                                                              <xsl:template match="//dhr:CurrentDwelling/dhr:CurrentDwellingAddress">
               <xsl:call-template name="AddressType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                                                                                        <xsl:template match="//dhr:PreviousDwellings/dhr:PreviousDwellingAddress">
+                                                                                                                                                                                                                                                                                                                                                                                                                              <xsl:template match="//dhr:RealAssets/dhr:RealAssetAddress">
               <xsl:call-template name="AddressType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <xsl:template match="//cvq:MeansOfContact">
+                                                                                                                                <xsl:template match="//dhr:NotRealAssets/dhr:AssetAddress">
+              <xsl:call-template name="AddressType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+                                                                            <xsl:template match="//dhr:NotRealAssets/dhr:AssetBeneficiaryAddress">
+              <xsl:call-template name="AddressType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+                                                                                          <xsl:template match="//dhr:NotRealAssets/dhr:AssetNotaryAddress">
+              <xsl:call-template name="AddressType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+                                                                                                                                <xsl:template match="//cvq:MeansOfContact">
           <xsl:call-template name="MeansOfContactType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

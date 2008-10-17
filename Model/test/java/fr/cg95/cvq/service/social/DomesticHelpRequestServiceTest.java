@@ -1,19 +1,14 @@
 package fr.cg95.cvq.service.social;
 
 import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
-import fr.cg95.cvq.business.document.DepositOrigin;
-import fr.cg95.cvq.business.document.DepositType;
-import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.document.*;
+import fr.cg95.cvq.business.social.*;
 import fr.cg95.cvq.business.social.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.social.IDomesticHelpRequestService;
 import fr.cg95.cvq.util.Critere;
 
@@ -50,23 +45,29 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
     protected DomesticHelpRequest fillMeARequest() throws CvqException {
 
         DomesticHelpRequest request = new DomesticHelpRequest();
-          request.setExpensesTotal(BigInteger.valueOf(1));
-              request.setCurrentDwellingType(DhrDwellingType.DOMICILE);
-                        request.setProfessionalTaxes(BigInteger.valueOf(1));
-              if ("SpouseSocialSecurityNumber".length() > 13)
-        request.setSpouseSocialSecurityNumber("SpouseSocialSecurityNumber".substring(0, 13));
-      else
-        request.setSpouseSocialSecurityNumber("SpouseSocialSecurityNumber");
-                        request.setSpousePensions(BigInteger.valueOf(1));
+          request.setNotRealAssetsValuesTotal(BigInteger.valueOf(1));
+                      request.setCurrentDwellingType(DhrDwellingType.DOMICILE);
+                request.setProfessionalTaxes(BigInteger.valueOf(1));
+            request.setSpousePensions(BigInteger.valueOf(1));
             request.setTaxesTotal(BigInteger.valueOf(1));
                             Address TutorAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
             request.setTutorAddress(TutorAddress);
-    	                request.setRequesterInvestmentIncome(BigInteger.valueOf(1));
-            request.setAlimonies(BigInteger.valueOf(1));
-                    request.setSharesAmount(BigInteger.valueOf(1));
+    	                          if ("PensionPlanPrecision".length() > 50)
+        request.setPensionPlanPrecision("PensionPlanPrecision".substring(0, 50));
+      else
+        request.setPensionPlanPrecision("PensionPlanPrecision");
+                  if ("SpouseComplementaryPensionPlanPrecision".length() > 50)
+        request.setSpouseComplementaryPensionPlanPrecision("SpouseComplementaryPensionPlanPrecision".substring(0, 50));
+      else
+        request.setSpouseComplementaryPensionPlanPrecision("SpouseComplementaryPensionPlanPrecision");
+                                Address FamilyReferentAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setFamilyReferentAddress(FamilyReferentAddress);
+    	                request.setFamilyReferentDesignated(Boolean.valueOf(true));
             request.setCurrentDwellingArrivalDate(new Date());
             request.setIncomeTax(BigInteger.valueOf(1));
-              if ("TutorName".length() > 38)
+            request.setSpouseMoreThan15YearsInFrance(Boolean.valueOf(true));
+              request.setRequesterRequestKind(DhrRequestKindType.INDIVIDUAL);
+                  if ("TutorName".length() > 38)
         request.setTutorName("TutorName".substring(0, 38));
       else
         request.setTutorName("TutorName");
@@ -82,49 +83,58 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
                 request.setRealAssetsValuesTotal(BigInteger.valueOf(1));
                             Address SpouseEmployerAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
             request.setSpouseEmployerAddress(SpouseEmployerAddress);
-    	                  request.setSpouseNationality(NationalityType.FRENCH);
-                        	    request.setCurrentDwellingAddress(address);
-                            request.setSpouseInformation(homeFolderWoman);
-                request.setTutorPresence(Boolean.valueOf(true));
-              if ("SocialSecurityNumber".length() > 13)
-        request.setSocialSecurityNumber("SocialSecurityNumber".substring(0, 13));
+    	                  if ("ComplementaryPensionPlanPrecision".length() > 50)
+        request.setComplementaryPensionPlanPrecision("ComplementaryPensionPlanPrecision".substring(0, 50));
       else
-        request.setSocialSecurityNumber("SocialSecurityNumber");
-                request.setRequesterIncomesAnnualTotal(BigInteger.valueOf(1));
+        request.setComplementaryPensionPlanPrecision("ComplementaryPensionPlanPrecision");
+                  request.setSpouseNationality(NationalityType.FRENCH);
+                                Address PreviousDwellingAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setPreviousDwellingAddress(PreviousDwellingAddress);
+    	                                Address CurrentDwellingAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setCurrentDwellingAddress(CurrentDwellingAddress);
+    	                  if ("CurrentDwellingPersonalPhone".length() > 10)
+        request.setCurrentDwellingPersonalPhone("CurrentDwellingPersonalPhone".substring(0, 10));
+      else
+        request.setCurrentDwellingPersonalPhone("CurrentDwellingPersonalPhone");
+                    request.setSpouseInformation(homeFolderWoman);
+                request.setTutorPresence(Boolean.valueOf(true));
+            request.setRequesterIncomesAnnualTotal(BigInteger.valueOf(1));
               request.setTutor(DhrTutorType.SAUVEGARDE_JUSTICE);
-                request.setLocalRate(BigInteger.valueOf(1));
+                  if ("FamilyReferentName".length() > 38)
+        request.setFamilyReferentName("FamilyReferentName".substring(0, 38));
+      else
+        request.setFamilyReferentName("FamilyReferentName");
+                request.setSpouseRealEstateInvestmentIncome(BigInteger.valueOf(1));
+            request.setLocalRate(BigInteger.valueOf(1));
             request.setRequesterPensions(BigInteger.valueOf(1));
             request.setSpouseFranceArrivalDate(new Date());
-            request.setCapitalAmountTotal(BigInteger.valueOf(1));
-            request.setPropertyTaxes(BigInteger.valueOf(1));
-              if ("TutorFirstName".length() > 38)
-        request.setTutorFirstName("TutorFirstName".substring(0, 38));
+              if ("FamilyReferentFirstName".length() > 38)
+        request.setFamilyReferentFirstName("FamilyReferentFirstName".substring(0, 38));
       else
-        request.setTutorFirstName("TutorFirstName");
-                request.setDonationsValuesTotal(BigInteger.valueOf(1));
-            request.setSavingsTotal(BigInteger.valueOf(1));
+        request.setFamilyReferentFirstName("FamilyReferentFirstName");
+                  request.setRequesterHasSpouse(DhrRequesterHasSpouse.TRUE);
+                request.setPropertyTaxes(BigInteger.valueOf(1));
+            request.setPreviousDwellingArrivalDate(new Date());
             request.setSpouseIncomesAnnualTotal(BigInteger.valueOf(1));
-              if ("SocialSecurityKeyNumber".length() > 2)
-        request.setSocialSecurityKeyNumber("SocialSecurityKeyNumber".substring(0, 2));
-      else
-        request.setSocialSecurityKeyNumber("SocialSecurityKeyNumber");
-                  if ("SpouseSocialSecurityKeyNumber".length() > 2)
-        request.setSpouseSocialSecurityKeyNumber("SpouseSocialSecurityKeyNumber".substring(0, 2));
-      else
-        request.setSpouseSocialSecurityKeyNumber("SpouseSocialSecurityKeyNumber");
-                  if ("SpouseOccupation".length() > 50)
+              if ("SpouseOccupation".length() > 50)
         request.setSpouseOccupation("SpouseOccupation".substring(0, 50));
       else
         request.setSpouseOccupation("SpouseOccupation");
                 request.setFranceArrivalDate(new Date());
             request.setRequesterAllowances(BigInteger.valueOf(1));
-                    request.setSpouseInvestmentIncome(BigInteger.valueOf(1));
               request.setSpousePensionPlan(DhrPensionPlanType.C_R_A_M_I_F);
-                request.setBondsAmount(BigInteger.valueOf(1));
-            request.setSpouseNetIncome(BigInteger.valueOf(1));
+                request.setMoreThan15YearsInFrance(Boolean.valueOf(true));
+            request.setRequesterFurnitureInvestmentIncome(BigInteger.valueOf(1));
+            request.setSpouseFurnitureInvestmentIncome(BigInteger.valueOf(1));
+            request.setPreviousDwellingDepartureDate(new Date());
+              if ("SpousePensionPlanPrecision".length() > 50)
+        request.setSpousePensionPlanPrecision("SpousePensionPlanPrecision".substring(0, 50));
+      else
+        request.setSpousePensionPlanPrecision("SpousePensionPlanPrecision");
+                request.setSpouseNetIncome(BigInteger.valueOf(1));
+            request.setRequesterRealEstateInvestmentIncome(BigInteger.valueOf(1));
             request.setSpousePensionner(Boolean.valueOf(true));
             request.setRequesterNetIncome(BigInteger.valueOf(1));
-            request.setRent(BigInteger.valueOf(1));
             request.setCurrentDwellingRoomNumber(BigInteger.valueOf(1));
   
         // Means Of Contact
@@ -144,7 +154,7 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
         ///////////////////////////////
 
         Document doc = new Document();
-        doc.setEcitizenNote("Ma carte d'identité !");
+        doc.setEcitizenNote("Ma carte d'identitÃ© !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
         doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));

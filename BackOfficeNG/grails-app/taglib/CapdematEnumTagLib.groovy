@@ -7,7 +7,7 @@ class CapdematEnumTagLib {
         def sb = new StringBuffer()
         sb << "<span class=\"" 
         sb << capdematEnum.cssClass
-        sb << "\">"
+        sb << " tag-state\">"
         sb << g.message(code: capdematEnum.i18nKey)
         sb << "</span>"
           

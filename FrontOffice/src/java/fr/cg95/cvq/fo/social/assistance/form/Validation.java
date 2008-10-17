@@ -110,11 +110,15 @@ public class Validation extends IStageForm {
 		if (this.checkSubjectAdultAddressStreetName() &&
 			((this.subjectAdultAddressStreetName == null) || (this.subjectAdultAddressStreetName.length() == 0)))
 			return false;
+		if (this.checkFloor() && (this.floor == null))
+			return false;
 		if (this.checkDwelling() &&
 			((this.dwelling == null) || (this.dwelling.length() == 0)))
 			return false;
 		if (this.checkSubjectAdultFirstName() &&
 			((this.subjectAdultFirstName == null) || (this.subjectAdultFirstName.length() == 0)))
+			return false;
+		if (this.checkAppartmentNumber() && (this.appartmentNumber == null))
 			return false;
 		return true;
 	}

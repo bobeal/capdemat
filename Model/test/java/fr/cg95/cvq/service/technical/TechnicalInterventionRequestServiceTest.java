@@ -1,19 +1,14 @@
 package fr.cg95.cvq.service.technical;
 
 import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
-import fr.cg95.cvq.business.document.DepositOrigin;
-import fr.cg95.cvq.business.document.DepositType;
-import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.document.*;
+import fr.cg95.cvq.business.social.*;
 import fr.cg95.cvq.business.technical.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.technical.ITechnicalInterventionRequestService;
 import fr.cg95.cvq.util.Critere;
 
@@ -71,7 +66,7 @@ public class TechnicalInterventionRequestServiceTest extends ServiceTestCase {
         ///////////////////////////////
 
         Document doc = new Document();
-        doc.setEcitizenNote("Ma carte d'identité !");
+        doc.setEcitizenNote("Ma carte d'identitÃ© !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
         doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));

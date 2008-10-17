@@ -5,11 +5,11 @@
       <ul class="confirm_list">
         <li class="text_row">
           <p class="label">            
-            Mesure
+            Mesure tuteur
           </p>
           <p class="text">
             <cvqf:select name="requesterSituationTutor" mode="static">
-              <option value="">Choisissez un mesure</option>
+              <option value="">Choisissez un mesure tuteur</option>
               <option value="SauvegardeJustice">Sauvegarde de Justice</option>
               <option value="Tutelle">Tutelle</option>
               <option value="Curatelle">Curatelle</option>
@@ -18,18 +18,10 @@
         </li>
         <li class="text_row">
           <p class="label">            
-            Nom
+            Nom du tuteur ou de l'association
           </p>
           <p class="text">
             <cvqf:text name="requesterSituationTutorName" mode="static" maxlength="38"/>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">            
-            Prénom
-          </p>
-          <p class="text">
-            <cvqf:text name="requesterSituationTutorFirstName" mode="static" maxlength="38"/>
           </p>
         </li>
         <li class="text_row">

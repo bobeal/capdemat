@@ -102,6 +102,8 @@ public class Cadastre extends IStageForm {
 		if (this.checkOwnerFirstNames() &&
 			((this.ownerFirstNames == null) || (this.ownerFirstNames.length() == 0)))
 			return false;
+		if (this.checkNumber() && (this.number == null))
+			return false;
 		if (this.checkOwnerLastName() &&
 			((this.ownerLastName == null) || (this.ownerLastName.length() == 0)))
 			return false;

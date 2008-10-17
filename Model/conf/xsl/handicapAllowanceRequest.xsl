@@ -47,7 +47,7 @@
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                    	    <xsl:apply-templates select="//cvq:Requester"/>
+                            	    <xsl:apply-templates select="//cvq:Subject/cvq:HomePhone"/>
       
     
           
@@ -315,185 +315,7 @@
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
-        
-                            
-      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
-	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-	      <fo:table-column column-width="30pt" />
-	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-	      <fo:table-column column-width="30pt" />
-      	      <fo:table-body>
-		<fo:table-row>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Représentant légal
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//har:LegalRepresentative = &quot;true&quot;">X</xsl:if>
-		      <xsl:if test="//har:LegalRepresentative = &quot;false&quot;">&#160;</xsl:if>
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//har:LegalRepresentative = &quot;false&quot;">X</xsl:if>
-		      <xsl:if test="//har:LegalRepresentative = &quot;true&quot;">&#160;</xsl:if>
-		    </fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
     
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(50)" />
-          <fo:table-column column-width="proportional-column-width(150)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom du représentant légal
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//har:LegalRepresentativeName and //har:LegalRepresentativeName != ''">
-                                    <xsl:value-of select="//har:LegalRepresentativeName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(50)" />
-          <fo:table-column column-width="proportional-column-width(150)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Prénom du représentant légal
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//har:LegalRepresentativeFirstame and //har:LegalRepresentativeFirstame != ''">
-                                    <xsl:value-of select="//har:LegalRepresentativeFirstame" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(50)" />
-          <fo:table-column column-width="proportional-column-width(150)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Lien de parenté du représentant légal
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//har:LegalRepresentativeFamilyRelationship and //har:LegalRepresentativeFamilyRelationship != ''">
-                                    <xsl:value-of select="//har:LegalRepresentativeFamilyRelationship" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(50)" />
-          <fo:table-column column-width="proportional-column-width(150)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Adresse du représentant légal
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//har:LegalRepresentativeAddress and //har:LegalRepresentativeAddress != ''">
-                                    <xsl:value-of select="//har:LegalRepresentativeAddress" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Téléphone du représentant légal
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//har:LegalRepresentativePhone and //har:LegalRepresentativePhone != ''">
-                                    <xsl:value-of select="//har:LegalRepresentativePhone" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-      
               <fo:block>
               <fo:leader leader-pattern="space" />
             </fo:block>
@@ -527,12 +349,12 @@
     </fo:root>
   </xsl:template>
 
-              <xsl:template match="//cvq:Requester">
-          <xsl:call-template name="AdultType">
+              <xsl:template match="cvq:HomePhone">
+          <xsl:call-template name="SubjectType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                                                            <xsl:template match="//cvq:MeansOfContact">
+                                                                        <xsl:template match="//cvq:MeansOfContact">
           <xsl:call-template name="MeansOfContactType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

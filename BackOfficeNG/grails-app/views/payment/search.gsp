@@ -52,6 +52,13 @@
     <div id="narrow" class="yui-b">
     
       <div class="nobox">
+        <h3><g:message code="header.switchTo" /></h3>
+        <div class="body">
+          <g:link action="configure">${message(code:'payment.header.configure')}</g:link>
+        </div>
+      </div>
+      
+      <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>
         <div class="body">
           <form action="#">

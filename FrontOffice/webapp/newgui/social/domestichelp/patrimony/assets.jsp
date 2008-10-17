@@ -38,16 +38,12 @@
           </li>
 
           <li class="text_row">
-			<label for="realAssetsRealAssetValue" class="label">Valeur du bien</label>
+			<label for="realAssetsRealAssetValue" class="label">Valeur estimée<span class="required">*</span></label>
             <cvqf:text name="realAssetsRealAssetValue" mode="" maxlength="10"/>
           </li>
           <li class="text_row">
-			<label for="realAssetsRealAssetNetFloorArea" class="label">Superficie du bien</label>
+			<label for="realAssetsRealAssetNetFloorArea" class="label">Superficie<span class="required">*</span></label>
             <cvqf:text name="realAssetsRealAssetNetFloorArea" mode="" maxlength="10"/>
-          </li>
-          <li class="text_row">
-			<label for="realAssetsRealAssetCadastre" class="label">Cadastre du bien</label>
-            <cvqf:text name="realAssetsRealAssetCadastre" mode=""/>
           </li>
         </ul>
       </fieldset>
@@ -61,9 +57,8 @@
 	  this.realAssetsRealAssetAddressPlaceNameOrService = new Function("key","this.label=''; this.msg=null; this.transform='uppercase'; this.required=false; this.minlength=0; this.maxlength=38; this.type=null; return this[key];");
 	  this.realAssetsRealAssetAddressPostalCode = new Function("key","this.label='Code postal'; this.msg=null; this.required=true; this.mask=/[0-9]{5}/; this.minlength=0; this.maxlength=5; this.type=null; return this[key];");
 	  this.realAssetsRealAssetAddressCity = new Function("key","this.label='Localité'; this.msg=null; this.transform='uppercase'; this.required=true; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");
-     		  this.realAssetsRealAssetValue = new Function("key","this.label='Valeur du bien'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.realAssetsRealAssetNetFloorArea = new Function("key","this.label='Superficie du bien'; this.msg=null; this.required=false; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
-     		  this.realAssetsRealAssetCadastre = new Function("key","this.label='Cadastre du bien'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
+     		  this.realAssetsRealAssetValue = new Function("key","this.label='Valeur estimée'; this.msg=null; this.required=true; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
+     		  this.realAssetsRealAssetNetFloorArea = new Function("key","this.label='Superficie'; this.msg=null; this.required=true; this.mask=/^[0-9]+$/; this.minlength=0; this.maxlength=10; this.type=null; return this[key];");
   		}
         window.onload = function () {
 	        addresseTypeAhead("realAssetsRealAssetAddressCity", "realAssetsRealAssetAddressPostalCode");

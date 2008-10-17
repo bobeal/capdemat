@@ -86,6 +86,10 @@ public class Subject extends IStageForm {
 		if (this.checkSubjectAdultFirstName() &&
 			((this.subjectAdultFirstName == null) || (this.subjectAdultFirstName.length() == 0)))
 			return false;
+		if (this.checkFloor() && (this.floor == null))
+			return false;
+		if (this.checkAppartmentNumber() && (this.appartmentNumber == null))
+			return false;
 		if (this.checkDwelling() &&
 			((this.dwelling == null) || (this.dwelling.length() == 0)))
 			return false;

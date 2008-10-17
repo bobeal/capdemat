@@ -33,47 +33,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       }]
   });
   
-  zcbrt.manager = function() {
-    var initTabs = function() {
-      
-      var tab = yus.query('div#workArea_Tab1')[0];
-      var url = ['/loadMailTemplate/',zcbrt.manager.name].join('');
-      zcc.doAjaxCall(url,[],function(o){
-//        zcbrt.manager.wrapper = o.responseText
-//          .replace(/\n/g,'\uffff')
-//          .replace(/(.*<body>).*(<\/body>.*)/gi,'$1 \${BODY} $2')
-//          .replace(/\uffff/g,'\n')
-        tab.innerHTML = o.responseText
-          .replace(/\n/g,'\uffff')
-          .replace(/.*<body>(.*)<\/body>.*/gi,'$1')
-          .replace(/\uffff/g,'\n');
-        
-        //yus.query('div#trash div#wrapper')[0].innerHTML = ['<!--',zcbrt.manager.wrapper,'-->'].join('');
-        //YAHOO.util.Dom.setStyle('workArea','display','block');
-        zct.style('workArea',{display:'block'});
-        zcbrt.manager.tabView = new YAHOO.widget.TabView('workArea');
-        zcbrt.manager.tabView.set('activeIndex', 0);
-        var divs = yus.query('div#workArea_Tab1 div');
-        var editables = zct.grep(divs,function(n){
-          return (/editable*/i.test(n.id));
-        });
-        zct.each(editables,function(i){
-          yue.addListener(this,'click',zcbrt.manager.edit);
-        });
-      });
-
-    };
+  zcbrt.Manager = function() {
     var initEditor = function() {
-      zcbrt.manager.editor = new YAHOO.widget.SimpleEditor('editor', {
+      zcbrt.Manager.editor = new YAHOO.widget.SimpleEditor('editor', {
         focusAtStart: true,
         toolbar : zcbet.def,
         width : '600px',
         height: '300px'
       });
-      zcbrt.manager.editor.render();
+      zcbrt.Manager.editor.render();
     };
     var initPanel = function() {
-      zcbrt.manager.panel = new YAHOO.widget.Panel("editPanel", {
+      zcbrt.Manager.panel = new YAHOO.widget.Panel("editPanel", {
         width:"620px",
         fixedcenter:true,  
 			  draggable:false,
@@ -81,20 +52,20 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
 			  visible:false
       });
       
-      zcbrt.manager.panel.beforeShowEvent.subscribe(function(ev){
+      zcbrt.Manager.panel.beforeShowEvent.subscribe(function(ev){
         zct.style('bd-editor',{display:'block'});
-        zcbrt.manager.panel.center();
+        zcbrt.Manager.panel.center();
       });
-      zcbrt.manager.panel.beforeHideEvent.subscribe(function(ev){
+      zcbrt.Manager.panel.beforeHideEvent.subscribe(function(ev){
         zct.style('bd-editor',{display:'none'});
       });
       
-      zcbrt.manager.panel.render();
+      zcbrt.Manager.panel.render();
     };
     var initButtons = function() {
       var button = new YAHOO.widget.Button(document.getElementById('submit'));
       button.on('click',function(e){
-        zcbrt.manager.save();
+        zcbrt.Manager.save();
       });
     };
     return {
@@ -105,19 +76,19 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       editEl: undefined,
       tabView: undefined,
       init : function() {
-        initTabs();
+        //initTabs();
         initPanel();
         initEditor();
         initButtons();
         
-        zcbrt.manager.editor.on('afterRender',function(ev){
+        zcbrt.Manager.editor.on('afterRender',function(ev){
           if(zcbet.def.buttons.length > 0) {
             var button = zcbet.def.buttons[zcbet.def.buttons.length - 1].buttons[0];
             var select = yus.query('select',button.container)[0];
             
             yue.on(select,'change',function(ev){
               if(zct.val(select) != '0') {
-                zcbrt.manager.editor.execCommand('inserthtml', zct.val(select));
+                zcbrt.Manager.editor.execCommand('inserthtml', zct.val(select));
                 zct.val(select,'0');
               }
             })
@@ -127,32 +98,32 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         });
       },
       edit : function() {
-        if(zcbrt.manager.panel.cfg.getProperty('visible') != true) {
-          zcbrt.manager.editEl = this;
-          zcbrt.manager.editor.cleanHTML();
-          zcbrt.manager.editor.setEditorHTML(this.innerHTML);
-          zcbrt.manager.panel.show();
+        if(zcbrt.Manager.panel.cfg.getProperty('visible') != true) {
+          zcbrt.Manager.editEl = this;
+          zcbrt.Manager.editor.cleanHTML();
+          zcbrt.Manager.editor.setEditorHTML(this.innerHTML);
+          zcbrt.Manager.panel.show();
         }
       },
       save : function() {
-        var editorValue = zcbrt.manager.editor.getEditorHTML();
+        var editorValue = zcbrt.Manager.editor.getEditorHTML();
         if(yul.trim(zct.stripTags(editorValue)).length == 0) {
           zcc.displayResponseResult('unexpectedError',"Editor value can't be empty !");
           return;
         }
         
-        if(!!zcbrt.manager.editEl) {
-          yus.query('#form1 input[id=element]')[0].value = zcbrt.manager.editEl.id;
-          zcbrt.manager.editor.saveHTML();
+        if(!!zcbrt.Manager.editEl) {
+          yus.query('#editor-form input[id=element]')[0].value = zcbrt.Manager.editEl.id;
+          zcbrt.Manager.editor.saveHTML();
           
-          zcc.doAjaxFormSubmitCall('form1',[],function(o){
-            zcbrt.manager.editEl.innerHTML = zcbrt.manager.editor.getEditorHTML();
+          zcc.doAjaxFormSubmitCall('editor-form',[],function(o){
+            zcbrt.Manager.editEl.innerHTML = zcbrt.Manager.editor.getEditorHTML();
             var json = YAHOO.lang.JSON.parse(o.responseText);
             zcc.displayResponseResult('success',json.success_msg);
             return false;
           });
         }
-        zcbrt.manager.panel.hide();
+        zcbrt.Manager.panel.hide();
       },
       emptyHref : function() {
         return 'javascript:;';
@@ -160,6 +131,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
     }
   }();
   
-  yue.onDOMReady(zcbrt.manager.init);
+  yue.onDOMReady(zcbrt.Manager.init);
   
 }());

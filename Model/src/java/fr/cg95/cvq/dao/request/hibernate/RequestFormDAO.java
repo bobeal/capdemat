@@ -3,6 +3,7 @@ package fr.cg95.cvq.dao.request.hibernate;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
@@ -36,7 +37,8 @@ public class RequestFormDAO extends GenericDAO implements IRequestFormDAO {
     public List<RequestForm> findByTypeAndRequestTypeId(final RequestFormType requestFormType,
             final long requestTypeId) {
         Criteria crit = HibernateUtil.getSession().createCriteria(RequestForm.class);
-        crit.add(Critere.compose("type", requestFormType, Critere.EQUALS));
+        crit.add(Critere.compose("type", requestFormType, Critere.EQUALS))
+            .addOrder(Order.desc("id"));
         crit.createCriteria("requestTypes")
             .add(Critere.compose("id", requestTypeId, Critere.EQUALS));
         return crit.list();

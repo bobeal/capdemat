@@ -63,7 +63,7 @@
 				ret.push( elems[ i ] );
 		return ret;
 	};
-	
+  
 	zct.map = function( elems, callback ) {
 		var ret = [];
 		for ( var i = 0, length = elems.length; i < length; i++ ) {
@@ -112,6 +112,7 @@
 				return i;
 		return -1;
 	};
+  
 		
 	zct.isFunction = function( fn ) {
 		return !!fn && typeof fn != "string" && !fn.nodeName &&
@@ -240,6 +241,14 @@
     } else {
       YAHOO.util.Dom.getStyle(el);
     }
+  };
+  
+  zct.dump = function(obj) {
+    var result = "";
+    zct.each(obj,function(k,v){
+      result += [k,'=',v,'\n'].join(' '); 
+    });
+    return result;
   };
   
 	zct.each([ "Height", "Width" ], function(i, name){

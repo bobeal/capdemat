@@ -42,6 +42,7 @@
                   <textarea id="editor" rows="15" name="editor"></textarea>
                   <input type="hidden" id="element" name="element" value="" />
                   <input type="button" id="submit" name="submit" value="Save" />
+                  <input type="hidden" name="requestTypeId" value="" />
               </div>
             </div>
           </div>

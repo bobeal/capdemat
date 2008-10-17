@@ -193,8 +193,8 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
   padding-right: 0.5em;
 }
 
-.datasheet-panel span,a {
-  /*margin-top: 0.5em !important;*/
+.datasheet-panel span,
+.datasheet-panel a {
   float : right;
 }
 

@@ -41,9 +41,6 @@
             <li class="selected" title="active">
               <a href="#confArea_Tab1"><em>Request configuration</em></a>
             </li> 
-            <li>
-              <a href="#workArea_Tab1"><em>Personalization</em></a>
-            </li>
           </ul>            
           <div class="yui-content">
             <!-- First area -->
@@ -71,20 +68,18 @@
               
             </div>
             
-            <!-- Second area -->
-            <div id="workArea_Tab1" class="editable-work-area">
-              
-            </div>
           </div>
         </div>
         
-        <form method="post" id="form1" action="mailTemplate" class="editor-form">
+        <form method="post" id="editor-form" action="${createLink(action:'mailTemplate')}" class="editor-form">
           <div id="editPanel">
             <div class="hd">Change state</div>
             <div class="bd" >
               <div id="bd-editor" style="display:none">
                   <textarea id="editor" rows="15" name="editor"></textarea>
                   <input type="hidden" id="element" name="element" value="" />
+                  <input type="hidden" name="requestTypeId" value="" />
+                  <input type="hidden" name="requestFormId" value="" />
                   <input type="button" id="submit" name="submit" value="Save" />
               </div>
             </div>
@@ -92,7 +87,6 @@
         </form>
         
         <div id="trash" style="display:none">
-          <div id="wrapper"></div>
         </div>
         
       </div>

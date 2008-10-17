@@ -1794,9 +1794,9 @@ public abstract class RequestService implements IRequestService {
         if(requestType == null)
             throw new CvqModelException("requestForm.requestType_is_invalid");
         
-        if(requestForm.getLabel() == null) 
+        if(requestForm.getLabel() == null && requestForm.getLabel() == "") 
             throw new CvqModelException("requestForm.label_is_null");
-        if(requestForm.getShortLabel() == null)
+        if(requestForm.getShortLabel() == null && requestForm.getShortLabel() == "")
             throw new CvqModelException("requestForm.shortLabel_is_null");
         
         if(this.requestTypeContainsForm(requestType, requestForm)) {
@@ -1815,9 +1815,7 @@ public abstract class RequestService implements IRequestService {
     
     protected boolean requestTypeContainsForm(RequestType type, RequestForm form) {
         for(RequestForm f : (Set<RequestForm>)type.getForms()) {
-            if(f.getId() != null && f.getId() == form.getId()) {
-                return true;
-            }
+            if(f.getId().equals(form.getId())) return true;
         }
         
         return false;

@@ -19,6 +19,7 @@ import fr.cg95.cvq.exception.*
 
 import grails.converters.JSON
 import grails.converters.XML
+import groovyjarjarantlr.collections.List;
 
 
 class RequestTypeController {
@@ -313,13 +314,22 @@ class RequestTypeController {
         def id = Long.valueOf(params.id)
         def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
         def forms = defaultRequestService.getRequestTypeForms(id, mailType)
-        
         render(template:"requestForms",model:["requestForms":forms])
     }
     
     def requestFormDatasheet = {
-        if(request.post) {
+        if(request.post && params?.requestTypeId) {
+            RequestForm form = new RequestForm()
+            if(params?.requestFormId) {
+                form = defaultRequestService.getRequestFormById(Long.valueOf(params.requestFormId))
+            }
+            form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
+            form.setLabel(params.label)
+            form.setTemplateName(params.templateName)
+            form.setShortLabel(params.shortLabel)
+            defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
             
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else {
             def requestForm = null
             def templates = defaultRequestService.getMailTemplates('.*[.]html$')
@@ -334,17 +344,15 @@ class RequestTypeController {
     
     def mailTemplate = {
         if(request.post) {
-            if(params?.editor != "" && params?.element != "") {
-                def args = params.element.split(':').toList()
-                
-                RequestForm form = new RequestForm()
-                form.setId((Long)args[1])
+            if(params?.editor != "") {
+                RequestForm form = defaultRequestService
+                    .getRequestFormById(Long.valueOf(params?.requestFormId))
                 form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
                 form.setPersonalizedData(params.editor.getBytes())
-                form.setLabel("MyLabel")
-                form.setShortLabel("MyShortLabel")
                 
-                defaultRequestService.processRequestTypeForm(0,form)
+                println params?.editor
+                
+                defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
                 render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
             } else {
                 throw new Exception("mail_templates.some_of_mandatory_fields_is_empty")
@@ -357,20 +365,21 @@ class RequestTypeController {
     }
     
     def loadMailTemplate = {
-        //def name  = params.id
-        def name = 'tmp.html'
+        def fileName = params?.file
+        def formId = Long.valueOf(params?.formId)
+        def typeId = Long.valueOf(params?.typeId)
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         
-        File templateFile = defaultRequestService.getTemplateByName(name)
+        File templateFile = defaultRequestService.getTemplateByName(fileName)
         if(templateFile.exists()) {
-            List<RequestForm> forms = defaultRequestService.getRequestTypeForms(1,RequestFormType.REQUEST_MAIL_TEMPLATE)
+            def forms = [];
+            forms.add(defaultRequestService.getRequestFormById(formId))
             
             def template = groovyPagesTemplateEngine.createTemplate(templateFile);
             def out = new StringWriter();
             def originalOut = requestAttributes.getOut()
-            
             requestAttributes.setOut(out)
-            template.make(['name':params.id,'forms':forms]).writeTo(out);
+            template.make(['name':fileName,'forms':forms]).writeTo(out);
             requestAttributes.setOut(originalOut)
             return render(template:"mail",model:['template':out.toString()])
         }

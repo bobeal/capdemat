@@ -15,12 +15,10 @@
       
       function switchAreas(currentSubmenu) {
           if (currentSubmenu === 'general') {
-              YAHOO.util.Dom.removeClass(document.getElementById('requestTypeForms'), 'invisible');
               YAHOO.util.Dom.removeClass(document.getElementById('requestTypeAlerts'), 'invisible');
               YAHOO.util.Dom.addClass(document.getElementById('requestTypeSeasons'), 'invisible');
           } else if (currentSubmenu === 'seasons') {
               YAHOO.util.Dom.removeClass(document.getElementById('requestTypeSeasons'), 'invisible');
-              YAHOO.util.Dom.addClass(document.getElementById('requestTypeForms'), 'invisible');
               YAHOO.util.Dom.addClass(document.getElementById('requestTypeAlerts'), 'invisible');
           }
       }
@@ -31,14 +29,10 @@
           element.innerHTML = o.responseText;
   
           if (o.argument[1] === 'general') {
-            if (o.argument[2] === 'requestTypeForms') {
-                 initRequestTypeForms(o.argument[0]);
-            } else if (o.argument[2] === 'requestTypeAlerts') {
+            if (o.argument[2] === 'requestTypeAlerts') {
                  initRequestTypeAlerts(o.argument[0]);
             }
               switchAreas('general');
-          } else if (o.argument[1] === 'documents') { 
-            initRequestTypeDocuments(o.argument[0]);
           } else if (o.argument [1] === 'seasons') {
             initRequestTypeSeasons(o.argument[0]);
               switchAreas('seasons');
@@ -46,16 +40,14 @@
       };
         
       function loadRequestTypeSubmenu(type, args) {
-          var url;
+        var url;
         if (args[1] === 'general') {
           // general submenu is a special case : it contains three templates
-            url = '/loadAlertsArea/' + args[2];
-            zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeAlerts'], handleLoadRequestTypeSubmenuFormSuccess);
-            url = '/loadFormsArea/' + args[2];
-            zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeForms'],handleLoadRequestTypeSubmenuFormSuccess);  			
+          url = '/loadAlertsArea/' + args[2];
+          zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeAlerts'], handleLoadRequestTypeSubmenuFormSuccess);
         } else if (args[1] === 'seasons') {
-            url = '/loadSeasonsArea/' + args[2];
-            zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeSeasons'], handleLoadRequestTypeSubmenuFormSuccess);
+          url = '/loadSeasonsArea/' + args[2];
+          zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeSeasons'], handleLoadRequestTypeSubmenuFormSuccess);
         }
       }
       

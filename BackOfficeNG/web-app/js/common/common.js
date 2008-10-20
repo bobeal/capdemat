@@ -81,7 +81,10 @@
     };
     if (zct.isFunction(callback)) handlers.success = callback;
     if (args) handlers.argument = args;
-    var url = zenexity.capdemat.bong.baseUrl + callUrl;
+    var special = ['iemustdie=',Math.random().toString(16).substring(2)].join('');
+    var url = [zenexity.capdemat.bong.baseUrl, callUrl].join('');
+    if(/.*\&.*/.test(url)) url = [url,'&',special].join('');
+    else url = [url,'?',special].join('');
     YAHOO.util.Connect.asyncRequest('GET', url, handlers, null);
   };
 
@@ -99,6 +102,15 @@
     if (args) handlers.argument = args;
     var url = formElement.get('action');
     YAHOO.util.Connect.asyncRequest('POST', url, handlers, null);
+  };
+  
+  zcc.doAjaxDeleteCall = function(url,params,callback) {
+    var handlers = {
+      failure: zcc.handleUnexpectedError
+    };
+    if (zct.isFunction(callback)) handlers.success = callback;
+    var url = [zenexity.capdemat.bong.baseUrl,url,'?',params].join('');
+    YAHOO.util.Connect.asyncRequest('DELETE', url, handlers);
   };
   
   zcc.collectSearchFormValues = function (formId) {
@@ -161,6 +173,39 @@
     this.setBody(body);
     this.render("bd");
   };
+  
+  zcc.ConfirmationDialog = function(content,confirmHandler) {
+    this.Id = YAHOO.util.Dom.generateId();
+    this.Label = {Ok:'Ok',Cancel:'Cancel'};
+    this.showTarget = undefined;
+    
+    zcc.ConfirmationDialog.superclass.constructor.call(this,
+    this.Id,
+    { width: "20em",
+      effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.25},
+      modal:true, visible:false, draggable:false, fixedcenter:true,
+      icon:YAHOO.widget.SimpleDialog.ICON_WARN,
+      buttons:[{ text:this.Label.Cancel, handler:function() {this.hide();}},
+               { text:this.Label.Ok,isDefault:true,handler:function(e){
+                  if(zct.isFunction(confirmHandler)) confirmHandler.call(this);
+                  this.hide();
+               }}]
+      }
+    );
+    
+    this.setHeader(content.head);
+    this.setBody(content.body);
+    var el = YAHOO.util.Selector.query("div.yui-skin-sam")[0] || document.body;
+    this.render(el);
+  };
+  
+  YAHOO.lang.extend(zcc.ConfirmationDialog,YAHOO.widget.SimpleDialog)
+  
+  zcc.ConfirmationDialog.prototype.show = function(e) {
+    zcc.ConfirmationDialog.superclass.show.call(this);
+    if(!!e) this.showTarget = YAHOO.util.Event.getTarget(e);
+    else this.showTarget = undefined;
+  }
   
   YAHOO.lang.extend(zcc.deleteConfirmationDialog, YAHOO.widget.SimpleDialog);
   YAHOO.lang.extend(zcc.errorMessageDialog, YAHOO.widget.SimpleDialog);

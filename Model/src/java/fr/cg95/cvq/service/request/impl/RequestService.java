@@ -1794,9 +1794,9 @@ public abstract class RequestService implements IRequestService {
         if(requestType == null)
             throw new CvqModelException("requestForm.requestType_is_invalid");
         
-        if(requestForm.getLabel() == null && requestForm.getLabel() == "") 
+        if(requestForm.getLabel() == null && requestForm.getLabel().trim() == "") 
             throw new CvqModelException("requestForm.label_is_null");
-        if(requestForm.getShortLabel() == null && requestForm.getShortLabel() == "")
+        if(requestForm.getShortLabel() == null && requestForm.getShortLabel().trim() == "")
             throw new CvqModelException("requestForm.shortLabel_is_null");
         
         if(this.requestTypeContainsForm(requestType, requestForm)) {
@@ -1872,6 +1872,17 @@ public abstract class RequestService implements IRequestService {
 //        localAuthorityRegistry.removeLocalAuthorityResource(
 //                ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
 //                requestForm.getXslFoFilename());
+        
+        requestFormDAO.delete(requestForm);
+    }
+    
+    public void removeRequestTypeForm(final Long requestFormId)
+        throws CvqException {
+        RequestForm requestForm =
+            (RequestForm) genericDAO.findById(RequestForm.class, requestFormId);
+        
+        for(RequestType t : (Set<RequestType>)requestForm.getRequestTypes())
+            t.getForms().remove(requestForm);
         
         requestFormDAO.delete(requestForm);
     }

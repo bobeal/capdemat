@@ -310,34 +310,41 @@ class RequestTypeController {
     
     
     // retrives request form list using passed request type id
-    def requestFormList = {
+    def formList = {
+        //println "\n\n\n\n\n\n\n"+ request
         def id = Long.valueOf(params.id)
         def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
         def forms = defaultRequestService.getRequestTypeForms(id, mailType)
-        render(template:"requestForms",model:["requestForms":forms])
+        render(template:"formList",model:["requestForms":forms])
     }
     
-    def requestFormDatasheet = {
-        if(request.post && params?.requestTypeId) {
+    def form = {
+        def method = request.getMethod().toLowerCase()
+        if(method == "post" && params?.requestTypeId) {
             RequestForm form = new RequestForm()
             if(params?.requestFormId) {
                 form = defaultRequestService.getRequestFormById(Long.valueOf(params.requestFormId))
             }
             form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
             form.setLabel(params.label)
+            if(form.getTemplateName() != params.templateName)
+                form.setPersonalizedData(null)
             form.setTemplateName(params.templateName)
             form.setShortLabel(params.shortLabel)
             defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
             
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-        } else {
+        } else if(method=="get") {
             def requestForm = null
             def templates = defaultRequestService.getMailTemplates('.*[.]html$')
             if(params.id) 
                 requestForm = defaultRequestService
                     .getRequestFormById(Long.valueOf(params.id))
-            render(template:"datasheet",model:["requestForm":requestForm,
+            render(template:"form",model:["requestForm":requestForm,
                                                "templates":templates])
+        } else if(method=="delete") {
+            defaultRequestService.removeRequestTypeForm(Long.valueOf(params.id));
+            render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
         }
     }
     
@@ -349,8 +356,6 @@ class RequestTypeController {
                     .getRequestFormById(Long.valueOf(params?.requestFormId))
                 form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
                 form.setPersonalizedData(params.editor.getBytes())
-                
-                println params?.editor
                 
                 defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
                 render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
@@ -381,7 +386,9 @@ class RequestTypeController {
             requestAttributes.setOut(out)
             template.make(['name':fileName,'forms':forms]).writeTo(out);
             requestAttributes.setOut(originalOut)
-            return render(template:"mail",model:['template':out.toString()])
+            
+            response.contentType = 'text/html; charset=utf-8'
+            render out.toString()
         }
         
         //render(template:"tmp",model:['name':params.id])

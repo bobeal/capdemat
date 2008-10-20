@@ -22,6 +22,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   
   
   zcbrp.Config = function() {
+    var initPanels = function() {
+      var content = {
+        head:'Attention !',
+        body: 'Supprimer ?'}
+      zcbrp.Config.confirmationDialog = new zcc.ConfirmationDialog(
+        content,zcbrp.Config.deleteForm);
+    };
     var initButtons = function() {
       zcbrp.Config.makeYuiButtons();
     };
@@ -45,16 +52,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       });
     };
     return {
+      confirmationDialog : undefined,
       containers : [],
       init : function() {
         initButtons();
+        initPanels();
         initLinks();
         initTabs();
         zcbrp.Config.reloadList();
       },
       loadEditForm : function(container) {
         if(!!zcbrp.Config.containers[container.id]) return false;
-        var url = ['/requestFormDatasheet/',container.id.split(':')[1]].join('');
+        var url = ['/form/',container.id.split(':')[1]].join('');
         zcbrp.Config.containers[container.id] = container;
         zcc.doAjaxCall(url,[],function(o){
           var trash = document.getElementById('trash');
@@ -90,7 +99,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           //zct.style('workArea',{display:'block'});
           
           var newTab = new YAHOO.widget.Tab({
-            label: 'New Tab # <span class="close">X</span>',
+            label: 'New Tab  <span class="close">X</span>',
             active: true,
             content: ['<div id="workArea_Tab1" class="editable-work-area">',content,'</div>'].join('')
           });
@@ -115,26 +124,48 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           eform.requestFormId.value = tform.requestFormId.value;
         });
       },
-      sendDatasheet : function(target) {
+      modifyForm : function(target) {
         // TODO add validation here !!!
         var form = yu.Dom.getAncestorByTagName(target,'form');
         var hidden = yus.query('input[name=requestTypeId]',form)[0];
         hidden.value = zcbrp.currentId;
-        zcc.doAjaxFormSubmitCall(form.getAttribute("id"),[],function(o){
-          var li = new yu.Element(form.parentNode.parentNode);
-          var json = YAHOO.lang.JSON.parse(o.responseText);
-          var id = zct.val(yus.query('input[name=id]',form)[0]);
-          zcbrp.Config.detachContainer(target);
-          
-          li.removeChild(form.parentNode);
-          zcc.displayResponseResult('success',json.success_msg);
-          zcbrp.Config.reloadList();
-        });
+        if(zcbrp.Config.validateForm(target,form)) {
+          zcc.doAjaxFormSubmitCall(form.getAttribute("id"),[],function(o){
+            var li = new yu.Element(form.parentNode.parentNode);
+            var json = YAHOO.lang.JSON.parse(o.responseText);
+            var id = zct.val(yus.query('input[name=id]',form)[0]);
+            zcbrp.Config.detachContainer(target);
+            
+            li.removeChild(form.parentNode);
+            zcc.displayResponseResult('success',json.success_msg);
+            zcbrp.Config.reloadList();
+          });
+        }
+      },
+      validateForm : function(target,form) {
+        var container = yus.query('div.error',form,true);
+        if(zct.isFunction(FIC_checkForm)) 
+          return FIC_checkForm(target,container);
+        return true;
+      },
+      deleteForm : function(e) {
+        var li = yu.Dom.getAncestorByTagName(zcbrp.Config.confirmationDialog.showTarget ,'li');
+        var id = li.id.split(':')[1];
+        if(yl.isNumber(parseInt(id))) {
+          zcc.doAjaxDeleteCall('/form/',zct.param({id:id}),function(o){
+            var cn = new yu.Element(li.parentNode);
+            var json = YAHOO.lang.JSON.parse(o.responseText);
+            zcc.displayResponseResult('success',json.success_msg);
+            cn.removeChild(li);
+          })
+        }
+        //console.debug(zcbrp.Config.confirmationDialog.showTarget);
       },
       reloadList : function() {
-        var url = ["/requestFormList/",(zcbrp.currentId||0)].join('');
+        var url = ["/formList/",(zcbrp.currentId||0)].join('');
         var formsEl = yus.query('div#requestFormList')[0];
         zcc.doAjaxCall(url,[],function(o){
+          //alert(o.responseText);
           formsEl.innerHTML = o.responseText;
           YAHOO.util.Dom.removeClass(formsEl, 'invisible');
           var container = document.getElementById('requestFormList');
@@ -179,11 +210,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         });
       },
       handlers : {
-        'button-ok': function(e){zcbrp.Config.sendDatasheet(yue.getTarget(e));},
+        'button-ok': function(e){zcbrp.Config.modifyForm(yue.getTarget(e));},
         'button-cancel': function(e){zcbrp.Config.hideEditForm(yue.getTarget(e));},
         'a-personalize' :function(e){zcbrp.Config.spiritUpWorkTab(yue.getTarget(e));},
         'editItem' : function(e){zcbrp.Config.loadEditForm(yu.Dom.getAncestorByTagName(this,'li'));},
-        'unassociate' : function(e){return false;},
+        'unassociate' : function(e){zcbrp.Config.confirmationDialog.show(e);},
         'default': function(){return false;}
       }
     }

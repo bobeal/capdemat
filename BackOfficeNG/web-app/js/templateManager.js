@@ -26,9 +26,19 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       { type: 'select', label: '...', value: 'insertvars', disabled: false,
         menu: [
           { text: '...', value:'0', checked: true },
-          { text: 'Name', value:'${NAME}' },
-          { text: 'Nick', value:'${NICK}' },
-          { text: 'Phone', value:'${PHONE}' }
+          { text: '(TS) ID', value:'${RQ_ID}' },
+          { text: '(TS) Date Création', value:'${RQ_CDATE}' },
+          { text: '(TS) Nom du TS', value:'${RQ_TP_LABEL}' },
+          { text: '(TS) Date Validation', value:'${RQ_DVAL}' },
+          { text: '(TS) Oservations', value:'${RQ_OBSERV}' },
+          { text: '(FO) ID', value:'${HF_ID}' },
+          { text: '(DM) Prénon', value:'${RR_FNAME}' },
+          { text: '(DM) Nom', value:'${RR_LNAME}' },
+          { text: '(DM) Civilité', value:'${RR_TITLE}' },
+          { text: '(DM) Login', value:'${RR_LOGIN}' },
+          { text: '(SU) Prénon', value:'${RR_FNAME}' },
+          { text: '(SU) Nom', value:'${RR_LNAME}' },
+          { text: '(SU) Civilité', value:'${RR_TITLE}' }
         ]
       }]
   });

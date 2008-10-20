@@ -45,6 +45,8 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/utilities',file:'utilities.js')}"></script> 
   <!-- Depedency for Datatable -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/datasource',file:'datasource-beta-min.js')}"></script>
+  <!-- Datatable -->
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/datatable',file:'datatable-beta-min.js')}"></script>
   <!-- safe JSON parsing -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/json',file:'json-min.js')}"></script> 
   <!-- Tabview -->

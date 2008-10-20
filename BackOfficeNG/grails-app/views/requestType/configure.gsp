@@ -12,10 +12,7 @@
     
     <!--
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeConfigure.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeForms.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeAlerts.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeDocuments.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeLocalReferential.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeSeasons.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     -->
@@ -61,7 +58,6 @@
               </div>
               
               <!--
-              <div class="mainbox mainbox-yellow" id="requestTypeForms"></div>
               <div class="mainbox mainbox-yellow" id="requestTypeAlerts"></div>
               <div class="mainbox mainbox-yellow" id="requestTypeSeasons"></div>
               -->

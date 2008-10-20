@@ -115,6 +115,8 @@ form.editable-list-form fieldset {
 }
 form.editable-list-form fieldset legend { font-size: 1.2em; color: #FFA000; }
 
+form.editable-list-form a { width: auto; height: auto; float: none; margin: 0; }
+
 form.editable-list-form p.same-line                   { display: block; clear: both; margin: .5em; 0; }
 form.editable-list-form p.same-line input             { width: 25%; margin-left: 0; }
 form.editable-list-form p.same-line input.form-button { width: auto; margin: 1.5em 1em 0 0; }
@@ -130,6 +132,7 @@ form.editable-list-form ul li label { width: 66%; }
 -------------------------------------------------------------- */
 /* for textboxes, textareas, passwords */
 .validation-failed {
+  margin:0.2em 0 0 0.2em !important;
   border: 1px dashed #F33;
   background-color:#FCC;
 }

@@ -42,7 +42,6 @@ class RequestInstructionController {
     }
     
     def edit = {
-        this.each { log.debug(it) }
         
 		    def request = defaultRequestService.getById(Long.valueOf(params.id))
 		    def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
@@ -83,11 +82,11 @@ class RequestInstructionController {
 		    if (request instanceof  fr.cg95.cvq.business.ecitizen.VoCardRequest
 		        || request instanceof fr.cg95.cvq.business.request.HomeFolderModificationRequest) {
 		        adults = homeFolderService.getAdults(request.homeFolder.id)
-            children = homeFolderService.getChildren(request.homeFolder.id)
-            children.each {
-              clr.put(it.id, childService.getLegalResponsibles(it.id))
-            }
-        }
+		        children = homeFolderService.getChildren(request.homeFolder.id)
+		        children.each {
+		        	clr.put(it.id, childService.getLegalResponsibles(it.id))
+		        }
+		    }
 
 		    [ "request": request,
 		      "adults" : adults,
@@ -101,48 +100,44 @@ class RequestInstructionController {
     }
     
     def widget = {
-        def widgetMap = [ string:"string", email:"string", number:"string", string:"string",
+        def widgetMap = [ string:"string", email:"string", number:"string", 
                           date:"date", address:"address", capdematEnum:"capdematEnum" ]
         
-        // tp implementation          
+        // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
-        def individualIdTokens = params.propertyName.tokenize("[]")
         
         def propertyTypeList = params.propertyType.tokenize(" ")
+        // one of the widgetMap keys
+        def propertyType = propertyTypeList[0]
+        
+        def model = ["requestId": Long.valueOf(params.id),
+                     "individualId": params.propertyName.tokenize("[]")[1],
+                     // the "simple" property name, with de-referencement
+                     "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                     // the "fully qualifier" property name
+                     "propertyName": params.propertyName,
+                     "propertyType": propertyType,
+                     "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""]
         
         def propertyValue
-        def allPropertyValue = []
-        def propertyValueType
-        
-        if (propertyTypeList[0] == "address")
+        if (propertyType == "address") {
             propertyValue = JSON.parse(params.propertyValue)
-        else if (propertyTypeList[0] == "capdematEnum") {
+        } else if (propertyType == "capdematEnum") {
             def propertyJavaType = propertyTypeList[1].tokenize(".")
-            allPropertyValue = Class.forName(propertyTypeList[1])
+            def allPropertyValue = Class.forName(propertyTypeList[1])
                     .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
             
+            model["allPropertyValue"] = allPropertyValue
             def propertyValueTokens = params.propertyValue.tokenize(" ")
             propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
-            
-            propertyValueType = propertyTypeList[1]
-        }
-        else if (propertyTypeList[0] != "address")
+            // will contain the fully qualified class name of the "CapDemat enum" class
+            model["propertyValueType"] = propertyTypeList[1]
+        } else {
             propertyValue = params.propertyValue
-            
-        render( template: "/requestInstruction/widget/" + widgetMap[propertyTypeList[0]],
-                model:
-                    [ "requestId": Long.valueOf(params.id),
-                    
-                      "individualId": individualIdTokens[1],
-                      "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
-                      
-                      "propertyName": params.propertyName,
-                      "propertyValue": propertyValue,
-                      "allPropertyValue": allPropertyValue,
-                      "propertyValueType": propertyValueType,
-                      "propertyType": propertyTypeList[0],
-                      "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""
-                    ])
+        }
+        model["propertyValue"] = propertyValue
+        
+        render( template: "/requestInstruction/widget/" + widgetMap[propertyType], model:model)
     }
     
     def modify = {
@@ -156,9 +151,8 @@ class RequestInstructionController {
                   .propertyEditorRegistry
                   .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
           )
-//          bindData(individual, params)
           bind(individual)
-            
+
           render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             ce.printStackTrace()

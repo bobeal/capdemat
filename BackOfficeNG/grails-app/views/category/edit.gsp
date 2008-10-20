@@ -39,7 +39,7 @@
         </div>
 
         <div id="categoryRequestTypesBox" class="mainbox mainbox-yellow">
-          <h2><g:message code="menu.requests" /></h2>
+          <h2><g:message code="category.header.requests" /></h2>
           <div class="editableListSwithcher">
             <form id="sortRequestTypeForm" method="post" action="<g:createLink action="requestTypes" />" />
               <select name="orderRequestTypeBy" onchange="zenexity.capdemat.bong.categoryRequestType.sortRequestTypes();">

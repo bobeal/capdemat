@@ -36,12 +36,12 @@
 .overviewConfigurationList li div     { margin: 0 1em; line-height: 1.5em; }
 
 /* creation cancel link*/
-#createCategory   { margin: 0 2em;text-align: right; }
-#createCategory a {
+.createConfigurationItem   { margin: 0 2em;text-align: right; }
+.createConfigurationItem a {
   padding: 0 21px 0 0; font-size: 1.3em;
   background: transparent url(../images/icons/create.png) no-repeat right 4px;
 }
-#createCategory a:hover       { background-color: #0000ff; }
+.createConfigurationItem a:hover       { background-color: #0000ff; }
 #cancelCreateCategory a:hover { background: transparent; }
 
 /* editable list

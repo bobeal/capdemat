@@ -49,11 +49,11 @@
               
               <div id="formsConfiguration">
                 <h2>${message(code:'requestType.configuration.forms')}</h2>
-                <div id="creationPanel" class="datasheet-panel">
-                  <a id="linkShowDatasheet" href="javascript:;">
-                    ${message(code:'action.create')}
-                  </a>
+                
+                <div class="createConfigurationItem">
+                  <a id="linkShowDatasheet" href="javascript:;">${message(code:'action.create')}</a>
                 </div>
+                
                 <div id="requestFormList">
                 </div>
                 

@@ -5,8 +5,6 @@
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/yui/button',file:'button.css')}" />
   <!-- Dialog Container CSS -->
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/yui/container',file:'container.css')}" />
-  <!-- Datatable CSS -->
-  <link type="text/css" rel="stylesheet" href="${createLinkTo(dir:'css/yui/datatable',file:'datatable.css')}" />
   <!-- Tabview CSS -->
   <link type="text/css" rel="stylesheet" href="${createLinkTo(dir:'css/yui/tabview',file:'tabview.css')}" /> 
   <!-- Calendar CSS -->
@@ -27,11 +25,11 @@
 
   <!-- Dependency for Connection Manager / Also provides YAHOO Global Object -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo',file:'yahoo-min.js')}"></script>
-  <!-- Dependencies for Dialog Container, Button, Menu, Datatable, Tabview -->
+  <!-- Dependencies for Dialog Container, Button, Menu, Tabview -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo-dom-event',file:'yahoo-dom-event.js')}"></script>
   <!-- Dependencie for Dialog Container, Drag and Drop -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/dragdrop',file:'dragdrop-min.js')}"></script>
-  <!-- Dependencies for Button, Datatable, Tabview -->
+  <!-- Dependencies for Button, Tabview -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/element',file:'element-beta-min.js')}"></script>
   <!-- Used for Custom Events and event listener bindings (Connection Manager) -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/event',file:'event-min.js')}"></script>
@@ -47,8 +45,6 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/utilities',file:'utilities.js')}"></script> 
   <!-- Depedency for Datatable -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/datasource',file:'datasource-beta-min.js')}"></script>
-  <!-- Datatable -->
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/datatable',file:'datatable-beta-min.js')}"></script>
   <!-- safe JSON parsing -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/json',file:'json-min.js')}"></script> 
   <!-- Tabview -->

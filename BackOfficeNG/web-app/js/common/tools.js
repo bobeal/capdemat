@@ -113,7 +113,6 @@
 		return -1;
 	};
   
-		
 	zct.isFunction = function( fn ) {
 		return !!fn && typeof fn != "string" && !fn.nodeName &&
 			fn.constructor != Array && /^[\s[]?function/.test( fn + "" );
@@ -216,7 +215,7 @@
 	};
 
   /** 
-   * Strips HTML tags
+   * @description Strips HTML tags
    * @method stripTags
    * @param {String} string Striping scope.
    * @author vba@zenexity.fr
@@ -226,7 +225,7 @@
   };
   
   /**
-   * HTMLElement styles setter/getter
+   * @description HTMLElement styles setter/getter
    * @method style
    * @param {String | HTMLElement | Array} el Accepts a string to use as an ID, an actual DOM reference, or an Array of IDs and/or HTMLElements.
    * @param {Array} JSON object that describes styles to set
@@ -243,13 +242,61 @@
     }
   };
   
-  zct.dump = function(obj) {
-    var result = "";
-    zct.each(obj,function(k,v){
-      result += [k,'=',v,'\n'].join(' '); 
-    });
-    return result;
+  /**
+   * @description Generates universally unique identifier in string format.
+   * @method generateUID
+   * @author vba@zenexity.fr
+   */
+  zct.generateUUID = function() {
+    //return Math.random().toString(16).substring(2);
+    var s = [], itoh = '0123456789ABCDEF';
+   
+    for (var i = 0; i <36; i++) { s[i] = Math.floor(Math.random()*0x10);}
+   
+    s[14] = 4;
+    s[19] = (s[19] & 0x3) | 0x8;
+   
+    for (var i = 0; i <36; i++) {s[i] = itoh[s[i]];}
+   
+    s[8] = s[13] = s[18] = s[23] = '-';
+   
+    return s.join('');
   };
+  
+  /**
+   * @description Tries to call a function safetly
+   * @method tryToCall
+   * @param {Function} f function object to be called
+   * @param {Object} c context in which function is called
+   * @param {Array | Object} params parameters to be suplied to function call
+   * @author vba@zenexity.fr
+   */
+  zct.tryToCall = function() {
+    var a = arguments;
+    var f = a[0], c = a[1];
+    
+    if(zct.isFunction(f)) {
+      f.apply(c,zct.makeArray(a).slice(2))
+    } else {
+      return false;
+    }
+  };
+  
+  zct.siblings = function(el,callback) {
+    if(!!el.parentNode) {
+      var parent = el.parentNode;
+      return  YAHOO.util.Dom.getChildrenBy(parent,function(node){
+        var result = false;
+        if(node!==el) {
+         result = true;
+         zct.tryToCall(callback,node,node);
+        }
+        return result;
+      });
+    }else {
+      return false
+    }
+  }
   
 	zct.each([ "Height", "Width" ], function(i, name){
 		var type = name.toLowerCase();

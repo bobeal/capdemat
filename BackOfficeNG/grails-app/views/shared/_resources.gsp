@@ -22,6 +22,9 @@
   <!--[if IE 6]>
   <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie6.css')}" />
   <![endif]-->
+  <!--[if IE 7]>
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie7.css')}" />
+  <![endif]-->
 
   <!-- Dependency for Connection Manager / Also provides YAHOO Global Object -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo',file:'yahoo-min.js')}"></script>

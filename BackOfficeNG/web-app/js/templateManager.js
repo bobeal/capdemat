@@ -58,6 +58,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         width:"620px",
         fixedcenter:true,  
 			  draggable:false,
+        modal: true,
         underlay: 'none',
 			  visible:false
       });
@@ -102,8 +103,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
                 zct.val(select,'0');
               }
             })
-            
-            
           }
         });
       },

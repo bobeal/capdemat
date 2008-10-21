@@ -81,10 +81,15 @@
     };
     if (zct.isFunction(callback)) handlers.success = callback;
     if (args) handlers.argument = args;
-    var special = ['iemustdie=',Math.random().toString(16).substring(2)].join('');
+    
     var url = [zenexity.capdemat.bong.baseUrl, callUrl].join('');
-    if(/.*\&.*/.test(url)) url = [url,'&',special].join('');
-    else url = [url,'?',special].join('');
+    
+    if(zct.browser.msie) {
+      var special = ['iemustdie=',Math.random().toString(16).substring(2)].join('');
+      if(/.*\&.*/.test(url)) url = [url,'&',special].join('');
+      else url = [url,'?',special].join('');
+    }
+    
     YAHOO.util.Connect.asyncRequest('GET', url, handlers, null);
   };
 
@@ -185,11 +190,10 @@
       effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.25},
       modal:true, visible:false, draggable:false, fixedcenter:true,
       icon:YAHOO.widget.SimpleDialog.ICON_WARN,
-      buttons:[{ text:this.Label.Cancel, handler:function() {this.hide();}},
-               { text:this.Label.Ok,isDefault:true,handler:function(e){
-                  if(zct.isFunction(confirmHandler)) confirmHandler.call(this);
-                  this.hide();
-               }}]
+      buttons:[{ text:this.Label.Ok,isDefault:true,handler:function(e){
+                  zct.tryToCall(confirmHandler,this);
+                  this.hide();}},
+               { text:this.Label.Cancel, handler:function() {this.hide();}}]
       }
     );
     

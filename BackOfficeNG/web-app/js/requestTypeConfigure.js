@@ -1,5 +1,45 @@
+zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
+
 (function() {
+  
+  var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
+  var zcbrt = zenexity.capdemat.bong.request.templates;
+  var zcbet = zenexity.capdemat.bong.editor.toolbars;
+  var zcbrp = zenexity.capdemat.bong.requesttype;
+  
+  var yl = YAHOO.lang;
+  var yu = YAHOO.util;
+  var yue = YAHOO.util.Event;
+  var yus = YAHOO.util.Selector;
+  var ylj = YAHOO.lang.JSON;
+  
+  zcbrp.Conf = function() {
+    //var init
+    return {
+      init : function() {
+        var div = document.getElementById('request-type-forms');
+        //console.debug(zct.siblings(div,function(n){zct.style(n,{display:'block'})}));
+      },
+      dispatchEvent : function(el) {
+        zct.tryToCall(zcbrp.Conf.handlers[el.id])
+      },
+      switchView : function(containerId) {
+        var el = yu.Dom.get(containerId);
+        zct.siblings(div,function(n){zct.style(n,{display:'block'})});
+        zcbrp.Conf.dispatchEvent(el);
+      },
+      handlers : {
+        'request-type-forms': function(e){},
+        'request-type-alerts': function(e){},
+        'request-type-seasons' :function(e){}
+      }
+    }
+  }();
+  
+  YAHOO.util.Event.onDOMReady(zcbrp.Conf.init);
+  
+  return;
   
   function initRequestTypeConfigure() {
     
@@ -53,12 +93,15 @@
       
       // init submenu to general
       YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.fire('requestType-general','general',
-          YAHOO.capdematBo.requestTypeId);
+          zenexity.capdemat.bong.requesttype.currentId);
   }
   
   YAHOO.util.Event.onDOMReady(initRequestTypeConfigure);
   
+  
   function fireRequestTypeSubmenuSelectedEvent(submenuId,menuKey,requestTypeId) {
       YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.fire(submenuId,menuKey,requestTypeId);
   }
+  
+  
 }());

@@ -1,4 +1,4 @@
-zenexity.capdemat.bong.requestIntruction = function() {
+zenexity.capdemat.bong.requestInstruction = function() {
   var zcb = zenexity.capdemat.bong;
   var zcc = zenexity.capdemat.common;
   var zct = zenexity.capdemat.tools;
@@ -285,7 +285,7 @@ zenexity.capdemat.bong.requestIntruction = function() {
         "placeNameOrService": addressFields[4].innerHTML,
         "postalCode": addressFields[5].innerHTML,
         "city": addressFields[6].innerHTML,
-        "countryName": addressFields[7].innerHTMLs
+        "countryName": addressFields[7].innerHTML
       }
       propertyValue = ylj.stringify(jsonAddress);
       
@@ -297,8 +297,6 @@ zenexity.capdemat.bong.requestIntruction = function() {
       propertyValue = wrapperPropertyValueEl.innerHTML;
     }
     
-    //console.log(new HTMLParagraphElement());
-              
     zcc.doAjaxCall(
         "/widget/?"
           + "id=" + zenexity.capdemat.bong.requestId
@@ -356,6 +354,6 @@ zenexity.capdemat.bong.requestIntruction = function() {
   
 }();
 
-YAHOO.util.Event.onDOMReady(zenexity.capdemat.bong.requestIntruction.init);
+YAHOO.util.Event.onDOMReady(zenexity.capdemat.bong.requestInstruction.init);
 
 

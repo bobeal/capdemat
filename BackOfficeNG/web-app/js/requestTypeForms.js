@@ -21,9 +21,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var ylj = YAHOO.lang.JSON;
   
   
-  zcbrp.Config = function() {
+  zcbrp.Forms = function() {
+    var initPanels = function() {
+      var content = {
+        head:'Warning !',
+        body: 'Are you sure that you want to perform this action ?'}
+      zcbrp.Forms.confirmationDialog = new zcc.ConfirmationDialog(
+        content,zcbrp.Forms.deleteForm);
+    };
     var initButtons = function() {
-      zcbrp.Config.makeYuiButtons();
+      zcbrp.Forms.makeYuiButtons();
     };
     var initPersLink = function(scope) {
       var links = yu.Dom.getChildrenBy(scope,function(n){
@@ -35,27 +42,30 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       }
     };
     var initTabs = function() {
-      zcbrt.Manager.tabView = new YAHOO.widget.TabView('workArea');
+      zcbrt.Manager.tabView = new YAHOO.widget.TabView('request-type-forms');
       zcbrt.Manager.tabView.set('activeIndex', 0);
     };
     var initLinks = function() {
       var showLink = new yu.Element('linkShowDatasheet');
       showLink.on('click',function(){
-        zcbrp.Config.loadEditForm(document.getElementById('insert-in-list'));
+        zcbrp.Forms.loadEditForm(document.getElementById('insert-in-list'));
       });
     };
     return {
+      confirmationDialog : undefined,
       containers : [],
       init : function() {
         initButtons();
+        initPanels();
         initLinks();
         initTabs();
-        zcbrp.Config.reloadList();
+        zcbrp.Forms.reloadList();
+        
       },
       loadEditForm : function(container) {
-        if(!!zcbrp.Config.containers[container.id]) return false;
-        var url = ['/requestFormDatasheet/',container.id.split(':')[1]].join('');
-        zcbrp.Config.containers[container.id] = container;
+        if(!!zcbrp.Forms.containers[container.id]) return false;
+        var url = ['/form/',container.id.split(':')[1]].join('');
+        zcbrp.Forms.containers[container.id] = container;
         zcc.doAjaxCall(url,[],function(o){
           var trash = document.getElementById('trash');
           trash.innerHTML = o.responseText;
@@ -67,7 +77,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           trash.innerHTML = o.responseText;
           el.appendChild(trash.firstChild);
           
-          zcbrp.Config.makeYuiButtons();
+          zcbrp.Forms.makeYuiButtons();
           fadeIn.animate();
           trash.innerHTML = "";
         });
@@ -90,7 +100,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           //zct.style('workArea',{display:'block'});
           
           var newTab = new YAHOO.widget.Tab({
-            label: 'New Tab # <span class="close">X</span>',
+            label: 'New Tab  <span class="close">X</span>',
             active: true,
             content: ['<div id="workArea_Tab1" class="editable-work-area">',content,'</div>'].join('')
           });
@@ -115,55 +125,77 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           eform.requestFormId.value = tform.requestFormId.value;
         });
       },
-      sendDatasheet : function(target) {
+      modifyForm : function(target) {
         // TODO add validation here !!!
         var form = yu.Dom.getAncestorByTagName(target,'form');
         var hidden = yus.query('input[name=requestTypeId]',form)[0];
         hidden.value = zcbrp.currentId;
-        zcc.doAjaxFormSubmitCall(form.getAttribute("id"),[],function(o){
-          var li = new yu.Element(form.parentNode.parentNode);
-          var json = YAHOO.lang.JSON.parse(o.responseText);
-          var id = zct.val(yus.query('input[name=id]',form)[0]);
-          zcbrp.Config.detachContainer(target);
-          
-          li.removeChild(form.parentNode);
-          zcc.displayResponseResult('success',json.success_msg);
-          zcbrp.Config.reloadList();
-        });
+        if(zcbrp.Forms.validateForm(target,form)) {
+          zcc.doAjaxFormSubmitCall(form.getAttribute("id"),[],function(o){
+            var li = new yu.Element(form.parentNode.parentNode);
+            var json = YAHOO.lang.JSON.parse(o.responseText);
+            var id = zct.val(yus.query('input[name=id]',form)[0]);
+            zcbrp.Forms.detachContainer(target);
+            
+            li.removeChild(form.parentNode);
+            zcc.displayResponseResult('success',json.success_msg);
+            zcbrp.Forms.reloadList();
+          });
+        }
+      },
+      validateForm : function(target,form) {
+        var container = yus.query('div.error',form,true);
+        if(zct.isFunction(FIC_checkForm)) 
+          return FIC_checkForm(target,container);
+        return true;
+      },
+      deleteForm : function(e) {
+        var li = yu.Dom.getAncestorByTagName(zcbrp.Forms.confirmationDialog.showTarget ,'li');
+        var id = li.id.split(':')[1];
+        if(yl.isNumber(parseInt(id))) {
+          zcc.doAjaxDeleteCall('/form/',zct.param({id:id}),function(o){
+            var cn = new yu.Element(li.parentNode);
+            var json = YAHOO.lang.JSON.parse(o.responseText);
+            zcc.displayResponseResult('success',json.success_msg);
+            cn.removeChild(li);
+          })
+        }
+        //console.debug(zcbrp.Forms.confirmationDialog.showTarget);
       },
       reloadList : function() {
-        var url = ["/requestFormList/",(zcbrp.currentId||0)].join('');
+        var url = ["/formList/",(zcbrp.currentId||0)].join('');
         var formsEl = yus.query('div#requestFormList')[0];
         zcc.doAjaxCall(url,[],function(o){
+          //alert(o.responseText);
           formsEl.innerHTML = o.responseText;
           YAHOO.util.Dom.removeClass(formsEl, 'invisible');
           var container = document.getElementById('requestFormList');
           yue.purgeElement(container,false);
-          yue.on(container,'click',zcbrp.Config.dispatchEvent);
+          yue.on(container,'click',zcbrp.Forms.dispatchEvent);
         });
       },
       dispatchEvent : function(e) {
         var target = yue.getTarget(e);
         var elId = target.id.split(':')[0];
-        var h = zcbrp.Config.getEventHandler(elId);
-        if(!!zcbrp.Config.handlers[elId]) h.call(target,e);
+        var h = zcbrp.Forms.getEventHandler(elId);
+        if(!!zcbrp.Forms.handlers[elId]) h.call(target,e);
       },
       getEventHandler : function(key) {
-        var handler = zcbrp.Config.handlers[key];
+        var handler = zcbrp.Forms.handlers[key];
         if(!!handler && zct.isFunction(handler)) return handler;
-        else return zcbrp.Config.handlers['default'];
+        else return zcbrp.Forms.handlers['default'];
       },
       hideEditForm : function(target) {
         var div = yu.Dom.getAncestorByTagName(target,'form').parentNode;
         var button = yus.query('span#button-cancel',div)[0];
         var el = new yu.Element(div.parentNode);
-        zcbrp.Config.detachContainer(target);
+        zcbrp.Forms.detachContainer(target);
         el.removeChild(div);
       },
       detachContainer : function(actor) {
         o = yu.Dom.getAncestorByTagName(actor,'form')
           .parentNode.parentNode;
-        delete zcbrp.Config.containers[o.getAttribute('id')];
+        delete zcbrp.Forms.containers[o.getAttribute('id')];
       },
       makeYuiButtons : function() {
         buttons = zct.grep(yus.query('input[type=button]'),function(n){
@@ -174,20 +206,20 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           this.id = [this.id,yu.Dom.generateId()].join(':');
           var button = new YAHOO.widget.Button(this);
           
-          if(!!zcbrp.Config.handlers[oldId])
-            button.on("click",zcbrp.Config.handlers[oldId]);
+          if(!!zcbrp.Forms.handlers[oldId])
+            button.on("click",zcbrp.Forms.handlers[oldId]);
         });
       },
       handlers : {
-        'button-ok': function(e){zcbrp.Config.sendDatasheet(yue.getTarget(e));},
-        'button-cancel': function(e){zcbrp.Config.hideEditForm(yue.getTarget(e));},
-        'a-personalize' :function(e){zcbrp.Config.spiritUpWorkTab(yue.getTarget(e));},
-        'editItem' : function(e){zcbrp.Config.loadEditForm(yu.Dom.getAncestorByTagName(this,'li'));},
-        'unassociate' : function(e){return false;},
+        'button-ok': function(e){zcbrp.Forms.modifyForm(yue.getTarget(e));},
+        'button-cancel': function(e){zcbrp.Forms.hideEditForm(yue.getTarget(e));},
+        'a-personalize' :function(e){zcbrp.Forms.spiritUpWorkTab(yue.getTarget(e));},
+        'editItem' : function(e){zcbrp.Forms.loadEditForm(yu.Dom.getAncestorByTagName(this,'li'));},
+        'unassociate' : function(e){zcbrp.Forms.confirmationDialog.show(e);},
         'default': function(){return false;}
       }
     }
   }();
   
-  yue.onDOMReady(zcbrp.Config.init);
+  yue.onDOMReady(zcbrp.Forms.init);
 }());

@@ -1,3 +1,1 @@
-<g:templateText>
-  ${template}
-</g:templateText>
+${template}

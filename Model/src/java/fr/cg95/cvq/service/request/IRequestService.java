@@ -447,6 +447,16 @@ public interface IRequestService {
      */
     void removeRequestTypeForm(final Long requestTypeId, final Long requestFormId)
         throws CvqException;
+    
+    /**
+     * Remove a requestForm
+     * <ul>
+     *  <li>delete model association</li>
+     *  <li>remove the requestForm file stored in '&lt;asset_dir&gt;/&lt;local_authority&gt;/xsl'</li>
+     * </ul>
+     */
+    void removeRequestTypeForm(final Long requestFormId) throws CvqException;
+    
     /**
      * Get requestForms by request_type and by request_form_type
      */

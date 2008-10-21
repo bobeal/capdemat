@@ -68,3 +68,10 @@ img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
   width: 26% !important;
   top: 2em !important;
 }
+
+
+/* ???.css
+-------------------------------------------------------------- */
+.mask {
+  filter: alpha(opacity = 50);
+}

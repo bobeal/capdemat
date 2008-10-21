@@ -1,12 +1,10 @@
 package fr.cg95.cvq.dao.document.hibernate;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.document.Document;
@@ -35,8 +33,8 @@ public class DocumentBinaryDAO extends GenericDAO implements IDocumentBinaryDAO 
 
         // checking access to document is sufficient
         // FIXME : catch exception and return a empty array list ?
-        Document document = null;
-        document = (Document) HibernateUtil.getSession().load(Document.class, documentId);
+        Document document = 
+            (Document) HibernateUtil.getSession().load(Document.class, documentId);
      
         cvqPolicy.check(document, PrivilegeDescriptor.READ);
         
@@ -72,8 +70,8 @@ public class DocumentBinaryDAO extends GenericDAO implements IDocumentBinaryDAO 
 
         // checking access to document is sufficient
         // FIXME : catch exception and return a empty array list ?
-        Document document = null;
-        document = (Document) HibernateUtil.getSession().load(Document.class, documentId);    
+        Document document = 
+            (Document) HibernateUtil.getSession().load(Document.class, documentId);    
 
         cvqPolicy.check(document, PrivilegeDescriptor.READ);
 
@@ -161,28 +159,5 @@ public class DocumentBinaryDAO extends GenericDAO implements IDocumentBinaryDAO 
             .setParameters(objectTab, typeTab)
             .iterate().next();
         return (currentPage + 1);
-    }
-
-    public Long create(final Object object) throws CvqPermissionException {
-        if (object instanceof DocumentBinary)
-            cvqPolicy.check((DocumentBinary) object, PrivilegeDescriptor.WRITE);
-
-        cvqPolicy.check((DocumentBinary) object, PrivilegeDescriptor.WRITE);
-
-        return super.create(object);
-    }
-
-    public void update(final Object object) throws CvqPermissionException {
-        if (object instanceof DocumentBinary)
-            cvqPolicy.check((DocumentBinary) object, PrivilegeDescriptor.WRITE);
-
-        super.update(object);
-    }
-
-    public void delete(final Object object) throws CvqPermissionException {
-        if (object instanceof DocumentBinary)
-            cvqPolicy.check((DocumentBinary) object, PrivilegeDescriptor.WRITE);
-
-        super.delete(object);
     }
 }

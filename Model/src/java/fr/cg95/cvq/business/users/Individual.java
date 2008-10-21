@@ -21,7 +21,8 @@ import fr.cg95.cvq.xml.common.IndividualType;
  */
 public class Individual implements Historizable, Serializable {
 
-    // Search field ()used in DAO and Service Layer)
+    // Search fields used in DAO and Service Layer
+    
     public static final String SEARCH_BY_LASTNAME = "lastName";
     public static final String SEARCH_BY_FIRSTNAME = "firstName";
     public static final String SEARCH_BY_BIRTHDATE = "birthDate";

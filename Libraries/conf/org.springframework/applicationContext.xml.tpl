@@ -271,9 +271,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="genericDAO">
       <ref local="genericDAO"/>
     </property>
-    <property name="adultService">
-      <ref local="adultService"/>
-    </property>
   </bean>
 
   <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService">

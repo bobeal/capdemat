@@ -16,30 +16,4 @@
 		<property name="serviceInterface" value="fr.cg95.cvq.exporter.service.bo.IProvisioningService" />
 	</bean>
 
-	<!--  Front Office Web Services -->
-	
-	<bean name="/HomeFolderService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="homeFolderWebService" />
-		<property name="serviceInterface" value="fr.cg95.cvq.exporter.service.fo.IHomeFolderService" />
-	</bean>
-
-	<bean name="/IndividualService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="individualWebService" />
-		<property name="serviceInterface" value="fr.cg95.cvq.exporter.service.fo.IIndividualService" />
-	</bean>
-
-	<bean name="/RequestService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="requestWebService" />
-		<property name="serviceInterface" value="fr.cg95.cvq.exporter.service.fo.IRequestService" />
-	</bean>
-
-	<bean name="/DocumentService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="documentWebService" />
-		<property name="serviceInterface" value="fr.cg95.cvq.exporter.service.fo.IDocumentService" />
-	</bean>
-
 </beans>

@@ -213,7 +213,6 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
                CvqBadPageNumberException {
 
         Document document = getById(documentId);
-        documentBinary.setDocument(document);
 
         Integer pageNumber = documentBinary.getPageNumber();
         if (pageNumber != null && documentBinaryDAO.hasPage(documentId, pageNumber)) {
@@ -333,14 +332,12 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
     }
     
     public void deleteHomeFolderDocuments(Long homeFolderId) throws CvqException {
-        // FIXME : do it directly in DB
         List<Document> documents = getHomeFolderDocuments(homeFolderId);
         for (Document document : documents)
             documentDAO.delete(document);
     }
 
     public void deleteIndividualDocuments(Long individualId) throws CvqException {
-        // FIXME : do it directly in DB
         List<Document> documents = getIndividualDocuments(individualId);
         for (Document document : documents)
             documentDAO.delete(document);
@@ -510,7 +507,6 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         documentAction.setLabel(label);
         documentAction.setDate(new Date());
         documentAction.setResultingState(resultingState);
-        documentAction.setDocument(document);
 
         genericDAO.create(documentAction);
 

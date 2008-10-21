@@ -1,6 +1,5 @@
 package fr.cg95.cvq.business.document;
 
-import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
 /** 

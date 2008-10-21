@@ -20,7 +20,6 @@ import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.service.users.IAdultService;
 import fr.cg95.cvq.service.users.IChildService;
 
 /**
@@ -34,7 +33,6 @@ public class ChildService extends IndividualService implements IChildService {
 
     private IChildDAO childDAO;
     private IGenericDAO genericDAO;
-    private IAdultService adultService;
 
     public Long create(Individual individual, final HomeFolder homeFolder, Address address,
             boolean assignLogin) 
@@ -103,11 +101,9 @@ public class ChildService extends IndividualService implements IChildService {
             throw new CvqObjectNotFoundException("either adult id or child id not provided");
 
         Child child = getById(childId);
-        Set childClrSet = child.getLegalResponsibles();
-        Iterator childClrIt = childClrSet.iterator();
+        Set<ChildLegalResponsible> childClrSet = child.getLegalResponsibles();
         boolean foundAdult = false;
-        while (childClrIt.hasNext()) {
-            ChildLegalResponsible clr = (ChildLegalResponsible) childClrIt.next();
+        for (ChildLegalResponsible clr : childClrSet) {
             if (clr.getLegalResponsible().getId().equals(adultId)) {
                 // can't leave a child without at least one legal responsible
                 if (!deletingHomeFolder && childClrSet.size() == 0) {
@@ -123,11 +119,12 @@ public class ChildService extends IndividualService implements IChildService {
         }
         
         if (foundAdult) {
-            logger.debug("removeLegalResponsible() removing " + adultId + " from CLRs of " 
+            logger.debug("removeLegalResponsible() removing " + adultId + " from CLRs of child " 
                     + childId);
             childDAO.update(child);
         } else {
-            logger.debug("removeLegalResponsible() did not find legal responsible : " + adultId);
+            logger.debug("removeLegalResponsible() " + adultId + " is not a CLR for child " 
+                    + childId);
         }
     }
 
@@ -142,10 +139,6 @@ public class ChildService extends IndividualService implements IChildService {
 
     public void setGenericDAO(IGenericDAO genericDAO) {
         this.genericDAO = genericDAO;
-    }
-
-    public void setAdultService(IAdultService adultService) {
-        this.adultService = adultService;
     }
 }
 

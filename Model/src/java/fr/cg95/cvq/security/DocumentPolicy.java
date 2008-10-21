@@ -7,8 +7,6 @@ import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.document.DocumentAction;
-import fr.cg95.cvq.business.document.DocumentBinary;
 
 public class DocumentPolicy implements PartOfPolicy {
 
@@ -90,15 +88,7 @@ public class DocumentPolicy implements PartOfPolicy {
         if (object.getObject() instanceof Document) {
             logger.debug("getDocumentFromBean() Document object");
             document = (Document) object.getObject();
-        } else if (object.getObject() instanceof DocumentBinary) {
-            logger.debug("getDocumentFromBean() DocumentBinary object");
-            DocumentBinary db = (DocumentBinary) object.getObject();
-            document = db.getDocument();
-        } else if (object.getObject() instanceof DocumentAction) {
-            logger.debug("getDocumentFromBean() DocumentAction object");
-            DocumentAction da = (DocumentAction) object.getObject();
-            document = da.getDocument();
-        }
+        } 
 
         return document;
     }

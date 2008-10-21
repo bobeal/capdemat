@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.users;
+package fr.cg95.cvq.service.request;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,14 +14,12 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
-import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 

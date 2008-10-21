@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.users;
+package fr.cg95.cvq.service.request;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -9,10 +9,6 @@ import junit.framework.Assert;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
-import fr.cg95.cvq.business.authority.School;
-import fr.cg95.cvq.business.authority.SectionType;
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.school.SchoolRegistrationRequest;

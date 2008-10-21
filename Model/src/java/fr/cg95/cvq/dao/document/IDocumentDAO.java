@@ -18,7 +18,7 @@ public interface IDocumentDAO extends IGenericDAO {
             final Long individualId);
 
     /**
-     * Return the documents belonging to a given home folder.
+     * Return the documents belonging to the given home folder.
      */
     List<Document> listByHomeFolder(final Long homeFolderId);
 
@@ -29,6 +29,8 @@ public interface IDocumentDAO extends IGenericDAO {
 
     /**
      * Return the documents belonging to the given request.
+     * 
+     * TODO
      */
     List<Document> listByRequest(final Long requestId);
 

@@ -38,8 +38,8 @@ public class Document implements Serializable {
     private DocumentType documentType;
     private Boolean certified;
     
-    private Set datas;
-    private Set actions;
+    private Set<DocumentBinary> datas;
+    private Set<DocumentAction> actions;
 
     /** default constructor */
     public Document() {
@@ -221,18 +221,18 @@ public class Document implements Serializable {
      * @hibernate.set
      *  inverse="true"
      *  lazy="true"
-     *  cascade="delete"
+     *  cascade="all"
      *  order-by="page_number asc"
      * @hibernate.key
      *  column="document_id"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.document.DocumentBinary"
      */
-    public Set getDatas() {
+    public Set<DocumentBinary> getDatas() {
         return this.datas;
     }
 
-    public void setDatas(Set datas) {
+    public void setDatas(Set<DocumentBinary> datas) {
         this.datas = datas;
     }
 
@@ -240,18 +240,18 @@ public class Document implements Serializable {
      * @hibernate.set
      *  inverse="true"
      *  lazy="true"
-     *  cascade="delete"
+     *  cascade="all"
      *  order-by="id"
      * @hibernate.key
      *  column="document_id"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.document.DocumentAction"
      */
-    public Set getActions() {
+    public Set<DocumentAction> getActions() {
         return this.actions;
     }
 
-    public void setActions(Set actions) {
+    public void setActions(Set<DocumentAction> actions) {
         this.actions = actions;
     }
 

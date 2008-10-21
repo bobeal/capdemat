@@ -99,8 +99,7 @@ public class AdultService extends IndividualService implements IAdultService {
     public Adult getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
-        Adult adult = null;
-        adult = (Adult) adultDAO.findById(Adult.class, id);
+        Adult adult = (Adult) adultDAO.findById(Adult.class, id);
         return adult;
     }
 

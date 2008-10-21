@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.users.job;
+package fr.cg95.cvq.service.request.job;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

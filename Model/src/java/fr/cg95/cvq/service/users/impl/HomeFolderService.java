@@ -198,12 +198,14 @@ public class HomeFolderService implements IHomeFolderService {
             }
         }
 
-        Set individuals = homeFolder.getIndividuals();
+        Set<Individual> individuals = homeFolder.getIndividuals();
+
+        // need to stack adults and children to ensure that adults are deleted before children
+        // because of legal responsibles constraints
         Set<Adult> adults = new HashSet<Adult>();
         Set<Child> children = new HashSet<Child>();
-        Iterator individualsIt = individuals.iterator();
-        while (individualsIt.hasNext()) {
-            Individual individual = (Individual) individualsIt.next();
+        for (Individual individual : individuals) {
+            individual.setAdress(null);
             if (individual instanceof Adult)
                 adults.add((Adult)individual);
             else if (individual instanceof Child)
@@ -211,12 +213,10 @@ public class HomeFolderService implements IHomeFolderService {
         }
         
         for (Adult adult : adults) {
-            documentService.deleteIndividualDocuments(adult.getId());
             adultService.delete(adult, true);
         }
         
         for (Child child : children) {
-            documentService.deleteIndividualDocuments(child.getId());
             childService.delete(child, true);
         }
         

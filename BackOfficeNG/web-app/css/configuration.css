@@ -85,7 +85,14 @@
   text-decoration: underline;
   color: #000000;
 }
-.editableListSwithcher a:hover { background: #FFD053; }
+
+.editableListSwithcher a#linkShowDatasheet {
+  padding: 0 21px 0 0; font-size: 1.3em;
+  background: transparent url(../images/icons/create.png) no-repeat right 4px;
+}
+
+.editableListSwithcher a:hover,
+.editableListSwithcher a#linkShowDatasheet:hover { background-color: #FFD053; }
 
 .editableListSwithcher a.current {
   font-size: 1.3em;
@@ -93,8 +100,8 @@
   text-decoration: none;
   color: #444444;
 }
-
 .editableListSwithcher a.current:hover { background: transparent; }
+
 
 
 /* agent profile inline edition form */

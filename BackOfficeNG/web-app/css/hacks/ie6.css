@@ -27,6 +27,8 @@ img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
 -------------------------------------------------------------- */
 .overviewConfigurationList li h3 { display: inline; }
 
+.editableListSwithcher a:hover { color: #000000; }
+
 .editableList li { _height: 1%; }
 
 .editable-list-form { _height: 1%; }
@@ -40,6 +42,10 @@ img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
 -------------------------------------------------------------- */
 .validation-failed { margin: 0 0 0 .2em !important; }
 
+form.editable-list-form input   { margin-right: 30%; }
+form.editable-list-form fieldset { }
+
+form.editable-list-form p.same-line input.first-button { margin-left: 28%; }
 
 
 /* requestInstruction.css

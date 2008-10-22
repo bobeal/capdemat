@@ -25,15 +25,14 @@ zenexity.capdemat.bong.categoryRequestType = function() {
   }
   
   function viewRequestTypes(scope) {
-    zcc.doAjaxCall(
-      "/requestTypes/?id=" + zcb.categoryId + "&scope=" + scope,
-      [scope],
-      handleViewRequestTypesSuccess);
+    // set the scope manually in the form in order to get it from the POSTed parameters
+    yud.get("scope").value = scope;
+    zcc.doAjaxFormSubmitCall ("sortRequestTypeForm", [scope], handleViewRequestTypesSuccess);
   }
   
   function sortRequestTypes() {
     if (yus.query("select[name=orderRequestTypeBy]", "sortRequestTypeForm", true).value != "")
-      zcc.doAjaxFormSubmitCall ("sortRequestTypeForm", ["All"], handleViewRequestTypesSuccess);
+      zcc.doAjaxFormSubmitCall ("sortRequestTypeForm", [yud.get("scope").value], handleViewRequestTypesSuccess);
   }
   
   /* association */	

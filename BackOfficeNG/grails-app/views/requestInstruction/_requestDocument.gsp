@@ -32,8 +32,8 @@
   <div id="requestDocumentData" class="yellow-yui-tabview">
   
     <ul class="yui-nav">
-      <g:each var="page" in="${document.pages}">
-        <li class="selected">
+      <g:each var="page" in="${document.pages}" status="i">
+        <li class="${i == 0 ? 'selected' : ''}">
           <a href="#page${page.pageNumber}">
           <em><g:message code="property.page" /> ${page.pageNumber}</em></a>
         </li>

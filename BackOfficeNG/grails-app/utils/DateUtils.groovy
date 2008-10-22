@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat
 import java.text.ParseException
+import java.lang.IllegalArgumentException
 
 public class DateUtils {
     
@@ -11,7 +12,7 @@ public class DateUtils {
         try {
             return sdf.parse(date)
         } catch (ParseException pe) {
-            return ""
+            return null
         }
     }
     
@@ -19,7 +20,7 @@ public class DateUtils {
         try {
             return systemSdf.parse(date)
         } catch (ParseException pe) {
-            return ""
+            return null
         }
     }
     

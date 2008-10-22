@@ -46,11 +46,10 @@
               <div id="confArea_Tab1">
                 <div id="formsConfiguration">
                   <h2>${message(code:'requestType.configuration.forms')}</h2>
-                  <div class="createConfigurationItem">
+                  <div class="editableListSwithcher">
                     <a id="linkShowDatasheet" href="javascript:;">${message(code:'action.create')}</a>
                   </div>
-                  <div id="requestFormList">
-                  </div>
+                  <div id="requestFormList"></div>
                   <div class="separator"></div>
                 </div>
   

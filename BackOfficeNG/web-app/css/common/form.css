@@ -34,10 +34,10 @@ form input, form textarea, form select {
                               label aligns textarea better in IE */
 }
 
-form .required {
+form label.required {
 	/* font-weight: bold; */ /* uses class instead of div, more efficient */
 	font-size: 1.1em;
-	font-style: italic;
+	font-weight: bold;
 }
 
 /* TODO - Verify usefullness */
@@ -97,10 +97,13 @@ form.editable-list-form {
   overflow : auto;
 }
 
-form.editable-list-form a:hover { background: transparent; cursor: pointer; }
+form.editable-list-form a       { width: auto; height: auto; float: none !important; cursor: pointer; }
+form.editable-list-form a:hover { background: #00f !important; }
 form.editable-list-form .error  { margin: 0; }
 
-form.editable-list-form label   { width: 20%; margin: .7em 0 .7em;  clear: both; }
+form.editable-list-form label   { width: 30%; margin: .7em 0 .7em; font-size: 0.9em; clear: both; }
+
+form.editable-list-form .box-left,
 form.editable-list-form select,
 form.editable-list-form input   { float: left; margin: .5em 0 .5em 1%; }
 form.editable-list-form input.required { font-size: 1em; font-style: normal; }
@@ -117,10 +120,12 @@ form.editable-list-form fieldset legend { font-size: 1.2em; color: #FFA000; }
 
 form.editable-list-form a { width: auto; height: auto; float: none; margin: 0; }
 
-form.editable-list-form p.same-line                   { display: block; clear: both; margin: .5em; 0; }
-form.editable-list-form p.same-line input             { width: 25%; margin-left: 0; }
-form.editable-list-form p.same-line input.form-button { width: auto; margin: 1.5em 1em 0 0; }
-form.editable-list-form p.same-line label             { clear: none; }
+form.editable-list-form p.same-line                    { clear: both; margin: .5em 0; overflow: auto; }
+form.editable-list-form p.same-line input              { width: 25%;  margin: .5em 0; }
+form.editable-list-form p.same-line input.form-button,
+form.editable-list-form p.same-line input.first-button { width: auto; margin: .75em 1em 0 0; }
+form.editable-list-form p.same-line input.first-button { margin-left: 31%; }
+form.editable-list-form p.same-line label              { width: 20%; clear: none; }
 
 form.editable-list-form ul    { margin: .5em 0  0 21%; clear: both; overflow: auto; }
 form.editable-list-form ul li { width: 30%;  float: left; padding: .2em 0; border: 0; }

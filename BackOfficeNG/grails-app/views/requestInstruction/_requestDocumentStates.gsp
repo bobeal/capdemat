@@ -5,7 +5,7 @@
       <label for="endValidityDate">
         <g:message code="document.property.endValidityDate" /> :
       </label>
-      <input type="text" id="endValidityDate" name="endValidityDate" class="required" size="10" 
+      <input type="text" id="endValidityDate" name="endValidityDate" size="10" 
           title="" value="<g:formatDate format="dd/MM/yyyy" date="${endValidityDate}"/>" />
       <a onclick="showCalendar('endValidityDateShow', 0);">
         <img id="endValidityDateShow" src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>

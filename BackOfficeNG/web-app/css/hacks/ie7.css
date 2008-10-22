@@ -18,3 +18,7 @@
 #requestData dl dd form input.submit,
 #requestData dl dd form input.discard, { margin: .5em .5em 0 0;  }
 
+
+/* form.css
+-------------------------------------------------------------- */
+form.editable-list-form p.same-line input.first-button { margin-left: 31%; }

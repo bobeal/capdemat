@@ -274,12 +274,16 @@
   zct.tryToCall = function() {
     var a = arguments;
     var f = a[0], c = a[1];
-    
+    //debugger
     if(zct.isFunction(f)) {
       f.apply(c,zct.makeArray(a).slice(2))
     } else {
       return false;
     }
+  };
+  
+  zct.capitalize = function(s) {
+    return [s.charAt(0).toUpperCase(), s.substring(1).toLowerCase()].join('');
   };
   
   zct.siblings = function(el,callback) {
@@ -296,7 +300,7 @@
     }else {
       return false
     }
-  }
+  };
   
 	zct.each([ "Height", "Width" ], function(i, name){
 		var type = name.toLowerCase();

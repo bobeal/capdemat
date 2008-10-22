@@ -181,7 +181,7 @@
   
   zcc.ConfirmationDialog = function(content,confirmHandler) {
     this.Id = YAHOO.util.Dom.generateId();
-    this.Label = {Ok:'Ok',Cancel:'Cancel'};
+    this.Label = {Ok:'Ok',Cancel:'Annuler'};
     this.showTarget = undefined;
     
     zcc.ConfirmationDialog.superclass.constructor.call(this,
@@ -197,7 +197,7 @@
       }
     );
     
-    this.setHeader(content.head);
+    this.setHeader(content.head || 'Warning');
     this.setBody(content.body);
     var el = YAHOO.util.Selector.query("div.yui-skin-sam")[0] || document.body;
     this.render(el);

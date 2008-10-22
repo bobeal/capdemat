@@ -102,8 +102,9 @@
           <ul class="second-level-menu">
           <g:each in="${baseConfigurationItems}">
             <li id="requestType-${it.key}">
-              <span class="second-level-menu-item" 
-                onclick="fireRequestTypeSubmenuSelectedEvent('requestType-${it.key}','${it.key}','${requestType.id }');">
+              <span class="second-level-menu-item"
+                    onclick="zenexity.capdemat.bong.requesttype.Conf.switchView('request-type-${it.key}')">
+                <!-- onclick="fireRequestTypeSubmenuSelectedEvent('requestType-${it.key}','${it.key}','${requestType.id }');"> -->
                 <g:message code="${it.value[0]}"/>
                 <g:if test="${it.value[1]}">*</g:if>
               </span>

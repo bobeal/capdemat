@@ -274,8 +274,6 @@ class RequestTypeController {
             }
             form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
             form.setLabel(params.label)
-            if(form.getTemplateName() != params.templateName)
-                form.setPersonalizedData(null)
             form.setTemplateName(params.templateName)
             form.setShortLabel(params.shortLabel)
             defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)

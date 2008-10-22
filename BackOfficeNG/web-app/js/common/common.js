@@ -181,7 +181,7 @@
   
   zcc.ConfirmationDialog = function(content,confirmHandler) {
     this.Id = YAHOO.util.Dom.generateId();
-    this.Label = {Ok:'Ok',Cancel:'Cancel'};
+    this.Label = {Ok:'Ok',Cancel:'Annuler'};
     this.showTarget = undefined;
     
     zcc.ConfirmationDialog.superclass.constructor.call(this,

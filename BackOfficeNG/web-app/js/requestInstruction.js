@@ -16,21 +16,21 @@ zenexity.capdemat.bong.requestInstruction = function() {
     /* tabiews */
     var requestInformationTabview = new ywtv();
     requestInformationTabview.addTab( new ywt({
-        label: 'Historique', dataSrc: zcb.baseUrl + '/requestActions/' + zcb.requestId,
+        label: 'Historique', dataSrc: zcb.baseUrl + "/requestActions/" + zcb.requestId,
         cacheData: true, active: true }));
     requestInformationTabview.addTab( new ywt({
-        label: 'Commentaires', dataSrc: zcb.baseUrl + '/requestNotes/' + zcb.requestId,
+        label: 'Commentaires', dataSrc: zcb.baseUrl + "/requestNotes/" + zcb.requestId,
         cacheData: false }));
     requestInformationTabview.addTab( new ywt({
-        label: 'Compte', dataSrc: zcb.baseUrl + '/homeFolder',
+        label: 'Compte', dataSrc: zcb.baseUrl + "/homeFolder",
         cacheData: true }));
     requestInformationTabview.addTab( new ywt({
-        label: 'Demandes', dataSrc: zcb.baseUrl + '/homeFolderRequests/' + zcb.requestId,
+        label: 'Demandes', dataSrc: zcb.baseUrl + "/homeFolderRequests/" + zcb.requestId,
         cacheData: true }));
     
-    requestInformationTabview.appendTo('requestInformation');
+    requestInformationTabview.appendTo("requestInformation");
     
-    var requestDataTabView = new ywtv('requestData');
+    var requestDataTabView = new ywtv("requestData");
       
     /* panels */
     zcb.instructionStatePanel = new ywp(
@@ -59,8 +59,10 @@ zenexity.capdemat.bong.requestInstruction = function() {
         underlay: "shadow", close: true
       });
     zcb.ecitizenContactPanel.render();
+  
   }
   
+   
   /*
    * Request Instruction Worflow managment
    */
@@ -134,66 +136,22 @@ zenexity.capdemat.bong.requestInstruction = function() {
       function (e) {
         var targetEl = yue.getTarget(e);
            
-        if (targetEl.className === "cancelStateChange") {
+        if (yud.hasClass(targetEl, "cancelStateChange")) {
           zcb.instructionStatePanel.hide();
-        } else if (targetEl.className === "submitStateChange") {
+        }
+        else if (yud.hasClass(targetEl, "submitStateChange")) {
           if (FIC_checkForm(e, yud.get("changeStateFormErrors")))
             submitChangeStateForm(targetEl, "changeStateForm");
-        } else if ( targetEl.className.indexOf("tag-") 
-                    != -1 && targetEl.className != "tag-not_provided") {
+        }
+        else if (yud.hasClass(targetEl, "documentLink")) {
+          yue.preventDefault(e);
+          zenexity.capdemat.bong.document.getRequestDocument(targetEl);
+        }
+        else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, "documentLink")) {
           switchStatePanel(targetEl);
         }
       });
    
-  /*
-   * request document management 
-   */
-  
-  function submitModifyDocumentForm(formId) {
-    zcc.doAjaxFormSubmitCall(
-        formId,
-        null,
-        function(o) {
-          var response = ylj.parse(o.responseText);
-          if (response.status === "ok") {
-            yud.setStyle(formId, "background", "#aaffaa");
-          } else {
-            zcc.displayResponseResult('modelError', response.error_msg);
-          }
-        });
-  }
-  
-  function getRequestDocument(targetEl) {
-    // hacks for ie6
-    var action = targetEl.pathname;
-    if (action.indexOf("/") != 0)
-      action = "/" + action;
-      
-    zcc.doAjaxCall(
-        action,
-        null,
-        function(o) {
-          zcb.requestDocumentPanel.setBody(o.responseText);
-          zcb.requestDocumentPanel.show();
-          // request document tabview
-          var requestDocumentDataTabView = new ywtv('requestDocumentData');
-          YAHOO.capdematBo.calendar.cal = new Array(1);
-          yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"} );
-        });
-  }
-  
-  yue.addListener(
-      "requestDocument",
-      "click", 
-      function (e) {
-        yue.preventDefault(e);
-        
-        var targetEl = yue.getTarget(e);
-        if (targetEl.className === "documentLink")
-          getRequestDocument(targetEl);
-        else if (targetEl.id === "submitModifyDocumentForm")
-          submitModifyDocumentForm("modifyDocumentForm"); 
-      });
   
   /*
    * ecitizen contact management 

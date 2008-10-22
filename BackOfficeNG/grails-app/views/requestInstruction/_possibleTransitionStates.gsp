@@ -21,7 +21,7 @@
       <input type="hidden" name="stateType" value="${stateType}" />
       <input type="hidden" name="id" value="${id}" />
       
-      <input class="submitStateChange" type="button" value="confirm" />
-      <input class="cancelStateChange" type="button" value="cancel" />
+      <input class="submitStateChange" type="button" value="<g:message code="action.confirm" />" />
+      <input class="cancelStateChange" type="button" value="<g:message code="action.cancel" />" />
     </form>
   </g:else>

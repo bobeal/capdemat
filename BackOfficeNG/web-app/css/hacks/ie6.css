@@ -4,6 +4,8 @@
             
 -------------------------------------------------------------- */
 
+
+
 /* common/layout.css
 -------------------------------------------------------------- */
 
@@ -20,6 +22,7 @@
 img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
 
 
+
 /* configation.css
 -------------------------------------------------------------- */
 .overviewConfigurationList li h3 { display: inline; }
@@ -29,17 +32,30 @@ img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
 .editable-list-form { _height: 1%; }
 .editable-list-form  ul li { width: 22% !important; }
 
-.editor-form .bd {
-	height: 1% !important;
-	overflow: hidden !important;
-}
+.editor-form .bd { height: 1% !important; overflow: hidden !important; }
+
+
+
+/* form.css
+-------------------------------------------------------------- */
+.validation-failed { margin: 0 0 0 .2em !important; }
+
 
 
 /* requestInstruction.css
 -------------------------------------------------------------- */
 #requestData dl { height: 1%; }
-#requestData dl dd { width: 14em !important; height: 1%; }
-#requestData dl dt { height: 1.3em; width: 10.5em !important; overflow: hidden; }
+
+#requestData dl dd { width: 14em !important; height: 1.2em; overflow: visible; }
+#requestData dl dt { height: 1.2em; width: 10.5em !important; overflow: hidden; }
+
+#requestData dl dd form { overflow: visible; }
+#requestData dl dd form input.submit,
+#requestData dl dd form input.discard, { margin: .5em .5em 0 0;  }
+
+
+/* document.css
+-------------------------------------------------------------- */
 
 #requestDocumentPanel #requestDocumentData img { width: 100% ; }
 
@@ -48,7 +64,16 @@ img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
 #requestDocumentPanel .bd form input { width: 50%; }
 #requestDocumentPanel .bd form input.form-button { width: auto; }
 
+#documentTransitionStates { width: 30% !important; top: 2em !important; }
+
+#documentTransitionStates form input.submitDocumentStateChange,
+#documentTransitionStates form input.cancelDocumentStateChange { width: auto; }
+
+#documentTransitionStates ul li input { width: auto !important; }
+
+
+/* ???.css
+-------------------------------------------------------------- */
 .mask {
   filter: alpha(opacity = 50);
 }
-

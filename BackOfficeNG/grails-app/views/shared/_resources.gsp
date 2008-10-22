@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie6.css')}" />
   <![endif]-->
   <!--[if IE 7]>
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie6.css')}" />  
   <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie7.css')}" />
   <![endif]-->
 

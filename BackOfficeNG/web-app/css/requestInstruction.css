@@ -21,6 +21,10 @@
 .taskstate .tag-valid:hover, .taskstate .tag-invalid:hover
 { cursor: pointer; border-color: #000000; color: #000000; }
 
+.taskstate .documentLink { text-decoration: none; }
+.taskstate .documentLink:hover { color: #eeeeee; background: #cc2020; border-color: #000000; }
+
+
 /* request instruction state list
 -------------------------------------------------------------- */
 .taskstate ul { margin: 0; padding: .5em 0 0 0; clear:both; }
@@ -71,7 +75,7 @@
 
 /* override editable-list-form */
 #requestData dl dd .editable-list-form                    { margin: 0; font-weight: normal; }
-#requestData dl dd .editable-list-form fieldset           { margin: 0; border: 0; background: transparent; }
+#requestData dl dd .editable-list-form fieldset           { margin: 0; float:none; border: 0; background: transparent; }
 #requestData dl dd .editable-list-form input              { width: auto; display: inline; margin: 0 0 .2em 0; }
 #requestData dl dd .editable-list-form select             { width: 100%; display: block; } 
 #requestData dl dd .editable-list-form label              { width: auto; display: block; float: none; margin: 0; padding: .3em 0 0 0; text-align: left; } 
@@ -181,58 +185,6 @@
 
 #instructionStatePanel ul    { margin: .2em 0 .5em .5em; text-align: left }
 #instructionStatePanel ul li { padding: .1em 0; }
-
-
-/* request document panel
- * TODO : merge panel style
--------------------------------------------------------------- */
-
-#requestDocumentPanel {
-  padding: 0;
-  border: 6px solid #636e80;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  background: #ffffff;
-}
-
-#requestDocumentPanel a       { font-size: 1em; color: #000; text-decoration: none; }
-#requestDocumentPanel a:hover { color: #000; background: transparent; text-decoration: underline; }
-
-#requestDocumentPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
-#requestDocumentPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
-
-#requestDocumentPanel .bd h1 { 
-  margin: 0 0 1em 0; padding: .5em 0;
-  font-size: 1.8em;
-  font-weight: normal;
-  border-bottom: 1px dashed #000000;
-  overflow: auto;
-}
-
-#requestDocumentPanel .bd h1 #documentState { float: right; font-size: .8em; }
-#requestDocumentPanel .bd h1 #documentDepositType,
-#requestDocumentPanel .bd h1 #documentExpirationDate,
-#requestDocumentPanel .bd h1 #documentOrigin { float: left; margin-right: .5em; font-size: 0.6em; }
-
-/* yui tabview special rendering */
-.yui-skin-sam #requestDocumentPanel .bd .yellow-yui-tabview .yui-content, 
-.yui-skin-sam #requestDocumentPanel .bd .yellow-yui-tabview .yui-navset-top .yui-content { 
-  border-width: 1px 0;
-  text-align: center;
-  padding: 1em 0;
-}
-
-#requestDocumentPanel #requestDocumentData img { max-width: 100%; }
-
-/* list */
-#requestDocumentPanel .mainbox ul { margin: 10px; color: #333;}
-#requestDocumentPanel .mainbox ul li { 
-  padding: .5em 0 .5em 0; 
-  border-bottom:1px dashed #C1CFE2;
-}
-
-/* for tag floating TODO : to be refactor */
-#requestDocumentPanel .mainbox ul li span { float: right }
 
 
 /* ecitizen contact panel

@@ -147,7 +147,7 @@ zenexity.capdemat.bong.categoryAgent = function() {
           agentId = parentTargetEl.id.replace("agent_", "")
           : agentId = parentTargetEl.parentNode.id.replace("agent_", "");
         
-        if (yud.hasClass(targetEl, "associate"))
+        if (yud.hasClass(targetEl, "associate") && !yud.hasClass(targetEl, "currentEditItem"))
           viewAgentEditForm(agentId, "associate");
         
         else if (yud.hasClass(targetEl, "unassociate"))

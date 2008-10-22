@@ -32,11 +32,12 @@
           ${message(code:'action.personalize')}
         </a>
       </g:if>
-      <div class="form-button" style="float:right">
-        <input id="button-ok" name="button-ok" type="button" 
+      <p class="same-line">
+        <label></label>
+        <input id="button-ok" name="-ok" type="button" class="form-button" 
           value="${message(code:'action.ok')}" /> 
-        <input id="button-cancel" name="button-cancel" type="button" 
+        <input id="button-cancel" name="-cancel" type="button" class="form-button" 
           value="${message(code:'action.cancel')}" />
-      </div>
+      </p>
   </form>
 </div>

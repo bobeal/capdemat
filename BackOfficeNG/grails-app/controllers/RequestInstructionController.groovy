@@ -99,6 +99,10 @@ class RequestInstructionController {
 		    ]
     }
     
+    
+    /* request data inline edition managment
+    * --------------------------------------------------------------------- */
+    
     def widget = {
         def widgetMap = [ string:"string", email:"string", number:"string", 
                           date:"date", address:"address", capdematEnum:"capdematEnum" ]
@@ -160,6 +164,10 @@ class RequestInstructionController {
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }
     }
+    
+    
+    /* request state workflow managment
+    * --------------------------------------------------------------------- */
     
     def stateTransitions = {
         def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
@@ -224,6 +232,9 @@ class RequestInstructionController {
         }            
     }
     
+    /* Document managment
+    * --------------------------------------------------------------------- */
+     
     def document = {
         def document = documentService.getById(Long.valueOf(params.id))
         
@@ -272,22 +283,43 @@ class RequestInstructionController {
         response.outputStream << documentBinary.data
     }
     
+    
+    def documentStates = {
+        def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
+
+        def transitionStates =
+            documentService.getPossibleTransitions(DocumentState.forString(stateAsString))
+             
+        def states = []
+        transitionStates.each { 
+            states.add(CapdematUtils.adaptCapdematState(it, "document.state"))
+        }
+        
+        render( template: "requestDocumentStates", 
+                model: [
+                    "endValidityDate": DateUtils.systemStringToDate(params.endValidityDate),
+                    "states": states, 
+                    "stateType": "documentType", 
+                    "documentId": params.id
+                ])
+    }
+    
     def modifyDocument = {
         def document = documentService.getById(Long.valueOf(params.documentId))
-        
-        document.endValidityDate = params.endValidityDate == "" ? 
-                document.endValidityDate : DateUtils.stringToDate(params.endValidityDate)
-        document.agentNote = params.agentNote
-        
+        bind(document)
         try {
             documentService.modify(document)
             render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             ce.printStackTrace()
-            log.error "postNewState() error while updating state (request, data, or document)"
+            log.error "modifyDocument()"
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }            
+        }
     }
+    
+    
+    /* eCitizen contact managment
+    * --------------------------------------------------------------------- */
     
     // TODO : rename action
     def contactInformation = {
@@ -351,6 +383,10 @@ class RequestInstructionController {
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }            
     }
+    
+    
+    /*  request information  managment
+    * --------------------------------------------------------------------- */
     
     def homeFolder = {
 //        def homeFolder = homeFolderService.getByrequestId(Long.valueOf(params.id))

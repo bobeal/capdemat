@@ -23,9 +23,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   
   zcbrp.Forms = function() {
     var initPanels = function() {
+      //Are you sure that you want to perform this action ?
       var content = {
-        head:'Warning !',
-        body: 'Are you sure that you want to perform this action ?'}
+        head:'Attention !',
+        body: 'Confirmez la suppression ?'}
       zcbrp.Forms.confirmationDialog = new zcc.ConfirmationDialog(
         content,zcbrp.Forms.deleteForm);
     };
@@ -97,10 +98,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             .replace(/\n/g,'\uffff')
             .replace(/.*<body>(.*)<\/body>.*/gi,'$1')
             .replace(/\uffff/g,'\n');
-          //zct.style('workArea',{display:'block'});
           
+          var tname = yus.query('input[name=currentTemplateName]',tform,!0).value;
+          var label = ['Personnalisation de <strong>',tname,
+            '</strong> <span class="close">X</span>'].join('');
           var newTab = new YAHOO.widget.Tab({
-            label: 'New Tab  <span class="close">X</span>',
+            label: label,
             active: true,
             content: ['<div id="workArea_Tab1" class="editable-work-area">',content,'</div>'].join('')
           });

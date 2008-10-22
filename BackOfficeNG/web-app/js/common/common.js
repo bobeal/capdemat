@@ -197,7 +197,7 @@
       }
     );
     
-    this.setHeader(content.head);
+    this.setHeader(content.head || 'Warning');
     this.setBody(content.body);
     var el = YAHOO.util.Selector.query("div.yui-skin-sam")[0] || document.body;
     this.render(el);

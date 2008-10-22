@@ -15,27 +15,35 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var ylj = YAHOO.lang.JSON;
   
   zcbrp.Conf = function() {
-    //var init
     return {
       init : function() {
         var div = document.getElementById('request-type-forms');
-        //console.debug(zct.siblings(div,function(n){zct.style(n,{display:'block'})}));
-      },
-      dispatchEvent : function(el) {
-        zct.tryToCall(zcbrp.Conf.handlers[el.id])
       },
       switchView : function(containerId) {
         var el = yu.Dom.get(containerId);
-        zct.siblings(div,function(n){zct.style(n,{display:'block'})});
-        zcbrp.Conf.dispatchEvent(el);
+        var method = zct.capitalize(containerId.split('-')[2]);
+        zct.siblings(el,function(n){zct.style(n,{'display':'none'})});
+        zcbrp.Conf[['display',method].join('')].call(zcbrp.Conf);
       },
-      handlers : {
-        'request-type-forms': function(e){},
-        'request-type-alerts': function(e){},
-        'request-type-seasons' :function(e){}
-      }
+      displayForms : function(e) {
+        var el = yu.Dom.get('request-type-forms');
+        zct.style(el,{'display':'block'});
+      },
+      dispalyAlerts : function(e) {},
+      displaySeasons: function(e) {}
     }
   }();
+
+  zct.each(['Alerts','Seasons'],function(i,name){
+    zcbrp.Conf[['display',name].join('')] = function(e) {
+      var url = ['/load',name,'Area/',zcbrp.currentId].join('');
+      zcc.doAjaxCall(url,'',function(o){
+        var el = yu.Dom.get(['request-type-',name].join('').toLowerCase());
+        el.innerHTML = o.responseText;
+        zct.style(el,{'display':'block'});
+      });
+    };
+  });
   
   YAHOO.util.Event.onDOMReady(zcbrp.Conf.init);
   

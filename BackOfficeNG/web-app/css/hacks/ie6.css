@@ -64,10 +64,12 @@ img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
 #requestDocumentPanel .bd form input { width: 50%; }
 #requestDocumentPanel .bd form input.form-button { width: auto; }
 
-#requestDocumentPanel #documentTransitionStates {
-  width: 26% !important;
-  top: 2em !important;
-}
+#documentTransitionStates { width: 30% !important; top: 2em !important; }
+
+#documentTransitionStates form input.submitDocumentStateChange,
+#documentTransitionStates form input.cancelDocumentStateChange { width: auto; }
+
+#documentTransitionStates ul li input { width: auto !important; }
 
 
 /* ???.css

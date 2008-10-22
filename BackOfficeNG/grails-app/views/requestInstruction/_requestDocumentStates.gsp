@@ -38,7 +38,7 @@
       
       <input type="hidden" name="documentId" value="${documentId}" />
       
-      <input class="submitDocumentStateChange" type="button" value="confirm" />
-      <input class="cancelDocumentStateChange" type="button" value="cancel" />
+      <input class="submitDocumentStateChange" type="button" value="<g:message code="action.confirm" />" />
+      <input class="cancelDocumentStateChange" type="button" value="<g:message code="action.cancel" />" />
     </form>
 

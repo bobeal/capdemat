@@ -1,3 +1,20 @@
-.mask {
-  filter: alpha(opacity = 50);
-}
+/* --------------------------------------------------------------
+
+     Hacks for Microsoft IE7
+            
+-------------------------------------------------------------- */
+
+/* requestInstruction.css
+-------------------------------------------------------------- */
+#instructionStatePanel { width: 9em !important; }
+#instructionStatePanel form input[type="button"] { font-size: .7em !important; }
+
+#requestData dl { height: 1%; }
+
+#requestData dl dd { min-height: 1.3em !important; height: auto; overflow: auto;}
+#requestData dl dt { height: auto; }
+
+#requestData dl dd form { overflow: auto; }
+#requestData dl dd form input.submit,
+#requestData dl dd form input.discard, { margin: .5em .5em 0 0;  }
+

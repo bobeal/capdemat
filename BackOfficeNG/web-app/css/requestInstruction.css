@@ -21,6 +21,10 @@
 .taskstate .tag-valid:hover, .taskstate .tag-invalid:hover
 { cursor: pointer; border-color: #000000; color: #000000; }
 
+.taskstate .documentLink { text-decoration: none; }
+.taskstate .documentLink:hover { color: #eeeeee; background: #cc2020; border-color: #000000; }
+
+
 /* request instruction state list
 -------------------------------------------------------------- */
 .taskstate ul { margin: 0; padding: .5em 0 0 0; clear:both; }

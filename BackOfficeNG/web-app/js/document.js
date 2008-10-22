@@ -24,8 +24,12 @@ zenexity.capdemat.bong.document = function() {
           var response = ylj.parse(o.responseText);
           if (response.status === "ok") {
 //            console.log("submitModifyDocumentForm() SUCCESS");
-            yud.setStyle("documentTransitionStates", "display", "none");
-            zcb.documentStateUpdateEvent.fire(formId);
+            if (formId === "documentStateForm") {
+              yud.setStyle("documentTransitionStates", "display", "none");
+              zcb.documentStateUpdateEvent.fire(formId);
+            }
+            else {
+            }
           } else {
 //            console.log("submitModifyDocumentForm() ERROR");
           }
@@ -83,7 +87,6 @@ zenexity.capdemat.bong.document = function() {
       "requestDocument",
       "click", 
       function (e) {
-        
         var targetEl = yue.getTarget(e);
         
         if (yud.hasClass(targetEl, "cancelDocumentStateChange")) {
@@ -130,12 +133,11 @@ zenexity.capdemat.bong.document = function() {
       }
   );
   
-    zcb.documentStateUpdateEvent.subscribe (
-        function(type, args) {
-          var wrapperSpanEl = yud.get("documentEndValidityDate");
-
-          yud.getFirstChild(wrapperSpanEl).innerHTML = yud.get(args[0]).endValidityDate.value;
-        }
+  zcb.documentStateUpdateEvent.subscribe (
+      function(type, args) {
+        yud.getFirstChild(yud.get("documentEndValidityDate")).innerHTML = 
+            yud.get(args[0]).endValidityDate.value;
+      }
   );
 
       

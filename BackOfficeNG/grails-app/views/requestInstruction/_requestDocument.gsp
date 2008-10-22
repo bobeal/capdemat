@@ -94,7 +94,7 @@
           
           <input type="hidden" name="documentId" value="${document.id}" />
           
-          <input type="button" id="submitModifyDocumentForm" class="form-button" value="submit" />
+          <input type="button" id="submitModifyDocumentForm" class="form-button" value="<g:message code="action.send" />" />
           
         </form>
       </div>

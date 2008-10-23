@@ -92,7 +92,7 @@ zenexity.capdemat.bong.requestInstruction = function() {
             
             zcb.instructionStatePanel.hide();
           } else {
-            zcc.displayResponseResult('modelError', response.error_msg);
+            zcc.Notifier.processMessage('modelError',response.success_msg);
           }
         });
   }
@@ -229,7 +229,6 @@ zenexity.capdemat.bong.requestInstruction = function() {
           }
           else {
             yud.get(formId + "Error").innerHTML = response.error_msg;
-//            zcc.displayResponseResult('modelError', response.error_msg);
           }
         });
   }

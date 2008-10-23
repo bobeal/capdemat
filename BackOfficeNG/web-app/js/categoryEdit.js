@@ -43,11 +43,11 @@ zenexity.capdemat.bong.categoryEdit = function() {
           window.location = zcb.baseUrl + "/edit/" + response.id ;
         else {
           // Is message useful
-          zcc.displayResponseResult('success', response.success_msg);
+          zcc.Notifier.processMessage('success',response.success_msg);
           resetCategoryDataDiv();
         }
       } else {
-        zcc.displayResponseResult("modelError", response.error_msg);
+        zcc.Notifier.processMessage('modelError',response.success_msg);
       }
     });
   }

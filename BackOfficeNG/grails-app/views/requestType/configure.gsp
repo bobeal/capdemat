@@ -79,7 +79,7 @@
           </div>
         </form>
         
-        <div id="trash" style="display:none">
+        <div id="trash" style="display:block">
         </div>
         
       </div>

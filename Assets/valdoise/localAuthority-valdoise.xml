@@ -12,6 +12,7 @@
     <property name="urls">
       <list>
         <value>localhost</value>
+        <value>10.0.0.17</value>
         <value>127.0.0.1</value>
         <value>vosdemarches.valdoise.fr</value>
       </list>

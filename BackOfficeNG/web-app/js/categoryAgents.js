@@ -91,7 +91,7 @@ zenexity.capdemat.bong.categoryAgent = function() {
             }
             
           } else {
-            zcc.displayResponseResult("modelError", response.error_msg);
+            zcc.Notifier.processMessage('modelError',response.success_msg);
           }
         });
   }
@@ -131,7 +131,7 @@ zenexity.capdemat.bong.categoryAgent = function() {
             
             updateAgentProfile(agentId, "unassociate");
           } else {
-            zcc.displayResponseResult("modelError", response.error_msg);
+            zcc.Notifier.processMessage('modelError',response.success_msg);
           }
         });
   }

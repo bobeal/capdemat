@@ -28,3 +28,4 @@
 #search-results p.state      { color: #ff7400; }
 #search-results p.second-line, #search-results p.third-line  { font-size: 0.9em; }
 #search-results .tag-state { float: right; font-size: 0.8em;}
+#search-results span.current-sort { font-size: 1.2em; font-weight: bold;}

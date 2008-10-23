@@ -20,7 +20,6 @@ class CategoryController {
     def beforeInterceptor = { session["currentMenu"] = "category" }
 
     def list = {
-        log.debug "list() returning all categories"
         def categories = categoryService.getAll()
         // hack to load request types
         categories.each { it.requestTypes.label }
@@ -34,7 +33,8 @@ class CategoryController {
            
         def category = categoryService.getById(Long.valueOf(params.id))
         def categories = categoryService.getAll()
-        return [editMode:"edit", categories:categories, category:category]
+        return [editMode:"edit", categories:categories, category:category, orderRequestTypeBy:"label",
+                scope:"Category"]
     }
     
     def create = {
@@ -47,7 +47,7 @@ class CategoryController {
 		    try {
 		        if (params.id != null && params.id != "") {
 		            category = categoryService.getById(Long.valueOf(params.id))
-                bindData(category, params)
+		            bindData(category, params)
 		            categoryService.modify(category)
 		            create = false
 		        } else {
@@ -59,11 +59,12 @@ class CategoryController {
 		        log.error "save() a category with the same name already exists"
 		        render ([status: "error", error_msg:message(code:"category.error.nameAlreadyExists")] as JSON)
 		    } catch (CvqException ce) {
-			      log.error "save() error while creating category"
+			    log.error "save() error while creating category"
 		        render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
 		    }
 		    
-		    render ([status:"ok", id: category.id, name:category.name, create:create] as JSON)
+		    render ([status:"ok", success_msg:message(code:"message.updateDone"),
+		             id: category.id, name:category.name, create:create] as JSON)
     }
     
     def delete = {
@@ -91,7 +92,7 @@ class CategoryController {
     }
     
     // return the template used to display a category in the categories menu
-	  def loadCategoryMenuItem = {
+	def loadCategoryMenuItem = {
         def category = categoryService.getById(Long.valueOf(params.id))
         render(template:"categoryItem", model:[id:category.id,name:category.name])
     }
@@ -101,14 +102,10 @@ class CategoryController {
     
     def requestTypes = {
         def requestTypes = []
+        
         if (request.post && params.scope == null) {
             // FIXME :  sort only all requestType (not category requestType)
             defaultRequestService.getAllRequestTypes().each{ requestTypes.add(adaptRequestType(it)) }
-            
-            if (params.orderRequestTypeBy == "label")
-                requestTypes = requestTypes.sort{ it.label }
-            else if (params.orderRequestTypeBy == "categoryName")
-                requestTypes = requestTypes.sort{ it.categoryName != null ? it.categoryName : "zzz" }
         }
         else if (params.scope == "All")
             defaultRequestService.getAllRequestTypes().each{ requestTypes.add(adaptRequestType(it)) }
@@ -117,8 +114,18 @@ class CategoryController {
                 requestTypes.add(adaptRequestType(it))
             }
 
+        def orderRequestTypeBy
+        if (params.orderRequestTypeBy == null || params.orderRequestTypeBy == "label") {
+            requestTypes = requestTypes.sort{ it.label.toLowerCase() }
+            orderRequestTypeBy = "label"
+        } else if (params.orderRequestTypeBy == "categoryName") {
+            requestTypes = requestTypes.sort{ it.categoryName != null ? it.categoryName.toLowerCase() : "zzz" }
+            orderRequestTypeBy = "categoryName"
+        }
+        
         render( template:"categoryRequests",
-                model:[ categoryId: new Long(params.id), requestTypes: requestTypes ])
+                model:[ categoryId: new Long(params.id), requestTypes: requestTypes, 
+                        orderRequestTypeBy: orderRequestTypeBy, scope:params.scope ])
     }
     
     def associateRequestType = {
@@ -126,7 +133,7 @@ class CategoryController {
             def category = 
             	categoryService.addRequestType(Long.valueOf(params.categoryId),Long.valueOf(params.requestTypeId))
 
-			      render ([status:"ok",categoryName:category.name, success_msg:message(code:"message.updateDone")] as JSON)
+			render ([status:"ok",categoryName:category.name, success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             log.error "associateRequestType() error while associating request type to category"
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
@@ -151,11 +158,7 @@ class CategoryController {
     def agents = {
         def agents = []
         if (request.post && params.scope == null) {
-            // FIXME : sortAgent sort only all agent (not category agent)
             agentService.getAll().each { agents.add(adaptAgent(it)) }
-            
-            if (params.orderAgentBy == "lastName")
-                agents = agents.sort{ it.lastName != null ? it.lastName : "zzz"}
         } 
         else if (params.scope == "All")
             agentService.getAll().each { agents.add(adaptAgent(it)) }
@@ -164,6 +167,8 @@ class CategoryController {
                 agents.add(adaptAgent(it))
             }
             
+        agents = agents.sort{ it.lastName != null ? it.lastName.toLowerCase() : "zzz"}
+
         render( template: "categoryAgents", 
                 model: [ "categoryId": new Long(params.id), "agents": agents])
     }

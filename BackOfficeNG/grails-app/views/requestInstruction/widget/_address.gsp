@@ -45,6 +45,6 @@
   <input name="requestId" type="hidden" value="${requestId}" />
   <input name="individualId" type="hidden" value="${individualId}" />
 
-  <input type="button" value="modify" class="submit" />
-  <input type="button" value="discard" class="discard" />
+  <input type="button" class="submit" value="<g:message code="action.save" />" />
+  <input type="button" class="discard" value="<g:message code="action.cancel" />" />
 </form>

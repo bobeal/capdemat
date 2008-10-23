@@ -16,12 +16,14 @@
       <g:message code="${document.depositOrigin.i18nKey}" />
     </span>
     
-    <span id="documentEndValidityDate">
-      <g:message code="document.property.endValidityDate" />
-      <strong>
-      <g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>
-      </strong>
-    </span>
+    <g:if test="${document.endValidityDate}">
+      <span id="documentEndValidityDate">
+        <g:message code="document.property.endValidityDate" />
+        <strong>
+          <g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>
+        </strong>
+      </span>
+    </g:if>
     
     <div id="documentTransitionStates"></div>
   </h1>
@@ -30,8 +32,8 @@
   <div id="requestDocumentData" class="yellow-yui-tabview">
   
     <ul class="yui-nav">
-      <g:each var="page" in="${document.pages}">
-        <li class="selected">
+      <g:each var="page" in="${document.pages}" status="i">
+        <li class="${i == 0 ? 'selected' : ''}">
           <a href="#page${page.pageNumber}">
           <em><g:message code="property.page" /> ${page.pageNumber}</em></a>
         </li>

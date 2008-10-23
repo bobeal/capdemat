@@ -11,7 +11,6 @@ import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.business.request.RequestSeason
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import fr.cg95.cvq.exception.*
@@ -25,7 +24,6 @@ class RequestTypeController {
     IDocumentService documentService
 	ICategoryService categoryService
 	GroovyPagesTemplateEngine groovyPagesTemplateEngine
-	//ILocalAuthorityRegistry localAuthorityRegistry
 	
     def translationService
     
@@ -258,7 +256,6 @@ class RequestTypeController {
     
     // retrives request form list using passed request type id
     def formList = {
-        //println "\n\n\n\n\n\n\n"+ request
         def id = Long.valueOf(params.id)
         def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
         def forms = defaultRequestService.getRequestTypeForms(id, mailType)

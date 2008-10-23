@@ -31,6 +31,7 @@
 }
 
 #requestDocumentPanel .bd h1 #documentState        { float: right;  margin: 0; cursor: pointer; font-size: .8em; }
+#requestDocumentPanel .bd h1 #documentState:hover  { color: #000000; border-color: #000000; }
 #requestDocumentPanel .bd h1 #documentEndValidityDate,
 #requestDocumentPanel .bd h1 #documentDepositType,
 #requestDocumentPanel .bd h1 #documentOrigin       { float: left;  margin: 0 .5em 0 0; font-size: .6em }

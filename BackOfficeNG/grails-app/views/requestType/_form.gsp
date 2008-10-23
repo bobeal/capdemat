@@ -3,6 +3,7 @@
         method="post" class="editable-list-form" 
         action="${createLink(action:'form')}">
       <div id="error-container:${requestForm?.getId()}" class="error"></div>
+      
       <label for="shortlabel" class="required">
         <g:message code="requestType.property.formShortLabel" /> * :
       </label>
@@ -15,6 +16,7 @@
       <input name="label" id="label" type="text" class="required"
              title="${message(code:'requestType.message.labelRequired')}"
              value="${requestForm?.getLabel()}" />
+      
       <label for="templateName" class="required">
         <g:message code="requestType.property.formTemplateName" /> * :
       </label>
@@ -24,20 +26,25 @@
         name="templateName" 
         from="${templates}" 
         value="${requestForm?.getTemplateName()}" />
-      <input type="hidden" name="currentTemplateName" value="${requestForm?.getTemplateName()}" />
-      <input type="hidden" name="requestFormId" value="${requestForm?.getId()}" />
-      <input type="hidden" name="requestTypeId" value="" />
+        
       <g:if test="${requestForm?.getId()}">
+      <div class="box-left">
         <a id="a-personalize:${requestForm?.getId()}" href="javascript:;">
           ${message(code:'action.personalize')}
         </a>
+      </div>
       </g:if>
+        
+      <input type="hidden" name="currentTemplateName" value="${requestForm?.getTemplateName()}" />
+      <input type="hidden" name="requestFormId" value="${requestForm?.getId()}" />
+      <input type="hidden" name="requestTypeId" value="" />
+
       <p class="same-line">
-        <label></label>
-        <input id="button-ok" name="-ok" type="button" class="form-button" 
-          value="${message(code:'action.ok')}" /> 
+        <input id="button-ok" name="-ok" type="button" class="first-button" 
+          value="${message(code:'action.save')}" /> 
         <input id="button-cancel" name="-cancel" type="button" class="form-button" 
           value="${message(code:'action.cancel')}" />
       </p>
+      
   </form>
 </div>

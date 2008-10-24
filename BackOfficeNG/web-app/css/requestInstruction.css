@@ -55,12 +55,40 @@
   border-top: 1px dashed #FFD053;
 }
 
-#requestData dl dt { width: 10em; clear: both; }
+#requestData dl dt { width: 9em; text-align: right; clear: both; }
 
-#requestData dl dd { width: 15em; font-weight: bold; }
-#requestData dl dd:hover { background: #ffffff; cursor: pointer;}
+#requestData dl dd { width: 16em; font-weight: bold; }
+
+#requestData dl dd.string:hover { background: #ffffff; cursor: pointer; }
+#requestData dl dd.currentEditProperty:hover { background: transparent; cursor: default; }/* not used ! */
 
 #requestData dl dd ul li { padding: .3em 0; }
+
+/* inline editable list form */
+.form-list-edition {
+  margin: 0; padding: .5em;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background: #ffffff;
+  border: 1px dashed #FFD053;
+  font-weight: normal;
+  clear: both; /* hack for tag alignment */
+}
+
+/* TODO - Merge form-list-edition declaration with configuration.css version  */
+.form-list-edition .error { margin: 0 40% 0 0; }
+.form-list-edition label, 
+.form-list-edition input  { display: inline; width: auto; }
+.form-list-edition input[type=text]  { width: 95%; }
+
+.form-list-edition ul     { margin: 0; }
+
+.form-list-edition ul li {
+  width: 20%;
+  float: left;
+  padding: .2em 0;
+  border: none;
+}
 
 /* request attached document
 -------------------------------------------------------------- */
@@ -128,7 +156,7 @@
   float: left;
   width: 10em;
   font-weight: bold;
-  text-align :right;
+  text-align : right;
 }
 
 #requestInformation dl dd {
@@ -242,7 +270,7 @@
 #ecitizenContactPanel .bd form label                  { width: 25% !important; }
 #ecitizenContactPanel .bd form hr                     { margin: 0; border: 0 !important; }
 #ecitizenContactPanel .bd form .required              { font-size: 1em }
-#ecitizenContactPanel .bd form .error                 {  margin: 0 0 0 26%; font-size: 1.4em; font-style: italic; }
+#ecitizenContactPanel .bd form .error                 { margin: 0 0 0 26%; font-size: 1.4em; font-style: italic; }
 #ecitizenContactPanel .bd form .form-button           { margin: 0 0 0 26% !important; }
 #ecitizenContactPanel .bd form input[type="button"]   { font-size: 1.4em; }
 #ecitizenContactPanel .bd form input[type="checkbox"] { margin: 6px 0 0 1%; }

@@ -96,7 +96,9 @@
 
 .editableListSwithcher a.current:hover { background: transparent; }
 
-/* inline editable list form */
+/* inline editable list form 
+ * TODO - merge with request instruction data form 
+ */
 .form-list-edition {
   margin: .5em 2em; padding: .5em;
   -moz-border-radius: .5em;
@@ -106,7 +108,7 @@
   clear: both; /* hack for tag alignment */
 }
 
-.form-list-edition .error { margin: 0 40% 1em 0; }
+.form-list-edition .error { margin: 0 40% 0 0; }
 .form-list-edition label, 
 .form-list-edition input  { display: inline; width: auto; }
 

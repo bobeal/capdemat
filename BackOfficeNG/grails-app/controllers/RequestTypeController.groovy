@@ -8,6 +8,7 @@ import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.business.request.RequestSeason
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.exception.*
 
 import grails.converters.JSON
@@ -19,6 +20,8 @@ class RequestTypeController {
     IRequestServiceRegistry requestServiceRegistry
     IDocumentService documentService
 	ICategoryService categoryService
+	ILocalAuthorityRegistry localAuthorityRegistry
+	
     def translationService
     
     def defaultAction = "list"
@@ -206,6 +209,7 @@ class RequestTypeController {
     // called asynchronously
     // return a JSON array of all the document types
     def loadAllDocumentTypes = {
+        
         log.debug "loadAllDocumentTypes()"
         def requestTypeDocuments = []
     	def requestType = 
@@ -298,6 +302,23 @@ class RequestTypeController {
                                  success_msg:message(code:"requestSeason.message.confirmDelete")] as JSON)
     }
     
+    def mailTemplate = {
+        //println ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE
+         
+        if(request.post) {
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } 
+        else {
+            render (view: 'mailTemplate', model:['name':params.id])
+        }        
+    }
+    
+    def loadMailTemplate = {
+        def name  = params.id;
+        name = 'tmp.html'
+        
+        render(template:"tmp",model:['name':params.id])
+    }
 }
 
 class RequestTypeConfigurationData {

@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+
 
 /**
  * @hibernate.class
@@ -14,12 +16,18 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * @author bor@zenexity.fr
  */
 public class RequestForm implements Serializable {
-
+    
 	private static final long serialVersionUID = 1L;
 
 	/** identifier field */
     private Long id;
+    
+    /* Template personalized data */
+    private Byte[] personalizedData;
 
+    /* Template file name */
+    private String templateName;
+    
     private RequestFormType type;
     
     /**
@@ -124,6 +132,30 @@ public class RequestForm implements Serializable {
         this.shortLabel = shortLabel;
     }
 
+    /**
+     * @hibernate.property
+     *  column="personalized_data"
+     */
+    public Byte[] getPersonalizedData() {
+        return this.personalizedData;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="template_name"
+     */
+    public String getTemplateName() {
+        return this.templateName;
+    }
+
+    public void setPersonalizedData(Byte[] personalizedData) {
+        this.personalizedData = personalizedData;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
+    
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

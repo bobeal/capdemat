@@ -26,6 +26,7 @@ public interface ILocalAuthorityRegistry {
     String IMAGE_ASSETS_RESOURCE_TYPE = "img";
     String TXT_ASSETS_RESOURCE_TYPE = "txt";
     String HTML_RESOURCE_TYPE = "html";
+    String MAIL_TEMPLATES_TYPE = "html/templates/mails";
     
     LocalAuthorityConfigurationBean getLocalAuthorityBeanByUrl(final String url);
     LocalAuthorityConfigurationBean getLocalAuthorityBeanByName(final String name);

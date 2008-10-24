@@ -102,8 +102,6 @@
 }
 .editableListSwithcher a.current:hover { background: transparent; }
 
-
-
 /* agent profile inline edition form */
 form.editable-list-form ul          { margin: .5em 0; }
 form.editable-list-form ul li       { width: 20%; }
@@ -174,5 +172,4 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
 .editable-zone:hover {
   background-color: #FFDFBF;
 }
-
 

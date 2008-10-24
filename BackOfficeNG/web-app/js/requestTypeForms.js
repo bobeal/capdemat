@@ -63,12 +63,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var url = ['/form/',container.id.split('_')[1]].join('');
         zcbrp.Forms.containers[container.id] = container;
         zcc.doAjaxCall(url,[],function(o){
-//          var trash = yu.Dom.get('trash');
-//          trash.innerHTML = o.responseText;
-//          var el = new yu.Element(container);
-//          trash.innerHTML = o.responseText;
-//          el.appendChild(trash.firstChild);
-//          trash.innerHTML = "";
           container.innerHTML = [container.innerHTML,o.responseText].join('');
         });
       },
@@ -96,7 +90,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             active: true,
             content: ['<div id="workArea_Tab1" class="editable-work-area">',content,'</div>'].join('')
           });
-          debugger
+          
           zcbrt.Manager.tabView.addTab(newTab);
           zcbrt.Manager.tabView.get('tabs')[0].set('disabled', true);
           

@@ -29,7 +29,7 @@
         var form = yus.query('#form1')[0];
         zcc.doAjaxFormSubmitCall('form1',[],function(r){
           var json = YAHOO.lang.JSON.parse(r.responseText);
-          displayResponseResult('success',json.success_msg);
+          zcc.displayResponseResult('success',json.success_msg);
           return false;
         });
       });

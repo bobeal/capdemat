@@ -228,25 +228,11 @@
 				this.value = value;
 		})();
 	};
-	
-	/**
-	 * Sends data to the server side via post request, in async mode 
-	 * 
-	 * @author vba@zenexity.fr
-	 * @param url {string} The URL of the page to load.
-	 * @param data {string} Key/value pairs that will be sent to the server.
-	 * @param callback {function} A function to be executed whenever the data is loaded successfully.
-   *
-	**/
-	zct.post = function(url, data, callback) {
-		var hanlers = {
-			success:callback,
-			failure: zct.ajaxError
-		};
-		
-		YAHOO.util.Connect.asyncRequest('POST', url, hanlers, data);
-	};
-	
+
+  zct.stripTags = function(string) {
+    return string.replace(/<\/?[^>]+>/gi, '');
+  };
+  
 	zct.each([ "Height", "Width" ], function(i, name){
 		var type = name.toLowerCase();
 		var browser = zct.browser;

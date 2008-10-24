@@ -64,11 +64,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       });
       
       zcbrt.Manager.panel.beforeShowEvent.subscribe(function(ev){
-        zct.style('bd-editor',{display:'block'});
+        zct.style('editorBody',{display:'block'});
         zcbrt.Manager.panel.center();
       });
       zcbrt.Manager.panel.beforeHideEvent.subscribe(function(ev){
-        zct.style('bd-editor',{display:'none'});
+        zct.style('editorBody',{display:'none'});
       });
       
       zcbrt.Manager.panel.render();
@@ -122,10 +122,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         }
         
         if(!!zcbrt.Manager.editEl) {
-          yus.query('#editor-form input[id=element]')[0].value = zcbrt.Manager.editEl.id;
+          yus.query('#editorForm input[id=element]')[0].value = zcbrt.Manager.editEl.id;
           zcbrt.Manager.editor.saveHTML();
           
-          zcc.doAjaxFormSubmitCall('editor-form',[],function(o){
+          zcc.doAjaxFormSubmitCall('editorForm',[],function(o){
             zcbrt.Manager.editEl.innerHTML = zcbrt.Manager.editor.getEditorHTML();
             var json = YAHOO.lang.JSON.parse(o.responseText);
             zcc.Notifier.processMessage('success',json.success_msg);

@@ -86,6 +86,7 @@
 .form-list-edition .required          { font-size: 1em; }
 .form-list-edition label, 
 .form-list-edition input              { width: auto; display: inline; margin: 0 0 .2em 0; }
+.form-list-edition select             { display: block; } 
 .form-list-edition label              { display: block; float: none; margin: .3em; 0 .2em 0; text-align: left; } 
 .form-list-edition input[type=text]   { width: 98%; }
 .form-list-edition input[type=button] { margin: .5em 0 0 0 }

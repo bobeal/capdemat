@@ -97,7 +97,6 @@ class RequestInstructionController {
 		    ]
     }
     
-    // TODO - refactor enum managment
     def widget = {
         def widgetMap = [ string:"string", email:"string", number:"string", string:"string",
                           date:"date", address:"address", capdematEnum:"capdematEnum" ]
@@ -114,32 +113,26 @@ class RequestInstructionController {
         if (propertyTypeList[0] == "address")
             propertyValue = JSON.parse(params.propertyValue)
         else if (propertyTypeList[0] == "capdematEnum") {
-            allPropertyValue = Class.forName("fr.cg95.cvq.business.users." + propertyTypeList[1])
-                           .getField("all" + propertyTypeList[1] + "s")
-                           .get()
-            propertyValue = params.propertyValue
+            def propertyJavaType = propertyTypeList[1].tokenize(".")
+            allPropertyValue = Class.forName(propertyTypeList[1])
+                    .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
             
-            switch(propertyTypeList[1]) {
-                case "TitleType": 
-                    i18nKeyPrefix = "homeFolder.adult.title"
-                    break;
-                case "FamilyStatusType": 
-                    i18nKeyPrefix = "homeFolder.adult.familyStatus"
-                    break;
-            }
+            def propertyValueTokens = params.propertyValue.tokenize(" ")
+            propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
         }
         else if (propertyTypeList[0] != "address")
             propertyValue = params.propertyValue
             
         render( template: "/requestInstruction/widget/" + widgetMap[propertyTypeList[0]],
                 model:
-                    [ "requestId": Long.valueOf(params.id), 
+                    [ "requestId": Long.valueOf(params.id),
+                    
                       "individualId": individualIdTokens[1],
                       "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                      
                       "propertyName": params.propertyName,
                       "propertyValue": propertyValue,
                       "allPropertyValue" : allPropertyValue,
-                      "i18nKeyPrefix" : i18nKeyPrefix,
                       "propertyType": propertyTypeList[0],
                       "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""
                     ])

@@ -21,9 +21,10 @@
 #search-results li {
   margin-bottom: 1em;
   padding-bottom: 0.5em;
-	border-bottom: 1px solid #999999;
+	border-bottom: 1px dashed #999999;
 }
 
-#search-results span.first-line { color: #0000ff; }
-#search-results span.state      { color: #ff7400; }
-
+#search-results p.first-line { color: #0000ff; font-size: 1.1em; font-weight: normal; padding-bottom: 0.3em;}
+#search-results p.state      { color: #ff7400; }
+#search-results p.second-line, #search-results p.third-line  { font-size: 0.9em; }
+#search-results .tag-state { float: right; font-size: 0.8em;}

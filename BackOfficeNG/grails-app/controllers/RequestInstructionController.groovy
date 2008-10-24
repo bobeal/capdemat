@@ -279,11 +279,11 @@ class RequestInstructionController {
         }
         
         // this task must maybe be done by a service
-        def defaultContactReciepient
+        def defaultContactRecipient
         if (request.meansOfContact.type == MeansOfContactEnum.EMAIL)
-            defaultContactReciepient = request.requester.email
+            defaultContactRecipient = request.requester.email
         else if (request.meansOfContact.type == MeansOfContactEnum.SMS)
-            defaultContactReciepient = request.requester.mobilePhone
+            defaultContactRecipient = request.requester.mobilePhone
         
         render( template: "ecitizenContact", 
                 model: 
@@ -295,7 +295,7 @@ class RequestInstructionController {
                             "requesterEmail": request.requester.email,
                             "meansOfContact": CapdematUtils.adaptCapdematState(request.meansOfContact.type, "request.meansOfContact")
                           ],
-                      "defaultContactReciepient": defaultContactReciepient
+                      "defaultContactRecipient": defaultContactRecipient
                     ]
         )
     }
@@ -303,7 +303,7 @@ class RequestInstructionController {
     // TODO test field
     def notifyContact = {
         def meansOfContact = MeansOfContactEnum.forString(params.meansOfContact)
-        def to = params.contactReciepient
+        def to = params.contactRecipient
         def body = params.contactMessage
         
         try {

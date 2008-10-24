@@ -17,16 +17,22 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   zcbrp.Conf = function() {
     return {
       init : function() {
-        //var div = document.getElementById('request-type-forms');
+        yue.on(yu.Dom.get('secondMenu'),'click',zcbrp.Conf.dispatchEvent);
+      },
+      dispatchEvent : function(e) {
+        var method = zct.capitalize(yue.getTarget(e).id.split('_')[1]);
+        var el = yu.Dom.get(['requestType',method].join(''));
+        zct.siblings(el,function(n){zct.style(n,{'display':'none'})});
+        zct.tryToCall(zcbrp.Conf[['display',method].join('')],zcbrp.Conf);
       },
       switchView : function(containerId) {
         var el = yu.Dom.get(containerId);
         var method = zct.capitalize(containerId.split('-')[2]);
         zct.siblings(el,function(n){zct.style(n,{'display':'none'})});
-        zcbrp.Conf[['display',method].join('')].call(zcbrp.Conf);
+        zct.tryToCall(zcbrp.Conf[['display',method].join('')],zcbrp.Conf);
       },
       displayForms : function(e) {
-        var el = yu.Dom.get('request-type-forms');
+        var el = yu.Dom.get('requestTypeForms');
         zct.style(el,{'display':'block'});
       },
       dispalyAlerts : function(e) {},
@@ -38,7 +44,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
     zcbrp.Conf[['display',name].join('')] = function(e) {
       var url = ['/load',name,'Area/',zcbrp.currentId].join('');
       zcc.doAjaxCall(url,'',function(o){
-        var el = yu.Dom.get(['request-type-',name].join('').toLowerCase());
+        var el = yu.Dom.get(['requestType',name].join(''));
         el.innerHTML = o.responseText;
         zct.style(el,{'display':'block'});
       });

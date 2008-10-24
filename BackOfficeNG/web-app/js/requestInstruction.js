@@ -1,6 +1,7 @@
 zenexity.capdemat.bong.requestIntruction = function() {
   var zcb = zenexity.capdemat.bong;
   var zcc = zenexity.capdemat.common;
+  var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
   var yuel = YAHOO.util.Element;
   var yue = YAHOO.util.Event;
@@ -177,8 +178,7 @@ zenexity.capdemat.bong.requestIntruction = function() {
           // request document tabview
           var requestDocumentDataTabView = new ywtv('requestDocumentData');
           YAHOO.capdematBo.calendar.cal = new Array(1);
-          yue.onDOMReady(
-            YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"} );
+          yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"} );
         });
   }
   
@@ -266,7 +266,7 @@ zenexity.capdemat.bong.requestIntruction = function() {
         function(o) {
           var response = ylj.parse(o.responseText);
           if (response.status === "ok") {
-            hideEditProperty(targetEl, true);
+            modifyPropertyForm(targetEl, true);
             yud.setStyle(formId.replace("_Form", ""), "background", "#aaffaa");
           }
           else {
@@ -276,35 +276,77 @@ zenexity.capdemat.bong.requestIntruction = function() {
         });
   }
   
-  function hideEditProperty(targetEl, isSubmit) {
+  function modifyPropertyForm(targetEl, isSubmit) {
     var formEl = yud.getAncestorByTagName(targetEl, "form");
-    var oldPropertyValue;
-    if (!isSubmit)
-      oldPropertyValue = yus.query("input[name=oldPropertyValue]", formEl, true).value;
-    else {
-      var elName = formEl.id.replace("_Form", "") + "_tp";
-      oldPropertyValue = yud.get(elName).value;
-//      var elName = formEl.id.replace("_Form", "");
-//      oldPropertyValue = yus.query("input[name=" + elName + "]", formEl, true).value;
-    }
+    var propertyValue;
     
     var ddEl = yud.getAncestorByTagName(targetEl, "dd");
-    new yuel(ddEl).removeChild(yud.getAncestorByTagName(targetEl, "form"));
+    var wrapperPropertyValueEl = yud.getFirstChild(ddEl);
+    
+    if (isSubmit && !yud.hasClass(ddEl, "address")) {
+      var elName = formEl.id.replace("_Form", "") + "_Input";
+      propertyValue = yud.get(elName).value;
+//      var elName = formEl.id.replace("_Form", "");
+//      oldPropertyValue = yus.query("input[name=" + elName + "]", formEl, true).value;
+      wrapperPropertyValueEl.innerHTML = propertyValue;
+    } 
+    else if (isSubmit && yud.hasClass(ddEl, "address")) {
+      var addressFields = yud.getChildren(wrapperPropertyValueEl);
+      var newAddressFields = yus.query("fieldset input", formEl);
+      zct.each(
+          newAddressFields, 
+          function(i) {
+            addressFields[i].innerHTML = this.value ;
+          });
+    }
+    yud.removeClass(wrapperPropertyValueEl, "invisible");
+    
+    new yuel(ddEl).removeChild(formEl);
     yud.removeClass(ddEl, "currentEditProperty");
-    ddEl.innerHTML = oldPropertyValue;
   }
   
-  function showEditProperty(targetEl, widgetType) {
+  function showEditProperty(targetEl) {
+    var propertyValue;
+    var wrapperPropertyValueEl = yud.getFirstChild(targetEl);
+    
+    if (yud.hasClass(targetEl, "address")) {
+      var addressFields = yud.getChildren(wrapperPropertyValueEl);
+      
+      var jsonAddress = {
+        "additionalDeliveryInformation": addressFields[0].innerHTML,
+        "additionalGeographicalInformation": addressFields[1].innerHTML,
+        "streetNumber": addressFields[2].innerHTML,
+        "streetName": addressFields[3].innerHTML,
+        "placeNameOrService": addressFields[4].innerHTML,
+        "postalCode": addressFields[5].innerHTML,
+        "city": addressFields[6].innerHTML,
+        "countryName": addressFields[7].innerHTML,  
+      }
+
+      propertyValue = ylj.stringify(jsonAddress);
+    }
+    else {
+      propertyValue = wrapperPropertyValueEl.innerHTML;
+    }
+    
+    //console.log(new HTMLParagraphElement());
+              
     zcc.doAjaxCall(
         "/widget/?"
           + "id=" + zenexity.capdemat.bong.requestId
-          + "&widget=" + widgetType
+          + "&propertyType=" + targetEl.className
           + "&propertyName=" + targetEl.id
-          + "&propertyValue=" + yl.trim(targetEl.innerHTML),  
+          + "&propertyValue=" + propertyValue,  
         null,
         function(o) {
           yud.addClass(targetEl, "currentEditProperty");
-          targetEl.innerHTML = o.responseText;   
+          yud.addClass(yud.getFirstChild(targetEl), "invisible");
+          targetEl.innerHTML += o.responseText;
+          
+          if (yud.hasClass(targetEl, "date")) {
+            YAHOO.capdematBo.calendar.cal = new Array(1);
+            yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + "_Input"} );
+          }
         });
   }
   
@@ -312,21 +354,32 @@ zenexity.capdemat.bong.requestIntruction = function() {
       "requestData", 
       "click",
       function(e) {
-        var targetEl = yue.getTarget(e);
-        
-        switch(targetEl.className) {
-          case "string" :
-            showEditProperty(targetEl, "string");
-            break;
-          case "submit" :
+          var targetEl = yue.getTarget(e);
+
+          if (targetEl.tagName != "DD" && targetEl.tagName != "INPUT") {
+            targetEl = yud.getAncestorByTagName(targetEl, "dd");
+          }
+          
+          if (yud.hasClass(targetEl, "currentEditProperty"))   {
+            return;
+          }
+          else if (yud.hasClass(targetEl, "string")
+              || yud.hasClass(targetEl, "email")
+              || yud.hasClass(targetEl, "address")
+              || yud.hasClass(targetEl, "number")
+              || yud.hasClass(targetEl, "date")
+              || yud.hasClass(targetEl, "capdematEnum")
+             ) {
+            showEditProperty(targetEl);
+          }
+          else if (yud.hasClass(targetEl, "submit")) {
             var formEl = yud.getAncestorByTagName(targetEl, "form");
             if (FIC_checkForm(e, yud.get(formEl.id + "Errors")))
               submitEditProperty(targetEl, formEl.id);
-            break;
-          case "discard" :
-            hideEditProperty(targetEl, false);
-            break;
-        }
+          }
+          else if (yud.hasClass(targetEl, "discard")) {
+            modifyPropertyForm(targetEl, false);
+          }
       });
    
   return {

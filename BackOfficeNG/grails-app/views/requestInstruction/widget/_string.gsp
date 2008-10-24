@@ -1,10 +1,19 @@
 <form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="form-list-edition" >
   <span id="${propertyName}_FormErrors" class="error"></span> 
   
-  <input id="${propertyName}_tp" name="${propertyNameTp}" type="text" value="${propertyValue}" 
-      class="required" title="<g:message code="request.error.propertyValueRequired" />" />
+  <input id="${propertyName}_Input" name="${propertyNameTp}" type="text" value="${propertyValue}" 
+      class="${propertyType != "" ? 'validate-' + propertyType : ''} ${required}" 
+      title=" <g:if test="${propertyType == 'email'}">
+                <g:message code="request.error.emailRequired" />
+              </g:if>
+              <g:elseif test="${propertyType == 'number'}">
+                <g:message code="request.error.numberRequired" />
+              </g:elseif>
+              <g:elseif test="${required == 'required'}">
+               <g:message code="request.error.required" />
+              </g:elseif>" 
+  />
   
-  <input name="oldPropertyValue" type="hidden" value="${propertyValue}" />
   <input name="requestId" type="hidden" value="${requestId}" />
   <input name="individualId" type="hidden" value="${individualId}" />
 

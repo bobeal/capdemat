@@ -31,6 +31,7 @@ class RequestInstructionController {
     IIndividualService individualService
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
+    IAgentService agentService
    
     def translationService
     

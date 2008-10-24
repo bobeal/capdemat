@@ -4,11 +4,6 @@
 	<cvqf:form name="Resources" action="#" mode="static">
       <ul class="confirm_list">
         <li class="text_row">
-          <p class="label">
-				Le demandeur				
-          </p>
-        </li>
-        <li class="text_row">
           <p class="label">            
             Pensions et retraites
           </p>
@@ -26,55 +21,26 @@
         </li>
         <li class="text_row">
           <p class="label">            
-            Revenus du capital
+            Revenus du capital mobilier
           </p>
           <p class="text">
-            <cvqf:text name="requesterIncomesRequesterInvestmentIncome" mode="static" maxlength="10"/>
+            <cvqf:text name="requesterIncomesRequesterFurnitureInvestmentIncome" mode="static" maxlength="10"/>
           </p>
         </li>
         <li class="text_row">
           <p class="label">            
-            Salaire
+            Revenus du capital immobilier
+          </p>
+          <p class="text">
+            <cvqf:text name="requesterIncomesRequesterRealEstateInvestmentIncome" mode="static" maxlength="10"/>
+          </p>
+        </li>
+        <li class="text_row">
+          <p class="label">            
+            Salaire ou bénéfice déclaré
           </p>
           <p class="text">
             <cvqf:text name="requesterIncomesRequesterNetIncome" mode="static" maxlength="10"/>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">
-				Le conjoint				
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">            
-            Pensions et retraites
-          </p>
-          <p class="text">
-            <cvqf:text name="requesterSpouseIncomesSpousePensions" mode="static" maxlength="10"/>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">            
-            Allocations diverses
-          </p>
-          <p class="text">
-            <cvqf:text name="requesterSpouseIncomesSpouseAllowances" mode="static" maxlength="10"/>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">            
-            Revenus du capital
-          </p>
-          <p class="text">
-            <cvqf:text name="requesterSpouseIncomesSpouseInvestmentIncome" mode="static" maxlength="10"/>
-          </p>
-        </li>
-        <li class="text_row">
-          <p class="label">            
-            Salaire
-          </p>
-          <p class="text">
-            <cvqf:text name="requesterSpouseIncomesSpouseNetIncome" mode="static" maxlength="10"/>
           </p>
         </li>
       </ul>

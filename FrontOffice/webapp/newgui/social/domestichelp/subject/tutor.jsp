@@ -5,21 +5,17 @@
       <fieldset class="fieldset_zone">
         <ul class="insert_list">
           <li class="select_row">
-			<label for="requesterSituationTutor" class="label">Mesure</label>
+			<label for="requesterSituationTutor" class="label">Mesure tuteur<span class="required">*</span></label>
             <cvqf:select name="requesterSituationTutor" mode="">
-              <option value="">Choisissez un mesure</option>
+              <option value="">Choisissez un mesure tuteur</option>
               <option value="SauvegardeJustice">Sauvegarde de Justice</option>
               <option value="Tutelle">Tutelle</option>
               <option value="Curatelle">Curatelle</option>
             </cvqf:select>
           </li>
           <li class="text_row">
-			<label for="requesterSituationTutorName" class="label">Nom</label>
+			<label for="requesterSituationTutorName" class="label">Nom du tuteur ou de l'association<span class="required">*</span></label>
             <cvqf:text name="requesterSituationTutorName" mode="" maxlength="38"/>
-          </li>
-          <li class="text_row">
-			<label for="requesterSituationTutorFirstName" class="label">Prénom</label>
-            <cvqf:text name="requesterSituationTutorFirstName" mode="" maxlength="38"/>
           </li>
           <li class="text_row">
   			<label for="requesterSituationTutorAddressAdditionalDeliveryInformation" class="label">
@@ -59,9 +55,8 @@
 	</cvqf:form>
 	<script type="text/javascript">
 		function validationData() {
-   		  this.requesterSituationTutor = new Function("key","this.label='Mesure'; this.msg=null; this.required=false; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
-     		  this.requesterSituationTutorName = new Function("key","this.label='Nom'; this.msg=null; this.required=false; this.mask=/[A-Z.]*/; this.minlength=0; this.maxlength=38; this.transform='uppercase'; this.type=null; return this[key];");
-     		  this.requesterSituationTutorFirstName = new Function("key","this.label='Prénom'; this.msg=null; this.required=false; this.mask=/[A-Z]?.*/; this.minlength=0; this.maxlength=38; this.transform='firstupper'; this.type=null; return this[key];");
+   		  this.requesterSituationTutor = new Function("key","this.label='Mesure tuteur'; this.msg=null; this.required=true; this.minlength=0; this.maxlength=0; this.type=null; return this[key];");
+     		  this.requesterSituationTutorName = new Function("key","this.label='Nom du tuteur ou de l&quote;association'; this.msg=null; this.required=true; this.mask=/[A-Z.]*/; this.minlength=0; this.maxlength=38; this.transform='uppercase'; this.type=null; return this[key];");
          	  this.requesterSituationTutorAddressAdditionalDeliveryInformation = new Function("key","this.label=''; this.msg=null; this.required=false; this.minlength=0; this.maxlength=38; this.type=null; return this[key];");
 	  this.requesterSituationTutorAddressAdditionalGeographicalInformation = new Function("key","this.label=''; this.msg=null; this.required=false; this.minlength=0; this.maxlength=38; this.type=null; return this[key];");
 	  this.requesterSituationTutorAddressStreetNumber = new Function("key","this.label='Numéro'; this.msg=null; this.transform='uppercase'; this.required=false; this.minlength=0; this.maxlength=32; this.type=null; return this[key];");

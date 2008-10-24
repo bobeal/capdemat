@@ -11,18 +11,21 @@ import fr.cg95.cvq.xml.social.DomesticHelpRequestDocument.DomesticHelpRequest;
 
 public class Patrimony extends IStageForm {
 
-	private String realAssetsRealAssetCadastre;
-	private String donationsDonationAssetPlace;
-	private String donationsDonationBeneficiaryName;
-	private String savingsPaybookNumber;
-  	private String donationsDonationNotaryAddressAdditionalDeliveryInformation;
-	private String donationsDonationNotaryAddressAdditionalGeographicalInformation;
-	private String donationsDonationNotaryAddressStreetNumber;
-	private String donationsDonationNotaryAddressStreetName;
-	private String donationsDonationNotaryAddressPlaceNameOrService;
-	private String donationsDonationNotaryAddressPostalCode;
-	private String donationsDonationNotaryAddressCity;
-	private String donationsDonationAsset;
+	private String notRealAssetsAssetNotaryName;
+  	private String notRealAssetsAssetAddressAdditionalDeliveryInformation;
+	private String notRealAssetsAssetAddressAdditionalGeographicalInformation;
+	private String notRealAssetsAssetAddressStreetNumber;
+	private String notRealAssetsAssetAddressStreetName;
+	private String notRealAssetsAssetAddressPlaceNameOrService;
+	private String notRealAssetsAssetAddressPostalCode;
+	private String notRealAssetsAssetAddressCity;
+  	private String notRealAssetsAssetNotaryAddressAdditionalDeliveryInformation;
+	private String notRealAssetsAssetNotaryAddressAdditionalGeographicalInformation;
+	private String notRealAssetsAssetNotaryAddressStreetNumber;
+	private String notRealAssetsAssetNotaryAddressStreetName;
+	private String notRealAssetsAssetNotaryAddressPlaceNameOrService;
+	private String notRealAssetsAssetNotaryAddressPostalCode;
+	private String notRealAssetsAssetNotaryAddressCity;
   	private String realAssetsRealAssetAddressAdditionalDeliveryInformation;
 	private String realAssetsRealAssetAddressAdditionalGeographicalInformation;
 	private String realAssetsRealAssetAddressStreetNumber;
@@ -30,14 +33,21 @@ public class Patrimony extends IStageForm {
 	private String realAssetsRealAssetAddressPlaceNameOrService;
 	private String realAssetsRealAssetAddressPostalCode;
 	private String realAssetsRealAssetAddressCity;
+	private java.math.BigInteger notRealAssetsAssetValue;
 	private java.math.BigInteger realAssetsRealAssetNetFloorArea;
 	private java.math.BigInteger realAssetsRealAssetValue;
-	private Calendar donationsDonationDate;
-	private String donationsDonationNotaryFirstName;
-	private java.math.BigInteger savingsPaybookAmount;
-	private java.math.BigInteger donationsDonationValue;
-	private String donationsDonationBeneficiaryFirstName;
-	private String donationsDonationNotaryName;
+	private String notRealAssetsAssetBeneficiaryFirstName;
+	private String notRealAssetsAssetType;
+	private Calendar notRealAssetsAssetDate;
+	private String notRealAssetsAssetBeneficiaryName;
+  	private String notRealAssetsAssetBeneficiaryAddressAdditionalDeliveryInformation;
+	private String notRealAssetsAssetBeneficiaryAddressAdditionalGeographicalInformation;
+	private String notRealAssetsAssetBeneficiaryAddressStreetNumber;
+	private String notRealAssetsAssetBeneficiaryAddressStreetName;
+	private String notRealAssetsAssetBeneficiaryAddressPlaceNameOrService;
+	private String notRealAssetsAssetBeneficiaryAddressPostalCode;
+	private String notRealAssetsAssetBeneficiaryAddressCity;
+	private String notRealAssetsAssetKind;
 
 	public Patrimony() {
 		super();
@@ -46,15 +56,11 @@ public class Patrimony extends IStageForm {
 	public void reset(String state) {
 		if (state.equals("assets")) {
 		}
-		if (state.equals("displaydonation")) {
-		}
-		if (state.equals("displaysavings")) {
-		}
 		if (state.equals("displayassets")) {
 		}
-		if (state.equals("savings")) {
+		if (state.equals("notrealasset")) {
 		}
-		if (state.equals("donation")) {
+		if (state.equals("displaynotrealasset")) {
 		}
 	}
 	
@@ -71,14 +77,26 @@ public class Patrimony extends IStageForm {
 	}
 	
 	public boolean isComplete() {
-  		if (this.checkDonationsDonationNotaryAddressStreetName() &&
-			((this.donationsDonationNotaryAddressStreetName == null) || (this.donationsDonationNotaryAddressStreetName.length() == 0)))
+		if (this.checkNotRealAssetsAssetNotaryName() &&
+			((this.notRealAssetsAssetNotaryName == null) || (this.notRealAssetsAssetNotaryName.length() == 0)))
 			return false;
-		if (this.checkDonationsDonationNotaryAddressPostalCode() &&
-			((this.donationsDonationNotaryAddressPostalCode == null) || (this.donationsDonationNotaryAddressPostalCode.length() == 0)))
+  		if (this.checkNotRealAssetsAssetAddressStreetName() &&
+			((this.notRealAssetsAssetAddressStreetName == null) || (this.notRealAssetsAssetAddressStreetName.length() == 0)))
 			return false;
-		if (this.checkDonationsDonationNotaryAddressCity() &&
-			((this.donationsDonationNotaryAddressCity == null) || (this.donationsDonationNotaryAddressCity.length() == 0)))
+		if (this.checkNotRealAssetsAssetAddressPostalCode() &&
+			((this.notRealAssetsAssetAddressPostalCode == null) || (this.notRealAssetsAssetAddressPostalCode.length() == 0)))
+			return false;
+		if (this.checkNotRealAssetsAssetAddressCity() &&
+			((this.notRealAssetsAssetAddressCity == null) || (this.notRealAssetsAssetAddressCity.length() == 0)))
+			return false;
+  		if (this.checkNotRealAssetsAssetNotaryAddressStreetName() &&
+			((this.notRealAssetsAssetNotaryAddressStreetName == null) || (this.notRealAssetsAssetNotaryAddressStreetName.length() == 0)))
+			return false;
+		if (this.checkNotRealAssetsAssetNotaryAddressPostalCode() &&
+			((this.notRealAssetsAssetNotaryAddressPostalCode == null) || (this.notRealAssetsAssetNotaryAddressPostalCode.length() == 0)))
+			return false;
+		if (this.checkNotRealAssetsAssetNotaryAddressCity() &&
+			((this.notRealAssetsAssetNotaryAddressCity == null) || (this.notRealAssetsAssetNotaryAddressCity.length() == 0)))
 			return false;
   		if (this.checkRealAssetsRealAssetAddressStreetName() &&
 			((this.realAssetsRealAssetAddressStreetName == null) || (this.realAssetsRealAssetAddressStreetName.length() == 0)))
@@ -89,150 +107,215 @@ public class Patrimony extends IStageForm {
 		if (this.checkRealAssetsRealAssetAddressCity() &&
 			((this.realAssetsRealAssetAddressCity == null) || (this.realAssetsRealAssetAddressCity.length() == 0)))
 			return false;
+		if (this.checkNotRealAssetsAssetValue() && (this.notRealAssetsAssetValue == null))
+			return false;
+		if (this.checkRealAssetsRealAssetNetFloorArea() && (this.realAssetsRealAssetNetFloorArea == null))
+			return false;
+		if (this.checkRealAssetsRealAssetValue() && (this.realAssetsRealAssetValue == null))
+			return false;
+		if (this.checkNotRealAssetsAssetBeneficiaryFirstName() &&
+			((this.notRealAssetsAssetBeneficiaryFirstName == null) || (this.notRealAssetsAssetBeneficiaryFirstName.length() == 0)))
+			return false;
+		if (this.checkNotRealAssetsAssetType() &&
+			((this.notRealAssetsAssetType == null) || (this.notRealAssetsAssetType.length() == 0)))
+			return false;
+		if (this.checkNotRealAssetsAssetDate() && (this.notRealAssetsAssetDate == null))
+			return false;
+		if (this.checkNotRealAssetsAssetBeneficiaryName() &&
+			((this.notRealAssetsAssetBeneficiaryName == null) || (this.notRealAssetsAssetBeneficiaryName.length() == 0)))
+			return false;
+  		if (this.checkNotRealAssetsAssetBeneficiaryAddressStreetName() &&
+			((this.notRealAssetsAssetBeneficiaryAddressStreetName == null) || (this.notRealAssetsAssetBeneficiaryAddressStreetName.length() == 0)))
+			return false;
+		if (this.checkNotRealAssetsAssetBeneficiaryAddressPostalCode() &&
+			((this.notRealAssetsAssetBeneficiaryAddressPostalCode == null) || (this.notRealAssetsAssetBeneficiaryAddressPostalCode.length() == 0)))
+			return false;
+		if (this.checkNotRealAssetsAssetBeneficiaryAddressCity() &&
+			((this.notRealAssetsAssetBeneficiaryAddressCity == null) || (this.notRealAssetsAssetBeneficiaryAddressCity.length() == 0)))
+			return false;
+		if (this.checkNotRealAssetsAssetKind() &&
+			((this.notRealAssetsAssetKind == null) || (this.notRealAssetsAssetKind.length() == 0)))
+			return false;
 		return true;
 	}
 	
-	public void setRealAssetsRealAssetCadastre(String realAssetsRealAssetCadastre) {
-		this.realAssetsRealAssetCadastre = realAssetsRealAssetCadastre;
+	public void setNotRealAssetsAssetNotaryName(String notRealAssetsAssetNotaryName) {
+		this.notRealAssetsAssetNotaryName = notRealAssetsAssetNotaryName;
 	}
 	
-	public String getRealAssetsRealAssetCadastre() {
-		return this.realAssetsRealAssetCadastre;
+	public String getNotRealAssetsAssetNotaryName() {
+		return this.notRealAssetsAssetNotaryName;
 	}
 	
-	public boolean checkRealAssetsRealAssetCadastre() {
-		return true;
-	}
-
-	public void setDonationsDonationAssetPlace(String donationsDonationAssetPlace) {
-		this.donationsDonationAssetPlace = donationsDonationAssetPlace;
-	}
-	
-	public String getDonationsDonationAssetPlace() {
-		return this.donationsDonationAssetPlace;
-	}
-	
-	public boolean checkDonationsDonationAssetPlace() {
-		return true;
-	}
-
-	public void setDonationsDonationBeneficiaryName(String donationsDonationBeneficiaryName) {
-		this.donationsDonationBeneficiaryName = donationsDonationBeneficiaryName;
-	}
-	
-	public String getDonationsDonationBeneficiaryName() {
-		return this.donationsDonationBeneficiaryName;
-	}
-	
-	public boolean checkDonationsDonationBeneficiaryName() {
-		return true;
-	}
-
-	public void setSavingsPaybookNumber(String savingsPaybookNumber) {
-		this.savingsPaybookNumber = savingsPaybookNumber;
-	}
-	
-	public String getSavingsPaybookNumber() {
-		return this.savingsPaybookNumber;
-	}
-	
-	public boolean checkSavingsPaybookNumber() {
+	public boolean checkNotRealAssetsAssetNotaryName() {
 		return true;
 	}
 
-  	public void setDonationsDonationNotaryAddressAdditionalDeliveryInformation(String donationsDonationNotaryAddressAdditionalDeliveryInformation) {
-		this.donationsDonationNotaryAddressAdditionalDeliveryInformation = donationsDonationNotaryAddressAdditionalDeliveryInformation;
+  	public void setNotRealAssetsAssetAddressAdditionalDeliveryInformation(String notRealAssetsAssetAddressAdditionalDeliveryInformation) {
+		this.notRealAssetsAssetAddressAdditionalDeliveryInformation = notRealAssetsAssetAddressAdditionalDeliveryInformation;
 	}
 	
-	public String getDonationsDonationNotaryAddressAdditionalDeliveryInformation() {
-		return this.donationsDonationNotaryAddressAdditionalDeliveryInformation;
+	public String getNotRealAssetsAssetAddressAdditionalDeliveryInformation() {
+		return this.notRealAssetsAssetAddressAdditionalDeliveryInformation;
 	}
 	
-	public boolean checkDonationsDonationNotaryAddressAdditionalDeliveryInformation() {
+	public boolean checkNotRealAssetsAssetAddressAdditionalDeliveryInformation() {
 		return true;
 	}
 
-	public void setDonationsDonationNotaryAddressAdditionalGeographicalInformation(String donationsDonationNotaryAddressAdditionalGeographicalInformation) {
-		this.donationsDonationNotaryAddressAdditionalGeographicalInformation = donationsDonationNotaryAddressAdditionalGeographicalInformation;
+	public void setNotRealAssetsAssetAddressAdditionalGeographicalInformation(String notRealAssetsAssetAddressAdditionalGeographicalInformation) {
+		this.notRealAssetsAssetAddressAdditionalGeographicalInformation = notRealAssetsAssetAddressAdditionalGeographicalInformation;
 	}
 	
-	public String getDonationsDonationNotaryAddressAdditionalGeographicalInformation() {
-		return this.donationsDonationNotaryAddressAdditionalGeographicalInformation;
+	public String getNotRealAssetsAssetAddressAdditionalGeographicalInformation() {
+		return this.notRealAssetsAssetAddressAdditionalGeographicalInformation;
 	}
 	
-	public boolean checkDonationsDonationNotaryAddressAdditionalGeographicalInformation() {
+	public boolean checkNotRealAssetsAssetAddressAdditionalGeographicalInformation() {
 		return true;
 	}
 
-	public void setDonationsDonationNotaryAddressStreetNumber(String donationsDonationNotaryAddressStreetNumber) {
-		this.donationsDonationNotaryAddressStreetNumber = donationsDonationNotaryAddressStreetNumber;
+	public void setNotRealAssetsAssetAddressStreetNumber(String notRealAssetsAssetAddressStreetNumber) {
+		this.notRealAssetsAssetAddressStreetNumber = notRealAssetsAssetAddressStreetNumber;
 	}
 	
-	public String getDonationsDonationNotaryAddressStreetNumber() {
-		return this.donationsDonationNotaryAddressStreetNumber;
+	public String getNotRealAssetsAssetAddressStreetNumber() {
+		return this.notRealAssetsAssetAddressStreetNumber;
 	}
 	
-	public boolean checkDonationsDonationNotaryAddressStreetNumber() {
+	public boolean checkNotRealAssetsAssetAddressStreetNumber() {
 		return true;
 	}
 
-	public void setDonationsDonationNotaryAddressStreetName(String donationsDonationNotaryAddressStreetName) {
-		this.donationsDonationNotaryAddressStreetName = donationsDonationNotaryAddressStreetName;
+	public void setNotRealAssetsAssetAddressStreetName(String notRealAssetsAssetAddressStreetName) {
+		this.notRealAssetsAssetAddressStreetName = notRealAssetsAssetAddressStreetName;
 	}
 	
-	public String getDonationsDonationNotaryAddressStreetName() {
-		return this.donationsDonationNotaryAddressStreetName;
+	public String getNotRealAssetsAssetAddressStreetName() {
+		return this.notRealAssetsAssetAddressStreetName;
 	}
 	
-	public boolean checkDonationsDonationNotaryAddressStreetName() {
+	public boolean checkNotRealAssetsAssetAddressStreetName() {
+		return notRealAssetsAssetKind.equals("RealEstate");
+	}
+
+	public void setNotRealAssetsAssetAddressPlaceNameOrService(String notRealAssetsAssetAddressPlaceNameOrService) {
+		this.notRealAssetsAssetAddressPlaceNameOrService = notRealAssetsAssetAddressPlaceNameOrService;
+	}
+	
+	public String getNotRealAssetsAssetAddressPlaceNameOrService() {
+		return this.notRealAssetsAssetAddressPlaceNameOrService;
+	}
+	
+	public boolean checkNotRealAssetsAssetAddressPlaceNameOrService() {
 		return true;
 	}
 
-	public void setDonationsDonationNotaryAddressPlaceNameOrService(String donationsDonationNotaryAddressPlaceNameOrService) {
-		this.donationsDonationNotaryAddressPlaceNameOrService = donationsDonationNotaryAddressPlaceNameOrService;
+	public void setNotRealAssetsAssetAddressPostalCode(String notRealAssetsAssetAddressPostalCode) {
+		this.notRealAssetsAssetAddressPostalCode = notRealAssetsAssetAddressPostalCode;
 	}
 	
-	public String getDonationsDonationNotaryAddressPlaceNameOrService() {
-		return this.donationsDonationNotaryAddressPlaceNameOrService;
+	public String getNotRealAssetsAssetAddressPostalCode() {
+		return this.notRealAssetsAssetAddressPostalCode;
 	}
 	
-	public boolean checkDonationsDonationNotaryAddressPlaceNameOrService() {
+	public boolean checkNotRealAssetsAssetAddressPostalCode() {
+		return notRealAssetsAssetKind.equals("RealEstate");
+	}
+
+	public void setNotRealAssetsAssetAddressCity(String notRealAssetsAssetAddressCity) {
+		this.notRealAssetsAssetAddressCity = notRealAssetsAssetAddressCity;
+	}
+	
+	public String getNotRealAssetsAssetAddressCity() {
+		return this.notRealAssetsAssetAddressCity;
+	}
+	
+	public boolean checkNotRealAssetsAssetAddressCity() {
+		return notRealAssetsAssetKind.equals("RealEstate");
+	}
+
+  	public void setNotRealAssetsAssetNotaryAddressAdditionalDeliveryInformation(String notRealAssetsAssetNotaryAddressAdditionalDeliveryInformation) {
+		this.notRealAssetsAssetNotaryAddressAdditionalDeliveryInformation = notRealAssetsAssetNotaryAddressAdditionalDeliveryInformation;
+	}
+	
+	public String getNotRealAssetsAssetNotaryAddressAdditionalDeliveryInformation() {
+		return this.notRealAssetsAssetNotaryAddressAdditionalDeliveryInformation;
+	}
+	
+	public boolean checkNotRealAssetsAssetNotaryAddressAdditionalDeliveryInformation() {
 		return true;
 	}
 
-	public void setDonationsDonationNotaryAddressPostalCode(String donationsDonationNotaryAddressPostalCode) {
-		this.donationsDonationNotaryAddressPostalCode = donationsDonationNotaryAddressPostalCode;
+	public void setNotRealAssetsAssetNotaryAddressAdditionalGeographicalInformation(String notRealAssetsAssetNotaryAddressAdditionalGeographicalInformation) {
+		this.notRealAssetsAssetNotaryAddressAdditionalGeographicalInformation = notRealAssetsAssetNotaryAddressAdditionalGeographicalInformation;
 	}
 	
-	public String getDonationsDonationNotaryAddressPostalCode() {
-		return this.donationsDonationNotaryAddressPostalCode;
+	public String getNotRealAssetsAssetNotaryAddressAdditionalGeographicalInformation() {
+		return this.notRealAssetsAssetNotaryAddressAdditionalGeographicalInformation;
 	}
 	
-	public boolean checkDonationsDonationNotaryAddressPostalCode() {
+	public boolean checkNotRealAssetsAssetNotaryAddressAdditionalGeographicalInformation() {
 		return true;
 	}
 
-	public void setDonationsDonationNotaryAddressCity(String donationsDonationNotaryAddressCity) {
-		this.donationsDonationNotaryAddressCity = donationsDonationNotaryAddressCity;
+	public void setNotRealAssetsAssetNotaryAddressStreetNumber(String notRealAssetsAssetNotaryAddressStreetNumber) {
+		this.notRealAssetsAssetNotaryAddressStreetNumber = notRealAssetsAssetNotaryAddressStreetNumber;
 	}
 	
-	public String getDonationsDonationNotaryAddressCity() {
-		return this.donationsDonationNotaryAddressCity;
+	public String getNotRealAssetsAssetNotaryAddressStreetNumber() {
+		return this.notRealAssetsAssetNotaryAddressStreetNumber;
 	}
 	
-	public boolean checkDonationsDonationNotaryAddressCity() {
+	public boolean checkNotRealAssetsAssetNotaryAddressStreetNumber() {
 		return true;
 	}
 
-	public void setDonationsDonationAsset(String donationsDonationAsset) {
-		this.donationsDonationAsset = donationsDonationAsset;
+	public void setNotRealAssetsAssetNotaryAddressStreetName(String notRealAssetsAssetNotaryAddressStreetName) {
+		this.notRealAssetsAssetNotaryAddressStreetName = notRealAssetsAssetNotaryAddressStreetName;
 	}
 	
-	public String getDonationsDonationAsset() {
-		return this.donationsDonationAsset;
+	public String getNotRealAssetsAssetNotaryAddressStreetName() {
+		return this.notRealAssetsAssetNotaryAddressStreetName;
 	}
 	
-	public boolean checkDonationsDonationAsset() {
+	public boolean checkNotRealAssetsAssetNotaryAddressStreetName() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetNotaryAddressPlaceNameOrService(String notRealAssetsAssetNotaryAddressPlaceNameOrService) {
+		this.notRealAssetsAssetNotaryAddressPlaceNameOrService = notRealAssetsAssetNotaryAddressPlaceNameOrService;
+	}
+	
+	public String getNotRealAssetsAssetNotaryAddressPlaceNameOrService() {
+		return this.notRealAssetsAssetNotaryAddressPlaceNameOrService;
+	}
+	
+	public boolean checkNotRealAssetsAssetNotaryAddressPlaceNameOrService() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetNotaryAddressPostalCode(String notRealAssetsAssetNotaryAddressPostalCode) {
+		this.notRealAssetsAssetNotaryAddressPostalCode = notRealAssetsAssetNotaryAddressPostalCode;
+	}
+	
+	public String getNotRealAssetsAssetNotaryAddressPostalCode() {
+		return this.notRealAssetsAssetNotaryAddressPostalCode;
+	}
+	
+	public boolean checkNotRealAssetsAssetNotaryAddressPostalCode() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetNotaryAddressCity(String notRealAssetsAssetNotaryAddressCity) {
+		this.notRealAssetsAssetNotaryAddressCity = notRealAssetsAssetNotaryAddressCity;
+	}
+	
+	public String getNotRealAssetsAssetNotaryAddressCity() {
+		return this.notRealAssetsAssetNotaryAddressCity;
+	}
+	
+	public boolean checkNotRealAssetsAssetNotaryAddressCity() {
 		return true;
 	}
 
@@ -320,6 +403,18 @@ public class Patrimony extends IStageForm {
 		return true;
 	}
 
+	public void setNotRealAssetsAssetValue(java.math.BigInteger notRealAssetsAssetValue) {
+		this.notRealAssetsAssetValue = notRealAssetsAssetValue;
+	}
+	
+	public java.math.BigInteger getNotRealAssetsAssetValue() {
+		return this.notRealAssetsAssetValue;
+	}
+	
+	public boolean checkNotRealAssetsAssetValue() {
+		return true;
+	}
+
 	public void setRealAssetsRealAssetNetFloorArea(java.math.BigInteger realAssetsRealAssetNetFloorArea) {
 		this.realAssetsRealAssetNetFloorArea = realAssetsRealAssetNetFloorArea;
 	}
@@ -344,75 +439,147 @@ public class Patrimony extends IStageForm {
 		return true;
 	}
 
-	public void setDonationsDonationDate(Calendar donationsDonationDate) {
-		this.donationsDonationDate = donationsDonationDate;
+	public void setNotRealAssetsAssetBeneficiaryFirstName(String notRealAssetsAssetBeneficiaryFirstName) {
+		this.notRealAssetsAssetBeneficiaryFirstName = notRealAssetsAssetBeneficiaryFirstName;
 	}
 	
-	public Calendar getDonationsDonationDate() {
-		return this.donationsDonationDate;
+	public String getNotRealAssetsAssetBeneficiaryFirstName() {
+		return this.notRealAssetsAssetBeneficiaryFirstName;
 	}
 	
-	public boolean checkDonationsDonationDate() {
+	public boolean checkNotRealAssetsAssetBeneficiaryFirstName() {
 		return true;
 	}
 
-	public void setDonationsDonationNotaryFirstName(String donationsDonationNotaryFirstName) {
-		this.donationsDonationNotaryFirstName = donationsDonationNotaryFirstName;
+	public void setNotRealAssetsAssetType(String notRealAssetsAssetType) {
+		this.notRealAssetsAssetType = notRealAssetsAssetType;
 	}
 	
-	public String getDonationsDonationNotaryFirstName() {
-		return this.donationsDonationNotaryFirstName;
+	public String getNotRealAssetsAssetType() {
+		return this.notRealAssetsAssetType;
 	}
 	
-	public boolean checkDonationsDonationNotaryFirstName() {
+	public boolean checkNotRealAssetsAssetType() {
 		return true;
 	}
 
-	public void setSavingsPaybookAmount(java.math.BigInteger savingsPaybookAmount) {
-		this.savingsPaybookAmount = savingsPaybookAmount;
+	public void setNotRealAssetsAssetDate(Calendar notRealAssetsAssetDate) {
+		this.notRealAssetsAssetDate = notRealAssetsAssetDate;
 	}
 	
-	public java.math.BigInteger getSavingsPaybookAmount() {
-		return this.savingsPaybookAmount;
+	public Calendar getNotRealAssetsAssetDate() {
+		return this.notRealAssetsAssetDate;
 	}
 	
-	public boolean checkSavingsPaybookAmount() {
+	public boolean checkNotRealAssetsAssetDate() {
 		return true;
 	}
 
-	public void setDonationsDonationValue(java.math.BigInteger donationsDonationValue) {
-		this.donationsDonationValue = donationsDonationValue;
+	public void setNotRealAssetsAssetBeneficiaryName(String notRealAssetsAssetBeneficiaryName) {
+		this.notRealAssetsAssetBeneficiaryName = notRealAssetsAssetBeneficiaryName;
 	}
 	
-	public java.math.BigInteger getDonationsDonationValue() {
-		return this.donationsDonationValue;
+	public String getNotRealAssetsAssetBeneficiaryName() {
+		return this.notRealAssetsAssetBeneficiaryName;
 	}
 	
-	public boolean checkDonationsDonationValue() {
+	public boolean checkNotRealAssetsAssetBeneficiaryName() {
 		return true;
 	}
 
-	public void setDonationsDonationBeneficiaryFirstName(String donationsDonationBeneficiaryFirstName) {
-		this.donationsDonationBeneficiaryFirstName = donationsDonationBeneficiaryFirstName;
+  	public void setNotRealAssetsAssetBeneficiaryAddressAdditionalDeliveryInformation(String notRealAssetsAssetBeneficiaryAddressAdditionalDeliveryInformation) {
+		this.notRealAssetsAssetBeneficiaryAddressAdditionalDeliveryInformation = notRealAssetsAssetBeneficiaryAddressAdditionalDeliveryInformation;
 	}
 	
-	public String getDonationsDonationBeneficiaryFirstName() {
-		return this.donationsDonationBeneficiaryFirstName;
+	public String getNotRealAssetsAssetBeneficiaryAddressAdditionalDeliveryInformation() {
+		return this.notRealAssetsAssetBeneficiaryAddressAdditionalDeliveryInformation;
 	}
 	
-	public boolean checkDonationsDonationBeneficiaryFirstName() {
+	public boolean checkNotRealAssetsAssetBeneficiaryAddressAdditionalDeliveryInformation() {
 		return true;
 	}
 
-	public void setDonationsDonationNotaryName(String donationsDonationNotaryName) {
-		this.donationsDonationNotaryName = donationsDonationNotaryName;
+	public void setNotRealAssetsAssetBeneficiaryAddressAdditionalGeographicalInformation(String notRealAssetsAssetBeneficiaryAddressAdditionalGeographicalInformation) {
+		this.notRealAssetsAssetBeneficiaryAddressAdditionalGeographicalInformation = notRealAssetsAssetBeneficiaryAddressAdditionalGeographicalInformation;
 	}
 	
-	public String getDonationsDonationNotaryName() {
-		return this.donationsDonationNotaryName;
+	public String getNotRealAssetsAssetBeneficiaryAddressAdditionalGeographicalInformation() {
+		return this.notRealAssetsAssetBeneficiaryAddressAdditionalGeographicalInformation;
 	}
 	
-	public boolean checkDonationsDonationNotaryName() {
+	public boolean checkNotRealAssetsAssetBeneficiaryAddressAdditionalGeographicalInformation() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetBeneficiaryAddressStreetNumber(String notRealAssetsAssetBeneficiaryAddressStreetNumber) {
+		this.notRealAssetsAssetBeneficiaryAddressStreetNumber = notRealAssetsAssetBeneficiaryAddressStreetNumber;
+	}
+	
+	public String getNotRealAssetsAssetBeneficiaryAddressStreetNumber() {
+		return this.notRealAssetsAssetBeneficiaryAddressStreetNumber;
+	}
+	
+	public boolean checkNotRealAssetsAssetBeneficiaryAddressStreetNumber() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetBeneficiaryAddressStreetName(String notRealAssetsAssetBeneficiaryAddressStreetName) {
+		this.notRealAssetsAssetBeneficiaryAddressStreetName = notRealAssetsAssetBeneficiaryAddressStreetName;
+	}
+	
+	public String getNotRealAssetsAssetBeneficiaryAddressStreetName() {
+		return this.notRealAssetsAssetBeneficiaryAddressStreetName;
+	}
+	
+	public boolean checkNotRealAssetsAssetBeneficiaryAddressStreetName() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetBeneficiaryAddressPlaceNameOrService(String notRealAssetsAssetBeneficiaryAddressPlaceNameOrService) {
+		this.notRealAssetsAssetBeneficiaryAddressPlaceNameOrService = notRealAssetsAssetBeneficiaryAddressPlaceNameOrService;
+	}
+	
+	public String getNotRealAssetsAssetBeneficiaryAddressPlaceNameOrService() {
+		return this.notRealAssetsAssetBeneficiaryAddressPlaceNameOrService;
+	}
+	
+	public boolean checkNotRealAssetsAssetBeneficiaryAddressPlaceNameOrService() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetBeneficiaryAddressPostalCode(String notRealAssetsAssetBeneficiaryAddressPostalCode) {
+		this.notRealAssetsAssetBeneficiaryAddressPostalCode = notRealAssetsAssetBeneficiaryAddressPostalCode;
+	}
+	
+	public String getNotRealAssetsAssetBeneficiaryAddressPostalCode() {
+		return this.notRealAssetsAssetBeneficiaryAddressPostalCode;
+	}
+	
+	public boolean checkNotRealAssetsAssetBeneficiaryAddressPostalCode() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetBeneficiaryAddressCity(String notRealAssetsAssetBeneficiaryAddressCity) {
+		this.notRealAssetsAssetBeneficiaryAddressCity = notRealAssetsAssetBeneficiaryAddressCity;
+	}
+	
+	public String getNotRealAssetsAssetBeneficiaryAddressCity() {
+		return this.notRealAssetsAssetBeneficiaryAddressCity;
+	}
+	
+	public boolean checkNotRealAssetsAssetBeneficiaryAddressCity() {
+		return true;
+	}
+
+	public void setNotRealAssetsAssetKind(String notRealAssetsAssetKind) {
+		this.notRealAssetsAssetKind = notRealAssetsAssetKind;
+	}
+	
+	public String getNotRealAssetsAssetKind() {
+		return this.notRealAssetsAssetKind;
+	}
+	
+	public boolean checkNotRealAssetsAssetKind() {
 		return true;
 	}
 

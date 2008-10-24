@@ -67,6 +67,8 @@ public class Nature extends IStageForm {
 		if (this.checkBirthFirstNames() &&
 			((this.birthFirstNames == null) || (this.birthFirstNames.length() == 0)))
 			return false;
+		if (this.checkBirthDate() && (this.birthDate == null))
+			return false;
 		if (this.checkBirthLastName() &&
 			((this.birthLastName == null) || (this.birthLastName.length() == 0)))
 			return false;

@@ -32,7 +32,7 @@ class RequestInstructionController {
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
     IAgentService agentService
-   
+    
     def translationService
     
     def defaultAction = "edit"
@@ -42,6 +42,7 @@ class RequestInstructionController {
     }
     
     def edit = {
+        
 		    def request = defaultRequestService.getById(Long.valueOf(params.id))
 		    def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
 		
@@ -81,11 +82,11 @@ class RequestInstructionController {
 		    if (request instanceof  fr.cg95.cvq.business.ecitizen.VoCardRequest
 		        || request instanceof fr.cg95.cvq.business.request.HomeFolderModificationRequest) {
 		        adults = homeFolderService.getAdults(request.homeFolder.id)
-            children = homeFolderService.getChildren(request.homeFolder.id)
-            children.each {
-              clr.put(it.id, childService.getLegalResponsibles(it.id))
-            }
-        }
+		        children = homeFolderService.getChildren(request.homeFolder.id)
+		        children.each {
+		        	clr.put(it.id, childService.getLegalResponsibles(it.id))
+		        }
+		    }
 
 		    [ "request": request,
 		      "adults" : adults,
@@ -98,45 +99,49 @@ class RequestInstructionController {
 		    ]
     }
     
+    
+    /* request data inline edition managment
+    * --------------------------------------------------------------------- */
+    
     def widget = {
-        def widgetMap = [ string:"string", email:"string", number:"string", string:"string",
+        def widgetMap = [ string:"string", email:"string", number:"string", 
                           date:"date", address:"address", capdematEnum:"capdematEnum" ]
         
-        // tp implementation          
+        // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
-        def individualIdTokens = params.propertyName.tokenize("[]")
         
         def propertyTypeList = params.propertyType.tokenize(" ")
+        // one of the widgetMap keys
+        def propertyType = propertyTypeList[0]
+        
+        def model = ["requestId": Long.valueOf(params.id),
+                     "individualId": params.propertyName.tokenize("[]")[1],
+                     // the "simple" property name, with de-referencement
+                     "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                     // the "fully qualifier" property name
+                     "propertyName": params.propertyName,
+                     "propertyType": propertyType,
+                     "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""]
         
         def propertyValue
-        def allPropertyValue = []
-        def i18nKeyPrefix
-        if (propertyTypeList[0] == "address")
+        if (propertyType == "address") {
             propertyValue = JSON.parse(params.propertyValue)
-        else if (propertyTypeList[0] == "capdematEnum") {
+        } else if (propertyType == "capdematEnum") {
             def propertyJavaType = propertyTypeList[1].tokenize(".")
-            allPropertyValue = Class.forName(propertyTypeList[1])
+            def allPropertyValue = Class.forName(propertyTypeList[1])
                     .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
             
+            model["allPropertyValue"] = allPropertyValue
             def propertyValueTokens = params.propertyValue.tokenize(" ")
             propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
-        }
-        else if (propertyTypeList[0] != "address")
+            // will contain the fully qualified class name of the "CapDemat enum" class
+            model["propertyValueType"] = propertyTypeList[1]
+        } else {
             propertyValue = params.propertyValue
-            
-        render( template: "/requestInstruction/widget/" + widgetMap[propertyTypeList[0]],
-                model:
-                    [ "requestId": Long.valueOf(params.id),
-                    
-                      "individualId": individualIdTokens[1],
-                      "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
-                      
-                      "propertyName": params.propertyName,
-                      "propertyValue": propertyValue,
-                      "allPropertyValue" : allPropertyValue,
-                      "propertyType": propertyTypeList[0],
-                      "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""
-                    ])
+        }
+        model["propertyValue"] = propertyValue
+        
+        render( template: "/requestInstruction/widget/" + widgetMap[propertyType], model:model)
     }
     
     def modify = {
@@ -144,8 +149,14 @@ class RequestInstructionController {
              return
         try {
           def individual = individualService.getById(Long.valueOf(params.individualId))
-          bindData(individual, params)
-            
+          
+          log.debug("Binder custum editor PersistentStringEnum = " +
+              getBinder(individual)
+                  .propertyEditorRegistry
+                  .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
+          )
+          bind(individual)
+
           render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             ce.printStackTrace()
@@ -153,6 +164,10 @@ class RequestInstructionController {
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }
     }
+    
+    
+    /* request state workflow managment
+    * --------------------------------------------------------------------- */
     
     def stateTransitions = {
         def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
@@ -217,6 +232,9 @@ class RequestInstructionController {
         }            
     }
     
+    /* Document managment
+    * --------------------------------------------------------------------- */
+     
     def document = {
         def document = documentService.getById(Long.valueOf(params.id))
         
@@ -265,22 +283,43 @@ class RequestInstructionController {
         response.outputStream << documentBinary.data
     }
     
+    
+    def documentStates = {
+        def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
+
+        def transitionStates =
+            documentService.getPossibleTransitions(DocumentState.forString(stateAsString))
+             
+        def states = []
+        transitionStates.each { 
+            states.add(CapdematUtils.adaptCapdematState(it, "document.state"))
+        }
+        
+        render( template: "requestDocumentStates", 
+                model: [
+                    "endValidityDate": DateUtils.systemStringToDate(params.endValidityDate),
+                    "states": states, 
+                    "stateType": "documentType", 
+                    "documentId": params.id
+                ])
+    }
+    
     def modifyDocument = {
         def document = documentService.getById(Long.valueOf(params.documentId))
-        
-        document.endValidityDate = params.endValidityDate == "" ? 
-                document.endValidityDate : DateUtils.stringToDate(params.endValidityDate)
-        document.agentNote = params.agentNote
-        
+        bind(document)
         try {
             documentService.modify(document)
             render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             ce.printStackTrace()
-            log.error "postNewState() error while updating state (request, data, or document)"
+            log.error "modifyDocument()"
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }            
+        }
     }
+    
+    
+    /* eCitizen contact managment
+    * --------------------------------------------------------------------- */
     
     // TODO : rename action
     def contactInformation = {
@@ -344,6 +383,10 @@ class RequestInstructionController {
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }            
     }
+    
+    
+    /*  request information  managment
+    * --------------------------------------------------------------------- */
     
     def homeFolder = {
 //        def homeFolder = homeFolderService.getByrequestId(Long.valueOf(params.id))

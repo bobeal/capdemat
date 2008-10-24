@@ -91,7 +91,7 @@ zenexity.capdemat.bong.categoryAgent = function() {
             }
             
           } else {
-            zcc.displayResponseResult("modelError", response.error_msg);
+            zcc.Notifier.processMessage('modelError',response.success_msg);
           }
         });
   }
@@ -131,7 +131,7 @@ zenexity.capdemat.bong.categoryAgent = function() {
             
             updateAgentProfile(agentId, "unassociate");
           } else {
-            zcc.displayResponseResult("modelError", response.error_msg);
+            zcc.Notifier.processMessage('modelError',response.success_msg);
           }
         });
   }
@@ -147,21 +147,22 @@ zenexity.capdemat.bong.categoryAgent = function() {
           agentId = parentTargetEl.id.replace("agent_", "")
           : agentId = parentTargetEl.parentNode.id.replace("agent_", "");
         
-        switch (targetEl.className) {
-          case "associate" :
-            viewAgentEditForm(agentId, targetEl.className); break;
-          case "unassociate" :
-            unassociateAgentToCategory(agentId); break;
-          case "editItem" :
-            viewAgentEditForm(agentId, targetEl.className); break;
-          case "submitEditItem" :
-            if (FIC_checkForm(e, yud.get("agentEditForm_" + agentId + "Errors")))
-              submitAgentEditForm(agentId);
-            break;
-          case "cancelEditItem" :
-            cancelAgentEditForm(agentId); break;
-          default: break;
+        if (yud.hasClass(targetEl, "associate") && !yud.hasClass(targetEl, "currentEditItem"))
+          viewAgentEditForm(agentId, "associate");
+        
+        else if (yud.hasClass(targetEl, "unassociate"))
+          unassociateAgentToCategory(agentId);
+        
+        else if (yud.hasClass(targetEl, "editItem") && !yud.hasClass(targetEl, "currentEditItem"))
+          viewAgentEditForm(agentId, "editItem");
+        
+        else if (yud.hasClass(targetEl, "submitEditItem")) {
+          if (FIC_checkForm(e, yud.get("agentEditForm_" + agentId + "Errors")))
+            submitAgentEditForm(agentId);
         }
+        
+        else if (yud.hasClass(targetEl, "cancelEditItem"))
+          cancelAgentEditForm(agentId);
       });
      
   return {

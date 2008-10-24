@@ -11,10 +11,11 @@
     <property name="displayTitle" value="Conseil Général du Val d'Oise"/>
     <property name="urls">
       <list>
+        <value>10.0.0.46</value>
         <value>localhost</value>
+        <value>10.0.0.17</value>
         <value>127.0.0.1</value>
         <value>vosdemarches.valdoise.fr</value>
-        <value>cartevaloise.valdoise.fr</value>
       </list>
     </property>
     <property name="foAccountTabs">
@@ -159,7 +160,6 @@
             </property>
           </bean>
         </entry>
-        <!--
         <entry>
           <key>
             <ref bean="wynidPaymentProvider" />
@@ -335,13 +335,13 @@
       <value>org.postgresql.Driver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/capdemat_valdoise_ng</value>
+      <value>jdbc:postgresql://localhost:5432/capdemat_valdoise_paph</value>
     </property>
     <property name="user">
-      <value>capdemat</value>
+      <value>cvq95</value>
     </property>
     <property name="password">
-      <value>capdematpass</value>
+      <value>cvq95pass</value>
     </property>
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />

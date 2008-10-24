@@ -128,8 +128,6 @@ public interface IRequestService {
             final int recordsReturned, final int startIndex)
         throws CvqException;
     
-    File getTemplateByName(String name);
-    
     Long getCount(Set<Critere> criteriaSet) throws CvqException;
     
     /**
@@ -405,8 +403,23 @@ public interface IRequestService {
     
     RequestForm getRequestFormById(Long id) throws CvqException;
     
+    /**
+     * TODO : make its contract more explicit.
+     */
+    File getTemplateByName(String name);
+    
+    /**
+     * TODO : make its contract more explicit.
+     */
     List<File> getMailTemplates(String pattern) throws CvqException;
     
+    /**
+     * Method that process request form update/creation. 
+     * 
+     * Defines by itself which kind of processing has to be produced.
+     * 
+     * @return request form id
+     */
     Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) throws CvqException;
     
     /**
@@ -447,6 +460,16 @@ public interface IRequestService {
      */
     void removeRequestTypeForm(final Long requestTypeId, final Long requestFormId)
         throws CvqException;
+    
+    /**
+     * Remove a requestForm
+     * <ul>
+     *  <li>delete model association</li>
+     *  <li>remove the requestForm file stored in '&lt;asset_dir&gt;/&lt;local_authority&gt;/xsl'</li>
+     * </ul>
+     */
+    void removeRequestTypeForm(final Long requestFormId) throws CvqException;
+    
     /**
      * Get requestForms by request_type and by request_form_type
      */

@@ -1,6 +1,6 @@
 package fr.cg95.cvq.business.technical;
 
-import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.xml.common.*;

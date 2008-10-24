@@ -40,6 +40,10 @@ public class Absencedate extends IStageForm {
 	}
 	
 	public boolean isComplete() {
+		if (this.checkAbsenceStartDate() && (this.absenceStartDate == null))
+			return false;
+		if (this.checkAbsenceEndDate() && (this.absenceEndDate == null))
+			return false;
 		return true;
 	}
 	

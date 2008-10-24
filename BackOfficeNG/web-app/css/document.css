@@ -1,0 +1,86 @@
+/* --------------------------------------------------------------
+
+    document managment special styles
+
+-------------------------------------------------------------- */
+
+
+/* request document panel
+ * TODO : merge panel style
+-------------------------------------------------------------- */
+
+#requestDocumentPanel {
+  padding: 0;
+  border: 6px solid #636e80;
+  -moz-border-radius: .5em; -webkit-border-radius: .5em;
+  background: #ffffff;
+}
+
+#requestDocumentPanel a       { font-size: 1em; color: #000; text-decoration: none; }
+#requestDocumentPanel a:hover { color: #000; background: transparent; text-decoration: underline; }
+
+#requestDocumentPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
+#requestDocumentPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
+
+#requestDocumentPanel .bd h1 { 
+  margin: 0 0 1em 0; padding: .5em 0;
+  font-size: 1.8em;
+  font-weight: normal;
+  border-bottom: 1px dashed #000000;
+  overflow: auto;
+}
+
+#requestDocumentPanel .bd h1 #documentState        { float: right;  margin: 0; cursor: pointer; font-size: .8em; }
+#requestDocumentPanel .bd h1 #documentState:hover  { color: #000000; border-color: #000000; }
+#requestDocumentPanel .bd h1 #documentEndValidityDate,
+#requestDocumentPanel .bd h1 #documentDepositType,
+#requestDocumentPanel .bd h1 #documentOrigin       { float: left;  margin: 0 .5em 0 0; font-size: .6em }
+
+/* yui tabview special rendering */
+.yui-skin-sam #requestDocumentPanel .bd .yellow-yui-tabview .yui-content, 
+.yui-skin-sam #requestDocumentPanel .bd .yellow-yui-tabview .yui-navset-top .yui-content { 
+  border-width: 1px 0;
+  text-align: center;
+  padding: 1em 0;
+}
+
+#requestDocumentPanel #requestDocumentData img { max-width: 100%; }
+
+#requestDocumentPanel #documentMetaData { margin : 2em 0 0 0; }
+/* list */
+#requestDocumentPanel #documentMetaData .yui-content ul         { margin: 10px; color: #333;}
+#requestDocumentPanel #documentMetaData .yui-content ul li      { padding: .5em 0 .5em 0; border-bottom:1px dashed #C1CFE2; }
+/* for tag floating TODO : to be refactor */
+#requestDocumentPanel #documentMetaData .yui-content ul li span { float: right; }
+
+
+/* Change state block 
+ * -------------------------------------------------------------- */
+#requestDocumentPanel #documentTransitionStates {
+  width: 22%;
+  display:none; 
+  position:absolute; right: 1em; top: 3.3em; z-index: 9;
+  -moz-border-radius: .5em; -webkit-border-radius: .5em;
+  border: 5px solid #000000;
+  background: #efefef;
+}
+
+#documentTransitionStates #endValidityDateCalContainer { font-size: .7em; }
+
+#documentTransitionStates form  { margin: 0; padding: .5em; font-size: .8em;}
+#documentTransitionStates form input { width: auto; font-size: .9em; }
+#documentTransitionStates form input.submitDocumentStateChange,
+#documentTransitionStates form input.cancelDocumentStateChange { font-size: .8em; }
+#documentTransitionStates form .error,
+#documentTransitionStates form label  { 
+  width: auto; 
+  display: block; float: none; 
+  margin: 0;
+  text-align: left;
+  font-size: .8em; font-style: italic;
+}
+
+#documentTransitionStates ul    { margin: .2em 0 .5em .5em; text-align: left }
+#documentTransitionStates ul li { padding: .1em 0; }
+
+

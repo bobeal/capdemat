@@ -14,7 +14,7 @@
           <h1><g:message code="category.header.categoryList" /></h1>
         </div>
       
-        <div id ="createCategory">
+        <div class="createConfigurationItem">
           <a href="${createLink(action:'create')}"><g:message code="action.create"/></a>
         </div>
           

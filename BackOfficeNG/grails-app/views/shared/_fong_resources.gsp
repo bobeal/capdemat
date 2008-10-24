@@ -10,7 +10,7 @@
   <!-- Calendar CSS -->
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'fong/css/yui/calendar',file:'calendar.css')}" />
   
-    <!-- common -->
+  <!-- common -->
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'fong/css/common/yui', file:'tabview.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'fong/css/common', file:'tag.css')}" />
   <!-- layout -->
@@ -19,12 +19,10 @@
   <!-- FONG CSS -->
 
   <!-- yui -->
-  	  <!-- Dependency for Connection Manager / Also provides YAHOO Global Object -->
+  <!-- Dependency for Connection Manager / Also provides YAHOO Global Object -->
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/yui/yahoo', file:'yahoo-min.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/yui/yahoo-dom-event', file:'yahoo-dom-event.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/yui/element', file:'element-beta-min.js')}"></script>
-   <!-- Datatable -->
-  <script type="text/javascript" src="${createLinkTo(dir:'fong/js/yui/datatable',file:'datatable-beta-min.js')}"></script>
   <!-- Button -->
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/yui/button',file:'button-min.js')}"></script>
   <!-- Calendar -->

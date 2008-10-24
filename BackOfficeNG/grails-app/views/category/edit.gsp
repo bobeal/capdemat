@@ -39,21 +39,26 @@
         </div>
 
         <div id="categoryRequestTypesBox" class="mainbox mainbox-yellow">
-          <h2><g:message code="menu.requests" /></h2>
+          <h2><g:message code="category.header.requests" /></h2>
           <div class="editableListSwithcher">
-            <form id="sortRequestTypeForm" method="post" action="<g:createLink action="requestTypes" />" />
+            <form id="sortRequestTypeForm" method="post" action="${createLink(action:'requestTypes')}" />
               <select name="orderRequestTypeBy" onchange="zenexity.capdemat.bong.categoryRequestType.sortRequestTypes();">
                 <option value=""><g:message code="category.filter.sortBy" /></option>
-                <option value="label"><g:message code="category.filter.byLabel" /></option>
-                <option value="categoryName"><g:message code="category.filter.byCategory" /></option>
+                <option value="label" ${orderRequestTypeBy == 'label' ? 'selected' : ''}>
+                  <g:message code="category.filter.byLabel" />
+                </option>
+                <option value="categoryName" ${orderRequestTypeBy == 'categoryName' ? 'selected' : ''}>
+                  <g:message code="category.filter.byCategory" />
+                </option>
               </select>
               <input type="hidden" name="id" value="${category?.id}" />
+              <input type="hidden" name="scope" id="scope" value="${scope}" />
 
-              <a id="viewCategoryRequestTypesLink" class="current" 
+              <a id="viewCategoryRequestTypesLink" class="current"
                   onclick="zenexity.capdemat.bong.categoryRequestType.viewRequestTypes('Category');">
                 <g:message code="category.filter.viewBounded" />
               </a> / 
-              <a id="viewAllRequestTypesLink" 
+              <a id="viewAllRequestTypesLink"
                   onclick="zenexity.capdemat.bong.categoryRequestType.viewRequestTypes('All');">
                 <g:message code="category.filter.viewAll" />
               </a>
@@ -67,10 +72,12 @@
           <h2><g:message code="category.header.agents" /></h2>
           <div class="editableListSwithcher">
             <form id="sortAgentForm" method="post" action="<g:createLink action="agents" />" />
+              <!-- 
               <select name="orderAgentBy" onchange="zenexity.capdemat.bong.categoryAgent.sortAgents();">
                 <option value=""><g:message code="category.filter.sortBy" /></option>
                 <option value="lastName"><g:message code="category.filter.byName" /></option>
               </select>
+              -->
               <input type="hidden" name="id" value="${category?.id}" />
 
               <a id="viewCategoryAgentsLink" class="current"

@@ -4,11 +4,13 @@
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestInstruction.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'document.js')}"></script>
     <script type="text/javascript">
         zenexity.capdemat.bong.requestId = '${request.id}';
     </script>
   </head>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'requestInstruction.css')}" />      
+    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'requestInstruction.css')}" />
+    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'document.css')}" />    
   </head>
   <body>
     
@@ -108,9 +110,10 @@
           <ul>
           <g:each var="document" in="${documentList}">
             <li>
-              <span id="documentState_${document.id}" class="${document.state.cssClass}">
+              <a class="${document.state.cssClass} documentState_${document.id} documentLink" 
+                  href="/document/${document.id}">
                 <g:message code="${document.state.i18nKey}" />
-              </span>
+              </a>
               ${document.name}
             </li>
           </g:each>

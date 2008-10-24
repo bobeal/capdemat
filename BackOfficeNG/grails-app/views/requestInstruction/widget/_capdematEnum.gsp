@@ -1,8 +1,8 @@
-<form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="form-list-edition" >
+<form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
   <span id="${propertyName}_FormErrors" class="error"></span> 
-  <select id="${propertyName}_Input" name="${propertyNameTp}">
+  <select id="${propertyName}_Field" name="${propertyNameTp}">
     <g:each var="it" in="${allPropertyValue}">
-    <option value="${it}" ${it.toString() == propertyValue.enumString ? 'selected="selected"' : ''}>
+    <option value="${propertyValueType}_${it}" ${it.toString() == propertyValue.enumString ? 'selected="selected"' : ''}>
       <g:capdematEnumToText var="${it}" i18nKeyPrefix="${propertyValue.i18nKeyPrefix}" />
     </option>
     </g:each>
@@ -11,6 +11,6 @@
   <input name="requestId" type="hidden" value="${requestId}" />
   <input name="individualId" type="hidden" value="${individualId}" />
 
-  <input type="button" value="modify" class="submit" />
-  <input type="button" value="discard" class="discard" />
+  <input type="button" class="submit" value="<g:message code="action.save" />" />
+  <input type="button" class="discard" value="<g:message code="action.cancel" />" />
 </form>

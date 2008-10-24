@@ -1777,15 +1777,6 @@ public abstract class RequestService implements IRequestService {
         requestFormDAO.create(requestForm);
     }
     
-    /**
-     * Method that process request form update/creation. 
-     * Defines by itself which kind of processing has to be produced.
-     * 
-     * @param requestTypeId requested type id
-     * @param requestForm requested form
-     * @return requested form id
-     * @throws CvqException
-     */
     public Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) 
         throws CvqException {
         Long result = -1L;
@@ -1794,9 +1785,9 @@ public abstract class RequestService implements IRequestService {
         if(requestType == null)
             throw new CvqModelException("requestForm.requestType_is_invalid");
         
-        if(requestForm.getLabel() == null) 
+        if(requestForm.getLabel() == null && requestForm.getLabel().trim() == "") 
             throw new CvqModelException("requestForm.label_is_null");
-        if(requestForm.getShortLabel() == null)
+        if(requestForm.getShortLabel() == null && requestForm.getShortLabel().trim() == "")
             throw new CvqModelException("requestForm.shortLabel_is_null");
         
         if(this.requestTypeContainsForm(requestType, requestForm)) {
@@ -1815,9 +1806,7 @@ public abstract class RequestService implements IRequestService {
     
     protected boolean requestTypeContainsForm(RequestType type, RequestForm form) {
         for(RequestForm f : (Set<RequestForm>)type.getForms()) {
-            if(f.getId() != null && f.getId() == form.getId()) {
-                return true;
-            }
+            if(f.getId().equals(form.getId())) return true;
         }
         
         return false;
@@ -1874,6 +1863,17 @@ public abstract class RequestService implements IRequestService {
 //        localAuthorityRegistry.removeLocalAuthorityResource(
 //                ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
 //                requestForm.getXslFoFilename());
+        
+        requestFormDAO.delete(requestForm);
+    }
+    
+    public void removeRequestTypeForm(final Long requestFormId)
+        throws CvqException {
+        RequestForm requestForm =
+            (RequestForm) genericDAO.findById(RequestForm.class, requestFormId);
+        
+        for(RequestType t : (Set<RequestType>)requestForm.getRequestTypes())
+            t.getForms().remove(requestForm);
         
         requestFormDAO.delete(requestForm);
     }

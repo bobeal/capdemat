@@ -1,4 +1,4 @@
-zenexity.capdemat.bong.requestIntruction = function() {
+zenexity.capdemat.bong.requestInstruction = function() {
   var zcb = zenexity.capdemat.bong;
   var zcc = zenexity.capdemat.common;
   var zct = zenexity.capdemat.tools;
@@ -16,21 +16,21 @@ zenexity.capdemat.bong.requestIntruction = function() {
     /* tabiews */
     var requestInformationTabview = new ywtv();
     requestInformationTabview.addTab( new ywt({
-        label: 'Historique', dataSrc: zcb.baseUrl + '/requestActions/' + zcb.requestId,
+        label: 'Historique', dataSrc: zcb.baseUrl + "/requestActions/" + zcb.requestId,
         cacheData: true, active: true }));
     requestInformationTabview.addTab( new ywt({
-        label: 'Commentaires', dataSrc: zcb.baseUrl + '/requestNotes/' + zcb.requestId,
+        label: 'Commentaires', dataSrc: zcb.baseUrl + "/requestNotes/" + zcb.requestId,
         cacheData: false }));
     requestInformationTabview.addTab( new ywt({
-        label: 'Compte', dataSrc: zcb.baseUrl + '/homeFolder',
+        label: 'Compte', dataSrc: zcb.baseUrl + "/homeFolder",
         cacheData: true }));
     requestInformationTabview.addTab( new ywt({
-        label: 'Demandes', dataSrc: zcb.baseUrl + '/homeFolderRequests/' + zcb.requestId,
+        label: 'Demandes', dataSrc: zcb.baseUrl + "/homeFolderRequests/" + zcb.requestId,
         cacheData: true }));
     
-    requestInformationTabview.appendTo('requestInformation');
+    requestInformationTabview.appendTo("requestInformation");
     
-    var requestDataTabView = new ywtv('requestData');
+    var requestDataTabView = new ywtv("requestData");
       
     /* panels */
     zcb.instructionStatePanel = new ywp(
@@ -59,8 +59,10 @@ zenexity.capdemat.bong.requestIntruction = function() {
         underlay: "shadow", close: true
       });
     zcb.ecitizenContactPanel.render();
+  
   }
   
+   
   /*
    * Request Instruction Worflow managment
    */
@@ -90,7 +92,7 @@ zenexity.capdemat.bong.requestIntruction = function() {
             
             zcb.instructionStatePanel.hide();
           } else {
-            zcc.displayResponseResult('modelError', response.error_msg);
+            zcc.Notifier.processMessage('modelError',response.success_msg);
           }
         });
   }
@@ -134,66 +136,22 @@ zenexity.capdemat.bong.requestIntruction = function() {
       function (e) {
         var targetEl = yue.getTarget(e);
            
-        if (targetEl.className === "cancelStateChange") {
+        if (yud.hasClass(targetEl, "cancelStateChange")) {
           zcb.instructionStatePanel.hide();
-        } else if (targetEl.className === "submitStateChange") {
+        }
+        else if (yud.hasClass(targetEl, "submitStateChange")) {
           if (FIC_checkForm(e, yud.get("changeStateFormErrors")))
             submitChangeStateForm(targetEl, "changeStateForm");
-        } else if ( targetEl.className.indexOf("tag-") 
-                    != -1 && targetEl.className != "tag-not_provided") {
+        }
+        else if (yud.hasClass(targetEl, "documentLink")) {
+          yue.preventDefault(e);
+          zenexity.capdemat.bong.document.getRequestDocument(targetEl);
+        }
+        else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, "documentLink")) {
           switchStatePanel(targetEl);
         }
       });
    
-  /*
-   * request document management 
-   */
-  
-  function submitModifyDocumentForm(formId) {
-    zcc.doAjaxFormSubmitCall(
-        formId,
-        null,
-        function(o) {
-          var response = ylj.parse(o.responseText);
-          if (response.status === "ok") {
-            yud.setStyle(formId, "background", "#aaffaa");
-          } else {
-            zcc.displayResponseResult('modelError', response.error_msg);
-          }
-        });
-  }
-  
-  function getRequestDocument(targetEl) {
-    // hacks for ie6
-    var action = targetEl.pathname;
-    if (action.indexOf("/") != 0)
-      action = "/" + action;
-      
-    zcc.doAjaxCall(
-        action,
-        null,
-        function(o) {
-          zcb.requestDocumentPanel.setBody(o.responseText);
-          zcb.requestDocumentPanel.show();
-          // request document tabview
-          var requestDocumentDataTabView = new ywtv('requestDocumentData');
-          YAHOO.capdematBo.calendar.cal = new Array(1);
-          yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: "endValidityDate"} );
-        });
-  }
-  
-  yue.addListener(
-      "requestDocument",
-      "click", 
-      function (e) {
-        yue.preventDefault(e);
-        
-        var targetEl = yue.getTarget(e);
-        if (targetEl.className === "documentLink")
-          getRequestDocument(targetEl);
-        else if (targetEl.id === "submitModifyDocumentForm")
-          submitModifyDocumentForm("modifyDocumentForm"); 
-      });
   
   /*
    * ecitizen contact management 
@@ -271,7 +229,6 @@ zenexity.capdemat.bong.requestIntruction = function() {
           }
           else {
             yud.get(formId + "Error").innerHTML = response.error_msg;
-//            zcc.displayResponseResult('modelError', response.error_msg);
           }
         });
   }
@@ -283,13 +240,15 @@ zenexity.capdemat.bong.requestIntruction = function() {
     var ddEl = yud.getAncestorByTagName(targetEl, "dd");
     var wrapperPropertyValueEl = yud.getFirstChild(ddEl);
     
-    if (isSubmit && !yud.hasClass(ddEl, "address")) {
-      var elName = formEl.id.replace("_Form", "") + "_Input";
-      propertyValue = yud.get(elName).value;
-//      var elName = formEl.id.replace("_Form", "");
-//      oldPropertyValue = yus.query("input[name=" + elName + "]", formEl, true).value;
+    if (isSubmit && yud.hasClass(ddEl, "capdematEnum")) {
+      zct.each(
+          yud.get(formEl.id.replace("_Form", "") + "_Field").options,
+          function() {
+            if (this.selected === true)
+             propertyValue = this.text;
+          });
       wrapperPropertyValueEl.innerHTML = propertyValue;
-    } 
+    }
     else if (isSubmit && yud.hasClass(ddEl, "address")) {
       var addressFields = yud.getChildren(wrapperPropertyValueEl);
       var newAddressFields = yus.query("fieldset input", formEl);
@@ -298,6 +257,11 @@ zenexity.capdemat.bong.requestIntruction = function() {
           function(i) {
             addressFields[i].innerHTML = this.value ;
           });
+    }
+    else if (isSubmit) {
+      var elName = formEl.id.replace("_Form", "") + "_Field";
+      propertyValue = yud.get(elName).value;
+      wrapperPropertyValueEl.innerHTML = propertyValue;
     }
     yud.removeClass(wrapperPropertyValueEl, "invisible");
     
@@ -320,9 +284,10 @@ zenexity.capdemat.bong.requestIntruction = function() {
         "placeNameOrService": addressFields[4].innerHTML,
         "postalCode": addressFields[5].innerHTML,
         "city": addressFields[6].innerHTML,
-        "countryName": addressFields[7].innerHTML,  
+        "countryName": addressFields[7].innerHTML
       }
       propertyValue = ylj.stringify(jsonAddress);
+      
     }
     else if (yud.hasClass(targetEl, "capdematEnum")) {
       propertyValue = wrapperPropertyValueEl.className;
@@ -331,8 +296,6 @@ zenexity.capdemat.bong.requestIntruction = function() {
       propertyValue = wrapperPropertyValueEl.innerHTML;
     }
     
-    //console.log(new HTMLParagraphElement());
-              
     zcc.doAjaxCall(
         "/widget/?"
           + "id=" + zenexity.capdemat.bong.requestId
@@ -347,7 +310,7 @@ zenexity.capdemat.bong.requestIntruction = function() {
           
           if (yud.hasClass(targetEl, "date")) {
             YAHOO.capdematBo.calendar.cal = new Array(1);
-            yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + "_Input"} );
+            yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + "_Field"} );
           }
         });
   }
@@ -390,6 +353,6 @@ zenexity.capdemat.bong.requestIntruction = function() {
   
 }();
 
-YAHOO.util.Event.onDOMReady(zenexity.capdemat.bong.requestIntruction.init);
+YAHOO.util.Event.onDOMReady(zenexity.capdemat.bong.requestInstruction.init);
 
 

@@ -1,0 +1,38 @@
+<g:requestForms forms="${forms}" />
+<html>
+  <head>
+  </head>
+  <body>
+    <div align="center">
+      <img src="../../images/logoBoVo.gif" />
+    </div>
+    <div align="right" style="margin-bottom:20px;margin-top:20px;">
+      <p>Conseil Général du Val d'Oise</p>
+      <p>Hôtel du Département</p>
+      <p>2 avenue du Parc</p>
+      <p>95032 Cergy-Pontoise Cedex</p>
+      <p>TEL. 01 34 25 32 70</p>
+    </div>
+    <div align="right" style="margin-bottom:20px;margin-top:20px;">
+      <p>Cergy, le #{DATE}</p>
+    </div>
+    <div align="right" style="margin-bottom:20px;margin-top:20px;">
+      <p>Mme et Mr #{RR_LNAME}</p>
+      <p>#{RR_ADDRESS}</p>
+    </div>
+    <div align="left" style="margin-bottom:20px;margin-top:20px;">
+      <p>Numéro de dossier : #{RQ_ID}</p>
+      <p>Numéro de compte : #{HF_ID} </p>
+    </div>
+    <div align="center" style="margin-bottom:40px;">
+      <h1>#{RR_TITLE}</h1>
+    </div>
+    <g:editableZone id="Lab2" class="editable-zone">
+      <p>Nous avons bien reçu votre demande #{RQ_ID}. Merci de passer chercher votre attestion au guichet.</p>
+    </g:editableZone>
+    <div align="right" style="margin-top:50px;">
+      <p>Cordialement,</p>
+      <p>Le Président du Conseil Général du Val d'Oise.</p>
+    </div>
+  </body>
+</html>

@@ -11,14 +11,11 @@ import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.business.request.RequestSeason
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
-import java.util.Set
 import fr.cg95.cvq.exception.*
 
 import grails.converters.JSON
-
 
 class RequestTypeController {
 
@@ -27,7 +24,6 @@ class RequestTypeController {
     IDocumentService documentService
 	ICategoryService categoryService
 	GroovyPagesTemplateEngine groovyPagesTemplateEngine
-	//ILocalAuthorityRegistry localAuthorityRegistry
 	
     def translationService
     
@@ -44,7 +40,10 @@ class RequestTypeController {
 
     // the configuration items all request types will have
     // the boolean indicates if it's a mandatory step
-    def baseConfigurationItems = ["general":["requestType.configuration.general", true] ]
+    def baseConfigurationItems = [
+      "forms":["requestType.configuration.forms", true],
+      "alerts":["requestType.configuration.alerts", true]]
+                                  
     
     def configure = {
     	def requestType = 
@@ -55,8 +54,8 @@ class RequestTypeController {
         	requestServiceRegistry.getRequestService(requestType.label)
         if (requestService.isOfRegistrationKind())
         	baseConfigurationItems.put("seasons",["requestType.configuration.seasons", true])
-        if (requestService.getLocalReferentialFilename() != null)
-        	baseConfigurationItems.put("localReferential",["requestType.configuration.localReferential", true])
+//        if (requestService.getLocalReferentialFilename() != null)
+//        	baseConfigurationItems.put("localReferential",["requestType.configuration.localReferential", true])
 
         def requestTypeConfigurationData = new RequestTypeConfigurationData()
     	requestTypeConfigurationData.configurationItems = baseConfigurationItems
@@ -88,12 +87,6 @@ class RequestTypeController {
             render(template:"alerts",model:['requestType':requestType,
                                             'instructionDefaultMaxDelay':lacb.getInstructionDefaultMaxDelay(),
                                             'instructionDefaultAlertDelay':lacb.getInstructionDefaultAlertDelay()])
-    }
-
-    def loadFormsArea = {
-            def requestType = 
-                 defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-            render(template:"forms",model:['requestType':requestType])
     }
 
     def loadSeasonsArea = {
@@ -143,34 +136,6 @@ class RequestTypeController {
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
         
-    def saveForms = {
-        def requestForm = new RequestForm()
-        requestForm.setName(params.name)
-        requestForm.setXslFoFilename(params.xslFoFilename.originalFilename)
-        defaultRequestService.addRequestTypeForm(Long.valueOf(params.id), requestForm,
-                params.xslFoFilename.bytes)
-
-        render([status:"ok", success_msg:message(code:"message.updateDone"),
-                requestTypeId:params.id] as JSON)
-    }
-    
-    def modifyDocumentAssociation = {
-		def requestService = 
-        	requestServiceRegistry.getRequestService(Long.valueOf(params.id))
-        try {
-  	    	if (params.operation == "add")
-        		requestService.addRequestTypeRequirement(Long.valueOf(params.id), Long.valueOf(params.documentId))
-        	else
-        		requestService.removeRequestTypeRequirement(Long.valueOf(params.id), Long.valueOf(params.documentId))
-        } catch (CvqException ce) {
-			log.error "save() error while creating request type's documents"
-		    render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-		    return            
-        }
-        	
-		render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-    }
-    
     // called asynchronously
     // return a JSON array of all the request types
     def loadAllRequestTypes = {
@@ -189,24 +154,6 @@ class RequestTypeController {
                     )
                 }
             }
-        }
-    }
-    
-    def loadRequestTypeForms = {
-        def requestType = 
-            defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        def forms = requestType.forms
-        render('builder': 'json') {
-            // name has to be different from any object in the scope
-            'result' {
-                forms.each {
-                    // name 'myForm' has no importance as it won't be in the response
-                    myForm(
-                        'name':it.name,
-                        'filename':it.xslFoFilename
-                    )
-                }
-            }            
         }
     }
     
@@ -308,42 +255,51 @@ class RequestTypeController {
     
     
     // retrives request form list using passed request type id
-    def requestFormList = {
+    def formList = {
         def id = Long.valueOf(params.id)
         def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
         def forms = defaultRequestService.getRequestTypeForms(id, mailType)
-        
-        render(template:"requestForms",model:["requestForms":forms])
+        render(template:"formList",model:["requestForms":forms])
     }
     
-    def requestFormDatasheet = {
-        if(request.post) {
+    def form = {
+        def method = request.getMethod().toLowerCase()
+        if(method == "post" && params?.requestTypeId) {
+            RequestForm form = new RequestForm()
+            if(params?.requestFormId) {
+                form = defaultRequestService.getRequestFormById(Long.valueOf(params.requestFormId))
+            }
+            form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
+            form.setLabel(params.label)
+            form.setTemplateName(params.templateName)
+            form.setShortLabel(params.shortLabel)
+            defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
             
-        } else {
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } else if(method=="get") {
             def requestForm = null
             def templates = defaultRequestService.getMailTemplates('.*[.]html$')
             if(params.id) 
                 requestForm = defaultRequestService
                     .getRequestFormById(Long.valueOf(params.id))
-            render(template:"datasheet",model:["requestForm":requestForm,
+            render(template:"form",model:["requestForm":requestForm,
                                                "templates":templates])
+        } else if(method=="delete") {
+            defaultRequestService.removeRequestTypeForm(Long.valueOf(params.id));
+            render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
         }
     }
     
     
     def mailTemplate = {
         if(request.post) {
-            if(params?.editor != "" && params?.element != "") {
-                def args = params.element.split(':').toList()
-                
-                RequestForm form = new RequestForm()
-                form.setId((Long)args[1])
+            if(params?.editor != "") {
+                RequestForm form = defaultRequestService
+                    .getRequestFormById(Long.valueOf(params?.requestFormId))
                 form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
                 form.setPersonalizedData(params.editor.getBytes())
-                form.setLabel("MyLabel")
-                form.setShortLabel("MyShortLabel")
                 
-                defaultRequestService.processRequestTypeForm(0,form)
+                defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
                 render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
             } else {
                 throw new Exception("mail_templates.some_of_mandatory_fields_is_empty")
@@ -356,22 +312,25 @@ class RequestTypeController {
     }
     
     def loadMailTemplate = {
-        //def name  = params.id
-        def name = 'tmp.html'
+        def fileName = params?.file
+        def formId = Long.valueOf(params?.formId)
+        def typeId = Long.valueOf(params?.typeId)
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         
-        File templateFile = defaultRequestService.getTemplateByName(name)
+        File templateFile = defaultRequestService.getTemplateByName(fileName)
         if(templateFile.exists()) {
-            List<RequestForm> forms = defaultRequestService.getRequestTypeForms(1,RequestFormType.REQUEST_MAIL_TEMPLATE)
+            def forms = [];
+            forms.add(defaultRequestService.getRequestFormById(formId))
             
             def template = groovyPagesTemplateEngine.createTemplate(templateFile);
             def out = new StringWriter();
             def originalOut = requestAttributes.getOut()
-            
             requestAttributes.setOut(out)
-            template.make(['name':params.id,'forms':forms]).writeTo(out);
+            template.make(['name':fileName,'forms':forms]).writeTo(out);
             requestAttributes.setOut(originalOut)
-            return render(template:"mail",model:['template':out.toString()])
+            
+            response.contentType = 'text/html; charset=utf-8'
+            render out.toString()
         }
         
         //render(template:"tmp",model:['name':params.id])

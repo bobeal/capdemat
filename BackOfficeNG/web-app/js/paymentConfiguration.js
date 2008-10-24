@@ -13,6 +13,7 @@
   var yue = YAHOO.util.Event;
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
+  var zcbet = zenexity.capdemat.bong.editor.toolbars;
   
   zct.namespace("zenexity.capdemat.bong.payment");
   var zcbp = zenexity.capdemat.bong.payment;
@@ -29,60 +30,10 @@
         var form = yus.query('#form1')[0];
         zcc.doAjaxFormSubmitCall('form1',[],function(r){
           var json = YAHOO.lang.JSON.parse(r.responseText);
-          zcc.displayResponseResult('success',json.success_msg);
+          zcc.Notifier.processMessage('success',json.success_msg);
           return false;
         });
       });
-    };
-    var getToolbar = function() {
-      return {
-        titlebar: "Text editor",
-        buttons: [
-          {
-            group: 'textstyle', label: 'Font name & size',
-            buttons: [
-              { type: 'select', label: 'Arial', value: 'fontname', disabled: true,
-                menu: [
-                  { text: 'Arial', checked: true },
-                  { text: 'Arial Black' },
-                  { text: 'Comic Sans MS' },
-                  { text: 'Courier New' },
-                  { text: 'Lucida Console' },
-                  { text: 'Tahoma' },
-                  { text: 'Times New Roman' },
-                  { text: 'Trebuchet MS' },
-                  { text: 'Verdana' }
-                ]},
-              { type: 'spin', label: '13', value: 'fontsize', range: [ 9, 75 ], disabled: true },
-              { type: 'separator' }
-              ]
-          },
-          {
-            group: 'textstyle', label: 'Font style',
-            buttons: [
-              { type: 'push', label: 'Bold', value: 'bold' },
-              { type: 'push', label: 'Italic', value: 'italic' },
-              { type: 'push', label: 'Underline', value: 'underline' },
-              { type: 'separator' }
-            ]
-          },
-          {
-            group: 'textstyle', label: 'Colors',
-            buttons: [
-              { type: 'color', label: 'Font Color', value: 'forecolor', disabled: true },
-              { type: 'color', label: 'Background Color', value: 'backcolor', disabled: true },
-              { type: 'separator' }
-            ]
-          },
-          {
-            group: 'textstyle', label: 'Lists',
-            buttons: [
-              { type: 'push', label: 'Ordered list', value: 'insertorderedlist' },
-              { type: 'push', label: 'Unordered list', value: 'insertunorderedlist' }                  
-            ]
-          }
-        ]
-      }
     };
     return {
       editor : undefined,
@@ -92,7 +43,7 @@
         
         conf.editor = new YAHOO.widget.SimpleEditor('editor', {
           focusAtStart: true,
-          toolbar : getToolbar(),
+          toolbar : zcbet.def,
           width: zct.width(ta.parentNode)+'px',
           height : '400px'
         });

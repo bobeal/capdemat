@@ -1,4 +1,4 @@
-<form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="form-list-edition" >
+<form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
   <span id="${propertyName}_FormErrors" class="error"></span> 
   
   <fieldset>
@@ -45,6 +45,6 @@
   <input name="requestId" type="hidden" value="${requestId}" />
   <input name="individualId" type="hidden" value="${individualId}" />
 
-  <input type="button" value="modify" class="submit" />
-  <input type="button" value="discard" class="discard" />
+  <input type="button" class="submit" value="<g:message code="action.save" />" />
+  <input type="button" class="discard" value="<g:message code="action.cancel" />" />
 </form>

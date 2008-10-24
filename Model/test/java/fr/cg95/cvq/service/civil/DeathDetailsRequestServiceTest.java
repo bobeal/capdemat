@@ -1,20 +1,15 @@
 package fr.cg95.cvq.service.civil;
 
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.business.document.*;
+import fr.cg95.cvq.business.social.*;
 import fr.cg95.cvq.business.civil.*;
-import fr.cg95.cvq.business.document.DepositOrigin;
-import fr.cg95.cvq.business.document.DepositType;
-import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.civil.IDeathDetailsRequestService;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.civil.IDeathDetailsRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
@@ -50,15 +45,15 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
     protected DeathDetailsRequest fillMeARequest() throws CvqException {
 
         DeathDetailsRequest request = new DeathDetailsRequest();
-          request.setCopies(BigInteger.valueOf(1));
-            request.setComment("Comment");
-                request.setDeathFirstNames("DeathFirstNames");
-                  request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
-                request.setDeathDate(new Date());
-              if ("DeathCity".length() > 32)
+              request.setDeathFirstNames("DeathFirstNames");
+                  if ("DeathCity".length() > 32)
         request.setDeathCity("DeathCity".substring(0, 32));
       else
         request.setDeathCity("DeathCity");
+                  request.setFormat(DeathCertificateFormatType.FULL_COPY);
+                request.setCopies(BigInteger.valueOf(1));
+            request.setComment("Comment");
+              request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
                   if ("DeathPostalCode".length() > 2)
         request.setDeathPostalCode("DeathPostalCode".substring(0, 2));
       else
@@ -67,8 +62,8 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
         request.setDeathLastName("DeathLastName".substring(0, 38));
       else
         request.setDeathLastName("DeathLastName");
-                  request.setFormat(DeathCertificateFormatType.FULL_COPY);
-      
+                request.setDeathDate(new Date());
+  
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);
@@ -86,7 +81,7 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
         ///////////////////////////////
 
         Document doc = new Document();
-        doc.setEcitizenNote("Ma carte d'identité !");
+        doc.setEcitizenNote("Ma carte d'identitÃ© !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
         doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));

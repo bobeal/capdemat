@@ -53,6 +53,8 @@ public class Type extends IStageForm {
 		if (this.checkFormat() &&
 			((this.format == null) || (this.format.length() == 0)))
 			return false;
+		if (this.checkCopies() && (this.copies == null))
+			return false;
 		return true;
 	}
 	

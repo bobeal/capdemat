@@ -103,19 +103,19 @@
 					 var seasonListContainer = new YAHOO.util.Element('seasonListContainer');
 					 seasonListContainer.removeChild(elementToRemove);
 				
-					 zcc.displayResponseResult('success', response.success_msg);
+           zcc.Notifier.processMessage('success',response.success_msg);
 					}
 			}
 			
 			var handleConfirmDelete = function() {
 					zcc.doAjaxCall('/deleteSeasons/' + requestTypeId + '/' + seasonUuid, [], handleDeleteSeasonSuccess);
-					this.hide();
+					//this.hide();
 			}
 			
 			if (!deleteConfirmationDialog) {
-					var body = "Confirmez-vous la suppression de la saison " + seasonLabel + " ?";    
+					var content ={ body : "Confirmez-vous la suppression de la saison " + seasonLabel + " ?"};    
 					deleteConfirmationDialog = 
-							new zcc.deleteConfirmationDialog(null,handleConfirmDelete,body);
+							new zcc.ConfirmationDialog(content,handleConfirmDelete);
 			}
 			deleteConfirmationDialog.show();
 	}

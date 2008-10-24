@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -1728,6 +1729,11 @@ public abstract class RequestService implements IRequestService {
         }
     }
     
+    public File getTemplateByName(String name) {
+        return this.localAuthorityRegistry.getCurrentLocalAuthorityResource(
+            ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE, name, false);
+    }
+    
     public void addRequestTypeForm(final Long requestTypeId, RequestFormType requestFormType, 
             String label, String shortLabel, String filename, byte[] data)
         throws CvqException {
@@ -1767,6 +1773,52 @@ public abstract class RequestService implements IRequestService {
         requestFormDAO.create(requestForm);
     }
     
+    /**
+     * Method that process request form update/creation. 
+     * Defines by itself which kind of processing has to be produced.
+     * 
+     * @param requestTypeId requested type id
+     * @param requestForm requested form
+     * @return requested form id
+     * @throws CvqException
+     */
+    public Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) 
+        throws CvqException {
+        Long result = -1L;
+        
+        RequestType requestType = (RequestType)genericDAO.findById(RequestType.class, requestTypeId);
+        if(requestType == null)
+            throw new CvqModelException("requestForm.requestType_is_invalid");
+        
+        if(requestForm.getLabel() == null) 
+            throw new CvqModelException("requestForm.label_is_null");
+        if(requestForm.getShortLabel() == null)
+            throw new CvqModelException("requestForm.shortLabel_is_null");
+        
+        if(this.requestTypeContainsForm(requestType, requestForm)) {
+            result = requestForm.getId();
+            requestDAO.update(requestForm);
+        }else {
+            Set<RequestType> requestTypesSet = new HashSet<RequestType>();
+            requestTypesSet.add(requestType);
+            requestForm.setRequestTypes(requestTypesSet);
+            requestType.getForms().add(requestForm);
+            result = requestFormDAO.create(requestForm);
+        }
+        
+        return result;
+    }
+    
+    protected boolean requestTypeContainsForm(RequestType type, RequestForm form) {
+        for(RequestForm f : (Set<RequestForm>)type.getForms()) {
+            if(f.getId() != null && f.getId() == form.getId()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     public void modifyRequestTypeForm (Long requestTypeId, Long requestFormId, 
             String newLabel, String newShortLabel, String newFilename, byte[] newData) 
             throws CvqException {
@@ -1781,6 +1833,8 @@ public abstract class RequestService implements IRequestService {
         if (newLabel != null)
             requestForm.setLabel(newLabel);
         
+        if(newFilename != null)
+            requestForm.setTemplateName(newFilename);
         if (newShortLabel != null) {
             String oldFilename = requestForm.getXslFoFilename();
             
@@ -1813,24 +1867,20 @@ public abstract class RequestService implements IRequestService {
             (RequestForm) genericDAO.findById(RequestForm.class, requestFormId);
         requestType.getForms().remove(requestForm);
       
-        localAuthorityRegistry.removeLocalAuthorityResource(
-                ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
-                requestForm.getXslFoFilename());
+//        localAuthorityRegistry.removeLocalAuthorityResource(
+//                ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
+//                requestForm.getXslFoFilename());
         
         requestFormDAO.delete(requestForm);
     }
-
-    public Set<RequestForm> getRequestTypeForms(Long requestTypeId, 
+    
+    public List<RequestForm> getRequestTypeForms(Long requestTypeId, 
             RequestFormType requestFormType) throws CvqException {
        
-        List<RequestForm> requestFormList = 
+        List<RequestForm> result = 
             requestFormDAO.findByTypeAndRequestTypeId(requestFormType, requestTypeId);
+        return result;
         
-        Set<RequestForm> requestFormSet = new HashSet<RequestForm>();
-        for (RequestForm requestForm : requestFormList)
-            requestFormSet.add(requestForm);
-        
-        return requestFormSet;
     }
     
     public void onPaymentValidated(Request request, String paymentReference) 

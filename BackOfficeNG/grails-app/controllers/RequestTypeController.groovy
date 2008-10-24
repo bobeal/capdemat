@@ -1,4 +1,7 @@
+import java.io.File;
+
 import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.exception.CvqException
@@ -9,6 +12,9 @@ import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.business.request.RequestSeason
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import org.springframework.web.context.request.RequestContextHolder
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
+import java.util.Set
 import fr.cg95.cvq.exception.*
 
 import grails.converters.JSON
@@ -20,7 +26,8 @@ class RequestTypeController {
     IRequestServiceRegistry requestServiceRegistry
     IDocumentService documentService
 	ICategoryService categoryService
-	ILocalAuthorityRegistry localAuthorityRegistry
+	GroovyPagesTemplateEngine groovyPagesTemplateEngine
+	//ILocalAuthorityRegistry localAuthorityRegistry
 	
     def translationService
     
@@ -303,21 +310,48 @@ class RequestTypeController {
     }
     
     def mailTemplate = {
-        //println ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE
-         
         if(request.post) {
-            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            if(params?.editor != "" && params?.element != "") {
+                def args = params.element.split(':').toList()
+                
+                RequestForm form = new RequestForm()
+                form.setId((Long)args[1])
+                form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
+                form.setPersonalizedData(params.editor.getBytes())
+                form.setLabel("MyLabel")
+                form.setShortLabel("MyShortLabel")
+                
+                defaultRequestService.processRequestTypeForm(0,form)
+                render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            } else {
+                throw new Exception("mail_templates.some_of_mandatory_fields_is_empty")
+            }
         } 
         else {
             render (view: 'mailTemplate', model:['name':params.id])
-        }        
+        }
     }
     
     def loadMailTemplate = {
-        def name  = params.id;
-        name = 'tmp.html'
+        //def name  = params.id
+        def name = 'tmp.html'
+        def requestAttributes = RequestContextHolder.currentRequestAttributes()
         
-        render(template:"tmp",model:['name':params.id])
+        File templateFile = defaultRequestService.getTemplateByName(name)
+        if(templateFile.exists()) {
+            List<RequestForm> forms = defaultRequestService.getRequestTypeForms(1,RequestFormType.REQUEST_MAIL_TEMPLATE)
+            
+            def template = groovyPagesTemplateEngine.createTemplate(templateFile);
+            def out = new StringWriter();
+            def originalOut = requestAttributes.getOut()
+            
+            requestAttributes.setOut(out)
+            template.make(['name':params.id,'forms':forms]).writeTo(out);
+            requestAttributes.setOut(originalOut)
+            return render(template:"mail",model:['template':out.toString()])
+        }
+        
+        //render(template:"tmp",model:['name':params.id])
     }
 }
 

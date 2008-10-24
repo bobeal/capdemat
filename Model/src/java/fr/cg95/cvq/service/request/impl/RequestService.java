@@ -1777,15 +1777,6 @@ public abstract class RequestService implements IRequestService {
         requestFormDAO.create(requestForm);
     }
     
-    /**
-     * Method that process request form update/creation. 
-     * Defines by itself which kind of processing has to be produced.
-     * 
-     * @param requestTypeId requested type id
-     * @param requestForm requested form
-     * @return requested form id
-     * @throws CvqException
-     */
     public Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) 
         throws CvqException {
         Long result = -1L;

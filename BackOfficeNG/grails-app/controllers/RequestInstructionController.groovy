@@ -112,7 +112,7 @@ class RequestInstructionController {
         def allPropertyValue = []
         def i18nKeyPrefix
         if (propertyTypeList[0] == "address")
-            JSON.parse(params.propertyValue)
+            propertyValue = JSON.parse(params.propertyValue)
         else if (propertyTypeList[0] == "capdematEnum") {
             allPropertyValue = Class.forName("fr.cg95.cvq.business.users." + propertyTypeList[1])
                            .getField("all" + propertyTypeList[1] + "s")

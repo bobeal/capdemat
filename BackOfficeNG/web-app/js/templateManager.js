@@ -1,3 +1,10 @@
+/**
+ * Mail template client-side manager. Builds internal infrastructure of server-side collaboration.
+ * Produce some useful browser-depended hacks. Manages client events.
+ * 
+ * @author vba@zenexity.fr
+ **/
+
 
 zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
 
@@ -11,6 +18,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
   var yw = YAHOO.widget;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
+  var yul = YAHOO.lang;
   
   zcbet.def.buttons.push({
     group: 'textstyle', label: 'Variables',
@@ -31,31 +39,29 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       var tab = yus.query('div#workArea_Tab1')[0];
       var url = ['/loadMailTemplate/',zcbrt.manager.name].join('');
       zcc.doAjaxCall(url,[],function(o){
-        zcbrt.manager.wrapper = o.responseText
-          .replace(/\n/g,'\uffff')
-          .replace(/(.*<body>).*(<\/body>.*)/gi,'$1 \${BODY} $2')
-          .replace(/\uffff/g,'\n')
-          
+//        zcbrt.manager.wrapper = o.responseText
+//          .replace(/\n/g,'\uffff')
+//          .replace(/(.*<body>).*(<\/body>.*)/gi,'$1 \${BODY} $2')
+//          .replace(/\uffff/g,'\n')
         tab.innerHTML = o.responseText
           .replace(/\n/g,'\uffff')
           .replace(/.*<body>(.*)<\/body>.*/gi,'$1')
           .replace(/\uffff/g,'\n');
         
         //yus.query('div#trash div#wrapper')[0].innerHTML = ['<!--',zcbrt.manager.wrapper,'-->'].join('');
+        //YAHOO.util.Dom.setStyle('workArea','display','block');
         zct.style('workArea',{display:'block'});
-        YAHOO.util.Dom.setStyle('workArea','display','block');
         zcbrt.manager.tabView = new YAHOO.widget.TabView('workArea');
-        
+        zcbrt.manager.tabView.set('activeIndex', 0);
         var divs = yus.query('div#workArea_Tab1 div');
         var editables = zct.grep(divs,function(n){
-          return (/editable*/.test(n.id));
+          return (/editable*/i.test(n.id));
         });
         zct.each(editables,function(i){
           yue.addListener(this,'click',zcbrt.manager.edit);
         });
-        
       });
-      
+
     };
     var initEditor = function() {
       zcbrt.manager.editor = new YAHOO.widget.SimpleEditor('editor', {
@@ -65,8 +71,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         height: '300px'
       });
       zcbrt.manager.editor.render();
-      
-      //zcbrt.manager.editor.toolbar.addButtonToGroup(zcbet.vars, 'textstyle');
     };
     var initPanel = function() {
       zcbrt.manager.panel = new YAHOO.widget.Panel("editPanel", {
@@ -94,10 +98,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       });
     };
     return {
-      wrapper : undefined,
+      //wrapper : undefined,
       name : undefined,
       editor : undefined,
-      overlay: undefined,
       panel : undefined,
       editEl: undefined,
       tabView: undefined,
@@ -132,7 +135,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         }
       },
       save : function() {
-        if(zct.stripTags(zcbrt.manager.editor.getEditorHTML()).trim().length == 0) {
+        var editorValue = zcbrt.manager.editor.getEditorHTML();
+        if(yul.trim(zct.stripTags(editorValue)).length == 0) {
           zcc.displayResponseResult('unexpectedError',"Editor value can't be empty !");
           return;
         }

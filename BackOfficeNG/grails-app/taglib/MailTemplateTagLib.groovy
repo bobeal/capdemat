@@ -1,5 +1,7 @@
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.service.request.IRequestService
+import groovy.xml.*
+import java.io.*
 
 
 class MailTemplateTagLib {
@@ -24,6 +26,26 @@ class MailTemplateTagLib {
         out << """<div class="${attrs['class']}" id="$zoneId">$content</div>"""
     }
     
+    def templatesList = {attrs, body ->
+        def writer = new StringWriter()
+        def builder = new MarkupBuilder(writer)
+        def data = attrs['templates'] 
+        builder.setDoubleQuotes(true)
+        
+        
+        builder.select(id:"templateList", name:"templateList"){
+            if(data.size() > 0) {
+                data.each{
+                    option(value:it.getName(),it.getName()){}
+                }
+            } else {
+                option() {}
+            }
+          }
+        
+        out << writer.toString();
+    }
+    
     def templateText = { attrs, body ->
         out << body()
     }
@@ -33,13 +55,6 @@ class MailTemplateTagLib {
      */
     def requestForms = { attrs, body ->
         this.forms = attrs['forms']
-    }
-    
-    /**
-     * Fixes request form if this one hasn't client id (short label) 
-     */
-    private fixRequestForm = {
-        //
     }
     
     /**

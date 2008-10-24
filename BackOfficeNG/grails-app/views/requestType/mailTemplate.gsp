@@ -33,7 +33,7 @@
           </div>
         </div>
         
-        <form method="post" id="form1" action="mailTemplate" class="editorForm">
+        <form method="post" id="form1" action="mailTemplate" class="editor-form">
           <div id="editPanel">
             <div class="hd">Change state</div>
             <div class="bd" >

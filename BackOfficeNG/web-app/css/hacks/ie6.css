@@ -28,3 +28,7 @@ img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
 
 .form-list-edition ul li { width: 22% !important;}
 
+.editor-form .bd {
+	height: 1% !important;
+	overflow: hidden !important;
+}

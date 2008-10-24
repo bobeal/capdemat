@@ -154,16 +154,16 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
 .disabled { color: #cc2020; }
 
 /* Simple richtext editor */
-.editorForm {
+.editor-form {
 }
 
-.editorForm  #submit {
+.editor-form  #submit {
   margin-top: 0.5em !important;
   float : right;
 }
 
-.editorForm .bd {
-  overflow:auto !important;
+.editor-form .bd {
+  overflow:auto ;
 }
 
 .editable-work-area {
@@ -184,4 +184,5 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
 .editable-zone:hover {
   background-color: #FFDFBF;
 }
+
 

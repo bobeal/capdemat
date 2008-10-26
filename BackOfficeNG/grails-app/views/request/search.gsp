@@ -83,7 +83,7 @@
               <option value=""></option>
               <g:each in="${allStates}" var="state">
                 <option value="${state}" ${filters['stateFilter'] == state.toString() ? 'selected' : ''}>
-                  ${state}
+                  <g:message code="request.state.${state.toString().toLowerCase()}" />
                 </option>
               </g:each>
             </select>

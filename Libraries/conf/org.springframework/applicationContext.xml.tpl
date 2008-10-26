@@ -463,15 +463,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="isOfRegistrationKind" value="true"/>
   </bean>
 
-  <bean id="vacationsRegistrationRequestService" 
-    class="fr.cg95.cvq.service.school.impl.VacationsRegistrationRequestService" 
-    parent="requestService">
-    <property name="label" value="Vacations Registration"/>
-    <property name="xslFoFilename" value="vacationsRegistrationRequest.xsl"/>
-    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
-    <property name="isOfRegistrationKind" value="true"/>
-  </bean>
-
   <bean id="personalDetailsRequestService" 
     class="fr.cg95.cvq.service.civil.impl.PersonalDetailsRequestService" 
     parent="requestService">

@@ -29,7 +29,7 @@
   margin: 1em 0 .5em 0 !important;
   padding: 0 !important;
   font-size:1.4em !important;
-  style: color:blue !important;
+  /*style: color:blue !important;*/
   border:0 !important;
 }
 .overviewConfigurationList li h3 span { font-size: 0.7em; }
@@ -73,7 +73,7 @@
 .editableList li a:hover           { background-color: transparent;}
 
 .editableList li span.agentName     { width: 35%; float: left; }
-.editableList li span..categoryName { margin: 0 1em; font-size: 0.9em; }
+.editableList li span.categoryName { margin: 0 1em; font-size: 0.9em; }
 .editableList li strong             { font-weight: normal !important; }
 
 /* editable list display switcher */

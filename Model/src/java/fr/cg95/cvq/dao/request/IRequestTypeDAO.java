@@ -11,17 +11,22 @@ import fr.cg95.cvq.dao.IGenericDAO;
 public interface IRequestTypeDAO extends IGenericDAO {
 
     /**
-     * Look up a RequestType by name.
+     * Look up a request type by name.
      */
     RequestType findByName(final String name);
 
     /**
      * Return the list of all known requests types.
      */
-    List listAll();
+    List<RequestType> listAll();
 
     /**
-     * Return the list of requests types handled by a given service.
+     * Return the list of requests types handled by the given category.
      */
-    List listByCategory(final Long serviceId);
+    List<RequestType> listByCategory(final Long categoryId);
+    
+    /**
+     * Return the list of requests types in the given activation state.
+     */
+    List<RequestType> listByCategoryAndState(final Long categoryId, final Boolean active);
 }

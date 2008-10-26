@@ -533,16 +533,21 @@ public abstract class RequestService implements IRequestService {
         return null;
     }
         
-    public Set getRequestsTypesByCategory(final Long categoryId)
+    public List<RequestType> getRequestsTypesByCategory(final Long categoryId)
         throws CvqException {
-        List requestTypes = null;            
-        requestTypes = requestTypeDAO.listByCategory(categoryId);
-        return new LinkedHashSet(requestTypes);
+
+        // FIXME : need a control check here ?
+        return requestTypeDAO.listByCategory(categoryId);
+    }
+
+    public List<RequestType> getRequestsTypes(final Long categoryId, final Boolean active)
+        throws CvqException {
+        // FIXME : need a control check here ?
+        return requestTypeDAO.listByCategoryAndState(categoryId,active);
     }
 
     public RequestType getRequestTypeByLabel(final String requestLabel)
         throws CvqException {
-        logger.debug("getRequestTypeByLabel() Searching for request label : " + requestLabel);
         return requestTypeDAO.findByName(requestLabel);
     }
 

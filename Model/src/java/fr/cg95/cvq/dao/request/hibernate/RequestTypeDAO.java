@@ -3,7 +3,6 @@ package fr.cg95.cvq.dao.request.hibernate;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
@@ -25,22 +24,28 @@ public class RequestTypeDAO extends GenericDAO implements IRequestTypeDAO {
         super();
     }
 
-    public List listAll() {
-        // no meaning in restricting read access to document types
+    public List<RequestType> listAll() {
         StringBuffer sb = new StringBuffer();
         sb.append("from RequestType as requestType");
         return HibernateUtil.getSession().createQuery(sb.toString()).list();
     }
 
-    public List listByCategory(final Long serviceId) {
-        // no meaning in restricting read access to document types
+    public List<RequestType> listByCategory(final Long categoryId) {
         Criteria crit = HibernateUtil.getSession().createCriteria(RequestType.class);
-        crit.createCriteria("category").add(Critere.compose("id", serviceId, Critere.EQUALS));
+        crit.createCriteria("category").add(Critere.compose("id", categoryId, Critere.EQUALS));
+        return crit.list();
+    }
+
+    public List<RequestType> listByCategoryAndState(final Long categoryId, final Boolean active) {
+        Criteria crit = HibernateUtil.getSession().createCriteria(RequestType.class);
+        if (categoryId != null)
+            crit.createCriteria("category").add(Critere.compose("id", categoryId, Critere.EQUALS));
+        if (active != null)
+            crit.add(Critere.compose("active", active, Critere.EQUALS));
         return crit.list();
     }
 
     public RequestType findByName(final String requestTypeName) {
-        // no meaning in restricting read access to document types
         Criteria crit = HibernateUtil.getSession().createCriteria(RequestType.class);
         crit.add(Critere.compose("label", requestTypeName, Critere.EQUALS));
         return (RequestType) crit.uniqueResult();

@@ -12,4 +12,15 @@ class CapdematUtils {
         ]         
     }
     
+    // TODO : check how one can inject the translation service in this class
+    public static adaptRequestType (translationService, requestType) {
+        return [
+            id: requestType.id,
+            active: requestType.active,
+            label: translationService.getEncodedRequestTypeLabelTranslation(requestType.label),
+            categoryId: requestType.category?.id, 
+            categoryName: requestType.category?.name
+        ]
+    }
+
 }

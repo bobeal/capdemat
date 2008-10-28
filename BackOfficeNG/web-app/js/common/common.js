@@ -1,31 +1,34 @@
 /**
- * Contains common client-side functions of capdemat project 
- *  
+ * Contains common client-side functions of capdemat project
+ *
  * @namespace zenexity.capdemat.common
- * 
+ *
  **/
 
 (function() {
-  
+
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
   var yus = YAHOO.util.Selector;
   var yue = YAHOO.util.Event;
-  
+  var yuc = YAHOO.util.Connect;
+  var yud = YAHOO.util.Dom;
+  var yu = YAHOO.util;
+
   zcc.messageAreaId = 'errorMessages';
-  
+
   zcc.switchSelectedItemDisplay = function(itemId, className) {
 	  // first, deselect any previously selected item
 	  var elements = YAHOO.util.Dom.getElementsByClassName(className);
 	  var i = 0;
       for (i=0;i < elements.length; i++) {
-        YAHOO.util.Dom.removeClass(elements[i], className); 
+        YAHOO.util.Dom.removeClass(elements[i], className);
       }
       // then add the class name to the newly selected item
       var selectedItem = document.getElementById(itemId);
-      YAHOO.util.Dom.addClass(selectedItem, className); 
+      YAHOO.util.Dom.addClass(selectedItem, className);
   };
-  
+
   zcc.responseResultAnimation = function(hexaColor) {
     zcc.responseResultAnimation.superclass.constructor.call(this,
       zcc.Notifier.getMessageZone(), {
@@ -47,29 +50,29 @@
     } else if (resultType === 'success') {
         newCssClass = 'success-top';
         bgColor = '#DDFFDD';
-    
+
         var divEl = new YAHOO.util.Element(messagesAreaId);
         divEl.replaceClass('invisible', newCssClass);
-        
+
         var el = document.getElementById(messagesAreaId);
         el.innerHTML = message;
-        
+
         responseMessageAnimation = new zcc.responseResultAnimation(bgColor);
-        
+
         // TODO : customize animation according to type of error
         // errorMessageAnimation.duration = 1;
         // errorMessageAnimation.method = YAHOO.util.Easing.easeOut;
         responseMessageAnimation.animate();
     }
   };
-  
+
 
 
   zcc.handleUnexpectedError = function(o) {
     var errorBody = o.statusText + ' (' + o.status + ')';
     zcc.Notifier.processMessage('unexpectedError', errorBody);
   };
-  
+
   zcc.validateAndFilterResponse = function(o) {
     var response = YAHOO.lang.JSON.parse(o.responseText);
     if (response.status === 'error') {
@@ -85,15 +88,15 @@
     };
     if (zct.isFunction(callback)) handlers.success = callback;
     if (args) handlers.argument = args;
-    
+
     var url = [zenexity.capdemat.bong.baseUrl, callUrl].join('');
-    
+
     if(zct.browser.msie) {
       var special = ['iemustdie=',Math.random().toString(16).substring(2)].join('');
-      if(/.*\&.*/.test(url)) url = [url,'&',special].join('');
-      else url = [url,'?',special].join('');
+      //((url.indexOf('?') == -1)?'?':'&')
+      url = [url,((url.indexOf('?') == -1)?'?':'&'),special].join('');
+      //else url = [url,'?',special].join('');
     }
-    
     YAHOO.util.Connect.asyncRequest('GET', url, handlers, null);
   };
 
@@ -110,9 +113,10 @@
     if (zct.isFunction(callback)) handlers.success = callback;
     if (args) handlers.argument = args;
     var url = formElement.get('action');
+
     YAHOO.util.Connect.asyncRequest('POST', url, handlers, null);
   };
-  
+
   zcc.doAjaxDeleteCall = function(url,params,callback) {
     var handlers = {
       failure: zcc.handleUnexpectedError
@@ -121,9 +125,9 @@
     var url = [zenexity.capdemat.bong.baseUrl,url,'?',params].join('');
     YAHOO.util.Connect.asyncRequest('DELETE', url, handlers);
   };
-  
+
   zcc.collectSearchFormValues = function (formId) {
-    
+
     var queryUrl = '';
     var nodes = YAHOO.util.Selector.query('input', formId);
     for (i=0; i < nodes.length; i++) {
@@ -135,16 +139,16 @@
       if (nodes[i].value && nodes[i].value != '')
         queryUrl += nodes[i].name + "=" + nodes[i].value + "&";
     }
-	
+
     return queryUrl;
   };
-  
+
   zcc.setMenu = function() {
     zcc.switchSelectedItemDisplay(
       zenexity.capdemat.bong.currentMenu + 'MenuItem',
       'selected-menu-entry');
   };
-  
+
   zcc.deleteConfirmationDialog = function(divId,handleConfirmDelete,body) {
     zcc.deleteConfirmationDialog.superclass.constructor.call(this,
       divId || YAHOO.util.Dom.generateId() ,
@@ -177,12 +181,12 @@
           ]
       }
     );
-      
+
     this.setHeader("Attention !");
     this.setBody(body);
     this.render("bd");
   };
-  
+
   /**
    * @description Confirmation dialog class, extends base functionality of YUI SimpleDialog.
    * @param {Object} content JSON describer of dialog content.
@@ -196,7 +200,7 @@
       second: content.button2 || 'Annuler'
     };
     this.showTarget = undefined;
-    
+
     zcc.ConfirmationDialog.superclass.constructor.call(this,
     this.Id,
     { width: "20em",
@@ -213,20 +217,36 @@
     var el = yus.query("div.yui-skin-sam")[0] || document.body;
     this.render(el);
   };
-  
+
   YAHOO.lang.extend(zcc.ConfirmationDialog,YAHOO.widget.SimpleDialog)
-  
+
   zcc.ConfirmationDialog.prototype.show = function(e) {
     zcc.ConfirmationDialog.superclass.show.call(this);
     if(!!e) this.showTarget = YAHOO.util.Event.getTarget(e);
     else this.showTarget = undefined;
   };
-  
+
   YAHOO.lang.extend(zcc.deleteConfirmationDialog, YAHOO.widget.SimpleDialog);
   YAHOO.lang.extend(zcc.errorMessageDialog, YAHOO.widget.SimpleDialog);
   YAHOO.lang.extend(zcc.responseResultAnimation, YAHOO.util.ColorAnim);
-  
-  
+
+
+  zcc.limitArea = function(targetId, limit, infodiv) {
+    var textarea = yud.get(targetId);
+    var text = textarea.value;
+    var textlength = text.length;
+    var info = yud.get(infodiv);
+
+    if(textlength > limit) {
+      info.innerHTML = 'Ce champ est limité à '+limit+' caractères!';
+      textarea.value = text.substr(0,limit);
+      return false;
+    } else {
+      info.innerHTML = 'Il vous reste '+ (limit - textlength) +' caractères.';
+      return true;
+    }
+  };
+
   zcc.Notifier = function() {
     return {
       confirmationDialog : undefined,
@@ -250,13 +270,13 @@
         //TODO Reorganize & optimize this method
         newCssClass = 'success-top';
         bgColor = '#DDFFDD';
-    
+
         var divEl = new YAHOO.util.Element(zcc.Notifier.getMessageZone());
         divEl.replaceClass('invisible', newCssClass);
-        
+
         var el = document.getElementById(zcc.Notifier.getMessageZone());
         el.innerHTML = message;
-        
+
         responseMessageAnimation = new zcc.responseResultAnimation(bgColor);
         responseMessageAnimation.animate();
       },
@@ -265,7 +285,7 @@
       confirmHandler : function() {}
     }
   }();
-  
+
   zct.each(['UnexpectedError','ModelError'],function(i,name){
     zcc.Notifier[['display',name].join('')] = function(message) {
       zcc.Notifier.confirmationDialog.setBody(message);
@@ -273,25 +293,93 @@
       console.debug(name);
     }
   });
-  
-//  zcc.Event = function(context,rule) {
-//    this.context = context;
-//    this.rule = rule;
-//  }
-//  
-//  zcc.Event.prototype.snap = function(e) {
-//    
-//  }
-//  
-//  zcc.Event.prototype.dispatch = function(e) {
-//    //zct.tryToCall(
-//  }
-  
-  
+
+  /**
+   * @description Provides advanced support for firebug-lite console.
+   * @author vba@zenexity.fr
+   */
+  zcc.debug = {
+    injectFirebug : function(name,scope) {
+      var src = 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js';
+      var head = document.getElementsByTagName("head")[0];
+      var scripts = zct.grep(yud.getChildren(head),function(n){
+        return(n['src']==src);
+      });
+
+      if(scripts.length == 0) {
+        var newscript = document.createElement('script');
+        newscript.type = 'text/javascript';
+        newscript.src = src;
+
+        newscript.onload = newscript.onreadystatechange = function(){
+          if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
+            firebug.init();
+            zcc.debug.initXHR();
+            firebug.d.console[name](scope);
+            zcc.debug.loading = false;
+          }
+        };
+
+        head.appendChild(newscript);
+      }
+      return undefined;
+    },
+    initXHR : function() {
+      if(!!firebug && !yuc.oldAsyncRequest) {
+        yuc.oldAsyncRequest = yuc.asyncRequest;
+
+        yuc.asyncRequest = function(method, uri, callback, postData) {
+          var log = {
+            'method' : method,
+            'uri' : uri,
+            'callback' : callback,
+            'postData' : postData
+          };
+          var local = {
+            success : callback.success,
+            failure :  callback.faulure
+          };
+
+          zct.each(local,function(k,v){
+            callback[k] = function(o) {
+              if(zct.isFunction(v))v(o);
+              log.status = o.status;
+              log.statusText = o.statusText;
+              log.response = o.responseText;
+              zcc.debug.log(log);
+            }
+          });
+
+          var res = yuc.oldAsyncRequest(method, uri, callback, postData);
+          return res;
+        }
+      }
+    }
+  }
+
+  zct.each(['log','print','dir'],function(i,name){
+    zcc.debug[name] = function(o) {
+      if(!o)o=o+'';
+      if(typeof firebug == 'undefined') zcc.debug.injectFirebug(name,o);
+      else firebug.d.console[name](o);
+    }
+  });
+
+  zcc.Event = function(context,rule) {
+    this.context = context;
+    this.rule = rule;
+  }
+
+  zcc.Event.prototype.dispatch = function(e) {
+    var method = zct.tryToCall(this.rule,this.context,e);
+    zct.tryToCall(this.context[method],this.context,e);
+  }
+
+
   YAHOO.util.Event.onDOMReady(function(){
     zcc.setMenu();
     zcc.Notifier.init();
   });
-  
+
 }());
 

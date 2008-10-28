@@ -179,7 +179,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           .parentNode.parentNode;
         delete zcbrp.Forms.containers[o.getAttribute('id')];
       },
-
       handlers : {
         'save': function(e){zcbrp.Forms.modifyForm(yue.getTarget(e));},
         'cancel': function(e){zcbrp.Forms.hideEditForm(yue.getTarget(e));},

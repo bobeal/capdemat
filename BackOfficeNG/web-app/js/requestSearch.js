@@ -1,6 +1,7 @@
 (function(){
 
   var yue = YAHOO.util.Event;
+  var yud = YAHOO.util.Dom;
   var zct = zenexity.capdemat.tools;
   zct.namespace("zenexity.capdemat.bong.request");
   var zcbr = zenexity.capdemat.bong.request;
@@ -13,8 +14,8 @@
       var myPaginator = new YAHOO.widget.Paginator({
         containers: ['pagination-top','pagination-bottom'],
         rowsPerPage : 15,
-        totalRecords: parseInt(document.getElementById('totalRecords').value),
-        recordOffset: parseInt(document.getElementById('recordOffset').value),
+        totalRecords: parseInt(yud.get('totalRecords').value),
+        recordOffset: parseInt(yud.get('recordOffset').value),
         template : "{FirstPageLink} {PreviousPageLink} <span>{CurrentPageReport}</span> {NextPageLink} {LastPageLink}",
         previousPageLinkLabel : '&lt;',
         firstPageLinkLabel : '&lt;&lt;',
@@ -24,10 +25,23 @@
       });
 
       function handlePaginatorChange(state) {
-        document.getElementById('recordOffset').value = state.recordOffset;
-        document.getElementById('requestForm').submit();
+        yud.get('recordOffset').value = state.recordOffset;
+        yud.get('requestForm').submit();
       }
-      myPaginator.subscribe('changeRequest', handlePaginatorChange);    
+      myPaginator.subscribe('changeRequest', handlePaginatorChange);
+      /* 
+      myPaginator.subscribe('rendered', function () { 
+        var pageReport, pageReportNode, report, sortBy; 
+
+        report = yud.get('pagination-top');
+        var el = new YAHOO.util.Element("span");
+        el.addClass("test");
+        sortBy = yud.get('sortBy').value;
+        el.appendChild(sortBy);
+        
+        yud.insertAfter(el, yud.getLastChild(report));
+      });
+      */ 
       myPaginator.render();
     };
   
@@ -36,7 +50,7 @@
     };
   
     var initCalendars = function() {
-      if (document.getElementById('mode').value === 'advanced') {
+      if (yud.get('mode').value === 'advanced') {
         YAHOO.capdematBo.calendar.cal = new Array(2);
         YAHOO.capdematBo.calendar.init(null, null, {id: 0, label: 'creationDateFrom'});
         YAHOO.capdematBo.calendar.init(null, null, {id: 1, label: 'creationDateTo'});
@@ -55,22 +69,21 @@
     };
     
     var sortSearchRequest = function(sortType) {
-      document.getElementById('sortBy').value = sortType;
-      document.getElementById('requestForm').submit();
+      yud.get('sortBy').value = sortType;
+      yud.get('requestForm').submit();
     };
 
     var filterSearchRequest = function(filterType) {
-      document.getElementById('filterBy').value = 
-        document.getElementById('filterBy').value + 
-        '@' + filterType + '=' + document.getElementById(filterType).value;                
-      document.getElementById('requestForm').submit();
+      yud.get('filterBy').value = yud.get('filterBy').value + 
+        '@' + filterType + '=' + yud.get(filterType).value;                
+      yud.get('requestForm').submit();
     };
       
     var switchSearchForm = function(formType) {
         var url = '/loadSearchForm?formType=' + formType + '&' + zcc.collectSearchFormValues('requestForm');
         zcc.doAjaxCall(url, null,
           function(o) {
-            document.getElementById('head').innerHTML = o.responseText;
+            yud.get('head').innerHTML = o.responseText;
             initButton();
             initCalendars();
             initSwitcher();

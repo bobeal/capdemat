@@ -34,7 +34,7 @@
           <form action="#" id="requestSearchSorters">
             <ul>
               <li>
-                <label for="creationDate"><g:message code="property.date" /></label>
+                <label for="creationDate"><g:message code="property.creationDate" /></label>
                 <input type="radio" id="creationDate" ${sortBy == 'creationDate' ? 'checked' : ''} />
               </li>
               <li>
@@ -42,7 +42,11 @@
                 <input type="radio" id="requesterLastName" ${sortBy == 'requesterLastName' ? 'checked' : ''} />
               </li>
               <li>
-                <label for="homeFolderId"><g:message code="property.homeFolder" /></label>
+                <label for="requestId"><g:message code="property.requestId" /></label>
+                <input type="radio" id="requestId" ${sortBy == 'requestId' ? 'checked' : ''} />
+              </li>
+              <li>
+                <label for="homeFolderId"><g:message code="property.homeFolderId" /></label>
                 <input type="radio" id="homeFolderId" ${sortBy == 'homeFolderId' ? 'checked' : ''} />
               </li>
             </ul>
@@ -79,7 +83,7 @@
               <option value=""></option>
               <g:each in="${allStates}" var="state">
                 <option value="${state}" ${filters['stateFilter'] == state.toString() ? 'selected' : ''}>
-                  ${state}
+                  <g:message code="request.state.${state.toString().toLowerCase()}" />
                 </option>
               </g:each>
             </select>

@@ -91,7 +91,7 @@
             <span class="tag-enable"><g:message code="property.active" /></span>
           </g:if>
           <g:else>
-            <span class="tag-disable"><g:message code="property.unactive" /></span>
+            <span class="tag-disable"><g:message code="property.inactive" /></span>
           </g:else>
         </div>
       </div>

@@ -30,7 +30,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/document/DocumentType.hbm.xml</value>
         <value>fr/cg95/cvq/business/school/OtherIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/School.hbm.xml</value>
-        <value>fr/cg95/cvq/business/school/VacationsDiary.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/RecreationCenter.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/Address.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/Agent.hbm.xml</value>
@@ -47,7 +46,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/users/TicketTypeSelection.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/payment/Payment.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/payment/PurchaseItem.hbm.xml</value>
-		<value>fr/cg95/cvq/business/social/DhrRealAsset.hbm.xml</value>
+        <value>fr/cg95/cvq/business/social/DhrRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/social/DhrNotRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/social/HarFamilyDependent.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>

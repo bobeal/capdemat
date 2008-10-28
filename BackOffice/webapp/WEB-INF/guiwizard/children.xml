@@ -73,11 +73,6 @@
 			<form scope="request">/jsp/bo/process/school/printrecreation</form>
 		</state>
 	</process>
-	<process name="eVacations">
-		<label>Inscription vacances</label>
-		<record>fr.cg95.cvq.bo.school.VacationsRegistrationRequestRecord</record>
-		<persistence>fr.cg95.cvq.bo.school.VacationsRegistrationPersistence</persistence>
-	</process>
   </processes>
   
 </cvqmanager>

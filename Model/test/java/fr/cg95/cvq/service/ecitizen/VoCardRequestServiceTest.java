@@ -36,6 +36,7 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
@@ -267,8 +268,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         doc.setEcitizenNote("Mon livret de famille");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));
-        Long documentId = iDocumentService.create(doc, homeFolder.getId(), null);
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        Long documentId = iDocumentService.create(doc);
         iVoCardRequestService.addDocument(requestId, documentId);
 
         // add binary data

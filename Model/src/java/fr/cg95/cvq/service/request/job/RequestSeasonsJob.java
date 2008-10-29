@@ -20,7 +20,7 @@ import fr.cg95.cvq.service.request.IRequestService;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class RequestSeasonsJob {
+public class RequestSeasonsJob {
 
     private static Logger logger = Logger.getLogger(RequestSeasonsJob.class);
     

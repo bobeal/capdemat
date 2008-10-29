@@ -47,6 +47,11 @@ public interface IIndividualDAO extends IGenericDAO {
             final ActorState[] excludedStates);
 
     /**
+     * Return the list of {@link Adult} objects belonging to a given home folder.
+     */
+    List<Individual> listByHomeFolder(final Long homeFolderId);
+
+    /**
      * List the children whose given individual is responsible of.
      */
     List listClrs(final Individual individual);

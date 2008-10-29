@@ -44,6 +44,7 @@ import fr.cg95.cvq.service.authority.IPlaceReservationService;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.request.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
@@ -84,6 +85,7 @@ public class ServiceTestCase
     protected static IHomeFolderService iHomeFolderService;
     protected static IAuthenticationService iAuthenticationService;
     protected static IDocumentService iDocumentService;
+    protected static IDocumentTypeService iDocumentTypeService;
     protected static IAdultService iAdultService;
     protected static IChildService iChildService;
     protected static ICardService iCardService;
@@ -135,7 +137,6 @@ public class ServiceTestCase
                 iFakePaymentProviderService = 
                     (IPaymentProviderService) cac.getBean("fakePaymentProviderService");
 
-                iDocumentService = (IDocumentService) cac.getBean("documentService");
                 iIndividualService = (IIndividualService) cac.getBean("individualService");
                 iAdultService = (IAdultService) cac.getBean("adultService");
                 iChildService = (IChildService) cac.getBean("childService");
@@ -348,6 +349,14 @@ public class ServiceTestCase
         iHomeFolderService = homeFolderService;
     }
 
+    public void setDocumentService(IDocumentService documentService) {
+        iDocumentService = documentService;
+    }
+    
+    public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
+        iDocumentTypeService = documentTypeService;
+    }
+    
     public void setCardService(ICardService cardService) {
         iCardService = cardService;
     }

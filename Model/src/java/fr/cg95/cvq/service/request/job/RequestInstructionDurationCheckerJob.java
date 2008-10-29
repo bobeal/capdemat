@@ -30,7 +30,7 @@ import fr.cg95.cvq.util.mail.IMailService;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class RequestInstructionDurationCheckerJob {
+public class RequestInstructionDurationCheckerJob {
 
     private static Logger logger = Logger.getLogger(RequestInstructionDurationCheckerJob.class);
 

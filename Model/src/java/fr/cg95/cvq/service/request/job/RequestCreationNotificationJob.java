@@ -22,7 +22,7 @@ import fr.cg95.cvq.util.mail.IMailService;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class RequestCreationNotificationJob {
+public class RequestCreationNotificationJob {
 
     private static Logger logger = Logger.getLogger(RequestCreationNotificationJob.class);
 

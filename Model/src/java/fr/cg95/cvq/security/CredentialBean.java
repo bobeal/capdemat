@@ -1,6 +1,7 @@
 package fr.cg95.cvq.security;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
@@ -51,6 +52,21 @@ public class CredentialBean {
     private boolean foContext;
     private boolean adminContext;
 
+    /**
+     * Used to keep trace of current agent's site roles.
+     */
+    private SiteRoles[] siteRoles = null;
+
+    /**
+     * Used to keep trace of current agent's category roles.
+     */
+    private CategoryRoles[] categoryRoles = null;
+
+    /**
+     * Used to keep trace of current citizen's "managed" individuals.
+     */
+    private Set<Long> managedIndividualsIds = null;
+    
     public CredentialBean(LocalAuthority localAuthority, String context) {
         logger.debug("CredentialBean() setting local authority " + localAuthority
                 + " and context " + context);
@@ -80,7 +96,7 @@ public class CredentialBean {
     }
 
     public boolean isAdminContext() {
-    		return adminContext;
+        return adminContext;
     }
     
     public void setContext(final String context) {
@@ -157,9 +173,6 @@ public class CredentialBean {
         this.locale = locale;
     }
 
-    private SiteRoles[] siteRoles = null;
-    private CategoryRoles[] categoryRoles = null;
-
     /**
      * Returns the array of site-scoped roles the user in the bean belongs to.
      */
@@ -170,12 +183,10 @@ public class CredentialBean {
         }
 
         if (siteRoles == null) {
-            Set siteRolesSet = agent.getSitesRoles();
+            Set<SiteRoles> siteRolesSet = agent.getSitesRoles();
             siteRoles = new SiteRoles[siteRolesSet.size()];
             int i = 0;
-            Iterator it = siteRolesSet.iterator();
-            while (it.hasNext()) {
-                SiteRoles sr = (SiteRoles) it.next();
+            for (SiteRoles sr : siteRolesSet) {
                 siteRoles[i] = sr;
                 i++;
             }
@@ -195,13 +206,11 @@ public class CredentialBean {
         }
 
         if (categoryRoles == null) {
-            Set categoryRolesSet = agent.getCategoriesRoles();
+            Set<CategoryRoles> categoryRolesSet = agent.getCategoriesRoles();
             categoryRoles = new CategoryRoles[categoryRolesSet.size()];
             int i = 0;
-            Iterator it = categoryRolesSet.iterator();
-            while (it.hasNext()) {
-                CategoryRoles sr = (CategoryRoles) it.next();
-                categoryRoles[i] = sr;
+            for (CategoryRoles cr : categoryRolesSet) {
+                categoryRoles[i] = cr;
                 i++;
             }
         }
@@ -211,14 +220,31 @@ public class CredentialBean {
 
     public CategoryProfile getProfileForCategory(Category category) {
         CategoryRoles[] categoryRoles = getCategoryRoles();
-        for (int i = 0; i < categoryRoles.length; i++) {
-            CategoryRoles cr = categoryRoles[i];
+        for (CategoryRoles cr : categoryRoles) {
             if (cr.getCategory().getId().equals(category.getId()))
                 return cr.getProfile();
         }
         return null;
     }
-    
+
+    public Set<Long> getManagedIndividualsIds() {
+        return managedIndividualsIds;
+    }
+
+    public void setManagedIndividualsIds(Set<Long> managedIndividualsIds) {
+        this.managedIndividualsIds = managedIndividualsIds;
+    }
+
+    public void setManagedIndividuals(Set<Individual> managedIndividuals) {
+        managedIndividualsIds = new HashSet<Long>();
+        for (Individual individual : managedIndividuals) {
+            managedIndividualsIds.add(individual.getId());
+        }
+    }
+
+    /**
+     * FIXME : to be moved in a request-specific permission manager.
+     */
     public boolean belongsToSameHomeFolder(Request request) {
         if (adult == null) {
             logger.debug("belongsToSameHomeFolder() no adult found, returning false");
@@ -245,6 +271,9 @@ public class CredentialBean {
         return false;
     }
 
+    /**
+     * FIXME : to be moved in a document-specific permission manager.
+     */
     public boolean belongsToSameHomeFolder(Document document) {
         if (adult == null) {
             logger.debug("belongsToSameHomeFolder() no adult found, returning false");
@@ -280,7 +309,7 @@ public class CredentialBean {
      * (if <code>getObjectBean()</code> was previously called with the
      * same object and base class).
      */
-    public ObjectBean getObjectBean(Object object, Class baseClass) {
+    public ObjectBean getObjectBean(Object object, Class<?> baseClass) {
 
         for (ObjectBean bean : objectBeanCache) {
 

@@ -34,7 +34,7 @@
 				<include name="**/junit.jar" />
 				<include name="**/jsmtpd-core-*.jar" />
 				<include name="**/jmock-*.jar" />
-                <include name="**/hamcrest-*.jar" />
+        <include name="**/hamcrest-*.jar" />
 			</fileset>
 
 			<pathelement path="${basedir}/${build.classes.dir}" />
@@ -88,8 +88,8 @@
 	    </delete>
 		<delete dir="${basedir}/${build.dir}" />
 		<delete dir="${basedir}/${src.xml.hibernate.dir}/fr" />
-		<delete dir="${conf.dir.spring}" />
-	    <delete dir="${basedir}/utils/lib" />
+    <delete dir="${conf.dir.spring}" />
+    <delete dir="${basedir}/utils/lib" />
 		<antcall target="clean-tests" />
 		<antcall target="clean-documentation" />
 	</target>
@@ -100,29 +100,13 @@
 		<antcall target="compile-tests" />
 	</target>
 	
-    <target name="ajc-compile" depends="init">
-      <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
-        <classpath>
-          <pathelement path="${libraries.dir}/org.aspectj/aspectjtools-1.6.jar"/>
-        </classpath>
-      </taskdef>
-        
-      <!-- can use ajc or iajc here -->
-      <iajc source="1.6" sourceRoots="${basedir}/${src.java.dir}" 
-        destdir="${basedir}/${build.classes.dir}" classpathRef="classpath.compile"/>
-
-    </target>
-
 	<target name="compile-sources" depends="init">
 		<mkdir dir="${basedir}/${build.classes.dir}" />
-		<antcall target="ajc-compile" />
-		<!--
 		<javac optimize="on" debug="on" deprecation="on" encoding="ISO-8859-1" 
 			verbose="off" srcdir="${basedir}/${src.java.dir}" includes="**/*.java" 
 			destdir="${basedir}/${build.classes.dir}">
 			<classpath refid="classpath.compile" />
 		</javac>
-		-->
 		<copy todir="${basedir}/${build.classes.dir}" file="${conf.dir.fop}/fop-config.xml" />
 	</target>
 
@@ -316,9 +300,10 @@
     </target>
     -->
 	
-	<target name="run-tests" depends="prepare-configfiles, compile-tests, schemaexport" description="Runs the Junit test suite. Notice: A known Ant/Junit bug prevents this
+	<target name="run-tests" depends="prepare-configfiles, compile-tests, schemaexport" 
+	  description="Runs the Junit test suite. Notice: A known Ant/Junit bug prevents this
   	task to automatically work so add lib/junit/junit.jar to your CLASSPATH environment
-	variable prior to running the test suite">
+    variable prior to running the test suite">
 
 		<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" 
 			classpath="${libraries.dir}/groovy/groovy-all-1.0.jar" />
@@ -370,15 +355,10 @@
 			<formatter type="plain" usefile="false" />
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-				    <include name="**/PaymentServiceTest.class"/>
+				    <include name="**/DocumentServiceTest.class"/>
 				    <!-- include name="**/*Test.class" /-->
 				  <!--include name="**/RequestServiceTest.class" /-->
 				                    
-				  <include name="**/TechnicalInterventionRequestServiceTest.class" />
-				  <include name="**/HolidaySecurityRequestServiceTest.class" />
-
-					<!-- not maintained any more -->
-					<exclude name="**/VacationsRegistrationRequestServiceTest.class" />
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />
 					<!-- required an LDAP directory -->

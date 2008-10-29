@@ -3,14 +3,19 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns:aop="http://www.springframework.org/schema/aop"
      xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:sec="http://safr.sourceforge.net/schema/core"
      xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
-http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd 
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
-  <!-- <context:annotation-config/> -->
-  <context:component-scan base-package="fr.cg95.cvq.service"/>
-  
+  <aop:aspectj-autoproxy/>
+
+  <bean id="loggingAspect" class="fr.cg95.cvq.util.development.LoggingAspect" />
+  <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
+
+  <!-- 
   <aop:config>
     <aop:pointcut id="daoMethod"
       expression="execution(* fr.cg95.cvq.dao.*.hibernate.*DAO.*(..))" />
@@ -19,9 +24,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
         method="translateException" />
     </aop:aspect>
   </aop:config>
-
+  
   <bean id="hibernateExceptionTranslator" 
     class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslator"/>
+  -->
   
   <!-- ======================================================= -->
   <!-- ========== GENERAL SERVICES DEFINITION ================ -->  
@@ -84,9 +90,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="agentDAO">
       <ref bean="agentDAO"/>
     </property>
-    <property name="adultDAO">
-      <ref bean="adultDAO"/>
-    </property>
+    <property name="adultService" ref="adultService" />
+    <property name="homeFolderService" ref="homeFolderService" />
     <property name="administratorGroups">
       <list>
        <value>${agent.administrator_group}</value>
@@ -97,6 +102,12 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
        <value>${agent.contributor_group}</value>
       </list>
     </property>
+  </bean>
+  
+  <sec:annotation-driven access-manager="accessManager"/>
+
+  <bean id="accessManager" class="fr.cg95.cvq.service.document.DocumentAccessManager">
+    <property name="documentDAO" ref="documentDAO" />
   </bean>
   
   <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService">
@@ -314,6 +325,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="adultDAO">
       <ref local="adultDAO"/>
     </property>
+    <property name="individualDAO" ref="individualDAO" />
   </bean>
   
   <bean id="meansOfContactService" class="fr.cg95.cvq.service.request.impl.MeansOfContactService">
@@ -326,6 +338,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <!-- ************************ DOCUMENTS RELATED SERVICES ********************* -->
 
+  <!-- 
   <bean id="documentDigitalizationAllowedBeforeAdvice"
     class="fr.cg95.cvq.service.document.DocumentDigitalizationAllowedBeforeAdvice">
     <property name="localAuthorityRegistry">
@@ -357,32 +370,27 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
       </list>
     </property>
   </bean>
+  -->
 
-  <bean id="documentServiceTarget" class="fr.cg95.cvq.service.document.impl.DocumentService">
-    <property name="cvqPolicy">
-      <ref bean="cvqPolicy"/>
-    </property>
-    <property name="documentDAO">
-      <ref local="documentDAO"/>
-    </property>
-    <property name="documentTypeDAO">
-      <ref local="documentTypeDAO"/>
-    </property>
-    <property name="documentBinaryDAO">
-      <ref local="documentBinaryDAO"/>
-    </property>
-    <property name="genericDAO">
-      <ref local="genericDAO"/>
-    </property>
+  <bean id="documentService" class="fr.cg95.cvq.service.document.impl.DocumentService">
+    <property name="documentDAO" ref="documentDAO"/>
+    <property name="documentTypeDAO" ref="documentTypeDAO"/>
+    <property name="documentBinaryDAO" ref="documentBinaryDAO"/>
+    <property name="genericDAO" ref="genericDAO"/>
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+  </bean>
+
+  <bean id="documentTypeService" class="fr.cg95.cvq.service.document.impl.DocumentTypeService">
+    <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="performDbUpdates" value="@perform_db_updates@"/>
     <property name="documentBootstrapper">
       <bean class="fr.cg95.cvq.service.document.impl.DocumentBootstrapper">
         <property name="documentTypeDAO" ref="documentTypeDAO" />
       </bean>
-    </property>
+    </property>  
   </bean>
-
+  
   <bean id="cardService" class="fr.cg95.cvq.service.users.impl.CardService">
     <property name="DAO">
       <ref local="genericDAO"/>

@@ -127,6 +127,17 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             .list();
     }
 
+    public List<Individual> listByHomeFolder(Long homeFolderId) {
+        StringBuffer sb = new StringBuffer(100);
+        sb.append("select individual from Individual as individual")
+            .append(" join individual.homeFolder homeFolder")
+            .append(" where homeFolder.id = ?");
+        return HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setLong(0, homeFolderId.longValue())
+            .list();
+    }
+
     public List listClrs(final Individual individual) {
         Criteria crit = HibernateUtil.getSession().createCriteria(ChildLegalResponsible.class);
         crit.add(Restrictions.eq("legalResponsible", individual));

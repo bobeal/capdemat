@@ -9,6 +9,7 @@ import fr.cg95.cvq.business.military.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.military.IMilitaryCensusRequestService;
 import fr.cg95.cvq.util.Critere;
 
@@ -121,9 +122,10 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
         doc.setEcitizenNote("Ma carte d'identitÃ© !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));
-        Long documentId = iDocumentService.create(doc, request.getHomeFolder().getId(), 
-        					  request.getRequester().getId());
+        doc.setHomeFolderId(request.getHomeFolder().getId());
+        doc.setIndividualId(request.getRequester().getId());
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        Long documentId = iDocumentService.create(doc);
         iMilitaryCensusRequestService.addDocument(request.getId(), documentId);
         Set documentsSet =
             iMilitaryCensusRequestService.getAssociatedDocuments(request.getId());

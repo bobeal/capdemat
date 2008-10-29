@@ -9,6 +9,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sourceforge.safr.core.annotation.Secure;
+import net.sourceforge.safr.core.annotation.SecureAction;
+
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.document.DepositOrigin;
@@ -27,10 +30,9 @@ import fr.cg95.cvq.exception.CvqBadPageNumberException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
-import fr.cg95.cvq.security.IPolicyDelegate;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
+import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentService;
 
@@ -39,55 +41,24 @@ import fr.cg95.cvq.service.document.IDocumentService;
  *
  * @author bor@zenexity.fr
  */
-public class DocumentService implements IDocumentService, ILocalAuthorityLifecycleAware {
+public class DocumentService implements IDocumentService {
 
     static Logger logger = Logger.getLogger(DocumentService.class);
 
     protected ILocalAuthorityRegistry localAuthorityRegistry;
-    
-    protected IPolicyDelegate cvqPolicy;
     
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
     protected IDocumentBinaryDAO documentBinaryDAO;
     protected IGenericDAO genericDAO;
     
-    private Boolean performDbUpdates;
-    private DocumentBootstrapper documentBootstrapper;
-    
     public DocumentService() {
         super();
     }
 
-    public void initSampleDocumentTypes(final String localAuthorityName) 
-        throws CvqException {
-        logger.debug("initSampleDocumentTypes() init for " + localAuthorityName);
-        documentBootstrapper.bootstrapForCurrentLocalAuthority();
-    }
-    
-    public void addLocalAuthority(String localAuthorityName) {
-        if (performDbUpdates)
-            localAuthorityRegistry.callback(localAuthorityName, this, "initSampleDocumentTypes", null);
-    }
-
-    public void removeLocalAuthority(String localAuthorityName) {
-    }
-
-    public Document getById(final Long id)
+    public Document getById(@Secure(SecureAction.READ) final Long id)
         throws CvqException, CvqObjectNotFoundException {
-        return (Document) documentDAO.findById(Document.class, id, PrivilegeDescriptor.READ);
-    }
-
-    public DocumentType getDocumentTypeById(final Integer id)
-        throws CvqException, CvqObjectNotFoundException {
-
-        return documentTypeDAO.findByType(id);
-    }
-
-    public List<DocumentType> getAllDocumentTypes()
-        throws CvqException {
-
-        return documentTypeDAO.listAll();
+        return (Document) documentDAO.findById(Document.class, id);
     }
 
     /**
@@ -168,15 +139,13 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         }
     }
 
-    public Long create(final Document document, final Long homeFolderId, final Long individualId)
+    public Long create(@Secure(SecureAction.CREATE) Document document)
         throws CvqException, CvqObjectNotFoundException {
 
         if (document == null)
             throw new CvqException("No document object provided");
         if (document.getDocumentType() == null)
             throw new CvqException("You must provide a type for your document");
-        if (homeFolderId == null && individualId == null)
-            throw new CvqException("You must provide an home folder id or an individual id for the document");
 
         document.setState(DocumentState.PENDING);
         document.setCreationDate(new Date());
@@ -191,14 +160,6 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         
         computeEndValidityDate(document);
 
-        // eventually create association with the home folder
-        if (homeFolderId != null)
-            document.setHomeFolderId(homeFolderId);
-
-        // eventually create association with the individual
-        if (individualId != null)
-            document.setIndividualId(individualId);
-
         Long documentId = documentDAO.create(document);
 
         logger.debug("Created document object with id : " + documentId);
@@ -208,9 +169,24 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         return documentId;
     }
 
-    public Long addPage(final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException, CvqObjectNotFoundException,
-               CvqBadPageNumberException {
+    public void modify(@Secure(SecureAction.UPDATE) final Document document)
+        throws CvqException {
+
+        if (document == null)
+            return;
+        documentDAO.update(document);
+    }
+
+    public void delete(@Secure(SecureAction.DELETE) final Long id)
+        throws CvqException, CvqObjectNotFoundException {
+
+        Document document = getById(id);
+        documentDAO.delete(document);
+    }
+
+    public Long addPage(@Secure(SecureAction.UPDATE) final Long documentId, 
+            final DocumentBinary documentBinary)
+        throws CvqException, CvqObjectNotFoundException, CvqBadPageNumberException {
 
         Document document = getById(documentId);
 
@@ -242,7 +218,8 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         return docBinId;
     }
 
-    public void modifyPage(final Long documentId, final DocumentBinary documentBinary)
+    public void modifyPage(@Secure(SecureAction.UPDATE) final Long documentId, 
+            final DocumentBinary documentBinary)
         throws CvqException, CvqBadPageNumberException {
 
         // a piece of page management, to be c'ted if really necessary
@@ -267,7 +244,7 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         logger.debug("Modified document binary with id : " + documentBinary.getId());
     }
 
-    public void deletePage(final Long documentId, final Integer pageId)
+    public void deletePage(@Secure(SecureAction.DELETE) final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException {
 
         DocumentBinary docBin =
@@ -286,7 +263,8 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         logger.debug("Deleted document binary with id : " + docBin.getId());
     }
 
-    public DocumentBinary getPage(final Long documentId, final Integer pageId)
+    public DocumentBinary getPage(@Secure(SecureAction.READ) final Long documentId, 
+            final Integer pageId)
         throws CvqException, CvqObjectNotFoundException {
 
         DocumentBinary docBin =
@@ -297,13 +275,13 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         return docBin;
     }
 
-    public Integer getPagesNumber(final Long documentId)
+    public Integer getPagesNumber(@Secure(SecureAction.READ) final Long documentId)
         throws CvqException {
 
         return documentBinaryDAO.getPagesNumber(documentId).intValue();
     }
 
-    public Set<DocumentBinary> getAllPages(final Long documentId)
+    public Set<DocumentBinary> getAllPages(@Secure(SecureAction.READ) final Long documentId)
         throws CvqException {
 
         Document document = getById(documentId);
@@ -314,23 +292,6 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
             return new LinkedHashSet<DocumentBinary>(document.getDatas());
     }
 
-    public void modify(final Document document)
-        throws CvqException {
-
-        if (document == null)
-            return;
-        documentDAO.update(document);
-    }
- 	
- 	public void delete(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
-
-        logger.debug("Gonna delete document object with id : " + id);
-
-        Document document = getById(id);
-        documentDAO.delete(document);
-    }
-    
     public void deleteHomeFolderDocuments(Long homeFolderId) throws CvqException {
         List<Document> documents = getHomeFolderDocuments(homeFolderId);
         for (Document document : documents)
@@ -374,6 +335,7 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
     // TODO : make workflow method private - migrate unit tests
     //////////////////////////////////////////////////////////
     
+    @Context(type=ContextType.BACK_OFFICE)
     public void updateDocumentState(final Long id, final DocumentState ds, final String message, 
             final Date validityDate)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
@@ -387,13 +349,11 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
             outDated(id);
     }
 
+    @Context(type=ContextType.BACK_OFFICE)
     public void validate(final Long id, final Date validityDate, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
-        logger.debug("Gonna validate document object with id : " + id);
-
         Document document = getById(id);
-
         if (document.getState().equals(DocumentState.VALIDATED))
             return;
 
@@ -412,10 +372,9 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.VALIDATED, document);
     }
 
+    @Context(type=ContextType.BACK_OFFICE)
     public void check(final Long id, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
-
-        logger.debug("Gonna check document object with id : " + id);
 
         Document document = getById(id);
         if (document.getState().equals(DocumentState.CHECKED))
@@ -429,10 +388,9 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.CHECKED, document);
     }
 
+    @Context(type=ContextType.BACK_OFFICE)
     public void refuse(final Long id, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
-
-        logger.debug("Gonna refuse document object with id : " + id);
 
         Document document = getById(id);
         if (document.getState().equals(DocumentState.REFUSED))
@@ -448,10 +406,9 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.REFUSED, document);
     }
 
+    @Context(type=ContextType.BACK_OFFICE)
     public void outDated(final Long id)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
-
-        logger.debug("Gonna set document object with id : " + id + " out of date");
 
         Document document = getById(id);
         if (document.getState().equals(DocumentState.OUTDATED))
@@ -466,7 +423,7 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.OUTDATED, document);
     }
 
-
+    @Context(type=ContextType.BACK_OFFICE)
     public DocumentState[] getPossibleTransitions(DocumentState ds)
         throws CvqException {
 
@@ -496,14 +453,8 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
             final Document document)
         throws CvqException {
 
-        cvqPolicy.check(document, PrivilegeDescriptor.WRITE);
-
-        Long userId = SecurityContext.getCurrentUserId();
-        if (userId == null)
-            throw new CvqException("No logged in user !");
-
         DocumentAction documentAction = new DocumentAction();
-        documentAction.setAgentId(userId);
+        documentAction.setAgentId(SecurityContext.getCurrentUserId());
         documentAction.setLabel(label);
         documentAction.setDate(new Date());
         documentAction.setResultingState(resultingState);
@@ -539,21 +490,6 @@ public class DocumentService implements IDocumentService, ILocalAuthorityLifecyc
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
-    }
-    
-    public void setPerformDbUpdates(Boolean performDbUpdates) {
-        if (performDbUpdates != null)
-            this.performDbUpdates = performDbUpdates;
-        else
-            this.performDbUpdates = Boolean.FALSE;
-    }
-
-    public void setDocumentBootstrapper(DocumentBootstrapper documentBootstrapper) {
-        this.documentBootstrapper = documentBootstrapper;
-    }
-
-    public void setCvqPolicy(IPolicyDelegate cvqPolicy) {
-        this.cvqPolicy = cvqPolicy;
     }
 }
 

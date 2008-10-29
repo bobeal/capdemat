@@ -88,27 +88,6 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
         return filterSearchResults(results);
     }
 
-    public Long create(final Object object) throws CvqPermissionException {
-        if (object instanceof Document)
-            cvqPolicy.check((Document) object, PrivilegeDescriptor.WRITE);
-
-        return super.create(object);
-    }
-
-    public void update(final Object object) throws CvqPermissionException {
-        if (object instanceof Document)
-            cvqPolicy.check((Document) object, PrivilegeDescriptor.WRITE);
-
-        super.update(object);
-    }
-
-    public void delete(final Object object) throws CvqPermissionException {
-        if (object instanceof Document)
-            cvqPolicy.check((Document) object, PrivilegeDescriptor.WRITE);
-
-        super.delete(object);
-    }
-
     protected List<Document> filterSearchResults(final List results) {
 
         List<Document> resultAfterPermissionChecks = new ArrayList<Document>();

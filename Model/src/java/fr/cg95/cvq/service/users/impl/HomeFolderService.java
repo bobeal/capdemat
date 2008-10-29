@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +23,7 @@ import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
+import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -58,6 +58,7 @@ public class HomeFolderService implements IHomeFolderService {
     protected IDocumentService documentService;
     protected IGenericDAO genericDAO;
     protected IHomeFolderDAO homeFolderDAO;
+    protected IIndividualDAO individualDAO;
     protected IChildDAO childDAO;
     protected IAdultDAO adultDAO;
     protected IPaymentService paymentService;
@@ -103,6 +104,11 @@ public class HomeFolderService implements IHomeFolderService {
 
         List adultList = adultDAO.listByHomeFolder(homeFolderId);
         return new LinkedHashSet(adultList);
+    }
+
+    public List<Individual> getIndividuals(Long homeFolderId) throws CvqException {
+        
+        return individualDAO.listByHomeFolder(homeFolderId);
     }
 
     public HomeFolder create(final Adult adult) throws CvqException {
@@ -394,7 +400,11 @@ public class HomeFolderService implements IHomeFolderService {
         this.adultDAO = adultDAO;
     }
 
-	public void setGenericDAO(IGenericDAO genericDAO) {
+	public void setIndividualDAO(IIndividualDAO individualDAO) {
+        this.individualDAO = individualDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
 		this.genericDAO = genericDAO;
 	}
 

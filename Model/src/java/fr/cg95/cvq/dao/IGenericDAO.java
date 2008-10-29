@@ -14,11 +14,13 @@ public interface IGenericDAO {
     /**
      * Look up a persistent object by id.
      */
-    Object findById(final Class clazz, final Long id) 
-        throws CvqObjectNotFoundException, CvqPermissionException;
+    Object findById(final Class<?> clazz, final Long id) 
+        throws CvqObjectNotFoundException;
 
     /**
      * Look up a persistent object by id, applying the given security check on it after loading.
+     * 
+     * @deprecated
      */
     Object findById(final Class clazz, final Long id, final PrivilegeDescriptor privilege)
         throws CvqObjectNotFoundException, CvqPermissionException;

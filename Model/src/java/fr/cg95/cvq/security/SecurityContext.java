@@ -11,11 +11,12 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.authority.IAgentDAO;
-import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.users.IAdultService;
+import fr.cg95.cvq.service.users.IHomeFolderService;
 
 /**
  * A manager for the notions of "current everything" that
@@ -36,9 +37,12 @@ public class SecurityContext {
 
     private static ILocalAuthorityRegistry localAuthorityRegistry;
     private static IAgentDAO agentDAO;
-    private static IAdultDAO adultDAO;
-    private static List administratorGroups;
-    private static List agentGroups;
+    
+    private static IAdultService adultService;
+    private static IHomeFolderService homeFolderService;
+    
+    private static List<String> administratorGroups;
+    private static List<String> agentGroups;
 
     private static ThreadLocal<CredentialBean> currentContextThreadLocal = 
         new ThreadLocal<CredentialBean>();
@@ -46,9 +50,8 @@ public class SecurityContext {
     /**
      * Return whether one of the group in the given list permits access to the Back Office.
      */
-    public static boolean isAuthorizedGroup(List groupList) {
-        for (int i = 0; i < groupList.size(); i++) {
-            String group = (String) groupList.get(i);
+    public static boolean isAuthorizedGroup(List<String> groupList) {
+        for (String group : groupList) {
             if (administratorGroups.contains(group) || agentGroups.contains(group))
                 return true;
         }
@@ -60,11 +63,10 @@ public class SecurityContext {
      * Return whether at least one of the provided group is within the list of administrator
      * groups. 
      */
-    public static boolean isOfAnAdminGroup(List groupList) {
+    public static boolean isOfAnAdminGroup(List<String> groupList) {
         
-        if (administratorGroups != null && administratorGroups.size() > 0) {
-            for (int i = 0; i < groupList.size(); i++) {
-                String group = (String) groupList.get(i);
+        if (administratorGroups != null && !administratorGroups.isEmpty()) {
+            for (String group : groupList) {
                 if (administratorGroups.contains(group)) {
                     return true;
                 }
@@ -78,11 +80,10 @@ public class SecurityContext {
      * Return whether at least one of the provided group is within the list of agent
      * groups.
      */
-    public static boolean isOfAnAgentGroup(List groupList) {
+    public static boolean isOfAnAgentGroup(List<String> groupList) {
         
-        if (agentGroups != null && agentGroups.size() > 0) {
-            for (int i = 0; i < groupList.size(); i++) {
-                String group = (String) groupList.get(i);
+        if (agentGroups != null && !agentGroups.isEmpty()) {
+            for (String group : groupList) {
                 if (agentGroups.contains(group)) {
                     return true;
                 }
@@ -92,15 +93,14 @@ public class SecurityContext {
         return false;
     }
     
-    public static List getAdministratorGroups() {
+    public static List<String> getAdministratorGroups() {
         return administratorGroups;
     }
     
-    public static List getAgentGroups() {
+    public static List<String> getAgentGroups() {
         return agentGroups;
     }
     
-
     /**
      * Return the user we are talking to (from the WWW session), or
      * null if we are not in a WWW or other user-driven context.
@@ -109,7 +109,7 @@ public class SecurityContext {
      *  or if it is not in the {@link #BACK_OFFICE_CONTEXT back office context}.
      */
     public static Agent getCurrentAgent() throws CvqException {
-		CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+		CredentialBean credentialBean = currentContextThreadLocal.get();
 		if (credentialBean == null)
             throw new CvqException("No user yet in security context");
 
@@ -128,7 +128,7 @@ public class SecurityContext {
 
         logger.debug("setCurrentAgent() agent = " + agent);
 
-		CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+		CredentialBean credentialBean = currentContextThreadLocal.get();
 		if (credentialBean == null)
 			throw new CvqException("setCurrentSite() has to be called before setCurrentAgent()");
 
@@ -159,7 +159,7 @@ public class SecurityContext {
      *  or if it is not in the {@link #FRONT_OFFICE_CONTEXT front office context}.
      */
     public static Adult getCurrentEcitizen() throws CvqException {
-		CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+		CredentialBean credentialBean = currentContextThreadLocal.get();
 		if (credentialBean == null)
             throw new CvqException("No user yet in security context");
 
@@ -178,13 +178,15 @@ public class SecurityContext {
 
         logger.debug("setCurrentEcitizen() adult = " + adult);
         
-		CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+		CredentialBean credentialBean = currentContextThreadLocal.get();
 		if (credentialBean == null)
             throw new CvqException("setCurrentSite() has to be called before setCurrentEcitizen()");
 
         if (!credentialBean.isFoContext())
             throw new CvqException("Adult can only be set in Front Office context");
         
+        List<Individual> homeFolderIndividuals = 
+            homeFolderService.getIndividuals(adult.getHomeFolder().getId());
         credentialBean.setEcitizen(adult);
     }
 
@@ -195,14 +197,14 @@ public class SecurityContext {
         throws CvqException, CvqObjectNotFoundException {
 
         logger.debug("setCurrentEcitizen() ecitizen = " + ecitizenLogin);
-        Individual individual = adultDAO.findByLogin(ecitizenLogin);
-        if (individual instanceof Child || individual == null)
+        Individual individual = adultService.getByLogin(ecitizenLogin);
+        if (individual == null || individual instanceof Child)
             throw new CvqObjectNotFoundException("Adult not found !");
         setCurrentEcitizen((Adult) individual);
     }
 
     public static String getCurrentExternalService() throws CvqException {
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             throw new CvqException("No user yet in security context");
 
@@ -213,7 +215,7 @@ public class SecurityContext {
     }
 
     public static void setCurrentExternalService(String externalService) throws CvqException {
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             throw new CvqException("setCurrentSite() has to be called before setCurrentEcitizen()");
 
@@ -231,7 +233,7 @@ public class SecurityContext {
      */
     public static String getCurrentUserLogin() throws CvqException {
 
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             throw new CvqException("No user yet in security context");
 
@@ -252,7 +254,7 @@ public class SecurityContext {
      */
     public static Long getCurrentUserId() throws CvqException {
 
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             throw new CvqException("No user yet in security context");
 
@@ -273,7 +275,7 @@ public class SecurityContext {
      * @see #ADMIN_CONTEXT
      */
     public static String getCurrentContext() {
-		CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+		CredentialBean credentialBean = currentContextThreadLocal.get();
 		if (credentialBean == null)
 			return null;
 		else if (credentialBean.isBoContext())
@@ -288,7 +290,7 @@ public class SecurityContext {
 
     public static void setCurrentContext(final String context)
     		throws CvqException {
-		CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+		CredentialBean credentialBean = currentContextThreadLocal.get();
 		if (credentialBean == null)
 			throw new CvqException("Context cannot be changed if not set");
 		else
@@ -300,7 +302,7 @@ public class SecurityContext {
      * Return the current local authority for this thread or null if security context is not set.
      */
     public static LocalAuthority getCurrentSite() {
-		CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+		CredentialBean credentialBean = currentContextThreadLocal.get();
 		if (credentialBean == null)
 			return null;
 		else
@@ -339,7 +341,7 @@ public class SecurityContext {
     public static void setCurrentLocale(Locale locale) throws CvqException {
         logger.debug("setCurrentLocale() locale = " + locale);
         
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             throw new CvqException("setCurrentSite() has to be called before setCurrentLocale()");
 
@@ -351,7 +353,7 @@ public class SecurityContext {
      */
     public static Locale getCurrentLocale() throws CvqException {
 
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             throw new CvqException("No locale yet in security context");
 
@@ -362,11 +364,11 @@ public class SecurityContext {
      * Return the configuration bean for the current thread.
      */
     public static LocalAuthorityConfigurationBean getCurrentConfigurationBean() {
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             return null;
         String localAuthorityName = credentialBean.getSite().getName();
-        return (LocalAuthorityConfigurationBean) localAuthorityRegistry.getLocalAuthorityBeanByName(localAuthorityName);
+        return localAuthorityRegistry.getLocalAuthorityBeanByName(localAuthorityName);
     }
 
     /**
@@ -381,41 +383,31 @@ public class SecurityContext {
      * the CredentialBean).
      */
     public static CredentialBean getCurrentCredentialBean() {
-		CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
-		if (credentialBean == null)
-			return null;
-		else
-			return credentialBean;
+        return currentContextThreadLocal.get();
     }
 
     public static boolean isBackOfficeContext() {
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             return false;
-        else if (credentialBean.isBoContext())
-            return true;
-        else 
-            return false;
+        else
+            return credentialBean.isBoContext();
     }
 
     public static boolean isAdminContext() {
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             return false;
-        else if (credentialBean.isAdminContext())
-            return true;
-        else 
-            return false;
+        else
+            return credentialBean.isAdminContext();
     }
 
     public static boolean isFrontOfficeContext() {
-        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get();
+        CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             return false;
-        else if (credentialBean.isFoContext())
-            return true;
-        else 
-            return false;        
+        else
+            return credentialBean.isFoContext();
     }
     
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry iLocalAuthorityRegistry) {
@@ -426,15 +418,19 @@ public class SecurityContext {
         agentDAO = iAgentDAO;
     }
 
-    public void setAdultDAO(IAdultDAO iAdultDAO) {
-        adultDAO = iAdultDAO;
+	public void setAdultService(IAdultService iAdultService) {
+        adultService = iAdultService;
     }
 
-	public void setAdministratorGroups(List administratorGroupsToSet) {
+    public void setHomeFolderService(IHomeFolderService iHomeFolderService) {
+        homeFolderService = iHomeFolderService;
+    }
+
+    public void setAdministratorGroups(List<String> administratorGroupsToSet) {
 		administratorGroups = administratorGroupsToSet;
 	}
 
-	public void setAgentGroups(List agentGroupsToSet) {
+	public void setAgentGroups(List<String> agentGroupsToSet) {
 		agentGroups = agentGroupsToSet;
 	}
 }

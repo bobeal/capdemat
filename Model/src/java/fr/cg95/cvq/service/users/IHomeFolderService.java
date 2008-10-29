@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.users;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -66,6 +67,9 @@ public interface IHomeFolderService {
         throws CvqException;
 
     Set<Adult> getAdults(final Long homeFolderId)
+        throws CvqException;
+    
+    List<Individual> getIndividuals(final Long homeFolderId)
         throws CvqException;
     
     /**

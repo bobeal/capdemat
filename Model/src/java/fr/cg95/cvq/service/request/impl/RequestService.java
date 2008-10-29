@@ -1568,12 +1568,7 @@ public abstract class RequestService implements IRequestService {
         throws CvqException, CvqObjectNotFoundException {
 
         // create the association with the requester
-        Individual somebody = null;
-        try {
-            somebody = (Individual) individualDAO.findById(Individual.class, requesterId);
-        } catch (CvqPermissionException e) {
-            // can't happen
-        }
+        Individual somebody = (Individual) individualDAO.findById(Individual.class, requesterId);
         if (somebody instanceof Child)
             throw new CvqObjectNotFoundException("The provided requester id does not match an adult object !");
         Adult requester = (Adult) somebody;

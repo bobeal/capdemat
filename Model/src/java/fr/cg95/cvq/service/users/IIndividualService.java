@@ -7,7 +7,6 @@ import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)

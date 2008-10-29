@@ -2,7 +2,6 @@ package fr.cg95.cvq.dao.users.hibernate;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 

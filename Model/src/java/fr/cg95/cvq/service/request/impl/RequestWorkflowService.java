@@ -33,7 +33,7 @@ import fr.cg95.cvq.service.users.ICertificateService;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class RequestWorkflowService {
+public class RequestWorkflowService {
 
     private static Logger logger = Logger.getLogger(RequestWorkflowService.class);
     

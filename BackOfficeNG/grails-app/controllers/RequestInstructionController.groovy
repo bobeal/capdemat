@@ -1,5 +1,4 @@
-import fr.cg95.cvq.service.request.IRequestService
-import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.request.*
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IChildService
 import fr.cg95.cvq.service.users.IIndividualService
@@ -11,6 +10,7 @@ import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.MeansOfContactEnum
+import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Child
@@ -18,14 +18,19 @@ import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.service.authority.IAgentService
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
+import org.springframework.web.context.request.RequestContextHolder
 
 import fr.cg95.cvq.util.Critere
 import java.util.Date
+import java.io.File;
+import java.io.InputStream
 
 import grails.converters.JSON
 
 class RequestInstructionController {
 
+    GroovyPagesTemplateEngine groovyPagesTemplateEngine
     IRequestService defaultRequestService
     IHomeFolderService homeFolderService
     IChildService childService
@@ -33,6 +38,7 @@ class RequestInstructionController {
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
     IAgentService agentService
+    IRequestServiceRegistry requestServiceRegistry
 
     def translationService
 
@@ -324,6 +330,7 @@ class RequestInstructionController {
 
     // TODO : rename action
     def contactInformation = {
+
         def request = defaultRequestService.getById(Long.valueOf(params.id))
 
         def requesterMeansOfContacts = []
@@ -356,7 +363,7 @@ class RequestInstructionController {
         requesterMeansOfContacts.each(){
             it.i18nKey = message(code:it.i18nKey)
         };
-        println CapdematUtils.adaptCapdematState(request.meansOfContact.type, "request.meansOfContact");
+
         render( template: "ecitizenContact",
                 model:
                     [ "requesterMeansOfContacts": requesterMeansOfContacts,
@@ -496,6 +503,84 @@ class RequestInstructionController {
               return
           }
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+    }
+
+
+
+    def preview = {
+        //Locale.setDefault Locale.FRANCE
+
+        def requestAttributes = RequestContextHolder.currentRequestAttributes()
+        def form = this.defaultRequestService.getRequestFormById(Long.valueOf(params?.fid))
+        Request request = this.defaultRequestService.getById(Long.valueOf(params?.rid))
+        Adult requester = request.getRequester()
+        def address = requester.getHomeFolder().getAdress()
+        def subject = this.getSubjectDescription(request.getSubject())
+        def forms = []
+        forms.add(form)
+
+        File templateFile = defaultRequestService.getTemplateByName(form.getTemplateName())
+        if(templateFile.exists()) {
+
+            def template = groovyPagesTemplateEngine.createTemplate(templateFile);
+            def out = new StringWriter();
+            def originalOut = requestAttributes.getOut()
+            requestAttributes.setOut(out)
+            template.make(['forms':forms]).writeTo(out);
+            requestAttributes.setOut(originalOut)
+
+            String content = out.toString().replace('#{','${');
+            def model = [
+                'DATE' : java.text.DateFormat.getDateInstance().format(new Date()),
+                'RQ_ID' : request?.getId(),
+                'RQ_TP_LABEL' : request?.getRequestType().getLabel(),
+                'RQ_CDATE' : request?.getCreationDate(),
+                'RQ_DVAL' : request?.getValidationDate(),
+                'RQ_OBSERV' : params?.msg,
+                'HF_ID' : requester?.getHomeFolder()?.getId(),
+                'RR_FNAME' : requester?.getFirstName(),
+                'RR_LNAME' : requester?.getLastName(),
+                'RR_TITLE' : requester?.getTitle(),
+                'RR_LOGIN' : requester?.getLogin(),
+                'RR_FNAME' : subject?.firstName,
+                'RR_LNAME' : subject?.lastName,
+                'RR_TITLE' : subject?.title,
+                'HF_ADDRESS_ADI' : address?.additionalDeliveryInformation,
+                'HF_ADDRESS_AGI' : address?.additionalGeographicalInformation,
+                'HF_ADDRESS_SNAME' : address?.streetName,
+                'HF_ADDRESS_SNUM' : address?.streetNumber,
+                'HF_ADDRESS_PNS' : address?.placeNameOrService,
+                'HF_ADDRESS_ZIP' : address?.postalCode,
+                'HF_ADDRESS_TOWN' : address?.city,
+                'HF_ADDRESS_CN' : address?.countryName,
+            ]
+            model.each{k,v ->  if(v == null)model[k]=''}
+
+            template = groovyPagesTemplateEngine.createTemplate(content,'tmp')
+            out = new StringWriter();
+            originalOut = requestAttributes.getOut()
+            requestAttributes.setOut(out)
+            template.make(model).writeTo(out);
+            requestAttributes.setOut(originalOut)
+
+            response.contentType = 'text/html; charset=utf-8'
+            render out.toString()
+        }
+
+        response.contentType = 'text/html; charset=utf-8'
+    }
+
+    private getSubjectDescription = {Object sub ->
+        def result = ['firstName':'','lastName':'','title':'']
+        if(!sub) return result
+
+        result.firstName = ((Individual)sub).getFirstName()
+        result.lastName = ((Individual)sub).getLastName()
+
+        if(sub.getClass().getSimpleName() == 'Child')result.title = 'request.individual.kid'
+        else if(sub.getClass().getSimpleName() == 'Adult')result.title ((Adult)sub).getTitle()
+
+        return result
     }
 
 }

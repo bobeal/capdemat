@@ -18,7 +18,17 @@
     </div>
     <div align="right" style="margin-bottom:20px;margin-top:20px;">
       <p>Mme et Mr #{RR_LNAME}</p>
-      <p>#{RR_ADDRESS}</p>
+      <p>#{HF_ADDRESS_ADI}</p>
+      <p>#{HF_ADDRESS_AGI}</p>
+      <p>
+        #{HF_ADDRESS_SNAME}
+        #{HF_ADDRESS_SNUM}
+      </p>
+      <p>#{HF_ADDRESS_PNS}</p>
+      <p>#{HF_ADDRESS_ZIP}</p>
+      <p>#{HF_ADDRESS_TOWN}</p>
+      <p>#{HF_ADDRESS_CN}</p>
+
     </div>
     <div align="left" style="margin-bottom:20px;margin-top:20px;">
       <p>Numéro de dossier : #{RQ_ID}</p>
@@ -30,6 +40,9 @@
     <g:editableZone id="Lab2" class="editable-zone">
       <p>Nous avons bien reçu votre demande #{RQ_ID}. Merci de passer chercher votre attestion au guichet.</p>
     </g:editableZone>
+    <p>
+      #{RQ_OBSERV}
+    </p>
     <div align="right" style="margin-top:50px;">
       <p>Cordialement,</p>
       <p>Le Président du Conseil Général du Val d'Oise.</p>

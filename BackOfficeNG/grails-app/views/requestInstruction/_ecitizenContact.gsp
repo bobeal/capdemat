@@ -99,7 +99,11 @@
           from="${requestForms}"
           value="-1" />
 
-        <a id="previewRequestForm" target="_blank" href="javascript:;" style="visibility:hidden"><g:message code="request.contact.preview" /></a>
+        <a id="previewRequestForm"
+           target="_blank"
+           title="preview"
+           href="javascript:;"
+           style="display:none"><g:message code="request.contact.preview" /></a>
       </fieldset>
 
       <input type="hidden" name="recipient" value="" />

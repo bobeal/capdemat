@@ -387,17 +387,21 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       });
     }
     return {
+      messageBox : undefined,
       dataTabView: undefined,
       formEvent: undefined,
       init: function() {
-        //d.print('init','...');
+        //d.dir(window.opener);
+        //d.print(self.location);
         init();
         initContact();
 
         zcbr.Instruction.formEvent = new zcc.Event(zcbr.Instruction,zcbr.Instruction.getHandler);
         yue.on('contactForm','click',zcbr.Instruction.formEvent.dispatch,zcbr.Instruction.formEvent,true);
         yue.on('requestForms','change',zcbr.Instruction.changeType);
-        yue.on('simpleMessage','keyup',zcbr.Instruction.prepareLink);
+      },
+      previewRequestForm : function(e) {
+        zcbr.Instruction.prepareLink()
       },
       getHandler : function(e) {
         var target = yue.getTarget(e);
@@ -406,20 +410,22 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       changeType : function(e) {
         var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
         var link = yud.get('previewRequestForm');
-        if(target.value > -1)zct.style(link,{visibility:'visible'});
-        else zct.style(link,{visibility:'hidden'});
-        //zcbr.Instruction.prepareForm();
+        if(target.value > -1)zct.style(link,{display:'inline'});
+        else zct.style(link,{display:'none'});
         zcbr.Instruction.prepareLink();
 
       },
+      getByGroup : function(group) {
+        var result = yud.getElementsByClassName(group,undefined,'contactForm');
+        return zct.grep(result,function(n){return (!n.disabled);})[0];
+      },
       prepareLink: function() {
-        //TODO preview an another method to get just a value of message group
-        zcbr.Instruction.prepareForm();
         var link = yud.get('previewRequestForm');
         var url = zenexity.capdemat.bong.baseUrl;
         var id = zct.val(yud.get('requestForms'));
-        var message = encodeURI(yus.query('form#contactForm input[name=message]')[0].value);
-        link.href = [url,'/preview/?id=',id,'&msg=',message].join('');
+        var message = encodeURIComponent(zct.val(zcbr.Instruction.messageBox));
+        link.href = [url,'/preview/?fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
+        //link.href = self.location;
       },
       prepareForm : function() {
         form = yud.get('contactForm');
@@ -479,6 +485,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         zct.each(yus.query('#contactForm input[type=hidden]'),function(i,el){
           if(/^(message|recipient|contactMean)$/i.test(el.name))el.value = "";
         });
+        zcbr.Instruction.messageBox = zcbr.Instruction.getByGroup('message');
       },
       showRules : {
         'Sms' : ['contactMeansForm','mobilePhoneForm','smsMessageForm','smsButtons'],

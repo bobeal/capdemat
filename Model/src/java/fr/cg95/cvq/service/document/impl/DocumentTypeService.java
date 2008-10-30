@@ -8,6 +8,8 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
@@ -22,6 +24,7 @@ public class DocumentTypeService implements IDocumentTypeService, ILocalAuthorit
     private Boolean performDbUpdates;
     private DocumentBootstrapper documentBootstrapper;
     
+    @Context(type=ContextType.ADMIN)
     public void initSampleDocumentTypes(final String localAuthorityName) 
         throws CvqException {
         logger.debug("initSampleDocumentTypes() init for " + localAuthorityName);

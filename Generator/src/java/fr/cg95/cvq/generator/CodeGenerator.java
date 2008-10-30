@@ -26,12 +26,15 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.impl.xb.xsdschema.SchemaDocument;
 import org.w3c.dom.Node;
 
+import fr.cg95.cvq.generator.common.CommonPlugin;
+
 /**
  * The main entry point for code generation.
  *
  * Load XSD files and parses them, calling registered plugins as needed.
  *
  * @author bor@zenexity.fr
+ * @author rdj@zenexity.fr
  */
 public final class CodeGenerator {
 
@@ -41,7 +44,10 @@ public final class CodeGenerator {
 
     /** a list of registered code generator plugins */
     private ArrayList<PluginDefinition> registeredPlugins = new ArrayList<PluginDefinition>();
-
+    
+    /** a pseudo plugin used to managed common application information **/
+    private CommonPlugin commonPlugin = CommonPlugin.getInstance();
+    
     /** the target namespace of the request being processed */
     private String targetNamespace;
 
@@ -50,6 +56,7 @@ public final class CodeGenerator {
      * and "standard" java types
      */
     private static HashMap<String, String> javaTypesMap = new HashMap<String, String>();
+    
 
     /**
      * @todo handle other XML Schema built-in primitives types
@@ -64,7 +71,7 @@ public final class CodeGenerator {
         javaTypesMap.put("org.apache.xmlbeans.XmlDecimal", "Short");
         javaTypesMap.put("org.apache.xmlbeans.XmlDouble", "Double");
     }
-
+     
     public CodeGenerator() {
     };
 
@@ -385,7 +392,7 @@ public final class CodeGenerator {
     }
 
     private void startRequest(String requestName, String targetNamespace) {
-
+        commonPlugin.startRequest(requestName, targetNamespace);
         for (int i = 0; i < registeredPlugins.size(); i++) {
             PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
@@ -394,7 +401,7 @@ public final class CodeGenerator {
     }
 
     private void endRequest(String requestName) {
-
+        
         for (int i = 0; i < registeredPlugins.size(); i++) {
             PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
@@ -403,7 +410,7 @@ public final class CodeGenerator {
     }
 
     private void startElement(String elementName, String type) {
-
+        commonPlugin.startElement(elementName, type);
         for (int i = 0; i < registeredPlugins.size(); i++) {
             PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
@@ -412,7 +419,7 @@ public final class CodeGenerator {
     }
 
     private void endElement(String elementName) {
-
+        commonPlugin.endElement(elementName);
         for (int i = 0; i < registeredPlugins.size(); i++) {
             PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
@@ -700,6 +707,11 @@ public final class CodeGenerator {
                 (ApplicationDocumentation) applicationDocumentationList.get(j);
 //             logger.debug("processApplicationInformation() Application documentation has node " + applicationDocumentation.getNodeName() + " and parent " + parent);
 
+            if (applicationDocumentation.getNodeName().equals("common"))
+                commonPlugin.onApplicationInformation(applicationDocumentation);
+            else
+                commonPlugin.onOtherApplicationInformation(applicationDocumentation);
+                                
             for (int i = 0; i < registeredPlugins.size(); i++) {
                 PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
                 HashMap applicationSelectors = pluginDef.getApplicationSelectors();
@@ -712,7 +724,7 @@ public final class CodeGenerator {
                         boolean foundNode = false;
                         for (int k = 0; k < nodeNames.length; k++) {
                             String currentNode = nodeNames[k];
-//                             logger.debug("processApplicationInformation() Plugin has node " + currentNode + " and parent " + docParent);
+                            logger.debug("processApplicationInformation() Plugin has node " + currentNode + " and parent " + docParent);
                             if (applicationDocumentation.getNodeName().equals(currentNode)
                                 || currentNode.equals("*")) {
                                 // parent and node name match, send event and go to the next

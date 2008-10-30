@@ -31,25 +31,20 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         content,zcbrp.Forms.deleteForm);
     };
     var initButtons = function() {
-      zcbrp.Forms.makeYuiButtons();
     };
     var initPersLink = function(scope) {
       var links = yu.Dom.getChildrenBy(scope,function(n){
-        return (zct.nodeName(n,'a') && n.id == 'a-personalize')
+        return (zct.nodeName(n,'a') && n.id == 'a-personalize');
       });
-      
-      if(links.length>0) {
-        
-      }
     };
     var initTabs = function() {
-      zcbrt.Manager.tabView = new YAHOO.widget.TabView('request-type-forms');
+      zcbrt.Manager.tabView = new YAHOO.widget.TabView('requestTypeForms');
       zcbrt.Manager.tabView.set('activeIndex', 0);
     };
     var initLinks = function() {
       var showLink = new yu.Element('linkShowDatasheet');
       showLink.on('click',function(){
-        zcbrp.Forms.loadEditForm(document.getElementById('insert-in-list'));
+        zcbrp.Forms.loadEditForm(document.getElementById('insertInList'));
       });
     };
     return {
@@ -65,26 +60,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       loadEditForm : function(container) {
         if(!!zcbrp.Forms.containers[container.id]) return false;
-        var url = ['/form/',container.id.split(':')[1]].join('');
+        var url = ['/form/',container.id.split('_')[1]].join('');
         zcbrp.Forms.containers[container.id] = container;
         zcc.doAjaxCall(url,[],function(o){
-          var trash = document.getElementById('trash');
-          trash.innerHTML = o.responseText;
-          
-          var el = new yu.Element(container);
-          var fadeIn = new YAHOO.util.Anim(trash.firstChild,{opacity:{to:1}},0.6);
-          
-          zct.style(trash.firstChild,{opacity:'0.1'});
-          trash.innerHTML = o.responseText;
-          el.appendChild(trash.firstChild);
-          
-          zcbrp.Forms.makeYuiButtons();
-          fadeIn.animate();
-          trash.innerHTML = "";
+          container.innerHTML = [container.innerHTML,o.responseText].join('');
         });
       },
       spiritUpWorkTab : function(target) {
-        var eform = document.getElementById('editor-form');
+        var eform = yu.Dom.get('editorForm');
         var tform = yu.Dom.getAncestorByTagName(target,'form');
         var params = {
           typeId : zcbrp.currentId,
@@ -129,7 +112,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         });
       },
       modifyForm : function(target) {
-        // TODO add validation here !!!
         var form = yu.Dom.getAncestorByTagName(target,'form');
         var hidden = yus.query('input[name=requestTypeId]',form)[0];
         hidden.value = zcbrp.currentId;
@@ -141,7 +123,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             zcbrp.Forms.detachContainer(target);
             
             li.removeChild(form.parentNode);
-            zcc.displayResponseResult('success',json.success_msg);
+            zcc.Notifier.processMessage('success',json.success_msg);
             zcbrp.Forms.reloadList();
           });
         }
@@ -154,24 +136,21 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       deleteForm : function(e) {
         var li = yu.Dom.getAncestorByTagName(zcbrp.Forms.confirmationDialog.showTarget ,'li');
-        var id = li.id.split(':')[1];
+        var id = li.id.split('_')[1];
         if(yl.isNumber(parseInt(id))) {
           zcc.doAjaxDeleteCall('/form/',zct.param({id:id}),function(o){
             var cn = new yu.Element(li.parentNode);
             var json = YAHOO.lang.JSON.parse(o.responseText);
-            zcc.displayResponseResult('success',json.success_msg);
+            zcc.Notifier.processMessage('success',json.success_msg);
             cn.removeChild(li);
           })
         }
-        //console.debug(zcbrp.Forms.confirmationDialog.showTarget);
       },
       reloadList : function() {
         var url = ["/formList/",(zcbrp.currentId||0)].join('');
         var formsEl = yus.query('div#requestFormList')[0];
         zcc.doAjaxCall(url,[],function(o){
-          //alert(o.responseText);
           formsEl.innerHTML = o.responseText;
-          YAHOO.util.Dom.removeClass(formsEl, 'invisible');
           var container = document.getElementById('requestFormList');
           yue.purgeElement(container,false);
           yue.on(container,'click',zcbrp.Forms.dispatchEvent);
@@ -179,7 +158,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       dispatchEvent : function(e) {
         var target = yue.getTarget(e);
-        var elId = target.id.split(':')[0];
+        var elId = target.id.split('_')[0];
         var h = zcbrp.Forms.getEventHandler(elId);
         if(!!zcbrp.Forms.handlers[elId]) h.call(target,e);
       },
@@ -200,25 +179,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           .parentNode.parentNode;
         delete zcbrp.Forms.containers[o.getAttribute('id')];
       },
-      makeYuiButtons : function() {
-        buttons = zct.grep(yus.query('input[type=button]'),function(n){
-          return (/^button.*/i.test(yl.trim(n.name)));
-        });
-        zct.each(buttons,function(i){
-          var oldId = this.id;
-          this.id = [this.id,yu.Dom.generateId()].join(':');
-          var button = new YAHOO.widget.Button(this);
-          
-          if(!!zcbrp.Forms.handlers[oldId])
-            button.on("click",zcbrp.Forms.handlers[oldId]);
-        });
-      },
       handlers : {
-        'button-ok': function(e){zcbrp.Forms.modifyForm(yue.getTarget(e));},
-        'button-cancel': function(e){zcbrp.Forms.hideEditForm(yue.getTarget(e));},
-        'a-personalize' :function(e){zcbrp.Forms.spiritUpWorkTab(yue.getTarget(e));},
+        'save': function(e){zcbrp.Forms.modifyForm(yue.getTarget(e));},
+        'cancel': function(e){zcbrp.Forms.hideEditForm(yue.getTarget(e));},
+        'personalize' :function(e){zcbrp.Forms.spiritUpWorkTab(yue.getTarget(e));},
         'editItem' : function(e){zcbrp.Forms.loadEditForm(yu.Dom.getAncestorByTagName(this,'li'));},
-        'unassociate' : function(e){zcbrp.Forms.confirmationDialog.show(e);},
+        'deleteItem' : function(e){zcbrp.Forms.confirmationDialog.show(e);},
         'default': function(){return false;}
       }
     }

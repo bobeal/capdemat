@@ -18,7 +18,7 @@ zenexity.capdemat.bong.categoryList = function() {
           var categoryListContainer = new yuel('categoriesList');
           categoryListContainer.removeChild(elementToRemove);
     
-          zcc.displayResponseResult('success', response.success_msg);
+          zcc.Notifier.processMessage('success',response.success_msg);
         }
       });
   }

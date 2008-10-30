@@ -2,7 +2,7 @@
   <form id="requestForm_${requestForm?.getId()}" 
         method="post" class="editable-list-form" 
         action="${createLink(action:'form')}">
-      <div id="error-container:${requestForm?.getId()}" class="error"></div>
+      <div id="error-container_${requestForm?.getId()}" class="error"></div>
       
       <label for="shortlabel" class="required">
         <g:message code="requestType.property.formShortLabel" /> * :
@@ -29,7 +29,7 @@
         
       <g:if test="${requestForm?.getId()}">
       <div class="box-left">
-        <a id="a-personalize:${requestForm?.getId()}" href="javascript:;">
+        <a id="personalize_${requestForm?.getId()}" href="javascript:;">
           ${message(code:'action.personalize')}
         </a>
       </div>
@@ -40,10 +40,10 @@
       <input type="hidden" name="requestTypeId" value="" />
 
       <p class="same-line">
-        <input id="button-ok" name="-ok" type="button" class="first-button" 
-          value="${message(code:'action.save')}" /> 
-        <input id="button-cancel" name="-cancel" type="button" class="form-button" 
-          value="${message(code:'action.cancel')}" />
+        <input id="save_${requestForm?.getId()}" name="save" type="button" 
+               class="first-button" value="${message(code:'action.save')}" /> 
+        <input id="cancel_${requestForm?.getId()}" name="cancel" type="button" 
+               class="form-button" value="${message(code:'action.cancel')}" />
       </p>
       
   </form>

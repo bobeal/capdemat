@@ -34,8 +34,40 @@ class RequestTypeController {
     }
 
     def list = {
-        def requestTypes = defaultRequestService.getAllRequestTypes()            
-        ["requestTypes":requestTypes, "categories":categoryService.getAll()]
+        def requestTypes = []
+    		
+        // deal with dynamic filters
+        def filters = [:]
+        if (params.filterBy && params.filterBy != '') {
+             params.filterBy?.split('@').each { filter ->
+                 if (filter != "") {
+                    def parsedFilter = filter.split('=')
+                    if (parsedFilter.size() == 2) {
+                       filters[parsedFilter[0]] = parsedFilter[1]
+                    } else {
+                        filters.remove(parsedFilter[0])
+                    }
+                }
+            }
+            def categoryId = filters['categoryIdFilter'] == null ? null : Long.valueOf(filters['categoryIdFilter'])
+            def state = filters['stateFilter'] == null ? null : Boolean.valueOf(filters['stateFilter'])
+            requestTypes = 
+            	defaultRequestService.getRequestsTypes(categoryId, state)
+        } else {
+        	requestTypes = defaultRequestService.getAllRequestTypes()
+        }
+
+        def filterBy = ''
+        filters.each { key, value ->
+           filterBy += '@' + key + '=' + value
+        }
+
+        def adaptedRequestTypes = []
+        requestTypes.each{ 
+        	adaptedRequestTypes.add(CapdematUtils.adaptRequestType(translationService, it)) 
+        }
+        adaptedRequestTypes = adaptedRequestTypes.sort{ it.label.toLowerCase() }
+        ["requestTypes":adaptedRequestTypes, "allCategories":categoryService.getAll(),"filters":filters,"filterBy":filterBy]
     }
 
     // the configuration items all request types will have

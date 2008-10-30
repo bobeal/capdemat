@@ -1,7 +1,7 @@
 /**
  * Mail template client-side manager. Builds internal infrastructure of server-side collaboration.
  * Produce some useful browser-depended hacks. Manages client events.
- * 
+ *
  * @author vba@zenexity.fr
  **/
 
@@ -9,17 +9,17 @@
 zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
 
 (function() {
-  
+
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
   var zcbrt = zenexity.capdemat.bong.request.templates;
   var zcbet = zenexity.capdemat.bong.editor.toolbars;
-  
+
   var yw = YAHOO.widget;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
   var yul = YAHOO.lang;
-  
+
   zcbet.def.buttons.push({
     group: 'textstyle', label: 'Variables',
     buttons: [
@@ -32,6 +32,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
           { text: '(TS) Date de validation', value:'#{RQ_DVAL}' },
           { text: '(TS) Observations', value:'#{RQ_OBSERV}' },
           { text: '(CP) Identifiant', value:'#{HF_ID}' },
+          //{ text: '(CP) Adresse foyer', value:'#{HF_ADDRESS}' },
           { text: '(DM) Prénom', value:'#{RR_FNAME}' },
           { text: '(DM) Nom', value:'#{RR_LNAME}' },
           { text: '(DM) Civilité', value:'#{RR_TITLE}' },
@@ -42,7 +43,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         ]
       }]
   });
-  
+
   zcbrt.Manager = function() {
     var initEditor = function() {
       zcbrt.Manager.editor = new YAHOO.widget.SimpleEditor('editor', {
@@ -56,21 +57,21 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
     var initPanel = function() {
       zcbrt.Manager.panel = new YAHOO.widget.Panel("editPanel", {
         width:"620px",
-        fixedcenter:true,  
+        fixedcenter:true,
 			  draggable:false,
         modal: true,
         underlay: 'none',
 			  visible:false
       });
-      
+
       zcbrt.Manager.panel.beforeShowEvent.subscribe(function(ev){
-        zct.style('bd-editor',{display:'block'});
+        zct.style('editorBody',{display:'block'});
         zcbrt.Manager.panel.center();
       });
       zcbrt.Manager.panel.beforeHideEvent.subscribe(function(ev){
-        zct.style('bd-editor',{display:'none'});
+        zct.style('editorBody',{display:'none'});
       });
-      
+
       zcbrt.Manager.panel.render();
     };
     var initButtons = function() {
@@ -91,12 +92,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         initPanel();
         initEditor();
         initButtons();
-        
+
         zcbrt.Manager.editor.on('afterRender',function(ev){
           if(zcbet.def.buttons.length > 0) {
             var button = zcbet.def.buttons[zcbet.def.buttons.length - 1].buttons[0];
             var select = yus.query('select',button.container)[0];
-            
+
             yue.on(select,'change',function(ev){
               if(zct.val(select) != '0') {
                 zcbrt.Manager.editor.execCommand('inserthtml', zct.val(select));
@@ -117,18 +118,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       save : function() {
         var editorValue = zcbrt.Manager.editor.getEditorHTML();
         if(yul.trim(zct.stripTags(editorValue)).length == 0) {
-          zcc.displayResponseResult('unexpectedError',"Editor value can't be empty !");
+          zcc.Notifier.processMessage('unexpectedError',"Editor value can't be empty !");
           return;
         }
-        
+
         if(!!zcbrt.Manager.editEl) {
-          yus.query('#editor-form input[id=element]')[0].value = zcbrt.Manager.editEl.id;
+          yus.query('#editorForm input[id=element]')[0].value = zcbrt.Manager.editEl.id;
           zcbrt.Manager.editor.saveHTML();
-          
-          zcc.doAjaxFormSubmitCall('editor-form',[],function(o){
+
+          zcc.doAjaxFormSubmitCall('editorForm',[],function(o){
             zcbrt.Manager.editEl.innerHTML = zcbrt.Manager.editor.getEditorHTML();
             var json = YAHOO.lang.JSON.parse(o.responseText);
-            zcc.displayResponseResult('success',json.success_msg);
+            zcc.Notifier.processMessage('success',json.success_msg);
             return false;
           });
         }
@@ -139,7 +140,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       }
     }
   }();
-  
+
   yue.onDOMReady(zcbrt.Manager.init);
-  
+
 }());

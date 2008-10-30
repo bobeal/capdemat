@@ -111,7 +111,6 @@ public class CapdematTestSuite extends TestSuite {
         testSuite.addTestSuite(RecreationActivityRegistrationRequestServiceTest.class);
         testSuite.addTestSuite(SchoolCanteenRegistrationRequestServiceTest.class);
         testSuite.addTestSuite(SchoolRegistrationRequestServiceTest.class);
-//        testSuite.addTestSuite(VacationsRegistrationRequestServiceTest.class);
        
         // service.social package
         testSuite.addTestSuite(DomesticHelpRequestServiceTest.class);

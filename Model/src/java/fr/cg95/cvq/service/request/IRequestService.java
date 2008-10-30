@@ -128,8 +128,6 @@ public interface IRequestService {
             final int recordsReturned, final int startIndex)
         throws CvqException;
     
-    File getTemplateByName(String name);
-    
     Long getCount(Set<Critere> criteriaSet) throws CvqException;
     
     /**
@@ -274,6 +272,28 @@ public interface IRequestService {
         throws CvqException;
 
     /**
+     * Get a request type by its label.
+     *
+     * @param requestLabel the label of the request, as given by {@link #getLabel()}
+     */
+    RequestType getRequestTypeByLabel(final String requestLabel)
+        throws CvqException;
+
+    /**
+     * Get the list of requests types handled by the given category.
+     * 
+     * TODO : migrate unit test uses of this method to {@link #getRequestsTypes(Long, boolean)}
+     */
+    List<RequestType> getRequestsTypesByCategory(final Long categoryId)
+        throws CvqException;
+
+    /**
+     * Get the list of requests types handled by the given category in the given activation state.
+     */
+    List<RequestType> getRequestsTypes(final Long categoryId, final Boolean active)
+        throws CvqException;
+
+    /**
      * Modify a request type properties.
      */
     void modifyRequestType(RequestType requestType)
@@ -287,22 +307,6 @@ public interface IRequestService {
      *                     to the given request type
      */
     void modifyRequestTypeRequirements(RequestType requestType, Set requirements)
-        throws CvqException;
-
-    /**
-     * Get a list of all requests types handled by a c.
-     *
-     * @return a set of {@link RequestType} objects
-     */
-    Set getRequestsTypesByCategory(final Long categoryId)
-        throws CvqException;
-
-    /**
-     * Get a request type by its label.
-     *
-     * @param requestLabel the label of the request, as given by {@link #getLabel()}
-     */
-    RequestType getRequestTypeByLabel(final String requestLabel)
         throws CvqException;
 
     /**
@@ -405,8 +409,23 @@ public interface IRequestService {
     
     RequestForm getRequestFormById(Long id) throws CvqException;
     
+    /**
+     * TODO : make its contract more explicit.
+     */
+    File getTemplateByName(String name);
+    
+    /**
+     * TODO : make its contract more explicit.
+     */
     List<File> getMailTemplates(String pattern) throws CvqException;
     
+    /**
+     * Method that process request form update/creation. 
+     * 
+     * Defines by itself which kind of processing has to be produced.
+     * 
+     * @return request form id
+     */
     Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) throws CvqException;
     
     /**

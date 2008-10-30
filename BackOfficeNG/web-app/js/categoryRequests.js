@@ -63,7 +63,7 @@ zenexity.capdemat.bong.categoryRequestType = function() {
             yud.replaceClass(targetAnchorEl, action, "associate");
           } 
         } else {
-          zcc.displayResponseResult("modelError", response.error_msg);
+          zcc.Notifier.processMessage('modelError',response.success_msg);
         }  
       });
   }

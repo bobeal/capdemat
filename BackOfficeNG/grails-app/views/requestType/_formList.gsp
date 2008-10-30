@@ -1,11 +1,11 @@
-<div id="insert-in-list"></div>
+<div id="insertInList"></div>
 <ul id="requestFormList" class="editableList">
   <g:each in="${requestForms}" var="form">
-    <li id="requestForm:${form.id}">
-      <a id="unassociate" class="unassociate">
+    <li id="formItem_${form.id}">
+      <a id="deleteItem_${form.id}" class="unassociate">
         <span><g:message code="category.action.unassociate" /></span>
       </a>
-      <a id="editItem" class="editItem">
+      <a id="editItem_${form.id}" class="editItem">
         <span>editItem</span>
       </a>
       <strong>

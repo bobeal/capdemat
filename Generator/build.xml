@@ -48,7 +48,7 @@
 			<include name="DomesticHelpRequest.xsd" />
 			<include name="ElectoralRollRegistrationRequest.xsd" />
 			<include name="HandicapAllowanceRequest.xsd" />
-		    <include name="HolidaySecurityRequest.xsd" />
+      <include name="HolidaySecurityRequest.xsd" />
 			<include name="LibraryRegistrationRequest.xsd" />
 			<include name="MarriageDetailsRequest.xsd" />
 			<include name="MilitaryCensusRequest.xsd" />
@@ -62,7 +62,7 @@
 			<include name="SchoolRegistrationRequest.xsd" />
 			<include name="SmsNotificationRequest.xsd" />
 			<include name="SewerConnectionRequest.xsd" />
-		    <include name="TechnicalInterventionRequest.xsd" />
+      <include name="TechnicalInterventionRequest.xsd" />
 		</fileset>
 
 	</target>
@@ -92,7 +92,6 @@
 			<fileset dir="${src.xml.schema.dir}/request">
 				<include name="VoCardRequest.xsd" />
 				<include name="HomeFolderModificationRequest.xsd" />
-				<include name="VacationsRegistrationRequest.xsd" />
 			</fileset>
 			<fileset dir="${src.xml.schema.dir}/certificate">
 				<include name="DefaultCertificate.xsd" />
@@ -144,19 +143,11 @@
 			<fileset refid="generated-requests" />
 			<plugins>
 				<fileset dir="${src.xml.plugins.dir}">
-				  <include name="newfo_plugin.xml" />
-				  <include name="bo_plugin.xml" />
 				  <include name="xslfo_plugin.xml" />
-					  <!--
-                  <include name="model_plugin.xml" />
-				  <include name="enumeration_plugin.xml" />
-				  <include name="xslfo_plugin.xml" />
-				  <include name="newfo_plugin.xml" />
-				  <include name="bo_plugin.xml" />
-    		        <include name="dummy_plugin.xml" />
-          			-->
-    			</fileset>
-    		</plugins>
+          <include name="model_plugin.xml" />
+          <include name="enumeration_plugin.xml" />
+  			</fileset>
+   		</plugins>
 		</generator>
 	</target>
 

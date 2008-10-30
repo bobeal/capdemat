@@ -4,6 +4,7 @@
     <title><g:message code="requestType.header.requestList" /></title>
     <meta name="layout" content="main" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'configuration.css')}" ></link>
+    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeList.js')}"></script>
   </head>
   
   <body>
@@ -20,15 +21,15 @@
               <span  class="tag-enable"><g:message code="property.active" /></span>
             </g:if>
             <g:else>
-              <span class="tag-disable"><g:message code="property.unactive" /></span>
+              <span class="tag-disable"><g:message code="property.inactive" /></span>
             </g:else>
             <h3>
               <a href="${createLink(action:'configure',id:requestType.id)}">
-              <g:translateRequestTypeLabel label="${requestType.label}" />
+              ${requestType.label}
               </a>
               <span>
-                <g:if test="${requestType.category}">
-                  - <g:message code="property.category" /> : ${requestType.category?.name}
+                <g:if test="${requestType.categoryName}">
+                  - <g:message code="property.category" /> : ${requestType.categoryName}
                 </g:if>
                 <g:else>
                   - <g:message code="requestType.message.noCategoryAssociated" /> 
@@ -41,24 +42,31 @@
       </div>
     </div>
 
+    <!-- filters -->
     <div id="narrow" class="yui-b">
       <div class="nobox">
-      <h3><g:message code="header.filterBy" /></h3>
+        <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
-          <form action="#">
-            <label for="categoryId"><g:message code="property.category" /> :</label>
-            <select name="categoryId" id="categoryId">
+          <form method="POST" id="requestTypeListFilters" action="${createLink(action:'list')}">
+            <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
+            <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
+            <select id="categoryIdFilter">
               <option value=""></option>
-              <g:each in="${categories}" var="category">
-                <option value="${category.id}">${category.name}</option>
+              <g:each in="${allCategories}" var="category">
+                <option value="${category.id}" ${filters['categoryIdFilter'] == category.id.toString() ? 'selected' : ''}>
+                  ${category.name}
+                </option>
               </g:each>
             </select>
-    
-            <label for="categoryId"><g:message code="property.state" /> :</label><br/>
-            <select name="state" id="state">
+            <label for="stateFilter"><g:message code="property.state" /> :</label>
+            <select id="stateFilter">
               <option value=""></option>
-              <option value="active"><g:message code="property.active" /></option>
-              <option value="inactive"><g:message code="property.unactive" /></option>
+              <option value="true" ${filters['stateFilter'] == 'true' ? 'selected' : ''}>
+                <g:message code="property.active" />
+              </option>
+              <option value="false" ${filters['stateFilter'] == 'false' ? 'selected' : ''}>
+                <g:message code="property.inactive" />
+              </option>
             </select>
           </form>
         </div>

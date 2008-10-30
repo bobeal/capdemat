@@ -87,23 +87,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="VacationsType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Identification d'une période de vacances
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Vacances
-      </xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="Id" type="xs:long" />
-      <xs:element name="Name" type="xs:string" />
-      <xs:element name="StartDate" type="xs:date" minOccurs="0" />
-      <xs:element name="EndDate" type="xs:date" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:simpleType name="SectionType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">

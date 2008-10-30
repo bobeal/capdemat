@@ -103,7 +103,7 @@
 					 var seasonListContainer = new YAHOO.util.Element('seasonListContainer');
 					 seasonListContainer.removeChild(elementToRemove);
 				
-					 zcc.displayResponseResult('success', response.success_msg);
+           zcc.Notifier.processMessage('success',response.success_msg);
 					}
 			}
 			

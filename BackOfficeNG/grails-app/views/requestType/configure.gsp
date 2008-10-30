@@ -12,6 +12,7 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeForms.js')}"></script>
     
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeConfigure.js')}"></script>
+    
     <!-- 
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeAlerts.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeSeasons.js')}"></script>
@@ -32,9 +33,9 @@
           <h1><g:message code="requestType.header.configuration" /> ${requestTypeLabel}</h1>
         </div>
         
-        <div id="main-panel">
+        <div id="mainPanel">
           <!-- Tabview panel -->
-          <div id="request-type-forms" class="yui-navset yellow-yui-tabview" style="display:block;">
+          <div id="requestTypeForms" class="yui-navset yellow-yui-tabview" style="display:block;">
             <ul class="yui-nav">
               <li class="selected" title="active">
                 <a href="#confArea_Tab1"><em>${message(code:'requestType.header.formsList')}</em></a>
@@ -57,16 +58,16 @@
             </div>
           </div>
           
-          <div class="mainbox mainbox-yellow" id="request-type-alerts" style="display:none"></div>
-          <div class="mainbox mainbox-yellow" id="request-type-seasons" style="display:none"></div>
+          <div class="mainbox mainbox-yellow" id="requestTypeAlerts" style="display:none"></div>
+          <div class="mainbox mainbox-yellow" id="requestTypeSeasons" style="display:none"></div>
           
         </div>
         
-        <form method="post" id="editor-form" action="${createLink(action:'mailTemplate')}" class="editor-form">
+        <form method="post" id="editorForm" action="${createLink(action:'mailTemplate')}" class="editor-form">
           <div id="editPanel">
             <div class="hd">Change state</div>
             <div class="bd" >
-              <div id="bd-editor" style="display:none">
+              <div id="editorBody" style="display:none">
                   <textarea id="editor" rows="15" name="editor"></textarea>
                   <input type="hidden" id="element" name="element" value="" />
                   <input type="hidden" name="requestTypeId" value="" />
@@ -90,7 +91,7 @@
             <span class="tag-enable"><g:message code="property.active" /></span>
           </g:if>
           <g:else>
-            <span class="tag-disable"><g:message code="property.unactive" /></span>
+            <span class="tag-disable"><g:message code="property.inactive" /></span>
           </g:else>
         </div>
       </div>
@@ -98,11 +99,10 @@
       <div class="nobox">
         <h3><g:message code="requestType.header.subMenu" /></h3>
         <div class="body">
-          <ul class="second-level-menu">
+          <ul class="second-level-menu" id="secondMenu">
           <g:each in="${baseConfigurationItems}">
             <li id="requestType-${it.key}">
-              <span class="second-level-menu-item"
-                    onclick="zenexity.capdemat.bong.requesttype.Conf.switchView('request-type-${it.key}')">
+              <span class="second-level-menu-item" id="display_${it.key}">
                 <g:message code="${it.value[0]}"/>
                 <g:if test="${it.value[1]}">*</g:if>
               </span>

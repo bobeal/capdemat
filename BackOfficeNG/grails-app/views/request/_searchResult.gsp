@@ -2,8 +2,10 @@
   <p class="first-line">
     <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
     <a href="${createLink(controller:'requestInstruction', action:'edit',id:record.id)}">${record.label}
-    - <g:message code="request.searchResult.requestId" /> <strong>${record.id}</strong>
-    - <g:message code="layout.from" /> ${record.requesterLastName}
+    - <g:message code="request.searchResult.requestId" /> 
+    <span class="${sortBy == 'requestId' ? 'current-sort' : ''}">${record.id}</span>
+    - <g:message code="layout.from" /> 
+    <span class="${sortBy == 'requesterLastName' ? 'current-sort' : ''}">${record.requesterLastName}</span>
     <g:if test="${record.subjectLastName && record.subjectLastName != ''}">
      <g:message code="layout.for" /> ${record.subjectLastName}
     </g:if>
@@ -11,9 +13,14 @@
   </p>
 
   <p class="second-line">
-    <g:message code="request.searchResult.creationDate" /> ${record.creationDate} - 
-    <g:message code="request.property.lastModificationDate" /> ${record.lastModificationDate} 
-    <g:message code="layout.by" /> ${record.lastInterveningAgentId}
+    <g:message code="request.searchResult.creationDate" /> 
+    <span class="${sortBy == 'creationDate' ? 'current-sort' : ''}">${record.creationDate}</span> - 
+    <g:if test="${record.lastModificationDate}">
+      <g:message code="request.property.lastModificationDate" /> ${record.lastModificationDate}
+      <g:if test="${record.lastInterveningAgentId}">
+        <g:message code="layout.by" /> ${record.lastInterveningAgentId}
+      </g:if>
+    </g:if> 
   </p>
 
   <p class="third-line">

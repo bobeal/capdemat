@@ -17,16 +17,22 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   zcbrp.Conf = function() {
     return {
       init : function() {
-        var div = document.getElementById('request-type-forms');
+        yue.on(yu.Dom.get('secondMenu'),'click',zcbrp.Conf.dispatchEvent);
+      },
+      dispatchEvent : function(e) {
+        var method = zct.capitalize(yue.getTarget(e).id.split('_')[1]);
+        var el = yu.Dom.get(['requestType',method].join(''));
+        zct.siblings(el,function(n){zct.style(n,{'display':'none'})});
+        zct.tryToCall(zcbrp.Conf[['display',method].join('')],zcbrp.Conf);
       },
       switchView : function(containerId) {
         var el = yu.Dom.get(containerId);
         var method = zct.capitalize(containerId.split('-')[2]);
         zct.siblings(el,function(n){zct.style(n,{'display':'none'})});
-        zcbrp.Conf[['display',method].join('')].call(zcbrp.Conf);
+        zct.tryToCall(zcbrp.Conf[['display',method].join('')],zcbrp.Conf);
       },
       displayForms : function(e) {
-        var el = yu.Dom.get('request-type-forms');
+        var el = yu.Dom.get('requestTypeForms');
         zct.style(el,{'display':'block'});
       },
       dispalyAlerts : function(e) {},
@@ -38,7 +44,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
     zcbrp.Conf[['display',name].join('')] = function(e) {
       var url = ['/load',name,'Area/',zcbrp.currentId].join('');
       zcc.doAjaxCall(url,'',function(o){
-        var el = yu.Dom.get(['request-type-',name].join('').toLowerCase());
+        var el = yu.Dom.get(['requestType',name].join(''));
         el.innerHTML = o.responseText;
         zct.style(el,{'display':'block'});
       });
@@ -47,69 +53,69 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   
   YAHOO.util.Event.onDOMReady(zcbrp.Conf.init);
   
-  return;
-  
-  function initRequestTypeConfigure() {
-    
-    // Create our custom event and listeners to handle category selection
-      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent =
-        new YAHOO.util.CustomEvent('requestTypeSubmenuSelectedEvent');
-      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.subscribe(selectRequestTypeSubmenu);
-      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.subscribe(loadRequestTypeSubmenu);
-    
-    function selectRequestTypeSubmenu(type, args) {
-        zcc.switchSelectedItemDisplay(args[0], 'selected');
-      }
-      
-      function switchAreas(currentSubmenu) {
-          if (currentSubmenu === 'general') {
-              YAHOO.util.Dom.removeClass(document.getElementById('requestTypeAlerts'), 'invisible');
-              YAHOO.util.Dom.addClass(document.getElementById('requestTypeSeasons'), 'invisible');
-          } else if (currentSubmenu === 'seasons') {
-              YAHOO.util.Dom.removeClass(document.getElementById('requestTypeSeasons'), 'invisible');
-              YAHOO.util.Dom.addClass(document.getElementById('requestTypeAlerts'), 'invisible');
-          }
-      }
-      
-      var handleLoadRequestTypeSubmenuFormSuccess = function(o) {
-          
-          var element = document.getElementById(o.argument[2]);
-          element.innerHTML = o.responseText;
-  
-          if (o.argument[1] === 'general') {
-            if (o.argument[2] === 'requestTypeAlerts') {
-                 initRequestTypeAlerts(o.argument[0]);
-            }
-              switchAreas('general');
-          } else if (o.argument [1] === 'seasons') {
-            initRequestTypeSeasons(o.argument[0]);
-              switchAreas('seasons');
-          }   
-      };
-        
-      function loadRequestTypeSubmenu(type, args) {
-        var url;
-        if (args[1] === 'general') {
-          // general submenu is a special case : it contains three templates
-          url = '/loadAlertsArea/' + args[2];
-          zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeAlerts'], handleLoadRequestTypeSubmenuFormSuccess);
-        } else if (args[1] === 'seasons') {
-          url = '/loadSeasonsArea/' + args[2];
-          zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeSeasons'], handleLoadRequestTypeSubmenuFormSuccess);
-        }
-      }
-      
-      // init submenu to general
-      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.fire('requestType-general','general',
-          zenexity.capdemat.bong.requesttype.currentId);
-  }
-  
-  YAHOO.util.Event.onDOMReady(initRequestTypeConfigure);
-  
-  
-  function fireRequestTypeSubmenuSelectedEvent(submenuId,menuKey,requestTypeId) {
-      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.fire(submenuId,menuKey,requestTypeId);
-  }
+//  return;
+//  
+//  function initRequestTypeConfigure() {
+//    
+//    // Create our custom event and listeners to handle category selection
+//      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent =
+//        new YAHOO.util.CustomEvent('requestTypeSubmenuSelectedEvent');
+//      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.subscribe(selectRequestTypeSubmenu);
+//      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.subscribe(loadRequestTypeSubmenu);
+//    
+//    function selectRequestTypeSubmenu(type, args) {
+//        zcc.switchSelectedItemDisplay(args[0], 'selected');
+//      }
+//      
+//      function switchAreas(currentSubmenu) {
+//          if (currentSubmenu === 'general') {
+//              YAHOO.util.Dom.removeClass(document.getElementById('requestTypeAlerts'), 'invisible');
+//              YAHOO.util.Dom.addClass(document.getElementById('requestTypeSeasons'), 'invisible');
+//          } else if (currentSubmenu === 'seasons') {
+//              YAHOO.util.Dom.removeClass(document.getElementById('requestTypeSeasons'), 'invisible');
+//              YAHOO.util.Dom.addClass(document.getElementById('requestTypeAlerts'), 'invisible');
+//          }
+//      }
+//      
+//      var handleLoadRequestTypeSubmenuFormSuccess = function(o) {
+//          
+//          var element = document.getElementById(o.argument[2]);
+//          element.innerHTML = o.responseText;
+//  
+//          if (o.argument[1] === 'general') {
+//            if (o.argument[2] === 'requestTypeAlerts') {
+//                 initRequestTypeAlerts(o.argument[0]);
+//            }
+//              switchAreas('general');
+//          } else if (o.argument [1] === 'seasons') {
+//            initRequestTypeSeasons(o.argument[0]);
+//              switchAreas('seasons');
+//          }   
+//      };
+//        
+//      function loadRequestTypeSubmenu(type, args) {
+//        var url;
+//        if (args[1] === 'general') {
+//          // general submenu is a special case : it contains three templates
+//          url = '/loadAlertsArea/' + args[2];
+//          zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeAlerts'], handleLoadRequestTypeSubmenuFormSuccess);
+//        } else if (args[1] === 'seasons') {
+//          url = '/loadSeasonsArea/' + args[2];
+//          zcc.doAjaxCall(url, [args[2], args[1], 'requestTypeSeasons'], handleLoadRequestTypeSubmenuFormSuccess);
+//        }
+//      }
+//      
+//      // init submenu to general
+//      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.fire('requestType-general','general',
+//          zenexity.capdemat.bong.requesttype.currentId);
+//  }
+//  
+//  YAHOO.util.Event.onDOMReady(initRequestTypeConfigure);
+//  
+//  
+//  function fireRequestTypeSubmenuSelectedEvent(submenuId,menuKey,requestTypeId) {
+//      YAHOO.capdematBo.requestTypeSubmenuSelectedEvent.fire(submenuId,menuKey,requestTypeId);
+//  }
   
   
 }());

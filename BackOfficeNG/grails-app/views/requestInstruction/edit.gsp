@@ -8,12 +8,11 @@
     <script type="text/javascript">
         zenexity.capdemat.bong.requestId = '${request.id}';
     </script>
-  </head>
     <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'requestInstruction.css')}" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'document.css')}" />    
+    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'document.css')}" />
   </head>
   <body>
-    
+
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
@@ -24,15 +23,16 @@
             <!-- ecitizen contact panel [default display = none] -->
             <div id="ecitizenContactPanel">
               <div class="hd"></div>
-              <div class="bd"></div>
+              <div class="bd">
+              </div>
             </div>
           </div>
           <h1>
-            <g:message code="request.header.request" /> : 
+            <g:message code="request.header.request" /> :
             ${requestLabel} (<g:message code="property.id" /> : ${request.id})
           </h1>
         </div>
-        
+
         <!-- request data template selectection by request type -->
         <g:if test="${request.requestType.label == 'Library Registration'}">
           <g:render template="/requestInstruction/requestType/libraryRegistrationRequest" model="['request':request]" />
@@ -49,9 +49,9 @@
         <g:else>
           <g:render template="/requestInstruction/requestType/defaultRequest" model="['request':request]" />
         </g:else>
-        
+
         <!-- request intruction document -->
-        <div id="requestDocument"> 
+        <div id="requestDocument">
           <!-- Request attached document -->
           <h2><g:message code="requestType.configuration.documents" /></h2>
           <div class="box-raduis">
@@ -73,16 +73,16 @@
             <div class="bd"></div>
           </div>
         </div>
-   
+
         <!-- Request TabView -->
         <div id="requestInformation" ></div>
-      
+
       </div>
     </div>
-      
-    <!-- request instruction tasks state --> 
+
+    <!-- request instruction tasks state -->
     <div id="narrow" class="yui-b">
-      
+
       <!-- request state -->
       <div class="nobox taskstate">
         <h3><g:message code="request.header.request" /></h3>
@@ -92,7 +92,7 @@
           </span>
         </div>
       </div>
-      
+
       <!-- request data state -->
       <div class="nobox taskstate">
         <h3><g:message code="request.header.data" /></h3>
@@ -102,7 +102,7 @@
           </span>
         </div>
       </div>
-      
+
       <!-- request document state -->
       <div class="nobox taskstate">
         <h3><g:message code="request.requester.property.evidences" /></h3>
@@ -110,7 +110,7 @@
           <ul>
           <g:each var="document" in="${documentList}">
             <li>
-              <a class="${document.state.cssClass} documentState_${document.id} documentLink" 
+              <a class="${document.state.cssClass} documentState_${document.id} documentLink"
                   href="/document/${document.id}">
                 <g:message code="${document.state.i18nKey}" />
               </a>
@@ -120,7 +120,7 @@
           </ul>
         </div>
       </div>
-      
+
       <!-- instruction state panel [default display = none] -->
       <div id="instructionStatePanel">
         <div class="hd"><g:message code="request.header.changeState" /></div>
@@ -128,7 +128,7 @@
         </div>
         <div class="ft"></div>
       </div>
-      
+
     </div>
   </body>
 </html>

@@ -27,6 +27,7 @@ import fr.cg95.cvq.dao.document.IDocumentBinaryDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.exception.CvqBadPageNumberException;
+import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -34,6 +35,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.document.IDocumentService;
 
 /**
@@ -190,8 +192,8 @@ public class DocumentService implements IDocumentService {
             final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException, CvqBadPageNumberException {
 
-        Document document = getById(documentId);
-
+        checkDocumentDigitalizationIsEnabled();
+        
         Integer pageNumber = documentBinary.getPageNumber();
         if (pageNumber != null && documentBinaryDAO.hasPage(documentId, pageNumber)) {
             logger.debug("Document " + documentId + " already has a page " + pageNumber);
@@ -201,6 +203,7 @@ public class DocumentService implements IDocumentService {
             documentBinary.setPageNumber(pageNumber);
         }
 
+        Document document = getById(documentId);
         if (document.getDatas() == null) {
             Set<DocumentBinary> datasSet = new HashSet<DocumentBinary>();
             datasSet.add(documentBinary);
@@ -216,6 +219,8 @@ public class DocumentService implements IDocumentService {
             final DocumentBinary documentBinary)
         throws CvqException, CvqBadPageNumberException {
 
+        checkDocumentDigitalizationIsEnabled();
+        
         // a piece of page management, to be c'ted if really necessary
         // (but is it ??)
         Integer newPageNumber = documentBinary.getPageNumber();
@@ -240,6 +245,8 @@ public class DocumentService implements IDocumentService {
     public void deletePage(@Secure(SecureAction.DELETE) final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException {
 
+        checkDocumentDigitalizationIsEnabled();
+        
         DocumentBinary docBin =
             documentBinaryDAO.findByDocumentAndPageId(documentId, pageId);
         if (docBin == null)
@@ -253,6 +260,17 @@ public class DocumentService implements IDocumentService {
         logger.debug("Deleted document binary with id : " + docBin.getId());
     }
 
+    private void checkDocumentDigitalizationIsEnabled() 
+        throws CvqDisabledFunctionalityException {
+        
+        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+        if (!lacb.isDocumentDigitalizationEnabled().booleanValue()) {
+            logger.error("checkDocumentDigitalizationIsEnabled() document digitalization is not enabled for site "
+                         + lacb.getName());
+            throw new CvqDisabledFunctionalityException();
+        }
+    }
+    
     public DocumentBinary getPage(@Secure(SecureAction.READ) final Long documentId, 
             final Integer pageId)
         throws CvqException, CvqObjectNotFoundException {

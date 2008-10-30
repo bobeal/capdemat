@@ -338,40 +338,6 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
 
   <!-- ************************ DOCUMENTS RELATED SERVICES ********************* -->
 
-  <!-- 
-  <bean id="documentDigitalizationAllowedBeforeAdvice"
-    class="fr.cg95.cvq.service.document.DocumentDigitalizationAllowedBeforeAdvice">
-    <property name="localAuthorityRegistry">
-      <ref bean="localAuthorityRegistry"/>
-    </property>
-  </bean>
-
-  <bean id="documentDigitalizationAllowedBeforeAdviceAdvisor"
-    class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
-    <property name="advice">
-      <ref local="documentDigitalizationAllowedBeforeAdvice"/>
-    </property>
-    <property name="patterns">
-      <list>
-	    <value>.*DocumentService.addPage</value>
-	    <value>.*DocumentService.modifyPage</value>
-	    <value>.*DocumentService.deletePage</value>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="documentService" 
-    class="org.springframework.aop.framework.ProxyFactoryBean">
-    <property name="proxyInterfaces"><value>fr.cg95.cvq.service.document.IDocumentService</value></property>
-    <property name="target"><ref local="documentServiceTarget"/></property>
-    <property name="interceptorNames">
-      <list>
-        <value>documentDigitalizationAllowedBeforeAdviceAdvisor</value>
-      </list>
-    </property>
-  </bean>
-  -->
-
   <bean id="documentService" class="fr.cg95.cvq.service.document.impl.DocumentService">
     <property name="documentDAO" ref="documentDAO"/>
     <property name="documentTypeDAO" ref="documentTypeDAO"/>

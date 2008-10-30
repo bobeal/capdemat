@@ -48,8 +48,6 @@ public class SystemArchitecture {
      * dao interface. This definition assumes that interfaces are placed in the
      * "dao" package, and that implementation types are in sub-packages.
      */
-    /*
-    @Pointcut("execution(* fr.cg95.cvq.dao..*.*(..))")
+    @Pointcut("execution(* fr.cg95.cvq.dao.*.hibernate.*DAO.*(..))")
     public void dataAccessOperation() {}
-    */
 }

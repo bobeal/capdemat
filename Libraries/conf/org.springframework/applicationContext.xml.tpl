@@ -14,20 +14,8 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
 
   <bean id="loggingAspect" class="fr.cg95.cvq.util.development.LoggingAspect" />
   <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
-
-  <!-- 
-  <aop:config>
-    <aop:pointcut id="daoMethod"
-      expression="execution(* fr.cg95.cvq.dao.*.hibernate.*DAO.*(..))" />
-    <aop:aspect ref="hibernateExceptionTranslator">
-      <aop:after-throwing throwing="hibernateEx" pointcut-ref="daoMethod"
-        method="translateException" />
-    </aop:aspect>
-  </aop:config>
-  
-  <bean id="hibernateExceptionTranslator" 
-    class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslator"/>
-  -->
+  <bean id="hibernateExceptionTranslatorAspect" 
+    class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslatorAspect" />
   
   <!-- ======================================================= -->
   <!-- ========== GENERAL SERVICES DEFINITION ================ -->  

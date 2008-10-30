@@ -1,5 +1,6 @@
 package fr.cg95.cvq.security;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -187,6 +188,7 @@ public class SecurityContext {
         
         List<Individual> homeFolderIndividuals = 
             homeFolderService.getIndividuals(adult.getHomeFolder().getId());
+        credentialBean.setManagedIndividuals(new HashSet<Individual>(homeFolderIndividuals));
         credentialBean.setEcitizen(adult);
     }
 

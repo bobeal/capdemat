@@ -105,12 +105,14 @@ public class DocumentService implements IDocumentService {
         }
     }
 
+    @Context(type=ContextType.ADMIN)
     public void checkDocumentsValidity()
         throws CvqException {
 
         localAuthorityRegistry.browseAndCallback(this, "checkLocalAuthDocumentsValidity", null);
     }
     
+    @Context(type=ContextType.ADMIN)
     public void checkLocalAuthDocumentsValidity(final String localAuthorityName)
         throws CvqException {
 
@@ -184,7 +186,7 @@ public class DocumentService implements IDocumentService {
         documentDAO.delete(document);
     }
 
-    public Long addPage(@Secure(SecureAction.UPDATE) final Long documentId, 
+    public void addPage(@Secure(SecureAction.UPDATE) final Long documentId, 
             final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException, CvqBadPageNumberException {
 
@@ -199,14 +201,6 @@ public class DocumentService implements IDocumentService {
             documentBinary.setPageNumber(pageNumber);
         }
 
-        Long docBinId = documentBinaryDAO.create(documentBinary);
-
-        logger.debug("Created document binary with id : " + docBinId);
-
-        // ??? required when unit testing, either we are unable to retrieve
-        // document's datas ...
-        // also required in normal deployment configuration ??
-        // FIXME : a cache side effect ??
         if (document.getDatas() == null) {
             Set<DocumentBinary> datasSet = new HashSet<DocumentBinary>();
             datasSet.add(documentBinary);
@@ -215,7 +209,7 @@ public class DocumentService implements IDocumentService {
             document.getDatas().add(documentBinary);
         }
 
-        return docBinId;
+        documentDAO.update(document);
     }
 
     public void modifyPage(@Secure(SecureAction.UPDATE) final Long documentId, 
@@ -229,8 +223,7 @@ public class DocumentService implements IDocumentService {
             newPageNumber = (Integer)documentBinaryDAO.getNextPageNumber(documentId).intValue();
             documentBinary.setPageNumber(newPageNumber);
         } else {
-            // if page number has changed, check it does not conflict
-            // with an existing one
+            // if page number has changed, check it does not conflict with an existing one
             // FIXME : do not retrieve the whole object !
             Integer oldPageNumber = documentBinaryDAO.getPage(documentBinary.getId());
             if (!oldPageNumber.equals(newPageNumber)
@@ -252,14 +245,11 @@ public class DocumentService implements IDocumentService {
         if (docBin == null)
             throw new CvqObjectNotFoundException("Could not find page " + pageId + " of document " + documentId);
 
-        // ??? required when unit testing, either we are unable to retrieve
-        // document's datas ...
-        // also required in normal deployment configuration ??
-        // FIXME : a cache side effect ??
         Document document = getById(documentId);
         document.getDatas().remove(docBin);
         documentBinaryDAO.delete(docBin);
-
+        documentDAO.update(document);
+        
         logger.debug("Deleted document binary with id : " + docBin.getId());
     }
 
@@ -292,18 +282,21 @@ public class DocumentService implements IDocumentService {
             return new LinkedHashSet<DocumentBinary>(document.getDatas());
     }
 
+    @Secure(SecureAction.CUSTOM_BEFORE)
     public void deleteHomeFolderDocuments(Long homeFolderId) throws CvqException {
         List<Document> documents = getHomeFolderDocuments(homeFolderId);
         for (Document document : documents)
             documentDAO.delete(document);
     }
 
+    @Secure(SecureAction.CUSTOM_BEFORE)
     public void deleteIndividualDocuments(Long individualId) throws CvqException {
         List<Document> documents = getIndividualDocuments(individualId);
         for (Document document : documents)
             documentDAO.delete(document);
     }
 
+    @Secure(SecureAction.CUSTOM_BEFORE)
     public List<Document> getProvidedDocuments(final DocumentType docType,
             final Long homeFolderId, final Long individualId)
         throws CvqException {
@@ -313,18 +306,18 @@ public class DocumentService implements IDocumentService {
         if (homeFolderId == null)
             throw new CvqException("No home folder id provided");
 
-        List<Document> providedDocSet = documentDAO.listProvidedDocuments(docType.getId(),
+        return documentDAO.listProvidedDocuments(docType.getId(),
                 homeFolderId, individualId);
-
-        return providedDocSet;
     }
     
+    @Secure(SecureAction.CUSTOM_BEFORE)
     public List<Document> getHomeFolderDocuments(final Long homeFolderId)
         throws CvqException {
 
         return documentDAO.listByHomeFolder(homeFolderId);
     }
 
+    @Secure(SecureAction.CUSTOM_BEFORE)
     public List<Document> getIndividualDocuments(final Long individualId)
         throws CvqException {
 
@@ -459,10 +452,6 @@ public class DocumentService implements IDocumentService {
         documentAction.setDate(new Date());
         documentAction.setResultingState(resultingState);
 
-        genericDAO.create(documentAction);
-
-        // FIXME : a side effect of first-level cache and lazy initialiszation ?
-        //         or is it a normal behavior ?
         if (document.getActions() == null) {
             Set<DocumentAction> actionsSet = new HashSet<DocumentAction>();
             actionsSet.add(documentAction);
@@ -470,6 +459,8 @@ public class DocumentService implements IDocumentService {
         } else {
             document.getActions().add(documentAction);
         }
+        
+        documentDAO.update(document);
     }
 
     public void setDocumentDAO(final IDocumentDAO documentDAO) {

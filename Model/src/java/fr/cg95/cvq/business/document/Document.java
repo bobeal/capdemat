@@ -219,7 +219,6 @@ public class Document implements Serializable {
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
      *  cascade="all"
      *  order-by="page_number asc"
@@ -238,7 +237,6 @@ public class Document implements Serializable {
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
      *  cascade="all"
      *  order-by="id"

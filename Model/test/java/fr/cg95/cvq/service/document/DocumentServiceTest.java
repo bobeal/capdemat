@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
+
 import fr.cg95.cvq.business.document.DepositOrigin;
 import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
-import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -116,8 +116,12 @@ public class DocumentServiceTest extends ServiceTestCase {
         // ... and to the individual
         documentsList = iDocumentService.getIndividualDocuments(anIndividual.getId());
         assertEquals("Bad number of associated documents on individual", 1, documentsList.size());
-        documentsList = iDocumentService.getIndividualDocuments(new Long(0));
-        assertEquals("Bad number of associated documents on individual", 0, documentsList.size());
+        try {
+            documentsList = iDocumentService.getIndividualDocuments(new Long(0));
+            fail("should have thrown an exception");
+        } catch (PermissionException pe) {
+            // that was expected
+        }
 
         // modify a page
         DocumentBinary docBin1 = docBinarySet.iterator().next();
@@ -231,35 +235,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         // retrieve all known document types
         allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
         Assert.assertNotNull(allDocumentTypes);
-        
-        SecurityContext.resetCurrentSite();
     }
-    
-//    public void testSearch() throws CvqException {
-//        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-//        CreationBean cb = gimmeAnHomeFolder();
-//        SecurityContext.setCurrentEcitizen(cb.getLogin());
-//        
-//        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
-//        Individual individual = homeFolder.getHomeFolderResponsible();
-//        
-//        Document doc = new Document();
-////        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.ADOPTION_JUDGMENT_TYPE));
-////        iDocumentService.create(doc, homeFolder.getId(), individual.getId());
-////        
-//        doc = new Document();   
-//        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.BANK_IDENTITY_RECEIPT_TYPE));
-//        iDocumentService.create(doc, null, individual.getId());
-//        
-//        doc = new Document();
-//        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.BANK_STATEMENT_TYPE));
-//        iDocumentService.create(doc, homeFolder.getId(), null);
-//        
-//        commitTransaction();
-//        
-////        assertEquals(2, iDocumentService.getHomeFolderDocuments(homeFolder.getId()).size());
-////        assertEquals(2, iDocumentService.getIndividualDocuments(individual.getId()).size());
-//    }
     
     public void testCreate() throws CvqException {
         
@@ -271,11 +247,13 @@ public class DocumentServiceTest extends ServiceTestCase {
         
         HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
         Individual individual = homeFolder.getHomeFolderResponsible();
+        DocumentType documentType =
+            iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
         Document document = new Document();
-        document.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE));
+        document.setDocumentType(documentType);
         document.setHomeFolderId(homeFolder.getId());
-//        document.setIndividualId(new Long(individual.getId().longValue()));
+        document.setIndividualId(new Long(individual.getId().longValue()));
         iDocumentService.create(document);
         Long documentId = document.getId();
    
@@ -287,7 +265,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         }
 
         document = new Document();
-        document.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE));
+        document.setDocumentType(documentType);
         document.setHomeFolderId(Long.valueOf("0"));
         try {
             iDocumentService.create(document);

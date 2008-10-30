@@ -399,8 +399,10 @@ public abstract class RequestService implements IRequestService {
 
         logger.debug("getAssociatedDocuments() searching documents for request id : " + id);
 
-        List documentsList = documentDAO.listByRequest(id);
-        return new LinkedHashSet(documentsList);
+        // TODO REFACTORING
+        return null;
+//        List documentsList = documentDAO.listByRequest(id);
+//        return new LinkedHashSet(documentsList);
     }
 
     public byte[] getCertificate(final Long id, final RequestState requestState)

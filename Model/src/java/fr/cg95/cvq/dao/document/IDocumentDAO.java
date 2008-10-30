@@ -28,13 +28,6 @@ public interface IDocumentDAO extends IGenericDAO {
     List<Document> listByIndividual(final Long individualId);
 
     /**
-     * Return the documents belonging to the given request.
-     * 
-     * TODO
-     */
-    List<Document> listByRequest(final Long requestId);
-
-    /**
      * Return the documents which are in the given state.
      */
     List<Document> listByState(final DocumentState documentState);

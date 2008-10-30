@@ -57,6 +57,7 @@ import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IChildService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public class ServiceTestCase
@@ -299,7 +300,7 @@ public class ServiceTestCase
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             // ensure all requests have been deleted after each test
-            Assert.assertEquals(0, iRequestService.get(new HashSet(), null, true).size());
+            Assert.assertEquals(0, iRequestService.get(new HashSet<Critere>(), null, true).size());
             rollbackTransaction();
             SecurityContext.resetCurrentSite();
         } catch (Exception e) {
@@ -415,17 +416,17 @@ public class ServiceTestCase
         address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
         homeFolderResponsible =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,
-                                              FamilyStatusType.MARRIED);
+                    FamilyStatusType.MARRIED);
         homeFolderResponsible.addHomeFolderResponsibleRole();
         homeFolderResponsible.addHomeFolderFinancialResponsibleRole();
         homeFolderResponsible.setPassword("toto");
 
         homeFolderWoman =
             BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "LASTNAME", "wife", address,
-                                              FamilyStatusType.MARRIED);
+                    FamilyStatusType.MARRIED);
         homeFolderUncle =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "uncle", address,
-                                              FamilyStatusType.SINGLE);
+                    FamilyStatusType.SINGLE);
         Set<Adult> adultSet = new HashSet<Adult>();
         adultSet.add(homeFolderResponsible);
         adultSet.add(homeFolderWoman);
@@ -433,12 +434,12 @@ public class ServiceTestCase
 
         child1 =
             BusinessObjectsFactory.gimmeChild("LASTNAME", "childone", homeFolderResponsible,
-                                              homeFolderWoman, homeFolderUncle);
+                    homeFolderWoman, homeFolderUncle);
         child1.setSex(SexType.MALE);
 
         child2 =
             BusinessObjectsFactory.gimmeChild("LASTNAME", "childtwo", homeFolderResponsible,
-                                              null, null);
+                    null, null);
         child2.setSex(SexType.MALE);
 
         Set<Child> childSet = new HashSet<Child>();

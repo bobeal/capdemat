@@ -12,8 +12,9 @@ import fr.cg95.cvq.exception.CvqBadPageNumberException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.annotation.HomeFolder;
-import fr.cg95.cvq.security.annotation.Individual;
+import fr.cg95.cvq.security.annotation.IsHomeFolder;
+import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.service.document.annotation.IsDocument;
 
 /**
  * @author bor@zenexity.fr
@@ -35,34 +36,34 @@ public interface IDocumentService {
      * @param document the document to add
      * @return the document's id
      */
-    Long create(Document document)
+    Long create(@IsDocument Document document)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Modify an existing document.
      */
-    void modify(Document document)
+    void modify(@IsDocument Document document)
         throws CvqException;
     
 	/**
      * Delete an existing document.
      */
-    void delete(final Long id)
+    void delete(@IsDocument final Long id)
         throws CvqException, CvqObjectNotFoundException;
     
     /**
      * Delete documents belonging to the given home folder.
      */
-    void deleteHomeFolderDocuments(@HomeFolder final Long homeFolderId)
+    void deleteHomeFolderDocuments(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
     
     /**
      * Delete documents belonging to the given individual.
      */
-    void deleteIndividualDocuments(@Individual final Long individualId)
+    void deleteIndividualDocuments(@IsIndividual final Long individualId)
         throws CvqException;
 
-    Document getById(final Long documentId)
+    Document getById(@IsDocument final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
@@ -73,38 +74,38 @@ public interface IDocumentService {
      * @throws CvqBadPageNumberException if a page is specified for the
      *         binary but page already exists
      */
-    void addPage(final Long documentId, final DocumentBinary documentBinary)
+    void addPage(@IsDocument final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException,
                CvqBadPageNumberException;
 
     /**
      * Modify a page of an existing document.
      */
-    void modifyPage(final Long documentId, final DocumentBinary documentBinary)
+    void modifyPage(@IsDocument final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqBadPageNumberException;
 
     /**
      * Remove a page from an existing document.
      */
-    void deletePage(final Long documentId, final Integer pageId)
+    void deletePage(@IsDocument final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get a specific page of an existing document.
      */
-    DocumentBinary getPage(final Long documentId, final Integer pageId)
+    DocumentBinary getPage(@IsDocument final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get a the number of pages associated to an existing document.
      */
-    Integer getPagesNumber(final Long documentId)
+    Integer getPagesNumber(@IsDocument final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get all binary data associated to a document.
      */
-    Set<DocumentBinary> getAllPages(final Long documentId)
+    Set<DocumentBinary> getAllPages(@IsDocument final Long documentId)
         throws CvqException;
 
     /**
@@ -116,19 +117,19 @@ public interface IDocumentService {
      * @param individualId an optional individual to restrict the search to
      */
     List<Document> getProvidedDocuments(final DocumentType docType, 
-            @HomeFolder final Long homeFolderId, @Individual final Long individualId)
+            @IsHomeFolder final Long homeFolderId, @IsIndividual final Long individualId)
         throws CvqException;
 
     /**
      * Get documents associated to an home folder.
      */
-    List<Document> getHomeFolderDocuments(@HomeFolder final Long homeFolderId)
+    List<Document> getHomeFolderDocuments(@IsHomeFolder final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get documents associated to an individual.
      */
-    List<Document> getIndividualDocuments(@Individual final Long individualId)
+    List<Document> getIndividualDocuments(@IsIndividual final Long individualId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**

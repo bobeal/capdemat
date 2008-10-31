@@ -92,12 +92,6 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
     </property>
   </bean>
   
-  <sec:annotation-driven access-manager="accessManager"/>
-
-  <bean id="accessManager" class="fr.cg95.cvq.service.document.DocumentAccessManager">
-    <property name="documentDAO" ref="documentDAO" />
-  </bean>
-  
   <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService">
   	<property name="genericDAO" ref="genericDAO" />
     <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
@@ -325,6 +319,11 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   </bean>
 
   <!-- ************************ DOCUMENTS RELATED SERVICES ********************* -->
+
+  <bean id="documentContextCheckAspect" 
+    class="fr.cg95.cvq.service.document.aspect.DocumentContextCheckAspect">
+    <property name="documentDAO" ref="documentDAO" />  
+  </bean>
 
   <bean id="documentService" class="fr.cg95.cvq.service.document.impl.DocumentService">
     <property name="documentDAO" ref="documentDAO"/>

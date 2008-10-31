@@ -24,7 +24,7 @@ public class DocumentTypeService implements IDocumentTypeService, ILocalAuthorit
     private Boolean performDbUpdates;
     private DocumentBootstrapper documentBootstrapper;
     
-    @Context(type=ContextType.ADMIN)
+    @Context(type=ContextType.SUPER_ADMIN)
     public void initSampleDocumentTypes(final String localAuthorityName) 
         throws CvqException {
         logger.debug("initSampleDocumentTypes() init for " + localAuthorityName);

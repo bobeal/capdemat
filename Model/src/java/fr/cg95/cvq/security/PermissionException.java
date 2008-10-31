@@ -1,6 +1,7 @@
 package fr.cg95.cvq.security;
 
 import fr.cg95.cvq.permission.PrivilegeDescriptor;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
 
 public class PermissionException extends RuntimeException {
 
@@ -8,6 +9,7 @@ public class PermissionException extends RuntimeException {
 
     private Object o;
     private PrivilegeDescriptor p;
+    private ContextPrivilege privilege;
     private String message;
 
     public PermissionException(Class<?> c, Object o, PrivilegeDescriptor p) {
@@ -27,6 +29,14 @@ public class PermissionException extends RuntimeException {
             + " failed for service <" + service + ">";
     }
     
+    public PermissionException(Class<?> c, Object o, ContextPrivilege privilege) {
+        super("");
+        this.o = o;
+        this.privilege = privilege;
+        this.message = "permission check at level " + privilege.toString() 
+            + " failed for object <" + o.toString() + ">" + " in " + c;
+    }
+    
     public PermissionException(String message) {
         super("");
         this.message = message;
@@ -38,6 +48,10 @@ public class PermissionException extends RuntimeException {
 
     public Object getObject() {
         return o;
+    }
+    
+    public ContextPrivilege getPrivilege() {
+        return privilege;
     }
     
     public PrivilegeDescriptor getPrivilegeDescriptor() {

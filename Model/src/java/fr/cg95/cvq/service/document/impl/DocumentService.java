@@ -9,9 +9,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.safr.core.annotation.Secure;
-import net.sourceforge.safr.core.annotation.SecureAction;
-
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.document.DepositOrigin;
@@ -32,6 +29,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
@@ -58,7 +56,8 @@ public class DocumentService implements IDocumentService {
         super();
     }
 
-    public Document getById(@Secure(SecureAction.READ) final Long id)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Document getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
         return (Document) documentDAO.findById(Document.class, id);
     }
@@ -67,7 +66,7 @@ public class DocumentService implements IDocumentService {
      * Compute a default end validity date for the given document, according to its
      * type.
      */
-    protected void computeEndValidityDate(Document document) {
+    private void computeEndValidityDate(Document document) {
 
         DocumentType docType = document.getDocumentType();
         DocumentTypeValidity docTypeValidity = docType.getValidityDurationType();
@@ -107,14 +106,14 @@ public class DocumentService implements IDocumentService {
         }
     }
 
-    @Context(type=ContextType.ADMIN)
+    @Context(type=ContextType.SUPER_ADMIN)
     public void checkDocumentsValidity()
         throws CvqException {
 
         localAuthorityRegistry.browseAndCallback(this, "checkLocalAuthDocumentsValidity", null);
     }
     
-    @Context(type=ContextType.ADMIN)
+    @Context(type=ContextType.SUPER_ADMIN)
     public void checkLocalAuthDocumentsValidity(final String localAuthorityName)
         throws CvqException {
 
@@ -143,7 +142,8 @@ public class DocumentService implements IDocumentService {
         }
     }
 
-    public Long create(@Secure(SecureAction.CREATE) Document document)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public Long create(Document document)
         throws CvqException, CvqObjectNotFoundException {
 
         if (document == null)
@@ -173,7 +173,8 @@ public class DocumentService implements IDocumentService {
         return documentId;
     }
 
-    public void modify(@Secure(SecureAction.UPDATE) final Document document)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void modify(final Document document)
         throws CvqException {
 
         if (document == null)
@@ -181,15 +182,16 @@ public class DocumentService implements IDocumentService {
         documentDAO.update(document);
     }
 
-    public void delete(@Secure(SecureAction.DELETE) final Long id)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
         Document document = getById(id);
         documentDAO.delete(document);
     }
 
-    public void addPage(@Secure(SecureAction.UPDATE) final Long documentId, 
-            final DocumentBinary documentBinary)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void addPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException, CvqBadPageNumberException {
 
         checkDocumentDigitalizationIsEnabled();
@@ -215,8 +217,8 @@ public class DocumentService implements IDocumentService {
         documentDAO.update(document);
     }
 
-    public void modifyPage(@Secure(SecureAction.UPDATE) final Long documentId, 
-            final DocumentBinary documentBinary)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void modifyPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqBadPageNumberException {
 
         checkDocumentDigitalizationIsEnabled();
@@ -242,7 +244,8 @@ public class DocumentService implements IDocumentService {
         logger.debug("Modified document binary with id : " + documentBinary.getId());
     }
 
-    public void deletePage(@Secure(SecureAction.DELETE) final Long documentId, final Integer pageId)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void deletePage(final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException {
 
         checkDocumentDigitalizationIsEnabled();
@@ -271,8 +274,8 @@ public class DocumentService implements IDocumentService {
         }
     }
     
-    public DocumentBinary getPage(@Secure(SecureAction.READ) final Long documentId, 
-            final Integer pageId)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public DocumentBinary getPage(final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException {
 
         DocumentBinary docBin =
@@ -283,13 +286,15 @@ public class DocumentService implements IDocumentService {
         return docBin;
     }
 
-    public Integer getPagesNumber(@Secure(SecureAction.READ) final Long documentId)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Integer getPagesNumber(final Long documentId) 
         throws CvqException {
 
         return documentBinaryDAO.getPagesNumber(documentId).intValue();
     }
 
-    public Set<DocumentBinary> getAllPages(@Secure(SecureAction.READ) final Long documentId)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Set<DocumentBinary> getAllPages(final Long documentId)
         throws CvqException {
 
         Document document = getById(documentId);
@@ -300,21 +305,21 @@ public class DocumentService implements IDocumentService {
             return new LinkedHashSet<DocumentBinary>(document.getDatas());
     }
 
-    @Secure(SecureAction.CUSTOM_BEFORE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void deleteHomeFolderDocuments(Long homeFolderId) throws CvqException {
         List<Document> documents = getHomeFolderDocuments(homeFolderId);
         for (Document document : documents)
             documentDAO.delete(document);
     }
 
-    @Secure(SecureAction.CUSTOM_BEFORE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void deleteIndividualDocuments(Long individualId) throws CvqException {
         List<Document> documents = getIndividualDocuments(individualId);
         for (Document document : documents)
             documentDAO.delete(document);
     }
 
-    @Secure(SecureAction.CUSTOM_BEFORE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Document> getProvidedDocuments(final DocumentType docType,
             final Long homeFolderId, final Long individualId)
         throws CvqException {
@@ -328,14 +333,14 @@ public class DocumentService implements IDocumentService {
                 homeFolderId, individualId);
     }
     
-    @Secure(SecureAction.CUSTOM_BEFORE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Document> getHomeFolderDocuments(final Long homeFolderId)
         throws CvqException {
 
         return documentDAO.listByHomeFolder(homeFolderId);
     }
 
-    @Secure(SecureAction.CUSTOM_BEFORE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Document> getIndividualDocuments(final Long individualId)
         throws CvqException {
 
@@ -346,7 +351,7 @@ public class DocumentService implements IDocumentService {
     // TODO : make workflow method private - migrate unit tests
     //////////////////////////////////////////////////////////
     
-    @Context(type=ContextType.BACK_OFFICE)
+    @Context(type=ContextType.AGENT)
     public void updateDocumentState(final Long id, final DocumentState ds, final String message, 
             final Date validityDate)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
@@ -360,7 +365,7 @@ public class DocumentService implements IDocumentService {
             outDated(id);
     }
 
-    @Context(type=ContextType.BACK_OFFICE)
+    @Context(type=ContextType.AGENT)
     public void validate(final Long id, final Date validityDate, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
@@ -383,7 +388,7 @@ public class DocumentService implements IDocumentService {
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.VALIDATED, document);
     }
 
-    @Context(type=ContextType.BACK_OFFICE)
+    @Context(type=ContextType.AGENT)
     public void check(final Long id, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
@@ -399,7 +404,7 @@ public class DocumentService implements IDocumentService {
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.CHECKED, document);
     }
 
-    @Context(type=ContextType.BACK_OFFICE)
+    @Context(type=ContextType.AGENT)
     public void refuse(final Long id, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
@@ -417,7 +422,7 @@ public class DocumentService implements IDocumentService {
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.REFUSED, document);
     }
 
-    @Context(type=ContextType.BACK_OFFICE)
+    @Context(type=ContextType.AGENT)
     public void outDated(final Long id)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
@@ -434,7 +439,7 @@ public class DocumentService implements IDocumentService {
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.OUTDATED, document);
     }
 
-    @Context(type=ContextType.BACK_OFFICE)
+    @Context(type=ContextType.AGENT)
     public DocumentState[] getPossibleTransitions(DocumentState ds)
         throws CvqException {
 

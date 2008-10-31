@@ -1,4 +1,4 @@
-package fr.cg95.cvq.security.annotation;
+package fr.cg95.cvq.service.document.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,9 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target( { ElementType.METHOD })
-public @interface Context {
+@Target(ElementType.PARAMETER)
+public @interface IsDocument {
 
-    ContextType type();
-    ContextPrivilege privilege() default ContextPrivilege.READ;
 }

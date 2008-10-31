@@ -125,7 +125,6 @@
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/slf4j-api-1.4.3.jar"/>
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/slf4j-log4j12-1.0.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.sun/saaj-impl.jar"/>
-	<classpathentry kind="lib" path="Libraries/net.sf/safr/safr-core-0.9.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.aspectj/aspectjrt-1.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

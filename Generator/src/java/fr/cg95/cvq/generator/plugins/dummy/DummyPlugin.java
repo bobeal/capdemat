@@ -11,6 +11,7 @@ import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.RequestCommon;
 
 /**
  * A dummy plugin that just prints out data received from the code
@@ -26,8 +27,7 @@ public class DummyPlugin implements IPluginGenerator {
     private int depth = 0;
 
     public void initialize(Node configurationNode) {
-        logger.debug("initialize() Configuration Node : "
-                     + configurationNode.toString());
+        logger.debug("initialize() Configuration Node : "+ configurationNode.toString());
     }
 
     public void shutdown() {
@@ -112,6 +112,20 @@ public class DummyPlugin implements IPluginGenerator {
 
     public void onApplicationInformation(ApplicationDocumentation applicationDocumentation) {
         logger.debug(getIndent() + "onApplicationInformation() " + applicationDocumentation.getNodeName() + " / " + applicationDocumentation.getXmlString());
+        
+        if (depth < 1)
+            logger.warn(getIndent() + "onApplicationInformation - applicationDocumentation.getRequestCommon()=[" +
+                    "namespace: " + applicationDocumentation.getRequestCommon().getNamespace() +
+                    ", steps.size: " + applicationDocumentation.getRequestCommon().getSteps().size() +
+                    ", conditions.size: " + applicationDocumentation.getRequestCommon().getConditions().size() +
+                    "]");
+        else if (applicationDocumentation.getRequestCommon().getCurrentElementCommon() != null)
+            logger.warn(getIndent() + "onApplicationInformation() - currentElementCommom= [" +
+                    "step: [name:" + applicationDocumentation.getRequestCommon().getCurrentElementCommon().getStep().getName() +
+                    "] condition: [name: " + applicationDocumentation.getRequestCommon().getCurrentElementCommon().getCondition().getName() +
+                    "]");
+        else 
+            logger.warn(getIndent() + "onApplicationInformation() - currentElementCommom= [null]");
     }
 
     private String getIndent() {

@@ -78,25 +78,25 @@ public interface IDocumentService {
                CvqBadPageNumberException;
 
     /**
-     * Modify a page of an existing document
+     * Modify a page of an existing document.
      */
     void modifyPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqBadPageNumberException;
 
     /**
-     * Remove a page from an existing document
+     * Remove a page from an existing document.
      */
     void deletePage(final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Get a specific page of an existing document
+     * Get a specific page of an existing document.
      */
     DocumentBinary getPage(final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Get a the number of pages associated to an existing document
+     * Get a the number of pages associated to an existing document.
      */
     Integer getPagesNumber(final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
@@ -141,14 +141,14 @@ public interface IDocumentService {
     void checkDocumentsValidity() throws CvqException;
 
     /**
-     * Dispatcher method for workflow document method
+     * Dispatcher method for workflow document method.
      */
     void updateDocumentState(final Long id, final DocumentState ds, final String message, 
             final Date validityDate)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
     
     /**
-     * Validate a document
+     * Validate a document.
      *
      * @param id the document's id
      * @param validityDate the document's validity date. If none is provided, the
@@ -160,7 +160,7 @@ public interface IDocumentService {
                CvqInvalidTransitionException;
 
     /**
-     * Refuse the validation of a document
+     * Refuse the validation of a document.
      *
      * @param id the document's id
      * @param message a mandatory message associated with the refusal
@@ -170,7 +170,7 @@ public interface IDocumentService {
                CvqInvalidTransitionException;
 
     /**
-     * Notify that the document has been checked
+     * Notify that the document has been checked.
      *
      * @param id the document's id
      * @param message a optional message (eg 'bring the original ones')
@@ -189,7 +189,7 @@ public interface IDocumentService {
                CvqInvalidTransitionException;
 
     /**
-     * Get possible state transitions from the given document state
+     * Get possible state transitions from the given document state.
      *
      * @return an array of {@link fr.cg95.cvq.business.document.DocumentState}
      *         objects

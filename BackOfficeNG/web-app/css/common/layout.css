@@ -11,15 +11,15 @@ body {
   background: #ffffff url(../../images/zapp/top-bg.png) top left repeat-x;
 }
 
-/* yui skin extension 
+/* yui skin extension
 -------------------------------------------------------------- */
-.yui-skin-sam .yui-navset .yui-content { 
+.yui-skin-sam .yui-navset .yui-content {
   background: white none repeat scroll 0%;
 }
 
 .yui-t4 .yui-b {  width: 13.8456em; }
 
-/* global header 
+/* global header
 -------------------------------------------------------------- */
 #hd { padding: .5em 0; color: #ccc; }
 
@@ -31,7 +31,7 @@ body {
   font-weight: normal;
 }
 
-/* global menu 
+/* global menu
 -------------------------------------------------------------- */
 #menu {
   padding:4px;
@@ -43,7 +43,7 @@ body {
 #menu a {
   height: 1.2em;
   float: left;
-  margin: 0 2px; 
+  margin: 0 2px;
   padding: 0 8px;
 	text-decoration:none;
 	line-height:1.2em;
@@ -62,7 +62,7 @@ body {
   float: right;
 }
 
-/* global body 
+/* global body
 -------------------------------------------------------------- */
 #bd {
   background: url(../../images/zapp/bg-left.png) no-repeat left 17px;
@@ -135,7 +135,7 @@ body {
   text-align: center;
 }
 
-/* misc & reset 
+/* misc & reset
    TODO - maybe move into a "misc.css" ?
 -------------------------------------------------------------- */
 
@@ -159,19 +159,19 @@ strong { font-weight: bold !important; }
   TODO - define final display policy
   TODO - choose cool icon set
 */
-.error-top, 
+.error-top,
 .success-top {
-  width: 745px;
-  height: 75px;
-  position:absolute;
-  padding: 10px;
-  border-bottom:1px solid #CCCCCC;
-  text-indent: 25px;
-  font-size:1.1em;
+  width: 300px;
+  display: inline; position:absolute;
+  left: 30%; top: 2em; z-index: 10;
+  padding: .2em;
+  text-align: center;
   font-weight:bold;
+  border: 3px solid #CCCCCC;
+  color: #fff; background: 20aa20;
 }
 .error-top   { color: #ff0000; background: transparent /*#ffdddd*/ url(../../images/icon_error.png) no-repeat 6px 6px;}
 .success-top { color: #00aa00; background: transparent /*#ddffdd*/;}
 
-.error { color: red; text-align: center; } 
+.error { color: red; text-align: center; }
 

@@ -99,7 +99,7 @@ public abstract class RequestService implements IRequestService {
     protected String label;
     protected String xslFoFilename;
     protected Boolean isOfRegistrationKind;
-    
+
     protected ICategoryService categoryService;
     protected IDocumentService documentService;
     protected IHomeFolderService homeFolderService;
@@ -109,7 +109,7 @@ public abstract class RequestService implements IRequestService {
     protected IMailService mailService;
     protected ILocalizationService localizationService;
     protected IExternalService externalService;
-    
+
     protected IGenericDAO genericDAO;
     protected IIndividualDAO individualDAO;
     protected IRequestDAO requestDAO;
@@ -121,7 +121,7 @@ public abstract class RequestService implements IRequestService {
     protected IRequestFormDAO requestFormDAO;
 
     protected RequestWorkflowService requestWorkflowService;
-    
+
     public RequestService() {
         super();
     }
@@ -165,10 +165,10 @@ public abstract class RequestService implements IRequestService {
             crit.setComparatif(Critere.EQUALS);
             crit.setValue("");
         }
-    
+
         return crit;
     }
-    
+
     public Set get(Set criteriaSet, final String orderedBy, final boolean onlyIds)
         throws CvqException {
 
@@ -180,22 +180,22 @@ public abstract class RequestService implements IRequestService {
         return new LinkedHashSet(results);
     }
 
-    public Set extendedGet(Set<Critere> criteriaSet, final String sort, final String dir, 
+    public Set extendedGet(Set<Critere> criteriaSet, final String sort, final String dir,
             final int recordsReturned, final int startIndex)
         throws CvqException {
-        
+
         if (criteriaSet == null)
             criteriaSet = new HashSet<Critere>();
         Critere userFilterCritere = getCurrentUserFilter();
         if (userFilterCritere != null)
             criteriaSet.add(getCurrentUserFilter());
         List results = requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, false);
-        
+
         return new LinkedHashSet(results);
     }
-    
+
     public Long getCount(Set<Critere> criteriaSet) throws CvqException {
-        
+
         if (criteriaSet == null)
             criteriaSet = new HashSet<Critere>();
         Critere userFilterCritere = getCurrentUserFilter();
@@ -204,7 +204,7 @@ public abstract class RequestService implements IRequestService {
 
         return requestDAO.count(criteriaSet);
     }
-    
+
     public Request getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
             return (Request) requestDAO.findById(Request.class, id, PrivilegeDescriptor.READ);
@@ -233,25 +233,25 @@ public abstract class RequestService implements IRequestService {
         return new LinkedHashSet(results);
     }
 
-    public Set getBySubjectIdAndRequestLabel(final Long subjectId, final String requestLabel, 
+    public Set getBySubjectIdAndRequestLabel(final Long subjectId, final String requestLabel,
             boolean retrieveArchived)
         throws CvqException, CvqObjectNotFoundException {
 
     	if (requestLabel == null)
     		throw new CvqModelException("request.label_required");
-    	
-        logger.debug("getBySubjectIdAndRequestLabel() searching requests of type " 
+
+        logger.debug("getBySubjectIdAndRequestLabel() searching requests of type "
                 + requestLabel + " for subject id " + subjectId);
 
         RequestState[] excludedStates = null;
         if (!retrieveArchived)
             excludedStates = new RequestState[] { RequestState.ARCHIVED };
-        
+
         List results = null;
         results = requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates);
-        return new LinkedHashSet(results);        
+        return new LinkedHashSet(results);
     }
-    
+
     public Set<Request> getByHomeFolderId(final Long homeFolderId) throws CvqException {
 		List<Request> results = null;
 		results = requestDAO.listByHomeFolder(homeFolderId);
@@ -259,12 +259,12 @@ public abstract class RequestService implements IRequestService {
 	}
 
     public Set getByHomeFolderIdAndRequestLabel(final Long homeFolderId, final String requestLabel)
-        throws CvqException, CvqObjectNotFoundException {        
+        throws CvqException, CvqObjectNotFoundException {
         List results = null;
         results = requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel, null);
         return new LinkedHashSet(results);
     }
-    
+
 
     public Set getByLastInterveningAgentId(final Long agentId)
         throws CvqException, CvqObjectNotFoundException {
@@ -332,7 +332,7 @@ public abstract class RequestService implements IRequestService {
 
 
 	    requestNoteDAO.create(rn);
-	
+
         updateLastModificationInformation(request, null);
     }
 
@@ -347,8 +347,8 @@ public abstract class RequestService implements IRequestService {
         while (it.hasNext()) {
             Long documentId = (Long) it.next();
             logger.debug("addDocuments() loading document : " + documentId);
-            Document document = 
-                (Document) documentDAO.findById(Document.class, documentId, 
+            Document document =
+                (Document) documentDAO.findById(Document.class, documentId,
                         PrivilegeDescriptor.READ);
             if (request.getDocuments() == null) {
                 HashSet documentSet = new HashSet();
@@ -368,7 +368,7 @@ public abstract class RequestService implements IRequestService {
         // retrieve the document and the request to attach the document to
         Request request = getById(requestId);
 
-        Document document = 
+        Document document =
             (Document) documentDAO.findById(Document.class, documentId, PrivilegeDescriptor.READ);
         if (request.getDocuments() == null) {
             Set documents = new HashSet();
@@ -390,10 +390,10 @@ public abstract class RequestService implements IRequestService {
 
     public void addAction(final Request request, final String label, final String note)
         throws CvqException {
-        
+
         addActionTrace(label, note, new Date(), null, request, null);
     }
-    
+
     public Set getAssociatedDocuments(final Long id)
         throws CvqException {
 
@@ -421,14 +421,14 @@ public abstract class RequestService implements IRequestService {
 
         if (SecurityContext.isAdminContext() || SecurityContext.isFrontOfficeContext())
             return new LinkedHashSet<RequestType>(requestTypes);
-        
+
         // if agent is admin, return all categories ...
         Set<SiteRoles> agentSiteRoles = SecurityContext.getCurrentAgent().getSitesRoles();
         for (SiteRoles siteRole : agentSiteRoles) {
             if (siteRole.getProfile().equals(SiteProfile.ADMIN))
                 return new LinkedHashSet<RequestType>(requestTypes);
         }
-        
+
         List<Category> agentCategories = categoryService.getAll();
         Set<RequestType> results = new LinkedHashSet<RequestType>();
         for (RequestType requestType : requestTypes) {
@@ -464,13 +464,13 @@ public abstract class RequestService implements IRequestService {
 
     public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
-        
+
         try {
-            RequestType requestType = 
+            RequestType requestType =
                 (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
             if (requestType.getRequirements() == null)
                 requestType.setRequirements(new HashSet<Requirement>());
-            DocumentType documentType = 
+            DocumentType documentType =
                 (DocumentType) documentTypeDAO.findById(DocumentType.class, documentTypeId);
             Requirement requirement = new Requirement();
             requirement.setMultiplicity(Integer.valueOf("1"));
@@ -484,18 +484,18 @@ public abstract class RequestService implements IRequestService {
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw new CvqException("Could not update request type : " + e.toString());
-        }        
+        }
     }
-    
+
     public void removeRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
-    
+
         try {
-            RequestType requestType = 
+            RequestType requestType =
                 (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
             if (requestType.getRequirements() == null)
                 return;
-            DocumentType documentType = 
+            DocumentType documentType =
                 (DocumentType) documentTypeDAO.findById(DocumentType.class, documentTypeId);
             Requirement requirement = new Requirement();
             requirement.setRequestType(requestType);
@@ -505,18 +505,18 @@ public abstract class RequestService implements IRequestService {
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw new CvqException("Could not update request type : " + e.toString());
-        }        
+        }
     }
 
     /**
      * Get the list of seasons whose registrations are currently open.
-     * 
+     *
      * @return null if no seasons defined for this request type, an empty list if no
      *  seasons with opened registrations, the list of seasons with opened registrations
      *  otherwise.
      */
     protected Set<RequestSeason> getOpenSeasons(RequestType requestType) {
-        
+
         if (requestType.getSeasons() != null && !requestType.getSeasons().isEmpty()) {
             Date now = new Date();
             Set<RequestSeason> openSeasons = new HashSet<RequestSeason>();
@@ -526,13 +526,13 @@ public abstract class RequestService implements IRequestService {
                         && requestSeason.getRegistrationEnd().after(now))
                     openSeasons.add(requestSeason);
             }
-            
+
             return openSeasons;
         }
-        
+
         return null;
     }
-        
+
     public List<RequestType> getRequestsTypesByCategory(final Long categoryId)
         throws CvqException {
 
@@ -602,7 +602,7 @@ public abstract class RequestService implements IRequestService {
                 throw new CvqModelException("request.season.already_used_label");
             else
                 seasonsLabels.add(seasonLabel);
-            seasonsRegistrationDates.put(requestSeason.getRegistrationStart(), 
+            seasonsRegistrationDates.put(requestSeason.getRegistrationStart(),
                     requestSeason.getRegistrationEnd());
 
             requestSeason.setRequestType(requestType);
@@ -635,7 +635,7 @@ public abstract class RequestService implements IRequestService {
         requestType.setSeasons(seasons);
         requestTypeDAO.update(requestType);
     }
-    
+
     public boolean hasOpenSeasons(final Long requestTypeId) throws CvqException {
         RequestType requestType = getRequestTypeById(requestTypeId);
         Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
@@ -644,29 +644,29 @@ public abstract class RequestService implements IRequestService {
         else
             return true;
     }
-    
+
     private void checkSeasonSupport(RequestType requestType) throws CvqModelException {
         IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
         if (!service.isOfRegistrationKind())
             throw new CvqModelException("request.season.not_supported");
     }
-    
-    private void checkSeasondDatesOverlapping(RequestSeason rs1, RequestSeason rs2) 
+
+    private void checkSeasondDatesOverlapping(RequestSeason rs1, RequestSeason rs2)
         throws CvqModelException {
-        
+
         if (rs1.getRegistrationStart().before(rs2.getRegistrationEnd())
                 && rs1.getRegistrationEnd().after(rs2.getRegistrationEnd())
                 || rs1.getRegistrationEnd().after(rs2.getRegistrationStart())
                     && rs1.getRegistrationStart().before(rs2.getRegistrationStart()))
             throw new CvqModelException("request.season.seasons_registration_overlapped");
-        
+
         if (rs1.getEffectStart().before(rs2.getEffectEnd())
                 && rs1.getEffectEnd().after(rs2.getEffectEnd())
                 || rs1.getEffectEnd().after(rs2.getEffectStart())
                     && rs1.getEffectStart().before(rs2.getEffectStart()))
             throw new CvqModelException("request.season.seasons_effect_overlapped");
     }
-    
+
     private void checkSeasonValidity (Set<RequestSeason> seasons, RequestSeason requestSeason)
         throws CvqModelException {
         // Set now Date at 00h00:00 0000
@@ -677,7 +677,7 @@ public abstract class RequestService implements IRequestService {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         Date dayNow = calendar.getTime();
-        
+
         // check validity of seasons data
         if (requestSeason.getRegistrationStart() == null)
             throw new CvqModelException("request.season.registration_start_required");
@@ -690,28 +690,28 @@ public abstract class RequestService implements IRequestService {
 
         if (requestSeason.getUuid() == null)
             requestSeason.setUuid(UUID.randomUUID().toString());
-        
+
         // check registrationt start
         if (requestSeason.getRegistrationStart().before(dayNow))
             throw new CvqModelException("request.season.registration_start_before_now");
-        
+
         // check scheduling chronological respect
         if (!requestSeason.getRegistrationStart().before(requestSeason.getRegistrationEnd()))
             throw new CvqModelException("request.season.registration_start_after_registration_end");
         if (!requestSeason.getEffectStart().before(requestSeason.getEffectEnd()))
             throw new CvqModelException("request.season.effect_start_after_effect_end");
-        
+
         // Registration and effect date overlapping policy
         if (!requestSeason.getRegistrationStart().before(requestSeason.getEffectStart()))
             throw new CvqModelException("request.season.registration_start_after_effect_start");
         if (!requestSeason.getRegistrationEnd().before(requestSeason.getEffectEnd()))
             throw new CvqModelException("request.season.registration_end_after_effect_end");
-     
+
         // check season's registration dates do not overlap and season's effect dates to
         for(RequestSeason rs : seasons) {
             if (!requestSeason.getUuid().equals(rs.getUuid())) {
                 checkSeasondDatesOverlapping(requestSeason, rs);
-            
+
                 // test the label uniqueness
                 if (rs.getLabel().equals(requestSeason.getLabel()))
                     throw new CvqModelException("request.season.already_used_label");
@@ -720,21 +720,21 @@ public abstract class RequestService implements IRequestService {
             else {
                 if (rs.getEffectEnd().before(dayNow))
                     throw new CvqModelException("request.season.effect_ended");
-                if (rs.getRegistrationStart().before(dayNow) 
+                if (rs.getRegistrationStart().before(dayNow)
                         && ! rs.getRegistrationStart().equals(requestSeason.getRegistrationStart()))
                     throw new CvqModelException("request.season.registration_started");
-                        
+
             }
         }
     }
-    
+
     public void createRequestTypeSeasons(RequestType requestType, RequestSeason requestSeason)
             throws CvqException {
-        
+
         checkSeasonSupport(requestType);
         Set<RequestSeason> seasons = requestType.getSeasons();
         checkSeasonValidity(seasons, requestSeason);
-        
+
         requestSeason.setRequestType(requestType);
         seasons.add(requestSeason);
 
@@ -742,21 +742,21 @@ public abstract class RequestService implements IRequestService {
             requestTypeDAO.update(requestType);
         } catch (RuntimeException e) {
             throw new CvqException("Could not update request type : " + e.toString());
-        } 
+        }
     }
-  
+
     public void modifyRequestTypeSeasons(RequestType requestType, RequestSeason requestSeason)
         throws CvqException {
-        
+
         checkSeasonSupport(requestType);
-        
+
         IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
         if (!service.isOfRegistrationKind())
             throw new CvqModelException("request.season.unacceptable_request_type");
-        
+
         Set<RequestSeason> seasons = requestType.getSeasons();
         checkSeasonValidity(seasons, requestSeason);
-        
+
         Iterator<RequestSeason> it = seasons.iterator();
         while(it.hasNext()) {
             RequestSeason rs = it.next();
@@ -770,18 +770,18 @@ public abstract class RequestService implements IRequestService {
             requestTypeDAO.update(requestType);
         } catch (RuntimeException e) {
             throw new CvqException("Could not update request type : " + e.toString());
-        } 
+        }
     }
-    
-    public void removeRequestTypeSeasons(RequestType requestType, RequestSeason requestSeason) 
+
+    public void removeRequestTypeSeasons(RequestType requestType, RequestSeason requestSeason)
         throws CvqException {
-    
+
         checkSeasonSupport(requestType);
-        
+
         IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
         if (!service.isOfRegistrationKind())
             throw new CvqModelException("request.season.unacceptable_request_type");
-        
+
         Set<RequestSeason> seasons = requestType.getSeasons();
         Iterator<RequestSeason> it = seasons.iterator();
         while(it.hasNext()) {
@@ -790,7 +790,7 @@ public abstract class RequestService implements IRequestService {
                 it.remove();
         }
         requestType.setSeasons(seasons);
-    
+
         try {
             requestTypeDAO.update(requestType);
         } catch (RuntimeException e) {
@@ -798,12 +798,12 @@ public abstract class RequestService implements IRequestService {
             throw new CvqException("Could not update request type : " + e.toString());
         }
     }
-    
+
     public boolean isRegistrationOpen (final Long requestTypeId) throws CvqException {
-        
+
         if (!isOfRegistrationKind())
             return true;
-        
+
         RequestType requestType = getRequestTypeById(requestTypeId);
         Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
         if (openSeasons == null)
@@ -813,12 +813,12 @@ public abstract class RequestService implements IRequestService {
         else
             return true;
     }
-    
+
     public RequestSeason getRequestAssociatedSeason(Long requestId) throws CvqException {
        Request request = getById(requestId);
-       
+
        RequestType requestType = request.getRequestType();
-       
+
        if (requestType.getSeasons() != null) {
            Iterator<RequestSeason> it = requestType.getSeasons().iterator();
            while(it.hasNext()) {
@@ -829,15 +829,15 @@ public abstract class RequestService implements IRequestService {
        }
         return null;
     }
-    
-    
+
+
     //////////////////////////////////////////////////////////
     // Payment related methods
     //////////////////////////////////////////////////////////
 
     public final void notifyPaymentResult(final Payment payment)
         throws CvqException {
-        
+
         // for each different request found in purchased items list, notify the associated
         // service of payment result status
         Set<Request> requests = new HashSet<Request>();
@@ -847,7 +847,7 @@ public abstract class RequestService implements IRequestService {
             if (purchaseItem.getRequest() != null)
                 requests.add(purchaseItem.getRequest());
         }
-        
+
         if (!requests.isEmpty()) {
         	for (Request request : requests) {
                 IRequestService requestService = requestServiceRegistry.getRequestService(request);
@@ -859,17 +859,17 @@ public abstract class RequestService implements IRequestService {
                     requestService.onPaymentRefused(request);
             }
         }
-        
+
         externalService.creditHomeFolderAccounts(payment);
     }
-    
+
     public boolean hasMatchingExternalService(final String requestLabel)
         throws CvqException {
 
         return externalService.hasMatchingExternalService(requestLabel);
     }
 
-    public Map<Date, String> getConsumptionsByRequest(final Long requestId, final Date dateFrom, 
+    public Map<Date, String> getConsumptionsByRequest(final Long requestId, final Date dateFrom,
             final Date dateTo)
         throws CvqException {
 
@@ -892,15 +892,15 @@ public abstract class RequestService implements IRequestService {
     // Workflow related methods
     //////////////////////////////////////////////////////////
 
-    protected HomeFolder createOrSynchronizeHomeFolder(Request request) 
+    protected HomeFolder createOrSynchronizeHomeFolder(Request request)
     		throws CvqException, CvqModelException {
-    	
+
 		if (request.getRequester().getId() == null) {
 			if (supportUnregisteredCreation.booleanValue()) {
 				logger.debug("create() Gonna create implicit home folder");
 				HomeFolder homeFolder = homeFolderService.create(request.getRequester());
 				request.setHomeFolder(homeFolder);
-				
+
 	            SecurityContext.setCurrentEcitizen(request.getRequester());
 
 	            return homeFolder;
@@ -915,26 +915,26 @@ public abstract class RequestService implements IRequestService {
 			request.setRequester(adult);
 			request.setHomeFolder(adult.getHomeFolder());
 		}
-		
+
 		return null;
     }
 
-    protected void notifyRequestCreation(Request request, byte[] pdfData) 
+    protected void notifyRequestCreation(Request request, byte[] pdfData)
         throws CvqException {
-        
+
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         if (request.getRequester().getEmail() != null
                 && !request.getRequester().getEmail().equals("")) {
-            Map<String, String> ecitizenCreationNotifications = 
+            Map<String, String> ecitizenCreationNotifications =
                 lacb.getEcitizenCreationNotifications();
             if (ecitizenCreationNotifications == null) {
                 logger.warn("notifyRequestCreation() ecitizen creation notifications not configured !");
                 return;
             }
             String mailData = ecitizenCreationNotifications.get("mailData");
-            Boolean attachPdf = 
+            Boolean attachPdf =
                 Boolean.valueOf(ecitizenCreationNotifications.get("attachPdf"));
-            String mailDataBody = 
+            String mailDataBody =
                 localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
                         ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE, mailData, false);
 
@@ -944,26 +944,26 @@ public abstract class RequestService implements IRequestService {
                 StringBuffer mailSubject = new StringBuffer();
                 mailSubject.append("[").append(lacb.getDisplayTitle()).append("] ")
                     .append(ecitizenCreationNotifications.get("mailSubject"));
-            
+
                 if (attachPdf) {
-                    mailService.send(null, request.getRequester().getEmail(), null, 
+                    mailService.send(null, request.getRequester().getEmail(), null,
                             mailSubject.toString(), mailDataBody, pdfData, "Recu_Demande.pdf");
                 } else {
-                    mailService.send(null, request.getRequester().getEmail(), null, 
+                    mailService.send(null, request.getRequester().getEmail(), null,
                             mailSubject.toString(), mailDataBody);
                 }
             }
-        }        
+        }
     }
-    
+
     /**
      * Default implementation of the POJO-based creation method. It is suitable
      * for requests types that do not have any specific stuff to perform upon
-     * creation of a new request instance. 
+     * creation of a new request instance.
      */
-    public Long create(Request request, Long requesterId) 
+    public Long create(Request request, Long requesterId)
         throws CvqException, CvqObjectNotFoundException {
-        
+
         initializeCommonAttributes(request, requesterId);
         return create(request);
     }
@@ -979,12 +979,12 @@ public abstract class RequestService implements IRequestService {
         addActionTrace(CREATION_ACTION, null, new Date(), RequestState.PENDING, request, pdfData);
 
         notifyRequestCreation(request, pdfData);
-        
+
         return requestId;
     }
 
     protected void validateXmlData(XmlObject xmlObject) {
-//        logger.debug("validateXmlData() gonna validate object of type : " 
+//        logger.debug("validateXmlData() gonna validate object of type : "
 //                + xmlObject.getClass().getName());
 //        logger.debug("validateXmlData() gonna validate data : " + xmlObject);
         ArrayList validationErrors = new ArrayList();
@@ -998,26 +998,26 @@ public abstract class RequestService implements IRequestService {
             }
         }
     }
-    
-    public Node getRequestClone(final Long subjectId, Long homeFolderId, final String requestLabel) 
+
+    public Node getRequestClone(final Long subjectId, Long homeFolderId, final String requestLabel)
         throws CvqException {
 
     	if (requestLabel == null)
     		throw new CvqModelException("request.label_required");
 //    	if (subjectId == null && homeFolderId == null)
 //    		throw new CvqModelException("request.subject_or_home_folder_required");
-    	
-    	RequestState[] excludedStates = 
+
+    	RequestState[] excludedStates =
             requestWorkflowService.getStatesExcludedForRequestsCloning();
         List<Request> requests = null;
         if (subjectId != null)
         	requests = requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates);
         else if (homeFolderId != null)
-        	requests = requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel, 
+        	requests = requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel,
         			excludedStates);
         Request request = null;
         if (requests == null || requests.isEmpty()) {
-            IRequestService tempRequestService = 
+            IRequestService tempRequestService =
                 requestServiceRegistry.getRequestService(requestLabel);
             request = tempRequestService.getSkeletonRequest();
             if (subjectId != null
@@ -1049,14 +1049,14 @@ public abstract class RequestService implements IRequestService {
             String xmlRequestCopyClass = xmlRequestCopy.getClass().getSimpleName();
             String getBodyMethod = "get" + xmlRequestCopyClass.replace("DocumentImpl", "");
 
-            Method xmlRequestGetBody = 
+            Method xmlRequestGetBody =
                 xmlRequestCopy.getClass().getMethod(getBodyMethod, parameterTypes);
             fr.cg95.cvq.xml.common.RequestType xmlRequestType =
                 (fr.cg95.cvq.xml.common.RequestType) xmlRequestGetBody.invoke(xmlRequestCopy, arguments);
             purgeClonedRequest(xmlRequestType);
 
 //            logger.debug("getRequestClone() clone request " + xmlRequestCopy.toString());
-            
+
             return xmlRequestCopy.getDomNode();
         } catch (SecurityException e) {
         	logger.error("getRequestClone() Security exception while cloning request");
@@ -1073,9 +1073,9 @@ public abstract class RequestService implements IRequestService {
 
         return null;
     }
-    
+
     protected void purgeClonedRequest(fr.cg95.cvq.xml.common.RequestType requestType) {
-    	
+
     	// administrative data
         requestType.setId(0);
         requestType.setCreationDate(null);
@@ -1086,11 +1086,11 @@ public abstract class RequestService implements IRequestService {
         requestType.setState(null);
         requestType.setStep(null);
         requestType.setValidationDate(null);
-        
+
         // business data
         requestType.setRequester(null);
     }
-    
+
     public void modify(final Request request)
         throws CvqException {
 
@@ -1101,7 +1101,7 @@ public abstract class RequestService implements IRequestService {
 
     protected void delete(final Request request)
         throws CvqException, CvqObjectNotFoundException {
-        
+
         requestDAO.delete(request);
 		if (request.getHomeFolder().getBoundToRequest().booleanValue()) {
 			logger.debug("delete() Home folder belongs to request, removing it from DB");
@@ -1120,11 +1120,11 @@ public abstract class RequestService implements IRequestService {
 
     public Map<Object, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException {
-        
+
         RequestType requestType = requestTypeDAO.findByName(getLabel());
         logger.debug("getAuthorizedSubjects() searching authorized subjects for : "
                 + requestType.getLabel());
-        
+
         Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
         if (openSeasons != null) {
             if (openSeasons.isEmpty()) {
@@ -1171,9 +1171,9 @@ public abstract class RequestService implements IRequestService {
                 new HashMap<Object, Set<RequestSeason>>();
             for (Object object : eligibleSubjects)
                 result.put(object, new HashSet<RequestSeason>());
-            RequestState[] excludedStates = 
+            RequestState[] excludedStates =
                 requestWorkflowService.getStatesExcludedForRunningRequests();
-            List<Request> homeFolderRequests = 
+            List<Request> homeFolderRequests =
                 requestDAO.listByHomeFolderAndLabel(homeFolderId, getLabel(), excludedStates);
             if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
                 if (!homeFolderRequests.isEmpty()) {
@@ -1192,11 +1192,11 @@ public abstract class RequestService implements IRequestService {
     //////////////////////////////////////////////////////////
     // Request Workflow related methods
     //////////////////////////////////////////////////////////
-    
-    
+
+
     // Request data state treatment
     /////////////////////////////////////////////////////////
-    
+
     public void updateRequestDataState(final Long id, final DataState rs)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         if (rs.equals(DataState.VALID))
@@ -1204,24 +1204,24 @@ public abstract class RequestService implements IRequestService {
         else if (rs.equals(DataState.INVALID))
             invalidData(id);
     }
-    
+
     private void validData(final Long id)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         Request request = getById(id);
         requestWorkflowService.validData(request);
     }
-    
+
     private void invalidData(final Long id)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         Request request = getById(id);
         requestWorkflowService.invalidData(request);
     }
-    
-    
+
+
     // Request state treatment
     // TODO : make workflow method private - migrate unit tests
     /////////////////////////////////////////////////////////
-    
+
     public void updateRequestState(final Long id, final RequestState rs, final String motive)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         if (rs.equals(RequestState.COMPLETE))
@@ -1245,17 +1245,17 @@ public abstract class RequestService implements IRequestService {
         else if (rs.equals(RequestState.ARCHIVED))
             archive(id);
     }
-    
+
     public void complete(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
         Request request = getById(id);
         complete(request);
     }
-    
+
     public void complete(Request request)
         throws CvqException, CvqInvalidTransitionException {
-        
+
         requestWorkflowService.complete(request);
     }
 
@@ -1271,7 +1271,7 @@ public abstract class RequestService implements IRequestService {
 
         requestWorkflowService.specify(request, motive);
     }
-    
+
     protected void validateAssociatedDocuments(final Set documentSet)
         throws CvqException {
 
@@ -1284,7 +1284,7 @@ public abstract class RequestService implements IRequestService {
 
     /**
 	 * Do the real work of validating a request.
-     * 
+     *
      * <ul>
      *   <li>change request's state and step</li>
      *   <li>generate a PDF certificate is asked for</li>
@@ -1293,7 +1293,7 @@ public abstract class RequestService implements IRequestService {
      *   <li>notify associated external services</li>
      *   <li>send notification email to e-citizen if notification enabled for this request</li>
      * </ul>
-	 * 
+	 *
 	 * @param request the request to be validated
 	 * @param generateCertificate
 	 *            whether or not we want the request's certificate to be
@@ -1305,7 +1305,7 @@ public abstract class RequestService implements IRequestService {
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
         requestWorkflowService.validate(request, generateCertificate, this.fopConfig);
-        
+
         validateAssociatedDocuments(getAssociatedDocuments(request.getId()));
 
 		if (request.getHomeFolder().getOriginRequestId().longValue() == request.getId().longValue()) {
@@ -1318,17 +1318,17 @@ public abstract class RequestService implements IRequestService {
 
 		LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         String requestTypeLabel = request.getRequestType().getLabel();
-        
+
         // send notification to ecitizen if enabled
         if (lacb.hasEcitizenValidationNotification(requestTypeLabel)
                 && (request.getRequester().getEmail() != null
                         && !request.getRequester().getEmail().equals(""))) {
-            String mailData = lacb.getEcitizenValidationNotificationData(requestTypeLabel, 
+            String mailData = lacb.getEcitizenValidationNotificationData(requestTypeLabel,
                     "mailData");
-            Boolean attachPdf = 
-                Boolean.valueOf(lacb.getEcitizenValidationNotificationData(requestTypeLabel, 
+            Boolean attachPdf =
+                Boolean.valueOf(lacb.getEcitizenValidationNotificationData(requestTypeLabel,
                         "attachPdf"));
-            String mailDataBody = 
+            String mailDataBody =
                 localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
                         ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE, mailData, false);
 
@@ -1337,24 +1337,24 @@ public abstract class RequestService implements IRequestService {
                         + requestTypeLabel + " but has no mail data for it !");
                 return;
             }
-            
+
             byte[] pdfData = null;
             if (attachPdf.booleanValue()) {
                 pdfData = getCertificate(request.getId(), RequestState.VALIDATED);
                 if (pdfData == null)
                     pdfData = certificateService.generateRequestCertificate(request, this.fopConfig);
             }
-            
+
             StringBuffer mailSubject = new StringBuffer();
             mailSubject.append("[").append(lacb.getDisplayTitle()).append("] ")
                 .append(localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false))
                 .append(" validée");
-            
+
             if (attachPdf.booleanValue()) {
-                mailService.send(null, request.getRequester().getEmail(), null, 
+                mailService.send(null, request.getRequester().getEmail(), null,
                         mailSubject.toString(), mailDataBody, pdfData, "Attestation_Demande.pdf");
             } else {
-                mailService.send(null, request.getRequester().getEmail(), null, 
+                mailService.send(null, request.getRequester().getEmail(), null,
                         mailSubject.toString(), mailDataBody);
             }
         }
@@ -1380,17 +1380,17 @@ public abstract class RequestService implements IRequestService {
         Request request = getById(id);
         notify(request, motive);
     }
-    
+
     public void notify(Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException {
-    
+
         requestWorkflowService.notify(request, motive);
-        
+
         // automatically switch to ACTIVE state if request type is of registration kind
-        // and has activated the mechanism. 
+        // and has activated the mechanism.
         // this is to avoid agents one more manual state's change.
         RequestType requestType = request.getRequestType();
-        if (isOfRegistrationKind() 
+        if (isOfRegistrationKind()
                 && requestType.getHasAutomaticActivation()
                 && requestType.getSeasons() == null)
             activate(request);
@@ -1405,7 +1405,7 @@ public abstract class RequestService implements IRequestService {
 
     public void activate(final Request request)
         throws CvqException, CvqInvalidTransitionException {
-        
+
         requestWorkflowService.activate(request);
     }
 
@@ -1415,18 +1415,18 @@ public abstract class RequestService implements IRequestService {
         Request request = getById(id);
         expire(request);
     }
-    
+
     public void expire(final Request request)
         throws CvqException, CvqInvalidTransitionException {
-        
+
         requestWorkflowService.expire(request);
     }
-    
+
     public void cancel(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         requestWorkflowService.cancel(request);
-        
+
 		if (request.getHomeFolder().getOriginRequestId().longValue() == request.getId().longValue()) {
 			logger.debug("cancel() Home folder has been created along the request, invalidating it");
 			homeFolderService.invalidate(request.getHomeFolder());
@@ -1444,7 +1444,7 @@ public abstract class RequestService implements IRequestService {
         throws CvqException, CvqInvalidTransitionException {
 
         requestWorkflowService.reject(request, motive);
-        
+
 		if (request.getHomeFolder().getOriginRequestId().longValue() == request.getId().longValue()) {
 			logger.debug("reject() Home folder has been created along the request, invalidating it");
 			homeFolderService.invalidate(request.getHomeFolder());
@@ -1464,10 +1464,10 @@ public abstract class RequestService implements IRequestService {
         Request request = getById(id);
         close(request);
     }
-    
+
     public void close(Request request)
         throws CvqException, CvqInvalidTransitionException {
-    
+
         requestWorkflowService.close(request);
     }
 
@@ -1482,23 +1482,23 @@ public abstract class RequestService implements IRequestService {
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
         requestWorkflowService.archive(request);
-        
+
 		if (request.getHomeFolder().getBoundToRequest()) {
 			logger.debug("archive() Home folder belongs to request, archiving it");
 			homeFolderService.archive(request.getHomeFolder());
 		}
     }
-    
+
     public void archiveHomeFolderRequests(HomeFolder homeFolder)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
-    
+
         Set<Request> requests = getByHomeFolderId(homeFolder.getId());
         if (requests == null || requests.isEmpty()) {
             logger.debug("archiveHomeFolderRequests() no requests associated to home folder "
                     + homeFolder.getId());
             return;
         }
-        
+
         for (Request request : requests) {
             request.setState(RequestState.ARCHIVED);
             Date date = new Date();
@@ -1506,13 +1506,13 @@ public abstract class RequestService implements IRequestService {
             addActionTrace(STATE_CHANGE_ACTION, null, date, RequestState.ARCHIVED, request, null);
         }
     }
-    
+
     public RequestState[] getPossibleTransitions(RequestState rs) {
 
         return requestWorkflowService.getPossibleTransitions(rs);
     }
-    
-    public DataState[] getPossibleTransitions(DataState ds) {        
+
+    public DataState[] getPossibleTransitions(DataState ds) {
         List<DataState> dataStateList = new ArrayList<DataState>();
 
         if (ds.equals(DataState.PENDING)) {
@@ -1523,10 +1523,10 @@ public abstract class RequestService implements IRequestService {
     }
 
     public Set<RequestState> getStatesBefore(RequestState rs) {
-    
+
         return requestWorkflowService.getStatesBefore(rs);
     }
-    
+
     protected void addActionTrace(final String label, final String note, final Date date,
             final RequestState resultingState, final Request request, final byte[] pdfData)
         throws CvqException {
@@ -1540,7 +1540,7 @@ public abstract class RequestService implements IRequestService {
         } else {
             userId = SecurityContext.getCurrentUserId();
         }
-        
+
         RequestAction requestAction = new RequestAction();
         requestAction.setAgentId(userId);
         requestAction.setLabel(label);
@@ -1583,14 +1583,14 @@ public abstract class RequestService implements IRequestService {
         initializeCommonAttributes(request);
     }
 
-    protected void initializeCommonAttributes(final Request request) 
+    protected void initializeCommonAttributes(final Request request)
         throws CvqException {
 
         logger.debug("initializeCommonAttributes() checking respect for policy "
                 + getSubjectPolicy());
-        
+
         checkSubjectPolicy(request.getSubject(), getSubjectPolicy());
-        
+
         // check that request's subject is allowed to issue this request
         if (!getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
             Individual individual = (Individual) request.getSubject();
@@ -1598,7 +1598,7 @@ public abstract class RequestService implements IRequestService {
             Map<Object, Set<RequestSeason>> authorizedSubjectsMap =
                 getAuthorizedSubjects(request.getHomeFolder().getId());
             if (authorizedSubjectsMap != null) {
-                Set<Object> authorizedSubjects = 
+                Set<Object> authorizedSubjects =
                     getAuthorizedSubjects(request.getHomeFolder().getId()).keySet();
                 for (Object authorizedSubject : authorizedSubjects) {
                     Individual authorizedIndividual = (Individual) authorizedSubject;
@@ -1610,11 +1610,11 @@ public abstract class RequestService implements IRequestService {
             }
             if (!isAuthorized)
                 throw new CvqModelException("request.subject_not_authorized");
-            
-            request.setSubject((Individual) genericDAO.findById(Individual.class, 
+
+            request.setSubject((Individual) genericDAO.findById(Individual.class,
             		individual.getId()));
         }
-        
+
         RequestType requestType = getRequestTypeByLabel(getLabel());
         Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
         // FIXME : we don't yet manage overlapping seasons so take the first one
@@ -1635,42 +1635,42 @@ public abstract class RequestService implements IRequestService {
     /**
      * Check that a request's subject is of the good type with respect to
      * the given policy.
-     * 
+     *
      * @throws CvqModelException if there's a policy violation
      */
     private void checkSubjectPolicy(final Object subject, final String policy)
     	throws CvqModelException {
-    	
+
         if (!policy.equals(SUBJECT_POLICY_NONE)) {
             logger.debug("checkSubjectPolicy() subject is " + subject);
-            if (subject == null) 
+            if (subject == null)
                 throw new CvqModelException("model.request.subject_is_required");
             if (policy.equals(SUBJECT_POLICY_INDIVIDUAL)) {
                 if (!(subject instanceof Individual)) {
                     throw new CvqModelException("model.request.wrong_subject_type");
-                } 
+                }
             } else if (policy.equals(SUBJECT_POLICY_ADULT)) {
                 if (!(subject instanceof Adult)) {
                     throw new CvqModelException("model.request.wrong_subject_type");
-                } 
+                }
             } else if (policy.equals(SUBJECT_POLICY_CHILD)) {
                 if (!(subject instanceof Child)) {
                     throw new CvqModelException("model.request.wrong_subject_type");
-                } 
+                }
             }
         } else {
             if (subject != null)
                 throw new CvqModelException("model.request.subject_not_supported");
         }
     }
-    
+
     /**
      * Get the list of eligible subjects for the current request service. Does not make
-     * any control on already existing requests. 
+     * any control on already existing requests.
      */
-    private Set<Object> getEligibleSubjects(final Long homeFolderId) 
+    private Set<Object> getEligibleSubjects(final Long homeFolderId)
         throws CvqException {
-        
+
         if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
             Set<Object> result = new HashSet<Object>();
             result.add(homeFolderService.getById(homeFolderId));
@@ -1683,25 +1683,25 @@ public abstract class RequestService implements IRequestService {
                 individualsReference = homeFolderService.getAdults(homeFolderId);
             else if (getSubjectPolicy().equals(SUBJECT_POLICY_CHILD))
                 individualsReference = homeFolderService.getChildren(homeFolderId);
-            
+
             return individualsReference;
         }
     }
-    
+
     //////////////////////////////////////////////////////////
     // RequestForm related Methods
     //////////////////////////////////////////////////////////
-    
+
     /**
      * Generate requestForm asset resource name
      */
-    private String generateAssetRessourceName (String requestTypeLabel, 
+    private String generateAssetRessourceName (String requestTypeLabel,
             String requestFormLabel, String filename) {
-        String generatedName =  requestTypeLabel 
+        String generatedName =  requestTypeLabel
             + "_" + RequestFormType.REQUEST_MAIL_TEMPLATE.toString()
             + "_" + requestFormLabel;
             generatedName = generatedName.trim().replace(' ', '_');
-        
+
         // get file extension
         if (filename != null) {
             String[] splitFilename = filename.split("\\.");
@@ -1709,17 +1709,17 @@ public abstract class RequestService implements IRequestService {
                 generatedName = generatedName + "."  + splitFilename[splitFilename.length - 1];
         } else
             generatedName = generatedName + ".xsl-fo";
-        
+
         return generatedName;
     }
-    
+
     /**
      * Check requestForm's labels uniqueness for given RequesType and RequestFormType
      */
-    private void checkRequestFormLabelUniqueness(String label, String shortLabel, 
+    private void checkRequestFormLabelUniqueness(String label, String shortLabel,
             RequestFormType requestFormType, Long requestTypeId,
             Long requestFormId) throws CvqModelException {
-        List<RequestForm> requestFormList = 
+        List<RequestForm> requestFormList =
             requestFormDAO.findByTypeAndRequestTypeId(requestFormType, requestTypeId);
         for (RequestForm requestForm : requestFormList) {
             if (!requestForm.getId().equals(requestFormId)) {
@@ -1730,34 +1730,34 @@ public abstract class RequestService implements IRequestService {
             }
         }
     }
-    
+
     public List<File> getMailTemplates(String pattern) throws CvqException {
         if(pattern == null) pattern="*";
         return this.localAuthorityRegistry.getLocalResourceContent(
             ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE,
             pattern);
     }
-    
+
     public File getTemplateByName(String name) {
         return this.localAuthorityRegistry.getCurrentLocalAuthorityResource(
             ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE, name, false);
     }
-    
-    public void addRequestTypeForm(final Long requestTypeId, RequestFormType requestFormType, 
+
+    public void addRequestTypeForm(final Long requestTypeId, RequestFormType requestFormType,
             String label, String shortLabel, String filename, byte[] data)
         throws CvqException {
         checkRequestFormLabelUniqueness(
                 label, shortLabel, requestFormType, requestTypeId, new Long(-1));
-        
+
         RequestForm requestForm = new RequestForm();
-        RequestType requestType = 
+        RequestType requestType =
             (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
-        
+
         Set<RequestType> requestTypesSet = new HashSet<RequestType>();
         requestTypesSet.add(requestType);
         requestForm.setRequestTypes(requestTypesSet);
         requestType.getForms().add(requestForm);
-        
+
         if (label != null)
             requestForm.setLabel(label);
         else
@@ -1766,35 +1766,41 @@ public abstract class RequestService implements IRequestService {
             requestForm.setShortLabel(shortLabel);
         else
             throw new CvqModelException("requestForm.shortLabel_is_null");
-        
+
         requestForm.setType(requestFormType);
-        
+
         if (requestForm.getType().equals(RequestFormType.REQUEST_MAIL_TEMPLATE))
             requestForm.setXslFoFilename(
                     generateAssetRessourceName(requestType.getLabel(),
                             requestForm.getShortLabel(), filename));
         else
             requestForm.setXslFoFilename(filename);
-      
-        localAuthorityRegistry.saveLocalAuthorityResource(ILocalAuthorityRegistry.XSL_RESOURCE_TYPE, 
+
+        localAuthorityRegistry.saveLocalAuthorityResource(ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
                 requestForm.getXslFoFilename(), data);
-      
+
         requestFormDAO.create(requestForm);
     }
-    
-    public Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) 
+
+    public Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm)
         throws CvqException {
         Long result = -1L;
-        
+
+        if(requestForm.getType() == null) requestForm.setType(RequestFormType.REQUEST_MAIL_TEMPLATE);
+
         RequestType requestType = (RequestType)genericDAO.findById(RequestType.class, requestTypeId);
         if(requestType == null)
             throw new CvqModelException("requestForm.requestType_is_invalid");
-        
-        if(requestForm.getLabel() == null && requestForm.getLabel().trim() == "") 
+
+        checkRequestFormLabelUniqueness(requestForm.getLabel(), requestForm.getShortLabel(),
+                requestForm.getType(), requestTypeId,
+                requestForm.getId() == null ? new Long(-1) : requestForm.getId());
+
+        if(requestForm.getLabel() == null && requestForm.getLabel().trim() == "")
             throw new CvqModelException("requestForm.label_is_null");
         if(requestForm.getShortLabel() == null && requestForm.getShortLabel().trim() == "")
             throw new CvqModelException("requestForm.shortLabel_is_null");
-        
+
         if(this.requestTypeContainsForm(requestType, requestForm)) {
             result = requestForm.getId();
             requestDAO.update(requestForm);
@@ -1805,37 +1811,37 @@ public abstract class RequestService implements IRequestService {
             requestType.getForms().add(requestForm);
             result = requestFormDAO.create(requestForm);
         }
-        
+
         return result;
     }
-    
+
     protected boolean requestTypeContainsForm(RequestType type, RequestForm form) {
         for(RequestForm f : (Set<RequestForm>)type.getForms()) {
             if(f.getId().equals(form.getId())) return true;
         }
-        
+
         return false;
     }
-    
-    public void modifyRequestTypeForm (Long requestTypeId, Long requestFormId, 
-            String newLabel, String newShortLabel, String newFilename, byte[] newData) 
+
+    public void modifyRequestTypeForm (Long requestTypeId, Long requestFormId,
+            String newLabel, String newShortLabel, String newFilename, byte[] newData)
             throws CvqException {
-        
+
         RequestForm requestForm = (RequestForm)genericDAO.findById(RequestForm.class, requestFormId);
-        RequestType requestType = 
+        RequestType requestType =
             (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
-        
+
         checkRequestFormLabelUniqueness(
                 newLabel, newShortLabel, requestForm.getType(), requestTypeId, requestFormId);
 
         if (newLabel != null)
             requestForm.setLabel(newLabel);
-        
+
         if(newFilename != null)
             requestForm.setTemplateName(newFilename);
         if (newShortLabel != null) {
             String oldFilename = requestForm.getXslFoFilename();
-            
+
             requestForm.setShortLabel(newShortLabel);
             if (requestForm.getType().equals(RequestFormType.REQUEST_MAIL_TEMPLATE))
                 requestForm.setXslFoFilename(
@@ -1843,67 +1849,67 @@ public abstract class RequestService implements IRequestService {
                                 requestForm.getShortLabel(), newFilename));
             else if (newFilename != null)
                 requestForm.setXslFoFilename(newFilename);
-            
+
             if (newData == null)
                 localAuthorityRegistry.renameLocalAuthorityResource(
-                        ILocalAuthorityRegistry.XSL_RESOURCE_TYPE, oldFilename, 
+                        ILocalAuthorityRegistry.XSL_RESOURCE_TYPE, oldFilename,
                         requestForm.getXslFoFilename());
         }
         if (newData != null)
             localAuthorityRegistry.saveLocalAuthorityResource(
-                    ILocalAuthorityRegistry.XSL_RESOURCE_TYPE, 
+                    ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
                     requestForm.getXslFoFilename(), newData);
-        
+
         requestFormDAO.update(requestForm);
     }
 
     public void removeRequestTypeForm(final Long requestTypeId, final Long requestFormId)
-        throws CvqException {     
-        RequestType requestType = 
+        throws CvqException {
+        RequestType requestType =
             (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
         RequestForm requestForm =
             (RequestForm) genericDAO.findById(RequestForm.class, requestFormId);
         requestType.getForms().remove(requestForm);
-      
+
 //        localAuthorityRegistry.removeLocalAuthorityResource(
 //                ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
 //                requestForm.getXslFoFilename());
-        
+
         requestFormDAO.delete(requestForm);
     }
-    
+
     public void removeRequestTypeForm(final Long requestFormId)
         throws CvqException {
         RequestForm requestForm =
             (RequestForm) genericDAO.findById(RequestForm.class, requestFormId);
-        
+
         for(RequestType t : (Set<RequestType>)requestForm.getRequestTypes())
             t.getForms().remove(requestForm);
-        
+
         requestFormDAO.delete(requestForm);
     }
-    
-    public List<RequestForm> getRequestTypeForms(Long requestTypeId, 
+
+    public List<RequestForm> getRequestTypeForms(Long requestTypeId,
             RequestFormType requestFormType) throws CvqException {
-        
-        List<RequestForm> result = 
+
+        List<RequestForm> result =
             requestFormDAO.findByTypeAndRequestTypeId(requestFormType, requestTypeId);
         return result;
-        
+
     }
-    
+
     public RequestForm getRequestFormById(Long id) throws CvqException {
         return (RequestForm)requestFormDAO.findById(RequestForm.class, id);
     }
-    
-    public void onPaymentValidated(Request request, String paymentReference) 
+
+    public void onPaymentValidated(Request request, String paymentReference)
         throws CvqException {
     }
 
     public void onPaymentRefused(Request request)
         throws CvqException {
     }
-    
+
     public void onPaymentCancelled(Request request)
         throws CvqException {
     }
@@ -1946,7 +1952,7 @@ public abstract class RequestService implements IRequestService {
     public void setRequestNoteDAO(IRequestNoteDAO requestNoteDAO) {
         this.requestNoteDAO = requestNoteDAO;
     }
-    
+
     public void setRequestFormDAO(IRequestFormDAO requestFormDAO) {
         this.requestFormDAO = requestFormDAO;
     }
@@ -1977,19 +1983,19 @@ public abstract class RequestService implements IRequestService {
         else
             return "";
     }
-    
+
     public void setLabel(final String label) {
         this.label = label;
     }
-    
+
     public String getXslFoFilename() {
         return this.xslFoFilename;
     }
-    
+
     public void setXslFoFilename(String xslFoFilename) {
         this.xslFoFilename = xslFoFilename;
     }
-    
+
     public void setSupportUnregisteredCreation(String supportUnregisteredCreation) {
         this.supportUnregisteredCreation = Boolean.valueOf(supportUnregisteredCreation);
     }
@@ -1997,11 +2003,11 @@ public abstract class RequestService implements IRequestService {
     public boolean supportUnregisteredCreation() {
         return supportUnregisteredCreation == null ? false : supportUnregisteredCreation;
     }
-    
+
     public void setPlaceReservationFilename(String placeReservationFilename) {
         this.placeReservationFilename = placeReservationFilename;
     }
-    
+
     public String getPlaceReservationFilename() {
         return placeReservationFilename;
     }
@@ -2009,15 +2015,15 @@ public abstract class RequestService implements IRequestService {
     public void setExternalReferentialFilename(String externalReferentialFilename) {
         this.externalReferentialFilename = externalReferentialFilename;
     }
-    
+
     public String getExternalReferentialFilename() {
         return externalReferentialFilename;
     }
-    
+
     public String getSubjectPolicy() {
         return subjectPolicy;
     }
-    
+
     public void setSubjectPolicy(final String subjectPolicy) {
         this.subjectPolicy = subjectPolicy;
     }
@@ -2025,11 +2031,11 @@ public abstract class RequestService implements IRequestService {
     public boolean isOfRegistrationKind() {
         return isOfRegistrationKind == null ? false : isOfRegistrationKind;
     }
-    
+
     public void setIsOfRegistrationKind(String isOfRegistrationKind) {
         this.isOfRegistrationKind = Boolean.valueOf(isOfRegistrationKind);
     }
-    
+
 	public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
 		this.localAuthorityRegistry = localAuthorityRegistry;
 	}

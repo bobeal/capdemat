@@ -348,4 +348,144 @@
     };
   });
 
+  var zo = zenexity.object = function(o) {
+    var _o = [o];
+    if(!o) _o = []
+    if(YAHOO.lang.isArray(o)) _o = o;
+    return {
+      each : function (callback,args) {
+        return zo(zct.each(_o,callback,args));
+      },
+      map : function (callback) {
+        return zo(zct.map(_o,callback));
+      },
+      grep : function (callback, inv) {
+        return zo(zct.grep(_o,callback,inv));
+      },
+      merge : function(arr) {
+        return zo(zct.merge(_o,zct.makeArray(arr)));
+      },
+      get : function(index) {
+        return _o[index];
+      },
+      val : function(value) {
+        return zo(zct.val(_o[0],value));
+      },
+      style : function(styles) {
+        return zo(_o).each(function(i,el){zct.style(el,styles)});
+      },
+      query : function(sel) {
+        if(_o.length == 0) _o = [undefined];
+        res = zo([]);
+        zo(_o).each(function(i,n){res.merge(YAHOO.util.Selector.query(sel,n));});
+        return res;
+      },
+      siblings : function(callback) {
+        return zo(zct.siblings(_o[0],callback));
+      },
+      param : function() {
+        if(_o.length == 1 && typeof _o[0] == 'object')
+          return zo(zct.param(_o[0]));
+        else
+          return zo(zct.param(_o));
+      },
+      serializeArray : function() {
+        var res = zo([]);
+
+        zo(_o).each(function(i,node){
+          if(!node.nodeName) return;
+
+          var a = [], n = [];
+          if (zct.nodeName(node, 'form'))
+            a = node.elements;
+          else
+            a = zo(node).query('*').toArray();
+
+          n = zct.grep(a, function(o){
+            return o.name && !o.disabled &&
+            (o.checked ||
+            /select|textarea/i.test(o.nodeName) ||
+            /text|hidden|password/i.test(o.type));
+          });
+
+          n = zct.map(n, function(elem, i){
+            var val = zct.val(elem);
+            return val == null ? null : val.constructor == Array ? zct.map(val, function(val, i){
+              return {
+                name: elem.name,
+                value: val
+              };
+            }) : {
+              name: elem.name,
+              value: val
+            };
+          });
+
+          res.merge(zct.makeArray(n));
+        });
+        return res;
+      },
+      serialize : function() {
+        return zo(_o).serializeArray().param();
+      },
+      text : function(text, append) {
+        return zo(_o).each(function(i,n){
+          var el = new YAHOO.util.Element(n);
+          if (typeof text != "object" && text != null) {
+            if(!append) el.get('element').innerHTML = "";
+            el.appendChild((!!n && n.ownerDocument || document).createTextNode(text));
+          }
+        });
+      },
+      toggleClass : function(oldClass,newClass) {
+        return zo(_o).each(function(i,n){
+          var el = new YAHOO.util.Element(n);
+          el.replaceClass(oldClass,newClass);
+        });
+      },
+      element : function() {
+        var res = zo();
+        zo(_o).each(function(i,n){
+          var el = new YAHOO.util.Element(n);
+          if(!!el.get('element')) {
+            res.merge(el);
+          }
+        });
+        return res;
+      },
+      fadeIn : function(speed,callback) {
+        if(!_o[0] || !_o[0].nodeName) return;
+        var a = new YAHOO.util.Anim(_o[0],{opacity:{from:0,to:1}},speed);
+        a.animate();
+        a.onComplete.subscribe(callback);
+        return zo(_o);
+      },
+      fadeNone : function(speed,callback){
+        if(!_o[0] || !_o[0].nodeName) return;
+        var a = new YAHOO.util.Anim(_o[0],{opacity:{from:1,to:1}},speed);
+        a.animate();
+        a.onComplete.subscribe(callback);
+        return zo(_o);
+      },
+      fadeOut : function(speed,callback) {
+        if(!_o[0] || !_o[0].nodeName) return;
+        var a = new YAHOO.util.Anim(_o[0],{opacity:{from:1,to:0}},speed);
+        a.animate();
+        a.onComplete.subscribe(callback);
+        return zo(_o);
+      },
+      toArray : function() {
+        return _o;
+      },
+      toString : function() {
+        return _o.join('');
+      }
+    }
+  };
+
+
 }());
+
+
+
+

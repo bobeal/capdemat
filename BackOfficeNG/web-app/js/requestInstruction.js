@@ -445,18 +445,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           if(el.hasClass('recipient')) recipient.value = zct.val(n);
           if(el.hasClass('contactMean')) contactMean.value = zct.val(n);
         });
-//        console.log(message.value);
-//        console.log(recipient.value);
-//        console.log(contactMean.value);
-      },
-      sendEmail : function(e) {
-        zcbr.Instruction.prepareForm(e);
-      },
-      sendSms : function(e) {
-        zcbr.Instruction.prepareForm(e);
-      },
-      trace : function(e) {
-        zcbr.Instruction.prepareForm(e);
       },
       discardChanges: function(e) {
         alert('discardChanges',e);
@@ -499,6 +487,19 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     };
 
   }();
+
+  zct.each(['sendSms','sendMail','trace'],function(i,name){
+    zcbr.Instruction[name] = function(e){
+      zcbr.Instruction.prepareForm(e);
+      form = yud.get('contactForm');
+      form.action = [zcb.baseUrl,'/',name].join('');
+
+      zcc.doAjaxFormSubmitCall(form.id,[],function(o){
+        var json = ylj.parse(o.responseText);
+        zcc.Notifier.processMessage('success',json.success_msg,'contactMsg');
+      });
+    };
+  });
 
   YAHOO.util.Event.onDOMReady(zcbr.Instruction.init);
 

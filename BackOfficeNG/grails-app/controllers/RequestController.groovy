@@ -25,6 +25,8 @@ class RequestController {
     def dateKeys = ["creationDateFrom", "creationDateTo"]
     def defaultSortBy = 'creationDate'
     def resultsPerPage = 15
+    // default number of tasks to show per type
+    def tasksShowNb = 5 
     
     def beforeInterceptor = {
         session["currentMenu"] = "request"
@@ -170,33 +172,33 @@ class RequestController {
     	criteriaSet.add(critere)
 
         requestMap["redRequests"] = 
-            defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+            defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
         requestMap["redRequestsCount"] = 
             defaultRequestService.getCount(criteriaSet)
  
         critere.value = Request.QUALITY_TYPE_ORANGE
         requestMap["orangeRequests"] = 
-        	defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+        	defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
         requestMap["orangeRequestsCount"] = 
         	defaultRequestService.getCount(criteriaSet)
 
         critere.attribut = Request.SEARCH_BY_STATE
         critere.value = RequestState.PENDING
         requestMap["pendingRequests"] = 
-            defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+            defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
         requestMap["pendingRequestsCount"] = 
             defaultRequestService.getCount(criteriaSet)
 
         critere.value = RequestState.VALIDATED
         requestMap["validatedRequests"] = 
-            defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+            defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
         requestMap["validatedRequestsCount"] = 
             defaultRequestService.getCount(criteriaSet)
 
         critere.attribut = Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID
         critere.value = SecurityContext.currentUserId
         requestMap["lastRequests"] = 
-            defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+            defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
         requestMap["lastRequestsCount"] = 
             defaultRequestService.getCount(criteriaSet)
 

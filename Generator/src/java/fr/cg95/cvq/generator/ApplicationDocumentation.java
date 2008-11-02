@@ -6,11 +6,15 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import fr.cg95.cvq.generator.common.RequestCommon;
+
 public class ApplicationDocumentation {
 
     private String nodeName;
     private String xmlString;
     private Node xmlNode;
+    
+    private RequestCommon requestCommon;
 
     public ApplicationDocumentation(String nodeName,
                                     String xmlString,
@@ -99,4 +103,16 @@ public class ApplicationDocumentation {
     public Node getXmlNode() {
         return this.xmlNode;
     }
+    
+    
+    /* Common Application Information management */
+    
+    public RequestCommon getRequestCommon() {
+        return requestCommon;
+    }
+
+    public void setRequestCommon(RequestCommon requestCommon) {
+        this.requestCommon = requestCommon;
+    }
+    
 }

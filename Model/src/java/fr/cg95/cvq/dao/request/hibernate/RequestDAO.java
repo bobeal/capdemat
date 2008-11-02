@@ -129,12 +129,12 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 sb.append(" and request.requestType.category.id in ( "
                         + searchCrit.getValue() + ")");
             
-            } else if (searchCrit.getAttribut().equals("qualityType")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_QUALITY_TYPE)) {
                  
-                if (searchCrit.getValue().equals("qualityTypeOrange")) {
+                if (searchCrit.getValue().equals(Request.QUALITY_TYPE_ORANGE)) {
                  sb.append(" and request.orangeAlert = true")
                 .append(" and request.redAlert = false");
-                } else if (searchCrit.getValue().equals("qualityTypeRed")) {
+                } else if (searchCrit.getValue().equals(Request.QUALITY_TYPE_RED)) {
                     sb.append(" and request.orangeAlert = false")
                     .append(" and request.redAlert = true");
                 }
@@ -301,7 +301,17 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(" and request.requestType.category.id in ( "
                         + searchCrit.getValue() + ")");
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_QUALITY_TYPE)) {
+                 
+                if (searchCrit.getValue().equals(Request.QUALITY_TYPE_ORANGE)) {
+                 sb.append(" and request.orangeAlert = true")
+                .append(" and request.redAlert = false");
+                } else if (searchCrit.getValue().equals(Request.QUALITY_TYPE_RED)) {
+                    sb.append(" and request.orangeAlert = false")
+                    .append(" and request.redAlert = true");
+                }
             }
+
         }
 
         sbSelect.append(sb);

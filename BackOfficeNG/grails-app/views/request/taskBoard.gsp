@@ -11,29 +11,31 @@
           <h1><g:message code="request.header.taskBoard" /></h1>
         </div>
         
-        <g:if test="${requestMap.containsKey('cvq.tasks.qualityRed')}">
+        <g:if test="${requestMap.containsKey('redRequests')}">
           <div class="mainbox taskboard-red">
             <h2>
               <g:message code="request.header.lateRequests" />
-               (${requestMap.get('cvq.tasks.qualityRed').size()})
+               (${requestMap.get('redRequestsCount')})
             </h2>
             <ul>
-              <g:render template="taskBoardEntry" var="record" collection="${requestMap.get('cvq.tasks.qualityRed')}" />
+              <g:render template="taskBoardEntry" var="record" 
+                collection="${requestMap.get('redRequests')}" />
             </ul>
-            <g:link  controller="request" action="search">
+            <g:link controller="request" action="search">
               <g:message code="action.seeAll" /> 
             </g:link>
           </div>
         </g:if>
         
-        <g:if test="${requestMap.containsKey('cvq.tasks.qualityOrange')}">
+        <g:if test="${requestMap.containsKey('orangeRequests')}">
           <div class="mainbox taskboard-orange">
             <h2>
               <g:message code="request.header.alertRequests" />
-               (${requestMap.get('cvq.tasks.qualityOrange').size()})
+               (${requestMap.get('orangeRequestsCount')})
             </h2>
             <ul>
-              <g:render template="taskBoardEntry" var="record" collection="${requestMap.get('cvq.tasks.qualityOrange')}" />
+              <g:render template="taskBoardEntry" var="record" 
+                collection="${requestMap.get('orangeRequests')}" />
             </ul>
             <g:link  controller="request" action="search">
               <g:message code="action.seeAll" />
@@ -41,14 +43,15 @@
           </div>
         </g:if>
         
-        <g:if test="${requestMap.containsKey('cvq.tasks.pending')}"> 
+        <g:if test="${requestMap.containsKey('pendingRequests')}"> 
           <div class="mainbox taskboard-orange">
             <h2>
               <g:message code="request.header.newRequests" />
-               (${requestMap.get('cvq.tasks.pending').size()})
+               (${requestMap.get('pendingRequestsCount')})
             </h2>
             <ul>
-              <g:render template="taskBoardEntry" var="record" collection="${requestMap.get('cvq.tasks.pending')}" />
+              <g:render template="taskBoardEntry" var="record" 
+                collection="${requestMap.get('pendingRequests')}" />
             </ul>
             <g:link controller="request" action="search" params="[state:'Pending']">
               <g:message code="action.seeAll" />
@@ -56,29 +59,31 @@
           </div>
         </g:if>
         
-        <g:if test="${requestMap.containsKey('cvq.tasks.opened')}">
+        <g:if test="${requestMap.containsKey('lastRequests')}">
           <div class="mainbox taskboard-blue">
             <h2>
               <g:message code="request.header.lastRequests" />
-               (${requestMap.get('cvq.tasks.opened').size()})
+               (${requestMap.get('lastRequestsCount')})
             </h2>
             <ul>
-              <g:render template="taskBoardEntry" var="record" collection="${requestMap.get('cvq.tasks.opened')}" />
+              <g:render template="taskBoardEntry" var="record" 
+                collection="${requestMap.get('lastRequests')}" />
             </ul>
-            <g:link controller="request" action="search" params="[state:'Complete']">
+            <g:link controller="request" action="search">
               <g:message code="action.seeAll" />
             </g:link>
           </div>
         </g:if>
         
-        <g:if test="${requestMap.containsKey('cvq.tasks.validated')}">
+        <g:if test="${requestMap.containsKey('validatedRequests')}">
           <div class="mainbox taskboard-green">
             <h2>
               <g:message code="request.header.validatedRequests" />
-               (${requestMap.get('cvq.tasks.validated').size()})
+               (${requestMap.get('validatedRequestsCount')})
             </h2>
             <ul>
-              <g:render template="taskBoardEntry" var="record" collection="${requestMap.get('cvq.tasks.validated')}" />
+              <g:render template="taskBoardEntry" var="record" 
+                collection="${requestMap.get('validatedRequests')}" />
             </ul>
             <g:link controller="request" action="search" params="[state:'Validated']">
               <g:message code="action.seeAll" />
@@ -119,32 +124,32 @@
             </ul>
           </form>
         </div>
-        
       </div>
+
       <div class="nobox">
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
-          <ul>
-            <li>
-              <label for="categoryId"><g:message code="property.category" /> :</label>
-              <select name="categoryId" id="categoryId" style="width:100%;">
-                <option value=""></option>
-                <g:each in="${allCategories}" var="category">
-                  <option value="${category.id}">${category.name}</option>
-                </g:each>
-              </select>
-            </li>
-            <li>
-              <label for="requestTypeId">
-                <g:message code="property.requestType" /> :</label>
-              <select name="requestTypeId" id="requestTypeId" style="width:100%;">
-                <option value=""></option>
-                <g:each in="${allRequestTypes}" var="requestType">
-                  <option value="${requestType.key}">${requestType.value}</option>
-                </g:each>
-              </select>
-            </li>
-          </ul>
+          <form action="#" id="taskBoardFilters">
+            <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
+            <select id="categoryIdFilter" 
+              <option value=""></option>
+              <g:each in="${allCategories}" var="category">
+                <option value="${category.id}">
+                  ${category.name}
+                </option>
+              </g:each>
+            </select>
+            
+            <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
+            <select id="requestTypeFilter" 
+              <option value=""></option>
+              <g:each in="${allRequestTypes}" var="requestType">
+                <option value="${requestType.id}">
+                  ${requestType.label}
+                </option>
+              </g:each>
+            </select>
+          </form>
         </div>
       </div>
 

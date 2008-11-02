@@ -23,6 +23,8 @@
   </appinfo>
 
   <!-- plugins can add whatever they want/need inside this tag -->
-  <configuration/>
+  <configuration>
+   <test />
+  </configuration>
 
 </plugin>

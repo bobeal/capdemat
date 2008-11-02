@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.authority.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -18,18 +17,14 @@ import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.authority.IAgentDAO;
 import fr.cg95.cvq.dao.authority.ICategoryDAO;
-import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILdapService;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -43,10 +38,8 @@ public final class AgentService implements IAgentService {
 
     private IAgentDAO agentDAO;
     private ICategoryDAO categoryDAO;
-    private IRequestDAO requestDAO;
 
     private ILdapService ldapService;
-    private IRequestService requestService;
 
     public AgentService() {
         super();
@@ -98,116 +91,6 @@ public final class AgentService implements IAgentService {
         }
 
         return agents;
-    }
-
-    public Map<String, List<Request>> extendedGetAgentTasks(final String agentLogin,
-            final String sort, final String dir, final int recordsReturned, final int startIndex)
-            throws CvqException {
-
-        logger.debug("extendedGetAgentTasks()");
-        
-        Map<String, List<Request>> resultMap = new LinkedHashMap<String,List<Request>>();
-       
-        Agent agent = getByLogin(agentLogin);
-        Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
-        if (agentCategoryRoles == null || agentCategoryRoles.size() == 0)
-            return null;
-        StringBuffer sb = new StringBuffer();
-        for (CategoryRoles categoryRoles : agentCategoryRoles) {
-            if (sb.length() > 0)
-                sb.append(",");
-            sb.append("'")
-                .append(categoryRoles.getCategory().getId())
-                .append("'");
-        }
-        Critere categoryCrit = new Critere();
-        categoryCrit.setAttribut("belongsToCategory");
-        categoryCrit.setComparatif(Critere.EQUALS);
-        categoryCrit.setValue(sb.toString());
-
-        Critere stateCrit = new Critere();
-        stateCrit.setAttribut("state");
-        stateCrit.setComparatif(Critere.EQUALS);
-        stateCrit.setValue(RequestState.PENDING);
-
-        // search new requests
-        Set<Critere> criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(categoryCrit);
-        criteriaSet.add(stateCrit);
-        List<Request> requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
-        resultMap.put(TASKS_PENDING, requestList);
-
-        //search in-progress requests
-        RequestState states[] = requestService.getPossibleTransitions(RequestState.PENDING);
-        List<Request> tempList = new ArrayList<Request>();        
-        for (int i = 0; i < states.length; i++) {
-            stateCrit.setValue(states[i]);
-            requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
-            tempList.addAll(requestList);
-        }
-        resultMap.put(TASKS_OPEN,tempList);
-        
-        // search validated requests
-        stateCrit.setValue(RequestState.VALIDATED);
-        requestList = requestDAO.search(criteriaSet, sort, dir,recordsReturned,startIndex,false);
-        resultMap.put(TASKS_VALIDATED, requestList);
-        
-        return resultMap;
-    }
-    
-    public Map<String, Long> getAgentTasks(final String agentLogin)
-        throws CvqException {
-
-        logger.debug("getAgentTasks()");
-
-        Map<String, Long> resultMap = new LinkedHashMap<String, Long>();
-
-        Agent agent = getByLogin(agentLogin);
-        Set agentCategoryRoles = agent.getCategoriesRoles();
-        if (agentCategoryRoles == null || agentCategoryRoles.size() == 0)
-            return null;
-        Iterator agentCategorysIt = agentCategoryRoles.iterator();
-        StringBuffer sb = new StringBuffer();
-        while (agentCategorysIt.hasNext()) {
-            CategoryRoles categoryRoles = (CategoryRoles) agentCategorysIt.next();
-            if (sb.length() > 0)
-                sb.append(",");
-            sb.append("'")
-                .append(categoryRoles.getCategory().getId())
-                .append("'");
-        }
-        Critere categoryCrit = new Critere();
-        categoryCrit.setAttribut("belongsToCategory");
-        categoryCrit.setComparatif(Critere.EQUALS);
-        categoryCrit.setValue(sb.toString());
-
-        Critere stateCrit = new Critere();
-        stateCrit.setAttribut(Request.SEARCH_BY_STATE);
-        stateCrit.setComparatif(Critere.EQUALS);
-        stateCrit.setValue(RequestState.PENDING);
-
-        // search new requests
-        Set<Critere> criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(categoryCrit);
-        criteriaSet.add(stateCrit);
-        Long requestCount = requestDAO.count(criteriaSet);
-        resultMap.put(TASKS_PENDING, requestCount);
-
-        // search in-progress requests
-        RequestState states[] = requestService.getPossibleTransitions(RequestState.PENDING);
-        long tempCount = 0;
-        for (int i = 0; i < states.length; i++) {
-            stateCrit.setValue(states[i]);
-            tempCount += requestDAO.count(criteriaSet).longValue();
-        }
-        resultMap.put(TASKS_OPEN, new Long(tempCount));
-
-        // search validated requests
-        stateCrit.setValue(RequestState.VALIDATED);
-        requestCount = requestDAO.count(criteriaSet);
-        resultMap.put(TASKS_VALIDATED, requestCount);
-
-        return resultMap;
     }
 
     public boolean exists(Long id) throws CvqException {
@@ -508,16 +391,8 @@ public final class AgentService implements IAgentService {
         this.categoryDAO = categoryDAO;
     }
 
-    public void setRequestDAO(IRequestDAO requestDAO) {
-        this.requestDAO = requestDAO;
-    }
-
     public void setLdapService(ILdapService ldapService) {
         this.ldapService = ldapService;
-    }
-
-    public void setRequestService(IRequestService requestService) {
-        this.requestService = requestService;
     }
 
     public void setAgentDAO(IAgentDAO agentDAO) {

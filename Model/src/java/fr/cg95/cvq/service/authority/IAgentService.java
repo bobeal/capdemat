@@ -7,7 +7,6 @@ import java.util.Set;
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.LocalAuthority;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
@@ -25,10 +24,6 @@ public interface IAgentService {
     String SEARCH_BY_CATEGORY_ID = "categoryId";
     String SEARCH_BY_LOGIN = "login";
 
-    String TASKS_PENDING = "cvq.tasks.pending";
-    String TASKS_OPEN = "cvq.tasks.opened";
-    String TASKS_VALIDATED = "cvq.tasks.validated";
-    
     Long create(Agent agent)
     		throws CvqException;
     
@@ -49,26 +44,6 @@ public interface IAgentService {
      * 
      */
     Set<Agent> getAuthorizedForCategory(final Long categoryId)
-        throws CvqException;
-    /**
-     * Return a map of tasks belonging to given agent.
-     * 
-     * The map keys are one of {@link #TASKS_OPEN}, {@link #TASKS_PENDING} 
-     * or {@link #TASKS_VALIDATED}and the value of each key is a list of request.
-     * 
-     * @param agentLogin login of agent whom we want to know tasks
-     */
-    Map<String, List<Request>> extendedGetAgentTasks(final String agentLogin, final String sort, final String dir, 
-            final int recordsReturned, final int startIndex)
-        throws CvqException;
-    
-    /**
-     * Return a map of tasks belonging to given agent.
-     * 
-     * The map keys are one of {@link #TASKS_OPEN}, {@link #TASKS_PENDING} 
-     * or {@link #TASKS_VALIDATED}.
-     */
-    Map<String, Long> getAgentTasks(final String agentLogin)
         throws CvqException;
 
     /**
@@ -101,14 +76,14 @@ public interface IAgentService {
             final CategoryProfile categoryProfile)
         throws CvqException;
 
-    public void addCategoryRole(final Long agentId, final  Long categoryId
-            , final CategoryProfile categoryProfile ) throws CvqException;
+    public void addCategoryRole(final Long agentId, final  Long categoryId, 
+            final CategoryProfile categoryProfile ) throws CvqException;
     
     /*
      * Modify or add agent's categoryRole
      */
-    public void modifyCategoryRole(final Long agentId, final  Long categoryId
-            , final CategoryProfile categoryProfile ) throws CvqException;
+    public void modifyCategoryRole(final Long agentId, final  Long categoryId, 
+            final CategoryProfile categoryProfile ) throws CvqException;
     
     public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException;
     

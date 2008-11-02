@@ -153,44 +153,54 @@ class RequestController {
                    'inSearch':true].plus(initSearchReferential()))
     }
 
+    /**
+     * Called when asking for the agent's task board
+     */
     def taskBoard = {
             
-   	       session["currentMenu"] = "taskBoard"
+    	session["currentMenu"] = "taskBoard"
 
-            Set<Critere> redCriteria = new HashSet<Critere>()
-             
-            Critere qualityRedCritere = new Critere()
-            qualityRedCritere.attribut = "qualityType"
-            qualityRedCritere.comparatif = Critere.EQUALS
-            qualityRedCritere.value = "qualityTypeRed"
-            redCriteria.add(qualityRedCritere)
-              
-            def redRequests = defaultRequestService.extendedGet(redCriteria, params.sort, params.dir, 
-                    10, 0)
-            
-            Set<Critere> orangeCriteria = new HashSet<Critere>()
-             
-            Critere qualityOrangeCritere = new Critere()
-            qualityOrangeCritere.attribut = "qualityType"
-            qualityOrangeCritere.comparatif = Critere.EQUALS
-            qualityOrangeCritere.value = "qualityTypeOrange"
-            orangeCriteria.add(qualityOrangeCritere)
-              
-            def orangeRequests = defaultRequestService.extendedGet(orangeCriteria, params.sort, params.dir, 
-                    10, 0)
-               
-            def currentAgent = SecurityContext.getCurrentAgent()
-            def agentLogin = currentAgent.getLogin()
-            def requestMap = [:]
-            def agentTasksMap = 
-            	agentService.extendedGetAgentTasks(agentLogin,params.sort, params.dir, 10, 0)
-            if (agentTasksMap != null)
-            	requestMap.putAll(agentTasksMap)
-            
-            requestMap.put("cvq.tasks.qualityOrange",orangeRequests)
-            requestMap.put("cvq.tasks.qualityRed",redRequests)
-                 
-            render (view:'taskBoard', model:["requestMap":requestMap,
+    	def requestMap = [:]
+
+    	Set criteriaSet = new HashSet<Critere>()
+    	Critere critere = new Critere()
+    	critere.attribut = Request.SEARCH_BY_QUALITY_TYPE
+    	critere.comparatif = Critere.EQUALS
+    	critere.value = Request.QUALITY_TYPE_RED
+    	criteriaSet.add(critere)
+
+        requestMap["redRequests"] = 
+            defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+        requestMap["redRequestsCount"] = 
+            defaultRequestService.getCount(criteriaSet)
+ 
+        critere.value = Request.QUALITY_TYPE_ORANGE
+        requestMap["orangeRequests"] = 
+        	defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+        requestMap["orangeRequestsCount"] = 
+        	defaultRequestService.getCount(criteriaSet)
+
+        critere.attribut = Request.SEARCH_BY_STATE
+        critere.value = RequestState.PENDING
+        requestMap["pendingRequests"] = 
+            defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+        requestMap["pendingRequestsCount"] = 
+            defaultRequestService.getCount(criteriaSet)
+
+        critere.value = RequestState.VALIDATED
+        requestMap["validatedRequests"] = 
+            defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+        requestMap["validatedRequestsCount"] = 
+            defaultRequestService.getCount(criteriaSet)
+
+        critere.attribut = Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID
+        critere.value = SecurityContext.currentUserId
+        requestMap["lastRequests"] = 
+            defaultRequestService.extendedGet(criteriaSet, null, null, 10, 0)
+        requestMap["lastRequestsCount"] = 
+            defaultRequestService.getCount(criteriaSet)
+
+        render (view:'taskBoard', model:["requestMap":requestMap,
                                            "allCategories":categoryService.getAll(),
                                            "allRequestTypes":translatedAndSortRequestTypes()])
     }

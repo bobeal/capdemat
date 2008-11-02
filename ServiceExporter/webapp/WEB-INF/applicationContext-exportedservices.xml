@@ -3,12 +3,6 @@
 
 <beans>
 
-  <bean id="agentTaskService" class="fr.cg95.cvq.exporter.service.bo.impl.AgentTaskService">
-    <property name="agentService">
-      <ref bean="agentService"/>
-    </property>
-  </bean>
-
   <bean id="provisioningService" class="fr.cg95.cvq.exporter.service.bo.impl.ProvisioningService">
     <property name="agentService">
       <ref bean="agentService"/>

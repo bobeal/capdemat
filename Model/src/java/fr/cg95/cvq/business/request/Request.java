@@ -25,18 +25,19 @@ import fr.cg95.cvq.business.users.Individual;
  */
 public abstract class Request implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 	
-	public static final String SEARCH_BY_REQUEST_ID = "id";
-	public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
-	public static final String SEARCH_BY_REQUESTER_LASTNAME = "requesterLastName";
-	public static final String SEARCH_BY_REQUESTER_FIRSTNAME = "requesterFirstName";
-	public static final String SEARCH_BY_CATEGORY_NAME = "categoryName";
-	public static final String SEARCH_BY_STATE = "state";
-	public static final String SEARCH_BY_CREATION_DATE = "creationDate";
-	public static final String SEARCH_BY_REQUEST_TYPE_LABEL = "requestTypeLabel";
-	public static final String SEARCH_BY_LAST_INTERVENING_AGENT_ID = "lastInterveningAgentId";
-	public static final String SEARCH_BY_LAST_MODIFICATION_DATE = "lastModificationDate";
+    public static final String SEARCH_BY_REQUEST_ID = "id";
+    public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
+    public static final String SEARCH_BY_REQUESTER_LASTNAME = "requesterLastName";
+    public static final String SEARCH_BY_REQUESTER_FIRSTNAME = "requesterFirstName";
+    public static final String SEARCH_BY_CATEGORY_NAME = "categoryName";
+    public static final String SEARCH_BY_STATE = "state";
+    public static final String SEARCH_BY_CREATION_DATE = "creationDate";
+    public static final String SEARCH_BY_REQUEST_TYPE_LABEL = "requestTypeLabel";
+    public static final String SEARCH_BY_LAST_INTERVENING_AGENT_ID = "lastInterveningAgentId";
+    public static final String SEARCH_BY_LAST_MODIFICATION_DATE = "lastModificationDate";
+    public static final String SEARCH_BY_QUALITY_TYPE = "qualityType";
 	
 	public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
 	public static final String SEARCH_BY_MODIFICATION_DATE = "modificationDate";

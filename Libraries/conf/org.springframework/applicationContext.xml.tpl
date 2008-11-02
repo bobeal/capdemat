@@ -130,14 +130,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="categoryDAO">
       <ref local="categoryDAO"/>
     </property>
-    <property name="requestDAO">
-      <ref local="requestDAO"/>
-    </property>
     <property name="ldapService">
       <ref bean="ldapService"/>
-    </property>
-    <property name="requestService">
-      <ref bean="defaultRequestService"/>
     </property>
   </bean>
 

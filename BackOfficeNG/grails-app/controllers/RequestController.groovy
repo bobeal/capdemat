@@ -30,28 +30,26 @@ class RequestController {
         session["currentMenu"] = "request"
     }
         
+    /**
+     * Called when first entering the search screen
+     */
     def initSearch = {
 
-        render(view:'search', model:['allStates':RequestState.allRequestStates,
-                                     'allAgents':agentService.getAll(),
-                                     'allCategories':categoryService.getAll(),
-                                     'allRequestTypes':translatedAndSortRequestTypes(),
-                                     'mode':'simple',
+        render(view:'search', model:['mode':'simple',
                                      'inSearch':false,
                                      'sortBy':defaultSortBy,
-                                     'filters':[:]])
+                                     'filters':[:]].plus(initSearchReferential()))
     }
     
+    /**
+     * Called asynchronously when switching from simple to advanced search mode and vice versa
+     */
     def loadSearchForm = {
-    		def model = ['allStates':RequestState.allRequestStates,
-                         'allAgents':agentService.getAll(),
-                         'allCategories':categoryService.getAll(),
-                         'allRequestTypes':translatedAndSortRequestTypes(),
-                         'totalRecords':params.totalRecords,
+    		def model = ['totalRecords':params.totalRecords,
                          'recordOffset':params.recordOffset,
                          'recordsReturned':params.recordsReturned,
                          'sortBy':params.sortBy,
-                         'filterBy':params.filterBy]
+                         'filterBy':params.filterBy].plus(initSearchReferential())
 
     		if (params.formType == 'simple') {
     			model['mode'] = 'simple'
@@ -62,6 +60,9 @@ class RequestController {
     		}
     }
     
+    /**
+     * Called (synchronously) when performing a search
+     */
     def search = {
        
         // deal with search criteria
@@ -90,34 +91,18 @@ class RequestController {
         }
         
         // deal with dynamic filters
-        def filters = [:]
-        if (params.filterBy && params.filterBy != '') {
-        	params.filterBy?.split('@').each { filter ->
-       			if (filter != "") {
-       				def parsedFilter = filter.split('=')
-       				if (parsedFilter.size() == 2) {
-       					filters[parsedFilter[0]] = parsedFilter[1]
-       				} else {
-       					filters.remove(parsedFilter[0])
-       				}
-       			}
-        	}
+        def parsedFilters = SearchUtils.parseFilters(params.filterBy)
+        parsedFilters.filters.each { key, value ->
+            Critere critere = new Critere()
+            critere.attribut = key.replaceAll("Filter","")
+            critere.comparatif = Critere.EQUALS
+            if (key == 'stateFilter')
+                critere.value = value
+            else
+                critere.value = Long.valueOf(value)
+            criteria.add(critere)        	
         }
         
-        def filterBy = ''
-       	filters.each { key, value ->
-       		Critere critere = new Critere()
-       		critere.attribut = key.replaceAll("Filter","")
-       		critere.comparatif = Critere.EQUALS
-       		if (key == 'stateFilter')
-       			critere.value = value
-       		else
-       			critere.value = Long.valueOf(value)
-       		criteria.add(critere)
-       		log.debug "added criteria ${value} to ${key.replaceAll('Filter','')} (dynamic filter)"
-            filterBy += '@' + key + '=' + value
-       	}
-
        	// deal with dynamic sorts
         def sortBy = params.sortBy ? params.sortBy : defaultSortBy 
         log.debug "added sort on ${sortBy}"
@@ -154,28 +139,18 @@ class RequestController {
 			recordsList.add(record)
         }
 
-        // fill referential
-        def allStates = RequestState.allRequestStates
-        def allAgents = agentService.getAll()
-        def allCategories = categoryService.getAll()
-
         render(view:'search', 
         	model:['records':recordsList,
         	       'recordsReturned':requests.size(),
                    'totalRecords':defaultRequestService.getCount(criteria),
                    
-                   'filters':filters,                   
-                   'filterBy':filterBy,
+                   'filters':parsedFilters.filters,                   
+                   'filterBy':parsedFilters.filterBy,
                    'mode':params.mode,
                    'recordOffset':recordOffset,
                    'sortBy':sortBy,
                    'dir':params.dir,
-                   'inSearch':true,
-                   
-                   'allStates':allStates,
-                   'allAgents':allAgents,
-                   'allCategories':allCategories,
-                   'allRequestTypes':translatedAndSortRequestTypes()])
+                   'inSearch':true].plus(initSearchReferential()))
     }
 
     def taskBoard = {
@@ -192,7 +167,7 @@ class RequestController {
               
             def redRequests = defaultRequestService.extendedGet(redCriteria, params.sort, params.dir, 
                     10, 0)
-
+            
             Set<Critere> orangeCriteria = new HashSet<Critere>()
              
             Critere qualityOrangeCritere = new Critere()
@@ -227,5 +202,12 @@ class RequestController {
             allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label)])
         }
         return allRequestTypesTranslated.sort{it.label}
+    }
+    
+    def initSearchReferential() {
+    	return ['allStates':RequestState.allRequestStates,
+    	        'allAgents':agentService.getAll(),
+                'allCategories':categoryService.getAll(),
+                'allRequestTypes':translatedAndSortRequestTypes()]
     }
 }

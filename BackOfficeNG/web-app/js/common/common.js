@@ -9,6 +9,7 @@
 
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
+  var zo = zenexity.object;
   var yus = YAHOO.util.Selector;
   var yue = YAHOO.util.Event;
   var yuc = YAHOO.util.Connect;
@@ -250,8 +251,8 @@
   zcc.Notifier = function() {
     return {
       confirmationDialog : undefined,
-      getMessageZone : function() {
-        return "errorMessages";
+      getMessageZone : function(cn) {
+        return cn || "errorMessages";
       },
       init : function(o) {
         var content = {
@@ -262,23 +263,35 @@
         zcc.Notifier.confirmationDialog = new zcc.ConfirmationDialog(
         content,zcc.Notifier.confirmHandler);
       },
-      processMessage : function(type,message) {
+      processMessage : function(type,message,cn) {
         var method = ['display',zct.capitalize(type)].join('');
-        zct.tryToCall(zcc.Notifier[method],zcc.Notifier,message);
+        zct.tryToCall(zcc.Notifier[method],zcc.Notifier,message,cn);
       },
-      displaySuccess : function(message) {
+      displaySuccess : function(message,cn) {
+
+        var el = zo().query('#'+zcc.Notifier.getMessageZone(cn));
+
+        el.toggleClass('invisible','success-top')
+          .style({'background-color':'#DDFFDD'})
+          .text(message).fadeIn(0.01,function(){
+            el.fadeNone(3,function(){
+              el.fadeOut(3);
+            });
+          });
+
         //TODO Reorganize & optimize this method
-        newCssClass = 'success-top';
-        bgColor = '#DDFFDD';
-
-        var divEl = new YAHOO.util.Element(zcc.Notifier.getMessageZone());
-        divEl.replaceClass('invisible', newCssClass);
-
-        var el = document.getElementById(zcc.Notifier.getMessageZone());
-        el.innerHTML = message;
-
-        responseMessageAnimation = new zcc.responseResultAnimation(bgColor);
-        responseMessageAnimation.animate();
+        //newCssClass = 'success-top';
+//        bgColor = '#DDFFDD';
+//
+//        var divEl = new YAHOO.util.Element(zcc.Notifier.getMessageZone(cn));
+//        //divEl.replaceClass('invisible', newCssClass);
+//        zct.style(divEl.get('element'),{display:'block'});
+//        divEl.addClass('success-top');
+//        var el = yud.get(zcc.Notifier.getMessageZone(cn));
+//        el.innerHTML = message;
+//
+//        responseMessageAnimation = new zcc.responseResultAnimation(bgColor);
+//        responseMessageAnimation.animate();
       },
       displayUnexpectedError : function(message) {},
       displayModelError : function(message) {},

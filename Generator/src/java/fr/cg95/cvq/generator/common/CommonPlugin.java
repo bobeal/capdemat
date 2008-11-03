@@ -14,6 +14,7 @@ import fr.cg95.cvq.generator.UserDocumentation;
 
 /**
  * Common (pseudo) Plugin manage application's informations shared by all Plugin
+ * 
  * @author rdj@zenexity.fr
  */
 public class CommonPlugin implements IPluginGenerator {

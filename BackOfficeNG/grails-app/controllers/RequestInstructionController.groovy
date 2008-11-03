@@ -90,8 +90,8 @@ class RequestInstructionController {
 		    def adults
 		    def children
 		    def clr = [:]
-		    if (request instanceof  fr.cg95.cvq.business.ecitizen.VoCardRequest
-		        || request instanceof fr.cg95.cvq.business.request.HomeFolderModificationRequest) {
+		    if (request instanceof  fr.cg95.cvq.business.request.ecitizen.VoCardRequest
+		        || request instanceof fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest) {
 		        adults = homeFolderService.getAdults(request.homeFolder.id)
 		        children = homeFolderService.getChildren(request.homeFolder.id)
 		        children.each {

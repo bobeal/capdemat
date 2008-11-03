@@ -23,7 +23,7 @@ import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.ecitizen.IVoCardRequestService;
+import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class FakeExternalServiceTest extends ServiceTestCase {

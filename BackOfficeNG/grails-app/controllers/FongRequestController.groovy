@@ -1,17 +1,17 @@
 import fr.cg95.cvq.service.request.IRequestService
-import fr.cg95.cvq.service.civil.IMarriageDetailsRequestService
+import fr.cg95.cvq.service.request.civil.IMarriageDetailsRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.exception.CvqException
-import fr.cg95.cvq.business.civil.MarriageDetailsRequest
+import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Address
 
 import fr.cg95.cvq.business.users.TitleType
-import fr.cg95.cvq.business.civil.MarriageRequesterQualityType
-import fr.cg95.cvq.business.civil.MarriageCertificateFormatType
-import fr.cg95.cvq.business.civil.MarriageRelationshipType
+import fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType
+import fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType
+import fr.cg95.cvq.business.request.civil.MarriageRelationshipType
 
-import fr.cg95.cvq.xml.civil.MarriageDetailsRequestDocument
+import fr.cg95.cvq.xml.request.civil.MarriageDetailsRequestDocument
 import org.w3c.dom.Node
 
 import fr.cg95.cvq.security.SecurityContext

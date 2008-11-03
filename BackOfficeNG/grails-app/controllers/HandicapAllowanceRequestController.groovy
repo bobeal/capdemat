@@ -1,8 +1,8 @@
 import fr.cg95.cvq.service.request.IRequestService
-import fr.cg95.cvq.service.civil.IMarriageDetailsRequestService
+import fr.cg95.cvq.service.request.civil.IMarriageDetailsRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.exception.CvqException
-import fr.cg95.cvq.business.civil.MarriageDetailsRequest
+import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Address
 import fr.cg95.cvq.business.users.Individual
@@ -11,13 +11,13 @@ import fr.cg95.cvq.business.users.CountryType
 import fr.cg95.cvq.business.users.SexType
 import fr.cg95.cvq.business.users.TitleType
 
-import fr.cg95.cvq.business.social.HarFamilyDependent
-import fr.cg95.cvq.business.social.HarAdultLegalAccessKindType
-import fr.cg95.cvq.business.social.HarAdultLegalAccessRepresentativeKindType
-import fr.cg95.cvq.business.social.HandicapAllowanceRequest
-import fr.cg95.cvq.business.social.HarRequestInformationKindType
-import fr.cg95.cvq.business.social.HarRequestInformationProfileType
-import fr.cg95.cvq.service.social.IHandicapAllowanceRequestService
+import fr.cg95.cvq.business.request.social.HarFamilyDependent
+import fr.cg95.cvq.business.request.social.HarAdultLegalAccessKindType
+import fr.cg95.cvq.business.request.social.HarAdultLegalAccessRepresentativeKindType
+import fr.cg95.cvq.business.request.social.HandicapAllowanceRequest
+import fr.cg95.cvq.business.request.social.HarRequestInformationKindType
+import fr.cg95.cvq.business.request.social.HarRequestInformationProfileType
+import fr.cg95.cvq.service.request.social.IHandicapAllowanceRequestService
 import fr.cg95.cvq.service.authority.ICategoryService
 
 

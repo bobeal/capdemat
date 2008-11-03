@@ -1,7 +1,7 @@
 package fr.capwebct.capdemat.plugins.csvimporters.concerto.business;
 
-import fr.cg95.cvq.business.school.SchoolCanteenRegistrationRequest;
-import fr.cg95.cvq.business.school.SchoolRegistrationRequest;
+import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
+import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 

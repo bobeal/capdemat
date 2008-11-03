@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
-import fr.cg95.cvq.business.leisure.SmsNotificationRequest;
+import fr.cg95.cvq.business.request.leisure.SmsNotificationRequest;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.users.TitleType;

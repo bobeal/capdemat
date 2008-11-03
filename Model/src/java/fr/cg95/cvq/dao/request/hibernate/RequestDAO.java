@@ -17,9 +17,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
 
-import fr.cg95.cvq.business.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;

@@ -1,5 +1,8 @@
 package fr.cg95.cvq.generator.common;
 
+/**
+ * @author rdj@zenexity.fr
+ */
 public class ElementCommon {
     
     private Step step;

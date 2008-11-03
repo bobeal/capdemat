@@ -4,11 +4,11 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import fr.cg95.cvq.business.election.ElectoralRollRegistrationRequest;
+import fr.cg95.cvq.business.request.election.ElectoralRollRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exporter.service.fo.IRequestService;
-import fr.cg95.cvq.service.election.IElectoralRollRegistrationRequestService;
+import fr.cg95.cvq.service.request.election.IElectoralRollRegistrationRequestService;
 
 public class RequestService implements IRequestService {
 	

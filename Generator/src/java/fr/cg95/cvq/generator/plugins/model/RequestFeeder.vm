@@ -1,6 +1,6 @@
-package fr.cg95.cvq.service.${request.requestNamespaceLastParticle};
+package fr.cg95.cvq.service.request.${request.requestNamespaceLastParticle};
 
-import fr.cg95.cvq.business.${request.requestNamespaceLastParticle}.*;
+import fr.cg95.cvq.business.request.${request.requestNamespaceLastParticle}.*;
 import fr.cg95.cvq.business.users.HomeFolder;
 
 public class ${request.requestName}Feeder {

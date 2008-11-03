@@ -13,17 +13,17 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SectionType;
-import fr.cg95.cvq.business.school.PerischoolActivityRegistrationRequest;
-import fr.cg95.cvq.business.school.SchoolCanteenRegistrationRequest;
-import fr.cg95.cvq.business.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.request.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
+import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
+import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
+import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
+import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;
@@ -35,9 +35,9 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.school.IPerischoolActivityRegistrationRequestService;
-import fr.cg95.cvq.service.school.ISchoolCanteenRegistrationRequestService;
-import fr.cg95.cvq.service.school.ISchoolRegistrationRequestService;
+import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
+import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
+import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 /**

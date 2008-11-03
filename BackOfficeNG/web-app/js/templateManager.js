@@ -32,7 +32,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
           { text: '(TS) Date de validation', value:'#{RQ_DVAL}' },
           { text: '(TS) Observations', value:'#{RQ_OBSERV}' },
           { text: '(CP) Identifiant', value:'#{HF_ID}' },
-          //{ text: '(CP) Adresse foyer', value:'#{HF_ADDRESS}' },
           { text: '(DM) Prénom', value:'#{RR_FNAME}' },
           { text: '(DM) Nom', value:'#{RR_LNAME}' },
           { text: '(DM) Civilité', value:'#{RR_TITLE}' },

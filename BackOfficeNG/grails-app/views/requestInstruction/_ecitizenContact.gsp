@@ -5,6 +5,7 @@
     <span><g:message code="request.property.state" /> :&nbsp;</span>
     <g:message code="request.contact.header.contactEcitzen" />
   </h1>
+  <div id="contactMsg" style="display:none"></div>
   <div class="mainbox mainbox-yellow">
     <h2><g:message code="request.contact.header.writeMessage" /> </h2>
 
@@ -28,8 +29,6 @@
           from="${requesterMeansOfContacts}"
           value="${request.meansOfContact.enumString}" />
 
-        <input type="hidden" id="requesterEmail" name="requesterEmail" value="${request.requesterEmail}" />
-        <input type="hidden" id="requesterMobilePhone" name="requesterMobilePhone" value="${request.requesterMobilePhone}" />
       </fieldset>
 
       <!-- Mail field -->
@@ -39,7 +38,7 @@
         </label>
         <input type="text" id="email" name="email" size="55"
             class="required recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
-            value="${defaultContactRecipient}" />
+            value="${requester?.email}" />
       </fieldset>
 
       <!--Home phone field -->
@@ -49,7 +48,7 @@
         </label>
         <input type="text" id="homePhone" name="homePhone" size="55"
             class="required recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
-            value="${defaultContactRecipient}" />
+            value="${requester?.homePhone}" />
       </fieldset>
 
       <!--Office phone field -->
@@ -59,7 +58,7 @@
         </label>
         <input type="text" id="officePhone" name="officePhone" size="55"
             class="required recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
-            value="${defaultContactRecipient}" />
+            value="${requester?.officePhone}" />
       </fieldset>
 
       <!--Mobile phone field -->
@@ -69,7 +68,7 @@
         </label>
         <input type="text" id="mobilePhone" name="mobilePhone" size="55"
             class="required recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
-            value="${defaultContactRecipient}" />
+            value="${requester?.mobilePhone}" />
       </fieldset>
 
       <!-- Simple message field -->
@@ -109,6 +108,8 @@
       <input type="hidden" name="recipient" value="" />
       <input type="hidden" name="message" value="" />
       <input type="hidden" name="contactMean" value="" />
+      <input type="hidden" name="requestId" value="${request.id}" />
+      <input type="hidden" name="traceLabel" value="REQUEST_CONTACT_CITIZEN" />
 
       <!-- Sms buttons -->
       <fieldset id="smsButtons">

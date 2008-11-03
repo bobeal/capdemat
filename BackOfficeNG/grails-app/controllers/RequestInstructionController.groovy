@@ -332,9 +332,10 @@ class RequestInstructionController {
     def contactInformation = {
 
         def request = defaultRequestService.getById(Long.valueOf(params.id))
+        Adult requester = request.getRequester()
 
         def requesterMeansOfContacts = []
-        meansOfContactService.getAdultEnabledMeansOfContact(request.requester).each {
+        meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
             requesterMeansOfContacts.add(
                 CapdematUtils.adaptCapdematState(it.type, "request.meansOfContact"))
         }
@@ -368,8 +369,11 @@ class RequestInstructionController {
                 model:
                     [ "requesterMeansOfContacts": requesterMeansOfContacts,
                       "requestForms": requestForms,
+                      "requester": requester,
                       "request":
-                          [ "state": CapdematUtils.adaptCapdematState(request.state, "request.state"),
+                          [
+                            "id" : request.id,
+                            "state": CapdematUtils.adaptCapdematState(request.state, "request.state"),
                             "requesterMobilePhone": request.requester.mobilePhone,
                             "requesterEmail": request.requester.email,
                             "meansOfContact": CapdematUtils.adaptCapdematState(request.meansOfContact.type, "request.meansOfContact")
@@ -505,7 +509,12 @@ class RequestInstructionController {
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
-
+    def trace = {
+        def request = this.defaultRequestService.getById(Long.valueOf(params?.requestId))
+        println request.state
+        //this.defaultRequestService.addAction(request, params?.traceLabel, params?.message)
+        render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)
+    }
 
     def preview = {
         //Locale.setDefault Locale.FRANCE

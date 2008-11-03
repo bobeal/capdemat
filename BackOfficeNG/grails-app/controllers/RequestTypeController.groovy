@@ -37,29 +37,16 @@ class RequestTypeController {
         def requestTypes = []
     		
         // deal with dynamic filters
-        def filters = [:]
-        if (params.filterBy && params.filterBy != '') {
-             params.filterBy?.split('@').each { filter ->
-                 if (filter != "") {
-                    def parsedFilter = filter.split('=')
-                    if (parsedFilter.size() == 2) {
-                       filters[parsedFilter[0]] = parsedFilter[1]
-                    } else {
-                        filters.remove(parsedFilter[0])
-                    }
-                }
-            }
-            def categoryId = filters['categoryIdFilter'] == null ? null : Long.valueOf(filters['categoryIdFilter'])
-            def state = filters['stateFilter'] == null ? null : Boolean.valueOf(filters['stateFilter'])
+        def parsedFilters = SearchUtils.parseFilters(params.filterBy)
+        if (parsedFilters.filters.size() > 0) {
+            def categoryId = 
+            	parsedFilters.filters['categoryIdFilter'] == null ? null : Long.valueOf(parsedFilters.filters['categoryIdFilter'])
+            def state = 
+            	parsedFilters.filters['stateFilter'] == null ? null : Boolean.valueOf(parsedFilters.filters['stateFilter'])
             requestTypes = 
-            	defaultRequestService.getRequestsTypes(categoryId, state)
+                defaultRequestService.getRequestsTypes(categoryId, state)
         } else {
         	requestTypes = defaultRequestService.getAllRequestTypes()
-        }
-
-        def filterBy = ''
-        filters.each { key, value ->
-           filterBy += '@' + key + '=' + value
         }
 
         def adaptedRequestTypes = []
@@ -67,7 +54,8 @@ class RequestTypeController {
         	adaptedRequestTypes.add(CapdematUtils.adaptRequestType(translationService, it)) 
         }
         adaptedRequestTypes = adaptedRequestTypes.sort{ it.label.toLowerCase() }
-        ["requestTypes":adaptedRequestTypes, "allCategories":categoryService.getAll(),"filters":filters,"filterBy":filterBy]
+        ["requestTypes":adaptedRequestTypes, "allCategories":categoryService.getAll(),
+         	"filters":parsedFilters.filters,"filterBy":parsedFilters.filterBy]
     }
 
     // the configuration items all request types will have

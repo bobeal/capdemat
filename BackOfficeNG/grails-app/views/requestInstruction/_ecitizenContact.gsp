@@ -18,7 +18,7 @@
       <!-- Contact facilities -->
       <fieldset id="contactMeansForm">
         <label for="meansOfContact" >
-          <g:message code="request.contact.meansOfContact" />
+          <g:message code="request.contact.meansOfContact" /> :
         </label>
 
         <g:select class="contactMean"
@@ -34,17 +34,17 @@
       <!-- Mail field -->
       <fieldset id="mailForm">
         <label for="mail" class="required">
-          <g:message code="request.contact.contactRecipient" />
+          <g:message code="request.contact.contactRecipient" /> :
         </label>
         <input type="text" id="email" name="email" size="55"
-            class="required recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
+            class="required validate-email recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
             value="${requester?.email}" />
       </fieldset>
 
       <!--Home phone field -->
       <fieldset id="homePhoneForm">
         <label for="homePhone" class="required">
-          <g:message code="request.contact.contactRecipient" />
+          <g:message code="request.contact.contactRecipient" /> :
         </label>
         <input type="text" id="homePhone" name="homePhone" size="55"
             class="required recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
@@ -54,7 +54,7 @@
       <!--Office phone field -->
       <fieldset id="officePhoneForm">
         <label for="officePhone" class="required">
-          <g:message code="request.contact.contactRecipient" />
+          <g:message code="request.contact.contactRecipient" /> :
         </label>
         <input type="text" id="officePhone" name="officePhone" size="55"
             class="required recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
@@ -64,7 +64,7 @@
       <!--Mobile phone field -->
       <fieldset id="mobilePhoneForm">
         <label for="mobilePhone" class="required">
-          <g:message code="request.contact.contactRecipient" />
+          <g:message code="request.contact.contactRecipient" /> :
         </label>
         <input type="text" id="mobilePhone" name="mobilePhone" size="55"
             class="required recipient" title="${message(code:'request.contact.error.contactRecipientRequired')}"
@@ -88,13 +88,14 @@
 
       <!-- Mail template field -->
       <fieldset id="mailTemplateForm">
-        <label for="requestForm"><g:message code="request.contact.template" /></label>
+        <label for="requestForm"><g:message code="request.contact.template" />:</label>
 
         <g:select
           optionKey="id"
           optionValue="shortLabel"
           name="requestForms"
           id="requestForms"
+          class="mails"
           from="${requestForms}"
           value="-1" />
 
@@ -103,6 +104,7 @@
            title="preview"
            href="javascript:;"
            style="display:none"><g:message code="request.contact.preview" /></a>
+           
       </fieldset>
 
       <input type="hidden" name="recipient" value="" />
@@ -110,7 +112,7 @@
       <input type="hidden" name="contactMean" value="" />
       <input type="hidden" name="requestId" value="${request.id}" />
       <input type="hidden" name="traceLabel" value="REQUEST_CONTACT_CITIZEN" />
-
+      
       <!-- Sms buttons -->
       <fieldset id="smsButtons">
         <input type="button" id="sendSms" name="sendSms"
@@ -120,7 +122,7 @@
         <input type="button" id="discardChanges_Sms" name="discardChanges_Sms"
             value="${message(code:'action.discard')}" />
       </fieldset>
-
+      
       <!-- Mail buttons -->
       <fieldset id="emailButtons">
         <input type="button" id="sendEmail" name="sendEmail"
@@ -130,7 +132,7 @@
         <input type="button" id="discardChanges_mail" name="discardChanges_mail"
             value="${message(code:'action.discard')}" />
       </fieldset>
-
+      
       <!-- Default buttons -->
       <fieldset id="defaultButtons">
         <input type="button" id="trace_default" name="trace_default"

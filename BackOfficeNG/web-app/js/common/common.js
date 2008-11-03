@@ -9,7 +9,6 @@
 
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
-  var zo = zenexity.object;
   var yus = YAHOO.util.Selector;
   var yue = YAHOO.util.Event;
   var yuc = YAHOO.util.Connect;
@@ -83,14 +82,15 @@
     return true;
   };
 
-  zcc.doAjaxCall = function(callUrl,args,callback) {
+  zcc.doAjaxCall = function(callUrl,args,callback,absoluteUrl) {
     var handlers = {
       failure: zcc.handleUnexpectedError
     };
     if (zct.isFunction(callback)) handlers.success = callback;
     if (args) handlers.argument = args;
-
+    
     var url = [zenexity.capdemat.bong.baseUrl, callUrl].join('');
+    if(!!absoluteUrl) url = callUrl;
 
     if(zct.browser.msie) {
       var special = ['iemustdie=',Math.random().toString(16).substring(2)].join('');
@@ -268,30 +268,15 @@
         zct.tryToCall(zcc.Notifier[method],zcc.Notifier,message,cn);
       },
       displaySuccess : function(message,cn) {
-
-        var el = zo().query('#'+zcc.Notifier.getMessageZone(cn));
-
-        el.toggleClass('invisible','success-top')
-          .style({'background-color':'#DDFFDD'})
-          .text(message).fadeIn(0.01,function(){
-            el.fadeNone(3,function(){
-              el.fadeOut(3);
-            });
-          });
-
-        //TODO Reorganize & optimize this method
-        //newCssClass = 'success-top';
-//        bgColor = '#DDFFDD';
-//
-//        var divEl = new YAHOO.util.Element(zcc.Notifier.getMessageZone(cn));
-//        //divEl.replaceClass('invisible', newCssClass);
-//        zct.style(divEl.get('element'),{display:'block'});
-//        divEl.addClass('success-top');
-//        var el = yud.get(zcc.Notifier.getMessageZone(cn));
-//        el.innerHTML = message;
-//
-//        responseMessageAnimation = new zcc.responseResultAnimation(bgColor);
-//        responseMessageAnimation.animate();
+        var el = new yu.Element(yud.get(zcc.Notifier.getMessageZone(cn)));
+        el.replaceClass('invisible','success-top');
+      	zct.style(el.get('element'),{'background-color':'#DDFFDD',display:'block'});
+      	zct.text(el.get('element'),message);
+      	zct.fadeIn(el.get('element'),0.01,function(e,n){
+      	  zct.fadeNone(el.get('element'),3,function(e,n){
+      	    zct.fadeOut(el.get('element'),3);
+      	  });
+        });
       },
       displayUnexpectedError : function(message) {},
       displayModelError : function(message) {},
@@ -307,76 +292,6 @@
     }
   });
 
-  /**
-   * @description Provides advanced support for firebug-lite console.
-   * @author vba@zenexity.fr
-   */
-  zcc.debug = {
-    injectFirebug : function(name,scope) {
-      var src = 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js';
-      var head = document.getElementsByTagName("head")[0];
-      var scripts = zct.grep(yud.getChildren(head),function(n){
-        return(n['src']==src);
-      });
-
-      if(scripts.length == 0) {
-        var newscript = document.createElement('script');
-        newscript.type = 'text/javascript';
-        newscript.src = src;
-
-        newscript.onload = newscript.onreadystatechange = function(){
-          if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
-            firebug.init();
-            zcc.debug.initXHR();
-            firebug.d.console[name](scope);
-            zcc.debug.loading = false;
-          }
-        };
-
-        head.appendChild(newscript);
-      }
-      return undefined;
-    },
-    initXHR : function() {
-      if(!!firebug && !yuc.oldAsyncRequest) {
-        yuc.oldAsyncRequest = yuc.asyncRequest;
-
-        yuc.asyncRequest = function(method, uri, callback, postData) {
-          var log = {
-            'method' : method,
-            'uri' : uri,
-            'callback' : callback,
-            'postData' : postData
-          };
-          var local = {
-            success : callback.success,
-            failure :  callback.faulure
-          };
-
-          zct.each(local,function(k,v){
-            callback[k] = function(o) {
-              if(zct.isFunction(v))v(o);
-              log.status = o.status;
-              log.statusText = o.statusText;
-              log.response = o.responseText;
-              zcc.debug.log(log);
-            }
-          });
-
-          var res = yuc.oldAsyncRequest(method, uri, callback, postData);
-          return res;
-        }
-      }
-    }
-  }
-
-  zct.each(['log','print','dir'],function(i,name){
-    zcc.debug[name] = function(o) {
-      if(!o)o=o+'';
-      if(typeof firebug == 'undefined') zcc.debug.injectFirebug(name,o);
-      else firebug.d.console[name](o);
-    }
-  });
 
   zcc.Event = function(context,rule) {
     this.context = context;

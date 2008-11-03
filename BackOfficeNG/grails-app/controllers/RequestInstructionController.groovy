@@ -22,6 +22,9 @@ import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
 
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.util.mail.impl.MailService;
+
 import java.util.Date
 import java.io.File;
 import java.io.InputStream
@@ -39,6 +42,7 @@ class RequestInstructionController {
     IMeansOfContactService meansOfContactService
     IAgentService agentService
     IRequestServiceRegistry requestServiceRegistry
+    IMailService mailService
 
     def translationService
 
@@ -341,7 +345,7 @@ class RequestInstructionController {
         }
 
         def requestForms = []
-        requestForms.add(["id":-1,"shortLabel":"...","type":""])
+        //requestForms.add(["id":-1,"shortLabel":"...","type":""])
         defaultRequestService.getRequestTypeForms(request.requestType.id, RequestFormType.REQUEST_MAIL_TEMPLATE).each {
             String data = ''
             if(it?.personalizedData) data = new String(it?.personalizedData)
@@ -511,33 +515,65 @@ class RequestInstructionController {
 
     def trace = {
         def request = this.defaultRequestService.getById(Long.valueOf(params?.requestId))
-        println request.state
-        //this.defaultRequestService.addAction(request, params?.traceLabel, params?.message)
+        this.defaultRequestService.addAction(request, params?.traceLabel, params?.message)
         render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)
+    }
+
+    def sendEmail = {
+        Request request = defaultRequestService.getById(Long.valueOf(params?.requestId))
+        
+        String template = this.prepareTemplate(
+            params?.requestId,
+            params?.requestForms,
+            params?.message?.encodeAsHTML()
+        )
+        
+        this.meansOfContactService.notifyRequesterByEmail(
+            request,
+            params?.email,
+            message(code:"message.mail.subject"),
+            message(code:"message.mail.body"),
+            template?.getBytes(),
+            message(code:"message.mail.attachmentName"))
+
+        render([status:"ok",success_msg:message(code:"message.emailSent")] as JSON)
+    }
+
+    def sendSms = {
+        render([status:"ok",success_msg:message(code:"message.notImplemented")] as JSON)
+        //render([status:"ok",success_msg:message(code:"message.smsSent")] as JSON)
     }
 
     def preview = {
         //Locale.setDefault Locale.FRANCE
 
+        response.contentType = 'text/html; charset=utf-8'
+        render this.prepareTemplate(params?.rid,params?.fid,params?.msg?.encodeAsHTML())
+        //response.contentType = 'text/html; charset=utf-8'
+    }
+
+    private prepareTemplate = {requestId,formId,message ->
+        
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
-        def form = this.defaultRequestService.getRequestFormById(Long.valueOf(params?.fid))
-        Request request = this.defaultRequestService.getById(Long.valueOf(params?.rid))
+        def form = this.defaultRequestService.getRequestFormById(Long.valueOf(formId))
+        Request request = this.defaultRequestService.getById(Long.valueOf(requestId))
+            
         Adult requester = request.getRequester()
         def address = requester.getHomeFolder().getAdress()
         def subject = this.getSubjectDescription(request.getSubject())
         def forms = []
         forms.add(form)
-
+    
         File templateFile = defaultRequestService.getTemplateByName(form.getTemplateName())
         if(templateFile.exists()) {
-
+    
             def template = groovyPagesTemplateEngine.createTemplate(templateFile);
             def out = new StringWriter();
             def originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
             template.make(['forms':forms]).writeTo(out);
             requestAttributes.setOut(originalOut)
-
+    
             String content = out.toString().replace('#{','${');
             def model = [
                 'DATE' : java.text.DateFormat.getDateInstance().format(new Date()),
@@ -545,7 +581,7 @@ class RequestInstructionController {
                 'RQ_TP_LABEL' : request?.getRequestType().getLabel(),
                 'RQ_CDATE' : request?.getCreationDate(),
                 'RQ_DVAL' : request?.getValidationDate(),
-                'RQ_OBSERV' : params?.msg,
+                'RQ_OBSERV' : message,
                 'HF_ID' : requester?.getHomeFolder()?.getId(),
                 'RR_FNAME' : requester?.getFirstName(),
                 'RR_LNAME' : requester?.getLastName(),
@@ -564,21 +600,20 @@ class RequestInstructionController {
                 'HF_ADDRESS_CN' : address?.countryName,
             ]
             model.each{k,v ->  if(v == null)model[k]=''}
-
+    
             template = groovyPagesTemplateEngine.createTemplate(content,'tmp')
             out = new StringWriter();
             originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
             template.make(model).writeTo(out);
             requestAttributes.setOut(originalOut)
-
-            response.contentType = 'text/html; charset=utf-8'
-            render out.toString()
+            
+            return out.toString()
+        } else {
+            return ""
         }
-
-        response.contentType = 'text/html; charset=utf-8'
     }
-
+    
     private getSubjectDescription = {Object sub ->
         def result = ['firstName':'','lastName':'','title':'']
         if(!sub) return result

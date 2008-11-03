@@ -13,8 +13,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.SectionType;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.school.SchoolCanteenRegistrationRequest;
-import fr.cg95.cvq.business.school.SchoolRegistrationRequest;
+import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
+import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;

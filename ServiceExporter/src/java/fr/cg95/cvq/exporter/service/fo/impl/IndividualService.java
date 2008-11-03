@@ -3,13 +3,13 @@ package fr.cg95.cvq.exporter.service.fo.impl;
 import java.util.Collections;
 import java.util.Set;
 
-import fr.cg95.cvq.business.request.HomeFolderModificationRequest;
+import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exporter.service.fo.IIndividualService;
-import fr.cg95.cvq.service.request.IHomeFolderModificationRequestService;
+import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 
 public class IndividualService implements IIndividualService {
 

@@ -19,7 +19,7 @@ import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.plugins.tool.VelocityManager;
 import fr.cg95.cvq.xml.common.RequestType;
-import fr.cg95.cvq.xml.ecitizen.VoCardRequestDocument;
+import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
 /**
  * An in-memory representation of the to-be-generated request.
@@ -34,7 +34,7 @@ public class ModelRequestObject {
 
     private static Logger logger = Logger.getLogger(ModelRequestObject.class);
 
-    private static final String BUSINESS_OBJECTS_PREFIX_DIR = "/business/";
+    private static final String BUSINESS_OBJECTS_PREFIX_DIR = "/business/request/";
     private static final String VELOCITY_BASE_DIR = 
         "Generator/src/java/fr/cg95/cvq/generator/plugins/model/";
     
@@ -150,7 +150,7 @@ public class ModelRequestObject {
             // no namespace definition override in application documentation
             // so it defaults to the current request namespace
             eltModelProperties.setNamespaceLastParticle(requestNamespaceLastParticle);
-            eltModelProperties.setJavaPackageName(IPluginGenerator.MODEL_BASE_TARGET_NS + "."
+            eltModelProperties.setJavaPackageName(IPluginGenerator.MODEL_BASE_TARGET_NS + ".request."
                                             + requestNamespaceLastParticle + ".");
         } else {
             String namespaceLastParticle =
@@ -162,7 +162,10 @@ public class ModelRequestObject {
 
             // if it comes from the referential, namespace is provided within the XML schema file
             // else it belongs to the current request's namespace
-            if (namespaceLastParticle != null)
+            if (namespaceLastParticle.equals(requestNamespaceLastParticle ))
+                eltModelProperties.setJavaPackageName(IPluginGenerator.MODEL_BASE_TARGET_NS + ".request."
+                                                + namespaceLastParticle + ".");
+            else if (namespaceLastParticle != null)
                 eltModelProperties.setJavaPackageName(IPluginGenerator.MODEL_BASE_TARGET_NS + "."
                                                 + namespaceLastParticle + ".");
             else if (eltModelProperties.isRequestType())
@@ -335,12 +338,12 @@ public class ModelRequestObject {
     private void generateRequestHeader() {
 
         // print general information (package, imports and class declaration)
-        currentSb.append("package " + IPluginGenerator.MODEL_BASE_TARGET_NS + "." + requestNamespaceLastParticle + ";\n\n");
+        currentSb.append("package " + IPluginGenerator.MODEL_BASE_TARGET_NS + ".request." + requestNamespaceLastParticle + ";\n\n");
         currentSb.append("import fr.cg95.cvq.business.request.*;\n");
         currentSb.append("import fr.cg95.cvq.business.users.*;\n");
         currentSb.append("import fr.cg95.cvq.business.authority.*;\n");
         currentSb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + ".common.*;\n");
-        currentSb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + "." + requestNamespaceLastParticle + ".*;\n\n");
+        currentSb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + ".request." + requestNamespaceLastParticle + ".*;\n\n");
         currentSb.append("import org.apache.xmlbeans.XmlOptions;\n");
         currentSb.append("import org.apache.xmlbeans.XmlObject;\n\n");
         currentSb.append("import fr.cg95.cvq.xml.common.RequestType;\n\n");
@@ -814,9 +817,7 @@ public class ModelRequestObject {
                     if (eltModelProperties.isTiedToRequest())
                         currentSb.append("     *  cascade=\"all\"\n");
                     currentSb.append("     *  column=\"" + getSQLName(elementName) + "_id\"\n");
-                    currentSb.append("     *  class=\"" + IPluginGenerator.MODEL_BASE_TARGET_NS + "." 
-                            + eltModelProperties.getNamespaceLastParticle() + "." 
-                            + eltModelProperties.getModelClassName() + "\"\n");
+                    currentSb.append("     *  class=\"" + eltModelProperties.getJavaPackageName() + eltModelProperties.getModelClassName() + "\"\n");
                 } else {
                     // a one-to-many
                     currentSb.append("     * @hibernate.set\n");
@@ -828,9 +829,7 @@ public class ModelRequestObject {
                     currentSb.append("     *  column=\"" + getSQLName(requestName) + "_id\"\n");
                     currentSb.append("     * @hibernate.many-to-many\n");
                     currentSb.append("     *  column=\"" + getSQLName(elementName) + "_id\"\n");
-                    currentSb.append("     *  class=\"" + IPluginGenerator.MODEL_BASE_TARGET_NS + "." 
-                            + eltModelProperties.getNamespaceLastParticle() + "." 
-                            + eltModelProperties.getModelClassName() + "\"\n");
+                    currentSb.append("     *  class=\"" + eltModelProperties.getJavaPackageName() + eltModelProperties.getModelClassName() + "\"\n");
                 }
             } else if (eltModelProperties.getMaxOccurs() == null
                        || eltModelProperties.getMaxOccurs().intValue() > 1) {
@@ -842,7 +841,7 @@ public class ModelRequestObject {
                 currentSb.append("     * @hibernate.key\n");
                 currentSb.append("     *  column=\"" + getSQLName(requestName) + "_id\"\n");
                 currentSb.append("     * @hibernate.one-to-many\n");
-                currentSb.append("     *  class=\"" + IPluginGenerator.MODEL_BASE_TARGET_NS + "." + eltModelProperties.getNamespaceLastParticle() + "." + eltModelProperties.getModelClassName() + "\"\n");
+                currentSb.append("     *  class=\"" + eltModelProperties.getJavaPackageName() + eltModelProperties.getModelClassName() + "\"\n");
             }
         }
         currentSb.append("     */\n");
@@ -863,15 +862,15 @@ public class ModelRequestObject {
         StringBuffer sb = new StringBuffer();
 
         // print general information (package, imports and class declaration)
-        sb.append("package fr.cg95.cvq.business." + requestNamespaceLastParticle + ";");
+        sb.append("package fr.cg95.cvq.business.request." + requestNamespaceLastParticle + ";");
         sb.append("\n\n");
         sb.append("import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;\n");
         sb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + ".common.*;\n");
-        sb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + "." + requestNamespaceLastParticle + ".*;\n");
+        sb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + ".request." + requestNamespaceLastParticle + ".*;\n");
         sb.append("\n");
         sb.append("/**\n");
         sb.append(" *\n");
-        sb.append(" * Generated class file, do not edit!\n");
+        sb.append(" * Generated class file, do not edit !\n");
         sb.append(" */\n");
         sb.append("public final class " + className + " extends PersistentStringEnum { \n");
         sb.append("\n");
@@ -933,12 +932,12 @@ public class ModelRequestObject {
     public void generateLocalComplexTypeHeader(ComplexType complexType) {
 
         // print general information (package, imports and class declaration)
-        currentSb.append("package fr.cg95.cvq.business." + requestNamespaceLastParticle + ";");
+        currentSb.append("package fr.cg95.cvq.business.request." + requestNamespaceLastParticle + ";");
         currentSb.append("\n\n");
         currentSb.append("import fr.cg95.cvq.business.users.*;\n");
         currentSb.append("import fr.cg95.cvq.business.authority.*;\n");
         currentSb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + ".common.*;\n");
-        currentSb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + "." + requestNamespaceLastParticle + ".*;\n");
+        currentSb.append("import " + IPluginGenerator.XMLBEANS_BASE_TARGET_NS + ".request." + requestNamespaceLastParticle + ".*;\n");
         currentSb.append("import org.apache.xmlbeans.XmlOptions;\n");
         currentSb.append("import org.apache.xmlbeans.XmlObject;\n\n");
         currentSb.append("import java.io.Serializable;\n");

@@ -11,8 +11,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SectionType;
-import fr.cg95.cvq.business.request.HomeFolderModificationRequest;
-import fr.cg95.cvq.business.school.SchoolRegistrationRequest;
+import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
+import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -27,7 +27,7 @@ import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.school.ISchoolRegistrationRequestService;
+import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 

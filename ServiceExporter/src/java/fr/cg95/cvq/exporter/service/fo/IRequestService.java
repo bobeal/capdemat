@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import fr.cg95.cvq.business.election.ElectoralRollRegistrationRequest;
+import fr.cg95.cvq.business.request.election.ElectoralRollRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 

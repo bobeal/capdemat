@@ -354,9 +354,11 @@
 			<formatter type="plain" usefile="false" />
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-				    <include name="**/PaymentServiceTest.class"/>
+				    <!-- include name="**/CapdematTestSuite.class"/-->
 				    <!-- include name="**/*Test.class" /-->
 					<!-- not maintained any more -->
+					<include name="**/service/request/**/*Test.class" />
+					<exclude name="**/RequestServiceTest.class" />
 					<exclude name="**/VacationsRegistrationRequestServiceTest.class" />
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />

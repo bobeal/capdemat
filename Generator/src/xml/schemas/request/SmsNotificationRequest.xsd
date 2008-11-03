@@ -16,6 +16,24 @@
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Notification par SMS</xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">SMS Notification</xs:documentation>
       <xs:appinfo>
+	
+	<common>
+          <namespace name="rafik" />
+	  <steps>
+            <step index="0" name="requester" />
+            <step index="1" name="nature" />
+            <step index="2" name="type" />
+            <step index="3" ref="document" />
+            <step index="4" ref="validation" />
+          </steps>
+	  
+	  <conditions>
+	    <condition name="isBor" />
+	    <condition name="isRdj" />
+	    <condition name="isVba" />
+	  </conditions>
+	</common>
+
         <model namespace="leisure" />
         <xslfo>
           <blocks-def>
@@ -74,7 +92,12 @@
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Abonnement</xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Subscription</xs:documentation>
                 <xs:appinfo>
-                  <xslfo>
+                  <common>
+                    <step name="type" />
+                    <condition name="isBor" type="trigger" />
+                  </common>
+
+                  <xslfo> 
                     <element blockId="0" line="0" column="0">
                       <yesnoCheckbox />
                     </element>
@@ -112,6 +135,10 @@
                   Interests
                 </xs:documentation>
                 <xs:appinfo>
+                  <common>
+                    <step name="nature" />
+                    <condition name="isRdj" type="filled" />
+                  </common>
                   <model namespace="users" isTiedToRequest="true" />
                   <xslfo>
                     <element blockId="2" line="1" column="0">
@@ -146,6 +173,7 @@
                     Clever SMS Id
                 </xs:documentation>
                 <xs:appinfo>
+                  <fo>  </fo>
                   <bo>
                     <display field="" page="displaysms" line="13"  mode="static" />
                     <display field="" page="checksms" line="7" mode="static" />

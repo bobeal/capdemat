@@ -8,6 +8,10 @@ import org.w3c.dom.NodeList;
 
 import fr.cg95.cvq.generator.common.RequestCommon;
 
+/**
+ * @author bor@zenexity.fr
+ * @author rdj@zenexity.fr
+ */
 public class ApplicationDocumentation {
 
     private String nodeName;

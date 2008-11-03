@@ -11,7 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.business.school.SchoolRegistrationRequest;
+import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
@@ -19,11 +19,11 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.school.ISchoolRegistrationRequestService;
-import fr.cg95.cvq.service.school.SchoolRegistrationRequestFeeder;
+import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
+import fr.cg95.cvq.service.request.school.SchoolRegistrationRequestFeeder;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.xml.school.SchoolRegistrationRequestDocument;
+import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument;
 
 public class RequestSeasonServiceTest extends ServiceTestCase {
     

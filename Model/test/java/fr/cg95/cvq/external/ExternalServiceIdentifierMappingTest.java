@@ -8,15 +8,15 @@ import org.hamcrest.core.AllOf;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 
-import fr.cg95.cvq.business.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
+import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.ecitizen.IVoCardRequestService;
+import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 

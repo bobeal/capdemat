@@ -82,7 +82,7 @@ public class ElementModelProperties extends ElementProperties {
                     + "." + IPluginGenerator.XMLBEANS_REFERENTIAL_NS;
             else
                 xmlBeansPackageName = IPluginGenerator.XMLBEANS_BASE_TARGET_NS
-                    + "." + namespaceLastParticle;
+                    + ".request." + namespaceLastParticle;
         } else {
             xmlBeansPackageName = IPluginGenerator.XMLBEANS_BASE_TARGET_NS
                 + "." + IPluginGenerator.XMLBEANS_REFERENTIAL_NS;

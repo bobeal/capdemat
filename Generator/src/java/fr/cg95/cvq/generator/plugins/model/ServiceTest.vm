@@ -1,23 +1,23 @@
-package fr.cg95.cvq.service.${request.requestNamespaceLastParticle};
+package fr.cg95.cvq.service.request.${request.requestNamespaceLastParticle};
 
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.document.*;
-import fr.cg95.cvq.business.social.*;
-import fr.cg95.cvq.business.${request.requestNamespaceLastParticle}.*;
+import fr.cg95.cvq.business.request.social.*;
+import fr.cg95.cvq.business.request.${request.requestNamespaceLastParticle}.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
-import fr.cg95.cvq.service.${request.requestNamespaceLastParticle}.I${request.requestName}Service;
+import fr.cg95.cvq.service.request.${request.requestNamespaceLastParticle}.I${request.requestName}Service;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.TestUtils;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.${request.requestNamespaceLastParticle}.${request.requestName}Document;
+import fr.cg95.cvq.xml.request.${request.requestNamespaceLastParticle}.${request.requestName}Document;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;

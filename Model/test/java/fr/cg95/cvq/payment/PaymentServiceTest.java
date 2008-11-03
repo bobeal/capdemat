@@ -50,7 +50,8 @@ public class PaymentServiceTest extends ServiceTestCase {
     
     public void onTearDown() throws Exception {
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        lacb.unregisterExternalService(fakeExternalService);    
+        lacb.unregisterExternalService(fakeExternalService);
+        super.onTearDown();
     }
 
     private Payment gimmePayment(final Long requestId) throws CvqException {

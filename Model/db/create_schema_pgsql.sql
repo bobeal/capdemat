@@ -371,24 +371,6 @@
     alter table ticket_type_selection 
         drop constraint FK3B70C45A6592BACC;
 
-    alter table vacations_diary 
-        drop constraint FK2890BF7ACE7A2F50;
-
-    alter table vacations_registration_request 
-        drop constraint FK92F4987282587E99;
-
-    alter table vacations_registration_request 
-        drop constraint FK92F4987230CABB22;
-
-    alter table vacations_registration_request 
-        drop constraint FK92F49872F8EE79C;
-
-    alter table vacations_registration_request_other_individual 
-        drop constraint FK567CEB55CE7A2F50;
-
-    alter table vacations_registration_request_other_individual 
-        drop constraint FK567CEB55DCC9C993;
-
     alter table vo_card_request 
         drop constraint FKC295D42682587E99;
 
@@ -553,12 +535,6 @@
     drop table technical_intervention_request_intervention_type;
 
     drop table ticket_type_selection;
-
-    drop table vacations_diary;
-
-    drop table vacations_registration_request;
-
-    drop table vacations_registration_request_other_individual;
 
     drop table vo_card_request;
 
@@ -1566,32 +1542,6 @@
         primary key (id)
     );
 
-    create table vacations_diary (
-        id int8 not null,
-        day timestamp,
-        afternoon bool,
-        noon bool,
-        morning bool,
-        evening bool,
-        vacations_registration_request_id int8,
-        primary key (id)
-    );
-
-    create table vacations_registration_request (
-        id int8 not null,
-        vacations varchar(255),
-        urgency_phone varchar(10),
-        child_id int8,
-        recreation_center_id int8,
-        primary key (id)
-    );
-
-    create table vacations_registration_request_other_individual (
-        vacations_registration_request_id int8 not null,
-        other_individual_id int8 not null,
-        primary key (vacations_registration_request_id, other_individual_id)
-    );
-
     create table vo_card_request (
         id int8 not null,
         primary key (id)
@@ -2216,36 +2166,6 @@
         add constraint FK3B70C45A6592BACC 
         foreign key (place_reservation_data_id) 
         references place_reservation_data;
-
-    alter table vacations_diary 
-        add constraint FK2890BF7ACE7A2F50 
-        foreign key (vacations_registration_request_id) 
-        references vacations_registration_request;
-
-    alter table vacations_registration_request 
-        add constraint FK92F4987282587E99 
-        foreign key (id) 
-        references request;
-
-    alter table vacations_registration_request 
-        add constraint FK92F4987230CABB22 
-        foreign key (child_id) 
-        references child;
-
-    alter table vacations_registration_request 
-        add constraint FK92F49872F8EE79C 
-        foreign key (recreation_center_id) 
-        references recreation_center;
-
-    alter table vacations_registration_request_other_individual 
-        add constraint FK567CEB55CE7A2F50 
-        foreign key (vacations_registration_request_id) 
-        references vacations_registration_request;
-
-    alter table vacations_registration_request_other_individual 
-        add constraint FK567CEB55DCC9C993 
-        foreign key (other_individual_id) 
-        references other_individual;
 
     alter table vo_card_request 
         add constraint FKC295D42682587E99 

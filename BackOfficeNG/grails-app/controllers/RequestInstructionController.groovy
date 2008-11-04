@@ -66,7 +66,7 @@ class RequestInstructionController {
                   "name": it.documentType.name,
                   "endValidityDate" : it.endValidityDate == null ? "" : DateUtils.formatDate((Date)it.endValidityDate),
                   "pageNumber": documentService.getPagesNumber(it.id),
-                  "state": CapdematUtils.adaptCapdematState(it.state, "document.state")
+                  "state": CapdematUtils.adaptCapdematEnum(it.state, "document.state")
 		            ])
 		    }
 
@@ -103,8 +103,8 @@ class RequestInstructionController {
 		      "adults" : adults,
 		      "children" : children,
 		      "childrenLegalResponsibles" : clr,
-		      "requestState": CapdematUtils.adaptCapdematState(request.state, "request.state"),
-		      "requestDataState": CapdematUtils.adaptCapdematState(request.dataState, "request.dataState"),
+		      "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+		      "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
 		      "requestLabel": requestLabel,
 		      "documentList": documentList
 		    ]
@@ -205,7 +205,7 @@ class RequestInstructionController {
         }
 
         def states = []
-        transitionStates.each { states.add(CapdematUtils.adaptCapdematState(it, stateTypeI18nKey)) }
+        transitionStates.each { states.add(CapdematUtils.adaptCapdematEnum(it, stateTypeI18nKey)) }
 
         render( template: "possibleTransitionStates",
                 model: ["states": states, "stateType": stateType, "id": params.id])
@@ -264,7 +264,7 @@ class RequestInstructionController {
                   "label": it.label,
                   "note": it.note,
                   "date": it.date,
-                  "resultingState": CapdematUtils.adaptCapdematState(it.resultingState, "document.state")
+                  "resultingState": CapdematUtils.adaptCapdematEnum(it.resultingState, "document.state")
                 ])
         }
 
@@ -272,9 +272,9 @@ class RequestInstructionController {
                 model: [ "document":
                             [ "id": document.id,
                               "name": document.documentType.name,
-                              "state": CapdematUtils.adaptCapdematState(document.state, "document.state"),
-                              "depositType": CapdematUtils.adaptCapdematState(document.depositType, "document.depositType"),
-                              "depositOrigin": CapdematUtils.adaptCapdematState(document.depositOrigin, "document.depositOrigin"),
+                              "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
+                              "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
+                              "depositOrigin": CapdematUtils.adaptCapdematEnum(document.depositOrigin, "document.depositOrigin"),
                               "endValidityDate": document.endValidityDate,
                               "ecitizenNote": document.ecitizenNote,
                               "agentNote": document.agentNote,
@@ -303,7 +303,7 @@ class RequestInstructionController {
 
         def states = []
         transitionStates.each {
-            states.add(CapdematUtils.adaptCapdematState(it, "document.state"))
+            states.add(CapdematUtils.adaptCapdematEnum(it, "document.state"))
         }
 
         render( template: "requestDocumentStates",
@@ -341,7 +341,7 @@ class RequestInstructionController {
         def requesterMeansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
             requesterMeansOfContacts.add(
-                CapdematUtils.adaptCapdematState(it.type, "request.meansOfContact"))
+                CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact"))
         }
 
         def requestForms = []
@@ -353,7 +353,7 @@ class RequestInstructionController {
             requestForms.add(
                 [ "id": it.id,
                   "shortLabel": it.shortLabel,
-                  "type": CapdematUtils.adaptCapdematState(it.type, "request.meansOfContact")
+                  "type": CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact")
                 ]
             )
         }
@@ -373,14 +373,15 @@ class RequestInstructionController {
                 model:
                     [ "requesterMeansOfContacts": requesterMeansOfContacts,
                       "requestForms": requestForms,
+                      "traceLabel" :  IRequestService.REQUEST_CONTACT_CITIZEN,
                       "requester": requester,
                       "request":
                           [
                             "id" : request.id,
-                            "state": CapdematUtils.adaptCapdematState(request.state, "request.state"),
+                            "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
                             "requesterMobilePhone": request.requester.mobilePhone,
                             "requesterEmail": request.requester.email,
-                            "meansOfContact": CapdematUtils.adaptCapdematState(request.meansOfContact.type, "request.meansOfContact")
+                            "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact.type, "request.meansOfContact")
                           ],
                       "defaultContactRecipient": defaultContactRecipient
                     ]
@@ -520,7 +521,8 @@ class RequestInstructionController {
     }
 
     def sendEmail = {
-        Request request = defaultRequestService.getById(Long.valueOf(params?.requestId))
+        def request = defaultRequestService.getById(Long.valueOf(params?.requestId))
+        def form = defaultRequestService.getRequestFormById(Long.valueOf(params?.requestForms))
         
         String template = this.prepareTemplate(
             params?.requestId,
@@ -531,10 +533,10 @@ class RequestInstructionController {
         this.meansOfContactService.notifyRequesterByEmail(
             request,
             params?.email,
-            message(code:"message.mail.subject"),
-            message(code:"message.mail.body"),
+            message(code:"mail.ecitizenContact.subject"),
+            message(code:"mail.ecitizenContact.body"),
             template?.getBytes(),
-            message(code:"message.mail.attachmentName"))
+            "${form.label}.html")
 
         render([status:"ok",success_msg:message(code:"message.emailSent")] as JSON)
     }

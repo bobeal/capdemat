@@ -413,11 +413,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         return target.id.split('_')[0];
       },
       changeType : function(e) {
-        var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
-        var link = yud.get('previewRequestForm');
-        if(target.value > -1)zct.style(link,{display:'inline'});
-        else zct.style(link,{display:'none'});
-        zcbr.Instruction.prepareLink();
+        if(!!e) {
+          var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
+          var link = yud.get('previewRequestForm');
+          if(target.value > -1)zct.style(link,{display:'inline'});
+          else zct.style(link,{display:'none'});
+          zcbr.Instruction.prepareLink();
+        } else {
+          zct.style(yud.get('previewError'),{display:'inline'});
+          zct.style(yus.query('fieldset#emailButtons')[0],{display:'none'});
+          zct.style(yus.query('fieldset#defaultButtons')[0],{display:'block'});
+        }
 
       },
       getByGroup : function(group) {
@@ -441,17 +447,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         //TODO make this part of script more flexible
         var message = yus.query('input[name=message]',form,true);
         var recipient = yus.query('input[name=recipient]',form,true);
-        var contactMean = yus.query('input[name=contactMean]',form,true);
+        var meansOfContact = yus.query('input[name=meansOfContact]',form,true);
 
         zct.each(elements,function(i,n){
           var el = new yu.Element(n);
           if(el.hasClass('message')) message.value = zct.val(n);
           if(el.hasClass('recipient')) recipient.value = zct.val(n);
-          if(el.hasClass('contactMean')) contactMean.value = zct.val(n);
+          if(el.hasClass('means-of-contact')) meansOfContact.value = zct.val(n);
         });
       },
       discardChanges: function(e) {
-        alert('discardChanges',e);
+        zcb.ecitizenContactPanel.hide();
       },
       showPanels : function(e) {
         if(!e) return;
@@ -475,7 +481,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           }
         });
         zct.each(yus.query('#contactForm input[type=hidden]'),function(i,el){
-          if(/^(message|recipient|contactMean)$/i.test(el.name))el.value = "";
+          if(/^(message|recipient|meansOfContact)$/i.test(el.name))el.value = "";
         });
         zcbr.Instruction.messageBox = zcbr.Instruction.getByGroup('message');
       },
@@ -486,13 +492,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         return true;
       },
       showRules : {
-        'Sms' : ['contactMeansForm','mobilePhoneForm','smsMessageForm','smsButtons'],
-        'OfficePhone':['contactMeansForm','officePhoneForm','messageForm','defaultButtons'],
-        'MobilePhone':['contactMeansForm','mobilePhoneForm','messageForm','defaultButtons'],
-        'HomePhone':['contactMeansForm','homePhoneForm','messageForm','defaultButtons'],
-        'Email':['contactMeansForm','mailForm','messageForm','mailTemplateForm','emailButtons'],
-        'Mail':['contactMeansForm','messageForm','mailTemplateForm','defaultButtons'],
-        '.*Office':['contactMeansForm','messageForm','mailTemplateForm','defaultButtons']
+        'Sms' : ['meansOfContactForm','mobilePhoneForm','smsMessageForm','smsButtons'],
+        'OfficePhone':['meansOfContactForm','officePhoneForm','messageForm','defaultButtons'],
+        'MobilePhone':['meansOfContactForm','mobilePhoneForm','messageForm','defaultButtons'],
+        'HomePhone':['meansOfContactForm','homePhoneForm','messageForm','defaultButtons'],
+        'Email':['meansOfContactForm','mailForm','messageForm','mailTemplateForm','emailButtons'],
+        'Mail':['meansOfContactForm','messageForm','mailTemplateForm','defaultButtons'],
+        '.*Office':['meansOfContactForm','messageForm','mailTemplateForm','defaultButtons']
       }
     };
 

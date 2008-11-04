@@ -12,16 +12,16 @@
     <form method="POST" id="contactForm" action="${createLink(action:'notifyContact')}">
       <div class="error" id="contactFormErrors"></div>
       <div>
-        <g:message code="request.contact.contactMeanChoosenByCitizen" /> :
+        <g:message code="request.contact.meansOfContactChoosenByCitizen" /> :
         ${message(code:request.meansOfContact.i18nKey)}
       </div>
       <!-- Contact facilities -->
-      <fieldset id="contactMeansForm">
+      <fieldset id="meansOfContactForm">
         <label for="meansOfContact" >
           <g:message code="request.contact.meansOfContact" /> :
         </label>
 
-        <g:select class="contactMean"
+        <g:select class="means-of-contact"
           optionKey="enumString"
           optionValue="i18nKey"
           id="meansOfContact"
@@ -104,14 +104,17 @@
            title="preview"
            href="javascript:;"
            style="display:none"><g:message code="request.contact.preview" /></a>
+        <span id="previewError" style="display:none">
+          <g:message code="request.contact.mailTemplateNotExists" />
+        </span>
            
       </fieldset>
 
       <input type="hidden" name="recipient" value="" />
       <input type="hidden" name="message" value="" />
-      <input type="hidden" name="contactMean" value="" />
+      <input type="hidden" name="meansOfContact" value="" />
       <input type="hidden" name="requestId" value="${request.id}" />
-      <input type="hidden" name="traceLabel" value="REQUEST_CONTACT_CITIZEN" />
+      <input type="hidden" name="traceLabel" value="${traceLabel}" />
       
       <!-- Sms buttons -->
       <fieldset id="smsButtons">

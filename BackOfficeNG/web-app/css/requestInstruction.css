@@ -213,7 +213,7 @@
 #ecitizenContactPanel .bd h1 span { float: right; font-size: .7em; } 
 
 /* color just for mainbox-yellow !! */
-#ecitizenContactPanel .bd form fieldset               { margin: 1em 0; padding: .2em 0; border-top: 1px dashed #FFD053; border-bottom: 1px dashed #FFD053; }
+#ecitizenContactPanel .bd form fieldset               { margin: 1em 0; padding: .2em 0; /*border-top: 1px dashed #FFD053;*/ border-bottom: 1px dashed #FFD053; }
 #ecitizenContactPanel .bd form label                  { width: 25% !important; }
 #ecitizenContactPanel .bd form hr                     { margin: 0; border: 0 !important; }
 #ecitizenContactPanel .bd form .required              { font-size: 1em }

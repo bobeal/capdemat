@@ -49,8 +49,8 @@ public class RequestPolicy implements PartOfPolicy {
             // we are called by the Front Office
 
             // only give read access to adults from the same home folder
-            if (user.belongsToSameHomeFolder(request))
-                return true;
+//            if (user.belongsToSameHomeFolder(request))
+//                return true;
         }
 
         return false;
@@ -104,8 +104,8 @@ public class RequestPolicy implements PartOfPolicy {
 //          }
 
             // only give write access to adults from the same home folder
-            if (user.belongsToSameHomeFolder(request))
-                return true;
+//            if (user.belongsToSameHomeFolder(request))
+//                return true;
         }
 
         return false;

@@ -4,7 +4,6 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.document.*;
-import fr.cg95.cvq.business.request.social.*;
 import fr.cg95.cvq.business.request.reservation.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
@@ -70,8 +69,8 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
         doc.setEcitizenNote("Ma carte d'identitÃ© !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setHomeFolderId(request.getHomeFolder().getId());
-        doc.setIndividualId(request.getRequester().getId());
+        doc.setHomeFolderId(request.getHomeFolderId());
+        doc.setIndividualId(request.getRequesterId());
         doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         iPlaceReservationRequestService.addDocument(request.getId(), documentId);
@@ -81,9 +80,9 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
 
         // FIXME : test list of pending / in-progress registrations
         Critere testCrit = new Critere();
-        testCrit.setAttribut(Request.SEARCH_BY_REQUESTER_LASTNAME);
+        testCrit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         testCrit.setComparatif(Critere.EQUALS);
-        testCrit.setValue(request.getRequester().getLastName());
+        testCrit.setValue(request.getHomeFolderId());
         Set testCritSet = new HashSet();
         testCritSet.add(testCrit);
         Set allRequests = iRequestService.get(testCritSet, null, false);
@@ -123,84 +122,60 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
         iPlaceReservationRequestService.delete(request.getId());
     }
 
+    public void testWithHomeFolderPojo()
+    		throws CvqException, CvqObjectNotFoundException,
+                java.io.FileNotFoundException, java.io.IOException {
 
-    public void testWithHomeFolderXml() throws CvqException,
-			CvqObjectNotFoundException, java.io.FileNotFoundException,
-			java.io.IOException {
+         SecurityContext.setCurrentSite(localAuthorityName,
+                                        SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        startTransaction();
-        
-	SecurityContext.setCurrentSite(localAuthorityName,
-					SecurityContext.FRONT_OFFICE_CONTEXT);
+         // create a vo card request (to create home folder and associates)
+         CreationBean cb = gimmeAnHomeFolder();
 
-	// create a vo card request (to create home folder and associates)
-	CreationBean cb = gimmeAnHomeFolder();
+         Long voCardRequestId = cb.getRequestId();
+         String proposedLogin = cb.getLogin();
 
-	Long voCardRequestId = cb.getRequestId();
-	String proposedLogin = cb.getLogin();
+         SecurityContext.setCurrentEcitizen(proposedLogin);
 
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-	SecurityContext.setCurrentEcitizen(proposedLogin);
+         // get the home folder id
+         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+         Assert.assertNotNull(homeFolder);
+         Long homeFolderId = homeFolder.getId();
+         Assert.assertNotNull(homeFolderId);
 
-	// get the home folder id
-	HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
-	Assert.assertNotNull(homeFolder);
-	Long homeFolderId = homeFolder.getId();
-	Assert.assertNotNull(homeFolderId);
+         // fill and create the request
+         //////////////////////////////
 
-	// fill and create the request
-	// ////////////////////////////
+         PlaceReservationRequest request = fillMeARequest();
+         PlaceReservationRequestFeeder.setSubject(request, homeFolder);
+         
+         // FIXME : parameters list handling
+         Long requestId =
+              iPlaceReservationRequestService.create(request, homeFolderResponsible.getId());
 
-	PlaceReservationRequest request = fillMeARequest();
-	request.setRequester(homeFolder.getHomeFolderResponsible());
-        PlaceReservationRequestFeeder.setSubject(request, homeFolder);
+         PlaceReservationRequest requestFromDb =
+        	 	(PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
+         Assert.assertEquals(requestId, requestFromDb.getId());
+         Assert.assertNotNull(requestFromDb.getRequesterId());
+         
+         completeValidateAndDelete(requestFromDb);
 
-        Set authorizedSubjects = iPlaceReservationRequestService.getAuthorizedSubjects(homeFolderId).keySet();
-
-	PlaceReservationRequestDocument requestDoc =
-		(PlaceReservationRequestDocument) request.modelToXml();
-	Long requestId = iPlaceReservationRequestService.create(requestDoc.getDomNode());
-
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-        Map newAuthorizedSubjectsMap = iPlaceReservationRequestService.getAuthorizedSubjects(homeFolderId);
-        if (newAuthorizedSubjectsMap == null) 
-            Assert.assertEquals(authorizedSubjects.size(), 1);
-        else
-            Assert.assertEquals(newAuthorizedSubjectsMap.size(), authorizedSubjects.size() - 1);
-
-	PlaceReservationRequest requestFromDb = 
-		(PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
-	Assert.assertEquals(requestId, requestFromDb.getId());
-	Adult requester = requestFromDb.getRequester();
-	Assert.assertNotNull(requester);
-	Assert.assertNotNull(requestFromDb.getMeansOfContact());
-    Assert.assertEquals(requestFromDb.getMeansOfContact().getType(), MeansOfContactEnum.EMAIL);
-
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-	completeValidateAndDelete(requestFromDb);
-
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-        HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
-        Assert.assertNotNull(homeFolderAfterDelete);
-        Assert.assertNotNull(homeFolderAfterDelete.getHomeFolderResponsible());
+         HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
+         Assert.assertNotNull(homeFolderAfterDelete);
+         Assert.assertNotNull(homeFolderAfterDelete.getHomeFolderResponsible());
+         
+         SecurityContext.resetCurrentSite();
     }
+
 
     public void testWithoutHomeFolder()
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	if (!iPlaceReservationRequestService.supportUnregisteredCreation())
-	    return;
+	      if (!iPlaceReservationRequestService.supportUnregisteredCreation())
+	         return;
 
-	startTransaction();
+	      startTransaction();
 	
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -212,14 +187,13 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address,
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
-        request.setRequester(requester);
         requester.setAdress(address);
         PlaceReservationRequestFeeder.setSubject(request, null);
 
         PlaceReservationRequestDocument requestDoc = 
             (PlaceReservationRequestDocument) request.modelToXml();
         Long requestId =
-             iPlaceReservationRequestService.create(requestDoc.getDomNode());
+             iPlaceReservationRequestService.create(request, requester.getId());
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -230,11 +204,10 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
         PlaceReservationRequest requestFromDb =
             (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
         Assert.assertEquals(requestId, requestFromDb.getId());
-        requester = requestFromDb.getRequester();
-        Assert.assertNotNull(requester);
+        Assert.assertNotNull(requestFromDb.getRequesterId());
         
-        Long homeFolderId = requestFromDb.getHomeFolder().getId();
-        Long requesterId = requestFromDb.getRequester().getId();
+        Long homeFolderId = requestFromDb.getHomeFolderId();
+        Long requesterId = requestFromDb.getRequesterId();
 
         // close current session and re-open a new one
         continueWithNewTransaction();

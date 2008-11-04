@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.users;
 
+import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.users.ActorState;
@@ -7,6 +8,7 @@ import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
@@ -23,7 +25,7 @@ public interface IIndividualService {
     void modify(final Individual individual)
         throws CvqException;
 
-    Set get(final Set criteriaSet, final String orderedBy, final boolean onlyIds,
+    List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy, 
             final boolean searchAmongArchived)
         throws CvqException;
 

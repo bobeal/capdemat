@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -101,6 +102,12 @@ public class AdultService extends IndividualService implements IAdultService {
 
         Adult adult = (Adult) adultDAO.findById(Adult.class, id);
         return adult;
+    }
+
+
+    @Override
+    public List<Child> getClrs(Long adultId) throws CvqException {
+        return individualDAO.listClrs(getById(adultId));
     }
 
     public void setAdultDAO(IAdultDAO iDAO) {

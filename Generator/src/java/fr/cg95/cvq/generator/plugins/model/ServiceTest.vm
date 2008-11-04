@@ -4,7 +4,6 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.document.*;
-import fr.cg95.cvq.business.request.social.*;
 import fr.cg95.cvq.business.request.${request.requestNamespaceLastParticle}.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
@@ -119,8 +118,8 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
         doc.setEcitizenNote("Ma carte d'identité !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setHomeFolderId(request.getHomeFolder().getId());
-        doc.setIndividualId(request.getRequester().getId());
+        doc.setHomeFolderId(request.getHomeFolderId());
+        doc.setIndividualId(request.getRequesterId());
         doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         i${request.requestName}Service.addDocument(request.getId(), documentId);
@@ -130,9 +129,9 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
 
         // FIXME : test list of pending / in-progress registrations
         Critere testCrit = new Critere();
-        testCrit.setAttribut(Request.SEARCH_BY_REQUESTER_LASTNAME);
+        testCrit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         testCrit.setComparatif(Critere.EQUALS);
-        testCrit.setValue(request.getRequester().getLastName());
+        testCrit.setValue(request.getHomeFolderId());
         Set testCritSet = new HashSet();
         testCritSet.add(testCrit);
         Set allRequests = iRequestService.get(testCritSet, null, false);
@@ -172,7 +171,6 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
         i${request.requestName}Service.delete(request.getId());
     }
 
-#if(false)
     public void testWithHomeFolderPojo()
     		throws CvqException, CvqObjectNotFoundException,
                 java.io.FileNotFoundException, java.io.IOException {
@@ -189,7 +187,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
          SecurityContext.setCurrentEcitizen(proposedLogin);
 
          // get the home folder id
-         HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
+         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
          Assert.assertNotNull(homeFolder);
          Long homeFolderId = homeFolder.getId();
          Assert.assertNotNull(homeFolderId);
@@ -198,7 +196,6 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          ${request.requestName} request = fillMeARequest();
-	 request.setRequester(homeFolder.getHomeFolderResponsible());
          ${request.requestName}Feeder.setSubject(request, homeFolder);
          
          // FIXME : parameters list handling
@@ -208,8 +205,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
          ${request.requestName} requestFromDb =
         	 	(${request.requestName}) i${request.requestName}Service.getById(requestId);
          Assert.assertEquals(requestId, requestFromDb.getId());
-         Adult requester = requestFromDb.getRequester();
-         Assert.assertNotNull(requester);
+         Assert.assertNotNull(requestFromDb.getRequesterId());
          
          completeValidateAndDelete(requestFromDb);
 
@@ -219,8 +215,8 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
          
          SecurityContext.resetCurrentSite();
     }
-#end
 
+#if(false)
     public void testWithHomeFolderXml() throws CvqException,
 			CvqObjectNotFoundException, java.io.FileNotFoundException,
 			java.io.IOException {
@@ -233,7 +229,6 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
 	// create a vo card request (to create home folder and associates)
 	CreationBean cb = gimmeAnHomeFolder();
 
-	Long voCardRequestId = cb.getRequestId();
 	String proposedLogin = cb.getLogin();
 
         // close current session and re-open a new one
@@ -242,7 +237,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
 	SecurityContext.setCurrentEcitizen(proposedLogin);
 
 	// get the home folder id
-	HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
+	HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 	Assert.assertNotNull(homeFolder);
 	Long homeFolderId = homeFolder.getId();
 	Assert.assertNotNull(homeFolderId);
@@ -289,15 +284,16 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
         Assert.assertNotNull(homeFolderAfterDelete);
         Assert.assertNotNull(homeFolderAfterDelete.getHomeFolderResponsible());
     }
+#end
 
     public void testWithoutHomeFolder()
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	if (!i${request.requestName}Service.supportUnregisteredCreation())
-	    return;
+	      if (!i${request.requestName}Service.supportUnregisteredCreation())
+	         return;
 
-	startTransaction();
+	      startTransaction();
 	
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -309,14 +305,13 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address,
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
-        request.setRequester(requester);
         requester.setAdress(address);
         ${request.requestName}Feeder.setSubject(request, null);
 
         ${request.requestName}Document requestDoc = 
             (${request.requestName}Document) request.modelToXml();
         Long requestId =
-             i${request.requestName}Service.create(requestDoc.getDomNode());
+             i${request.requestName}Service.create(request, requester.getId());
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -327,11 +322,10 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
         ${request.requestName} requestFromDb =
             (${request.requestName}) i${request.requestName}Service.getById(requestId);
         Assert.assertEquals(requestId, requestFromDb.getId());
-        requester = requestFromDb.getRequester();
-        Assert.assertNotNull(requester);
+        Assert.assertNotNull(requestFromDb.getRequesterId());
         
-        Long homeFolderId = requestFromDb.getHomeFolder().getId();
-        Long requesterId = requestFromDb.getRequester().getId();
+        Long homeFolderId = requestFromDb.getHomeFolderId();
+        Long requesterId = requestFromDb.getRequesterId();
 
         // close current session and re-open a new one
         continueWithNewTransaction();

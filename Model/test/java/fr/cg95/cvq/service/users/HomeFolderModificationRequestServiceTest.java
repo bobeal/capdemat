@@ -102,7 +102,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        homeFolder = iHomeFolderService.getByRequestId(requestId);
+        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Assert.assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
         Assert.assertNotNull(homeFolderId);
@@ -181,14 +181,12 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         // now retrieve and display them
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
-        homeFolder = hfmrFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
         Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
-        Set individuals = homeFolder.getIndividuals();
-        Iterator individualsIt = individuals.iterator();
-        while (individualsIt.hasNext()) {
-            Individual individual = (Individual) individualsIt.next();
+        Set<Individual> individuals = homeFolder.getIndividuals();
+        for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
                 Assert.assertEquals(homeFolderUncle.getFirstName3(), "Groumph");
                 Assert.assertEquals(homeFolderUncle.getProfession(), "Entraineur du PSG");
@@ -213,7 +211,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         // check modifications are still there
         hfmrFromDb =
             (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
-        homeFolder = hfmrFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
         Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
@@ -240,7 +238,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
-        homeFolder = hfmrFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75012");
         Assert.assertEquals(adress.getCity(), "Paris".toUpperCase());
@@ -543,7 +541,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         // check modifications have been effectively cancelled
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
-        homeFolder = hfmrFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         children = iHomeFolderService.getChildren(homeFolder.getId());
         Assert.assertEquals(children.size(), 2);
         for (Child child : children) {
@@ -782,7 +780,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        homeFolder = iHomeFolderService.getByRequestId(requestId);
+        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Long homeFolderId = homeFolder.getId();
         Assert.assertNotNull(homeFolderId);
 

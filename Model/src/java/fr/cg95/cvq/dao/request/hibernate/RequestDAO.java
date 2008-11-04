@@ -71,20 +71,14 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                         + searchCrit.getSqlComparatif() + " lower(?)");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
-                
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUESTER_FIRSTNAME)) {
-                sb.append(" and lower(request.requester.firstName) "
-                        + searchCrit.getSqlComparatif() + " lower(?)");
-                parametersValues.add(searchCrit.getSqlStringValue());
-                parametersTypes.add(Hibernate.STRING);
-                
+                                
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_NAME)) {
                 sb.append(" and request.requestType.category.name "
                         + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getValue());
                 parametersTypes.add(Hibernate.STRING);
             
-            } else if (searchCrit.getAttribut().equals("categoryId")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_ID)) {
                 sb.append(" and request.requestType.category.id "
                         + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getLongValue());
@@ -95,7 +89,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
 
-            } else if (searchCrit.getAttribut().equals("requestTypeLabel")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_TYPE_LABEL)) {
                 sb.append(" and request.requestType.label " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getValue());
                 parametersTypes.add(Hibernate.STRING);
@@ -115,7 +109,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersValues.add(searchCrit.getDateValue());
                 parametersTypes.add(Hibernate.TIMESTAMP);
 
-            } else if (searchCrit.getAttribut().equals("lastModificationDate")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_LAST_MODIFICATION_DATE)) {
                 sb.append(" and request.lastModificationDate " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getDateValue());
                 parametersTypes.add(Hibernate.DATE);
@@ -148,8 +142,6 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 sb.append(" order by request.homeFolder.id");
             else if (sort.equals(Request.SEARCH_BY_REQUESTER_LASTNAME))
                 sb.append(" order by request.requester.lastName");
-            else if (sort.equals(Request.SEARCH_BY_REQUESTER_FIRSTNAME))
-                sb.append(" order by request.requester.firstName");
             else if (sort.equals(Request.SEARCH_BY_CATEGORY_NAME))
                 sb.append(" order by request.requestType.category.name");
             else if (sort.equals(Request.SEARCH_BY_CREATION_DATE))

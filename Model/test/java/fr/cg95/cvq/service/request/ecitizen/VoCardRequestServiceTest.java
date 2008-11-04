@@ -35,7 +35,6 @@ import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.ServiceTestCase;
@@ -149,7 +148,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         iVoCardRequestService.create(dcvo, adultSet, childSet, address);
 
-        homeFolderVoCardRequestIds.put(dcvo.getHomeFolder().getId(), dcvo.getId()); 
+        homeFolderVoCardRequestIds.put(dcvo.getHomeFolderId(), dcvo.getId()); 
 
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -159,7 +158,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         // retrieve a fresh new home folder
         Long requestId = dcvo.getId();
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(dcvo.getHomeFolderId());
         homeFolderResponsible = homeFolder.getHomeFolderResponsible();
         
         //////////////////////////////////////////////////
@@ -168,28 +167,29 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         VoCardRequest dcvoFromDb = (VoCardRequest) iVoCardRequestService.getById(requestId);
         Assert.assertEquals(dcvoFromDb.getState(), RequestState.PENDING);
-        Assert.assertNotNull(dcvoFromDb.getRequester());
+        Assert.assertNotNull(dcvoFromDb.getRequesterId());
 
         Assert.assertNotNull(iVoCardRequestService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
         
-        Adult homeFolderResponsibleFromDb = dcvoFromDb.getHomeFolder().getHomeFolderResponsible();
+        Adult homeFolderResponsibleFromDb = 
+            iAdultService.getById(dcvoFromDb.getRequesterId());
         Assert.assertNotNull("Associated object of class Adult not saved !", homeFolderResponsibleFromDb);
         Assert.assertEquals(homeFolderResponsibleFromDb.getLastName(),"LASTNAME");
-        Assert.assertEquals(homeFolderResponsibleFromDb.getId(), dcvoFromDb.getRequester().getId());
+        Assert.assertEquals(homeFolderResponsibleFromDb.getId(), dcvoFromDb.getRequesterId());
         Assert.assertEquals(homeFolderResponsibleFromDb.getState(), ActorState.PENDING);
         
         Address adresseFromDb = homeFolderResponsibleFromDb.getAdress();
         Assert.assertNotNull("Associated object of class Adress not saved !", adresseFromDb);
         Assert.assertEquals(adresseFromDb.getCity(),"PARIS");
 
-        homeFolder = dcvoFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(dcvoFromDb.getHomeFolderId());
         Assert.assertNotNull(homeFolder.getId());
         Assert.assertEquals(homeFolder.getState(), ActorState.PENDING);
         Assert.assertNotNull(homeFolder.getAdress());
         Assert.assertEquals(homeFolder.getBoundToRequest(), Boolean.FALSE);
         Assert.assertEquals(homeFolder.getIndividuals().size(), 5);
         
-        HomeFolder homeFolderOtherWay = iHomeFolderService.getByRequestId(requestId);
+        HomeFolder homeFolderOtherWay = iHomeFolderService.getById(dcvo.getHomeFolderId());
         Assert.assertNotNull(homeFolderOtherWay.getId());
         Assert.assertEquals(homeFolder.getId(), homeFolderOtherWay.getId());
         
@@ -405,7 +405,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         // Change user's password                              //
         /////////////////////////////////////////////////////////
         
-        homeFolderResponsible = yaRequest.getHomeFolder().getHomeFolderResponsible();
+        homeFolderResponsible = 
+            iAdultService.getById(yaRequest.getRequesterId());
         String generatedPassword = iAuthenticationService.generatePassword();
         iAdultService.modifyPassword(homeFolderResponsible, "totopwd", generatedPassword);
         try {

@@ -169,12 +169,14 @@ public class HoranetService implements IExternalProviderService {
                 childBadgeNumber = (child.getBadgeNumber() == null ? "" : child.getBadgeNumber());
             }
             
+            HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+            
             call.invoke(new Object[] {
                     getPostalCodeFromRequest(request),
                     request.getRequestType().getLabel(),
                     request.getRequestType().getLabel(),
                     request.getId().toString(),
-                    request.getHomeFolder().getId().toString(),
+                    homeFolder.getId().toString(),
                     childId,
                     childBadgeNumber,
                     schoolName

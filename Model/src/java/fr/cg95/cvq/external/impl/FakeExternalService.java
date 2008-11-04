@@ -30,6 +30,7 @@ import org.xml.sax.SAXException;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
@@ -248,9 +249,11 @@ public class FakeExternalService implements IExternalProviderService {
                             "max-buy").getNodeValue());
 
                         Individual subject = (Individual) request.getSubject();
+                        HomeFolder homeFolder = 
+                            homeFolderService.getById(request.getHomeFolderId());
                         if (subject == null) {
-                            int k = i % request.getHomeFolder().getIndividuals().size();
-                            subject = (Individual)request.getHomeFolder().getIndividuals().toArray()[k];
+                            int k = i % homeFolder.getIndividuals().size();
+                            subject = (Individual) homeFolder.getIndividuals().toArray()[k];
                         }
                         ExternalTicketingContractItem etci = 
                             new ExternalTicketingContractItem(contractLabel, 
@@ -310,9 +313,11 @@ public class FakeExternalService implements IExternalProviderService {
                 String childCsn = node.getAttributes().getNamedItem("child-csn").getNodeValue();
 
                 Individual subject = (Individual) request.getSubject();
+                HomeFolder homeFolder = 
+                    homeFolderService.getById(request.getHomeFolderId());
                 if (subject == null) {
-                    int k = i % request.getHomeFolder().getIndividuals().size();
-                    subject = (Individual)request.getHomeFolder().getIndividuals().toArray()[k]; 
+                    int k = i % homeFolder.getIndividuals().size();
+                    subject = (Individual) homeFolder.getIndividuals().toArray()[k]; 
                 }
 
                 Map<String, String> individualData = new HashMap<String, String>();

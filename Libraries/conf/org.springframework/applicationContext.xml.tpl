@@ -95,6 +95,7 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService">
   	<property name="genericDAO" ref="genericDAO" />
     <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <property name="homeFolderService" ref="homeFolderService" />
   </bean>
 
   <!-- *******************************************************************  -->
@@ -147,6 +148,12 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   </bean>
 
   <!-- ******************** GENERIC REQUEST SERVICE **********************  -->
+  
+  <bean id="requestContextCheckAspect" 
+    class="fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect">
+    <property name="requestDAO" ref="requestDAO" />  
+  </bean>
+
   <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"
     abstract="true" init-method="init">
     <property name="requestDAO">
@@ -158,9 +165,7 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
     <property name="genericDAO">
       <ref local="genericDAO"/>
     </property>
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
-    </property>
+    <property name="individualService" ref="individualService"/>
     <property name="documentDAO">
       <ref local="documentDAO"/>
     </property>
@@ -361,8 +366,8 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
     <property name="historyInterceptor">
       <ref local="historyInterceptor"/>
     </property>
-    <property name="individualService">
-      <ref bean="individualService"/>
+    <property name="adultService">
+      <ref bean="adultService"/>
     </property>
     <!-- end service specifics -->
   </bean>

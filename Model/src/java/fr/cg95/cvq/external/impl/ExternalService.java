@@ -36,6 +36,7 @@ import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.quering.BaseOperator;
 import fr.cg95.cvq.util.quering.ISelectArgument;
@@ -50,6 +51,7 @@ public class ExternalService implements IExternalService {
 
     private IGenericDAO genericDAO;
     private IExternalServiceTraceDAO externalServiceTraceDAO;
+    private IHomeFolderService homeFolderService;
     
     public boolean authenticate(String externalServiceLabel, String password) {
         IExternalProviderService externalProviderService =
@@ -73,13 +75,13 @@ public class ExternalService implements IExternalService {
         if (externalProviderServices == null || externalProviderServices.isEmpty())
             return;
         
-        HomeFolder homeFolder = request.getHomeFolder();
+        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         for (IExternalProviderService externalProviderService : externalProviderServices) {
             // before sending the request to the external service, eventually set 
             // the external identifiers if they are known ...
             String externalServiceLabel = externalProviderService.getLabel();
             ExternalServiceIdentifierMapping esim = 
-                getIdentifierMapping(externalServiceLabel, request.getHomeFolder().getId());
+                getIdentifierMapping(externalServiceLabel, homeFolder.getId());
             if (esim != null) {
                 homeFolder.setExternalId(esim.getExternalId());
                 homeFolder.setExternalCapDematId(esim.getExternalCapDematId());
@@ -100,9 +102,9 @@ public class ExternalService implements IExternalService {
                 // the CapDemat external identifier
                 esim = new ExternalServiceIdentifierMapping();
                 esim.setExternalServiceLabel(externalServiceLabel);
-                esim.setHomeFolderId(request.getHomeFolder().getId());
+                esim.setHomeFolderId(homeFolder.getId());
                 esim.setExternalCapDematId(UUID.randomUUID().toString());
-                for (Object object : request.getHomeFolder().getIndividuals()) {
+                for (Object object : homeFolder.getIndividuals()) {
                     Individual individual = (Individual) object;
                     esim.addIndividualMapping(individual.getId(), UUID.randomUUID().toString(), null);
                 }
@@ -623,5 +625,9 @@ public class ExternalService implements IExternalService {
 
     public void setGenericDAO(IGenericDAO genericDAO) {
         this.genericDAO = genericDAO;
+    }
+
+    public void setHomeFolderService(IHomeFolderService homeFolderService) {
+        this.homeFolderService = homeFolderService;
     }
 }

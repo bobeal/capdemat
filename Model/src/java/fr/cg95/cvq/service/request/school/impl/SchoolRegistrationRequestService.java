@@ -12,7 +12,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument;
@@ -59,8 +58,7 @@ public final class SchoolRegistrationRequestService
 
         // check school association has been done before validating request
         SchoolRegistrationRequest srr = 
-            (SchoolRegistrationRequest) requestDAO.findById(SchoolRegistrationRequest.class, id,
-                    PrivilegeDescriptor.READ);
+            (SchoolRegistrationRequest) requestDAO.findById(SchoolRegistrationRequest.class, id);
         if (srr.getSchool() == null)
             throw new CvqModelException("School registration is not associated to a school");
         if (srr.getSection().equals(SectionType.UNKNOWN))

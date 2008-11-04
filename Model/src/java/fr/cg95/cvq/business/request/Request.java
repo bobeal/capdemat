@@ -10,7 +10,6 @@ import org.apache.xmlbeans.XmlObject;
 
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 
 
@@ -32,6 +31,7 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_REQUESTER_LASTNAME = "requesterLastName";
     public static final String SEARCH_BY_REQUESTER_FIRSTNAME = "requesterFirstName";
     public static final String SEARCH_BY_CATEGORY_NAME = "categoryName";
+    public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
     public static final String SEARCH_BY_STATE = "state";
     public static final String SEARCH_BY_CREATION_DATE = "creationDate";
     public static final String SEARCH_BY_REQUEST_TYPE_LABEL = "requestTypeLabel";
@@ -39,16 +39,15 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_LAST_MODIFICATION_DATE = "lastModificationDate";
     public static final String SEARCH_BY_QUALITY_TYPE = "qualityType";
 	
-	public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
-	public static final String SEARCH_BY_MODIFICATION_DATE = "modificationDate";
+    public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
+    public static final String SEARCH_BY_MODIFICATION_DATE = "modificationDate";
 
-	public static final String QUALITY_TYPE_OK = "qualityTypeOk";
-	public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
-	public static final String QUALITY_TYPE_RED = "qualityTypeRed";
+    public static final String QUALITY_TYPE_OK = "qualityTypeOk";
+    public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
+    public static final String QUALITY_TYPE_RED = "qualityTypeRed";
     
-	/** identifier field */
+    /** identifier field */
     private Long id;
-    private HomeFolder homeFolder;
     private Date creationDate;
     private Date lastModificationDate;
     private Date validationDate;
@@ -58,8 +57,6 @@ public abstract class Request implements Serializable {
     private MeansOfContact meansOfContact;
     /** the request's step, instruction or delivery, set by the model */
     private RequestStep step;
-    private Adult requester;
-    private Object subject;
     private RequestType requestType;
     /** for request types that have seasons, keep the season uuid */
     private String seasonUuid;
@@ -67,10 +64,14 @@ public abstract class Request implements Serializable {
     private Boolean orangeAlert;
     /** QoS level 2 : instruction delay has expired. */
     private Boolean redAlert;
-    
+
+    private Long homeFolderId;
+    private Long requesterId;
+    private Object subject;
+
     private Set documents;
-    private Set actions;
-    private Set notes;
+    private Set<RequestAction> actions;
+    private Set<RequestNote> notes;
 
     public Request() {
     }
@@ -113,12 +114,15 @@ public abstract class Request implements Serializable {
         
         if (this.step != null)
             requestType.setStep(fr.cg95.cvq.xml.common.RequestType.Step.Enum.forString(this.step.toString()));
+        // TODO REFACTORING
+        /*
         if (requester != null) {
             requestType.setRequester(Adult.modelToXml(requester));
         }
         if (homeFolder != null) {
             requestType.setHomeFolder(homeFolder.modelToXml());
         }
+        */
         if (subject != null) {
             if (subject instanceof Adult) {
                 requestType.addNewSubject().setAdult(Adult.modelToXml((Adult) subject));
@@ -156,10 +160,13 @@ public abstract class Request implements Serializable {
         
         if (requestType.getStep() != null)
             request.setStep(RequestStep.forString(requestType.getStep().toString()));
+        // TODO REFACTORING
+        /*
         if (requestType.getRequester() != null)
             request.setRequester(Adult.xmlToModel(requestType.getRequester()));
         if (requestType.getHomeFolder() != null)
             request.setHomeFolder(HomeFolder.xmlToModel(requestType.getHomeFolder()));
+        */
         if (requestType.getSubject() != null) {
             if (requestType.getSubject().isSetIndividual()) {
                 request.setSubject(Individual.xmlToModel(requestType.getSubject().getIndividual()));
@@ -185,16 +192,15 @@ public abstract class Request implements Serializable {
     }
 
     /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.HomeFolder"
+     * @hibernate.property
      *  column="home_folder_id"
      */
-    public HomeFolder getHomeFolder() {
-        return this.homeFolder;
+    public Long getHomeFolderId() {
+        return this.homeFolderId;
     }
 
-    public void setHomeFolder(HomeFolder homeFolder) {
-        this.homeFolder = homeFolder;
+    public void setHomeFolderId(Long homeFolderId) {
+        this.homeFolderId = homeFolderId;
     }
 
     /**
@@ -288,16 +294,15 @@ public abstract class Request implements Serializable {
     }
 
     /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.Adult"
+     * @hibernate.property
      *  column="requester_id"
      */
-    public Adult getRequester() {
-        return this.requester;
+    public Long getRequesterId() {
+        return this.requesterId;
     }
 
-    public void setRequester(Adult requester) {
-        this.requester = requester;
+    public void setRequesterId(Long requesterId) {
+        this.requesterId = requesterId;
     }
 
     /**
@@ -354,11 +359,11 @@ public abstract class Request implements Serializable {
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.RequestAction"
      */
-    public Set getActions() {
+    public Set<RequestAction> getActions() {
         return this.actions;
     }
 
-    public void setActions(Set actions) {
+    public void setActions(Set<RequestAction> actions) {
         this.actions = actions;
     }
 
@@ -373,11 +378,11 @@ public abstract class Request implements Serializable {
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.RequestNote"
      */
-    public Set getNotes() {
+    public Set<RequestNote> getNotes() {
         return this.notes;
     }
 
-    public void setNotes(Set notes) {
+    public void setNotes(Set<RequestNote> notes) {
         this.notes = notes;
     }
 

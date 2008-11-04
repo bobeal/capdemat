@@ -451,9 +451,10 @@ public class ServiceTestCase
         CreationBean cb = new CreationBean();
         cb.setRequestId(request.getId());
         voCardRequestId = request.getId();
+        cb.setHomeFolderId(request.getHomeFolderId());
         cb.setLogin(homeFolderResponsible.getLogin());
         
-        homeFolderVoCardRequestIds.put(request.getHomeFolder().getId(), voCardRequestId);
+        homeFolderVoCardRequestIds.put(request.getHomeFolderId(), voCardRequestId);
 
         return cb;
     }

@@ -49,18 +49,20 @@ public class HomeFolderService implements IHomeFolderService {
 
     private static Logger logger = Logger.getLogger(HomeFolderService.class);
 
-    protected ILocalAuthorityRegistry localAuthorityRegistry;
-    protected IMailService mailService;
-    protected IIndividualService individualService;
-    protected IAdultService adultService;
-    protected IChildService childService;
-    protected IRequestService requestService;
-    protected IDocumentService documentService;
     protected IGenericDAO genericDAO;
     protected IHomeFolderDAO homeFolderDAO;
     protected IIndividualDAO individualDAO;
     protected IChildDAO childDAO;
     protected IAdultDAO adultDAO;
+
+    protected IIndividualService individualService;
+    protected IAdultService adultService;
+    protected IChildService childService;
+
+    protected ILocalAuthorityRegistry localAuthorityRegistry;
+    protected IMailService mailService;
+    protected IRequestService requestService;
+    protected IDocumentService documentService;
     protected IPaymentService paymentService;
     protected IExternalService externalService;
     
@@ -72,17 +74,6 @@ public class HomeFolderService implements IHomeFolderService {
         throws CvqException, CvqObjectNotFoundException {
 
         return (HomeFolder) homeFolderDAO.findById(HomeFolder.class, id);
-    }
-
-    // TODO : to be removed
-    public final HomeFolder getByRequestId(final Long requestId)
-        throws CvqException {
-
-        Request request = requestService.getById(requestId);
-    	if (request == null)
-    		return null;
-    	else
-    		return request.getHomeFolder();
     }
 
     public final Set<HomeFolder> getAll()
@@ -124,7 +115,7 @@ public class HomeFolderService implements IHomeFolderService {
         adult.addHomeFolderResponsibleRole();
         adultService.create(adult, homeFolder, null, true);
 
-        Set<Adult> allIndividuals = new HashSet<Adult>();
+        Set<Individual> allIndividuals = new HashSet<Individual>();
         allIndividuals.add(adult);
 
         homeFolder.setIndividuals(allIndividuals);
@@ -170,6 +161,18 @@ public class HomeFolderService implements IHomeFolderService {
         return homeFolder;
     }
 
+    @Override
+    public Long addAdult(Long homeFolderId, Adult adult, Address address) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        return adultService.create(adult, homeFolder, address, true);
+    }
+
+    @Override
+    public Long addChild(Long homeFolderId, Child child, Address address) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        return childService.create(child, homeFolder, address, false);
+    }
+
     public void initializeCommonAttributes(HomeFolder homeFolder) 
         throws CvqException {
 
@@ -191,7 +194,7 @@ public class HomeFolderService implements IHomeFolderService {
         delete(homeFolder);
     }
 
-    public final void delete(final HomeFolder homeFolder)
+    private final void delete(final HomeFolder homeFolder)
         throws CvqException {
 
         logger.debug("delete() deleting home folder " + homeFolder.getId());
@@ -271,7 +274,6 @@ public class HomeFolderService implements IHomeFolderService {
         externalService.loadInvoiceDetails(eii);
     }
 
-    @SuppressWarnings("unchecked")
     private void updateHomeFolderState(HomeFolder homeFolder, ActorState newState) 
 		throws CvqException {
 
@@ -286,6 +288,49 @@ public class HomeFolderService implements IHomeFolderService {
 		}
     }
     
+    @Override
+    public void onRequestArchived(Long homeFolderId, Long requestId) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            archive(homeFolder);
+        }
+    }
+
+    @Override
+    public void onRequestCancelled(Long homeFolderId, Long requestId) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            invalidate(homeFolder);
+        }
+    }
+
+    @Override
+    public void onRequestRejected(Long homeFolderId, Long requestId) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            invalidate(homeFolder);
+        }
+    }
+
+    @Override
+    public void onRequestValidated(Long homeFolderId, Long requestId) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            validate(homeFolder);
+        }
+    }
+
+    @Override
+    public void onRequestDeleted(final Long homeFolderId, final Long requestId)
+        throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            logger.debug("onRequestDeleted() Home folder " + homeFolderId 
+                    + " belongs to request " + requestId + ", removing it from DB");
+            delete(homeFolder);
+        }
+    }
+
     /* FIXME : security checks */
     public final void validate(final Long id)
         throws CvqException, CvqObjectNotFoundException {

@@ -1,7 +1,6 @@
 package fr.cg95.cvq.dao.users.hibernate;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -59,15 +58,12 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         return (Individual) crit.uniqueResult();
     }
 
-    public List search(final Set criteria, final String orderedBy, final boolean onlyIds,
+    public List<Individual> search(final Set<Critere> criteria, final String orderedBy, 
             final ActorState[] excludedStates) {
 
         StringBuffer sb = new StringBuffer();
-        if (onlyIds)
-            sb.append("select individual.id ");
         sb.append("from Individual as individual").append(" where 1 = 1 ");
 
-        Iterator critIt = criteria.iterator();
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
@@ -78,8 +74,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
 //        public static final String ORDER_BY_LASTNAME = "lastName";
         
         // go through all the criteria and create the query
-        while (critIt.hasNext()) {
-            Critere searchCrit = (Critere) critIt.next();
+        for (Critere searchCrit : criteria) {
             if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_LASTNAME)) {
                 sb.append(" and lower(individual.lastName) " + searchCrit.getSqlComparatif() + " lower(?)");
                 objectList.add(searchCrit.getSqlStringValue());

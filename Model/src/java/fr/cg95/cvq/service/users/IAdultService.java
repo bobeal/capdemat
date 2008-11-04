@@ -1,6 +1,9 @@
 package fr.cg95.cvq.service.users;
 
+import java.util.List;
+
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.exception.CvqBadPasswordException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -25,4 +28,7 @@ public interface IAdultService extends IIndividualService {
      */
     Adult getById(final Long id)
         throws CvqException, CvqObjectNotFoundException;
+    
+    List<Child> getClrs(final Long adultId)
+        throws CvqException;
 }

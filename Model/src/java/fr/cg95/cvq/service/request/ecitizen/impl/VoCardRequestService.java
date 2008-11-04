@@ -41,18 +41,21 @@ public final class VoCardRequestService
      * </li>
      *
      */
-    public void create(final VoCardRequest dcvo, final Set<Adult> adults, 
-            final Set<Child> children, final Address address) 
-        throws CvqException {
+    public void create(VoCardRequest dcvo, Set<Adult> adults, Set<Child> children, 
+            final Address address) throws CvqException {
+
+        HomeFolder homeFolder = homeFolderService.create(adults, children, address);
 
         // add some business logic to our request
         initializeCommonAttributes(dcvo);
+
+        dcvo.setHomeFolderId(homeFolder.getId());
 
         // by default, set the home folder responsible as requester
         Adult homeFolderResponsible = null;
         for (Adult adult : adults) {
             if (adult.isHomeFolderResponsible()) {
-                dcvo.setRequester(adult);
+                dcvo.setRequesterId(adult.getId());
                 homeFolderResponsible = adult;
                 break;
             }
@@ -62,20 +65,13 @@ public final class VoCardRequestService
             throw new CvqModelException("No home folder responsible found");
         }
 
-        Long requestId = requestDAO.create(dcvo);
-//        Long requestId = super.create(dcvo);
+        Long requestId = super.create(dcvo);
         
-        HomeFolder homeFolder = homeFolderService.create(adults, children, address);
         homeFolder.setOriginRequestId(requestId);
-        dcvo.setHomeFolder(homeFolder);
+        homeFolderService.modify(homeFolder);
 
         logger.debug("create() Created request object with id : " + requestId);
-
-        // FIXME : should be called just above but causes transient exceptions
-        //              look at it again after Hibernate3 migration
-        super.create(dcvo);
     }
-
 
     public Long create(Node node) throws CvqException {
         throw new CvqException("Not yet implemented !");

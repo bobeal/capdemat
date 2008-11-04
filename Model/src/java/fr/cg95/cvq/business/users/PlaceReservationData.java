@@ -2,7 +2,6 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import fr.cg95.cvq.xml.common.PlaceReservationDataType;
@@ -23,7 +22,7 @@ public class PlaceReservationData implements Serializable {
 	/** identifier field */
     private Long id;
     private String name;
-    private Set tickets;
+    private Set<TicketTypeSelection> tickets;
 
     public PlaceReservationData() {}
 
@@ -38,9 +37,7 @@ public class PlaceReservationData implements Serializable {
             TicketTypeSelectionType[] ttsTab =
                 new TicketTypeSelectionType[placeReservationData.getTickets().size()];
             int i = 0;
-            Iterator ticketsIt = placeReservationData.getTickets().iterator();
-            while (ticketsIt.hasNext()) {
-                TicketTypeSelection tts = (TicketTypeSelection) ticketsIt.next();
+            for (TicketTypeSelection tts : placeReservationData.getTickets()) {
                 ttsTab[i] = TicketTypeSelection.modelToXml(tts);
                 i++;
             }
@@ -55,7 +52,7 @@ public class PlaceReservationData implements Serializable {
         if (placeReservationDataType.getId() != 0)
             placeReservationData.setId(new Long(placeReservationDataType.getId()));
         placeReservationData.setName(placeReservationDataType.getName());
-        HashSet ticketsSet = new HashSet();
+        HashSet<TicketTypeSelection> ticketsSet = new HashSet<TicketTypeSelection>();
         if (placeReservationDataType.sizeOfTicketTypeSelectionArray() > 0) {
             for (int i = 0; i < placeReservationDataType.getTicketTypeSelectionArray().length; i++) {
                 TicketTypeSelection tempData =
@@ -104,11 +101,11 @@ public class PlaceReservationData implements Serializable {
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.users.TicketTypeSelection"
      */
-    public Set getTickets() {
+    public Set<TicketTypeSelection> getTickets() {
         return this.tickets;
     }
 
-    public void setTickets(Set tickets) {
+    public void setTickets(Set<TicketTypeSelection> tickets) {
         this.tickets = tickets;
     }
 }

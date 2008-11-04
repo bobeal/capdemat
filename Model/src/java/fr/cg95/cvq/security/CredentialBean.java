@@ -2,7 +2,6 @@ package fr.cg95.cvq.security;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 
@@ -14,10 +13,7 @@ import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 
 /**
@@ -240,62 +236,6 @@ public class CredentialBean {
         for (Individual individual : managedIndividuals) {
             managedIndividualsIds.add(individual.getId());
         }
-    }
-
-    /**
-     * FIXME : to be moved in a request-specific permission manager.
-     */
-    public boolean belongsToSameHomeFolder(Request request) {
-        if (adult == null) {
-            logger.debug("belongsToSameHomeFolder() no adult found, returning false");
-            return false;
-        }
-
-        Adult requestAuthor = request.getRequester();
-        HomeFolder homeFolder = requestAuthor.getHomeFolder();
-        Set homeFolderAdults = homeFolder.getIndividuals();
-        Iterator it = homeFolderAdults.iterator();
-        while (it.hasNext()) {
-            Object individual = it.next();
-            // don't check children, they can't log in :-)
-            if (individual instanceof Adult) {
-                Adult tempAdult = (Adult) individual;
-                logger.debug("belongsToSameHomeFolder() comparing " + tempAdult.getLogin() + " and " + adult.getLogin());
-                if (adult.getLogin().equals(tempAdult.getLogin())) {
-                    logger.debug("belongsToSameHomeFolder() adult effectively belongs to home folder " + homeFolder);
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * FIXME : to be moved in a document-specific permission manager.
-     */
-    public boolean belongsToSameHomeFolder(Document document) {
-        if (adult == null) {
-            logger.debug("belongsToSameHomeFolder() no adult found, returning false");
-            return false;
-        }
-
-        Long homeFolderId = document.getHomeFolderId();
-        Long individualId = document.getIndividualId();
-        if (homeFolderId != null) {
-            // current user and inspected document belong to the same home folder, that's ok
-            if (adult.getHomeFolder().getId().equals(homeFolderId))
-                return true;
-        } else if (individualId != null) {
-            Set<Individual> homeFolderIndividuals = adult.getHomeFolder().getIndividuals();
-            for (Individual individual : homeFolderIndividuals) {
-                // one of the home folder's individuals is the owner of the inspected document, that',ok
-                if (individual.getId().equals(individualId))
-                    return true;
-            }
-        }
-        
-        return false;
     }
 
     /* ==================== Grants cache API =========================== */

@@ -276,16 +276,10 @@
         drop constraint FKEAA6DC2682587E99;
 
     alter table request 
-        drop constraint FK414EF28F1BC4A960;
-
-    alter table request 
         drop constraint FK414EF28FC5FD0068;
 
     alter table request 
         drop constraint FK414EF28F396D729D;
-
-    alter table request 
-        drop constraint FK414EF28F8BD77771;
 
     alter table request_action 
         drop constraint FK7AC459E6848EB249;
@@ -2002,11 +1996,6 @@
         references request;
 
     alter table request 
-        add constraint FK414EF28F1BC4A960 
-        foreign key (requester_id) 
-        references adult;
-
-    alter table request 
         add constraint FK414EF28FC5FD0068 
         foreign key (request_type_id) 
         references request_type;
@@ -2015,11 +2004,6 @@
         add constraint FK414EF28F396D729D 
         foreign key (means_of_contact_id) 
         references means_of_contact;
-
-    alter table request 
-        add constraint FK414EF28F8BD77771 
-        foreign key (home_folder_id) 
-        references home_folder;
 
     alter table request_action 
         add constraint FK7AC459E6848EB249 

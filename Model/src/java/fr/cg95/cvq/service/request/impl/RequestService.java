@@ -75,6 +75,7 @@ import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -111,7 +112,7 @@ public abstract class RequestService implements IRequestService {
     protected IExternalService externalService;
 
     protected IGenericDAO genericDAO;
-    protected IIndividualDAO individualDAO;
+    protected IIndividualService individualService;
     protected IRequestDAO requestDAO;
     protected IRequestTypeDAO requestTypeDAO;
     protected IRequestNoteDAO requestNoteDAO;
@@ -897,11 +898,15 @@ public abstract class RequestService implements IRequestService {
     protected HomeFolder createOrSynchronizeHomeFolder(Request request)
     		throws CvqException, CvqModelException {
 
+        // FIXME REFACTORING
+        // Should go away
+        
+        /*
 		if (request.getRequester().getId() == null) {
 			if (supportUnregisteredCreation.booleanValue()) {
 				logger.debug("create() Gonna create implicit home folder");
 				HomeFolder homeFolder = homeFolderService.create(request.getRequester());
-				request.setHomeFolder(homeFolder);
+				request.setHomeFolderId(homeFolder.getId());
 
 	            SecurityContext.setCurrentEcitizen(request.getRequester());
 
@@ -915,9 +920,9 @@ public abstract class RequestService implements IRequestService {
 			// resynchronize requester with our model object in order to have a fully filled adult object
 			Adult adult = (Adult) genericDAO.findById(Adult.class, request.getRequester().getId());
 			request.setRequester(adult);
-			request.setHomeFolder(adult.getHomeFolder());
+			request.setHomeFolderId(adult.getHomeFolder().getId());
 		}
-
+         */
 		return null;
     }
 
@@ -925,8 +930,8 @@ public abstract class RequestService implements IRequestService {
         throws CvqException {
 
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        if (request.getRequester().getEmail() != null
-                && !request.getRequester().getEmail().equals("")) {
+        Adult requester = (Adult) individualService.getById(request.getRequesterId());
+        if (requester.getEmail() != null && !requester.getEmail().equals("")) {
             Map<String, String> ecitizenCreationNotifications =
                 lacb.getEcitizenCreationNotifications();
             if (ecitizenCreationNotifications == null) {
@@ -948,10 +953,10 @@ public abstract class RequestService implements IRequestService {
                     .append(ecitizenCreationNotifications.get("mailSubject"));
 
                 if (attachPdf) {
-                    mailService.send(null, request.getRequester().getEmail(), null,
+                    mailService.send(null, requester.getEmail(), null,
                             mailSubject.toString(), mailDataBody, pdfData, "Recu_Demande.pdf");
                 } else {
-                    mailService.send(null, request.getRequester().getEmail(), null,
+                    mailService.send(null, requester.getEmail(), null,
                             mailSubject.toString(), mailDataBody);
                 }
             }
@@ -1105,10 +1110,7 @@ public abstract class RequestService implements IRequestService {
         throws CvqException, CvqObjectNotFoundException {
 
         requestDAO.delete(request);
-		if (request.getHomeFolder().getBoundToRequest().booleanValue()) {
-			logger.debug("delete() Home folder belongs to request, removing it from DB");
-			homeFolderService.delete(request.getHomeFolder());
-		}
+        homeFolderService.onRequestDeleted(request.getHomeFolderId(), request.getId());
     }
 
     public void delete(final Long id)
@@ -1148,14 +1150,14 @@ public abstract class RequestService implements IRequestService {
                         for (Request request : seasonRequests) {
                             Set<RequestSeason> subjectSeasons = null;
                             if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE))
-                                subjectSeasons = result.get(request.getHomeFolder());
+                                subjectSeasons = result.get(request.getHomeFolderId());
                             else
                                 subjectSeasons = result.get(request.getSubject());
                             if (subjectSeasons == null)
                                 continue;
                             else if (subjectSeasons.size() == 1)
                                 if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE))
-                                    result.remove(request.getHomeFolder());
+                                    result.remove(request.getHomeFolderId());
                                 else
                                     result.remove(request.getSubject());
                             else
@@ -1310,10 +1312,7 @@ public abstract class RequestService implements IRequestService {
 
         validateAssociatedDocuments(getAssociatedDocuments(request.getId()));
 
-		if (request.getHomeFolder().getOriginRequestId().longValue() == request.getId().longValue()) {
-			logger.debug("validate() Home folder has been created along the request, validating it");
-			homeFolderService.validate(request.getHomeFolder());
-		}
+        homeFolderService.onRequestValidated(request.getHomeFolderId(), request.getId());
 
 		// send request data to interested external services
 		externalService.sendRequest(request);
@@ -1322,9 +1321,9 @@ public abstract class RequestService implements IRequestService {
         String requestTypeLabel = request.getRequestType().getLabel();
 
         // send notification to ecitizen if enabled
+        Adult requester = (Adult) individualService.getById(request.getRequesterId());
         if (lacb.hasEcitizenValidationNotification(requestTypeLabel)
-                && (request.getRequester().getEmail() != null
-                        && !request.getRequester().getEmail().equals(""))) {
+                && (requester.getEmail() != null && !requester.getEmail().equals(""))) {
             String mailData = lacb.getEcitizenValidationNotificationData(requestTypeLabel,
                     "mailData");
             Boolean attachPdf =
@@ -1353,10 +1352,10 @@ public abstract class RequestService implements IRequestService {
                 .append(" validée");
 
             if (attachPdf.booleanValue()) {
-                mailService.send(null, request.getRequester().getEmail(), null,
+                mailService.send(null, requester.getEmail(), null,
                         mailSubject.toString(), mailDataBody, pdfData, "Attestation_Demande.pdf");
             } else {
-                mailService.send(null, request.getRequester().getEmail(), null,
+                mailService.send(null, requester.getEmail(), null,
                         mailSubject.toString(), mailDataBody);
             }
         }
@@ -1429,10 +1428,7 @@ public abstract class RequestService implements IRequestService {
 
         requestWorkflowService.cancel(request);
 
-		if (request.getHomeFolder().getOriginRequestId().longValue() == request.getId().longValue()) {
-			logger.debug("cancel() Home folder has been created along the request, invalidating it");
-			homeFolderService.invalidate(request.getHomeFolder());
-		}
+        homeFolderService.onRequestCancelled(request.getHomeFolderId(), request.getId());
     }
 
     public void cancel(final Long id)
@@ -1447,10 +1443,7 @@ public abstract class RequestService implements IRequestService {
 
         requestWorkflowService.reject(request, motive);
 
-		if (request.getHomeFolder().getOriginRequestId().longValue() == request.getId().longValue()) {
-			logger.debug("reject() Home folder has been created along the request, invalidating it");
-			homeFolderService.invalidate(request.getHomeFolder());
-		}
+        homeFolderService.onRequestRejected(request.getHomeFolderId(), request.getId());
     }
 
     public void reject(final Long id, final String motive)
@@ -1485,10 +1478,7 @@ public abstract class RequestService implements IRequestService {
 
         requestWorkflowService.archive(request);
 
-		if (request.getHomeFolder().getBoundToRequest()) {
-			logger.debug("archive() Home folder belongs to request, archiving it");
-			homeFolderService.archive(request.getHomeFolder());
-		}
+        homeFolderService.onRequestArchived(request.getHomeFolderId(), request.getId());
     }
 
     public void archiveHomeFolderRequests(HomeFolder homeFolder)
@@ -1538,7 +1528,7 @@ public abstract class RequestService implements IRequestService {
         if (request instanceof VoCardRequest) {
             VoCardRequest vocr = (VoCardRequest) request;
             // there can't be a logged in user at VO card request creation time
-            userId = vocr.getHomeFolder().getHomeFolderResponsible().getId();
+            userId = vocr.getRequesterId();
         } else {
             userId = SecurityContext.getCurrentUserId();
         }
@@ -1555,8 +1545,7 @@ public abstract class RequestService implements IRequestService {
     }
 
     protected void addCertificateToActionTrace(final Request request,
-                                               final RequestState requestState,
-                                               byte[] pdfData)
+            final RequestState requestState, byte[] pdfData)
         throws CvqException {
 
         RequestAction requestAction =
@@ -1570,12 +1559,12 @@ public abstract class RequestService implements IRequestService {
         throws CvqException, CvqObjectNotFoundException {
 
         // create the association with the requester
-        Individual somebody = (Individual) individualDAO.findById(Individual.class, requesterId);
+        Individual somebody = individualService.getById(requesterId);
         if (somebody instanceof Child)
             throw new CvqObjectNotFoundException("The provided requester id does not match an adult object !");
         Adult requester = (Adult) somebody;
-        request.setRequester(requester);
-		request.setHomeFolder(requester.getHomeFolder());
+        request.setRequesterId(requesterId);
+		request.setHomeFolderId(requester.getHomeFolder().getId());
 
         initializeCommonAttributes(request);
     }
@@ -1593,10 +1582,9 @@ public abstract class RequestService implements IRequestService {
             Individual individual = (Individual) request.getSubject();
             boolean isAuthorized = false;
             Map<Object, Set<RequestSeason>> authorizedSubjectsMap =
-                getAuthorizedSubjects(request.getHomeFolder().getId());
+                getAuthorizedSubjects(request.getHomeFolderId());
             if (authorizedSubjectsMap != null) {
-                Set<Object> authorizedSubjects =
-                    getAuthorizedSubjects(request.getHomeFolder().getId()).keySet();
+                Set<Object> authorizedSubjects = authorizedSubjectsMap.keySet();
                 for (Object authorizedSubject : authorizedSubjects) {
                     Individual authorizedIndividual = (Individual) authorizedSubject;
                     if (authorizedIndividual.getId().equals(individual.getId())) {
@@ -1670,7 +1658,7 @@ public abstract class RequestService implements IRequestService {
 
         if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
             Set<Object> result = new HashSet<Object>();
-            result.add(homeFolderService.getById(homeFolderId));
+            result.add(homeFolderId);
             return result;
         } else {
             Set individualsReference = null;
@@ -1930,8 +1918,8 @@ public abstract class RequestService implements IRequestService {
         this.genericDAO = genericDAO;
     }
 
-    public void setIndividualDAO(IIndividualDAO individualDAO) {
-        this.individualDAO = individualDAO;
+    public void setIndividualService(IIndividualService individualService) {
+        this.individualService = individualService;
     }
 
     public void setDocumentDAO(IDocumentDAO documentDAO) {

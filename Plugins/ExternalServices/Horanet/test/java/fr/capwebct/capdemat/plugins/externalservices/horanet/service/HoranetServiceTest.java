@@ -102,7 +102,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         homeFolder.setFamilyQuotient("354,44");
         iHomeFolderService.modify(homeFolder);
         

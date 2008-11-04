@@ -46,15 +46,13 @@ public class DocumentServiceTest extends ServiceTestCase {
         
         // create background data
         CreationBean cb = gimmeAnHomeFolder();
-        Long requestId = cb.getRequestId();
         String responsibleLogin = cb.getLogin();
 
         SecurityContext.setCurrentEcitizen(responsibleLogin);
 
         // get home folder id from request id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Long homeFolderId = homeFolder.getId();
-        assertNotNull(homeFolderId);
 
         // get individuals from home folder id
         Critere crit = new Critere();
@@ -63,10 +61,10 @@ public class DocumentServiceTest extends ServiceTestCase {
         crit.setValue(String.valueOf(homeFolderId));
         Set<Critere> criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
-        Set individualsSet = iIndividualService.get(criteriaSet, null, false, false);
-        Assert.assertEquals(5, individualsSet.size());
+        List<Individual> individuals = iIndividualService.get(criteriaSet, null, false);
+        Assert.assertEquals(5, individuals.size());
 
-        Individual anIndividual = (Individual) individualsSet.iterator().next();
+        Individual anIndividual = individuals.get(0);
 
         // create a document
         Document doc = new Document();
@@ -245,7 +243,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         
         continueWithNewTransaction();
         
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Individual individual = homeFolder.getHomeFolderResponsible();
         DocumentType documentType =
             iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);

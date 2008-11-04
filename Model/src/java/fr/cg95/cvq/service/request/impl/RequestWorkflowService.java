@@ -413,7 +413,7 @@ public class RequestWorkflowService {
         if (request instanceof VoCardRequest) {
             VoCardRequest vocr = (VoCardRequest) request;
             // there can't be a logged in user at VO card request creation time
-            userId = vocr.getHomeFolder().getHomeFolderResponsible().getId();
+            userId = vocr.getRequesterId();
         } else {
             userId = SecurityContext.getCurrentUserId();
         }

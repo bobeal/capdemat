@@ -16,6 +16,7 @@ import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -37,11 +38,11 @@ public class RequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
-        Set requestTypesSet = iRequestService.getAllRequestTypes();
+        Set<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
         Assert.assertTrue(requestTypesSet.size() >= 2);
 
         // add a new requirement for the first request type found
-        RequestType rt = (RequestType) requestTypesSet.iterator().next();
+        RequestType rt = requestTypesSet.iterator().next();
 
         int initialRequirementsSize = rt.getRequirements().size();
         
@@ -110,19 +111,23 @@ public class RequestServiceTest extends ServiceTestCase {
         Long requestId = creationBean.getRequestId();
         Request request = iRequestService.getById(requestId);
         Node requestCloneNode =
-            iRequestService.getRequestClone(null, request.getHomeFolder().getId(),
+            iRequestService.getRequestClone(null, request.getHomeFolderId(),
             		request.getRequestType().getLabel());
-
+        assertNotNull(requestCloneNode);
+        
         SecurityContext.resetCurrentSite();
     }
 
     public void testRequestSearch() throws CvqException {
+        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         CreationBean cb = gimmeAnHomeFolder();
         Request request = iRequestService.getById(cb.getRequestId());
-
+        Long requesterId = request.getRequesterId();
+        Adult requester = iAdultService.getById(requesterId);
+        
         Set <Critere> critSet = new HashSet<Critere>();
         // search by ...
         Critere crit = new Critere();
@@ -134,19 +139,19 @@ public class RequestServiceTest extends ServiceTestCase {
         crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         crit.setComparatif(Critere.EQUALS);
-        crit.setValue(request.getHomeFolder().getId());
+        crit.setValue(request.getHomeFolderId());
         critSet.add(crit);
 
         crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_REQUESTER_LASTNAME);
         crit.setComparatif(Critere.EQUALS);
-        crit.setValue(request.getRequester().getLastName());
+        crit.setValue(requester.getLastName());
         critSet.add(crit);
 
         crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_REQUESTER_FIRSTNAME);
         crit.setComparatif(Critere.EQUALS);
-        crit.setValue(request.getRequester().getFirstName());
+        crit.setValue(requester.getFirstName());
         critSet.add(crit);
 
         crit = new Critere();
@@ -259,7 +264,7 @@ public class RequestServiceTest extends ServiceTestCase {
         for (Request request : requests) {
             assertNotNull(request.getId());
             assertNotNull(request.getCreationDate());
-            assertNotNull(request.getRequester());
+            assertNotNull(request.getRequesterId());
         }
     }
 }

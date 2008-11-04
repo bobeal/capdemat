@@ -34,13 +34,12 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         // create a vo card request (to create home folder and associates)
         CreationBean cb = gimmeAnHomeFolder();
 
-        Long voCardRequestId = cb.getRequestId();
         String proposedLogin = cb.getLogin();
 
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Assert.assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
         Assert.assertNotNull(homeFolderId);
@@ -49,7 +48,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         // ////////////////////////////
 
         PlaceReservationRequest request = fillMeARequest();
-        request.setRequester(homeFolder.getHomeFolderResponsible());
+        request.setRequesterId(homeFolder.getHomeFolderResponsible().getId());
 
         PlaceReservationRequestDocument requestDoc =
             (PlaceReservationRequestDocument) request.modelToXml();
@@ -58,7 +57,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
             (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
         
         Assert.assertEquals(requestId, requestFromDb.getId());
-        Adult requester = requestFromDb.getRequester();
+        Adult requester = iAdultService.getById(requestFromDb.getRequesterId());
         Assert.assertNotNull(requester);
 
         // simulate a payment on this request
@@ -94,7 +93,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         Assert.assertEquals(requestFromDb.getState(), RequestState.VALIDATED);
         Assert.assertNotNull(requestFromDb.getPaymentReference());
 
-        List bills = iPaymentService.getByHomeFolder(homeFolder);
+        List<Payment> bills = iPaymentService.getByHomeFolder(homeFolder);
         Assert.assertNotNull(bills);
         Assert.assertEquals(bills.size(), 1);
 

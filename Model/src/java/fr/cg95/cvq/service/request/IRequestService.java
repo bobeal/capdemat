@@ -534,8 +534,8 @@ public interface IRequestService {
      * Get a set of home folder subjects that are authorized to be the subject of a request
      * of the type handled by current service.
      *
-     * @return a set of home folder subjects or the home folder itself if a request of the
-     * given type is issuable or null if not.
+     * @return a map of home folder subjects or the home folder itself and authorized
+     *                seasons if a request of the given type is issuable or null if not.
      */
     Map<Object, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException;

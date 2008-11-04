@@ -40,7 +40,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 
         // test the creation 
         
@@ -131,7 +131,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         CreationBean cb = gimmeAnHomeFolder();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 
         // create a mapping and test the retrieval
         
@@ -161,7 +161,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         cb = gimmeAnHomeFolder();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
@@ -228,7 +228,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         CreationBean cb = gimmeAnHomeFolder();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 
         // create a mapping and test the retrieval
         

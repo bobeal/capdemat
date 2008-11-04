@@ -1,7 +1,6 @@
 package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -38,9 +37,6 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     private String question;
     private String answer;
     private String password;
-
-    /** the set of requests issued for this adult */
-    private Set requests;
 
     /** default constructor */
     public Adult() {
@@ -353,24 +349,6 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     *  cascade="delete"
-     * @hibernate.key
-     *  column="requester_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.Request"
-     */
-    public Set getRequests() {
-        return this.requests;
-    }
-
-    public void setRequests(Set requests) {
-        this.requests = requests;
     }
 
     public String toString() {

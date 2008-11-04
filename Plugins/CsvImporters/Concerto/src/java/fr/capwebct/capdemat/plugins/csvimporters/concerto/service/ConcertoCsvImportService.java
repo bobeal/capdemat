@@ -29,7 +29,6 @@ import fr.cg95.cvq.business.users.LegalResponsibleRole;
 import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.importer.ICsvImportProviderService;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
@@ -258,7 +257,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 VoCardRequest voCardRequest = new VoCardRequest();
                 voCardRequestService.create(voCardRequest, cdto.getAdults(), 
                         cdto.getChildren(), cdto.getAddress());
-                HomeFolder homeFolder = homeFolderService.getByRequestId(voCardRequest.getId());
+                HomeFolder homeFolder = homeFolderService.getById(voCardRequest.getHomeFolderId());
 
                 // if known, add family quotient information to home folder
                 String familyQuotient = cdto.getFamilyQuotient();

@@ -22,15 +22,13 @@ public class DocumentDigitalizationTest extends ServiceTestCase {
 
         // create background data
         CreationBean cb = gimmeAnHomeFolder();
-        Long requestId = cb.getRequestId();
         String responsibleLogin = cb.getLogin();
 
         SecurityContext.setCurrentEcitizen(responsibleLogin);
 
         // get home folder id from request id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Long homeFolderId = homeFolder.getId();
-        assertNotNull(homeFolderId);
 
         // create a document
         Document doc = new Document();

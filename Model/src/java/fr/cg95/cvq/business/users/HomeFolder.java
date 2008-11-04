@@ -2,11 +2,11 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
 
@@ -44,9 +44,8 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     private Long originRequestId;
     private Boolean boundToRequest;
     
-    private Set payments;
-    private Set individuals;
-    private Set requests;
+    private Set<Payment> payments;
+    private Set<Individual> individuals;
 
     /** default constructor */
     public HomeFolder() {
@@ -65,10 +64,8 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
             homeFolderType.setAddress(Address.modelToXml(this.adress));
 
         IndividualType[] individualsArray = new IndividualType[individuals.size()];
-        Iterator individualsIt = individuals.iterator();
         int i = 0;
-        while (individualsIt.hasNext()) {
-            Individual individual = (Individual) individualsIt.next();
+        for (Individual individual : individuals) {
             if (individual instanceof Adult) {
                 Adult adult = (Adult) individual;
                 individualsArray[i] = Adult.modelToXml(adult);
@@ -95,7 +92,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         homeFolder.setAdress(Address.xmlToModel(homeFolderType.getAddress()));
 
         IndividualType[] individualsArray = homeFolderType.getIndividualsArray();
-        Set individualsSet = new HashSet();
+        Set<Individual> individualsSet = new HashSet<Individual>();
         for (int i=0; i < individualsArray.length; i++) {
             individualsSet.add(Individual.xmlToModel(individualsArray[i]));
         }
@@ -138,9 +135,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     }
 
     public Adult getHomeFolderResponsible() {
-        Iterator individualsIt = individuals.iterator();
-        while (individualsIt.hasNext()) {
-            Object obj = individualsIt.next();
+        for (Individual obj : individuals) {
             if (obj instanceof Adult) {
                 Adult tempAdult = (Adult) obj;
                 if (tempAdult.isHomeFolderResponsible())
@@ -192,11 +187,11 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.users.payment.Payment"
      */
-    public Set getPayments() {
+    public Set<Payment> getPayments() {
         return this.payments;
     }
 
-    public void setPayments(Set payments) {
+    public void setPayments(Set<Payment> payments) {
         this.payments = payments;
     }
 
@@ -210,29 +205,12 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.users.Individual"
      */
-    public Set getIndividuals() {
+    public Set<Individual> getIndividuals() {
         return this.individuals;
     }
 
-    public void setIndividuals(Set individuals) {
+    public void setIndividuals(Set<Individual> individuals) {
         this.individuals = individuals;
-    }
-
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     * @hibernate.key
-     *  column="home_folder_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.Request"
-     */
-    public Set getRequests() {
-        return this.requests;
-    }
-
-    public void setRequests(Set requests) {
-        this.requests = requests;
     }
 
     public String toString() {

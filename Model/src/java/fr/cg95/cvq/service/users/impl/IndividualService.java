@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -22,6 +21,7 @@ import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * Implementation of the {@link IIndividualService} service.
@@ -43,12 +43,12 @@ public class IndividualService implements IIndividualService {
         super();
     }
 
-    public Set get(final Set criteriaSet, final String orderedBy, final boolean onlyIds,
+    public List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy, 
             final boolean searchAmongArchived)
         throws CvqException {
         
-        return new LinkedHashSet(individualDAO.search(criteriaSet, orderedBy, onlyIds, 
-                searchAmongArchived ? null : new ActorState[] { ActorState.ARCHIVED }));
+        return individualDAO.search(criteriaSet, orderedBy, 
+                searchAmongArchived ? null : new ActorState[] { ActorState.ARCHIVED });
     }
 
     public Individual getById(final Long id)

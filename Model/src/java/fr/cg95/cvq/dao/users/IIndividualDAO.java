@@ -6,6 +6,7 @@ import java.util.Set;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * @author bor@zenexity.fr
@@ -43,7 +44,7 @@ public interface IIndividualDAO extends IGenericDAO {
     /**
      * Look up an Individual given a set of search criteria.
      */
-    List search(final Set criteria, final String orderedBy, final boolean onlyIds,
+    List<Individual> search(final Set<Critere> criteria, final String orderedBy, 
             final ActorState[] excludedStates);
 
     /**

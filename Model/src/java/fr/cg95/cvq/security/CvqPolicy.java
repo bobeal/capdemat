@@ -39,19 +39,19 @@ public class CvqPolicy implements IPolicyDelegate {
 
 		PartOfPolicy administratorOnlyPolicy = new AdministratorOnlyPolicy();
         registerPolicy(fr.cg95.cvq.business.authority.LocalAuthority.class,
-                       administratorOnlyPolicy);
+                administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.authority.School.class,
-                       administratorOnlyPolicy);
+                administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.authority.RecreationCenter.class,
-                       administratorOnlyPolicy);
+                administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.request.RequestType.class,
-                       administratorOnlyPolicy);
+                administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.document.DocumentType.class,
-                       administratorOnlyPolicy);
+                administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.request.Requirement.class,
-                       administratorOnlyPolicy);
+                administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.authority.Category.class,
-        				   administratorOnlyPolicy);
+                administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.request.RequestForm.class,
                 administratorOnlyPolicy);
 
@@ -66,14 +66,6 @@ public class CvqPolicy implements IPolicyDelegate {
                        requestPolicy);
         registerPolicy(fr.cg95.cvq.business.request.RequestNote.class,
                        requestPolicy);
-
-        PartOfPolicy documentPolicy = new DocumentPolicy();
-        registerPolicy(fr.cg95.cvq.business.document.Document.class,
-                       documentPolicy);
-        registerPolicy(fr.cg95.cvq.business.document.DocumentAction.class,
-                       documentPolicy);
-        registerPolicy(fr.cg95.cvq.business.document.DocumentBinary.class,
-                       documentPolicy);
      }
     
     /**

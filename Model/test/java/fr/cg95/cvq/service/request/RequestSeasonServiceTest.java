@@ -266,13 +266,13 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Assert.assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
         Assert.assertNotNull(homeFolderId);
 
         SchoolRegistrationRequest request = new SchoolRegistrationRequest();
-        request.setRequester(homeFolder.getHomeFolderResponsible());
+        request.setRequesterId(homeFolder.getHomeFolderResponsible().getId());
         SchoolRegistrationRequestFeeder.setSubject(request, homeFolder);
 
         SchoolRegistrationRequestDocument requestDoc =

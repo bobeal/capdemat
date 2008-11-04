@@ -35,7 +35,7 @@ public class Individual implements Historizable, Serializable {
     private Long id;
     
     /**
-     * the external identifier that is dynamically set for external services
+     * the external identifier that is dynamically set for each external service
      * that provide us this information. It is not persisted.
      */
     private String externalId;

@@ -2,7 +2,7 @@ package fr.cg95.cvq.service.users;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -38,10 +38,9 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
-        Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
-        String responsibleLogin = homeFolder.getHomeFolderResponsible().getLogin();
+        Assert.assertNotNull(cb.getHomeFolderId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        String responsibleLogin = cb.getLogin();
         
         continueWithNewTransaction();
         
@@ -60,9 +59,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             // that was expected
         }
         
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
+        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         homeFolder.setEnabled(Boolean.TRUE);
         iHomeFolderService.modify(homeFolder);
         
@@ -85,20 +82,19 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         
         // get all home folders
-        Set fetchHomeFolders = iHomeFolderService.getAll();
+        Set<HomeFolder> fetchHomeFolders = iHomeFolderService.getAll();
         Assert.assertEquals(fetchHomeFolders.size(), 1);
         
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
-        Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        Assert.assertNotNull(homeFolder.getId());
 
         continueWithNewTransaction();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Set initialResults = iIndividualService.get(new HashSet(), null, true, false);
+        List<Individual> initialResults = iIndividualService.get(new HashSet<Critere>(), null, false);
         int initialResultsSize = initialResults.size();
         
         iHomeFolderService.archive(homeFolder);
@@ -106,28 +102,28 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // individuals from home folder should no longer appear in search results
-        initialResults = iIndividualService.get(new HashSet(), null, true, false);
-        Assert.assertEquals(initialResultsSize, initialResults.size() + homeFolder.getIndividuals().size());
+        initialResults = iIndividualService.get(new HashSet<Critere>(), null, false);
+        Assert.assertEquals(initialResultsSize, 
+                initialResults.size() + homeFolder.getIndividuals().size());
         
         try {
-            iAuthenticationService.authenticate(homeFolder.getHomeFolderResponsible().getLogin(), "toto");
+            iAuthenticationService.authenticate(homeFolder.getHomeFolderResponsible().getLogin(), 
+                    "toto");
             fail("should have thrown an exception");
         } catch (CvqUnknownUserException cuue) {
             // that was expected
         }
 
-        homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
+        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Assert.assertEquals(homeFolder.getState(), ActorState.ARCHIVED);
         
-        Iterator individualsIt = homeFolder.getIndividuals().iterator();
-        while (individualsIt.hasNext()) {
-            Individual individual = (Individual) individualsIt.next();
+        Set<Individual> individuals = homeFolder.getIndividuals();
+        for (Individual individual : individuals) {
             Assert.assertEquals(individual.getState(), ActorState.ARCHIVED);
         }
 
-        Iterator it = homeFolder.getRequests().iterator();
-        while (it.hasNext()) {
-            Request request = (Request) it.next();
+        Set<Request> requests = iRequestService.getByHomeFolderId(homeFolder.getId());
+        for (Request request : requests) {
             Assert.assertEquals(request.getState(), RequestState.ARCHIVED);
         }
     }
@@ -137,100 +133,94 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        Critere crit = new Critere();
-        Set<Critere> criteriaSet = new HashSet<Critere>();
-
-        Set individualSet = 
+        List<Individual> individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME", 
                     Critere.EQUALS, Individual.SEARCH_BY_FIRSTNAME, "responsible", 
                     Critere.EQUALS, true);
-        int lastAndFirstNameSearchSize = (individualSet == null ? 0 : individualSet.size());
+        int lastAndFirstNameSearchSize = (individuals == null ? 0 : individuals.size());
         
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME", 
                     Critere.NEQUALS, null, null, null, false);
-        int notLastNameSearchSize = (individualSet == null ? 0 : individualSet.size());
+        int notLastNameSearchSize = (individuals == null ? 0 : individuals.size());
 
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "laSTN", 
                     Critere.STARTSWITH, null, null, null, false);
-        int startsWithLastNameSearchSize = (individualSet == null ? 0 : individualSet.size());
+        int startsWithLastNameSearchSize = (individuals == null ? 0 : individuals.size());
         
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LOST", 
                     Critere.STARTSWITH, null, null, null, false);
-        int badLastNameSearchSize = (individualSet == null ? 0 : individualSet.size());
+        int badLastNameSearchSize = (individuals == null ? 0 : individuals.size());
         
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "STNAME", 
                     Critere.LIKE, null, null, null, false);
-        int ilikeLastNameSearchSize = (individualSet == null ? 0 : individualSet.size());
+        int ilikeLastNameSearchSize = (individuals == null ? 0 : individuals.size());
         
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_FIRSTNAME, "OSTNAM", 
                     Critere.LIKE, null, null, null, false);
-        int badFirstNameSearchSize = (individualSet == null ? 0 : individualSet.size());
+        int badFirstNameSearchSize = (individuals == null ? 0 : individuals.size());
 
         CreationBean cb = gimmeAnHomeFolder();
 
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
-        Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 
         continueWithNewTransaction();
         
         // and validate it
-        iHomeFolderService.validate(homeFolderId);
+        iHomeFolderService.validate(homeFolder.getId());
 
         continueWithNewTransaction();
         
         // do some tests on home folder's individuals
-        homeFolder = iHomeFolderService.getById(homeFolderId);
+        homeFolder = iHomeFolderService.getById(homeFolder.getId());
         Assert.assertEquals(homeFolder.getIndividuals().size(), 5);
 
         Adult homeFolderResponsibleDb = homeFolder.getHomeFolderResponsible();
         Assert.assertEquals(homeFolderResponsibleDb.getFirstName(),
                 homeFolderResponsible.getFirstName());
 
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME", 
                     Critere.EQUALS, Individual.SEARCH_BY_FIRSTNAME, "responsible", 
                     Critere.EQUALS, true);
-        Assert.assertEquals(individualSet.size(), 1);
-        Assert.assertTrue(individualSet.iterator().next() instanceof Long);
+        Assert.assertEquals(individuals.size(), lastAndFirstNameSearchSize + 1);
 
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME", 
                     Critere.NEQUALS, null, null, null, false);
-        Assert.assertEquals(individualSet.size(), notLastNameSearchSize);
+        Assert.assertEquals(individuals.size(), notLastNameSearchSize);
 
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "laSTN", 
                     Critere.STARTSWITH, null, null, null, false);
-        Assert.assertEquals(individualSet.size(), startsWithLastNameSearchSize + 5);
+        Assert.assertEquals(individuals.size(), startsWithLastNameSearchSize + 5);
 
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LOST", 
                     Critere.STARTSWITH, null, null, null, false);
-        Assert.assertEquals(individualSet.size(), badLastNameSearchSize);
+        Assert.assertEquals(individuals.size(), badLastNameSearchSize);
 
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "STNAME", 
                     Critere.LIKE, null, null, null, false);
-        Assert.assertEquals(individualSet.size(), ilikeLastNameSearchSize + 5);
-        Individual firstIndividualFound = (Individual)individualSet.iterator().next();
+        Assert.assertEquals(individuals.size(), ilikeLastNameSearchSize + 5);
+        Individual firstIndividualFound = (Individual)individuals.iterator().next();
   
-        individualSet = 
+        individuals = 
             performIndividualSearch(Individual.SEARCH_BY_FIRSTNAME, "OSTNAM", 
                     Critere.LIKE, null, null, null, false);
-        Assert.assertEquals(individualSet.size(), badFirstNameSearchSize);
+        Assert.assertEquals(individuals.size(), badFirstNameSearchSize);
         
-        individualSet = performIndividualSearch(Individual.SEARCH_BY_BIRTHDATE, new Date(), 
+        individuals = performIndividualSearch(Individual.SEARCH_BY_BIRTHDATE, new Date(), 
                 Critere.GT, null, null, null, false);
-        Assert.assertEquals(individualSet.size(), 2);
+        Assert.assertEquals(individuals.size(), 2);
         
         Card card = new Card();
         card.setCardType("Carte d'abonné du Parc des Princes");
@@ -245,7 +235,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         Assert.assertNotNull(individualByCertificate);
     }
     
-    private Set performIndividualSearch(final String attribut, final Object value,
+    private List<Individual> performIndividualSearch(final String attribut, final Object value,
             final String comparatif, final String attribut2, final Object value2,
             final String comparatif2, final boolean onlyIds) 
         throws CvqException {
@@ -266,6 +256,6 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             criteriaSet.add(crit2);
         }
         
-        return iIndividualService.get(criteriaSet, null, onlyIds, false);
+        return iIndividualService.get(criteriaSet, null, false);
     }
 }

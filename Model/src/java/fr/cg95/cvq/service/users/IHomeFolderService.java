@@ -30,15 +30,21 @@ public interface IHomeFolderService {
     /**
      * Create a fresh new home folder containing only the given adult.
      */
-    HomeFolder create(final Adult adult)
+    HomeFolder create(Adult adult)
         throws CvqException;
 
     /**
-     * Create a fresh new home folder from a set of adults and children
+     * Create a fresh new home folder from a set of adults and children.
      */
     HomeFolder create(Set<Adult> adults, Set<Child> children, Address address)
         throws CvqException, CvqModelException;
+
+    Long addChild(final Long homeFolderId, Child child, Address address)
+        throws CvqException;
     
+    Long addAdult(final Long homeFolderId, Adult adult, Address address)
+        throws CvqException;
+
     /**
      * Initialize home folder's common attributes (state, ...).
      */
@@ -51,16 +57,10 @@ public interface IHomeFolderService {
     HomeFolder getById(final Long id)
         throws CvqException, CvqObjectNotFoundException;
 
-    HomeFolder getByRequestId(final Long requestId)
-        throws CvqException;
-
     void modify(final HomeFolder homeFolder)
         throws CvqException;
 
     void delete(final Long id)
-    		throws CvqException, CvqObjectNotFoundException;
-
-    void delete(final HomeFolder homeFolder)
     		throws CvqException, CvqObjectNotFoundException;
 
     Set<Child> getChildren(final Long homeFolderId)
@@ -103,6 +103,51 @@ public interface IHomeFolderService {
         throws CvqException;
 
     /**
+     * Called by the request service to notify that a request has been validated.
+     * 
+     * It is then up to the home folder service to take the correct decisions : either delete
+     * the associated, either do nothing.
+     */
+    void onRequestValidated(final Long homeFolderId, final Long requestId)
+        throws CvqException;
+    
+    /**
+     * Called by the request service to notify that a request has been cancelled.
+     * 
+     * It is then up to the home folder service to take the correct decisions : either delete
+     * the associated, either do nothing.
+     */
+    void onRequestCancelled(final Long homeFolderId, final Long requestId)
+        throws CvqException;
+    
+    /**
+     * Called by the request service to notify that a request has been rejected.
+     * 
+     * It is then up to the home folder service to take the correct decisions : either delete
+     * the associated, either do nothing.
+     */
+    void onRequestRejected(final Long homeFolderId, final Long requestId)
+        throws CvqException;
+    
+    /**
+     * Called by the request service to notify that a request has been archived.
+     * 
+     * It is then up to the home folder service to take the correct decisions : either delete
+     * the associated, either do nothing.
+     */
+    void onRequestArchived(final Long homeFolderId, final Long requestId)
+        throws CvqException;
+    
+    /**
+     * Called by the request service to notify that a request has been deleted.
+     * 
+     * It is then up to the home folder service to take the correct decisions : either delete
+     * the associated, either do nothing.
+     */
+    void onRequestDeleted(final Long homeFolderId, final Long requestId)
+        throws CvqException;
+    
+    /**
      * Validate an home folder and its associated individuals.
      */
     void validate(final Long id)
@@ -139,7 +184,7 @@ public interface IHomeFolderService {
         throws CvqException, CvqObjectNotFoundException;
     
 	/**
-	 * Send a confirmation mail to the HomeFolder Responsible when the paymen is commited
+	 * Send a confirmation mail to the home folder's responsible when the payment is commited.
 	 */
     public void notifyPaymentByMail(Payment payment)
     	throws CvqException;

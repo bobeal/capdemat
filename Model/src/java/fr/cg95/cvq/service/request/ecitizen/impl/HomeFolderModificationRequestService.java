@@ -36,7 +36,7 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IAdultService;
 
 /**
  * Implementation of the home folder modification request service.
@@ -51,8 +51,10 @@ public class HomeFolderModificationRequestService
 
     protected IHistoryEntryDAO historyEntryDAO;
     protected HistoryInterceptor historyInterceptor;
-    protected IIndividualService individualService;
-
+    
+    // TEMP REFACTORING
+    protected IAdultService adultService;
+    
     public HomeFolderModificationRequest create(final Long homeFolderId, final Long requesterId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -64,7 +66,7 @@ public class HomeFolderModificationRequestService
         checkIsAuthorized(homeFolder);
         
         HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
-        hfmr.setHomeFolder(homeFolder);
+        hfmr.setHomeFolderId(homeFolderId);
         hfmr.setRequestType(getRequestTypeByLabel(getLabel()));
         initializeCommonAttributes(hfmr, requesterId);
 
@@ -77,17 +79,16 @@ public class HomeFolderModificationRequestService
         throw new CvqException("Not yet implemented !");
     }
 
-    private boolean hasModificationRequestInProgress(final HomeFolder homeFolder) {
+    private boolean hasModificationRequestInProgress(final HomeFolder homeFolder) 
+        throws CvqException {
 
-        Set otherRequests = homeFolder.getRequests();
+        Set<Request> otherRequests = 
+            getByHomeFolderIdAndRequestLabel(homeFolder.getId(), getLabel());
         if (otherRequests != null) {
-            Iterator otherRequestsIt = otherRequests.iterator();
-            while (otherRequestsIt.hasNext()) {
-                Request request = (Request) otherRequestsIt.next();
-                if ((request instanceof HomeFolderModificationRequest)
-                    && (request.getState().equals(RequestState.PENDING)
+            for (Request request : otherRequests) {
+                if (request.getState().equals(RequestState.PENDING)
                     || request.getState().equals(RequestState.COMPLETE)
-                    || request.getState().equals(RequestState.UNCOMPLETE))) {
+                    || request.getState().equals(RequestState.UNCOMPLETE)) {
                     logger.warn("create() Home folder " + homeFolder.getId() 
                             + " already has an home folder modification request in progress");
                     return true;
@@ -99,7 +100,7 @@ public class HomeFolderModificationRequestService
     }
     
     private void checkIsAuthorized(final HomeFolder homeFolder)
-        throws CvqModelException {
+        throws CvqException {
         
         if (hasModificationRequestInProgress(homeFolder))
             throw new CvqModelException("Home folder " + homeFolder.getId() 
@@ -140,7 +141,7 @@ public class HomeFolderModificationRequestService
         historyInterceptor.setCurrentSession(HibernateUtil.getSession());
         
         CreationBean cb = null;
-        HomeFolder oldHomeFolder = hfmr.getHomeFolder();
+        HomeFolder oldHomeFolder = homeFolderService.getById(hfmr.getHomeFolderId());
         // home folder will have to be validated again
         oldHomeFolder.setState(ActorState.PENDING);
         Date modificationDate = new Date();
@@ -169,7 +170,7 @@ public class HomeFolderModificationRequestService
                 // if the request is validated, the child will be removed then
                 child.setHomeFolder(null);
 
-                individualDAO.update(child);
+                individualService.modify(child);
             }
         }
         Iterator newChildrenIt = children.iterator();
@@ -184,7 +185,7 @@ public class HomeFolderModificationRequestService
                 if (child.getAdress() == null)
                     child.setAdress(adress);
 
-                individualDAO.create(child);
+                individualService.modify(child);
                 oldChildren.add(child);
             }
 
@@ -199,9 +200,7 @@ public class HomeFolderModificationRequestService
                     if (!adults.contains(clr.getLegalResponsible())) {
                         Adult tempAdult = clr.getLegalResponsible();
                         logger.debug("modify() out of home folder clr added : " + tempAdult);
-                        tempAdult.setState(ActorState.PENDING);
-                        tempAdult.setCreationDate(modificationDate);
-                        individualDAO.create(tempAdult);
+                        homeFolderService.addAdult(oldHomeFolder.getId(), tempAdult, null);
                     } else if (!oldAdults.contains(clr.getLegalResponsible())){
                         Adult adult = (Adult) clr.getLegalResponsible();
                         logger.debug("modify() adult implicitely added to home folder (isClr) : " 
@@ -211,10 +210,7 @@ public class HomeFolderModificationRequestService
                         adult.setHomeFolder(oldHomeFolder);
                         if (adult.getAdress() == null)
                             adult.setAdress(adress);
-
-                        individualDAO.create(adult);
-                        
-                        individualService.assignLogin(adult);
+                        homeFolderService.addAdult(oldHomeFolder.getId(), adult, null);
                         
                         // now, consider it as an already existing home folder adult
                         oldAdults.add(adult);
@@ -244,7 +240,7 @@ public class HomeFolderModificationRequestService
                 // if the request is validated, the adult will be removed then
                 adult.setHomeFolder(null);
 
-                individualDAO.update(adult);
+                individualService.modify(adult);
             } else {
                 if (!adult.getLogin().startsWith(adult.getFirstName().toLowerCase() + "." +
                                                  adult.getLastName().toLowerCase())) {
@@ -275,8 +271,7 @@ public class HomeFolderModificationRequestService
                 if (adult.getAdress() == null)
                     adult.setAdress(adress);
 
-                individualDAO.create(adult);
-                individualService.assignLogin(adult);
+                individualService.modify(adult);
             }
 
             // currently logged in user has been removed from the home folder
@@ -290,7 +285,7 @@ public class HomeFolderModificationRequestService
                 cb.setLogin(adult.getLogin());
                 cb.setRequestId(hfmr.getId());
                 // and set it as the request's requester, to pass security checks
-                hfmr.setRequester(adult);
+                hfmr.setRequesterId(adult.getId());
                 SecurityContext.setCurrentEcitizen(adult);
             }
         }
@@ -437,8 +432,8 @@ public class HomeFolderModificationRequestService
                 // (only individuals have an homeFolder property)
                 if (he.getProperty().equals("homeFolder")) {
 
-                    Individual individual =
-                        (Individual) individualDAO.findById(Individual.class, he.getObjectId());
+                    Individual individual = individualService.getById(he.getObjectId());
+
                     // unlink from (eventually) common home folder adress
                     // FIXME : what if alone with this adress ?
                     individual.setAdress(null);
@@ -453,11 +448,11 @@ public class HomeFolderModificationRequestService
                             Iterator requestsIt = requests.iterator();
                             while (requestsIt.hasNext()) {
                                 Request tempRequest = (Request) requestsIt.next();
-                                tempRequest.setRequester(null);
+                                tempRequest.setRequesterId(null);
                                 requestDAO.update(tempRequest);
                             }
 
-                            List clrs = individualDAO.listClrs(adult);
+                            List clrs = adultService.getClrs(adult.getId());
                             for (int i=0; i < clrs.size(); i++) {
                                 objectsToRemove.add(clrs.get(i));
                             }
@@ -517,7 +512,7 @@ public class HomeFolderModificationRequestService
 
         historyEntryDAO.deleteEntries(request.getId());
         
-        homeFolderService.validate(request.getHomeFolder());
+        homeFolderService.validate(request.getHomeFolderId());
         
         // validate after persisting changes to the home folder
         // (for the pdf certificate to be up-to-date)
@@ -624,7 +619,7 @@ public class HomeFolderModificationRequestService
         Set<Object> objectsToUpdate = new HashSet<Object>();
         Set<Object> objectsToRemove = new HashSet<Object>();
 
-        Set currentChildren = homeFolderService.getChildren(request.getHomeFolder().getId());
+        Set currentChildren = homeFolderService.getChildren(request.getHomeFolderId());
 
         // navigate all the history entries and cancel previous changes
         ///////////////////////////////////////////////////////////////
@@ -750,10 +745,12 @@ public class HomeFolderModificationRequestService
                         + " was planned for addition, unlink it");
 
                 if (object instanceof Individual) {
+                    HomeFolder homeFolder = 
+                        homeFolderService.getById(request.getHomeFolderId());
                     Individual individual = (Individual) object;
                     individual.setAdress(null);
                     individual.setHomeFolder(null);
-                    request.getHomeFolder().getIndividuals().remove(individual);
+                    homeFolder.getIndividuals().remove(individual);
                 }
 
                 // if it's an adult, ensure it is no longer the legal responsible of 
@@ -815,7 +812,7 @@ public class HomeFolderModificationRequestService
         restoreOriginalHomeFolder(request);
         
         // home folder was supposed to be valid before modification request
-        homeFolderService.validate(request.getHomeFolder());
+        homeFolderService.validate(request.getHomeFolderId());
     }
 
     public void reject(final Long id, final String motive)
@@ -831,7 +828,7 @@ public class HomeFolderModificationRequestService
         restoreOriginalHomeFolder(request);
 
         // home folder was supposed to be valid before modification request
-        homeFolderService.validate(request.getHomeFolder());
+        homeFolderService.validate(request.getHomeFolderId());
     }
 
     public boolean accept(Request request) {
@@ -850,7 +847,7 @@ public class HomeFolderModificationRequestService
         this.historyInterceptor = historyInterceptor;
     }
 
-    public void setIndividualService(IIndividualService iIndividualService) {
-        this.individualService = iIndividualService;
+    public void setAdultService(IAdultService adultService) {
+        this.adultService = adultService;
     }
 }

@@ -375,6 +375,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         yue.on(yus.query('textarea[name=smsMessage]')[0],'keyup',function(e){
           zcc.limitArea(yue.getTarget(e),160,'smsNotifier');
         });
+        zcbr.Instruction.changeType(yus.query('select.mails option')[0]);
       });
     };
     var toggleState = function(el,state) {
@@ -400,6 +401,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         yue.on('contactForm','click',zcbr.Instruction.formEvent.dispatch,zcbr.Instruction.formEvent,true);
         yue.on('requestForms','change',zcbr.Instruction.changeType);
       },
+      notify : function(o) {
+        var json = ylj.parse(o.responseText);
+        zcc.Notifier.processMessage('success',json.success_msg,'contactMsg');
+      },
       previewRequestForm : function(e) {
         zcbr.Instruction.prepareLink()
       },
@@ -408,11 +413,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         return target.id.split('_')[0];
       },
       changeType : function(e) {
-        var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
-        var link = yud.get('previewRequestForm');
-        if(target.value > -1)zct.style(link,{display:'inline'});
-        else zct.style(link,{display:'none'});
-        zcbr.Instruction.prepareLink();
+        if(!!e) {
+          var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
+          var link = yud.get('previewRequestForm');
+          if(target.value > -1)zct.style(link,{display:'inline'});
+          else zct.style(link,{display:'none'});
+          zcbr.Instruction.prepareLink();
+        } else {
+          zct.style(yud.get('previewError'),{display:'inline'});
+          zct.style(yus.query('fieldset#emailButtons')[0],{display:'none'});
+          zct.style(yus.query('fieldset#defaultButtons')[0],{display:'block'});
+        }
 
       },
       getByGroup : function(group) {
@@ -425,7 +436,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var id = zct.val(yud.get('requestForms'));
         var message = encodeURIComponent(zct.val(zcbr.Instruction.messageBox));
         link.href = [url,'/preview/?fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
-        //link.href = self.location;
       },
       prepareForm : function() {
         form = yud.get('contactForm');
@@ -437,17 +447,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         //TODO make this part of script more flexible
         var message = yus.query('input[name=message]',form,true);
         var recipient = yus.query('input[name=recipient]',form,true);
-        var contactMean = yus.query('input[name=contactMean]',form,true);
+        var meansOfContact = yus.query('input[name=meansOfContact]',form,true);
 
         zct.each(elements,function(i,n){
           var el = new yu.Element(n);
           if(el.hasClass('message')) message.value = zct.val(n);
           if(el.hasClass('recipient')) recipient.value = zct.val(n);
-          if(el.hasClass('contactMean')) contactMean.value = zct.val(n);
+          if(el.hasClass('means-of-contact')) meansOfContact.value = zct.val(n);
         });
       },
       discardChanges: function(e) {
-        alert('discardChanges',e);
+        zcb.ecitizenContactPanel.hide();
       },
       showPanels : function(e) {
         if(!e) return;
@@ -471,33 +481,39 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           }
         });
         zct.each(yus.query('#contactForm input[type=hidden]'),function(i,el){
-          if(/^(message|recipient|contactMean)$/i.test(el.name))el.value = "";
+          if(/^(message|recipient|meansOfContact)$/i.test(el.name))el.value = "";
         });
         zcbr.Instruction.messageBox = zcbr.Instruction.getByGroup('message');
       },
+      validate : function(form) {
+        var container = yud.get('contactFormErrors');
+        if(zct.isFunction(FIC_checkForm))
+          return FIC_checkForm(form,container);
+        return true;
+      },
       showRules : {
-        'Sms' : ['contactMeansForm','mobilePhoneForm','smsMessageForm','smsButtons'],
-        'OfficePhone':['contactMeansForm','officePhoneForm','messageForm','defaultButtons'],
-        'MobilePhone':['contactMeansForm','mobilePhoneForm','messageForm','defaultButtons'],
-        'HomePhone':['contactMeansForm','homePhoneForm','messageForm','defaultButtons'],
-        'Email':['contactMeansForm','mailForm','messageForm','mailTemplateForm','emailButtons'],
-        'Mail':['contactMeansForm','messageForm','mailTemplateForm','defaultButtons'],
-        '.*Office':['contactMeansForm','messageForm','mailTemplateForm','defaultButtons']
+        'Sms' : ['meansOfContactForm','mobilePhoneForm','smsMessageForm','smsButtons'],
+        'OfficePhone':['meansOfContactForm','officePhoneForm','messageForm','defaultButtons'],
+        'MobilePhone':['meansOfContactForm','mobilePhoneForm','messageForm','defaultButtons'],
+        'HomePhone':['meansOfContactForm','homePhoneForm','messageForm','defaultButtons'],
+        'Email':['meansOfContactForm','mailForm','messageForm','mailTemplateForm','emailButtons'],
+        'Mail':['meansOfContactForm','messageForm','mailTemplateForm','defaultButtons'],
+        '.*Office':['meansOfContactForm','messageForm','mailTemplateForm','defaultButtons']
       }
     };
 
   }();
 
-  zct.each(['sendSms','sendMail','trace'],function(i,name){
+  zct.each(['sendSms','sendEmail','trace'],function(i,name){
     zcbr.Instruction[name] = function(e){
       zcbr.Instruction.prepareForm(e);
       form = yud.get('contactForm');
       form.action = [zcb.baseUrl,'/',name].join('');
-
-      zcc.doAjaxFormSubmitCall(form.id,[],function(o){
-        var json = ylj.parse(o.responseText);
-        zcc.Notifier.processMessage('success',json.success_msg,'contactMsg');
-      });
+      zct.text(yud.get('contactFormErrors'),'');
+      
+      if(zcbr.Instruction.validate(form)) {
+        zcc.doAjaxFormSubmitCall(form.id,[],zcbr.Instruction.notify);
+      }
     };
   });
 

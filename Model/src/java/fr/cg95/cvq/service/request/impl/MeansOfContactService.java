@@ -21,30 +21,30 @@ import fr.cg95.cvq.util.sms.ISmsService;
 
 /**
  * Implementation of the {@link IMeansOfContactService} service.
- * 
+ *
  * @author rdj@zenexity.fr
  */
 public class MeansOfContactService implements IMeansOfContactService , ILocalAuthorityLifecycleAware {
 
     static Logger logger = Logger.getLogger(MeansOfContactService.class);
-    
+
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     private IMeansOfContactDAO meansOfContactDAO;
     private Boolean performDbUpdates;
-    
+
     private IMailService mailService;
     private ISmsService smsService;
-    
-    /* BE CAREFUL : 
+
+    /* BE CAREFUL :
      *  - MeansOfContact removing not yet implement ...
      *  - EMAIL MeansOfContact is enabled by default
      */
     public void initAvalaibleMeansOfContact(final String localAuthorityName) throws CvqException {
         logger.debug("initAvalaibleMeansOfContact() init for " + localAuthorityName);
-        
+
         MeansOfContactEnum[] mocArray = MeansOfContactEnum.allMeansOfContactEnums;
         List<MeansOfContact> mocList = meansOfContactDAO.listAll();
-        
+
         boolean isMocPersist;
         for (int i = 0; i < mocArray.length; i++) {
             isMocPersist = false;
@@ -62,7 +62,7 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
             }
         }
     }
-    
+
     public void addLocalAuthority(String localAuthorityName) {
         if (performDbUpdates)
             localAuthorityRegistry.callback(localAuthorityName, this, "initAvalaibleMeansOfContact", null);
@@ -70,7 +70,7 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
 
     public void removeLocalAuthority(String localAuthorityName) {
     }
-    
+
     public MeansOfContact getMeansOfContactByType(MeansOfContactEnum type) throws CvqException {
         return meansOfContactDAO.findByType(type);
     }
@@ -80,10 +80,10 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
         if (enableMocList.size() == 1)
             if (enableMocList.get(0).equals(meansOfContact))
                 return false;
-        
+
         return true;
     }
-    
+
     public void disableMeansOfContact(MeansOfContact meansOfContact) throws CvqException {
         if (!canDisableMeansOfContact(meansOfContact))
             throw new CvqModelException("unique_meansofcontact_enabled");
@@ -111,11 +111,11 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
         }
         return null;
     }
-    
+
     public List<MeansOfContact> getCurrentEcitizenEnabledMeansOfContact() throws CvqException {
         return getAdultEnabledMeansOfContact(SecurityContext.getCurrentEcitizen());
     }
-    
+
     public List<MeansOfContact> getAdultEnabledMeansOfContact(Adult adult) throws CvqException {
         List<MeansOfContact> enableMocList = meansOfContactDAO.listAllEnabled();
         List<MeansOfContact> individualEnableMocList = new ArrayList<MeansOfContact>();
@@ -124,27 +124,27 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
             MeansOfContact moc = getFromListByType(enableMocList, MeansOfContactEnum.MAIL);
             if(adult.getAdress() != null &&  moc != null)
                 individualEnableMocList.add(moc);
-            
+
             moc = getFromListByType(enableMocList, MeansOfContactEnum.EMAIL);
             if(adult.getEmail() != null &&  adult.getEmail().length() > 0 && moc != null)
                 individualEnableMocList.add(moc);
-    
+
             moc = getFromListByType(enableMocList, MeansOfContactEnum.HOME_PHONE);
             if(adult.getHomePhone() != null &&  adult.getHomePhone().length() > 0 && moc != null)
                 individualEnableMocList.add(moc);
-            
+
             moc = getFromListByType(enableMocList, MeansOfContactEnum.OFFICE_PHONE);
             if(adult.getOfficePhone() != null && adult.getOfficePhone().length() > 0 && moc != null)
                 individualEnableMocList.add(moc);
-            
+
             moc = getFromListByType(enableMocList, MeansOfContactEnum.MOBILE_PHONE);
             if(adult.getMobilePhone() != null && adult.getMobilePhone().length() > 0 && moc != null)
                 individualEnableMocList.add(moc);
-    
+
             moc = getFromListByType(enableMocList, MeansOfContactEnum.SMS);
             if(adult.getMobilePhone() != null && adult.getMobilePhone().length() > 0 &&  moc != null)
                 individualEnableMocList.add(moc);
-    
+
             moc = getFromListByType(enableMocList, MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE);
             if(moc != null)
                 individualEnableMocList.add(moc);
@@ -154,7 +154,7 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
         else
             return null;
     }
-    
+
     // TODO : Must we ever implement notification on abstract notification strategy
     //-- --- ---
     private void notifyRequester(Request request) throws CvqException {
@@ -163,37 +163,41 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
         else if (request.getMeansOfContact().getType().equals(MeansOfContactEnum.SMS))
             notifyRequesterBySMS(request);
     }
-    
+
     private void notifyRequesterByEmail(Request request) throws CvqException {
         // TODO what do we send ?
     }
-    
+
     private void notifyRequesterBySMS(Request request) throws CvqException {
         // TODO what do we send ?
     }
     //-- --- ---
-    
+
     public boolean supportAttachment(MeansOfContact moc) {
         if (moc.getType() == MeansOfContactEnum.MAIL || moc.getType() == MeansOfContactEnum.EMAIL)
             return true;
         return false;
     }
-    
-    public void notifyRequesterByEmail(String from, String to, String subject, String body, 
-            byte[] data ) throws CvqException {
-        if (data != null)
-            mailService.send(from, to,null,subject, body, data, "Recu_Demande");
-        else
-            mailService.send(from, to,null,subject, body);
+
+    public void notifyRequesterByEmail(
+            Request request,
+            String to,
+            String subject,
+            String body,
+            byte[] data,
+            String attachmentName) throws CvqException {
+
+        String from = request.getRequestType().getCategory().getPrimaryEmail();
+        mailService.send(from, to, null, subject, body, data, attachmentName);
     }
-    
+
     public void notifyRequesterBySms(String to, String body) throws CvqException {
         if (smsService.isEnabled())
             smsService.send(to, body);
         else
             throw new CvqException("sms_service.not.enabled");
     }
-    
+
     public void setMeansOfContactDAO(IMeansOfContactDAO meansOfContactDAO) {
         this.meansOfContactDAO = meansOfContactDAO;
     }

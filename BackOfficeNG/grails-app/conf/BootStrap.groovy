@@ -1,8 +1,15 @@
-class BootStrap {
+import fr.cg95.cvq.exception.CvqException
 
-     def init = { servletContext ->
+
+class BootStrap {
+    
+    //def exceptionHandler
+    
+    def init = { servletContext ->
         servletContext.setAttribute("newDataBinder", GlobalPropertyEditorConfig.&newDataBinder)
-     }
-     def destroy = {
-     }
+        //exceptionHandler.exceptionMappings =['java.lang.Exception' : '/error/unexpected']
+    }
+    def destroy = {
+        
+    }
 } 

@@ -16,12 +16,15 @@ import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Child
 
 import fr.cg95.cvq.business.document.DocumentState
-import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.exception.*
 import fr.cg95.cvq.service.authority.IAgentService
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
 
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.util.mail.impl.MailService;
+
 import java.util.Date
 import java.io.File;
 import java.io.InputStream
@@ -39,6 +42,7 @@ class RequestInstructionController {
     IMeansOfContactService meansOfContactService
     IAgentService agentService
     IRequestServiceRegistry requestServiceRegistry
+    IMailService mailService
 
     def translationService
 
@@ -62,7 +66,7 @@ class RequestInstructionController {
                   "name": it.documentType.name,
                   "endValidityDate" : it.endValidityDate == null ? "" : DateUtils.formatDate((Date)it.endValidityDate),
                   "pageNumber": documentService.getPagesNumber(it.id),
-                  "state": CapdematUtils.adaptCapdematState(it.state, "document.state")
+                  "state": CapdematUtils.adaptCapdematEnum(it.state, "document.state")
 		            ])
 		    }
 
@@ -99,8 +103,8 @@ class RequestInstructionController {
 		      "adults" : adults,
 		      "children" : children,
 		      "childrenLegalResponsibles" : clr,
-		      "requestState": CapdematUtils.adaptCapdematState(request.state, "request.state"),
-		      "requestDataState": CapdematUtils.adaptCapdematState(request.dataState, "request.dataState"),
+		      "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+		      "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
 		      "requestLabel": requestLabel,
 		      "documentList": documentList
 		    ]
@@ -201,7 +205,7 @@ class RequestInstructionController {
         }
 
         def states = []
-        transitionStates.each { states.add(CapdematUtils.adaptCapdematState(it, stateTypeI18nKey)) }
+        transitionStates.each { states.add(CapdematUtils.adaptCapdematEnum(it, stateTypeI18nKey)) }
 
         render( template: "possibleTransitionStates",
                 model: ["states": states, "stateType": stateType, "id": params.id])
@@ -260,7 +264,7 @@ class RequestInstructionController {
                   "label": it.label,
                   "note": it.note,
                   "date": it.date,
-                  "resultingState": CapdematUtils.adaptCapdematState(it.resultingState, "document.state")
+                  "resultingState": CapdematUtils.adaptCapdematEnum(it.resultingState, "document.state")
                 ])
         }
 
@@ -268,9 +272,9 @@ class RequestInstructionController {
                 model: [ "document":
                             [ "id": document.id,
                               "name": document.documentType.name,
-                              "state": CapdematUtils.adaptCapdematState(document.state, "document.state"),
-                              "depositType": CapdematUtils.adaptCapdematState(document.depositType, "document.depositType"),
-                              "depositOrigin": CapdematUtils.adaptCapdematState(document.depositOrigin, "document.depositOrigin"),
+                              "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
+                              "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
+                              "depositOrigin": CapdematUtils.adaptCapdematEnum(document.depositOrigin, "document.depositOrigin"),
                               "endValidityDate": document.endValidityDate,
                               "ecitizenNote": document.ecitizenNote,
                               "agentNote": document.agentNote,
@@ -299,7 +303,7 @@ class RequestInstructionController {
 
         def states = []
         transitionStates.each {
-            states.add(CapdematUtils.adaptCapdematState(it, "document.state"))
+            states.add(CapdematUtils.adaptCapdematEnum(it, "document.state"))
         }
 
         render( template: "requestDocumentStates",
@@ -330,18 +334,17 @@ class RequestInstructionController {
 
     // TODO : rename action
     def contactInformation = {
-
         def request = defaultRequestService.getById(Long.valueOf(params.id))
         Adult requester = request.getRequester()
 
         def requesterMeansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
             requesterMeansOfContacts.add(
-                CapdematUtils.adaptCapdematState(it.type, "request.meansOfContact"))
+                CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact"))
         }
 
         def requestForms = []
-        requestForms.add(["id":-1,"shortLabel":"...","type":""])
+        //requestForms.add(["id":-1,"shortLabel":"...","type":""])
         defaultRequestService.getRequestTypeForms(request.requestType.id, RequestFormType.REQUEST_MAIL_TEMPLATE).each {
             String data = ''
             if(it?.personalizedData) data = new String(it?.personalizedData)
@@ -349,7 +352,7 @@ class RequestInstructionController {
             requestForms.add(
                 [ "id": it.id,
                   "shortLabel": it.shortLabel,
-                  "type": CapdematUtils.adaptCapdematState(it.type, "request.meansOfContact")
+                  "type": CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact")
                 ]
             )
         }
@@ -366,20 +369,21 @@ class RequestInstructionController {
         };
 
         render( template: "ecitizenContact",
-                model:
-                    [ "requesterMeansOfContacts": requesterMeansOfContacts,
-                      "requestForms": requestForms,
-                      "requester": requester,
-                      "request":
-                          [
-                            "id" : request.id,
-                            "state": CapdematUtils.adaptCapdematState(request.state, "request.state"),
-                            "requesterMobilePhone": request.requester.mobilePhone,
-                            "requesterEmail": request.requester.email,
-                            "meansOfContact": CapdematUtils.adaptCapdematState(request.meansOfContact.type, "request.meansOfContact")
-                          ],
-                      "defaultContactRecipient": defaultContactRecipient
+            model:[
+                   "requesterMeansOfContacts": requesterMeansOfContacts,
+                    "requestForms": requestForms,
+                    "traceLabel" :  IRequestService.REQUEST_CONTACT_CITIZEN,
+                    "defaultContactRecipient": defaultContactRecipient,
+                    "requester": requester,
+                    "request": [
+                        "id" : request.id,
+                        "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+                        "requesterMobilePhone": request.requester.mobilePhone,
+                        "requesterEmail": request.requester.email,
+                        "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact.type,
+                                                                          "request.meansOfContact")
                     ]
+                ]
         )
     }
 
@@ -447,28 +451,28 @@ class RequestInstructionController {
     }
 
     def requestActions = {
-            def requestActions = defaultRequestService.getActions(Long.valueOf(params.id))
-            def requestActionList = []
-            requestActions.each {
-                def user = ""
-                try {
-                    def requestAgent = agentService.getById(it.agentId)
-                    user = requestAgent.firstName + " " + requestAgent.lastName
-                } catch (CvqObjectNotFoundException) {
-                    user = "Demandeur"
-                }
-                def requestAction = [
-                    'id':it.id,
-                    'agent_name':user,
-                    'label':it.label,
-                    'note':it.note,
-                    'date':it.date.toString(),
-                    'resulting_state':it.resultingState.toString(),
-                    'request_id':it.request.id
-                ]
-                requestActionList.add(requestAction)
+        def requestActions = defaultRequestService.getActions(Long.valueOf(params.id))
+        def requestActionList = []
+        requestActions.each {
+            def user = ""
+            try {
+                def requestAgent = agentService.getById(it.agentId)
+                user = requestAgent.firstName + " " + requestAgent.lastName
+            } catch (CvqObjectNotFoundException) {
+                user = "Demandeur"
             }
-            render(template:'requestHistory', model: ['requestActionList':requestActionList])
+            def requestAction = [
+                'id':it.id,
+                'agent_name':user,
+                'label':it.label,
+                'note':it.note,
+                'date':it.date.toString(),
+                'resulting_state':it.resultingState.toString(),
+                'request_id':it.request.id
+            ]
+            requestActionList.add(requestAction)
+        }
+        render(template:'requestHistory', model: ['requestActionList':requestActionList])
     }
 
     def requestNotes = {
@@ -510,34 +514,67 @@ class RequestInstructionController {
     }
 
     def trace = {
+        //throw new CvqException('action.cancel');
         def request = this.defaultRequestService.getById(Long.valueOf(params?.requestId))
-        println request.state
-        //this.defaultRequestService.addAction(request, params?.traceLabel, params?.message)
+        this.defaultRequestService.addAction(request, params?.traceLabel, params?.message)
         render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)
+    }
+
+    def sendEmail = {
+        def request = defaultRequestService.getById(Long.valueOf(params?.requestId))
+        def form = defaultRequestService.getRequestFormById(Long.valueOf(params?.requestForms))
+        
+        String template = this.prepareTemplate(
+            params?.requestId,
+            params?.requestForms,
+            params?.message?.encodeAsHTML()
+        )
+        
+        this.meansOfContactService.notifyRequesterByEmail(
+            request,
+            params?.email,
+            message(code:"mail.ecitizenContact.subject"),
+            message(code:"mail.ecitizenContact.body"),
+            template?.getBytes(),
+            "${form.label}.html")
+
+        render([status:"ok",success_msg:message(code:"message.emailSent")] as JSON)
+    }
+
+    def sendSms = {
+        render([status:"ok",success_msg:message(code:"message.notImplemented")] as JSON)
+        //render([status:"ok",success_msg:message(code:"message.smsSent")] as JSON)
     }
 
     def preview = {
         //Locale.setDefault Locale.FRANCE
+        response.contentType = 'text/html; charset=utf-8'
+        render this.prepareTemplate(params?.rid,params?.fid,params?.msg?.encodeAsHTML())
+        //response.contentType = 'text/html; charset=utf-8'
+    } 
 
+    private prepareTemplate = {requestId,formId,message ->
+        
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
-        def form = this.defaultRequestService.getRequestFormById(Long.valueOf(params?.fid))
-        Request request = this.defaultRequestService.getById(Long.valueOf(params?.rid))
+        def form = this.defaultRequestService.getRequestFormById(Long.valueOf(formId))
+        Request request = this.defaultRequestService.getById(Long.valueOf(requestId))
+            
         Adult requester = request.getRequester()
         def address = requester.getHomeFolder().getAdress()
         def subject = this.getSubjectDescription(request.getSubject())
         def forms = []
         forms.add(form)
-
+    
         File templateFile = defaultRequestService.getTemplateByName(form.getTemplateName())
         if(templateFile.exists()) {
-
+    
             def template = groovyPagesTemplateEngine.createTemplate(templateFile);
             def out = new StringWriter();
             def originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
             template.make(['forms':forms]).writeTo(out);
             requestAttributes.setOut(originalOut)
-
+    
             String content = out.toString().replace('#{','${');
             def model = [
                 'DATE' : java.text.DateFormat.getDateInstance().format(new Date()),
@@ -545,7 +582,7 @@ class RequestInstructionController {
                 'RQ_TP_LABEL' : request?.getRequestType().getLabel(),
                 'RQ_CDATE' : request?.getCreationDate(),
                 'RQ_DVAL' : request?.getValidationDate(),
-                'RQ_OBSERV' : params?.msg,
+                'RQ_OBSERV' : message,
                 'HF_ID' : requester?.getHomeFolder()?.getId(),
                 'RR_FNAME' : requester?.getFirstName(),
                 'RR_LNAME' : requester?.getLastName(),
@@ -564,21 +601,20 @@ class RequestInstructionController {
                 'HF_ADDRESS_CN' : address?.countryName,
             ]
             model.each{k,v ->  if(v == null)model[k]=''}
-
+    
             template = groovyPagesTemplateEngine.createTemplate(content,'tmp')
             out = new StringWriter();
             originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
             template.make(model).writeTo(out);
             requestAttributes.setOut(originalOut)
-
-            response.contentType = 'text/html; charset=utf-8'
-            render out.toString()
+            
+            return out.toString()
+        } else {
+            return ""
         }
-
-        response.contentType = 'text/html; charset=utf-8'
     }
-
+    
     private getSubjectDescription = {Object sub ->
         def result = ['firstName':'','lastName':'','title':'']
         if(!sub) return result

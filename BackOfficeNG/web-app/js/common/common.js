@@ -70,7 +70,14 @@
 
   zcc.handleUnexpectedError = function(o) {
     var errorBody = o.statusText + ' (' + o.status + ')';
-    zcc.Notifier.processMessage('unexpectedError', errorBody);
+    var text = YAHOO.lang.trim(o.responseText.replace('\n',''));
+    
+    if(YAHOO.lang.JSON.isValid(text)) {
+      var json = YAHOO.lang.JSON.parse(text);
+      zcc.Notifier.processMessage('modelError',json.message);
+    } else {
+      zcc.Notifier.processMessage('unexpectedError', errorBody);
+    }
   };
 
   zcc.validateAndFilterResponse = function(o) {
@@ -123,8 +130,8 @@
       failure: zcc.handleUnexpectedError
     };
     if (zct.isFunction(callback)) handlers.success = callback;
-    var url = [zenexity.capdemat.bong.baseUrl,url,'?',params].join('');
-    YAHOO.util.Connect.asyncRequest('DELETE', url, handlers);
+    var uri = [zenexity.capdemat.bong.baseUrl,url,'?',params].join('');
+    YAHOO.util.Connect.asyncRequest('DELETE', uri, handlers);
   };
 
   zcc.collectSearchFormValues = function (formId) {
@@ -278,19 +285,24 @@
       	  });
         });
       },
-      displayUnexpectedError : function(message) {},
-      displayModelError : function(message) {},
+      displayUnexpectedError : function(message) {
+        zcc.Notifier.confirmationDialog.setBody(message);
+        zcc.Notifier.confirmationDialog.show();
+      },
+      displayModelError : function(message,cn) {
+        var el = new yu.Element(yud.get(zcc.Notifier.getMessageZone(cn)));
+        el.replaceClass('invisible','error-top');
+      	zct.style(el.get('element'),{'background-color':'#DDFFDD',display:'block'});
+      	zct.text(el.get('element'),message);
+      	zct.fadeIn(el.get('element'),0.01,function(e,n){
+      	  zct.fadeNone(el.get('element'),3,function(e,n){
+      	    zct.fadeOut(el.get('element'),3);
+      	  });
+        });
+      },
       confirmHandler : function() {}
     }
   }();
-
-  zct.each(['UnexpectedError','ModelError'],function(i,name){
-    zcc.Notifier[['display',name].join('')] = function(message) {
-      zcc.Notifier.confirmationDialog.setBody(message);
-      zcc.Notifier.confirmationDialog.show();
-      console.debug(name);
-    }
-  });
 
 
   zcc.Event = function(context,rule) {

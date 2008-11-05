@@ -42,13 +42,9 @@ class MailTemplateTagLib {
                 option() {}
             }
           }
-
+        
         out << writer.toString();
     }
-
-//    def templateText = { attrs, body ->
-//        out << body()
-//    }
 
     /**
      * Assigns model request forms to taglib

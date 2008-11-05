@@ -16,7 +16,7 @@ import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Child
 
 import fr.cg95.cvq.business.document.DocumentState
-import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.exception.*
 import fr.cg95.cvq.service.authority.IAgentService
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
@@ -334,7 +334,6 @@ class RequestInstructionController {
 
     // TODO : rename action
     def contactInformation = {
-
         def request = defaultRequestService.getById(Long.valueOf(params.id))
         Adult requester = request.getRequester()
 
@@ -370,21 +369,21 @@ class RequestInstructionController {
         };
 
         render( template: "ecitizenContact",
-                model:
-                    [ "requesterMeansOfContacts": requesterMeansOfContacts,
-                      "requestForms": requestForms,
-                      "traceLabel" :  IRequestService.REQUEST_CONTACT_CITIZEN,
-                      "requester": requester,
-                      "request":
-                          [
-                            "id" : request.id,
-                            "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
-                            "requesterMobilePhone": request.requester.mobilePhone,
-                            "requesterEmail": request.requester.email,
-                            "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact.type, "request.meansOfContact")
-                          ],
-                      "defaultContactRecipient": defaultContactRecipient
+            model:[
+                   "requesterMeansOfContacts": requesterMeansOfContacts,
+                    "requestForms": requestForms,
+                    "traceLabel" :  IRequestService.REQUEST_CONTACT_CITIZEN,
+                    "defaultContactRecipient": defaultContactRecipient,
+                    "requester": requester,
+                    "request": [
+                        "id" : request.id,
+                        "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+                        "requesterMobilePhone": request.requester.mobilePhone,
+                        "requesterEmail": request.requester.email,
+                        "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact.type,
+                                                                          "request.meansOfContact")
                     ]
+                ]
         )
     }
 
@@ -452,28 +451,28 @@ class RequestInstructionController {
     }
 
     def requestActions = {
-            def requestActions = defaultRequestService.getActions(Long.valueOf(params.id))
-            def requestActionList = []
-            requestActions.each {
-                def user = ""
-                try {
-                    def requestAgent = agentService.getById(it.agentId)
-                    user = requestAgent.firstName + " " + requestAgent.lastName
-                } catch (CvqObjectNotFoundException) {
-                    user = "Demandeur"
-                }
-                def requestAction = [
-                    'id':it.id,
-                    'agent_name':user,
-                    'label':it.label,
-                    'note':it.note,
-                    'date':it.date.toString(),
-                    'resulting_state':it.resultingState.toString(),
-                    'request_id':it.request.id
-                ]
-                requestActionList.add(requestAction)
+        def requestActions = defaultRequestService.getActions(Long.valueOf(params.id))
+        def requestActionList = []
+        requestActions.each {
+            def user = ""
+            try {
+                def requestAgent = agentService.getById(it.agentId)
+                user = requestAgent.firstName + " " + requestAgent.lastName
+            } catch (CvqObjectNotFoundException) {
+                user = "Demandeur"
             }
-            render(template:'requestHistory', model: ['requestActionList':requestActionList])
+            def requestAction = [
+                'id':it.id,
+                'agent_name':user,
+                'label':it.label,
+                'note':it.note,
+                'date':it.date.toString(),
+                'resulting_state':it.resultingState.toString(),
+                'request_id':it.request.id
+            ]
+            requestActionList.add(requestAction)
+        }
+        render(template:'requestHistory', model: ['requestActionList':requestActionList])
     }
 
     def requestNotes = {
@@ -515,6 +514,7 @@ class RequestInstructionController {
     }
 
     def trace = {
+        //throw new CvqException('action.cancel');
         def request = this.defaultRequestService.getById(Long.valueOf(params?.requestId))
         this.defaultRequestService.addAction(request, params?.traceLabel, params?.message)
         render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)
@@ -548,11 +548,10 @@ class RequestInstructionController {
 
     def preview = {
         //Locale.setDefault Locale.FRANCE
-
         response.contentType = 'text/html; charset=utf-8'
         render this.prepareTemplate(params?.rid,params?.fid,params?.msg?.encodeAsHTML())
         //response.contentType = 'text/html; charset=utf-8'
-    }
+    } 
 
     private prepareTemplate = {requestId,formId,message ->
         

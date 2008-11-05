@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -165,19 +166,16 @@ public final class PlaceReservationRequestService
         return null;
     }
     
-    public Set<String> checkPlaceReservationData(final Set placeReservationDataSet, 
+    public Set<String> checkPlaceReservationData(final List<PlaceReservationData> placeReservationDatas, 
             final String subscriberNumber) 
         throws CvqException {
     
         Map<String, Integer> placesPerPrice = getAuthorizedNumberOfPlaces(subscriberNumber);
         Set<String> errorReservationSet = new HashSet<String>();
         
-        Iterator placeReservationDataIt = placeReservationDataSet.iterator();
-        while (placeReservationDataIt.hasNext()) {
-            PlaceReservationData placeReservationData =
-                (PlaceReservationData) placeReservationDataIt.next();
-            logger.debug("checkPlaceReservationData() looking at "
-                    + placeReservationData.getName());
+        for (PlaceReservationData placeReservationData : placeReservationDatas) {
+            logger.debug("checkPlaceReservationData() looking at "+ placeReservationData.getName());
+            
             // check if this reservation has subscriber prices defined
             Set<String> subscriberTickets = 
                 placeReservationService.getSubscriberTickets(getLabel(), 
@@ -273,7 +271,7 @@ public final class PlaceReservationRequestService
     private void cancelReservations(PlaceReservationRequest placeReservationRequest) 
         throws CvqException {
         
-        Set reservationSet = placeReservationRequest.getPlaceReservation();
+        List<PlaceReservationData> reservationSet = placeReservationRequest.getPlaceReservation();
         if (reservationSet == null || reservationSet.size() == 0) {
             logger.warn("onPaymentRefused() no reservation to cancel");
             return;

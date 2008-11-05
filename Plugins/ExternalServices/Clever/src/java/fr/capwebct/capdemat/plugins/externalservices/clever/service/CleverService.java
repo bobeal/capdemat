@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -74,10 +73,9 @@ public class CleverService implements IExternalProviderService {
             cleverSmsContact.setFirstname(adult.getFirstName());
             cleverSmsContact.setGsm(adult.getMobilePhone());
             // Subscriber's interests
-            Set interests = snr.getInterests();
+            List<LocalReferentialData> interests = snr.getInterests();
             List<ExtendValue> values = new ArrayList<ExtendValue>();
-            for (Iterator iter = interests.iterator(); iter.hasNext();) {
-                LocalReferentialData interest = (LocalReferentialData) iter.next();
+            for (LocalReferentialData interest : interests) {
                 ExtendValue value = new ExtendValue();
                 value.setKey(interest.getName());
                 value.setValue(YES_LABEL);

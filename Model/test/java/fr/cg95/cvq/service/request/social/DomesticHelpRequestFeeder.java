@@ -1,8 +1,10 @@
 package fr.cg95.cvq.service.request.social;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.social.DhrAssetKindType;
@@ -37,7 +39,7 @@ public class DomesticHelpRequestFeeder {
         System.out.println("***************************************** : "
                 + request.getRequesterHasSpouse());
 
-        Set<DhrRealAsset> realAssetSet = new HashSet<DhrRealAsset>();
+        List<DhrRealAsset> realAssets = new ArrayList<DhrRealAsset>();
         for (int i = 0; i < 3; i++) {
             DhrRealAsset realAsset = new DhrRealAsset();
 //            realAsset.setRealAssetAddress(new Address("103", " bd McDonald Real Asset", "75019",
@@ -45,11 +47,11 @@ public class DomesticHelpRequestFeeder {
 //            realAsset.setRealAssetNetFloorArea(new BigInteger("100"));
             realAsset.setRealAssetValue(new BigInteger("100"));
 
-            realAssetSet.add(realAsset);
+            realAssets.add(realAsset);
         }
-        request.setRealAssets(realAssetSet);
+        request.setRealAssets(realAssets);
 
-        Set<DhrNotRealAsset> donationSet = new HashSet<DhrNotRealAsset>();
+        List<DhrNotRealAsset> donations = new ArrayList<DhrNotRealAsset>();
         for (int i = 0; i < 3; i++) {
             DhrNotRealAsset donation = new DhrNotRealAsset();
             donation.setAssetType(DhrAssetTypeType.GIFT);
@@ -67,9 +69,9 @@ public class DomesticHelpRequestFeeder {
 //                    "75019", "PARIS"));
             donation.setAssetValue(new BigInteger("1000"));
 
-            donationSet.add(donation);
+            donations.add(donation);
         }
-        request.setNotRealAssets(donationSet);
+        request.setNotRealAssets(donations);
     }
 
     public static void setSubject(DomesticHelpRequest request, HomeFolder homeFolder) {

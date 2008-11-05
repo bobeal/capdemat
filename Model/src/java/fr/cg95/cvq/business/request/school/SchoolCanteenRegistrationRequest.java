@@ -109,22 +109,22 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         List list = new ArrayList();
         SchoolCanteenRegistrationRequest schoolCanteenRegistrationRequest = new SchoolCanteenRegistrationRequest();
         schoolCanteenRegistrationRequest.fillCommonModelInfo(schoolCanteenRegistrationRequest,schoolCanteenRegistrationRequestXml);
-        HashSet canteenAttendingDaysSet = new HashSet();
+        List<fr.cg95.cvq.business.users.LocalReferentialData> canteenAttendingDaysList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( schoolCanteenRegistrationRequestXml.sizeOfCanteenAttendingDaysArray() > 0) {
             for (int i = 0; i < schoolCanteenRegistrationRequestXml.getCanteenAttendingDaysArray().length; i++) {
-                canteenAttendingDaysSet.add(LocalReferentialData.xmlToModel(schoolCanteenRegistrationRequestXml.getCanteenAttendingDaysArray(i)));
+                canteenAttendingDaysList.add(LocalReferentialData.xmlToModel(schoolCanteenRegistrationRequestXml.getCanteenAttendingDaysArray(i)));
             }
         }
-        schoolCanteenRegistrationRequest.setCanteenAttendingDays(canteenAttendingDaysSet);
+        schoolCanteenRegistrationRequest.setCanteenAttendingDays(canteenAttendingDaysList);
         if (schoolCanteenRegistrationRequestXml.getSchool() != null)
             schoolCanteenRegistrationRequest.setSchool(School.xmlToModel(schoolCanteenRegistrationRequestXml.getSchool()));
-        HashSet foodDietSet = new HashSet();
+        List<fr.cg95.cvq.business.users.LocalReferentialData> foodDietList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( schoolCanteenRegistrationRequestXml.sizeOfFoodDietArray() > 0) {
             for (int i = 0; i < schoolCanteenRegistrationRequestXml.getFoodDietArray().length; i++) {
-                foodDietSet.add(LocalReferentialData.xmlToModel(schoolCanteenRegistrationRequestXml.getFoodDietArray(i)));
+                foodDietList.add(LocalReferentialData.xmlToModel(schoolCanteenRegistrationRequestXml.getFoodDietArray(i)));
             }
         }
-        schoolCanteenRegistrationRequest.setFoodDiet(foodDietSet);
+        schoolCanteenRegistrationRequest.setFoodDiet(foodDietList);
         schoolCanteenRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getHospitalizationPermission()));
         schoolCanteenRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
         schoolCanteenRegistrationRequest.setFoodAllergy(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getFoodAllergy()));
@@ -138,25 +138,27 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         return schoolCanteenRegistrationRequest;
     }
 
-    private Set canteenAttendingDays;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> canteenAttendingDays;
 
-    public final void setCanteenAttendingDays(final Set canteenAttendingDays) {
+    public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.users.LocalReferentialData> canteenAttendingDays) {
         this.canteenAttendingDays = canteenAttendingDays;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="school_canteen_registration_request_canteen_attending_days"
      * @hibernate.key
      *  column="school_canteen_registration_request_id"
+     * @hibernate.list-index
+     *  column="canteen_attending_days_index"
      * @hibernate.many-to-many
      *  column="canteen_attending_days_id"
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final Set getCanteenAttendingDays() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getCanteenAttendingDays() {
         return this.canteenAttendingDays;
     }
 
@@ -176,25 +178,27 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         return this.school;
     }
 
-    private Set foodDiet;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> foodDiet;
 
-    public final void setFoodDiet(final Set foodDiet) {
+    public final void setFoodDiet(final List<fr.cg95.cvq.business.users.LocalReferentialData> foodDiet) {
         this.foodDiet = foodDiet;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="school_canteen_registration_request_food_diet"
      * @hibernate.key
      *  column="school_canteen_registration_request_id"
+     * @hibernate.list-index
+     *  column="food_diet_index"
      * @hibernate.many-to-many
      *  column="food_diet_id"
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final Set getFoodDiet() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getFoodDiet() {
         return this.foodDiet;
     }
 

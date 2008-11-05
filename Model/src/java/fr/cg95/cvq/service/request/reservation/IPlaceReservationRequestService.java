@@ -1,8 +1,10 @@
 package fr.cg95.cvq.service.request.reservation;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fr.cg95.cvq.business.users.PlaceReservationData;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
@@ -36,7 +38,7 @@ public interface IPlaceReservationRequestService extends IRequestService {
      * @fixme always return null since {@link #getAuthorizedNumberOfPlaces(String)} is mocked
      * @return the list of place reservation for which there are errors or null if there are none.
      */
-    Set<String> checkPlaceReservationData(final Set placeReservationData, 
+    Set<String> checkPlaceReservationData(final List<PlaceReservationData> placeReservationData, 
             final String subscriberNumber)
         throws CvqException;
 }

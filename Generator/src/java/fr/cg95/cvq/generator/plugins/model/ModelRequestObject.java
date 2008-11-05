@@ -695,13 +695,13 @@ public class ModelRequestObject {
                     currentSb.append("        if (" + xmlBeansVariableAccessor + ".get" + elementName + "() != null)\n");
                     currentSb.append("            " + modelReturnInstance + ".set" + elementName + "(" + eltProperties.getModelClassName() + ".xmlToModel(" + xmlBeansVariableAccessor + ".get" + elementName + "()));\n");
                 } else {
-                    currentSb.append("        HashSet " + eltProperties.getNameAsParam() + "Set = new HashSet();\n");
+                    currentSb.append("        List<" + eltProperties.getJavaPackageName() + eltProperties.getModelClassName() + "> " + eltProperties.getNameAsParam() + "List = new ArrayList<" + eltProperties.getJavaPackageName() + eltProperties.getModelClassName() + "> ();\n");
                     currentSb.append("        if ( " + xmlBeansVariableAccessor + ".sizeOf" + elementName + "Array() > 0) {\n");
                     currentSb.append("            for (int i = 0; i < " + xmlBeansVariableAccessor + ".get" + elementName + "Array().length; i++) {\n");
-                    currentSb.append("                " + eltProperties.getNameAsParam() + "Set.add(" + eltProperties.getModelClassName() + ".xmlToModel(" + xmlBeansVariableAccessor + ".get" + elementName + "Array(i)));\n");
+                    currentSb.append("                " + eltProperties.getNameAsParam() + "List.add(" + eltProperties.getModelClassName() + ".xmlToModel(" + xmlBeansVariableAccessor + ".get" + elementName + "Array(i)));\n");
                     currentSb.append("            }\n");
                     currentSb.append("        }\n");
-                    currentSb.append("        " + modelReturnInstance + ".set" + elementName + "(" + eltProperties.getNameAsParam() + "Set);\n");
+                    currentSb.append("        " + modelReturnInstance + ".set" + elementName + "(" + eltProperties.getNameAsParam() + "List);\n");
                 }
             }
         }
@@ -772,7 +772,7 @@ public class ModelRequestObject {
             // instead of the real type
             if (eltModelProperties.getMaxOccurs() == null
                 || eltModelProperties.getMaxOccurs().intValue() > 1) {
-                type = "Set";
+                type = "List<" + eltModelProperties.getJavaPackageName() + eltModelProperties.getModelClassName() + ">";
                 appendJavaPackageName = false;
             } else {
                 type = StringUtils.removeEnd(eltModelProperties.getXmlSchemaType(), "Type");
@@ -820,13 +820,15 @@ public class ModelRequestObject {
                     currentSb.append("     *  class=\"" + eltModelProperties.getJavaPackageName() + eltModelProperties.getModelClassName() + "\"\n");
                 } else {
                     // a one-to-many
-                    currentSb.append("     * @hibernate.set\n");
+                    currentSb.append("     * @hibernate.list\n");
                     currentSb.append("     *  inverse=\"false\"\n");
                     if (eltModelProperties.isTiedToRequest())
                         currentSb.append("     *  cascade=\"all\"\n");
                     currentSb.append("     *  table=\"" + getSQLName(requestName) + "_" + getSQLName(elementName) + "\"\n");
                     currentSb.append("     * @hibernate.key\n");
                     currentSb.append("     *  column=\"" + getSQLName(requestName) + "_id\"\n");
+                    currentSb.append("     * @hibernate.list-index\n");
+                    currentSb.append("     *  column=\"" + getSQLName(elementName) + "_index\"\n");
                     currentSb.append("     * @hibernate.many-to-many\n");
                     currentSb.append("     *  column=\"" + getSQLName(elementName) + "_id\"\n");
                     currentSb.append("     *  class=\"" + eltModelProperties.getJavaPackageName() + eltModelProperties.getModelClassName() + "\"\n");
@@ -834,12 +836,14 @@ public class ModelRequestObject {
             } else if (eltModelProperties.getMaxOccurs() == null
                        || eltModelProperties.getMaxOccurs().intValue() > 1) {
                 // a one-to-many
-                currentSb.append("     * @hibernate.set\n");
+                currentSb.append("     * @hibernate.list\n");
                 currentSb.append("     *  inverse=\"false\"\n");
                 currentSb.append("     *  lazy=\"false\"\n");
                 currentSb.append("     *  cascade=\"all\"\n");
                 currentSb.append("     * @hibernate.key\n");
                 currentSb.append("     *  column=\"" + getSQLName(requestName) + "_id\"\n");
+                currentSb.append("     * @hibernate.list-index\n");
+                currentSb.append("     *  column=\"" + getSQLName(elementName) + "_index\"\n");
                 currentSb.append("     * @hibernate.one-to-many\n");
                 currentSb.append("     *  class=\"" + eltModelProperties.getJavaPackageName() + eltModelProperties.getModelClassName() + "\"\n");
             }

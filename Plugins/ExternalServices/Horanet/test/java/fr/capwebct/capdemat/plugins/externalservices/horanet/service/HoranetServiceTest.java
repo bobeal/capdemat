@@ -151,9 +151,9 @@ public class HoranetServiceTest extends ServiceTestCase {
         scrrRequest.setMeansOfContact(meansOfContact);
         LocalReferentialData foodDietLrd = new LocalReferentialData();
         foodDietLrd.setName("NoPork");
-        Set<LocalReferentialData> foodDietSet = new HashSet<LocalReferentialData>();
-        foodDietSet.add(foodDietLrd);
-        scrrRequest.setFoodDiet(foodDietSet);
+        List<LocalReferentialData> foodDiets = new ArrayList<LocalReferentialData>();
+        foodDiets.add(foodDietLrd);
+        scrrRequest.setFoodDiet(foodDiets);
         scrrService.create(scrrRequest, homeFolderResponsible.getId());
         
 		continueWithNewTransaction();
@@ -183,9 +183,9 @@ public class HoranetServiceTest extends ServiceTestCase {
         parrRequest.setMeansOfContact(meansOfContact);
         LocalReferentialData activityLrd = new LocalReferentialData();
         activityLrd.setName("EveningNursery");
-        Set<LocalReferentialData> activitySet = new HashSet<LocalReferentialData>();
-        activitySet.add(activityLrd);
-        parrRequest.setPerischoolActivity(activitySet);
+        List<LocalReferentialData> activities = new ArrayList<LocalReferentialData>();
+        activities.add(activityLrd);
+        parrRequest.setPerischoolActivity(activities);
         parrService.create(parrRequest, homeFolderResponsible.getId());
 
 		continueWithNewTransaction();

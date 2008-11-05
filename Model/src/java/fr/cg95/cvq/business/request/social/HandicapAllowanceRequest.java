@@ -231,13 +231,13 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
         handicapAllowanceRequest.fillCommonModelInfo(handicapAllowanceRequest,handicapAllowanceRequestXml);
         handicapAllowanceRequest.setAdultRequesterFirstName(handicapAllowanceRequestXml.getAdultRequester().getAdultRequesterFirstName());
         handicapAllowanceRequest.setLessThan20ReferentBirthPlaceCity(handicapAllowanceRequestXml.getLessThan20Referent().getLessThan20ReferentBirthPlaceCity());
-        HashSet familyDependentsSet = new HashSet();
+        List<fr.cg95.cvq.business.request.social.HarFamilyDependent> familyDependentsList = new ArrayList<fr.cg95.cvq.business.request.social.HarFamilyDependent> ();
         if ( handicapAllowanceRequestXml.sizeOfFamilyDependentsArray() > 0) {
             for (int i = 0; i < handicapAllowanceRequestXml.getFamilyDependentsArray().length; i++) {
-                familyDependentsSet.add(HarFamilyDependent.xmlToModel(handicapAllowanceRequestXml.getFamilyDependentsArray(i)));
+                familyDependentsList.add(HarFamilyDependent.xmlToModel(handicapAllowanceRequestXml.getFamilyDependentsArray(i)));
             }
         }
-        handicapAllowanceRequest.setFamilyDependents(familyDependentsSet);
+        handicapAllowanceRequest.setFamilyDependents(familyDependentsList);
         handicapAllowanceRequest.setLessThan20FatherMobilePhone(handicapAllowanceRequestXml.getLessThan20Father().getLessThan20FatherMobilePhone());
         handicapAllowanceRequest.setLessThan20ReferentHomePhone(handicapAllowanceRequestXml.getLessThan20Referent().getLessThan20ReferentHomePhone());
         if (handicapAllowanceRequestXml.getLessThan20Referent().getLessThan20ReferentAddress() != null)
@@ -424,24 +424,26 @@ public class HandicapAllowanceRequest extends Request implements Serializable {
         return this.lessThan20ReferentBirthPlaceCity;
     }
 
-    private Set familyDependents;
+    private List<fr.cg95.cvq.business.request.social.HarFamilyDependent> familyDependents;
 
-    public final void setFamilyDependents(final Set familyDependents) {
+    public final void setFamilyDependents(final List<fr.cg95.cvq.business.request.social.HarFamilyDependent> familyDependents) {
         this.familyDependents = familyDependents;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  lazy="false"
      *  cascade="all"
      * @hibernate.key
      *  column="handicap_allowance_request_id"
+     * @hibernate.list-index
+     *  column="family_dependents_index"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.social.HarFamilyDependent"
      */
-    public final Set getFamilyDependents() {
+    public final List<fr.cg95.cvq.business.request.social.HarFamilyDependent> getFamilyDependents() {
         return this.familyDependents;
     }
 

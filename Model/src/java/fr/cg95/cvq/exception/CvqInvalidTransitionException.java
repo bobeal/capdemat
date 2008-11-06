@@ -7,6 +7,11 @@ package fr.cg95.cvq.exception;
  */
 public class CvqInvalidTransitionException extends CvqException {
 
+    public CvqInvalidTransitionException(String reason, String key) {
+        super(reason, key);
+        // TODO Auto-generated constructor stub
+    }
+
     private static final long serialVersionUID = 1L;
 
     public CvqInvalidTransitionException() {

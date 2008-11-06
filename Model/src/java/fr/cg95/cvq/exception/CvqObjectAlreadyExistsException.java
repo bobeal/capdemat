@@ -16,4 +16,9 @@ public class CvqObjectAlreadyExistsException extends CvqException {
     public CvqObjectAlreadyExistsException(final String reason) {
         super(reason);
     }
+
+    public CvqObjectAlreadyExistsException(String reason, String key) {
+        super(reason, key);
+        // TODO Auto-generated constructor stub
+    }
 }

@@ -208,41 +208,32 @@ class RequestTypeController {
     //save a new season in the list 
     def saveSeasons = {
             
-            def requestType = 
-                defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-               
-               def label = params.label
-               def registrationEnd = DateUtils.stringToDate(params.registrationEnd)               
-               def registrationStart = DateUtils.stringToDate(params.registrationStart)
-               def effectStart = DateUtils.stringToDate(params.effectStart)
-               def effectEnd =  DateUtils.stringToDate(params.effectEnd)
-               def validationAuthorizationStart =
-                DateUtils.stringToDate(params.validationAuthorizationStart)            
-                
-               def translationService
-               
-               def requestSeason = new RequestSeason()
-                 
-           		 requestSeason.setLabel(label)
-           		 requestSeason.setRegistrationStart(registrationStart)
-                 requestSeason.setRegistrationEnd(registrationEnd)
-                 requestSeason.setEffectStart(effectStart)
-           		 requestSeason.setEffectEnd(effectEnd)
-           		 requestSeason.setValidationAuthorizationStart(validationAuthorizationStart)
-               
-           		 try{
-               		 defaultRequestService.createRequestTypeSeasons(requestType,requestSeason)
-                  } catch (CvqModelException cme) {
-                      
-          		      render ([status: "error", 
-                                  error_msg: "Erreur :" + cme]
-          		              as JSON)
-                  	
-                    return 
-                  
-                  }
-           		 render([status:"ok",seasonUuid: requestSeason.uuid,
-                  seasonLabel:requestSeason.label] as JSON)
+        def requestType = 
+            defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
+           
+           def label = params.label
+           def registrationEnd = DateUtils.stringToDate(params.registrationEnd)               
+           def registrationStart = DateUtils.stringToDate(params.registrationStart)
+           def effectStart = DateUtils.stringToDate(params.effectStart)
+           def effectEnd =  DateUtils.stringToDate(params.effectEnd)
+           def validationAuthorizationStart =
+            DateUtils.stringToDate(params.validationAuthorizationStart)            
+            
+           def translationService
+           
+           def requestSeason = new RequestSeason()
+             
+             requestSeason.setLabel(label)
+             requestSeason.setRegistrationStart(registrationStart)
+             requestSeason.setRegistrationEnd(registrationEnd)
+             requestSeason.setEffectStart(effectStart)
+             requestSeason.setEffectEnd(effectEnd)
+             requestSeason.setValidationAuthorizationStart(validationAuthorizationStart)
+           
+            
+             defaultRequestService.createRequestTypeSeasons(requestType,requestSeason)
+             render([status:"ok",seasonUuid: requestSeason.uuid,
+             seasonLabel:requestSeason.label] as JSON)
                  
     }
    
@@ -262,13 +253,7 @@ class RequestTypeController {
                 defaultRequestService.getRequestTypeById(Long.valueOf(params.requestTypeId))
                
                 def uuid = params.seasonUuid
-                try{
-                        defaultRequestService.removeRequestTypeSeasons(requestType,uuid)
-                } catch (CvqModelException cme) { 
-                    render ([status: "error", 
-                             error_msg:message(code:"requestSeason.error.seasonNotFound")] as JSON)
-                  return
-                }
+                defaultRequestService.removeRequestTypeSeasons(requestType,uuid)
                 render ([status:"ok",uuid:params.seasonUuid,
                                  success_msg:message(code:"requestSeason.message.confirmDelete")] as JSON)
     }

@@ -45,7 +45,7 @@ class RequestInstructionController {
     IMailService mailService
 
     def translationService
-
+    def instructionService
     def defaultAction = "edit"
 
     def beforeInterceptor = {
@@ -54,60 +54,60 @@ class RequestInstructionController {
 
     def edit = {
 
-		    def request = defaultRequestService.getById(Long.valueOf(params.id))
-		    def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
+        def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
 
-		    def documentList = []
-		    def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
+        def documentList = []
+        def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
+    
+        requestDocuments.each {
+            documentList.add(
+            [ "id": it.id,
+              "name": it.documentType.name,
+              "endValidityDate" : it.endValidityDate == null ? "" : DateUtils.formatDate((Date)it.endValidityDate),
+              "pageNumber": documentService.getPagesNumber(it.id),
+              "state": CapdematUtils.adaptCapdematEnum(it.state, "document.state")
+                ])
+        }
 
-		    requestDocuments.each {
-		        documentList.add(
-                [ "id": it.id,
-                  "name": it.documentType.name,
-                  "endValidityDate" : it.endValidityDate == null ? "" : DateUtils.formatDate((Date)it.endValidityDate),
-                  "pageNumber": documentService.getPagesNumber(it.id),
-                  "state": CapdematUtils.adaptCapdematEnum(it.state, "document.state")
-		            ])
-		    }
+        // manage allowed and associated documents to a request
+        def isDocumentProvide
+        defaultRequestService.getAllowedDocuments(request.getRequestType()).each { documentTypeIt ->
+            isDocumentProvide = false
+            requestDocuments.each { documentIt ->
+                if (documentIt.documentType == documentTypeIt)
+                    isDocumentProvide = true
+            }
+            if (!isDocumentProvide)
+                documentList.add(
+                    [ "id": 0,
+                  "name": documentTypeIt.name,
+                  "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
+                    ])
+        }
+        
+    // just for VoCardRequest and HomeFolderModificationRequest
+        def adults
+        def children
+        def clr = [:]
+        if (request instanceof  fr.cg95.cvq.business.request.ecitizen.VoCardRequest
+            || request instanceof fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest) {
+            adults = homeFolderService.getAdults(request.homeFolder.id)
+            children = homeFolderService.getChildren(request.homeFolder.id)
+            children.each {
+                clr.put(it.id, childService.getLegalResponsibles(it.id))
+            }
+        }
 
-		    // manage allowed and associated documents to a request
-		    def isDocumentProvide
-		    defaultRequestService.getAllowedDocuments(request.getRequestType()).each { documentTypeIt ->
-		        isDocumentProvide = false
-		        requestDocuments.each { documentIt ->
-		            if (documentIt.documentType == documentTypeIt)
-		                isDocumentProvide = true
-		        }
-		        if (!isDocumentProvide)
-		            documentList.add(
-		                [ "id": 0,
-                      "name": documentTypeIt.name,
-                      "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
-		                ])
-		    }
-
-		    // just for VoCardRequest and HomeFolderModificationRequest
-		    def adults
-		    def children
-		    def clr = [:]
-		    if (request instanceof  fr.cg95.cvq.business.request.ecitizen.VoCardRequest
-		        || request instanceof fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest) {
-		        adults = homeFolderService.getAdults(request.homeFolder.id)
-		        children = homeFolderService.getChildren(request.homeFolder.id)
-		        children.each {
-		        	clr.put(it.id, childService.getLegalResponsibles(it.id))
-		        }
-		    }
-
-		    [ "request": request,
-		      "adults" : adults,
-		      "children" : children,
-		      "childrenLegalResponsibles" : clr,
-		      "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
-		      "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
-		      "requestLabel": requestLabel,
-		      "documentList": documentList
-		    ]
+        [ "request": request,
+          "adults" : adults,
+          "children" : children,
+          "childrenLegalResponsibles" : clr,
+          "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+          "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
+          "requestLabel": requestLabel,
+          "documentList": documentList
+        ]
     }
 
 
@@ -158,22 +158,15 @@ class RequestInstructionController {
     def modify = {
         if (params.requestId == null || params.individualId == null )
              return
-        try {
-          def individual = individualService.getById(Long.valueOf(params.individualId))
+        def individual = individualService.getById(Long.valueOf(params.individualId))
 
-          log.debug("Binder custum editor PersistentStringEnum = " +
-              getBinder(individual)
-                  .propertyEditorRegistry
-                  .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
-          )
-          bind(individual)
-
-          render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-        } catch (CvqException ce) {
-            ce.printStackTrace()
-            log.error "save() error while saving property of request"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }
+        log.debug("Binder custum editor PersistentStringEnum = " +
+            getBinder(individual)
+                .propertyEditorRegistry
+                .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
+        )
+        bind(individual)
+        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
 
@@ -215,32 +208,25 @@ class RequestInstructionController {
         if (params.stateType == null || params.newState == null || params.id == null )
              return
 
-        try {
-            switch (params.stateType) {
-                case "requestDataState":
-                    defaultRequestService.updateRequestDataState(
-                            Long.valueOf(params.id), DataState.forString(params.newState))
-                    break
-                case "documentState":
-                    documentService.updateDocumentState(
-                            Long.valueOf(params.id),
-                            DocumentState.forString(params.newState),
-                            null, null)
-                    break
-                case "requestState":
-                    defaultRequestService.updateRequestState(
-                            Long.valueOf(params.id),
-                            RequestState.forString(params.newState),
-                            null)
-                   break
-            }
-    		    render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-
-        } catch (CvqException ce) {
-            ce.printStackTrace()
-            log.error "postNewState() error while updating state (request, data, or document)"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        switch (params.stateType) {
+            case "requestDataState":
+                defaultRequestService.updateRequestDataState(
+                        Long.valueOf(params.id), DataState.forString(params.newState))
+                break
+            case "documentState":
+                documentService.updateDocumentState(
+                        Long.valueOf(params.id),
+                        DocumentState.forString(params.newState),
+                        null, null)
+                break
+            case "requestState":
+                defaultRequestService.updateRequestState(
+                        Long.valueOf(params.id),
+                        RequestState.forString(params.newState),
+                        null)
+               break
         }
+        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
     /* Document managment
@@ -253,7 +239,7 @@ class RequestInstructionController {
         document.actions.each {
             def agent
             try {
-              agent = it.agentId ? agentService.getById(it.agentId) : null
+                agent = it.agentId ? agentService.getById(it.agentId) : null
             } catch (CvqObjectNotFoundException) {
                 agent = null
             }
@@ -318,14 +304,8 @@ class RequestInstructionController {
     def modifyDocument = {
         def document = documentService.getById(Long.valueOf(params.documentId))
         bind(document)
-        try {
-            documentService.modify(document)
-            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-        } catch (CvqException ce) {
-            ce.printStackTrace()
-            log.error "modifyDocument()"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }
+        documentService.modify(document)
+        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
 
@@ -393,18 +373,12 @@ class RequestInstructionController {
         def to = params.contactRecipient
         def body = params.contactMessage
 
-        try {
-            if (meansOfContact == MeansOfContactEnum.EMAIL)
-                meansOfContactService.notifyRequesterByEmail(null, to , "", body, null)
-            else if (meansOfContact == MeansOfContactEnum.SMS)
-                meansOfContactService.notifyRequesterBySms(to, body)
+        if (meansOfContact == MeansOfContactEnum.EMAIL)
+            meansOfContactService.notifyRequesterByEmail(null, to , "", body, null)
+        else if (meansOfContact == MeansOfContactEnum.SMS)
+            meansOfContactService.notifyRequesterBySms(to, body)
 
-            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-        } catch (CvqException ce) {
-            ce.printStackTrace()
-            log.error "notifyContact() error while notifying requester)"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }
+        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
 
@@ -454,13 +428,15 @@ class RequestInstructionController {
         def requestActions = defaultRequestService.getActions(Long.valueOf(params.id))
         def requestActionList = []
         requestActions.each {
-            def user = ""
-            try {
-                def requestAgent = agentService.getById(it.agentId)
-                user = requestAgent.firstName + " " + requestAgent.lastName
-            } catch (CvqObjectNotFoundException) {
-                user = "Demandeur"
-            }
+            def user = instructionService.getActionPosterDetails(it.agentId)
+            //def user = ""
+            //try {
+            //    def requestAgent = agentService.getById(it.agentId)
+            //    user = requestAgent.firstName + " " + requestAgent.lastName
+            //} catch (CvqObjectNotFoundException) {
+            //    //FIXME: Extract this to an external service
+            //    user = "Demandeur"
+            //}
             def requestAction = [
                 'id':it.id,
                 'agent_name':user,
@@ -476,45 +452,40 @@ class RequestInstructionController {
     }
 
     def requestNotes = {
-    		def requestNotes = defaultRequestService.getNotes(Long.valueOf(params.id))
-    		def requestNoteList = []
-    		requestNotes.each {
-                def user = ""
-                try {
-                    def requestAgent = agentService.getById(it.agentId)
-                    user = requestAgent.firstName + " " + requestAgent.lastName
-                } catch (CvqObjectNotFoundException) {
-                    user = "Demandeur"
-                }
-    			def requestNote = [
-	               'id':it.id,
-	               'agent_name':user,
-	               'type':it.type,
-	               'note':it.note,
-	               'request_id':it.request.id
-    			]
-    			requestNoteList.add(requestNote)
-    		}
-            render(template:'requestNotes', model:['requestNoteList':requestNoteList,'requestId':params.id])
+        def requestNotes = defaultRequestService.getNotes(Long.valueOf(params.id))
+        def requestNoteList = []
+        requestNotes.each {
+            def user = instructionService.getActionPosterDetails(it.agentId)
+            //def user = ""
+            //try {
+            //    def requestAgent = agentService.getById(it.agentId)
+            //    user = requestAgent.firstName + " " + requestAgent.lastName
+            //} catch (CvqObjectNotFoundException) {
+            //    user = "Demandeur"
+            //}
+            def requestNote = [
+               'id':it.id,
+               'agent_name':user,
+               'type':it.type,
+               'note':it.note,
+               'request_id':it.request.id
+            ]
+            requestNoteList.add(requestNote)
+        }
+        render(template:'requestNotes', model:['requestNoteList':requestNoteList,'requestId':params.id])
     }
 
     def addRequestNote = {
-        try {
-            if (params.requestId != null && params.newRequestNote != null)
-          			defaultRequestService.addNote(Long.valueOf(params.requestId),
-          					RequestNoteType.DEFAULT_NOTE, params.newRequestNote)
-          	else
-          		 redirect(controller:"request")
-          } catch (CvqException cvqe) {
-          	log.error "save() error while adding a note to request " + params.id
-              render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-              return
-          }
+        if (params.requestId != null && params.newRequestNote != null)
+            defaultRequestService.addNote(Long.valueOf(params.requestId),
+                    RequestNoteType.DEFAULT_NOTE, params.newRequestNote)
+        else
+            redirect(controller:"request")
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
     def trace = {
-        //throw new CvqException('action.cancel');
+        //throw new CvqException('AAAAAAAAAA','action.cancel');
         def request = this.defaultRequestService.getById(Long.valueOf(params?.requestId))
         this.defaultRequestService.addAction(request, params?.traceLabel, params?.message)
         render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)

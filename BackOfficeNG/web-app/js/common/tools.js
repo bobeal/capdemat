@@ -25,6 +25,14 @@
     mozilla: /mozilla/.test(userAgent) && !/(compatible|webkit)/.test(userAgent)
   };
 
+  /**
+   * @description Returns the namespace specified and creates it if it doesn't exist
+   * @method namespace
+   * @param  {String*} arguments 1-n namespaces to create
+   * @return {Object}  A reference to the last namespace object created
+   *
+   * @author vba@zenexity.fr
+   **/
   zct.namespace = function(){
     var a = arguments, o = null, i, j, d;
     for (i = 0; i < a.length; i = i + 1) {
@@ -37,7 +45,16 @@
     }
     return o;
   };
-
+  
+  /**
+   * @description Execute a function within the context of passed element
+   * @method each
+   * @param {Object|Array} object context element
+   * @param {Function} callback function that will be executed in the context of each element
+   * @param {Array} args additional params to be passed in callback function
+   *
+   * @author vba@zenexity.fr
+   **/
   zct.each = function(object, callback, args){
     var name, i = 0, length = object.length;
     if (args) {
@@ -64,6 +81,15 @@
     return object;
   };
 
+  /**
+   * @description Returns an array of elements that pass the test(grep) method.
+   * @method grep
+   * @param {Array} array of elements to grep
+   * @param {Function} test function that is applied to each element
+   * @returns {Array} list of elments passed test
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.grep = function(elems, callback, inv){
     var ret = [];
     for (var i = 0, length = elems.length; i < length; i++)
@@ -71,7 +97,16 @@
         ret.push(elems[i]);
     return ret;
   };
-
+  
+  /**
+   * @description Goes through the array, translating each of the items to their new value (or values). 
+   * @method map
+   * @param {Array} Array of elements
+   * @param {Function} Translation function
+   * @returns {Array} translated array
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.map = function(elems, callback){
     var ret = [];
     for (var i = 0, length = elems.length; i < length; i++) {
@@ -82,10 +117,27 @@
     return ret.concat.apply([], ret);
   };
 
+  /**
+   * @description Checks if passed node element has indicated name.
+   * @method nodeName
+   * @param {HTMLElement} DOM node
+   * @param {String} name to check
+   * @returns {Boolean} result of test
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.nodeName = function(elem, name){
     return elem.nodeName && elem.nodeName.toUpperCase() == name.toUpperCase();
   };
 
+  /**
+   * @description Normalize an array or transform an element to an array
+   * @method makeArray
+   * @param {Object|Array} array element/array to be processed
+   * @returns {Array} new array
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.makeArray = function(array){
     var ret = [];
     if (array != null) {
@@ -99,6 +151,15 @@
     return ret;
   }
 
+  /**
+   * @description Mergs two arrays
+   * @method merge
+   * @param {Array} first first array to merge
+   * @param {Array} second second array to merge
+   * @returns {Array} merged array
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.merge = function( first, second ) {
     var i = 0, elem, pos = first.length;
     if ( zct.browser.msie ) {
@@ -108,10 +169,18 @@
     } else
       while ( elem = second[ i++ ] )
         first[ pos++ ] = elem;
-
     return first;
   };
-
+  
+  /**
+   * @description Gets element position in array if this one is contained in array or gets -1 otherwise
+   * @method inArray
+   * @param {Object} elem element to find
+   * @param {Array} array array to perorm test
+   * @returns {Integer} position if element found or -1 otherwise
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.inArray = function(elem, array){
     for (var i = 0, length = array.length; i < length; i++)
       if (array[i] === elem)
@@ -119,12 +188,28 @@
     return -1;
   };
 
+  /**
+   * @description Check if an object is a function (more sophisticated check that YUI)
+   * @method isFunction
+   * @param {Object} object to be checked
+   * @returns {Boolean} test result
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.isFunction = function(fn){
     return !!fn && typeof fn != "string" && !fn.nodeName &&
     fn.constructor != Array &&
     /^[\s[]?function/.test(fn + "");
   };
-
+  
+  /**
+   * @description Serialize an array of form elements or a set of key/values into a query string
+   * @method param
+   * @param {Array} a array to be serialized
+   * @returns {String} query string
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.param = function(a){
     var s = [];
     var c = zct.grep(a, function(n){
@@ -145,7 +230,15 @@
       }
     return s.join("&").replace(/%20/g, "+");
   };
-
+  
+  /**
+   * @description Normalize an array of HTMLElements for query string serialization.
+   * @method serializeArray
+   * @param {String} nodeId  An ID of html element-container 
+   * @returns {Array} Normalized array
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.serializeArray = function(nodeId){
     var node = s.query('#' + nodeId)[0];
     var a = [], n = [];
@@ -175,11 +268,28 @@
     });
     return zct.makeArray(n);
   };
-
+  
+  /**
+   * @description Realize a facade for elements serialization
+   * @method serialize
+   * @param {String} nodeId  An ID of html element-container
+   * @returns {String} query string
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.serialize = function(nodeId){
     return zct.param(zct.serializeArray(nodeId));
   };
-
+  
+  /**
+   * @description Gets/sets the content of the value attribute of the passed element.
+   * @method val
+   * @param {HTMLElement} element scope element
+   * @param {String|Undefined} value to be set
+   * @returns {Object} element value if method used as getter case
+   * 
+   * @author vba@zenexity.fr
+   **/
   zct.val = function(element, value){
     if (value == undefined) {
       if (!!element) {
@@ -231,6 +341,8 @@
    * @description Strips HTML tags
    * @method stripTags
    * @param {String} string Striping scope.
+   * @returns {String} striped string
+   * 
    * @author vba@zenexity.fr
    **/
   zct.stripTags = function(string){
@@ -259,6 +371,8 @@
   /**
    * @description Generates universally unique identifier in string format.
    * @method generateUID
+   * @returns {String} newly generated UUID
+   * 
    * @author vba@zenexity.fr
    */
   zct.generateUUID = function(){
@@ -282,11 +396,13 @@
   };
 
   /**
-   * @description Tries to call a function safetly
+   * @description Tries to call a function safely
    * @method tryToCall
-   * @param {Function} f function object to be called
-   * @param {Object} c context in which function is called
-   * @param {Array | Object} params parameters to be suplied to function call
+   * @param {Function*} f function object to be called
+   * @param {Object*} c context in which function is called
+   * @param {Array | Object*} params parameters to be supplied to function call
+   * @returns{Object|Undefined} function execution result if this one had place
+   * 
    * @author vba@zenexity.fr
    */
   zct.tryToCall = function(){
@@ -305,6 +421,8 @@
    * @description Capitalizes entered world/sentence
    * @method capitalize
    * @param {String} s world to be capitalized
+   * @returns {String} Capitalized string
+   * 
    * @author vba@zenexity.fr
    */
   zct.capitalize = function(s){
@@ -314,8 +432,9 @@
   /**
    * @description Get a set of elements containing all of siblings of passed element.
    * @method siblings
-   * @param {HTMLElement} el scope element to retrive siblings
+   * @param {HTMLElement} el scope element to retrieve siblings
    * @param {Function} callback function applied to each sibling
+   * @returns {Array} siblings collection
    * @author vba@zenexity.fr
    */
   zct.siblings = function(el, callback){
@@ -341,6 +460,7 @@
    * @param {HTMLElement} node scope element.
    * @param {String} text to append/apply to node.
    * @param {Boolean} append flag to indicate if specified text has to be append as new text node.
+   * @returns {String} element textual value (if used as getter)
    * @author vba@zenexity.fr
    */
   zct.text = function(node,text, append) {
@@ -356,6 +476,7 @@
    * @method html
    * @param {HTMLElement} node scope element.
    * @param {String} html text to apply as node HTML.
+   * @returns {String} element html content "as is" (if used as getter)
    * @author vba@zenexity.fr
    *
    */
@@ -369,7 +490,41 @@
       return true;
     }
   };
-
+  
+  /**
+   * @description Fade in passed element by adjusting its opacity and firing an optional callback after completion
+   * @method fadeIn
+   * @param {HTMLElement} el element to be processed
+   * @param {Float} speed animation speed(in seconds) 
+   * @param {Function} callback function that is called after adjusting
+   * 
+   * @author vba@zenexity.fr
+   **/
+  zct.fadeIn = function(el,speed,callback){};
+  
+  /**
+   * @description Fade out passed element by adjusting its opacity and firing an optional callback after completion
+   * @method fadeOut
+   * @param {HTMLElement} el element to be processed
+   * @param {Float} speed animation speed(in seconds) 
+   * @param {Function} callback function that is called after adjusting
+   * 
+   * @author vba@zenexity.fr
+   **/
+  zct.fadeOut = function(el,speed,callback){};
+  
+  /**
+   * @description Cover method that "freeze" element opacity during an interval and fire an optional callback after completion
+   * @method fadeNone
+   * @param {HTMLElement} el element to be processed
+   * @param {Float} speed animation speed(in seconds) 
+   * @param {Function} callback function that is called after freezing
+   * 
+   * @author vba@zenexity.fr
+   **/
+  zct.fadeNone = function(el,speed,callback){};
+  
+  //Create innerHeight, innerWidth, outerHeight and outerWidth methods
   zct.each(["Height", "Width"], function(i, name){
     var type = name.toLowerCase();
     var browser = zct.browser;

@@ -9,7 +9,7 @@ class CapdematUtils {
             "cssClass": "tag-" + capdematState.toString().toLowerCase(), 
             "i18nKey": i18nKeyPrefix + "." + StringUtils.pascalToCamelCase(capdematState.toString()),
             "enumString": capdematState.toString()
-        ]         
+        ]
     }
     
     // TODO : check how one can inject the translation service in this class

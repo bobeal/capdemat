@@ -74,7 +74,7 @@
     
     if(YAHOO.lang.JSON.isValid(text)) {
       var json = YAHOO.lang.JSON.parse(text);
-      zcc.Notifier.processMessage('modelError',json.message);
+      zcc.Notifier.processMessage('modelError',(json.i18nkey || json.message));
     } else {
       zcc.Notifier.processMessage('unexpectedError', errorBody);
     }
@@ -215,9 +215,10 @@
       effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.25},
       modal:true, visible:false, draggable:false, fixedcenter:true,
       icon:YAHOO.widget.SimpleDialog.ICON_WARN ,
-      buttons:[{ text: this.Label.first,isDefault:true,
-        handler:function(e){zct.tryToCall(confirmHandler,this);this.hide();}},
-               { text:this.Label.second, handler:function() {this.hide();}}]
+      buttons:[{ text:'  Ok  ',isDefault:true, handler:function() {this.hide();}}]
+      //{ text: this.Label.first,isDefault:true,
+      //  handler:function(e){zct.tryToCall(confirmHandler,this);this.hide();}},
+      //{ text:this.Label.second, handler:function() {this.hide();}}
       }
     );
     this.setHeader(content.head || 'Warning');
@@ -277,32 +278,26 @@
       displaySuccess : function(message,cn) {
         var el = new yu.Element(yud.get(zcc.Notifier.getMessageZone(cn)));
         el.replaceClass('invisible','success-top');
-      	zct.style(el.get('element'),{'background-color':'#DDFFDD',display:'block'});
-      	zct.text(el.get('element'),message);
-      	zct.fadeIn(el.get('element'),0.01,function(e,n){
-      	  zct.fadeNone(el.get('element'),3,function(e,n){
-      	    zct.fadeOut(el.get('element'),3);
-      	  });
+        zct.style(el.get('element'),{'background-color':'#DDFFDD',display:'block'});
+        zct.text(el.get('element'),message);
+        zct.fadeIn(el.get('element'),0.01,function(e,n){
+          zct.fadeNone(el.get('element'),3,function(e,n){
+            zct.fadeOut(el.get('element'),3);
+          });
         });
       },
-      displayUnexpectedError : function(message) {
-        zcc.Notifier.confirmationDialog.setBody(message);
-        zcc.Notifier.confirmationDialog.show();
-      },
-      displayModelError : function(message,cn) {
-        var el = new yu.Element(yud.get(zcc.Notifier.getMessageZone(cn)));
-        el.replaceClass('invisible','error-top');
-      	zct.style(el.get('element'),{'background-color':'#DDFFDD',display:'block'});
-      	zct.text(el.get('element'),message);
-      	zct.fadeIn(el.get('element'),0.01,function(e,n){
-      	  zct.fadeNone(el.get('element'),3,function(e,n){
-      	    zct.fadeOut(el.get('element'),3);
-      	  });
-        });
-      },
+      displayUnexpectedError : function(message) {},
+      displayModelError : function(message,cn) {},
       confirmHandler : function() {}
     }
   }();
+  
+  zct.each(['UnexpectedError','ModelError'],function(i,name){
+    zcc.Notifier[['display',name].join('')] = function(message) {
+      zcc.Notifier.confirmationDialog.setBody(message);
+      zcc.Notifier.confirmationDialog.show();
+    }
+  })  
 
 
   zcc.Event = function(context,rule) {

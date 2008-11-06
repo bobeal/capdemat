@@ -1,5 +1,5 @@
 <g:if test="${ExceptionUtils.isModelException(exception)}">
-    {"status":"modelException", "message":"${message(code:exception.message)}"}
+    {"status":"modelException", "message":"${exception.message}", "i18nkey":"${message(code:ExceptionUtils.getModelI18nKey(exception))}" }
 </g:if>
 <g:else>
     <html>

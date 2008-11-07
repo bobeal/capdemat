@@ -11,6 +11,7 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'templateManager.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeForms.js')}"></script>
     
+    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeDocuments.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeConfigure.js')}"></script>
     
     <!-- 
@@ -40,7 +41,7 @@
               <li class="selected" title="active">
                 <a href="#confArea_Tab1"><em>${message(code:'requestType.header.formsList')}</em></a>
               </li> 
-            </ul>            
+            </ul>
             <div class="yui-content">
               <!-- First area -->
               <div id="confArea_Tab1">
@@ -52,17 +53,15 @@
                   <div id="requestFormList"></div>
                   <div class="separator"></div>
                 </div>
-  
               </div>
-              
             </div>
           </div>
-          
           <div class="mainbox mainbox-yellow" id="requestTypeAlerts" style="display:none"></div>
           <div class="mainbox mainbox-yellow" id="requestTypeSeasons" style="display:none"></div>
-          
+          <div class="mainbox mainbox-yellow" id="requestTypeDocuments" style="display:none">
+            <div id="documentList"></div>
+          </div>
         </div>
-        
         <form method="post" id="editorForm" action="${createLink(action:'mailTemplate')}" class="editor-form">
           <div id="editPanel">
             <div class="hd">Change state</div>

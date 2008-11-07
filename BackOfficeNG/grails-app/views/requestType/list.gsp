@@ -1,4 +1,3 @@
-<%@ taglib prefix="g" uri="/BackOfficeNG/web-app/WEB-INF/tld/grails.tld" %>
 <html>
   <head>
     <title><g:message code="requestType.header.requestList" /></title>

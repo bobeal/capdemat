@@ -59,7 +59,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         
       },
       loadEditForm : function(container) {
-        if(!!zcbrp.Forms.containers[container.id]) return false;
+        if(!!zcbrp.Forms.containers[container.id]) return;
         var url = ['/form/',container.id.split('_')[1]].join('');
         zcbrp.Forms.containers[container.id] = container;
         zcc.doAjaxCall(url,[],function(o){

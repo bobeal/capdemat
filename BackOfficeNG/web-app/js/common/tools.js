@@ -1,11 +1,13 @@
 /**
+ * Provides collection of tools customized/optimized for capdemat client-side needs.
  * Partially inspired by jQuery and partially based on jQuery syntactic sugar.
  *
+ * @namespace zenexity.capdemat.tools
  * @author vba@zenexity.fr
  *
  **/
 (function(){
-
+  
   window.zenexity = {
     capdemat: {
       tools: {},
@@ -16,7 +18,7 @@
   var userAgent = navigator.userAgent.toLowerCase();
   var s = YAHOO.util.Selector;
   var zct = zenexity.capdemat.tools;
-
+  
   zct.browser = {
     version: (userAgent.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [])[1],
     safari: /webkit/.test(userAgent),
@@ -28,6 +30,7 @@
   /**
    * @description Returns the namespace specified and creates it if it doesn't exist
    * @method namespace
+   * @namespace zenexity.capdemat.tools
    * @param  {String*} arguments 1-n namespaces to create
    * @return {Object}  A reference to the last namespace object created
    *
@@ -49,6 +52,7 @@
   /**
    * @description Execute a function within the context of passed element
    * @method each
+   * @namespace zenexity.capdemat.tools
    * @param {Object|Array} object context element
    * @param {Function} callback function that will be executed in the context of each element
    * @param {Array} args additional params to be passed in callback function
@@ -84,6 +88,7 @@
   /**
    * @description Returns an array of elements that pass the test(grep) method.
    * @method grep
+   * @namespace zenexity.capdemat.tools
    * @param {Array} array of elements to grep
    * @param {Function} test function that is applied to each element
    * @returns {Array} list of elments passed test
@@ -101,6 +106,7 @@
   /**
    * @description Goes through the array, translating each of the items to their new value (or values). 
    * @method map
+   * @namespace zenexity.capdemat.tools
    * @param {Array} Array of elements
    * @param {Function} Translation function
    * @returns {Array} translated array
@@ -120,6 +126,7 @@
   /**
    * @description Checks if passed node element has indicated name.
    * @method nodeName
+   * @namespace zenexity.capdemat.tools
    * @param {HTMLElement} DOM node
    * @param {String} name to check
    * @returns {Boolean} result of test
@@ -133,6 +140,7 @@
   /**
    * @description Normalize an array or transform an element to an array
    * @method makeArray
+   * @namespace zenexity.capdemat.tools
    * @param {Object|Array} array element/array to be processed
    * @returns {Array} new array
    * 
@@ -154,6 +162,7 @@
   /**
    * @description Mergs two arrays
    * @method merge
+   * @namespace zenexity.capdemat.tools
    * @param {Array} first first array to merge
    * @param {Array} second second array to merge
    * @returns {Array} merged array
@@ -175,6 +184,7 @@
   /**
    * @description Gets element position in array if this one is contained in array or gets -1 otherwise
    * @method inArray
+   * @namespace zenexity.capdemat.tools
    * @param {Object} elem element to find
    * @param {Array} array array to perorm test
    * @returns {Integer} position if element found or -1 otherwise
@@ -191,6 +201,7 @@
   /**
    * @description Check if an object is a function (more sophisticated check that YUI)
    * @method isFunction
+   * @namespace zenexity.capdemat.tools
    * @param {Object} object to be checked
    * @returns {Boolean} test result
    * 
@@ -205,6 +216,7 @@
   /**
    * @description Serialize an array of form elements or a set of key/values into a query string
    * @method param
+   * @namespace zenexity.capdemat.tools
    * @param {Array} a array to be serialized
    * @returns {String} query string
    * 
@@ -234,6 +246,7 @@
   /**
    * @description Normalize an array of HTMLElements for query string serialization.
    * @method serializeArray
+   * @namespace zenexity.capdemat.tools
    * @param {String} nodeId  An ID of html element-container 
    * @returns {Array} Normalized array
    * 
@@ -272,6 +285,7 @@
   /**
    * @description Realize a facade for elements serialization
    * @method serialize
+   * @namespace zenexity.capdemat.tools
    * @param {String} nodeId  An ID of html element-container
    * @returns {String} query string
    * 
@@ -284,6 +298,7 @@
   /**
    * @description Gets/sets the content of the value attribute of the passed element.
    * @method val
+   * @namespace zenexity.capdemat.tools
    * @param {HTMLElement} element scope element
    * @param {String|Undefined} value to be set
    * @returns {Object} element value if method used as getter case
@@ -340,6 +355,7 @@
   /**
    * @description Strips HTML tags
    * @method stripTags
+   * @namespace zenexity.capdemat.tools
    * @param {String} string Striping scope.
    * @returns {String} striped string
    * 
@@ -352,6 +368,7 @@
   /**
    * @description HTMLElement styles setter/getter
    * @method style
+   * @namespace zenexity.capdemat.tools
    * @param {String | HTMLElement | Array} el Accepts a string to use as an ID, an actual DOM reference, or an Array of IDs and/or HTMLElements.
    * @param {Array} JSON object that describes styles to set
    * @author vba@zenexity.fr
@@ -371,6 +388,7 @@
   /**
    * @description Generates universally unique identifier in string format.
    * @method generateUID
+   * @namespace zenexity.capdemat.tools
    * @returns {String} newly generated UUID
    * 
    * @author vba@zenexity.fr
@@ -398,10 +416,11 @@
   /**
    * @description Tries to call a function safely
    * @method tryToCall
+   * @namespace zenexity.capdemat.tools
    * @param {Function*} f function object to be called
    * @param {Object*} c context in which function is called
    * @param {Array | Object*} params parameters to be supplied to function call
-   * @returns{Object|Undefined} function execution result if this one had place
+   * @returns{Object | Undefined} function execution result if this one had place
    * 
    * @author vba@zenexity.fr
    */
@@ -420,6 +439,7 @@
   /**
    * @description Capitalizes entered world/sentence
    * @method capitalize
+   * @namespace zenexity.capdemat.tools
    * @param {String} s world to be capitalized
    * @returns {String} Capitalized string
    * 
@@ -432,6 +452,7 @@
   /**
    * @description Get a set of elements containing all of siblings of passed element.
    * @method siblings
+   * @namespace zenexity.capdemat.tools
    * @param {HTMLElement} el scope element to retrieve siblings
    * @param {Function} callback function applied to each sibling
    * @returns {Array} siblings collection
@@ -457,6 +478,7 @@
   /**
    * @description Set the combined text contents to indicated DOM element. Escapes HTML (replace "<" and ">" with their HTML entities). Cannot be used on input elements.
    * @method text
+   * @namespace zenexity.capdemat.tools
    * @param {HTMLElement} node scope element.
    * @param {String} text to append/apply to node.
    * @param {Boolean} append flag to indicate if specified text has to be append as new text node.
@@ -474,6 +496,7 @@
   /**
    * @description Gets/Sets specified node html. Cannot be used on input elements.
    * @method html
+   * @namespace zenexity.capdemat.tools
    * @param {HTMLElement} node scope element.
    * @param {String} html text to apply as node HTML.
    * @returns {String} element html content "as is" (if used as getter)
@@ -494,35 +517,38 @@
   /**
    * @description Fade in passed element by adjusting its opacity and firing an optional callback after completion
    * @method fadeIn
+   * @namespace zenexity.capdemat.tools
    * @param {HTMLElement} el element to be processed
    * @param {Float} speed animation speed(in seconds) 
    * @param {Function} callback function that is called after adjusting
    * 
    * @author vba@zenexity.fr
    **/
-  zct.fadeIn = function(el,speed,callback){};
+  zct.fadeIn = function(el,speed,callback){ /* implementation below */ };
   
   /**
    * @description Fade out passed element by adjusting its opacity and firing an optional callback after completion
    * @method fadeOut
+   * @namespace zenexity.capdemat.tools
    * @param {HTMLElement} el element to be processed
    * @param {Float} speed animation speed(in seconds) 
    * @param {Function} callback function that is called after adjusting
    * 
    * @author vba@zenexity.fr
    **/
-  zct.fadeOut = function(el,speed,callback){};
+  zct.fadeOut = function(el,speed,callback){/* implementation below */ };
   
   /**
    * @description Cover method that "freeze" element opacity during an interval and fire an optional callback after completion
    * @method fadeNone
-   * @param {HTMLElement} el element to be processed
+   * @namespace zenexity.capdemat.tools
+   * @param {HTMLElement} el element to be processeda
    * @param {Float} speed animation speed(in seconds) 
    * @param {Function} callback function that is called after freezing
    * 
    * @author vba@zenexity.fr
    **/
-  zct.fadeNone = function(el,speed,callback){};
+  zct.fadeNone = function(el,speed,callback){/* implementation below */ };
   
   //Create innerHeight, innerWidth, outerHeight and outerWidth methods
   zct.each(["Height", "Width"], function(i, name){

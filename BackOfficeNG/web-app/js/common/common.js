@@ -239,7 +239,6 @@
   YAHOO.lang.extend(zcc.errorMessageDialog, YAHOO.widget.SimpleDialog);
   YAHOO.lang.extend(zcc.responseResultAnimation, YAHOO.util.ColorAnim);
 
-
   zcc.limitArea = function(targetId, limit, infodiv) {
     var textarea = yud.get(targetId);
     var text = textarea.value;

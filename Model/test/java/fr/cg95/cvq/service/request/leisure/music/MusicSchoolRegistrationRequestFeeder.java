@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.leisure.music;
 
 import fr.cg95.cvq.business.request.leisure.music.MusicSchoolRegistrationRequest;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 
 public class MusicSchoolRegistrationRequestFeeder {
@@ -9,10 +10,10 @@ public class MusicSchoolRegistrationRequestFeeder {
     }
     
     public static void setSubject(MusicSchoolRegistrationRequest request,
-            HomeFolder homeFolder) {
+            String subjectPolicy, Adult requester, HomeFolder homeFolder) {
         if (homeFolder != null)
-            request.setSubject(homeFolder.getIndividuals().iterator().next());
+            request.setSubjectId(homeFolder.getIndividuals().iterator().next().getId());
         else
-            request.setSubject(request.getRequester());
+            request.setSubjectId(request.getRequesterId());
     }
 }

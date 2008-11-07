@@ -7,13 +7,12 @@ import fr.cg95.cvq.business.document.*;
 import fr.cg95.cvq.business.request.election.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.election.IElectoralRollRegistrationRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.testtool.TestUtils;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 import fr.cg95.cvq.xml.request.election.ElectoralRollRegistrationRequestDocument;
@@ -82,7 +81,7 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
         doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         iElectoralRollRegistrationRequestService.addDocument(request.getId(), documentId);
-        Set documentsSet =
+        Set<RequestDocument> documentsSet =
             iElectoralRollRegistrationRequestService.getAssociatedDocuments(request.getId());
         Assert.assertEquals(documentsSet.size(), 1);
 
@@ -91,9 +90,9 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
         testCrit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         testCrit.setComparatif(Critere.EQUALS);
         testCrit.setValue(request.getHomeFolderId());
-        Set testCritSet = new HashSet();
+        Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
-        Set allRequests = iRequestService.get(testCritSet, null, false);
+        List<Request> allRequests = iRequestService.get(testCritSet, null, null, -1, 0);
         Assert.assertNotNull(allRequests);
 
         // close current session and re-open a new one
@@ -134,16 +133,12 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
     		throws CvqException, CvqObjectNotFoundException,
                 java.io.FileNotFoundException, java.io.IOException {
 
-         SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.FRONT_OFFICE_CONTEXT);
+         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
          // create a vo card request (to create home folder and associates)
          CreationBean cb = gimmeAnHomeFolder();
 
-         Long voCardRequestId = cb.getRequestId();
-         String proposedLogin = cb.getLogin();
-
-         SecurityContext.setCurrentEcitizen(proposedLogin);
+         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
          // get the home folder id
          HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
@@ -155,11 +150,14 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
          //////////////////////////////
 
          ElectoralRollRegistrationRequest request = fillMeARequest();
-         ElectoralRollRegistrationRequestFeeder.setSubject(request, homeFolder);
+         ElectoralRollRegistrationRequestFeeder.setSubject(request, 
+             iElectoralRollRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          
-         // FIXME : parameters list handling
+         Individual subject = null;
+         if (iElectoralRollRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iElectoralRollRegistrationRequestService.create(request, homeFolderResponsible.getId());
+              iElectoralRollRegistrationRequestService.create(request, homeFolderResponsible.getId(), subject);
 
          ElectoralRollRegistrationRequest requestFromDb =
         	 	(ElectoralRollRegistrationRequest) iElectoralRollRegistrationRequestService.getById(requestId);
@@ -196,12 +194,16 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        ElectoralRollRegistrationRequestFeeder.setSubject(request, null);
+        ElectoralRollRegistrationRequestFeeder.setSubject(request, 
+            iElectoralRollRegistrationRequestService.getSubjectPolicy(), requester, null);
 
         ElectoralRollRegistrationRequestDocument requestDoc = 
             (ElectoralRollRegistrationRequestDocument) request.modelToXml();
+         Individual subject = null;
+         if (iElectoralRollRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iElectoralRollRegistrationRequestService.create(request, requester.getId());
+             iElectoralRollRegistrationRequestService.create(request, requester.getId(), subject);
         
         // close current session and re-open a new one
         continueWithNewTransaction();

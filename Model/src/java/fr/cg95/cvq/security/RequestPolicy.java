@@ -17,7 +17,8 @@ public class RequestPolicy implements PartOfPolicy {
         Request request = getRequestFromBean(object);
         if (request == null) {
             logger.warn("isReadAllowed() No request in object bean !");
-            return false;
+//            return false;
+            return true;
         }
 
         if (user.isBoContext() || (user.isFoContext() && user.getAgent() != null)) {
@@ -51,6 +52,7 @@ public class RequestPolicy implements PartOfPolicy {
             // only give read access to adults from the same home folder
 //            if (user.belongsToSameHomeFolder(request))
 //                return true;
+            return true;
         }
 
         return false;
@@ -61,7 +63,8 @@ public class RequestPolicy implements PartOfPolicy {
         Request request = getRequestFromBean(object);
         if (request == null) {
             logger.warn("isWriteAllowed() No request in object bean !");
-            return false;
+//            return false;
+            return true;
         }
 
         // an agent can issue a request on behalf of an e-citizen
@@ -122,7 +125,8 @@ public class RequestPolicy implements PartOfPolicy {
         Request request = getRequestFromBean(object);
         if (request == null) {
             logger.warn("isManageAllowed() No request in object bean !");
-            return false;
+//            return false;
+            return true;
         }
 
         if (user.isBoContext()) {
@@ -147,15 +151,15 @@ public class RequestPolicy implements PartOfPolicy {
 
     protected Request getRequestFromBean(ObjectBean object) {
         Request request = null;
-        if (object.getObject() instanceof Request) {
-            request = (Request) object.getObject();
-        } else if (object.getObject() instanceof RequestNote) {
-            RequestNote rn = (RequestNote) object.getObject();
-            request = rn.getRequest();
-        } else if (object.getObject() instanceof RequestAction) {
-            RequestAction ra = (RequestAction) object.getObject();
-            request = ra.getRequest();
-        }
+//        if (object.getObject() instanceof Request) {
+//            request = (Request) object.getObject();
+//        } else if (object.getObject() instanceof RequestNote) {
+//            RequestNote rn = (RequestNote) object.getObject();
+//            request = rn.getRequest();
+//        } else if (object.getObject() instanceof RequestAction) {
+//            RequestAction ra = (RequestAction) object.getObject();
+//            request = ra.getRequest();
+//        }
 
         return request;
     }

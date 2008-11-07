@@ -8,11 +8,46 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.LocalReferentialEntry;
 import fr.cg95.cvq.business.authority.LocalReferentialType;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.service.request.IRequestService;
 
 public final class TestUtils {
 
     protected static Logger logger = Logger.getLogger(TestUtils.class);
 
+    public static void feedRequestSubject(Request request, String subjectPolicy, 
+            Adult requester, HomeFolder homeFolder) {
+        
+        if (homeFolder != null) {
+            Set<Individual> individuals = homeFolder.getIndividuals();
+            for (Individual individual : individuals) {
+                if (individual instanceof Adult && 
+                        (subjectPolicy.equals(IRequestService.SUBJECT_POLICY_ADULT)
+                                || subjectPolicy.equals(IRequestService.SUBJECT_POLICY_INDIVIDUAL))) {
+                    request.setSubjectId(individual.getId());
+                    break;
+                } else if (individual instanceof Child 
+                        && subjectPolicy.equals(IRequestService.SUBJECT_POLICY_CHILD)) {
+                    request.setSubjectId(individual.getId());
+                    break;
+                }
+            }
+        } else {
+            if (subjectPolicy.equals(IRequestService.SUBJECT_POLICY_ADULT)
+                                || subjectPolicy.equals(IRequestService.SUBJECT_POLICY_INDIVIDUAL)) {
+                request.setSubjectId(request.getRequesterId());
+            } else if (subjectPolicy.equals(IRequestService.SUBJECT_POLICY_CHILD)) {
+                Child child = BusinessObjectsFactory.gimmeChild("LASTNAME", "Firstname", 
+                        requester, null, null);
+                request.setSubjectId(child.getId());
+            }
+        }
+    }
+    
     public static void printLocalRefData(Set allLocalReferentialData) {
 
         Iterator dataIt = allLocalReferentialData.iterator();

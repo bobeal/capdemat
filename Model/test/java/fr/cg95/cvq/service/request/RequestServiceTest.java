@@ -38,11 +38,11 @@ public class RequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
-        Set<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
         Assert.assertTrue(requestTypesSet.size() >= 2);
 
         // add a new requirement for the first request type found
-        RequestType rt = requestTypesSet.iterator().next();
+        RequestType rt = requestTypesSet.get(0);
 
         int initialRequirementsSize = rt.getRequirements().size();
         
@@ -51,23 +51,23 @@ public class RequestServiceTest extends ServiceTestCase {
         requirement.setMultiplicity(new Integer(1));
         requirement.setSpecial(Boolean.valueOf(false));
         requirement.setDocumentType(allDocumentTypes.get(0));
-        rt.getRequirements().add(requirement);
+        iRequestService.addRequestTypeRequirement(rt.getId(), requirement);
+        
         Requirement requirement2 = new Requirement();
         requirement2.setMultiplicity(new Integer(1));
         requirement2.setSpecial(Boolean.valueOf(true));
         requirement2.setDocumentType(allDocumentTypes.get(1));
-        rt.getRequirements().add(requirement2);
-        iRequestService.modifyRequestTypeRequirements(rt, rt.getRequirements());
+        iRequestService.addRequestTypeRequirement(rt.getId(), requirement2);
 
         continueWithNewTransaction();
 
-        rt = iRequestService.getRequestTypeByLabel(rt.getLabel());
+        rt = iRequestService.getRequestTypeById(rt.getId());
         Assert.assertEquals(rt.getRequirements().size(), initialRequirementsSize + 2);
 
         // validate "order by" behavior
-        Iterator requirementsIt = rt.getRequirements().iterator();
-        Requirement req1 = (Requirement) requirementsIt.next();
-        Requirement req2 = (Requirement) requirementsIt.next();
+        Iterator<Requirement> requirementsIt = rt.getRequirements().iterator();
+        Requirement req1 = requirementsIt.next();
+        Requirement req2 = requirementsIt.next();
         Assert.assertTrue(req1.getDocumentType().getId().longValue()
                 < req2.getDocumentType().getId().longValue());
 
@@ -95,9 +95,10 @@ public class RequestServiceTest extends ServiceTestCase {
 
         // requestType by category
         Category category = iCategoryService.getAll().get(0);
-        iRequestService.getRequestsTypesByCategory(category.getId());
+        iRequestService.getRequestsTypes(category.getId(), null);
         int requestTypeNumber = iRequestService.getAllRequestTypes().size();
-        int requestTypeInCategory = iRequestService.getRequestsTypesByCategory(category.getId()).size();
+        int requestTypeInCategory = 
+            iRequestService.getRequestsTypes(category.getId(), null).size();
         Assert.assertEquals(requestTypeNumber, requestTypeInCategory);
 
         SecurityContext.resetCurrentSite();
@@ -149,12 +150,6 @@ public class RequestServiceTest extends ServiceTestCase {
         critSet.add(crit);
 
         crit = new Critere();
-        crit.setAttribut(Request.SEARCH_BY_REQUESTER_FIRSTNAME);
-        crit.setComparatif(Critere.EQUALS);
-        crit.setValue(requester.getFirstName());
-        critSet.add(crit);
-
-        crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_CATEGORY_NAME);
         crit.setComparatif(Critere.EQUALS);
         crit.setValue(request.getRequestType().getCategory().getName());
@@ -178,8 +173,8 @@ public class RequestServiceTest extends ServiceTestCase {
         crit.setValue(request.getRequestType().getLabel());
         critSet.add(crit);
 
-        Set fetchRequest = iRequestService.get(critSet, null, false);
-        Assert.assertEquals(fetchRequest.size() , 1);
+        List<Request> fetchRequest = iRequestService.get(critSet, null, null, -1, 0);
+        assertEquals(1, fetchRequest.size());
 
         SecurityContext.resetCurrentSite();
     }
@@ -202,7 +197,7 @@ public class RequestServiceTest extends ServiceTestCase {
         requestForm.setTemplateName("template.html");
         requestForm.setType(RequestFormType.REQUEST_MAIL_TEMPLATE);
         requestForm.setPersonalizedData("MyData".getBytes());
-        Long id = iRequestService.processRequestTypeForm(requestType.getId(), requestForm);
+        Long id = iRequestService.modifyRequestTypeForm(requestType.getId(), requestForm);
 
         List<RequestForm> forms = iRequestService.getRequestTypeForms(
                 requestType.getId(), RequestFormType.REQUEST_MAIL_TEMPLATE);
@@ -220,7 +215,7 @@ public class RequestServiceTest extends ServiceTestCase {
         tmpForm.setPersonalizedData("new data".getBytes());
         tmpForm.setTemplateName("tmp.html");
 
-        Long sameId = iRequestService.processRequestTypeForm(requestType.getId(), tmpForm);
+        Long sameId = iRequestService.modifyRequestTypeForm(requestType.getId(), tmpForm);
         Assert.assertEquals(sameId,id);
 
         tmpForm = iRequestService.getRequestFormById(sameId);
@@ -236,7 +231,7 @@ public class RequestServiceTest extends ServiceTestCase {
             f.setShortLabel("new short label");
             f.setPersonalizedData("new data".getBytes());
             f.setTemplateName("tmp.html");
-            iRequestService.processRequestTypeForm(requestType.getId(), f);
+            iRequestService.modifyRequestTypeForm(requestType.getId(), f);
             fail("RequestForm data can't be duplicated");
         } catch (CvqModelException cvqme) {
             Assert.assertEquals("requestForm.label_already_used", cvqme.getMessage());
@@ -244,27 +239,6 @@ public class RequestServiceTest extends ServiceTestCase {
             iRequestService.removeRequestTypeForm(id);
             forms = iRequestService.getRequestTypeForms(requestType.getId(),RequestFormType.REQUEST_MAIL_TEMPLATE);
             Assert.assertEquals(0, forms.size());
-        }
-    }
-
-    public void testGetByIds() throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        Long[] ids = new Long[12];
-        for (int i = 0 ; i < 12; i++)
-            ids[i] = gimmeAnHomeFolder().getRequestId();
-
-        continueWithNewTransaction();
-
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        Set<Request> requests = iRequestService.getByIds(ids);
-        assertEquals(12, requests.size());
-        for (Request request : requests) {
-            assertNotNull(request.getId());
-            assertNotNull(request.getCreationDate());
-            assertNotNull(request.getRequesterId());
         }
     }
 }

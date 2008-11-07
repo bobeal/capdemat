@@ -33,20 +33,21 @@ public class MilitaryCensusRequestService extends RequestService
         }
         
         MilitaryCensusRequest mcr = MilitaryCensusRequest.xmlToModel(mcrDocument);
+
+        // TODO REFACTORING
         
         // subject may have changed during this request (birth-related informations)
-        // FIXME : this behavoir has to be validated !
-        Child subject = (Child) mcr.getSubject();
-        Child child = (Child) genericDAO.findById(Child.class, subject.getId());
-        child.setBirthCity(subject.getBirthCity());
-        child.setBirthPostalCode(subject.getBirthPostalCode());
+//        Child subject = (Child) mcr.getSubject();
+//        Child child = (Child) genericDAO.findById(Child.class, subject.getId());
+//        child.setBirthCity(subject.getBirthCity());
+//        child.setBirthPostalCode(subject.getBirthPostalCode());
         
         // TODO : migrate to new address scheme
         
 //        child.getAdress().setAdress(subject.getAdress().getAdress());
 //        child.getAdress().setCity(subject.getAdress().getCity());
 //        child.getAdress().setPostalCode(subject.getAdress().getPostalCode());
-        genericDAO.update(child);
+//        genericDAO.update(child);
         
         HomeFolder homeFolder = super.createOrSynchronizeHomeFolder(mcr);
         

@@ -293,7 +293,7 @@ class RequestTypeController {
             form.setLabel(params.label)
             form.setTemplateName(params.templateName)
             form.setShortLabel(params.shortLabel)
-            defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
+            defaultRequestService.modifyRequestTypeForm(Long.valueOf(params.requestTypeId),form)
             
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else if(method=="get") {
@@ -319,7 +319,7 @@ class RequestTypeController {
                 form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
                 form.setPersonalizedData(params.editor.getBytes())
                 
-                defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
+                defaultRequestService.modifyRequestTypeForm(Long.valueOf(params.requestTypeId),form)
                 render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
             } else {
                 throw new Exception("mail_templates.some_of_mandatory_fields_is_empty")

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -132,8 +133,8 @@ public class ConcertoCsvImportServiceTest extends ServiceTestCase {
                 fail("Found a child with an unexpected first name");
             }
 
-            Set<Request> childRequests = iRequestService.getBySubjectId(child.getId());
-            Assert.assertEquals(childRequests.size(), 2);
+            List<Request> childRequests = iRequestService.getBySubjectId(child.getId());
+            Assert.assertEquals(2, childRequests.size());
             for (Request request : childRequests) {
                 if (request instanceof SchoolRegistrationRequest) {
                     SchoolRegistrationRequest srr = (SchoolRegistrationRequest) request;

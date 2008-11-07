@@ -31,11 +31,11 @@ public class RequestType implements Serializable {
     private Category category;
 
     /** the set of requirements to fulfill this request type */
-    private Set requirements;
+    private Set<Requirement> requirements;
     /** the set of forms associated with this request type */
     private Set forms;
     /** the set of seasons associated with this request type */
-    private Set seasons;
+    private Set<RequestSeason> seasons;
     /** 
      * whether or not an user can issue multiple registration requests for a given season.
      * only applicable to request types that have seasons defined. 
@@ -119,11 +119,11 @@ public class RequestType implements Serializable {
      * @hibernate.composite-element
      *  class="fr.cg95.cvq.business.request.Requirement"
      */
-    public Set getRequirements() {
+    public Set<Requirement> getRequirements() {
         return this.requirements;
     }
 
-    public void setRequirements(Set requirements) {
+    public void setRequirements(Set<Requirement> requirements) {
         this.requirements = requirements;
     }
 
@@ -157,11 +157,11 @@ public class RequestType implements Serializable {
      * @hibernate.composite-element
      *  class="fr.cg95.cvq.business.request.RequestSeason"
      */
-    public final Set getSeasons() {
+    public final Set<RequestSeason> getSeasons() {
         return seasons;
     }
 
-    public final void setSeasons(Set seasons) {
+    public final void setSeasons(Set<RequestSeason> seasons) {
         this.seasons = seasons;
     }
 

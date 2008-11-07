@@ -3,10 +3,9 @@ package fr.cg95.cvq.testtool;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -181,12 +180,12 @@ public class ServiceTestCase
 
                 Category category = new Category();
                 category.setName("General");
-                Set<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+                List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
                 for (RequestType requestType : requestTypesSet) {
                     requestType.setCategory(category);
                     genericDAO.update(requestType);
                 }
-                category.setRequestTypes(requestTypesSet);
+                category.setRequestTypes(new HashSet<RequestType>(requestTypesSet));
                 genericDAO.create(category);
                                 
                 Agent agent = bootstrapAgent(agentNameWithCategoriesRoles, category,
@@ -300,7 +299,7 @@ public class ServiceTestCase
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             // ensure all requests have been deleted after each test
-            Assert.assertEquals(0, iRequestService.get(new HashSet<Critere>(), null, true).size());
+            assertEquals(0, iRequestService.get(new HashSet<Critere>(), null, null, -1, 0).size());
             rollbackTransaction();
             SecurityContext.resetCurrentSite();
         } catch (Exception e) {

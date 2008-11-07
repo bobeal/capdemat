@@ -162,11 +162,12 @@ public class HoranetService implements IExternalProviderService {
             // extract child information iff request's subject is of type child
             String childId = "";
             String childBadgeNumber = "";
-            Object subject = request.getSubject();
-            if (subject != null && subject instanceof Child) {
-                Child child = (Child) request.getSubject();
-                childId = child.getId().toString();
-                childBadgeNumber = (child.getBadgeNumber() == null ? "" : child.getBadgeNumber());
+            Long subjectId = request.getSubjectId();
+            Child subject = childService.getById(subjectId);
+            if (subject != null) {
+                childId = subject.getId().toString();
+                childBadgeNumber = 
+                    (subject.getBadgeNumber() == null ? "" : subject.getBadgeNumber());
             }
             
             HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());

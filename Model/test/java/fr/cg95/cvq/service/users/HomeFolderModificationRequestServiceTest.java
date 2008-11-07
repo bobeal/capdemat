@@ -804,10 +804,10 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         srr.setSection(SectionType.CP);
         srr.setUrgencyPhone("0102030405");
         srr.setSchool(school);
-        srr.setSubject(child1);
+        srr.setSubjectId(child1.getId());
 
         Long srrId =
-            iSchoolRegistrationRequestService.create(srr, homeFolderResponsible.getId());
+            iSchoolRegistrationRequestService.create(srr, homeFolderResponsible.getId(), null);
 
         continueWithNewTransaction();
         

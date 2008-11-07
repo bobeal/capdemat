@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.social;
 
 import fr.cg95.cvq.business.request.social.RemoteSupportRequest;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 
 public class RemoteSupportRequestFeeder {
@@ -9,8 +10,8 @@ public class RemoteSupportRequestFeeder {
     }
     
     public static void setSubject(RemoteSupportRequest request,
-            HomeFolder homeFolder) {
+            String subjectPolicy, Adult requester, HomeFolder homeFolder) {
         
-        request.setSubject(homeFolder.getHomeFolderResponsible());
+        request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
     }
 }

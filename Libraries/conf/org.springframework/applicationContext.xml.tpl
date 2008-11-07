@@ -202,8 +202,7 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
     <property name="requestWorkflowService">
       <bean class="fr.cg95.cvq.service.request.impl.RequestWorkflowService">
         <property name="requestDAO" ref="requestDAO" />
-        <property name="requestActionDAO" ref="requestActionDAO" />
-        <property name="certificateService" ref="certificateService"></property>
+        <property name="certificateService" ref="certificateService" />
       </bean>
     </property>
     <!-- must be put somewhere on the using application's classpath -->

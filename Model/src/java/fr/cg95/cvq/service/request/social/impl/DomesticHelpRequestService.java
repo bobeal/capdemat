@@ -9,6 +9,7 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.DhrNotRealAsset;
 import fr.cg95.cvq.business.request.social.DhrRealAsset;
@@ -29,7 +30,7 @@ public class DomesticHelpRequestService extends RequestService implements
 
     static Logger logger = Logger.getLogger(DomesticHelpRequestService.class);
 
-    public Long create(final Request request, final Long requesterId) throws CvqException,
+    public Long create(final Request request, final Long requesterId, Individual subject) throws CvqException,
             CvqObjectNotFoundException {
 
         DomesticHelpRequest dhr = (DomesticHelpRequest) request;

@@ -5,7 +5,6 @@ import java.util.List;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.IGenericDAO;
-import fr.cg95.cvq.permission.CvqPermissionException;
 
 /**
  * @author bor@zenexity.fr
@@ -23,5 +22,5 @@ public interface IRequestActionDAO extends IGenericDAO {
     /**
      * Return the list of actions related to a given request.
      */
-    List listByRequest(final Long requestId) throws CvqPermissionException;
+    List<RequestAction> listByRequest(final Long requestId);
 }

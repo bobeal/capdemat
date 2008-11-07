@@ -8,6 +8,7 @@ import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -29,7 +30,7 @@ public final class SchoolCanteenRegistrationRequestService
 
     protected ISchoolRegistrationRequestService schoolRegistrationRequestService;
 
-    public Long create(final Request request, final Long requesterId)
+    public Long create(final Request request, final Long requesterId, Individual subject)
         throws CvqException, CvqObjectNotFoundException {
 
         SchoolCanteenRegistrationRequest scrr = (SchoolCanteenRegistrationRequest) request;

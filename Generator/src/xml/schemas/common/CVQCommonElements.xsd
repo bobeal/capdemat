@@ -1985,10 +1985,9 @@
 
   <xs:complexType name="SubjectType">
     <xs:choice>
-      <!-- <xs:element name="HomeFolder" type="cvq:HomeFolderType"></xs:element> -->
-      <xs:element name="Individual" type="cvq:IndividualType"></xs:element>
-      <xs:element name="Adult" type="cvq:AdultType"></xs:element>
-      <xs:element name="Child" type="cvq:ChildType"></xs:element>
+      <xs:element name="Individual" type="cvq:IndividualType" />
+      <xs:element name="Adult" type="cvq:AdultType" />
+      <xs:element name="Child" type="cvq:ChildType" />
     </xs:choice>
   </xs:complexType>
 

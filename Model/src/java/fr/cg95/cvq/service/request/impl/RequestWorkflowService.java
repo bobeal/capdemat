@@ -14,7 +14,6 @@ import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestStep;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
-import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -39,7 +38,6 @@ public class RequestWorkflowService {
     
     private ICertificateService certificateService;
 
-    private IRequestActionDAO requestActionDAO;
     private IRequestDAO requestDAO;
     
     // TODO : must we trace as request action 
@@ -424,14 +422,17 @@ public class RequestWorkflowService {
         requestAction.setNote(note);
         requestAction.setDate(date);
         requestAction.setResultingState(resultingState);
-        requestAction.setRequest(request);
         requestAction.setFile(pdfData);
 
-        requestActionDAO.create(requestAction);
-    }
-
-    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
-        this.requestActionDAO = requestActionDAO;
+        if (request.getActions() == null) {
+            Set<RequestAction> actionsSet = new HashSet<RequestAction>();
+            actionsSet.add(requestAction);
+            request.setActions(actionsSet);
+        } else {
+            request.getActions().add(requestAction);
+        }
+        
+        requestDAO.update(request);
     }
 
     public void setRequestDAO(IRequestDAO requestDAO) {

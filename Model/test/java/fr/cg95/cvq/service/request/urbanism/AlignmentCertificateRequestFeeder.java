@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.urbanism;
 
 import fr.cg95.cvq.business.request.urbanism.AlignmentCertificateRequest;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 
 public class AlignmentCertificateRequestFeeder {
@@ -9,6 +10,6 @@ public class AlignmentCertificateRequestFeeder {
     }
     
     public static void setSubject(AlignmentCertificateRequest request,
-            HomeFolder homeFolder) {
+            String subjectPolicy, Adult requester, HomeFolder homeFolder) {
     }
 }

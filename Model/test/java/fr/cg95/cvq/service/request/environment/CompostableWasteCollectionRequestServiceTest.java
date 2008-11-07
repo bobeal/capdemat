@@ -7,13 +7,12 @@ import fr.cg95.cvq.business.document.*;
 import fr.cg95.cvq.business.request.environment.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.environment.ICompostableWasteCollectionRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.testtool.TestUtils;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 import fr.cg95.cvq.xml.request.environment.CompostableWasteCollectionRequestDocument;
@@ -73,7 +72,7 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
         doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         iCompostableWasteCollectionRequestService.addDocument(request.getId(), documentId);
-        Set documentsSet =
+        Set<RequestDocument> documentsSet =
             iCompostableWasteCollectionRequestService.getAssociatedDocuments(request.getId());
         Assert.assertEquals(documentsSet.size(), 1);
 
@@ -82,9 +81,9 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
         testCrit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         testCrit.setComparatif(Critere.EQUALS);
         testCrit.setValue(request.getHomeFolderId());
-        Set testCritSet = new HashSet();
+        Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
-        Set allRequests = iRequestService.get(testCritSet, null, false);
+        List<Request> allRequests = iRequestService.get(testCritSet, null, null, -1, 0);
         Assert.assertNotNull(allRequests);
 
         // close current session and re-open a new one
@@ -125,16 +124,12 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
     		throws CvqException, CvqObjectNotFoundException,
                 java.io.FileNotFoundException, java.io.IOException {
 
-         SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.FRONT_OFFICE_CONTEXT);
+         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
          // create a vo card request (to create home folder and associates)
          CreationBean cb = gimmeAnHomeFolder();
 
-         Long voCardRequestId = cb.getRequestId();
-         String proposedLogin = cb.getLogin();
-
-         SecurityContext.setCurrentEcitizen(proposedLogin);
+         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
          // get the home folder id
          HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
@@ -146,11 +141,14 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
          //////////////////////////////
 
          CompostableWasteCollectionRequest request = fillMeARequest();
-         CompostableWasteCollectionRequestFeeder.setSubject(request, homeFolder);
+         CompostableWasteCollectionRequestFeeder.setSubject(request, 
+             iCompostableWasteCollectionRequestService.getSubjectPolicy(), null, homeFolder);
          
-         // FIXME : parameters list handling
+         Individual subject = null;
+         if (iCompostableWasteCollectionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iCompostableWasteCollectionRequestService.create(request, homeFolderResponsible.getId());
+              iCompostableWasteCollectionRequestService.create(request, homeFolderResponsible.getId(), subject);
 
          CompostableWasteCollectionRequest requestFromDb =
         	 	(CompostableWasteCollectionRequest) iCompostableWasteCollectionRequestService.getById(requestId);
@@ -187,12 +185,16 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        CompostableWasteCollectionRequestFeeder.setSubject(request, null);
+        CompostableWasteCollectionRequestFeeder.setSubject(request, 
+            iCompostableWasteCollectionRequestService.getSubjectPolicy(), requester, null);
 
         CompostableWasteCollectionRequestDocument requestDoc = 
             (CompostableWasteCollectionRequestDocument) request.modelToXml();
+         Individual subject = null;
+         if (iCompostableWasteCollectionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iCompostableWasteCollectionRequestService.create(request, requester.getId());
+             iCompostableWasteCollectionRequestService.create(request, requester.getId(), subject);
         
         // close current session and re-open a new one
         continueWithNewTransaction();

@@ -94,7 +94,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         
         /* Create a season */
         RequestSeason season = BusinessObjectsFactory.gimmeRequestSeason("Saison 0235", 0, 2, 3, 5);
-        iRequestService.createRequestTypeSeasons(requestType, season);
+        iRequestService.addRequestTypeSeason(requestType.getId(), season);
         continueWithNewTransaction();
         
         /* Make season registration start */
@@ -127,7 +127,8 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         request.setCurrentSchoolAddress("CurrentSchoolAddress");
         request.setCurrentSchoolName("CurrentSchoolName");
         request.setRequesterId(homeFolder.getHomeFolderResponsible().getId());
-        SchoolRegistrationRequestFeeder.setSubject(request, homeFolder);
+        SchoolRegistrationRequestFeeder.setSubject(request, 
+                schoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
 
         MeansOfContact meansOfContact = 
             iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);

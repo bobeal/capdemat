@@ -48,7 +48,7 @@ public class RequestCreationNotificationJob {
             return;
         }
 
-        List requestsToNotify = 
+        List<Request> requestsToNotify = 
             requestDAO.listByNotMatchingActionLabel(IRequestService.REQUEST_CREATION_NOTIFICATION);
         logger.debug("notifyLocalAuthRequestsCreation() got "
                 + requestsToNotify.size() + " requests to notify");
@@ -81,7 +81,7 @@ public class RequestCreationNotificationJob {
                 if (alertSent) {
                     // email alert successfully sent, update request accordingly
                     for (Request request : requestList) {
-                        requestService.addAction(request, 
+                        requestService.addAction(request.getId(), 
                                 IRequestService.REQUEST_CREATION_NOTIFICATION, null);
                     }
                 }

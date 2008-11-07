@@ -25,7 +25,6 @@ public class RequestAction implements Serializable {
     private Date date;
     private RequestState resultingState;
     private byte[] file;
-    private Request request;
 
     /** default constructor */
     public RequestAction() {
@@ -119,19 +118,6 @@ public class RequestAction implements Serializable {
 
     public void setFile(byte[] file) {
         this.file = file;
-    }
-
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.request.Request"
-     *  column="request_id"
-     */
-    public Request getRequest() {
-        return this.request;
-    }
-
-    public void setRequest(Request request) {
-        this.request = request;
     }
 
     public String toString() {

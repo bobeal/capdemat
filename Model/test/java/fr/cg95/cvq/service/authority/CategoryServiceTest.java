@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.authority;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -77,7 +76,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Set requestTypesSet = iRequestService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
         int requestTypesNb = requestTypesSet.size();
 
         List categoriesList = iCategoryService.getAll();
@@ -114,9 +113,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         // associate the new category with account creation requests
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         Set<Long> categoryRtSet = new HashSet<Long>();
-        Iterator requestTypesIt = requestTypesSet.iterator();
-        while (requestTypesIt.hasNext()) {
-            RequestType rt = (RequestType) requestTypesIt.next();
+        for (RequestType rt : requestTypesSet) {
             // add VO Card Request to the new category
             if (rt.getLabel().equals("VO Card Request")) {
                 categoryRtSet.add(rt.getId());
@@ -186,9 +183,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         // rebind the original category with the account creation request
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         categoryRtSet = new HashSet<Long>();
-        requestTypesIt = requestTypesSet.iterator();
-        while (requestTypesIt.hasNext()) {
-            RequestType rt = (RequestType) requestTypesIt.next();
+        for (RequestType rt : requestTypesSet) {
             categoryRtSet.add(rt.getId());
         }
         iCategoryService.updateCategoryRequestsAssociation(category1.getId(), categoryRtSet);

@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.localpolice;
 
 import fr.cg95.cvq.business.request.localpolice.*;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 
 public class HolidaySecurityRequestFeeder {
@@ -9,7 +10,7 @@ public class HolidaySecurityRequestFeeder {
     }
     
     public static void setSubject(HolidaySecurityRequest request,
-            HomeFolder homeFolder) {
-        request.setSubject(homeFolder.getHomeFolderResponsible());
+            String subjectPolicy, Adult requester, HomeFolder homeFolder) {
+        request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
     }
 }

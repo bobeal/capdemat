@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.authority;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,8 +19,6 @@ import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.impl.AgentService;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 
@@ -43,12 +40,10 @@ public class AgentServiceTest extends ServiceTestCase {
         List<Long> agentCategories = new ArrayList<Long>();
 
         // try to modify the agent's rights
-        Set categoriesRolesSet = agent.getCategoriesRoles();
-        Iterator spIt = categoriesRolesSet.iterator();
-        while (spIt.hasNext()) {
-            CategoryRoles sr = (CategoryRoles) spIt.next();
-            Category category = sr.getCategory();
-            CategoryProfile profile = sr.getProfile();
+        Set<CategoryRoles> categoriesRolesSet = agent.getCategoriesRoles();
+        for (CategoryRoles categoryRoles : categoriesRolesSet) {
+            Category category = categoryRoles.getCategory();
+            CategoryProfile profile = categoryRoles.getProfile();
             agentCategories.add(category.getId());
             categoriesProfilesMap.put(category.getId(), profile);
             logger.debug("Agent has profile " + profile.toString() + " on category " 
@@ -111,7 +106,7 @@ public class AgentServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         request = iRequestService.getById(request.getId());
-        Set notes = request.getNotes();
+        Set<RequestNote> notes = request.getNotes();
         Assert.assertEquals(notes.size(), 1);
         RequestNote rn = (RequestNote) notes.iterator().next();
         Assert.assertEquals(rn.getAgentId(), agent.getId());
@@ -119,17 +114,16 @@ public class AgentServiceTest extends ServiceTestCase {
         // test search by last intervening agent
         iRequestService.complete(cb.getRequestId());
         Agent currentAgent = SecurityContext.getCurrentAgent();
-        Set myAgentRequests = iRequestService.getByLastInterveningAgentId(currentAgent.getId());
-        Assert.assertEquals(myAgentRequests.size(), 1);
-        // perform the same search ... but with the generic search method
+
         Critere crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID);
         crit.setComparatif(Critere.EQUALS);
         crit.setValue(currentAgent.getId());
         Set<Critere> criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
-        myAgentRequests = iRequestService.get(criteriaSet, null, true);
-        Assert.assertEquals(myAgentRequests.size(), 1);
+
+        List<Request> requests = iRequestService.get(criteriaSet, null, null, -1, 0);
+        Assert.assertEquals(requests.size(), 1);
 
         SecurityContext.resetCurrentSite();
     }

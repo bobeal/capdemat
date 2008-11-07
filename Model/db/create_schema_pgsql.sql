@@ -284,11 +284,8 @@
     alter table request_action 
         drop constraint FK7AC459E6848EB249;
 
-    alter table request_document_map 
-        drop constraint FKCBC2F7E87A6C6B5B;
-
-    alter table request_document_map 
-        drop constraint FKCBC2F7E8848EB249;
+    alter table request_document 
+        drop constraint FK712980CB848EB249;
 
     alter table request_note 
         drop constraint FK4DABB7A2848EB249;
@@ -490,7 +487,7 @@
 
     drop table request_action;
 
-    drop table request_document_map;
+    drop table request_document;
 
     drop table request_form;
 
@@ -1358,13 +1355,14 @@
         means_of_contact_id int8,
         request_step varchar(16),
         requester_id int8,
+        requester_last_name varchar(255),
         request_type_id int8,
         season_uuid varchar(255),
         orange_alert bool,
         red_alert bool,
         validation_date timestamp,
-        subject_table_name varchar(255),
         subject_id int8,
+        subject_last_name varchar(255),
         primary key (id)
     );
 
@@ -1380,10 +1378,11 @@
         primary key (id)
     );
 
-    create table request_document_map (
-        request_id int8 not null,
-        document_id int8 not null,
-        primary key (request_id, document_id)
+    create table request_document (
+        id int8 not null,
+        document_id int8,
+        request_id int8,
+        primary key (id)
     );
 
     create table request_form (
@@ -2010,13 +2009,8 @@
         foreign key (request_id) 
         references request;
 
-    alter table request_document_map 
-        add constraint FKCBC2F7E87A6C6B5B 
-        foreign key (document_id) 
-        references document;
-
-    alter table request_document_map 
-        add constraint FKCBC2F7E8848EB249 
+    alter table request_document 
+        add constraint FK712980CB848EB249 
         foreign key (request_id) 
         references request;
 

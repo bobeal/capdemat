@@ -21,11 +21,6 @@ public interface IRequestTypeDAO extends IGenericDAO {
     List<RequestType> listAll();
 
     /**
-     * Return the list of requests types handled by the given category.
-     */
-    List<RequestType> listByCategory(final Long categoryId);
-    
-    /**
      * Return the list of requests types in the given activation state.
      */
     List<RequestType> listByCategoryAndState(final Long categoryId, final Boolean active);

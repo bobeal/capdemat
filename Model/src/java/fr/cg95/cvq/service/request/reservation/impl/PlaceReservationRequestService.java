@@ -19,6 +19,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.PlaceReservationData;
 import fr.cg95.cvq.business.users.TicketTypeSelection;
 import fr.cg95.cvq.exception.CvqException;
@@ -42,7 +43,7 @@ public final class PlaceReservationRequestService
 
     private IPlaceReservationService placeReservationService;
     
-    public Long create(Request request, Long requesterId) 
+    public Long create(Request request, Long requesterId, Individual subject) 
         throws CvqException, CvqObjectNotFoundException {
 
         PlaceReservationRequest prr = (PlaceReservationRequest) request;

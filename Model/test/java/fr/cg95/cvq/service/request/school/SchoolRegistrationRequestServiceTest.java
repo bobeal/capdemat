@@ -7,13 +7,12 @@ import fr.cg95.cvq.business.document.*;
 import fr.cg95.cvq.business.request.school.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.testtool.TestUtils;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument;
@@ -81,7 +80,7 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
         doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         iSchoolRegistrationRequestService.addDocument(request.getId(), documentId);
-        Set documentsSet =
+        Set<RequestDocument> documentsSet =
             iSchoolRegistrationRequestService.getAssociatedDocuments(request.getId());
         Assert.assertEquals(documentsSet.size(), 1);
 
@@ -90,9 +89,9 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
         testCrit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         testCrit.setComparatif(Critere.EQUALS);
         testCrit.setValue(request.getHomeFolderId());
-        Set testCritSet = new HashSet();
+        Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
-        Set allRequests = iRequestService.get(testCritSet, null, false);
+        List<Request> allRequests = iRequestService.get(testCritSet, null, null, -1, 0);
         Assert.assertNotNull(allRequests);
 
         // close current session and re-open a new one
@@ -133,16 +132,12 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
     		throws CvqException, CvqObjectNotFoundException,
                 java.io.FileNotFoundException, java.io.IOException {
 
-         SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.FRONT_OFFICE_CONTEXT);
+         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
          // create a vo card request (to create home folder and associates)
          CreationBean cb = gimmeAnHomeFolder();
 
-         Long voCardRequestId = cb.getRequestId();
-         String proposedLogin = cb.getLogin();
-
-         SecurityContext.setCurrentEcitizen(proposedLogin);
+         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
          // get the home folder id
          HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
@@ -154,11 +149,14 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          SchoolRegistrationRequest request = fillMeARequest();
-         SchoolRegistrationRequestFeeder.setSubject(request, homeFolder);
+         SchoolRegistrationRequestFeeder.setSubject(request, 
+             iSchoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          
-         // FIXME : parameters list handling
+         Individual subject = null;
+         if (iSchoolRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iSchoolRegistrationRequestService.create(request, homeFolderResponsible.getId());
+              iSchoolRegistrationRequestService.create(request, homeFolderResponsible.getId(), subject);
 
          SchoolRegistrationRequest requestFromDb =
         	 	(SchoolRegistrationRequest) iSchoolRegistrationRequestService.getById(requestId);
@@ -195,12 +193,16 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        SchoolRegistrationRequestFeeder.setSubject(request, null);
+        SchoolRegistrationRequestFeeder.setSubject(request, 
+            iSchoolRegistrationRequestService.getSubjectPolicy(), requester, null);
 
         SchoolRegistrationRequestDocument requestDoc = 
             (SchoolRegistrationRequestDocument) request.modelToXml();
+         Individual subject = null;
+         if (iSchoolRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iSchoolRegistrationRequestService.create(request, requester.getId());
+             iSchoolRegistrationRequestService.create(request, requester.getId(), subject);
         
         // close current session and re-open a new one
         continueWithNewTransaction();

@@ -35,7 +35,7 @@ public class RequestSeasonsJob {
     public void checkRequestsSeasons(final String localAuthorityName)
         throws CvqException {
     
-        Set<RequestType> requestTypes = requestService.getAllRequestTypes();
+        List<RequestType> requestTypes = requestService.getAllRequestTypes();
         for (RequestType requestType : requestTypes) {
             if (requestType.getSeasons() == null || requestType.getSeasons().isEmpty()) {
                 logger.debug("checkRequestsSeasons() no seasons defined for request type " 

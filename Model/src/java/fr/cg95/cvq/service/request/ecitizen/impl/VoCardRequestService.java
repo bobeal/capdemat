@@ -24,10 +24,6 @@ public final class VoCardRequestService
 
     static Logger logger = Logger.getLogger(VoCardRequestService.class);
 
-    public VoCardRequestService() {
-        super();
-    }
-
     /**
      * Create an account creation request and associated objects (home folder, individuals, ...).
      *
@@ -56,6 +52,7 @@ public final class VoCardRequestService
         for (Adult adult : adults) {
             if (adult.isHomeFolderResponsible()) {
                 dcvo.setRequesterId(adult.getId());
+                dcvo.setRequesterLastName(adult.getLastName());
                 homeFolderResponsible = adult;
                 break;
             }

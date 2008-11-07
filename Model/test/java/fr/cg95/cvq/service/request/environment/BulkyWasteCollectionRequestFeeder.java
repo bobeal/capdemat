@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.environment;
 
 import fr.cg95.cvq.business.request.environment.*;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 
 public class BulkyWasteCollectionRequestFeeder {
@@ -9,6 +10,6 @@ public class BulkyWasteCollectionRequestFeeder {
     }
     
     public static void setSubject(BulkyWasteCollectionRequest request,
-            HomeFolder homeFolder) {
+            String subjectPolicy, Adult requester, HomeFolder homeFolder) {
     }
 }

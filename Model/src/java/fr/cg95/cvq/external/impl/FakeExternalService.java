@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -149,13 +148,13 @@ public class FakeExternalService implements IExternalProviderService {
         try {
             IRequestService requestService = 
                 requestServiceRegistry.getDefaultRequestService();
-            Set<Request> requests = 
+            List<Request> requests = 
                 requestService.getByHomeFolderIdAndRequestLabel(homeFolderId,
                         authorizingRequestLabel);
             if (requests == null || requests.size() == 0)
                 return null;
             // pick the first request
-            Request request = requests.iterator().next();
+            Request request = requests.get(0);
             logger.debug("getAccountsByHomeFolder() using request : " + request.getId());
             
             String pathToFile = testDataDirectory + xmlDirectory + "/" + accountsFile;
@@ -248,7 +247,16 @@ public class FakeExternalService implements IExternalProviderService {
                         int maxBuy = Integer.parseInt(contractNode.getAttributes().getNamedItem(
                             "max-buy").getNodeValue());
 
-                        Individual subject = (Individual) request.getSubject();
+                        Long subjectId = request.getSubjectId();
+                        List<Individual> individuals = 
+                            homeFolderService.getIndividuals(request.getHomeFolderId());
+                        Individual subject = null;
+                        for (Individual individual : individuals) {
+                            if (individual.getId().equals(subjectId)) {
+                                subject = individual;
+                                break;
+                            }
+                        }
                         HomeFolder homeFolder = 
                             homeFolderService.getById(request.getHomeFolderId());
                         if (subject == null) {
@@ -289,13 +297,13 @@ public class FakeExternalService implements IExternalProviderService {
         try {
             IRequestService requestService = 
                 requestServiceRegistry.getDefaultRequestService();
-            Set<Request> requests = 
+            List<Request> requests = 
                 requestService.getByHomeFolderIdAndRequestLabel(homeFolderId,
                         authorizingRequestLabel);
             if (requests == null || requests.size() == 0)
                 return null;
             // pick the first request
-            Request request = requests.iterator().next();
+            Request request = requests.get(0);
             logger.debug("getIndividualAccountsInformation() using request : " + request.getId());
             
             String pathToFile = testDataDirectory + xmlDirectory + "/" + accountsFile;
@@ -312,7 +320,15 @@ public class FakeExternalService implements IExternalProviderService {
                 Node node = (Node) iter.next();
                 String childCsn = node.getAttributes().getNamedItem("child-csn").getNodeValue();
 
-                Individual subject = (Individual) request.getSubject();
+                List<Individual> individuals = 
+                    homeFolderService.getIndividuals(request.getHomeFolderId());
+                Individual subject = null;
+                for (Individual individual : individuals) {
+                    if (individual.getId().equals(request.getSubjectId())) {
+                        subject = individual;
+                        break;
+                    }
+                }
                 HomeFolder homeFolder = 
                     homeFolderService.getById(request.getHomeFolderId());
                 if (subject == null) {

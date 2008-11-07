@@ -7,13 +7,12 @@ import fr.cg95.cvq.business.document.*;
 import fr.cg95.cvq.business.request.military.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.military.IMilitaryCensusRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.testtool.TestUtils;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 import fr.cg95.cvq.xml.request.military.MilitaryCensusRequestDocument;
@@ -126,7 +125,7 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
         doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         iMilitaryCensusRequestService.addDocument(request.getId(), documentId);
-        Set documentsSet =
+        Set<RequestDocument> documentsSet =
             iMilitaryCensusRequestService.getAssociatedDocuments(request.getId());
         Assert.assertEquals(documentsSet.size(), 1);
 
@@ -135,9 +134,9 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
         testCrit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         testCrit.setComparatif(Critere.EQUALS);
         testCrit.setValue(request.getHomeFolderId());
-        Set testCritSet = new HashSet();
+        Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
-        Set allRequests = iRequestService.get(testCritSet, null, false);
+        List<Request> allRequests = iRequestService.get(testCritSet, null, null, -1, 0);
         Assert.assertNotNull(allRequests);
 
         // close current session and re-open a new one
@@ -178,16 +177,12 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
     		throws CvqException, CvqObjectNotFoundException,
                 java.io.FileNotFoundException, java.io.IOException {
 
-         SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.FRONT_OFFICE_CONTEXT);
+         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
          // create a vo card request (to create home folder and associates)
          CreationBean cb = gimmeAnHomeFolder();
 
-         Long voCardRequestId = cb.getRequestId();
-         String proposedLogin = cb.getLogin();
-
-         SecurityContext.setCurrentEcitizen(proposedLogin);
+         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
          // get the home folder id
          HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
@@ -199,11 +194,14 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          MilitaryCensusRequest request = fillMeARequest();
-         MilitaryCensusRequestFeeder.setSubject(request, homeFolder);
+         MilitaryCensusRequestFeeder.setSubject(request, 
+             iMilitaryCensusRequestService.getSubjectPolicy(), null, homeFolder);
          
-         // FIXME : parameters list handling
+         Individual subject = null;
+         if (iMilitaryCensusRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iMilitaryCensusRequestService.create(request, homeFolderResponsible.getId());
+              iMilitaryCensusRequestService.create(request, homeFolderResponsible.getId(), subject);
 
          MilitaryCensusRequest requestFromDb =
         	 	(MilitaryCensusRequest) iMilitaryCensusRequestService.getById(requestId);
@@ -240,12 +238,16 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        MilitaryCensusRequestFeeder.setSubject(request, null);
+        MilitaryCensusRequestFeeder.setSubject(request, 
+            iMilitaryCensusRequestService.getSubjectPolicy(), requester, null);
 
         MilitaryCensusRequestDocument requestDoc = 
             (MilitaryCensusRequestDocument) request.modelToXml();
+         Individual subject = null;
+         if (iMilitaryCensusRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iMilitaryCensusRequestService.create(request, requester.getId());
+             iMilitaryCensusRequestService.create(request, requester.getId(), subject);
         
         // close current session and re-open a new one
         continueWithNewTransaction();

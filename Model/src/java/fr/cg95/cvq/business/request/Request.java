@@ -8,10 +8,6 @@ import java.util.Set;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.xmlbeans.XmlObject;
 
-import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.Individual;
-
 
 /**
  * Represent a request issued by an e-citizen.
@@ -29,14 +25,14 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_REQUEST_ID = "id";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
     public static final String SEARCH_BY_REQUESTER_LASTNAME = "requesterLastName";
-    public static final String SEARCH_BY_REQUESTER_FIRSTNAME = "requesterFirstName";
     public static final String SEARCH_BY_CATEGORY_NAME = "categoryName";
     public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
-    public static final String SEARCH_BY_STATE = "state";
-    public static final String SEARCH_BY_CREATION_DATE = "creationDate";
+    public static final String SEARCH_BY_REQUEST_TYPE_ID = "requestTypeId";
     public static final String SEARCH_BY_REQUEST_TYPE_LABEL = "requestTypeLabel";
-    public static final String SEARCH_BY_LAST_INTERVENING_AGENT_ID = "lastInterveningAgentId";
+    public static final String SEARCH_BY_STATE = "state";    
+    public static final String SEARCH_BY_CREATION_DATE = "creationDate";
     public static final String SEARCH_BY_LAST_MODIFICATION_DATE = "lastModificationDate";
+    public static final String SEARCH_BY_LAST_INTERVENING_AGENT_ID = "lastInterveningAgentId";
     public static final String SEARCH_BY_QUALITY_TYPE = "qualityType";
 	
     public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
@@ -45,6 +41,7 @@ public abstract class Request implements Serializable {
     public static final String QUALITY_TYPE_OK = "qualityTypeOk";
     public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     public static final String QUALITY_TYPE_RED = "qualityTypeRed";
+
     
     /** identifier field */
     private Long id;
@@ -67,9 +64,11 @@ public abstract class Request implements Serializable {
 
     private Long homeFolderId;
     private Long requesterId;
-    private Object subject;
-
-    private Set documents;
+    private String requesterLastName;
+    private Long subjectId;
+    private String subjectLastName;
+    
+    private Set<RequestDocument> documents;
     private Set<RequestAction> actions;
     private Set<RequestNote> notes;
 
@@ -122,7 +121,6 @@ public abstract class Request implements Serializable {
         if (homeFolder != null) {
             requestType.setHomeFolder(homeFolder.modelToXml());
         }
-        */
         if (subject != null) {
             if (subject instanceof Adult) {
                 requestType.addNewSubject().setAdult(Adult.modelToXml((Adult) subject));
@@ -132,6 +130,7 @@ public abstract class Request implements Serializable {
                 requestType.addNewSubject().setIndividual(Individual.modelToXml((Individual) subject));
             }
         }
+        */
     }
 
     public void fillCommonModelInfo(Request request,
@@ -166,7 +165,6 @@ public abstract class Request implements Serializable {
             request.setRequester(Adult.xmlToModel(requestType.getRequester()));
         if (requestType.getHomeFolder() != null)
             request.setHomeFolder(HomeFolder.xmlToModel(requestType.getHomeFolder()));
-        */
         if (requestType.getSubject() != null) {
             if (requestType.getSubject().isSetIndividual()) {
                 request.setSubject(Individual.xmlToModel(requestType.getSubject().getIndividual()));
@@ -176,6 +174,7 @@ public abstract class Request implements Serializable {
                 request.setSubject(Child.xmlToModel(requestType.getSubject().getChild()));
             }
         }
+        */
     }
 
     /**
@@ -306,6 +305,20 @@ public abstract class Request implements Serializable {
     }
 
     /**
+     * @hibernate.property
+     *  column="requester_last_name"
+     *  
+     *  TODO REFACTORING : SQL migration script 
+     */
+    public String getRequesterLastName() {
+        return requesterLastName;
+    }
+
+    public void setRequesterLastName(String requesterLastName) {
+        this.requesterLastName = requesterLastName;
+    }
+
+    /**
      * @hibernate.many-to-one
      *  class="fr.cg95.cvq.business.request.RequestType"
      *  column="request_type_id"
@@ -333,24 +346,23 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  table="request_document_map"
+     *  cascade="all-delete-orphan"
+     *  order-by="id asc"
      * @hibernate.key
      *  column="request_id"
-     * @hibernate.many-to-many
-     *  class="fr.cg95.cvq.business.document.Document"
-     *  column="document_id"
+     * @hibernate.one-to-many
+     *  class="fr.cg95.cvq.business.request.RequestDocument"
      */
-    public Set getDocuments() {
+    public Set<RequestDocument> getDocuments() {
         return this.documents;
     }
 
-    public void setDocuments(Set documents) {
+    public void setDocuments(Set<RequestDocument> documents) {
         this.documents = documents;
     }
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
      *  cascade="all-delete-orphan"
      *  order-by="id asc"
@@ -369,7 +381,6 @@ public abstract class Request implements Serializable {
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
      *  cascade="delete"
      *  order-by="id asc"
@@ -429,20 +440,29 @@ public abstract class Request implements Serializable {
     }
 
     /**
-     * @hibernate.any
-     *  id-type="long"
-     *  lazy="true"
-     * @hibernate.any-column
-     *  name="subject_table_name"
-     * @hibernate.any-column
-     *  name="subject_id"
+     * @hibernate.property
+     *  column="subject_id"
      *  
      */
-    public Object getSubject() {
-        return subject;
+    public Long getSubjectId() {
+        return subjectId;
     }
 
-    public void setSubject(Object subject) {
-        this.subject = subject;
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="subject_last_name"
+     *  
+     *  TODO REFACTORING : SQL migration script 
+     */
+    public String getSubjectLastName() {
+        return subjectLastName;
+    }
+
+    public void setSubjectLastName(String subjectLastName) {
+        this.subjectLastName = subjectLastName;
     }
 }

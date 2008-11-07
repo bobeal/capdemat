@@ -30,12 +30,6 @@ public class RequestTypeDAO extends GenericDAO implements IRequestTypeDAO {
         return HibernateUtil.getSession().createQuery(sb.toString()).list();
     }
 
-    public List<RequestType> listByCategory(final Long categoryId) {
-        Criteria crit = HibernateUtil.getSession().createCriteria(RequestType.class);
-        crit.createCriteria("category").add(Critere.compose("id", categoryId, Critere.EQUALS));
-        return crit.list();
-    }
-
     public List<RequestType> listByCategoryAndState(final Long categoryId, final Boolean active) {
         Criteria crit = HibernateUtil.getSession().createCriteria(RequestType.class);
         if (categoryId != null)

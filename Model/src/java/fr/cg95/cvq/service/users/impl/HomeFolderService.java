@@ -239,7 +239,7 @@ public class HomeFolderService implements IHomeFolderService {
         
         logger.debug("getExternalAccounts() Home folder : " + homeFolderId);
 
-        Set<Request> requests = requestService.getByHomeFolderId(homeFolderId);
+        List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
         Set<String> homeFolderRequestsTypes = new HashSet<String>();
         for (Request request : requests) {
             homeFolderRequestsTypes.add(request.getRequestType().getLabel());
@@ -252,7 +252,7 @@ public class HomeFolderService implements IHomeFolderService {
     public Map<Individual, Map<String, String>> getIndividualExternalAccountsInformation(Long homeFolderId) 
         throws CvqException {
 
-        Set<Request> requests = requestService.getByHomeFolderId(homeFolderId);
+        List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
         Set<String> homeFolderRequestsTypes = new HashSet<String>();
         for (Request request : requests) {
             homeFolderRequestsTypes.add(request.getRequestType().getLabel());

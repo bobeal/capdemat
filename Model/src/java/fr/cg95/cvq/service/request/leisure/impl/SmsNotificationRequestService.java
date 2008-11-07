@@ -38,12 +38,14 @@ public class SmsNotificationRequestService extends RequestService
         HomeFolder homeFolder = super.createOrSynchronizeHomeFolder(request);
 
         // Gets properties inherited from homefolder
-        String mobilePhone = ((Adult)request.getSubject()).getMobilePhone();
+        Long subjectId = request.getSubjectId();
+        Adult subject = (Adult) individualService.getById(subjectId);
+        String mobilePhone = subject.getMobilePhone();
         
         initializeCommonAttributes(request);
         
         // Set properties inherited from homefolder, after initializeCommonAttribute !
-        ((Adult)request.getSubject()).setMobilePhone(mobilePhone);
+        subject.setMobilePhone(mobilePhone);
         
         Long requestId = super.create(request);
         if (homeFolder != null) {
@@ -54,9 +56,11 @@ public class SmsNotificationRequestService extends RequestService
         return requestId;
     }
     
-    // Call just after the 'sendResuest' (externalService) method.
+    // Call just after the 'sendRequest' (externalService) method.
     // Manage the binding between the request's subject and the CleverSms's contact.
-    public void onExternalServiceSendRequest(Request request, String sendRequestResult) throws CvqException {
+    public void onExternalServiceSendRequest(Request request, String sendRequestResult) 
+        throws CvqException {
+        
         SmsNotificationRequest snr = (SmsNotificationRequest)request;
         // Bind Clever SMS contact
         if (sendRequestResult != null)

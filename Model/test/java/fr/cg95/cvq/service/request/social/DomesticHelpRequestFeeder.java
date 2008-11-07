@@ -9,10 +9,9 @@ import fr.cg95.cvq.business.request.social.DhrAssetKindType;
 import fr.cg95.cvq.business.request.social.DhrAssetTypeType;
 import fr.cg95.cvq.business.request.social.DhrNotRealAsset;
 import fr.cg95.cvq.business.request.social.DhrRealAsset;
-import fr.cg95.cvq.business.request.social.DhrRequestKindType;
 import fr.cg95.cvq.business.request.social.DhrRequesterHasSpouse;
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
-import fr.cg95.cvq.business.users.Address;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 
 public class DomesticHelpRequestFeeder {
@@ -72,8 +71,9 @@ public class DomesticHelpRequestFeeder {
         request.setNotRealAssets(donationSet);
     }
 
-    public static void setSubject(DomesticHelpRequest request, HomeFolder homeFolder) {
+    public static void setSubject(DomesticHelpRequest request, 
+            String subjectPolicy, Adult requester, HomeFolder homeFolder) {
 
-        request.setSubject(homeFolder.getHomeFolderResponsible());
+        request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
     }
 }

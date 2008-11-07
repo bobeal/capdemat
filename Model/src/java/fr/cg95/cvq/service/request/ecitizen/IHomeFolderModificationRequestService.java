@@ -5,7 +5,9 @@ import java.util.Set;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.CreationBean;
+import fr.cg95.cvq.business.users.HistoryEntry;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -41,7 +43,7 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
      *         home folder responsible) or null if not needed
      */
     CreationBean modify(final HomeFolderModificationRequest hfmr,
-            final Set adults, final Set children, final Address adress)
+            final Set<Adult> adults, final Set<Child> children, final Address adress)
         throws CvqException;
 
     /**
@@ -53,6 +55,6 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
     /**
      * Return all history entries associated to a given request.
      */
-    Set getHistoryEntries(final Long hfmrId)
+    Set<HistoryEntry> getHistoryEntries(final Long hfmrId)
         throws CvqException;
 }

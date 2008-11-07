@@ -122,7 +122,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             Assert.assertEquals(individual.getState(), ActorState.ARCHIVED);
         }
 
-        Set<Request> requests = iRequestService.getByHomeFolderId(homeFolder.getId());
+        List<Request> requests = iRequestService.getByHomeFolderId(homeFolder.getId());
         for (Request request : requests) {
             Assert.assertEquals(request.getState(), RequestState.ARCHIVED);
         }

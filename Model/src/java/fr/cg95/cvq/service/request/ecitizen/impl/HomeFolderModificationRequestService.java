@@ -82,7 +82,7 @@ public class HomeFolderModificationRequestService
     private boolean hasModificationRequestInProgress(final HomeFolder homeFolder) 
         throws CvqException {
 
-        Set<Request> otherRequests = 
+        List<Request> otherRequests = 
             getByHomeFolderIdAndRequestLabel(homeFolder.getId(), getLabel());
         if (otherRequests != null) {
             for (Request request : otherRequests) {
@@ -444,10 +444,8 @@ public class HomeFolderModificationRequestService
                         if (individual instanceof Adult) {
                             Adult adult = (Adult) individual;
 
-                            Set requests = getByRequesterId(adult.getId());
-                            Iterator requestsIt = requests.iterator();
-                            while (requestsIt.hasNext()) {
-                                Request tempRequest = (Request) requestsIt.next();
+                            List<Request> requests = getByRequesterId(adult.getId());
+                            for (Request tempRequest : requests) {
                                 tempRequest.setRequesterId(null);
                                 requestDAO.update(tempRequest);
                             }
@@ -477,7 +475,7 @@ public class HomeFolderModificationRequestService
                         // FIXME : maybe it should be better to move request through all
                         //         workflow states 'till archived then delete it
                         //         this will permit to eventually notify external services
-                        Set<Request> requestsAsSubject = getBySubjectId(individual.getId());
+                        List<Request> requestsAsSubject = getBySubjectId(individual.getId());
                         for (Request requestAsSubject : requestsAsSubject) {
                             delete(requestAsSubject);
                         }

@@ -7,13 +7,12 @@ import fr.cg95.cvq.business.document.*;
 import fr.cg95.cvq.business.request.school.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.testtool.TestUtils;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 import fr.cg95.cvq.xml.request.school.PerischoolActivityRegistrationRequestDocument;
@@ -81,7 +80,7 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
         doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         iPerischoolActivityRegistrationRequestService.addDocument(request.getId(), documentId);
-        Set documentsSet =
+        Set<RequestDocument> documentsSet =
             iPerischoolActivityRegistrationRequestService.getAssociatedDocuments(request.getId());
         Assert.assertEquals(documentsSet.size(), 1);
 
@@ -90,9 +89,9 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
         testCrit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         testCrit.setComparatif(Critere.EQUALS);
         testCrit.setValue(request.getHomeFolderId());
-        Set testCritSet = new HashSet();
+        Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
-        Set allRequests = iRequestService.get(testCritSet, null, false);
+        List<Request> allRequests = iRequestService.get(testCritSet, null, null, -1, 0);
         Assert.assertNotNull(allRequests);
 
         // close current session and re-open a new one
@@ -133,16 +132,12 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
     		throws CvqException, CvqObjectNotFoundException,
                 java.io.FileNotFoundException, java.io.IOException {
 
-         SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.FRONT_OFFICE_CONTEXT);
+         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
          // create a vo card request (to create home folder and associates)
          CreationBean cb = gimmeAnHomeFolder();
 
-         Long voCardRequestId = cb.getRequestId();
-         String proposedLogin = cb.getLogin();
-
-         SecurityContext.setCurrentEcitizen(proposedLogin);
+         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
          // get the home folder id
          HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
@@ -154,11 +149,14 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
          //////////////////////////////
 
          PerischoolActivityRegistrationRequest request = fillMeARequest();
-         PerischoolActivityRegistrationRequestFeeder.setSubject(request, homeFolder);
+         PerischoolActivityRegistrationRequestFeeder.setSubject(request, 
+             iPerischoolActivityRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          
-         // FIXME : parameters list handling
+         Individual subject = null;
+         if (iPerischoolActivityRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iPerischoolActivityRegistrationRequestService.create(request, homeFolderResponsible.getId());
+              iPerischoolActivityRegistrationRequestService.create(request, homeFolderResponsible.getId(), subject);
 
          PerischoolActivityRegistrationRequest requestFromDb =
         	 	(PerischoolActivityRegistrationRequest) iPerischoolActivityRegistrationRequestService.getById(requestId);
@@ -195,12 +193,16 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        PerischoolActivityRegistrationRequestFeeder.setSubject(request, null);
+        PerischoolActivityRegistrationRequestFeeder.setSubject(request, 
+            iPerischoolActivityRegistrationRequestService.getSubjectPolicy(), requester, null);
 
         PerischoolActivityRegistrationRequestDocument requestDoc = 
             (PerischoolActivityRegistrationRequestDocument) request.modelToXml();
+         Individual subject = null;
+         if (iPerischoolActivityRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
+             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iPerischoolActivityRegistrationRequestService.create(request, requester.getId());
+             iPerischoolActivityRegistrationRequestService.create(request, requester.getId(), subject);
         
         // close current session and re-open a new one
         continueWithNewTransaction();

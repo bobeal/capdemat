@@ -73,7 +73,7 @@ public class RequestInstructionDurationCheckerJob {
         }
     
         // retrieve all requests currently in instruction
-        List requestsToInspect = requestDAO.listByStates(statesToLookFor);
+        List<Request> requestsToInspect = requestDAO.listByStates(statesToLookFor);
         Map<Category, List<Request>> requestsByService = 
             RequestUtils.groupByCategory(requestsToInspect);
         for (Category category : requestsByService.keySet()) {
@@ -186,13 +186,13 @@ public class RequestInstructionDurationCheckerJob {
                     // email alert successfully sent, update requests accordingly
                     if (orangeRequests.size() > 0) {
                         for (Request request : orangeRequests) {
-                            requestService.addAction(request, 
+                            requestService.addAction(request.getId(), 
                                     IRequestService.REQUEST_ORANGE_ALERT_NOTIFICATION, null); 
                         }
                     }
                     if (redRequests.size() > 0) {
                         for (Request request : redRequests) {
-                            requestService.addAction(request, 
+                            requestService.addAction(request.getId(), 
                                     IRequestService.REQUEST_RED_ALERT_NOTIFICATION, null);
                         }
                     }

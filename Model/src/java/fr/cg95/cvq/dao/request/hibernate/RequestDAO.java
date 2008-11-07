@@ -36,38 +36,29 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
     private static Logger logger = Logger.getLogger(RequestDAO.class);
 
-    public RequestDAO() {
-        super();
-    }
-    
-    public List search(final Set criteria, final String sort, String dir, int recordsReturned, 
-            int startIndex, final boolean onlyIds) {
+    public List<Request> search(final Set<Critere> criteria, final String sort, String dir, 
+            int recordsReturned, int startIndex) {
 
         StringBuffer sb = new StringBuffer();
-        if (onlyIds)
-            sb.append("select request.id ");
         sb.append("from Request as request").append(" where 1 = 1 ");
-
-        Iterator critIt = criteria.iterator();
 
         List<Object> parametersValues = new ArrayList<Object>();
         List<Type> parametersTypes = new ArrayList<Type>();
         
         // go through all the criteria and create the query
-        while (critIt.hasNext()) {
-            Critere searchCrit = (Critere) critIt.next();
+        for (Critere searchCrit : criteria) {
             if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_ID)) {
                 sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_HOME_FOLDER_ID)) {
-                sb.append(" and request.homeFolder " + searchCrit.getComparatif() + " ?");
+                sb.append(" and request.homeFolderId " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUESTER_LASTNAME)) {
-                sb.append(" and lower(request.requester.lastName) "
+                sb.append(" and lower(request.requesterLastName) "
                         + searchCrit.getSqlComparatif() + " lower(?)");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
@@ -84,7 +75,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
 
-            } else if (searchCrit.getAttribut().equals("requestType")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_TYPE_ID)) {
                 sb.append(" and request.requestType " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
@@ -139,9 +130,9 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             if (sort.equals(Request.SEARCH_BY_REQUEST_ID))
                 sb.append(" order by request.id");
             else if (sort.equals(Request.SEARCH_BY_HOME_FOLDER_ID))
-                sb.append(" order by request.homeFolder.id");
+                sb.append(" order by request.homeFolderId");
             else if (sort.equals(Request.SEARCH_BY_REQUESTER_LASTNAME))
-                sb.append(" order by request.requester.lastName");
+                sb.append(" order by request.requesterLastName");
             else if (sort.equals(Request.SEARCH_BY_CATEGORY_NAME))
                 sb.append(" order by request.requestType.category.name");
             else if (sort.equals(Request.SEARCH_BY_CREATION_DATE))
@@ -176,40 +167,37 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
      * DB, which is a <b>lot</b> more performant than Hibernate generated
      * queries
      */
-    protected Long searchCount(final Set criteria) {
+    protected Long searchCount(final Set<Critere> criteria) {
 
         StringBuffer sbSelect = new StringBuffer();
         sbSelect.append("select count(*) from Request as request");
 
         StringBuffer sb = new StringBuffer(" where 1 = 1 ");
 
-        Iterator critIt = criteria.iterator();
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
         
         boolean joinedWithRequestAction = false;
         
         // go through all the criteria and create the query
-        while (critIt.hasNext()) {
-            Critere searchCrit = (Critere) critIt.next();
-
-            if (searchCrit.getAttribut().equals("id")) {
+        for (Critere searchCrit : criteria) {
+            if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_ID)) {
                 sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());
                 typeList.add(Hibernate.LONG);
                 
-            } else if (searchCrit.getAttribut().equals("homeFolderId")) {
-                sb.append(" and request.homeFolder " + searchCrit.getComparatif() + " ?");
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_HOME_FOLDER_ID)) {
+                sb.append(" and request.homeFolderId " + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());
                 typeList.add(Hibernate.LONG);
                 
-            } else if (searchCrit.getAttribut().equals("requesterLastName")) {
-                sb.append(" and lower(request.requester.lastName) "
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUESTER_LASTNAME)) {
+                sb.append(" and lower(request.requesterLastName) "
                         + searchCrit.getSqlComparatif() + " lower(?)");
                 objectList.add(searchCrit.getSqlStringValue());
                 typeList.add(Hibernate.STRING);
                 
-            } else if (searchCrit.getAttribut().equals("state")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
                 sb.append(" and state " + searchCrit.getComparatif() + " ?");
                 // To ensure we put the good type in the object list
                 // FIXME : all states criteria should be sent as
@@ -220,27 +208,24 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     objectList.add(searchCrit.getValue());
                 typeList.add(Hibernate.STRING);
                 
-            } else if (searchCrit.getAttribut().equals("categoryId")) {
-                sb.append(" and request.requestType = requestType.id")
-                    .append(" and requestType.category = category.id").append(
-                        " and category.id " + searchCrit.getComparatif() + " ?");
-                sbSelect.append(", RequestType as requestType")
-                    .append(", Category as category");
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_ID)) {
+                sb.append(" and request.requestType.category.id "
+                        + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());
                 typeList.add(Hibernate.LONG);
                 
-            } else if (searchCrit.getAttribut().equals("categoryName")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_NAME)) {
                 sb.append(" and request.requestType.category.name "
                         + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getValue());
                 typeList.add(Hibernate.STRING);
                 
-            } else if (searchCrit.getAttribut().equals("requestType")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_TYPE_ID)) {
                 sb.append(" and request.requestType " + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());
                 typeList.add(Hibernate.LONG);
                 
-            } else if (searchCrit.getAttribut().equals("requestTypeLabel")) {
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_TYPE_LABEL)) {
                 sb.append(" and request.requestType.label " + searchCrit.getComparatif()
                         + " ?");
                 objectList.add(searchCrit.getValue());
@@ -315,7 +300,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             .iterate().next(); 
     }
 
-    public Long count(final Set criteria) {
+    public Long count(final Set<Critere> criteria) {
         // this function is used by the statistics service
         // but also to get a count of pending requests
         // so there is currently no way to do an access check here
@@ -523,30 +508,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return df.format(date);
     }
     
-    public List listByIds(final Long[] ids) {
-        
-        StringBuffer sb = new StringBuffer().append("from Request as request ");
-
-        sb.append(" where request.id in (");
-        for (int i = 0; i < ids.length; i++) {
-            sb.append("'").append(ids[i]).append("'");
-            if (i != ids.length - 1)
-                sb.append(",");
-        }
-        sb.append(")");
-
-        List results = HibernateUtil.getSession().createQuery(sb.toString()).list();
-        return filterSearchResults(results);
-    }
-    
-    public List listByRequester(final Long requesterId) {
+    public List<Request> listByRequester(final Long requesterId) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer().append("from Request as request ")
-            .append("where request.requester = ?");
-
+            .append("where request.requesterId = ?");
         objectList.add(requesterId);
         typeList.add(Hibernate.LONG);
 
@@ -559,14 +527,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return filterSearchResults(results);
     }
 
-    public List listBySubject(final Long subjectId) {
+    public List<Request> listBySubject(final Long subjectId) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer().append("from Request as request ")
-            .append("where request.subject.id = ?");
-
+            .append("where request.subjectId = ?");
         objectList.add(subjectId);
         typeList.add(Hibernate.LONG);
 
@@ -579,7 +546,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return filterSearchResults(results);
     }
 
-    public List listBySubjectAndLabel(Long subjectId, String label, RequestState[] excludedStates) {
+    public List<Request> listBySubjectAndLabel(Long subjectId, String label, RequestState[] excludedStates) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -590,11 +557,9 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         objectList.add(label);
         typeList.add(Hibernate.STRING);
 
-        if (subjectId != null) {
-        	sb.append(" and request.subject.id = ?");
-        	objectList.add(subjectId);
-        	typeList.add(Hibernate.LONG);
-        }
+        sb.append(" and request.subjectId = ?");
+        objectList.add(subjectId);
+        typeList.add(Hibernate.LONG);
         
         if (excludedStates != null && excludedStates.length > 0) {
             for (int i = 0; i < excludedStates.length; i++) {
@@ -612,13 +577,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return filterSearchResults(results);
     }
 
-    public List listByHomeFolder(final Long homeFolderId) {
+    public List<Request> listByHomeFolder(final Long homeFolderId) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer().append("from Request as request ")
-            .append("where request.homeFolder = ?");
+            .append("where request.homeFolderId = ?");
 
         objectList.add(homeFolderId);
         typeList.add(Hibernate.LONG);
@@ -633,7 +598,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return filteredRequests;
     }
 
-    public List listByHomeFolderAndLabel(final Long homeFolderId, final String label,
+    public List<Request> listByHomeFolderAndLabel(final Long homeFolderId, final String label,
             final RequestState[] excludedStates) {
 
         List<Type> typeList = new ArrayList<Type>();
@@ -641,7 +606,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         StringBuffer sb = new StringBuffer().append("from Request as request");
 
-        sb.append(" where request.homeFolder = ?");
+        sb.append(" where request.homeFolderId = ?");
         objectList.add(homeFolderId);
         typeList.add(Hibernate.LONG);
 
@@ -666,14 +631,14 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
 
 
-    public List listByHomeFolderAndSeason(Long homeFolderId, String seasonUuid) {
+    public List<Request> listByHomeFolderAndSeason(Long homeFolderId, String seasonUuid) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer().append("from Request as request");
 
-        sb.append(" where request.homeFolder = ?");
+        sb.append(" where request.homeFolderId = ?");
         objectList.add(homeFolderId);
         typeList.add(Hibernate.LONG);
 
@@ -691,7 +656,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
 
 
-    public List listByStateAndSeason(RequestState requestState, String seasonUuid) {
+    public List<Request> listByStateAndSeason(RequestState requestState, String seasonUuid) {
         
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -715,33 +680,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return filterSearchResults(results);
     }
 
-    public List listByLastInterveningAgentId(final Long agentId) {
-
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        StringBuffer sb = new StringBuffer()
-            .append("from Request as request ")
-            .append("where request.lastInterveningAgentId = ? ");
-
-        objectList.add(agentId);
-        typeList.add(Hibernate.LONG);
-
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
-        return filterSearchResults(results);
-    }
-
-    public List listByStates(final Set states) {
+    public List<Request> listByStates(final Set<RequestState> states) {
 
         return listByStatesAndType(states, null);
     }
 
-    public List listByStatesAndType(final Set states, final String requestTypeLabel) {
+    public List<Request> listByStatesAndType(final Set<RequestState> states, 
+            final String requestTypeLabel) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -750,8 +695,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         sb.append("from Request as request ");
 
         boolean firstStatement = true;
-        Iterator statesIt = states.iterator();
-        while (statesIt.hasNext()) {
+        for (RequestState requestState : states) {
             if (firstStatement) {
                 sb.append("where request.state = ? ");
                 firstStatement = false;
@@ -759,7 +703,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 sb.append("or request.state = ? ");
             }
 
-            objectList.add(statesIt.next().toString());
+            objectList.add(requestState.toString());
             typeList.add(Hibernate.STRING);
         }
 
@@ -778,7 +722,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return filterSearchResults(results);
     }
 
-    public List listByNotMatchingActionLabel(final String actionLabel) {
+    public List<Request> listByNotMatchingActionLabel(final String actionLabel) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("from Request as request ").append("where request.id not in (");

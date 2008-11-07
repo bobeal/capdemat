@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.civil;
 
 import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 
 public class MarriageDetailsRequestFeeder {
@@ -9,6 +10,6 @@ public class MarriageDetailsRequestFeeder {
     }
     
     public static void setSubject(MarriageDetailsRequest request,
-            HomeFolder homeFolder) {
+            String subjectPolicy, Adult requester, HomeFolder homeFolder) {
     }
 }

@@ -10,7 +10,6 @@ import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.dao.document.IDocumentBinaryDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
-import fr.cg95.cvq.permission.CvqPermissionException;
 
 /**
  * Implementation of the {@link IDocumentBinaryDAO} interface.
@@ -19,12 +18,7 @@ import fr.cg95.cvq.permission.CvqPermissionException;
  */
 public class DocumentBinaryDAO extends GenericDAO implements IDocumentBinaryDAO {
 
-    public DocumentBinaryDAO() {
-        super();
-    }
-
-    public DocumentBinary findByDocumentAndPageId(final Long documentId, final Integer pageNumber)
-            throws CvqPermissionException {
+    public DocumentBinary findByDocumentAndPageId(final Long documentId, final Integer pageNumber) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("from DocumentBinary as documentBinary");
@@ -69,7 +63,7 @@ public class DocumentBinaryDAO extends GenericDAO implements IDocumentBinaryDAO 
             .iterate().next();
     }
 
-    public Long getPagesNumber(final Long documentId) throws CvqPermissionException {
+    public Long getPagesNumber(final Long documentId) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select count(*) from DocumentBinary as docBin");
@@ -90,8 +84,7 @@ public class DocumentBinaryDAO extends GenericDAO implements IDocumentBinaryDAO 
             .iterate().next();
     }
 
-    public boolean hasPage(final Long documentId, final Integer pageNumber)
-            throws CvqPermissionException {
+    public boolean hasPage(final Long documentId, final Integer pageNumber) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select count(*) from DocumentBinary as docBin");
@@ -120,7 +113,7 @@ public class DocumentBinaryDAO extends GenericDAO implements IDocumentBinaryDAO 
             return true;
     }
 
-    public Long getNextPageNumber(final Long documentId) throws CvqPermissionException {
+    public Long getNextPageNumber(final Long documentId) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select count(*) from DocumentBinary as docBin");

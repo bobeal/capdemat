@@ -13,6 +13,7 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
@@ -36,7 +37,8 @@ public class RequestContextCheckAspect implements Ordered {
         Annotation[][] parametersAnnotations = method.getParameterAnnotations();
         Object[] arguments = joinPoint.getArgs();
         Long homeFolderId = null;
-        Long individualId = null;
+        Long requesterId = null;
+        Long subjectId = null;
         int i = 0;
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
@@ -44,7 +46,7 @@ public class RequestContextCheckAspect implements Ordered {
                 if (parameterAnnotation.annotationType().equals(IsHomeFolder.class)) {
                     homeFolderId = (Long) argument;
                 } else if (parameterAnnotation.annotationType().equals(IsIndividual.class)) {
-                    individualId = (Long) argument;
+                    requesterId = (Long) argument;
                 } else if (parameterAnnotation.annotationType().equals(IsRequest.class)) {
                     Request request = null;
                     if (argument instanceof Long) {
@@ -57,7 +59,8 @@ public class RequestContextCheckAspect implements Ordered {
                         request = (Request) argument;
                     }
                     homeFolderId = request.getHomeFolderId();
-                    // TODO : branch subject id retrieval
+                    requesterId = request.getRequesterId();
+                    subjectId = request.getSubjectId();
                 }
             }
             i++;
@@ -65,6 +68,11 @@ public class RequestContextCheckAspect implements Ordered {
 
         if (!GenericAccessManager.performPermissionCheck(homeFolderId, null, context.privilege()))
             throw new PermissionException("Denied access to method " + method.getName());
+        
+        if (SecurityContext.isBackOfficeContext()) {
+            // for agents, check they have the right privilege for the current request's associated category
+            
+        }
     }
     
     @Override

@@ -44,40 +44,24 @@ class CategoryController {
     def save = {
         def category = null
         def create = true
-		    try {
-		        if (params.id != null && params.id != "") {
-		            category = categoryService.getById(Long.valueOf(params.id))
-		            bindData(category, params)
-		            categoryService.modify(category)
-		            create = false
-		        } else {
-		            category = new Category()
-		            bindData(category, params)
-		            categoryService.create(category)
-		        }
-		    } catch (CvqModelException cme) {
-		        log.error "save() a category with the same name already exists"
-		        render ([status: "error", error_msg:message(code:"category.error.nameAlreadyExists")] as JSON)
-		    } catch (CvqException ce) {
-			    log.error "save() error while creating category"
-		        render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-		    }
-		    
-		    render ([status:"ok", success_msg:message(code:"message.updateDone"),
-		             id: category.id, name:category.name, create:create] as JSON)
+            if (params.id != null && params.id != "") {
+                category = categoryService.getById(Long.valueOf(params.id))
+                bindData(category, params)
+                categoryService.modify(category)
+                create = false
+            } else {
+                category = new Category()
+                bindData(category, params)
+                categoryService.create(category)
+            }
+            
+            render ([status:"ok", success_msg:message(code:"message.updateDone"),
+                     id: category.id, name:category.name, create:create] as JSON)
     }
     
     def delete = {
         log.debug "delete() deleting category ${params.id}"
-        try {
-            categoryService.delete(Long.valueOf(params.id))
-        } catch (CvqObjectNotFoundException cme) {
-            log.error "delete() category ${params.id} has not been found"
-            render ([status: "error", error_msg:message(code:"category.error.notFound")] as JSON)
-        } catch (CvqException ce) {
-            log.error "delete() error while creating category"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }
+        categoryService.delete(Long.valueOf(params.id))
         render ([status:"ok", id:params.id, success_msg:message(code:"category.message.confirmDelete")] as JSON)
     }
     
@@ -129,27 +113,15 @@ class CategoryController {
     }
     
     def associateRequestType = {
-        try {
-            def category = 
-            	categoryService.addRequestType(Long.valueOf(params.categoryId),Long.valueOf(params.requestTypeId))
-
-			render ([status:"ok",categoryName:category.name, success_msg:message(code:"message.updateDone")] as JSON)
-        } catch (CvqException ce) {
-            log.error "associateRequestType() error while associating request type to category"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }
+        def category = 
+            categoryService.addRequestType(Long.valueOf(params.categoryId),Long.valueOf(params.requestTypeId))
+        render ([status:"ok",categoryName:category.name, success_msg:message(code:"message.updateDone")] as JSON)
     }
 
     def unassociateRequestType = {
-        try {
-            def category = 
-                categoryService.removeRequestType(Long.valueOf(params.categoryId),Long.valueOf(params.requestTypeId))
-
-    		    render ([status:"ok",categoryName:"", success_msg:message(code:"message.updateDone")] as JSON)
-        } catch (CvqException ce) {
-            log.error "associateRequestType() error while unassociating request type from category"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }
+        def category = 
+            categoryService.removeRequestType(Long.valueOf(params.categoryId),Long.valueOf(params.requestTypeId))
+        render ([status:"ok",categoryName:"", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
     /* Category agent managment
@@ -175,14 +147,8 @@ class CategoryController {
     
     def unassociateAgent = {
         log.debug "unassociateAgent() unassociating agent ${params.agentId} to ${params.categoryId}"    
-        try {
-            agentService.removeCategoryRole(Long.valueOf(params.agentId), Long.valueOf(params.categoryId))
-
-    		    render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-        } catch (CvqException ce) {
-        	  log.error "unassociateAgent() error while unassociating agent to category"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }            
+        agentService.removeCategoryRole(Long.valueOf(params.agentId), Long.valueOf(params.categoryId))
+        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
     def editAgent = {
@@ -199,17 +165,12 @@ class CategoryController {
             if (params.agentId == null || params.categoryId == null)
                 render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
             
-            try {
-            	  agentService.modifyCategoryRole(
-            	        Long.valueOf(params.agentId), 
-            	        Long.valueOf(params.categoryId),
-            	        getProfileFromIndex(Integer.valueOf(params.profileIndex)))
+            agentService.modifyCategoryRole(
+                  Long.valueOf(params.agentId), 
+                  Long.valueOf(params.categoryId),
+                  getProfileFromIndex(Integer.valueOf(params.profileIndex)))
 
-        		    render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-            } catch (CvqException ce) {
-                log.error "editAgent() error while editAgent agent to category"
-                render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-            }
+            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         }
     }
     
@@ -247,14 +208,14 @@ class CategoryController {
         def cssClass
         def i18nKey
         if (categoryProfile == CategoryProfile.READ_ONLY) {
-   	        i18nKey = "category.profile.readOnly"
-   	        cssClass = "tag-read_only"
-   	    }
-   	    else if (categoryProfile == CategoryProfile.READ_WRITE) {
-   	        i18nKey = "category.profile.readWrite"
-   	        cssClass = "tag-read_write"
-   	    }
-   	    else if (categoryProfile == CategoryProfile.MANAGER) {
+            i18nKey = "category.profile.readOnly"
+            cssClass = "tag-read_only"
+        }
+        else if (categoryProfile == CategoryProfile.READ_WRITE) {
+            i18nKey = "category.profile.readWrite"
+            cssClass = "tag-read_write"
+        }
+       else if (categoryProfile == CategoryProfile.MANAGER) {
             i18nKey = "category.profile.manager"
             cssClass = "tag-manager"
         }
@@ -262,7 +223,7 @@ class CategoryController {
     }
     
     def getProfileFromIndex(index) {
-    	  return CategoryProfile.allCategoryProfiles[index]
+        return CategoryProfile.allCategoryProfiles[index]
     }
 }
 

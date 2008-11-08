@@ -222,13 +222,13 @@ public class DomesticHelpRequest extends Request implements Serializable {
         DomesticHelpRequest domesticHelpRequest = new DomesticHelpRequest();
         domesticHelpRequest.fillCommonModelInfo(domesticHelpRequest,domesticHelpRequestXml);
         domesticHelpRequest.setNotRealAssetsValuesTotal(domesticHelpRequestXml.getNotRealAssetsValuesTotal());
-        HashSet notRealAssetsSet = new HashSet();
+        List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> notRealAssetsList = new ArrayList<fr.cg95.cvq.business.request.social.DhrNotRealAsset> ();
         if ( domesticHelpRequestXml.sizeOfNotRealAssetsArray() > 0) {
             for (int i = 0; i < domesticHelpRequestXml.getNotRealAssetsArray().length; i++) {
-                notRealAssetsSet.add(DhrNotRealAsset.xmlToModel(domesticHelpRequestXml.getNotRealAssetsArray(i)));
+                notRealAssetsList.add(DhrNotRealAsset.xmlToModel(domesticHelpRequestXml.getNotRealAssetsArray(i)));
             }
         }
-        domesticHelpRequest.setNotRealAssets(notRealAssetsSet);
+        domesticHelpRequest.setNotRealAssets(notRealAssetsList);
         if (domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingType() != null)
             domesticHelpRequest.setCurrentDwellingType(fr.cg95.cvq.business.request.social.DhrDwellingType.forString(domesticHelpRequestXml.getCurrentDwelling().getCurrentDwellingType().toString()));
         else
@@ -238,13 +238,13 @@ public class DomesticHelpRequest extends Request implements Serializable {
         domesticHelpRequest.setTaxesTotal(domesticHelpRequestXml.getTaxesAmount().getTaxesTotal());
         if (domesticHelpRequestXml.getRequesterSituation().getTutorAddress() != null)
             domesticHelpRequest.setTutorAddress(Address.xmlToModel(domesticHelpRequestXml.getRequesterSituation().getTutorAddress()));
-        HashSet realAssetsSet = new HashSet();
+        List<fr.cg95.cvq.business.request.social.DhrRealAsset> realAssetsList = new ArrayList<fr.cg95.cvq.business.request.social.DhrRealAsset> ();
         if ( domesticHelpRequestXml.sizeOfRealAssetsArray() > 0) {
             for (int i = 0; i < domesticHelpRequestXml.getRealAssetsArray().length; i++) {
-                realAssetsSet.add(DhrRealAsset.xmlToModel(domesticHelpRequestXml.getRealAssetsArray(i)));
+                realAssetsList.add(DhrRealAsset.xmlToModel(domesticHelpRequestXml.getRealAssetsArray(i)));
             }
         }
-        domesticHelpRequest.setRealAssets(realAssetsSet);
+        domesticHelpRequest.setRealAssets(realAssetsList);
         domesticHelpRequest.setPensionPlanPrecision(domesticHelpRequestXml.getPensionPlanPrecision());
         domesticHelpRequest.setSpouseComplementaryPensionPlanPrecision(domesticHelpRequestXml.getRequesterSpouse().getSpouseComplementaryPensionPlanPrecision());
         if (domesticHelpRequestXml.getRequesterFamilyReferent().getFamilyReferentAddress() != null)
@@ -358,24 +358,26 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.notRealAssetsValuesTotal;
     }
 
-    private Set notRealAssets;
+    private List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> notRealAssets;
 
-    public final void setNotRealAssets(final Set notRealAssets) {
+    public final void setNotRealAssets(final List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> notRealAssets) {
         this.notRealAssets = notRealAssets;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  lazy="false"
      *  cascade="all"
      * @hibernate.key
      *  column="domestic_help_request_id"
+     * @hibernate.list-index
+     *  column="not_real_assets_index"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.social.DhrNotRealAsset"
      */
-    public final Set getNotRealAssets() {
+    public final List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> getNotRealAssets() {
         return this.notRealAssets;
     }
 
@@ -459,24 +461,26 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.tutorAddress;
     }
 
-    private Set realAssets;
+    private List<fr.cg95.cvq.business.request.social.DhrRealAsset> realAssets;
 
-    public final void setRealAssets(final Set realAssets) {
+    public final void setRealAssets(final List<fr.cg95.cvq.business.request.social.DhrRealAsset> realAssets) {
         this.realAssets = realAssets;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  lazy="false"
      *  cascade="all"
      * @hibernate.key
      *  column="domestic_help_request_id"
+     * @hibernate.list-index
+     *  column="real_assets_index"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.social.DhrRealAsset"
      */
-    public final Set getRealAssets() {
+    public final List<fr.cg95.cvq.business.request.social.DhrRealAsset> getRealAssets() {
         return this.realAssets;
     }
 

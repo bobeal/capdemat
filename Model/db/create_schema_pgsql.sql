@@ -620,7 +620,8 @@
     create table bulky_waste_collection_request_bulky_waste_type (
         bulky_waste_collection_request_id int8 not null,
         bulky_waste_type_id int8 not null,
-        primary key (bulky_waste_collection_request_id, bulky_waste_type_id)
+        bulky_waste_type_index int4 not null,
+        primary key (bulky_waste_collection_request_id, bulky_waste_type_index)
     );
 
     create table card (
@@ -672,7 +673,8 @@
     create table compostable_waste_collection_request_compostable_waste_type (
         compostable_waste_collection_request_id int8 not null,
         compostable_waste_type_id int8 not null,
-        primary key (compostable_waste_collection_request_id, compostable_waste_type_id)
+        compostable_waste_type_index int4 not null,
+        primary key (compostable_waste_collection_request_id, compostable_waste_type_index)
     );
 
     create table death_details_request (
@@ -702,6 +704,7 @@
         asset_beneficiary_name varchar(38),
         asset_kind varchar(255),
         domestic_help_request_id int8,
+        not_real_assets_index int4,
         primary key (id)
     );
 
@@ -711,6 +714,7 @@
         real_asset_net_floor_area bytea,
         real_asset_address_id int8,
         domestic_help_request_id int8,
+        real_assets_index int4,
         primary key (id)
     );
 
@@ -967,6 +971,7 @@
         family_dependent_first_name varchar(38),
         family_dependent_birth_date timestamp,
         handicap_allowance_request_id int8,
+        family_dependents_index int4,
         primary key (id)
     );
 
@@ -1049,7 +1054,8 @@
     create table library_registration_request_subscription (
         library_registration_request_id int8 not null,
         subscription_id int8 not null,
-        primary key (library_registration_request_id, subscription_id)
+        subscription_index int4 not null,
+        primary key (library_registration_request_id, subscription_index)
     );
 
     create table local_authority (
@@ -1156,7 +1162,8 @@
     create table music_school_registration_request_activity (
         music_school_registration_request_id int8 not null,
         activity_id int8 not null,
-        primary key (music_school_registration_request_id, activity_id)
+        activity_index int4 not null,
+        primary key (music_school_registration_request_id, activity_index)
     );
 
     create table other_individual (
@@ -1201,13 +1208,15 @@
     create table perischool_activity_registration_request_other_individual (
         perischool_activity_registration_request_id int8 not null,
         other_individual_id int8 not null,
-        primary key (perischool_activity_registration_request_id, other_individual_id)
+        other_individual_index int4 not null,
+        primary key (perischool_activity_registration_request_id, other_individual_index)
     );
 
     create table perischool_activity_registration_request_perischool_activity (
         perischool_activity_registration_request_id int8 not null,
         perischool_activity_id int8 not null,
-        primary key (perischool_activity_registration_request_id, perischool_activity_id)
+        perischool_activity_index int4 not null,
+        primary key (perischool_activity_registration_request_id, perischool_activity_index)
     );
 
     create table personal_details_request (
@@ -1260,7 +1269,8 @@
     create table place_reservation_request_place_reservation (
         place_reservation_request_id int8 not null,
         place_reservation_id int8 not null,
-        primary key (place_reservation_request_id, place_reservation_id)
+        place_reservation_index int4 not null,
+        primary key (place_reservation_request_id, place_reservation_index)
     );
 
     create table purchase_item (
@@ -1308,13 +1318,15 @@
     create table recreation_activity_registration_request_other_individual (
         recreation_activity_registration_request_id int8 not null,
         other_individual_id int8 not null,
-        primary key (recreation_activity_registration_request_id, other_individual_id)
+        other_individual_index int4 not null,
+        primary key (recreation_activity_registration_request_id, other_individual_index)
     );
 
     create table recreation_activity_registration_request_recreation_activity (
         recreation_activity_registration_request_id int8 not null,
         recreation_activity_id int8 not null,
-        primary key (recreation_activity_registration_request_id, recreation_activity_id)
+        recreation_activity_index int4 not null,
+        primary key (recreation_activity_registration_request_id, recreation_activity_index)
     );
 
     create table recreation_center (
@@ -1449,13 +1461,15 @@
     create table school_canteen_registration_request_canteen_attending_days (
         school_canteen_registration_request_id int8 not null,
         canteen_attending_days_id int8 not null,
-        primary key (school_canteen_registration_request_id, canteen_attending_days_id)
+        canteen_attending_days_index int4 not null,
+        primary key (school_canteen_registration_request_id, canteen_attending_days_index)
     );
 
     create table school_canteen_registration_request_food_diet (
         school_canteen_registration_request_id int8 not null,
         food_diet_id int8 not null,
-        primary key (school_canteen_registration_request_id, food_diet_id)
+        food_diet_index int4 not null,
+        primary key (school_canteen_registration_request_id, food_diet_index)
     );
 
     create table school_registration_request (
@@ -1505,7 +1519,8 @@
     create table sms_notification_request_interests (
         sms_notification_request_id int8 not null,
         interests_id int8 not null,
-        primary key (sms_notification_request_id, interests_id)
+        interests_index int4 not null,
+        primary key (sms_notification_request_id, interests_index)
     );
 
     create table technical_intervention_request (
@@ -1518,7 +1533,8 @@
     create table technical_intervention_request_intervention_type (
         technical_intervention_request_id int8 not null,
         intervention_type_id int8 not null,
-        primary key (technical_intervention_request_id, intervention_type_id)
+        intervention_type_index int4 not null,
+        primary key (technical_intervention_request_id, intervention_type_index)
     );
 
     create table ticket_type_selection (

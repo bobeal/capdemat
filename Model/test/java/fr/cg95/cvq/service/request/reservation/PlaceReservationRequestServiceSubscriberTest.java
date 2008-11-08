@@ -1,8 +1,10 @@
 package fr.cg95.cvq.service.request.reservation;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -68,9 +70,9 @@ public class PlaceReservationRequestServiceSubscriberTest
         
         PlaceReservationData placeReservationData = new PlaceReservationData();
         placeReservationData.setName(placeReservationType.getKey());
-        Set<PlaceReservationData> placeReservationDataSet = new HashSet<PlaceReservationData>();
-        placeReservationDataSet.add(placeReservationData);
-        request.setPlaceReservation(placeReservationDataSet);
+        List<PlaceReservationData> placeReservationDatas = new ArrayList<PlaceReservationData>();
+        placeReservationDatas.add(placeReservationData);
+        request.setPlaceReservation(placeReservationDatas);
         
         TicketTypeSelection ticketTypeSelection = new TicketTypeSelection();
         Set<TicketTypeSelection> ticketTypeSelectionSet = new HashSet<TicketTypeSelection>();
@@ -90,12 +92,12 @@ public class PlaceReservationRequestServiceSubscriberTest
                 // ... this one should succeed
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue());
                 errorTicketsSet = 
-                    iPlaceReservationRequestService.checkPlaceReservationData(placeReservationDataSet, "SubscriberNumber");
+                    iPlaceReservationRequestService.checkPlaceReservationData(placeReservationDatas, "SubscriberNumber");
                 Assert.assertNull(errorTicketsSet);
                 // ... and this one should fail
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue() + 1);
                 errorTicketsSet = 
-                    iPlaceReservationRequestService.checkPlaceReservationData(placeReservationDataSet, "SubscriberNumber");
+                    iPlaceReservationRequestService.checkPlaceReservationData(placeReservationDatas, "SubscriberNumber");
                 Assert.assertEquals(errorTicketsSet.size(), 1);
                 // let's go back to a correct one before creation request
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue());

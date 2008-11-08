@@ -90,13 +90,13 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         libraryRegistrationRequest.fillCommonModelInfo(libraryRegistrationRequest,libraryRegistrationRequestXml);
         libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
         libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
-        HashSet subscriptionSet = new HashSet();
+        List<fr.cg95.cvq.business.users.LocalReferentialData> subscriptionList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( libraryRegistrationRequestXml.sizeOfSubscriptionArray() > 0) {
             for (int i = 0; i < libraryRegistrationRequestXml.getSubscriptionArray().length; i++) {
-                subscriptionSet.add(LocalReferentialData.xmlToModel(libraryRegistrationRequestXml.getSubscriptionArray(i)));
+                subscriptionList.add(LocalReferentialData.xmlToModel(libraryRegistrationRequestXml.getSubscriptionArray(i)));
             }
         }
-        libraryRegistrationRequest.setSubscription(subscriptionSet);
+        libraryRegistrationRequest.setSubscription(subscriptionList);
         libraryRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(libraryRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
         return libraryRegistrationRequest;
     }
@@ -131,25 +131,27 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return this.parentalAuthorization;
     }
 
-    private Set subscription;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> subscription;
 
-    public final void setSubscription(final Set subscription) {
+    public final void setSubscription(final List<fr.cg95.cvq.business.users.LocalReferentialData> subscription) {
         this.subscription = subscription;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="library_registration_request_subscription"
      * @hibernate.key
      *  column="library_registration_request_id"
+     * @hibernate.list-index
+     *  column="subscription_index"
      * @hibernate.many-to-many
      *  column="subscription_id"
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final Set getSubscription() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getSubscription() {
         return this.subscription;
     }
 

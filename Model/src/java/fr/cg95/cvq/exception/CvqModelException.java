@@ -16,4 +16,9 @@ public class CvqModelException extends CvqException {
     public CvqModelException(String reason) {
         super(reason);
     }
+
+    public CvqModelException(String reason, String key) {
+        super(reason, key);
+        // TODO Auto-generated constructor stub
+    }
 }

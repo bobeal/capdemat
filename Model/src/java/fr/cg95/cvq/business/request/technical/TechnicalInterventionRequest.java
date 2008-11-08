@@ -87,13 +87,13 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         technicalInterventionRequest.setInterventionDescription(technicalInterventionRequestXml.getInterventionDescription());
         if (technicalInterventionRequestXml.getInterventionPlace() != null)
             technicalInterventionRequest.setInterventionPlace(Address.xmlToModel(technicalInterventionRequestXml.getInterventionPlace()));
-        HashSet interventionTypeSet = new HashSet();
+        List<fr.cg95.cvq.business.users.LocalReferentialData> interventionTypeList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( technicalInterventionRequestXml.sizeOfInterventionTypeArray() > 0) {
             for (int i = 0; i < technicalInterventionRequestXml.getInterventionTypeArray().length; i++) {
-                interventionTypeSet.add(LocalReferentialData.xmlToModel(technicalInterventionRequestXml.getInterventionTypeArray(i)));
+                interventionTypeList.add(LocalReferentialData.xmlToModel(technicalInterventionRequestXml.getInterventionTypeArray(i)));
             }
         }
-        technicalInterventionRequest.setInterventionType(interventionTypeSet);
+        technicalInterventionRequest.setInterventionType(interventionTypeList);
         return technicalInterventionRequest;
     }
 
@@ -129,25 +129,27 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         return this.interventionPlace;
     }
 
-    private Set interventionType;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> interventionType;
 
-    public final void setInterventionType(final Set interventionType) {
+    public final void setInterventionType(final List<fr.cg95.cvq.business.users.LocalReferentialData> interventionType) {
         this.interventionType = interventionType;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="technical_intervention_request_intervention_type"
      * @hibernate.key
      *  column="technical_intervention_request_id"
+     * @hibernate.list-index
+     *  column="intervention_type_index"
      * @hibernate.many-to-many
      *  column="intervention_type_id"
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final Set getInterventionType() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getInterventionType() {
         return this.interventionType;
     }
 

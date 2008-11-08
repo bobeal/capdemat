@@ -16,4 +16,9 @@ public class CvqPlaceReservationReferentialException extends CvqException {
     public CvqPlaceReservationReferentialException(final String reason) {
         super(reason);
     }
+
+    public CvqPlaceReservationReferentialException(String reason, String key) {
+        super(reason, key);
+        // TODO Auto-generated constructor stub
+    }
 }

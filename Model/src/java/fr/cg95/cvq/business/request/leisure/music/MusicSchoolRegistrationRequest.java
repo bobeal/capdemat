@@ -83,36 +83,38 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         List list = new ArrayList();
         MusicSchoolRegistrationRequest musicSchoolRegistrationRequest = new MusicSchoolRegistrationRequest();
         musicSchoolRegistrationRequest.fillCommonModelInfo(musicSchoolRegistrationRequest,musicSchoolRegistrationRequestXml);
-        HashSet activitySet = new HashSet();
+        List<fr.cg95.cvq.business.users.LocalReferentialData> activityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( musicSchoolRegistrationRequestXml.sizeOfActivityArray() > 0) {
             for (int i = 0; i < musicSchoolRegistrationRequestXml.getActivityArray().length; i++) {
-                activitySet.add(LocalReferentialData.xmlToModel(musicSchoolRegistrationRequestXml.getActivityArray(i)));
+                activityList.add(LocalReferentialData.xmlToModel(musicSchoolRegistrationRequestXml.getActivityArray(i)));
             }
         }
-        musicSchoolRegistrationRequest.setActivity(activitySet);
+        musicSchoolRegistrationRequest.setActivity(activityList);
         musicSchoolRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(musicSchoolRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
         return musicSchoolRegistrationRequest;
     }
 
-    private Set activity;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> activity;
 
-    public final void setActivity(final Set activity) {
+    public final void setActivity(final List<fr.cg95.cvq.business.users.LocalReferentialData> activity) {
         this.activity = activity;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="music_school_registration_request_activity"
      * @hibernate.key
      *  column="music_school_registration_request_id"
+     * @hibernate.list-index
+     *  column="activity_index"
      * @hibernate.many-to-many
      *  column="activity_id"
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final Set getActivity() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getActivity() {
         return this.activity;
     }
 

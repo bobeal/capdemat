@@ -204,18 +204,18 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                     parr.setRulesAndRegulationsAcceptance(Boolean.TRUE);
                     parr.setChildPhotoExploitationPermission(Boolean.TRUE);
                     parr.setClassTripPermission(Boolean.TRUE);
-                    Set<LocalReferentialData> perischoolActivity =
-                        new HashSet<LocalReferentialData>();
+                    List<LocalReferentialData> perischoolActivities =
+                        new ArrayList<LocalReferentialData>();
                     LocalReferentialData lrdEvening = new LocalReferentialData();
                     lrdEvening.setName("EveningNursery");
-                    perischoolActivity.add(lrdEvening);
+                    perischoolActivities.add(lrdEvening);
                     LocalReferentialData lrdMorning = new LocalReferentialData();
                     lrdMorning.setName("MorningNursery");
-                    perischoolActivity.add(lrdMorning);
+                    perischoolActivities.add(lrdMorning);
                     LocalReferentialData lrdMorningEvening = new LocalReferentialData();
                     lrdMorningEvening.setName("MorningAndEveningNursery");
-                    perischoolActivity.add(lrdMorningEvening);
-                    parr.setPerischoolActivity(perischoolActivity);
+                    perischoolActivities.add(lrdMorningEvening);
+                    parr.setPerischoolActivity(perischoolActivities);
 
                     cdto.getChildrenPerischoolActivityRegistrations().add(parr);
                 }

@@ -88,13 +88,13 @@ public class PlaceReservationRequest extends Request implements Serializable {
         placeReservationRequest.fillCommonModelInfo(placeReservationRequest,placeReservationRequestXml);
         placeReservationRequest.setSubscriberNumber(placeReservationRequestXml.getSubscriberNumber());
         placeReservationRequest.setIsSubscriber(Boolean.valueOf(placeReservationRequestXml.getIsSubscriber()));
-        HashSet placeReservationSet = new HashSet();
+        List<fr.cg95.cvq.business.users.PlaceReservationData> placeReservationList = new ArrayList<fr.cg95.cvq.business.users.PlaceReservationData> ();
         if ( placeReservationRequestXml.sizeOfPlaceReservationArray() > 0) {
             for (int i = 0; i < placeReservationRequestXml.getPlaceReservationArray().length; i++) {
-                placeReservationSet.add(PlaceReservationData.xmlToModel(placeReservationRequestXml.getPlaceReservationArray(i)));
+                placeReservationList.add(PlaceReservationData.xmlToModel(placeReservationRequestXml.getPlaceReservationArray(i)));
             }
         }
-        placeReservationRequest.setPlaceReservation(placeReservationSet);
+        placeReservationRequest.setPlaceReservation(placeReservationList);
         placeReservationRequest.setPaymentReference(placeReservationRequestXml.getPaymentReference());
         return placeReservationRequest;
     }
@@ -129,25 +129,27 @@ public class PlaceReservationRequest extends Request implements Serializable {
         return this.isSubscriber;
     }
 
-    private Set placeReservation;
+    private List<fr.cg95.cvq.business.users.PlaceReservationData> placeReservation;
 
-    public final void setPlaceReservation(final Set placeReservation) {
+    public final void setPlaceReservation(final List<fr.cg95.cvq.business.users.PlaceReservationData> placeReservation) {
         this.placeReservation = placeReservation;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="place_reservation_request_place_reservation"
      * @hibernate.key
      *  column="place_reservation_request_id"
+     * @hibernate.list-index
+     *  column="place_reservation_index"
      * @hibernate.many-to-many
      *  column="place_reservation_id"
      *  class="fr.cg95.cvq.business.users.PlaceReservationData"
      */
-    public final Set getPlaceReservation() {
+    public final List<fr.cg95.cvq.business.users.PlaceReservationData> getPlaceReservation() {
         return this.placeReservation;
     }
 

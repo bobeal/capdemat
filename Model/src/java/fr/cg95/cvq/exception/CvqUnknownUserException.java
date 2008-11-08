@@ -16,4 +16,9 @@ public class CvqUnknownUserException extends CvqException {
     public CvqUnknownUserException(final String reason) {
         super(reason);
     }
+
+    public CvqUnknownUserException(String reason, String key) {
+        super(reason, key);
+        // TODO Auto-generated constructor stub
+    }
 }

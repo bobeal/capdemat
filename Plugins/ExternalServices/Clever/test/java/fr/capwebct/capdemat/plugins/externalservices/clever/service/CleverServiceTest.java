@@ -1,6 +1,8 @@
 package fr.capwebct.capdemat.plugins.externalservices.clever.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
@@ -44,9 +46,9 @@ public class CleverServiceTest extends ServiceTestCase {
         // Interest
         LocalReferentialData lrd = new LocalReferentialData();
         lrd.setName("Interest-1");
-        Set<LocalReferentialData> interestsSet = new HashSet<LocalReferentialData>();
-        interestsSet.add(lrd);
-        request.setInterests(interestsSet);
+        List<LocalReferentialData> interestsList = new ArrayList<LocalReferentialData>();
+        interestsList.add(lrd);
+        request.setInterests(interestsList);
         // CleverSmsContact ID
 
         return request;

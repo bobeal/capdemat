@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.social.impl;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -112,7 +113,7 @@ public class DomesticHelpRequestService extends RequestService implements
             dhr.setSpouseIncomesAnnualTotal(BigInteger.valueOf(spouseTotalIncomes));
         }
         int realAssetsTotal = 0;
-        Set<DhrRealAsset> realAssets = dhr.getRealAssets();
+        List<DhrRealAsset> realAssets = dhr.getRealAssets();
         for (DhrRealAsset realAsset : realAssets) {
             realAssetsTotal += realAsset.getRealAssetValue() == null ? 0 : realAsset
                     .getRealAssetValue().intValue();
@@ -120,7 +121,7 @@ public class DomesticHelpRequestService extends RequestService implements
         dhr.setRealAssetsValuesTotal(BigInteger.valueOf(realAssetsTotal));
 
         int notRealAssetsTotal = 0;
-        Set<DhrNotRealAsset> notRealAssets = dhr.getNotRealAssets();
+        List<DhrNotRealAsset> notRealAssets = dhr.getNotRealAssets();
         for (DhrNotRealAsset notRealAsset : notRealAssets) {
             notRealAssetsTotal += notRealAsset.getAssetValue() == null ? 0 : notRealAsset
                     .getAssetValue().intValue();

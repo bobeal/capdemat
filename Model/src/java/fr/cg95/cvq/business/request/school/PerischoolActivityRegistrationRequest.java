@@ -115,22 +115,22 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
             perischoolActivityRegistrationRequest.setSchool(School.xmlToModel(perischoolActivityRegistrationRequestXml.getSchool()));
         perischoolActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getHospitalizationPermission()));
         perischoolActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getClassTripPermission()));
-        HashSet otherIndividualSet = new HashSet();
+        List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividualList = new ArrayList<fr.cg95.cvq.business.request.school.OtherIndividual> ();
         if ( perischoolActivityRegistrationRequestXml.sizeOfOtherIndividualArray() > 0) {
             for (int i = 0; i < perischoolActivityRegistrationRequestXml.getOtherIndividualArray().length; i++) {
-                otherIndividualSet.add(OtherIndividual.xmlToModel(perischoolActivityRegistrationRequestXml.getOtherIndividualArray(i)));
+                otherIndividualList.add(OtherIndividual.xmlToModel(perischoolActivityRegistrationRequestXml.getOtherIndividualArray(i)));
             }
         }
-        perischoolActivityRegistrationRequest.setOtherIndividual(otherIndividualSet);
+        perischoolActivityRegistrationRequest.setOtherIndividual(otherIndividualList);
         perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
         perischoolActivityRegistrationRequest.setUrgencyPhone(perischoolActivityRegistrationRequestXml.getUrgencyPhone());
-        HashSet perischoolActivitySet = new HashSet();
+        List<fr.cg95.cvq.business.users.LocalReferentialData> perischoolActivityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( perischoolActivityRegistrationRequestXml.sizeOfPerischoolActivityArray() > 0) {
             for (int i = 0; i < perischoolActivityRegistrationRequestXml.getPerischoolActivityArray().length; i++) {
-                perischoolActivitySet.add(LocalReferentialData.xmlToModel(perischoolActivityRegistrationRequestXml.getPerischoolActivityArray(i)));
+                perischoolActivityList.add(LocalReferentialData.xmlToModel(perischoolActivityRegistrationRequestXml.getPerischoolActivityArray(i)));
             }
         }
-        perischoolActivityRegistrationRequest.setPerischoolActivity(perischoolActivitySet);
+        perischoolActivityRegistrationRequest.setPerischoolActivity(perischoolActivityList);
         if (perischoolActivityRegistrationRequestXml.getSection() != null)
             perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.authority.SectionType.forString(perischoolActivityRegistrationRequestXml.getSection().toString()));
         else
@@ -199,25 +199,27 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return this.classTripPermission;
     }
 
-    private Set otherIndividual;
+    private List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividual;
 
-    public final void setOtherIndividual(final Set otherIndividual) {
+    public final void setOtherIndividual(final List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividual) {
         this.otherIndividual = otherIndividual;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="perischool_activity_registration_request_other_individual"
      * @hibernate.key
      *  column="perischool_activity_registration_request_id"
+     * @hibernate.list-index
+     *  column="other_individual_index"
      * @hibernate.many-to-many
      *  column="other_individual_id"
      *  class="fr.cg95.cvq.business.request.school.OtherIndividual"
      */
-    public final Set getOtherIndividual() {
+    public final List<fr.cg95.cvq.business.request.school.OtherIndividual> getOtherIndividual() {
         return this.otherIndividual;
     }
 
@@ -252,25 +254,27 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return this.urgencyPhone;
     }
 
-    private Set perischoolActivity;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> perischoolActivity;
 
-    public final void setPerischoolActivity(final Set perischoolActivity) {
+    public final void setPerischoolActivity(final List<fr.cg95.cvq.business.users.LocalReferentialData> perischoolActivity) {
         this.perischoolActivity = perischoolActivity;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="perischool_activity_registration_request_perischool_activity"
      * @hibernate.key
      *  column="perischool_activity_registration_request_id"
+     * @hibernate.list-index
+     *  column="perischool_activity_index"
      * @hibernate.many-to-many
      *  column="perischool_activity_id"
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final Set getPerischoolActivity() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getPerischoolActivity() {
         return this.perischoolActivity;
     }
 

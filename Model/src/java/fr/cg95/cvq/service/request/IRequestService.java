@@ -49,6 +49,7 @@ public interface IRequestService {
     String REQUEST_RED_ALERT_NOTIFICATION = "REQUEST_RED_ALERT_NOTIFICATION";
     String CREATION_ACTION = "CREATION_ACTION";
     String STATE_CHANGE_ACTION = "STATE_CHANGE_ACTION";
+    String REQUEST_CONTACT_CITIZEN = "REQUEST_CONTACT_CITIZEN";
     
     /** 
      * Subject policy for request types that have a whole account (aka home folder) as subject.

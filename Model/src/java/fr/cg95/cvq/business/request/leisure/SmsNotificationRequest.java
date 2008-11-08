@@ -86,13 +86,13 @@ public class SmsNotificationRequest extends Request implements Serializable {
         smsNotificationRequest.fillCommonModelInfo(smsNotificationRequest,smsNotificationRequestXml);
         smsNotificationRequest.setCleverSmsContactId(smsNotificationRequestXml.getCleverSmsContactId());
         smsNotificationRequest.setSubscription(Boolean.valueOf(smsNotificationRequestXml.getSubscription()));
-        HashSet interestsSet = new HashSet();
+        List<fr.cg95.cvq.business.users.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( smsNotificationRequestXml.sizeOfInterestsArray() > 0) {
             for (int i = 0; i < smsNotificationRequestXml.getInterestsArray().length; i++) {
-                interestsSet.add(LocalReferentialData.xmlToModel(smsNotificationRequestXml.getInterestsArray(i)));
+                interestsList.add(LocalReferentialData.xmlToModel(smsNotificationRequestXml.getInterestsArray(i)));
             }
         }
-        smsNotificationRequest.setInterests(interestsSet);
+        smsNotificationRequest.setInterests(interestsList);
         return smsNotificationRequest;
     }
 
@@ -126,25 +126,27 @@ public class SmsNotificationRequest extends Request implements Serializable {
         return this.subscription;
     }
 
-    private Set interests;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> interests;
 
-    public final void setInterests(final Set interests) {
+    public final void setInterests(final List<fr.cg95.cvq.business.users.LocalReferentialData> interests) {
         this.interests = interests;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="sms_notification_request_interests"
      * @hibernate.key
      *  column="sms_notification_request_id"
+     * @hibernate.list-index
+     *  column="interests_index"
      * @hibernate.many-to-many
      *  column="interests_id"
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final Set getInterests() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getInterests() {
         return this.interests;
     }
 

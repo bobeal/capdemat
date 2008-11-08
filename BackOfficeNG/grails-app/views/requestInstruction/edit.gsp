@@ -3,6 +3,7 @@
     <title><g:message code="request.header.requestTreatment" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/common/yui-skin/',file:'container.css')}" ></link>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestInstruction.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'document.js')}"></script>
     <script type="text/javascript">

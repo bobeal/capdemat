@@ -83,37 +83,39 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         List list = new ArrayList();
         CompostableWasteCollectionRequest compostableWasteCollectionRequest = new CompostableWasteCollectionRequest();
         compostableWasteCollectionRequest.fillCommonModelInfo(compostableWasteCollectionRequest,compostableWasteCollectionRequestXml);
-        HashSet compostableWasteTypeSet = new HashSet();
+        List<fr.cg95.cvq.business.users.LocalReferentialData> compostableWasteTypeList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( compostableWasteCollectionRequestXml.sizeOfCompostableWasteTypeArray() > 0) {
             for (int i = 0; i < compostableWasteCollectionRequestXml.getCompostableWasteTypeArray().length; i++) {
-                compostableWasteTypeSet.add(LocalReferentialData.xmlToModel(compostableWasteCollectionRequestXml.getCompostableWasteTypeArray(i)));
+                compostableWasteTypeList.add(LocalReferentialData.xmlToModel(compostableWasteCollectionRequestXml.getCompostableWasteTypeArray(i)));
             }
         }
-        compostableWasteCollectionRequest.setCompostableWasteType(compostableWasteTypeSet);
+        compostableWasteCollectionRequest.setCompostableWasteType(compostableWasteTypeList);
         compostableWasteCollectionRequest.setCollectionAddress(compostableWasteCollectionRequestXml.getCollectionAddress());
         compostableWasteCollectionRequest.setOtherWaste(compostableWasteCollectionRequestXml.getOtherWaste());
         return compostableWasteCollectionRequest;
     }
 
-    private Set compostableWasteType;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> compostableWasteType;
 
-    public final void setCompostableWasteType(final Set compostableWasteType) {
+    public final void setCompostableWasteType(final List<fr.cg95.cvq.business.users.LocalReferentialData> compostableWasteType) {
         this.compostableWasteType = compostableWasteType;
     }
 
 
     /**
-     * @hibernate.set
+     * @hibernate.list
      *  inverse="false"
      *  cascade="all"
      *  table="compostable_waste_collection_request_compostable_waste_type"
      * @hibernate.key
      *  column="compostable_waste_collection_request_id"
+     * @hibernate.list-index
+     *  column="compostable_waste_type_index"
      * @hibernate.many-to-many
      *  column="compostable_waste_type_id"
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final Set getCompostableWasteType() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getCompostableWasteType() {
         return this.compostableWasteType;
     }
 

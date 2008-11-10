@@ -59,6 +59,12 @@
           <div class="mainbox mainbox-yellow" id="requestTypeAlerts" style="display:none"></div>
           <div class="mainbox mainbox-yellow" id="requestTypeSeasons" style="display:none"></div>
           <div class="mainbox mainbox-yellow" id="requestTypeDocuments" style="display:none">
+            <h2><g:message code="requestType.header.documentType" /></h2>
+            <div id="documentTypeFilterPanel" class="editableListSwithcher">
+              <a id="showAssociatedDocuments">view bound</a>/
+              <a id="showUnassociatedDocuments">view unbound</a>/
+              <a id="showAllDocuments" class="current">view all</a>
+            </div>
             <div id="documentList"></div>
           </div>
         </div>

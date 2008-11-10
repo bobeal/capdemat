@@ -471,7 +471,7 @@ public abstract class RequestService implements IRequestService {
             if (requestType.getRequirements() == null)
                 requestType.setRequirements(new HashSet<Requirement>());
             DocumentType documentType =
-                (DocumentType) documentTypeDAO.findById(DocumentType.class, documentTypeId);
+                (DocumentType) genericDAO.findById(DocumentType.class, documentTypeId);
             Requirement requirement = new Requirement();
             requirement.setMultiplicity(Integer.valueOf("1"));
             requirement.setRequestType(requestType);
@@ -496,12 +496,13 @@ public abstract class RequestService implements IRequestService {
             if (requestType.getRequirements() == null)
                 return;
             DocumentType documentType =
-                (DocumentType) documentTypeDAO.findById(DocumentType.class, documentTypeId);
+                (DocumentType) genericDAO.findById(DocumentType.class, documentTypeId);
             Requirement requirement = new Requirement();
             requirement.setRequestType(requestType);
             requirement.setDocumentType(documentType);
-            if (requestType.getRequirements().remove(requirement))
+            if (requestType.getRequirements().remove(requirement)) {
                 requestTypeDAO.update(requestType);
+            }
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw new CvqException("Could not update request type : " + e.toString());

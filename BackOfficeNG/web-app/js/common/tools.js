@@ -504,7 +504,7 @@
    *
    */
   zct.html = function(node,html) {
-    if(!node.nodeType) return undefined;
+    if(!node.nodeType || !node.innerHTML) return undefined;
     if(!html) {
       return node.innerHTML;
     }else {
@@ -513,20 +513,6 @@
       return true;
     }
   };
-  
-  /**
-   * @description Toggles css class for specified DOM element
-   * @method toggleClass
-   * @namespace zenexity.capdemat.tools
-   * @param {HTMLElement} node scope element
-   * @param {String} className class to be toggled
-   * 
-   * @author vba@zenexity.fr
-   **/
-  zct.toggleClass = function(node,className) {
-    if(YAHOO.util.Dom.hasClass(node,className)) YAHOO.util.Dom.removeClass(node,className);
-    else YAHOO.util.Dom.addClass(node,className);
-  }
   
   /**
    * @description Fade in passed element by adjusting its opacity and firing an optional callback after completion

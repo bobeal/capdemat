@@ -67,7 +67,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       displayDocuments : function(e) {
         zct.style(yu.Dom.get('requestTypeDocuments'),{display:'block'});
-        zcbrp.Documents.init();
+        zcbrp.Documents.reloadList();
       },
       dispalyAlerts : function(e) {},
       displaySeasons: function(e) {}

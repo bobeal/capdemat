@@ -269,32 +269,17 @@ class RequestTypeController {
         def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
         def docs = documentService.getAllDocumentTypes()
         requestType.requirements.each { r -> reqs.add(r.documentType.id)}
-        //println requestType.requirements
+        println requestType.requirements
         docs.each{ d ->
             list.add([
                 'documentId' : d.id,
                 'name' : d.name,
-                'bound' : reqs.contains(d.id),
-                'class' : reqs.contains(d.id) ? '' : 'notBelong'
+                'bound' : reqs.contains(d.id)
             ])
             
         }
-        //list.each {n-> println n}
-        render(template:"docsList",model:["documents":list])
-    }
-    
-    def associateDocument = {
-        this.defaultRequestService.addRequestTypeRequirement(
-            Long.valueOf(params.rtid),Long.valueOf(params.dtid)
-        )
-        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-    }
-    
-    def unassociateDocument = {
-        this.defaultRequestService.removeRequestTypeRequirement(
-            Long.valueOf(params.rtid),Long.valueOf(params.dtid)
-        )
-        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        list.each {n-> println n}
+        render(template:"docsList",model:["documents":docs])
     }
     
     // retrives request form list using passed request type id

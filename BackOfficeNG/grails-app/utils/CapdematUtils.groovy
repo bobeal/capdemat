@@ -2,7 +2,7 @@
 class CapdematUtils {
 
     /*
-     * Generic method to adapt Capdemat 'State' class (Like RequestState / DocumentState / DataState ...)
+     * Generic method to adapt CapDemat enums-like classes (Like RequestState / MeansOfContact / TitleType / ...)
      */
     public static adaptCapdematEnum (capdematState, i18nKeyPrefix) {
         return [

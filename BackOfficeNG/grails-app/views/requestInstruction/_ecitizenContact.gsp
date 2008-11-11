@@ -101,9 +101,12 @@
 
         <a id="previewRequestForm"
            target="_blank"
-           title="preview"
            href="javascript:;"
-           style="display:none"><g:message code="request.contact.preview" /></a>
+           style="display:none"><g:message code="request.contact.preview" /> (HTML)</a>
+        <a id="previewRequestFormPdf"
+           target="_blank"
+           href="javascript:;"
+           style="display:none"><g:message code="request.contact.preview" /> (PDF)</a>
         <span id="previewError" style="display:none">
           <g:message code="request.contact.mailTemplateNotExists" />
         </span>

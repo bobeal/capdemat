@@ -465,47 +465,38 @@ public abstract class RequestService implements IRequestService {
     public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
 
-        try {
-            RequestType requestType =
-                (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
-            if (requestType.getRequirements() == null)
-                requestType.setRequirements(new HashSet<Requirement>());
-            DocumentType documentType =
-                (DocumentType) documentTypeDAO.findById(DocumentType.class, documentTypeId);
-            Requirement requirement = new Requirement();
-            requirement.setMultiplicity(Integer.valueOf("1"));
-            requirement.setRequestType(requestType);
-            requirement.setSpecial(false);
-            requirement.setDocumentType(documentType);
-            if (!requestType.getRequirements().contains(requirement)) {
-                requestType.getRequirements().add(requirement);
-                requestTypeDAO.update(requestType);
-            }
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new CvqException("Could not update request type : " + e.toString());
+        RequestType requestType =
+            (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
+        if (requestType.getRequirements() == null)
+            requestType.setRequirements(new HashSet<Requirement>());
+        DocumentType documentType =
+            (DocumentType) genericDAO.findById(DocumentType.class, documentTypeId);
+        Requirement requirement = new Requirement();
+        requirement.setMultiplicity(Integer.valueOf("1"));
+        requirement.setRequestType(requestType);
+        requirement.setSpecial(false);
+        requirement.setDocumentType(documentType);
+        if (!requestType.getRequirements().contains(requirement)) {
+            requestType.getRequirements().add(requirement);
+            requestTypeDAO.update(requestType);
         }
     }
 
     public void removeRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
 
-        try {
-            RequestType requestType =
-                (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
-            if (requestType.getRequirements() == null)
-                return;
-            DocumentType documentType =
-                (DocumentType) documentTypeDAO.findById(DocumentType.class, documentTypeId);
-            Requirement requirement = new Requirement();
-            requirement.setRequestType(requestType);
-            requirement.setDocumentType(documentType);
-            if (requestType.getRequirements().remove(requirement))
-                requestTypeDAO.update(requestType);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new CvqException("Could not update request type : " + e.toString());
+        RequestType requestType = getRequestTypeById(requestTypeId);
+        if (requestType.getRequirements() == null)
+            return;
+        Requirement requirementToRemove = null;
+        for (Requirement requirement : (Set<Requirement>)requestType.getRequirements()) {
+            if (requirement.getDocumentType().getId().equals(documentTypeId)) {
+                requirementToRemove = requirement;
+                break;
+            }
         }
+        requestType.getRequirements().remove(requirementToRemove);
+        requestTypeDAO.update(requestType);
     }
 
     /**

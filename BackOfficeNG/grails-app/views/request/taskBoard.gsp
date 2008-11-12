@@ -3,6 +3,7 @@
     <title><g:message code="request.header.taskBoard" /></title>
     <meta name="layout" content="main" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'taskBoard.css')}" />
+    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTaskBoard.js')}"></script>
   </head>
   <body>
     <div id="yui-main">
@@ -10,6 +11,10 @@
         <div class="head">
           <h1><g:message code="request.header.taskBoard" /></h1>
         </div>
+        
+        <form id="pageForm" method="post" action="${createLink(action:'taskBoard')}">
+          <input name="pageState" id="pageState" type="hidden" value="${pageState}"></input>
+        </form>
         
         <g:if test="${requestMap.containsKey('redRequests')}">
           <div class="mainbox taskboard-red">
@@ -99,26 +104,26 @@
       <div class="nobox">
         <h3><g:message code="header.display" /></h3>
         <div class="body">
-          <form action="#">
+          <form action="#" id="displayForm">
             <ul>
               <li>
-                <input type="checkbox" />
+                <input name="displayLateRequests" type="checkbox" />
                 <g:message code="request.header.lateRequests" />
               </li>
               <li>
-                <input type="checkbox" />
+                <input name="displayAlertRequests" type="checkbox" />
                 <g:message code="request.header.alertRequests" />
               </li>
               <li>
-                <input type="checkbox" />
+                <input name="displayNewRequests" type="checkbox" />
                 <g:message code="request.header.newRequests" />
               </li>
               <li>
-                <input type="checkbox" />
+                <input name="displayLastRequests" type="checkbox" />
                 <g:message code="request.header.lastRequests" />
               </li>
               <li>
-                <input type="checkbox" />
+                <input name="displayValidatedRequests" type="checkbox" />
                 <g:message code="request.header.validatedRequests" />
               </li>
             </ul>
@@ -129,9 +134,9 @@
       <div class="nobox">
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
-          <form action="#" id="taskBoardFilters">
-            <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
-            <select id="categoryIdFilter" 
+          <form action="#" id="filterForm">
+            <label for="categoryFilter"><g:message code="property.category" /> :</label>
+            <select id="categoryFilter"> 
               <option value=""></option>
               <g:each in="${allCategories}" var="category">
                 <option value="${category.id}">
@@ -141,7 +146,7 @@
             </select>
             
             <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
-            <select id="requestTypeFilter" 
+            <select id="requestTypeFilter"> 
               <option value=""></option>
               <g:each in="${allRequestTypes}" var="requestType">
                 <option value="${requestType.id}">

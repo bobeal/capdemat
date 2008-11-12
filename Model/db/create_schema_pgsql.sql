@@ -578,6 +578,7 @@
         last_name varchar(255),
         first_name varchar(255),
         active bool,
+        preferences bytea,
         primary key (id)
     );
 

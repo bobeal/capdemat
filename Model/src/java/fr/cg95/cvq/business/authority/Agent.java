@@ -1,6 +1,8 @@
 package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -27,15 +29,18 @@ public class Agent implements Serializable {
 
     private Set categoriesRoles;
     private Set sitesRoles;
+    private Hashtable<String, Hashtable<String, String>> preferences; 
 
     /** full constructor */
     public Agent(String login, String lastName, String firstName, 
-            Set categoriesRoles, Set sitesRoles) {
+            Set categoriesRoles, Set sitesRoles, 
+            Hashtable<String, Hashtable<String, String>> preferences) {
         this.login = login;
         this.lastName = lastName;
         this.firstName = firstName;
         this.categoriesRoles = categoriesRoles;
         this.sitesRoles = sitesRoles;
+        this.preferences = preferences;
     }
 
     /** default constructor */
@@ -137,6 +142,19 @@ public class Agent implements Serializable {
         this.active = active;
     }
 
+    /**
+     * @hibernate.property
+     *  column="preferences"
+     *  type="serializable"
+     */
+    public Hashtable<String, Hashtable<String, String>> getPreferences() {
+        return this.preferences;
+    }
+
+    public void setPreferences(Hashtable<String, Hashtable<String, String>> preferences) {
+        this.preferences = preferences;
+    }
+    
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

@@ -53,6 +53,7 @@
                   <fo>
                     <radio />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -70,6 +71,7 @@
                     <step name="type" />
                   </common>
                   <fo />
+                  <bo column="1" after="Motive" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -89,6 +91,7 @@
                   <fo>
                     <textarea rows="3" />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -102,6 +105,7 @@
                   <fo>
                     <select />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -115,6 +119,7 @@
                   <fo>
                     <radio />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -132,6 +137,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -143,6 +149,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -160,6 +167,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -177,6 +185,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="2"/>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -194,6 +203,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -211,11 +221,12 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="FatherInformation" type="bdr:FatherInformationType" minOccurs="0">
+            <xs:element name="FatherInformation" type="bdr:FatherInformationType" minOccurs="0" maxOccurs="10">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Informations sur le père
@@ -231,6 +242,7 @@
                   <fo>
                     <label />
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -251,6 +263,7 @@
                   <fo>
                     <label />
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -369,6 +382,7 @@
               <step name="type" />
             </common>
             <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -382,9 +396,10 @@
               <step name="type" />
             </common>
             <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
-      </xs:element>      
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
   
@@ -400,6 +415,7 @@
               <step name="type" />
             </common>
             <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -413,6 +429,7 @@
               <step name="type" />
             </common>
             <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

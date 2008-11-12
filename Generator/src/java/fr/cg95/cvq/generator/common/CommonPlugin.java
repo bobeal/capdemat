@@ -91,16 +91,21 @@ public class CommonPlugin implements IPluginGenerator {
         }
         
         if (depth < 1)
-            logger.warn("onApplicationInformation - requestCommon=[" +
+            logger.debug("onApplicationInformation - requestCommon=[" +
                     "namespace: " + requestCommon.getNamespace() +
                     ", steps.size: " + requestCommon.getSteps().size() +
                     ", conditions.size: " + requestCommon.getConditions().size() +
                     "]");
-        else
-            logger.warn("onApplicationInformation() - currentElementCommom= [" +
-            		"step: [name:" + requestCommon.getCurrentElementCommon().getStep().getName() +
-            		"] condition: [name: " + requestCommon.getCurrentElementCommon().getCondition().getName() +
+        else {
+            String stepName = requestCommon.getCurrentElementCommon().getStep().getName();
+            String conditionName = requestCommon.getCurrentElementCommon().getCondition() != null ?
+                    requestCommon.getCurrentElementCommon().getCondition().getName() : "NO-CONDITION";
+            
+            logger.debug("onApplicationInformation() - currentElementCommom= [" +
+            		"step: [name:" + stepName   +
+            		"] condition: [name: " + conditionName +
             		"]");
+        }
     
     }
     
@@ -109,7 +114,7 @@ public class CommonPlugin implements IPluginGenerator {
     }
 
     public void startRequest(String requestName, String targetNamespace) {
-        logger.warn("startRequest() - ");
+        logger.debug("startRequest() - ");
         requestCommon = new RequestCommon();
         depth = 0;
     }

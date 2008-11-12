@@ -29,12 +29,15 @@ public interface IHomeFolderService {
 
     /**
      * Create a fresh new home folder containing only the given adult.
+     * 
+     * FIXME : unused ?
      */
     HomeFolder create(Adult adult)
         throws CvqException;
 
     /**
      * Create a fresh new home folder from a set of adults and children.
+     * It is called upon the issuing of an home folder creation request.
      */
     HomeFolder create(Set<Adult> adults, Set<Child> children, Address address)
         throws CvqException, CvqModelException;
@@ -45,12 +48,6 @@ public interface IHomeFolderService {
     Long addAdult(final Long homeFolderId, Adult adult, Address address)
         throws CvqException;
 
-    /**
-     * Initialize home folder's common attributes (state, ...).
-     */
-    void initializeCommonAttributes(HomeFolder homeFolder)
-        throws CvqException;
-    
     Set<HomeFolder> getAll()
         throws CvqException;
 

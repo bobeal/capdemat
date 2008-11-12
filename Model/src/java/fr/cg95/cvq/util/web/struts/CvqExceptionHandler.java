@@ -16,6 +16,10 @@ import org.apache.struts.util.ModuleException;
 
 import fr.cg95.cvq.util.web.filter.CvqOpenSessionInViewFilter;
 
+/**
+ * @deprecated was used by existing Struts applications.
+ *
+ */
 public class CvqExceptionHandler
     extends ExceptionHandler {
 

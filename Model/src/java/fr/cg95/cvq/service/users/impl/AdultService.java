@@ -50,10 +50,9 @@ public class AdultService extends IndividualService implements IAdultService {
             adult.setSex(SexType.UNKNOWN);
         if (adult.getTitle() == null)
             adult.setTitle(TitleType.UNKNOWN);
-        if (assignLogin) {
-            // generate a login even if user has not asked for a personal space
+        // generate a login even if user has not asked for a personal space
+        if (assignLogin)
             assignLogin(individual);
-        }
         if (adult.getPassword() != null)
             adult.setPassword(encryptPassword(adult.getPassword()));
         

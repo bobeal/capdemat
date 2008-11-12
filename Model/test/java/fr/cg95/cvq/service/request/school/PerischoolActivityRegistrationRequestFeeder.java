@@ -1,12 +1,11 @@
 package fr.cg95.cvq.service.request.school;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import fr.cg95.cvq.business.request.school.OtherIndividual;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
-import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.testtool.TestUtils;

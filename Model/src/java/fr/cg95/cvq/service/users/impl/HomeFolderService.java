@@ -66,10 +66,6 @@ public class HomeFolderService implements IHomeFolderService {
     protected IPaymentService paymentService;
     protected IExternalService externalService;
     
-	public HomeFolderService() {
-        super();
-    }
-
     public final HomeFolder getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -79,7 +75,7 @@ public class HomeFolderService implements IHomeFolderService {
     public final Set<HomeFolder> getAll()
         throws CvqException {
 
-        List homeFolders = homeFolderDAO.listAll();
+        List<HomeFolder> homeFolders = homeFolderDAO.listAll();
         return new LinkedHashSet<HomeFolder>(homeFolders);
     }
 
@@ -148,15 +144,11 @@ public class HomeFolderService implements IHomeFolderService {
 
         // create the other adults belonging to this home folder
         for (Adult adult : adults) {
-            adultService.create(adult, homeFolder, address, false);
+            adultService.create(adult, homeFolder, address, true);
             allIndividuals.add(adult);
         }
 
         homeFolderDAO.create(homeFolder);
-        
-        for (Adult adult : adults) {
-            adultService.assignLogin(adult);
-        }
         
         return homeFolder;
     }
@@ -173,7 +165,7 @@ public class HomeFolderService implements IHomeFolderService {
         return childService.create(child, homeFolder, address, false);
     }
 
-    public void initializeCommonAttributes(HomeFolder homeFolder) 
+    private void initializeCommonAttributes(HomeFolder homeFolder) 
         throws CvqException {
 
         homeFolder.setState(ActorState.PENDING);
@@ -237,8 +229,7 @@ public class HomeFolderService implements IHomeFolderService {
     public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, String type) 
         throws CvqException {
         
-        logger.debug("getExternalAccounts() Home folder : " + homeFolderId);
-
+        // FIXME : at least request optimization or even refactoring ?
         List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
         Set<String> homeFolderRequestsTypes = new HashSet<String>();
         for (Request request : requests) {
@@ -252,6 +243,7 @@ public class HomeFolderService implements IHomeFolderService {
     public Map<Individual, Map<String, String>> getIndividualExternalAccountsInformation(Long homeFolderId) 
         throws CvqException {
 
+        // FIXME : at least request optimization or even refactoring ?
         List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
         Set<String> homeFolderRequestsTypes = new HashSet<String>();
         for (Request request : requests) {

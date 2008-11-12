@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -187,14 +186,12 @@ public final class PlaceReservationRequestService
                 continue;
             }
             // get tickets choosen by user
-            Set tickets = placeReservationData.getTickets();
-            if (tickets == null || tickets.size() == 0) {
-                logger.debug("checkPlaceReservationData() no tickets found for current entry");
+            Set<TicketTypeSelection> tickets = placeReservationData.getTickets();
+            if (tickets == null || tickets.isEmpty()) {
+                logger.warn("checkPlaceReservationData() no tickets found for current entry");
                 continue;
             }
-            Iterator ticketsIt = tickets.iterator();
-            while (ticketsIt.hasNext()) {
-                TicketTypeSelection ticketTypeSelection = (TicketTypeSelection) ticketsIt.next();
+            for (TicketTypeSelection ticketTypeSelection : tickets) {
                 logger.debug("checkPlaceReservationData() looking at " 
                         + ticketTypeSelection.getName());
                 if (subscriberTickets.contains(ticketTypeSelection.getName())) {
@@ -223,7 +220,7 @@ public final class PlaceReservationRequestService
             }
         }
         
-        if (errorReservationSet.size() > 0)
+        if (!errorReservationSet.isEmpty())
             return errorReservationSet;
         else
             return null;
@@ -266,32 +263,29 @@ public final class PlaceReservationRequestService
         }
         
         cancelReservations((PlaceReservationRequest) request);
+        // TODO use a standard request action
         reject(request, "PAYMENT_REFUSED");
     }
 
     private void cancelReservations(PlaceReservationRequest placeReservationRequest) 
         throws CvqException {
         
-        List<PlaceReservationData> reservationSet = placeReservationRequest.getPlaceReservation();
-        if (reservationSet == null || reservationSet.size() == 0) {
+        List<PlaceReservationData> reservationList = placeReservationRequest.getPlaceReservation();
+        if (reservationList == null || reservationList.isEmpty()) {
             logger.warn("onPaymentRefused() no reservation to cancel");
             return;
         }
 
-        Iterator reservationSetIt = reservationSet.iterator();
-        while (reservationSetIt.hasNext()) {
-            PlaceReservationData placeReservationData =
-                (PlaceReservationData) reservationSetIt.next();
+        for (PlaceReservationData placeReservationData : reservationList) {
             String placeReservationKey = placeReservationData.getName();
-            Set tickets = placeReservationData.getTickets();
-            if (tickets == null || tickets.size() == 0) {
-                logger.debug("cancelReservations() no tickets associated to " + placeReservationKey);
+            Set<TicketTypeSelection> tickets = placeReservationData.getTickets();
+            if (tickets == null || tickets.isEmpty()) {
+                logger.warn("cancelReservations() no tickets associated to " + placeReservationKey);
                 continue;
             }
             int numberOfTickets = 0;
-            Iterator ticketsIt = tickets.iterator();
-            while (ticketsIt.hasNext()) {
-                numberOfTickets += ((TicketTypeSelection) ticketsIt.next()).getNumber().intValue();
+            for (TicketTypeSelection ticket : tickets) {
+                numberOfTickets += ticket.getNumber();
             }
             placeReservationService.updateRemainingPlacesForReservation(getLabel(), 
                     placeReservationKey, numberOfTickets);

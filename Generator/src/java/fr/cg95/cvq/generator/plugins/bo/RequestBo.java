@@ -1,9 +1,11 @@
 package fr.cg95.cvq.generator.plugins.bo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -66,32 +68,51 @@ public class RequestBo {
                     && element.getColumn() == column)
                 stepElements.add(element);
         }
-//        return stepElements;
+        testAfterAttribute(stepElements);
         return sortByAfterAttribute(stepElements);
     }
     
     private List<ElementBo> sortByAfterAttribute(List<ElementBo> elements) {
-        List<ElementBo> sortElements = new ArrayList<ElementBo>();
-        Set<ElementBo> notSortElements = new HashSet<ElementBo>();
-        
+        List<ElementBo> sortedElements = new ArrayList<ElementBo>();
+        Set<ElementBo> notSortedElements = new HashSet<ElementBo>();
         for (ElementBo element : elements) {
             if (element.getAfter() == null)
-                sortElements.add(element);
-            else {
-                // TODO - test after="ref" validity
-                notSortElements.add(element);
-            }
+                sortedElements.add(element);
+            else 
+                notSortedElements.add(element);
         }
-        
-        for (ElementBo notSortElement : notSortElements) {
-            for (ElementBo sortElement : sortElements) {
-                if (notSortElement.getAfter().equals(sortElement.getName())) {
-                    sortElements.add(sortElements.indexOf(sortElement) + 1  , notSortElement);
+        for (ElementBo notSortedElement : notSortedElements) {
+            for (ElementBo sortedElement : sortedElements) {
+                if (notSortedElement.getAfter().equals(sortedElement.getName())) {
+                    sortedElements.add(sortedElements.indexOf(sortedElement) + 1  , notSortedElement);
                     break;
                 }
             }
         }
-        return sortElements;
+        return sortedElements;
+    }
+    
+    private void testAfterAttribute(List<ElementBo> elements) {
+        Map<String, String> name_afterMap = new HashMap<String, String>();
+        for (ElementBo element : elements)
+            name_afterMap.put(element.getName(), element.getAfter());
+        
+        Set<String> afters = new HashSet<String>();
+        for (String name : name_afterMap.keySet()) {
+            String after = name_afterMap.get(name);
+            if (after != null) {
+                if (!name_afterMap.keySet().contains(after))
+                    throw new RuntimeException("testAfterAttribute() - {" + after +"} not exist");
+                if (after.equals(name))
+                    throw new RuntimeException("testAfterAttribute() - self reference {" + name +"} <->{" + after +"}");
+                if (name_afterMap.get(after) != null && name_afterMap.get(after).equals(name))
+                    throw new RuntimeException("testAfterAttribute() - cyclic reference : {" + name +"} <->{" + after +"}");
+                if (afters.contains(after))
+                    throw new RuntimeException("testAfterAttribute() - not unique reference for {" + after +"}");
+                else
+                    afters.add(after);
+            }
+        }
     }
     
 }

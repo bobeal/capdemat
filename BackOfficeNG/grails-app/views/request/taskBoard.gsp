@@ -20,11 +20,11 @@
           <div class="mainbox taskboard-red">
             <h2>
               <g:message code="request.header.lateRequests" />
-               (${requestMap.get('redRequestsCount')})
+               (${requestMap?.redRequests?.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap.get('redRequests')}" />
+                collection="${requestMap?.redRequests?.all}" />
             </ul>
             <g:link controller="request" action="search">
               <g:message code="action.seeAll" /> 
@@ -36,11 +36,11 @@
           <div class="mainbox taskboard-orange">
             <h2>
               <g:message code="request.header.alertRequests" />
-               (${requestMap.get('orangeRequestsCount')})
+               (${requestMap?.orangeRequests?.count})
             </h2>
             <ul>
-              <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap.get('orangeRequests')}" />
+              <g:render template="taskBoardEntry" var="record"
+            collection="${requestMap?.orangeRequests?.all}" />
             </ul>
             <g:link  controller="request" action="search">
               <g:message code="action.seeAll" />
@@ -52,11 +52,11 @@
           <div class="mainbox taskboard-orange">
             <h2>
               <g:message code="request.header.newRequests" />
-               (${requestMap.get('pendingRequestsCount')})
+               (${requestMap?.pendingRequests?.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap.get('pendingRequests')}" />
+                collection="${requestMap?.pendingRequests?.all}" />
             </ul>
             <g:link controller="request" action="search" params="[state:'Pending']">
               <g:message code="action.seeAll" />
@@ -68,11 +68,11 @@
           <div class="mainbox taskboard-blue">
             <h2>
               <g:message code="request.header.lastRequests" />
-               (${requestMap.get('lastRequestsCount')})
+               (${requestMap?.lastRequests?.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap.get('lastRequests')}" />
+                collection="${requestMap?.lastRequests?.all}" />
             </ul>
             <g:link controller="request" action="search">
               <g:message code="action.seeAll" />
@@ -84,11 +84,11 @@
           <div class="mainbox taskboard-green">
             <h2>
               <g:message code="request.header.validatedRequests" />
-               (${requestMap.get('validatedRequestsCount')})
+               (${requestMap?.validatedRequests?.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap.get('validatedRequests')}" />
+                collection="${requestMap?.validatedRequests?.all}" />
             </ul>
             <g:link controller="request" action="search" params="[state:'Validated']">
               <g:message code="action.seeAll" />
@@ -107,24 +107,27 @@
           <form action="#" id="displayForm">
             <ul>
               <li>
-                <input name="displayLateRequests" type="checkbox" />
+                <g:checkBox class="display" name="displayLateRequests" value="${state?.displayForm?.contains('Late')}" />
                 <g:message code="request.header.lateRequests" />
               </li>
               <li>
-                <input name="displayAlertRequests" type="checkbox" />
+                <g:checkBox class="display" name="displayAlertRequests" value="${state?.displayForm?.contains('Alert')}" />
                 <g:message code="request.header.alertRequests" />
               </li>
               <li>
-                <input name="displayNewRequests" type="checkbox" />
+                <g:checkBox class="display" name="displayNewRequests" value="${state?.displayForm?.contains('New')}" />
                 <g:message code="request.header.newRequests" />
               </li>
               <li>
-                <input name="displayLastRequests" type="checkbox" />
+                <g:checkBox class="display" name="displayLastRequests" value="${state?.displayForm?.contains('Last')}" />
                 <g:message code="request.header.lastRequests" />
               </li>
               <li>
-                <input name="displayValidatedRequests" type="checkbox" />
+                <g:checkBox class="display" name="displayValidatedRequests" value="${state?.displayForm?.contains('Validated')}" />
                 <g:message code="request.header.validatedRequests" />
+              </li>
+              <li>
+                <input type="button" id="saveDisplay" value="${message(code:'action.save')}" />
               </li>
             </ul>
           </form>
@@ -136,24 +139,26 @@
         <div class="body">
           <form action="#" id="filterForm">
             <label for="categoryFilter"><g:message code="property.category" /> :</label>
-            <select id="categoryFilter"> 
-              <option value=""></option>
-              <g:each in="${allCategories}" var="category">
-                <option value="${category.id}">
-                  ${category.name}
-                </option>
-              </g:each>
-            </select>
+            
+            <g:select 
+              optionKey="id"
+              optionValue="name"
+              id="categoryFilter"
+              name="categoryFilter" 
+              from="${allCategories}" 
+              value="${state?.filters?.categoryFilter}"
+              noSelection="['':' ']"/>
+              
             
             <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
-            <select id="requestTypeFilter"> 
-              <option value=""></option>
-              <g:each in="${allRequestTypes}" var="requestType">
-                <option value="${requestType.id}">
-                  ${requestType.label}
-                </option>
-              </g:each>
-            </select>
+            <g:select 
+              optionKey="id"
+              optionValue="label"
+              id="requestTypeFilter"
+              name="requestTypeFilter" 
+              from="${allRequestTypes}" 
+              value="${state?.filters?.requestTypeFilter}"
+              noSelection="['':' ']"/>
           </form>
         </div>
       </div>

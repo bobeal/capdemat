@@ -1,22 +1,39 @@
 <g:requestForms forms="${forms}" />
 <html>
   <head>
+    <style type="text/css">
+      @page { size: A4 portrait; }
+      body { margin-right:1em; margin-left:1em; text-align:center; }
+      body, div, p { margin-top:0; margin-bottom:0; }
+      .address-ct { margin-bottom:2em; text-align: right; }
+      .date-place { margin-bottom:2em; text-align: right; }
+      .address-hf { margin-bottom:2em; text-align: right; }
+      .administrative-info { margin-bottom:2em; text-align:left; }
+      .salutation { margin-bottom:2em; text-align:center; }
+      .editable-zone { text-align:left; margin-left:2em; }
+      .closing { margin-top:4em;text-align: right; }
+    </style>
   </head>
-  <body>
-    <div align="center">
-      <img src="../../images/logoBoVo.gif" />
+  <body class="body">
+    <div>
+      <g:if test="${type == 'html'}">
+        <img class="logo" src="${createLink(controller:'localAuthorityResource',action:'image',id:'logoPdf')}" />
+      </g:if>
+      <g:if test="${type == 'pdf'}">
+        <img class="logo" src="${logoLink}" />
+      </g:if>
     </div>
-    <div align="right" style="margin-bottom:20px;margin-top:20px;">
+    <div class="address-ct">
       <p>Conseil Général du Val d'Oise</p>
       <p>Hôtel du Département</p>
       <p>2 avenue du Parc</p>
       <p>95032 Cergy-Pontoise Cedex</p>
       <p>TEL. 01 34 25 32 70</p>
     </div>
-    <div align="right" style="margin-bottom:20px;margin-top:20px;">
+    <div class="date-place">
       <p>Cergy, le #{DATE}</p>
     </div>
-    <div align="right" style="margin-bottom:20px;margin-top:20px;">
+    <div class="address-hf">
       <p>Mme et Mr #{RR_LNAME}</p>
       <p>#{HF_ADDRESS_ADI}</p>
       <p>#{HF_ADDRESS_AGI}</p>
@@ -28,22 +45,18 @@
       <p>#{HF_ADDRESS_ZIP}</p>
       <p>#{HF_ADDRESS_TOWN}</p>
       <p>#{HF_ADDRESS_CN}</p>
-
     </div>
-    <div align="left" style="margin-bottom:20px;margin-top:20px;">
+    <div class="administrative-info">
       <p>Numéro de dossier : #{RQ_ID}</p>
       <p>Numéro de compte : #{HF_ID} </p>
     </div>
-    <div align="center" style="margin-bottom:40px;">
-      <h1>#{RR_TITLE}</h1>
+    <div class="salutation">
+      #{RR_TITLE},
     </div>
     <g:editableZone id="Lab2" class="editable-zone">
       <p>Nous avons bien reçu votre demande #{RQ_ID}. Merci de passer chercher votre attestion au guichet.</p>
     </g:editableZone>
-    <p>
-      #{RQ_OBSERV}
-    </p>
-    <div align="right" style="margin-top:50px;">
+    <div class="closing">
       <p>Cordialement,</p>
       <p>Le Président du Conseil Général du Val d'Oise.</p>
     </div>

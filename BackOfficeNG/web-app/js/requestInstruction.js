@@ -416,8 +416,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         if(!!e) {
           var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
           var link = yud.get('previewRequestForm');
-          if(target.value > -1)zct.style(link,{display:'inline'});
-          else zct.style(link,{display:'none'});
+          var linkPdf = yud.get('previewRequestFormPdf');
+          if(target.value > -1) {
+            zct.style(link,{display:'inline'});
+            zct.style(linkPdf,{display:'inline'});
+          } else {
+            zct.style(link,{display:'none'});
+            zct.style(linkPdf,{display:'none'});
+          } 
           zcbr.Instruction.prepareLink();
         } else {
           zct.style(yud.get('previewError'),{display:'inline'});
@@ -432,10 +438,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       },
       prepareLink: function() {
         var link = yud.get('previewRequestForm');
+        var linkPdf = yud.get('previewRequestFormPdf');
         var url = zenexity.capdemat.bong.baseUrl;
         var id = zct.val(yud.get('requestForms'));
         var message = encodeURIComponent(zct.val(zcbr.Instruction.messageBox));
-        link.href = [url,'/preview/?fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
+        link.href = [url,'/preview/?type=html&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
+        linkPdf.href = [url,'/preview/?type=pdf&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
       },
       prepareForm : function() {
         form = yud.get('contactForm');

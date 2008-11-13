@@ -1,3 +1,5 @@
+import fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.*
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IChildService
@@ -17,7 +19,6 @@ import fr.cg95.cvq.business.users.Child
 
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.exception.*
-import fr.cg95.cvq.service.authority.IAgentService
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
 
@@ -43,9 +44,11 @@ class RequestInstructionController {
     IAgentService agentService
     IRequestServiceRegistry requestServiceRegistry
     IMailService mailService
+    ILocalAuthorityRegistry localAuthorityRegistry
 
     def translationService
     def instructionService
+    def pdfService
     def defaultAction = "edit"
 
     def beforeInterceptor = {
@@ -518,13 +521,21 @@ class RequestInstructionController {
     }
 
     def preview = {
-        //Locale.setDefault Locale.FRANCE
-        response.contentType = 'text/html; charset=utf-8'
-        render this.prepareTemplate(params?.rid,params?.fid,params?.msg?.encodeAsHTML())
-        //response.contentType = 'text/html; charset=utf-8'
+        	
+        if (params.type == 'html') {
+        	response.contentType = 'text/html; charset=utf-8'
+        	render this.prepareTemplate(params?.rid,params?.fid,params?.msg?.encodeAsHTML(),params.type)
+        } else if (params.type == 'pdf') {
+            def data = this.prepareTemplate(params.rid,params.fid,params.msg?.encodeAsHTML(),params.type)
+            byte[] b = pdfService.htmlToPdf(data)
+            response.contentType = 'application/pdf'
+            response.setHeader('Content-disposition', 'attachment; filename=letter.pdf')
+            response.contentLength = b.length
+            response.outputStream << b        	
+        }
     } 
 
-    private prepareTemplate = {requestId,formId,message ->
+    private prepareTemplate = {requestId,formId,message,type ->
         
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = this.defaultRequestService.getRequestFormById(Long.valueOf(formId))
@@ -537,39 +548,48 @@ class RequestInstructionController {
         forms.add(form)
     
         File templateFile = defaultRequestService.getTemplateByName(form.getTemplateName())
-        if(templateFile.exists()) {
-    
+        if (templateFile.exists()) {
+
+        	// FIXME BOR : is there a better way to do this ?
+            def logoLink = ''
+            if (type == 'pdf') {
+                File logoFile = 
+                    localAuthorityRegistry.getCurrentLocalAuthorityResource(ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE,
+                        "logoPdf.jpg", false)
+                logoLink = logoFile.absolutePath
+            }
+
             def template = groovyPagesTemplateEngine.createTemplate(templateFile);
             def out = new StringWriter();
             def originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
-            template.make(['forms':forms]).writeTo(out);
+            template.make(['forms':forms,'type':type,'logoLink':logoLink]).writeTo(out);
             requestAttributes.setOut(originalOut)
-    
-            String content = out.toString().replace('#{','${');
+                        
+            String content = out.toString().replace('#{','${')
             def model = [
                 'DATE' : java.text.DateFormat.getDateInstance().format(new Date()),
-                'RQ_ID' : request?.getId(),
-                'RQ_TP_LABEL' : request?.getRequestType().getLabel(),
-                'RQ_CDATE' : request?.getCreationDate(),
-                'RQ_DVAL' : request?.getValidationDate(),
+                'RQ_ID' : request.id,
+                'RQ_TP_LABEL' : request.requestType.label,
+                'RQ_CDATE' : request.creationDate,
+                'RQ_DVAL' : request.validationDate,
                 'RQ_OBSERV' : message,
-                'HF_ID' : requester?.getHomeFolder()?.getId(),
-                'RR_FNAME' : requester?.getFirstName(),
-                'RR_LNAME' : requester?.getLastName(),
-                'RR_TITLE' : requester?.getTitle(),
-                'RR_LOGIN' : requester?.getLogin(),
-                'RR_FNAME' : subject?.firstName,
-                'RR_LNAME' : subject?.lastName,
-                'RR_TITLE' : subject?.title,
-                'HF_ADDRESS_ADI' : address?.additionalDeliveryInformation,
-                'HF_ADDRESS_AGI' : address?.additionalGeographicalInformation,
-                'HF_ADDRESS_SNAME' : address?.streetName,
-                'HF_ADDRESS_SNUM' : address?.streetNumber,
-                'HF_ADDRESS_PNS' : address?.placeNameOrService,
-                'HF_ADDRESS_ZIP' : address?.postalCode,
-                'HF_ADDRESS_TOWN' : address?.city,
-                'HF_ADDRESS_CN' : address?.countryName,
+                'HF_ID' : requester.homeFolder.id,
+                'RR_FNAME' : requester.firstName,
+                'RR_LNAME' : requester.lastName,
+                'RR_TITLE' : requester.title,
+                'RR_LOGIN' : requester.login,
+                'SU_FNAME' : subject?.firstName,
+                'SU_LNAME' : subject?.lastName,
+                'SU_TITLE' : subject?.title,
+                'HF_ADDRESS_ADI' : address.additionalDeliveryInformation,
+                'HF_ADDRESS_AGI' : address.additionalGeographicalInformation,
+                'HF_ADDRESS_SNAME' : address.streetName,
+                'HF_ADDRESS_SNUM' : address.streetNumber,
+                'HF_ADDRESS_PNS' : address.placeNameOrService,
+                'HF_ADDRESS_ZIP' : address.postalCode,
+                'HF_ADDRESS_TOWN' : address.city,
+                'HF_ADDRESS_CN' : address.countryName
             ]
             model.each{k,v ->  if(v == null)model[k]=''}
     

@@ -181,3 +181,8 @@ select init_hibernate_list_index('technical_intervention_request_intervention_ty
 alter table technical_intervention_request_intervention_type add constraint technical_intervention_request_intervention_type_pkey primary key (technical_intervention_request_id, intervention_type_index);
 
 DROP function init_hibernate_list_index(text,text,text);
+
+
+ALTER TABLE agent ADD COLUMN preferences bytea;        
+
+

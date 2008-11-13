@@ -1,3 +1,6 @@
+import java.util.Hashtable;
+
+import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.service.authority.IAgentService
@@ -7,7 +10,7 @@ import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext;
 
-import grails.converters.JSON
+import grails.converters.*
 
 class RequestController {
 
@@ -159,17 +162,38 @@ class RequestController {
      * Called when asking for the agent's task board
      */
     def taskBoard = {
-            
-    	session["currentMenu"] = "taskBoard"
-
-    	def requestMap = [:]
-
-    	Set criteriaSet = new HashSet<Critere>()
-    	Critere critere = new Critere()
-    	critere.attribut = Request.SEARCH_BY_QUALITY_TYPE
-    	critere.comparatif = Critere.EQUALS
-    	critere.value = Request.QUALITY_TYPE_RED
-    	criteriaSet.add(critere)
+        def pageState
+        def method = request.getMethod().toLowerCase()
+        if(method == 'get') {
+            def state = [:]
+            state['displayForm'] = []
+            state['filters'] = ['categoryFilter':'','requestTypeFilter':'']
+            pageState = (new JSON(state)).toString();
+        } else {
+            pageState = params?.pageState
+        }
+        
+        
+//        Hashtable<String, String> taskBoard = new Hashtable<String, String>();
+//        Agent agent = SecurityContext.getCurrentAgent()
+        //taskBoard['display'] = '1,2,4,6'
+        
+        //agentService.modifyPreference('taskBoard',taskBoard, agent)
+//        println agent.preferences
+//        
+//        def test = JSON.parse("{my:'34'}")
+//        println test.my
+        
+        session["currentMenu"] = "taskBoard"
+        
+        def requestMap = [:]
+        
+        Set criteriaSet = new HashSet<Critere>()
+        Critere critere = new Critere()
+        critere.attribut = Request.SEARCH_BY_QUALITY_TYPE
+        critere.comparatif = Critere.EQUALS
+        critere.value = Request.QUALITY_TYPE_RED
+        criteriaSet.add(critere)
 
         requestMap["redRequests"] = 
             defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
@@ -203,8 +227,9 @@ class RequestController {
             defaultRequestService.getCount(criteriaSet)
 
         render (view:'taskBoard', model:["requestMap":requestMap,
-                                           "allCategories":categoryService.getAll(),
-                                           "allRequestTypes":translatedAndSortRequestTypes()])
+                                         "pageState" : pageState.encodeAsHTML(),
+                                         "allCategories":categoryService.getAll(),
+                                         "allRequestTypes":translatedAndSortRequestTypes()])
     }
     
     def translatedAndSortRequestTypes() {

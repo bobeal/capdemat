@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.authority;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -86,6 +87,25 @@ public interface IAgentService {
             final CategoryProfile categoryProfile ) throws CvqException;
     
     public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException;
+    
+    /**
+     * Retrives a cutoff of agent preferences by its key
+     * 
+     * @param key 
+     * @param agent scope entity
+     * @return Cutoff of agent preferences
+     */
+    Hashtable<String, String> getPreferenceByKey(String key, Agent agent);
+    
+    /**
+     * Modifies a cutoff of agent preferences
+     * 
+     * @param key
+     * @param preference cutoff to replace
+     * @param agent scope entity
+     * @throws CvqException
+     */
+    void modifyPreference(String key,Hashtable<String,String> preference,Agent agent) throws CvqException;
     
     /**
      * Get an agent by id.

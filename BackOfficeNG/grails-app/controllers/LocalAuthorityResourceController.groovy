@@ -14,7 +14,7 @@ class LocalAuthorityResourceController {
         log.debug "returning content from ${logoFile.absolutePath}"
         byte[] b = logoFile.readBytes()
         response.contentType = 'image/jpeg'
-        response.contentLength = 'b.length'
+        response.contentLength = b.length
         response.outputStream << b
     }
 }

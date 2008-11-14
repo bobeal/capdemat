@@ -76,26 +76,26 @@ class RequestController {
         // deal with search criteria
         Set<Critere> criteria = new HashSet<Critere>()
         params.each { key,value ->
-        	if (supportedKeys.contains(key) && value != "") {
-        		Critere critere = new Critere()
-        		critere.attribut = key
-        		critere.comparatif = Critere.EQUALS
-        		if (longKeys.contains(key)) {
-        			critere.value = Long.valueOf(value)
-        		} else if (dateKeys.contains(key)) {
+            if (supportedKeys.contains(key) && value != "") {
+                Critere critere = new Critere()
+                critere.attribut = key
+                critere.comparatif = Critere.EQUALS
+                if (longKeys.contains(key)) {
+                    critere.value = Long.valueOf(value)
+                } else if (dateKeys.contains(key)) {
                     critere.value = DateUtils.stringToDate(value)
-        			if (key == 'creationDateFrom') {
-        				critere.attribut = 'creationDate'
-        				critere.comparatif = Critere.GTE
-        			} else { 
+                    if (key == 'creationDateFrom') {
                         critere.attribut = 'creationDate'
-        				critere.comparatif = Critere.LTE
-        			}
-        		} else {
-        			critere.value = value
-        		}
-        		criteria.add(critere)
-        	}
+                        critere.comparatif = Critere.GTE
+                    } else { 
+                        critere.attribut = 'creationDate'
+                        critere.comparatif = Critere.LTE
+                    }
+                } else {
+                    critere.value = value
+                }
+                criteria.add(critere)
+            }
         }
         
         // deal with dynamic filters
@@ -106,20 +106,25 @@ class RequestController {
             critere.comparatif = Critere.EQUALS
             if (key == 'stateFilter')
                 critere.value = value
+            else if(key == 'qualityFilter') {
+                println "qualityType${value}"
+                critere.attribut = "qualityType"
+                critere.value = "qualityType"+value
+            }
             else
                 critere.value = Long.valueOf(value)
-            criteria.add(critere)        	
+            criteria.add(critere)
         }
         
-       	// deal with dynamic sorts
+        // deal with dynamic sorts
         def sortBy = params.sortBy ? params.sortBy : defaultSortBy 
         log.debug "added sort on ${sortBy}"
-       	
+        
         // deal with pagination settings
         def results = params.results == null ? resultsPerPage : Integer.valueOf(params.results)
         def recordOffset = 
-        	(params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
-        			
+            (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
+            
         // now, perform the search request
         def requests = defaultRequestService.extendedGet(criteria, sortBy, params.dir, 
                 results, recordOffset)
@@ -128,11 +133,11 @@ class RequestController {
             def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null
             def quality = 'green'
             if (it.redAlert)
-            	quality = 'red'
+                quality = 'red'
             else if (it.orangeAlert)
-            	quality = 'orange'
+                quality = 'orange'
             def record = [
-				'id':it.id,
+                'id':it.id,
                 'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
                 'creationDate':DateUtils.formatDate(it.creationDate),
                 'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
@@ -144,15 +149,14 @@ class RequestController {
                 'permanent':!it.homeFolder.boundToRequest,
                 'quality':quality
             ]
-			recordsList.add(record)
+            recordsList.add(record)
         }
-
+        
         render(view:'search', 
-        	model:['records':recordsList,
-        	       'recordsReturned':requests.size(),
+            model:['records':recordsList,
+                   'recordsReturned':requests.size(),
                    'totalRecords':defaultRequestService.getCount(criteria),
-                   
-                   'filters':parsedFilters.filters,                   
+                   'filters':parsedFilters.filters,
                    'filterBy':parsedFilters.filterBy,
                    'mode':params.mode,
                    'recordOffset':recordOffset,
@@ -175,17 +179,19 @@ class RequestController {
         if(state['displayForm'] == null)
             state['displayForm'] = ['Late','Alert','New','Last','Validated'] //.each{it = "display${it}Requests"}
         
-        if(method == 'get') 
+        if(method == 'get') {
+            state['defaultDisplay'] = state['displayForm']
             state['filters'] = ['categoryFilter':'','requestTypeFilter':'']
-        else 
+        } else { 
             state = JSON.parse(params?.pageState);
+        }
         
         if(state?.modifyDisplay == true) {
-            println state?.displayForm?.join(",").replace('\"','')
             Hashtable<String, String> hash = new Hashtable<String, String>()
             hash.put('displayForm', state?.displayForm?.join(",").replace('\"',''))
             agentService.modifyPreference('display',hash, agent)
             state.modifyDisplay = null
+            state['defaultDisplay'] = state['displayForm']
             state['message'] = message(code:"message.updateDone")
         }
         
@@ -239,6 +245,7 @@ class RequestController {
         
         render (view:'taskBoard', model:["requestMap":requestMap,
                                          "state" : state,
+                                         "userId" : SecurityContext.currentUserId,
                                          "pageState" : pageState.encodeAsHTML(),
                                          "allCategories":categoryService.getAll(),
                                          "allRequestTypes":translatedAndSortRequestTypes()])

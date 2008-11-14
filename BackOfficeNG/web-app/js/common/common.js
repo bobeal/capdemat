@@ -298,7 +298,15 @@
     }
   })  
 
-
+  
+  /**
+   * @description Event dispatcher helper
+   * @namespace zenexity.capdemat.common
+   * @param {Object} context scope object within is dispatched DOM event
+   * @param {Function} rule client function that analyze event and deduce method name to call
+   * 
+   * @author vba@zenexity.fr
+   */
   zcc.Event = function(context,rule) {
     this.context = context;
     this.rule = rule;

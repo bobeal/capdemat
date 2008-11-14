@@ -59,7 +59,7 @@
         <div class="body">
           <form action="#" id="requestSearchFilters">
             <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
-            <select id="categoryIdFilter" 
+            <select id="categoryIdFilter">
               <option value=""></option>
               <g:each in="${allCategories}" var="category">
                 <option value="${category.id}" ${filters['categoryIdFilter'] == category.id.toString() ? 'selected' : ''}>
@@ -69,7 +69,7 @@
             </select>
             
             <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
-            <select id="requestTypeFilter" 
+            <select id="requestTypeFilter"> 
               <option value=""></option>
               <g:each in="${allRequestTypes}" var="requestType">
                 <option value="${requestType.id}" ${filters['requestTypeFilter'] == requestType.id.toString() ? 'selected' : ''}>
@@ -77,9 +77,9 @@
                 </option>
               </g:each>
             </select>
-
+            
             <label for="stateFilter"><g:message code="property.state" /> :</label>
-            <select id="stateFilter"
+            <select id="stateFilter">
               <option value=""></option>
               <g:each in="${allStates}" var="state">
                 <option value="${state}" ${filters['stateFilter'] == state.toString() ? 'selected' : ''}>
@@ -87,18 +87,26 @@
                 </option>
               </g:each>
             </select>
-        
+            
             <label for="lastInterveningAgentIdFilter"><g:message code="request.property.lastInterveningAgent" /> :</label>
             <select id="lastInterveningAgentIdFilter">
               <option value=""></option>
               <g:each in="${allAgents}" var="agent">
-                <option value="${agent.id}"
-                    ${filters['lastInterveningAgentIdFilter'] == agent.id.toString() ? 'selected' : ''}>
+                <option value="${agent.id}" ${filters['lastInterveningAgentIdFilter'] == agent.id.toString() ? 'selected' : ''}>
                   ${agent.getLastName() != null ? agent.getLastName() + " " + agent.getFirstName() : agent.getLogin()}
                 </option>
               </g:each>
             </select>
-
+            <label for="qualityFilter"><g:message code="request.property.quality" /> :</label>
+            <g:select 
+              optionKey="key"
+              optionValue="value"
+              id="qualityFilter"
+              name="qualityFilter" 
+              value="${filters?.qualityFilter}" 
+              from="[['key':'Red','value':'Rouge'],['key':'Orange','value':'Orange']]" 
+              noSelection="['':' ']"/>
+            
           </form>
         </div>
       </div>

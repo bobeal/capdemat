@@ -26,9 +26,9 @@
               <g:render template="taskBoardEntry" var="record" 
                 collection="${requestMap?.redRequests?.all}" />
             </ul>
-            <g:link controller="request" action="search">
-              <g:message code="action.seeAll" /> 
-            </g:link>
+            <a href="${createLink(action:'search',controller:'request')}" id="showAllRed">
+              <g:message code="action.seeAll" />
+            </a>
           </div>
         </g:if>
         
@@ -42,9 +42,9 @@
               <g:render template="taskBoardEntry" var="record"
             collection="${requestMap?.orangeRequests?.all}" />
             </ul>
-            <g:link  controller="request" action="search">
+            <a href="${createLink(action:'search',controller:'request')}" id="showAllOrange">
               <g:message code="action.seeAll" />
-            </g:link>
+            </a>
           </div>
         </g:if>
         
@@ -58,9 +58,9 @@
               <g:render template="taskBoardEntry" var="record" 
                 collection="${requestMap?.pendingRequests?.all}" />
             </ul>
-            <g:link controller="request" action="search" params="[state:'Pending']">
+            <a href="${createLink(action:'search',controller:'request')}" id="showAllPending">
               <g:message code="action.seeAll" />
-            </g:link>
+            </a>
           </div>
         </g:if>
         
@@ -74,9 +74,9 @@
               <g:render template="taskBoardEntry" var="record" 
                 collection="${requestMap?.lastRequests?.all}" />
             </ul>
-            <g:link controller="request" action="search">
+            <a href="${createLink(action:'search',controller:'request')}" id="showAllLast_${userId}">
               <g:message code="action.seeAll" />
-            </g:link>
+            </a>
           </div>
         </g:if>
         
@@ -90,9 +90,9 @@
               <g:render template="taskBoardEntry" var="record" 
                 collection="${requestMap?.validatedRequests?.all}" />
             </ul>
-            <g:link controller="request" action="search" params="[state:'Validated']">
+            <a href="${createLink(action:'search',controller:'request')}" id="showAllValidated">
               <g:message code="action.seeAll" />
-            </g:link>
+            </a>
           </div>
         </g:if>
       </div>
@@ -101,7 +101,7 @@
     
     <div id="narrow" class="yui-b">
       
-      <div class="nobox">
+      <div id="displayPanel" class="nobox">
         <h3><g:message code="header.display" /></h3>
         <div class="body">
           <form action="#" id="displayForm">
@@ -127,6 +127,8 @@
                 <g:message code="request.header.validatedRequests" />
               </li>
               <li>
+                <input type="button" id="refreshDisplay" value="${message(code:'action.refresh')}" />
+                <input type="button" id="defaultDisplay" value="${message(code:'action.default')}" />
                 <input type="button" id="saveDisplay" value="${message(code:'action.save')}" />
               </li>
             </ul>

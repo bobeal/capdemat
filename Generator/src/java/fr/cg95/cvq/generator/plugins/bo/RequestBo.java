@@ -19,18 +19,24 @@ import fr.cg95.cvq.generator.common.Step;
 public class RequestBo {
     
     private String name;
+    private String acronym;
     private List<Step> steps;
     private Set<Condition> conditions;
     private List<ElementBo> elements;
 
-    public RequestBo(String name) {
+    public RequestBo(String name, String targetNamespace) {
         this.name =  StringUtils.uncapitalize(name);
+        this.acronym = StringUtils.substringAfterLast(targetNamespace, "/");
     }
     
     public String getName() {
         return name;
     }
     
+    public String getAcronym() {
+        return acronym;
+    }
+
     public List<Step> getSteps() {
         return steps;
     }

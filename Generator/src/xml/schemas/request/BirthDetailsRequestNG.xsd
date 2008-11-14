@@ -53,7 +53,7 @@
                   <fo>
                     <radio />
                   </fo>
-                  <bo column="1" />
+                  <bo column="1" after="Motive" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -71,7 +71,7 @@
                     <step name="type" />
                   </common>
                   <fo />
-                  <bo column="1" after="Motive" />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -91,7 +91,7 @@
                   <fo>
                     <textarea rows="3" />
                   </fo>
-                  <bo column="1" />
+                  <bo column="1"/>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -100,7 +100,7 @@
               <xs:annotation>
                 <xs:appinfo>
                   <common>
-                    <step name="type" />
+                    <step name="type"  />
                   </common>
                   <fo>
                     <select />
@@ -185,7 +185,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
-                  <bo column="2"/>
+                  <bo column="2" jsregexp=""/>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

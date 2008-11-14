@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class RequestCommon {
     
+    public final static String MODEL_REQUEST_NS = "fr.cg95.cvq.business.request";
+    
     private String namespace;
     private List<Step> steps;
     private Set<Condition> conditions;

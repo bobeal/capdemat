@@ -16,6 +16,7 @@ import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.RequestCommon;
 import groovy.lang.Writable;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
@@ -51,7 +52,7 @@ public class BoPlugin implements IPluginGenerator {
     public void startRequest(String requestName, String targetNamespace) {
         logger.debug("startRequest()");
         depth = 0;
-        requestBo = new RequestBo(requestName);
+        requestBo = new RequestBo(requestName, targetNamespace);
         elementBoStack = new ElementStack();
     }
     
@@ -78,7 +79,7 @@ public class BoPlugin implements IPluginGenerator {
     public void startElement(String elementName, String type) {
         logger.debug("endElement()");
         
-        elementBoStack.push(++depth, new ElementBo(elementName));
+        elementBoStack.push(++depth, new ElementBo(elementName, this.requestBo.getAcronym()));
     }
     
     public void endElement(String elementName) {
@@ -109,6 +110,11 @@ public class BoPlugin implements IPluginGenerator {
             elementBo.setMandatory(false);
         else
             elementBo.setMandatory(true);
+        
+        if (elementProp.getEnumValues() != null)
+            elementBo.setHtmlClass("capdematEnum");
+        else
+            elementBo.setHtmlClass(elementProp.getXmlSchemaType());
     }
     
     public void endElementProperties() {
@@ -124,6 +130,8 @@ public class BoPlugin implements IPluginGenerator {
             ElementBo elementBo = elementBoStack.peek(depth);
             elementBo.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
             elementBo.setCondition(appDoc.getRequestCommon().getCurrentElementCommon().getCondition());
+            elementBo.setModelNamespace(RequestCommon.MODEL_REQUEST_NS
+                    + "." + appDoc.getRequestCommon().getNamespace());
             elementBo.setDisplay(true);
             
             if (appDoc.getNodeName().equals("bo")) {

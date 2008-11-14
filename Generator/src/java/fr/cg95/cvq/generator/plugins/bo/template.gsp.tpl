@@ -21,24 +21,30 @@
           <% for (element in requestBo.getElementsByStep(step, column)) { %>
             <% if (element.typeClass == "SIMPLE") { %>
             <dl>
-              <dt>${element.label}</dt>
-              <dd>${element.type} - ${element.javaFieldName}</dd>
+              <dt><g:message code="${element.i18nLabelCode}" /> : </dt>
+              <dd id="${element.javaFieldName}" class="${element.htmlClass}">
+                <span>\${request.${element.javaFieldName}}</span>
+              </dd>
             </dl>
             <% } else if (element.typeClass == "COMPLEX") { %>
-            <h3>${element.label}</h3>
+            <h3><g:message code="${element.i18nLabelCode}" /></h3>
             <dl>
-              <% for (subelement in element.elements) { %>
-                <dt>${subelement.label}</dt>
-                <dd>${subelement.type} - ${subelement.javaFieldName}</dd>
+              <% for (subElement in element.elements) { %>
+                <dt><g:message code="${subElement.i18nLabelCode}" /> : </dt>
+                <dd id="${subElement.javaFieldName}" class="${subElement.htmlClass}">
+                  <span>\${request.${subElement.javaFieldName}}</span>
+                </dd>
               <% } %>
             </dl>
             <% } else if (element.typeClass == "COLLECTION") { %>
-            <h3>${element.label}</h3>
-            <g:each var="field" in="\${request.field}">
+            <h3><g:message code="${element.i18nLabelCode}" /></h3>
+            <g:each var="it" in="\${request.${element.javaFieldName}}" statut="index">
             <dl>
-              <% for (subelement in element.elements) { %>
-                <dt>${subelement.label}</dt>
-                <dd>${subelement.type} - ${subelement.javaFieldName}</dd>
+              <% for (subElement in element.elements) { %>
+                <dt><g:message code="${subElement.i18nLabelCode}" /> : </dt>
+                <dd id="${element.javaFieldName}.[\${index}].${subElement.javaFieldName}" class="${subElement.htmlClass}">
+                  <span>\${it.${subElement.javaFieldName}}</span>
+                </dd>
               <% } %>
             </dl>
             </g:each>

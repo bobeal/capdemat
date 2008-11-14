@@ -1,7 +1,9 @@
 package fr.cg95.cvq.generator.plugins.bo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -15,17 +17,28 @@ public class ElementBo {
     
     public enum ElementTypeClass { SIMPLE, COMPLEX, COLLECTION; }
     
+    /* Specific bo widget. default is string widget
+     * key=xmlSchemaType; value=boWidgetType
+     */
+    private final static Map<String,String> boWidgets = new HashMap<String, String>(){{
+        put("date", "date");
+        put("capdematEnum", "capdematEnum");
+        put("AddressType", "adress");
+    }};
+    
     private String label;
     private String name;
     private String javaFieldName;
+    private String modelNamespace;
     private String type;
+    
+    private String i18nLabelCode;
+    private String i18nValidationErrorCode;
+    private String htmlClass;
     
     private ElementTypeClass typeClass;
     private boolean mandatory;
-
-    // TODO - remove property
-    private int depth;
-    
+ 
     private boolean display;
 
     private int column;
@@ -36,9 +49,11 @@ public class ElementBo {
     
     private List<ElementBo> elements;
     
-    public ElementBo(String name) {
+    public ElementBo(String name, String requestAcronym) {
         this.name = name;
         this.javaFieldName = StringUtils.uncapitalize(name);
+        this.i18nLabelCode = requestAcronym + ".property." + this.javaFieldName + ".label";
+        this.i18nValidationErrorCode = requestAcronym + ".property." + this.javaFieldName + ".validationError";
         display = false;
     }
     
@@ -63,6 +78,14 @@ public class ElementBo {
         return javaFieldName;
     }
 
+    public String getModelNamespace() {
+        return modelNamespace;
+    }
+
+    public void setModelNamespace(String modelNamespace) {
+        this.modelNamespace = modelNamespace;
+    }
+
     public String getType() {
         return type;
     }
@@ -71,12 +94,28 @@ public class ElementBo {
         this.type = type;
     }
     
-    public int getDepth() {
-        return depth;
+    public String getQualifiedType() {
+        return modelNamespace + "." + type;
     }
 
-    public void setDepth(int depth) {
-        this.depth = depth;
+    public String getI18nLabelCode() {
+        return i18nLabelCode;
+    }
+
+    public String getI18nValidationErrorCode() {
+        return i18nValidationErrorCode;
+    }
+
+    public String getHtmlClass() {
+        return htmlClass;
+    }
+
+    public void setHtmlClass(String xmlSchemaType) {
+        this.htmlClass = 
+            (boWidgets.get(xmlSchemaType) == null ? "string" : boWidgets.get(xmlSchemaType))
+            + " " + (mandatory ? "required" : "null")
+            + " " + i18nValidationErrorCode
+            + " " + (condition != null ? condition.getName() + "-" + condition.getType() : "null");
     }
 
     public String getTypeClass() {
@@ -115,6 +154,8 @@ public class ElementBo {
         } catch (NumberFormatException nfe) {
             throw new RuntimeException("setColumn() - Column {"+ column +"} is not an integer");
         }
+        if (this.column < 1 || this.column > 2)
+            throw new RuntimeException("setColumn() - Column {"+ column +"} is not in [1,2]");
     }
 
     public String getAfter() {
@@ -152,5 +193,4 @@ public class ElementBo {
             elements = new ArrayList<ElementBo>();
         elements.add(element);
     }
-    
 }

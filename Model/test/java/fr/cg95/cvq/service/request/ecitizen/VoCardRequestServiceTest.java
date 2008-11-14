@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
 import fr.cg95.cvq.business.document.DepositOrigin;
 import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
@@ -30,6 +29,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
@@ -91,7 +91,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         homeFolderResponsible.setCfbn("5050505E");
         homeFolderResponsible.setEmail("bor@zenexity.fr");
         homeFolderResponsible.setNameOfUse("NAMEOFUSE");
-        homeFolderResponsible.addHomeFolderResponsibleRole();
+        homeFolderResponsible.addHomeFolderRole(RoleEnum.HOME_FOLDER_RESPONSIBLE, null);
 
         Adult mother = new Adult();
         mother.setTitle(TitleType.MADAM);
@@ -116,10 +116,11 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         mother.setEmail("bor@zenexity.fr");
         mother.setNameOfUse("NAMEOFUSE");
         mother.setMaidenName("SUSIC");
-
+        
         Adult adultGrandMother = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "LASTNAME","josiane", null, 
                     FamilyStatusType.WIDOW);
+        mother.addIndividualRole(RoleEnum.TUTOR, adultGrandMother);
 
         Set<Adult> adultSet = new HashSet<Adult>();
         adultSet.add(mother);
@@ -135,6 +136,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         child1.setFirstName2("Yargla");
         child1.setFirstName3("Djaba");
         child1.setSex(SexType.MALE);
+        homeFolderResponsible.addIndividualRole(RoleEnum.CLR_FATHER, child1);
+        mother.addIndividualRole(RoleEnum.CLR_MOTHER, child1);
 
         Adult tutorNotInHomeFolder = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "TUTOR", "outside", null, 
@@ -148,6 +151,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         Set<Child> childSet = new HashSet<Child>();
         childSet.add(child1);
         childSet.add(child2);
+        homeFolderResponsible.addIndividualRole(RoleEnum.CLR_FATHER, child2);
 
         iVoCardRequestService.create(dcvo, adultSet, childSet, address);
 
@@ -160,9 +164,11 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(homeFolderResponsible.getLogin());
 
         // retrieve a fresh new home folder
-        Assert.assertNotNull(dcvo.getHomeFolderId());
+        assertNotNull(dcvo.getHomeFolderId());
         HomeFolder homeFolder = iHomeFolderService.getById(dcvo.getHomeFolderId());
-        homeFolderResponsible = homeFolder.getHomeFolderResponsible();
+        homeFolderResponsible = iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        assertNotNull(homeFolderResponsible);
+        assertEquals("Vedad", homeFolderResponsible.getFirstName());
         
         //////////////////////////////////////////////////
         // test addition of the request and its attributes
@@ -170,35 +176,37 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         Long requestId = dcvo.getId();
         VoCardRequest dcvoFromDb = (VoCardRequest) iVoCardRequestService.getById(requestId);
-        Assert.assertEquals(dcvoFromDb.getState(), RequestState.PENDING);
-        Assert.assertNotNull(dcvoFromDb.getRequesterId());
-        Assert.assertNotNull(dcvoFromDb.getRequesterLastName());
-        Assert.assertNull(dcvoFromDb.getSubjectId());
-        Assert.assertNull(dcvoFromDb.getSubjectLastName());
+        assertEquals(dcvoFromDb.getState(), RequestState.PENDING);
+        assertNotNull(dcvoFromDb.getRequesterId());
+        assertEquals(homeFolderResponsible.getId(), dcvoFromDb.getRequesterId());
+        assertNotNull(dcvoFromDb.getRequesterLastName());
+        assertEquals(homeFolderResponsible.getLastName(), dcvoFromDb.getRequesterLastName());
+        assertNull(dcvoFromDb.getSubjectId());
+        assertNull(dcvoFromDb.getSubjectLastName());
         
-        Assert.assertNotNull(iVoCardRequestService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
+        assertNotNull(iVoCardRequestService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
         
         Adult homeFolderResponsibleFromDb = 
             iAdultService.getById(dcvoFromDb.getRequesterId());
-        Assert.assertNotNull("Associated object of class Adult not saved !", homeFolderResponsibleFromDb);
-        Assert.assertEquals(homeFolderResponsibleFromDb.getLastName(),"LASTNAME");
-        Assert.assertEquals(homeFolderResponsibleFromDb.getId(), dcvoFromDb.getRequesterId());
-        Assert.assertEquals(homeFolderResponsibleFromDb.getState(), ActorState.PENDING);
+        assertNotNull("Associated object of class Adult not saved !", homeFolderResponsibleFromDb);
+        assertEquals(homeFolderResponsibleFromDb.getLastName(),"LASTNAME");
+        assertEquals(homeFolderResponsibleFromDb.getId(), dcvoFromDb.getRequesterId());
+        assertEquals(homeFolderResponsibleFromDb.getState(), ActorState.PENDING);
         
         Address adresseFromDb = homeFolderResponsibleFromDb.getAdress();
-        Assert.assertNotNull("Associated object of class Adress not saved !", adresseFromDb);
-        Assert.assertEquals(adresseFromDb.getCity(),"PARIS");
+        assertNotNull("Associated object of class Adress not saved !", adresseFromDb);
+        assertEquals(adresseFromDb.getCity(),"PARIS");
 
         homeFolder = iHomeFolderService.getById(dcvoFromDb.getHomeFolderId());
-        Assert.assertNotNull(homeFolder.getId());
-        Assert.assertEquals(homeFolder.getState(), ActorState.PENDING);
-        Assert.assertNotNull(homeFolder.getAdress());
-        Assert.assertEquals(homeFolder.getBoundToRequest(), Boolean.FALSE);
-        Assert.assertEquals(homeFolder.getIndividuals().size(), 5);
+        assertNotNull(homeFolder.getId());
+        assertEquals(homeFolder.getState(), ActorState.PENDING);
+        assertNotNull(homeFolder.getAdress());
+        assertEquals(homeFolder.getBoundToRequest(), Boolean.FALSE);
+        assertEquals(homeFolder.getIndividuals().size(), 5);
         
         HomeFolder homeFolderOtherWay = iHomeFolderService.getById(dcvo.getHomeFolderId());
-        Assert.assertNotNull(homeFolderOtherWay.getId());
-        Assert.assertEquals(homeFolder.getId(), homeFolderOtherWay.getId());
+        assertNotNull(homeFolderOtherWay.getId());
+        assertEquals(homeFolder.getId(), homeFolderOtherWay.getId());
         
         //////////////////////////////////////////////////
         // Perform some searches                        //
@@ -227,7 +235,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         crit3.setValue(homeFolder.getId());
         criteriaSet.add(crit3);
         List<Request> carteVoList = iVoCardRequestService.get(criteriaSet, null, null, -1, 0);
-        Assert.assertEquals(carteVoList.size(),1);
+        assertEquals(carteVoList.size(),1);
 
         crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_REQUESTER_LASTNAME);
@@ -236,7 +244,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
         carteVoList = iVoCardRequestService.get(criteriaSet, null, null, -1, 0);
-        Assert.assertEquals(carteVoList.size(),0);
+        assertEquals(carteVoList.size(),0);
 
         crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_REQUEST_ID);
@@ -245,7 +253,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
         carteVoList = iVoCardRequestService.get(criteriaSet, null, null, -1, 0);
-        Assert.assertEquals(carteVoList.size(), 1);
+        assertEquals(carteVoList.size(), 1);
 
         crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
@@ -255,7 +263,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         criteriaSet.add(crit);
         carteVoList = iVoCardRequestService.get(criteriaSet, null, null, -1, 0);
         for (Request req : carteVoList) {
-            Assert.assertFalse(req.getId() == homeFolder.getId());
+            assertFalse(req.getId() == homeFolder.getId());
         }
 
         /////////////////////////////////////////////
@@ -274,6 +282,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
         doc.setIndividualId(homeFolderResponsible.getId());
+        doc.setHomeFolderId(homeFolder.getId());
         DocumentType documentType = 
             iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
         doc.setDocumentType(documentType);
@@ -292,9 +301,9 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         // retrieve the associated document
         Set<RequestDocument> docSetFromDb = iVoCardRequestService.getAssociatedDocuments(requestId);
-        Assert.assertEquals(1, docSetFromDb.size());
+        assertEquals(1, docSetFromDb.size());
         RequestDocument docFromDb = docSetFromDb.iterator().next();
-        Assert.assertEquals(documentId, docFromDb.getDocumentId());
+        assertEquals(documentId, docFromDb.getDocumentId());
 
         /////////////////////////////////////////////////////////
         // Authenticate and retrieve home folder               //
@@ -304,15 +313,15 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
         
         homeFolder = iAuthenticationService.authenticate(homeFolderResponsible.getLogin(),"totopwd");
-        Assert.assertNotNull("Retrieved home folder is null !", homeFolder);
-        Adult respHomeFolderRetr = homeFolder.getHomeFolderResponsible();
-        Assert.assertNotNull("Retrieved home folder responsible is null !", respHomeFolderRetr);
+        assertNotNull("Retrieved home folder is null !", homeFolder);
+        Adult respHomeFolderRetr = iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        assertNotNull("Retrieved home folder responsible is null !", respHomeFolderRetr);
         Set<Individual> individuSetRetr = homeFolder.getIndividuals();
-        Assert.assertEquals(individuSetRetr.size(),5);
+        assertEquals(individuSetRetr.size(),5);
         List<Request> folderRequests = iRequestService.getByRequesterId(homeFolderResponsible.getId());
-        Assert.assertEquals(1, folderRequests.size());
+        assertEquals(1, folderRequests.size());
         VoCardRequest dcvoRetr = (VoCardRequest) folderRequests.get(0);
-        Assert.assertNotNull("Retrieved cartevaloise request is null !", dcvoRetr);
+        assertNotNull("Retrieved cartevaloise request is null !", dcvoRetr);
 
         // test attachment of the documents
         List<Document> homeFolderDocuments = iDocumentService.getHomeFolderDocuments(homeFolder.getId());
@@ -333,7 +342,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         iVoCardRequestService.complete(dcvoFromDb.getId());
         RequestState[] rs = iVoCardRequestService.getPossibleTransitions(RequestState.COMPLETE);
-        Assert.assertEquals(rs.length, 3);
+        assertEquals(rs.length, 3);
 
         crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID);
@@ -342,7 +351,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
         carteVoList = iRequestService.get(criteriaSet, null, null, -1, 0);
-        Assert.assertTrue(carteVoList.size() > 0);
+        assertTrue(carteVoList.size() > 0);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -390,7 +399,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         // END DEBUG
 
         List<RequestAction> actionsSet = iVoCardRequestService.getActions(dcvoFromDb.getId());
-        Assert.assertEquals(actionsSet.size(), 5);
+        assertEquals(actionsSet.size(), 5);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -403,10 +412,10 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         // test addition and modification of the note
         Set<RequestNote> notes = yaRequest.getNotes();
-        Assert.assertNotNull(notes);
-        Assert.assertEquals(notes.size(), 1);
+        assertNotNull(notes);
+        assertEquals(notes.size(), 1);
         RequestNote requestNote = notes.iterator().next();
-        Assert.assertEquals(requestNote.getNote(), noteMsg);
+        assertEquals(requestNote.getNote(), noteMsg);
 
         /////////////////////////////////////////////////////////
         // Change user's password                              //

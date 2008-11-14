@@ -134,18 +134,6 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         this.externalCapDematId = externalCapDematId;
     }
 
-    public Adult getHomeFolderResponsible() {
-        for (Individual obj : individuals) {
-            if (obj instanceof Adult) {
-                Adult tempAdult = (Adult) obj;
-                if (tempAdult.isHomeFolderResponsible())
-                    return tempAdult;
-            }
-        }
-
-        return null;
-    }
-
     /**
      * @hibernate.property
      *  column="state"

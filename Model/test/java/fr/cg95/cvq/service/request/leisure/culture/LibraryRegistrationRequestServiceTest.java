@@ -160,7 +160,7 @@ public class LibraryRegistrationRequestServiceTest extends ServiceTestCase {
 
          HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
          Assert.assertNotNull(homeFolderAfterDelete);
-         Assert.assertNotNull(homeFolderAfterDelete.getHomeFolderResponsible());
+         Assert.assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
          
          SecurityContext.resetCurrentSite();
     }

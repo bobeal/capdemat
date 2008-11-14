@@ -19,7 +19,7 @@ public final class CardState extends PersistentStringEnum {
      * Prevent instantiation and subclassing with a private constructor.
      */
     private CardState(String state) {
-	super(state);
+        super(state);
     }
 
     public CardState() {}

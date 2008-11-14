@@ -11,6 +11,6 @@ public class HandicapAllowanceRequestFeeder {
     
     public static void setSubject(HandicapAllowanceRequest request,
             String subjectPolicy, Adult requester, HomeFolder homeFolder) {
-        request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
+        request.setSubjectId(requester.getId());
     }
 }

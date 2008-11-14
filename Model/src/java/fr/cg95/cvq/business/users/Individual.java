@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -65,6 +67,8 @@ public class Individual implements Historizable, Serializable {
     private Address adress;
     private Card card;
     private HomeFolder homeFolder;
+    
+    private Set<IndividualRole> individualRoles;
 
     /** default constructor */
     public Individual() {
@@ -467,6 +471,51 @@ public class Individual implements Historizable, Serializable {
         this.homeFolder = homeFolder;
     }
 
+    /**
+     * @hibernate.set
+     *  lazy="false"
+     *  table="individual_roles"
+     * @hibernate.key
+     *  column="owner_id"
+     * @hibernate.composite-element
+     *  class="fr.cg95.cvq.business.users.IndividualRole"
+     */
+    public Set<IndividualRole> getIndividualRoles() {
+        return individualRoles;
+    }
+
+    public void setIndividualRoles(Set<IndividualRole> individualRoles) {
+        this.individualRoles = individualRoles;
+    }
+
+    /**
+     * Simple utility method to add role on the current individual without the hassle
+     * of checking nullity and instantianting sets.
+     */
+    public void addHomeFolderRole(RoleEnum role, Long homeFolderId) {
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setRole(role);
+        individualRole.setHomeFolderId(homeFolderId);
+        individualRole.setOwner(this);
+        if (individualRoles == null)
+            individualRoles = new HashSet<IndividualRole>();
+        individualRoles.add(individualRole);
+    }
+    
+    public void addIndividualRole(RoleEnum role, Individual individual) {
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setRole(role);
+        if (individual.getId() != null)
+            individualRole.setIndividualId(individual.getId());
+        else
+            individualRole.setIndividualName(individual.getLastName() 
+                    + " " + individual.getFirstName());
+        individualRole.setOwner(this);
+        if (individualRoles == null)
+            individualRoles = new HashSet<IndividualRole>();
+        individualRoles.add(individualRole);
+    }
+    
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

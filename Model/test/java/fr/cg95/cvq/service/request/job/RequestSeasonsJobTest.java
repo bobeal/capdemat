@@ -126,7 +126,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
         request.setCurrentSchoolAddress("CurrentSchoolAddress");
         request.setCurrentSchoolName("CurrentSchoolName");
-        request.setRequesterId(homeFolder.getHomeFolderResponsible().getId());
+        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
         SchoolRegistrationRequestFeeder.setSubject(request, 
                 schoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
 

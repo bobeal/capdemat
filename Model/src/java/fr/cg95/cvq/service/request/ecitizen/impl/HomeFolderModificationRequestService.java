@@ -26,6 +26,8 @@ import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HistoryEntry;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.IndividualRole;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.hibernate.HistoryInterceptor;
 import fr.cg95.cvq.dao.users.IHistoryEntryDAO;
@@ -276,17 +278,20 @@ public class HomeFolderModificationRequestService
 
             // currently logged in user has been removed from the home folder
             // set the new home folder responsible as the new logged in user
-            if (loggedInUserChange && adult.isHomeFolderResponsible()) {
+            if (loggedInUserChange) {
 
-                logger.debug("modify() Got the new logged in user with login :"
-                             + adult.getLogin());
-
-                cb = new CreationBean();
-                cb.setLogin(adult.getLogin());
-                cb.setRequestId(hfmr.getId());
-                // and set it as the request's requester, to pass security checks
-                hfmr.setRequesterId(adult.getId());
-                SecurityContext.setCurrentEcitizen(adult);
+                for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                    if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                        logger.debug("modify() Got the new logged in user with login : "
+                                + adult.getLogin());
+                        cb = new CreationBean();
+                        cb.setLogin(adult.getLogin());
+                        cb.setRequestId(hfmr.getId());
+                        // and set it as the request's requester, to pass security checks
+                        hfmr.setRequesterId(adult.getId());
+                        SecurityContext.setCurrentEcitizen(adult);
+                    }
+                }
             }
         }
 
@@ -450,10 +455,11 @@ public class HomeFolderModificationRequestService
                                 requestDAO.update(tempRequest);
                             }
 
-                            List clrs = adultService.getClrs(adult.getId());
-                            for (int i=0; i < clrs.size(); i++) {
-                                objectsToRemove.add(clrs.get(i));
-                            }
+                            // TODO REFACTORING
+//                            List clrs = adultService.getClrs(adult.getId());
+//                            for (int i=0; i < clrs.size(); i++) {
+//                                objectsToRemove.add(clrs.get(i));
+//                            }
                         }
 
                         if (individual instanceof Child) {

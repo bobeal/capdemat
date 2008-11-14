@@ -42,4 +42,23 @@ drop table request_document_map;
 alter table request add column requester_last_name varchar(255);
 alter table request add column subject_last_name varchar(255);
 
+-- Home folder related constraints (HFRC)
+
+-- HFRC1 : object model for roles 
+create table individual_roles (
+    individual_id int8 not null,
+    role varchar(255),
+    home_folder_id int8
+);
+
+alter table individual_roles 
+    add constraint FK532C7D9759302132 
+    foreign key (individual_id) 
+    references individual;
+
+-- migration existing "home folder responsible" roles
+
+insert into individual_roles select adult.id, 'HomeFolderResponsible', home_folder_id from adult, individual where adult.id = individual.id and (home_folder_roles = 1 or home_folder_roles = 3);
+
+alter table adult drop column home_folder_roles;
 

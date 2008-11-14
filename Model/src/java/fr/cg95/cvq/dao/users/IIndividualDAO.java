@@ -5,6 +5,7 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.util.Critere;
 
@@ -48,18 +49,31 @@ public interface IIndividualDAO extends IGenericDAO {
             final ActorState[] excludedStates);
 
     /**
-     * Return the list of {@link Adult} objects belonging to a given home folder.
+     * Return the list of {@link Individual individuals} belonging to the given home folder.
      */
     List<Individual> listByHomeFolder(final Long homeFolderId);
 
     /**
-     * List the children whose given individual is responsible of.
+     * Return the list of {@link Individual individuals} who have the given role (if one 
+     * provided) or any role (if none provided) on the given home folder.
      */
-    List listClrs(final Individual individual);
-
+    List<Individual> listByHomeFolderRole(final Long homeFolderId, final RoleEnum role);
+    
+    /**
+     * Return the list of {@link Individual individuals} who have the given role (if one 
+     * provided) or any role (if none provided) on the given subject.
+     */
+    List<Individual> listBySubjectRole(final Long subjectId, final RoleEnum role);
+    
+    /**
+     * Return the list of {@link Individual individuals} who have the given roles 
+     * on the given subject.
+     */
+    List<Individual> listBySubjectRoles(final Long subjectId, final RoleEnum[] roles);
+    
     /**
      * Return the list of individual logins that start with the given
      * base login.
      */
-    List getSimilarLogins(final String baseLogin);
+    List<String> getSimilarLogins(final String baseLogin);
 }

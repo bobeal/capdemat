@@ -48,7 +48,6 @@ public class HibernateUtil {
     public static Session getSession() {
         Session s = threadSession.get();
         if (s == null) {
-            logger.debug("Opening new Session for this thread.");
             s = getSessionFactory().openSession();
             threadSession.set(s);
         }
@@ -62,7 +61,6 @@ public class HibernateUtil {
         final Session s = threadSession.get();
         threadSession.set(null);
         if (s != null && s.isOpen()) {
-            logger.debug("Closing Session of this thread.");
             s.close();
         }
     }
@@ -104,7 +102,7 @@ public class HibernateUtil {
         try {
             threadTransaction.set(null);
             if (tx != null && !tx.wasCommitted() && !tx.wasRolledBack()) {
-                logger.debug("Tyring to rollback database transaction of this thread.");
+                logger.debug("Trying to rollback database transaction of this thread.");
                 tx.rollback();
             }
         } catch (final HibernateException ex) {

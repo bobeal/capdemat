@@ -270,6 +270,7 @@ public abstract class RequestService implements IRequestService {
 
         Request request = getById(requestId);
 
+        // TODO ACMF
         if (!SecurityContext.isBackOfficeContext())
             throw new CvqPermissionException(Request.class, request,
                                              PrivilegeDescriptor.WRITE);
@@ -1123,13 +1124,12 @@ public abstract class RequestService implements IRequestService {
         requestWorkflowService.specify(request, motive);
     }
 
-    protected void validateAssociatedDocuments(final Set documentSet)
+    protected void validateAssociatedDocuments(final Set<RequestDocument> documentSet)
         throws CvqException {
 
-        Iterator documentSetIt = documentSet.iterator();
-        while (documentSetIt.hasNext()) {
-            Document doc = (Document) documentSetIt.next();
-            documentService.validate(doc.getId(), new Date(), "Automatic validation");
+        for (RequestDocument requestDocument : documentSet) {
+            documentService.validate(requestDocument.getDocumentId(), 
+                    new Date(), "Automatic validation");
         }
     }
 

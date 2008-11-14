@@ -12,6 +12,6 @@ public class RemoteSupportRequestFeeder {
     public static void setSubject(RemoteSupportRequest request,
             String subjectPolicy, Adult requester, HomeFolder homeFolder) {
         
-        request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
+        request.setSubjectId(requester.getId());
     }
 }

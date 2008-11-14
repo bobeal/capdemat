@@ -346,7 +346,7 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  cascade="all-delete-orphan"
+     *  cascade="all"
      *  order-by="id asc"
      * @hibernate.key
      *  column="request_id"
@@ -364,7 +364,7 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  cascade="all-delete-orphan"
+     *  cascade="all"
      *  order-by="id asc"
      * @hibernate.key
      *  column="request_id"
@@ -382,7 +382,7 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  cascade="delete"
+     *  cascade="all"
      *  order-by="id asc"
      * @hibernate.key
      *  column="request_id"

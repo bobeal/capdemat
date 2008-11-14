@@ -27,6 +27,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.FamilyStatusType;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -413,11 +414,11 @@ public class ServiceTestCase
         VoCardRequest request = new VoCardRequest();
 
         address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
+
         homeFolderResponsible =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,
                     FamilyStatusType.MARRIED);
-        homeFolderResponsible.addHomeFolderResponsibleRole();
-        homeFolderResponsible.addHomeFolderFinancialResponsibleRole();
+        homeFolderResponsible.addHomeFolderRole(RoleEnum.HOME_FOLDER_RESPONSIBLE, null);
         homeFolderResponsible.setPassword("toto");
 
         homeFolderWoman =

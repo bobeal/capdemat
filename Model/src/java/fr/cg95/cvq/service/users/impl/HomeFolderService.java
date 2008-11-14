@@ -15,6 +15,8 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.IndividualRole;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
@@ -98,6 +100,16 @@ public class HomeFolderService implements IHomeFolderService {
         return individualDAO.listByHomeFolder(homeFolderId);
     }
 
+    @Override
+    public Adult getHomeFolderResponsible(Long homeFolderId) throws CvqException {
+        
+        List<Individual> individuals = 
+            individualDAO.listByHomeFolderRole(homeFolderId, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        
+        // here we can make the assumption that we properly enforced the role
+        return (Adult) individuals.get(0);
+    }
+
     public HomeFolder create(final Adult adult) throws CvqException {
 
         Address adress = adult.getAdress();
@@ -108,7 +120,13 @@ public class HomeFolderService implements IHomeFolderService {
         initializeCommonAttributes(homeFolder);
         homeFolder.setAdress(adress);
 		
-        adult.addHomeFolderResponsibleRole();
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setOwner(adult);
+        individualRole.setRole(RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        individualRole.setHomeFolderId(homeFolder.getId());
+        Set<IndividualRole> individualRoles = new HashSet<IndividualRole>();
+        individualRoles.add(individualRole);
+        adult.setIndividualRoles(individualRoles);
         adultService.create(adult, homeFolder, null, true);
 
         Set<Individual> allIndividuals = new HashSet<Individual>();
@@ -128,27 +146,81 @@ public class HomeFolderService implements IHomeFolderService {
         initializeCommonAttributes(homeFolder);
         homeFolder.setAdress(address);
         homeFolder.setBoundToRequest(Boolean.valueOf(false));
+        homeFolderDAO.create(homeFolder);
+        genericDAO.create(address);
 
         Set<Individual> allIndividuals = new HashSet<Individual>();
         allIndividuals.addAll(adults);
         allIndividuals.addAll(children);
-        homeFolder.setIndividuals(allIndividuals);
         
-        // create children belonging to this home folder
-        if (children != null) {
-            for (Child child : children) {
-                childService.create(child, homeFolder, address, false);
-                allIndividuals.add(child);
+        for (Individual individual : allIndividuals) {
+            if (individual instanceof Child) 
+                childService.create((Child) individual, homeFolder, address, false);
+            else if (individual instanceof Adult)
+                adultService.create((Adult) individual, homeFolder, address, true);                
+        }
+        
+        // now that all individuals are persisted, we can deal with roles
+        boolean foundHomeFolderResponsible = false;
+        for (Adult adult : adults) {
+            if (adult.getIndividualRoles() != null) {
+                for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                    if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                        if (foundHomeFolderResponsible)
+                            throw new CvqModelException("homeFolder.error.onlyOneResponsibleIsAllowed");
+                        foundHomeFolderResponsible = true;
+                        individualRole.setHomeFolderId(homeFolder.getId());
+                        adultService.modify(adult);
+                    } else if (individualRole.getRole().equals(RoleEnum.TUTOR)) {
+                        String individualName = individualRole.getIndividualName();
+                        if (individualName != null) {
+                            // individual name is provided, it is the tutor of another individual
+                            for (Individual individual : allIndividuals) {
+                                String otherAdultName = 
+                                    individual.getLastName() + " " + individual.getFirstName();
+                                if (otherAdultName.equals(individualName))
+                                    individualRole.setIndividualId(individual.getId());
+                            }
+                        } else {
+                            // individual name is not provided, it is the tutor of the home folder
+                            individualRole.setHomeFolderId(homeFolder.getId());
+                        }
+                        adultService.modify(adult);
+                    } else if (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
+                            || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
+                            || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)) {
+                        String childName = individualRole.getIndividualName();
+                        for (Child child : children) {
+                            if (childName.equals(child.getLastName() + " " + child.getFirstName())) {
+                                individualRole.setIndividualId(child.getId());
+                            }
+                        }
+                        adultService.modify(adult);
+                    }
+                }
             }
         }
-
-        // create the other adults belonging to this home folder
-        for (Adult adult : adults) {
-            adultService.create(adult, homeFolder, address, true);
-            allIndividuals.add(adult);
+        
+        // check all children have at least a legal responsible
+        for (Child child : children) {
+            RoleEnum[] roles = new RoleEnum[3];
+            roles[0] = RoleEnum.CLR_FATHER;
+            roles[1] = RoleEnum.CLR_MOTHER;
+            roles[2] = RoleEnum.CLR_TUTOR;
+            List<Individual> legalResponsibles = 
+                individualDAO.listBySubjectRoles(child.getId(), roles);
+            if (legalResponsibles == null || legalResponsibles.isEmpty())
+                throw new CvqModelException("Child must have at least one legal responsible");
+            else if (legalResponsibles.size() > 3) 
+                throw new CvqModelException("Too many legal responsibles for child : " 
+                      + child.getFirstName());
         }
+        
+        if (!foundHomeFolderResponsible)
+            throw new CvqModelException("homeFolder.error.responsibleIsRequired");
 
-        homeFolderDAO.create(homeFolder);
+        homeFolder.setIndividuals(allIndividuals);
+        homeFolderDAO.update(homeFolder);
         
         return homeFolder;
     }
@@ -189,8 +261,6 @@ public class HomeFolderService implements IHomeFolderService {
     private final void delete(final HomeFolder homeFolder)
         throws CvqException {
 
-        logger.debug("delete() deleting home folder " + homeFolder.getId());
-    	
         // payments need to be deleted first because adults are requesters for them
         if (homeFolder.getPayments() != null) {
             for (Object object : homeFolder.getPayments()) {
@@ -199,14 +269,21 @@ public class HomeFolderService implements IHomeFolderService {
             }
         }
 
-        Set<Individual> individuals = homeFolder.getIndividuals();
+        // delete all documents related to home folder and associated individuals
+        
+        documentService.deleteHomeFolderDocuments(homeFolder.getId());
 
+        Set<Individual> individuals = homeFolder.getIndividuals();
+        for (Individual individual : individuals) {
+            documentService.deleteIndividualDocuments(individual.getId());
+        }
+        
         // need to stack adults and children to ensure that adults are deleted before children
         // because of legal responsibles constraints
+        // TODO REFACTORING
         Set<Adult> adults = new HashSet<Adult>();
         Set<Child> children = new HashSet<Child>();
         for (Individual individual : individuals) {
-            individual.setAdress(null);
             if (individual instanceof Adult)
                 adults.add((Adult)individual);
             else if (individual instanceof Child)
@@ -220,8 +297,6 @@ public class HomeFolderService implements IHomeFolderService {
         for (Child child : children) {
             childService.delete(child, true);
         }
-        
-        documentService.deleteHomeFolderDocuments(homeFolder.getId());
 
         homeFolderDAO.delete(homeFolder);
     }
@@ -371,9 +446,10 @@ public class HomeFolderService implements IHomeFolderService {
 
     public void notifyPaymentByMail(Payment payment) throws CvqException {
     	
-        String mailSendTo = payment.getHomeFolder().getHomeFolderResponsible().getEmail();
+        Adult homeFolderResponsible = getHomeFolderResponsible(payment.getHomeFolder().getId());
+        String mailSendTo = homeFolderResponsible.getEmail();
         if (mailSendTo == null || mailSendTo.equals("")) {
-            logger.debug("notifyPaymentByMail() e-citizen has no email adress, returning");
+            logger.warn("notifyPaymentByMail() e-citizen has no email adress, returning");
             return;
         }
         

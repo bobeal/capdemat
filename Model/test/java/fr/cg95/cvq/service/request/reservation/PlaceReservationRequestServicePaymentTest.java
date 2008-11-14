@@ -48,7 +48,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         // ////////////////////////////
 
         PlaceReservationRequest request = fillMeARequest();
-        request.setRequesterId(homeFolder.getHomeFolderResponsible().getId());
+        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
 
         PlaceReservationRequestDocument requestDoc =
             (PlaceReservationRequestDocument) request.modelToXml();

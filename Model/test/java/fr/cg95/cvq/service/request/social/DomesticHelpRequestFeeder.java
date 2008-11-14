@@ -76,6 +76,6 @@ public class DomesticHelpRequestFeeder {
     public static void setSubject(DomesticHelpRequest request, 
             String subjectPolicy, Adult requester, HomeFolder homeFolder) {
 
-        request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
+        request.setSubjectId(requester.getId());
     }
 }

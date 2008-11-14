@@ -1,15 +1,11 @@
 package fr.cg95.cvq.service.users.impl;
 
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -45,42 +41,13 @@ public class ChildService extends IndividualService implements IChildService {
         if (child.getSex() == null)
             child.setSex(SexType.UNKNOWN);
 
-        // check child does not have more than 3 legal responsibles
-        Set legalResponsiblesSet = child.getLegalResponsibles();
-        if (legalResponsiblesSet == null) {
-            logger.error("create() Child must have at least one legal responsible");
-            throw new CvqModelException("Child must have at least one legal responsible");
-        } else if (legalResponsiblesSet.size() > 3) {
-            logger.error("create() Too many legal responsibles for child : "  
-                    + child.getFirstName());
-            throw new CvqModelException("Too many legal responsibles for child : " 
-                    + child.getFirstName());
-        } else {
-            Iterator lrSetIt = legalResponsiblesSet.iterator();
-            while (lrSetIt.hasNext()) {
-                ChildLegalResponsible clr = (ChildLegalResponsible) lrSetIt.next();
-                Adult tempAdult = clr.getLegalResponsible();
-                if (!homeFolder.getIndividuals().contains(tempAdult)) {
-                    logger.debug("create() saving out-of-folder adult");
-                    tempAdult.setState(ActorState.PENDING);
-                    tempAdult.setCreationDate(new Date());
-                    genericDAO.create(tempAdult);
-                }
-
-                genericDAO.create(clr);
-            }
-        }
-
         return super.create(child, homeFolder, address, assignLogin);
     }
 
     public void delete(final Child child, boolean deletingHomeFolder) 
         throws CvqException {
     
-        logger.debug("Gonna delete child : " + child);
-
-        child.setAdress(null);
-        super.delete((Individual) child);
+        super.delete(child);
     }
     
     public Child getById(final Long id)

@@ -47,21 +47,11 @@ public final class VoCardRequestService
 
         dcvo.setHomeFolderId(homeFolder.getId());
 
-        // by default, set the home folder responsible as requester
-        Adult homeFolderResponsible = null;
-        for (Adult adult : adults) {
-            if (adult.isHomeFolderResponsible()) {
-                dcvo.setRequesterId(adult.getId());
-                dcvo.setRequesterLastName(adult.getLastName());
-                homeFolderResponsible = adult;
-                break;
-            }
-        }
-        if (homeFolderResponsible == null) {
-            logger.warn("create() no home folder responsible found");
-            throw new CvqModelException("No home folder responsible found");
-        }
-
+        // by default, set the home folder responsible as requester        
+        Adult homeFolderResponsible = homeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        dcvo.setRequesterId(homeFolderResponsible.getId());
+        dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
+        
         Long requestId = super.create(dcvo);
         
         homeFolder.setOriginRequestId(requestId);

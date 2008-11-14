@@ -107,8 +107,9 @@ public class HomeFolderServiceTest extends ServiceTestCase {
                 initialResults.size() + homeFolder.getIndividuals().size());
         
         try {
-            iAuthenticationService.authenticate(homeFolder.getHomeFolderResponsible().getLogin(), 
-                    "toto");
+            Adult homeFolderResponsible = 
+                iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            iAuthenticationService.authenticate(homeFolderResponsible.getLogin(), "toto");
             fail("should have thrown an exception");
         } catch (CvqUnknownUserException cuue) {
             // that was expected
@@ -182,7 +183,8 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         homeFolder = iHomeFolderService.getById(homeFolder.getId());
         Assert.assertEquals(homeFolder.getIndividuals().size(), 5);
 
-        Adult homeFolderResponsibleDb = homeFolder.getHomeFolderResponsible();
+        Adult homeFolderResponsibleDb = 
+            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         Assert.assertEquals(homeFolderResponsibleDb.getFirstName(),
                 homeFolderResponsible.getFirstName());
 

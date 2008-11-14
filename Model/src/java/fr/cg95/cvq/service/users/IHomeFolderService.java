@@ -9,6 +9,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
@@ -67,6 +68,14 @@ public interface IHomeFolderService {
         throws CvqException;
     
     List<Individual> getIndividuals(final Long homeFolderId)
+        throws CvqException;
+    
+    /**
+     * Get the adult that has the 
+     * {@link RoleEnum#HOME_FOLDER_RESPONSIBLE home folder responsible role} on the
+     * given home folder.
+     */
+    Adult getHomeFolderResponsible(final Long homeFolderId)
         throws CvqException;
     
     /**

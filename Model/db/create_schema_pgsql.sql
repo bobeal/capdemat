@@ -176,6 +176,9 @@
     alter table individual 
         drop constraint FKFD3DA2998BD77771;
 
+    alter table individual_roles 
+        drop constraint FK532C7D97D4C3A2D8;
+
     alter table library_registration_request 
         drop constraint FKEA37820D82587E99;
 
@@ -431,6 +434,8 @@
 
     drop table individual;
 
+    drop table individual_roles;
+
     drop table library_registration_request;
 
     drop table library_registration_request_subscription;
@@ -540,7 +545,6 @@
 
     create table adult (
         id int8 not null,
-        home_folder_roles int4,
         title varchar(16),
         maiden_name varchar(255),
         name_of_use varchar(255),
@@ -1040,6 +1044,13 @@
         card_id int8,
         home_folder_id int8,
         primary key (id)
+    );
+
+    create table individual_roles (
+        owner_id int8 not null,
+        role varchar(255),
+        home_folder_id int8,
+        individual_id int8
     );
 
     create table library_registration_request (
@@ -1844,6 +1855,11 @@
         add constraint FKFD3DA2998BD77771 
         foreign key (home_folder_id) 
         references home_folder;
+
+    alter table individual_roles 
+        add constraint FK532C7D97D4C3A2D8 
+        foreign key (owner_id) 
+        references individual;
 
     alter table library_registration_request 
         add constraint FKEA37820D82587E99 

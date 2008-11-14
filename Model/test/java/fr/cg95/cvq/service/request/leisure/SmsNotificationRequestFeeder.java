@@ -11,6 +11,6 @@ public class SmsNotificationRequestFeeder {
     
     public static void setSubject(SmsNotificationRequest request,
             String subjectPolicy, Adult requester, HomeFolder homeFolder) {
-       request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
+       request.setSubjectId(requester.getId());
     }
 }

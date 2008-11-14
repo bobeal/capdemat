@@ -244,7 +244,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
         
         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
-        Individual individual = homeFolder.getHomeFolderResponsible();
+        Individual individual = iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         DocumentType documentType =
             iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         

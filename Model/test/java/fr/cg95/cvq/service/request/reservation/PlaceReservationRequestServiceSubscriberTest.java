@@ -46,7 +46,8 @@ public class PlaceReservationRequestServiceSubscriberTest
         // ////////////////////////////
 
         PlaceReservationRequest request = fillMeARequest();
-        request.setRequesterId(homeFolder.getHomeFolderResponsible().getId());
+        iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId();
+        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
 
         try {
             iPlaceReservationRequestService.getAuthorizedNumberOfPlaces("123");

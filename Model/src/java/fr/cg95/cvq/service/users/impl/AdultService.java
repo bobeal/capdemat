@@ -1,14 +1,9 @@
 package fr.cg95.cvq.service.users.impl;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
@@ -82,31 +77,23 @@ public class AdultService extends IndividualService implements IAdultService {
     public void delete(final Adult adult, boolean deletingHomeFolder)
         throws CvqException {
         
-        logger.debug("Gonna delete adult : " + adult);
-
-        Set children = adult.getHomeFolder().getIndividuals();
-        Iterator childrenIt = children.iterator();
-        while (childrenIt.hasNext()) {
-            Individual ind = (Individual) childrenIt.next();
-            if (ind  instanceof Child) {
-                childService.removeLegalResponsible(ind.getId(), adult.getId(), deletingHomeFolder);
-            }
-        }
+        // TODO REFACTORING
+//        Set children = adult.getHomeFolder().getIndividuals();
+//        Iterator childrenIt = children.iterator();
+//        while (childrenIt.hasNext()) {
+//            Individual ind = (Individual) childrenIt.next();
+//            if (ind  instanceof Child) {
+//                childService.removeLegalResponsible(ind.getId(), adult.getId(), deletingHomeFolder);
+//            }
+//        }
         
-        super.delete((Individual) adult);
+        super.delete(adult);
     }
     
     public Adult getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
-        Adult adult = (Adult) adultDAO.findById(Adult.class, id);
-        return adult;
-    }
-
-
-    @Override
-    public List<Child> getClrs(Long adultId) throws CvqException {
-        return individualDAO.listClrs(getById(adultId));
+        return (Adult) adultDAO.findById(Adult.class, id);
     }
 
     public void setAdultDAO(IAdultDAO iDAO) {

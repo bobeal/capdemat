@@ -11,6 +11,6 @@ public class HolidaySecurityRequestFeeder {
     
     public static void setSubject(HolidaySecurityRequest request,
             String subjectPolicy, Adult requester, HomeFolder homeFolder) {
-        request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
+        request.setSubjectId(requester.getId());
     }
 }

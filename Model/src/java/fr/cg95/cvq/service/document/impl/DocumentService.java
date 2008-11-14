@@ -315,6 +315,7 @@ public class DocumentService implements IDocumentService {
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void deleteIndividualDocuments(Long individualId) throws CvqException {
         List<Document> documents = getIndividualDocuments(individualId);
+        logger.debug("deleteIndividualDocuments() deleting " + documents.size() + " document(s)");
         for (Document document : documents)
             documentDAO.delete(document);
     }

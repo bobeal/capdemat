@@ -273,7 +273,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         Assert.assertNotNull(homeFolderId);
 
         SchoolRegistrationRequest request = new SchoolRegistrationRequest();
-        request.setRequesterId(homeFolder.getHomeFolderResponsible().getId());
+        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
         SchoolRegistrationRequestFeeder.setSubject(request, 
                 schoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
 

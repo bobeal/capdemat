@@ -11,6 +11,6 @@ public class TechnicalInterventionRequestFeeder {
     
     public static void setSubject(TechnicalInterventionRequest request,
             String subjectPolicy, Adult requester, HomeFolder homeFolder) {
-        request.setSubjectId(homeFolder.getHomeFolderResponsible().getId());
+        request.setSubjectId(requester.getId());
     }
 }

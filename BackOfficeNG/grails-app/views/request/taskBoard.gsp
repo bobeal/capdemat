@@ -40,7 +40,7 @@
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record"
-            collection="${requestMap?.orangeRequests?.all}" />
+                collection="${requestMap?.orangeRequests?.all}" />
             </ul>
             <a href="${createLink(action:'search',controller:'request')}" id="showAllOrange">
               <g:message code="action.seeAll" />

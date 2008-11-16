@@ -147,11 +147,11 @@ class RequestTypeController {
     }
     
     def saveAlerts = {
-        def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params?.requestTypeId))
-        if (params?.instructionMaxDelay != '') {
+        def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.requestTypeId))
+        if (params.instructionMaxDelay != '') {
             requestType.setInstructionMaxDelay(Integer.valueOf(params.instructionMaxDelay))
         }
-        if (params?.instructionAlertDelay != ''){
+        if (params.instructionAlertDelay != ''){
             requestType.setInstructionAlertDelay(Integer.valueOf(params.instructionAlertDelay))
         }
         defaultRequestService.modifyRequestType(requestType)
@@ -180,33 +180,6 @@ class RequestTypeController {
         }
     }
     
-    // called asynchronously
-    // return a JSON array of all the document types
-    def loadAllDocumentTypes = {
-        
-        log.debug "loadAllDocumentTypes()"
-        def requestTypeDocuments = []
-    	def requestType = 
-    	    defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        requestType.requirements.each {
-            requestTypeDocuments.add(it.documentType.id)
-        }
-        def allDocumentTypes = documentService.getAllDocumentTypes()
-        render('builder': 'json') {
-            // name has to be different from any object in the scope
-            'result' {
-                allDocumentTypes.each {
-                    // name 'myDocumentType' has no importance as it won't be in the response
-                    myDocumentType(
-                        'id':it.id,
-                        'name':it.name,
-                        'selector':requestTypeDocuments.contains(it.id) ? 'true' : ''
-                    )
-                }
-            }
-        }
-    }
-
     //called asynchronously
     //save a new season in the list 
     def saveSeasons = {
@@ -280,7 +253,6 @@ class RequestTypeController {
             ])
             
         }
-        //list.each {n-> println n}
         render(template:"documentList",model:["documents":list])
     }
     

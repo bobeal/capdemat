@@ -15,7 +15,6 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeConfigure.js')}"></script>
     
     <!-- 
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeAlerts.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeSeasons.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     -->

@@ -106,8 +106,7 @@ class RequestController {
             critere.comparatif = Critere.EQUALS
             if (key == 'stateFilter')
                 critere.value = value
-            else if(key == 'qualityFilter') {
-                println "qualityType${value}"
+            else if (key == 'qualityFilter') {
                 critere.attribut = "qualityType"
                 critere.value = "qualityType"+value
             }
@@ -183,12 +182,12 @@ class RequestController {
             state['defaultDisplay'] = state['displayForm']
             state['filters'] = ['categoryFilter':'','requestTypeFilter':'']
         } else { 
-            state = JSON.parse(params?.pageState);
+            state = JSON.parse(params.pageState);
         }
         
-        if(state?.modifyDisplay == true) {
+        if(state.modifyDisplay == true) {
             Hashtable<String, String> hash = new Hashtable<String, String>()
-            hash.put('displayForm', state?.displayForm?.join(",").replace('\"',''))
+            hash.put('displayForm', state.displayForm?.join(",").replace('\"',''))
             agentService.modifyPreference('display',hash, agent)
             state.modifyDisplay = null
             state['defaultDisplay'] = state['displayForm']
@@ -256,7 +255,6 @@ class RequestController {
         def allRequestTypesTranslated =  []
         allRequestTypes.each {
             allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()])
-            //allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label)])
         }
         return allRequestTypesTranslated.sort{it.label}
     }
@@ -266,9 +264,5 @@ class RequestController {
     	        'allAgents':agentService.getAll(),
                 'allCategories':categoryService.getAll(),
                 'allRequestTypes':translatedAndSortRequestTypes()]
-    }
-    
-    protected saveAgentPreferences = { section, value, agent ->
-        agentService.modifyPreference(section,value, agent)
     }
 }

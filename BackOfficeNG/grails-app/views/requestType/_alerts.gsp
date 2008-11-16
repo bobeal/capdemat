@@ -6,8 +6,8 @@
     <label for="instructionMaxDelay">
       <g:message code="requestType.property.instructionMaxDelay" /> :
       <span>
-        (<g:message code="message.defaultValue" /> 
-        : ${instructionDefaultMaxDelay} <g:message code="property.days" /> )
+        (<g:message code="message.defaultValue" /> :
+          ${instructionDefaultMaxDelay} <g:message code="property.days" />)
       </span>
     </label>
     <input type="text" name="instructionMaxDelay" value="${requestType?.instructionMaxDelay}"
@@ -15,10 +15,10 @@
         title="${message(code:'requestType.message.instructionMaxDelayIsNumber')}"/>
     <br/>
     <label for="instructionAlertDelay">
-      ${message(code:'requestType.property.instructionAlertDelay')}:
+      <g:message code="requestType.property.instructionAlertDelay" /> :
       <span>
-        (${message(code:'message.defaultValue')}
-        : ${instructionDefaultAlertDelay} ${message(code:'property.days')})
+        (<g:message code="message.defaultValue" /> : 
+          ${instructionDefaultAlertDelay} <g:message code="property.days" />)
       </span>
     </label>
     <input type="text" name="instructionAlertDelay" value="${requestType?.instructionAlertDelay}"

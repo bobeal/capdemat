@@ -97,7 +97,8 @@ public class ConcertoCsvImportServiceTest extends ServiceTestCase {
         Assert.assertNotNull(homeFolder.getFamilyQuotient());
         Assert.assertTrue(homeFolder.getFamilyQuotient().contains("013,09"));
         
-        Adult homeFolderResponsible = homeFolder.getHomeFolderResponsible();
+        Adult homeFolderResponsible = 
+            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         Assert.assertNotNull(homeFolderResponsible);
         Assert.assertEquals(homeFolderResponsible.getLastName(), "KAFKA");
         Assert.assertEquals(homeFolderResponsible.getFirstName(), "Julie");

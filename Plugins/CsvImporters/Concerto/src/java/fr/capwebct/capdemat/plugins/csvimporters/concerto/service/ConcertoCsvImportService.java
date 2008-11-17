@@ -27,6 +27,7 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.LegalResponsibleRole;
 import fr.cg95.cvq.business.users.LocalReferentialData;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ISchoolService;
@@ -160,8 +161,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                     cdto = new ConcertoDataTransfertObject();
                     cdto.setAddress(currentAddress);
                     
-                    currentHomeFolderResponsible.addHomeFolderResponsibleRole();
-                    currentHomeFolderResponsible.addHomeFolderFinancialResponsibleRole();
+                    currentHomeFolderResponsible.addHomeFolderRole(RoleEnum.HOME_FOLDER_RESPONSIBLE, null);
                     currentHomeFolderResponsible.setPassword(authenticationService.generatePassword());
                     cdto.setHomeFolderResponsible(currentHomeFolderResponsible);
                     cdto.getAdults().add(currentHomeFolderResponsible);
@@ -271,7 +271,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 // create school registrations
                 for (SchoolRegistrationRequest srr : cdto.getChildrenSchoolRegistrations()) {
                     schoolRegistrationRequestService.create(srr, 
-                            homeFolder.getHomeFolderResponsible().getId(), null);
+                            homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId(), null);
                     schoolRegistrationRequestService.complete(srr);
                     schoolRegistrationRequestService.validate(srr);
                     logger.debug("importData() created school registration request : " + srr.getId());
@@ -280,7 +280,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 // create school canteen registrations
                 for (SchoolCanteenRegistrationRequest scrr : cdto.getChildrenSchoolCanteenRegistrations()) {
                     schoolCanteenRegistrationRequestService.create(scrr, 
-                            homeFolder.getHomeFolderResponsible().getId(), null);
+                            homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId(), null);
                     logger.debug("importData() created school canteen registration request : " 
                             + scrr.getId());
                 }
@@ -288,7 +288,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 // create perischool activity registrations
                 for (PerischoolActivityRegistrationRequest parr : cdto.getChildrenPerischoolActivityRegistrations()) {
                     perischoolActivityRegistrationRequestService.create(parr, 
-                            homeFolder.getHomeFolderResponsible().getId(), null);
+                            homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId(), null);
                     logger.debug("importData() created perischool activity registration request : " 
                             + parr.getId());
                 }

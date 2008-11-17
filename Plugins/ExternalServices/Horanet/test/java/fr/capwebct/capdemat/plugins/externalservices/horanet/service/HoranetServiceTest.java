@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +37,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
+import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 /**
@@ -49,6 +49,7 @@ public class HoranetServiceTest extends ServiceTestCase {
 	private ISchoolRegistrationRequestService srrService;
 	private ISchoolCanteenRegistrationRequestService scrrService;
 	private IPerischoolActivityRegistrationRequestService parrService;
+	private IHomeFolderService homeFolderService;
 	
 	private void setServices() throws CvqException{
 		ConfigurableApplicationContext cac;
@@ -61,6 +62,7 @@ public class HoranetServiceTest extends ServiceTestCase {
     			(ISchoolCanteenRegistrationRequestService) cac.getBean("schoolCanteenRegistrationRequestService");
     		parrService = 
     			(IPerischoolActivityRegistrationRequestService) cac.getBean("perischoolActivityRegistrationRequestService");
+    		homeFolderService = (IHomeFolderService) cac.getBean("homeFolderService");
         } catch (Exception e) {
             throw new CvqException(e.getMessage());
         }
@@ -320,7 +322,7 @@ public class HoranetServiceTest extends ServiceTestCase {
 
         HomeFolderModificationRequest hfmr = 
             iHomeFolderModificationRequestService.create(homeFolder.getId(), 
-                    homeFolder.getHomeFolderResponsible().getId());
+                    homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId());
         Address address = homeFolder.getAdress();
         address.setStreetName("Ma nouvelle adresse");
         iHomeFolderModificationRequestService.modify(hfmr, 

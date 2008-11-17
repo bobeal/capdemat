@@ -299,7 +299,7 @@ public interface IRequestService {
      * Add a new requirement to the given request type.
      */
     void addRequestTypeRequirement(@IsRequestType final Long requestTypeId, 
-            Requirement requirement)
+            Long documentTypeId)
         throws CvqException;
     
     /**

@@ -502,6 +502,18 @@ public class Individual implements Historizable, Serializable {
         individualRoles.add(individualRole);
     }
     
+    public boolean hasHomeFolderRole(RoleEnum role) {
+        if (individualRoles == null)
+            return false;
+        
+        for (IndividualRole individualRole : individualRoles) {
+            if (individualRole.getRole().equals(role))
+                return true;
+        }
+        
+        return false;
+    }
+    
     public void addIndividualRole(RoleEnum role, Individual individual) {
         IndividualRole individualRole = new IndividualRole();
         individualRole.setRole(role);

@@ -47,17 +47,8 @@ public class RequestServiceTest extends ServiceTestCase {
         int initialRequirementsSize = rt.getRequirements().size();
         
         List<DocumentType> allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
-        Requirement requirement = new Requirement();
-        requirement.setMultiplicity(new Integer(1));
-        requirement.setSpecial(Boolean.valueOf(false));
-        requirement.setDocumentType(allDocumentTypes.get(0));
-        iRequestService.addRequestTypeRequirement(rt.getId(), requirement);
-        
-        Requirement requirement2 = new Requirement();
-        requirement2.setMultiplicity(new Integer(1));
-        requirement2.setSpecial(Boolean.valueOf(true));
-        requirement2.setDocumentType(allDocumentTypes.get(1));
-        iRequestService.addRequestTypeRequirement(rt.getId(), requirement2);
+        iRequestService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(0).getId());
+        iRequestService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(1).getId());
 
         continueWithNewTransaction();
 

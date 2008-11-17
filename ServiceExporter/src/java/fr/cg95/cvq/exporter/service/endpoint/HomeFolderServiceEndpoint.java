@@ -15,6 +15,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
 public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoint{
@@ -50,7 +51,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
                 individualType.setLastName(individual.getLastName());
                 if (individual instanceof Adult) {
                     Adult adult = (Adult) individual;
-                    if (adult.isHomeFolderResponsible())
+                    if (adult.hasHomeFolderRole(RoleEnum.HOME_FOLDER_RESPONSIBLE))
                         individualType.setIsHomeFolderResponsible(true);
                 } else if (individual instanceof Child) {
                     individualType.setIsChild(true);

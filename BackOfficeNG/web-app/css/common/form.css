@@ -137,7 +137,8 @@ form.editable-list-form ul li label { width: 66%; }
 -------------------------------------------------------------- */
 /* for textboxes, textareas, passwords */
 .validation-failed {
-  margin:0.2em 0 0 0.2em !important;
+  /* TODO RDJ : validate impact on IE6 */
+  /*margin:0.2em 0 0 0.2em !important;*/
   border: 1px dashed #F33;
   background-color:#FCC;
 }

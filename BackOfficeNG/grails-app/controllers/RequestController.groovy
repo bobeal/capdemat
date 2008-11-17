@@ -1,5 +1,10 @@
+import java.util.Hashtable;
+
+import fr.cg95.cvq.business.authority.Agent;
+import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
@@ -7,7 +12,8 @@ import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext;
 
-import grails.converters.JSON
+import grails.converters.*
+import groovy.util.Expando;
 
 class RequestController {
 
@@ -15,7 +21,7 @@ class RequestController {
     ICategoryService categoryService
     IRequestService defaultRequestService
     IRequestStatisticsService requestStatisticsService
-   
+    
     def translationService
     
     def defaultAction = "initSearch"
@@ -70,26 +76,26 @@ class RequestController {
         // deal with search criteria
         Set<Critere> criteria = new HashSet<Critere>()
         params.each { key,value ->
-        	if (supportedKeys.contains(key) && value != "") {
-        		Critere critere = new Critere()
-        		critere.attribut = key
-        		critere.comparatif = Critere.EQUALS
-        		if (longKeys.contains(key)) {
-        			critere.value = Long.valueOf(value)
-        		} else if (dateKeys.contains(key)) {
+            if (supportedKeys.contains(key) && value != "") {
+                Critere critere = new Critere()
+                critere.attribut = key
+                critere.comparatif = Critere.EQUALS
+                if (longKeys.contains(key)) {
+                    critere.value = Long.valueOf(value)
+                } else if (dateKeys.contains(key)) {
                     critere.value = DateUtils.stringToDate(value)
-        			if (key == 'creationDateFrom') {
-        				critere.attribut = 'creationDate'
-        				critere.comparatif = Critere.GTE
-        			} else { 
+                    if (key == 'creationDateFrom') {
                         critere.attribut = 'creationDate'
-        				critere.comparatif = Critere.LTE
-        			}
-        		} else {
-        			critere.value = value
-        		}
-        		criteria.add(critere)
-        	}
+                        critere.comparatif = Critere.GTE
+                    } else { 
+                        critere.attribut = 'creationDate'
+                        critere.comparatif = Critere.LTE
+                    }
+                } else {
+                    critere.value = value
+                }
+                criteria.add(critere)
+            }
         }
         
         // deal with dynamic filters
@@ -100,20 +106,24 @@ class RequestController {
             critere.comparatif = Critere.EQUALS
             if (key == 'stateFilter')
                 critere.value = value
+            else if (key == 'qualityFilter') {
+                critere.attribut = "qualityType"
+                critere.value = "qualityType"+value
+            }
             else
                 critere.value = Long.valueOf(value)
-            criteria.add(critere)        	
+            criteria.add(critere)
         }
         
-       	// deal with dynamic sorts
+        // deal with dynamic sorts
         def sortBy = params.sortBy ? params.sortBy : defaultSortBy 
         log.debug "added sort on ${sortBy}"
-       	
+        
         // deal with pagination settings
         def results = params.results == null ? resultsPerPage : Integer.valueOf(params.results)
         def recordOffset = 
-        	(params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
-        			
+            (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
+            
         // now, perform the search request
         def requests = defaultRequestService.extendedGet(criteria, sortBy, params.dir, 
                 results, recordOffset)
@@ -122,11 +132,11 @@ class RequestController {
             def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null
             def quality = 'green'
             if (it.redAlert)
-            	quality = 'red'
+                quality = 'red'
             else if (it.orangeAlert)
-            	quality = 'orange'
+                quality = 'orange'
             def record = [
-				'id':it.id,
+                'id':it.id,
                 'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
                 'creationDate':DateUtils.formatDate(it.creationDate),
                 'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
@@ -138,15 +148,14 @@ class RequestController {
                 'permanent':!it.homeFolder.boundToRequest,
                 'quality':quality
             ]
-			recordsList.add(record)
+            recordsList.add(record)
         }
-
+        
         render(view:'search', 
-        	model:['records':recordsList,
-        	       'recordsReturned':requests.size(),
+            model:['records':recordsList,
+                   'recordsReturned':requests.size(),
                    'totalRecords':defaultRequestService.getCount(criteria),
-                   
-                   'filters':parsedFilters.filters,                   
+                   'filters':parsedFilters.filters,
                    'filterBy':parsedFilters.filterBy,
                    'mode':params.mode,
                    'recordOffset':recordOffset,
@@ -159,59 +168,93 @@ class RequestController {
      * Called when asking for the agent's task board
      */
     def taskBoard = {
+        def state = [:]
+        def pageState = ""
+        def dynamicFilter = new Expando()
+        def method = request.getMethod().toLowerCase()
+        Agent agent = SecurityContext.getCurrentAgent()
+        
+        state['displayForm'] = agentService.getPreferenceByKey('display', agent)?.displayForm?.split(",") as List
+        if(state['displayForm'] == null)
+            state['displayForm'] = ['Late','Alert','New','Last','Validated'] //.each{it = "display${it}Requests"}
+        
+        if(method == 'get') {
+            state['defaultDisplay'] = state['displayForm']
+            state['filters'] = ['categoryFilter':'','requestTypeFilter':'']
+        } else { 
+            state = JSON.parse(params.pageState);
+        }
+        
+        if(state.modifyDisplay == true) {
+            Hashtable<String, String> hash = new Hashtable<String, String>()
+            hash.put('displayForm', state.displayForm?.join(",").replace('\"',''))
+            agentService.modifyPreference('display',hash, agent)
+            state.modifyDisplay = null
+            state['defaultDisplay'] = state['displayForm']
+            state['message'] = message(code:"message.updateDone")
+        }
+        
+        pageState = (new JSON(state)).toString();
+        
+        dynamicFilter.getRequests = {attr,val ->
+            Set criteriaSet = new HashSet<Critere>()
+            Critere critere = new Critere()
             
-    	session["currentMenu"] = "taskBoard"
-
-    	def requestMap = [:]
-
-    	Set criteriaSet = new HashSet<Critere>()
-    	Critere critere = new Critere()
-    	critere.attribut = Request.SEARCH_BY_QUALITY_TYPE
-    	critere.comparatif = Critere.EQUALS
-    	critere.value = Request.QUALITY_TYPE_RED
-    	criteriaSet.add(critere)
-
-        requestMap["redRequests"] = 
-            defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
-        requestMap["redRequestsCount"] = 
-            defaultRequestService.getCount(criteriaSet)
- 
-        critere.value = Request.QUALITY_TYPE_ORANGE
-        requestMap["orangeRequests"] = 
-        	defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
-        requestMap["orangeRequestsCount"] = 
-        	defaultRequestService.getCount(criteriaSet)
-
-        critere.attribut = Request.SEARCH_BY_STATE
-        critere.value = RequestState.PENDING
-        requestMap["pendingRequests"] = 
-            defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
-        requestMap["pendingRequestsCount"] = 
-            defaultRequestService.getCount(criteriaSet)
-
-        critere.value = RequestState.VALIDATED
-        requestMap["validatedRequests"] = 
-            defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
-        requestMap["validatedRequestsCount"] = 
-            defaultRequestService.getCount(criteriaSet)
-
-        critere.attribut = Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID
-        critere.value = SecurityContext.currentUserId
-        requestMap["lastRequests"] = 
-            defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0)
-        requestMap["lastRequestsCount"] = 
-            defaultRequestService.getCount(criteriaSet)
-
+            critere.comparatif = Critere.EQUALS
+            critere.attribut = Request."${attr}"
+            critere.value = val
+            criteriaSet.add(critere)
+            
+            if(state?.filters?.categoryFilter) {
+                critere = new Critere()
+                Category cat = categoryService.getById(Long.valueOf(state?.filters?.categoryFilter))
+                critere.attribut = Request.SEARCH_BY_CATEGORY_NAME
+                critere.comparatif = critere.EQUALS
+                critere.value = cat.name
+                criteriaSet.add(critere)
+            }
+            
+            if(state?.filters?.requestTypeFilter) {
+                critere = new Critere()
+                RequestType type = defaultRequestService.getRequestTypeById(Long.valueOf(state?.filters?.requestTypeFilter))
+                critere.attribut = Request.SEARCH_BY_REQUEST_TYPE_LABEL
+                critere.comparatif = critere.EQUALS
+                critere.value = type.label
+                criteriaSet.add(critere)
+            }
+            return [
+                'all' : defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0),
+                'count' : defaultRequestService.getCount(criteriaSet)
+            ]
+        }
+        session["currentMenu"] = "taskBoard"
+        
+        def requestMap = [:]
+        
+        if(state?.displayForm?.contains('Late'))
+            requestMap.redRequests = dynamicFilter.getRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_RED);
+        if(state?.displayForm?.contains('Alert'))
+            requestMap.orangeRequests = dynamicFilter.getRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_ORANGE);
+        if(state?.displayForm?.contains('New'))
+            requestMap.pendingRequests = dynamicFilter.getRequests("SEARCH_BY_STATE",RequestState.PENDING);
+        if(state?.displayForm?.contains('Validated'))
+            requestMap.validatedRequests = dynamicFilter.getRequests("SEARCH_BY_STATE",RequestState.VALIDATED);
+        if(state?.displayForm?.contains('Last'))
+            requestMap.lastRequests = dynamicFilter.getRequests("SEARCH_BY_LAST_INTERVENING_AGENT_ID",SecurityContext.currentUserId);
+        
         render (view:'taskBoard', model:["requestMap":requestMap,
-                                           "allCategories":categoryService.getAll(),
-                                           "allRequestTypes":translatedAndSortRequestTypes()])
+                                         "state" : state,
+                                         "userId" : SecurityContext.currentUserId,
+                                         "pageState" : pageState.encodeAsHTML(),
+                                         "allCategories":categoryService.getAll(),
+                                         "allRequestTypes":translatedAndSortRequestTypes()])
     }
     
     def translatedAndSortRequestTypes() {
         def allRequestTypes = defaultRequestService.getAllRequestTypes()
         def allRequestTypesTranslated =  []
         allRequestTypes.each {
-            allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label)])
+            allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()])
         }
         return allRequestTypesTranslated.sort{it.label}
     }

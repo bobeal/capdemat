@@ -443,15 +443,23 @@ public abstract class RequestService implements IRequestService {
         requestTypeDAO.update(requestType);
     }
 
-    public void addRequestTypeRequirement(Long requestTypeId, Requirement requirement)
+    public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType.getRequirements() == null)
             requestType.setRequirements(new HashSet<Requirement>());
+        DocumentType documentType =
+            (DocumentType) genericDAO.findById(DocumentType.class, documentTypeId);
+        Requirement requirement = new Requirement();
+        requirement.setMultiplicity(Integer.valueOf("1"));
         requirement.setRequestType(requestType);
-        requestType.getRequirements().add(requirement);
-        requestTypeDAO.update(requestType);
+        requirement.setSpecial(false);
+        requirement.setDocumentType(documentType);
+        if (!requestType.getRequirements().contains(requirement)) {
+            requestType.getRequirements().add(requirement);
+            requestTypeDAO.update(requestType);
+        }
     }
 
     public void removeRequestTypeRequirement(Long requestTypeId, Long documentTypeId)

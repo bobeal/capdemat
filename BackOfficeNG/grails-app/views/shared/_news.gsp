@@ -1,5 +1,12 @@
 <h2>Nouvelles</h2>
 
+<p>17 Novembre 2008</p>
+<ul>
+  <li>Prototype de rendu PDF des courriers types lors de l'instruction des téléservices</li>
+  <li>Configuration des alertes et des pièces justificatives associées à un type de téléservice</li>
+  <li>Finalisation du tableau de bord de l'agent (filtres dynamiques, stockage des préférences)</li>
+</ul>
+
 <p>7 Novembre 2008</p>
 <ul>
   <li>Première version du panel de contact avec l'e-citoyen (instruction de téléservices)</li>

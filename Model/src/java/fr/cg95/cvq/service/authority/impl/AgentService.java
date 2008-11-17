@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.authority.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -176,7 +177,6 @@ public final class AgentService implements IAgentService {
         logger.debug("Modified agent : " + agent.getId());
     }
 
-
     public void updateUserProfiles(String username, List<String> groups,
             Map<String, String> informations) throws CvqException {
 
@@ -350,6 +350,8 @@ public final class AgentService implements IAgentService {
                 return;
             }
         }
+        
+        
 
         // check if user is no longer administrator
         Set agentSiteRoles = agent.getSitesRoles();
@@ -381,6 +383,25 @@ public final class AgentService implements IAgentService {
             }
         }
         
+    }
+    
+    public Hashtable<String, String> getPreferenceByKey(String key, Agent agent) {
+        Hashtable<String, Hashtable<String, String>> preferences;
+        if(agent.getPreferences() == null) return null; 
+        preferences = agent.getPreferences();
+        return preferences.get(key);
+    }
+    
+    public void modifyPreference(String key,Hashtable<String,String> preference,Agent agent) 
+    throws CvqException{
+        Hashtable<String, Hashtable<String, String>> preferences;
+        if(agent.getPreferences() == null) 
+            agent.setPreferences(new Hashtable<String, Hashtable<String,String>>());
+        
+        preferences = agent.getPreferences();
+        preferences.put(key, preference);
+        agent.setPreferences(preferences);
+        this.modify(agent);
     }
     
     public void setDAO(IAgentDAO agentDAO) {

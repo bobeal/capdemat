@@ -22,9 +22,9 @@ class RequestTypeController {
     IRequestService defaultRequestService
     IRequestServiceRegistry requestServiceRegistry
     IDocumentService documentService
-	ICategoryService categoryService
-	GroovyPagesTemplateEngine groovyPagesTemplateEngine
-	
+    ICategoryService categoryService
+    GroovyPagesTemplateEngine groovyPagesTemplateEngine
+    
     def translationService
     
     def defaultAction = "list"
@@ -35,7 +35,7 @@ class RequestTypeController {
 
     def list = {
         def requestTypes = []
-    		
+            
         // deal with dynamic filters
         def parsedFilters = SearchUtils.parseFilters(params.filterBy)
         if (parsedFilters.filters.size() > 0) {
@@ -55,15 +55,17 @@ class RequestTypeController {
         }
         adaptedRequestTypes = adaptedRequestTypes.sort{ it.label.toLowerCase() }
         ["requestTypes":adaptedRequestTypes, "allCategories":categoryService.getAll(),
-         	"filters":parsedFilters.filters,"filterBy":parsedFilters.filterBy]
+            "filters":parsedFilters.filters,"filterBy":parsedFilters.filterBy]
     }
 
     // the configuration items all request types will have
     // the boolean indicates if it's a mandatory step
     def baseConfigurationItems = [
-      "forms":["requestType.configuration.forms", true],
-      "alerts":["requestType.configuration.alerts", true]]
-                                  
+        "forms":["requestType.configuration.forms", true],
+        "alerts":["requestType.configuration.alerts", true],
+        "documents":["requestType.configuration.documentType",true]
+    ]
+    
     
     def configure = {
     	def requestType = 
@@ -145,12 +147,13 @@ class RequestTypeController {
     }
     
     def saveAlerts = {
-        def requestType = 
-            defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        if (params.instructionMaxDelay != '')
+        def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.requestTypeId))
+        if (params.instructionMaxDelay != '') {
             requestType.setInstructionMaxDelay(Integer.valueOf(params.instructionMaxDelay))
-        if (params.instructionAlertDelay != '')
+        }
+        if (params.instructionAlertDelay != ''){
             requestType.setInstructionAlertDelay(Integer.valueOf(params.instructionAlertDelay))
+        }
         defaultRequestService.modifyRequestType(requestType)
 
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
@@ -177,33 +180,6 @@ class RequestTypeController {
         }
     }
     
-    // called asynchronously
-    // return a JSON array of all the document types
-    def loadAllDocumentTypes = {
-        
-        log.debug "loadAllDocumentTypes()"
-        def requestTypeDocuments = []
-    	def requestType = 
-    	    defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        requestType.requirements.each {
-            requestTypeDocuments.add(it.documentType.id)
-        }
-        def allDocumentTypes = documentService.getAllDocumentTypes()
-        render('builder': 'json') {
-            // name has to be different from any object in the scope
-            'result' {
-                allDocumentTypes.each {
-                    // name 'myDocumentType' has no importance as it won't be in the response
-                    myDocumentType(
-                        'id':it.id,
-                        'name':it.name,
-                        'selector':requestTypeDocuments.contains(it.id) ? 'true' : ''
-                    )
-                }
-            }
-        }
-    }
-
     //called asynchronously
     //save a new season in the list 
     def saveSeasons = {
@@ -237,9 +213,9 @@ class RequestTypeController {
                  
     }
    
-	 // called asynchronously
-     // return the template used to display a season in the seasons List
-	
+    // called asynchronously
+    // return the template used to display a season in the seasons List
+   
     def loadRequestTypeSeasonsList = {
         def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
         def listSeasons = requestType.getSeasons()  
@@ -258,6 +234,41 @@ class RequestTypeController {
                                  success_msg:message(code:"requestSeason.message.confirmDelete")] as JSON)
     }
     
+    
+    
+    def documentList = {
+        def list = []
+        def reqs = []
+        def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
+        def docs = documentService.getAllDocumentTypes()
+        docs = docs.sort{it.name}
+        requestType.requirements.each { r -> reqs.add(r.documentType.id)}
+        //println requestType.requirements
+        docs.each{ d ->
+            list.add([
+                'documentId' : d.id,
+                'name' : d.name,
+                'bound' : reqs.contains(d.id),
+                'class' : reqs.contains(d.id) ? '' : 'notBelong'
+            ])
+            
+        }
+        render(template:"documentList",model:["documents":list])
+    }
+    
+    def associateDocument = {
+        this.defaultRequestService.addRequestTypeRequirement(
+            Long.valueOf(params.rtid),Long.valueOf(params.dtid)
+        )
+        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+    }
+    
+    def unassociateDocument = {
+        this.defaultRequestService.removeRequestTypeRequirement(
+            Long.valueOf(params.rtid),Long.valueOf(params.dtid)
+        )
+        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+    }
     
     // retrives request form list using passed request type id
     def formList = {

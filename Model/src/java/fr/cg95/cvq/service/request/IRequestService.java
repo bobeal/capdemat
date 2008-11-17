@@ -301,16 +301,6 @@ public interface IRequestService {
         throws CvqException;
 
     /**
-     * Modify requirements associated to a request type.
-     *
-     * @param requestType the request type to modify
-     * @param requirements a set of {@link fr.cg95.cvq.business.request.Requirement} to associate 
-     *                     to the given request type
-     */
-    void modifyRequestTypeRequirements(RequestType requestType, Set requirements)
-        throws CvqException;
-
-    /**
      * Get a list of documents types allowed for a given request type.
      *
      * @return a set of {@link fr.cg95.cvq.business.document.DocumentType} objects

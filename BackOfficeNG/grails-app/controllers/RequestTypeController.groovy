@@ -247,7 +247,7 @@ class RequestTypeController {
         docs.each{ d ->
             list.add([
                 'documentId' : d.id,
-                'name' : d.name,
+                'name' : message(code:"documentType.${d.name.trim().replaceAll(/^\w/,{it.toLowerCase()}).replaceAll(/\s+/,'')}"),
                 'bound' : reqs.contains(d.id),
                 'class' : reqs.contains(d.id) ? '' : 'notBelong'
             ])
@@ -305,7 +305,6 @@ class RequestTypeController {
             render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
         }
     }
-    
     
     def mailTemplate = {
         if(request.post) {

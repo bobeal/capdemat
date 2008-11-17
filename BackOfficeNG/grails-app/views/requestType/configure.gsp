@@ -60,9 +60,9 @@
           <div class="mainbox mainbox-yellow" id="requestTypeDocuments" style="display:none">
             <h2><g:message code="requestType.configuration.documents" /></h2>
             <div id="documentTypeFilterPanel" class="editableListSwithcher">
-              <a id="showAssociatedDocuments">${message(code:'action.filter.viewBounded')}</a>/
-              <a id="showUnassociatedDocuments" class="current">${message(code:'action.filter.viewUnbounded')}</a>/
-              <a id="showAllDocuments">${message(code:'action.filter.viewAll')}</a>
+              <a id="showAssociatedDocuments">${message(code:'filter.viewBounded')}</a>/
+              <a id="showUnassociatedDocuments" class="current">${message(code:'filter.viewUnbounded')}</a>/
+              <a id="showAllDocuments">${message(code:'filter.viewAll')}</a>
             </div>
             <div id="documentList"></div>
           </div>

@@ -60,7 +60,7 @@ public class RequestServiceTest extends ServiceTestCase {
         rt.getRequirements().add(requirement2);
 
         iDocumentService.getAllDocumentTypes().iterator().next();
-        iRequestService.modifyRequestTypeRequirements(rt, rt.getRequirements());
+        //iRequestService.modifyRequestTypeRequirements(rt, rt.getRequirements());
 
         continueWithNewTransaction();
 

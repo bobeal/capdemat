@@ -20,11 +20,11 @@
           <div class="mainbox taskboard-red">
             <h2>
               <g:message code="request.header.lateRequests" />
-               (${requestMap?.redRequests?.count})
+               (${requestMap.redRequests?.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap?.redRequests?.all}" />
+                collection="${requestMap.redRequests.all}" />
             </ul>
             <a href="${createLink(action:'search',controller:'request')}" id="showAllRed">
               <g:message code="action.seeAll" />
@@ -36,11 +36,11 @@
           <div class="mainbox taskboard-orange">
             <h2>
               <g:message code="request.header.alertRequests" />
-               (${requestMap?.orangeRequests?.count})
+               (${requestMap.orangeRequests.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record"
-                collection="${requestMap?.orangeRequests?.all}" />
+                collection="${requestMap.orangeRequests.all}" />
             </ul>
             <a href="${createLink(action:'search',controller:'request')}" id="showAllOrange">
               <g:message code="action.seeAll" />
@@ -52,11 +52,11 @@
           <div class="mainbox taskboard-orange">
             <h2>
               <g:message code="request.header.newRequests" />
-               (${requestMap?.pendingRequests?.count})
+               (${requestMap.pendingRequests.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap?.pendingRequests?.all}" />
+                collection="${requestMap.pendingRequests.all}" />
             </ul>
             <a href="${createLink(action:'search',controller:'request')}" id="showAllPending">
               <g:message code="action.seeAll" />
@@ -68,13 +68,13 @@
           <div class="mainbox taskboard-blue">
             <h2>
               <g:message code="request.header.lastRequests" />
-               (${requestMap?.lastRequests?.count})
+               (${requestMap.lastRequests.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap?.lastRequests?.all}" />
+                collection="${requestMap.lastRequests.all}" />
             </ul>
-            <a href="${createLink(action:'search',controller:'request')}" id="showAllLast_${userId}">
+            <a href="${createLink(action:'search',controller:'request')}" id="showAllLast_${currentUserId}">
               <g:message code="action.seeAll" />
             </a>
           </div>
@@ -84,11 +84,11 @@
           <div class="mainbox taskboard-green">
             <h2>
               <g:message code="request.header.validatedRequests" />
-               (${requestMap?.validatedRequests?.count})
+               (${requestMap.validatedRequests.count})
             </h2>
             <ul>
               <g:render template="taskBoardEntry" var="record" 
-                collection="${requestMap?.validatedRequests?.all}" />
+                collection="${requestMap.validatedRequests.all}" />
             </ul>
             <a href="${createLink(action:'search',controller:'request')}" id="showAllValidated">
               <g:message code="action.seeAll" />

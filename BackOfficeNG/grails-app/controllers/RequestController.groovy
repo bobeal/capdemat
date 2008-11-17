@@ -33,7 +33,6 @@ class RequestController {
     def resultsPerPage = 15
     // default number of tasks to show per type
     def tasksShowNb = 5 
-    
     def beforeInterceptor = {
         session["currentMenu"] = "request"
     }
@@ -170,13 +169,12 @@ class RequestController {
     def taskBoard = {
         def state = [:]
         def pageState = ""
-        def dynamicFilter = new Expando()
         def method = request.getMethod().toLowerCase()
         Agent agent = SecurityContext.getCurrentAgent()
         
-        state['displayForm'] = agentService.getPreferenceByKey('display', agent)?.displayForm?.split(",") as List
+        state['displayForm'] = agentService.getPreferenceByKey(agent,'display')?.displayForm?.split(",") as List
         if(state['displayForm'] == null)
-            state['displayForm'] = ['Late','Alert','New','Last','Validated'] //.each{it = "display${it}Requests"}
+            state['displayForm'] = ['Late','Alert','New','Last','Validated']
         
         if(method == 'get') {
             state['defaultDisplay'] = state['displayForm']
@@ -188,63 +186,31 @@ class RequestController {
         if(state.modifyDisplay == true) {
             Hashtable<String, String> hash = new Hashtable<String, String>()
             hash.put('displayForm', state.displayForm?.join(",").replace('\"',''))
-            agentService.modifyPreference('display',hash, agent)
+            agentService.modifyPreference(agent,'display',hash)
             state.modifyDisplay = null
             state['defaultDisplay'] = state['displayForm']
             state['message'] = message(code:"message.updateDone")
         }
         
-        pageState = (new JSON(state)).toString();
-        
-        dynamicFilter.getRequests = {attr,val ->
-            Set criteriaSet = new HashSet<Critere>()
-            Critere critere = new Critere()
-            
-            critere.comparatif = Critere.EQUALS
-            critere.attribut = Request."${attr}"
-            critere.value = val
-            criteriaSet.add(critere)
-            
-            if(state?.filters?.categoryFilter) {
-                critere = new Critere()
-                Category cat = categoryService.getById(Long.valueOf(state?.filters?.categoryFilter))
-                critere.attribut = Request.SEARCH_BY_CATEGORY_NAME
-                critere.comparatif = critere.EQUALS
-                critere.value = cat.name
-                criteriaSet.add(critere)
-            }
-            
-            if(state?.filters?.requestTypeFilter) {
-                critere = new Critere()
-                RequestType type = defaultRequestService.getRequestTypeById(Long.valueOf(state?.filters?.requestTypeFilter))
-                critere.attribut = Request.SEARCH_BY_REQUEST_TYPE_LABEL
-                critere.comparatif = critere.EQUALS
-                critere.value = type.label
-                criteriaSet.add(critere)
-            }
-            return [
-                'all' : defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0),
-                'count' : defaultRequestService.getCount(criteriaSet)
-            ]
-        }
+        pageState = (new JSON(state)).toString()
         session["currentMenu"] = "taskBoard"
         
         def requestMap = [:]
         
         if(state?.displayForm?.contains('Late'))
-            requestMap.redRequests = dynamicFilter.getRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_RED);
+            requestMap.redRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_RED,state);
         if(state?.displayForm?.contains('Alert'))
-            requestMap.orangeRequests = dynamicFilter.getRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_ORANGE);
+            requestMap.orangeRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_ORANGE,state);
         if(state?.displayForm?.contains('New'))
-            requestMap.pendingRequests = dynamicFilter.getRequests("SEARCH_BY_STATE",RequestState.PENDING);
+            requestMap.pendingRequests = filterRequests("SEARCH_BY_STATE",RequestState.PENDING,state);
         if(state?.displayForm?.contains('Validated'))
-            requestMap.validatedRequests = dynamicFilter.getRequests("SEARCH_BY_STATE",RequestState.VALIDATED);
+            requestMap.validatedRequests = filterRequests("SEARCH_BY_STATE",RequestState.VALIDATED,state);
         if(state?.displayForm?.contains('Last'))
-            requestMap.lastRequests = dynamicFilter.getRequests("SEARCH_BY_LAST_INTERVENING_AGENT_ID",SecurityContext.currentUserId);
+            requestMap.lastRequests = filterRequests("SEARCH_BY_LAST_INTERVENING_AGENT_ID",SecurityContext.currentUserId,state);
         
         render (view:'taskBoard', model:["requestMap":requestMap,
                                          "state" : state,
-                                         "userId" : SecurityContext.currentUserId,
+                                         "currentUserId" : SecurityContext.currentUserId,
                                          "pageState" : pageState.encodeAsHTML(),
                                          "allCategories":categoryService.getAll(),
                                          "allRequestTypes":translatedAndSortRequestTypes()])
@@ -264,5 +230,34 @@ class RequestController {
     	        'allAgents':agentService.getAll(),
                 'allCategories':categoryService.getAll(),
                 'allRequestTypes':translatedAndSortRequestTypes()]
+    }
+    
+    protected filterRequests = {attr,val,state ->
+        Set criteriaSet = new HashSet<Critere>()
+        Critere critere = new Critere()
+        
+        critere.comparatif = Critere.EQUALS
+        critere.attribut = Request."${attr}"
+        critere.value = val
+        criteriaSet.add(critere)
+        
+        if(state?.filters?.categoryFilter) {
+            critere = new Critere()
+            critere.attribut = "categoryId"
+            critere.comparatif = critere.EQUALS
+            critere.value = state.filters.categoryFilter
+            criteriaSet.add(critere)
+        }
+        if(state?.filters?.requestTypeFilter) {
+            critere = new Critere()
+            critere.attribut = "requestType"
+            critere.comparatif = critere.EQUALS
+            critere.value = state.filters.requestTypeFilter
+            criteriaSet.add(critere)
+        }
+        return [
+            'all' : defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0),
+            'count' : defaultRequestService.getCount(criteriaSet)
+        ]
     }
 }

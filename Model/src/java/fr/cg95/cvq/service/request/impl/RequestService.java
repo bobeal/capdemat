@@ -450,18 +450,6 @@ public abstract class RequestService implements IRequestService {
         requestTypeDAO.update(requestType);
     }
 
-    public void modifyRequestTypeRequirements(RequestType requestType, Set requirements)
-        throws CvqException {
-
-        Iterator requirementsIt = requirements.iterator();
-        while (requirementsIt.hasNext()) {
-            Requirement requirement = (Requirement) requirementsIt.next();
-            requirement.setRequestType(requestType);
-        }
-        requestType.setRequirements(requirements);
-        requestTypeDAO.update(requestType);
-    }
-
     public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
 

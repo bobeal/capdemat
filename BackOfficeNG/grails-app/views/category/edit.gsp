@@ -56,11 +56,11 @@
 
               <a id="viewCategoryRequestTypesLink" class="current"
                   onclick="zenexity.capdemat.bong.categoryRequestType.viewRequestTypes('Category');">
-                <g:message code="category.filter.viewBounded" />
+                <g:message code="filter.viewBounded" />
               </a> / 
               <a id="viewAllRequestTypesLink"
                   onclick="zenexity.capdemat.bong.categoryRequestType.viewRequestTypes('All');">
-                <g:message code="category.filter.viewAll" />
+                <g:message code="filter.viewAll" />
               </a>
             </form>
           </div>
@@ -82,11 +82,11 @@
 
               <a id="viewCategoryAgentsLink" class="current"
                 onclick="zenexity.capdemat.bong.categoryAgent.viewAgents('Category');">
-                <g:message code="category.filter.viewBounded" />
+                <g:message code="filter.viewBounded" />
               </a> / 
               <a id="viewAllAgentsLink" 
                 onclick="zenexity.capdemat.bong.categoryAgent.viewAgents('All');">
-                <g:message code="category.filter.viewAll" />
+                <g:message code="filter.viewAll" />
               </a>
             </form>
           </div>

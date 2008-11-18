@@ -6,16 +6,16 @@
       ,"capdematEnum" :
           "<g:capdematEnumToField var=\"\${${wrapper}.${element.javaFieldName}}\" i18nKeyPrefix=\"${element.i18nPrefixCode}\" />"
       ,"address" :
-          ["<div>"
-          ,"<p>\${${wrapper}.${element.javaFieldName}.additionalDeliveryInformation}</p>"
-          ,"<p>\${${wrapper}.${element.javaFieldName}.additionalGeographicalInformation}</p>"
-          ,"<span>\${${wrapper}.${element.javaFieldName}.streetNumber}</span>"
-          ,"<span>\${${wrapper}.${element.javaFieldName}.streetName}</span>"
-          ,"<p>\${${wrapper}.${element.javaFieldName}.placeNameOrService}</p>"
-          ,"<span>\${${wrapper}.${element.javaFieldName}.postalCode}</span>"
-          ,"<span>\${${wrapper}.${element.javaFieldName}.city}</span>"
-          ,"<p>\${${wrapper}.${element.javaFieldName}.countryName}</p>"
-          ,"</div>"
+          ['<div>'
+          ,'<p class="additionalDeliveryInformation">\${${wrapper}.${element.javaFieldName}.additionalDeliveryInformation}</p>'
+          ,'<p class="additionalGeographicalInformation">\${${wrapper}.${element.javaFieldName}.additionalGeographicalInformation}</p>'
+          ,'<span class="streetNumber">\${${wrapper}.${element.javaFieldName}.streetNumber}</span>'
+          ,'<span class="streetName">\${${wrapper}.${element.javaFieldName}.streetName}</span>'
+          ,'<p class="placeNameOrService">\${${wrapper}.${element.javaFieldName}.placeNameOrService}</p>'
+          ,'<span class="postalCode">\${${wrapper}.${element.javaFieldName}.postalCode}</span>'
+          ,'<span class="city">\${${wrapper}.${element.javaFieldName}.city}</span>'
+          ,'<p class="countryName">\${${wrapper}.${element.javaFieldName}.countryName}</p>'
+          ,'</div>'
           ].join()
     ]
     

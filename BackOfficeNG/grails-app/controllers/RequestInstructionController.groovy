@@ -120,10 +120,11 @@ class RequestInstructionController {
 
         // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
-
-        def propertyTypeList = params.propertyType.tokenize(" ")
+        
+        def propertyTypes = JSON.parse(params.propertyType)
+        
         // one of the widgetMap keys
-        def propertyType = propertyTypeList[0]
+        def propertyType = propertyTypes.validate
 
         def model = ["requestId": Long.valueOf(params.id),
                      "individualId": params.propertyName.tokenize("[]")[1],
@@ -132,21 +133,20 @@ class RequestInstructionController {
                      // the "fully qualifier" property name
                      "propertyName": params.propertyName,
                      "propertyType": propertyType,
-                     "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""]
+                     "required" : propertyTypes.required ? "required" : ""]
 
         def propertyValue
         if (propertyType == "address") {
             propertyValue = JSON.parse(params.propertyValue)
         } else if (propertyType == "capdematEnum") {
-            def propertyJavaType = propertyTypeList[1].tokenize(".")
-            def allPropertyValue = Class.forName(propertyTypeList[1])
+            def propertyJavaType = propertyTypes.javatype.tokenize(".")
+            def allPropertyValue = Class.forName(propertyTypes.javatype)
                     .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
-
             model["allPropertyValue"] = allPropertyValue
             def propertyValueTokens = params.propertyValue.tokenize(" ")
             propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
             // will contain the fully qualified class name of the "CapDemat enum" class
-            model["propertyValueType"] = propertyTypeList[1]
+            model["propertyValueType"] = propertyTypes.javatype
         } else {
             propertyValue = params.propertyValue
         }

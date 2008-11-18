@@ -106,10 +106,11 @@ public class ElementBo {
     
     private void setHtmlClass() {
         this.htmlClass = StringUtils.join(new String[] {
-            "validate-" + widget
-            ,(mandatory ? " required" : "")
-            , " " , i18nPrefixCode
-            ,(widget != null && widget.equals("capdematEnum") ? " " + getQualifiedType() : "" )
+            "action-editField"
+            , " " , "validate-" + widget
+            ,(mandatory ? " required-true" : "")
+            , " " , "i18n-" +i18nPrefixCode
+            ,(widget != null && widget.equals("capdematEnum") ? " " + "javatype-" + getQualifiedType() : "" )
         });
     }
 

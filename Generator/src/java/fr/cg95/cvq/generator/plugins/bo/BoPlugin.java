@@ -64,7 +64,6 @@ public class BoPlugin implements IPluginGenerator {
             
             Map<String, Object> bindingMap = new HashMap<String, Object>();
             bindingMap.put("requestBo", requestBo);
-            
             Writable w = template.make(bindingMap);
             w.writeTo(new FileWriter(outputDir + "_" + requestBo.getName() + ".gsp"));
         } catch (CompilationFailedException cfe) {
@@ -112,9 +111,9 @@ public class BoPlugin implements IPluginGenerator {
             elementBo.setMandatory(true);
         
         if (elementProp.getEnumValues() != null)
-            elementBo.setHtmlClass("capdematEnum");
+            elementBo.setWidget("capdematEnum");
         else
-            elementBo.setHtmlClass(elementProp.getXmlSchemaType());
+            elementBo.setWidget(elementProp.getXmlSchemaType());
     }
     
     public void endElementProperties() {
@@ -141,9 +140,12 @@ public class BoPlugin implements IPluginGenerator {
                         ApplicationDocumentation.getNodeAttributeValue(node, "column"));
                 attributes.put("after", 
                         ApplicationDocumentation.getNodeAttributeValue(node, "after"));
+                attributes.put("jsregexp", 
+                        ApplicationDocumentation.getNodeAttributeValue(node, "jsregexp"));
                 
                 elementBo.setColumn(attributes.get("column"));
                 elementBo.setAfter(attributes.get("after"));
+                elementBo.setJsRegexp(attributes.get("jsregexp"));
             }
          }
     }

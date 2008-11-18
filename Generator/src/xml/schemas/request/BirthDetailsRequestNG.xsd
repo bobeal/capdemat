@@ -101,6 +101,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="type"  />
+                    <condition name="isWithRelationship" type="filled" />
                   </common>
                   <fo>
                     <select />
@@ -185,7 +186,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
-                  <bo column="2" jsregexp=""/>
+                  <bo column="2" jsregexp="[a-z0-9]{3,10}"/>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -226,7 +227,7 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="FatherInformation" type="bdr:FatherInformationType" minOccurs="0" maxOccurs="10">
+            <xs:element name="FatherInformation" type="bdr:FatherInformationType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Informations sur le père

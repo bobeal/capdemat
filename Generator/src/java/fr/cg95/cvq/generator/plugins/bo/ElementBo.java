@@ -1,9 +1,7 @@
 package fr.cg95.cvq.generator.plugins.bo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -17,27 +15,20 @@ public class ElementBo {
     
     public enum ElementTypeClass { SIMPLE, COMPLEX, COLLECTION; }
     
-    /* Specific bo widget. default is string widget
-     * key=xmlSchemaType; value=boWidgetType
-     */
-    private final static Map<String,String> boWidgets = new HashMap<String, String>(){{
-        put("date", "date");
-        put("capdematEnum", "capdematEnum");
-        put("AddressType", "adress");
-    }};
-    
     private String label;
     private String name;
     private String javaFieldName;
     private String modelNamespace;
+    
     private String type;
-    
-    private String i18nLabelCode;
-    private String i18nValidationErrorCode;
-    private String htmlClass;
-    
-    private ElementTypeClass typeClass;
     private boolean mandatory;
+    private String jsRegexp;
+    
+    private String i18nPrefixCode;
+    private String htmlClass;
+    private String widget;
+
+    private ElementTypeClass typeClass;
  
     private boolean display;
 
@@ -52,8 +43,7 @@ public class ElementBo {
     public ElementBo(String name, String requestAcronym) {
         this.name = name;
         this.javaFieldName = StringUtils.uncapitalize(name);
-        this.i18nLabelCode = requestAcronym + ".property." + this.javaFieldName + ".label";
-        this.i18nValidationErrorCode = requestAcronym + ".property." + this.javaFieldName + ".validationError";
+        this.i18nPrefixCode = requestAcronym + ".property." + this.javaFieldName;
         display = false;
     }
     
@@ -98,26 +88,40 @@ public class ElementBo {
         return modelNamespace + "." + type;
     }
 
-    public String getI18nLabelCode() {
-        return i18nLabelCode;
+    public String getI18nPrefixCode() {
+        return i18nPrefixCode;
     }
 
-    public String getI18nValidationErrorCode() {
-        return i18nValidationErrorCode;
+    public String getJsRegexp() {
+        return jsRegexp;
+    }
+
+    public void setJsRegexp(String jsRegexp) {
+        this.jsRegexp = jsRegexp;
     }
 
     public String getHtmlClass() {
         return htmlClass;
     }
-
-    public void setHtmlClass(String xmlSchemaType) {
-        this.htmlClass = 
-            (boWidgets.get(xmlSchemaType) == null ? "string" : boWidgets.get(xmlSchemaType))
-            + " " + (mandatory ? "required" : "null")
-            + " " + i18nValidationErrorCode
-            + " " + (condition != null ? condition.getName() + "-" + condition.getType() : "null");
+    
+    private void setHtmlClass() {
+        this.htmlClass = StringUtils.join(new String[] {
+            "validate-" + widget
+            ,(mandatory ? " required" : "")
+            , " " , i18nPrefixCode
+            ,(widget != null && widget.equals("capdematEnum") ? " " + getQualifiedType() : "" )
+        });
     }
 
+    public String getWidget() {
+        return widget;
+    }
+
+    public void setWidget(String type) {
+        this.widget = StringUtils.uncapitalize(StringUtils.removeEnd(type, "Type"));
+        setHtmlClass();
+    }
+    
     public String getTypeClass() {
         return typeClass.toString();
     }
@@ -176,8 +180,10 @@ public class ElementBo {
         this.step = step;
     }
 
-    public Condition getCondition() {
-        return condition;
+    public String getConditionHtmlClass() {
+        if (condition == null)
+            return null;
+        return condition != null ? condition.getName() + "-" + condition.getType() : "";
     }
 
     public void setCondition(Condition condition) {

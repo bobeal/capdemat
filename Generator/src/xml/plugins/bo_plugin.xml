@@ -14,7 +14,7 @@
   
   <configuration>
     <properties
-      outputdir="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/test/" 
+      outputdir="./BackOfficeNG/grails-app/views/requestInstruction/requestType/" 
       groovytemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/template.gsp.tpl"
     />
   </configuration>

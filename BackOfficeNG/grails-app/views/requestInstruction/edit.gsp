@@ -46,6 +46,9 @@
         <g:elseif test="${request.requestType.label == 'Home Folder Modification'}">
           <g:render template="/requestInstruction/requestType/homeFolderModificationRequest" model="['request':request]" />
         </g:elseif>
+        <g:elseif test="${request.requestType.label == 'Birth Details'}">
+          <g:render template="/requestInstruction/requestType/birthDetailsRequest" model="['request':request]" />
+        </g:elseif>
         <g:else>
           <g:render template="/requestInstruction/requestType/defaultRequest" model="['request':request]" />
         </g:else>

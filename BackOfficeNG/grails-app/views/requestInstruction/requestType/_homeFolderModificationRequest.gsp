@@ -11,7 +11,7 @@
     
       <!-- start of individual -->
       <g:each var="adult" in="${adults}">
-        <g:render template="/requestInstruction/requestType/adult" model="['adult': adult]" />
+        <g:render template="/requestInstruction/requestType/adult" model="['adult': adult, 'action':'action']" />
       </g:each>
       <!-- end of individual -->
       

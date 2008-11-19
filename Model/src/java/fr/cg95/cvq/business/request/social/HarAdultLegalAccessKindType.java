@@ -29,6 +29,13 @@ public final class HarAdultLegalAccessKindType extends PersistentStringEnum {
 
 
 
+    public static HarAdultLegalAccessKindType[] allHarAdultLegalAccessKindTypes = {
+        SAUVEGARDE_JUSTICE,
+        TUTELLE,
+        CURATELLE
+    };
+
+
     public static HarAdultLegalAccessKindType getDefaultHarAdultLegalAccessKindType() {
         return null;
     }

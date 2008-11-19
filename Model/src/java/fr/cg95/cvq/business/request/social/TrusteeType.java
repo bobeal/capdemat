@@ -28,6 +28,12 @@ public final class TrusteeType extends PersistentStringEnum {
 
 
 
+    public static TrusteeType[] allTrusteeTypes = {
+        REQUESTER,
+        OTHER
+    };
+
+
     public static TrusteeType getDefaultTrusteeType() {
         return null;
     }

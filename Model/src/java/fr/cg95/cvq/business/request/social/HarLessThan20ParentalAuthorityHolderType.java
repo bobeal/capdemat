@@ -29,6 +29,13 @@ public final class HarLessThan20ParentalAuthorityHolderType extends PersistentSt
 
 
 
+    public static HarLessThan20ParentalAuthorityHolderType[] allHarLessThan20ParentalAuthorityHolderTypes = {
+        FATHER,
+        MOTHER,
+        OTHER
+    };
+
+
     public static HarLessThan20ParentalAuthorityHolderType getDefaultHarLessThan20ParentalAuthorityHolderType() {
         return null;
     }

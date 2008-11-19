@@ -33,6 +33,17 @@ public final class DhrPensionPlanType extends PersistentStringEnum {
 
 
 
+    public static DhrPensionPlanType[] allDhrPensionPlanTypes = {
+        C_R_A_M_I_F,
+        C_N_A_V,
+        M_S_A,
+        C_R_A_M,
+        M_G_E_N,
+        S_N_C_F,
+        OTHER
+    };
+
+
     public static DhrPensionPlanType getDefaultDhrPensionPlanType() {
         return null;
     }

@@ -170,17 +170,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       var propertyValue;
 
       var ddEl = yud.getAncestorByTagName(targetEl, 'dd');
-      var wrapperPropertyValueEl = yud.getFirstChild(ddEl);
+      var propertyWrapperEl = yud.getFirstChild(ddEl);
 
-      if (isSubmit && yud.hasClass(ddEl, 'capdematEnum')) {
+      if (isSubmit && yud.hasClass(ddEl, 'validate-capdematEnum')) {
         zct.each (yud.get(formEl.id.replace('_Form', '') + '_Field').options, function() {
             if (this.selected === true)
               propertyValue = this.text;
         });
-        wrapperPropertyValueEl.innerHTML = propertyValue;
+        propertyWrapperEl.innerHTML = propertyValue;
       }
-      else if (isSubmit && yud.hasClass(ddEl, 'address')) {
-        var addressFields = yud.getChildren(wrapperPropertyValueEl);
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-address')) {
+        var addressFields = yud.getChildren(propertyWrapperEl);
         var newAddressFields = yus.query('fieldset input', formEl);
         zct.each (newAddressFields, function(i) {
             addressFields[i].innerHTML = this.value ;
@@ -189,12 +189,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       else if (isSubmit) {
         var elName = formEl.id.replace('_Form', '') + '_Field';
         propertyValue = yud.get(elName).value;
-        wrapperPropertyValueEl.innerHTML = propertyValue;
+        propertyWrapperEl.innerHTML = propertyValue;
       }
-      yud.removeClass(wrapperPropertyValueEl, 'invisible');
+      yud.removeClass(propertyWrapperEl, 'invisible');
 
       new yuel(ddEl).removeChild(formEl);
-      yud.removeClass(ddEl, 'currentEditProperty');
+      yud.removeClass(ddEl, 'current-editField');
     }
     
     return { 
@@ -214,7 +214,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       },
       getHandler : function(e) {
         var targetEl = zcbr.Instruction.getTarget(e);
-        if (yl.isNull(targetEl) || yud.hasClass(targetEl, 'currentEditProperty'))
+        if (yl.isNull(targetEl) || yud.hasClass(targetEl, 'current-editField'))
           return undefined;
         else if (targetEl.tagName === 'DD')
           return targetEl.className.split(' ')[0].split('-')[1];
@@ -223,7 +223,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       },
       editField : function(e) {
           var targetEl = zcbr.Instruction.getTarget(e);
-          var propertyVal;
+          var propertyValue;
           var propertyWrapperEl = yud.getFirstChild(targetEl);
           var jsonPropertyType = {}
           zct.each(targetEl.className.split(' '), function(i) {
@@ -236,27 +236,27 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             zct.each(yud.getChildren(propertyWrapperEl), function(i) {
                 jsonAddress[this.className] = this.innerHTML;
             });
-            propertyVal = ylj.stringify(jsonAddress);
+            propertyValue = ylj.stringify(jsonAddress);
           }
           else if (jsonPropertyType['validate'] ===  'capdematEnum') {
-            propertyVal = propertyWrapperEl.className;
+            propertyValue = propertyWrapperEl.className;
           }
           else {
-            propertyVal = propertyWrapperEl.innerHTML;
+            propertyValue = propertyWrapperEl.innerHTML;
           }
 
           zcc.doAjaxCall(
             '/widget/?id=' + zenexity.capdemat.bong.requestId
             + '&propertyType=' + ylj.stringify(jsonPropertyType)
             + '&propertyName=' + targetEl.id
-            + '&propertyVal=' + propertyVal,
+            + '&propertyValue=' + propertyValue,
             null, 
             function(o) {
-              yud.addClass(targetEl, 'currentEditProperty');
+              yud.addClass(targetEl, 'current-editField');
               yud.addClass(yud.getFirstChild(targetEl), 'invisible');
               targetEl.innerHTML += o.responseText;
 
-              if (yud.hasClass(targetEl, 'date')) {
+              if (yud.hasClass(targetEl, 'validate-date')) {
                 YAHOO.capdematBo.calendar.cal = new Array(1);
                 yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + '_Field'} );
               }

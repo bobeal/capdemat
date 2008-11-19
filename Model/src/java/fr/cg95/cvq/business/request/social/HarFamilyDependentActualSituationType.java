@@ -29,6 +29,13 @@ public final class HarFamilyDependentActualSituationType extends PersistentStrin
 
 
 
+    public static HarFamilyDependentActualSituationType[] allHarFamilyDependentActualSituationTypes = {
+        SCHOOLING,
+        LEARNING,
+        MEDICO_SOCIAL
+    };
+
+
     public static HarFamilyDependentActualSituationType getDefaultHarFamilyDependentActualSituationType() {
         return null;
     }

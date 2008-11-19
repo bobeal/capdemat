@@ -18,8 +18,6 @@ import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.plugins.tool.VelocityManager;
-import fr.cg95.cvq.xml.common.RequestType;
-import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
 /**
  * An in-memory representation of the to-be-generated request.
@@ -901,6 +899,18 @@ public class ModelRequestObject {
         sb.append("    public " + className + "() {}\n");
         sb.append("\n");
 
+        // generate the all enum value array
+        sb.append("\n\n");
+        sb.append("    public static " + className +  "[] all" + className + "s = {\n");
+        for (int i = 0; i < enumValues.length; i++) {
+            String enumValue = enumValues[i];
+            sb.append("        " + getEnumStaticName(enumValue));
+            if (i < enumValues.length - 1)
+                sb.append(",");
+            sb.append("\n");
+        }
+        sb.append("    };\n");
+        
         // generate the getDefault method
         sb.append("\n\n");
         sb.append("    public static " + className + " getDefault" + className + "() {\n");

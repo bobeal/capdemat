@@ -28,6 +28,12 @@ public final class DhrDwellingStatusType extends PersistentStringEnum {
 
 
 
+    public static DhrDwellingStatusType[] allDhrDwellingStatusTypes = {
+        OWNER,
+        TENANT
+    };
+
+
     public static DhrDwellingStatusType getDefaultDhrDwellingStatusType() {
         return null;
     }

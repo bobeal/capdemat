@@ -29,6 +29,13 @@ public final class HarPaymentAgencyBeneficiaryType extends PersistentStringEnum 
 
 
 
+    public static HarPaymentAgencyBeneficiaryType[] allHarPaymentAgencyBeneficiaryTypes = {
+        INSURED,
+        CLAIMANT,
+        NO_MEMBER_SHIP
+    };
+
+
     public static HarPaymentAgencyBeneficiaryType getDefaultHarPaymentAgencyBeneficiaryType() {
         return null;
     }

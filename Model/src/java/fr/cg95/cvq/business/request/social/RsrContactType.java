@@ -28,6 +28,12 @@ public final class RsrContactType extends PersistentStringEnum {
 
 
 
+    public static RsrContactType[] allRsrContactTypes = {
+        REQUESTER,
+        OTHER
+    };
+
+
     public static RsrContactType getDefaultRsrContactType() {
         return null;
     }

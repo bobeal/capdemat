@@ -29,6 +29,13 @@ public final class DhrTutorType extends PersistentStringEnum {
 
 
 
+    public static DhrTutorType[] allDhrTutorTypes = {
+        SAUVEGARDE_JUSTICE,
+        TUTELLE,
+        CURATELLE
+    };
+
+
     public static DhrTutorType getDefaultDhrTutorType() {
         return null;
     }

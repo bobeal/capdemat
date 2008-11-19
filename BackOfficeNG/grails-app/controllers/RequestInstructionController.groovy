@@ -115,8 +115,7 @@ class RequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgetMap = [ string:"string", email:"string", number:"string",
-                          date:"date", address:"address", capdematEnum:"capdematEnum" ]
+        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum" ]
 
         // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
@@ -125,6 +124,7 @@ class RequestInstructionController {
         
         // one of the widgetMap keys
         def propertyType = propertyTypes.validate
+        def widget = widgetMap[propertyType] ? widgetMap[propertyType] : "string"
 
         def model = ["requestId": Long.valueOf(params.id),
                      "individualId": params.propertyName.tokenize("[]")[1],
@@ -134,7 +134,8 @@ class RequestInstructionController {
                      "propertyName": params.propertyName,
                      "propertyType": propertyType,
                      "required" : propertyTypes.required ? "required" : ""]
-
+        
+        // value init (by type)
         def propertyValue
         if (propertyType == "address") {
             propertyValue = JSON.parse(params.propertyValue)
@@ -151,27 +152,32 @@ class RequestInstructionController {
             propertyValue = params.propertyValue
         }
         model["propertyValue"] = propertyValue
-
-        render( template: "/requestInstruction/widget/" + widgetMap[propertyType], model:model)
+        
+        render( template: "/requestInstruction/widget/" + widget  , model:model)
     }
 
     def modify = {
         if (params.requestId == null || params.individualId == null )
              return
         try {
-          def individual = individualService.getById(Long.valueOf(params.individualId))
-
-          log.debug("Binder custum editor PersistentStringEnum = " +
-              getBinder(individual)
-                  .propertyEditorRegistry
-                  .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
-          )
-          bind(individual)
-
-          render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            def request = defaultRequestService.getById(Long.valueOf(params.requestId))
+            if (["Vo Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
+                def individual = individualService.getById(Long.valueOf(params.individualId))
+                bind(individual)
+            } else {
+                bind(request)
+            }
+          
+//          log.debug("Binder custum editor PersistentStringEnum = " +
+//              getBinder(individual)
+//                  .propertyEditorRegistry
+//                  .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null)
+//          )
+          
+            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             ce.printStackTrace()
-            log.error "save() error while saving property of request"
+            log.error "modify() error while saving property of request"
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }
     }

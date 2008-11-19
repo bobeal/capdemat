@@ -28,6 +28,12 @@ public final class HarDwellingReceptionType extends PersistentStringEnum {
 
 
 
+    public static HarDwellingReceptionType[] allHarDwellingReceptionTypes = {
+        INTERNSHIP,
+        CLERKSHIP
+    };
+
+
     public static HarDwellingReceptionType getDefaultHarDwellingReceptionType() {
         return null;
     }

@@ -38,6 +38,22 @@ public final class RequesterQualityType extends PersistentStringEnum {
 
 
 
+    public static RequesterQualityType[] allRequesterQualityTypes = {
+        REQUESTER,
+        SPOUSE,
+        PARENT,
+        GRAND_PARENT,
+        CHILD,
+        LEGAL_REPRESENTANT,
+        AGENT,
+        HEIR_FAMILY,
+        HEIR,
+        AUTHORIZED,
+        LAWYER_NOTARY,
+        OTHER
+    };
+
+
     public static RequesterQualityType getDefaultRequesterQualityType() {
         return null;
     }

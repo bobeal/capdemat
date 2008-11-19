@@ -30,6 +30,14 @@ public final class ElectoralMotiveType extends PersistentStringEnum {
 
 
 
+    public static ElectoralMotiveType[] allElectoralMotiveTypes = {
+        NEW_CITY_RESIDENT,
+        DIRECT_CITY_CONTRIBUTION,
+        CIVIL_SERVANT_OBLIGATORY_RESIDENT,
+        FUTURE_AUTHORIZED_CITIZEN
+    };
+
+
     public static ElectoralMotiveType getDefaultElectoralMotiveType() {
         return null;
     }

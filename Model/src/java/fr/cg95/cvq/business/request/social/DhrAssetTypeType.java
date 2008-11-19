@@ -29,6 +29,13 @@ public final class DhrAssetTypeType extends PersistentStringEnum {
 
 
 
+    public static DhrAssetTypeType[] allDhrAssetTypeTypes = {
+        SHARE,
+        GIFT,
+        SALE
+    };
+
+
     public static DhrAssetTypeType getDefaultDhrAssetTypeType() {
         return null;
     }

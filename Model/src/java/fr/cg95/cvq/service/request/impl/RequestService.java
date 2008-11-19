@@ -26,7 +26,6 @@ import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
@@ -41,6 +40,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestStep;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
+import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -971,7 +971,7 @@ public abstract class RequestService implements IRequestService {
         delete(request);
     }
 
-    public Map<Object, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
+    public Map<Long, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException {
 
         RequestType requestType = requestTypeDAO.findByName(getLabel());
@@ -985,8 +985,8 @@ public abstract class RequestService implements IRequestService {
                 return null;
 
             Set<Long> eligibleSubjects = getEligibleSubjects(homeFolderId);
-            Map<Object, Set<RequestSeason>> result =
-                new HashMap<Object, Set<RequestSeason>>();
+            Map<Long, Set<RequestSeason>> result =
+                new HashMap<Long, Set<RequestSeason>>();
 
             // by default, add every subject to all open seasons, restrictions will be made next
             for (Long subjectId : eligibleSubjects)
@@ -1027,8 +1027,8 @@ public abstract class RequestService implements IRequestService {
 
         } else {
             Set<Long> eligibleSubjects = getEligibleSubjects(homeFolderId);
-            Map<Object, Set<RequestSeason>> result =
-                new HashMap<Object, Set<RequestSeason>>();
+            Map<Long, Set<RequestSeason>> result =
+                new HashMap<Long, Set<RequestSeason>>();
             for (Long subjectId : eligibleSubjects)
                 result.put(subjectId, null);
             RequestState[] excludedStates =
@@ -1135,6 +1135,9 @@ public abstract class RequestService implements IRequestService {
     protected void validateAssociatedDocuments(final Set<RequestDocument> documentSet)
         throws CvqException {
 
+        if (documentSet == null)
+            return;
+        
         for (RequestDocument requestDocument : documentSet) {
             documentService.validate(requestDocument.getDocumentId(), 
                     new Date(), "Automatic validation");
@@ -1167,7 +1170,11 @@ public abstract class RequestService implements IRequestService {
 
         validateAssociatedDocuments(getAssociatedDocuments(request.getId()));
 
-        homeFolderService.onRequestValidated(request.getHomeFolderId(), request.getId());
+        // those two request types are special ones
+        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest)
+            homeFolderService.validate(request.getHomeFolderId());
+        else
+            homeFolderService.onRequestValidated(request.getHomeFolderId(), request.getId());
 
 		// send request data to interested external services
 		externalService.sendRequest(request);
@@ -1283,7 +1290,11 @@ public abstract class RequestService implements IRequestService {
 
         requestWorkflowService.cancel(request);
 
-        homeFolderService.onRequestCancelled(request.getHomeFolderId(), request.getId());
+        // those two request types are special ones
+        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest)
+            homeFolderService.invalidate(request.getHomeFolderId());
+        else
+            homeFolderService.onRequestCancelled(request.getHomeFolderId(), request.getId());
     }
 
     public void cancel(final Long id)
@@ -1298,7 +1309,11 @@ public abstract class RequestService implements IRequestService {
 
         requestWorkflowService.reject(request, motive);
 
-        homeFolderService.onRequestRejected(request.getHomeFolderId(), request.getId());
+        // those two request types are special ones
+        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest)
+            homeFolderService.invalidate(request.getHomeFolderId());
+        else
+            homeFolderService.onRequestRejected(request.getHomeFolderId(), request.getId());
     }
 
     public void reject(final Long id, final String motive)
@@ -1443,12 +1458,13 @@ public abstract class RequestService implements IRequestService {
         if (!getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
             Individual individual = individualService.getById(request.getSubjectId());
             boolean isAuthorized = false;
-            Map<Object, Set<RequestSeason>> authorizedSubjectsMap =
+            Map<Long, Set<RequestSeason>> authorizedSubjectsMap =
                 getAuthorizedSubjects(request.getHomeFolderId());
             if (authorizedSubjectsMap != null) {
-                Set<Object> authorizedSubjects = authorizedSubjectsMap.keySet();
-                for (Object authorizedSubject : authorizedSubjects) {
-                    Individual authorizedIndividual = (Individual) authorizedSubject;
+                Set<Long> authorizedSubjects = authorizedSubjectsMap.keySet();
+                for (Long authorizedSubjectId : authorizedSubjects) {
+                    Individual authorizedIndividual = 
+                        individualService.getById(authorizedSubjectId);
                     if (authorizedIndividual.getId().equals(individual.getId())) {
                         isAuthorized = true;
                         break;

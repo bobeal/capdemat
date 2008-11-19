@@ -59,8 +59,11 @@ public interface IHomeFolderService {
         throws CvqException;
 
     void delete(final Long id)
-    		throws CvqException, CvqObjectNotFoundException;
+    	throws CvqException, CvqObjectNotFoundException;
 
+    void deleteIndividual(final Long individualId)
+        throws CvqException, CvqObjectNotFoundException;
+    
     Set<Child> getChildren(final Long homeFolderId)
         throws CvqException;
 
@@ -68,6 +71,48 @@ public interface IHomeFolderService {
         throws CvqException;
     
     List<Individual> getIndividuals(final Long homeFolderId)
+        throws CvqException;
+    
+    // Role-related methods
+    /////////////////////////////////////
+    
+    void addHomeFolderRole(final Long ownerId, final Long homeFolderId, final RoleEnum role)
+        throws CvqException;
+    
+    void addHomeFolderRole(final Individual owner, final Long homeFolderId, final RoleEnum role)
+        throws CvqException;
+
+    void addIndividualRole(final Long ownerId, final Individual individual, final RoleEnum role)
+        throws CvqException;
+    
+    void addIndividualRole(final Individual owner, final Individual individual, final RoleEnum role)
+        throws CvqException;
+
+    void removeRolesOnSubject(final Long homeFolderId, final Long individualId)
+        throws CvqException;    
+
+    boolean removeHomeFolderRole(final Long ownerId, final Long homeFolderId,
+            final RoleEnum role)
+        throws CvqException;
+    
+    boolean removeIndividualRole(final Long ownerId, final Individual individual, 
+            final RoleEnum role)
+        throws CvqException;
+    
+    /**
+     * Perform the checking and finalization on the roles each of the given individual 
+     * has on this home folder.
+     * 
+     * For roles on transient objects (home folder or individual), it will set the correct
+     * identifier values.
+     */
+    void checkAndFinalizeRoles(Long homeFolderId, Set<Adult> adults, Set<Child> children)
+        throws CvqException, CvqModelException;
+
+    boolean hasHomeFolderRole(final Long ownerId, final Long homeFolderId, final RoleEnum role)
+        throws CvqException;
+    
+    boolean hasIndividualRole(final Long ownerId, final Individual individual, final RoleEnum role)
         throws CvqException;
     
     /**
@@ -78,6 +123,12 @@ public interface IHomeFolderService {
     Adult getHomeFolderResponsible(final Long homeFolderId)
         throws CvqException;
     
+    List<Individual> getByHomeFolderRole(Long homeFolderId, RoleEnum role);
+
+    List<Individual> getBySubjectRole(Long subjectId, RoleEnum role);
+
+    List<Individual> getBySubjectRoles(Long subjectId, RoleEnum[] roles);
+
     /**
      * Get external accounts information and state for the given home folder. Designed
      * to be called by an ecitizen from the Front Office.
@@ -192,6 +243,6 @@ public interface IHomeFolderService {
 	/**
 	 * Send a confirmation mail to the home folder's responsible when the payment is commited.
 	 */
-    public void notifyPaymentByMail(Payment payment)
+    void notifyPaymentByMail(Payment payment)
     	throws CvqException;
 }

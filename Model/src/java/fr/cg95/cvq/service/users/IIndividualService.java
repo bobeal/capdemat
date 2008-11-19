@@ -7,7 +7,6 @@ import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.util.Critere;
 
@@ -26,14 +25,6 @@ public interface IIndividualService {
     void modify(final Individual individual)
         throws CvqException;
 
-    void addRole(final Long ownerId, final RoleEnum role, final Long homeFolderId, 
-            final Long individualId)
-        throws CvqException;
-    
-    void removeRole(final Long ownerId, final RoleEnum role, final Long homeFolderId, 
-            final Long individualId)
-        throws CvqException;
-    
     List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy, 
             final boolean searchAmongArchived)
         throws CvqException;
@@ -53,18 +44,6 @@ public interface IIndividualService {
     Individual getByFederationKey(final String federationKey)
         throws CvqException;
 
-    /**
-     * Return the list of {@link Individual individuals} who have the given role (if one 
-     * provided) or any role (if none provided) on the given home folder.
-     */
-    List<Individual> getByHomeFolderRole(final Long homeFolderId, final RoleEnum role);
-    
-    /**
-     * Return the list of {@link Individual individuals} who have the given role (if one 
-     * provided) or any role (if none provided) on the given subject.
-     */
-    List<Individual> getBySubjectRole(final Long subjectId, final RoleEnum role);
-    
     /**
      * delegated to {@link fr.cg95.cvq.authentication.IAuthenticationService}.
      */

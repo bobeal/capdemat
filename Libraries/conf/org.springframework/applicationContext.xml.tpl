@@ -261,12 +261,7 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
 
   <bean id="childService" class="fr.cg95.cvq.service.users.impl.ChildService" 
     parent="individualService">
-    <property name="childDAO">
-      <ref local="childDAO"/>
-    </property>
-    <property name="genericDAO">
-      <ref local="genericDAO"/>
-    </property>
+    <property name="childDAO" ref="childDAO" />
   </bean>
 
   <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService">

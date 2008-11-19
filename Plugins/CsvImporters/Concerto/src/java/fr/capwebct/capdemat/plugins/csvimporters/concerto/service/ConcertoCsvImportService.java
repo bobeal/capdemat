@@ -22,10 +22,8 @@ import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.LegalResponsibleRole;
 import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.TitleType;
@@ -161,7 +159,8 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                     cdto = new ConcertoDataTransfertObject();
                     cdto.setAddress(currentAddress);
                     
-                    currentHomeFolderResponsible.addHomeFolderRole(RoleEnum.HOME_FOLDER_RESPONSIBLE, null);
+                    homeFolderService.addHomeFolderRole(currentHomeFolderResponsible, 
+                            null, RoleEnum.HOME_FOLDER_RESPONSIBLE);
                     currentHomeFolderResponsible.setPassword(authenticationService.generatePassword());
                     cdto.setHomeFolderResponsible(currentHomeFolderResponsible);
                     cdto.getAdults().add(currentHomeFolderResponsible);
@@ -371,19 +370,16 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
         return true;
     }
     
-    private void addLegalResponsibleToChild(Child child, Adult adult) {
-        ChildLegalResponsible clr = new ChildLegalResponsible();
-        clr.setChild(child);
-        clr.setLegalResponsible(adult);
+    private void addLegalResponsibleToChild(Child child, Adult adult) throws CvqException {
+
         if (adult.getTitle().equals(TitleType.MISTER)) {
-            clr.setRole(LegalResponsibleRole.FATHER);
+            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_FATHER);
         } else if (adult.getTitle().equals(TitleType.MADAM)
                 || adult.getTitle().equals(TitleType.MISS)) {
-            clr.setRole(LegalResponsibleRole.MOTHER);
+            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_MOTHER);
         } else {
-            clr.setRole(LegalResponsibleRole.TUTOR);
+            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_TUTOR);
         }
-        child.addLegalResponsible(clr);
     }
     
     private Adult getAdultCopyFromAdults(Set<Adult> adults, Adult adult) {

@@ -35,12 +35,6 @@
     alter table child 
         drop constraint FK5A3F51C71A211CC;
 
-    alter table child_legal_responsible_map 
-        drop constraint FK62E1102A30CABB22;
-
-    alter table child_legal_responsible_map 
-        drop constraint FK62E1102AC5C931EC;
-
     alter table compostable_waste_collection_request 
         drop constraint FKAFF7287782587E99;
 
@@ -176,8 +170,8 @@
     alter table individual 
         drop constraint FKFD3DA2998BD77771;
 
-    alter table individual_roles 
-        drop constraint FK532C7D97D4C3A2D8;
+    alter table individual_role 
+        drop constraint FK3C7D4E5CD4C3A2D8;
 
     alter table library_registration_request 
         drop constraint FKEA37820D82587E99;
@@ -388,8 +382,6 @@
 
     drop table child;
 
-    drop table child_legal_responsible_map;
-
     drop table compostable_waste_collection_request;
 
     drop table compostable_waste_collection_request_compostable_waste_type;
@@ -434,7 +426,7 @@
 
     drop table individual;
 
-    drop table individual_roles;
+    drop table individual_role;
 
     drop table library_registration_request;
 
@@ -657,14 +649,6 @@
         id int8 not null,
         note varchar(255),
         badge_number varchar(255),
-        primary key (id)
-    );
-
-    create table child_legal_responsible_map (
-        id int8 not null,
-        role varchar(8),
-        child_id int8,
-        legal_responsible_id int8,
         primary key (id)
     );
 
@@ -1047,11 +1031,13 @@
         primary key (id)
     );
 
-    create table individual_roles (
-        owner_id int8 not null,
+    create table individual_role (
+        id int8 not null,
         role varchar(255),
         home_folder_id int8,
-        individual_id int8
+        individual_id int8,
+        owner_id int8,
+        primary key (id)
     );
 
     create table library_registration_request (
@@ -1622,16 +1608,6 @@
         foreign key (id) 
         references individual;
 
-    alter table child_legal_responsible_map 
-        add constraint FK62E1102A30CABB22 
-        foreign key (child_id) 
-        references child;
-
-    alter table child_legal_responsible_map 
-        add constraint FK62E1102AC5C931EC 
-        foreign key (legal_responsible_id) 
-        references adult;
-
     alter table compostable_waste_collection_request 
         add constraint FKAFF7287782587E99 
         foreign key (id) 
@@ -1857,8 +1833,8 @@
         foreign key (home_folder_id) 
         references home_folder;
 
-    alter table individual_roles 
-        add constraint FK532C7D97D4C3A2D8 
+    alter table individual_role 
+        add constraint FK3C7D4E5CD4C3A2D8 
         foreign key (owner_id) 
         references individual;
 

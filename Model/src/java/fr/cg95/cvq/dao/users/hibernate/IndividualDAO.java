@@ -135,7 +135,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     public List<Individual> listByHomeFolderRole(Long homeFolderId, RoleEnum role) {
 
         StringBuffer sb = new StringBuffer();
-        sb.append("from Individual as individual")
+        sb.append("select individual from Individual as individual")
             .append(" join individual.individualRoles individualRole ")
             .append(" where individualRole.homeFolderId = ?");
         if (role != null)
@@ -153,7 +153,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     @Override
     public List<Individual> listBySubjectRole(Long subjectId, RoleEnum role) {
         StringBuffer sb = new StringBuffer();
-        sb.append("from Individual as individual")
+        sb.append("select individual from Individual as individual")
             .append(" join individual.individualRoles individualRole ")
             .append(" where individualRole.individualId = ?");
         if (role != null)
@@ -171,7 +171,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     @Override
     public List<Individual> listBySubjectRoles(Long subjectId, RoleEnum[] roles) {
         StringBuffer sb = new StringBuffer();
-        sb.append("from Individual as individual")
+        sb.append("select individual from Individual as individual")
             .append(" join individual.individualRoles individualRole ")
             .append(" where individualRole.individualId = ?");
 

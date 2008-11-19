@@ -418,7 +418,8 @@ public class ServiceTestCase
         homeFolderResponsible =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,
                     FamilyStatusType.MARRIED);
-        homeFolderResponsible.addHomeFolderRole(RoleEnum.HOME_FOLDER_RESPONSIBLE, null);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, null, 
+                RoleEnum.HOME_FOLDER_RESPONSIBLE);
         homeFolderResponsible.setPassword("toto");
 
         homeFolderWoman =
@@ -432,15 +433,15 @@ public class ServiceTestCase
         adultSet.add(homeFolderWoman);
         adultSet.add(homeFolderUncle);
 
-        child1 =
-            BusinessObjectsFactory.gimmeChild("LASTNAME", "childone", homeFolderResponsible,
-                    homeFolderWoman, homeFolderUncle);
+        child1 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childone");
         child1.setSex(SexType.MALE);
-
-        child2 =
-            BusinessObjectsFactory.gimmeChild("LASTNAME", "childtwo", homeFolderResponsible,
-                    null, null);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(homeFolderWoman, child1, RoleEnum.CLR_MOTHER);
+        iHomeFolderService.addIndividualRole(homeFolderUncle, child1, RoleEnum.CLR_TUTOR);
+        
+        child2 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childtwo");
         child2.setSex(SexType.MALE);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleEnum.CLR_FATHER);
 
         Set<Child> childSet = new HashSet<Child>();
         childSet.add(child1);

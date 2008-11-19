@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,6 @@ import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HistoryEntry;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -36,6 +34,7 @@ import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.users.IAdultService;
@@ -54,13 +53,10 @@ public class HomeFolderModificationRequestService
     protected IHistoryEntryDAO historyEntryDAO;
     protected HistoryInterceptor historyInterceptor;
     
-    // TEMP REFACTORING
     protected IAdultService adultService;
     
     public HomeFolderModificationRequest create(final Long homeFolderId, final Long requesterId)
         throws CvqException, CvqObjectNotFoundException {
-
-        logger.debug("create()");
 
         // load home folder first to check for the existence of another
         // similar request in progress
@@ -76,12 +72,11 @@ public class HomeFolderModificationRequestService
         return hfmr;
     }
 
-
     public Long create(Node node) throws CvqException {
         throw new CvqException("Not yet implemented !");
     }
 
-    private boolean hasModificationRequestInProgress(final HomeFolder homeFolder) 
+    private boolean hasModificationRequestInProgress(final HomeFolder homeFolder)
         throws CvqException {
 
         List<Request> otherRequests = 
@@ -113,10 +108,8 @@ public class HomeFolderModificationRequestService
                     + "possible for validated home folders");
     }
     
-    public Map<Object, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
+    public Map<Long, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException {
-
-        logger.debug("getAuthorizedSubjects()");
 
         HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
         try { 
@@ -126,35 +119,34 @@ public class HomeFolderModificationRequestService
             return null;
         }
         
-        Map<Object, Set<RequestSeason>> result =
-            new HashMap<Object, Set<RequestSeason>>();
-        result.put(homeFolder, new HashSet<RequestSeason>());
-        logger.debug("getAuthorizedSubjects() authorized, returning home folder itself");
+        Map<Long, Set<RequestSeason>> result =
+            new HashMap<Long, Set<RequestSeason>>();
+        result.put(homeFolder.getId(), new HashSet<RequestSeason>());
         return result;
     }
     
     public CreationBean modify(final HomeFolderModificationRequest hfmr,
-            final Set adults, final Set children, final Address adress)
+            final Set<Adult> newAdults, final Set<Child> newChildren, final Address adress)
         throws CvqException {
-        logger.debug("modify()");
 
         historyInterceptor.setCurrentRequest(hfmr);
         historyInterceptor.setCurrentUser(SecurityContext.getCurrentUserLogin());
         historyInterceptor.setCurrentSession(HibernateUtil.getSession());
         
         CreationBean cb = null;
+        
         HomeFolder oldHomeFolder = homeFolderService.getById(hfmr.getHomeFolderId());
+        
+        // TODO REFACTORING
         // home folder will have to be validated again
         oldHomeFolder.setState(ActorState.PENDING);
-        Date modificationDate = new Date();
 
         // take a snapshot of the "old" home folder
         // (ie as it was before issuing this modification request)
+        
         Set<Child> oldChildren = new HashSet<Child>();
         Set<Adult> oldAdults = new HashSet<Adult>();
-        Iterator oldIndividuals = oldHomeFolder.getIndividuals().iterator();
-        while (oldIndividuals.hasNext()) {
-            Individual tempInd = (Individual) oldIndividuals.next();
+        for (Individual tempInd : oldHomeFolder.getIndividuals()) {
             if (tempInd instanceof Adult) {
                 oldAdults.add((Adult) tempInd);
             } else {
@@ -165,7 +157,7 @@ public class HomeFolderModificationRequestService
         // first, deal with modifications related to children
         for (Child child : oldChildren) {
             logger.debug("modify() looking at old child : " + child);
-            if (!containsIndividual(children, child)) {
+            if (!containsIndividual(newChildren, child)) {
                 logger.debug("modify() child removed from home folder : " + child);
                 // just unlink from its home folder, don't remove it yet from DB
                 // because request can be refused
@@ -175,59 +167,21 @@ public class HomeFolderModificationRequestService
                 individualService.modify(child);
             }
         }
-        Iterator newChildrenIt = children.iterator();
-        while (newChildrenIt.hasNext()) {
-            Child child = (Child) newChildrenIt.next();
-            logger.debug("modify() looking at new child : " + child);
-            if (!containsIndividual(oldChildren, child)) {
-                logger.debug("modify() child added to home folder : " + child);
-                child.setState(ActorState.PENDING);
-                child.setCreationDate(modificationDate);
-                child.setHomeFolder(oldHomeFolder);
-                if (child.getAdress() == null)
-                    child.setAdress(adress);
+        for (Child newChild : newChildren) {
+            logger.debug("modify() looking at new child : " + newChild);
+            if (!containsIndividual(oldChildren, newChild)) {
+                logger.debug("modify() child added to home folder : " + newChild);
 
-                individualService.modify(child);
-                oldChildren.add(child);
-            }
-
-            // check if we have a legal responsible which is new and external to
-            // home folder
-            Set clrSet = child.getLegalResponsibles();
-            Iterator clrSetIt = clrSet.iterator();
-            while (clrSetIt.hasNext()) {
-                ChildLegalResponsible clr = (ChildLegalResponsible) clrSetIt.next();
-                logger.debug("modify() looking at clr : " + clr);
-                if (clr.getLegalResponsible().getId() == null) {
-                    if (!adults.contains(clr.getLegalResponsible())) {
-                        Adult tempAdult = clr.getLegalResponsible();
-                        logger.debug("modify() out of home folder clr added : " + tempAdult);
-                        homeFolderService.addAdult(oldHomeFolder.getId(), tempAdult, null);
-                    } else if (!oldAdults.contains(clr.getLegalResponsible())){
-                        Adult adult = (Adult) clr.getLegalResponsible();
-                        logger.debug("modify() adult implicitely added to home folder (isClr) : " 
-                                + adult);
-                        adult.setState(ActorState.PENDING);
-                        adult.setCreationDate(modificationDate);
-                        adult.setHomeFolder(oldHomeFolder);
-                        if (adult.getAdress() == null)
-                            adult.setAdress(adress);
-                        homeFolderService.addAdult(oldHomeFolder.getId(), adult, null);
-                        
-                        // now, consider it as an already existing home folder adult
-                        oldAdults.add(adult);
-                    }
-                }
+                individualService.create(newChild, oldHomeFolder, adress, false);
+                oldChildren.add(newChild);
             }
         }
 
         // then, deal with modifications related to home folder adults
-        Iterator oldAdultsIt = oldAdults.iterator();
         boolean loggedInUserChange = false;
-        while (oldAdultsIt.hasNext()) {
-            Adult adult = (Adult) oldAdultsIt.next();
+        for (Adult adult : oldAdults) {
             logger.debug("modify() looking at old adult : " + adult);
-            if (!containsIndividual(adults, adult)) {
+            if (!containsIndividual(newAdults, adult)) {
                 logger.debug("modify() adult removed from home folder : " + adult);
 
                 // check if adult was the currently logged in user
@@ -244,8 +198,8 @@ public class HomeFolderModificationRequestService
 
                 individualService.modify(adult);
             } else {
-                if (!adult.getLogin().startsWith(adult.getFirstName().toLowerCase() + "." +
-                                                 adult.getLastName().toLowerCase())) {
+                if (!adult.getLogin().startsWith(adult.getFirstName().toLowerCase() + "." 
+                        + adult.getLastName().toLowerCase())) {
                     logger.debug("modify() adult changed of first or last name");
                     logger.debug("modify() adult login : " + adult.getLogin());
                     logger.debug("modify() adult names : " + adult.getFirstName() + " " + adult.getLastName());
@@ -253,9 +207,7 @@ public class HomeFolderModificationRequestService
             }
         }
 
-        Iterator newAdultsIt = adults.iterator();
-        while (newAdultsIt.hasNext()) {
-            Adult adult = (Adult) newAdultsIt.next();
+        for (Adult adult : newAdults) {
             logger.debug("modify() looking at new adult : " + adult);
 
             // new passwords generation handling
@@ -267,13 +219,7 @@ public class HomeFolderModificationRequestService
 
             if (!containsIndividual(oldAdults, adult)) {
                 logger.debug("modify() adult added to home folder : " + adult);
-                adult.setState(ActorState.PENDING);
-                adult.setCreationDate(modificationDate);
-                adult.setHomeFolder(oldHomeFolder);
-                if (adult.getAdress() == null)
-                    adult.setAdress(adress);
-
-                individualService.modify(adult);
+                individualService.create(adult, oldHomeFolder, adult.getAdress(), true);
             }
 
             // currently logged in user has been removed from the home folder
@@ -295,12 +241,16 @@ public class HomeFolderModificationRequestService
             }
         }
 
+        homeFolderService.checkAndFinalizeRoles(oldHomeFolder.getId(), newAdults, newChildren);
+        
         requestDAO.update(hfmr);
 
+        // TODO REFACTORING : branch into common treatments
         logger.debug("modify() Gonna generate a pdf of the request");
         byte[] pdfData =
             certificateService.generateRequestCertificate(hfmr, this.fopConfig);
-        addActionTrace("Creation", null, modificationDate, RequestState.PENDING, hfmr, pdfData);
+        addActionTrace(IRequestService.CREATION_ACTION, null, new Date(), 
+                RequestState.PENDING, hfmr, pdfData);
 
         super.notifyRequestCreation(hfmr, pdfData);
         
@@ -310,34 +260,11 @@ public class HomeFolderModificationRequestService
         return cb;
     }
 
-    private boolean containsIndividual(final Set setToSearchIn, 
-            final Individual individualToLookFor) {
-    
-        if (setToSearchIn == null || setToSearchIn.size() == 0)
-            return false;
-        
-        Iterator it = setToSearchIn.iterator();
-        while (it.hasNext()) {
-            Individual individual = (Individual) it.next();
-            if (individual.getId() == null)
-                continue;
-            if (individual.getId().equals(individualToLookFor.getId()))
-                return true;
-        }
-        
-        return false;
-    }
-    
-    public HomeFolder getOriginalHomeFolder(final Long hfmrId)
-        throws CvqException {
-        return null;
-    }
-
-    public Set getHistoryEntries(final Long hfmrId)
+    public Set<HistoryEntry> getHistoryEntries(final Long hfmrId)
         throws CvqException {
 
-        List historyEntriesList = historyEntryDAO.listByRequestId(hfmrId);
-        return new LinkedHashSet(historyEntriesList);
+        List<HistoryEntry> historyEntriesList = historyEntryDAO.listByRequestId(hfmrId);
+        return new LinkedHashSet<HistoryEntry>(historyEntriesList);
     }
 
     public void validate(final Long id)
@@ -350,90 +277,26 @@ public class HomeFolderModificationRequestService
         // (ie clear history entries and delete removed elements from home folder)
         //////////////////////////////////////////////////////////////////////////
 
-        Set historiesSet = getHistoryEntries(id);
-        Iterator historiesIt = historiesSet.iterator();
+        Set<HistoryEntry> historiesSet = getHistoryEntries(id);
         Set<Object> objectsToUpdate = new HashSet<Object>();
         Set<Object> objectsToRemove = new HashSet<Object>();
-        while (historiesIt.hasNext()) {
-            HistoryEntry he = (HistoryEntry) historiesIt.next();
+
+        for (HistoryEntry he : historiesSet) {
 
             if (he.getOperation().equals("update")) {
 
                 // "simple" field value change
-                if (!he.getProperty().equals("legalResponsibles")
-                    && !he.getProperty().equals("homeFolder")) {
+                if (!he.getProperty().equals("homeFolder")) {
                     logger.debug("validate() simple field value change (" + he.getProperty() + ")");
-                    String clazz = he.getClazz();
-                    Class realClass = null;
-                    try {
-                        realClass = Class.forName(clazz);
-                    } catch (ClassNotFoundException cnfe) {
-                        // I know this can't happen
-                    }
-                    Object object = genericDAO.findById(realClass, he.getObjectId());
+                    Object object = 
+                        genericDAO.findById(getClassFromHistoryEntry(he.getClazz()), he.getObjectId());
                     if (!objectsToRemove.contains(object))
                         objectsToUpdate.add(object);
                 }
 
-                // a change in legal responsibles for a child
-                if (he.getProperty().equals("legalResponsibles")) {
-                    logger.debug("validate() got a child's legal responsible change");
+                // TODO REFACTORING : nothing to do for individualRoles ??
 
-                    Set oldClrSet = new HashSet();
-                    if (he.getOldValue() != null) {
-                        String[] oldValues =
-                            he.getOldValue().substring(1, he.getOldValue().length() - 1).split(",");
-                        for (int i=0; i < oldValues.length; i++) {
-                            String oldClrValue = oldValues[i];
-                            String oldClrId =
-                                oldClrValue.substring(oldClrValue.indexOf("id=") + 3,
-                                                      oldClrValue.lastIndexOf(']'));
-//                          logger.debug("validate() got old CLR id : " + oldClrId);
-                            Object object =
-                                genericDAO.findById(ChildLegalResponsible.class,
-                                                     Long.valueOf(oldClrId));
-
-                            oldClrSet.add(object);
-                        }
-                    }
-
-                    String[] newValues =
-                        he.getNewValue().substring(1, he.getNewValue().length() - 1).split(",");
-                    for (int i=0; i < newValues.length; i++) {
-                        String newClrValue = newValues[i];
-//                      logger.debug("validate() got new CLR id : " + newClrValue);
-                        String newClrId =
-                            newClrValue.substring(newClrValue.indexOf("id=") + 3,
-                                                  newClrValue.lastIndexOf(']'));
-                        Object object =
-                            genericDAO.findById(ChildLegalResponsible.class,
-                                                 Long.valueOf(newClrId));
-
-                        if (oldClrSet.remove(object)) {
-                            logger.debug("validate() CLR was in old and new values, " 
-                                    + "removing from to be removed");
-                        }
-                    }
-
-                    Iterator oldClrSetIt = oldClrSet.iterator();
-                    while (oldClrSetIt.hasNext()) {
-                        // if the legal responsible to remove does not belong to
-                        // the home folder and is not the legal responsible of
-                        // another child, also remove it from DB
-                        ChildLegalResponsible clr =
-                            (ChildLegalResponsible) oldClrSetIt.next();
-                        // FIXME : can it be the legal responsible of another
-                        // child in the home folder ??
-                        Adult adult = clr.getLegalResponsible();
-                        if (adult.getHomeFolder() == null) {
-                            adult.setAdress(null);
-                            objectsToRemove.add(adult);
-                        }
-                        objectsToRemove.add(clr);
-                    }
-                }
-
-                // a individual has been removed
+                // an individual has been removed
                 // (only individuals have an homeFolder property)
                 if (he.getProperty().equals("homeFolder")) {
 
@@ -443,6 +306,7 @@ public class HomeFolderModificationRequestService
                     // FIXME : what if alone with this adress ?
                     individual.setAdress(null);
 
+                    // FIXME : can newValue be anything else ??
                     if (he.getNewValue() == null) {
                         logger.debug("validate() an individual has been removed : " + individual);
 
@@ -451,39 +315,25 @@ public class HomeFolderModificationRequestService
 
                             List<Request> requests = getByRequesterId(adult.getId());
                             for (Request tempRequest : requests) {
+                                // don't remove requesterLastName 'coz it can be useful
+                                // for history purposes
                                 tempRequest.setRequesterId(null);
                                 requestDAO.update(tempRequest);
                             }
-
-                            // TODO REFACTORING
-//                            List clrs = adultService.getClrs(adult.getId());
-//                            for (int i=0; i < clrs.size(); i++) {
-//                                objectsToRemove.add(clrs.get(i));
-//                            }
                         }
 
-                        if (individual instanceof Child) {
-                            Child child = (Child) individual;
-                            if (child.getLegalResponsibles() != null) {
-                                logger.debug("deleting legal responsibles for child : " + child);
-                                Iterator clrsIt = child.getLegalResponsibles().iterator();
-                                while (clrsIt.hasNext()) {
-                                    objectsToRemove.add(clrsIt.next());
-                                }
+                        String oldValue = he.getOldValue();
+                        String oldHomeFolderId =
+                            oldValue.substring(oldValue.indexOf("id=") + 3, oldValue.lastIndexOf(']'));
+                        homeFolderService.removeRolesOnSubject(Long.valueOf(oldHomeFolderId), individual.getId());
 
-                                // CLR objects are directly removed with
-                                // 'legalResponsibles' audit entries
-                                child.setLegalResponsibles(null);
-                            }
-                        }
-
-                        // remove request whose individual is the subject
-                        // FIXME : maybe it should be better to move request through all
-                        //         workflow states 'till archived then delete it
-                        //         this will permit to eventually notify external services
+                        // update requests whose individual is the subject
                         List<Request> requestsAsSubject = getBySubjectId(individual.getId());
                         for (Request requestAsSubject : requestsAsSubject) {
-                            delete(requestAsSubject);
+                            // don't remove subjectLastName 'coz it can be useful
+                            // for history purposes
+                            requestAsSubject.setSubjectId(null);
+                            requestDAO.update(requestAsSubject);
                         }
 
                         if (objectsToUpdate.contains(individual)) {
@@ -495,15 +345,8 @@ public class HomeFolderModificationRequestService
                     } 
                 }
             } else if (he.getOperation().equals("created")) {
-                String clazz = he.getClazz();
-                Class realClass = null;
-                try {
-                    realClass = Class.forName(clazz);
-                } catch (ClassNotFoundException cnfe) {
-                    // I know this can't happen
-                }
-                Object object =
-                    genericDAO.findById(realClass, he.getObjectId());
+                Object object = 
+                    genericDAO.findById(getClassFromHistoryEntry(he.getClazz()), he.getObjectId());
                 logger.debug("validate() an object has been created : " + object);
                 objectsToUpdate.add(object);
             }
@@ -512,9 +355,10 @@ public class HomeFolderModificationRequestService
         // clear history entries and persist changes in DB
         //////////////////////////////////////////////////
 
-        updateObjects(objectsToUpdate, objectsToRemove, true);
+        updateObjects(objectsToUpdate, objectsToRemove);
 
-        historyEntryDAO.deleteEntries(request.getId());
+        int deletedEntries = historyEntryDAO.deleteEntries(request.getId());
+        logger.debug("validate() deleted " + deletedEntries + " history entries");
         
         homeFolderService.validate(request.getHomeFolderId());
         
@@ -523,28 +367,27 @@ public class HomeFolderModificationRequestService
         super.validate(request, true);
     }
 
-    private void updateObjects(final Set objectsToUpdate, final Set objectsToRemove,
-            final boolean persistToDirectory)
+    /**
+     * Do the real work of making the changes (update or delete) persistent.
+     */
+    private void updateObjects(final Set<Object> objectsToUpdate, 
+            final Set<Object> objectsToRemove)
         throws CvqException {
 
-        Iterator objectsToUpdateIt = objectsToUpdate.iterator();
-        while (objectsToUpdateIt.hasNext()) {
-            Object object = (Object) objectsToUpdateIt.next();
+        for (Object object : objectsToUpdate) {
             logger.debug("updateObjects() Updating " + object);
 
             // only for children because new adults are written when calling
             // modify method (because we need their login and pwd)
-            if (persistToDirectory && object instanceof Child) {
+            // FIXME REFACTORING : validate this 
+            if (object instanceof Child) {
                 Child child = (Child) object;
                 individualService.assignLogin(child);
             }
         }
 
-        Iterator objectsToRemoveIt = objectsToRemove.iterator();
-        while (objectsToRemoveIt.hasNext()) {
-            Object object = (Object) objectsToRemoveIt.next();
+        for (Object object : objectsToRemove) {
             logger.debug("updateObjects() Removing " + object);
-
             genericDAO.delete(object);
         }
     }
@@ -561,6 +404,19 @@ public class HomeFolderModificationRequestService
     }
 
     /**
+     * Load the class represented by this clazz string.
+     */
+    private Class<?> getClassFromHistoryEntry(final String clazz) {
+        try {
+            return Class.forName(clazz);
+        } catch (ClassNotFoundException cnfe) {
+            // I know this can't happen
+        }
+        
+        return null;
+    }
+    
+    /**
      * Restore the original property value on an object using information
      * stored in the {@link fr.cg95.cvq.business.users.HistoryEntry HistoryEntry}.
      * If not specified, assume the property to be of type {@link String String}.
@@ -568,25 +424,17 @@ public class HomeFolderModificationRequestService
      * @return the object pointed by the history entry with the given property
      *         reset to its original state.
      */
-    private Object restoreOldProperty(final HistoryEntry he, final Class oldPropertyClass,
+    private Object restoreOldProperty(final HistoryEntry he, final Class<?> oldPropertyClass,
             final Object oldPropertyValue)
         throws CvqException {
 
-        String clazz = he.getClazz();
-        Long objectId = he.getObjectId();
-        Class realClass = null;
-        try {
-            realClass = Class.forName(clazz);
-        } catch (ClassNotFoundException cnfe) {
-            // I know this can't happen
-        }
-        Object object = genericDAO.findById(realClass, objectId);
+        Object object = genericDAO.findById(getClassFromHistoryEntry(he.getClazz()), he.getObjectId());
         Method meth = null;
         String methodName = propertyToMethodName(he.getProperty(), "set");
 
         // retrieve and invoke the method to use for comparisons
         try {
-            Class[] paramsTypes = new Class[1];
+            Class<?>[] paramsTypes = new Class[1];
             // to avoid a parameter type nightmare, each historizable
             // object has a setXXX(String) method for non-association fields that,
             // if needed, call the right setXXX method
@@ -596,8 +444,7 @@ public class HomeFolderModificationRequestService
                 paramsTypes[0] = String.class;
             meth = object.getClass().getMethod(methodName, paramsTypes);
             Object[] params = new Object[1];
-            // check on oldPropertyClass because we want to be able to set a
-            // null value
+            // check on oldPropertyClass because we want to be able to set a null value
             if (oldPropertyClass != null)
                 params[0] = oldPropertyValue;
             else
@@ -623,27 +470,22 @@ public class HomeFolderModificationRequestService
         Set<Object> objectsToUpdate = new HashSet<Object>();
         Set<Object> objectsToRemove = new HashSet<Object>();
 
-        Set currentChildren = homeFolderService.getChildren(request.getHomeFolderId());
+        // navigate through all the history entries and cancel previous changes
 
-        // navigate all the history entries and cancel previous changes
-        ///////////////////////////////////////////////////////////////
-
-        Set historiesSet = getHistoryEntries(request.getId());
-        Iterator historiesIt = historiesSet.iterator();
-        while (historiesIt.hasNext()) {
-            HistoryEntry he = (HistoryEntry) historiesIt.next();
-            logger.debug("restoreOriginalHomeFolder() history entry : " + he);
+        Set<HistoryEntry> historiesSet = getHistoryEntries(request.getId());
+        for (HistoryEntry he : historiesSet) {
+            logger.debug("restoreOriginalHomeFolder() history entry : " + he.getId());
             
             if (he.getOperation().equals("update")) {
+                logger.debug("restoreOriginalHomeFolder() update operation");
                 logger.debug("restoreOriginalHomeFolder() dealing with property : " 
-                        + he.getProperty() + " of  class " + he.getClazz());
+                        + he.getProperty() + " of class " + he.getClazz());
                 
                 // simple field value change
                 if (!he.getProperty().startsWith("password")
                     && !he.getProperty().equals("homeFolder")
                     && !he.getProperty().equals("adress")
-                    && !he.getProperty().equals("legalResponsibles")
-                    && !he.getProperty().equals("legalResponsible")
+                    && !he.getProperty().equals("individualRoles")
                     && !he.getProperty().equals("individuals")) {
                     logger.debug("restoreOriginalHomeFolder() simple field value change (" 
                             + he.getProperty() + ")");
@@ -653,18 +495,18 @@ public class HomeFolderModificationRequestService
                         objectsToUpdate.add(object);
                 }
 
-                // a individual has been planed for removal, re-attach it to
-                // home folder
-                if (he.getProperty().equals("homeFolder")) {
+                // a individual has been planed for removal, re-attach it to home folder
+                else if (he.getProperty().equals("homeFolder")) {
 
                     if (he.getNewValue() == null) {
                         logger.debug("restoreOriginalHomeFolder() an object was planned for removal, re-attach it");
 
                         String oldValue = he.getOldValue();
                         String oldHomeFolderId =
-                            oldValue.substring(oldValue.indexOf("id=") + 3,
-                                               oldValue.lastIndexOf(']'));
-                        HomeFolder oldHomeFolder = homeFolderService.getById(Long.valueOf(oldHomeFolderId));
+                            oldValue.substring(oldValue.indexOf("id=") + 3, 
+                                    oldValue.lastIndexOf(']'));
+                        HomeFolder oldHomeFolder = 
+                            homeFolderService.getById(Long.valueOf(oldHomeFolderId));
                         Object object = restoreOldProperty(he, HomeFolder.class, oldHomeFolder);
 
                         if (!objectsToRemove.contains(object))
@@ -672,119 +514,84 @@ public class HomeFolderModificationRequestService
                     } 
                 }
 
-               // an adress change was planned, go back to the original one
-               if (he.getProperty().equals("adress")) {
-                   logger.debug("restoreOriginalHomeFolder() an adress change was planned, "
-                           + "go back");
-                   String oldValue = he.getOldValue();
-                   String oldAdressId =
-                       oldValue.substring(oldValue.indexOf("id=") + 3,
-                                          oldValue.lastIndexOf(']'));
-                   Address oldAdress = 
-                       (Address) genericDAO.findById(Address.class, Long.valueOf(oldAdressId));
-                   Object object = restoreOldProperty(he, Address.class, oldAdress);
+                // an adress change was planned, go back to the original one
+                else if (he.getProperty().equals("adress")) {
+                    logger.debug("restoreOriginalHomeFolder() an adress change was planned, "
+                            + "go back");
+                    String oldValue = he.getOldValue();
+                    String oldAdressId =
+                        oldValue.substring(oldValue.indexOf("id=") + 3,
+                                oldValue.lastIndexOf(']'));
+                    Address oldAdress = 
+                        (Address) genericDAO.findById(Address.class, Long.valueOf(oldAdressId));
+                    Object object = restoreOldProperty(he, Address.class, oldAdress);
 
-                   if (!objectsToRemove.contains(object))
-                       objectsToUpdate.add(object);
+                    if (!objectsToRemove.contains(object))
+                        objectsToUpdate.add(object);
+                }
+
+                else if (he.getProperty().equals("individualRoles")) {
+                   logger.debug("restoreOriginalHomeFolder() a role change was planned, go back");
+                   
+                   // load the owner to restore its original roles
+                   Individual individual = 
+                       (Individual) genericDAO.findById(Individual.class, he.getObjectId());
+                   Set<IndividualRole> oldIndividualRoles = new HashSet<IndividualRole>();
+                   
+                   // take old values and add them back to the set
+                   if (he.getOldValue() != null) {
+                       String[] oldValues =
+                           he.getOldValue().substring(1, he.getOldValue().length() - 1).split(",");
+                       for (int i=0; i < oldValues.length; i++) {
+                           String oldValue = oldValues[i];
+                           String oldIndividualRoleId =
+                               oldValue.substring(oldValue.indexOf("id=") + 3,
+                                       oldValue.lastIndexOf(']'));
+                           logger.debug("restoreOriginalHomeFolder() got old role id : " 
+                                   + oldIndividualRoleId);
+                           IndividualRole individualRole = 
+                               (IndividualRole) genericDAO.findById(IndividualRole.class, 
+                                       Long.valueOf(oldIndividualRoleId));
+                           oldIndividualRoles.add(individualRole);
+                       }
+                   }
+                   
+                   if (!oldIndividualRoles.isEmpty()) {
+                       logger.debug("restoreOriginalHomeFolder() restoring roles (" 
+                               + oldIndividualRoles.size() + ") for individual " + individual.getId());
+                       individual.setIndividualRoles(oldIndividualRoles);
+                       
+                       if (!objectsToRemove.contains(individual))
+                           objectsToUpdate.add(individual);
+                   }
                }
-
-                if (he.getProperty().equals("legalResponsibles")) {
-                    logger.debug("restoreOriginalHomeFolder() a child legal responsible change "
-                            + "was planned, go back");
-                    // get the child to restore its original responsibles
-                    Child child = (Child) genericDAO.findById(Child.class, he.getObjectId());
-                    Set oldClrSet = new HashSet();
-
-                    if (he.getOldValue() != null) {
-                        String[] oldValues =
-                            he.getOldValue().substring(1, he.getOldValue().length() - 1).split(",");
-                        for (int i=0; i < oldValues.length; i++) {
-                            String oldClrValue = oldValues[i];
-                            String oldClrId =
-                                oldClrValue.substring(oldClrValue.indexOf("id=") + 3,
-                                                      oldClrValue.lastIndexOf(']'));
-//                          logger.debug("restoreOriginalHomeFolder() got old CLR id : " + oldClrId);
-                            ChildLegalResponsible clr = (ChildLegalResponsible)
-                                genericDAO.findById(ChildLegalResponsible.class,
-                                        Long.valueOf(oldClrId));
-                            oldClrSet.add(clr);
-                        }
-                    }
-
-                    // if new CLR values are equal to old values, ignore changes
-                    Set oldClrSetCopy = new HashSet(oldClrSet);
-                    String[] newValues =
-                        he.getNewValue().substring(1, he.getNewValue().length() - 1).split(",");
-                    for (int i=0; i < newValues.length; i++) {
-                        String newClrValue = newValues[i];
-                        String newClrId =
-                            newClrValue.substring(newClrValue.indexOf("id=") + 3,
-                                                  newClrValue.lastIndexOf(']'));
-//                      logger.debug("restoreOriginalHomeFolder() got new CLR id : " + newClrId);
-                        ChildLegalResponsible clr = (ChildLegalResponsible)
-                            genericDAO.findById(ChildLegalResponsible.class,
-                                    Long.valueOf(newClrId));
-
-                        if (oldClrSetCopy.remove(clr)) {
-                            logger.debug("restoreOriginalHomeFolder() new clr was in old values, removing from list");
-                        }
-                    }
-
-                    if (oldClrSetCopy.size() > 0) {
-                        logger.debug("restoreOriginalHomeFolder() still some entries in old CLR set, updating child");
-                        child.setLegalResponsibles(oldClrSet);
-                    }
-                }
             } else if (he.getOperation().equals("created")) {
+                logger.debug("restoreOriginalHomeFolder() creation operation"); 
 
-                String clazz = he.getClazz();
-                Class realClass = null;
-                try {
-                    realClass = Class.forName(clazz);
-                } catch (ClassNotFoundException cnfe) {
-                    // I know this can't happen
-                }
-                Object object = genericDAO.findById(realClass, he.getObjectId());
+                Object object = 
+                    genericDAO.findById(getClassFromHistoryEntry(he.getClazz()), he.getObjectId());
                 logger.debug("restoreOriginalHomeFolder() object " + object 
                         + " was planned for addition, unlink it");
-
+                
                 if (object instanceof Individual) {
-                    HomeFolder homeFolder = 
-                        homeFolderService.getById(request.getHomeFolderId());
-                    Individual individual = (Individual) object;
-                    individual.setAdress(null);
-                    individual.setHomeFolder(null);
-                    homeFolder.getIndividuals().remove(individual);
-                }
-
-                // if it's an adult, ensure it is no longer the legal responsible of 
-                // an home folder's child
-                if (object instanceof Adult) {
-                    // FIXME : use directly the child service
-                    // FIXME : need to DAO.delete(clr) too ?
-                    Adult adult = (Adult) object;
-                    Iterator childrenIt = currentChildren.iterator();
-                    while (childrenIt.hasNext()) {
-                        Child tempChild = (Child) childrenIt.next();
-                        Set childClrs = tempChild.getLegalResponsibles();
-                        Iterator childCrlIt = childClrs.iterator();
-                        while (childCrlIt.hasNext()) {
-                            ChildLegalResponsible clr = (ChildLegalResponsible) childCrlIt.next();
-                            if (clr.getLegalResponsible().getId().equals(adult.getId())) {
-                                logger.debug("restoreOriginalHomeFolder() removing adult from CLRs of "
-                                        + tempChild.getFirstName());
-                                childClrs.remove(clr);
-                                clr.setLegalResponsible(null);
-                                break;
-                            }
+                    if (!objectsToRemove.contains(object)) {
+                        Individual individual = (Individual) object;
+                        homeFolderService.deleteIndividual(individual.getId());
+                    }
+                } else if (object instanceof IndividualRole) {
+                    IndividualRole individualRole = (IndividualRole) object;
+                    List<Individual> individuals = 
+                        homeFolderService.getIndividuals(request.getHomeFolderId());
+                    for (Individual individual : individuals) {
+                        if (individual.getIndividualRoles() == null)
+                            continue;
+                        if (individual.getIndividualRoles().remove(individualRole)) {
+                            logger.debug("restoreOriginalHomeFolder() removed role "
+                                    + individualRole.getRole() + " from "
+                                    + individual.getId() + " on " + individualRole.getIndividualId());
+                            break;
                         }
                     }
-                }
-
-                if (object instanceof ChildLegalResponsible) {
-                    ChildLegalResponsible clr = (ChildLegalResponsible) object;
-                    // remove clr on child side of the association
-                    clr.getChild().getLegalResponsibles().remove(clr);
                 }
 
                 if (objectsToUpdate.contains(object)) {
@@ -796,9 +603,8 @@ public class HomeFolderModificationRequestService
         }
 
         // clear history entries and persist changes in DB
-        //////////////////////////////////////////////////
 
-        updateObjects(objectsToUpdate, objectsToRemove, true);
+        updateObjects(objectsToUpdate, objectsToRemove);
 
         historyEntryDAO.deleteEntries(request.getId());
     }
@@ -811,8 +617,7 @@ public class HomeFolderModificationRequestService
             (HomeFolderModificationRequest) getById(id);
         super.cancel(request);
 
-        // modification request has been cancelled, restore original home
-        // folder state
+        // modification request has been cancelled, restore original home folder state
         restoreOriginalHomeFolder(request);
         
         // home folder was supposed to be valid before modification request
@@ -827,14 +632,29 @@ public class HomeFolderModificationRequestService
             (HomeFolderModificationRequest) getById(id);
         super.reject(request, motive);
 
-        // modification request has been rejected, restore original home
-        // folder state
+        // modification request has been rejected, restore original home folder state
         restoreOriginalHomeFolder(request);
 
         // home folder was supposed to be valid before modification request
         homeFolderService.validate(request.getHomeFolderId());
     }
 
+    private boolean containsIndividual(final Set<? extends Individual> setToSearchIn, 
+            final Individual individualToLookFor) {
+    
+        if (setToSearchIn == null || setToSearchIn.isEmpty())
+            return false;
+        
+        for (Individual individual : setToSearchIn) {
+            if (individual.getId() == null)
+                continue;
+            if (individual.getId().equals(individualToLookFor.getId()))
+                return true;
+        }
+        
+        return false;
+    }
+    
     public boolean accept(Request request) {
         return request instanceof HomeFolderModificationRequest;
     }

@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.users.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -100,6 +101,153 @@ public class HomeFolderService implements IHomeFolderService {
         return individualDAO.listByHomeFolder(homeFolderId);
     }
 
+    private void addRoleToOwner(Individual owner, IndividualRole role) {        
+        if (owner.getIndividualRoles() == null) {
+            Set<IndividualRole> individualRoles = new HashSet<IndividualRole>();
+            individualRoles.add(role);
+            owner.setIndividualRoles(individualRoles);
+        } else {
+            owner.getIndividualRoles().add(role);
+        }
+    }
+    
+    @Override
+    public void addHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+            throws CvqException {
+
+        Individual owner = individualService.getById(ownerId);
+        addHomeFolderRole(owner, homeFolderId, role);
+    }
+
+
+    @Override
+    public void addHomeFolderRole(Individual owner, Long homeFolderId, RoleEnum role)
+            throws CvqException {
+
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setRole(role);
+        individualRole.setHomeFolderId(homeFolderId);
+        addRoleToOwner(owner, individualRole);        
+    }
+
+    @Override
+    public void addIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+            throws CvqException {
+
+        Individual owner = individualService.getById(ownerId);
+        addIndividualRole(owner, individual, role);
+    }
+
+
+    @Override
+    public void addIndividualRole(Individual owner, Individual individual, RoleEnum role)
+            throws CvqException {
+
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setRole(role);
+        if (individual.getId() != null)
+            individualRole.setIndividualId(individual.getId());
+        else
+            individualRole.setIndividualName(individual.getLastName() 
+                    + " " + individual.getFirstName());
+        addRoleToOwner(owner, individualRole);
+    }
+
+    @Override
+    public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+            throws CvqException {
+        
+        Individual owner = individualService.getById(ownerId);
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        for (IndividualRole individualRole : owner.getIndividualRoles()) {
+            if (individualRole.getRole().equals(role)
+                    && homeFolderId.equals(individualRole.getHomeFolderId()))
+                return true;
+        }
+        
+        return false;
+    }
+
+    @Override
+    public boolean hasIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+            throws CvqException {
+
+        Individual owner = individualService.getById(ownerId);
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        Long individualId = individual.getId();
+        String individualName = individual.getLastName() + " " + individual.getFirstName();
+        for (IndividualRole individualRole : owner.getIndividualRoles()) {
+            if (individualRole.getRole().equals(role)) {
+                if (individualRole.getIndividualId() != null 
+                        && individualRole.getIndividualId().equals(individualId))
+                    return true;
+                if (individualRole.getIndividualName() != null
+                        && individualRole.getIndividualName().equals(individualName))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public boolean removeHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+            throws CvqException {
+        Individual owner = individualService.getById(ownerId);
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        IndividualRole roleToRemove = null;
+        for (IndividualRole individualRole : owner.getIndividualRoles()) {
+            if (individualRole.getRole().equals(role) 
+                    && homeFolderId.equals(individualRole.getHomeFolderId())) {
+                roleToRemove = individualRole;
+                break;
+            } 
+        }
+        
+        if (roleToRemove != null)
+            return owner.getIndividualRoles().remove(roleToRemove);
+
+        return false;
+    }
+
+    @Override
+    public boolean removeIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+            throws CvqException {
+
+        Individual owner = individualService.getById(ownerId);
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        IndividualRole roleToRemove = null;
+        String individualName = individual.getLastName() + " " + individual.getFirstName();
+        for (IndividualRole individualRole : owner.getIndividualRoles()) {
+            if (individualRole.getRole().equals(role)) {
+                if (individualRole.getIndividualId() != null
+                        && individualRole.getIndividualId().equals(individual.getId())) {
+                        roleToRemove = individualRole;
+                        break;
+                } else if (individualRole.getIndividualName() != null
+                        && individualRole.getIndividualName().equals(individualName)) {
+                        roleToRemove = individualRole;
+                        break;
+                }
+            }
+        }
+
+        if (roleToRemove != null) {
+            return owner.getIndividualRoles().remove(roleToRemove);
+        }
+
+        return false;
+    }
+
     @Override
     public Adult getHomeFolderResponsible(Long homeFolderId) throws CvqException {
         
@@ -108,6 +256,44 @@ public class HomeFolderService implements IHomeFolderService {
         
         // here we can make the assumption that we properly enforced the role
         return (Adult) individuals.get(0);
+    }
+
+    @Override
+    public void removeRolesOnSubject(final Long homeFolderId, final Long individualId)
+        throws CvqException {
+        
+        for (Individual homeFolderIndividual : getById(homeFolderId).getIndividuals()) {
+            if (homeFolderIndividual.getIndividualRoles() == null)
+                continue;
+            Set<IndividualRole> rolesToRemove = new HashSet<IndividualRole>();
+            for (IndividualRole individualRole : homeFolderIndividual.getIndividualRoles()) {
+                if (individualRole.getIndividualId() != null
+                        && individualRole.getIndividualId().equals(individualId))
+                    rolesToRemove.add(individualRole);
+            }
+            if (rolesToRemove.isEmpty())
+                continue;
+            logger.debug("removeRolesOnSubject() removing " + rolesToRemove.size()
+                    + " roles from " + homeFolderIndividual.getId());
+            for (IndividualRole roleToRemove : rolesToRemove)
+                homeFolderIndividual.getIndividualRoles().remove(roleToRemove);
+            individualDAO.update(homeFolderIndividual);
+        }
+    }
+
+    @Override
+    public List<Individual> getByHomeFolderRole(Long homeFolderId, RoleEnum role) {
+        return individualDAO.listByHomeFolderRole(homeFolderId, role);
+    }
+
+    @Override
+    public List<Individual> getBySubjectRole(Long subjectId, RoleEnum role) {
+        return individualDAO.listBySubjectRole(subjectId, role);
+    }
+
+    @Override
+    public List<Individual> getBySubjectRoles(Long subjectId, RoleEnum[] roles) {
+        return individualDAO.listBySubjectRoles(subjectId, roles);
     }
 
     public HomeFolder create(final Adult adult) throws CvqException {
@@ -121,7 +307,6 @@ public class HomeFolderService implements IHomeFolderService {
         homeFolder.setAdress(adress);
 		
         IndividualRole individualRole = new IndividualRole();
-        individualRole.setOwner(adult);
         individualRole.setRole(RoleEnum.HOME_FOLDER_RESPONSIBLE);
         individualRole.setHomeFolderId(homeFolder.getId());
         Set<IndividualRole> individualRoles = new HashSet<IndividualRole>();
@@ -160,57 +345,97 @@ public class HomeFolderService implements IHomeFolderService {
                 adultService.create((Adult) individual, homeFolder, address, true);                
         }
         
+        checkAndFinalizeRoles(homeFolder.getId(), adults, children);
+        
+        homeFolder.setIndividuals(allIndividuals);
+        homeFolderDAO.update(homeFolder);
+        
+        return homeFolder;
+    }
+
+    @Override
+    public void checkAndFinalizeRoles(Long homeFolderId, Set<Adult> adults, Set<Child> children)
+        throws CvqException, CvqModelException {
+        
+        Set<Individual> allIndividuals = new HashSet<Individual>();
+        allIndividuals.addAll(adults);
+        allIndividuals.addAll(children);
+
         // now that all individuals are persisted, we can deal with roles
         boolean foundHomeFolderResponsible = false;
         for (Adult adult : adults) {
             if (adult.getIndividualRoles() != null) {
                 for (IndividualRole individualRole : adult.getIndividualRoles()) {
                     if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                        logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
+                                + " is home folder responsible");
                         if (foundHomeFolderResponsible)
                             throw new CvqModelException("homeFolder.error.onlyOneResponsibleIsAllowed");
                         foundHomeFolderResponsible = true;
-                        individualRole.setHomeFolderId(homeFolder.getId());
+                        individualRole.setHomeFolderId(homeFolderId);
                         adultService.modify(adult);
                     } else if (individualRole.getRole().equals(RoleEnum.TUTOR)) {
+                        logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
+                                + " is tutor");
                         String individualName = individualRole.getIndividualName();
                         if (individualName != null) {
                             // individual name is provided, it is the tutor of another individual
                             for (Individual individual : allIndividuals) {
                                 String otherAdultName = 
                                     individual.getLastName() + " " + individual.getFirstName();
-                                if (otherAdultName.equals(individualName))
+                                if (otherAdultName.equals(individualName)) {
                                     individualRole.setIndividualId(individual.getId());
+                                    break;
+                                }
                             }
                         } else {
                             // individual name is not provided, it is the tutor of the home folder
-                            individualRole.setHomeFolderId(homeFolder.getId());
+                            individualRole.setHomeFolderId(homeFolderId);
                         }
                         adultService.modify(adult);
                     } else if (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
                             || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
                             || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)) {
-                        String childName = individualRole.getIndividualName();
-                        for (Child child : children) {
-                            if (childName.equals(child.getLastName() + " " + child.getFirstName())) {
-                                individualRole.setIndividualId(child.getId());
+                        logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
+                                + " is " + individualRole.getRole() + " for "
+                                + individualRole.getIndividualName() + "("
+                                + individualRole.getIndividualId() + ")");
+                        if (individualRole.getIndividualId() == null) {
+                            String childName = individualRole.getIndividualName();
+                            for (Child child : children) {
+                                if (childName.equals(child.getLastName() + " " + child.getFirstName())) {
+                                    individualRole.setIndividualId(child.getId());
+                                    break;
+                                }
                             }
+                            adultService.modify(adult);
                         }
-                        adultService.modify(adult);
                     }
                 }
             }
         }
         
         // check all children have at least a legal responsible
+        RoleEnum[] roles = {RoleEnum.CLR_FATHER, RoleEnum.CLR_MOTHER, RoleEnum.CLR_TUTOR};
         for (Child child : children) {
-            RoleEnum[] roles = new RoleEnum[3];
-            roles[0] = RoleEnum.CLR_FATHER;
-            roles[1] = RoleEnum.CLR_MOTHER;
-            roles[2] = RoleEnum.CLR_TUTOR;
-            List<Individual> legalResponsibles = 
-                individualDAO.listBySubjectRoles(child.getId(), roles);
+            // TODO REFACTORING : there is something strange here !
+//            List<Individual> legalResponsibles = 
+//                individualDAO.listBySubjectRoles(child.getId(), roles);
+            List<Individual> legalResponsibles = new ArrayList<Individual>();
+            for (Adult adult : adults) {
+                if (adult.getIndividualRoles() != null) {
+                    for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                        if (child.getId().equals(individualRole.getIndividualId())
+                                && (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
+                                        || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
+                                        || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)))
+                            legalResponsibles.add(adult);
+                    }
+                }
+            }
             if (legalResponsibles == null || legalResponsibles.isEmpty())
-                throw new CvqModelException("Child must have at least one legal responsible");
+                throw new CvqModelException("Child " + child.getFirstName() + 
+                        " (" + child.getId() + ") has no legal responsible");
             else if (legalResponsibles.size() > 3) 
                 throw new CvqModelException("Too many legal responsibles for child : " 
                       + child.getFirstName());
@@ -218,13 +443,8 @@ public class HomeFolderService implements IHomeFolderService {
         
         if (!foundHomeFolderResponsible)
             throw new CvqModelException("homeFolder.error.responsibleIsRequired");
-
-        homeFolder.setIndividuals(allIndividuals);
-        homeFolderDAO.update(homeFolder);
-        
-        return homeFolder;
     }
-
+    
     @Override
     public Long addAdult(Long homeFolderId, Adult adult, Address address) throws CvqException {
         HomeFolder homeFolder = getById(homeFolderId);
@@ -256,6 +476,19 @@ public class HomeFolderService implements IHomeFolderService {
 
         HomeFolder homeFolder = getById(id);
         delete(homeFolder);
+    }
+
+    @Override
+    public void deleteIndividual(Long individualId) 
+        throws CvqException, CvqObjectNotFoundException {
+        
+        Individual individual = individualService.getById(individualId);
+        HomeFolder homeFolder = getById(individual.getHomeFolder().getId());
+        removeRolesOnSubject(homeFolder.getId(), individual.getId());
+        individual.setAdress(null);
+        individual.setHomeFolder(null);
+
+        homeFolder.getIndividuals().remove(individual);
     }
 
     private final void delete(final HomeFolder homeFolder)

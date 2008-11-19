@@ -40,7 +40,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/RequestNote.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestForm.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/HistoryEntry.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/ChildLegalResponsible.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/LocalReferentialData.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/PlaceReservationData.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/TicketTypeSelection.hbm.xml</value>
@@ -53,6 +52,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/external/ExternalServiceTrace.hbm.xml</value>
         <value>fr/cg95/cvq/business/external/ExternalServiceIdentifierMapping.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestDocument.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/IndividualRole.hbm.xml</value>
       </list>
     </property>
 

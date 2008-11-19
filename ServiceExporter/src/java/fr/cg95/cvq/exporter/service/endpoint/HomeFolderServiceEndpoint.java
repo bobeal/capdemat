@@ -51,7 +51,8 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
                 individualType.setLastName(individual.getLastName());
                 if (individual instanceof Adult) {
                     Adult adult = (Adult) individual;
-                    if (adult.hasHomeFolderRole(RoleEnum.HOME_FOLDER_RESPONSIBLE))
+                    if (homeFolderService.hasHomeFolderRole(adult.getId(), homeFolder.getId(), 
+                            RoleEnum.HOME_FOLDER_RESPONSIBLE))
                         individualType.setIsHomeFolderResponsible(true);
                 } else if (individual instanceof Child) {
                     individualType.setIsChild(true);

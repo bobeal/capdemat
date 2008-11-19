@@ -45,20 +45,35 @@ alter table request add column subject_last_name varchar(255);
 -- Home folder related constraints (HFRC)
 
 -- HFRC1 : object model for roles 
-create table individual_roles (
-    individual_id int8 not null,
+create table individual_role (
+    id int8 not null,
     role varchar(255),
-    home_folder_id int8
+    home_folder_id int8,
+    individual_id int8,
+    owner_id int8,
+    primary key (id)
 );
 
-alter table individual_roles 
-    add constraint FK532C7D9759302132 
-    foreign key (individual_id) 
+alter table individual_role 
+    add constraint FK3C7D4E5CD4C3A2D8
+    foreign key (owner_id)
     references individual;
 
--- migration existing "home folder responsible" roles
-
-insert into individual_roles select adult.id, 'HomeFolderResponsible', home_folder_id from adult, individual where adult.id = individual.id and (home_folder_roles = 1 or home_folder_roles = 3);
+-- migration of existing "home folder responsible" roles
+insert into individual_role nextval('hibernate_sequence'), 'HomeFolderResponsible', home_folder_id, null, adult.id from adult, individual where adult.id = individual.id and (home_folder_roles = 1 or home_folder_roles = 3);
 
 alter table adult drop column home_folder_roles;
+
+-- migration of existing "child legal responsible" roles
+
+insert into individual_roles nextval('hibernate_sequence'), 'ClrFather', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Father' and child_id is not null;
+insert into individual_roles nextval('hibernate_sequence'), 'ClrMother', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Mother' and child_id is not null;
+insert into individual_roles nextval('hibernate_sequence'), 'ClrTutor', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Tutor' and child_id is not null;
+
+alter table child_legal_responsible_map 
+    drop constraint FK62E1102A30CABB22;
+alter table child_legal_responsible_map 
+    drop constraint FK62E1102AC5C931EC;
+drop table child_legal_responsible_map;
+
 

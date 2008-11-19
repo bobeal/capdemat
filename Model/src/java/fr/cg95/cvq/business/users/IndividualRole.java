@@ -2,15 +2,23 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
-public class IndividualRole implements Serializable {
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+import fr.cg95.cvq.business.Historizable;
+
+/**
+ * @hibernate.class
+ *  table="individual_role"
+ *  lazy="false"
+ *
+ * @author bor@zenexity.fr
+ */
+public class IndividualRole implements Historizable, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Owner of the role.
-     */
-    private Individual owner;
-
+    private Long id;
+    
     /**
      * Role kind.
      */
@@ -35,14 +43,16 @@ public class IndividualRole implements Serializable {
     private String individualName;
     
     /**
-     * @hibernate.parent
+     * @hibernate.id
+     *  generator-class="sequence"
+     *  column="id"
      */
-    public Individual getOwner() {
-        return owner;
+    public Long getId() {
+        return id;
     }
 
-    public void setOwner(Individual owner) {
-        this.owner = owner;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -81,6 +91,15 @@ public class IndividualRole implements Serializable {
         this.individualId = individualId;
     }
 
+    public void setIndividualId(String individualId) {
+        try {
+            this.individualId = Long.valueOf(individualId);
+        } catch (NumberFormatException nfe) {
+            // called by HFMR service while restoring properties after a cancel
+            // so we can be pretty sure it is correct
+        }
+    }
+    
     public void setIndividualName(String individualName) {
         this.individualName = individualName;
     }
@@ -90,6 +109,7 @@ public class IndividualRole implements Serializable {
     }
 
     public boolean equals(Object other) {
+        
         if (this == other)
             return true;
         if (!(other instanceof IndividualRole))
@@ -97,8 +117,12 @@ public class IndividualRole implements Serializable {
 
         final IndividualRole ir = (IndividualRole) other;
 
-        if (!getOwner().equals(ir.getOwner()))
+        if (getId() != null
+                && (ir.getId() == null || !getId().equals(ir.getId())))
             return false;
+        if (getId() == null && ir.getId() != null)
+            return false;
+
         if (getHomeFolderId() != null
                 && (ir.getHomeFolderId() == null 
                         || !getHomeFolderId().equals(ir.getHomeFolderId())))
@@ -107,20 +131,28 @@ public class IndividualRole implements Serializable {
                 && (ir.getIndividualId() == null 
                         || !getIndividualId().equals(ir.getIndividualId())))
             return false;
+        if (getIndividualName() != null
+                && (ir.getIndividualName() == null 
+                        || !getIndividualName().equals(ir.getIndividualName())))
+            return false;
+        
+        if (getRole() != null
+                && (ir.getRole() == null
+                        || !getRole().equals(ir.getRole())))
+            return false;
 
         return true;
     }
 
     public int hashCode() {
-        int result = 0;
-        if (getOwner() != null)
-            result = getOwner().hashCode();
-        if (getHomeFolderId() != null)
-            result = 29 * result + getHomeFolderId().hashCode();
-        else if (getIndividualId() != null)
-            result = 29 * result + getIndividualId().hashCode();
-        else if (getIndividualName() != null)
-            result = 29 * result + getIndividualName().hashCode();
+        int result = 29 * getRole().hashCode();
         return result;
+    }
+    
+    
+    public String toString() {
+        return new ToStringBuilder(this)
+            .append("id", getId())
+            .toString();
     }
 }

@@ -91,7 +91,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         homeFolderResponsible.setCfbn("5050505E");
         homeFolderResponsible.setEmail("bor@zenexity.fr");
         homeFolderResponsible.setNameOfUse("NAMEOFUSE");
-        homeFolderResponsible.addHomeFolderRole(RoleEnum.HOME_FOLDER_RESPONSIBLE, null);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, null, 
+                RoleEnum.HOME_FOLDER_RESPONSIBLE);
 
         Adult mother = new Adult();
         mother.setTitle(TitleType.MADAM);
@@ -120,15 +121,14 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         Adult adultGrandMother = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "LASTNAME","josiane", null, 
                     FamilyStatusType.WIDOW);
-        mother.addIndividualRole(RoleEnum.TUTOR, adultGrandMother);
+        iHomeFolderService.addIndividualRole(mother, adultGrandMother, RoleEnum.TUTOR);
 
         Set<Adult> adultSet = new HashSet<Adult>();
         adultSet.add(mother);
         adultSet.add(adultGrandMother);
         adultSet.add(homeFolderResponsible);
 
-        Child child1 = BusinessObjectsFactory.gimmeChild("LASTNAME", "Child1", null, 
-                mother, null);
+        Child child1 = BusinessObjectsFactory.gimmeChild("LASTNAME", "Child1");
         child1.setBirthCity("Paris");
         child1.setBirthCountry("France");
         child1.setBirthDate(new Date());
@@ -136,8 +136,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         child1.setFirstName2("Yargla");
         child1.setFirstName3("Djaba");
         child1.setSex(SexType.MALE);
-        homeFolderResponsible.addIndividualRole(RoleEnum.CLR_FATHER, child1);
-        mother.addIndividualRole(RoleEnum.CLR_MOTHER, child1);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(mother, child1, RoleEnum.CLR_MOTHER);
 
         Adult tutorNotInHomeFolder = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "TUTOR", "outside", null, 
@@ -145,13 +145,13 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         Address tutorAddress = BusinessObjectsFactory.gimmeAdress("1","Rue de Cotte", "Paris", "75012");
         tutorNotInHomeFolder.setAdress(tutorAddress);
         
-        Child child2 = 
-            BusinessObjectsFactory.gimmeChild("LASTNAME", "Child2", homeFolderResponsible, mother, 
-                    tutorNotInHomeFolder);
+        Child child2 = BusinessObjectsFactory.gimmeChild("LASTNAME", "Child2");
         Set<Child> childSet = new HashSet<Child>();
         childSet.add(child1);
         childSet.add(child2);
-        homeFolderResponsible.addIndividualRole(RoleEnum.CLR_FATHER, child2);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(mother, child2, RoleEnum.CLR_MOTHER);
+        iHomeFolderService.addIndividualRole(tutorNotInHomeFolder, child2, RoleEnum.CLR_TUTOR);
 
         iVoCardRequestService.create(dcvo, adultSet, childSet, address);
 

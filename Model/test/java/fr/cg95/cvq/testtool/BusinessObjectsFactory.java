@@ -20,10 +20,9 @@ import fr.cg95.cvq.business.request.school.OtherIndividualType;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.business.users.FamilyStatusType;
-import fr.cg95.cvq.business.users.LegalResponsibleRole;
 import fr.cg95.cvq.business.users.LocalReferentialData;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 
@@ -101,48 +100,20 @@ public class BusinessObjectsFactory {
         return otherIndividual;
     }
 
-    public static Child gimmeChild(String lastName, String firstName,
-            Adult father, Adult mother, Adult tutor) {
+    public static Child gimmeChild(String lastName, String firstName) {
         
         Child child = new Child();
         child.setLastName(lastName);
         child.setFirstName(firstName);
         child.setSex(SexType.UNKNOWN);
         child.setNote("Et un enfant, un !");
-        
-        // TODO REFACTORING
-        
-//        Set<ChildLegalResponsible> legalResponsiblesSet = new HashSet<ChildLegalResponsible>();
-//        ChildLegalResponsible clr1 = new ChildLegalResponsible();
-//        if (mother != null) {
-//            clr1.setRole(LegalResponsibleRole.MOTHER);
-//            clr1.setLegalResponsible(mother);
-//            clr1.setChild(child);
-//            legalResponsiblesSet.add(clr1);
-//        }
-//        ChildLegalResponsible clr2 = new ChildLegalResponsible();
-//        if (father != null) {
-//            clr2.setRole(LegalResponsibleRole.FATHER);
-//            clr2.setLegalResponsible(father);
-//            clr2.setChild(child);
-//            legalResponsiblesSet.add(clr2);
-//        }
-//        ChildLegalResponsible clr3 = new ChildLegalResponsible();
-//        if (tutor != null) {
-//            clr3.setRole(LegalResponsibleRole.TUTOR);
-//            clr3.setLegalResponsible(tutor);
-//            clr3.setChild(child);
-//            legalResponsiblesSet.add(clr3);
-//        }
-//        child.setLegalResponsibles(legalResponsiblesSet);
         child.setBirthCity("Paris");
         child.setBirthPostalCode("75012");
-
         Calendar calendar = new GregorianCalendar();
         Date currentDate = new Date();
         calendar.setTime(currentDate);
         child.setBirthDate(calendar.getTime());
-
+        
         return child;
     }
 

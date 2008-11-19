@@ -47,12 +47,6 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
         throws CvqException;
 
     /**
-     * Not implemented.
-     */
-    HomeFolder getOriginalHomeFolder(final Long hfmrId)
-        throws CvqException;
-
-    /**
      * Return all history entries associated to a given request.
      */
     Set<HistoryEntry> getHistoryEntries(final Long hfmrId)

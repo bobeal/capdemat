@@ -41,8 +41,7 @@ public final class TestUtils {
                                 || subjectPolicy.equals(IRequestService.SUBJECT_POLICY_INDIVIDUAL)) {
                 request.setSubjectId(request.getRequesterId());
             } else if (subjectPolicy.equals(IRequestService.SUBJECT_POLICY_CHILD)) {
-                Child child = BusinessObjectsFactory.gimmeChild("LASTNAME", "Firstname", 
-                        requester, null, null);
+                Child child = BusinessObjectsFactory.gimmeChild("LASTNAME", "Firstname");
                 request.setSubjectId(child.getId());
             }
         }

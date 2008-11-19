@@ -48,7 +48,8 @@ public final class VoCardRequestService
         dcvo.setHomeFolderId(homeFolder.getId());
 
         // by default, set the home folder responsible as requester        
-        Adult homeFolderResponsible = homeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        Adult homeFolderResponsible = 
+            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         dcvo.setRequesterId(homeFolderResponsible.getId());
         dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
         

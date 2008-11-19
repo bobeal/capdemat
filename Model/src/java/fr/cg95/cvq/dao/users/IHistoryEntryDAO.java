@@ -2,6 +2,7 @@ package fr.cg95.cvq.dao.users;
 
 import java.util.List;
 
+import fr.cg95.cvq.business.users.HistoryEntry;
 import fr.cg95.cvq.dao.IGenericDAO;
 
 /**
@@ -10,12 +11,12 @@ import fr.cg95.cvq.dao.IGenericDAO;
 public interface IHistoryEntryDAO extends IGenericDAO {
 
     /**
-     * Return history entries related to the given request
+     * Return history entries related to the given request.
      */
-    List listByRequestId(Long hfmrId);
+    List<HistoryEntry> listByRequestId(Long requestId);
 
     /**
-     * Delete history entries related to the given request
+     * Delete history entries related to the given request.
      */
-    void deleteEntries(final Long requestId);
+    int deleteEntries(final Long requestId);
 }

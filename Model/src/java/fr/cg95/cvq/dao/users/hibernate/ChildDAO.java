@@ -1,17 +1,13 @@
 package fr.cg95.cvq.dao.users.hibernate;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.util.Critere;
@@ -43,12 +39,5 @@ public class ChildDAO extends IndividualDAO implements IChildDAO {
                 Critere.compose("id", homeFolderId, Critere.EQUALS));
         crit.addOrder(Order.asc("id"));
         return crit.list();
-    }
-    
-    public List<ChildLegalResponsible> listChildLegalResponsibles(final Long id) {
-        return HibernateUtil.getSession()
-                .createQuery("from ChildLegalResponsible clr where clr.child.id = :childId")
-                .setLong("childId", id)
-                .list();
     }
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -14,11 +13,8 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.IndividualRole;
-import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -72,16 +68,6 @@ public class IndividualService implements IIndividualService {
         throws CvqException {
 
         return individualDAO.findByFederationKey(federationKey);
-    }
-
-    @Override
-    public List<Individual> getByHomeFolderRole(Long homeFolderId, RoleEnum role) {
-        return individualDAO.listByHomeFolderRole(homeFolderId, role);
-    }
-
-    @Override
-    public List<Individual> getBySubjectRole(Long subjectId, RoleEnum role) {
-        return individualDAO.listBySubjectRole(subjectId, role);
     }
 
     public String encryptPassword(final String clearPassword)
@@ -172,8 +158,12 @@ public class IndividualService implements IIndividualService {
         
         individual.setState(ActorState.PENDING);
         individual.setCreationDate(new Date());
+        
         if (address != null)
             individual.setAdress(address);
+        else if (homeFolder != null)
+            individual.setAdress(homeFolder.getAdress());
+        
         if (homeFolder != null)
             individual.setHomeFolder(homeFolder);
         
@@ -189,54 +179,6 @@ public class IndividualService implements IIndividualService {
             throw new CvqException("Cannot modify a transient individual");
 
         individualDAO.update(individual);
-    }
-
-    @Override
-    public void addRole(Long ownerId, RoleEnum role, Long homeFolderId, Long individualId)
-            throws CvqException {
-
-        Individual owner = getById(ownerId);
-        
-        if (role.equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
-            if (! (owner instanceof Adult))
-                throw new CvqModelException("homeFolder.role.error.responsibleMustBeAnAdult");
-            if (homeFolderId == null)
-                throw new CvqModelException("homeFolder.role.error.responsibleRequiresHomeFolderTarget");
-            // FIXME ACMF : can we have more than one HF responsible for an HF ?
-            IndividualRole individualRole = new IndividualRole();
-            individualRole.setOwner(owner);
-            individualRole.setRole(RoleEnum.HOME_FOLDER_RESPONSIBLE);
-            individualRole.setHomeFolderId(homeFolderId);
-            if (owner.getIndividualRoles() == null)
-                owner.setIndividualRoles(new HashSet<IndividualRole>());
-            owner.getIndividualRoles().add(individualRole);
-        }
-    }
-
-    @Override
-    public void removeRole(Long ownerId, RoleEnum role, Long homeFolderId, Long individualId)
-            throws CvqException {
-
-        Individual owner = getById(ownerId);
-        if (role.equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
-            if (! (owner instanceof Adult))
-                throw new CvqModelException("homeFolder.role.error.responsibleMustBeAnAdult");
-            if (homeFolderId == null)
-                throw new CvqModelException("homeFolder.role.error.responsibleRequiresHomeFolderTarget");
-            IndividualRole roleToRemove = null;
-            for (IndividualRole individualRole : owner.getIndividualRoles()) {
-                if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)
-                        && individualRole.getHomeFolderId().equals(homeFolderId)) {
-                    roleToRemove = individualRole;
-                    break;
-                }
-            }
-            if (roleToRemove != null)
-                owner.getIndividualRoles().remove(roleToRemove);
-            else
-                logger.warn("role " + role + " not found for " + ownerId 
-                        + " on home folder " + homeFolderId);
-        }  
     }
 
     protected void delete(final Individual individual) 

@@ -75,7 +75,7 @@ public class RequestServiceTest extends ServiceTestCase {
 
         continueWithNewTransaction();
 
-        rt = iRequestService.getRequestTypeByLabel(rt.getLabel());
+        rt = iRequestService.getRequestTypeById(rt.getId());
         if (shouldBeActive)
             Assert.assertTrue(rt.getActive().booleanValue());
         else
@@ -227,7 +227,7 @@ public class RequestServiceTest extends ServiceTestCase {
         } catch (CvqModelException cvqme) {
             Assert.assertEquals("requestForm.label_already_used", cvqme.getMessage());
         } finally {
-            iRequestService.removeRequestTypeForm(id);
+            iRequestService.removeRequestTypeForm(requestType.getId(), tmpForm.getId());
             forms = iRequestService.getRequestTypeForms(requestType.getId(),RequestFormType.REQUEST_MAIL_TEMPLATE);
             Assert.assertEquals(0, forms.size());
         }

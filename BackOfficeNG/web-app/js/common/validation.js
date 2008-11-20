@@ -195,7 +195,60 @@ function FIC_checkField(c,e) {
 			}
 		}
 	}
-
+	
+	// capdematTest extends validation class with capdemat type
+	// each entry must return the negation of the final result.
+	var capdematTest = {
+		'validate-string' : function(t) {
+				return false;
+		},
+		'validate-token' : function(t) {
+				return false;
+		},
+		'validate-positiveinteger' : function(t) {
+				if (isNaN(t) && t.match(/\D/)) return true;
+		},
+		'validate-long' : function(t) {
+				if (isNaN(t) && t.match(/\D/)) return true;
+		},
+		'validate-postalcode' : function(t) {
+				if (t.match(/^[0-9]{5}$/)) return false;
+				return true;
+		},
+		'validate-departmentcode' : function(t) {
+				if (t.match(/^[0-9]{2}$/)) return false; //TODO - verify test
+				return true;
+		},
+		'validate-phone' : function(t) {
+				if (t.match(/^0[1-9][0-9]{8}$/)) return false; //TODO - verify test
+				return true;
+		},
+		'validate-city' : function(t) {
+				if (t.match(/^.{0,32}$/)) return false; //TODO - verify test
+				return true;
+		},
+		'validate-firstname' : function(t) {
+				if (t.match(/^\D{0,38}$/)) return false;
+				return true;
+		},
+		'validate-lastname' : function(t) {
+				if (t.match(/^\D{0,38}$/)) return false;
+				return true;
+		},
+		'validate-cfbnT' : function(t) {
+				if (t.match(/^[0-9]{7}[A-Z]{0,1}$/)) return false; //TODO - verify test
+				return true;
+		}
+	}
+		
+	// Extract 'validate-type' from class html c 
+	var validateClass = zenexity.capdemat.tools.grep(c.split(' '), function(elem, i){
+			return (elem.indexOf('validate-') != -1);
+	})[0];
+	
+	valid = !(zenexity.capdemat.tools.tryToCall(capdematTest[validateClass], capdematTest, t));
+	
+	 
 	//search for validate-
 	if (c.indexOf(' validate-number ') != -1 && isNaN(t) && t.match(/[^\d]/)) {
 		//number bad
@@ -232,11 +285,11 @@ function FIC_checkField(c,e) {
 	} else if (c.indexOf(' validate-currency-dollar ') != -1 && !t.match(/^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/)) {
 		valid = false;
 	} else if (c.indexOf(' validate-regex ') != -1) {
-        var r = RegExp(e.getAttribute('regex'));
-        if (r && ! t.match(r)) {
-            valid = false;
-        }
-    }
+		var r = RegExp(e.getAttribute('regex'));
+		if (r && ! t.match(r)) {
+				valid = false;
+		}
+	}
 
 	return valid;
 }

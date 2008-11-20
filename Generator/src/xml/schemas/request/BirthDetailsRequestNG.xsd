@@ -186,7 +186,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
-                  <bo column="2" jsregexp="[a-z0-9]{3,10}"/>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -204,7 +204,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
-                  <bo column="2" />
+                  <bo column="2" jsregexp="^[a-zA-Z]+$" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

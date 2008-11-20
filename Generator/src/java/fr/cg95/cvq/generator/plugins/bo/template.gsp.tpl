@@ -43,7 +43,7 @@
         <span><g:message code="request.property.step.${step.name}" /></span>
       </h2>
         <% if (step.name == "requester") { %>
-        <g:render template="/requestInstruction/requestType/adult" model="['adult': request.requester]" />
+        <g:render template="/requestInstruction/requestType/adult" model="['adult':request.requester, 'action':'no-action']" />
         <% } else { %>
         <div class="yui-g">
           <% for (column in [1,2]) { %>

@@ -116,7 +116,7 @@ class RequestInstructionController {
 
     def widget = {
         def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum" ]
-
+        
         // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
         
@@ -150,6 +150,10 @@ class RequestInstructionController {
             model["propertyValueType"] = propertyTypes.javatype
         } else {
             propertyValue = params.propertyValue
+            model["i18nKeyPrefix"] = propertyTypes.i18n
+            model["regex"] = params.propertyRegex
+            if (params.propertyRegex != "")
+                model["propertyType"] = "regex"
         }
         model["propertyValue"] = propertyValue
         

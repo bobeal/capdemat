@@ -180,21 +180,7 @@ function FIC_checkForm(e, el) {
 function FIC_checkField(c,e) {
 	var valid = true;
 	var t = e.value.trim();
-	//search for required
-	if (c.indexOf(' required ') != -1 && t.length == 0) {
-		//required found, and not filled in
-		valid = false;
-	}
-	//check length
-	if (c.indexOf(' required ') != -1){
-		//check for minlength.
-		var m = e.getAttribute('minlength');
-		if (m && Math.abs(m) > 0){
-			if (e.value.length < Math.abs(m)){
-				valid = false;
-			}
-		}
-	}
+	
 	
 	// capdematTest extends validation class with capdemat type
 	// each entry must return the negation of the final result.
@@ -240,7 +226,7 @@ function FIC_checkField(c,e) {
 				return true;
 		}
 	}
-		
+	
 	// Extract 'validate-type' from class html c 
 	var validateClass = zenexity.capdemat.tools.grep(c.split(' '), function(elem, i){
 			return (elem.indexOf('validate-') != -1);
@@ -248,7 +234,23 @@ function FIC_checkField(c,e) {
 	
 	valid = !(zenexity.capdemat.tools.tryToCall(capdematTest[validateClass], capdematTest, t));
 	
-	 
+	
+	//search for required
+	if (c.indexOf(' required ') != -1 && t.length == 0) {
+		//required found, and not filled in
+		valid = false;
+	}
+	//check length
+	if (c.indexOf(' required ') != -1){
+		//check for minlength.
+		var m = e.getAttribute('minlength');
+		if (m && Math.abs(m) > 0){
+			if (e.value.length < Math.abs(m)){
+				valid = false;
+			}
+		}
+	}
+	
 	//search for validate-
 	if (c.indexOf(' validate-number ') != -1 && isNaN(t) && t.match(/[^\d]/)) {
 		//number bad

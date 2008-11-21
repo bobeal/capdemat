@@ -11,48 +11,48 @@
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
-      <dd id="homeFolder.individual[${adult.id}].lastName" class="${action}-editField validate-string required-true">
+      <dd id="homeFolder.individual[${adult.id}].lastName" class="${action}-editField validate-lastname required-true i18n-homeFolder.individual.property.lastName">
         <span>${adult.lastName}</span>
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.maidenName" /> : </dt> 
-      <dd id="homeFolder.individual[${adult.id}].maidenName" class="${action}-editField validate-string">
+      <dd id="homeFolder.individual[${adult.id}].maidenName" class="${action}-editField validate-lastname i18n-homeFolder.adult.property.maidenName">
         <span>${adult.maidenName}</span>
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.nameOfUse" /> : </dt> 
-      <dd id="homeFolder.individual[${adult.id}].nameOfUse" class="${action}-editField validate-string">
+      <dd id="homeFolder.individual[${adult.id}].nameOfUse" class="${action}-editField validate-lastname i18n-homeFolder.adult.property.nameOfUse">
         <span>${adult.nameOfUse}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.firstName" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].firstName" class="${action}-editField validate-string required-true">
+      <dd id="homeFolder.individual[${adult.id}].firstName" class="${action}-editField validate-firstname required-true i18n-homeFolder.individual.property.firstName">
         <span>${adult.firstName}</span>
       </dd>
       
-      <dt><g:message code="homeFolder.individual.property.secondFirstName" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].firstName2" class="${action}-editField validate-string">
+      <dt><g:message code="homeFolder.individual.property.firstName2" /> : </dt>
+      <dd id="homeFolder.individual[${adult.id}].firstName2" class="${action}-editField validate-firstname i18n-homeFolder.individual.property.firstName2">
         <span>${adult.firstName3}</span>
       </dd>
       
-      <dt><g:message code="homeFolder.individual.property.thirdFirstName" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].firstName3" class="${action}-editField validate-string">
+      <dt><g:message code="homeFolder.individual.property.firstName3" /> : </dt>
+      <dd id="homeFolder.individual[${adult.id}].firstName3" class="${action}-editField validate-firstname i18n-homeFolder.individual.property.firstName3">
         <span>${adult.firstName3}</span>
       </dd>
       
       
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].birthDate" class="${action}-editField validate-date">
+      <dd id="homeFolder.individual[${adult.id}].birthDate" class="${action}-editField validate-date i18n-homeFolder.individual.property.birthDate">
         <span><g:formatDate format="dd/MM/yyyy" date="${adult.birthDate}"/></span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].birthCity" class="${action}-editField validate-string">
+      <dd id="homeFolder.individual[${adult.id}].birthCity" class="${action}-editField validate-city i18n-homeFolder.individual.property.birthCity">
         <span>${adult.birthCity}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCountry" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].birthCountry" class="${action}-editField validate-string">
+      <dd id="homeFolder.individual[${adult.id}].birthCountry" class="${action}-editField validate-string i18n-homeFolder.individual.property.birthCountry">
         <span>${adult.birthCountry}</span>
       </dd>
       
@@ -83,28 +83,28 @@
         </div>
       </dd>
       
-      <dt><g:message code="homeFolder.adult.property.eMail" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].email" class="${action}-editField validate-email required-true">
+      <dt><g:message code="homeFolder.adult.property.email" /> : </dt>
+      <dd id="homeFolder.individual[${adult.id}].email" class="${action}-editField validate-email required-true i18n-homeFolder.adult.property.email">
         <span>${adult.email}</span>
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.homePhone" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].homePhone" class="${action}-editField validate-number required-true">
+      <dd id="homeFolder.individual[${adult.id}].homePhone" class="${action}-editField validate-phone required-true i18n-homeFolder.adult.property.homePhone">
         <span>${adult.homePhone}</span>
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.mobilePhone" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].mobilePhone" class="${action}-editField validate-number">
+      <dd id="homeFolder.individual[${adult.id}].mobilePhone" class="${action}-editField validate-phone i18n-homeFolder.adult.property.mobilePhone">
         <span>${adult.mobilePhone}</span>
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.officePhone" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].officePhone" class="${action}-editField validate-number">
+      <dd id="homeFolder.individual[${adult.id}].officePhone" class="${action}-editField validate-phone i18n-homeFolder.adult.property.OfficePhone">
         <span>${adult.officePhone}</span>
       </dd>
       
       <dt><g:message code="homeFolder.adult.property.profession" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].profession" class="${action}-editField validate-string">
+      <dd id="homeFolder.individual[${adult.id}].profession" class="${action}-editField validate-string i18n-homeFolder.adult.property.profession">
         <span>${adult.profession}</span>
       </dd>
      </dl>

@@ -165,19 +165,16 @@ class RequestInstructionController {
              return
         try {
             def request = defaultRequestService.getById(Long.valueOf(params.requestId))
-            if (["Vo Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
+            if (["VO Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
                 def individual = individualService.getById(Long.valueOf(params.individualId))
                 bind(individual)
             } else {
                 bind(request)
             }
-          
-//          log.debug("Binder custum editor PersistentStringEnum = " +
-//              getBinder(individual)
-//                  .propertyEditorRegistry
-//                  .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null)
-//          )
-          
+//            log.debug("Binder custum editor PersistentStringEnum = " +
+//                    getBinder(individual)
+//                        .propertyEditorRegistry
+//                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
             render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             ce.printStackTrace()

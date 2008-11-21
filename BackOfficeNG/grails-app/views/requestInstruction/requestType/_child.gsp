@@ -5,37 +5,37 @@
   <div class="yui-u first">
     <dl>
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
-      <dd id="homeFolder.individual[${child.id}].lastName" class="action-editField validate-string required-true">
+      <dd id="homeFolder.individual[${child.id}].lastName" class="action-editField validate-lastname required-true i18n-homeFolder.individual.property.lastName">
         <span>${child.lastName}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.firstName" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].firstName" class="action-editField validate-string required-true">
+      <dd id="homeFolder.individual[${child.id}].firstName" class="action-editField validate-firstname required-true i18n-homeFolder.individual.property.firstName">
         <span>${child.firstName}</span>
       </dd>
       
-      <dt><g:message code="homeFolder.individual.property.secondFirstName" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].firstName2" class="action-editField validate-string">
+      <dt><g:message code="homeFolder.individual.property.firstName2" /> : </dt>
+      <dd id="homeFolder.individual[${child.id}].firstName2" class="action-editField validate-firstname i18n-homeFolder.individual.property.firstName2">
         <span>${child.firstName2}</span>
       </dd>
       
-      <dt><g:message code="homeFolder.individual.property.thirdFirstName" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].firstName3" class="action-editField validate-string">
+      <dt><g:message code="homeFolder.individual.property.firstName3" /> : </dt>
+      <dd id="homeFolder.individual[${child.id}].firstName3" class="action-editField validate-firstname i18n-homeFolder.individual.property.firstName3">
         <span>${child.firstName3}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].birthDate" class="action-editField validate-date">
+      <dd id="homeFolder.individual[${child.id}].birthDate" class="action-editField validate-date i18n-homeFolder.individual.property.birthDate">
         <span><g:formatDate format="dd/MM/yyyy" date="${child.birthDate}"/></span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].birthCity" class="action-editField validate-string">
+      <dd id="homeFolder.individual[${child.id}].birthCity" class="action-editField validate-city i18n-homeFolder.individual.property.birthCity">
         <span>${child.birthCity}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCountry" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].birthCountry" class="action-editField validate-string">
+      <dd id="homeFolder.individual[${child.id}].birthCountry" class="action-editField validate-string i18n-homeFolder.individual.property.birthCountry">
         <span>${child.birthCountry}</span>
       </dd>
     </dl>

@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.environment.BulkyWasteCollectionRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -141,14 +139,12 @@ public class BulkyWasteCollectionRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          BulkyWasteCollectionRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          BulkyWasteCollectionRequestFeeder.setSubject(request, 
              iBulkyWasteCollectionRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iBulkyWasteCollectionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iBulkyWasteCollectionRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iBulkyWasteCollectionRequestService.create(request);
 
          BulkyWasteCollectionRequest requestFromDb =
         	 	(BulkyWasteCollectionRequest) iBulkyWasteCollectionRequestService.getById(requestId);
@@ -188,13 +184,8 @@ public class BulkyWasteCollectionRequestServiceTest extends ServiceTestCase {
         BulkyWasteCollectionRequestFeeder.setSubject(request, 
             iBulkyWasteCollectionRequestService.getSubjectPolicy(), requester, null);
 
-        BulkyWasteCollectionRequestDocument requestDoc = 
-            (BulkyWasteCollectionRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iBulkyWasteCollectionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iBulkyWasteCollectionRequestService.create(request, requester.getId(), subject);
+             iBulkyWasteCollectionRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -225,7 +216,7 @@ public class BulkyWasteCollectionRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

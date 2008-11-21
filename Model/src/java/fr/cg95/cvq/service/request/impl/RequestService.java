@@ -197,7 +197,7 @@ public abstract class RequestService implements IRequestService {
 
     public Request getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
-            return (Request) requestDAO.findById(Request.class, id, PrivilegeDescriptor.READ);
+            return (Request) requestDAO.findById(Request.class, id);
     }
 
     public List<Request> getByRequesterId(final Long requesterId)
@@ -741,37 +741,6 @@ public abstract class RequestService implements IRequestService {
     // Workflow related methods
     //////////////////////////////////////////////////////////
 
-    protected HomeFolder createOrSynchronizeHomeFolder(Request request)
-    		throws CvqException, CvqModelException {
-
-        // FIXME REFACTORING
-        // Should go away
-        
-        /*
-		if (request.getRequester().getId() == null) {
-			if (supportUnregisteredCreation.booleanValue()) {
-				logger.debug("create() Gonna create implicit home folder");
-				HomeFolder homeFolder = homeFolderService.create(request.getRequester());
-				request.setHomeFolderId(homeFolder.getId());
-
-	            SecurityContext.setCurrentEcitizen(request.getRequester());
-
-	            return homeFolder;
-			} else {
-				logger.error("create() refusing creation by unregistered user");
-				throw new CvqModelException("Service does not support creation by unregistered users !");
-			}
-		} else {
-			logger.debug("create() Adult already exists, re-synchronizing it with DB");
-			// resynchronize requester with our model object in order to have a fully filled adult object
-			Adult adult = (Adult) genericDAO.findById(Adult.class, request.getRequester().getId());
-			request.setRequester(adult);
-			request.setHomeFolderId(adult.getHomeFolder().getId());
-		}
-         */
-		return null;
-    }
-
     protected void notifyRequestCreation(Request request, byte[] pdfData)
         throws CvqException {
 
@@ -809,31 +778,295 @@ public abstract class RequestService implements IRequestService {
         }
     }
 
-    /**
-     * Default implementation of the POJO-based creation method. It is suitable
-     * for requests types that do not have any specific stuff to perform upon
-     * creation of a new request instance.
-     */
-    public Long create(Request request, Long requesterId, Individual subject)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public Long create(Request request)
         throws CvqException, CvqObjectNotFoundException {
 
-        initializeCommonAttributes(request, requesterId);
-        return create(request);
+        performBusinessChecks(request, SecurityContext.getCurrentEcitizen(), null);
+        
+        return finalizeAndPersist(request);
     }
 
-    protected Long create(final Request request)
+    public Long create(Request request, Adult requester, Individual subject)
         throws CvqException {
+        
+        HomeFolder homeFolder = performBusinessChecks(request, requester, subject);
+        
+        return finalizeAndPersist(request, homeFolder);
+    }
+    
+    protected HomeFolder performBusinessChecks(Request request, Adult requester, 
+            Individual subject)
+        throws CvqException, CvqObjectNotFoundException {
+        
+        HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
 
+        checkSubjectPolicy(request.getSubjectId(), request.getHomeFolderId(), getSubjectPolicy());
+        
+        if (request.getSubjectId() != null) {
+            Individual individual = individualService.getById(request.getSubjectId());
+            request.setSubjectId(individual.getId());
+            request.setSubjectLastName(individual.getLastName());
+        }
+        
+        return homeFolder;
+    }
+    
+    protected void performBusinessChecks(final Request request) throws CvqException {
+        performBusinessChecks(request, null, null);
+    }
+
+    /**
+     * Create or synchronize informations from home folder :
+     * <ul>
+     *   <li>Create an home folder containing the given requester if requester id is not provided 
+     *         within request object (in this case, requester parameter <strong>must</strong> must
+     *         be provided)</li>
+     *   <li>Load and set home folder and requester informations if requester id is provided
+     *         within request object (in this case, requester parameter is not used)</li>
+     * </ul>
+     * 
+     * @return the newly created home folder or null if home folder already existed 
+     */
+    protected HomeFolder createOrSynchronizeHomeFolder(Request request, Adult requester)
+        throws CvqException, CvqModelException {
+
+        if (request.getRequesterId() == null) {
+            if (supportUnregisteredCreation.booleanValue()) {
+                logger.debug("create() Gonna create implicit home folder");
+                HomeFolder homeFolder = homeFolderService.create(requester);
+                request.setHomeFolderId(homeFolder.getId());
+                request.setRequesterId(requester.getId());
+                request.setRequesterLastName(requester.getLastName());
+
+                SecurityContext.setCurrentEcitizen(requester);
+
+                return homeFolder;
+            } else {
+                logger.error("create() refusing creation by unregistered user");
+                throw new CvqModelException("request.error.unregisteredCreationUnauthorized");
+            }
+        } else {
+            logger.debug("create() Adult already exists, re-synchronizing it with DB");
+            // resynchronize requester with our model object in order to have a fully filled adult object
+            Individual somebody = individualService.getById(request.getRequesterId());
+            if (somebody instanceof Child)
+                throw new CvqModelException("request.error.requesterMustBeAdult");
+            Adult adult = (Adult) somebody;
+            request.setRequesterId(adult.getId());
+            request.setRequesterLastName(adult.getLastName());
+            request.setHomeFolderId(adult.getHomeFolder().getId());
+        }
+
+        return null;
+    }
+
+    /**
+     * Check that a request's subject is of the good type with respect to the
+     * given policy.
+     * 
+     * @throws CvqModelException if there's a policy violation
+     */
+    private void checkSubjectPolicy(final Long subjectId, Long homeFolderId, final String policy) 
+        throws CvqException, CvqModelException {
+
+        // first, check general subject policy
+        if (!policy.equals(SUBJECT_POLICY_NONE)) {
+            if (subjectId == null)
+                throw new CvqModelException("model.request.subject_is_required");
+            Individual subject = individualService.getById(subjectId);
+            if (policy.equals(SUBJECT_POLICY_INDIVIDUAL)) {
+                if (!(subject instanceof Individual)) {
+                    throw new CvqModelException("model.request.wrong_subject_type");
+                }
+            } else if (policy.equals(SUBJECT_POLICY_ADULT)) {
+                if (!(subject instanceof Adult)) {
+                    throw new CvqModelException("model.request.wrong_subject_type");
+                }
+            } else if (policy.equals(SUBJECT_POLICY_CHILD)) {
+                if (!(subject instanceof Child)) {
+                    throw new CvqModelException("model.request.wrong_subject_type");
+                }
+            }
+        } else {
+            if (subjectId != null)
+                throw new CvqModelException("model.request.subject_not_supported");
+        }
+        
+        // then check that request's subject is allowed to issue this request
+        // ie that it is authorized to issue it (no current one, an open season, ...)
+        if (!getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
+            Individual individual = individualService.getById(subjectId);
+            boolean isAuthorized = false;
+            Map<Long, Set<RequestSeason>> authorizedSubjectsMap = 
+                getAuthorizedSubjects(homeFolderId);
+            if (authorizedSubjectsMap != null) {
+                Set<Long> authorizedSubjects = authorizedSubjectsMap.keySet();
+                for (Long authorizedSubjectId : authorizedSubjects) {
+                    if (authorizedSubjectId.equals(individual.getId())) {
+                        isAuthorized = true;
+                        break;
+                    }
+                }
+            }
+            if (!isAuthorized)
+                throw new CvqModelException("request.error.subjectNotAuthorized");
+        }
+    }
+
+    /**
+     * Get the list of eligible subjects for the current request service. Does
+     * not make any control on already existing requests.
+     */
+    private Set<Long> getEligibleSubjects(final Long homeFolderId) throws CvqException {
+
+        if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
+            Set<Long> result = new HashSet<Long>();
+            result.add(homeFolderId);
+            return result;
+        } else {
+            List<Individual> individualsReference = homeFolderService.getIndividuals(homeFolderId);
+            Set<Long> result = new HashSet<Long>();
+            for (Individual individual : individualsReference) {
+                if (getSubjectPolicy().equals(SUBJECT_POLICY_INDIVIDUAL)) {
+                    result.add(individual.getId());
+                } else if (getSubjectPolicy().equals(SUBJECT_POLICY_ADULT)) {
+                    if (individual instanceof Adult)
+                        result.add(individual.getId());
+                } else if (getSubjectPolicy().equals(SUBJECT_POLICY_CHILD)) {
+                    if (individual instanceof Child)
+                        result.add(individual.getId());
+                }
+            }
+
+            return result;
+        }
+    }
+
+    public Map<Long, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
+            throws CvqException, CvqObjectNotFoundException {
+
+        RequestType requestType = requestTypeDAO.findByName(getLabel());
+        logger.debug("getAuthorizedSubjects() searching authorized subjects for : "
+                + requestType.getLabel());
+
+        Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
+        if (openSeasons != null) {
+            // no open seasons, no registration is possible
+            if (openSeasons.isEmpty())
+                return null;
+
+            Set<Long> eligibleSubjects = getEligibleSubjects(homeFolderId);
+            Map<Long, Set<RequestSeason>> result = new HashMap<Long, Set<RequestSeason>>();
+
+            // by default, add every subject to all open seasons, restrictions
+            // will be made next
+            for (Long subjectId : eligibleSubjects)
+                result.put(subjectId, openSeasons);
+
+            // no restriction on the number of registrations per season
+            // just return the whole map
+            if (requestType.getAuthorizeMultipleRegistrationsPerSeason())
+                return result;
+
+            for (RequestSeason season : openSeasons) {
+                // get all requests made for this season by the current home
+                // folder
+                List<Request> seasonRequests = requestDAO.listByHomeFolderAndSeason(homeFolderId,
+                        season.getUuid());
+                for (Request request : seasonRequests) {
+                    Set<RequestSeason> subjectSeasons = null;
+                    if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE))
+                        subjectSeasons = result.get(request.getHomeFolderId());
+                    else
+                        subjectSeasons = result.get(request.getSubjectId());
+                    // no current request on this season, let's continue
+                    if (subjectSeasons == null)
+                        continue;
+                    // a request on this season and it is the last one for this
+                    // subject,
+                    // simply remove the subject
+                    else if (subjectSeasons.size() == 1)
+                        if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE))
+                            result.remove(request.getHomeFolderId());
+                        else
+                            result.remove(request.getSubjectId());
+                    // a request on this season and it is not the last one for
+                    // this subject,
+                    // drop the season from the set of possible ones
+                    else
+                        subjectSeasons.remove(season);
+                }
+            }
+            return result;
+
+        } else {
+            Set<Long> eligibleSubjects = getEligibleSubjects(homeFolderId);
+            Map<Long, Set<RequestSeason>> result = new HashMap<Long, Set<RequestSeason>>();
+            for (Long subjectId : eligibleSubjects)
+                result.put(subjectId, null);
+            RequestState[] excludedStates = requestWorkflowService
+                    .getStatesExcludedForRunningRequests();
+            List<Request> homeFolderRequests = requestDAO.listByHomeFolderAndLabel(homeFolderId,
+                    getLabel(), excludedStates);
+            if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
+                if (!homeFolderRequests.isEmpty()) {
+                    return null;
+                } else {
+                    return result;
+                }
+            } else {
+                for (Request request : homeFolderRequests)
+                    result.remove(request.getSubjectId());
+                return result;
+            }
+        }
+    }
+
+    protected Long finalizeAndPersist(final Request request, HomeFolder homeFolder) 
+        throws CvqException {
+        
+        RequestType requestType = getRequestTypeByLabel(getLabel());
+        request.setRequestType(requestType);
+        request.setState(RequestState.PENDING);
+        request.setDataState(DataState.PENDING);
+        request.setStep(RequestStep.INSTRUCTION);
+        request.setCreationDate(new Date());
+        request.setOrangeAlert(Boolean.FALSE);
+        request.setRedAlert(Boolean.FALSE);
+
+        if (isOfRegistrationKind()) {
+            Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
+            if (openSeasons != null && !openSeasons.isEmpty())  
+                request.setSeasonUuid(openSeasons.iterator().next().getUuid());
+        }
+        
         Long requestId = requestDAO.create(request);
 
+        if (homeFolder != null) {
+            homeFolder.setBoundToRequest(Boolean.valueOf(true));
+            homeFolder.setOriginRequestId(requestId);
+            homeFolderService.modify(homeFolder);
+        }
+
+        // TODO DECOUPLING
         logger.debug("create() Gonna generate a pdf of the request");
         byte[] pdfData =
             certificateService.generateRequestCertificate(request, this.fopConfig);
         addActionTrace(CREATION_ACTION, null, new Date(), RequestState.PENDING, request, pdfData);
 
+        // TODO DECOUPLING
         notifyRequestCreation(request, pdfData);
 
         return requestId;
+    }
+    
+    /**
+     * Finalize the setting of request properties (creation date, state, ...) and persist it in BD.
+     */
+    protected Long finalizeAndPersist(final Request request)
+        throws CvqException {
+        return finalizeAndPersist(request, null);
     }
 
     protected void validateXmlData(XmlObject xmlObject) {
@@ -875,7 +1108,7 @@ public abstract class RequestService implements IRequestService {
             request = tempRequestService.getSkeletonRequest();
             if (subjectId != null
             		&& tempRequestService.getSubjectPolicy() != SUBJECT_POLICY_NONE) {
-            	checkSubjectPolicy(subjectId, tempRequestService.getSubjectPolicy());
+            	checkSubjectPolicy(subjectId, homeFolderId, tempRequestService.getSubjectPolicy());
             	request.setSubjectId(subjectId);
             }
         } else {
@@ -907,8 +1140,7 @@ public abstract class RequestService implements IRequestService {
             if (request.getSubjectId() != null) {
                 SubjectType subject = xmlRequestType.addNewSubject();
                 Individual requestSubject = individualService.getById(request.getSubjectId());
-                requestSubject.modelToXml(requestSubject);
-                subject.setIndividual(requestSubject.modelToXml(requestSubject));
+                subject.setIndividual(Individual.modelToXml(requestSubject));
             }
 
             purgeClonedRequest(xmlRequestType);
@@ -969,84 +1201,6 @@ public abstract class RequestService implements IRequestService {
 
         Request request = getById(id);
         delete(request);
-    }
-
-    public Map<Long, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
-        throws CvqException, CvqObjectNotFoundException {
-
-        RequestType requestType = requestTypeDAO.findByName(getLabel());
-        logger.debug("getAuthorizedSubjects() searching authorized subjects for : "
-                + requestType.getLabel());
-
-        Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
-        if (openSeasons != null) {
-            // no open seasons, no registration is possible
-            if (openSeasons.isEmpty())
-                return null;
-
-            Set<Long> eligibleSubjects = getEligibleSubjects(homeFolderId);
-            Map<Long, Set<RequestSeason>> result =
-                new HashMap<Long, Set<RequestSeason>>();
-
-            // by default, add every subject to all open seasons, restrictions will be made next
-            for (Long subjectId : eligibleSubjects)
-                result.put(subjectId, openSeasons);
-
-            // no restriction on the number of registrations per season
-            // just return the whole map
-            if (requestType.getAuthorizeMultipleRegistrationsPerSeason())
-                return result;
-
-            for (RequestSeason season : openSeasons) {
-                // get all requests made for this season by the current home folder
-                List<Request> seasonRequests =
-                    requestDAO.listByHomeFolderAndSeason(homeFolderId, season.getUuid());
-                for (Request request : seasonRequests) {
-                    Set<RequestSeason> subjectSeasons = null;
-                    if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE))
-                        subjectSeasons = result.get(request.getHomeFolderId());
-                    else
-                        subjectSeasons = result.get(request.getSubjectId());
-                    // no current request on this season, let's continue
-                    if (subjectSeasons == null)
-                        continue;
-                    // a request on this season and it is the last one for this subject, 
-                    // simply remove the subject
-                    else if (subjectSeasons.size() == 1)
-                        if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE))
-                            result.remove(request.getHomeFolderId());
-                        else
-                            result.remove(request.getSubjectId());
-                    // a request on this season and it is not the last one for this subject, 
-                    // drop the season from the set of possible ones
-                    else
-                        subjectSeasons.remove(season);
-                }
-            }
-            return result;
-
-        } else {
-            Set<Long> eligibleSubjects = getEligibleSubjects(homeFolderId);
-            Map<Long, Set<RequestSeason>> result =
-                new HashMap<Long, Set<RequestSeason>>();
-            for (Long subjectId : eligibleSubjects)
-                result.put(subjectId, null);
-            RequestState[] excludedStates =
-                requestWorkflowService.getStatesExcludedForRunningRequests();
-            List<Request> homeFolderRequests =
-                requestDAO.listByHomeFolderAndLabel(homeFolderId, getLabel(), excludedStates);
-            if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
-                if (!homeFolderRequests.isEmpty()) {
-                    return null;
-                } else {
-                    return result;
-                }
-            } else {
-                for (Request request : homeFolderRequests)
-                    result.remove(request.getSubjectId());
-                return result;
-            }
-        }
     }
 
     //////////////////////////////////////////////////////////
@@ -1432,131 +1586,6 @@ public abstract class RequestService implements IRequestService {
         requestActionDAO.update(requestAction);
     }
 
-    protected void initializeCommonAttributes(final Request request, final Long requesterId)
-        throws CvqException, CvqObjectNotFoundException {
-
-        // create the association with the requester
-        Individual somebody = individualService.getById(requesterId);
-        if (somebody instanceof Child)
-            throw new CvqObjectNotFoundException("The provided requester id does not match an adult object !");
-        Adult requester = (Adult) somebody;
-        request.setRequesterId(requesterId);
-		request.setHomeFolderId(requester.getHomeFolder().getId());
-
-        initializeCommonAttributes(request);
-    }
-
-    protected void initializeCommonAttributes(final Request request)
-        throws CvqException {
-
-        logger.debug("initializeCommonAttributes() checking respect for policy "
-                + getSubjectPolicy());
-
-        checkSubjectPolicy(request.getSubjectId(), getSubjectPolicy());
-
-        // check that request's subject is allowed to issue this request
-        if (!getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
-            Individual individual = individualService.getById(request.getSubjectId());
-            boolean isAuthorized = false;
-            Map<Long, Set<RequestSeason>> authorizedSubjectsMap =
-                getAuthorizedSubjects(request.getHomeFolderId());
-            if (authorizedSubjectsMap != null) {
-                Set<Long> authorizedSubjects = authorizedSubjectsMap.keySet();
-                for (Long authorizedSubjectId : authorizedSubjects) {
-                    Individual authorizedIndividual = 
-                        individualService.getById(authorizedSubjectId);
-                    if (authorizedIndividual.getId().equals(individual.getId())) {
-                        isAuthorized = true;
-                        break;
-                    }
-                }
-            }
-            if (!isAuthorized)
-                throw new CvqModelException("request.subject_not_authorized");
-
-            request.setSubjectLastName(individual.getLastName());
-        }
-
-        RequestType requestType = getRequestTypeByLabel(getLabel());
-        Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
-        // FIXME : we don't yet manage overlapping seasons so take the first one
-        if (openSeasons != null) {
-            if (openSeasons.isEmpty())
-                throw new CvqModelException("request.seasons.no_open_registrations");
-            request.setSeasonUuid(openSeasons.iterator().next().getUuid());
-        }
-        
-        request.setRequestType(requestType);
-        request.setState(RequestState.PENDING);
-        request.setDataState(DataState.PENDING);
-        request.setStep(RequestStep.INSTRUCTION);
-        request.setCreationDate(new Date());
-        request.setOrangeAlert(Boolean.FALSE);
-        request.setRedAlert(Boolean.FALSE);
-	}
-
-    /**
-     * Check that a request's subject is of the good type with respect to
-     * the given policy.
-     *
-     * @throws CvqModelException if there's a policy violation
-     */
-    private void checkSubjectPolicy(final Long subjectId, final String policy)
-    	throws CvqException, CvqModelException {
-
-        if (!policy.equals(SUBJECT_POLICY_NONE)) {
-            logger.debug("checkSubjectPolicy() subject id is " + subjectId);
-            if (subjectId == null)
-                throw new CvqModelException("model.request.subject_is_required");
-            Individual subject = individualService.getById(subjectId);
-            if (policy.equals(SUBJECT_POLICY_INDIVIDUAL)) {
-                if (!(subject instanceof Individual)) {
-                    throw new CvqModelException("model.request.wrong_subject_type");
-                }
-            } else if (policy.equals(SUBJECT_POLICY_ADULT)) {
-                if (!(subject instanceof Adult)) {
-                    throw new CvqModelException("model.request.wrong_subject_type");
-                }
-            } else if (policy.equals(SUBJECT_POLICY_CHILD)) {
-                if (!(subject instanceof Child)) {
-                    throw new CvqModelException("model.request.wrong_subject_type");
-                }
-            }
-        } else {
-            if (subjectId != null)
-                throw new CvqModelException("model.request.subject_not_supported");
-        }
-    }
-
-    /**
-     * Get the list of eligible subjects for the current request service. Does not make
-     * any control on already existing requests.
-     */
-    private Set<Long> getEligibleSubjects(final Long homeFolderId)
-        throws CvqException {
-
-        if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
-            Set<Long> result = new HashSet<Long>();
-            result.add(homeFolderId);
-            return result;
-        } else {
-            List<Individual> individualsReference = homeFolderService.getIndividuals(homeFolderId);
-            Set<Long> result = new HashSet<Long>();
-            for (Individual individual : individualsReference) {
-                if (getSubjectPolicy().equals(SUBJECT_POLICY_INDIVIDUAL)) {
-                    result.add(individual.getId());
-                } else if (getSubjectPolicy().equals(SUBJECT_POLICY_ADULT)) {
-                    if (individual instanceof Adult)
-                        result.add(individual.getId());
-                } else if (getSubjectPolicy().equals(SUBJECT_POLICY_CHILD)) {
-                    if (individual instanceof Child)
-                        result.add(individual.getId());
-                }
-            }
-
-            return result;
-        }
-    }
 
     //////////////////////////////////////////////////////////
     // RequestForm related Methods

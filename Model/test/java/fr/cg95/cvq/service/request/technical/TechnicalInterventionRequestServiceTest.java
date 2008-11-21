@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.technical.TechnicalInterventionRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -142,14 +140,12 @@ public class TechnicalInterventionRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          TechnicalInterventionRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          TechnicalInterventionRequestFeeder.setSubject(request, 
              iTechnicalInterventionRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iTechnicalInterventionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iTechnicalInterventionRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iTechnicalInterventionRequestService.create(request);
 
          TechnicalInterventionRequest requestFromDb =
         	 	(TechnicalInterventionRequest) iTechnicalInterventionRequestService.getById(requestId);
@@ -189,13 +185,8 @@ public class TechnicalInterventionRequestServiceTest extends ServiceTestCase {
         TechnicalInterventionRequestFeeder.setSubject(request, 
             iTechnicalInterventionRequestService.getSubjectPolicy(), requester, null);
 
-        TechnicalInterventionRequestDocument requestDoc = 
-            (TechnicalInterventionRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iTechnicalInterventionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iTechnicalInterventionRequestService.create(request, requester.getId(), subject);
+             iTechnicalInterventionRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -226,7 +217,7 @@ public class TechnicalInterventionRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

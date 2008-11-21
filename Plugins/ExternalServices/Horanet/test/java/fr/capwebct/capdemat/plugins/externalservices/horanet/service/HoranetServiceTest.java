@@ -124,7 +124,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         srrRequest.setSubjectLastName(child1.getLastName());
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
         srrRequest.setMeansOfContact(meansOfContact);
-        srrService.create(srrRequest, homeFolderResponsible.getId(), null);
+        srrService.create(srrRequest);
      
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -158,7 +158,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         List<LocalReferentialData> foodDiets = new ArrayList<LocalReferentialData>();
         foodDiets.add(foodDietLrd);
         scrrRequest.setFoodDiet(foodDiets);
-        scrrService.create(scrrRequest, homeFolderResponsible.getId(), null);
+        scrrService.create(scrrRequest);
         
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -191,7 +191,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         List<LocalReferentialData> activities = new ArrayList<LocalReferentialData>();
         activities.add(activityLrd);
         parrRequest.setPerischoolActivity(activities);
-        parrService.create(parrRequest, homeFolderResponsible.getId(), null);
+        parrService.create(parrRequest);
 
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);

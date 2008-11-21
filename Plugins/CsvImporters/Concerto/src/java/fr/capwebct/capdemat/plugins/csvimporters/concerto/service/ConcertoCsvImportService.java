@@ -269,8 +269,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // create school registrations
                 for (SchoolRegistrationRequest srr : cdto.getChildrenSchoolRegistrations()) {
-                    schoolRegistrationRequestService.create(srr, 
-                            homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId(), null);
+                    schoolRegistrationRequestService.create(srr);
                     schoolRegistrationRequestService.complete(srr);
                     schoolRegistrationRequestService.validate(srr);
                     logger.debug("importData() created school registration request : " + srr.getId());
@@ -278,16 +277,14 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // create school canteen registrations
                 for (SchoolCanteenRegistrationRequest scrr : cdto.getChildrenSchoolCanteenRegistrations()) {
-                    schoolCanteenRegistrationRequestService.create(scrr, 
-                            homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId(), null);
+                    schoolCanteenRegistrationRequestService.create(scrr);
                     logger.debug("importData() created school canteen registration request : " 
                             + scrr.getId());
                 }
                 
                 // create perischool activity registrations
                 for (PerischoolActivityRegistrationRequest parr : cdto.getChildrenPerischoolActivityRegistrations()) {
-                    perischoolActivityRegistrationRequestService.create(parr, 
-                            homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId(), null);
+                    perischoolActivityRegistrationRequestService.create(parr);
                     logger.debug("importData() created perischool activity registration request : " 
                             + parr.getId());
                 }

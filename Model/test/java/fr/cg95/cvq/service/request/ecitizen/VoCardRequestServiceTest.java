@@ -187,7 +187,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         assertNotNull(iVoCardRequestService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
         
         Adult homeFolderResponsibleFromDb = 
-            iAdultService.getById(dcvoFromDb.getRequesterId());
+            iIndividualService.getAdultById(dcvoFromDb.getRequesterId());
         assertNotNull("Associated object of class Adult not saved !", homeFolderResponsibleFromDb);
         assertEquals(homeFolderResponsibleFromDb.getLastName(),"LASTNAME");
         assertEquals(homeFolderResponsibleFromDb.getId(), dcvoFromDb.getRequesterId());
@@ -422,9 +422,9 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         /////////////////////////////////////////////////////////
         
         homeFolderResponsible = 
-            iAdultService.getById(yaRequest.getRequesterId());
+            iIndividualService.getAdultById(yaRequest.getRequesterId());
         String generatedPassword = iAuthenticationService.generatePassword();
-        iAdultService.modifyPassword(homeFolderResponsible, "totopwd", generatedPassword);
+        iIndividualService.modifyPassword(homeFolderResponsible, "totopwd", generatedPassword);
         try {
             iAuthenticationService.authenticate(homeFolderResponsible.getLogin(), generatedPassword);
         } catch (CvqAuthenticationFailedException cafe) {

@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.social.HandicapAllowanceRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -323,14 +321,12 @@ public class HandicapAllowanceRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          HandicapAllowanceRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          HandicapAllowanceRequestFeeder.setSubject(request, 
              iHandicapAllowanceRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iHandicapAllowanceRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iHandicapAllowanceRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iHandicapAllowanceRequestService.create(request);
 
          HandicapAllowanceRequest requestFromDb =
         	 	(HandicapAllowanceRequest) iHandicapAllowanceRequestService.getById(requestId);
@@ -370,13 +366,8 @@ public class HandicapAllowanceRequestServiceTest extends ServiceTestCase {
         HandicapAllowanceRequestFeeder.setSubject(request, 
             iHandicapAllowanceRequestService.getSubjectPolicy(), requester, null);
 
-        HandicapAllowanceRequestDocument requestDoc = 
-            (HandicapAllowanceRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iHandicapAllowanceRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iHandicapAllowanceRequestService.create(request, requester.getId(), subject);
+             iHandicapAllowanceRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -407,7 +398,7 @@ public class HandicapAllowanceRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

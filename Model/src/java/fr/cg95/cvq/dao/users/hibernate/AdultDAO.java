@@ -17,7 +17,7 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
         super();
     }
     
-    public List listByHomeFolder(final Long homeFolderId) {
+    public List listAdultsByHomeFolder(final Long homeFolderId) {
         StringBuffer sb = new StringBuffer(100);
         sb.append("select adult from Adult as adult")
             .append(" join adult.homeFolder homeFolder")

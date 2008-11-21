@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.military.MilitaryCensusRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -194,14 +192,12 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          MilitaryCensusRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          MilitaryCensusRequestFeeder.setSubject(request, 
              iMilitaryCensusRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iMilitaryCensusRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iMilitaryCensusRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iMilitaryCensusRequestService.create(request);
 
          MilitaryCensusRequest requestFromDb =
         	 	(MilitaryCensusRequest) iMilitaryCensusRequestService.getById(requestId);
@@ -241,13 +237,8 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
         MilitaryCensusRequestFeeder.setSubject(request, 
             iMilitaryCensusRequestService.getSubjectPolicy(), requester, null);
 
-        MilitaryCensusRequestDocument requestDoc = 
-            (MilitaryCensusRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iMilitaryCensusRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iMilitaryCensusRequestService.create(request, requester.getId(), subject);
+             iMilitaryCensusRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -278,7 +269,7 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

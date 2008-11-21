@@ -12,13 +12,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlException;
-import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
-import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.PlaceReservationData;
 import fr.cg95.cvq.business.users.TicketTypeSelection;
@@ -29,7 +27,6 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.reservation.IPlaceReservationRequestService;
-import fr.cg95.cvq.xml.request.reservation.PlaceReservationRequestDocument;
 
 /**
  * Implementation of the place reservation request service.
@@ -43,38 +40,30 @@ public final class PlaceReservationRequestService
 
     private IPlaceReservationService placeReservationService;
     
-    public Long create(Request request, Long requesterId, Individual subject) 
+    public Long create(Request request, Adult requester, Individual subject) 
         throws CvqException, CvqObjectNotFoundException {
 
-        PlaceReservationRequest prr = (PlaceReservationRequest) request;
-        
-        // if valid subscriber, check place reservation validity
-        if (prr.getSubscriberNumber() != null && !prr.getSubscriberNumber().equals("")) {
-            if (!isValidSubscriberNumber(prr.getSubscriberNumber()))
-                throw new CvqObjectNotFoundException("Unknown subscriber number");
-            if (checkPlaceReservationData(prr.getPlaceReservation(), 
-                    prr.getSubscriberNumber()) != null)
-                throw new CvqModelException("Error in choosen number of places "
-                        + " for subscriber " + prr.getSubscriberNumber());
-        }
-        
-        initializeCommonAttributes(prr, requesterId);
+        performBusinessChecks(request, requester, subject);
 
-        return create(prr);
+        PlaceReservationRequest prr = (PlaceReservationRequest) request;
+        performSpecificChecks(prr);
+        
+        return finalizeAndPersist(prr);
     }
 
-    public Long create(Node prrNode) throws CvqException {
+    public Long create(Request request) throws CvqException {
 
-        PlaceReservationRequestDocument prrDocument = null;
-        try {
-            prrDocument = PlaceReservationRequestDocument.Factory.parse(prrNode);
-        } catch (XmlException xe) {
-            logger.error("create() Error while parsing received data");
-            xe.printStackTrace();
-        }
+        performBusinessChecks(request, null, null);
+
+        PlaceReservationRequest prr = (PlaceReservationRequest) request;
+        performSpecificChecks(prr);
         
-        PlaceReservationRequest prr = PlaceReservationRequest.xmlToModel(prrDocument);
-
+        return finalizeAndPersist(prr);
+    }
+    
+    private void performSpecificChecks(PlaceReservationRequest prr) 
+        throws CvqException {
+        
         // if valid subscriber, check place reservation validity
         if (prr.getSubscriberNumber() != null && !prr.getSubscriberNumber().equals("")) {
             if (!isValidSubscriberNumber(prr.getSubscriberNumber()))
@@ -84,18 +73,6 @@ public final class PlaceReservationRequestService
                 throw new CvqModelException("Error in choosen number of places "
                         + " for subscriber " + prr.getSubscriberNumber());
         }
-        
-        HomeFolder homeFolder = super.createOrSynchronizeHomeFolder(prr);
-        
-        initializeCommonAttributes(prr);
-
-        Long requestId = super.create(prr);
-        if (homeFolder != null) {
-            homeFolder.setBoundToRequest(Boolean.valueOf(true));
-            homeFolder.setOriginRequestId(requestId);
-        }
-    
-        return requestId;
     }
     
     public Map<String, Integer> getAuthorizedNumberOfPlaces(final String subscriberNumber) 

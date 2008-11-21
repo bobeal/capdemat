@@ -17,5 +17,5 @@ public interface IChildDAO extends IIndividualDAO {
     /**
      * Return the list of {@link Child children} belonging to a given home folder.
      */
-    List listByHomeFolder(final Long homeFolderId);
+    List<Child> listChildrenByHomeFolder(final Long homeFolderId);
 }

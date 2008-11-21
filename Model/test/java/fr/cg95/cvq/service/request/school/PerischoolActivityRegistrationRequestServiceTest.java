@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.school.PerischoolActivityRegistrationRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -149,14 +147,12 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
          //////////////////////////////
 
          PerischoolActivityRegistrationRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          PerischoolActivityRegistrationRequestFeeder.setSubject(request, 
              iPerischoolActivityRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iPerischoolActivityRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iPerischoolActivityRegistrationRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iPerischoolActivityRegistrationRequestService.create(request);
 
          PerischoolActivityRegistrationRequest requestFromDb =
         	 	(PerischoolActivityRegistrationRequest) iPerischoolActivityRegistrationRequestService.getById(requestId);
@@ -196,13 +192,8 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
         PerischoolActivityRegistrationRequestFeeder.setSubject(request, 
             iPerischoolActivityRegistrationRequestService.getSubjectPolicy(), requester, null);
 
-        PerischoolActivityRegistrationRequestDocument requestDoc = 
-            (PerischoolActivityRegistrationRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iPerischoolActivityRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iPerischoolActivityRegistrationRequestService.create(request, requester.getId(), subject);
+             iPerischoolActivityRegistrationRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -233,7 +224,7 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

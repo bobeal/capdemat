@@ -22,10 +22,6 @@ public class ChildDAO extends IndividualDAO implements IChildDAO {
 
     static Logger logger = Logger.getLogger(ChildDAO.class);
 
-    public ChildDAO() {
-        super();
-    }
-
     public Child findByBadgeNumber(String number) {
         return (Child) HibernateUtil.getSession()
             .createQuery("from Child child where child.badgeNumber = :number")
@@ -33,10 +29,10 @@ public class ChildDAO extends IndividualDAO implements IChildDAO {
             .uniqueResult();
     }
 
-    public List listByHomeFolder(final Long homeFolderId) {
+    public List<Child> listChildrenByHomeFolder(final Long homeFolderId) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Child.class);
-        crit.createCriteria("homeFolder").add(
-                Critere.compose("id", homeFolderId, Critere.EQUALS));
+        crit.createCriteria("homeFolder")
+            .add(Critere.compose("id", homeFolderId, Critere.EQUALS));
         crit.addOrder(Order.asc("id"));
         return crit.list();
     }

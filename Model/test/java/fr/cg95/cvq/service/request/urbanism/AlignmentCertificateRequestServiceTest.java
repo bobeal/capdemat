@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.urbanism.AlignmentCertificateRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -151,14 +149,12 @@ public class AlignmentCertificateRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          AlignmentCertificateRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          AlignmentCertificateRequestFeeder.setSubject(request, 
              iAlignmentCertificateRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iAlignmentCertificateRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iAlignmentCertificateRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iAlignmentCertificateRequestService.create(request);
 
          AlignmentCertificateRequest requestFromDb =
         	 	(AlignmentCertificateRequest) iAlignmentCertificateRequestService.getById(requestId);
@@ -198,13 +194,8 @@ public class AlignmentCertificateRequestServiceTest extends ServiceTestCase {
         AlignmentCertificateRequestFeeder.setSubject(request, 
             iAlignmentCertificateRequestService.getSubjectPolicy(), requester, null);
 
-        AlignmentCertificateRequestDocument requestDoc = 
-            (AlignmentCertificateRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iAlignmentCertificateRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iAlignmentCertificateRequestService.create(request, requester.getId(), subject);
+             iAlignmentCertificateRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -235,7 +226,7 @@ public class AlignmentCertificateRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

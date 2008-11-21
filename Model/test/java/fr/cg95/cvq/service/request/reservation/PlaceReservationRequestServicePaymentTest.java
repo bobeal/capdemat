@@ -20,7 +20,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.xml.request.reservation.PlaceReservationRequestDocument;
 
 public class PlaceReservationRequestServicePaymentTest extends PlaceReservationRequestServiceTest {
 
@@ -50,14 +49,12 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         PlaceReservationRequest request = fillMeARequest();
         request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
 
-        PlaceReservationRequestDocument requestDoc =
-            (PlaceReservationRequestDocument) request.modelToXml();
-        Long requestId = iPlaceReservationRequestService.create(requestDoc.getDomNode());
+        Long requestId = iPlaceReservationRequestService.create(request);
         PlaceReservationRequest requestFromDb = 
             (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
         
         Assert.assertEquals(requestId, requestFromDb.getId());
-        Adult requester = iAdultService.getById(requestFromDb.getRequesterId());
+        Adult requester = iIndividualService.getAdultById(requestFromDb.getRequesterId());
         Assert.assertNotNull(requester);
 
         // simulate a payment on this request

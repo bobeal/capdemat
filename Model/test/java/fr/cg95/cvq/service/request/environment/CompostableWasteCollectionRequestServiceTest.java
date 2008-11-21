@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.environment.CompostableWasteCollectionRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -141,14 +139,12 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
          //////////////////////////////
 
          CompostableWasteCollectionRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          CompostableWasteCollectionRequestFeeder.setSubject(request, 
              iCompostableWasteCollectionRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iCompostableWasteCollectionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iCompostableWasteCollectionRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iCompostableWasteCollectionRequestService.create(request);
 
          CompostableWasteCollectionRequest requestFromDb =
         	 	(CompostableWasteCollectionRequest) iCompostableWasteCollectionRequestService.getById(requestId);
@@ -188,13 +184,8 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
         CompostableWasteCollectionRequestFeeder.setSubject(request, 
             iCompostableWasteCollectionRequestService.getSubjectPolicy(), requester, null);
 
-        CompostableWasteCollectionRequestDocument requestDoc = 
-            (CompostableWasteCollectionRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iCompostableWasteCollectionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iCompostableWasteCollectionRequestService.create(request, requester.getId(), subject);
+             iCompostableWasteCollectionRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -225,7 +216,7 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

@@ -2,16 +2,17 @@ package fr.cg95.cvq.service.request.ecitizen.impl;
 
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
-import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.exception.*;
+import fr.cg95.cvq.business.users.Address;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
-
-
-import org.apache.log4j.Logger;
-import org.w3c.dom.Node;
 
 
 /**
@@ -42,9 +43,6 @@ public final class VoCardRequestService
 
         HomeFolder homeFolder = homeFolderService.create(adults, children, address);
 
-        // add some business logic to our request
-        initializeCommonAttributes(dcvo);
-
         dcvo.setHomeFolderId(homeFolder.getId());
 
         // by default, set the home folder responsible as requester        
@@ -53,16 +51,12 @@ public final class VoCardRequestService
         dcvo.setRequesterId(homeFolderResponsible.getId());
         dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
         
-        Long requestId = super.create(dcvo);
+        Long requestId = super.finalizeAndPersist(dcvo);
         
         homeFolder.setOriginRequestId(requestId);
         homeFolderService.modify(homeFolder);
 
         logger.debug("create() Created request object with id : " + requestId);
-    }
-
-    public Long create(Node node) throws CvqException {
-        throw new CvqException("Not yet implemented !");
     }
 
     public boolean accept(Request request) {

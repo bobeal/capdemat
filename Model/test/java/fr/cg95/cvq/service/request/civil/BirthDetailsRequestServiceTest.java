@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.civil.BirthDetailsRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -169,14 +167,12 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          BirthDetailsRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          BirthDetailsRequestFeeder.setSubject(request, 
              iBirthDetailsRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iBirthDetailsRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iBirthDetailsRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iBirthDetailsRequestService.create(request);
 
          BirthDetailsRequest requestFromDb =
         	 	(BirthDetailsRequest) iBirthDetailsRequestService.getById(requestId);
@@ -216,13 +212,8 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
         BirthDetailsRequestFeeder.setSubject(request, 
             iBirthDetailsRequestService.getSubjectPolicy(), requester, null);
 
-        BirthDetailsRequestDocument requestDoc = 
-            (BirthDetailsRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iBirthDetailsRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iBirthDetailsRequestService.create(request, requester.getId(), subject);
+             iBirthDetailsRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -253,7 +244,7 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.reservation.PlaceReservationRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -142,14 +140,12 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          PlaceReservationRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          PlaceReservationRequestFeeder.setSubject(request, 
              iPlaceReservationRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iPlaceReservationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iPlaceReservationRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iPlaceReservationRequestService.create(request);
 
          PlaceReservationRequest requestFromDb =
         	 	(PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
@@ -189,13 +185,8 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
         PlaceReservationRequestFeeder.setSubject(request, 
             iPlaceReservationRequestService.getSubjectPolicy(), requester, null);
 
-        PlaceReservationRequestDocument requestDoc = 
-            (PlaceReservationRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iPlaceReservationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iPlaceReservationRequestService.create(request, requester.getId(), subject);
+             iPlaceReservationRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -226,7 +217,7 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

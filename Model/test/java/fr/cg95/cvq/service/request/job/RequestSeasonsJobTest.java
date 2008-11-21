@@ -22,12 +22,10 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.job.RequestSeasonsJob;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.SchoolRegistrationRequestFeeder;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument;
 
 public class RequestSeasonsJobTest extends ServiceTestCase {
  
@@ -134,9 +132,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
             iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
         request.setMeansOfContact(meansOfContact);
 
-        SchoolRegistrationRequestDocument requestDoc =
-            (SchoolRegistrationRequestDocument) request.modelToXml();
-        Long requestId = schoolRegistrationRequestService.create(requestDoc.getDomNode());
+        Long requestId = schoolRegistrationRequestService.create(request);
 
         continueWithNewTransaction();
         

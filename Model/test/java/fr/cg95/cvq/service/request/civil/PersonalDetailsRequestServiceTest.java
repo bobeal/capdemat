@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.civil.PersonalDetailsRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -203,14 +201,12 @@ public class PersonalDetailsRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          PersonalDetailsRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          PersonalDetailsRequestFeeder.setSubject(request, 
              iPersonalDetailsRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iPersonalDetailsRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iPersonalDetailsRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iPersonalDetailsRequestService.create(request);
 
          PersonalDetailsRequest requestFromDb =
         	 	(PersonalDetailsRequest) iPersonalDetailsRequestService.getById(requestId);
@@ -250,13 +246,8 @@ public class PersonalDetailsRequestServiceTest extends ServiceTestCase {
         PersonalDetailsRequestFeeder.setSubject(request, 
             iPersonalDetailsRequestService.getSubjectPolicy(), requester, null);
 
-        PersonalDetailsRequestDocument requestDoc = 
-            (PersonalDetailsRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iPersonalDetailsRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iPersonalDetailsRequestService.create(request, requester.getId(), subject);
+             iPersonalDetailsRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -287,7 +278,7 @@ public class PersonalDetailsRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

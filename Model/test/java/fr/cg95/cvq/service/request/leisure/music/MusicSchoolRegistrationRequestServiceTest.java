@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.leisure.music.MusicSchoolRegistrationRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -140,14 +138,12 @@ public class MusicSchoolRegistrationRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          MusicSchoolRegistrationRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          MusicSchoolRegistrationRequestFeeder.setSubject(request, 
              iMusicSchoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iMusicSchoolRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iMusicSchoolRegistrationRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iMusicSchoolRegistrationRequestService.create(request);
 
          MusicSchoolRegistrationRequest requestFromDb =
         	 	(MusicSchoolRegistrationRequest) iMusicSchoolRegistrationRequestService.getById(requestId);
@@ -187,13 +183,8 @@ public class MusicSchoolRegistrationRequestServiceTest extends ServiceTestCase {
         MusicSchoolRegistrationRequestFeeder.setSubject(request, 
             iMusicSchoolRegistrationRequestService.getSubjectPolicy(), requester, null);
 
-        MusicSchoolRegistrationRequestDocument requestDoc = 
-            (MusicSchoolRegistrationRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iMusicSchoolRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iMusicSchoolRegistrationRequestService.create(request, requester.getId(), subject);
+             iMusicSchoolRegistrationRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -224,7 +215,7 @@ public class MusicSchoolRegistrationRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

@@ -21,6 +21,7 @@ import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.Payment;
@@ -80,17 +81,28 @@ public interface IRequestService {
     /**
      * Create a new request from given data.
      * 
-     * @param subject an optional individual for requests where it is applicable.
+     * It is meant to be used <strong>only</strong> by requests who require an home folder, 
+     * requester will be the currently logged in ecitizen, eventual subject id will be set
+     * directly on request object.
+     * 
+     * A default implementation suitable for requests types that do not have any specific stuff 
+     * to perform upon creation is provided. For others, the default implementation will have to
+     * be overrided.
      */
-    Long create(@IsRequest Request request, @IsRequester final Long requesterId, 
-            @IsSubject Individual subject)
+    Long create(@IsRequest Request request)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * @deprecated
+     * Create a new request from given data.
+     * 
+     * It is meant to be used by requests issued outside an home folder. An home folder
+     * containing at least the requester will be created. The subject is optional (FIXME : is
+     * it ever used ?)
      */
-    Long create(final Node node) throws CvqException;
-
+    Long create(@IsRequest Request request, @IsRequester Adult requester, 
+            @IsSubject Individual subject)
+        throws CvqException;
+    
     /**
      * Get a clone of a request with the given label whose subject is either the given subject 
      * either the given home folder (depending on the subject policy supported by the associated

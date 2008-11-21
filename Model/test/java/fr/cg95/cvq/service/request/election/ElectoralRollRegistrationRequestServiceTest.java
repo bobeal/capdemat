@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.election.ElectoralRollRegistrationRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -150,14 +148,12 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
          //////////////////////////////
 
          ElectoralRollRegistrationRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          ElectoralRollRegistrationRequestFeeder.setSubject(request, 
              iElectoralRollRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iElectoralRollRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iElectoralRollRegistrationRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iElectoralRollRegistrationRequestService.create(request);
 
          ElectoralRollRegistrationRequest requestFromDb =
         	 	(ElectoralRollRegistrationRequest) iElectoralRollRegistrationRequestService.getById(requestId);
@@ -197,13 +193,8 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
         ElectoralRollRegistrationRequestFeeder.setSubject(request, 
             iElectoralRollRegistrationRequestService.getSubjectPolicy(), requester, null);
 
-        ElectoralRollRegistrationRequestDocument requestDoc = 
-            (ElectoralRollRegistrationRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iElectoralRollRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iElectoralRollRegistrationRequestService.create(request, requester.getId(), subject);
+             iElectoralRollRegistrationRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -234,7 +225,7 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

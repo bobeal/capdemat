@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.civil.MarriageDetailsRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -175,14 +173,12 @@ public class MarriageDetailsRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          MarriageDetailsRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          MarriageDetailsRequestFeeder.setSubject(request, 
              iMarriageDetailsRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iMarriageDetailsRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iMarriageDetailsRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iMarriageDetailsRequestService.create(request);
 
          MarriageDetailsRequest requestFromDb =
         	 	(MarriageDetailsRequest) iMarriageDetailsRequestService.getById(requestId);
@@ -222,13 +218,8 @@ public class MarriageDetailsRequestServiceTest extends ServiceTestCase {
         MarriageDetailsRequestFeeder.setSubject(request, 
             iMarriageDetailsRequestService.getSubjectPolicy(), requester, null);
 
-        MarriageDetailsRequestDocument requestDoc = 
-            (MarriageDetailsRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iMarriageDetailsRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iMarriageDetailsRequestService.create(request, requester.getId(), subject);
+             iMarriageDetailsRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -259,7 +250,7 @@ public class MarriageDetailsRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

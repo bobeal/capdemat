@@ -51,10 +51,8 @@ import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
-import fr.cg95.cvq.service.users.IAdultService;
 import fr.cg95.cvq.service.users.ICardService;
 import fr.cg95.cvq.service.users.ICertificateService;
-import fr.cg95.cvq.service.users.IChildService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
@@ -87,8 +85,6 @@ public class ServiceTestCase
     protected static IAuthenticationService iAuthenticationService;
     protected static IDocumentService iDocumentService;
     protected static IDocumentTypeService iDocumentTypeService;
-    protected static IAdultService iAdultService;
-    protected static IChildService iChildService;
     protected static ICardService iCardService;
     protected static ICertificateService iCertificateService;
     protected static IPaymentService iPaymentService;
@@ -139,8 +135,6 @@ public class ServiceTestCase
                     (IPaymentProviderService) cac.getBean("fakePaymentProviderService");
 
                 iIndividualService = (IIndividualService) cac.getBean("individualService");
-                iAdultService = (IAdultService) cac.getBean("adultService");
-                iChildService = (IChildService) cac.getBean("childService");
                 
                 iMeansOfContactService = 
                     (IMeansOfContactService) cac.getBean(IMeansOfContactService.SERVICE_NAME);

@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.civil.DeathDetailsRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -157,14 +155,12 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          DeathDetailsRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          DeathDetailsRequestFeeder.setSubject(request, 
              iDeathDetailsRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iDeathDetailsRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iDeathDetailsRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iDeathDetailsRequestService.create(request);
 
          DeathDetailsRequest requestFromDb =
         	 	(DeathDetailsRequest) iDeathDetailsRequestService.getById(requestId);
@@ -204,13 +200,8 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
         DeathDetailsRequestFeeder.setSubject(request, 
             iDeathDetailsRequestService.getSubjectPolicy(), requester, null);
 
-        DeathDetailsRequestDocument requestDoc = 
-            (DeathDetailsRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iDeathDetailsRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iDeathDetailsRequestService.create(request, requester.getId(), subject);
+             iDeathDetailsRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -241,7 +232,7 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

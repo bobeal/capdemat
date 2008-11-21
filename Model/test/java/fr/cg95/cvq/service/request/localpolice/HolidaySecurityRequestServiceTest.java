@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.localpolice.HolidaySecurityRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -162,14 +160,12 @@ public class HolidaySecurityRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          HolidaySecurityRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          HolidaySecurityRequestFeeder.setSubject(request, 
              iHolidaySecurityRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iHolidaySecurityRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iHolidaySecurityRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iHolidaySecurityRequestService.create(request);
 
          HolidaySecurityRequest requestFromDb =
         	 	(HolidaySecurityRequest) iHolidaySecurityRequestService.getById(requestId);
@@ -209,13 +205,8 @@ public class HolidaySecurityRequestServiceTest extends ServiceTestCase {
         HolidaySecurityRequestFeeder.setSubject(request, 
             iHolidaySecurityRequestService.getSubjectPolicy(), requester, null);
 
-        HolidaySecurityRequestDocument requestDoc = 
-            (HolidaySecurityRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iHolidaySecurityRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iHolidaySecurityRequestService.create(request, requester.getId(), subject);
+             iHolidaySecurityRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -246,7 +237,7 @@ public class HolidaySecurityRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

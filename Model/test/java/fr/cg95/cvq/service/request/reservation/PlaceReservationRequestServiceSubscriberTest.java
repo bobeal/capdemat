@@ -19,7 +19,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
-import fr.cg95.cvq.xml.request.reservation.PlaceReservationRequestDocument;
 
 public class PlaceReservationRequestServiceSubscriberTest 
     extends PlaceReservationRequestServiceTest {
@@ -105,9 +104,7 @@ public class PlaceReservationRequestServiceSubscriberTest
             }
         }
         
-        PlaceReservationRequestDocument requestDoc =
-            (PlaceReservationRequestDocument) request.modelToXml();
-        Long requestId = iPlaceReservationRequestService.create(requestDoc.getDomNode());
+        Long requestId = iPlaceReservationRequestService.create(request);
         PlaceReservationRequest requestFromDb = 
             (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
         completeValidateAndDelete(requestFromDb);

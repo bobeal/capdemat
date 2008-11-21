@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.social.DomesticHelpRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -230,14 +228,12 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          DomesticHelpRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          DomesticHelpRequestFeeder.setSubject(request, 
              iDomesticHelpRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iDomesticHelpRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iDomesticHelpRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iDomesticHelpRequestService.create(request);
 
          DomesticHelpRequest requestFromDb =
         	 	(DomesticHelpRequest) iDomesticHelpRequestService.getById(requestId);
@@ -277,13 +273,8 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
         DomesticHelpRequestFeeder.setSubject(request, 
             iDomesticHelpRequestService.getSubjectPolicy(), requester, null);
 
-        DomesticHelpRequestDocument requestDoc = 
-            (DomesticHelpRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iDomesticHelpRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iDomesticHelpRequestService.create(request, requester.getId(), subject);
+             iDomesticHelpRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -314,7 +305,7 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

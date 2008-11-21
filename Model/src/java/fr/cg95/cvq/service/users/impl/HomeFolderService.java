@@ -37,8 +37,6 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.users.IAdultService;
-import fr.cg95.cvq.service.users.IChildService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -59,8 +57,6 @@ public class HomeFolderService implements IHomeFolderService {
     protected IAdultDAO adultDAO;
 
     protected IIndividualService individualService;
-    protected IAdultService adultService;
-    protected IChildService childService;
 
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     protected IMailService mailService;
@@ -85,15 +81,15 @@ public class HomeFolderService implements IHomeFolderService {
     public final Set<Child> getChildren(final Long homeFolderId)
         throws CvqException {
 
-        List childList = childDAO.listByHomeFolder(homeFolderId);
-        return new LinkedHashSet(childList);
+        List<Child> childList = childDAO.listChildrenByHomeFolder(homeFolderId);
+        return new LinkedHashSet<Child>(childList);
     }
 
     public final Set<Adult> getAdults(final Long homeFolderId)
         throws CvqException {
 
-        List adultList = adultDAO.listByHomeFolder(homeFolderId);
-        return new LinkedHashSet(adultList);
+        List<Adult> adultList = adultDAO.listAdultsByHomeFolder(homeFolderId);
+        return new LinkedHashSet<Adult>(adultList);
     }
 
     public List<Individual> getIndividuals(Long homeFolderId) throws CvqException {
@@ -312,7 +308,7 @@ public class HomeFolderService implements IHomeFolderService {
         Set<IndividualRole> individualRoles = new HashSet<IndividualRole>();
         individualRoles.add(individualRole);
         adult.setIndividualRoles(individualRoles);
-        adultService.create(adult, homeFolder, null, true);
+        individualService.create(adult, homeFolder, null, true);
 
         Set<Individual> allIndividuals = new HashSet<Individual>();
         allIndividuals.add(adult);
@@ -340,9 +336,9 @@ public class HomeFolderService implements IHomeFolderService {
         
         for (Individual individual : allIndividuals) {
             if (individual instanceof Child) 
-                childService.create((Child) individual, homeFolder, address, false);
+                individualService.create(individual, homeFolder, address, false);
             else if (individual instanceof Adult)
-                adultService.create((Adult) individual, homeFolder, address, true);                
+                individualService.create(individual, homeFolder, address, true);                
         }
         
         checkAndFinalizeRoles(homeFolder.getId(), adults, children);
@@ -373,7 +369,7 @@ public class HomeFolderService implements IHomeFolderService {
                             throw new CvqModelException("homeFolder.error.onlyOneResponsibleIsAllowed");
                         foundHomeFolderResponsible = true;
                         individualRole.setHomeFolderId(homeFolderId);
-                        adultService.modify(adult);
+                        individualService.modify(adult);
                     } else if (individualRole.getRole().equals(RoleEnum.TUTOR)) {
                         logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
                                 + " is tutor");
@@ -392,7 +388,7 @@ public class HomeFolderService implements IHomeFolderService {
                             // individual name is not provided, it is the tutor of the home folder
                             individualRole.setHomeFolderId(homeFolderId);
                         }
-                        adultService.modify(adult);
+                        individualService.modify(adult);
                     } else if (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
                             || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
                             || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)) {
@@ -408,7 +404,7 @@ public class HomeFolderService implements IHomeFolderService {
                                     break;
                                 }
                             }
-                            adultService.modify(adult);
+                            individualService.modify(adult);
                         }
                     }
                 }
@@ -448,13 +444,13 @@ public class HomeFolderService implements IHomeFolderService {
     @Override
     public Long addAdult(Long homeFolderId, Adult adult, Address address) throws CvqException {
         HomeFolder homeFolder = getById(homeFolderId);
-        return adultService.create(adult, homeFolder, address, true);
+        return individualService.create(adult, homeFolder, address, true);
     }
 
     @Override
     public Long addChild(Long homeFolderId, Child child, Address address) throws CvqException {
         HomeFolder homeFolder = getById(homeFolderId);
-        return childService.create(child, homeFolder, address, false);
+        return individualService.create(child, homeFolder, address, false);
     }
 
     private void initializeCommonAttributes(HomeFolder homeFolder) 
@@ -479,12 +475,12 @@ public class HomeFolderService implements IHomeFolderService {
     }
 
     @Override
-    public void deleteIndividual(Long individualId) 
+    public void deleteIndividual(final Long homeFolderId, final Long individualId) 
         throws CvqException, CvqObjectNotFoundException {
         
         Individual individual = individualService.getById(individualId);
-        HomeFolder homeFolder = getById(individual.getHomeFolder().getId());
-        removeRolesOnSubject(homeFolder.getId(), individual.getId());
+        HomeFolder homeFolder = getById(homeFolderId);
+        removeRolesOnSubject(homeFolderId, individual.getId());
         individual.setAdress(null);
         individual.setHomeFolder(null);
 
@@ -524,11 +520,11 @@ public class HomeFolderService implements IHomeFolderService {
         }
         
         for (Adult adult : adults) {
-            adultService.delete(adult, true);
+            individualService.delete(adult);
         }
         
         for (Child child : children) {
-            childService.delete(child, true);
+            individualService.delete(child);
         }
 
         homeFolderDAO.delete(homeFolder);
@@ -642,11 +638,9 @@ public class HomeFolderService implements IHomeFolderService {
     public final void validate(HomeFolder homeFolder)
         throws CvqException, CvqObjectNotFoundException {
 
-        logger.debug("Gonna validate home folder : " + homeFolder.getId());
         updateHomeFolderState(homeFolder, ActorState.VALID);
     }
     
-    /* FIXME : security checks */
     public final void invalidate(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -657,7 +651,6 @@ public class HomeFolderService implements IHomeFolderService {
     public final void invalidate(HomeFolder homeFolder) 
         throws CvqException, CvqObjectNotFoundException {
 
-		logger.debug("Gonna invalidate home folder : " + homeFolder.getId());
 		updateHomeFolderState(homeFolder, ActorState.INVALID);
 	}
 
@@ -671,7 +664,6 @@ public class HomeFolderService implements IHomeFolderService {
     public final void archive(HomeFolder homeFolder) 
         throws CvqException, CvqObjectNotFoundException {
         
-        logger.debug("Gonna archive home folder : " + homeFolder.getId());
         updateHomeFolderState(homeFolder, ActorState.ARCHIVED);
         
         requestService.archiveHomeFolderRequests(homeFolder);
@@ -756,14 +748,6 @@ public class HomeFolderService implements IHomeFolderService {
 
     public void setPaymentService(IPaymentService paymentService) {
         this.paymentService = paymentService;
-    }
-
-    public void setAdultService(IAdultService adultService) {
-        this.adultService = adultService;
-    }
-
-    public void setChildService(IChildService childService) {
-        this.childService = childService;
     }
 
     public void setDocumentService(IDocumentService documentService) {

@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.urbanism.SewerConnectionRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -152,14 +150,12 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          SewerConnectionRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          SewerConnectionRequestFeeder.setSubject(request, 
              iSewerConnectionRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iSewerConnectionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iSewerConnectionRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iSewerConnectionRequestService.create(request);
 
          SewerConnectionRequest requestFromDb =
         	 	(SewerConnectionRequest) iSewerConnectionRequestService.getById(requestId);
@@ -199,13 +195,8 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
         SewerConnectionRequestFeeder.setSubject(request, 
             iSewerConnectionRequestService.getSubjectPolicy(), requester, null);
 
-        SewerConnectionRequestDocument requestDoc = 
-            (SewerConnectionRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iSewerConnectionRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iSewerConnectionRequestService.create(request, requester.getId(), subject);
+             iSewerConnectionRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -236,7 +227,7 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

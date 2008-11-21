@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.${request.requestNamespaceLastParticle}.${request.requestName}Document;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -191,14 +189,12 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          ${request.requestName} request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          ${request.requestName}Feeder.setSubject(request, 
              i${request.requestName}Service.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (i${request.requestName}Service.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              i${request.requestName}Service.create(request, homeFolderResponsible.getId(), subject);
+              i${request.requestName}Service.create(request);
 
          ${request.requestName} requestFromDb =
         	 	(${request.requestName}) i${request.requestName}Service.getById(requestId);
@@ -307,13 +303,8 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
         ${request.requestName}Feeder.setSubject(request, 
             i${request.requestName}Service.getSubjectPolicy(), requester, null);
 
-        ${request.requestName}Document requestDoc = 
-            (${request.requestName}Document) request.modelToXml();
-         Individual subject = null;
-         if (i${request.requestName}Service.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             i${request.requestName}Service.create(request, requester.getId(), subject);
+             i${request.requestName}Service.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -344,7 +335,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

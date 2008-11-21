@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.social.RemoteSupportRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -171,14 +169,12 @@ public class RemoteSupportRequestServiceTest extends ServiceTestCase {
          //////////////////////////////
 
          RemoteSupportRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          RemoteSupportRequestFeeder.setSubject(request, 
              iRemoteSupportRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iRemoteSupportRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iRemoteSupportRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iRemoteSupportRequestService.create(request);
 
          RemoteSupportRequest requestFromDb =
         	 	(RemoteSupportRequest) iRemoteSupportRequestService.getById(requestId);
@@ -218,13 +214,8 @@ public class RemoteSupportRequestServiceTest extends ServiceTestCase {
         RemoteSupportRequestFeeder.setSubject(request, 
             iRemoteSupportRequestService.getSubjectPolicy(), requester, null);
 
-        RemoteSupportRequestDocument requestDoc = 
-            (RemoteSupportRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iRemoteSupportRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iRemoteSupportRequestService.create(request, requester.getId(), subject);
+             iRemoteSupportRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -255,7 +246,7 @@ public class RemoteSupportRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

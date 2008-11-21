@@ -118,7 +118,7 @@ public class RequestServiceTest extends ServiceTestCase {
         CreationBean cb = gimmeAnHomeFolder();
         Request request = iRequestService.getById(cb.getRequestId());
         Long requesterId = request.getRequesterId();
-        Adult requester = iAdultService.getById(requesterId);
+        Adult requester = iIndividualService.getAdultById(requesterId);
         
         Set <Critere> critSet = new HashSet<Critere>();
         // search by ...

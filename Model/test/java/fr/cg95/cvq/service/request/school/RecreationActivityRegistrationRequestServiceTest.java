@@ -15,8 +15,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -148,14 +146,12 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
          //////////////////////////////
 
          RecreationActivityRegistrationRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
          RecreationActivityRegistrationRequestFeeder.setSubject(request, 
              iRecreationActivityRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          
-         Individual subject = null;
-         if (iRecreationActivityRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
          Long requestId =
-              iRecreationActivityRegistrationRequestService.create(request, homeFolderResponsible.getId(), subject);
+              iRecreationActivityRegistrationRequestService.create(request);
 
          RecreationActivityRegistrationRequest requestFromDb =
         	 	(RecreationActivityRegistrationRequest) iRecreationActivityRegistrationRequestService.getById(requestId);
@@ -195,13 +191,8 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
         RecreationActivityRegistrationRequestFeeder.setSubject(request, 
             iRecreationActivityRegistrationRequestService.getSubjectPolicy(), requester, null);
 
-        RecreationActivityRegistrationRequestDocument requestDoc = 
-            (RecreationActivityRegistrationRequestDocument) request.modelToXml();
-         Individual subject = null;
-         if (iRecreationActivityRegistrationRequestService.getSubjectPolicy().equals(IRequestService.SUBJECT_POLICY_NONE))
-             subject = iIndividualService.getById(request.getSubjectId());
         Long requestId =
-             iRecreationActivityRegistrationRequestService.create(request, requester.getId(), subject);
+             iRecreationActivityRegistrationRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -232,7 +223,7 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

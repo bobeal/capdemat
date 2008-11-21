@@ -78,7 +78,7 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
     <property name="agentDAO">
       <ref bean="agentDAO"/>
     </property>
-    <property name="adultService" ref="adultService" />
+    <property name="individualService" ref="individualService" />
     <property name="homeFolderService" ref="homeFolderService" />
     <property name="administratorGroups">
       <list>
@@ -240,46 +240,23 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   </bean>
 
   <bean id="individualService" class="fr.cg95.cvq.service.users.impl.IndividualService">
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
-    </property>
-    <property name="documentService" ref="documentService" />
-    <property name="authenticationService">
-      <ref bean="authenticationService"/>
-    </property>
-  </bean>
-
-  <bean id="adultService" class="fr.cg95.cvq.service.users.impl.AdultService"
-    parent="individualService">
-    <property name="adultDAO">
-      <ref local="adultDAO"/>
-    </property>
-    <property name="childService">
-      <ref local="childService"/>
-    </property>
-  </bean>
-
-  <bean id="childService" class="fr.cg95.cvq.service.users.impl.ChildService" 
-    parent="individualService">
+    <property name="individualDAO" ref="individualDAO"/>
+    <property name="adultDAO" ref="adultDAO" />
     <property name="childDAO" ref="childDAO" />
+    <property name="authenticationService" ref="authenticationService"/>
   </bean>
 
   <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService">
-  	 <property name="localAuthorityRegistry"> 
+    <property name="localAuthorityRegistry"> 
   	 	<ref bean="localAuthorityRegistry"/>
-  	 </property>
-	 <property name="mailService">
-	  <ref local="mailService"/>
+  	</property>
+	  <property name="mailService">
+	   <ref local="mailService"/>
     </property>
     <property name="individualService">
       <ref local="individualService"/>
     </property>
-    <property name="adultService">
-      <ref local="adultService"/>
-    </property>
-    <property name="childService">
-      <ref local="childService"/>
-    </property>
+    <property name="documentService" ref="documentService" />
     <property name="requestService">
       <ref local="defaultRequestService"/>
     </property>
@@ -293,7 +270,6 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
     <property name="homeFolderDAO">
       <ref local="homeFolderDAO"/>
     </property>
-    <property name="documentService" ref="documentService" />
     <property name="childDAO">
       <ref local="childDAO"/>
     </property>
@@ -353,15 +329,11 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
     <property name="label" value="Home Folder Modification"/>
     <property name="xslFoFilename" value="homeFolderModificationRequest.xsl"/>
     <!-- service specifics -->
-
     <property name="historyEntryDAO">
       <ref local="historyEntryDAO"/>
     </property>
     <property name="historyInterceptor">
       <ref local="historyInterceptor"/>
-    </property>
-    <property name="adultService">
-      <ref bean="adultService"/>
     </property>
     <!-- end service specifics -->
   </bean>
@@ -399,9 +371,6 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
     class="fr.cg95.cvq.service.request.school.impl.SchoolCanteenRegistrationRequestService" 
     parent="requestService">
     <!-- Service specific -->
-    <property name="schoolRegistrationRequestService">
-      <ref bean="schoolRegistrationRequestService"/>
-    </property>
     <property name="localReferentialFilename" value="local_referential_scrr.xml"/>
     <property name="label" value="School Canteen Registration"/>
     <property name="xslFoFilename" value="schoolCanteenRegistrationRequest.xsl"/>
@@ -541,7 +510,6 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   <bean id="bulkyWasteCollectionRequestService" 
     class="fr.cg95.cvq.service.request.environment.impl.BulkyWasteCollectionRequestService" 
     parent="requestService">
-    <property name="supportUnregisteredCreation" value="false"/>
     <property name="label" value="Bulky Waste Collection"/>
     <property name="localReferentialFilename" value="local_referential_bwc.xml"/>
     <property name="xslFoFilename" value="bulkyWasteCollectionRequest.xsl"/>
@@ -550,7 +518,6 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   <bean id="compostableWasteCollectionRequestService" 
     class="fr.cg95.cvq.service.request.environment.impl.CompostableWasteCollectionRequestService" 
     parent="requestService">
-    <property name="supportUnregisteredCreation" value="false"/>
     <property name="label" value="Compostable Waste Collection"/>
     <property name="localReferentialFilename" value="local_referential_cwc.xml"/>
     <property name="xslFoFilename" value="compostableWasteCollectionRequest.xsl"/>

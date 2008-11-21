@@ -145,7 +145,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
                     "Drancy", "93700");
         homeFolderUncle.setAdress(newAdress);
 
-        Adult testReloadedWoman = iAdultService.getById(homeFolderWoman.getId());
+        Adult testReloadedWoman = iIndividualService.getAdultById(homeFolderWoman.getId());
         testReloadedWoman.setFirstName2("Angélique");
         Set<Adult> newAdults = new HashSet<Adult>();
         newAdults.add(homeFolderUncle);
@@ -281,7 +281,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
-        Adult adult = iAdultService.getById(newAdult.getId());
+        Adult adult = iIndividualService.getAdultById(newAdult.getId());
         assertNotNull(adult);
         assertNotNull(adult.getIndividualRoles());
         assertEquals(2, adult.getIndividualRoles().size());
@@ -320,7 +320,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             continueWithNewTransaction();
 
             try {
-                iAdultService.getById(newAdult.getId());
+                iIndividualService.getById(newAdult.getId());
                 fail("should have thrown an exception");
             } catch (CvqObjectNotFoundException confe) {
                 // that was expected
@@ -498,7 +498,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         
         // check removed adult has been deleted from DB
         try {
-            iAdultService.getById(homeFolderUncle.getId());
+            iIndividualService.getById(homeFolderUncle.getId());
             fail("Adult should have been removed");
         } catch (CvqObjectNotFoundException confe) {
             // that's what we expected
@@ -536,7 +536,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         
         // check removed adult has been restored
         try {
-            iAdultService.getById(homeFolderUncle.getId());
+            iIndividualService.getById(homeFolderUncle.getId());
         } catch (CvqObjectNotFoundException confe) {
             fail("Adult should have been restored");
         }
@@ -676,7 +676,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             srr.setSubjectId(child1.getId());
 
             Long srrId =
-                iSchoolRegistrationRequestService.create(srr, homeFolderResponsible.getId(), child1);
+                iSchoolRegistrationRequestService.create(srr);
 
             continueWithNewTransaction();
 

@@ -16,8 +16,8 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.users.IAdultService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IIndividualService;
 
 /**
  * A manager for the notions of "current everything" that
@@ -39,7 +39,7 @@ public class SecurityContext {
     private static ILocalAuthorityRegistry localAuthorityRegistry;
     private static IAgentDAO agentDAO;
     
-    private static IAdultService adultService;
+    private static IIndividualService individualService;
     private static IHomeFolderService homeFolderService;
     
     private static List<String> administratorGroups;
@@ -199,7 +199,7 @@ public class SecurityContext {
         throws CvqException, CvqObjectNotFoundException {
 
         logger.debug("setCurrentEcitizen() ecitizen = " + ecitizenLogin);
-        Individual individual = adultService.getByLogin(ecitizenLogin);
+        Individual individual = individualService.getByLogin(ecitizenLogin);
         if (individual == null || individual instanceof Child)
             throw new CvqObjectNotFoundException("Adult not found !");
         setCurrentEcitizen((Adult) individual);
@@ -420,8 +420,8 @@ public class SecurityContext {
         agentDAO = iAgentDAO;
     }
 
-	public void setAdultService(IAdultService iAdultService) {
-        adultService = iAdultService;
+	public void setIndividualService(IIndividualService iIndividualService) {
+        individualService = iIndividualService;
     }
 
     public void setHomeFolderService(IHomeFolderService iHomeFolderService) {

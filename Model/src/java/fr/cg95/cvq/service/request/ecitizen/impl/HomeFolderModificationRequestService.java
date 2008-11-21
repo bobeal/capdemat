@@ -37,7 +37,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.users.IAdultService;
 
 /**
  * Implementation of the home folder modification request service.
@@ -53,8 +52,6 @@ public class HomeFolderModificationRequestService
     protected IHistoryEntryDAO historyEntryDAO;
     protected HistoryInterceptor historyInterceptor;
     
-    protected IAdultService adultService;
-    
     public HomeFolderModificationRequest create(final Long homeFolderId, final Long requesterId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -65,8 +62,9 @@ public class HomeFolderModificationRequestService
         
         HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
         hfmr.setHomeFolderId(homeFolderId);
+        hfmr.setRequesterId(requesterId);
         hfmr.setRequestType(getRequestTypeByLabel(getLabel()));
-        initializeCommonAttributes(hfmr, requesterId);
+        performBusinessChecks(hfmr);
 
         requestDAO.create(hfmr);
         return hfmr;
@@ -576,7 +574,8 @@ public class HomeFolderModificationRequestService
                 if (object instanceof Individual) {
                     if (!objectsToRemove.contains(object)) {
                         Individual individual = (Individual) object;
-                        homeFolderService.deleteIndividual(individual.getId());
+                        homeFolderService.deleteIndividual(request.getHomeFolderId(), 
+                                individual.getId());
                     }
                 } else if (object instanceof IndividualRole) {
                     IndividualRole individualRole = (IndividualRole) object;
@@ -669,9 +668,5 @@ public class HomeFolderModificationRequestService
 
     public void setHistoryInterceptor(HistoryInterceptor historyInterceptor) {
         this.historyInterceptor = historyInterceptor;
-    }
-
-    public void setAdultService(IAdultService adultService) {
-        this.adultService = adultService;
     }
 }

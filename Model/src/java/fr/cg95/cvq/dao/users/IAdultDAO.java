@@ -12,5 +12,5 @@ public interface IAdultDAO extends IIndividualDAO {
     /**
      * Return the list of {@link Adult} objects belonging to a given home folder.
      */
-    List listByHomeFolder(final Long homeFolderId);
+    List<Adult> listAdultsByHomeFolder(final Long homeFolderId);
 }

@@ -11,7 +11,7 @@
     
       <!-- start of individual -->
       <g:each var="adult" in="${adults}">
-        <g:render template="/requestInstruction/requestType/adult" model="['adult': adult]" />
+        <g:render template="/backofficeRequestInstruction/requestType/adult" model="['adult': adult]" />
       </g:each>
       <!-- end of individual -->
       
@@ -23,7 +23,7 @@
     
       <!-- start of individual -->
       <g:each var="child" in="${children}">
-        <g:render template="/requestInstruction/requestType/child" 
+        <g:render template="/backofficeRequestInstruction/requestType/child" 
             model="['child': child, 'childLegalResponsibles': childrenLegalResponsibles[child.id]]" />
       </g:each>
       <!-- end of individual -->

@@ -15,7 +15,6 @@
         <form id="pageForm" method="post" action="${createLink(action:'taskBoard')}">
           <input name="pageState" id="pageState" type="hidden" value="${pageState}"></input>
         </form>
-        
         <g:if test="${requestMap.containsKey('redRequests')}">
           <div class="mainbox taskboard-red">
             <h2>
@@ -26,7 +25,7 @@
               <g:render template="taskBoardEntry" var="record" 
                 collection="${requestMap.redRequests.all}" />
             </ul>
-            <a href="${createLink(action:'search',controller:'request')}" id="showAllRed">
+            <a href="${createLink(action:'search')}" id="showAllRed">
               <g:message code="action.seeAll" />
             </a>
           </div>
@@ -42,7 +41,7 @@
               <g:render template="taskBoardEntry" var="record"
                 collection="${requestMap.orangeRequests.all}" />
             </ul>
-            <a href="${createLink(action:'search',controller:'request')}" id="showAllOrange">
+            <a href="${createLink(action:'search')}" id="showAllOrange">
               <g:message code="action.seeAll" />
             </a>
           </div>
@@ -58,7 +57,7 @@
               <g:render template="taskBoardEntry" var="record" 
                 collection="${requestMap.pendingRequests.all}" />
             </ul>
-            <a href="${createLink(action:'search',controller:'request')}" id="showAllPending">
+            <a href="${createLink(action:'search')}" id="showAllPending">
               <g:message code="action.seeAll" />
             </a>
           </div>
@@ -74,7 +73,7 @@
               <g:render template="taskBoardEntry" var="record" 
                 collection="${requestMap.lastRequests.all}" />
             </ul>
-            <a href="${createLink(action:'search',controller:'request')}" id="showAllLast_${currentUserId}">
+            <a href="${createLink(action:'search')}" id="showAllLast_${currentUserId}">
               <g:message code="action.seeAll" />
             </a>
           </div>
@@ -90,7 +89,7 @@
               <g:render template="taskBoardEntry" var="record" 
                 collection="${requestMap.validatedRequests.all}" />
             </ul>
-            <a href="${createLink(action:'search',controller:'request')}" id="showAllValidated">
+            <a href="${createLink(action:'search')}" id="showAllValidated">
               <g:message code="action.seeAll" />
             </a>
           </div>

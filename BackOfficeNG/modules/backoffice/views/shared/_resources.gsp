@@ -1,3 +1,4 @@
+
   <link rel="shortcut icon" href="${createLinkTo(dir:'images',file:'favicon.ico')}" />
   <!-- Grid and common settings CSS -->
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/yui/reset-fonts-grids',file:'reset-fonts-grids.css')}" />

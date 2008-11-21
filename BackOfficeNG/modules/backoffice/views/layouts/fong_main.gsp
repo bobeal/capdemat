@@ -25,9 +25,9 @@
      
        <!-- main navifgation bar -->
      <map id="bd-menu">
-       <a href="<g:createLink controller='fongRequest'/>"><span>Accueil</span></a>
-       <a href="<g:createLink controller='fongRequest'/>"><span>Espace Citoyen</span></a>
-       <a href="<g:createLink controller='fongRequest'/>" class="current"><span>Téléservices</span></a>
+       <a href="<g:createLink controller='backofficeFongRequest'/>"><span>Accueil</span></a>
+       <a href="<g:createLink controller='backofficeFongRequest'/>"><span>Espace Citoyen</span></a>
+       <a href="<g:createLink controller='backofficeFongRequest'/>" class="current"><span>Téléservices</span></a>
      </map>
      
      <!-- header -->

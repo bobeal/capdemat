@@ -1,7 +1,7 @@
 <li>
   <p class="first-line">
     <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
-    <a href="${createLink(controller:'requestInstruction', action:'edit',id:record.id)}">${record.label}
+    <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">${record.label}
     - <g:message code="request.searchResult.requestId" /> 
     <span class="${sortBy == 'requestId' ? 'current-sort' : ''}">${record.id}</span>
     - <g:message code="layout.from" /> 

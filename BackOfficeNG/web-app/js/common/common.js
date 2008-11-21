@@ -215,7 +215,8 @@
       effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.25},
       modal:true, visible:false, draggable:false, fixedcenter:true,
       icon:YAHOO.widget.SimpleDialog.ICON_WARN ,
-      buttons:[{ text:'  Ok  ',isDefault:true, handler:function() {this.hide();}}]
+      buttons:[{ text:'  Ok  ',isDefault:true, handler:function(e){
+        zct.tryToCall(confirmHandler,this);this.hide();}}]
       //{ text: this.Label.first,isDefault:true,
       //  handler:function(e){zct.tryToCall(confirmHandler,this);this.hide();}},
       //{ text:this.Label.second, handler:function() {this.hide();}}

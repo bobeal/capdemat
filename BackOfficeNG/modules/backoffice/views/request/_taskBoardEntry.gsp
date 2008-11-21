@@ -1,5 +1,5 @@
 <li>
-  <a href="${createLink(controller:'requestInstruction',action:'edit',id:record.id)}">
+  <a href="${createLink(controller:'backofficeRequestInstruction',action:'edit',id:record.id)}">
     <strong>
       <g:translateRequestTypeLabel label="${record.requestType.label}"/>
     </strong>

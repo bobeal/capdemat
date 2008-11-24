@@ -160,7 +160,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                     cdto.setAddress(currentAddress);
                     
                     homeFolderService.addHomeFolderRole(currentHomeFolderResponsible, 
-                            null, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+                            RoleEnum.HOME_FOLDER_RESPONSIBLE);
                     currentHomeFolderResponsible.setPassword(authenticationService.generatePassword());
                     cdto.setHomeFolderResponsible(currentHomeFolderResponsible);
                     cdto.getAdults().add(currentHomeFolderResponsible);

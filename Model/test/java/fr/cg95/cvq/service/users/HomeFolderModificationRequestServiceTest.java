@@ -77,6 +77,9 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             // just catch and let tear down go up to his parent
         }
 
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        
         iHomeFolderModificationRequestService.delete(hfmrId);
         
         super.onTearDown();
@@ -162,6 +165,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
     public void testSimpleModificationsValidated()
         throws CvqException {
 
+        try {
+            
         prepareSimpleModifications();
 
         continueWithNewTransaction();
@@ -207,6 +212,11 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
         Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     public void testSimpleModificationsCancelled()
@@ -254,7 +264,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
                 RoleEnum.CLR_TUTOR); 
         
         newChild = BusinessObjectsFactory.gimmeChild("child", "new");
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, newChild, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible.getId(), 
+                newChild, RoleEnum.CLR_FATHER);
         iHomeFolderService.addIndividualRole(newAdult, newChild, RoleEnum.CLR_TUTOR);
         children.add(newChild);
 
@@ -346,9 +357,12 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         child1.setBirthCity("Paris");
 
         newChild = BusinessObjectsFactory.gimmeChild("Badiane", "XXXX");
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, newChild, RoleEnum.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(homeFolderWoman, newChild, RoleEnum.CLR_MOTHER);
-        iHomeFolderService.addIndividualRole(homeFolderUncle, newChild, RoleEnum.CLR_TUTOR);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible.getId(), 
+                newChild, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(homeFolderWoman.getId(), 
+                newChild, RoleEnum.CLR_MOTHER);
+        iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), 
+                newChild, RoleEnum.CLR_TUTOR);
         children.add(newChild);
 
         iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
@@ -550,13 +564,14 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         Adult responsibleToRemove = 
             iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         adults.remove(responsibleToRemove);
-        iHomeFolderService.removeHomeFolderRole(responsibleToRemove.getId(), 
-                homeFolder.getId(), RoleEnum.HOME_FOLDER_RESPONSIBLE);
 
         iHomeFolderService.addHomeFolderRole(homeFolderUncle.getId(), homeFolder.getId(), 
                 RoleEnum.HOME_FOLDER_RESPONSIBLE);
         iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), child2, RoleEnum.CLR_FATHER);
         homeFolderUncle.setPassword("toto");
+
+        iHomeFolderService.removeHomeFolderRole(responsibleToRemove.getId(), 
+                homeFolder.getId(), RoleEnum.HOME_FOLDER_RESPONSIBLE);
 
         iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
     }
@@ -674,7 +689,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             srr.setUrgencyPhone("0102030405");
             srr.setSchool(school);
             srr.setSubjectId(child1.getId());
-
+            srr.setRequesterId(SecurityContext.getCurrentUserId());
+            
             Long srrId =
                 iSchoolRegistrationRequestService.create(srr);
 

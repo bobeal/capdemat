@@ -412,8 +412,7 @@ public class ServiceTestCase
         homeFolderResponsible =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,
                     FamilyStatusType.MARRIED);
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, null, 
-                RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleEnum.HOME_FOLDER_RESPONSIBLE);
         homeFolderResponsible.setPassword("toto");
 
         homeFolderWoman =

@@ -91,8 +91,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         homeFolderResponsible.setCfbn("5050505E");
         homeFolderResponsible.setEmail("bor@zenexity.fr");
         homeFolderResponsible.setNameOfUse("NAMEOFUSE");
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, null, 
-                RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleEnum.HOME_FOLDER_RESPONSIBLE);
 
         Adult mother = new Adult();
         mother.setTitle(TitleType.MADAM);

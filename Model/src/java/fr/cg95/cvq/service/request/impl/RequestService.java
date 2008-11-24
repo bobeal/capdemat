@@ -1023,8 +1023,7 @@ public abstract class RequestService implements IRequestService {
         }
     }
 
-    protected Long finalizeAndPersist(final Request request, HomeFolder homeFolder) 
-        throws CvqException {
+    protected void setAdministrativeInformation(Request request) throws CvqException {
         
         RequestType requestType = getRequestTypeByLabel(getLabel());
         request.setRequestType(requestType);
@@ -1035,7 +1034,15 @@ public abstract class RequestService implements IRequestService {
         request.setOrangeAlert(Boolean.FALSE);
         request.setRedAlert(Boolean.FALSE);
 
+    }
+    
+    protected Long finalizeAndPersist(Request request, HomeFolder homeFolder) 
+        throws CvqException {
+
+        setAdministrativeInformation(request);
+        
         if (isOfRegistrationKind()) {
+            RequestType requestType = getRequestTypeByLabel(getLabel());
             Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
             if (openSeasons != null && !openSeasons.isEmpty())  
                 request.setSeasonUuid(openSeasons.iterator().next().getUuid());

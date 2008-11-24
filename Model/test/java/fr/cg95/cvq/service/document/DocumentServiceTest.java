@@ -228,8 +228,13 @@ public class DocumentServiceTest extends ServiceTestCase {
         logger.debug("Doc end validity date : " + doc.getEndValidityDate());
 
         // hmm ? just a test :-)
-        iDocumentService.modify(null);
-
+        try {
+            iDocumentService.modify(null);
+            fail("should have thrown an exception");
+        } catch (PermissionException pe) {
+            // that was expected
+        }
+        
         // retrieve all known document types
         allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
         Assert.assertNotNull(allDocumentTypes);

@@ -14,7 +14,7 @@ import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.IndividualRole;
 
 /**
  * A data structure / cache that stores all the credentials necessary when
@@ -61,7 +61,7 @@ public class CredentialBean {
     /**
      * Used to keep trace of current citizen's "managed" individuals.
      */
-    private Set<Long> managedIndividualsIds = null;
+    private Set<IndividualRole> individualRoles = null;
     
     public CredentialBean(LocalAuthority localAuthority, String context) {
         logger.debug("CredentialBean() setting local authority " + localAuthority
@@ -135,7 +135,8 @@ public class CredentialBean {
 
 	public void setEcitizen(Adult adult) {
 		this.adult = adult;
-
+		this.individualRoles = adult.getIndividualRoles();
+		
 		// in case we are changing of user inside a transaction, reset the cache
 		resetCaches();
 	}
@@ -223,19 +224,35 @@ public class CredentialBean {
         return null;
     }
 
-    public Set<Long> getManagedIndividualsIds() {
-        return managedIndividualsIds;
+    public Set<IndividualRole> getIndividualsRoles() {
+        return individualRoles;
     }
 
-    public void setManagedIndividualsIds(Set<Long> managedIndividualsIds) {
-        this.managedIndividualsIds = managedIndividualsIds;
-    }
-
-    public void setManagedIndividuals(Set<Individual> managedIndividuals) {
-        managedIndividualsIds = new HashSet<Long>();
-        for (Individual individual : managedIndividuals) {
-            managedIndividualsIds.add(individual.getId());
+    /**
+     * Return current user's roles on his home folder (and not on individuals).
+     */
+    public Set<IndividualRole> getHomeFolderRoles() {
+        Set<IndividualRole> homeFolderRoles = new HashSet<IndividualRole>();
+        for (IndividualRole individualRole : individualRoles) {
+            if (individualRole.getHomeFolderId() != null)
+                homeFolderRoles.add(individualRole);
         }
+        
+        return homeFolderRoles;
+    }
+    
+    /**
+     * Return current user's roles on his home folder's individuals.
+     */
+    public Set<IndividualRole> getIndividualRoles(final Long individualId) {
+        Set<IndividualRole> roles = new HashSet<IndividualRole>();
+        for (IndividualRole individualRole : individualRoles) {
+            if (individualRole.getIndividualId() != null 
+                    && individualRole.getIndividualId().equals(individualId))
+                roles.add(individualRole);
+        }
+        
+        return roles;
     }
 
     /* ==================== Grants cache API =========================== */

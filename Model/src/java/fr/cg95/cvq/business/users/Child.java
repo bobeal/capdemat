@@ -2,8 +2,6 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import fr.cg95.cvq.xml.common.ChildType;
 
 
@@ -92,11 +90,4 @@ public class Child extends Individual
     public void setBadgeNumber(String badgeNumber) {
         this.badgeNumber = badgeNumber;
     }
-
-    public String toString() {
-        return new ToStringBuilder(this)
-            .append("id", getId())
-            .toString();
-    }
-
 }

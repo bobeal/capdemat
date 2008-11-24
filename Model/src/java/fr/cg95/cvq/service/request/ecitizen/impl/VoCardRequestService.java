@@ -10,7 +10,10 @@ import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.IndividualRole;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -45,9 +48,20 @@ public final class VoCardRequestService
 
         dcvo.setHomeFolderId(homeFolder.getId());
 
-        // by default, set the home folder responsible as requester        
-        Adult homeFolderResponsible = 
-            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        // by default, set the home folder responsible as requester
+        Adult homeFolderResponsible = null;
+        for (Adult adult : adults) {
+            if (adult.getIndividualRoles() != null) {
+                for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                    if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                        homeFolderResponsible = adult;
+                        break;
+                    }
+                }
+            }
+        }
+        SecurityContext.setCurrentEcitizen(homeFolderResponsible);
+        
         dcvo.setRequesterId(homeFolderResponsible.getId());
         dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
         

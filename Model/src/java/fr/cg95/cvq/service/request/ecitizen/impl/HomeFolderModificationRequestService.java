@@ -66,6 +66,7 @@ public class HomeFolderModificationRequestService
         hfmr.setRequestType(getRequestTypeByLabel(getLabel()));
         performBusinessChecks(hfmr);
 
+        setAdministrativeInformation(hfmr);
         requestDAO.create(hfmr);
         return hfmr;
     }

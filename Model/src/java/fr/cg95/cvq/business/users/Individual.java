@@ -488,8 +488,13 @@ public class Individual implements Historizable, Serializable {
         this.individualRoles = individualRoles;
     }
 
+    public String getFullName() {
+        return getLastName() + " " + getFirstName();
+    }
+    
     public String toString() {
         return new ToStringBuilder(this)
+            .append("name", getFullName())
             .append("id", getId())
             .toString();
     }

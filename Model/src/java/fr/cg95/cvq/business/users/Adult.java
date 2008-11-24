@@ -2,8 +2,6 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import fr.cg95.cvq.xml.common.AdultType;
 
 /**
@@ -288,11 +286,4 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String toString() {
-        return new ToStringBuilder(this)
-            .append("id", getId())
-            .toString();
-    }
-
 }

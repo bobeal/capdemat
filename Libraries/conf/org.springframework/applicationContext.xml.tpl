@@ -3,12 +3,10 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns:aop="http://www.springframework.org/schema/aop"
      xmlns:context="http://www.springframework.org/schema/context"
-     xmlns:sec="http://safr.sourceforge.net/schema/core"
      xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
   <aop:aspectj-autoproxy/>
 
@@ -16,6 +14,10 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
   <bean id="hibernateExceptionTranslatorAspect" 
     class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslatorAspect" />
+
+  <!-- 
+  <context:component-scan base-package="fr.cg95.cvq.service.request"/>
+  -->
   
   <!-- ======================================================= -->
   <!-- ========== GENERAL SERVICES DEFINITION ================ -->  
@@ -72,14 +74,9 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   <bean id="cvqPolicy" class="fr.cg95.cvq.security.CvqPolicy" init-method="init"/>
   
   <bean id="securityContext" class="fr.cg95.cvq.security.SecurityContext">
-    <property name="localAuthorityRegistry">
-      <ref bean="localAuthorityRegistry"/>
-    </property>
-    <property name="agentDAO">
-      <ref bean="agentDAO"/>
-    </property>
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="agentService" ref="agentService" />
     <property name="individualService" ref="individualService" />
-    <property name="homeFolderService" ref="homeFolderService" />
     <property name="administratorGroups">
       <list>
        <value>${agent.administrator_group}</value>
@@ -231,6 +228,10 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
   <!-- *******************************************************************  -->
   <!-- *********************** USERS SERVICES*****************************  -->
   <!-- *******************************************************************  -->
+
+  <bean id="usersContextCheckAspect" 
+    class="fr.cg95.cvq.service.users.aspect.UsersContextAspect">
+  </bean>
 
   <bean id="voCardRequestService" class="fr.cg95.cvq.service.request.ecitizen.impl.VoCardRequestService" 
     parent="requestService">

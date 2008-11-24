@@ -1,6 +1,5 @@
 package fr.cg95.cvq.security;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,12 +10,11 @@ import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.authority.IAgentDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 
 /**
@@ -37,10 +35,9 @@ public class SecurityContext {
     public static final String ADMIN_CONTEXT = "adminContext";
 
     private static ILocalAuthorityRegistry localAuthorityRegistry;
-    private static IAgentDAO agentDAO;
+    private static IAgentService agentService;
     
     private static IIndividualService individualService;
-    private static IHomeFolderService homeFolderService;
     
     private static List<String> administratorGroups;
     private static List<String> agentGroups;
@@ -146,7 +143,7 @@ public class SecurityContext {
         throws CvqException, CvqObjectNotFoundException {
 
         logger.debug("setCurrentAgent() agent = " + agentLogin);
-        Agent agent = agentDAO.findByLogin(agentLogin);
+        Agent agent = agentService.getByLogin(agentLogin);
         if (agent == null)
             throw new CvqObjectNotFoundException("Agent not found !");
         setCurrentAgent(agent);
@@ -159,13 +156,17 @@ public class SecurityContext {
      * @throws CvqException if security context is not initialized or if no ecitizen is set in it
      *  or if it is not in the {@link #FRONT_OFFICE_CONTEXT front office context}.
      */
-    public static Adult getCurrentEcitizen() throws CvqException {
+    public static Adult getCurrentEcitizen() {
 		CredentialBean credentialBean = currentContextThreadLocal.get();
-		if (credentialBean == null)
-            throw new CvqException("No user yet in security context");
+		if (credentialBean == null) {
+		    logger.warn("getCurrentEcitizen() no user yet in security context, returning null");
+		    return null;
+		}
 
-		if (!credentialBean.isFoContext())
-			throw new CvqException("E-citizen only exists in Front Office context");
+		if (!credentialBean.isFoContext()) {
+            logger.warn("getCurrentEcitizen() ecitizen only exists in Front Office context, returning null");
+            return null;
+		}
 
 		return credentialBean.getEcitizen();
     }
@@ -186,9 +187,6 @@ public class SecurityContext {
         if (!credentialBean.isFoContext())
             throw new CvqException("Adult can only be set in Front Office context");
         
-        List<Individual> homeFolderIndividuals = 
-            homeFolderService.getIndividuals(adult.getHomeFolder().getId());
-        credentialBean.setManagedIndividuals(new HashSet<Individual>(homeFolderIndividuals));
         credentialBean.setEcitizen(adult);
     }
 
@@ -416,16 +414,12 @@ public class SecurityContext {
         localAuthorityRegistry = iLocalAuthorityRegistry;
     }
 
-    public void setAgentDAO(IAgentDAO iAgentDAO) {
-        agentDAO = iAgentDAO;
+    public void setAgentService(IAgentService iAgentService) {
+        agentService = iAgentService;
     }
 
 	public void setIndividualService(IIndividualService iIndividualService) {
         individualService = iIndividualService;
-    }
-
-    public void setHomeFolderService(IHomeFolderService iHomeFolderService) {
-        homeFolderService = iHomeFolderService;
     }
 
     public void setAdministratorGroups(List<String> administratorGroupsToSet) {

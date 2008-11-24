@@ -33,29 +33,19 @@ public interface IHomeFolderService {
     /**
      * Create a fresh new home folder containing only the given adult.
      * 
-     * FIXME : unused ?
+     * It is called upon the issuing of an out-of-account request 
+     * (and a temporary account will thus be created).
      */
     HomeFolder create(Adult adult)
         throws CvqException;
 
     /**
      * Create a fresh new home folder from a set of adults and children.
+     * 
      * It is called upon the issuing of an home folder creation request.
      */
     HomeFolder create(Set<Adult> adults, Set<Child> children, Address address)
         throws CvqException, CvqModelException;
-
-    Long addChild(@IsHomeFolder final Long homeFolderId, Child child, Address address)
-        throws CvqException;
-    
-    Long addAdult(@IsHomeFolder final Long homeFolderId, Adult adult, Address address)
-        throws CvqException;
-
-    Set<HomeFolder> getAll()
-        throws CvqException;
-
-    HomeFolder getById(@IsHomeFolder final Long id)
-        throws CvqException, CvqObjectNotFoundException;
 
     void modify(@IsHomeFolder final HomeFolder homeFolder)
         throws CvqException;
@@ -69,6 +59,12 @@ public interface IHomeFolderService {
     void deleteIndividual(@IsHomeFolder final Long homeFolderId, final Long individualId)
         throws CvqException, CvqObjectNotFoundException;
     
+    Set<HomeFolder> getAll()
+        throws CvqException;
+
+    HomeFolder getById(@IsHomeFolder final Long id)
+        throws CvqException, CvqObjectNotFoundException;
+
     Set<Child> getChildren(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
 
@@ -85,8 +81,7 @@ public interface IHomeFolderService {
             @IsHomeFolder final Long homeFolderId, final RoleEnum role)
         throws CvqException;
     
-    void addHomeFolderRole(@IsIndividual final Individual owner, 
-            @IsHomeFolder final Long homeFolderId, final RoleEnum role)
+    void addHomeFolderRole(@IsIndividual final Individual owner, final RoleEnum role)
         throws CvqException;
 
     void addIndividualRole(@IsIndividual final Long ownerId, 
@@ -138,9 +133,9 @@ public interface IHomeFolderService {
     List<Individual> getByHomeFolderRole(@IsHomeFolder final Long homeFolderId, 
             RoleEnum role);
 
-    List<Individual> getBySubjectRole(Long subjectId, RoleEnum role);
+    List<Individual> getBySubjectRole(@IsIndividual Long subjectId, RoleEnum role);
 
-    List<Individual> getBySubjectRoles(Long subjectId, RoleEnum[] roles);
+    List<Individual> getBySubjectRoles(@IsIndividual Long subjectId, RoleEnum[] roles);
 
     /**
      * Get external accounts information and state for the given home folder. Designed

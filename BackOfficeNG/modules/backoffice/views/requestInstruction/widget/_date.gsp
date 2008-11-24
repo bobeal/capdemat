@@ -8,7 +8,7 @@
   />
   
   <a onclick="showCalendar('${propertyName}_FieldShow', 0);">
-    <img id="${propertyName}_FieldShow" src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+    <img id="${propertyName}_FieldShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
   </a>
   <div id="${propertyName}_FieldCalContainer" class="yui-cal"></div>
   

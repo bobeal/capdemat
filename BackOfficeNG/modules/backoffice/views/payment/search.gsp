@@ -2,7 +2,7 @@
   <head>
     <title><g:message code="payment.header.simpleSearch" /></title>
     <meta name="layout" content="main" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'payment.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'payment.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript">
       YAHOO.capdematBo.calendar.cal = new Array(2);

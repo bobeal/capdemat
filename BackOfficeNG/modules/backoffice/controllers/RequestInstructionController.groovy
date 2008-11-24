@@ -155,7 +155,7 @@ class RequestInstructionController {
         }
         model["propertyValue"] = propertyValue
 
-        render( template: "/requestInstruction/widget/" + widgetMap[propertyType], model:model)
+        render( template: "/backofficeRequestInstruction/widget/" + widgetMap[propertyType], model:model)
     }
 
     def modify = {
@@ -424,7 +424,7 @@ class RequestInstructionController {
           records.add(record)
         }
         log.debug ("homefolder record list = " + records.size())
-        render(template:'/request/searchResult', collection: records, var:'record')
+        render(template:'/backofficeRequest/searchResult', collection: records, var:'record')
     }
 
     def requestActions = {

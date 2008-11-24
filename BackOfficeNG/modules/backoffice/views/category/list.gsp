@@ -3,8 +3,8 @@
   <head>
     <title><g:message code="category.header.categoryList" /></title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'configuration.css')}" >
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'categoryList.js')}"></script>
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" >
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'categoryList.js')}"></script>
   </head>
   
   <body>

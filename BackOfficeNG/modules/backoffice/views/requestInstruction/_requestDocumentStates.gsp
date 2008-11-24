@@ -8,7 +8,7 @@
       <input type="text" id="endValidityDate" name="endValidityDate" size="10" 
           title="" value="<g:formatDate format="dd/MM/yyyy" date="${endValidityDate}"/>" />
       <a onclick="showCalendar('endValidityDateShow', 0);">
-        <img id="endValidityDateShow" src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+        <img id="endValidityDateShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="endValidityDateCalContainer" class="yui-cal"></div>
       

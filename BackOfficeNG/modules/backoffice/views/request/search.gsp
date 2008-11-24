@@ -3,7 +3,7 @@
     <title><g:message code="request.header.simpleSearch" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestSearch.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestSearch.js')}"></script>
   </head>
   <body>
 

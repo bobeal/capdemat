@@ -333,6 +333,8 @@ class RequestTypeController {
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         
         File templateFile = defaultRequestService.getTemplateByName(fileName)
+        response.contentType = 'text/html; charset=utf-8'
+        
         if(templateFile.exists()) {
             def forms = [];
             forms.add(defaultRequestService.getRequestFormById(formId))
@@ -344,10 +346,10 @@ class RequestTypeController {
             template.make(['name':fileName,'forms':forms]).writeTo(out);
             requestAttributes.setOut(originalOut)
             
-            response.contentType = 'text/html; charset=utf-8'
             render out.toString()
         }
         
+        render message(code:'message.templateDoesNotExist')
         //render(template:"tmp",model:['name':params.id])
     }
 }

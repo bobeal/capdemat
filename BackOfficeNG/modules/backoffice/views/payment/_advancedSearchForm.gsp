@@ -23,13 +23,13 @@
       </label>
       <input type="text" id="initDateFrom" name="initDateFrom" value="${initDateFrom}"size="8"/>
       <a onclick="showCalendar('initDateFromShow', 0);">
-        <img id="initDateFromShow" src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+        <img id="initDateFromShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="initDateFromCalContainer" class="yui-cal"></div>
       <span> - </span>
       <input type="text" id="initDateTo" name="initDateTo" value="${initDateTo}"size="8"/> 
       <a onclick="showCalendar('initDateToShow', 1);">    
-        <img id="initDateToShow" src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+        <img id="initDateToShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="initDateToCalContainer" class="yui-cal"></div>
        

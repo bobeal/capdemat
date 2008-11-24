@@ -68,7 +68,7 @@
           title="la date de début d'enregistrement doit être sous la forme JJ/MM/AAAA"/>
       <a onclick="showCalendar('registrationStartShow', 2);">
         <img id="registrationStartShow" 
-            src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+            src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="registrationStartCalContainer" style="position:absolute; display:none;"></div>
       <b><g:message code="layout.to" /> *:</b>
@@ -77,7 +77,7 @@
           title="la date de fin d'enregistrement doit être sous la forme JJ/MM/AAAA"/> 
       <a onclick="showCalendar('registrationEndShow', 3);">    
         <img id="registrationEndShow" 
-            src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+            src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="registrationEndCalContainer" style="position:absolute; display:none;"></div>
       <br/>
@@ -89,7 +89,7 @@
           title="la date de début de saison doit être sous la forme JJ/MM/AAAA"/>
       <a onclick="showCalendar('effectStartShow', 4);">
         <img id="effectStartShow" 
-          src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+          src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="effectStartCalContainer" style="position:absolute; display:none;"></div>
       <b><g:message code="layout.to" /> *:</b> 
@@ -98,7 +98,7 @@
           title="la date de fin de saison doit être sous la forme JJ/MM/AAAA"/> 
       <a onclick="showCalendar('effectEndShow', 5);">    
         <img id="effectEndShow" 
-            src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+            src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="effectEndCalContainer" style="position:absolute; display:none;"></div>
       <br/>
@@ -109,7 +109,7 @@
           title="la date de validation doit être sous la forme JJ/MM/AAAA"/>
       <a onclick="showCalendar('validationAuthorizationStartShow', 6);">
         <img id="validationAuthorizationStartShow"
-          src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+          src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="validationAuthorizationStartCalContainer" style="position:absolute; display:none;"></div> 
       <div class="form-button">

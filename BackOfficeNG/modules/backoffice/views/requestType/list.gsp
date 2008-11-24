@@ -2,8 +2,8 @@
   <head>
     <title><g:message code="requestType.header.requestList" /></title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'configuration.css')}" ></link>
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTypeList.js')}"></script>
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" ></link>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeList.js')}"></script>
   </head>
   
   <body>

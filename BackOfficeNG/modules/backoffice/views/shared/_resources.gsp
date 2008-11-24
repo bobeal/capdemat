@@ -1,31 +1,31 @@
 
   <link rel="shortcut icon" href="${createLinkTo(dir:'images',file:'favicon.ico')}" />
   <!-- Grid and common settings CSS -->
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/yui/reset-fonts-grids',file:'reset-fonts-grids.css')}" />
+  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/backoffice/yui/reset-fonts-grids',file:'reset-fonts-grids.css')}" />
   <!-- Button CSS -->
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/yui/button',file:'button.css')}" />
+  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/backoffice/yui/button',file:'button.css')}" />
   <!-- Dialog Container CSS -->
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/yui/container',file:'container.css')}" />
+  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/backoffice/yui/container',file:'container.css')}" />
   <!-- Tabview CSS -->
-  <link type="text/css" rel="stylesheet" href="${createLinkTo(dir:'css/yui/tabview',file:'tabview.css')}" /> 
+  <link type="text/css" rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/yui/tabview',file:'tabview.css')}" /> 
   <!-- Calendar CSS -->
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/yui/calendar',file:'calendar.css')}" />
+  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.css')}" />
 
   <!-- BONG CSS -->
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'layout.css')}" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'box.css')}" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'tag.css')}" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'form.css')}" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'list.css')}" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'panel.css')}" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/common/yui-skin',file:'tabview.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'layout.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'box.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'tag.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'form.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'list.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'panel.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'tabview.css')}" />
   
   <!--[if IE 6]>
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie6.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/hacks',file:'ie6.css')}" />
   <![endif]-->
   <!--[if IE 7]>
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie6.css')}" />  
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/hacks',file:'ie7.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/hacks',file:'ie6.css')}" />  
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/hacks',file:'ie7.css')}" />
   <![endif]-->
 
   <!-- Dependency for Connection Manager / Also provides YAHOO Global Object -->

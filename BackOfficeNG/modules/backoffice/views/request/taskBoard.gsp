@@ -2,8 +2,8 @@
   <head>
     <title><g:message code="request.header.taskBoard" /></title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'taskBoard.css')}" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestTaskBoard.js')}"></script>
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'taskBoard.css')}" />
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTaskBoard.js')}"></script>
   </head>
   <body>
     <div id="yui-main">

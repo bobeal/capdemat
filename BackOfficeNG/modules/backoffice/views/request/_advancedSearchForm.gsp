@@ -29,12 +29,12 @@
         <label for="creationDateFrom"><g:message code="request.search.creationDateInterval" /> :</label>
         <input type="text" id="creationDateFrom" name="creationDateFrom" size="10" value="${params?.creationDateFrom}" />
         <a onclick="showCalendar('creationDateFromShow', 0);">
-          <img id="creationDateFromShow" src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+          <img id="creationDateFromShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
         </a>
         <div id="creationDateFromCalContainer" class="yui-cal"></div>
         <input type="text" id="creationDateTo" name="creationDateTo" size="10" value="${params?.creationDateTo}" />
         <a onclick="showCalendar('creationDateToShow', 1);">
-          <img id="creationDateToShow" src="${createLinkTo(dir:'css/yui/calendar',file:'calendar.gif')}"/>
+          <img id="creationDateToShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
         </a>
         <div id="creationDateToCalContainer" class="yui-cal"></div>
       </div>

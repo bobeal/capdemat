@@ -3,7 +3,7 @@
   <head>
     <title><g:message code="statistics.header" /></title>
     <meta name="layout" content="main" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'statistics.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'statistics.js')}"></script>
     
     <style>
       .mainbox-stat img {

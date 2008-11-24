@@ -10,10 +10,10 @@
     </g:else>            
   </title>
   <meta name="layout" content="main" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'configuration.css')}" >
-  <script type="text/javascript" src="${createLinkTo(dir:'js',file:'categoryEdit.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js',file:'categoryRequests.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js',file:'categoryAgents.js')}"></script>
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" >
+  <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'categoryEdit.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'categoryRequests.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'categoryAgents.js')}"></script>
   <script type="text/javascript">
     zenexity.capdemat.bong.categoryId = '${category?.id}';
     zenexity.capdemat.bong.editMode = '${editMode}';

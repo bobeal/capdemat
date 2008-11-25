@@ -199,7 +199,7 @@
                <input name="copies" type="text" value="${mdr?.copies}"/>
                
                <label for="usage">Usage</label>
-               <input name="usage" type="text" value="${mdr?.usage}" />
+               <input name="usage" type="text" value="" />
                  
                <label><strong>Filiation de</strong></label>
                <select name="requesterQuality">
@@ -430,10 +430,10 @@
     <script type="text/javascript">
       // next Links
       var activeNextTabByLink = function(e) {
-	      YAHOO.util.Event.preventDefault(e);
+          YAHOO.util.Event.preventDefault(e);
         var requestFormTabView = new YAHOO.widget.TabView('requestTabView');
-	      var activeTabIndex = requestFormTabView.get('activeIndex');
-	      requestFormTabView.set('activeIndex' , activeTabIndex + 1);
+          var activeTabIndex = requestFormTabView.get('activeIndex');
+          requestFormTabView.set('activeIndex' , activeTabIndex + 1);
       }
       
       YAHOO.util.Event.addListener(
@@ -444,10 +444,10 @@
       
       // prev Links
       var activePrevTabByLink = function(e) {
-	      YAHOO.util.Event.preventDefault(e);
+          YAHOO.util.Event.preventDefault(e);
         var requestFormTabView = new YAHOO.widget.TabView('requestTabView');
-	      var activeTabIndex = requestFormTabView.get('activeIndex');
-	      requestFormTabView.set('activeIndex' , activeTabIndex - 1);
+          var activeTabIndex = requestFormTabView.get('activeIndex');
+          requestFormTabView.set('activeIndex' , activeTabIndex - 1);
       }
       
       YAHOO.util.Event.addListener(

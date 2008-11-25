@@ -29,7 +29,7 @@ body {
 
 #hd h1 {
  width: 250px;
- position: absolute;
+ float:left;
  margin: .3em 0 0 0;
  font-size: 3em;
  font-weight: normal;
@@ -66,17 +66,17 @@ body {
 }
 
 #bd-menu {
-  width: 392px;
-  display: block;
-  margin: 2.5em auto 0 auto;
+  width: auto;
+  display: block; clear: both;
+  margin: 5em auto 0 auto;
   font-size: 1.2em;
   text-align: center;
   background: transparent;
 }
 #bd-menu a {
-  width: 120px; height: 30px;
+  width: auto; height: 30px;
   float: left;
-  margin: 0 0 1px 1px;
+  margin: 0 0 1px 1px; padding: 0 1em;
   background: #c690bb;
   border: 5px solid #c690bb;
   -moz-border-radius: .5em .5em 0 0;
@@ -100,7 +100,7 @@ body {
 }
 
 #bd-menu a span {
-  width: 110px; height: 20px;
+  width: auto; height: 20px;
   display: block;
   padding: 5px;
   -moz-border-radius: .5em .5em 0 0;

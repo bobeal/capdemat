@@ -24,11 +24,29 @@
      </div>
      
        <!-- main navifgation bar -->
-     <map id="bd-menu">
-       <a href="<g:createLink controller='backofficeFongRequest'/>"><span>Accueil</span></a>
-       <a href="<g:createLink controller='backofficeFongRequest'/>"><span>Espace Citoyen</span></a>
-       <a href="<g:createLink controller='backofficeFongRequest'/>" class="current"><span>Téléservices</span></a>
-     </map>
+     <div id="bd-menu">
+       <a href="${createLink(controller:'frontofficeRequest')}">
+          <span>Accueil</span>
+       </a>
+       <a href="${createLink(controller:'frontofficeRequest')}">
+          <span>Personnes</span>
+       </a>
+       <a href="${createLink(controller:'frontofficeRequest')}" class="current">
+         <span>Demandes</span>
+       </a>
+       <a href="${createLink(controller:'frontofficeRequest')}">
+          <span>Documents</span>
+       </a>
+       <a href="${createLink(controller:'frontofficeRequest')}">
+          <span>Services</span>
+       </a>
+       <a href="${createLink(controller:'frontofficeRequest')}">
+          <span>Activités</span>
+       </a>
+       <a href="${createLink(controller:'frontofficeRequest')}">
+          <span>Paiements</span>
+       </a>
+     </div>
      
      <!-- header -->
      <div id="bd">

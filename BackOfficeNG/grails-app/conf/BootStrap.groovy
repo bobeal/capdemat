@@ -10,7 +10,7 @@ class BootStrap {
     def init = { servletContext ->
         servletContext.setAttribute("newDataBinder", GlobalPropertyEditorConfig.&newDataBinder)
         //exceptionHandler.exceptionMappings =['java.lang.Exception' : '/error/unexpected']
-        ModuleHelper.prepareAll(new File(servletContext.getRealPath('.')).parent)
+        //ModuleHelper.prepareAll(new File(servletContext.getRealPath('.')).parent)
     }
     
     def destroy = {

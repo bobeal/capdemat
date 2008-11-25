@@ -51,17 +51,17 @@
           <div class="yui-u${column == 1 ? ' first' : ''}">
             <% for (element in requestBo.getElementsByStep(step, column)) { %>
               <% if (element.typeClass == "SIMPLE") { %>
-              <dl${element.conditionHtmlClass != null ? ' class="' + element.conditionHtmlClass + '"' : ''}>
-                <dt><g:message code="${element.i18nPrefixCode}.label" /> : </dt>
+              <dl>
+                <dt${element.conditionsClass != '' ? ' class="' + element.conditionsClass + '"' : ''}><g:message code="${element.i18nPrefixCode}.label" /> : </dt>
                 <dd id="${element.javaFieldName}" class="${element.htmlClass}" ${element.jsRegexp != null ? 'regex="' + element.jsRegexp + '"' : ''}>
                   <% displayWidget(element, 'request') %>
                 </dd>
               </dl>
               <% } else if (element.typeClass == "COMPLEX") { %>
               <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
-              <dl${element.conditionHtmlClass != null ? ' class="' + element.conditionHtmlClass + '"' : ''}>
+              <dl ${element.conditionsClass}>
                 <% for (subElement in element.elements) { %>
-                  <dt><g:message code="${subElement.i18nPrefixCode}.label" /> : </dt>
+                  <dt${subElement.conditionsClass != '' ? ' class="' + subElement.conditionsClass + '"' : ''}><g:message code="${subElement.i18nPrefixCode}.label" /> : </dt>
                   <dd id="${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>
                     <% displayWidget(subElement, 'request') %>
                   </dd>
@@ -70,9 +70,9 @@
               <% } else if (element.typeClass == "COLLECTION") { %>
               <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
               <g:each var="it" in="\${request.${element.javaFieldName}}" statut="index">
-              <dl${element.conditionHtmlClass != null ? ' class="' + element.conditionHtmlClass + '"' : ''}>
+              <dl>
                 <% for (subElement in element.elements) { %>
-                  <dt><g:message code="${subElement.i18nPrefixCode}.label" /> : </dt>
+                  <dt${subElement.conditionsClass != '' ? ' class="' + subElement.conditionsClass + '"' : ''}><g:message code="${subElement.i18nPrefixCode}.label" /> : </dt>
                   <dd id="${element.javaFieldName}.[\${index}].${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>
                     <% displayWidget(subElement, 'it') %>
                   </dd>

@@ -34,6 +34,7 @@
           </steps>
           <conditions>
             <condition name="isWithRelationship" />
+            <condition name="isTestCondition" />
           </conditions>
         </common>
       </xs:appinfo>
@@ -43,17 +44,20 @@
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
           
-            <xs:element name="Format" type="bdr:BirthCertificateFormatType">
+            <xs:element name="Format" type="bdr:BirthCertificateFormatType" minOccurs="0">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
                     <step name="type" />
-                    <condition name="isWithRelationship" type="trigger" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="trigger" />
+                      <condition name="isTestCondition" type="filled" required="true" />
+                    </conditions>
                   </common>
                   <fo>
                     <radio />
                   </fo>
-                  <bo column="1" after="Motive" />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -71,7 +75,7 @@
                     <step name="type" />
                   </common>
                   <fo />
-                  <bo column="1" />
+                  <bo column="1" after="Motive" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -101,7 +105,9 @@
                 <xs:appinfo>
                   <common>
                     <step name="type"  />
-                    <condition name="isWithRelationship" type="filled" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="filled" />
+                    </conditions>
                   </common>
                   <fo>
                     <select />
@@ -115,7 +121,7 @@
               <xs:annotation>
                 <xs:appinfo>
                   <common>
-                    <step name="nature" /> 
+                    <step name="nature" />
                   </common>
                   <fo>
                     <radio />
@@ -238,7 +244,9 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
-                    <condition name="isWithRelationship" type="filled" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="filled" />
+                    </conditions>
                   </common>
                   <fo>
                     <label />
@@ -259,7 +267,9 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
-                    <condition name="isWithRelationship" type="filled" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="filled" />
+                    </conditions>
                   </common>
                   <fo>
                     <label />

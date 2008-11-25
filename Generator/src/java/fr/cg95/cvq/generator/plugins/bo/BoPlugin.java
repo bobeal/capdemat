@@ -107,8 +107,6 @@ public class BoPlugin implements IPluginGenerator {
         
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)
             elementBo.setMandatory(false);
-        else
-            elementBo.setMandatory(true);
         
         if (elementProp.getEnumValues() != null)
             elementBo.setWidget("capdematEnum");
@@ -128,7 +126,7 @@ public class BoPlugin implements IPluginGenerator {
         } else if (depth >= 1) {
             ElementBo elementBo = elementBoStack.peek(depth);
             elementBo.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
-            elementBo.setCondition(appDoc.getRequestCommon().getCurrentElementCommon().getCondition());
+            elementBo.setConditions(appDoc.getRequestCommon().getCurrentElementCommon().getConditions());
             elementBo.setModelNamespace(RequestCommon.MODEL_REQUEST_NS
                     + "." + appDoc.getRequestCommon().getNamespace());
             elementBo.setDisplay(true);

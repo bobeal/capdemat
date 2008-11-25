@@ -67,7 +67,7 @@ public class CommonPlugin implements IPluginGenerator {
                         appDoc.getChildrenNodes("conditions")[0], "condition");
                 for (Node node : fetchNodes) {
                     requestCommon.addCondition( new Condition(
-                            ApplicationDocumentation.getNodeAttributeValue(node, "name"), null));
+                            ApplicationDocumentation.getNodeAttributeValue(node, "name"), null, null));
                 }
             }
             appDoc.setRequestCommon(requestCommon);
@@ -78,16 +78,31 @@ public class CommonPlugin implements IPluginGenerator {
                 requestCommon.setCurrentElementStep(new Step(-1, 
                         ApplicationDocumentation.getNodeAttributeValue(fetchNodes[0], "name"), null));
             }
-            if (appDoc.hasChildNode("condition")) {
-                fetchNodes = appDoc.getChildrenNodes("condition");
-                attributeValueMap = new HashMap<String,String>();
-                attributeValueMap.put("name",
-                        ApplicationDocumentation.getNodeAttributeValue(fetchNodes[0], "name"));
-                attributeValueMap.put("type", 
-                        ApplicationDocumentation.getNodeAttributeValue(fetchNodes[0], "type"));
-                requestCommon.setCurrentElementCondition(new Condition(
-                        attributeValueMap.get("name"), attributeValueMap.get("type"))); 
-            }   
+            if (appDoc.hasChildNode("conditions")) {
+                fetchNodes =  ApplicationDocumentation.getChildrenNodes(
+                        appDoc.getChildrenNodes("conditions")[0], "condition");
+                for (Node node : fetchNodes) {
+                    attributeValueMap = new HashMap<String,String>();
+                    attributeValueMap.put("name",
+                            ApplicationDocumentation.getNodeAttributeValue(node, "name"));
+                    attributeValueMap.put("type", 
+                            ApplicationDocumentation.getNodeAttributeValue(node, "type"));
+                    attributeValueMap.put("required", 
+                            ApplicationDocumentation.getNodeAttributeValue(node, "required"));
+                    requestCommon.addCurrentElementCondition(new Condition(
+                        attributeValueMap.get("name"), attributeValueMap.get("type"),
+                        attributeValueMap.get("required")));
+                    
+                    /*
+                     * Temporary strategy to manage condition association to 1 and only 1 step
+                     * TODO : add a Set<Condition> field to <Step> class model
+                     * TODO : delete Set<Condition> field from <RequestCommon>
+                     */
+                    requestCommon.addConditionStep(
+                            requestCommon.getCurrentElementCommon().getStep().getName()
+                            , attributeValueMap.get("name"));
+                }
+            }
         }
         
         if (depth < 1)
@@ -98,12 +113,12 @@ public class CommonPlugin implements IPluginGenerator {
                     "]");
         else {
             String stepName = requestCommon.getCurrentElementCommon().getStep().getName();
-            String conditionName = requestCommon.getCurrentElementCommon().getCondition() != null ?
-                    requestCommon.getCurrentElementCommon().getCondition().getName() : "NO-CONDITION";
+            int conditionSize = requestCommon.getCurrentElementCommon().getConditions() != null ?
+                    requestCommon.getCurrentElementCommon().getConditions().size() : 0;
             
             logger.debug("onApplicationInformation() - currentElementCommom= [" +
             		"step: [name:" + stepName   +
-            		"] condition: [name: " + conditionName +
+            		"] condition: [name: " + conditionSize +
             		"]");
         }
     
@@ -120,6 +135,7 @@ public class CommonPlugin implements IPluginGenerator {
     }
     
     public void startElement(String elementName, String type) {
+        requestCommon.setCurrentElementCommon(new ElementCommon());
         depth ++;
     }
     
@@ -127,10 +143,9 @@ public class CommonPlugin implements IPluginGenerator {
     
     public void startElementProperties(ElementProperties elementProperties) {}
     
-    public void endElementProperties() { }
+    public void endElementProperties() {}
     
     public void endElement(String elementName) {
-        requestCommon.setCurrentElementCommon(null);
         depth --;
     }
 
@@ -138,10 +153,5 @@ public class CommonPlugin implements IPluginGenerator {
 
     public void shutdown() {}
 
-    @Override
-    public void initialize(Node configurationNode) {
-        // TODO Auto-generated method stub
-        
-    }
-   
-} 
+    public void initialize(Node configurationNode) {}
+}

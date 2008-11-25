@@ -2,6 +2,7 @@ package fr.cg95.cvq.generator.plugins.bo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -21,7 +22,7 @@ public class ElementBo {
     private String modelNamespace;
     
     private String type;
-    private boolean mandatory;
+    private boolean mandatory = true;
     private String jsRegexp;
     
     private String i18nPrefixCode;
@@ -36,7 +37,7 @@ public class ElementBo {
     private String after;
 
     private Step step;
-    private Condition condition;
+    private Set<Condition> conditions;
     
     private List<ElementBo> elements;
     
@@ -137,6 +138,11 @@ public class ElementBo {
 
     public void setMandatory(boolean mandatory) {
         this.mandatory = mandatory;
+        
+        if (conditions != null)
+            for (Condition c : this.conditions)
+                if(c.isRequired())
+                    this.mandatory = true;
     }
     
     public boolean isDisplay() {
@@ -181,23 +187,32 @@ public class ElementBo {
         this.step = step;
     }
 
-    public String getConditionHtmlClass() {
-        if (condition == null)
-            return null;
-        return condition != null ? condition.getName() + "-" + condition.getType() : "";
+    public String getConditionsClass() {
+        if (conditions == null)
+            return "";
+        
+        StringBuffer sb = new StringBuffer();
+        for (Condition c : conditions) {
+            sb.append("condition-" + c.getName() + "-" + c.getType() + " ");
+        }
+        return sb.toString().trim();
+    }
+    
+    public void setConditions(Set<Condition> conditions) {
+        this.conditions = conditions;
     }
 
-    public void setCondition(Condition condition) {
-        this.condition = condition;
-    }
-
-    public List<ElementBo> getElements() {
-        return elements;
+    public Set<Condition> getConditions() {
+        return conditions;
     }
 
     public void addElement (ElementBo element) {
         if (elements == null)
             elements = new ArrayList<ElementBo>();
         elements.add(element);
+    }
+    
+    public List<ElementBo> getElements() {
+        return elements;
     }
 }

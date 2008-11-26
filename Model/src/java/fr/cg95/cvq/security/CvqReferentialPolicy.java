@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.exception.CvqException;
 
 /**
  * The policy for referential data not managed by CVQ application but for
@@ -36,12 +35,7 @@ public class CvqReferentialPolicy extends AdministratorOnlyPolicy {
             return true;
         } else {
             SiteRoles[] siteRoles = user.getSiteRoles();
-            Long currentAgentId;
-            try {
-                currentAgentId = SecurityContext.getCurrentAgent().getId();
-            } catch (CvqException e) {
-                return false;
-            }
+            Long currentAgentId = SecurityContext.getCurrentAgent().getId();
             Long agentId = ((Agent)object.getObject()).getId();
             logger.debug("isAdminAllowed() user has " + siteRoles.length + " site roles");
             for (int i=0; i < siteRoles.length; i++) {

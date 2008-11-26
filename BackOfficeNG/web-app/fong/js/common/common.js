@@ -75,7 +75,7 @@
     return true;
   };
 
-  zcc.doAjaxCall = function(callUrl,args,callback) {
+  zct.doAjaxCall = function(callUrl,args,callback) {
     var handlers = {
       failure: handleUnexpectedError
     };
@@ -85,7 +85,7 @@
     YAHOO.util.Connect.asyncRequest('GET', url, handlers, null);
   };
 
-  zcc.doAjaxFormSubmitCall = function(formId,args,callback,upload) {
+  zct.doAjaxFormSubmitCall = function(formId,args,callback,upload) {
     var formElement = new YAHOO.util.Element(formId);
     // to retrieve form values
     if (upload)

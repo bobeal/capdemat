@@ -95,7 +95,7 @@ public interface IAgentService {
      * @param agent scope entity
      * @return Cutoff of agent preferences
      */
-    Hashtable<String, String> getPreferenceByKey(String key, Agent agent);
+    Hashtable<String, String> getPreferenceByKey(Agent agent,String key);
     
     /**
      * Modifies a cutoff of agent preferences
@@ -105,7 +105,7 @@ public interface IAgentService {
      * @param agent scope entity
      * @throws CvqException
      */
-    void modifyPreference(String key,Hashtable<String,String> preference,Agent agent) throws CvqException;
+    void modifyPreference(Agent agent,String key,Hashtable<String,String> preference) throws CvqException;
     
     /**
      * Get an agent by id.

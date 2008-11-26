@@ -385,14 +385,14 @@ public final class AgentService implements IAgentService {
         
     }
     
-    public Hashtable<String, String> getPreferenceByKey(String key, Agent agent) {
+    public Hashtable<String, String> getPreferenceByKey(Agent agent,String key) {
         Hashtable<String, Hashtable<String, String>> preferences;
         if(agent.getPreferences() == null) return null; 
         preferences = agent.getPreferences();
         return preferences.get(key);
     }
     
-    public void modifyPreference(String key,Hashtable<String,String> preference,Agent agent) 
+    public void modifyPreference(Agent agent,String key,Hashtable<String,String> preference) 
     throws CvqException{
         Hashtable<String, Hashtable<String, String>> preferences;
         if(agent.getPreferences() == null) 

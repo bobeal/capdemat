@@ -36,10 +36,10 @@ public class RequestServiceTest extends ServiceTestCase {
         throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
-        Assert.assertTrue(requestTypesSet.size() >= 2);
+        assertTrue(requestTypesSet.size() >= 2);
 
         // add a new requirement for the first request type found
         RequestType rt = requestTypesSet.get(0);
@@ -82,7 +82,7 @@ public class RequestServiceTest extends ServiceTestCase {
             Assert.assertFalse(rt.getActive().booleanValue());
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         // requestType by category
         Category category = iCategoryService.getAll().get(0);
@@ -96,11 +96,13 @@ public class RequestServiceTest extends ServiceTestCase {
     }
 
     public void testRequestCloning() throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         CreationBean creationBean = gimmeAnHomeFolder();
         Long requestId = creationBean.getRequestId();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
         Request request = iRequestService.getById(requestId);
         Node requestCloneNode =
             iRequestService.getRequestClone(null, request.getHomeFolderId(),
@@ -112,10 +114,11 @@ public class RequestServiceTest extends ServiceTestCase {
 
     public void testRequestSearch() throws CvqException {
         
+        CreationBean cb = gimmeAnHomeFolder();
+
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        CreationBean cb = gimmeAnHomeFolder();
         Request request = iRequestService.getById(cb.getRequestId());
         Long requesterId = request.getRequesterId();
         Adult requester = iIndividualService.getAdultById(requesterId);
@@ -171,16 +174,15 @@ public class RequestServiceTest extends ServiceTestCase {
     }
 
     public void testRequestTypeForm() throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         CreationBean creationBean = gimmeAnHomeFolder();
         Long requestId = creationBean.getRequestId();
 
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
         Request request = iRequestService.getById(requestId);
         RequestType requestType = request.getRequestType();
-
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
         RequestForm requestForm = new RequestForm();
         requestForm.setLabel("TEST1");

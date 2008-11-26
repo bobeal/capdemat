@@ -13,6 +13,7 @@ import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.permission.CvqPermissionException;
+import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
@@ -152,11 +153,13 @@ public class CategoryServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // to force re-association of agent within current session
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        
         try {
             iRequestService.getById(voCardRequestId);
             fail("should have thrown a permission exception");
-        } catch (CvqPermissionException cpe) {
+        } catch (PermissionException pe) {
             // ok, that was expeceted
         }
 
@@ -164,6 +167,7 @@ public class CategoryServiceTest extends ServiceTestCase {
 
         // give agent the rights for the new category and retry to load the request
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        
         Agent categoryAgent = iAgentService.getByLogin(agentNameWithCategoriesRoles);
         Set agentCategoriesRolesSet = categoryAgent.getCategoriesRoles();
         CategoryRoles catRole = new CategoryRoles();

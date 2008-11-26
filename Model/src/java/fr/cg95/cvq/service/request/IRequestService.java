@@ -28,6 +28,7 @@ import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
@@ -267,7 +268,8 @@ public interface IRequestService {
     /**
      * Get a list of all existing requests types.
      * 
-     * TODO ACMF
+     * For an agent, return the list of requests types for which it has at least a read permission.
+     * For an ecitizen, return the list of activated requests types.
      */
     List<RequestType> getAllRequestTypes()
         throws CvqException;
@@ -275,7 +277,7 @@ public interface IRequestService {
     /**
      * Get a request type by id.
      */
-    RequestType getRequestTypeById(@IsRequestType final Long requestTypeId)
+    RequestType getRequestTypeById(final Long requestTypeId)
         throws CvqException;
 
     /**
@@ -289,7 +291,6 @@ public interface IRequestService {
     /**
      * Get the list of requests types handled by the given category in the given activation state.
      * 
-     * TODO ACMF
      */
     List<RequestType> getRequestsTypes(final Long categoryId, final Boolean active)
         throws CvqException;
@@ -324,20 +325,18 @@ public interface IRequestService {
     /**
      * Get a list of documents types allowed for a given request type.
      */
-    Set<DocumentType> getAllowedDocuments(@IsRequestType final Long requestTypeId)
+    Set<DocumentType> getAllowedDocuments(final Long requestTypeId)
         throws CvqException;
 
     //////////////////////////////////////////////////////////
     // Seasons related methods
     //////////////////////////////////////////////////////////
 
-    boolean isRegistrationOpen(@IsRequestType final Long requestTypeId) throws CvqException;
+    boolean isRegistrationOpen(final Long requestTypeId) throws CvqException;
     
     /**
-     * Associate a new season to requestType
+     * Associate a new season to the given request type.
      * 
-     * @throws CvqException
-     * <br><br>
      * Expected business error code are :
      * <dl>
      *   <dt>request.season.not_supported</dt>
@@ -399,6 +398,9 @@ public interface IRequestService {
      * Return the season associated to the given request, null if none.
      */
     RequestSeason getRequestAssociatedSeason(@IsRequest Long requestId) throws CvqException;
+    
+    Set<RequestSeason> getRequestTypeSeasons(@IsRequestType Long requestTypeId)
+        throws CvqException;
     
     //////////////////////////////////////////////////////////
     // RequestForm related Methods
@@ -469,9 +471,11 @@ public interface IRequestService {
     void notifyPaymentResult(final Payment payment) throws CvqException;
     
     /**
-     * Return whether given request type can provide consumptions summary.
+     * Return whether given request type is associated with an external service.
+     * 
+     * The result is delegated to the {@link IExternalService external service}.
      */
-    boolean hasMatchingExternalService(final String requestLabel)
+    boolean hasMatchingExternalService(final String requestTypeLabel)
         throws CvqException;
 
     /**

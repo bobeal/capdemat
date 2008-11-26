@@ -241,7 +241,7 @@ public class HomeFolderModificationRequestService
         }
 
         homeFolderService.checkAndFinalizeRoles(oldHomeFolder.getId(), newAdults, newChildren);
-        
+
         requestDAO.update(hfmr);
 
         // TODO REFACTORING : branch into common treatments

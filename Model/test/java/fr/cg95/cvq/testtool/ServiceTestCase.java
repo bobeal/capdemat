@@ -241,7 +241,7 @@ public class ServiceTestCase
         } catch (Exception e) {
             logger.error("got exception while starting new tx");
             e.printStackTrace();
-            throw new CvqException();
+            throw new CvqException("");
         }
     }
 
@@ -255,7 +255,7 @@ public class ServiceTestCase
             HibernateUtil.rollbackTransaction();
             HibernateUtil.closeSession();
         } catch (Exception e) {
-            throw new CvqException();
+            throw new CvqException("");
         }         
     }
     
@@ -269,6 +269,7 @@ public class ServiceTestCase
 
         try {
             continueWithNewTransaction();
+            
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             // to force re-association of agent within current session
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
@@ -404,6 +405,8 @@ public class ServiceTestCase
      */
     public CreationBean gimmeAnHomeFolder()
         throws CvqException {
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         VoCardRequest request = new VoCardRequest();
 

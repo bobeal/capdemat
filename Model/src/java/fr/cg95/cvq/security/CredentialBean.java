@@ -12,8 +12,10 @@ import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 
 /**
@@ -62,6 +64,11 @@ public class CredentialBean {
      * Used to keep trace of current citizen's "managed" individuals.
      */
     private Set<IndividualRole> individualRoles = null;
+    
+    /**
+     * Used to keep track of individuals belonging to ecitizen's home folder.
+     */
+    private Set<Long> individualsIds = null;
     
     public CredentialBean(LocalAuthority localAuthority, String context) {
         logger.debug("CredentialBean() setting local authority " + localAuthority
@@ -115,6 +122,8 @@ public class CredentialBean {
 		objectBeanCache.clear();
 		siteRoles = null;
 		categoryRoles = null;
+		individualRoles = null;
+		individualsIds = null;
     }
     
     public Agent getAgent() {
@@ -135,10 +144,17 @@ public class CredentialBean {
 
 	public void setEcitizen(Adult adult) {
 		this.adult = adult;
-		this.individualRoles = adult.getIndividualRoles();
 		
 		// in case we are changing of user inside a transaction, reset the cache
 		resetCaches();
+
+		this.individualRoles = adult.getIndividualRoles();
+	        
+		this.individualsIds = new HashSet<Long>();
+		Set<Individual> individuals = adult.getHomeFolder().getIndividuals();
+		for (Individual individual : individuals) {
+		    this.individualsIds.add(individual.getId());
+		}
 	}
 	
     public String getExternalService() {
@@ -175,7 +191,7 @@ public class CredentialBean {
      */
     public SiteRoles[] getSiteRoles() {
         if (agent == null) {
-            logger.info("getSiteRoles() no agent");
+            logger.warn("getSiteRoles() no agent");
             return new SiteRoles[0];
         }
 
@@ -192,6 +208,24 @@ public class CredentialBean {
         return siteRoles;
     }
 
+    public boolean hasSiteAdminRole() {
+        if (agent == null) {
+            logger.warn("hasSiteAdminRole() no agent");
+            return false;
+        }
+        
+        if (siteRoles == null)
+            getSiteRoles();
+        
+        for (SiteRoles siteRole : siteRoles) {
+            if (siteRole.getProfile().equals(SiteProfile.ADMIN))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    
     /**
      * Returns the array of category-scoped roles the user in the bean
      * belongs to.
@@ -255,6 +289,18 @@ public class CredentialBean {
         return roles;
     }
 
+    /**
+     * Return whether given individual belongs to same home folder
+     * than currently logged-in ecitizen.
+     */
+    public boolean belongsToSameHomeFolder(final Long individualId) {
+        System.err.println(this.individualsIds);
+        if (this.individualsIds == null || this.individualsIds.isEmpty())
+            return false;
+        
+        return this.individualsIds.contains(individualId);
+    }
+    
     /* ==================== Grants cache API =========================== */
 
     private ArrayList<ObjectBean> objectBeanCache = new ArrayList<ObjectBean>();

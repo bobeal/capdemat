@@ -23,7 +23,6 @@ import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService;
@@ -90,7 +89,7 @@ public class RequestServiceRegistry
     }
 
     public IRequestService getRequestService(Long requestTypeId)
-        throws CvqPermissionException, CvqObjectNotFoundException {
+        throws CvqObjectNotFoundException {
         RequestType requestType = 
             (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
         return getRequestService(requestType.getLabel());
@@ -165,7 +164,7 @@ public class RequestServiceRegistry
         logger.debug("initRequestData() initializing " + serviceLabel 
                 + " for local authority " + localAuthorityName);
         
-        RequestType requestType = requestTypeDAO.findByName(serviceLabel);
+        RequestType requestType = requestTypeDAO.findByLabel(serviceLabel);
         if (requestType != null) {
             logger.debug("initRequestData() request type " + serviceLabel + " already registered");
             return;

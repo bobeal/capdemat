@@ -23,8 +23,6 @@ import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
-import fr.cg95.cvq.permission.CvqPermissionException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -520,11 +518,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
+        return HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab)
             .list();
-        return filterSearchResults(results);
     }
 
     public List<Request> listBySubject(final Long subjectId) {
@@ -539,11 +536,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
+        return HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab)
             .list();
-        return filterSearchResults(results);
     }
 
     public List<Request> listBySubjectAndLabel(Long subjectId, String label, RequestState[] excludedStates) {
@@ -570,11 +566,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         }
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
+        return HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab)
             .list();
-        return filterSearchResults(results);
     }
 
     public List<Request> listByHomeFolder(final Long homeFolderId) {
@@ -590,12 +585,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
+        return HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab)
             .list();
-        List<Request> filteredRequests = filterSearchResults(results);
-        return filteredRequests;
     }
 
     public List<Request> listByHomeFolderAndLabel(final Long homeFolderId, final String label,
@@ -623,11 +616,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         }
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
+        return HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab)
             .list();
-        return filterSearchResults(results);
     }
 
 
@@ -648,11 +640,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
-        .createQuery(sb.toString())
-        .setParameters(objectTab, typeTab)
-        .list();
-        return filterSearchResults(results);
+        return HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(objectTab, typeTab)
+            .list();
     }
 
 
@@ -673,11 +664,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
+        return HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab)
             .list();
-        return filterSearchResults(results);
     }
 
     public List<Request> listByStates(final Set<RequestState> states) {
@@ -715,11 +705,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        List results = HibernateUtil.getSession()
+        return HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab)
             .list();
-        return filterSearchResults(results);
     }
 
     public List<Request> listByNotMatchingActionLabel(final String actionLabel) {
@@ -734,51 +723,6 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return HibernateUtil.getSession().createQuery(sb.toString()).list();
     }
 
-    public Long create(final Object object) throws CvqPermissionException {
-
-        if (!(object instanceof Request))
-            return super.create(object);
-
-        // FIXME : do the setCurrentEcitizen in Vo Card Request creation method
-        if (!(object instanceof VoCardRequest)) {
-            cvqPolicy.check((Request) object, PrivilegeDescriptor.WRITE);
-        }
-
-        return super.create(object);
-    }
-
-    public void update(final Object object) throws CvqPermissionException {
-        if (object instanceof Request)
-            cvqPolicy.check((Request) object, PrivilegeDescriptor.WRITE);
-
-        super.update(object);
-    }
-
-    public void delete(final Object object) throws CvqPermissionException {
-        if (object instanceof Request)
-            cvqPolicy.check((Request) object, PrivilegeDescriptor.WRITE);
-
-        super.delete(object);
-    }
-
-    protected ArrayList<Request> filterSearchResults(final List results) {
-
-        ArrayList<Request> resultAfterPermissionChecks = new ArrayList<Request>();
-        Request request = null;
-        for (int i = 0; i < results.size(); i++) {
-            request = (Request) results.get(i);
-            try {
-                cvqPolicy.check(request, PrivilegeDescriptor.READ);
-                // if we're here, we are authorized
-                resultAfterPermissionChecks.add(request);
-            } catch (CvqPermissionException cpe) {
-                logger.debug("user is not authorized to see request " + request);
-            }
-        }
-
-        return resultAfterPermissionChecks;
-    }
-    
     /*
      * Hacked method to bypass Hibernate mapping 'one class per subclass' strategy 
      * performance limitations.

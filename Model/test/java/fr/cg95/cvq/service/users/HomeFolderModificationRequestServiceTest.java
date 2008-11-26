@@ -377,6 +377,13 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
             continueWithNewTransaction();
 
+            assertNotNull(newChild.getId());
+            
+            // used to resync home folder responsible wrt home folder state
+            homeFolderResponsible =
+                iHomeFolderService.getHomeFolderResponsible(hfmr.getHomeFolderId());
+            SecurityContext.setCurrentEcitizen(homeFolderResponsible);
+            
             // check modifications have been saved
             children = iHomeFolderService.getChildren(homeFolder.getId());
             assertEquals(2, children.size());
@@ -384,7 +391,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             for (Child child : children) {
                 if (child.getFirstName().equals(child1.getFirstName())) {
                     assertEquals(child.getBirthCity(), "Paris");
-                    //                assertEquals(3, iIndividualService.getBySubjectRoles(child.getId(), roles).size());
+                    assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
                 } else if (child.getFirstName().equals(newChild.getFirstName())) {
                     assertEquals(child.getLastName(), "Badiane");
                     assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());

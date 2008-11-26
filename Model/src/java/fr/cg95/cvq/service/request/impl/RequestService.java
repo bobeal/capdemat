@@ -22,10 +22,7 @@ import org.apache.xmlbeans.XmlOptions;
 import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryRoles;
-import fr.cg95.cvq.business.authority.SiteProfile;
-import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
@@ -50,8 +47,6 @@ import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.IGenericDAO;
-import fr.cg95.cvq.dao.document.IDocumentDAO;
-import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
@@ -63,8 +58,6 @@ import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalService;
-import fr.cg95.cvq.permission.CvqPermissionException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -73,6 +66,7 @@ import fr.cg95.cvq.service.authority.ICategoryService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.users.ICertificateService;
@@ -106,6 +100,7 @@ public abstract class RequestService implements IRequestService {
 
     protected ICategoryService categoryService;
     protected IDocumentService documentService;
+    protected IDocumentTypeService documentTypeService;
     protected IHomeFolderService homeFolderService;
     protected ICertificateService certificateService;
     protected IRequestServiceRegistry requestServiceRegistry;
@@ -113,14 +108,12 @@ public abstract class RequestService implements IRequestService {
     protected IMailService mailService;
     protected ILocalizationService localizationService;
     protected IExternalService externalService;
+    protected IIndividualService individualService;
 
     protected IGenericDAO genericDAO;
-    protected IIndividualService individualService;
     protected IRequestDAO requestDAO;
     protected IRequestTypeDAO requestTypeDAO;
     protected IRequestNoteDAO requestNoteDAO;
-    protected IDocumentDAO documentDAO;
-    protected IDocumentTypeDAO documentTypeDAO;
     protected IRequestActionDAO requestActionDAO;
     protected IRequestFormDAO requestFormDAO;
 
@@ -169,6 +162,7 @@ public abstract class RequestService implements IRequestService {
         return crit;
     }
 
+    @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Request> get(Set<Critere> criteriaSet, final String sort, final String dir,
             final int recordsReturned, final int startIndex)
@@ -183,6 +177,7 @@ public abstract class RequestService implements IRequestService {
         return requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex);
     }
 
+    @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Long getCount(Set<Critere> criteriaSet) throws CvqException {
 
@@ -195,23 +190,31 @@ public abstract class RequestService implements IRequestService {
         return requestDAO.count(criteriaSet);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Request getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
             return (Request) requestDAO.findById(Request.class, id);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Request> getByRequesterId(final Long requesterId)
         throws CvqException {
 
         return requestDAO.listByRequester(requesterId);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Request> getBySubjectId(final Long subjectId)
         throws CvqException, CvqObjectNotFoundException {
 
         return requestDAO.listBySubject(subjectId);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Request> getBySubjectIdAndRequestLabel(final Long subjectId, 
             final String requestLabel, boolean retrieveArchived)
         throws CvqException, CvqObjectNotFoundException {
@@ -226,11 +229,15 @@ public abstract class RequestService implements IRequestService {
         return requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Request> getByHomeFolderId(final Long homeFolderId) throws CvqException {
 
 		return requestDAO.listByHomeFolder(homeFolderId);
 	}
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Request> getByHomeFolderIdAndRequestLabel(final Long homeFolderId, 
             final String requestLabel)
         throws CvqException, CvqObjectNotFoundException {
@@ -246,45 +253,35 @@ public abstract class RequestService implements IRequestService {
             request.setLastModificationDate(date);
         else
             request.setLastModificationDate(new Date());
-
-        if (SecurityContext.isBackOfficeContext()) {
-            Agent agent = SecurityContext.getCurrentAgent();
-            if (agent == null)
-                throw new CvqException("No logged in agent !");
-            request.setLastInterveningAgentId(agent.getId());
-        } else if (SecurityContext.isAdminContext()) {
-            request.setLastInterveningAgentId(Long.valueOf("-1"));
-        }
+        request.setLastInterveningAgentId(SecurityContext.getCurrentUserId());
 
         requestDAO.update(request);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<RequestNote> getNotes(final Long id)
         throws CvqException {
 
+        // TODO ACMF : if ecitizen, filter notes he is not authorized to see 
+        // (eg instruction internal)
         return requestNoteDAO.listByRequest(id);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void addNote(final Long requestId, final RequestNoteType rtn, final String note)
         throws CvqException, CvqObjectNotFoundException {
 
-        Request request = getById(requestId);
 
-        // TODO ACMF
-        if (!SecurityContext.isBackOfficeContext())
-            throw new CvqPermissionException(Request.class, request,
-                                             PrivilegeDescriptor.WRITE);
-        Agent agent = SecurityContext.getCurrentAgent();
-        if (agent == null)
-            throw new CvqPermissionException(Request.class, request,
-                                             PrivilegeDescriptor.WRITE);
-        Long agentId = agent.getId();
+        Long agentId = SecurityContext.getCurrentUserId();
 
 	    RequestNote requestNote = new RequestNote();
         requestNote.setType(rtn);
         requestNote.setNote(note);
         requestNote.setAgentId(agentId);
 
+        Request request = getById(requestId);
 	    if (request.getNotes() == null) {
 	        Set<RequestNote> notes = new HashSet<RequestNote>();
 	        notes.add(requestNote);
@@ -293,11 +290,11 @@ public abstract class RequestService implements IRequestService {
 	        request.getNotes().add(requestNote);
 	    }
 
-	    requestDAO.update(request);
-
         updateLastModificationInformation(request, null);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void addDocuments(final Long requestId, final Set<Long> documentsId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -318,6 +315,8 @@ public abstract class RequestService implements IRequestService {
         updateLastModificationInformation(request, null);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void addDocument(final Long requestId, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -336,12 +335,16 @@ public abstract class RequestService implements IRequestService {
         updateLastModificationInformation(request, null);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<RequestAction> getActions(final Long id)
         throws CvqException {
 
         return requestActionDAO.listByRequest(id);
     }
 
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
     public void addAction(final Long requestId, final String label, final String note)
         throws CvqException {
 
@@ -349,6 +352,8 @@ public abstract class RequestService implements IRequestService {
         addActionTrace(label, note, new Date(), null, request, null);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Set<RequestDocument> getAssociatedDocuments(final Long requestId)
         throws CvqException {
 
@@ -356,6 +361,8 @@ public abstract class RequestService implements IRequestService {
         return request.getDocuments();
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public byte[] getCertificate(final Long id, final RequestState requestState)
         throws CvqException {
 
@@ -365,58 +372,61 @@ public abstract class RequestService implements IRequestService {
         return requestAction != null ? requestAction.getFile() : null;
     }
 
-    /**
-     * TODO ACMF
-     */
     public List<RequestType> getAllRequestTypes()
         throws CvqException {
-        
-        List<RequestType> requestTypes = requestTypeDAO.listAll();
 
-        if (SecurityContext.isAdminContext() || SecurityContext.isFrontOfficeContext())
-            return requestTypes;
+        // ecitizens can see all activated requests types
+        if (SecurityContext.isFrontOfficeContext())
+            return requestTypeDAO.listByCategoryAndState(null, true);
+        
+        if (SecurityContext.isAdminContext())
+            return requestTypeDAO.listAll();
 
         // if agent is admin, return all categories ...
-        Set<SiteRoles> agentSiteRoles = SecurityContext.getCurrentAgent().getSitesRoles();
-        for (SiteRoles siteRole : agentSiteRoles) {
-            if (siteRole.getProfile().equals(SiteProfile.ADMIN))
-                return requestTypes;
-        }
-
-        List<Category> agentCategories = categoryService.getAll();
+        if (SecurityContext.getCurrentCredentialBean().hasSiteAdminRole())
+            return requestTypeDAO.listAll();
+            
+        // else filters categories it is authorized to see
+        CategoryRoles[] authorizedCategories = 
+            SecurityContext.getCurrentCredentialBean().getCategoryRoles();
         List<RequestType> results = new ArrayList<RequestType>();
-        for (RequestType requestType : requestTypes) {
-            Category rtCategory = requestType.getCategory();
-            if (agentCategories.contains(rtCategory))
-                results.add(requestType);
+        for (CategoryRoles categoryRole : authorizedCategories) {
+            results.addAll(categoryRole.getCategory().getRequestTypes());
         }
 
         return results;
     }
 
+    @Override
     public RequestType getRequestTypeById(final Long requestTypeId)
         throws CvqException {
         
         return (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
     }
 
+    @Override
     public RequestType getRequestTypeByLabel(final String requestLabel)
         throws CvqException {
         
-        return requestTypeDAO.findByName(requestLabel);
+        return requestTypeDAO.findByLabel(requestLabel);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public List<RequestType> getRequestsTypes(final Long categoryId, final Boolean active)
         throws CvqException {
         
         return requestTypeDAO.listByCategoryAndState(categoryId,active);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void modifyRequestType(RequestType requestType)
         throws CvqException {
         requestTypeDAO.update(requestType);
     }
 
+    @Override
     public Set<DocumentType> getAllowedDocuments(final Long requestTypeId)
         throws CvqException {
 
@@ -433,6 +443,8 @@ public abstract class RequestService implements IRequestService {
         return null;
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void modifyRequestTypeRequirement(Long requestTypeId, Requirement requirement)
         throws CvqException {
 
@@ -443,14 +455,16 @@ public abstract class RequestService implements IRequestService {
         requestTypeDAO.update(requestType);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType.getRequirements() == null)
             requestType.setRequirements(new HashSet<Requirement>());
-        DocumentType documentType =
-            (DocumentType) genericDAO.findById(DocumentType.class, documentTypeId);
+        DocumentType documentType = 
+            documentTypeService.getDocumentTypeById(documentTypeId.intValue());
         Requirement requirement = new Requirement();
         requirement.setMultiplicity(Integer.valueOf("1"));
         requirement.setRequestType(requestType);
@@ -462,6 +476,8 @@ public abstract class RequestService implements IRequestService {
         }
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void removeRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
 
@@ -486,6 +502,7 @@ public abstract class RequestService implements IRequestService {
      *  seasons with opened registrations, the list of seasons with opened registrations
      *  otherwise.
      */
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     protected Set<RequestSeason> getOpenSeasons(RequestType requestType) {
 
         if (requestType.getSeasons() != null && !requestType.getSeasons().isEmpty()) {
@@ -591,6 +608,8 @@ public abstract class RequestService implements IRequestService {
         }
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void addRequestTypeSeason(final Long requestTypeId, RequestSeason requestSeason)
             throws CvqException {
 
@@ -609,6 +628,8 @@ public abstract class RequestService implements IRequestService {
         requestTypeDAO.update(requestType);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void modifyRequestTypeSeason(final Long requestTypeId, RequestSeason requestSeason)
         throws CvqException {
 
@@ -633,6 +654,8 @@ public abstract class RequestService implements IRequestService {
         requestTypeDAO.update(requestType);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void removeRequestTypeSeason(final Long requestTypeId, final String requestSeasonUuid)
         throws CvqException {
 
@@ -666,6 +689,8 @@ public abstract class RequestService implements IRequestService {
             return true;
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public RequestSeason getRequestAssociatedSeason(Long requestId) throws CvqException {
 
         Request request = getById(requestId);
@@ -678,6 +703,15 @@ public abstract class RequestService implements IRequestService {
             }
         }
         return null;
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Set<RequestSeason> getRequestTypeSeasons(Long requestTypeId)
+        throws CvqException {
+
+        RequestType requestType = getRequestTypeById(requestTypeId);
+        return requestType.getSeasons();
     }
 
     //////////////////////////////////////////////////////////
@@ -718,12 +752,13 @@ public abstract class RequestService implements IRequestService {
         return externalService.hasMatchingExternalService(requestLabel);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Map<Date, String> getConsumptionsByRequest(final Long requestId, final Date dateFrom,
             final Date dateTo)
         throws CvqException {
 
         Request request = getById(requestId);
-
         if (request.getState().equals(RequestState.ARCHIVED)) {
             logger.debug("getConsumptionsByRequest() Filtering archived request");
             return null;
@@ -787,6 +822,8 @@ public abstract class RequestService implements IRequestService {
         return finalizeAndPersist(request);
     }
 
+    @Override
+    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester, Individual subject)
         throws CvqException {
         
@@ -943,10 +980,12 @@ public abstract class RequestService implements IRequestService {
         }
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Map<Long, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
             throws CvqException, CvqObjectNotFoundException {
 
-        RequestType requestType = requestTypeDAO.findByName(getLabel());
+        RequestType requestType = requestTypeDAO.findByLabel(getLabel());
         logger.debug("getAuthorizedSubjects() searching authorized subjects for : "
                 + requestType.getLabel());
 
@@ -1077,28 +1116,26 @@ public abstract class RequestService implements IRequestService {
     }
 
     protected void validateXmlData(XmlObject xmlObject) {
-//        logger.debug("validateXmlData() gonna validate object of type : "
-//                + xmlObject.getClass().getName());
-//        logger.debug("validateXmlData() gonna validate data : " + xmlObject);
-        ArrayList validationErrors = new ArrayList();
+        ArrayList<Object> validationErrors = new ArrayList<Object>();
         XmlOptions options = new XmlOptions();
         options.setErrorListener(validationErrors);
         boolean isValid = xmlObject.validate(options);
         if (!isValid) {
-            Iterator iter = validationErrors.iterator();
-            while (iter.hasNext()) {
-                logger.warn("validateXmlData() Error : " + iter.next());
+            for (Object error : validationErrors) {
+                logger.info("validateXmlData() Error : " + error);
             }
         }
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Node getRequestClone(final Long subjectId, Long homeFolderId, final String requestLabel)
         throws CvqException {
 
     	if (requestLabel == null)
-    		throw new CvqModelException("request.label_required");
+    		throw new CvqModelException("request.error.labelRequired");
     	if (subjectId == null && homeFolderId == null)
-    		throw new CvqModelException("request.subject_or_home_folder_required");
+    		throw new CvqModelException("request.error.subjectOrHomeFolderRequired");
 
     	RequestState[] excludedStates =
             requestWorkflowService.getStatesExcludedForRequestsCloning();
@@ -1186,6 +1223,8 @@ public abstract class RequestService implements IRequestService {
         requestType.setRequester(null);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void modify(Request request)
         throws CvqException {
 
@@ -1201,10 +1240,10 @@ public abstract class RequestService implements IRequestService {
         homeFolderService.onRequestDeleted(request.getHomeFolderId(), request.getId());
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
-
-        logger.debug("delete() Gonna delete request object with id : " + id);
 
         Request request = getById(id);
         delete(request);
@@ -1218,6 +1257,8 @@ public abstract class RequestService implements IRequestService {
     // Request data state treatment
     /////////////////////////////////////////////////////////
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void updateRequestDataState(final Long id, final DataState rs)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         if (rs.equals(DataState.VALID))
@@ -1243,6 +1284,8 @@ public abstract class RequestService implements IRequestService {
     // TODO : make workflow method private - migrate unit tests
     /////////////////////////////////////////////////////////
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void updateRequestState(final Long id, final RequestState rs, final String motive)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         if (rs.equals(RequestState.COMPLETE))
@@ -1267,6 +1310,8 @@ public abstract class RequestService implements IRequestService {
             archive(id);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void complete(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1274,12 +1319,16 @@ public abstract class RequestService implements IRequestService {
         complete(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void complete(Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         requestWorkflowService.complete(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void specify(final Long id, final String motive)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1287,6 +1336,8 @@ public abstract class RequestService implements IRequestService {
         specify(request, motive);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void specify(final Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1338,12 +1389,14 @@ public abstract class RequestService implements IRequestService {
             homeFolderService.onRequestValidated(request.getHomeFolderId(), request.getId());
 
 		// send request data to interested external services
+        // TODO DECOUPLING
 		externalService.sendRequest(request);
 
 		LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         String requestTypeLabel = request.getRequestType().getLabel();
 
         // send notification to ecitizen if enabled
+        // TODO DECOUPLING
         Adult requester = (Adult) individualService.getById(request.getRequesterId());
         if (lacb.hasEcitizenValidationNotification(requestTypeLabel)
                 && (requester.getEmail() != null && !requester.getEmail().equals(""))) {
@@ -1384,6 +1437,8 @@ public abstract class RequestService implements IRequestService {
         }
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void validate(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1391,6 +1446,8 @@ public abstract class RequestService implements IRequestService {
         validate(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void validate(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
@@ -1398,6 +1455,8 @@ public abstract class RequestService implements IRequestService {
         validateXmlData(request.modelToXml());
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void notify(final Long id, final String motive)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1405,6 +1464,8 @@ public abstract class RequestService implements IRequestService {
         notify(request, motive);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void notify(Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException {
 
@@ -1420,6 +1481,8 @@ public abstract class RequestService implements IRequestService {
             activate(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void activate(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1427,12 +1490,16 @@ public abstract class RequestService implements IRequestService {
         activate(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void activate(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         requestWorkflowService.activate(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void expire(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1440,12 +1507,16 @@ public abstract class RequestService implements IRequestService {
         expire(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void expire(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         requestWorkflowService.expire(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void cancel(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
@@ -1458,6 +1529,8 @@ public abstract class RequestService implements IRequestService {
             homeFolderService.onRequestCancelled(request.getHomeFolderId(), request.getId());
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void cancel(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1465,6 +1538,8 @@ public abstract class RequestService implements IRequestService {
         cancel(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void reject(final Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException {
 
@@ -1477,6 +1552,8 @@ public abstract class RequestService implements IRequestService {
             homeFolderService.onRequestRejected(request.getHomeFolderId(), request.getId());
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void reject(final Long id, final String motive)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1484,6 +1561,8 @@ public abstract class RequestService implements IRequestService {
         reject(request,motive);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void close(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1491,12 +1570,16 @@ public abstract class RequestService implements IRequestService {
         close(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void close(Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         requestWorkflowService.close(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void archive(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1504,6 +1587,8 @@ public abstract class RequestService implements IRequestService {
         archive(request);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void archive(final Request request)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1512,6 +1597,8 @@ public abstract class RequestService implements IRequestService {
         homeFolderService.onRequestArchived(request.getHomeFolderId(), request.getId());
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void archiveHomeFolderRequests(HomeFolder homeFolder)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1656,8 +1743,7 @@ public abstract class RequestService implements IRequestService {
         if (requestForm.getType() == null) 
             requestForm.setType(RequestFormType.REQUEST_MAIL_TEMPLATE);
 
-        RequestType requestType = 
-            (RequestType) genericDAO.findById(RequestType.class, requestTypeId);
+        RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType == null)
             throw new CvqModelException("requestForm.requestType_is_invalid");
 
@@ -1694,9 +1780,8 @@ public abstract class RequestService implements IRequestService {
 
     public void removeRequestTypeForm(final Long requestTypeId, final Long requestFormId)
         throws CvqException {
-        RequestType requestType =
-            (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
-        RequestForm requestForm =
+        RequestType requestType = getRequestTypeById(requestTypeId);
+        RequestForm requestForm = 
             (RequestForm) genericDAO.findById(RequestForm.class, requestFormId);
         requestType.getForms().remove(requestForm);
 
@@ -1714,6 +1799,8 @@ public abstract class RequestService implements IRequestService {
         requestFormDAO.delete(requestForm);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
     public List<RequestForm> getRequestTypeForms(Long requestTypeId,
             RequestFormType requestFormType) throws CvqException {
 
@@ -1762,10 +1849,6 @@ public abstract class RequestService implements IRequestService {
         this.individualService = individualService;
     }
 
-    public void setDocumentDAO(IDocumentDAO documentDAO) {
-        this.documentDAO = documentDAO;
-    }
-
     public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
         this.requestTypeDAO = requestTypeDAO;
     }
@@ -1784,6 +1867,10 @@ public abstract class RequestService implements IRequestService {
 
     public void setDocumentService(IDocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {

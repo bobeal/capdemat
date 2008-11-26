@@ -2,13 +2,8 @@ package fr.cg95.cvq.service.request;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import junit.framework.Assert;
-
-import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
@@ -31,13 +26,14 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
     
     @Override
     protected void onSetUp() throws Exception {
+        
         super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        schoolRegistrationRequestService =
-            (ISchoolRegistrationRequestService) cac.getBean(ISchoolRegistrationRequestService.SERVICE_NAME);
+        
+        schoolRegistrationRequestService = 
+            (ISchoolRegistrationRequestService) getBean(ISchoolRegistrationRequestService.SERVICE_NAME);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         // find the first request type with registrations/seasons notions
         List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
@@ -57,28 +53,30 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
     @Override
     protected void onTearDown() throws Exception {
         // finally remove all seasons related settings
-        
+
         continueWithNewTransaction();
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
-        Iterator<RequestSeason> it = requestType.getSeasons().iterator();
-        while(it.hasNext()) {
-            RequestSeason rs = it.next();
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
+        iRequestService.getRequestTypeSeasons(requestType.getId());
+        
+        Set<RequestSeason> requestSeasons = 
+            iRequestService.getRequestTypeSeasons(requestType.getId());
+        for (RequestSeason rs : requestSeasons) {
             iRequestService.removeRequestTypeSeason(requestType.getId(), rs.getUuid());
         }
         continueWithNewTransaction();
         
         // test all seasons have been succesfully removed
         requestType = iRequestService.getRequestTypeById(requestType.getId());
-        Assert.assertEquals(0, requestType.getSeasons().size());
+        assertEquals(0, requestType.getSeasons().size());
         
-        SecurityContext.resetCurrentSite();
         super.onTearDown();
     }
     
-    
     public void testGoodSeasonManagement() throws CvqException {
+
         // Create
         RequestSeason season1 =
             BusinessObjectsFactory.gimmeRequestSeason("saison 0123", 0, 1, 2, 3);
@@ -87,7 +85,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         iRequestService.addRequestTypeSeason(requestType.getId(), season1);
         
         continueWithNewTransaction();
-        Assert.assertEquals(2, requestType.getSeasons().size());
+        assertEquals(2, requestType.getSeasons().size());
         
         // Modify
         RequestSeason season2 = 
@@ -96,13 +94,16 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
   
         iRequestService.modifyRequestTypeSeason(requestType.getId(), season2);
         continueWithNewTransaction();
-        Assert.assertEquals(2, requestType.getSeasons().size());
+        assertEquals(2, requestType.getSeasons().size());
         
         // Remove
         iRequestService.removeRequestTypeSeason(requestType.getId(), season2.getUuid());
         continueWithNewTransaction();
-        Assert.assertEquals(1, requestType.getSeasons().size());
-        Assert.assertFalse(requestType.getSeasons().contains(season2));
+
+        Set<RequestSeason> requestTypeSeasons =
+            iRequestService.getRequestTypeSeasons(requestType.getId());
+        assertEquals(1, requestTypeSeasons.size());
+        assertFalse(requestTypeSeasons.contains(season2));
     }
     
     /* Bypass service business rules (like "request.season.registration_started")
@@ -112,8 +113,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
             int registrationEndOffset, int effectStartOffset, int effectEndOffset) 
         throws CvqException {
        try {
-           ConfigurableApplicationContext cac = getContext(getConfigLocations());
-           GenericDAO genericDAO = (GenericDAO)cac.getBean("genericDAO");
+           GenericDAO genericDAO = (GenericDAO) getBean("genericDAO");
        
            Calendar calendar = new GregorianCalendar();
            
@@ -150,7 +150,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
             iRequestService.addRequestTypeSeason(requestType.getId(), season);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
-            Assert.assertEquals(errorMessage, cme.getMessage());
+            assertEquals(errorMessage, cme.getMessage());
         }
     }
     
@@ -159,7 +159,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
             iRequestService.modifyRequestTypeSeason(requestType.getId(), season);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
-            Assert.assertEquals(errorMessage, cme.getMessage());
+            assertEquals(errorMessage, cme.getMessage());
         }
     }
     
@@ -229,6 +229,8 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         badSeason.setUuid(season.getUuid());
         checkModifySeasonError(badSeason, "request.season.registration_started");
         
+        continueWithNewTransaction();
+        
         // request.season.effect_ended
         daoUpdateSeason(season.getUuid(), -5 , -6, -6, -6); // season=[-6, -4, -3, -1]
         badSeason = BusinessObjectsFactory.gimmeRequestSeason("saison 1235", 1, 2, 3, 5);
@@ -237,8 +239,9 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
     }
     
     public void testGetRequestAssociatedSeason() throws CvqException {
+        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         requestType = 
             iRequestService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel());
@@ -246,6 +249,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         /* Create a season */
         RequestSeason season = BusinessObjectsFactory.gimmeRequestSeason("Saison 0235", 0, 2, 3, 5);
         iRequestService.addRequestTypeSeason(requestType.getId(), season);
+        
         continueWithNewTransaction();
         
         /* Make season registration start */
@@ -266,9 +270,9 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
 
         // get the home folder id
         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
-        Assert.assertNotNull(homeFolder);
+        assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
+        assertNotNull(homeFolderId);
 
         SchoolRegistrationRequest request = new SchoolRegistrationRequest();
         request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
@@ -284,11 +288,11 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
 
         /* Test season associated to the school registration request */
         RequestSeason srrSeason = iRequestService.getRequestAssociatedSeason(requestId);
-        Assert.assertEquals(season, srrSeason);
+        assertEquals(season, srrSeason);
         
-        /* Test season associated to the vo card request */
-        continueWithNewTransaction();
         srrSeason = iRequestService.getRequestAssociatedSeason(voCardRequestId);
-        Assert.assertNull(srrSeason);
+        assertNull(srrSeason);
+        
+        iRequestService.delete(requestId);
     }
 }

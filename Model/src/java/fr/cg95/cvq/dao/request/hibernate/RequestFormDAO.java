@@ -10,8 +10,6 @@ import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
-import fr.cg95.cvq.permission.CvqPermissionException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -42,26 +40,5 @@ public class RequestFormDAO extends GenericDAO implements IRequestFormDAO {
         crit.createCriteria("requestTypes")
             .add(Critere.compose("id", requestTypeId, Critere.EQUALS));
         return crit.list();
-    }
-
-    public Long create(final Object object) throws CvqPermissionException {
-        if (object instanceof RequestForm)
-            cvqPolicy.check((RequestForm) object, PrivilegeDescriptor.ADMIN);
-
-        return super.create(object);
-    }
-
-    public void update(final Object object) throws CvqPermissionException {
-        if (object instanceof RequestForm)
-            cvqPolicy.check((RequestForm) object, PrivilegeDescriptor.ADMIN);
-
-        super.update(object);
-    }
-
-    public void delete(final Object object) throws CvqPermissionException {
-        if (object instanceof RequestForm)
-            cvqPolicy.check((RequestForm) object, PrivilegeDescriptor.ADMIN);
-
-        super.delete(object);
     }
 }

@@ -163,9 +163,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
       <ref local="genericDAO"/>
     </property>
     <property name="individualService" ref="individualService"/>
-    <property name="documentDAO">
-      <ref local="documentDAO"/>
-    </property>
     <property name="requestActionDAO">
       <ref local="requestActionDAO"/>
     </property>
@@ -175,9 +172,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestFormDAO">
       <ref local="requestFormDAO"/>
     </property>
-    <property name="documentService">
-      <ref local="documentService"/>
-    </property>
+    <property name="documentService" ref="documentService"/>
+    <property name="documentTypeService" ref="documentTypeService"/>
     <property name="homeFolderService">
       <ref local="homeFolderService"/>
     </property>

@@ -5,7 +5,6 @@ import java.util.List;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.CvqPermissionException;
 
 /**
  * Registry for registered request services.
@@ -33,7 +32,7 @@ public interface IRequestServiceRegistry {
      * type with the given id.
      */
     IRequestService getRequestService(Long requestTypeId)
-        throws CvqPermissionException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
     
     IRequestService getDefaultRequestService();
 

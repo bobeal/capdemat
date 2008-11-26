@@ -106,13 +106,13 @@ public class SecurityContext {
      * @throws CvqException if security context is not initialized or if no agent is set in it
      *  or if it is not in the {@link #BACK_OFFICE_CONTEXT back office context}.
      */
-    public static Agent getCurrentAgent() throws CvqException {
+    public static Agent getCurrentAgent() {
 		CredentialBean credentialBean = currentContextThreadLocal.get();
 		if (credentialBean == null)
-            throw new CvqException("No user yet in security context");
+		    return null;
 
         if (!credentialBean.isBoContext())
-            throw new CvqException("Agent only exists in Back Office context");
+            return null;
 
         return credentialBean.getAgent();
     }

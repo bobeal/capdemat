@@ -11,9 +11,9 @@ import fr.cg95.cvq.dao.IGenericDAO;
 public interface IRequestTypeDAO extends IGenericDAO {
 
     /**
-     * Look up a request type by name.
+     * Look up a request type by label.
      */
-    RequestType findByName(final String name);
+    RequestType findByLabel(final String requestTypeLabel);
 
     /**
      * Return the list of all known requests types.

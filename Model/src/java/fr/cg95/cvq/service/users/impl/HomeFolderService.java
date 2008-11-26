@@ -72,35 +72,19 @@ public class HomeFolderService implements IHomeFolderService {
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public HomeFolder create(final Adult adult) throws CvqException {
 
-        Address adress = adult.getAdress();
-        genericDAO.create(adress);
+        Set<Adult> adults = new HashSet<Adult>();
+        adults.add(adult);
         
-        // create the home folder
-        HomeFolder homeFolder = new HomeFolder();
-        initializeCommonAttributes(homeFolder);
-        homeFolder.setAdress(adress);
-        
-        IndividualRole individualRole = new IndividualRole();
-        individualRole.setRole(RoleEnum.HOME_FOLDER_RESPONSIBLE);
-        individualRole.setHomeFolderId(homeFolder.getId());
-        Set<IndividualRole> individualRoles = new HashSet<IndividualRole>();
-        individualRoles.add(individualRole);
-        adult.setIndividualRoles(individualRoles);
-        individualService.create(adult, homeFolder, null, true);
-
-        Set<Individual> allIndividuals = new HashSet<Individual>();
-        allIndividuals.add(adult);
-
-        homeFolder.setIndividuals(allIndividuals);
-        
-        homeFolderDAO.create(homeFolder);
-        return homeFolder;
+        return create(adults, null, adult.getAdress());
     }
 
     @Override
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public HomeFolder create(Set<Adult> adults, Set<Child> children, Address address)
         throws  CvqException, CvqModelException {
+
+        if (adults == null)
+            throw new CvqModelException("homefolder.error.mustContainAtLeastAnAdult");
         
         // create the home folder
         HomeFolder homeFolder = new HomeFolder();
@@ -112,7 +96,8 @@ public class HomeFolderService implements IHomeFolderService {
 
         Set<Individual> allIndividuals = new HashSet<Individual>();
         allIndividuals.addAll(adults);
-        allIndividuals.addAll(children);
+        if (children != null)
+            allIndividuals.addAll(children);
         
         for (Individual individual : allIndividuals) {
             if (individual instanceof Child) 
@@ -400,7 +385,8 @@ public class HomeFolderService implements IHomeFolderService {
         
         Set<Individual> allIndividuals = new HashSet<Individual>();
         allIndividuals.addAll(adults);
-        allIndividuals.addAll(children);
+        if (children != null)
+            allIndividuals.addAll(children);
 
         // now that all individuals are persisted, we can deal with roles
         boolean foundHomeFolderResponsible = false;
@@ -458,28 +444,30 @@ public class HomeFolderService implements IHomeFolderService {
         
         // check all children have at least a legal responsible
         RoleEnum[] roles = {RoleEnum.CLR_FATHER, RoleEnum.CLR_MOTHER, RoleEnum.CLR_TUTOR};
-        for (Child child : children) {
-            // TODO REFACTORING : there is something strange here !
-//            List<Individual> legalResponsibles = 
-//                individualDAO.listBySubjectRoles(child.getId(), roles);
-            List<Individual> legalResponsibles = new ArrayList<Individual>();
-            for (Adult adult : adults) {
-                if (adult.getIndividualRoles() != null) {
-                    for (IndividualRole individualRole : adult.getIndividualRoles()) {
-                        if (child.getId().equals(individualRole.getIndividualId())
-                                && (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
-                                        || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
-                                        || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)))
-                            legalResponsibles.add(adult);
+        if (children != null) {
+            for (Child child : children) {
+                // TODO REFACTORING : there is something strange here !
+                //            List<Individual> legalResponsibles = 
+                //                individualDAO.listBySubjectRoles(child.getId(), roles);
+                List<Individual> legalResponsibles = new ArrayList<Individual>();
+                for (Adult adult : adults) {
+                    if (adult.getIndividualRoles() != null) {
+                        for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                            if (child.getId().equals(individualRole.getIndividualId())
+                                    && (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
+                                            || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
+                                            || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)))
+                                legalResponsibles.add(adult);
+                        }
                     }
                 }
+                if (legalResponsibles == null || legalResponsibles.isEmpty())
+                    throw new CvqModelException("Child " + child.getFirstName() + 
+                            " (" + child.getId() + ") has no legal responsible");
+                else if (legalResponsibles.size() > 3) 
+                    throw new CvqModelException("Too many legal responsibles for child : " 
+                            + child.getFirstName());
             }
-            if (legalResponsibles == null || legalResponsibles.isEmpty())
-                throw new CvqModelException("Child " + child.getFirstName() + 
-                        " (" + child.getId() + ") has no legal responsible");
-            else if (legalResponsibles.size() > 3) 
-                throw new CvqModelException("Too many legal responsibles for child : " 
-                      + child.getFirstName());
         }
         
         if (!foundHomeFolderResponsible)

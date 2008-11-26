@@ -44,28 +44,28 @@ public class CvqPolicy implements IPolicyDelegate {
                 administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.authority.RecreationCenter.class,
                 administratorOnlyPolicy);
-        registerPolicy(fr.cg95.cvq.business.request.RequestType.class,
-                administratorOnlyPolicy);
-        registerPolicy(fr.cg95.cvq.business.document.DocumentType.class,
-                administratorOnlyPolicy);
-        registerPolicy(fr.cg95.cvq.business.request.Requirement.class,
-                administratorOnlyPolicy);
+//        registerPolicy(fr.cg95.cvq.business.request.RequestType.class,
+//                administratorOnlyPolicy);
+//        registerPolicy(fr.cg95.cvq.business.document.DocumentType.class,
+//                administratorOnlyPolicy);
+//        registerPolicy(fr.cg95.cvq.business.request.Requirement.class,
+//                administratorOnlyPolicy);
         registerPolicy(fr.cg95.cvq.business.authority.Category.class,
                 administratorOnlyPolicy);
-        registerPolicy(fr.cg95.cvq.business.request.RequestForm.class,
-                administratorOnlyPolicy);
+//        registerPolicy(fr.cg95.cvq.business.request.RequestForm.class,
+//                administratorOnlyPolicy);
 
         PartOfPolicy cvqReferentialPolicy = new CvqReferentialPolicy();
         registerPolicy(fr.cg95.cvq.business.authority.Agent.class,
                        cvqReferentialPolicy);
 
-        PartOfPolicy requestPolicy = new RequestPolicy();
-        registerPolicy(fr.cg95.cvq.business.request.Request.class,
-                       requestPolicy);
-        registerPolicy(fr.cg95.cvq.business.request.RequestAction.class,
-                       requestPolicy);
-        registerPolicy(fr.cg95.cvq.business.request.RequestNote.class,
-                       requestPolicy);
+//        PartOfPolicy requestPolicy = new RequestPolicy();
+//        registerPolicy(fr.cg95.cvq.business.request.Request.class,
+//                       requestPolicy);
+//        registerPolicy(fr.cg95.cvq.business.request.RequestAction.class,
+//                       requestPolicy);
+//        registerPolicy(fr.cg95.cvq.business.request.RequestNote.class,
+//                       requestPolicy);
      }
     
     /**

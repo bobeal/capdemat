@@ -31,12 +31,42 @@ public class ContextAspect implements Ordered {
             throw new PermissionException("method " + joinPoint.getSignature().getName()
                     + " in " + joinPoint.getTarget().getClass()
                     + " can only be used by unauthenticad ecitizens");
-            
+
+        if (contextType.equals(ContextType.ECITIZEN_AGENT)) {
+            if (securityContext.equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
+                if (SecurityContext.getCurrentEcitizen() == null)
+                    throw new PermissionException("method " + joinPoint.getSignature().getName()
+                            + " in " + joinPoint.getTarget().getClass()
+                            + " can only be called by an authenticated ecitizen");                    
+            } else if (securityContext.equals(SecurityContext.BACK_OFFICE_CONTEXT)) {
+                if (SecurityContext.getCurrentAgent() == null)
+                    throw new PermissionException("method " + joinPoint.getSignature().getName()
+                            + " in " + joinPoint.getTarget().getClass()
+                            + " can only be called by an authenticated agent");                                    
+                boolean isAgent = false;
+                SiteRoles[] siteRoles = SecurityContext.getCurrentCredentialBean().getSiteRoles();
+                for (SiteRoles siteRole : siteRoles) {
+                    if (siteRole.getProfile().equals(SiteProfile.AGENT))
+                        isAgent = true;
+                }
+                if (!isAgent)
+                    throw new PermissionException("method " + joinPoint.getSignature().getName()
+                            + " in " + joinPoint.getTarget().getClass()
+                            + " requires an AGENT profile on the site");
+            } else {
+                throw new PermissionException("method " + joinPoint.getSignature().getName()
+                        + " in " + joinPoint.getTarget().getClass()
+                        + " can only be called an authenticated ecitizen"
+                        + " or by an AGENT profile");                
+            }
+        }
+        
         if (contextType.equals(ContextType.ECITIZEN)
-                && !securityContext.equals(SecurityContext.FRONT_OFFICE_CONTEXT))
+                && (!securityContext.equals(SecurityContext.FRONT_OFFICE_CONTEXT)
+                        || SecurityContext.getCurrentEcitizen() == null))
             throw new PermissionException("method " + joinPoint.getSignature().getName()
                     + " in " + joinPoint.getTarget().getClass()
-                    + " can only be called in Front Office context");
+                    + " can only be called an authenticated ecitizen");
         
         if (contextType.equals(ContextType.AGENT)) {
             if (!securityContext.equals(SecurityContext.BACK_OFFICE_CONTEXT))
@@ -52,9 +82,9 @@ public class ContextAspect implements Ordered {
             if (!isAgent)
                 throw new PermissionException("method " + joinPoint.getSignature().getName()
                         + " in " + joinPoint.getTarget().getClass()
-                        + " requires an agent profile on the site");
+                        + " requires an AGENT profile on the site");
         }
-        
+
         if (contextType.equals(ContextType.ADMIN)) {
             if (!securityContext.equals(SecurityContext.BACK_OFFICE_CONTEXT))
                 throw new PermissionException("method " + joinPoint.getSignature().getName()

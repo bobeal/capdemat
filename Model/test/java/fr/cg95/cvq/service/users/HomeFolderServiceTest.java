@@ -75,16 +75,18 @@ public class HomeFolderServiceTest extends ServiceTestCase {
     public void testArchivedHomeFolder()
         throws CvqException {
     
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
         CreationBean cb = gimmeAnHomeFolder();
 
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         // get all home folders
         Set<HomeFolder> fetchHomeFolders = iHomeFolderService.getAll();
         Assert.assertEquals(fetchHomeFolders.size(), 1);
         
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentEcitizen(cb.getLogin());
+
         // get the home folder id
         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Assert.assertNotNull(homeFolder.getId());
@@ -97,7 +99,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         List<Individual> initialResults = iIndividualService.get(new HashSet<Critere>(), null, false);
         int initialResultsSize = initialResults.size();
         
-        iHomeFolderService.archive(homeFolder);
+        iHomeFolderService.archive(homeFolder.getId());
 
         continueWithNewTransaction();
 
@@ -174,6 +176,9 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         continueWithNewTransaction();
         
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
         // and validate it
         iHomeFolderService.validate(homeFolder.getId());
 

@@ -36,7 +36,7 @@ import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.CvqPermissionException;
+import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -364,7 +364,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
             iVoCardRequestService.addNote(dcvoFromDb.getId(),
                     RequestNoteType.INSTRUCTION_EXTERNAL, noteMsg);
             fail("should have thrown an exception");
-        } catch (CvqPermissionException ce) {
+        } catch (PermissionException pe) {
             // ok
         }
 

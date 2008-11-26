@@ -16,9 +16,6 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import junit.framework.Assert;
 
 import java.util.*;
 import java.io.File;
@@ -34,9 +31,8 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
 
     protected void onSetUp() throws Exception {
     	super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
         iSewerConnectionRequestService = 
-            (ISewerConnectionRequestService) cac.getBean(StringUtils.uncapitalize("SewerConnectionRequest") + "Service");
+            (ISewerConnectionRequestService) getBean(StringUtils.uncapitalize("SewerConnectionRequest") + "Service");
     }
 
     protected SewerConnectionRequest fillMeARequest() throws CvqException {
@@ -83,7 +79,7 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
         iSewerConnectionRequestService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
             iSewerConnectionRequestService.getAssociatedDocuments(request.getId());
-        Assert.assertEquals(documentsSet.size(), 1);
+        assertEquals(documentsSet.size(), 1);
 
         // FIXME : test list of pending / in-progress registrations
         Critere testCrit = new Critere();
@@ -93,7 +89,7 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
         Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
         List<Request> allRequests = iRequestService.get(testCritSet, null, null, -1, 0);
-        Assert.assertNotNull(allRequests);
+        assertNotNull(allRequests);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -142,9 +138,9 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
 
          // get the home folder id
          HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
-         Assert.assertNotNull(homeFolder);
+         assertNotNull(homeFolder);
          Long homeFolderId = homeFolder.getId();
-         Assert.assertNotNull(homeFolderId);
+         assertNotNull(homeFolderId);
 
          // fill and create the request
          //////////////////////////////
@@ -159,14 +155,17 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
 
          SewerConnectionRequest requestFromDb =
         	 	(SewerConnectionRequest) iSewerConnectionRequestService.getById(requestId);
-         Assert.assertEquals(requestId, requestFromDb.getId());
-         Assert.assertNotNull(requestFromDb.getRequesterId());
+         assertEquals(requestId, requestFromDb.getId());
+         assertNotNull(requestFromDb.getRequesterId());
+         assertNotNull(requestFromDb.getRequesterLastName());
+         if (requestFromDb.getSubjectId() != null)
+             assertNotNull(requestFromDb.getSubjectLastName());
          
          completeValidateAndDelete(requestFromDb);
 
          HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
-         Assert.assertNotNull(homeFolderAfterDelete);
-         Assert.assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
+         assertNotNull(homeFolderAfterDelete);
+         assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
          
          SecurityContext.resetCurrentSite();
     }
@@ -181,8 +180,7 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
 
 	      startTransaction();
 	
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
         SewerConnectionRequest request = fillMeARequest();
 
@@ -192,6 +190,7 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
+        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
         SewerConnectionRequestFeeder.setSubject(request, 
             iSewerConnectionRequestService.getSubjectPolicy(), requester, null);
 
@@ -206,8 +205,11 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
 
         SewerConnectionRequest requestFromDb =
             (SewerConnectionRequest) iSewerConnectionRequestService.getById(requestId);
-        Assert.assertEquals(requestId, requestFromDb.getId());
-        Assert.assertNotNull(requestFromDb.getRequesterId());
+        assertEquals(requestId, requestFromDb.getId());
+        assertNotNull(requestFromDb.getRequesterId());
+        assertNotNull(requestFromDb.getRequesterLastName());
+        if (requestFromDb.getSubjectId() != null)
+            assertNotNull(requestFromDb.getSubjectLastName());
         
         Long homeFolderId = requestFromDb.getHomeFolderId();
         Long requesterId = requestFromDb.getRequesterId();

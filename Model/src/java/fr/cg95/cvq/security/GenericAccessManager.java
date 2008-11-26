@@ -68,8 +68,18 @@ public class GenericAccessManager {
             } else if (individualId != null) {
                 
                 // to have access on an individual, one has to :
-                //   either have Tutor or Responsible role on home folder
-                //   either have Tutor role on individual
+                //   belong to the same home folder than given individual
+                //   and :
+                //        either have Tutor or Responsible role on home folder
+                //        either have Tutor role on individual
+
+                if (!credentialBean.belongsToSameHomeFolder(individualId)) {
+                    logger.warn("performPermissionCheck() denying write access to individual "
+                            + individualId + " to user " + currentAdult.toString()
+                            + " (not same home folder)");
+                    return false;
+                }
+                
                 boolean hasRequiredIndividualRole = false;
 
                 // first check home folder scoped roles
@@ -108,15 +118,18 @@ public class GenericAccessManager {
                 return false;
             }
         } else if (credentialBean.isBoContext()) {
-            // TODO : implement more privilege checks here ?
+            // TODO ACMF : implement privilege checks
             SiteRoles[] siteRoles = SecurityContext.getCurrentCredentialBean().getSiteRoles();
             boolean hasAnAgentProfile = false;
             for (SiteRoles siteRole : siteRoles) {
                 if (siteRole.getProfile().equals(SiteProfile.AGENT))
                     hasAnAgentProfile = true;
             }
-            if (!hasAnAgentProfile)
+            if (!hasAnAgentProfile) {
+                logger.warn("performPermissionCheck() agent does not have "
+                        + " an AGENT profile (" + SecurityContext.getCurrentAgent() + ")");
                 return false;
+            }
         } else {
             return false;
         }        

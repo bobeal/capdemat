@@ -1,7 +1,6 @@
 package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -145,6 +144,7 @@ public class Agent implements Serializable {
     
     public String toString() {
         return new ToStringBuilder(this)
+            .append("login", getLogin())
             .append("id", getId())
             .toString();
     }

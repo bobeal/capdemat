@@ -80,6 +80,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         assertNotNull(esimFromDb.getExternalCapDematId());
         
         // test the addition of individuals mappings
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         Adult homeFolderResponsible = 
             iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());

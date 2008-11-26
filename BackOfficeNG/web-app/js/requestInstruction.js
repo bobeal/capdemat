@@ -175,9 +175,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       if (isSubmit && yud.hasClass(ddEl, 'validate-capdematEnum')) {
         zct.each (yud.get(formEl.id.replace('_Form', '') + '_Field').options, function() {
             if (this.selected === true)
-              propertyValue = this.text;
+              propertyValue = this;
         });
-        propertyWrapperEl.innerHTML = propertyValue;
+        propertyWrapperEl.innerHTML = propertyValue.text;
+        propertyWrapperEl.className = propertyValue.value;
       }
       else if (isSubmit && yud.hasClass(ddEl, 'validate-address')) {
         var addressFields = yud.getChildren(propertyWrapperEl);

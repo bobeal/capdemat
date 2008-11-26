@@ -73,6 +73,9 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="trigger" />
+                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" after="Motive" />

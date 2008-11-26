@@ -59,7 +59,7 @@
               </dl>
               <% } else if (element.typeClass == "COMPLEX") { %>
               <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
-              <dl ${element.conditionsClass}>
+              <dl${element.conditionsClass != '' ? ' class="' + element.conditionsClass + '"' : ''}>
                 <% for (subElement in element.elements) { %>
                   <dt${subElement.conditionsClass != '' ? ' class="' + subElement.conditionsClass + '"' : ''}><g:message code="${subElement.i18nPrefixCode}.label" /> : </dt>
                   <dd id="${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>
@@ -70,7 +70,7 @@
               <% } else if (element.typeClass == "COLLECTION") { %>
               <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
               <g:each var="it" in="\${request.${element.javaFieldName}}" statut="index">
-              <dl>
+              <dl${element.conditionsClass != '' ? ' class="' + element.conditionsClass + '"' : ''}>
                 <% for (subElement in element.elements) { %>
                   <dt${subElement.conditionsClass != '' ? ' class="' + subElement.conditionsClass + '"' : ''}><g:message code="${subElement.i18nPrefixCode}.label" /> : </dt>
                   <dd id="${element.javaFieldName}.[\${index}].${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>

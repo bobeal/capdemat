@@ -178,7 +178,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               propertyValue = this;
         });
         propertyWrapperEl.innerHTML = propertyValue.text;
-        propertyWrapperEl.className = propertyValue.value;
+        // TODO - fix className value updatating !
+        // propertyWrapperEl.className = propertyValue.value;
       }
       else if (isSubmit && yud.hasClass(ddEl, 'validate-address')) {
         var addressFields = yud.getChildren(propertyWrapperEl);
@@ -274,6 +275,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           zcc.doAjaxFormSubmitCall(formEl.id, null, function(o) {
                 var response = ylj.parse(o.responseText);
                 if (response.status === 'ok') {
+                  zcb.Condition.run(e);
                   modifyField(targetEl, true);
                   yud.setStyle(formEl.id.replace('_Form', ''), 'background', '#aaffaa');
                 }

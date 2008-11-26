@@ -182,6 +182,17 @@ class RequestInstructionController {
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }
     }
+    
+    def condition = {
+        def triggers = JSON.parse(params.triggers)
+        try {
+          log.debug(triggers)  
+            
+            render ([test: triggers.format == "FullCopy" ? true : false, status:"ok", success_msg:message(code:"message.conditionTested")] as JSON)
+        } catch (CvqException ce) {
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }
+    }
 
 
     /* request state workflow managment

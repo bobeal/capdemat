@@ -5,6 +5,7 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'requestInstruction.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js',file:'document.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'condition.js')}"></script>
     <script type="text/javascript">
         zenexity.capdemat.bong.requestId = '${request.id}';
     </script>

@@ -202,15 +202,15 @@ function FIC_checkField(c,e) {
 				return true;
 		},
 		'validate-departmentcode' : function(t) {
-				if (t.match(/^[0-9]{2}$/)) return false; //TODO - verify test
+				if (t.match(/^[0-9]{2}$/)) return false;
 				return true;
 		},
 		'validate-phone' : function(t) {
-				if (t.match(/^0[1-9][0-9]{8}$/)) return false; //TODO - verify test
+				if (t.match(/^0[1-9][0-9]{8}$/)) return false;
 				return true;
 		},
 		'validate-city' : function(t) {
-				if (t.match(/^.{0,32}$/)) return false; //TODO - verify test
+				if (t.match(/^.{0,32}$/)) return false;
 				return true;
 		},
 		'validate-firstname' : function(t) {
@@ -221,13 +221,13 @@ function FIC_checkField(c,e) {
 				if (t.match(/^\D{0,38}$/)) return false;
 				return true;
 		},
-		'validate-cfbnT' : function(t) {
+		'validate-cfbn' : function(t) {
 				if (t.match(/^[0-9]{7}[A-Z]{0,1}$/)) return false; //TODO - verify test
 				return true;
 		}
 	}
 	
-	// Extract 'validate-type' from class html c 
+	// Extract 'validate-type' from html class 
 	var validateClass = zenexity.capdemat.tools.grep(c.split(' '), function(elem, i){
 			return (elem.indexOf('validate-') != -1);
 	})[0];

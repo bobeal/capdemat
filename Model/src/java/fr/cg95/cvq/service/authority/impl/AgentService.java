@@ -47,10 +47,10 @@ public final class AgentService implements IAgentService {
     }
 
     public Long create(Agent agent) throws CvqException {
-    	
+        
         if (agent == null)
             throw new CvqException("No agent object provided");
-    		
+            
         Long agentId = agentDAO.create(agent);
 
         logger.debug("Created agent object with id : " + agentId);
@@ -60,10 +60,10 @@ public final class AgentService implements IAgentService {
 
     public void modify(final Agent agent) throws CvqException {
 
-		if (agent != null) {
-		    agentDAO.update(agent);
-		}
-	}
+        if (agent != null) {
+            agentDAO.update(agent);
+        }
+    }
 
     public void delete(final String agentLogin)
         throws CvqException {
@@ -78,7 +78,7 @@ public final class AgentService implements IAgentService {
 
         List<Agent> agents = agentDAO.search(criteriaSet);
         for (Agent agent : agents)
-        	feedWithLdapData(agent);
+            feedWithLdapData(agent);
 
         return agents;
     }
@@ -88,7 +88,7 @@ public final class AgentService implements IAgentService {
 
         List<Agent> agents = agentDAO.listAll();
         for (Agent agent : agents) {
-        	feedWithLdapData(agent);
+            feedWithLdapData(agent);
         }
 
         return agents;
@@ -106,7 +106,7 @@ public final class AgentService implements IAgentService {
         }
         
         Agent agent = null;
-        agent = (Agent) agentDAO.findById(Agent.class, id, PrivilegeDescriptor.READ);
+        agent = (Agent) agentDAO.findById(Agent.class, id);
         feedWithLdapData(agent);
         return agent;
     }
@@ -127,12 +127,12 @@ public final class AgentService implements IAgentService {
     protected void feedWithLdapData(Agent agent)
         throws CvqException {
 
-    	try {
-    		ldapService.completeAgentData(agent);
-    	} catch (CvqException e) {
-    		logger.warn("feedWithLdapData() Agent " + agent.getLogin() + " seems to have been "
-    				+ " removed from LDAP");
-    	}
+        try {
+            ldapService.completeAgentData(agent);
+        } catch (CvqException e) {
+            logger.warn("feedWithLdapData() Agent " + agent.getLogin() + " seems to have been "
+                    + " removed from LDAP");
+        }
     }
 
     public Set<Agent> getAuthorizedForCategory(Long categoryId) throws CvqException {
@@ -164,8 +164,8 @@ public final class AgentService implements IAgentService {
         while (it.hasNext()) {
             Long categoryId = (Long) it.next();
             Category category = 
-            	(Category) categoryDAO.findById(Category.class, categoryId, 
-            			PrivilegeDescriptor.READ);
+                (Category) categoryDAO.findById(Category.class, categoryId, 
+                        PrivilegeDescriptor.READ);
             categoriesList.add(category.getName());
             CategoryProfile profile = (CategoryProfile) categoriesProfiles.get(categoryId);
             logger.debug("modifyRights() adding profile " + profile + " on category " + category.getName());

@@ -56,4 +56,11 @@ public class StringUtils {
         }
         return camelCaseSb.toString()
     }
+    
+    public static firstCase = { str,cs ->
+        if(!['Upper','Lower'].contains(cs)) cs = 'Upper'
+        def result = str as List
+        result[0] = result[0]."to${cs}Case"()
+        return result.join('')
+    }
 }

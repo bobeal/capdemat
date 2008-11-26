@@ -29,13 +29,10 @@
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/yui/calendar',file:'calendar-min.js')}"></script>
   
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/yui/tabview', file:'tabview-min.js')}"></script>
-  <!-- request -->
-  <script type="text/javascript" src="${createLinkTo(dir:'fong/js', file:'script.js')}"></script>
+  <!-- request 
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/common',file:'common.js')}"></script>
+  -->
+  <script type="text/javascript" src="${createLinkTo(dir:'fong/js', file:'script.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/common', file:'validation.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'fong/js/common',file:'calendar.js')}"></script>
  
-
-  
-
-  

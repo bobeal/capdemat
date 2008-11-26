@@ -1,125 +1,126 @@
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+import fr.cg95.cvq.business.authority.Agent;
+import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
-import fr.cg95.cvq.service.request.civil.IMarriageDetailsRequestService
-import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.exception.CvqException
-import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest
-import fr.cg95.cvq.business.users.Adult
-import fr.cg95.cvq.business.users.Address
+import fr.cg95.cvq.service.request.IRequestStatisticsService
+import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.security.SecurityContext;
 
-import fr.cg95.cvq.business.users.TitleType
-import fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType
-import fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType
-import fr.cg95.cvq.business.request.civil.MarriageRelationshipType
+import grails.converters.*
 
-import fr.cg95.cvq.xml.request.civil.MarriageDetailsRequestDocument
-import org.w3c.dom.Node
-
-import fr.cg95.cvq.security.SecurityContext
-
-
-import java.math.BigInteger
-
-
-import grails.converters.JSON
-
-class FongRequestController {
-
-    IRequestService defaultRequestService
-    
-    IMarriageDetailsRequestService marriageDetailsRequestService
+class RequestController {
+    InstructionService instructionService
+    IAgentService agentService
     IHomeFolderService homeFolderService
+    ICategoryService categoryService
+    IRequestService defaultRequestService
+    IRequestStatisticsService requestStatisticsService
     
-    MarriageDetailsRequest mdr 
-   
     def translationService
     
-    def defaultAction = "edit"
+    def defaultAction = "index"
     
-    def currentTab = "tab1"
     
     def beforeInterceptor = {
-        session["currentMenu"] = "request"
+        flash.currentMenu = 'requests';
     }
     
-    def edit = {
-        if (mdr == null)
-          mdr = new MarriageDetailsRequest()
-        
-        def requester = new Adult()
-        mdr.setRequester(requester)
-        session["mariageDetailsRequest"] = mdr
-        //render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab])
-    }
     
-    def validRequester = {
-        log.debug("validRequester - START")
-         
-        mdr = session["mariageDetailsRequest"]
-        def address = new Address()
+    def index = {
+        def state = [:];
+        def pageState = "";
+        def requests = [:];
+        def method = request.getMethod().toLowerCase();
+        Adult adult = SecurityContext.getCurrentEcitizen();
+        //println individuals
         
-        bindData(mdr.requester, params)
-        // test persistentString managment ...
-        mdr.requester.setTitle(TitleType.forString(params.title))
+        if(params?.ps) state = JSON.parse(params.ps);
+        if(params.typeFilter != null) state.typeFilter = params.typeFilter;
+        if(params.stateFilter != null)state.stateFilter = params.stateFilter;
+        if(params.indvFilter != null) state.indvFilter = params.indvFilter;
         
-        bindData(address, params)
+        requests = filterRequests("SEARCH_BY_HOME_FOLDER_ID",adult.homeFolder.id,state,params);
         
-        mdr.requester.setAdress(address)
-        
-        session["mariageDetailsRequest"] = mdr
-        
-        if (params.submitMdrRequester)
-          currentTab = "tab1"
-          
-        //render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab])
-    }
-    
-    def validDetailsNature = {
-        log.debug("validDetailsNature - START")
-        
-        mdr = session["mariageDetailsRequest"]
-        
-        bindData(mdr, params)
-        
-        if (params.requesterQuality != null)
-            mdr.setRequesterQuality(MarriageRequesterQualityType.forString(params.requesterQuality))
-        if (params.format != null)
-            mdr.setFormat(MarriageCertificateFormatType.forString(params.format))
-        if (params.relationship != null)
-            mdr.setRelationship(MarriageRelationshipType.forString(params.relationship))
+        requests.all.each{
             
-        if (params.submitMdrDetailsNature)
-          currentTab = "tab2"
-        else if (params.submitMdrDetailsFormat)
-          currentTab = "tab3"
+            //def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null;
+            requests.records.add([
+                'id':it.id,
+                'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
+                'creationDate':DateUtils.formatDate(it.creationDate),
+                'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
+                'subjectLastName':it.subject ? it.subject.lastName + " " + it.subject.firstName : "",
+                'homeFolderId':it.homeFolder.id,
+                'state':it.state.toString(),
+                'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
+                'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId) ,
+                'permanent':!it.homeFolder.boundToRequest
+            ]);
+        }
         
-        session["mariageDetailsRequest"] = mdr
-        render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab])
+        return ([
+            'state': state,
+            'pageState' : (new JSON(state)).toString(),
+            'individuals': adult.homeFolder.individuals.each{ it.id },
+            'allRequestTypes' : translatedAndSortRequestTypes(),
+            'requests': requests,
+            'requestStates' : RequestState.allRequestStates.collect{ it.toString().toLowerCase()}
+        ]);
     }
     
-    def validDetailsFormat = {
+    
+    protected translatedAndSortRequestTypes() {
+        def allRequestTypes = defaultRequestService.getAllRequestTypes()
+        def allRequestTypesTranslated =  []
+        allRequestTypes.each {
+            allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()])
+        }
+        return allRequestTypesTranslated.sort{it.label}
     }
     
-    def validDocument = {
-    }
-    
-    def validMeansOfContact = {
-    }
-    
-    def sendRequest = {
-      
-      log.debug("sendRequest - START")
-      
-      mdr = session["mariageDetailsRequest"]
-      
-      Node mdrNode = mdr.modelToXml().getDomNode()
-      SecurityContext.setCurrentSite("valdoise", "frontOffice")
-      marriageDetailsRequestService.create(mdrNode)
-      
-      if (params.submitMdrSend)
-          currentTab = "tab6"
-      
-      def message = "Demande envoyée !!"
-      
-      //render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab, message:message])
+    protected filterRequests = {attr,val,state,params ->
+        Set criteriaSet = new HashSet<Critere>()
+        Critere critere = new Critere()
+        
+        critere.comparatif = Critere.EQUALS
+        critere.attribut = Request."${attr}"
+        critere.value = val
+        criteriaSet.add(critere)
+        
+        if(state?.stateFilter) {
+            critere = new Critere()
+            critere.attribut = Request.SEARCH_BY_STATE
+            critere.comparatif = critere.EQUALS
+            critere.value = StringUtils.firstCase(state.stateFilter,'')
+            criteriaSet.add(critere)
+        }
+        if(state?.typeFilter) {
+            critere = new Critere()
+            critere.attribut = "requestType"
+            critere.comparatif = critere.EQUALS
+            critere.value = state.typeFilter
+            criteriaSet.add(critere)
+        }
+        def max = 10;
+        def offset = 0;
+        
+        if(params?.max) max = Integer.valueOf(params.max);
+        if(params?.offset)offset = Integer.valueOf(params.offset);
+        
+        //println "\n\n\n\n\n\n\n$max\n\n\n\n\n\n\n"
+        return [
+            'all' : defaultRequestService.extendedGet(criteriaSet, null, null, max, offset),
+            'count' : defaultRequestService.getCount(criteriaSet),
+            'records' : []
+        ]
     }
 }

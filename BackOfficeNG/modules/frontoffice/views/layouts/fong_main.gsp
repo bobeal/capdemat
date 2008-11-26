@@ -25,25 +25,31 @@
      
        <!-- main navifgation bar -->
      <div id="bd-menu">
-       <a href="${createLink(controller:'frontofficeRequest')}">
+       <a href="${createLink(controller:'frontofficeHome', action: 'index')}" class="${menu.current(elem:'home')}" >
           <span>Accueil</span>
        </a>
-       <a href="${createLink(controller:'frontofficeRequest')}">
+       <a href="${createLink(controller:'frontofficeHome',action: 'persons')}" 
+          class="${menu.current(elem:'persons')}" >
           <span>Personnes</span>
        </a>
-       <a href="${createLink(controller:'frontofficeRequest')}" class="current">
+       <a href="${createLink(controller:'frontofficeRequest')}" 
+         class="${menu.current(elem:'requests')}">
          <span>Demandes</span>
        </a>
-       <a href="${createLink(controller:'frontofficeRequest')}">
+       <a href="${createLink(controller:'frontofficeHome',action: 'documents')}" 
+          class="${menu.current(elem:'documents')}">
           <span>Documents</span>
        </a>
-       <a href="${createLink(controller:'frontofficeRequest')}">
+       <a href="${createLink(controller:'frontofficeHome',action: 'services')}" 
+          class="${menu.current(elem:'services')}" >
           <span>Services</span>
        </a>
-       <a href="${createLink(controller:'frontofficeRequest')}">
+       <a href="${createLink(controller:'frontofficeHome',action: 'activities')}" 
+          class="${menu.current(elem:'activities')}">
           <span>Activités</span>
        </a>
-       <a href="${createLink(controller:'frontofficeRequest')}">
+       <a href="${createLink(controller:'frontofficeHome',action: 'payments')}" 
+          class="${menu.current(elem:'payments')}" >
           <span>Paiements</span>
        </a>
      </div>

@@ -52,19 +52,19 @@ class RequestController {
      * Called asynchronously when switching from simple to advanced search mode and vice versa
      */
     def loadSearchForm = {
-    		def model = ['totalRecords':params.totalRecords,
+            def model = ['totalRecords':params.totalRecords,
                          'recordOffset':params.recordOffset,
                          'recordsReturned':params.recordsReturned,
                          'sortBy':params.sortBy,
                          'filterBy':params.filterBy].plus(initSearchReferential())
 
-    		if (params.formType == 'simple') {
-    			model['mode'] = 'simple'
-    			render(template:'simpleSearchForm', model:model)
-    		} else {
-    			model['mode'] = 'advanced'
-    			render(template:'advancedSearchForm', model:model)
-    		}
+            if (params.formType == 'simple') {
+                model['mode'] = 'simple'
+                render(template:'simpleSearchForm', model:model)
+            } else {
+                model['mode'] = 'advanced'
+                render(template:'advancedSearchForm', model:model)
+            }
     }
     
     /**
@@ -226,8 +226,8 @@ class RequestController {
     }
     
     def initSearchReferential() {
-    	return ['allStates':RequestState.allRequestStates,
-    	        'allAgents':agentService.getAll(),
+        return ['allStates':RequestState.allRequestStates,
+                'allAgents':agentService.getAll(),
                 'allCategories':categoryService.getAll(),
                 'allRequestTypes':translatedAndSortRequestTypes()]
     }

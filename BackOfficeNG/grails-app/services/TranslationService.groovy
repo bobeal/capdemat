@@ -17,10 +17,10 @@ class TranslationService {
         
         if (requestTypesCache.get(String.valueOf(requestTypeId)) == null) {
           
-        	def tempRequestService = requestServiceRegistry.getRequestService(inRequest)
-        	def request = tempRequestService.getSkeletonRequest()
-        	requestTypesCache[String.valueOf(requestTypeId)] = 
-        	    localizationService.getRequestLabelTranslation(request.class.name,"fr",false).encodeAsHTML()
+            def tempRequestService = requestServiceRegistry.getRequestService(inRequest)
+            def request = tempRequestService.getSkeletonRequest()
+            requestTypesCache[String.valueOf(requestTypeId)] = 
+                localizationService.getRequestLabelTranslation(request.class.name,"fr",false).encodeAsHTML()
         }
 
         return requestTypesCache[String.valueOf(requestTypeId)]

@@ -65,8 +65,10 @@ public abstract class Request implements Serializable {
     private Long homeFolderId;
     private Long requesterId;
     private String requesterLastName;
+    private String requesterFirstName;
     private Long subjectId;
     private String subjectLastName;
+    private String subjectFirstName;
     
     private Set<RequestDocument> documents;
     private Set<RequestAction> actions;
@@ -318,6 +320,14 @@ public abstract class Request implements Serializable {
         this.requesterLastName = requesterLastName;
     }
 
+    public String getRequesterFirstName() {
+        return requesterFirstName;
+    }
+
+    public void setRequesterFirstName(String requesterFirstName) {
+        this.requesterFirstName = requesterFirstName;
+    }
+
     /**
      * @hibernate.many-to-one
      *  class="fr.cg95.cvq.business.request.RequestType"
@@ -464,5 +474,13 @@ public abstract class Request implements Serializable {
 
     public void setSubjectLastName(String subjectLastName) {
         this.subjectLastName = subjectLastName;
+    }
+
+    public String getSubjectFirstName() {
+        return subjectFirstName;
+    }
+
+    public void setSubjectFirstName(String subjectFirstName) {
+        this.subjectFirstName = subjectFirstName;
     }
 }

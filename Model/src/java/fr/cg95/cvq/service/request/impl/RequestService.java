@@ -19,6 +19,10 @@ import java.util.UUID;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.authority.Agent;
@@ -84,7 +88,7 @@ import fr.cg95.cvq.xml.common.SubjectType;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public abstract class RequestService implements IRequestService {
+public abstract class RequestService implements IRequestService, BeanFactoryAware {
 
     private static Logger logger = Logger.getLogger(RequestService.class);
 
@@ -119,6 +123,8 @@ public abstract class RequestService implements IRequestService {
 
     protected RequestWorkflowService requestWorkflowService;
 
+    private ListableBeanFactory beanFactory;
+
     public RequestService() {
         super();
     }
@@ -129,6 +135,11 @@ public abstract class RequestService implements IRequestService {
 
         if (supportUnregisteredCreation == null)
             supportUnregisteredCreation = Boolean.FALSE;
+        
+        this.homeFolderService = (IHomeFolderService)
+            beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
+        this.externalService = (IExternalService)
+            beanFactory.getBeansOfType(IExternalService.class, false, false).values().iterator().next();
     }
 
     private Critere getCurrentUserFilter() throws CvqException {
@@ -844,6 +855,7 @@ public abstract class RequestService implements IRequestService {
             Individual individual = individualService.getById(request.getSubjectId());
             request.setSubjectId(individual.getId());
             request.setSubjectLastName(individual.getLastName());
+            request.setSubjectFirstName(individual.getFirstName());
         }
         
         return homeFolder;
@@ -875,7 +887,8 @@ public abstract class RequestService implements IRequestService {
                 request.setHomeFolderId(homeFolder.getId());
                 request.setRequesterId(requester.getId());
                 request.setRequesterLastName(requester.getLastName());
-
+                request.setRequesterFirstName(requester.getFirstName());
+                
                 SecurityContext.setCurrentEcitizen(requester);
 
                 return homeFolder;
@@ -892,6 +905,7 @@ public abstract class RequestService implements IRequestService {
             Adult adult = (Adult) somebody;
             request.setRequesterId(adult.getId());
             request.setRequesterLastName(adult.getLastName());
+            request.setRequesterFirstName(adult.getFirstName());
             request.setHomeFolderId(adult.getHomeFolder().getId());
         }
 
@@ -1970,5 +1984,9 @@ public abstract class RequestService implements IRequestService {
 
     public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
+    }
+    
+    public void setBeanFactory(BeanFactory arg0) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) arg0;
     }
 }

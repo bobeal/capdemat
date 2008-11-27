@@ -8,6 +8,7 @@ import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.document.IDocumentService
+import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.business.request.RequestSeason
@@ -22,6 +23,7 @@ class RequestTypeController {
     IRequestService defaultRequestService
     IRequestServiceRegistry requestServiceRegistry
     IDocumentService documentService
+    IDocumentTypeService documentTypeService
     ICategoryService categoryService
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
     
@@ -240,7 +242,7 @@ class RequestTypeController {
         def list = []
         def reqs = []
         def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        def docs = documentService.getAllDocumentTypes()
+        def docs = documentTypeService.getAllDocumentTypes()
         docs = docs.sort{it.name}
         requestType.requirements.each { r -> reqs.add(r.documentType.id)}
         //println requestType.requirements

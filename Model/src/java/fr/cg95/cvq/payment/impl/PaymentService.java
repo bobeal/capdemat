@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -35,9 +39,10 @@ import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.payment.PaymentServiceBean;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.impl.DefaultRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
-public final class PaymentService implements IPaymentService {
+public final class PaymentService implements IPaymentService, BeanFactoryAware {
 
     private static Logger logger = Logger.getLogger(PaymentService.class);
 
@@ -46,6 +51,17 @@ public final class PaymentService implements IPaymentService {
     private IHomeFolderService homeFolderService;
     private IExternalService externalService;
 
+    private ListableBeanFactory beanFactory;
+
+    public void init() {
+        this.homeFolderService = (IHomeFolderService)
+            beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
+        this.externalService = (IExternalService)
+            beanFactory.getBeansOfType(IExternalService.class, false, true).values().iterator().next();
+//        this.requestService = (IRequestService)
+//            beanFactory.getBeansOfType(IRequestService.class, false, true).values().iterator().next();
+    }
+    
 	public Map<String, String> getAllBrokers(PaymentMode paymentMode) throws CvqException {
         
         Map<IPaymentProviderService, PaymentServiceBean> paymentProviders = 
@@ -385,7 +401,7 @@ public final class PaymentService implements IPaymentService {
 
         return null;
     }
-    
+   
     public final void setPaymentDAO(IPaymentDAO paymentDAO) {
         this.paymentDAO = paymentDAO;
     }
@@ -400,5 +416,10 @@ public final class PaymentService implements IPaymentService {
 
     public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory arg0) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) arg0;
     }
 }

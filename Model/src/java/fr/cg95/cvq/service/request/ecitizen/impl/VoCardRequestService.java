@@ -64,6 +64,7 @@ public final class VoCardRequestService
         
         dcvo.setRequesterId(homeFolderResponsible.getId());
         dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
+        dcvo.setRequesterFirstName(homeFolderResponsible.getFirstName());
         
         Long requestId = super.finalizeAndPersist(dcvo);
         

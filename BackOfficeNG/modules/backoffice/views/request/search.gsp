@@ -68,11 +68,11 @@
               </g:each>
             </select>
             
-            <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
-            <select id="requestTypeFilter"> 
+            <label for="requestTypeIdFilter"><g:message code="property.requestType" /> :</label>
+            <select id="requestTypeIdFilter"> 
               <option value=""></option>
               <g:each in="${allRequestTypes}" var="requestType">
-                <option value="${requestType.id}" ${filters['requestTypeFilter'] == requestType.id.toString() ? 'selected' : ''}>
+                <option value="${requestType.id}" ${filters['requestTypeIdFilter'] == requestType.id.toString() ? 'selected' : ''}>
                   ${requestType.label}
                 </option>
               </g:each>
@@ -97,13 +97,14 @@
                 </option>
               </g:each>
             </select>
+
             <label for="qualityFilter"><g:message code="request.property.quality" /> :</label>
             <g:select 
               optionKey="key"
               optionValue="value"
               id="qualityFilter"
               name="qualityFilter" 
-              value="${filters?.qualityFilter}" 
+              value="${filters.qualityFilter}" 
               from="[['key':'Red','value':'Rouge'],['key':'Orange','value':'Orange']]" 
               noSelection="['':' ']"/>
             

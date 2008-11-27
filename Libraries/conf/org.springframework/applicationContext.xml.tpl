@@ -8,8 +8,10 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+  <!--
   <aop:aspectj-autoproxy/>
-
+  -->
+  
   <bean id="loggingAspect" class="fr.cg95.cvq.util.development.LoggingAspect" />
   <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
   <bean id="hibernateExceptionTranslatorAspect" 
@@ -89,10 +91,12 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     </property>
   </bean>
   
-  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService">
+  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService" init-method="init">
   	<property name="genericDAO" ref="genericDAO" />
     <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <!-- 
     <property name="homeFolderService" ref="homeFolderService" />
+    -->
   </bean>
 
   <!-- *******************************************************************  -->
@@ -174,9 +178,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     </property>
     <property name="documentService" ref="documentService"/>
     <property name="documentTypeService" ref="documentTypeService"/>
+    <!-- 
     <property name="homeFolderService">
       <ref local="homeFolderService"/>
     </property>
+    -->
     <property name="certificateService">
       <ref local="certificateService"/>
     </property>
@@ -191,7 +197,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="localAuthorityRegistry">
       <ref bean="localAuthorityRegistry"/>
     </property>
-    <property name="externalService" ref="externalService"/>
+    <!-- <property name="externalService" ref="externalService"/> -->
     <property name="requestWorkflowService">
       <bean class="fr.cg95.cvq.service.request.impl.RequestWorkflowService">
         <property name="requestDAO" ref="requestDAO" />
@@ -205,7 +211,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
   
   <bean id="defaultRequestService" class="fr.cg95.cvq.service.request.impl.DefaultRequestService" 
-    parent="requestService"/>
+    parent="requestService" />
   
   <bean id="requestServiceRegistry" class="fr.cg95.cvq.service.request.impl.RequestServiceRegistry"
     init-method="init">
@@ -322,7 +328,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="homeFolderModificationRequestService" 
     class="fr.cg95.cvq.service.request.ecitizen.impl.HomeFolderModificationRequestService" 
     parent="requestService">
-    <property name="homeFolderService" ref="homeFolderService"/>
     <property name="label" value="Home Folder Modification"/>
     <property name="xslFoFilename" value="homeFolderModificationRequest.xsl"/>
     <!-- service specifics -->
@@ -537,11 +542,13 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
   </bean>
 
-  <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService">
+  <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService" init-method="init">
     <property name="paymentDAO" ref="paymentDAO" />
     <property name="requestService" ref="defaultRequestService" />
+    <!-- 
     <property name="homeFolderService" ref="homeFolderService" />
     <property name="externalService" ref="externalService" />
+    -->
   </bean>
 
   <!-- ======================================================= -->

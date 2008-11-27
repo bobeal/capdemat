@@ -124,8 +124,7 @@ class RequestController {
             (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
             
         // now, perform the search request
-        def requests = defaultRequestService.extendedGet(criteria, sortBy, params.dir, 
-                results, recordOffset)
+        def requests = defaultRequestService.get(criteria, sortBy, params.dir, results, recordOffset)
         def recordsList = []
         requests.each {
             def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null
@@ -138,13 +137,15 @@ class RequestController {
                 'id':it.id,
                 'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
                 'creationDate':DateUtils.formatDate(it.creationDate),
-                'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
-                'subjectLastName':it.subject ? it.subject.lastName + " " + it.subject.firstName : "",
-                'homeFolderId':it.homeFolder.id,
+                'requesterLastName':it.requesterLastName,
+                'requesterFirstName': it.requesterFirstName,
+                'subjectLastName':it.subjectLastName,
+                'subjectFirstName': it.subjectFirstName,
+                'homeFolderId':it.homeFolderId,
                 'state':it.state.toString(),
                 'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
                 'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
-                'permanent':!it.homeFolder.boundToRequest,
+                'permanent':true /* TODO REFACTORING !it.homeFolder.boundToRequest*/ , 
                 'quality':quality
             ]
             recordsList.add(record)
@@ -256,7 +257,7 @@ class RequestController {
             criteriaSet.add(critere)
         }
         return [
-            'all' : defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0),
+            'all' : defaultRequestService.get(criteriaSet, null, null, tasksShowNb, 0),
             'count' : defaultRequestService.getCount(criteriaSet)
         ]
     }

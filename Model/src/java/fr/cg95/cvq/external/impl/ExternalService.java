@@ -12,6 +12,10 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
@@ -45,13 +49,20 @@ import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 import fr.cg95.cvq.util.quering.criterias.InCriteria;
 import fr.cg95.cvq.util.quering.criterias.SimpleCriteria;
 
-public class ExternalService implements IExternalService {
+public class ExternalService implements IExternalService, BeanFactoryAware {
 
     private static Logger logger = Logger.getLogger(ExternalService.class);
 
     private IGenericDAO genericDAO;
     private IExternalServiceTraceDAO externalServiceTraceDAO;
     private IHomeFolderService homeFolderService;
+    
+    private ListableBeanFactory beanFactory;
+
+    public void init() {
+        this.homeFolderService = (IHomeFolderService)
+            beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
+    }
     
     public boolean authenticate(String externalServiceLabel, String password) {
         IExternalProviderService externalProviderService =
@@ -629,5 +640,10 @@ public class ExternalService implements IExternalService {
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory arg0) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) arg0;
     }
 }

@@ -5,9 +5,11 @@
     - <g:message code="request.searchResult.requestId" /> 
     <span class="${sortBy == 'requestId' ? 'current-sort' : ''}">${record.id}</span>
     - <g:message code="layout.from" /> 
-    <span class="${sortBy == 'requesterLastName' ? 'current-sort' : ''}">${record.requesterLastName}</span>
-    <g:if test="${record.subjectLastName && record.subjectLastName != ''}">
-     <g:message code="layout.for" /> ${record.subjectLastName}
+    <span class="${sortBy == 'requesterLastName' ? 'current-sort' : ''}">
+      ${record.requesterLastName} ${record.requesterFirstName}
+    </span>
+    <g:if test="${record.subjectLastName}">
+      <g:message code="layout.for" /> ${record.subjectLastName} ${record.subjectFirstName}
     </g:if>
     </a>
   </p>

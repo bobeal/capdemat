@@ -40,7 +40,15 @@ drop table request_document_map;
 
 -- RRR4 : add requester and subject last name
 alter table request add column requester_last_name varchar(255);
+alter table request add column requester_first_name varchar(255);
 alter table request add column subject_last_name varchar(255);
+alter table request add column subject_first_name varchar(255);
+
+UPDATE request set requester_last_name = (select last_name from individual where individual.id = request.requester_id);
+UPDATE request set requester_first_name = (select first_name from individual where individual.id = request.requester_id);
+UPDATE request set subject_first_name = (select first_name from individual where individual.id = request.subject_id);
+UPDATE request set subject_last_name = (select last_name from individual where individual.id = request.subject_id);
+alter table request drop column subject_table_name;
 
 -- Home folder related constraints (HFRC)
 
@@ -60,15 +68,15 @@ alter table individual_role
     references individual;
 
 -- migration of existing "home folder responsible" roles
-insert into individual_role nextval('hibernate_sequence'), 'HomeFolderResponsible', home_folder_id, null, adult.id from adult, individual where adult.id = individual.id and (home_folder_roles = 1 or home_folder_roles = 3);
+insert into individual_role select nextval('hibernate_sequence'), 'HomeFolderResponsible', home_folder_id, null, adult.id from adult, individual where adult.id = individual.id and (home_folder_roles = 1 or home_folder_roles = 3);
 
 alter table adult drop column home_folder_roles;
 
 -- migration of existing "child legal responsible" roles
 
-insert into individual_roles nextval('hibernate_sequence'), 'ClrFather', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Father' and child_id is not null;
-insert into individual_roles nextval('hibernate_sequence'), 'ClrMother', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Mother' and child_id is not null;
-insert into individual_roles nextval('hibernate_sequence'), 'ClrTutor', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Tutor' and child_id is not null;
+insert into individual_role select nextval('hibernate_sequence'), 'ClrFather', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Father' and child_id is not null;
+insert into individual_role select nextval('hibernate_sequence'), 'ClrMother', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Mother' and child_id is not null;
+insert into individual_role select nextval('hibernate_sequence'), 'ClrTutor', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Tutor' and child_id is not null;
 
 alter table child_legal_responsible_map 
     drop constraint FK62E1102A30CABB22;

@@ -151,14 +151,14 @@
               noSelection="['':' ']"/>
               
             
-            <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
+            <label for="requestTypeIdFilter"><g:message code="property.requestType" /> :</label>
             <g:select 
               optionKey="id"
               optionValue="label"
-              id="requestTypeFilter"
-              name="requestTypeFilter" 
+              id="requestTypeIdFilter"
+              name="requestTypeIdFilter" 
               from="${allRequestTypes}" 
-              value="${state?.filters?.requestTypeFilter}"
+              value="${state?.filters?.requestTypeIdFilter}"
               noSelection="['':' ']"/>
           </form>
         </div>

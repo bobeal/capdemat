@@ -179,7 +179,7 @@ class RequestController {
         
         if(method == 'get') {
             state['defaultDisplay'] = state['displayForm']
-            state['filters'] = ['categoryFilter':'','requestTypeFilter':'']
+            state['filters'] = ['categoryFilter':'','requestTypeIdFilter':'']
         } else { 
             state = JSON.parse(params.pageState);
         }
@@ -244,16 +244,16 @@ class RequestController {
         
         if(state?.filters?.categoryFilter) {
             critere = new Critere()
-            critere.attribut = "categoryId"
+            critere.attribut = Request.SEARCH_BY_CATEGORY_ID
             critere.comparatif = critere.EQUALS
             critere.value = state.filters.categoryFilter
             criteriaSet.add(critere)
         }
-        if(state?.filters?.requestTypeFilter) {
+        if(state?.filters?.requestTypeIdFilter) {
             critere = new Critere()
-            critere.attribut = "requestType"
+            critere.attribut = Request.SEARCH_BY_REQUEST_TYPE_ID
             critere.comparatif = critere.EQUALS
-            critere.value = state.filters.requestTypeFilter
+            critere.value = state.filters.requestTypeIdFilter
             criteriaSet.add(critere)
         }
         return [

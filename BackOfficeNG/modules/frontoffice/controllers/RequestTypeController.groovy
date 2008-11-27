@@ -1,0 +1,4 @@
+class RequestTypeController {
+
+    def index = { }
+}

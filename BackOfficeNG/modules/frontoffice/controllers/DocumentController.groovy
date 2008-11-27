@@ -1,0 +1,4 @@
+class DocumentController {
+
+    def index = { }
+}

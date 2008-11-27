@@ -31,7 +31,7 @@ class RequestController {
     
     
     def beforeInterceptor = {
-        flash.currentMenu = 'requests';
+        flash.currentMenu = 'request';
     }
     
     

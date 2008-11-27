@@ -1,0 +1,4 @@
+class PaymentController {
+
+    def index = { }
+}

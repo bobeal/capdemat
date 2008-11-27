@@ -25,31 +25,32 @@
      
        <!-- main navifgation bar -->
      <div id="bd-menu">
-       <a href="${createLink(controller:'frontofficeHome', action: 'index')}" class="${menu.current(elem:'home')}" >
+       <a href="${createLink(controller:'frontofficeHome')}" 
+          class="${menu.current(elem:'home')}" >
           <span>Accueil</span>
        </a>
-       <a href="${createLink(controller:'frontofficeHome',action: 'persons')}" 
-          class="${menu.current(elem:'persons')}" >
+       <a href="${createLink(controller:'frontofficeHomeFolder')}" 
+          class="${menu.current(elem:'homefolder')}" >
           <span>Personnes</span>
        </a>
        <a href="${createLink(controller:'frontofficeRequest')}" 
-         class="${menu.current(elem:'requests')}">
+         class="${menu.current(elem:'request')}">
          <span>Demandes</span>
        </a>
-       <a href="${createLink(controller:'frontofficeHome',action: 'documents')}" 
-          class="${menu.current(elem:'documents')}">
+       <a href="${createLink(controller:'frontofficeDocument')}" 
+          class="${menu.current(elem:'document')}">
           <span>Documents</span>
        </a>
-       <a href="${createLink(controller:'frontofficeHome',action: 'services')}" 
-          class="${menu.current(elem:'services')}" >
+       <a href="${createLink(controller:'frontofficeRequestType')}" 
+          class="${menu.current(elem:'requesttype')}" >
           <span>Services</span>
        </a>
-       <a href="${createLink(controller:'frontofficeHome',action: 'activities')}" 
-          class="${menu.current(elem:'activities')}">
+       <a href="${createLink(controller:'frontofficeActivity')}" 
+          class="${menu.current(elem:'activity')}">
           <span>Activités</span>
        </a>
-       <a href="${createLink(controller:'frontofficeHome',action: 'payments')}" 
-          class="${menu.current(elem:'payments')}" >
+       <a href="${createLink(controller:'frontofficePayment')}" 
+          class="${menu.current(elem:'payment')}" >
           <span>Paiements</span>
        </a>
      </div>

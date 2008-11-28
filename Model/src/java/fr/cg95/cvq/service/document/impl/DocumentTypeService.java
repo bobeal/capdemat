@@ -40,16 +40,19 @@ public class DocumentTypeService implements IDocumentTypeService, ILocalAuthorit
     }
 
     @Override
-    public DocumentType getDocumentTypeById(final Integer id)
+    public DocumentType getDocumentTypeByType(final Integer id)
         throws CvqException, CvqObjectNotFoundException {
-
         return documentTypeDAO.findByType(id);
+    }
+
+    @Override
+    public DocumentType getDocumentTypeById(Long id) throws CvqException {
+        return (DocumentType) documentTypeDAO.findById(DocumentType.class, id);
     }
 
     @Override
     public List<DocumentType> getAllDocumentTypes()
         throws CvqException {
-
         return documentTypeDAO.listAll();
     }
     

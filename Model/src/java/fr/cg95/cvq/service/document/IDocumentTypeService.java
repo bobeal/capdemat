@@ -47,14 +47,17 @@ public interface IDocumentTypeService {
     Integer IDENTITY_PHOTO_TYPE = new Integer(34);
     
     /**
-     * Get a document type by id.
+     * Get a document type by type id.
      *
      * @param id the id of the document type, one among the (long) list of static
      *           integer constant defined in this class
      */
-    DocumentType getDocumentTypeById(final Integer id)
+    DocumentType getDocumentTypeByType(final Integer type)
         throws CvqException;
 
+    DocumentType getDocumentTypeById(final Long id)
+        throws CvqException;
+    
     /**
      * Get all known document types.
      */

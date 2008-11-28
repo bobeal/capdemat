@@ -4,7 +4,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
@@ -25,10 +27,14 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
 import fr.cg95.cvq.security.annotation.IsSubject;
+import fr.cg95.cvq.security.aspect.ContextAspect;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 
+@Aspect
 public class RequestContextCheckAspect implements Ordered {
+    
+    private Logger logger = Logger.getLogger(ContextAspect.class);
     
     private IRequestDAO requestDAO;
     private IRequestTypeDAO requestTypeDAO;
@@ -37,7 +43,8 @@ public class RequestContextCheckAspect implements Ordered {
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
         
         if (!context.type().equals(ContextType.ECITIZEN) 
-                && !context.type().equals(ContextType.ECITIZEN_AGENT))
+                && !context.type().equals(ContextType.ECITIZEN_AGENT)
+                && !context.type().equals(ContextType.AGENT))
             return;
         
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -130,5 +137,9 @@ public class RequestContextCheckAspect implements Ordered {
 
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
+    }
+
+    public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
+        this.requestTypeDAO = requestTypeDAO;
     }
 }

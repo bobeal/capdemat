@@ -1,13 +1,27 @@
-import fr.cg95.cvq.exception.*
+import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.security.PermissionException
 import grails.converters.JSON
 
 class ExceptionUtils {
     
     static isModelException = { ex ->
-        if(ExceptionUtils.extractModelException(ex)) return true
-        else return false
+        boolean result = false
+        if (ExceptionUtils.extractModelException(ex)) 
+            result = true
+            
+        return result
     }
     
+    static isPermissionException = { ex ->
+       def cause = ex?.cause
+               
+       while (cause) {
+           if (cause instanceof PermissionException) return true;
+           cause = cause?.cause
+       }
+       return false;
+    }
+
     static getModelI18nKey = { ex ->
         def mex = ExceptionUtils.extractModelException(ex)
         if(mex) return mex.i18nKey
@@ -23,11 +37,4 @@ class ExceptionUtils {
         }
         return null;
     }
-    
-    //static getModelJSON = { ex ->
-    //    //return ([status:"modelException", message:message(code:ex.message?.encodeAsHTML())] as JSON)
-    //    return message(ex.message?.encodeAsHTML())
-    //}
-    
-    
 }

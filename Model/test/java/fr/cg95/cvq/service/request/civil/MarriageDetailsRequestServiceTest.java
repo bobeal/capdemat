@@ -97,7 +97,7 @@ public class MarriageDetailsRequestServiceTest extends ServiceTestCase {
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         iMarriageDetailsRequestService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =

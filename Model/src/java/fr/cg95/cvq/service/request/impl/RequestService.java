@@ -475,7 +475,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         if (requestType.getRequirements() == null)
             requestType.setRequirements(new HashSet<Requirement>());
         DocumentType documentType = 
-            documentTypeService.getDocumentTypeById(documentTypeId.intValue());
+            documentTypeService.getDocumentTypeById(documentTypeId);
         Requirement requirement = new Requirement();
         requirement.setMultiplicity(Integer.valueOf("1"));
         requirement.setRequestType(requestType);
@@ -495,15 +495,20 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType.getRequirements() == null)
             return;
-        Requirement requirementToRemove = null;
+
+        boolean foundRequirement = false;
         for (Requirement requirement : requestType.getRequirements()) {
             if (requirement.getDocumentType().getId().equals(documentTypeId)) {
-                requirementToRemove = requirement;
+                requestType.getRequirements().remove(requirement);
+                foundRequirement = true;
                 break;
             }
         }
-        requestType.getRequirements().remove(requirementToRemove);
-        requestTypeDAO.update(requestType);
+
+        if (foundRequirement) {
+            logger.debug("removeRequestTypeRequirement() found requirement to remove");
+            requestTypeDAO.update(requestType);
+        }
     }
 
     /**

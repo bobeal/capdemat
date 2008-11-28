@@ -8,9 +8,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-  <!--
   <aop:aspectj-autoproxy/>
-  -->
   
   <bean id="loggingAspect" class="fr.cg95.cvq.util.development.LoggingAspect" />
   <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
@@ -153,6 +151,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="requestContextCheckAspect" 
     class="fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect">
     <property name="requestDAO" ref="requestDAO" />  
+    <property name="requestTypeDAO" ref="requestTypeDAO" />
   </bean>
 
   <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"

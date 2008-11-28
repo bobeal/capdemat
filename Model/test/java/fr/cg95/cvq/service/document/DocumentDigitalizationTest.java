@@ -32,7 +32,7 @@ public class DocumentDigitalizationTest extends ServiceTestCase {
 
         // create a document
         Document doc = new Document();
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setHomeFolderId(homeFolderId);
         Long docId = iDocumentService.create(doc);
 

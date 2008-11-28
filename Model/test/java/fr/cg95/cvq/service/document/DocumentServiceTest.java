@@ -71,7 +71,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setHomeFolderId(homeFolderId);
         doc.setIndividualId(anIndividual.getId());
         Long docId = iDocumentService.create(doc);
@@ -146,7 +146,7 @@ public class DocumentServiceTest extends ServiceTestCase {
 
         // try to retrieve the list of identity pieces for home folder
         DocumentType docType =
-            iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
+            iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
         documentsList =
             iDocumentService.getProvidedDocuments(docType, homeFolderId, null);
         assertEquals("Bad number of docs for home folder (1)", 1, documentsList.size());
@@ -155,7 +155,7 @@ public class DocumentServiceTest extends ServiceTestCase {
             iDocumentService.getProvidedDocuments(docType, homeFolderId, anIndividual.getId());
         assertEquals("Bad number of docs for home folder and individual", 1, documentsList.size());
         docType =
-            iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.MEDICAL_CERTIFICATE_TYPE);
+            iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.MEDICAL_CERTIFICATE_TYPE);
         documentsList =
             iDocumentService.getProvidedDocuments(docType, homeFolderId, null);
         assertEquals("Bad number of docs for home folder (2)", 0, documentsList.size());
@@ -168,7 +168,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setHomeFolderId(homeFolderId);
         doc.setIndividualId(anIndividual.getId());
         iDocumentService.create(doc);
@@ -178,7 +178,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.DOMICILE_RECEIPT_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.DOMICILE_RECEIPT_TYPE));
         doc.setHomeFolderId(homeFolderId);
         iDocumentService.create(doc);
 
@@ -187,7 +187,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.ID_CARD_LOSS_DECLARATION_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.ID_CARD_LOSS_DECLARATION_TYPE));
         doc.setHomeFolderId(homeFolderId);
         Long docId3 = iDocumentService.create(doc);
 
@@ -196,7 +196,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.TAXES_NOTIFICATION_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.TAXES_NOTIFICATION_TYPE));
         doc.setHomeFolderId(homeFolderId);
         Long docId4 = iDocumentService.create(doc);
 
@@ -205,7 +205,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.VACATING_CERTIFICATE_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.VACATING_CERTIFICATE_TYPE));
         doc.setHomeFolderId(homeFolderId);
         iDocumentService.create(doc);
 
@@ -251,7 +251,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Individual individual = iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         DocumentType documentType =
-            iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
+            iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
         Document document = new Document();
         document.setDocumentType(documentType);

@@ -71,9 +71,6 @@ public class CredentialBean {
     private Set<Long> individualsIds = null;
     
     public CredentialBean(LocalAuthority localAuthority, String context) {
-        logger.debug("CredentialBean() setting local authority " + localAuthority
-                + " and context " + context);
-
         this.localAuthority = localAuthority;
         if (context.equals(SecurityContext.BACK_OFFICE_CONTEXT)) {
             boContext = true;
@@ -225,6 +222,22 @@ public class CredentialBean {
         return false;
     }
     
+    public boolean hasSiteAgentRole() {
+        if (agent == null) {
+            logger.warn("hasSiteAdminRole() no agent");
+            return false;
+        }
+        
+        if (siteRoles == null)
+            getSiteRoles();
+        
+        for (SiteRoles siteRole : siteRoles) {
+            if (siteRole.getProfile().equals(SiteProfile.AGENT))
+                return true;
+        }
+        
+        return false;        
+    }
     
     /**
      * Returns the array of category-scoped roles the user in the bean

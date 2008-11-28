@@ -9,6 +9,7 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
+import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext;
 
@@ -21,6 +22,7 @@ class RequestController {
     ICategoryService categoryService
     IRequestService defaultRequestService
     IRequestStatisticsService requestStatisticsService
+    IHomeFolderService homeFolderService
     
     def translationService
     
@@ -128,6 +130,7 @@ class RequestController {
         def recordsList = []
         requests.each {
             def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null
+            def homeFolder = homeFolderService.getById(it.homeFolderId)             
             def quality = 'green'
             if (it.redAlert)
                 quality = 'red'
@@ -145,7 +148,7 @@ class RequestController {
                 'state':it.state.toString(),
                 'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
                 'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
-                'permanent':true /* TODO REFACTORING !it.homeFolder.boundToRequest*/ , 
+                'permanent': !homeFolder.boundToRequest,
                 'quality':quality
             ]
             recordsList.add(record)
@@ -199,15 +202,16 @@ class RequestController {
         def requestMap = [:]
         
         if(state?.displayForm?.contains('Late'))
-            requestMap.redRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_RED,state);
+            requestMap.redRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_RED,state)
         if(state?.displayForm?.contains('Alert'))
-            requestMap.orangeRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_ORANGE,state);
+            requestMap.orangeRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_ORANGE,state)
         if(state?.displayForm?.contains('New'))
-            requestMap.pendingRequests = filterRequests("SEARCH_BY_STATE",RequestState.PENDING,state);
+            requestMap.pendingRequests = filterRequests("SEARCH_BY_STATE",RequestState.PENDING,state)
         if(state?.displayForm?.contains('Validated'))
-            requestMap.validatedRequests = filterRequests("SEARCH_BY_STATE",RequestState.VALIDATED,state);
+            requestMap.validatedRequests = filterRequests("SEARCH_BY_STATE",RequestState.VALIDATED,state)
         if(state?.displayForm?.contains('Last'))
-            requestMap.lastRequests = filterRequests("SEARCH_BY_LAST_INTERVENING_AGENT_ID",SecurityContext.currentUserId,state);
+            requestMap.lastRequests = filterRequests("SEARCH_BY_LAST_INTERVENING_AGENT_ID",
+                    SecurityContext.currentUserId,state)
         
         render (view:'taskBoard', model:["requestMap":requestMap,
                                          "state" : state,

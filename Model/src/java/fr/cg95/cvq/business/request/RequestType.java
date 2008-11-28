@@ -112,8 +112,7 @@ public class RequestType implements Serializable {
      * @hibernate.set
      *  table="requirement"
      *  lazy="true"
-     *  order-by="document_type_id asc"
-     *  cascade="all"
+     *  inverse="true"
      * @hibernate.key
      *  column="request_type_id"
      * @hibernate.composite-element

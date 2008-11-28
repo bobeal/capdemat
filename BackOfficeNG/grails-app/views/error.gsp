@@ -1,6 +1,9 @@
 <g:if test="${ExceptionUtils.isModelException(exception)}">
-    {"status":"modelException", "message":"${exception.message}", "i18nkey":"${message(code:ExceptionUtils.getModelI18nKey(exception))}" }
+  {"status":"modelException", "message":"${exception.message}", "i18nkey":"${message(code:ExceptionUtils.getModelI18nKey(exception))}" }
 </g:if>
+<g:elseif test="${ExceptionUtils.isPermissionException(exception)}">
+  {"status":"modelException", "message":"${exception.message}", "i18nkey":"${message(code:'error.permission')}" }  
+</g:elseif>
 <g:else>
     <html>
       <head>

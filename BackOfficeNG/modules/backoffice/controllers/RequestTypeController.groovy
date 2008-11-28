@@ -242,19 +242,16 @@ class RequestTypeController {
         def list = []
         def reqs = []
         def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        def docs = documentTypeService.getAllDocumentTypes()
-        docs = docs.sort{it.name}
         requestType.requirements.each { r -> reqs.add(r.documentType.id)}
-        //println requestType.requirements
-        docs.each{ d ->
+        documentTypeService.getAllDocumentTypes().each{ d ->
             list.add([
                 'documentId' : d.id,
                 'name' : message(code:"documentType.${d.name.trim().replaceAll(/^\w/,{it.toLowerCase()}).replaceAll(/\s+/,'')}"),
                 'bound' : reqs.contains(d.id),
                 'class' : reqs.contains(d.id) ? '' : 'notBelong'
             ])
-            
         }
+        list = list.sort{it.name}
         render(template:"documentList",model:["documents":list])
     }
     

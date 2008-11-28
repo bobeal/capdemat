@@ -55,6 +55,7 @@ public interface IAgentService {
      *                         and value the profile
      *
      * @see fr.cg95.cvq.business.authority.CategoryProfile
+     * @deprecated
      */
     void modifyRights(final Long agentId, final Map categorysProfiles)
         throws CvqException, CvqObjectNotFoundException;
@@ -66,17 +67,6 @@ public interface IAgentService {
     void updateUserProfiles(String username, List<String> groups, 
             Map<String, String> informations) throws CvqException;
     
-    /**
-     * Set or unset (if category profile is {@link CategoryProfile#NONE}) the agent's profile 
-     * for the given category.
-     *
-     * @deprecated
-     * @see methods addCategoryRole and removeCategoryRole and modifyCategoryRole
-     */
-    void setCategoryProfile(final Long agentId, final Long categoryId, 
-            final CategoryProfile categoryProfile)
-        throws CvqException;
-
     public void addCategoryRole(final Long agentId, final  Long categoryId, 
             final CategoryProfile categoryProfile ) throws CvqException;
     

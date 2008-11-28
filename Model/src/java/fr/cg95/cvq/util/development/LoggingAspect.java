@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 public class LoggingAspect {
 
-    private static Logger logger = Logger.getRootLogger();
+    private Logger logger = Logger.getLogger(LoggingAspect.class);
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService()")
     public void doLog(JoinPoint joinPoint) {

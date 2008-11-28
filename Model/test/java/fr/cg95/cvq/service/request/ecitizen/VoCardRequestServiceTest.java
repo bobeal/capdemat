@@ -283,7 +283,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         doc.setIndividualId(homeFolderResponsible.getId());
         doc.setHomeFolderId(homeFolder.getId());
         DocumentType documentType = 
-            iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
+            iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
         doc.setDocumentType(documentType);
         Long documentId = iDocumentService.create(doc);
         iVoCardRequestService.addDocument(requestId, documentId);

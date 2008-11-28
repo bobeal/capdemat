@@ -309,8 +309,6 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.property
      *  column="requester_last_name"
-     *  
-     *  TODO REFACTORING : SQL migration script 
      */
     public String getRequesterLastName() {
         return requesterLastName;
@@ -320,6 +318,10 @@ public abstract class Request implements Serializable {
         this.requesterLastName = requesterLastName;
     }
 
+    /**
+     * @hibernate.property
+     *  column="requester_first_name"
+     */
     public String getRequesterFirstName() {
         return requesterFirstName;
     }
@@ -465,8 +467,6 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.property
      *  column="subject_last_name"
-     *  
-     *  TODO REFACTORING : SQL migration script 
      */
     public String getSubjectLastName() {
         return subjectLastName;
@@ -476,6 +476,10 @@ public abstract class Request implements Serializable {
         this.subjectLastName = subjectLastName;
     }
 
+    /**
+     * @hibernate.property
+     *  column="subject_first_name"
+     */
     public String getSubjectFirstName() {
         return subjectFirstName;
     }

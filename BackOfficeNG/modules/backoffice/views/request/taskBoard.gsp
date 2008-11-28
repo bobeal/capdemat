@@ -139,31 +139,30 @@
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
           <form action="#" id="filterForm">
+
             <label for="categoryFilter"><g:message code="property.category" /> :</label>
-            
-            <g:select 
-              optionKey="id"
-              optionValue="name"
-              id="categoryFilter"
-              name="categoryFilter" 
-              from="${allCategories}" 
-              value="${state?.filters?.categoryFilter}"
-              noSelection="['':' ']"/>
-              
+            <select id="categoryFilter" name="categoryFilter">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${allCategories}" var="category">
+                <option value="${category.id}" ${state.filters['categoryFilter'] == category.id.toString() ? 'selected' : ''}>
+                  ${category.name}
+                </option>
+              </g:each>
+            </select>
             
             <label for="requestTypeIdFilter"><g:message code="property.requestType" /> :</label>
-            <g:select 
-              optionKey="id"
-              optionValue="label"
-              id="requestTypeIdFilter"
-              name="requestTypeIdFilter" 
-              from="${allRequestTypes}" 
-              value="${state?.filters?.requestTypeIdFilter}"
-              noSelection="['':' ']"/>
+            <select id="requestTypeIdFilter" name="requestTypeIdFilter"> 
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${allRequestTypes}" var="requestType">
+                <option value="${requestType.id}" ${state.filters['requestTypeIdFilter'] == requestType.id.toString() ? 'selected' : ''}>
+                  ${requestType.label}
+                </option>
+              </g:each>
+            </select>
+
           </form>
         </div>
       </div>
-
     </div>
     
   </body>

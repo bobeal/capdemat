@@ -2,7 +2,7 @@
   <p class="first-line">
     <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
     <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">${record.label}
-    - <g:message code="request.searchResult.requestId" /> 
+    <g:message code="request.searchResult.requestId" /> 
     <span class="${sortBy == 'requestId' ? 'current-sort' : ''}">${record.id}</span>
     - <g:message code="layout.from" /> 
     <span class="${sortBy == 'requesterLastName' ? 'current-sort' : ''}">
@@ -11,6 +11,7 @@
     <g:if test="${record.subjectLastName}">
       <g:message code="layout.for" /> ${record.subjectLastName} ${record.subjectFirstName}
     </g:if>
+    <span class="${sortBy == 'homeFolderId' ? 'current-sort' : ''}">(${record.homeFolderId})</span>
     </a>
   </p>
 

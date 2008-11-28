@@ -142,7 +142,6 @@ public class SecurityContext {
     public static void setCurrentAgent(String agentLogin)
         throws CvqException, CvqObjectNotFoundException {
 
-        logger.debug("setCurrentAgent() agent = " + agentLogin);
         Agent agent = agentService.getByLogin(agentLogin);
         if (agent == null)
             throw new CvqObjectNotFoundException("Agent not found !");
@@ -318,7 +317,7 @@ public class SecurityContext {
     public static void setCurrentSite(String localAuthorityName, String context)
         throws CvqObjectNotFoundException {
 
-        logger.debug("setCurrentSite() site name = [" + localAuthorityName + "]");
+        logger.debug("setCurrentSite() site = " + localAuthorityName + ", context = " + context);
 
         LocalAuthority localAuthority = 
             localAuthorityRegistry.getLocalAuthorityByName(localAuthorityName);

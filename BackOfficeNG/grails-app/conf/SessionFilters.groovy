@@ -105,6 +105,7 @@ class SessionFilters {
                                 SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT)
             	                SecurityContext.setCurrentAgent(user)
             	                session.setAttribute("currentUser", user)
+            	                session.setAttribute("currentCredentialBean", SecurityContext.currentCredentialBean)
             	                log.debug("setting " + user + " on attribute " + CASFilter.CAS_FILTER_USER)
             	                session.setAttribute(CASFilter.CAS_FILTER_USER, user)
             	            } catch (CvqException e) {

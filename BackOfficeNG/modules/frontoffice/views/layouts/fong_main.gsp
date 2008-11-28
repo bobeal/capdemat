@@ -29,9 +29,13 @@
           class="${menu.current(elem:'home')}" >
           <span>Accueil</span>
        </a>
+       <a href="${createLink(controller:'frontofficeRequestType')}" 
+          class="${menu.current(elem:'requesttype')}" >
+          <span>Services</span>
+       </a>
        <a href="${createLink(controller:'frontofficeHomeFolder')}" 
           class="${menu.current(elem:'homefolder')}" >
-          <span>Personnes</span>
+          <span>Comptes</span>
        </a>
        <a href="${createLink(controller:'frontofficeRequest')}" 
          class="${menu.current(elem:'request')}">
@@ -40,10 +44,6 @@
        <a href="${createLink(controller:'frontofficeDocument')}" 
           class="${menu.current(elem:'document')}">
           <span>Documents</span>
-       </a>
-       <a href="${createLink(controller:'frontofficeRequestType')}" 
-          class="${menu.current(elem:'requesttype')}" >
-          <span>Services</span>
        </a>
        <a href="${createLink(controller:'frontofficeActivity')}" 
           class="${menu.current(elem:'activity')}">

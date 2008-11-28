@@ -12,17 +12,17 @@ import org.hibernate.type.Type;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.util.quering.CriteriasDescriptor;
 import fr.cg95.cvq.util.quering.IParameter;
 import fr.cg95.cvq.util.quering.ISelectArgument;
 import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
+import fr.cg95.cvq.util.quering.sort.ISortCriteria;
 
 /**
  * @author vba@zenexity.fr
  *
  */
 public final class ExternalServiceTraceDAO extends GenericDAO implements IExternalServiceTraceDAO {
-    
-    
     public <T> int delete(Set<ISearchCriteria> searchCriterias, Class<T> clazz) {
         StringBuffer sb = new StringBuffer();
         sb.append(String.format("delete from %2$s as %1$s ",
@@ -33,9 +33,20 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
 
         return query.executeUpdate();
     }
+    
+    /*********************************************************************
+     * 
+     *                    GENERIC MANIPULATION METHODS
+     * 
+     * ********************************************************************/
 
     @SuppressWarnings("unchecked")
-    public <T,R> Set<R> get(Set<ISelectArgument> arguments, Set<ISearchCriteria> searchCriterias, Class<T> clazz) {
+    public <T,R> Set<R> get(Set<ISelectArgument> arguments, 
+            Set<ISearchCriteria> searchCriterias,
+            Set<ISortCriteria> sorts,
+            Integer max,
+            Integer offset,
+            Class<T> clazz) {
         
         Set<R> result = new HashSet<R>();
         StringBuffer sb = new StringBuffer();
@@ -49,11 +60,24 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
                 clazz));
         
         if(searchCriterias == null) searchCriterias = new HashSet<ISearchCriteria>();
-        Query query = this.prepareStatement(searchCriterias, sb, clazz);
+        Query query = this.prepareStatement(searchCriterias,sorts,max,offset, sb, clazz);
         query.setFirstResult(0);
         result = new LinkedHashSet<R>(query.list());
         
         return result;
+    }
+    
+    public <T,R> Set<R> get(CriteriasDescriptor descriptor, Class<T> clazz) {
+        return this.<T,R>get(descriptor.getSelects(), 
+            descriptor.getSearches(),
+            descriptor.getSorts() ,
+            descriptor.getMax(),
+            descriptor.getOffset(),
+            clazz);
+    }
+    
+    public <T,R> Set<R> get(Set<ISelectArgument> arguments, Set<ISearchCriteria> searchCriterias, Class<T> clazz) {
+        return this.<T,R>get(arguments,searchCriterias,null,null,null,clazz);
     }
     
     public <T,R> Set<R> get(Set<ISearchCriteria> searchCriterias, Class<T> clazz) {
@@ -83,6 +107,23 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         return result.toString();
     }
     
+    protected String prepareSorts(Set<ISortCriteria> sorts,Class<?> clazz) {
+        StringBuffer result = new StringBuffer();
+        
+        if(sorts.size() > 0) {
+            String orderBy = "";
+            for(ISortCriteria sort : sorts) {
+                if(sort.getClazz() == null) sort.setClazz(clazz);
+                orderBy += sort.formatClause();
+            }
+            if(orderBy.contains(","))orderBy = orderBy.substring(0, orderBy.length()-2);
+            orderBy = String.format(" order by %1$s", orderBy);
+            result.append(orderBy);
+        }
+        
+        return result.toString();
+    }
+    
     protected String prepareExplicitJoins(Set<ISearchCriteria> searchCriterias, Class<?> clazz) {
         String result = String.format(
                 "from %1$s as %2$s, ", 
@@ -108,7 +149,15 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         return sb.toString();
     }
     
-    protected Query prepareStatement(Set<ISearchCriteria> criterias, StringBuffer sb, Class<?> clazz) {
+    protected Query prepareStatement(Set<ISearchCriteria> criterias,
+            StringBuffer sb, Class<?> clazz) {
+        return this.prepareStatement(criterias,null,null,null,sb,clazz);
+    }
+    
+    protected Query prepareStatement(Set<ISearchCriteria> criterias,
+            Set<ISortCriteria> sorts,
+            Integer max, Integer offset,
+            StringBuffer sb, Class<?> clazz) {
         
         List<IParameter> params = new ArrayList<IParameter>();
         
@@ -122,8 +171,14 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
                 sb.append(condition);
             }
         }
+        if(sorts != null) sb.append(this.prepareSorts(sorts, clazz));
         
         Query query = HibernateUtil.getSession().createQuery(sb.toString());
+        if(max != null) {
+            query.setMaxResults(max);
+            query.setFirstResult(offset != null ? offset : 0);
+        }
+        
         for (IParameter parameter : params) {
             query.setParameter(
                     parameter.getName(), 
@@ -132,4 +187,5 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         }
         return query;
     }
+    
 }

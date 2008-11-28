@@ -19,6 +19,7 @@ import grails.converters.*
 
 class RequestController {
     InstructionService instructionService
+    EcitizenService ecitizenService
     IAgentService agentService
     IHomeFolderService homeFolderService
     ICategoryService categoryService
@@ -30,9 +31,7 @@ class RequestController {
     def defaultAction = "index"
     
     
-    def beforeInterceptor = {
-        flash.currentMenu = 'request';
-    }
+    def beforeInterceptor = {}
     
     
     def index = {
@@ -49,23 +48,7 @@ class RequestController {
         if(params.indvFilter != null) state.indvFilter = params.indvFilter;
         
         requests = filterRequests("SEARCH_BY_HOME_FOLDER_ID",adult.homeFolder.id,state,params);
-        
-        requests.all.each{
-            
-            //def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null;
-            requests.records.add([
-                'id':it.id,
-                'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
-                'creationDate':DateUtils.formatDate(it.creationDate),
-                'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
-                'subjectLastName':it.subject ? it.subject.lastName + " " + it.subject.firstName : "",
-                'homeFolderId':it.homeFolder.id,
-                'state':it.state.toString(),
-                'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
-                'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId) ,
-                'permanent':!it.homeFolder.boundToRequest
-            ]);
-        }
+        requests = ecitizenService.prepareRecords(requests);
         
         return ([
             'state': state,

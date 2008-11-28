@@ -1,12 +1,18 @@
+import fr.cg95.cvq.payment.IPaymentService;
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.civil.IMarriageDetailsRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Address
 
 import fr.cg95.cvq.business.users.TitleType
+import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType
 import fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType
 import fr.cg95.cvq.business.request.civil.MarriageRelationshipType
@@ -15,6 +21,7 @@ import fr.cg95.cvq.xml.request.civil.MarriageDetailsRequestDocument
 import org.w3c.dom.Node
 
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.util.Critere;
 
 
 import java.math.BigInteger
@@ -24,13 +31,15 @@ import grails.converters.JSON
 
 class HomeController {
 
+    EcitizenService ecitizenService
     IRequestService defaultRequestService
-    
+    LocalAuthorityRegistry localAuthorityRegistry
     IMarriageDetailsRequestService marriageDetailsRequestService
     IHomeFolderService homeFolderService
+    IPaymentService paymentService
     
+    Adult currentEcitizen
     MarriageDetailsRequest mdr 
-   
     def translationService
     
     def defaultAction = "index"
@@ -38,10 +47,38 @@ class HomeController {
     def currentTab = "tab1"
     
     def beforeInterceptor = {
-        session["currentMenu"] = "request"
+        this.currentEcitizen = SecurityContext.getCurrentEcitizen();
     }
     
     def index = {
+        def result = [:];
+        result.dashBoard = [:];
+                            
+        File infoFile = localAuthorityRegistry.getCurrentLocalAuthorityResource(
+            ILocalAuthorityRegistry.HTML_RESOURCE_TYPE, 
+            'information.html',false);
+        
+        if(infoFile.exists()) result.commonInfo = infoFile.text;
+        
+        result.dashBoard.requests = this.getTopFiveRequests();
+        result.dashBoard.requests = ecitizenService.prepareRecords(result.dashBoard.requests);
+        
+        result.dashBoard.payments = this.getTopFivePayments();
+        result.dashBoard.documents = this.getTopFiveDocuments();
+        
+        
+        //println this.getTopFivePayments();
+//        this.getTopFiveDocuments().all.each{
+//            println it.id;
+//        };
+//        println '#######################'
+//        this.getTopFiveDocuments().all2.each {
+//            println it.id;
+//        }
+        return result;
+    }
+    
+    def demo = {
         flash.currentMenu = 'home'
         if (mdr == null)
           mdr = new MarriageDetailsRequest()
@@ -50,30 +87,6 @@ class HomeController {
         mdr.setRequester(requester)
         session["mariageDetailsRequest"] = mdr
     }
-    
-    def persons = {
-        flash.currentMenu = 'persons';
-        render '';
-    }
-    
-
-    def documents = {
-        flash.currentMenu = 'documents';
-        render '';
-    }
-    def services = {
-        flash.currentMenu = 'services';
-        render '';
-    }
-    def activities = {
-        flash.currentMenu = 'activities';
-        render '';
-    }
-    def payments = {
-        flash.currentMenu = 'payments';
-        render '';
-    }
-    
     
     def validRequester = {
         log.debug("validRequester - START")
@@ -145,5 +158,38 @@ class HomeController {
       def message = "Demande envoyée !!"
       
       //render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab, message:message])
+    }
+    
+    def protected getTopFiveRequests = {
+        
+        Set criteriaSet = new HashSet<Critere>();
+        Critere critere = new Critere();
+        
+        critere.comparatif = Critere.EQUALS;
+        critere.attribut = Request.SEARCH_BY_HOME_FOLDER_ID;
+        critere.value = this.currentEcitizen.homeFolder.id
+        criteriaSet.add(critere)
+        
+        return [
+            'all' : defaultRequestService.extendedGet(criteriaSet, null, null, 5, 0),
+            'count' : defaultRequestService.getCount(criteriaSet),
+            'records' : []
+        ]
+    }
+    
+    def protected getTopFivePayments = {
+        return [
+            'all' : paymentService.extendedGet(null, null, null, null, null, null, null, null, 
+                this.currentEcitizen.homeFolder.id, null, 'commitDate', 'DESC', 5, 0),
+            'count' : paymentService.getPaymentCount(null, null, null, null, null, null, null, 
+                null, this.currentEcitizen.homeFolder.id, null)
+        ]
+        
+    }
+    
+    def protected getTopFiveDocuments = {
+        return [
+            'all': homeFolderService.getAssociatedDocuments(this.currentEcitizen.homeFolder.id, 5)
+        ]
     }
 }

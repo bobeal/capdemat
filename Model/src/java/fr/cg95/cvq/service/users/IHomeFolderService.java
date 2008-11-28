@@ -1,8 +1,10 @@
 package fr.cg95.cvq.service.users;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -63,15 +65,17 @@ public interface IHomeFolderService {
      */
     Set getAssociatedDocuments(final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException;
+    
+    List<Document> getAssociatedDocuments(final Long homeFolderId, int max) throws CvqException;
 
     void modify(final HomeFolder homeFolder)
         throws CvqException;
 
     void delete(final Long id)
-    		throws CvqException, CvqObjectNotFoundException;
+            throws CvqException, CvqObjectNotFoundException;
 
     void delete(final HomeFolder homeFolder)
-    		throws CvqException, CvqObjectNotFoundException;
+            throws CvqException, CvqObjectNotFoundException;
 
     Set<Child> getChildren(final Long homeFolderId)
         throws CvqException;
@@ -145,9 +149,9 @@ public interface IHomeFolderService {
     void archive(HomeFolder homeFolder)
         throws CvqException, CvqObjectNotFoundException;
     
-	/**
-	 * Send a confirmation mail to the HomeFolder Responsible when the paymen is commited
-	 */
+    /**
+     * Send a confirmation mail to the HomeFolder Responsible when the paymen is commited
+     */
     public void notifyPaymentByMail(Payment payment)
-    	throws CvqException;
+        throws CvqException;
 }

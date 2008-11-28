@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
@@ -114,6 +115,11 @@ public class HomeFolderService implements IHomeFolderService {
 
         List documentsList = documentDAO.listByHomeFolder(homeFolderId);
         return new LinkedHashSet(documentsList);
+    }
+    
+    public List<Document> getAssociatedDocuments(final Long homeFolderId, int max) 
+        throws CvqException {
+        return documentDAO.listByHomeFolder(homeFolderId, max);
     }
 
     public HomeFolder create(final Adult adult) throws CvqException {

@@ -33,6 +33,15 @@ public interface IDocumentDAO extends IGenericDAO {
      * Return the {@link Document documents} belonging to a given home folder.
      */
     List listByHomeFolder(final Long homeFolderId);
+    
+    /**
+     * Return the {@link Document documents} belonging to a given home folder.
+     * 
+     * @param homeFolderId
+     * @param max
+     * @return
+     */
+    List<Document> listByHomeFolder (final Long homeFolderId, int max);
 
     /**
      * Return the {@link Document documents} belonging to the given individual.

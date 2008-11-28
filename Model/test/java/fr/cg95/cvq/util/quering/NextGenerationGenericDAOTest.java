@@ -20,6 +20,8 @@ import fr.cg95.cvq.util.quering.criterias.CrossJoinCriteria;
 import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 import fr.cg95.cvq.util.quering.criterias.InCriteria;
 import fr.cg95.cvq.util.quering.criterias.SimpleCriteria;
+import fr.cg95.cvq.util.quering.sort.SortCriteria;
+import fr.cg95.cvq.util.quering.sort.SortDirection;
 
 public class NextGenerationGenericDAOTest extends ServiceTestCase{
     protected ConfigurableApplicationContext context = null;
@@ -55,7 +57,10 @@ public class NextGenerationGenericDAOTest extends ServiceTestCase{
             
             // Composite criterias
             Assert.assertEquals(this.realizeComplexIdsExtract(ids).size(), count);
+            Assert.assertEquals(this.realizeExtractionWithDescriptor(ids).size(), count);
             Assert.assertEquals(this.realizeComplexIdsExtract2(ids).size(), count-1);
+            Assert.assertEquals(this.testDescriptorTop2(ids).size(), 2);
+            Assert.assertEquals(this.testDescriptorTop1(ids).size(), 1);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,6 +68,72 @@ public class NextGenerationGenericDAOTest extends ServiceTestCase{
             //throw e;
         }
         
+    }
+    
+    private Set<Long> testDescriptorTop1(Set<Long> ids) throws ParseException {
+        CriteriasDescriptor descriptor = new CriteriasDescriptor();
+        Set<ISearchCriteria> subCriterias1 = new HashSet<ISearchCriteria>();
+        
+        descriptor
+            .addSearch(new CrossJoinCriteria("id",BaseOperator.EQUALS,
+                CrossJoinCriteria.prepareOperand("request", RequestAction.class)))
+            .addSearch(new SimpleCriteria(RequestAction.class,"date",BaseOperator.GTE,
+                DateUtils.parseDate("13/07/2007")))
+            .addSelect(new SelectField(Request.class,"id"))
+            .addSort(new SortCriteria(Request.class,"id",SortDirection.ASC))
+            .addSort(new SortCriteria("creationDate"))
+            .setMax(1).setOffset(1);
+        
+        
+        for(Long id : ids)
+            subCriterias1.add(new SimpleCriteria("id",BaseOperator.EQUALS,id,LogicOperator.OR));
+        
+        descriptor.addSearch(new CompositeCriteria(subCriterias1,LogicOperator.OR));
+        descriptor.setMax(2);
+        return this.externalServiceTraceDAO.<Request,Long>get(descriptor, Request.class);
+    }
+    
+    private Set<Long> testDescriptorTop2(Set<Long> ids) throws ParseException {
+        CriteriasDescriptor descriptor = new CriteriasDescriptor();
+        Set<ISearchCriteria> subCriterias1 = new HashSet<ISearchCriteria>();
+        
+        descriptor
+            .addSearch(new CrossJoinCriteria("id",BaseOperator.EQUALS,
+                CrossJoinCriteria.prepareOperand("request", RequestAction.class)))
+            .addSearch(new SimpleCriteria(RequestAction.class,"date",BaseOperator.GTE,
+                DateUtils.parseDate("13/07/2007")))
+            .addSelect(new SelectField(Request.class,"id"))
+            .addSort(new SortCriteria(Request.class,"id",SortDirection.ASC))
+            .addSort(new SortCriteria("creationDate"))
+            .setMax(2);
+        
+        
+        for(Long id : ids)
+            subCriterias1.add(new SimpleCriteria("id",BaseOperator.EQUALS,id,LogicOperator.OR));
+        
+        descriptor.addSearch(new CompositeCriteria(subCriterias1,LogicOperator.OR));
+        descriptor.setMax(2);
+        return this.externalServiceTraceDAO.<Request,Long>get(descriptor, Request.class);
+    }
+    
+    private Set<Long> realizeExtractionWithDescriptor(Set<Long> ids) throws ParseException {
+        CriteriasDescriptor descriptor = new CriteriasDescriptor();
+        Set<ISearchCriteria> subCriterias1 = new HashSet<ISearchCriteria>();
+        
+        descriptor
+            .addSearch(new CrossJoinCriteria("id",BaseOperator.EQUALS,
+                CrossJoinCriteria.prepareOperand("request", RequestAction.class)))
+            .addSearch(new SimpleCriteria(RequestAction.class,"date",BaseOperator.GTE,
+                DateUtils.parseDate("13/07/2007")))
+            .addSelect(new SelectField(Request.class,"id"))
+            .addSort(new SortCriteria(Request.class,"id",SortDirection.ASC));
+        
+        
+        for(Long id : ids)
+            subCriterias1.add(new SimpleCriteria("id",BaseOperator.EQUALS,id,LogicOperator.OR));
+        
+        descriptor.addSearch(new CompositeCriteria(subCriterias1,LogicOperator.OR));
+        return this.externalServiceTraceDAO.<Request,Long>get(descriptor, Request.class);
     }
     
     private Set<Long> realizeComplexIdsExtract(Set<Long> ids) throws ParseException {

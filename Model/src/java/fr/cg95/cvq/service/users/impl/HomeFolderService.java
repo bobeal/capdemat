@@ -1,7 +1,7 @@
 package fr.cg95.cvq.service.users.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,26 +17,30 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.IndividualRole;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.dao.IGenericDAO;
-import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
+import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.users.IAdultService;
-import fr.cg95.cvq.service.users.IChildService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -50,144 +54,76 @@ public class HomeFolderService implements IHomeFolderService {
 
     private static Logger logger = Logger.getLogger(HomeFolderService.class);
 
-    protected ILocalAuthorityRegistry localAuthorityRegistry;
-    protected IMailService mailService;
-    protected IIndividualService individualService;
-    protected IAdultService adultService;
-    protected IChildService childService;
-    protected IRequestService requestService;
     protected IGenericDAO genericDAO;
     protected IHomeFolderDAO homeFolderDAO;
-    protected IDocumentDAO documentDAO;
+    protected IIndividualDAO individualDAO;
     protected IChildDAO childDAO;
     protected IAdultDAO adultDAO;
+
+    protected IIndividualService individualService;
+
+    protected ILocalAuthorityRegistry localAuthorityRegistry;
+    protected IMailService mailService;
+    protected IRequestService requestService;
+    protected IDocumentService documentService;
     protected IPaymentService paymentService;
     protected IExternalService externalService;
     
-	public HomeFolderService() {
-        super();
-    }
-
-    public final HomeFolder getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
-
-        return (HomeFolder) homeFolderDAO.findById(HomeFolder.class, id);
-    }
-
-    // TODO : to be removed
-    public final HomeFolder getByRequestId(final Long requestId)
-        throws CvqException {
-
-        Request request = requestService.getById(requestId);
-    	if (request == null)
-    		return null;
-    	else
-    		return request.getHomeFolder();
-    }
-
-    public final Set<HomeFolder> getAll()
-        throws CvqException {
-
-        List homeFolders = homeFolderDAO.listAll();
-        return new LinkedHashSet<HomeFolder>(homeFolders);
-    }
-
-    public final Set<Child> getChildren(final Long homeFolderId)
-        throws CvqException {
-
-        List childList = childDAO.listByHomeFolder(homeFolderId);
-        return new LinkedHashSet(childList);
-    }
-
-    public final Set<Adult> getAdults(final Long homeFolderId)
-        throws CvqException {
-
-        List adultList = adultDAO.listByHomeFolder(homeFolderId);
-        return new LinkedHashSet(adultList);
-    }
-
-    // TODO : use document service instead
-    public final Set getAssociatedDocuments(final Long homeFolderId)
-        throws CvqException {
-
-        logger.debug("getAssociatedDocuments() searching documents for home folder id : "
-                     + homeFolderId);
-
-        List documentsList = documentDAO.listByHomeFolder(homeFolderId);
-        return new LinkedHashSet(documentsList);
-    }
-    
-    public List<Document> getAssociatedDocuments(final Long homeFolderId, int max) 
-        throws CvqException {
-        return documentDAO.listByHomeFolder(homeFolderId, max);
-    }
-
+    @Override
+    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public HomeFolder create(final Adult adult) throws CvqException {
 
-        Address adress = adult.getAdress();
-		genericDAO.create(adress);
-		
-		// create the home folder
-        HomeFolder homeFolder = new HomeFolder();
-        initializeCommonAttributes(homeFolder);
-        homeFolder.setAdress(adress);
-		
-        adult.addHomeFolderResponsibleRole();
-        adultService.create(adult, homeFolder, null, true);
-
-        Set<Adult> allIndividuals = new HashSet<Adult>();
-        allIndividuals.add(adult);
-
-        homeFolder.setIndividuals(allIndividuals);
+        Set<Adult> adults = new HashSet<Adult>();
+        adults.add(adult);
         
-        genericDAO.create(homeFolder);
-        return homeFolder;
+        return create(adults, null, adult.getAdress());
     }
 
+    @Override
+    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public HomeFolder create(Set<Adult> adults, Set<Child> children, Address address)
         throws  CvqException, CvqModelException {
+
+        if (adults == null)
+            throw new CvqModelException("homefolder.error.mustContainAtLeastAnAdult");
         
         // create the home folder
         HomeFolder homeFolder = new HomeFolder();
         initializeCommonAttributes(homeFolder);
         homeFolder.setAdress(address);
         homeFolder.setBoundToRequest(Boolean.valueOf(false));
+        homeFolderDAO.create(homeFolder);
+        genericDAO.create(address);
 
         Set<Individual> allIndividuals = new HashSet<Individual>();
         allIndividuals.addAll(adults);
-        allIndividuals.addAll(children);
+        if (children != null)
+            allIndividuals.addAll(children);
+        
+        for (Individual individual : allIndividuals) {
+            if (individual instanceof Child) 
+                individualService.create(individual, homeFolder, address, false);
+            else if (individual instanceof Adult)
+                individualService.create(individual, homeFolder, address, true);                
+        }
+        
+        checkAndFinalizeRoles(homeFolder.getId(), adults, children);
+        
         homeFolder.setIndividuals(allIndividuals);
-        
-        // create children belonging to this home folder
-        if (children != null) {
-            for (Child child : children) {
-                childService.create(child, homeFolder, address, false);
-                allIndividuals.add(child);
-            }
-        }
-
-        // create the other adults belonging to this home folder
-        for (Adult adult : adults) {
-            adultService.create(adult, homeFolder, address, false);
-            allIndividuals.add(adult);
-        }
-
-        homeFolderDAO.create(homeFolder);
-        
-        for (Adult adult : adults) {
-            adultService.assignLogin(adult);
-        }
+        homeFolderDAO.update(homeFolder);
         
         return homeFolder;
     }
 
-    public void initializeCommonAttributes(HomeFolder homeFolder) 
+    private void initializeCommonAttributes(HomeFolder homeFolder) 
         throws CvqException {
 
         homeFolder.setState(ActorState.PENDING);
         homeFolder.setEnabled(Boolean.TRUE);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public final void modify(final HomeFolder homeFolder)
         throws CvqException {
 
@@ -195,6 +131,8 @@ public class HomeFolderService implements IHomeFolderService {
             homeFolderDAO.update(homeFolder);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public final void delete(final Long id)
         throws CvqException {
 
@@ -202,11 +140,23 @@ public class HomeFolderService implements IHomeFolderService {
         delete(homeFolder);
     }
 
-    public final void delete(final HomeFolder homeFolder)
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void deleteIndividual(final Long homeFolderId, final Long individualId) 
+        throws CvqException, CvqObjectNotFoundException {
+
+        Individual individual = individualService.getById(individualId);
+        HomeFolder homeFolder = getById(homeFolderId);
+        removeRolesOnSubject(homeFolderId, individual.getId());
+        individual.setAdress(null);
+        individual.setHomeFolder(null);
+
+        homeFolder.getIndividuals().remove(individual);
+    }
+
+    private final void delete(final HomeFolder homeFolder)
         throws CvqException {
 
-        logger.debug("delete() deleting home folder " + homeFolder.getId());
-    	
         // payments need to be deleted first because adults are requesters for them
         if (homeFolder.getPayments() != null) {
             for (Object object : homeFolder.getPayments()) {
@@ -215,39 +165,394 @@ public class HomeFolderService implements IHomeFolderService {
             }
         }
 
-        Set individuals = homeFolder.getIndividuals();
+        // delete all documents related to home folder and associated individuals
+
+        documentService.deleteHomeFolderDocuments(homeFolder.getId());
+
+        Set<Individual> individuals = homeFolder.getIndividuals();
+        for (Individual individual : individuals) {
+            documentService.deleteIndividualDocuments(individual.getId());
+        }
+
+        // need to stack adults and children to ensure that adults are deleted before children
+        // because of legal responsibles constraints
+        // TODO REFACTORING
         Set<Adult> adults = new HashSet<Adult>();
         Set<Child> children = new HashSet<Child>();
-        Iterator individualsIt = individuals.iterator();
-        while (individualsIt.hasNext()) {
-            Individual individual = (Individual) individualsIt.next();
+        for (Individual individual : individuals) {
             if (individual instanceof Adult)
                 adults.add((Adult)individual);
             else if (individual instanceof Child)
                 children.add((Child) individual);
         }
-        
+
         for (Adult adult : adults) {
-            adultService.delete(adult, true);
+            individualService.delete(adult);
         }
-        
+
         for (Child child : children) {
-            childService.delete(child, true);
+            individualService.delete(child);
         }
-        
-        // then home folder itself
-        if (homeFolder.getDocuments() != null)
-            homeFolder.getDocuments().clear();
 
         homeFolderDAO.delete(homeFolder);
     }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
+    public final Set<HomeFolder> getAll()
+        throws CvqException {
+
+        List<HomeFolder> homeFolders = homeFolderDAO.listAll();
+        return new LinkedHashSet<HomeFolder>(homeFolders);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public final HomeFolder getById(final Long id)
+        throws CvqException, CvqObjectNotFoundException {
+
+        return (HomeFolder) homeFolderDAO.findById(HomeFolder.class, id);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public final Set<Child> getChildren(final Long homeFolderId)
+        throws CvqException {
+
+        List<Child> childList = childDAO.listChildrenByHomeFolder(homeFolderId);
+        return new LinkedHashSet<Child>(childList);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public final Set<Adult> getAdults(final Long homeFolderId)
+        throws CvqException {
+
+        List<Adult> adultList = adultDAO.listAdultsByHomeFolder(homeFolderId);
+        return new LinkedHashSet<Adult>(adultList);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public List<Individual> getIndividuals(Long homeFolderId) throws CvqException {
+        
+        return individualDAO.listByHomeFolder(homeFolderId);
+    }
+
+    private void addRoleToOwner(Individual owner, IndividualRole role) {        
+        if (owner.getIndividualRoles() == null) {
+            Set<IndividualRole> individualRoles = new HashSet<IndividualRole>();
+            individualRoles.add(role);
+            owner.setIndividualRoles(individualRoles);
+        } else {
+            owner.getIndividualRoles().add(role);
+        }
+    }
     
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void addHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+            throws CvqException {
+
+        Individual owner = individualService.getById(ownerId);
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setRole(role);
+        individualRole.setHomeFolderId(homeFolderId);
+        addRoleToOwner(owner, individualRole);
+    }
+
+
+    @Override
+    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    public void addHomeFolderRole(Individual owner, RoleEnum role)
+            throws CvqException {
+
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setRole(role);
+        addRoleToOwner(owner, individualRole);        
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void addIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+            throws CvqException {
+
+        Individual owner = individualService.getById(ownerId);
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setRole(role);
+        if (individual.getId() != null)
+            individualRole.setIndividualId(individual.getId());
+        else
+            individualRole.setIndividualName(individual.getFullName());
+        addRoleToOwner(owner, individualRole);
+    }
+
+    @Override
+    public void addIndividualRole(Individual owner, Individual individual, RoleEnum role)
+            throws CvqException {
+
+        IndividualRole individualRole = new IndividualRole();
+        individualRole.setRole(role);
+        if (individual.getId() != null)
+            individualRole.setIndividualId(individual.getId());
+        else
+            individualRole.setIndividualName(individual.getFullName());
+        addRoleToOwner(owner, individualRole);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void removeRolesOnSubject(final Long homeFolderId, final Long individualId)
+        throws CvqException {
+        
+        for (Individual homeFolderIndividual : getById(homeFolderId).getIndividuals()) {
+            if (homeFolderIndividual.getIndividualRoles() == null)
+                continue;
+            Set<IndividualRole> rolesToRemove = new HashSet<IndividualRole>();
+            for (IndividualRole individualRole : homeFolderIndividual.getIndividualRoles()) {
+                if (individualRole.getIndividualId() != null
+                        && individualRole.getIndividualId().equals(individualId))
+                    rolesToRemove.add(individualRole);
+            }
+            if (rolesToRemove.isEmpty())
+                continue;
+            logger.debug("removeRolesOnSubject() removing " + rolesToRemove.size()
+                    + " roles from " + homeFolderIndividual.getId());
+            for (IndividualRole roleToRemove : rolesToRemove)
+                homeFolderIndividual.getIndividualRoles().remove(roleToRemove);
+            individualDAO.update(homeFolderIndividual);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public boolean removeHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+            throws CvqException {
+        Individual owner = individualService.getById(ownerId);
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        IndividualRole roleToRemove = null;
+        for (IndividualRole individualRole : owner.getIndividualRoles()) {
+            if (individualRole.getRole().equals(role) 
+                    && homeFolderId.equals(individualRole.getHomeFolderId())) {
+                roleToRemove = individualRole;
+                break;
+            } 
+        }
+        
+        if (roleToRemove != null)
+            return owner.getIndividualRoles().remove(roleToRemove);
+
+        return false;
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public boolean removeIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+            throws CvqException {
+
+        Individual owner = individualService.getById(ownerId);
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        IndividualRole roleToRemove = null;
+        String individualName = individual.getLastName() + " " + individual.getFirstName();
+        for (IndividualRole individualRole : owner.getIndividualRoles()) {
+            if (individualRole.getRole().equals(role)) {
+                if (individualRole.getIndividualId() != null
+                        && individualRole.getIndividualId().equals(individual.getId())) {
+                        roleToRemove = individualRole;
+                        break;
+                } else if (individualRole.getIndividualName() != null
+                        && individualRole.getIndividualName().equals(individualName)) {
+                        roleToRemove = individualRole;
+                        break;
+                }
+            }
+        }
+
+        if (roleToRemove != null) {
+            return owner.getIndividualRoles().remove(roleToRemove);
+        }
+
+        return false;
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void checkAndFinalizeRoles(Long homeFolderId, Set<Adult> adults, Set<Child> children)
+        throws CvqException, CvqModelException {
+        
+        Set<Individual> allIndividuals = new HashSet<Individual>();
+        allIndividuals.addAll(adults);
+        if (children != null)
+            allIndividuals.addAll(children);
+
+        // now that all individuals are persisted, we can deal with roles
+        boolean foundHomeFolderResponsible = false;
+        for (Adult adult : adults) {
+            if (adult.getIndividualRoles() != null) {
+                for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                    if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                        logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
+                                + " is home folder responsible");
+                        if (foundHomeFolderResponsible)
+                            throw new CvqModelException("homeFolder.error.onlyOneResponsibleIsAllowed");
+                        foundHomeFolderResponsible = true;
+                        individualRole.setHomeFolderId(homeFolderId);
+                        individualService.modify(adult);
+                    } else if (individualRole.getRole().equals(RoleEnum.TUTOR)) {
+                        logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
+                                + " is tutor");
+                        String individualName = individualRole.getIndividualName();
+                        if (individualName != null) {
+                            // individual name is provided, it is the tutor of another individual
+                            for (Individual individual : allIndividuals) {
+                                String otherAdultName = 
+                                    individual.getLastName() + " " + individual.getFirstName();
+                                if (otherAdultName.equals(individualName)) {
+                                    individualRole.setIndividualId(individual.getId());
+                                    break;
+                                }
+                            }
+                        } else {
+                            // individual name is not provided, it is the tutor of the home folder
+                            individualRole.setHomeFolderId(homeFolderId);
+                        }
+                        individualService.modify(adult);
+                    } else if (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
+                            || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
+                            || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)) {
+                        logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
+                                + " is " + individualRole.getRole() + " for "
+                                + individualRole.getIndividualName() + "("
+                                + individualRole.getIndividualId() + ")");
+                        if (individualRole.getIndividualId() == null) {
+                            String childName = individualRole.getIndividualName();
+                            for (Child child : children) {
+                                if (childName.equals(child.getLastName() + " " + child.getFirstName())) {
+                                    individualRole.setIndividualId(child.getId());
+                                    break;
+                                }
+                            }
+                            individualService.modify(adult);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // check all children have at least a legal responsible
+        RoleEnum[] roles = {RoleEnum.CLR_FATHER, RoleEnum.CLR_MOTHER, RoleEnum.CLR_TUTOR};
+        if (children != null) {
+            for (Child child : children) {
+                // TODO REFACTORING : there is something strange here !
+                //            List<Individual> legalResponsibles = 
+                //                individualDAO.listBySubjectRoles(child.getId(), roles);
+                List<Individual> legalResponsibles = new ArrayList<Individual>();
+                for (Adult adult : adults) {
+                    if (adult.getIndividualRoles() != null) {
+                        for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                            if (child.getId().equals(individualRole.getIndividualId())
+                                    && (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
+                                            || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
+                                            || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)))
+                                legalResponsibles.add(adult);
+                        }
+                    }
+                }
+                if (legalResponsibles == null || legalResponsibles.isEmpty())
+                    throw new CvqModelException("Child " + child.getFirstName() + 
+                            " (" + child.getId() + ") has no legal responsible");
+                else if (legalResponsibles.size() > 3) 
+                    throw new CvqModelException("Too many legal responsibles for child : " 
+                            + child.getFirstName());
+            }
+        }
+        
+        if (!foundHomeFolderResponsible)
+            throw new CvqModelException("homeFolder.error.responsibleIsRequired");
+    }
+    
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+            throws CvqException {
+        
+        Individual owner = individualService.getById(ownerId);
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        for (IndividualRole individualRole : owner.getIndividualRoles()) {
+            if (individualRole.getRole().equals(role)
+                    && homeFolderId.equals(individualRole.getHomeFolderId()))
+                return true;
+        }
+        
+        return false;
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public boolean hasIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+            throws CvqException {
+
+        Individual owner = individualService.getById(ownerId);
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        Long individualId = individual.getId();
+        String individualName = individual.getLastName() + " " + individual.getFirstName();
+        for (IndividualRole individualRole : owner.getIndividualRoles()) {
+            if (individualRole.getRole().equals(role)) {
+                if (individualRole.getIndividualId() != null 
+                        && individualRole.getIndividualId().equals(individualId))
+                    return true;
+                if (individualRole.getIndividualName() != null
+                        && individualRole.getIndividualName().equals(individualName))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Adult getHomeFolderResponsible(Long homeFolderId) throws CvqException {
+        
+        List<Individual> individuals = 
+            individualDAO.listByHomeFolderRole(homeFolderId, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        
+        // here we can make the assumption that we properly enforced the role
+        return (Adult) individuals.get(0);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public List<Individual> getByHomeFolderRole(Long homeFolderId, RoleEnum role) {
+        return individualDAO.listByHomeFolderRole(homeFolderId, role);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public List<Individual> getBySubjectRole(Long subjectId, RoleEnum role) {
+        return individualDAO.listBySubjectRole(subjectId, role);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public List<Individual> getBySubjectRoles(Long subjectId, RoleEnum[] roles) {
+        return individualDAO.listBySubjectRoles(subjectId, roles);
+    }
+
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, String type) 
         throws CvqException {
         
-        logger.debug("getExternalAccounts() Home folder : " + homeFolderId);
-
-        Set<Request> requests = requestService.getByHomeFolderId(homeFolderId);
+        // FIXME : at least request optimization or even refactoring ?
+        List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
         Set<String> homeFolderRequestsTypes = new HashSet<String>();
         for (Request request : requests) {
             homeFolderRequestsTypes.add(request.getRequestType().getLabel());
@@ -257,10 +562,12 @@ public class HomeFolderService implements IHomeFolderService {
                 homeFolderRequestsTypes, type);
     }
 
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Map<Individual, Map<String, String>> getIndividualExternalAccountsInformation(Long homeFolderId) 
         throws CvqException {
 
-        Set<Request> requests = requestService.getByHomeFolderId(homeFolderId);
+        // FIXME : at least request optimization or even refactoring ?
+        List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
         Set<String> homeFolderRequestsTypes = new HashSet<String>();
         for (Request request : requests) {
             homeFolderRequestsTypes.add(request.getRequestType().getLabel());
@@ -282,7 +589,6 @@ public class HomeFolderService implements IHomeFolderService {
         externalService.loadInvoiceDetails(eii);
     }
 
-    @SuppressWarnings("unchecked")
     private void updateHomeFolderState(HomeFolder homeFolder, ActorState newState) 
 		throws CvqException {
 
@@ -297,7 +603,55 @@ public class HomeFolderService implements IHomeFolderService {
 		}
     }
     
-    /* FIXME : security checks */
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void onRequestArchived(Long homeFolderId, Long requestId) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            archive(homeFolder);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void onRequestCancelled(Long homeFolderId, Long requestId) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            invalidate(homeFolder);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void onRequestRejected(Long homeFolderId, Long requestId) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            invalidate(homeFolder);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void onRequestValidated(Long homeFolderId, Long requestId) throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            validate(homeFolder);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void onRequestDeleted(final Long homeFolderId, final Long requestId)
+        throws CvqException {
+        HomeFolder homeFolder = getById(homeFolderId);
+        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
+            logger.debug("onRequestDeleted() Home folder " + homeFolderId 
+                    + " belongs to request " + requestId + ", removing it from DB");
+            delete(homeFolder);
+        }
+    }
+
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public final void validate(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -305,14 +659,14 @@ public class HomeFolderService implements IHomeFolderService {
         validate(homeFolder);
     }
 
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public final void validate(HomeFolder homeFolder)
         throws CvqException, CvqObjectNotFoundException {
 
-        logger.debug("Gonna validate home folder : " + homeFolder.getId());
         updateHomeFolderState(homeFolder, ActorState.VALID);
     }
     
-    /* FIXME : security checks */
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public final void invalidate(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -320,13 +674,14 @@ public class HomeFolderService implements IHomeFolderService {
         invalidate(homeFolder);
     }
 
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public final void invalidate(HomeFolder homeFolder) 
         throws CvqException, CvqObjectNotFoundException {
 
-		logger.debug("Gonna invalidate home folder : " + homeFolder.getId());
 		updateHomeFolderState(homeFolder, ActorState.INVALID);
 	}
 
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public final void archive(final Long id) 
         throws CvqException, CvqObjectNotFoundException {
         
@@ -334,10 +689,10 @@ public class HomeFolderService implements IHomeFolderService {
         archive(homeFolder);
     }
 
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public final void archive(HomeFolder homeFolder) 
         throws CvqException, CvqObjectNotFoundException {
         
-        logger.debug("Gonna archive home folder : " + homeFolder.getId());
         updateHomeFolderState(homeFolder, ActorState.ARCHIVED);
         
         requestService.archiveHomeFolderRequests(homeFolder);
@@ -345,9 +700,10 @@ public class HomeFolderService implements IHomeFolderService {
 
     public void notifyPaymentByMail(Payment payment) throws CvqException {
     	
-        String mailSendTo = payment.getHomeFolder().getHomeFolderResponsible().getEmail();
+        Adult homeFolderResponsible = getHomeFolderResponsible(payment.getHomeFolder().getId());
+        String mailSendTo = homeFolderResponsible.getEmail();
         if (mailSendTo == null || mailSendTo.equals("")) {
-            logger.debug("notifyPaymentByMail() e-citizen has no email adress, returning");
+            logger.warn("notifyPaymentByMail() e-citizen has no email adress, returning");
             return;
         }
         
@@ -403,10 +759,6 @@ public class HomeFolderService implements IHomeFolderService {
         this.homeFolderDAO = homeFolderDAO;
     }
 
-   public final void setDocumentDAO(final IDocumentDAO documentDAO) {
-        this.documentDAO = documentDAO;
-    }
-
     public final void setChildDAO(final IChildDAO childDAO) {
         this.childDAO = childDAO;
     }
@@ -415,7 +767,11 @@ public class HomeFolderService implements IHomeFolderService {
         this.adultDAO = adultDAO;
     }
 
-	public void setGenericDAO(IGenericDAO genericDAO) {
+	public void setIndividualDAO(IIndividualDAO individualDAO) {
+        this.individualDAO = individualDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
 		this.genericDAO = genericDAO;
 	}
 
@@ -423,12 +779,8 @@ public class HomeFolderService implements IHomeFolderService {
         this.paymentService = paymentService;
     }
 
-    public void setAdultService(IAdultService adultService) {
-        this.adultService = adultService;
-    }
-
-    public void setChildService(IChildService childService) {
-        this.childService = childService;
+    public void setDocumentService(IDocumentService documentService) {
+        this.documentService = documentService;
     }
 
     public void setExternalService(IExternalService externalService) {

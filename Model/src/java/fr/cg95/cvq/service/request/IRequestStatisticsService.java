@@ -2,6 +2,8 @@ package fr.cg95.cvq.service.request;
 
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.util.Critere;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -15,12 +17,7 @@ public interface IRequestStatisticsService {
 
     /** service name used by Spring's application context */
 	String SERVICE_NAME = "requestStatisticsService";
-    String SEARCH_BY_REQUEST_TYPE = "requestType";
-    String SEARCH_BY_CATEGORY = "category";
-    String SEARCH_BY_STATE = "state";
-    String SEARCH_BY_RESULTING_STATE = "resultingState";
-    String SEARCH_BY_MODIFICATION_DATE = "modificationDate";
-
+	
     String QUALITY_TYPE_OK = "qualityTypeOk";
     String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     String QUALITY_TYPE_RED = "qualityTypeRed";
@@ -74,6 +71,6 @@ public interface IRequestStatisticsService {
      *
      * @see fr.cg95.cvq.business.authority.SiteProfile
      */
-    Long getCount(final Set criteriaSet)
+    Long getCount(final Set<Critere> criteriaSet)
         throws CvqException;
 }

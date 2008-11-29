@@ -20,7 +20,7 @@ import fr.cg95.cvq.service.request.IRequestService;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class RequestSeasonsJob {
+public class RequestSeasonsJob {
 
     private static Logger logger = Logger.getLogger(RequestSeasonsJob.class);
     
@@ -35,7 +35,7 @@ public final class RequestSeasonsJob {
     public void checkRequestsSeasons(final String localAuthorityName)
         throws CvqException {
     
-        Set<RequestType> requestTypes = requestService.getAllRequestTypes();
+        List<RequestType> requestTypes = requestService.getAllRequestTypes();
         for (RequestType requestType : requestTypes) {
             if (requestType.getSeasons() == null || requestType.getSeasons().isEmpty()) {
                 logger.debug("checkRequestsSeasons() no seasons defined for request type " 

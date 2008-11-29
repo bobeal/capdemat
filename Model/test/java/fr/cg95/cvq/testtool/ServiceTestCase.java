@@ -3,10 +3,9 @@ package fr.cg95.cvq.testtool;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -28,6 +27,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.FamilyStatusType;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -44,18 +44,18 @@ import fr.cg95.cvq.service.authority.IPlaceReservationService;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
-import fr.cg95.cvq.service.users.IAdultService;
 import fr.cg95.cvq.service.users.ICardService;
 import fr.cg95.cvq.service.users.ICertificateService;
-import fr.cg95.cvq.service.users.IChildService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public class ServiceTestCase
@@ -84,8 +84,7 @@ public class ServiceTestCase
     protected static IHomeFolderService iHomeFolderService;
     protected static IAuthenticationService iAuthenticationService;
     protected static IDocumentService iDocumentService;
-    protected static IAdultService iAdultService;
-    protected static IChildService iChildService;
+    protected static IDocumentTypeService iDocumentTypeService;
     protected static ICardService iCardService;
     protected static ICertificateService iCertificateService;
     protected static IPaymentService iPaymentService;
@@ -135,10 +134,7 @@ public class ServiceTestCase
                 iFakePaymentProviderService = 
                     (IPaymentProviderService) cac.getBean("fakePaymentProviderService");
 
-                iDocumentService = (IDocumentService) cac.getBean("documentService");
                 iIndividualService = (IIndividualService) cac.getBean("individualService");
-                iAdultService = (IAdultService) cac.getBean("adultService");
-                iChildService = (IChildService) cac.getBean("childService");
                 
                 iMeansOfContactService = 
                     (IMeansOfContactService) cac.getBean(IMeansOfContactService.SERVICE_NAME);
@@ -179,12 +175,12 @@ public class ServiceTestCase
 
                 Category category = new Category();
                 category.setName("General");
-                Set<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+                List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
                 for (RequestType requestType : requestTypesSet) {
                     requestType.setCategory(category);
                     genericDAO.update(requestType);
                 }
-                category.setRequestTypes(requestTypesSet);
+                category.setRequestTypes(new HashSet<RequestType>(requestTypesSet));
                 genericDAO.create(category);
                                 
                 Agent agent = bootstrapAgent(agentNameWithCategoriesRoles, category,
@@ -245,7 +241,7 @@ public class ServiceTestCase
         } catch (Exception e) {
             logger.error("got exception while starting new tx");
             e.printStackTrace();
-            throw new CvqException();
+            throw new CvqException("");
         }
     }
 
@@ -259,7 +255,7 @@ public class ServiceTestCase
             HibernateUtil.rollbackTransaction();
             HibernateUtil.closeSession();
         } catch (Exception e) {
-            throw new CvqException();
+            throw new CvqException("");
         }         
     }
     
@@ -273,6 +269,7 @@ public class ServiceTestCase
 
         try {
             continueWithNewTransaction();
+            
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             // to force re-association of agent within current session
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
@@ -298,7 +295,7 @@ public class ServiceTestCase
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             // ensure all requests have been deleted after each test
-            Assert.assertEquals(0, iRequestService.get(new HashSet(), null, true).size());
+            assertEquals(0, iRequestService.get(new HashSet<Critere>(), null, null, -1, 0).size());
             rollbackTransaction();
             SecurityContext.resetCurrentSite();
         } catch (Exception e) {
@@ -348,6 +345,14 @@ public class ServiceTestCase
         iHomeFolderService = homeFolderService;
     }
 
+    public void setDocumentService(IDocumentService documentService) {
+        iDocumentService = documentService;
+    }
+    
+    public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
+        iDocumentTypeService = documentTypeService;
+    }
+    
     public void setCardService(ICardService cardService) {
         iCardService = cardService;
     }
@@ -401,36 +406,38 @@ public class ServiceTestCase
     public CreationBean gimmeAnHomeFolder()
         throws CvqException {
 
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+
         VoCardRequest request = new VoCardRequest();
 
         address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
+
         homeFolderResponsible =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,
-                                              FamilyStatusType.MARRIED);
-        homeFolderResponsible.addHomeFolderResponsibleRole();
-        homeFolderResponsible.addHomeFolderFinancialResponsibleRole();
+                    FamilyStatusType.MARRIED);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleEnum.HOME_FOLDER_RESPONSIBLE);
         homeFolderResponsible.setPassword("toto");
 
         homeFolderWoman =
             BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "LASTNAME", "wife", address,
-                                              FamilyStatusType.MARRIED);
+                    FamilyStatusType.MARRIED);
         homeFolderUncle =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "uncle", address,
-                                              FamilyStatusType.SINGLE);
+                    FamilyStatusType.SINGLE);
         Set<Adult> adultSet = new HashSet<Adult>();
         adultSet.add(homeFolderResponsible);
         adultSet.add(homeFolderWoman);
         adultSet.add(homeFolderUncle);
 
-        child1 =
-            BusinessObjectsFactory.gimmeChild("LASTNAME", "childone", homeFolderResponsible,
-                                              homeFolderWoman, homeFolderUncle);
+        child1 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childone");
         child1.setSex(SexType.MALE);
-
-        child2 =
-            BusinessObjectsFactory.gimmeChild("LASTNAME", "childtwo", homeFolderResponsible,
-                                              null, null);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(homeFolderWoman, child1, RoleEnum.CLR_MOTHER);
+        iHomeFolderService.addIndividualRole(homeFolderUncle, child1, RoleEnum.CLR_TUTOR);
+        
+        child2 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childtwo");
         child2.setSex(SexType.MALE);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleEnum.CLR_FATHER);
 
         Set<Child> childSet = new HashSet<Child>();
         childSet.add(child1);
@@ -441,9 +448,10 @@ public class ServiceTestCase
         CreationBean cb = new CreationBean();
         cb.setRequestId(request.getId());
         voCardRequestId = request.getId();
+        cb.setHomeFolderId(request.getHomeFolderId());
         cb.setLogin(homeFolderResponsible.getLogin());
         
-        homeFolderVoCardRequestIds.put(request.getHomeFolder().getId(), voCardRequestId);
+        homeFolderVoCardRequestIds.put(request.getHomeFolderId(), voCardRequestId);
 
         return cb;
     }

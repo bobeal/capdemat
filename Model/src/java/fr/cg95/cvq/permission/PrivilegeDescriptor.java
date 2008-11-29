@@ -2,10 +2,15 @@ package fr.cg95.cvq.permission;
 
 import java.io.Serializable;
 
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+
 /**
  * Describes a privilege that can be granted or checked.
  *
  * @author bor@zenexity.fr
+ * 
+ * @deprecated
+ * @see ContextPrivilege
  */
 public class PrivilegeDescriptor implements Serializable {
 

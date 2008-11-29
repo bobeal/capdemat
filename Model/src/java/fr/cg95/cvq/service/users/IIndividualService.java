@@ -1,13 +1,18 @@
 package fr.cg95.cvq.service.users;
 
+import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.exception.CvqBadPasswordException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
@@ -21,27 +26,34 @@ public interface IIndividualService {
             boolean assignLogin)
         throws CvqException;
 
-    void modify(final Individual individual)
+    void modify(Individual individual)
         throws CvqException;
 
-    /**
-     * Get documents associated to an individual.
-     *
-     * As they are not automatically loaded from DB, they have to be explicitely
-     * asked for.
-     *
-     * @return a set of {@link fr.cg95.cvq.business.document.Document} objects
-     */
-    Set getAssociatedDocuments(final Long individualId)
-        throws CvqException, CvqObjectNotFoundException;
-
-    Set get(final Set criteriaSet, final String orderedBy, final boolean onlyIds,
+    void delete(Individual individual)
+        throws CvqException;
+    
+    List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy, 
             final boolean searchAmongArchived)
         throws CvqException;
 
     Individual getById(final Long id)
-        throws CvqException;
+        throws CvqObjectNotFoundException;
 
+    Adult getAdultById(final Long id)
+        throws CvqObjectNotFoundException;
+    
+    Child getChildById(final Long id)
+        throws CvqObjectNotFoundException;
+    
+    /**
+     * Get a child by its badge number.
+     *
+     * @deprecated badge number is not an information managed by CapDemat
+     *                         (kept for compatibility with Horanet)
+     */
+    Child getChildByBadgeNumber(final String badgeNumber)
+        throws CvqException;
+    
     Individual getByLogin(final String login)
         throws CvqException;
 
@@ -53,6 +65,9 @@ public interface IIndividualService {
      */
     Individual getByFederationKey(final String federationKey)
         throws CvqException;
+
+    void modifyPassword(final Adult adult, final String oldPassword, final String newPassword)
+        throws CvqException, CvqBadPasswordException;
 
     /**
      * delegated to {@link fr.cg95.cvq.authentication.IAuthenticationService}.

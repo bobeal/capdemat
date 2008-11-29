@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +23,6 @@ import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService;
@@ -56,7 +54,7 @@ public class RequestServiceRegistry
     private Map<String, IRequestService> servicesMap = new HashMap<String, IRequestService>();
 
     /** a list of all services interested in request types lifecycle */
-    protected Collection allListenerServices;
+    protected Collection<IRequestTypeLifecycleAware> allListenerServices;
 
     private ListableBeanFactory beanFactory;
 
@@ -65,8 +63,9 @@ public class RequestServiceRegistry
     }
 
     public void init() {
-        Map services = beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class, true, true);
-        if (!services.isEmpty()) {
+        Map<String, IRequestTypeLifecycleAware> services = 
+            beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class, true, true);
+        if (services != null && !services.isEmpty()) {
             allListenerServices = services.values();
         }
     }
@@ -90,7 +89,7 @@ public class RequestServiceRegistry
     }
 
     public IRequestService getRequestService(Long requestTypeId)
-        throws CvqPermissionException, CvqObjectNotFoundException {
+        throws CvqObjectNotFoundException {
         RequestType requestType = 
             (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
         return getRequestService(requestType.getLabel());
@@ -119,10 +118,7 @@ public class RequestServiceRegistry
 
         // notify listener services of the new request type
         if (allListenerServices != null) {
-            Iterator listenerIt = allListenerServices.iterator();
-            while (listenerIt.hasNext()) {
-                IRequestTypeLifecycleAware tempService =
-                    (IRequestTypeLifecycleAware) listenerIt.next();
+            for (IRequestTypeLifecycleAware tempService : allListenerServices) {
                 tempService.addRequestTypeService(service);
             }
         }
@@ -168,7 +164,7 @@ public class RequestServiceRegistry
         logger.debug("initRequestData() initializing " + serviceLabel 
                 + " for local authority " + localAuthorityName);
         
-        RequestType requestType = requestTypeDAO.findByName(serviceLabel);
+        RequestType requestType = requestTypeDAO.findByLabel(serviceLabel);
         if (requestType != null) {
             logger.debug("initRequestData() request type " + serviceLabel + " already registered");
             return;
@@ -208,7 +204,7 @@ public class RequestServiceRegistry
         requestFormDAO.update(requestForm);
     }
     
-    public List getServicesSupportingUnregisteredCreation() {
+    public List<IRequestService> getServicesSupportingUnregisteredCreation() {
         List<IRequestService> result = new ArrayList<IRequestService>();
         for (IRequestService requestService : servicesMap.values()) {
             if (requestService.supportUnregisteredCreation())
@@ -219,7 +215,7 @@ public class RequestServiceRegistry
     }
     
 
-    public List getServicesSupportingSeasons() {
+    public List<IRequestService> getServicesSupportingSeasons() {
         List<IRequestService> result = new ArrayList<IRequestService>();
         for (IRequestService requestService : servicesMap.values()) {
             if (requestService.isOfRegistrationKind())

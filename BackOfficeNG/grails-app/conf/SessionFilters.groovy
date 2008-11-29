@@ -118,24 +118,25 @@ class SessionFilters {
                                 agentService.updateUserProfiles(user, groups, userInformations);
                                 
                                 SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT)
-                                SecurityContext.setCurrentAgent(user)
-                                session.setAttribute("currentUser", user)
-                                log.debug("setting " + user + " on attribute " + CASFilter.CAS_FILTER_USER)
-                                session.setAttribute(CASFilter.CAS_FILTER_USER, user)
-                            } catch (CvqException e) {
-                                e.printStackTrace();
-                                throw new ServletException("Error while setting agent in security context");
-                            }
-                        } else {
-                            // set current user in security context for him to be available for using webapps
-                            try {
-                                SecurityContext.setCurrentAgent(user);
-                            } catch (CvqException e) {
-                                e.printStackTrace();
-                                throw new ServletException("Error while setting agent in security context");
-                            }
-                        }
-                }
+            	                SecurityContext.setCurrentAgent(user)
+            	                session.setAttribute("currentUser", user)
+            	                session.setAttribute("currentCredentialBean", SecurityContext.currentCredentialBean)
+            	                log.debug("setting " + user + " on attribute " + CASFilter.CAS_FILTER_USER)
+            	                session.setAttribute(CASFilter.CAS_FILTER_USER, user)
+            	            } catch (CvqException e) {
+            	                e.printStackTrace();
+            	                throw new ServletException("Error while setting agent in security context");
+            	            }
+            	        } else {
+            	            // set current user in security context for him to be available for using webapps
+            	            try {
+            	                SecurityContext.setCurrentAgent(user);
+            	            } catch (CvqException e) {
+            	                e.printStackTrace();
+            	                throw new ServletException("Error while setting agent in security context");
+            	            }
+            	        }
+            	}
             }
     }
 }

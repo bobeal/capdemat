@@ -2,14 +2,10 @@ package fr.cg95.cvq.service.request.social.impl;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlException;
-import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.DhrNotRealAsset;
 import fr.cg95.cvq.business.request.social.DhrRealAsset;
@@ -18,7 +14,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService;
-import fr.cg95.cvq.xml.request.social.DomesticHelpRequestDocument;
 
 /**
  * Implementation of the domestic help request service.
@@ -30,10 +25,11 @@ public class DomesticHelpRequestService extends RequestService implements
 
     static Logger logger = Logger.getLogger(DomesticHelpRequestService.class);
 
-    public Long create(final Request request, final Long requesterId) throws CvqException,
+    public Long create(final Request request) throws CvqException,
             CvqObjectNotFoundException {
 
         DomesticHelpRequest dhr = (DomesticHelpRequest) request;
+        performBusinessChecks(dhr);
 
         // FIXME : don't understand why I have to re-synchronize adults but not
         // addresses
@@ -44,42 +40,7 @@ public class DomesticHelpRequestService extends RequestService implements
         }
         processTotals(dhr);
 
-        initializeCommonAttributes(dhr, requesterId);
-
-        return create(dhr);
-    }
-
-    public Long create(Node node) throws CvqException {
-
-        DomesticHelpRequestDocument requestDocument = null;
-        try {
-            requestDocument = DomesticHelpRequestDocument.Factory.parse(node);
-        } catch (XmlException xe) {
-            logger.error("create() Error while parsing received data");
-            xe.printStackTrace();
-        }
-
-        DomesticHelpRequest request = DomesticHelpRequest.xmlToModel(requestDocument);
-        HomeFolder homeFolder = super.createOrSynchronizeHomeFolder(request);
-
-        // FIXME : don't understand why I have to re-synchronize adults but not
-        // addresses
-        Adult spouse = request.getSpouseInformation();
-        if (spouse != null) {
-            spouse = (Adult) genericDAO.findById(Adult.class, spouse.getId());
-            request.setSpouseInformation(spouse);
-        }
-        processTotals(request);
-
-        initializeCommonAttributes(request);
-
-        Long requestId = super.create(request);
-        if (homeFolder != null) {
-            homeFolder.setBoundToRequest(Boolean.valueOf(true));
-            homeFolder.setOriginRequestId(requestId);
-        }
-
-        return requestId;
+        return finalizeAndPersist(dhr);
     }
 
     public void modify(Request request) throws CvqException {

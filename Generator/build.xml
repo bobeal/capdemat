@@ -83,16 +83,10 @@
 
     <xmlbean destfile="${build.archives.dir}/${application.name}-RequestSchemas-${application.version}.jar" classpathref="classpath.compile">
       <fileset refid="generated-requests" />
-      <fileset dir="${src.xml.schema.dir}/common">
-        <include name="CapDematRequestList.xsd" />
-      </fileset>
       <!-- add XSD of non completely generated requests -->
       <fileset dir="${src.xml.schema.dir}/request">
         <include name="VoCardRequest.xsd" />
         <include name="HomeFolderModificationRequest.xsd" />
-      </fileset>
-      <fileset dir="${src.xml.schema.dir}/certificate">
-        <include name="DefaultCertificate.xsd" />
       </fileset>
       <fileset dir="${src.xml.schema.dir}/referential">
         <include name="ReferentialData.xsd" />

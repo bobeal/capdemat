@@ -5,7 +5,7 @@ import fr.cg95.cvq.service.users.*
 
 class InstructionService {
     IAgentService agentService
-    IAdultService adultService
+    IIndividualService individualService
     
     def getActionPosterDetails = { posterId ->
         def poster
@@ -15,7 +15,7 @@ class InstructionService {
         
         if(!poster){
             try {
-                poster = this.adultService.getById(Long.valueOf(posterId));
+                poster = this.individualService.getById(Long.valueOf(posterId));
             }catch (CvqObjectNotFoundException) {}
         }
         

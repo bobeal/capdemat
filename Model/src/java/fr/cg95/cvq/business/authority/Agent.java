@@ -1,7 +1,6 @@
 package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -27,21 +26,9 @@ public class Agent implements Serializable {
     private String firstName;
     private Boolean active;
 
-    private Set categoriesRoles;
-    private Set sitesRoles;
+    private Set<CategoryRoles> categoriesRoles;
+    private Set<SiteRoles> sitesRoles;
     private Hashtable<String, Hashtable<String, String>> preferences; 
-
-    /** full constructor */
-    public Agent(String login, String lastName, String firstName, 
-            Set categoriesRoles, Set sitesRoles, 
-            Hashtable<String, Hashtable<String, String>> preferences) {
-        this.login = login;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.categoriesRoles = categoriesRoles;
-        this.sitesRoles = sitesRoles;
-        this.preferences = preferences;
-    }
 
     /** default constructor */
     public Agent() {
@@ -105,11 +92,11 @@ public class Agent implements Serializable {
      * @hibernate.composite-element
      *  class="fr.cg95.cvq.business.authority.CategoryRoles"
      */
-    public Set getCategoriesRoles() {
+    public Set<CategoryRoles> getCategoriesRoles() {
         return this.categoriesRoles;
     }
 
-    public void setCategoriesRoles(Set categoriesRoles) {
+    public void setCategoriesRoles(Set<CategoryRoles> categoriesRoles) {
         this.categoriesRoles = categoriesRoles;
     }
 
@@ -122,11 +109,11 @@ public class Agent implements Serializable {
      * @hibernate.composite-element
      *  class="fr.cg95.cvq.business.authority.SiteRoles"
      */
-    public Set getSitesRoles() {
+    public Set<SiteRoles> getSitesRoles() {
         return this.sitesRoles;
     }
 
-    public void setSitesRoles(Set sitesRoles) {
+    public void setSitesRoles(Set<SiteRoles> sitesRoles) {
         this.sitesRoles = sitesRoles;
     }
 
@@ -157,6 +144,7 @@ public class Agent implements Serializable {
     
     public String toString() {
         return new ToStringBuilder(this)
+            .append("login", getLogin())
             .append("id", getId())
             .toString();
     }

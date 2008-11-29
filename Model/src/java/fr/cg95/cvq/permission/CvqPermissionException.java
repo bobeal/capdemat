@@ -9,6 +9,8 @@ import fr.cg95.cvq.exception.CvqException;
  * 
  * @author dom@idealx.com
  * @author bor@zenexity.fr
+ * 
+ * @deprecated
  */
 public class CvqPermissionException extends CvqException {
 

@@ -6,10 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
+
 import fr.cg95.cvq.business.document.DepositOrigin;
 import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
@@ -21,6 +22,7 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqBadPageNumberException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
@@ -39,20 +41,18 @@ public class DocumentServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         // ensure all document types have been bootstrapped
-        Set allDocumentTypes = iDocumentService.getAllDocumentTypes();
-        Assert.assertEquals(34, allDocumentTypes.size());
+        List<DocumentType> allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
+        assertEquals(34, allDocumentTypes.size());
         
         // create background data
         CreationBean cb = gimmeAnHomeFolder();
-        Long requestId = cb.getRequestId();
         String responsibleLogin = cb.getLogin();
 
         SecurityContext.setCurrentEcitizen(responsibleLogin);
 
         // get home folder id from request id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
 
         // get individuals from home folder id
         Critere crit = new Critere();
@@ -61,19 +61,20 @@ public class DocumentServiceTest extends ServiceTestCase {
         crit.setValue(String.valueOf(homeFolderId));
         Set<Critere> criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
-        Set individualsSet = iIndividualService.get(criteriaSet, null, false, false);
-        Assert.assertEquals(individualsSet.size(), 5);
+        List<Individual> individuals = iIndividualService.get(criteriaSet, null, false);
+        Assert.assertEquals(5, individuals.size());
 
-        Individual anIndividual = (Individual) individualsSet.iterator().next();
+        Individual anIndividual = individuals.get(0);
 
         // create a document
         Document doc = new Document();
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));
-
-        Long docId = iDocumentService.create(doc, homeFolderId, anIndividual.getId());
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setHomeFolderId(homeFolderId);
+        doc.setIndividualId(anIndividual.getId());
+        Long docId = iDocumentService.create(doc);
 
         // add binary data
         DocumentBinary docBin = new DocumentBinary();
@@ -103,22 +104,25 @@ public class DocumentServiceTest extends ServiceTestCase {
 
         // check the document and its two binary have been successfully added ...
         // ... to the home folder
-        Set documentsSet = iHomeFolderService.getAssociatedDocuments(homeFolderId);
-        Assert.assertEquals("Bad number of associated documents on home folder", documentsSet.size(), 1);
-        Set docBinarySet = iDocumentService.getAllPages(docId);
-        Assert.assertEquals("Bad number of associated data on document", docBinarySet.size(), 2);
+        List<Document> documentsList = iDocumentService.getHomeFolderDocuments(homeFolderId);
+        assertEquals("Bad number of associated documents on home folder", 1, documentsList.size());
+        Set<DocumentBinary> docBinarySet = iDocumentService.getAllPages(docId);
+        assertEquals("Bad number of associated data on document", 2, docBinarySet.size());
         Integer pagesNumber = iDocumentService.getPagesNumber(docId);
-        Assert.assertEquals("Bad number of associated pages on document", pagesNumber.intValue(), 2);
+        assertEquals("Bad number of associated pages on document", 2, pagesNumber.intValue());
 
         // ... and to the individual
-        documentsSet = iIndividualService.getAssociatedDocuments(anIndividual.getId());
-        Assert.assertEquals("Bad number of associated documents on individual", documentsSet.size(), 1);
-        documentsSet = iIndividualService.getAssociatedDocuments(new Long(0));
-        Assert.assertEquals("Bad number of associated documents on individual", documentsSet.size(), 0);
+        documentsList = iDocumentService.getIndividualDocuments(anIndividual.getId());
+        assertEquals("Bad number of associated documents on individual", 1, documentsList.size());
+        try {
+            documentsList = iDocumentService.getIndividualDocuments(new Long(0));
+            fail("should have thrown an exception");
+        } catch (PermissionException pe) {
+            // that was expected
+        }
 
         // modify a page
-        Iterator docBinaryIt = docBinarySet.iterator();
-        DocumentBinary docBin1 = (DocumentBinary) docBinaryIt.next();
+        DocumentBinary docBin1 = docBinarySet.iterator().next();
         file = getResourceFile("family_notebook.jpg");
         data = new byte[(int) file.length()];
         fis = new FileInputStream(file);
@@ -129,9 +133,9 @@ public class DocumentServiceTest extends ServiceTestCase {
         // remove a page
         iDocumentService.deletePage(docId, new Integer(2));
         docBinarySet = iDocumentService.getAllPages(doc.getId());
-        Assert.assertEquals("Bad number of associated data on document", docBinarySet.size(), 1);
+        assertEquals("Bad number of associated data on document", 1, docBinarySet.size());
         docBin1 = iDocumentService.getPage(docId, new Integer(1));
-        Assert.assertNotNull("Could find page", docBin1);
+        assertNotNull("Could find page", docBin1);
 
         try {
             docBin1 = iDocumentService.getPage(docId, new Integer(2));
@@ -142,19 +146,19 @@ public class DocumentServiceTest extends ServiceTestCase {
 
         // try to retrieve the list of identity pieces for home folder
         DocumentType docType =
-            iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE);
-        documentsSet =
+            iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
+        documentsList =
             iDocumentService.getProvidedDocuments(docType, homeFolderId, null);
-        Assert.assertEquals("Bad number of docs for home folder (1)", documentsSet.size(), 1);
+        assertEquals("Bad number of docs for home folder (1)", 1, documentsList.size());
         // and try other successful and unsuccessful searches among provided documents
-        documentsSet =
+        documentsList =
             iDocumentService.getProvidedDocuments(docType, homeFolderId, anIndividual.getId());
-        Assert.assertEquals("Bad number of docs for home folder and individual", documentsSet.size(), 1);
+        assertEquals("Bad number of docs for home folder and individual", 1, documentsList.size());
         docType =
-            iDocumentService.getDocumentTypeById(IDocumentService.MEDICAL_CERTIFICATE_TYPE);
-        documentsSet =
+            iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.MEDICAL_CERTIFICATE_TYPE);
+        documentsList =
             iDocumentService.getProvidedDocuments(docType, homeFolderId, null);
-        Assert.assertEquals("Bad number of docs for home folder (2)", documentsSet.size(), 0);
+        assertEquals("Bad number of docs for home folder (2)", 0, documentsList.size());
 
         // test end validity durations by creating different sort of doc types
         // based on example data from $BASE_DIR/db/init_ref_data.sql
@@ -164,40 +168,46 @@ public class DocumentServiceTest extends ServiceTestCase {
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));
-        iDocumentService.create(doc, homeFolderId, anIndividual.getId());
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setHomeFolderId(homeFolderId);
+        doc.setIndividualId(anIndividual.getId());
+        iDocumentService.create(doc);
 
         // ... a 3-year valid
         doc = new Document();
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.DOMICILE_RECEIPT_TYPE));
-        iDocumentService.create(doc, homeFolderId, null);
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.DOMICILE_RECEIPT_TYPE));
+        doc.setHomeFolderId(homeFolderId);
+        iDocumentService.create(doc);
 
         // ... a 2-month valid
         doc = new Document();
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.ID_CARD_LOSS_DECLARATION_TYPE));
-        Long docId3 = iDocumentService.create(doc, homeFolderId, null);
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.ID_CARD_LOSS_DECLARATION_TYPE));
+        doc.setHomeFolderId(homeFolderId);
+        Long docId3 = iDocumentService.create(doc);
 
         // ... an end-of-the-year valid
         doc = new Document();
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.TAXES_NOTIFICATION_TYPE));
-        Long docId4 = iDocumentService.create(doc, homeFolderId, null);
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.TAXES_NOTIFICATION_TYPE));
+        doc.setHomeFolderId(homeFolderId);
+        Long docId4 = iDocumentService.create(doc);
 
         // ... an end-of-the-school-year valid
         doc = new Document();
         doc.setDepositId(anIndividual.getId());
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.VACATING_CERTIFICATE_TYPE));
-        iDocumentService.create(doc, homeFolderId, null);
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.VACATING_CERTIFICATE_TYPE));
+        doc.setHomeFolderId(homeFolderId);
+        iDocumentService.create(doc);
 
         // delete a document
         iDocumentService.delete(docId3);
@@ -218,39 +228,61 @@ public class DocumentServiceTest extends ServiceTestCase {
         logger.debug("Doc end validity date : " + doc.getEndValidityDate());
 
         // hmm ? just a test :-)
-        iDocumentService.modify(null);
-
-        // retrieve all known document types
-        allDocumentTypes = iDocumentService.getAllDocumentTypes();
-        Assert.assertNotNull(allDocumentTypes);
+        try {
+            iDocumentService.modify(null);
+            fail("should have thrown an exception");
+        } catch (PermissionException pe) {
+            // that was expected
+        }
         
-        SecurityContext.resetCurrentSite();
+        // retrieve all known document types
+        allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
+        Assert.assertNotNull(allDocumentTypes);
     }
     
-    public void testSearch() throws CvqException {
+    public void testCreate() throws CvqException {
+        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         CreationBean cb = gimmeAnHomeFolder();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
-        Individual individual = homeFolder.getHomeFolderResponsible();
+        continueWithNewTransaction();
         
-        Document doc = new Document();
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.ADOPTION_JUDGMENT_TYPE));
-        iDocumentService.create(doc, homeFolder.getId(), individual.getId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        Individual individual = iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        DocumentType documentType =
+            iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
-        doc = new Document();
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.BANK_IDENTITY_RECEIPT_TYPE));
-        iDocumentService.create(doc, null, individual.getId());
-        
-        doc = new Document();
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.BANK_STATEMENT_TYPE));
-        iDocumentService.create(doc, homeFolder.getId(), null);
-        
-        commitTransaction();
-        
-        Set fetchDocuments = iDocumentService.getAll();
-        Assert.assertEquals(fetchDocuments.size(), 3);
+        Document document = new Document();
+        document.setDocumentType(documentType);
+        document.setHomeFolderId(homeFolder.getId());
+        document.setIndividualId(new Long(individual.getId().longValue()));
+        iDocumentService.create(document);
+        Long documentId = document.getId();
+   
+        try {
+            iDocumentService.check(documentId, null);
+            fail("should have thrown an exception");
+        } catch (PermissionException pe) {
+            // that was expected
+        }
 
+        document = new Document();
+        document.setDocumentType(documentType);
+        document.setHomeFolderId(Long.valueOf("0"));
+        try {
+            iDocumentService.create(document);
+            fail("should have thrown an exception");
+        } catch (PermissionException pe) {
+            // that was expected
+        }
+
+        continueWithNewTransaction();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        
+        iDocumentService.check(documentId, null);
+        iDocumentService.getById(documentId);
     }
 }

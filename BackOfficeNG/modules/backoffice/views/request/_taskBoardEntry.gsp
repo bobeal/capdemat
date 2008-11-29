@@ -5,7 +5,7 @@
     </strong>
   </a>
   - <g:message code="request.searchResult.requestId" /> <strong>${record.id}</strong>
-  - <g:message code="layout.from" /> <strong>${record.requester.lastName}</strong>
+  - <g:message code="layout.from" /> <strong>${record.requesterLastName}</strong>
 
   <g:message code="request.searchResult.creationDate" />
   <strong>

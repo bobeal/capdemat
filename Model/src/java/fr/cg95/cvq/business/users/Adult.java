@@ -1,9 +1,6 @@
 package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
-import java.util.Set;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.AdultType;
 
@@ -20,11 +17,6 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int HOME_FOLDER_RESPONSIBLE = 1;
-    private static final int HOME_FOLDER_FINANCIAL_RESPONSIBLE = 2;
-
-    private int homeFolderRoles;
-
     private TitleType title;
     private String maidenName;
     private String nameOfUse;
@@ -38,9 +30,6 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     private String question;
     private String answer;
     private String password;
-
-    /** the set of requests issued for this adult */
-    private Set requests;
 
     /** default constructor */
     public Adult() {
@@ -82,11 +71,6 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
             adultType.setQuestion(adult.getQuestion());
         if (adult.getAnswer() != null)
             adultType.setAnswer(adult.getAnswer());
-
-        if (adult.isHomeFolderResponsible())
-            adultType.setIsHomeFolderResponsible(true);
-        else
-            adultType.setIsHomeFolderResponsible(false);
             
         return adultType;
     }
@@ -115,63 +99,11 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
                 adult.setQuestion(adultType.getQuestion());
             if (adultType.getAnswer() != null)
                 adult.setAnswer(adultType.getAnswer());
-            if (adultType.getIsHomeFolderResponsible())
-                adult.addHomeFolderResponsibleRole();
             
             return adult;
         } else {
             return null;
         }
-    }
-
-    public void setHomeFolderRoles(Integer homeFolderRoles) {
-        if (homeFolderRoles != null)
-            this.homeFolderRoles = homeFolderRoles.intValue();
-    }
-
-    public void setHomeFolderRoles(int homeFolderRoles) {
-        this.homeFolderRoles = homeFolderRoles;
-    }
-
-    public void setHomeFolderRoles(String homeFolderRoles) {
-        if (homeFolderRoles != null)
-            this.homeFolderRoles = Integer.parseInt(homeFolderRoles);
-    }
-
-    public Integer getHomeFolderRolesAsInteger() {
-        return new Integer(homeFolderRoles);
-    }
-
-    /**
-     * @hibernate.property
-     *  column="home_folder_roles"
-     */
-    public int getHomeFolderRoles() {
-        return homeFolderRoles;
-    }
-
-    public boolean isHomeFolderResponsible() {
-        return ((homeFolderRoles & HOME_FOLDER_RESPONSIBLE) == HOME_FOLDER_RESPONSIBLE);
-    }
-
-    public boolean isHomeFolderFinancialResponsible() {
-        return ((homeFolderRoles & HOME_FOLDER_FINANCIAL_RESPONSIBLE) == HOME_FOLDER_FINANCIAL_RESPONSIBLE);
-    }
-
-    public void addHomeFolderResponsibleRole() {
-        homeFolderRoles = homeFolderRoles | HOME_FOLDER_RESPONSIBLE;
-    }
-
-    public void addHomeFolderFinancialResponsibleRole() {
-        homeFolderRoles = homeFolderRoles | HOME_FOLDER_FINANCIAL_RESPONSIBLE;
-    }
-
-    public void removeHomeFolderResponsibleRole() {
-        homeFolderRoles = homeFolderRoles & (~ HOME_FOLDER_RESPONSIBLE);
-    }
-
-    public void removeHomeFolderFinancialResponsibleRole() {
-        homeFolderRoles = homeFolderRoles & (~ HOME_FOLDER_FINANCIAL_RESPONSIBLE);
     }
 
     /**
@@ -354,29 +286,4 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     public void setPassword(String password) {
         this.password = password;
     }
-
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     *  cascade="delete"
-     * @hibernate.key
-     *  column="requester_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.Request"
-     */
-    public Set getRequests() {
-        return this.requests;
-    }
-
-    public void setRequests(Set requests) {
-        this.requests = requests;
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this)
-            .append("id", getId())
-            .toString();
-    }
-
 }

@@ -6,9 +6,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
-
 
 /** 
  * @hibernate.class
@@ -20,7 +17,7 @@ import fr.cg95.cvq.business.users.Individual;
 public class Document implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	/** identifier field */
     private Long id;
     /** creation date of the document in the system, set by the model */
@@ -34,14 +31,15 @@ public class Document implements Serializable {
     private DepositType depositType;
     private DepositOrigin depositOrigin;
     private Long depositId;
-    private HomeFolder homeFolder;
-    private Individual individual;
+
+    private Long homeFolderId;
+    private Long individualId;
+    
     private DocumentType documentType;
     private Boolean certified;
     
-    private Set datas;
-    private Set requests;
-    private Set actions;
+    private Set<DocumentBinary> datas;
+    private Set<DocumentAction> actions;
 
     /** default constructor */
     public Document() {
@@ -172,29 +170,27 @@ public class Document implements Serializable {
     }
 
     /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.HomeFolder"
+     * @hibernate.property
      *  column="home_folder_id"
      */
-    public HomeFolder getHomeFolder() {
-        return this.homeFolder;
+    public Long getHomeFolderId() {
+        return this.homeFolderId;
     }
 
-    public void setHomeFolder(HomeFolder homeFolder) {
-        this.homeFolder = homeFolder;
+    public void setHomeFolderId(Long homeFolderId) {
+        this.homeFolderId = homeFolderId;
     }
 
     /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.Individual"
+     * @hibernate.property
      *  column="individual_id"
      */
-    public Individual getIndividual() {
-        return this.individual;
+    public Long getIndividualId() {
+        return this.individualId;
     }
 
-    public void setIndividual(Individual individual) {
-        this.individual = individual;
+    public void setIndividualId(Long individualId) {
+        this.individualId = individualId;
     }
 
     /**
@@ -223,57 +219,37 @@ public class Document implements Serializable {
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
-     *  cascade="delete"
+     *  cascade="all"
      *  order-by="page_number asc"
      * @hibernate.key
      *  column="document_id"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.document.DocumentBinary"
      */
-    public Set getDatas() {
+    public Set<DocumentBinary> getDatas() {
         return this.datas;
     }
 
-    public void setDatas(Set datas) {
+    public void setDatas(Set<DocumentBinary> datas) {
         this.datas = datas;
     }
 
     /**
      * @hibernate.set
      *  lazy="true"
-     *  table="request_document_map"
-     * @hibernate.key
-     *  column="document_id"
-     * @hibernate.many-to-many
-     *  class="fr.cg95.cvq.business.request.Request"
-     *  column="request_id"
-     */
-    public Set getRequests() {
-        return this.requests;
-    }
-
-    public void setRequests(Set requests) {
-        this.requests = requests;
-    }
-
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     *  cascade="delete"
+     *  cascade="all"
      *  order-by="id"
      * @hibernate.key
      *  column="document_id"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.document.DocumentAction"
      */
-    public Set getActions() {
+    public Set<DocumentAction> getActions() {
         return this.actions;
     }
 
-    public void setActions(Set actions) {
+    public void setActions(Set<DocumentAction> actions) {
         this.actions = actions;
     }
 

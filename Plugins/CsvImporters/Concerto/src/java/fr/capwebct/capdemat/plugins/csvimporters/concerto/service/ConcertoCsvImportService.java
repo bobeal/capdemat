@@ -22,11 +22,10 @@ import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.LegalResponsibleRole;
 import fr.cg95.cvq.business.users.LocalReferentialData;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ISchoolService;
@@ -160,8 +159,8 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                     cdto = new ConcertoDataTransfertObject();
                     cdto.setAddress(currentAddress);
                     
-                    currentHomeFolderResponsible.addHomeFolderResponsibleRole();
-                    currentHomeFolderResponsible.addHomeFolderFinancialResponsibleRole();
+                    homeFolderService.addHomeFolderRole(currentHomeFolderResponsible, 
+                            RoleEnum.HOME_FOLDER_RESPONSIBLE);
                     currentHomeFolderResponsible.setPassword(authenticationService.generatePassword());
                     cdto.setHomeFolderResponsible(currentHomeFolderResponsible);
                     cdto.getAdults().add(currentHomeFolderResponsible);
@@ -180,7 +179,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // queue the child school registration
                 SchoolRegistrationRequest srr = concertoLine.getSrr();
-                srr.setSubject(child);
+                srr.setSubjectId(child.getId());
                 srr.setRulesAndRegulationsAcceptance(Boolean.TRUE);
                 srr.setSchool(school);
                 cdto.getChildrenSchoolRegistrations().add(srr);
@@ -188,7 +187,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 // queue the child for upcoming school canteen registration
                 if (concertoLine.isRegisteredToSchoolCanteen()) {
                     SchoolCanteenRegistrationRequest scrr = concertoLine.getScrr();
-                    scrr.setSubject(child);
+                    scrr.setSubjectId(child.getId());
                     scrr.setHospitalizationPermission(Boolean.TRUE);
                     scrr.setRulesAndRegulationsAcceptance(Boolean.TRUE);
                     scrr.setSchool(school);
@@ -199,7 +198,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 if (concertoLine.isRegisteredToPerischoolActivity()) {
                     PerischoolActivityRegistrationRequest parr = 
                         new PerischoolActivityRegistrationRequest();
-                    parr.setSubject(child);
+                    parr.setSubjectId(child.getId());
                     parr.setHospitalizationPermission(Boolean.TRUE);
                     parr.setRulesAndRegulationsAcceptance(Boolean.TRUE);
                     parr.setChildPhotoExploitationPermission(Boolean.TRUE);
@@ -257,7 +256,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 VoCardRequest voCardRequest = new VoCardRequest();
                 voCardRequestService.create(voCardRequest, cdto.getAdults(), 
                         cdto.getChildren(), cdto.getAddress());
-                HomeFolder homeFolder = homeFolderService.getByRequestId(voCardRequest.getId());
+                HomeFolder homeFolder = homeFolderService.getById(voCardRequest.getHomeFolderId());
 
                 // if known, add family quotient information to home folder
                 String familyQuotient = cdto.getFamilyQuotient();
@@ -270,8 +269,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // create school registrations
                 for (SchoolRegistrationRequest srr : cdto.getChildrenSchoolRegistrations()) {
-                    schoolRegistrationRequestService.create(srr, 
-                            homeFolder.getHomeFolderResponsible().getId());
+                    schoolRegistrationRequestService.create(srr);
                     schoolRegistrationRequestService.complete(srr);
                     schoolRegistrationRequestService.validate(srr);
                     logger.debug("importData() created school registration request : " + srr.getId());
@@ -279,16 +277,14 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // create school canteen registrations
                 for (SchoolCanteenRegistrationRequest scrr : cdto.getChildrenSchoolCanteenRegistrations()) {
-                    schoolCanteenRegistrationRequestService.create(scrr, 
-                            homeFolder.getHomeFolderResponsible().getId());
+                    schoolCanteenRegistrationRequestService.create(scrr);
                     logger.debug("importData() created school canteen registration request : " 
                             + scrr.getId());
                 }
                 
                 // create perischool activity registrations
                 for (PerischoolActivityRegistrationRequest parr : cdto.getChildrenPerischoolActivityRegistrations()) {
-                    perischoolActivityRegistrationRequestService.create(parr, 
-                            homeFolder.getHomeFolderResponsible().getId());
+                    perischoolActivityRegistrationRequestService.create(parr);
                     logger.debug("importData() created perischool activity registration request : " 
                             + parr.getId());
                 }
@@ -371,19 +367,16 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
         return true;
     }
     
-    private void addLegalResponsibleToChild(Child child, Adult adult) {
-        ChildLegalResponsible clr = new ChildLegalResponsible();
-        clr.setChild(child);
-        clr.setLegalResponsible(adult);
+    private void addLegalResponsibleToChild(Child child, Adult adult) throws CvqException {
+
         if (adult.getTitle().equals(TitleType.MISTER)) {
-            clr.setRole(LegalResponsibleRole.FATHER);
+            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_FATHER);
         } else if (adult.getTitle().equals(TitleType.MADAM)
                 || adult.getTitle().equals(TitleType.MISS)) {
-            clr.setRole(LegalResponsibleRole.MOTHER);
+            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_MOTHER);
         } else {
-            clr.setRole(LegalResponsibleRole.TUTOR);
+            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_TUTOR);
         }
-        child.addLegalResponsible(clr);
     }
     
     private Adult getAdultCopyFromAdults(Set<Adult> adults, Adult adult) {

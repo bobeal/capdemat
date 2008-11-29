@@ -45,8 +45,8 @@ import fr.cg95.cvq.service.request.urbanism.SewerConnectionRequestServiceTest;
 import fr.cg95.cvq.service.users.HomeFolderModificationRequestServiceTest;
 import fr.cg95.cvq.service.users.HomeFolderServiceTest;
 import fr.cg95.cvq.service.users.MeansOfContactServiceTest;
-import fr.cg95.cvq.service.users.job.RequestSeasonsJobTest;
-import fr.cg95.cvq.service.users.job.RequestXmlGenerationJobTest;
+import fr.cg95.cvq.service.request.job.RequestSeasonsJobTest;
+import fr.cg95.cvq.service.request.job.RequestXmlGenerationJobTest;
 
 public class CapdematTestSuite extends TestSuite {
 

@@ -11,6 +11,7 @@ import org.jmock.Mockery;
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
@@ -40,7 +41,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 
         // test the creation 
         
@@ -79,9 +80,12 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         assertNotNull(esimFromDb.getExternalCapDematId());
         
         // test the addition of individuals mappings
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
+        Adult homeFolderResponsible = 
+            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         externalService.addIndividualMapping(EXTERNAL_SERVICE_LABEL, 
-                homeFolder.getId(), homeFolder.getHomeFolderResponsible().getId(), 
+                homeFolder.getId(), homeFolderResponsible.getId(), 
                 "External Individual Id 1");
         
         continueWithNewTransaction();
@@ -93,7 +97,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         Set<ExternalServiceIndividualMapping> esimIndividuals = esimFromDb.getIndividualsMappings();
         assertEquals(1, esimIndividuals.size());
         ExternalServiceIndividualMapping esimIndividual = esimIndividuals.iterator().next();
-        assertEquals(homeFolder.getHomeFolderResponsible().getId(), 
+        assertEquals(homeFolderResponsible.getId(), 
                 esimIndividual.getIndividualId());
         assertEquals("External Individual Id 1", esimIndividual.getExternalId());
         assertNotNull(esimIndividual.getExternalCapDematId());
@@ -101,7 +105,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         // test the override of individuals
         
         externalService.addIndividualMapping(EXTERNAL_SERVICE_LABEL, 
-                homeFolder.getId(), homeFolder.getHomeFolderResponsible().getId(), "External Individual Id 2");
+                homeFolder.getId(), homeFolderResponsible.getId(), "External Individual Id 2");
         
         continueWithNewTransaction();
         
@@ -131,7 +135,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         CreationBean cb = gimmeAnHomeFolder();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 
         // create a mapping and test the retrieval
         
@@ -161,7 +165,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         cb = gimmeAnHomeFolder();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
@@ -228,7 +232,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         CreationBean cb = gimmeAnHomeFolder();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 
         // create a mapping and test the retrieval
         

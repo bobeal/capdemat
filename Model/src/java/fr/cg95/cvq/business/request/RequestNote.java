@@ -21,7 +21,6 @@ public class RequestNote implements Serializable {
     private Long agentId;
     private RequestNoteType type;
     private String note;
-    private Request request;
 
     /** default constructor */
     public RequestNote() {
@@ -75,19 +74,6 @@ public class RequestNote implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.request.Request"
-     *  column="request_id"
-     */
-    public Request getRequest() {
-        return this.request;
-    }
-
-    public void setRequest(Request request) {
-        this.request = request;
     }
 
     public String toString() {

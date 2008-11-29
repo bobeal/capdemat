@@ -8,11 +8,6 @@ import java.util.Set;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.xmlbeans.XmlObject;
 
-import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
-
 
 /**
  * Represent a request issued by an e-citizen.
@@ -30,25 +25,26 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_REQUEST_ID = "id";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
     public static final String SEARCH_BY_REQUESTER_LASTNAME = "requesterLastName";
-    public static final String SEARCH_BY_REQUESTER_FIRSTNAME = "requesterFirstName";
     public static final String SEARCH_BY_CATEGORY_NAME = "categoryName";
-    public static final String SEARCH_BY_STATE = "state";
-    public static final String SEARCH_BY_CREATION_DATE = "creationDate";
+    public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
+    public static final String SEARCH_BY_REQUEST_TYPE_ID = "requestTypeId";
     public static final String SEARCH_BY_REQUEST_TYPE_LABEL = "requestTypeLabel";
-    public static final String SEARCH_BY_LAST_INTERVENING_AGENT_ID = "lastInterveningAgentId";
+    public static final String SEARCH_BY_STATE = "state";    
+    public static final String SEARCH_BY_CREATION_DATE = "creationDate";
     public static final String SEARCH_BY_LAST_MODIFICATION_DATE = "lastModificationDate";
+    public static final String SEARCH_BY_LAST_INTERVENING_AGENT_ID = "lastInterveningAgentId";
     public static final String SEARCH_BY_QUALITY_TYPE = "qualityType";
 	
-	public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
-	public static final String SEARCH_BY_MODIFICATION_DATE = "modificationDate";
+    public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
+    public static final String SEARCH_BY_MODIFICATION_DATE = "modificationDate";
 
-	public static final String QUALITY_TYPE_OK = "qualityTypeOk";
-	public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
-	public static final String QUALITY_TYPE_RED = "qualityTypeRed";
+    public static final String QUALITY_TYPE_OK = "qualityTypeOk";
+    public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
+    public static final String QUALITY_TYPE_RED = "qualityTypeRed";
+
     
-	/** identifier field */
+    /** identifier field */
     private Long id;
-    private HomeFolder homeFolder;
     private Date creationDate;
     private Date lastModificationDate;
     private Date validationDate;
@@ -58,8 +54,6 @@ public abstract class Request implements Serializable {
     private MeansOfContact meansOfContact;
     /** the request's step, instruction or delivery, set by the model */
     private RequestStep step;
-    private Adult requester;
-    private Object subject;
     private RequestType requestType;
     /** for request types that have seasons, keep the season uuid */
     private String seasonUuid;
@@ -67,10 +61,18 @@ public abstract class Request implements Serializable {
     private Boolean orangeAlert;
     /** QoS level 2 : instruction delay has expired. */
     private Boolean redAlert;
+
+    private Long homeFolderId;
+    private Long requesterId;
+    private String requesterLastName;
+    private String requesterFirstName;
+    private Long subjectId;
+    private String subjectLastName;
+    private String subjectFirstName;
     
-    private Set documents;
-    private Set actions;
-    private Set notes;
+    private Set<RequestDocument> documents;
+    private Set<RequestAction> actions;
+    private Set<RequestNote> notes;
 
     public Request() {
     }
@@ -113,6 +115,8 @@ public abstract class Request implements Serializable {
         
         if (this.step != null)
             requestType.setStep(fr.cg95.cvq.xml.common.RequestType.Step.Enum.forString(this.step.toString()));
+        // TODO REFACTORING
+        /*
         if (requester != null) {
             requestType.setRequester(Adult.modelToXml(requester));
         }
@@ -128,6 +132,7 @@ public abstract class Request implements Serializable {
                 requestType.addNewSubject().setIndividual(Individual.modelToXml((Individual) subject));
             }
         }
+        */
     }
 
     public void fillCommonModelInfo(Request request,
@@ -156,6 +161,8 @@ public abstract class Request implements Serializable {
         
         if (requestType.getStep() != null)
             request.setStep(RequestStep.forString(requestType.getStep().toString()));
+        // TODO REFACTORING
+        /*
         if (requestType.getRequester() != null)
             request.setRequester(Adult.xmlToModel(requestType.getRequester()));
         if (requestType.getHomeFolder() != null)
@@ -169,6 +176,7 @@ public abstract class Request implements Serializable {
                 request.setSubject(Child.xmlToModel(requestType.getSubject().getChild()));
             }
         }
+        */
     }
 
     /**
@@ -185,16 +193,15 @@ public abstract class Request implements Serializable {
     }
 
     /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.HomeFolder"
+     * @hibernate.property
      *  column="home_folder_id"
      */
-    public HomeFolder getHomeFolder() {
-        return this.homeFolder;
+    public Long getHomeFolderId() {
+        return this.homeFolderId;
     }
 
-    public void setHomeFolder(HomeFolder homeFolder) {
-        this.homeFolder = homeFolder;
+    public void setHomeFolderId(Long homeFolderId) {
+        this.homeFolderId = homeFolderId;
     }
 
     /**
@@ -288,16 +295,39 @@ public abstract class Request implements Serializable {
     }
 
     /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.Adult"
+     * @hibernate.property
      *  column="requester_id"
      */
-    public Adult getRequester() {
-        return this.requester;
+    public Long getRequesterId() {
+        return this.requesterId;
     }
 
-    public void setRequester(Adult requester) {
-        this.requester = requester;
+    public void setRequesterId(Long requesterId) {
+        this.requesterId = requesterId;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="requester_last_name"
+     */
+    public String getRequesterLastName() {
+        return requesterLastName;
+    }
+
+    public void setRequesterLastName(String requesterLastName) {
+        this.requesterLastName = requesterLastName;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="requester_first_name"
+     */
+    public String getRequesterFirstName() {
+        return requesterFirstName;
+    }
+
+    public void setRequesterFirstName(String requesterFirstName) {
+        this.requesterFirstName = requesterFirstName;
     }
 
     /**
@@ -328,56 +358,54 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  table="request_document_map"
+     *  cascade="all"
+     *  order-by="id asc"
      * @hibernate.key
      *  column="request_id"
-     * @hibernate.many-to-many
-     *  class="fr.cg95.cvq.business.document.Document"
-     *  column="document_id"
+     * @hibernate.one-to-many
+     *  class="fr.cg95.cvq.business.request.RequestDocument"
      */
-    public Set getDocuments() {
+    public Set<RequestDocument> getDocuments() {
         return this.documents;
     }
 
-    public void setDocuments(Set documents) {
+    public void setDocuments(Set<RequestDocument> documents) {
         this.documents = documents;
     }
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
-     *  cascade="all-delete-orphan"
+     *  cascade="all"
      *  order-by="id asc"
      * @hibernate.key
      *  column="request_id"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.RequestAction"
      */
-    public Set getActions() {
+    public Set<RequestAction> getActions() {
         return this.actions;
     }
 
-    public void setActions(Set actions) {
+    public void setActions(Set<RequestAction> actions) {
         this.actions = actions;
     }
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
-     *  cascade="delete"
+     *  cascade="all"
      *  order-by="id asc"
      * @hibernate.key
      *  column="request_id"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.RequestNote"
      */
-    public Set getNotes() {
+    public Set<RequestNote> getNotes() {
         return this.notes;
     }
 
-    public void setNotes(Set notes) {
+    public void setNotes(Set<RequestNote> notes) {
         this.notes = notes;
     }
 
@@ -424,20 +452,39 @@ public abstract class Request implements Serializable {
     }
 
     /**
-     * @hibernate.any
-     *  id-type="long"
-     *  lazy="true"
-     * @hibernate.any-column
-     *  name="subject_table_name"
-     * @hibernate.any-column
-     *  name="subject_id"
+     * @hibernate.property
+     *  column="subject_id"
      *  
      */
-    public Object getSubject() {
-        return subject;
+    public Long getSubjectId() {
+        return subjectId;
     }
 
-    public void setSubject(Object subject) {
-        this.subject = subject;
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="subject_last_name"
+     */
+    public String getSubjectLastName() {
+        return subjectLastName;
+    }
+
+    public void setSubjectLastName(String subjectLastName) {
+        this.subjectLastName = subjectLastName;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="subject_first_name"
+     */
+    public String getSubjectFirstName() {
+        return subjectFirstName;
+    }
+
+    public void setSubjectFirstName(String subjectFirstName) {
+        this.subjectFirstName = subjectFirstName;
     }
 }

@@ -8,20 +8,32 @@ import java.util.Set;
 
 import org.w3c.dom.Node;
 
-import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
+import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.business.request.Requirement;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.security.annotation.IsHomeFolder;
+import fr.cg95.cvq.security.annotation.IsRequester;
+import fr.cg95.cvq.security.annotation.IsSubject;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
+import fr.cg95.cvq.service.request.annotation.IsRequestType;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -67,16 +79,30 @@ public interface IRequestService {
     // CRUD related methods
     //////////////////////////////////////////////////////////
 
-    Long create(final Request request, final Long requesterId)
+    /**
+     * Create a new request from given data.
+     * 
+     * It is meant to be used <strong>only</strong> by requests who require an home folder, 
+     * requester will be the currently logged in ecitizen, eventual subject id will be set
+     * directly on request object.
+     * 
+     * A default implementation suitable for requests types that do not have any specific stuff 
+     * to perform upon creation is provided. For others, the default implementation will have to
+     * be overrided.
+     */
+    Long create(@IsRequest Request request)
         throws CvqException, CvqObjectNotFoundException;
 
-    Long create(final Node node) throws CvqException;
-
     /**
-     * Return a fresh new request object of the type managed by the implementing class.
-     * This method must be implemented by classes implementing this interface.
+     * Create a new request from given data.
+     * 
+     * It is meant to be used by requests issued outside an home folder. An home folder
+     * containing at least the requester will be created. The subject is optional (FIXME : is
+     * it ever used ?)
      */
-    Request getSkeletonRequest() throws CvqException;
+    Long create(@IsRequest Request request, @IsRequester Adult requester, 
+            @IsSubject Individual subject)
+        throws CvqException;
     
     /**
      * Get a clone of a request with the given label whose subject is either the given subject 
@@ -88,107 +114,93 @@ public interface IRequestService {
      * @param requestLabel mandatory label of the request type
      * 
      * @return a new request without administrative and persistence information.
+     * 
+     * TODO REFACTORING : maybe return type will have to be migrated to a Request object
      */
-    Node getRequestClone(final Long subjectId, Long homeFolderId, final String requestLabel) 
+    Node getRequestClone(@IsSubject final Long subjectId, @IsHomeFolder Long homeFolderId, 
+            final String requestLabel) 
     	throws CvqException;
     
     /**
      * Modify a request.
      */
-    void modify(final Request request)
+    void modify(@IsRequest Request request)
         throws CvqException;
 
     /**
      * Remove permanently a request.
      */
-    void delete(final Long id)
+    void delete(@IsRequest final Long id)
         throws CvqException, CvqObjectNotFoundException;
-
-    /**
-     * Get a list of requests according to a set of criteria.
-     *
-     * @param criteriaSet a {@link Set} of criteria to be applied to search request.
-     * @param orderedBy an ordering to apply to results. value is one of the SEARCH_* static
-     *        string defined in this service.
-     * @param onlyIds whether we only want a {@link Set} of request ids or the requests.
-     */
-    Set get(Set criteriaSet, final String orderedBy, final boolean onlyIds)
-        throws CvqException;
 
     /**
      * Get a constrained list of requests according to a set of criteria and requirements.
      *
-     * @param criteriaSet a {@link Set} of criteria to be applied to search request
+     * @param criteriaSet a set of {@link Critere criteria} to be applied to the search
      * @param sort an ordering to apply to results. value is one of the SEARCH_* static
-     *        string defined in this service
-     * @param dir the direction of the sort (asc or desc)
-     * @param recordsReturned the number of records to return
+     *        string defined in this service (null to use default sort on requests ids)
+     * @param dir the direction of the sort (asc or desc, asc by default)
+     * @param recordsReturned the number of records to return (-1 to get all results)
      * @param startIndex the start index of the records to return
      */
-    Set extendedGet(Set<Critere> criteriaSet, final String sort, final String dir, 
+    List<Request> get(Set<Critere> criteriaSet, final String sort, final String dir, 
             final int recordsReturned, final int startIndex)
         throws CvqException;
-    
+
+    /**
+     * Get a count of requests matching the given criteria.
+     */
     Long getCount(Set<Critere> criteriaSet) throws CvqException;
     
     /**
      * Get a request by id.
      */
-    Request getById(final Long id)
+    Request getById(@IsRequest final Long id)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Get a set of requests by id.
-     */
-    Set<Request> getByIds(final Long[] ids)
-        throws CvqException, CvqObjectNotFoundException;
-    
-    /**
      * Get requests by requester's id.
      */
-    Set getByRequesterId(final Long requesterId)
+    List<Request> getByRequesterId(@IsRequester final Long requesterId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get requests by subject's id.
      */
-    Set getBySubjectId(final Long subjectId)
+    List<Request> getBySubjectId(@IsSubject final Long subjectId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get all requests of the given type issued for the given subject.
      * @param retrieveArchived
      */
-    Set getBySubjectIdAndRequestLabel(final Long subjectId, final String requestLabel, boolean retrieveArchived)
+    List<Request> getBySubjectIdAndRequestLabel(@IsSubject final Long subjectId, 
+            final String requestLabel, final boolean retrieveArchived)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get all requests belonging to the given home folder.
      */
-    Set<Request> getByHomeFolderId(final Long homeFolderId)
+    List<Request> getByHomeFolderId(@IsHomeFolder final Long homeFolderId)
     		throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get all requests of the given type belonging to the given home folder.
      */
-    Set getByHomeFolderIdAndRequestLabel(final Long homeFolderId, final String requestLabel)
+    List<Request> getByHomeFolderIdAndRequestLabel(@IsHomeFolder final Long homeFolderId, 
+            final String requestLabel)
             throws CvqException, CvqObjectNotFoundException;
     
-    /**
-     * Get a request by last intervening agent's id.
-     */
-    Set getByLastInterveningAgentId(final Long agentId)
-        throws CvqException, CvqObjectNotFoundException;
-
     //////////////////////////////////////////////////////////
     // Notes, actions and documents related methods
     //////////////////////////////////////////////////////////
+    
     /**
      * Get notes related to a given request.
      *
      * @return a set of {@link fr.cg95.cvq.business.users.RequestNote} objects
      */
-    Set getNotes(final Long id)
+    List<RequestNote> getNotes(@IsRequest final Long requestId)
         throws CvqException;
 
     /**
@@ -198,7 +210,7 @@ public interface IRequestService {
      * @param rnt the type of the note
      * @param note the body of the note itself
      */
-    void addNote(final Long requestId, final RequestNoteType rnt, final String note)
+    void addNote(@IsRequest final Long requestId, final RequestNoteType rnt, final String note)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
@@ -209,7 +221,7 @@ public interface IRequestService {
      *        the creation method provided by the
      *        {@link fr.cg95.cvq.service.document.IDocumentService} service
      */
-    void addDocuments(final Long requestId, final Set documentsId)
+    void addDocuments(@IsRequest final Long requestId, final Set<Long> documentsId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
@@ -219,42 +231,34 @@ public interface IRequestService {
      * @param documentId a document that must have been created with the creation
      *  method provided by the {@link fr.cg95.cvq.service.document.IDocumentService} service
      */
-    void addDocument(final Long requestId, final Long documentId)
+    void addDocument(@IsRequest final Long requestId, final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get actions related to a given request.
-     *
-     * @return a set of {@link fr.cg95.cvq.business.request.RequestAction} objects
      */
-    Set getActions(final Long id)
+    List<RequestAction> getActions(@IsRequest final Long requestId)
         throws CvqException;
 
     /**
      * Add an (non-workflow) action trace for the given request.
      */
-    public void addAction(final Request request, final String label, final String note)
+    void addAction(@IsRequest final Long requestId, final String label, final String note)
         throws CvqException;
     
     /**
-     * Get documents associated to a request.
+     * Get references of documents associated to a request.
      *
      * As they are not automatically loaded from DB, they have to be explicitely
-     * asked for
-     *
-     * @param id request id
-     * @return a set of {@link Document} objects associated to the request with the given id
+     * asked for.
      */
-    Set getAssociatedDocuments(final Long id)
+    Set<RequestDocument> getAssociatedDocuments(@IsRequest final Long requestId)
         throws CvqException;
 
     /**
      * Get the generated certificate for the given request at the given step.
-     *
-     * @param id request id
-     * @param requestState the resulting state for which we want to retrieve the certificate
      */
-    byte[] getCertificate(final Long id, final RequestState requestState)
+    byte[] getCertificate(@IsRequest final Long requestId, final RequestState requestState)
         throws CvqException;
 
     //////////////////////////////////////////////////////////
@@ -263,33 +267,30 @@ public interface IRequestService {
 
     /**
      * Get a list of all existing requests types.
-     *
-     * @return a set of {@link RequestType} objects
+     * 
+     * For an agent, return the list of requests types for which it has at least a read permission.
+     * For an ecitizen, return the list of activated requests types.
      */
-    Set<RequestType> getAllRequestTypes()
-        throws CvqException;
-
-    RequestType getRequestTypeById(final Long id)
+    List<RequestType> getAllRequestTypes()
         throws CvqException;
 
     /**
-     * Get a request type by its label.
-     *
-     * @param requestLabel the label of the request, as given by {@link #getLabel()}
+     * Get a request type by id.
+     */
+    RequestType getRequestTypeById(final Long requestTypeId)
+        throws CvqException;
+
+    /**
+     * Get a request type by label.
+     * 
+     * @deprecated use {@link #getRequestTypeById(Long)} instead
      */
     RequestType getRequestTypeByLabel(final String requestLabel)
         throws CvqException;
 
     /**
-     * Get the list of requests types handled by the given category.
-     * 
-     * TODO : migrate unit test uses of this method to {@link #getRequestsTypes(Long, boolean)}
-     */
-    List<RequestType> getRequestsTypesByCategory(final Long categoryId)
-        throws CvqException;
-
-    /**
      * Get the list of requests types handled by the given category in the given activation state.
+     * 
      */
     List<RequestType> getRequestsTypes(final Long categoryId, final Boolean active)
         throws CvqException;
@@ -297,35 +298,45 @@ public interface IRequestService {
     /**
      * Modify a request type properties.
      */
-    void modifyRequestType(RequestType requestType)
+    void modifyRequestType(@IsRequestType RequestType requestType)
         throws CvqException;
 
     /**
-     * Get a list of documents types allowed for a given request type.
-     *
-     * @return a set of {@link fr.cg95.cvq.business.document.DocumentType} objects
+     * Modify a requirement associated to a request type.
      */
-    Set getAllowedDocuments(final RequestType requestType)
+    void modifyRequestTypeRequirement(@IsRequestType final Long requestTypeId, 
+            Requirement requirement)
+        throws CvqException;
+
+    /**
+     * Add a new requirement to the given request type.
+     */
+    void addRequestTypeRequirement(@IsRequestType final Long requestTypeId, 
+            Long documentTypeId)
+        throws CvqException;
+    
+    /**
+     * Remove the requirement between the given request type and document type.
+     */
+    void removeRequestTypeRequirement(@IsRequestType final Long requestTypeId, 
+            Long documentTypeId)
+        throws CvqException;
+    
+    /**
+     * Get a list of documents types allowed for a given request type.
+     */
+    Set<DocumentType> getAllowedDocuments(final Long requestTypeId)
         throws CvqException;
 
     //////////////////////////////////////////////////////////
     // Seasons related methods
     //////////////////////////////////////////////////////////
 
-    /**
-     * @deprecated
-     * @see isRegistrationOpen (final Long requestTypeId)
-     */
-    boolean hasOpenSeasons(final Long requestTypeId) throws CvqException;
-    
-    
-    boolean isRegistrationOpen (final Long requestTypeId) throws CvqException;
+    boolean isRegistrationOpen(final Long requestTypeId) throws CvqException;
     
     /**
-     * Associate a new season to requestType
+     * Associate a new season to the given request type.
      * 
-     * @throws CvqException
-     * <br><br>
      * Expected business error code are :
      * <dl>
      *   <dt>request.season.not_supported</dt>
@@ -356,15 +367,9 @@ public interface IRequestService {
      *     <dd>-</dd>
      * </dl>
      */
-    void createRequestTypeSeasons(RequestType requestType, RequestSeason requestSeason)
+    void addRequestTypeSeason(@IsRequestType final Long requestTypeId, RequestSeason requestSeason)
         throws CvqException;
 
-    /**
-     * @deprecated
-     * @see modifyRequestTypeSeasons(RequestType requestType, RequestSeason requestSeason)
-     */
-    void modifyRequestTypeSeasons(RequestType requestType, Set<RequestSeason> seasons)
-        throws CvqException;
     /**
      * Modify a season associate to requestType
      * 
@@ -381,32 +386,40 @@ public interface IRequestService {
      *     <dd>Season effect end has been occured (only in modify season context)</dd>
      * </dl>
      */
-    void modifyRequestTypeSeasons(RequestType requestType, RequestSeason requestSeason)
+    void modifyRequestTypeSeason(@IsRequestType final Long requestTypeId, 
+            RequestSeason requestSeason)
         throws CvqException;
     
-    void removeRequestTypeSeasons(RequestType requestType, RequestSeason requestSeason)
+    void removeRequestTypeSeason(@IsRequestType final Long requestTypeId, 
+            final String requestSeasonUuid)
         throws CvqException;
     
     /**
-     * Return season associated to request (with id='requestId').
-     * <br/> If no season is associated return null. 
-     *
+     * Return the season associated to the given request, null if none.
      */
-    RequestSeason getRequestAssociatedSeason(Long requestId) throws CvqException;
+    RequestSeason getRequestAssociatedSeason(@IsRequest Long requestId) throws CvqException;
+    
+    Set<RequestSeason> getRequestTypeSeasons(@IsRequestType Long requestTypeId)
+        throws CvqException;
     
     //////////////////////////////////////////////////////////
     // RequestForm related Methods
     //////////////////////////////////////////////////////////
     
+    /**
+     * TODO ACMF
+     */
     RequestForm getRequestFormById(Long id) throws CvqException;
     
     /**
      * TODO : make its contract more explicit.
+     * TODO : ACMF
      */
     File getTemplateByName(String name);
     
     /**
      * TODO : make its contract more explicit.
+     * TODO : ACMF
      */
     List<File> getMailTemplates(String pattern) throws CvqException;
     
@@ -417,60 +430,28 @@ public interface IRequestService {
      * 
      * @return request form id
      */
-    Long processRequestTypeForm(Long requestTypeId, RequestForm requestForm) throws CvqException;
+    Long modifyRequestTypeForm(@IsRequestType Long requestTypeId, 
+            RequestForm requestForm) throws CvqException;
     
     /**
-     * Add a new requestForm to the requestType identify requestTypeId parameter
-     * <ul>
-     *  <li>add model association</li>
-     *  <li>store the requestForm in '&lt;asset_dir&gt;/&lt;local_authority&gt;/xsl'</li>
-     *  <li>
-     *   rename the requestForm file as follow :
-     *   &lt;request_type_label&gt;_&lt;request_form_type&gt;_&lt;request_form_short_label&gt;.extension
-     *  </li>
-     *  </ul>
+     * Remove a request form.
+     * 
+     * TODO : unused currently but should be
      */
-    void addRequestTypeForm(final Long requestTypeId, RequestFormType requestFormType, 
-            String label, String shortLabel, String filename, byte[] data)
+    void removeRequestTypeForm(@IsRequestType final Long requestTypeId, final Long requestFormId)
         throws CvqException;
     
     /**
-     * Modify a requestForm
-     * <ul>
-     *  <li>Modify request_form_label if newLabel parameter not null</li>
-     *  <li>
-     *      Modify request_form_short_label if newShortLabel parameter not null, 
-     *      and rename requestForm resource on file system.
-     *  </li>
-     *  <li>Modify requestForm file if newData parameter not null</li>
-     * </ul>
-     */
-    void modifyRequestTypeForm (Long requestTypeId, Long requestFormId, 
-            String newLabel, String newShortLabel, String newFilename, byte[] newData) throws CvqException;
-
-    /**
-     * Remove a requestForm
-     * <ul>
-     *  <li>delete model association</li>
-     *  <li>remove the requestForm file stored in '&lt;asset_dir&gt;/&lt;local_authority&gt;/xsl'</li>
-     * </ul>
-     */
-    void removeRequestTypeForm(final Long requestTypeId, final Long requestFormId)
-        throws CvqException;
-    
-    /**
-     * Remove a requestForm
-     * <ul>
-     *  <li>delete model association</li>
-     *  <li>remove the requestForm file stored in '&lt;asset_dir&gt;/&lt;local_authority&gt;/xsl'</li>
-     * </ul>
+     * Remove a request form.
+     * 
+     * @deprecated use {@link #removeRequestTypeForm(Long, Long)} instead
      */
     void removeRequestTypeForm(final Long requestFormId) throws CvqException;
     
     /**
-     * Get requestForms by request_type and by request_form_type
+     * Get request forms by request type and type of request form.
      */
-    List<RequestForm> getRequestTypeForms(Long requestTypeId, 
+    List<RequestForm> getRequestTypeForms(@IsRequestType final Long requestTypeId, 
             RequestFormType requestFormType) throws CvqException;
     
     
@@ -490,15 +471,17 @@ public interface IRequestService {
     void notifyPaymentResult(final Payment payment) throws CvqException;
     
     /**
-     * Return whether given request type can provide consumptions summary.
+     * Return whether given request type is associated with an external service.
+     * 
+     * The result is delegated to the {@link IExternalService external service}.
      */
-    boolean hasMatchingExternalService(final String requestLabel)
+    boolean hasMatchingExternalService(final String requestTypeLabel)
         throws CvqException;
 
     /**
      * Get consumption events for a given request.
      */
-    Map<Date, String> getConsumptionsByRequest(final Long requestId, 
+    Map<Date, String> getConsumptionsByRequest(@IsRequest final Long requestId, 
             final Date dateFrom, final Date dateTo)
         throws CvqException;
 
@@ -510,9 +493,9 @@ public interface IRequestService {
     //////////////////////////////////////////////////////////
 
     /**
-     * Dispatcher method to update request data  state
+     * Dispatcher method to update request data  state.
      */
-    void updateRequestDataState(final Long id, final DataState rs)
+    void updateRequestDataState(@IsRequest final Long id, final DataState rs)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
     
     /**
@@ -525,16 +508,16 @@ public interface IRequestService {
      * Get a set of home folder subjects that are authorized to be the subject of a request
      * of the type handled by current service.
      *
-     * @return a set of home folder subjects or the home folder itself if a request of the
-     * given type is issuable or null if not.
+     * @return a map of home folder subjects or the home folder itself and authorized
+     *                seasons if a request of the given type is issuable or null if not.
      */
-    Map<Object, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
+    Map<Long, Set<RequestSeason>> getAuthorizedSubjects(@IsHomeFolder final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException;
     
     /**
-     * Dispatcher method to update request state
+     * Dispatcher method to update request state.
      */
-    void updateRequestState(final Long id, RequestState rs, String motive)
+    void updateRequestState(@IsRequest final Long id, RequestState rs, String motive)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
     
@@ -542,11 +525,11 @@ public interface IRequestService {
      * Set the request state to complete.
      * (see {@link fr.cg95.cvq.business.request.RequestState})
      */
-    void complete(final Long id)
+    void complete(@IsRequest final Long id)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
 
-    void complete(final Request request)
+    void complete(@IsRequest final Request request)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
     
@@ -554,11 +537,11 @@ public interface IRequestService {
      * Ask for more information about a request
      * (see {@link fr.cg95.cvq.business.request.RequestState}).
      */
-    void specify(final Long id, final String motive)
+    void specify(@IsRequest final Long id, final String motive)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
 
-    void specify(final Request request, final String motive)
+    void specify(@IsRequest final Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
 
@@ -566,11 +549,11 @@ public interface IRequestService {
      * Validate a request
      * (see {@link fr.cg95.cvq.business.request.RequestState}).
      */
-    void validate(final Long id)
+    void validate(@IsRequest final Long id)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
 
-    void validate(final Request request)
+    void validate(@IsRequest final Request request)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
 
@@ -578,20 +561,20 @@ public interface IRequestService {
      * Notify a user its request has been validated
      * (see {@link fr.cg95.cvq.business.request.RequestState}).
      */
-    void notify(final Long id, final String motive)
+    void notify(@IsRequest final Long id, final String motive)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
-    void notify(final Request request, final String motive)
+    void notify(@IsRequest final Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException;
 
     /**
      * Cancel a request
      * (see {@link fr.cg95.cvq.business.request.RequestState}).
      */
-    void cancel(final Long id)
+    void cancel(@IsRequest final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
-    void cancel(final Request request)
+    void cancel(@IsRequest final Request request)
         throws CvqException, CvqInvalidTransitionException;
     
     /**
@@ -599,7 +582,7 @@ public interface IRequestService {
      * 
      * @see RequestState#ACTIVE
      */
-    void activate(final Long id) 
+    void activate(@IsRequest final Long id) 
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
     
     /**
@@ -607,7 +590,7 @@ public interface IRequestService {
      * 
      * @see RequestState#ACTIVE
      */
-    void activate(final Request request) 
+    void activate(@IsRequest final Request request) 
         throws CvqException, CvqInvalidTransitionException;
     
     /**
@@ -615,7 +598,7 @@ public interface IRequestService {
      * 
      * @see RequestState#EXPIRED
      */
-    void expire(final Long id)
+    void expire(@IsRequest final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
     /**
@@ -623,28 +606,28 @@ public interface IRequestService {
      * 
      * @see RequestState#EXPIRED
      */
-    void expire(final Request request)
+    void expire(@IsRequest final Request request)
         throws CvqException, CvqInvalidTransitionException;
     
     /**
      * Reject the validation of a request
      * (see {@link fr.cg95.cvq.business.request.RequestState}).
      */
-    void reject(final Long id, final String motive)
+    void reject(@IsRequest final Long id, final String motive)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
-    void reject(final Request request, final String motive)
+    void reject(@IsRequest final Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException;
     
     /**
      * Close a request
      * (see {@link fr.cg95.cvq.business.request.RequestState}).
      */
-    void close(final Long id)
+    void close(@IsRequest final Long id)
         throws CvqException, CvqInvalidTransitionException,
                CvqObjectNotFoundException;
 
-    void close(final Request request)
+    void close(@IsRequest final Request request)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
 
@@ -652,16 +635,16 @@ public interface IRequestService {
      * Archive a request
      * (see {@link fr.cg95.cvq.business.request.RequestState}).
      */
-    void archive(final Long id)
+    void archive(@IsRequest final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
-    void archive(final Request request)
+    void archive(@IsRequest final Request request)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
     /**
      * Archive all requests belonging to the given {@link HomeFolder home folder}.
      */
-    void archiveHomeFolderRequests(final HomeFolder homeFolder)
+    void archiveHomeFolderRequests(@IsHomeFolder final HomeFolder homeFolder)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
     /**
@@ -742,6 +725,12 @@ public interface IRequestService {
      */
     boolean accept(Request request);
 
+    /**
+     * Return a fresh new request object of the type managed by the implementing class.
+     * This method must be implemented by classes implementing this interface.
+     */
+    Request getSkeletonRequest() throws CvqException;
+    
     void onPaymentValidated(Request request, String paymentReference) throws CvqException;
     
     void onPaymentRefused(Request request) throws CvqException;
@@ -752,6 +741,6 @@ public interface IRequestService {
      * Realize specific task, just after the call 'sendRequest' method in
      * 'ExternalService'.
      */
-    void onExternalServiceSendRequest(Request request, String sendRequestResult) throws CvqException;
-    
+    void onExternalServiceSendRequest(Request request, String sendRequestResult) 
+        throws CvqException;
 }

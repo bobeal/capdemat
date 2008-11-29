@@ -112,7 +112,6 @@
 	<classpathentry kind="lib" path="Libraries/cleversms/cleversms-ws-client-axis-1.0.0.jar"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-PAPH.jar"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-PAPH.jar"/>
-	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-2.5.5.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-webmvc-2.5.5.jar"/>
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/jsmtpd-core-2.0-SNAPSHOT.jar"/>
@@ -130,5 +129,6 @@
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/slf4j-api-1.4.3.jar"/>
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/slf4j-log4j12-1.0.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.sun/saaj-impl.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.aspectj/aspectjrt-1.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

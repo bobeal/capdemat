@@ -62,9 +62,12 @@ public class PaymentServiceJobTest extends ServiceTestCase {
 	
 	public void testPaymentDAOSearchNotCommited() throws CvqException {
     	
-    	Payment payment = createPayment(-4, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
-    	Payment payment2 = createPayment(-5, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
-    	Payment payment3 = createPayment(-6, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment = 
+    	    createPayment(-4, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment2 = 
+    	    createPayment(-5, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment3 = 
+    	    createPayment(-6, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
     	
     	continueWithNewTransaction();
     	
@@ -86,13 +89,19 @@ public class PaymentServiceJobTest extends ServiceTestCase {
 	
     public void testPaymentInitialization() throws CvqException {
     	
-    	Payment payment = createPayment(0, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
-    	Payment payment2 = createPayment(-4, PaymentState.CANCELLED, false, "BOKER", "CVQR", PaymentMode.CARD);
-    	Payment payment3 = createPayment(-4, PaymentState.CANCELLED, true, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment = 
+    	    createPayment(0, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment2 = 
+    	    createPayment(-4, PaymentState.CANCELLED, false, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment3 = 
+    	    createPayment(-4, PaymentState.CANCELLED, true, "BOKER", "CVQR", PaymentMode.CARD);
     	
-    	Payment payment4 = createPayment(-4, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
-    	Payment payment5 = createPayment(-5, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
-    	Payment payment6 = createPayment(-6, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment4 = 
+    	    createPayment(-4, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment5 = 
+    	    createPayment(-5, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
+    	Payment payment6 = 
+    	    createPayment(-6, PaymentState.INITIALIZED, false, "BOKER", "CVQR", PaymentMode.CARD);
     	
     	continueWithNewTransaction();
     	

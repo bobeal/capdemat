@@ -2,7 +2,6 @@ package fr.cg95.cvq.security;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 
@@ -13,12 +12,11 @@ import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.IndividualRole;
 
 /**
  * A data structure / cache that stores all the credentials necessary when
@@ -52,10 +50,27 @@ public class CredentialBean {
     private boolean foContext;
     private boolean adminContext;
 
-    public CredentialBean(LocalAuthority localAuthority, String context) {
-        logger.debug("CredentialBean() setting local authority " + localAuthority
-                + " and context " + context);
+    /**
+     * Used to keep trace of current agent's site roles.
+     */
+    private SiteRoles[] siteRoles = null;
 
+    /**
+     * Used to keep trace of current agent's category roles.
+     */
+    private CategoryRoles[] categoryRoles = null;
+
+    /**
+     * Used to keep trace of current citizen's "managed" individuals.
+     */
+    private Set<IndividualRole> individualRoles = null;
+    
+    /**
+     * Used to keep track of individuals belonging to ecitizen's home folder.
+     */
+    private Set<Long> individualsIds = null;
+    
+    public CredentialBean(LocalAuthority localAuthority, String context) {
         this.localAuthority = localAuthority;
         if (context.equals(SecurityContext.BACK_OFFICE_CONTEXT)) {
             boContext = true;
@@ -81,7 +96,7 @@ public class CredentialBean {
     }
 
     public boolean isAdminContext() {
-    		return adminContext;
+        return adminContext;
     }
     
     public void setContext(final String context) {
@@ -104,6 +119,8 @@ public class CredentialBean {
 		objectBeanCache.clear();
 		siteRoles = null;
 		categoryRoles = null;
+		individualRoles = null;
+		individualsIds = null;
     }
     
     public Agent getAgent() {
@@ -124,9 +141,17 @@ public class CredentialBean {
 
 	public void setEcitizen(Adult adult) {
 		this.adult = adult;
-
+		
 		// in case we are changing of user inside a transaction, reset the cache
 		resetCaches();
+
+		this.individualRoles = adult.getIndividualRoles();
+	        
+		this.individualsIds = new HashSet<Long>();
+		Set<Individual> individuals = adult.getHomeFolder().getIndividuals();
+		for (Individual individual : individuals) {
+		    this.individualsIds.add(individual.getId());
+		}
 	}
 	
     public String getExternalService() {
@@ -158,25 +183,20 @@ public class CredentialBean {
         this.locale = locale;
     }
 
-    private SiteRoles[] siteRoles = null;
-    private CategoryRoles[] categoryRoles = null;
-
     /**
      * Returns the array of site-scoped roles the user in the bean belongs to.
      */
     public SiteRoles[] getSiteRoles() {
         if (agent == null) {
-            logger.info("getSiteRoles() no agent");
+            logger.warn("getSiteRoles() no agent");
             return new SiteRoles[0];
         }
 
         if (siteRoles == null) {
-            Set siteRolesSet = agent.getSitesRoles();
+            Set<SiteRoles> siteRolesSet = agent.getSitesRoles();
             siteRoles = new SiteRoles[siteRolesSet.size()];
             int i = 0;
-            Iterator it = siteRolesSet.iterator();
-            while (it.hasNext()) {
-                SiteRoles sr = (SiteRoles) it.next();
+            for (SiteRoles sr : siteRolesSet) {
                 siteRoles[i] = sr;
                 i++;
             }
@@ -185,6 +205,40 @@ public class CredentialBean {
         return siteRoles;
     }
 
+    public boolean hasSiteAdminRole() {
+        if (agent == null) {
+            logger.warn("hasSiteAdminRole() no agent");
+            return false;
+        }
+        
+        if (siteRoles == null)
+            getSiteRoles();
+        
+        for (SiteRoles siteRole : siteRoles) {
+            if (siteRole.getProfile().equals(SiteProfile.ADMIN))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    public boolean hasSiteAgentRole() {
+        if (agent == null) {
+            logger.warn("hasSiteAdminRole() no agent");
+            return false;
+        }
+        
+        if (siteRoles == null)
+            getSiteRoles();
+        
+        for (SiteRoles siteRole : siteRoles) {
+            if (siteRole.getProfile().equals(SiteProfile.AGENT))
+                return true;
+        }
+        
+        return false;        
+    }
+    
     /**
      * Returns the array of category-scoped roles the user in the bean
      * belongs to.
@@ -196,13 +250,11 @@ public class CredentialBean {
         }
 
         if (categoryRoles == null) {
-            Set categoryRolesSet = agent.getCategoriesRoles();
+            Set<CategoryRoles> categoryRolesSet = agent.getCategoriesRoles();
             categoryRoles = new CategoryRoles[categoryRolesSet.size()];
             int i = 0;
-            Iterator it = categoryRolesSet.iterator();
-            while (it.hasNext()) {
-                CategoryRoles sr = (CategoryRoles) it.next();
-                categoryRoles[i] = sr;
+            for (CategoryRoles cr : categoryRolesSet) {
+                categoryRoles[i] = cr;
                 i++;
             }
         }
@@ -212,77 +264,56 @@ public class CredentialBean {
 
     public CategoryProfile getProfileForCategory(Category category) {
         CategoryRoles[] categoryRoles = getCategoryRoles();
-        for (int i = 0; i < categoryRoles.length; i++) {
-            CategoryRoles cr = categoryRoles[i];
+        for (CategoryRoles cr : categoryRoles) {
             if (cr.getCategory().getId().equals(category.getId()))
                 return cr.getProfile();
         }
         return null;
     }
+
+    public Set<IndividualRole> getIndividualsRoles() {
+        return individualRoles;
+    }
+
+    /**
+     * Return current user's roles on his home folder (and not on individuals).
+     */
+    public Set<IndividualRole> getHomeFolderRoles() {
+        Set<IndividualRole> homeFolderRoles = new HashSet<IndividualRole>();
+        for (IndividualRole individualRole : individualRoles) {
+            if (individualRole.getHomeFolderId() != null)
+                homeFolderRoles.add(individualRole);
+        }
+        
+        return homeFolderRoles;
+    }
     
-    public boolean belongsToSameHomeFolder(Request request) {
-        if (adult == null) {
-            logger.debug("belongsToSameHomeFolder() no adult found, returning false");
-            return false;
+    /**
+     * Return current user's roles on his home folder's individuals.
+     */
+    public Set<IndividualRole> getIndividualRoles(final Long individualId) {
+        Set<IndividualRole> roles = new HashSet<IndividualRole>();
+        for (IndividualRole individualRole : individualRoles) {
+            if (individualRole.getIndividualId() != null 
+                    && individualRole.getIndividualId().equals(individualId))
+                roles.add(individualRole);
         }
-
-        Adult requestAuthor = request.getRequester();
-        HomeFolder homeFolder = requestAuthor.getHomeFolder();
-        Set homeFolderAdults = homeFolder.getIndividuals();
-        Iterator it = homeFolderAdults.iterator();
-        while (it.hasNext()) {
-            Object individual = it.next();
-            // don't check children, they can't log in :-)
-            if (individual instanceof Adult) {
-                Adult tempAdult = (Adult) individual;
-                logger.debug("belongsToSameHomeFolder() comparing " + tempAdult.getLogin() + " and " + adult.getLogin());
-                if (adult.getLogin().equals(tempAdult.getLogin())) {
-                    logger.debug("belongsToSameHomeFolder() adult effectively belongs to home folder " + homeFolder);
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        
+        return roles;
     }
 
-    public boolean belongsToSameHomeFolder(Document document) {
-        if (adult == null) {
-            logger.debug("belongsToSameHomeFolder() no adult found, returning false");
+    /**
+     * Return whether given individual belongs to same home folder
+     * than currently logged-in ecitizen.
+     */
+    public boolean belongsToSameHomeFolder(final Long individualId) {
+        System.err.println(this.individualsIds);
+        if (this.individualsIds == null || this.individualsIds.isEmpty())
             return false;
-        }
-
-        Set homeFolderAdults = null;
-        HomeFolder homeFolder = null;
-        if (document.getHomeFolder() != null) {
-            homeFolderAdults = new HashSet();
-            homeFolder = document.getHomeFolder();
-            homeFolderAdults = homeFolder.getIndividuals();
-        } else if (document.getIndividual() != null) {
-            Individual individual = document.getIndividual();
-            homeFolder = individual.getHomeFolder();
-            homeFolderAdults = homeFolder.getIndividuals();
-        } else {
-            logger.error("belongsToSameHomeFolder() document has no home folder and no individual associated to it !");
-            return false;
-        }
-
-        Iterator it = homeFolderAdults.iterator();
-        while (it.hasNext()) {
-            Object individual = it.next();
-            // don't check children, they can't log in :-)
-            if (individual instanceof Adult) {
-                Adult tempAdult = (Adult) individual;
-                if (adult.getLogin().equals(tempAdult.getLogin())) {
-                    logger.debug("belongsToSameHomeFolder() adult effectively belongs to home folder " + homeFolder);
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        
+        return this.individualsIds.contains(individualId);
     }
-
+    
     /* ==================== Grants cache API =========================== */
 
     private ArrayList<ObjectBean> objectBeanCache = new ArrayList<ObjectBean>();
@@ -294,7 +325,7 @@ public class CredentialBean {
      * (if <code>getObjectBean()</code> was previously called with the
      * same object and base class).
      */
-    public ObjectBean getObjectBean(Object object, Class baseClass) {
+    public ObjectBean getObjectBean(Object object, Class<?> baseClass) {
 
         for (ObjectBean bean : objectBeanCache) {
 

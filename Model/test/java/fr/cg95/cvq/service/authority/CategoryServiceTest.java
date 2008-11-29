@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.authority;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +13,7 @@ import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.permission.CvqPermissionException;
+import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
@@ -77,7 +77,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Set requestTypesSet = iRequestService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
         int requestTypesNb = requestTypesSet.size();
 
         List categoriesList = iCategoryService.getAll();
@@ -114,9 +114,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         // associate the new category with account creation requests
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         Set<Long> categoryRtSet = new HashSet<Long>();
-        Iterator requestTypesIt = requestTypesSet.iterator();
-        while (requestTypesIt.hasNext()) {
-            RequestType rt = (RequestType) requestTypesIt.next();
+        for (RequestType rt : requestTypesSet) {
             // add VO Card Request to the new category
             if (rt.getLabel().equals("VO Card Request")) {
                 categoryRtSet.add(rt.getId());
@@ -155,11 +153,13 @@ public class CategoryServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // to force re-association of agent within current session
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        
         try {
             iRequestService.getById(voCardRequestId);
             fail("should have thrown a permission exception");
-        } catch (CvqPermissionException cpe) {
+        } catch (PermissionException pe) {
             // ok, that was expeceted
         }
 
@@ -167,6 +167,7 @@ public class CategoryServiceTest extends ServiceTestCase {
 
         // give agent the rights for the new category and retry to load the request
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        
         Agent categoryAgent = iAgentService.getByLogin(agentNameWithCategoriesRoles);
         Set agentCategoriesRolesSet = categoryAgent.getCategoriesRoles();
         CategoryRoles catRole = new CategoryRoles();
@@ -186,9 +187,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         // rebind the original category with the account creation request
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         categoryRtSet = new HashSet<Long>();
-        requestTypesIt = requestTypesSet.iterator();
-        while (requestTypesIt.hasNext()) {
-            RequestType rt = (RequestType) requestTypesIt.next();
+        for (RequestType rt : requestTypesSet) {
             categoryRtSet.add(rt.getId());
         }
         iCategoryService.updateCategoryRequestsAssociation(category1.getId(), categoryRtSet);

@@ -2,21 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:context="http://www.springframework.org/schema/context"
      xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <aop:config>
-      <aop:pointcut id="daoMethod"
-        expression="execution(* fr.cg95.cvq.dao.*.hibernate.*DAO.*(..))" />
-      <aop:aspect ref="hibernateExceptionTranslator">
-        <aop:after-throwing throwing="hibernateEx" pointcut-ref="daoMethod"
-          method="translateException" />
-      </aop:aspect>
-    </aop:config>
+  <aop:aspectj-autoproxy/>
+  
+  <bean id="loggingAspect" class="fr.cg95.cvq.util.development.LoggingAspect" />
+  <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
+  <bean id="hibernateExceptionTranslatorAspect" 
+    class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslatorAspect" />
 
-  <bean id="hibernateExceptionTranslator" 
-    class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslator"/>
+  <!-- 
+  <context:component-scan base-package="fr.cg95.cvq.service.request"/>
+  -->
   
   <!-- ======================================================= -->
   <!-- ========== GENERAL SERVICES DEFINITION ================ -->  
@@ -73,15 +74,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="cvqPolicy" class="fr.cg95.cvq.security.CvqPolicy" init-method="init"/>
   
   <bean id="securityContext" class="fr.cg95.cvq.security.SecurityContext">
-    <property name="localAuthorityRegistry">
-      <ref bean="localAuthorityRegistry"/>
-    </property>
-    <property name="agentDAO">
-      <ref bean="agentDAO"/>
-    </property>
-    <property name="adultDAO">
-      <ref bean="adultDAO"/>
-    </property>
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="agentService" ref="agentService" />
+    <property name="individualService" ref="individualService" />
     <property name="administratorGroups">
       <list>
        <value>${agent.administrator_group}</value>
@@ -94,9 +89,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
   </bean>
   
-  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService">
+  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService" init-method="init">
   	<property name="genericDAO" ref="genericDAO" />
     <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <!-- 
+    <property name="homeFolderService" ref="homeFolderService" />
+    -->
   </bean>
 
   <!-- *******************************************************************  -->
@@ -149,6 +147,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <!-- ******************** GENERIC REQUEST SERVICE **********************  -->
+  
+  <bean id="requestContextCheckAspect" 
+    class="fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect">
+    <property name="requestDAO" ref="requestDAO" />  
+    <property name="requestTypeDAO" ref="requestTypeDAO" />
+  </bean>
+
   <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"
     abstract="true" init-method="init">
     <property name="requestDAO">
@@ -160,12 +165,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="genericDAO">
       <ref local="genericDAO"/>
     </property>
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
-    </property>
-    <property name="documentDAO">
-      <ref local="documentDAO"/>
-    </property>
+    <property name="individualService" ref="individualService"/>
     <property name="requestActionDAO">
       <ref local="requestActionDAO"/>
     </property>
@@ -175,12 +175,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestFormDAO">
       <ref local="requestFormDAO"/>
     </property>
-    <property name="documentService">
-      <ref local="documentService"/>
-    </property>
+    <property name="documentService" ref="documentService"/>
+    <property name="documentTypeService" ref="documentTypeService"/>
+    <!-- 
     <property name="homeFolderService">
       <ref local="homeFolderService"/>
     </property>
+    -->
     <property name="certificateService">
       <ref local="certificateService"/>
     </property>
@@ -195,12 +196,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="localAuthorityRegistry">
       <ref bean="localAuthorityRegistry"/>
     </property>
-    <property name="externalService" ref="externalService"/>
+    <!-- <property name="externalService" ref="externalService"/> -->
     <property name="requestWorkflowService">
       <bean class="fr.cg95.cvq.service.request.impl.RequestWorkflowService">
         <property name="requestDAO" ref="requestDAO" />
-        <property name="requestActionDAO" ref="requestActionDAO" />
-        <property name="certificateService" ref="certificateService"></property>
+        <property name="certificateService" ref="certificateService" />
       </bean>
     </property>
     <!-- must be put somewhere on the using application's classpath -->
@@ -210,7 +210,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
   
   <bean id="defaultRequestService" class="fr.cg95.cvq.service.request.impl.DefaultRequestService" 
-    parent="requestService"/>
+    parent="requestService" />
   
   <bean id="requestServiceRegistry" class="fr.cg95.cvq.service.request.impl.RequestServiceRegistry"
     init-method="init">
@@ -230,6 +230,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- *********************** USERS SERVICES*****************************  -->
   <!-- *******************************************************************  -->
 
+  <bean id="usersContextCheckAspect" 
+    class="fr.cg95.cvq.service.users.aspect.UsersContextAspect">
+  </bean>
+
   <bean id="voCardRequestService" class="fr.cg95.cvq.service.request.ecitizen.impl.VoCardRequestService" 
     parent="requestService">
     <property name="supportUnregisteredCreation" value="true"/>
@@ -238,56 +242,23 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <bean id="individualService" class="fr.cg95.cvq.service.users.impl.IndividualService">
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
-    </property>
-    <property name="documentDAO">
-      <ref local="documentDAO"/>
-    </property>
-    <property name="authenticationService">
-      <ref bean="authenticationService"/>
-    </property>
-  </bean>
-
-  <bean id="adultService" class="fr.cg95.cvq.service.users.impl.AdultService"
-    parent="individualService">
-    <property name="adultDAO">
-      <ref local="adultDAO"/>
-    </property>
-    <property name="childService">
-      <ref local="childService"/>
-    </property>
-  </bean>
-
-  <bean id="childService" class="fr.cg95.cvq.service.users.impl.ChildService" 
-    parent="individualService">
-    <property name="childDAO">
-      <ref local="childDAO"/>
-    </property>
-    <property name="genericDAO">
-      <ref local="genericDAO"/>
-    </property>
-    <property name="adultService">
-      <ref local="adultService"/>
-    </property>
+    <property name="individualDAO" ref="individualDAO"/>
+    <property name="adultDAO" ref="adultDAO" />
+    <property name="childDAO" ref="childDAO" />
+    <property name="authenticationService" ref="authenticationService"/>
   </bean>
 
   <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService">
-  	 <property name="localAuthorityRegistry"> 
+    <property name="localAuthorityRegistry"> 
   	 	<ref bean="localAuthorityRegistry"/>
-  	 </property>
-	 <property name="mailService">
-	  <ref local="mailService"/>
+  	</property>
+	  <property name="mailService">
+	   <ref local="mailService"/>
     </property>
     <property name="individualService">
       <ref local="individualService"/>
     </property>
-    <property name="adultService">
-      <ref local="adultService"/>
-    </property>
-    <property name="childService">
-      <ref local="childService"/>
-    </property>
+    <property name="documentService" ref="documentService" />
     <property name="requestService">
       <ref local="defaultRequestService"/>
     </property>
@@ -301,15 +272,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="homeFolderDAO">
       <ref local="homeFolderDAO"/>
     </property>
-    <property name="documentDAO">
-      <ref local="documentDAO"/>
-    </property>
     <property name="childDAO">
       <ref local="childDAO"/>
     </property>
     <property name="adultDAO">
       <ref local="adultDAO"/>
     </property>
+    <property name="individualDAO" ref="individualDAO" />
   </bean>
   
   <bean id="meansOfContactService" class="fr.cg95.cvq.service.request.impl.MeansOfContactService">
@@ -322,69 +291,30 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <!-- ************************ DOCUMENTS RELATED SERVICES ********************* -->
 
-  <bean id="documentDigitalizationAllowedBeforeAdvice"
-    class="fr.cg95.cvq.service.document.DocumentDigitalizationAllowedBeforeAdvice">
-    <property name="localAuthorityRegistry">
-      <ref bean="localAuthorityRegistry"/>
-    </property>
+  <bean id="documentContextCheckAspect" 
+    class="fr.cg95.cvq.service.document.aspect.DocumentContextCheckAspect">
+    <property name="documentDAO" ref="documentDAO" />  
   </bean>
 
-  <bean id="documentDigitalizationAllowedBeforeAdviceAdvisor"
-    class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
-    <property name="advice">
-      <ref local="documentDigitalizationAllowedBeforeAdvice"/>
-    </property>
-    <property name="patterns">
-      <list>
-	    <value>.*DocumentService.addPage</value>
-	    <value>.*DocumentService.modifyPage</value>
-	    <value>.*DocumentService.deletePage</value>
-      </list>
-    </property>
+  <bean id="documentService" class="fr.cg95.cvq.service.document.impl.DocumentService">
+    <property name="documentDAO" ref="documentDAO"/>
+    <property name="documentTypeDAO" ref="documentTypeDAO"/>
+    <property name="documentBinaryDAO" ref="documentBinaryDAO"/>
+    <property name="genericDAO" ref="genericDAO"/>
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
   </bean>
 
-  <bean id="documentService" 
-    class="org.springframework.aop.framework.ProxyFactoryBean">
-    <property name="proxyInterfaces"><value>fr.cg95.cvq.service.document.IDocumentService</value></property>
-    <property name="target"><ref local="documentServiceTarget"/></property>
-    <property name="interceptorNames">
-      <list>
-        <value>documentDigitalizationAllowedBeforeAdviceAdvisor</value>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="documentServiceTarget" class="fr.cg95.cvq.service.document.impl.DocumentService">
-    <property name="cvqPolicy">
-      <ref bean="cvqPolicy"/>
-    </property>
-    <property name="documentDAO">
-      <ref local="documentDAO"/>
-    </property>
-    <property name="documentTypeDAO">
-      <ref local="documentTypeDAO"/>
-    </property>
-    <property name="documentBinaryDAO">
-      <ref local="documentBinaryDAO"/>
-    </property>
-    <property name="genericDAO">
-      <ref local="genericDAO"/>
-    </property>
-    <property name="homeFolderDAO">
-      <ref local="homeFolderDAO"/>
-    </property>
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
-    </property>
+  <bean id="documentTypeService" class="fr.cg95.cvq.service.document.impl.DocumentTypeService">
+    <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="performDbUpdates" value="@perform_db_updates@"/>
     <property name="documentBootstrapper">
       <bean class="fr.cg95.cvq.service.document.impl.DocumentBootstrapper">
         <property name="documentTypeDAO" ref="documentTypeDAO" />
       </bean>
-    </property>
+    </property>  
   </bean>
-
+  
   <bean id="cardService" class="fr.cg95.cvq.service.users.impl.CardService">
     <property name="DAO">
       <ref local="genericDAO"/>
@@ -397,19 +327,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="homeFolderModificationRequestService" 
     class="fr.cg95.cvq.service.request.ecitizen.impl.HomeFolderModificationRequestService" 
     parent="requestService">
-    <property name="homeFolderService" ref="homeFolderService"/>
     <property name="label" value="Home Folder Modification"/>
     <property name="xslFoFilename" value="homeFolderModificationRequest.xsl"/>
     <!-- service specifics -->
-
     <property name="historyEntryDAO">
       <ref local="historyEntryDAO"/>
     </property>
     <property name="historyInterceptor">
       <ref local="historyInterceptor"/>
-    </property>
-    <property name="individualService">
-      <ref bean="individualService"/>
     </property>
     <!-- end service specifics -->
   </bean>
@@ -422,7 +347,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
   </bean>
-
+  
   <bean id="perischoolActivityRegistrationRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.PerischoolActivityRegistrationRequestService" 
     parent="requestService">
@@ -447,9 +372,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     class="fr.cg95.cvq.service.request.school.impl.SchoolCanteenRegistrationRequestService" 
     parent="requestService">
     <!-- Service specific -->
-    <property name="schoolRegistrationRequestService">
-      <ref bean="schoolRegistrationRequestService"/>
-    </property>
     <property name="localReferentialFilename" value="local_referential_scrr.xml"/>
     <property name="label" value="School Canteen Registration"/>
     <property name="xslFoFilename" value="schoolCanteenRegistrationRequest.xsl"/>
@@ -589,7 +511,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="bulkyWasteCollectionRequestService" 
     class="fr.cg95.cvq.service.request.environment.impl.BulkyWasteCollectionRequestService" 
     parent="requestService">
-    <property name="supportUnregisteredCreation" value="false"/>
     <property name="label" value="Bulky Waste Collection"/>
     <property name="localReferentialFilename" value="local_referential_bwc.xml"/>
     <property name="xslFoFilename" value="bulkyWasteCollectionRequest.xsl"/>
@@ -598,7 +519,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="compostableWasteCollectionRequestService" 
     class="fr.cg95.cvq.service.request.environment.impl.CompostableWasteCollectionRequestService" 
     parent="requestService">
-    <property name="supportUnregisteredCreation" value="false"/>
     <property name="label" value="Compostable Waste Collection"/>
     <property name="localReferentialFilename" value="local_referential_cwc.xml"/>
     <property name="xslFoFilename" value="compostableWasteCollectionRequest.xsl"/>
@@ -621,11 +541,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
   </bean>
 
-  <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService">
+  <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService" init-method="init">
     <property name="paymentDAO" ref="paymentDAO" />
     <property name="requestService" ref="defaultRequestService" />
+    <!-- 
     <property name="homeFolderService" ref="homeFolderService" />
     <property name="externalService" ref="externalService" />
+    -->
   </bean>
 
   <!-- ======================================================= -->

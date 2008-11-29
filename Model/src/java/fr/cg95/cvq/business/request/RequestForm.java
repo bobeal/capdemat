@@ -5,9 +5,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-
-
 /**
  * @hibernate.class
  *  table="request_form"

@@ -3,6 +3,7 @@
   ${session.currentUser} - <a href="${createLinkTo(dir:'',file:'casLogout.gsp')}"><g:message code="action.logout" /></a>
 </div>
 <div id="menu">
+  <g:if test="${session.currentCredentialBean.hasSiteAgentRole()}">
   <a id="taskBoardMenuItem" href="<g:createLink controller='backofficeRequest' action='taskBoard' />">
     <g:message code="menu.taskBoard" />
   </a>
@@ -15,11 +16,14 @@
   <a id="requestTypeMenuItem" href="<g:createLink controller='backofficeRequestType'/>">
     <g:message code="menu.requestTypes" />
   </a>
-  <a id="categoryMenuItem" href="<g:createLink controller='backofficeCategory'/>">
-    <g:message code="menu.categories" />
-  </a>
-  <a id="paymentMenuItem" href="<g:createLink controller='backofficePayment'/>">
-    <g:message code="menu.payments" />
-  </a>
+  </g:if>
+  <g:if test="${session.currentCredentialBean.hasSiteAdminRole()}">
+    <a id="categoryMenuItem" href="<g:createLink controller='backofficeCategory'/>">
+      <g:message code="menu.categories" />
+    </a>
+    <a id="paymentMenuItem" href="<g:createLink controller='backofficePayment'/>">
+      <g:message code="menu.payments" />
+    </a>
+  </g:if>
 </div>
 

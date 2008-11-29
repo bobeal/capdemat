@@ -2,7 +2,7 @@ package fr.cg95.cvq.service.users;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -16,12 +16,13 @@ import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.ChildLegalResponsible;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.FamilyStatusType;
+import fr.cg95.cvq.business.users.HistoryEntry;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.LegalResponsibleRole;
+import fr.cg95.cvq.business.users.IndividualRole;
+import fr.cg95.cvq.business.users.RoleEnum;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
@@ -69,13 +70,16 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         
         try {
             // check entries have been deleted from history table
-            Set remainingEntries =
+            Set<HistoryEntry> remainingEntries =
                 iHomeFolderModificationRequestService.getHistoryEntries(hfmr.getId());
             Assert.assertEquals(0, remainingEntries.size());
         } catch (Exception e) {
             // just catch and let tear down go up to his parent
         }
 
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        
         iHomeFolderModificationRequestService.delete(hfmrId);
         
         super.onTearDown();
@@ -102,28 +106,25 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        homeFolder = iHomeFolderService.getByRequestId(requestId);
-        Assert.assertNotNull(homeFolder);
+        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
+        assertNotNull(homeFolderId);
 
         // create the home folder modification request
-        homeFolder = iHomeFolderService.getById(homeFolderId);
         hfmr = iHomeFolderModificationRequestService.create(homeFolderId,
-                homeFolder.getHomeFolderResponsible().getId());
+                iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
 
         // prepare objects for modifications
         adress = homeFolder.getAdress();
-        Set individuals = homeFolder.getIndividuals();
-        Iterator individualsIt = individuals.iterator();
+        Set<Individual> individuals = homeFolder.getIndividuals();
         adults = new HashSet<Adult>();
         children = new HashSet<Child>();
-        while (individualsIt.hasNext()) {
-            Object object = individualsIt.next();
-            if (object instanceof Child)
-                children.add((Child) object);
+        for (Individual individual : individuals) {
+            if (individual instanceof Child)
+                children.add((Child) individual);
             else
-                adults.add((Adult) object);
+                adults.add((Adult) individual);
         }
 
         return hfmr.getId();
@@ -144,11 +145,10 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         homeFolderUncle.setBirthDate(new Date());
         Address newAdress =
             BusinessObjectsFactory.gimmeAdress("1","Rue du centre",
-                                               "Drancy",
-                                               "93700");
+                    "Drancy", "93700");
         homeFolderUncle.setAdress(newAdress);
 
-        Adult testReloadedWoman = iAdultService.getById(homeFolderWoman.getId());
+        Adult testReloadedWoman = iIndividualService.getAdultById(homeFolderWoman.getId());
         testReloadedWoman.setFirstName2("Angélique");
         Set<Adult> newAdults = new HashSet<Adult>();
         newAdults.add(homeFolderUncle);
@@ -159,50 +159,45 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         adress.setPostalCode("75013");
         adress.setCity("Paris Ville Lumière");
 
-        iHomeFolderModificationRequestService.modify(hfmr,
-                                                     newAdults, children,
-                                                     adress);
-        
+        iHomeFolderModificationRequestService.modify(hfmr, newAdults, children, adress);
     }
 
     public void testSimpleModificationsValidated()
         throws CvqException {
 
+        try {
+            
         prepareSimpleModifications();
 
         continueWithNewTransaction();
         
-        Set entries =
+        // debug only
+        Set<HistoryEntry> entries =
             iHomeFolderModificationRequestService.getHistoryEntries(hfmr.getId());
-        Iterator it = entries.iterator();
-        while (it.hasNext()) {
-            logger.debug("got history entry : " + it.next());
+        for (HistoryEntry historyEntry : entries) {
+            logger.debug("got history entry : " + historyEntry);
         }
+        
         // now retrieve and display them
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
-        homeFolder = hfmrFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
         Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
-        Set individuals = homeFolder.getIndividuals();
-        Iterator individualsIt = individuals.iterator();
-        while (individualsIt.hasNext()) {
-            Individual individual = (Individual) individualsIt.next();
+        Set<Individual> individuals = homeFolder.getIndividuals();
+        for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
                 Assert.assertEquals(homeFolderUncle.getFirstName3(), "Groumph");
                 Assert.assertEquals(homeFolderUncle.getProfession(), "Entraineur du PSG");
             }
         }
 
-        iHomeFolderModificationRequestService.getOriginalHomeFolder(hfmr.getId());
-
         continueWithNewTransaction();
         
         // validate request and check we did not loose any information
         // (be an agent to perform this state change)
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         iHomeFolderModificationRequestService.complete(hfmr.getId());
@@ -213,10 +208,15 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         // check modifications are still there
         hfmrFromDb =
             (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
-        homeFolder = hfmrFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
         Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     public void testSimpleModificationsCancelled()
@@ -226,12 +226,9 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         continueWithNewTransaction();
         
-        iHomeFolderModificationRequestService.getOriginalHomeFolder(hfmr.getId());
-
         // cancel request and check we got back to the original state
         // (be an agent to perform this state change)
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         iHomeFolderModificationRequestService.cancel(hfmr.getId());
@@ -240,14 +237,12 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
-        homeFolder = hfmrFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75012");
         Assert.assertEquals(adress.getCity(), "Paris".toUpperCase());
-        Set individuals = homeFolder.getIndividuals();
-        Iterator individualsIt = individuals.iterator();
-        while (individualsIt.hasNext()) {
-            Individual individual = (Individual) individualsIt.next();
+        Set<Individual> individuals = homeFolder.getIndividuals();
+        for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
                 Assert.assertEquals(individual.getLastName(), "LASTNAME");
                 Assert.assertTrue(individual.getFirstName().startsWith("uncle"));
@@ -260,16 +255,21 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         hfmrId = createModificationRequest();
 
-        newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER,"adult","new",null, FamilyStatusType.SINGLE);
+        newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "adult", "new", 
+                null, FamilyStatusType.SINGLE);
         adults.add(newAdult);
-
-        newChild =
-            BusinessObjectsFactory.gimmeChild("child", "new", homeFolderResponsible, null, newAdult);
+        iHomeFolderService.addIndividualRole(newAdult, child1, RoleEnum.CLR_TUTOR);
+        
+        iHomeFolderService.removeIndividualRole(homeFolderUncle.getId(), child1, 
+                RoleEnum.CLR_TUTOR); 
+        
+        newChild = BusinessObjectsFactory.gimmeChild("child", "new");
+        iHomeFolderService.addIndividualRole(homeFolderResponsible.getId(), 
+                newChild, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(newAdult, newChild, RoleEnum.CLR_TUTOR);
         children.add(newChild);
 
-        iHomeFolderModificationRequestService.modify(hfmr,
-                                                     adults, children,
-                                                     adress);
+        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
     }
 
     public void testChildAdultAddWithClrValidated()
@@ -280,163 +280,71 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         iHomeFolderModificationRequestService.complete(hfmr.getId());
         iHomeFolderModificationRequestService.validate(hfmr.getId());
 
         continueWithNewTransaction();
+        
+        // become back an ecitizen to retrieve information
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentEcitizen(proposedLogin);
+
+        Adult adult = iIndividualService.getAdultById(newAdult.getId());
+        assertNotNull(adult);
+        assertNotNull(adult.getIndividualRoles());
+        assertEquals(2, adult.getIndividualRoles().size());
+        IndividualRole individualRole = adult.getIndividualRoles().iterator().next();
+        if (individualRole.getIndividualId().equals(child1.getId())) {
+            assertEquals(RoleEnum.CLR_TUTOR, individualRole.getRole());
+            assertEquals(child1.getId(), individualRole.getIndividualId());
+        } else if (individualRole.getIndividualId().equals(newChild.getId())) {
+            assertEquals(RoleEnum.CLR_TUTOR, individualRole.getRole());
+            assertEquals(newChild.getId(), individualRole.getIndividualId());            
+        } else {
+            fail("should have been one of above");
+        }
     }
 
     public void testChildAdultAddWithClrCancelled()
         throws CvqException {
 
-        prepareChildAdultAddWithClr();
+        try {
 
-        continueWithNewTransaction();
+            prepareChildAdultAddWithClr();
 
-        // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+            continueWithNewTransaction();
 
-        iHomeFolderModificationRequestService.cancel(hfmr.getId());
+            List<Individual> individuals = 
+                iHomeFolderService.getBySubjectRole(child1.getId(), RoleEnum.CLR_TUTOR);
+            assertEquals(1, individuals.size());
+            assertEquals(newAdult.getId(), individuals.get(0).getId());
 
-        continueWithNewTransaction();
-    }
+            // be an agent to perform request state changes
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-    private void prepareChildAdultAddWithClrOutOfFolder()
-        throws CvqException {
+            iHomeFolderModificationRequestService.cancel(hfmr.getId());
 
-        hfmrId = createModificationRequest();
-        Assert.assertNotNull(homeFolder);
+            continueWithNewTransaction();
 
-        newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "adult", "new", null, 
-                FamilyStatusType.SINGLE);
+            try {
+                iIndividualService.getById(newAdult.getId());
+                fail("should have thrown an exception");
+            } catch (CvqObjectNotFoundException confe) {
+                // that was expected
+            }
 
-        newChild = BusinessObjectsFactory.gimmeChild("child", "new", homeFolderResponsible, null,
-                newAdult);
-        children.add(newChild);
-        Assert.assertNotNull(homeFolder);
+            individuals = iHomeFolderService.getBySubjectRole(child1.getId(), RoleEnum.CLR_TUTOR);
+            assertEquals(1, individuals.size());
+            assertEquals(homeFolderUncle.getId(), individuals.get(0).getId());
 
-        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
-    }
-
-    public void testChildAdultAddWithClrOutOfFolderValidated()
-        throws CvqException {
-
-        prepareChildAdultAddWithClrOutOfFolder();
-        Assert.assertNotNull(homeFolder);
-
-        continueWithNewTransaction();
-
-        // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        iHomeFolderModificationRequestService.complete(hfmr.getId());
-        iHomeFolderModificationRequestService.validate(hfmr.getId());
-
-        continueWithNewTransaction();
-        
-        // become back an ecitizen to retrieve information
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-
-        // check entries have been deleted from history table
-        Set remainingEntries =
-            iHomeFolderModificationRequestService.getHistoryEntries(hfmr.getId());
-        Assert.assertEquals(remainingEntries.size(), 0);
-
-        // modify new child to remove its CLR that is not from the home folder
-        Set newChildClrSet = newChild.getLegalResponsibles();
-        Iterator newChildClrSetIt = newChildClrSet.iterator();
-        ChildLegalResponsible clrToRemove = null;
-        while (newChildClrSetIt.hasNext()) {
-            ChildLegalResponsible clr =
-                (ChildLegalResponsible) newChildClrSetIt.next();
-            if (clr.getLegalResponsible().equals(newAdult))
-                clrToRemove = clr;
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
         }
-        newChildClrSet.remove(clrToRemove);
-        Assert.assertNotNull(homeFolder);
-        
-        continueWithNewTransaction();
-        
-        hfmr = iHomeFolderModificationRequestService.create(homeFolder.getId(),
-                homeFolder.getHomeFolderResponsible().getId());
-        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
-
-        continueWithNewTransaction();
-        
-        // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        iHomeFolderModificationRequestService.complete(hfmr.getId());
-        iHomeFolderModificationRequestService.validate(hfmr.getId());
-
-        continueWithNewTransaction();
-    }
-
-    public void testChildAdultAddWithClrOutOfFolderCancelled()
-        throws CvqException {
-
-        prepareChildAdultAddWithClrOutOfFolder();
-        Assert.assertNotNull(homeFolder);
-
-        continueWithNewTransaction();
-
-        // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        iHomeFolderModificationRequestService.complete(hfmr.getId());
-        iHomeFolderModificationRequestService.validate(hfmr.getId());
-
-        continueWithNewTransaction();
-        
-        // become back an ecitizen to retrieve information
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-
-        // check entries have been deleted from history table
-        Set remainingEntries =
-            iHomeFolderModificationRequestService.getHistoryEntries(hfmr.getId());
-        Assert.assertEquals(remainingEntries.size(), 0);
-
-        // modify new child to remove its CLR that is not from the home folder
-        Set newChildClrSet = newChild.getLegalResponsibles();
-        Iterator newChildClrSetIt = newChildClrSet.iterator();
-        ChildLegalResponsible clrToRemove = null;
-        while (newChildClrSetIt.hasNext()) {
-            ChildLegalResponsible clr =
-                (ChildLegalResponsible) newChildClrSetIt.next();
-            if (clr.getLegalResponsible().equals(newAdult))
-                clrToRemove = clr;
-        }
-        newChildClrSet.remove(clrToRemove);
-
-        continueWithNewTransaction();
-        
-        hfmr = iHomeFolderModificationRequestService.create(homeFolder.getId(),
-                homeFolder.getHomeFolderResponsible().getId());
-        
-        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
-        
-        continueWithNewTransaction();
-        
-        // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        iHomeFolderModificationRequestService.cancel(hfmr.getId());
-
-        continueWithNewTransaction();
-        
-        // setComplete();
     }
 
     private void prepareChildrenAddRemove()
@@ -444,23 +352,17 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         hfmrId = createModificationRequest();
 
-        // remove a child, change legal responsibles for the remaining
-        // and finally add a new child
-
         children.remove(child2);
 
-        Set child1LR = child1.getLegalResponsibles();
-        child1LR.clear();
-        ChildLegalResponsible clr = new ChildLegalResponsible();
-        clr.setRole(LegalResponsibleRole.TUTOR);
-        clr.setLegalResponsible(homeFolderUncle);
-        clr.setChild(child1);
-        child1LR.add(clr);
         child1.setBirthCity("Paris");
 
-        newChild =
-            BusinessObjectsFactory.gimmeChild("Badiane", "XXXX", homeFolderResponsible, 
-                    homeFolderWoman, homeFolderUncle);
+        newChild = BusinessObjectsFactory.gimmeChild("Badiane", "XXXX");
+        iHomeFolderService.addIndividualRole(homeFolderResponsible.getId(), 
+                newChild, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(homeFolderWoman.getId(), 
+                newChild, RoleEnum.CLR_MOTHER);
+        iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), 
+                newChild, RoleEnum.CLR_TUTOR);
         children.add(newChild);
 
         iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
@@ -469,55 +371,68 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
     public void testChildrenAddRemoveValidated()
         throws Exception {
 
-        prepareChildrenAddRemove();
+        try {
 
-        continueWithNewTransaction();
+            prepareChildrenAddRemove();
 
-        // check modifications have been saved
-        children = iHomeFolderService.getChildren(homeFolder.getId());
-        Assert.assertEquals(children.size(), 2);
-        for (Child child : children) {
-            if (child.getFirstName().equals(child1.getFirstName())) {
-                Assert.assertEquals(child.getBirthCity(), "Paris");
-                Assert.assertEquals(child.getLegalResponsibles().size(), 1);
-            } else if (child.getFirstName().equals(newChild.getFirstName())) {
-                Assert.assertEquals(child.getLastName(), "Badiane");
-                Assert.assertEquals(child.getLegalResponsibles().size(), 3);
-            } else {
-                fail("Don't know this child : " + child);
+            continueWithNewTransaction();
+
+            assertNotNull(newChild.getId());
+            
+            // used to resync home folder responsible wrt home folder state
+            homeFolderResponsible =
+                iHomeFolderService.getHomeFolderResponsible(hfmr.getHomeFolderId());
+            SecurityContext.setCurrentEcitizen(homeFolderResponsible);
+            
+            // check modifications have been saved
+            children = iHomeFolderService.getChildren(homeFolder.getId());
+            assertEquals(2, children.size());
+            RoleEnum[] roles = {RoleEnum.CLR_FATHER, RoleEnum.CLR_MOTHER, RoleEnum.CLR_TUTOR };
+            for (Child child : children) {
+                if (child.getFirstName().equals(child1.getFirstName())) {
+                    assertEquals(child.getBirthCity(), "Paris");
+                    assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                } else if (child.getFirstName().equals(newChild.getFirstName())) {
+                    assertEquals(child.getLastName(), "Badiane");
+                    assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                } else {
+                    fail("Don't know this child : " + child);
+                }
             }
-        }
 
-        continueWithNewTransaction();
-        
-        // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+            continueWithNewTransaction();
 
-        iHomeFolderModificationRequestService.complete(hfmr.getId());
-        iHomeFolderModificationRequestService.validate(hfmr.getId());
+            // be an agent to perform request state changes
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        continueWithNewTransaction();
-        
-        // become back an ecitizen to retrieve information
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-        
-        // check modifications are still saved
-        children = iHomeFolderService.getChildren(homeFolder.getId());
-        Assert.assertEquals(children.size(), 2);
-        for (Child child : children) {
-            if (child.getFirstName().equals(child1.getFirstName())) {
-                Assert.assertEquals(child.getBirthCity(), "Paris");
-                Assert.assertEquals(child.getLegalResponsibles().size(), 1);
-            } else if (child.getFirstName().equals(newChild.getFirstName())) {
-                Assert.assertEquals(child.getLastName(), "Badiane");
-                Assert.assertEquals(child.getLegalResponsibles().size(), 3);
-            } else {
-                fail("Don't know this child : " + child);
+            iHomeFolderModificationRequestService.complete(hfmr.getId());
+            iHomeFolderModificationRequestService.validate(hfmr.getId());
+
+            continueWithNewTransaction();
+
+            // become back an ecitizen to retrieve information
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+            SecurityContext.setCurrentEcitizen(proposedLogin);
+
+            // check modifications are still saved
+            children = iHomeFolderService.getChildren(homeFolder.getId());
+            assertEquals(2, children.size());
+            for (Child child : children) {
+                if (child.getFirstName().equals(child1.getFirstName())) {
+                    assertEquals(child.getBirthCity(), "Paris");
+                    assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                } else if (child.getFirstName().equals(newChild.getFirstName())) {
+                    assertEquals(child.getLastName(), "Badiane");
+                    assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                } else {
+                    fail("Don't know this child : " + child);
+                }
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Argh");
         }
     }
 
@@ -543,17 +458,18 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         // check modifications have been effectively cancelled
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
-        homeFolder = hfmrFromDb.getHomeFolder();
+        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         children = iHomeFolderService.getChildren(homeFolder.getId());
-        Assert.assertEquals(children.size(), 2);
+        assertEquals(2, children.size());
+        RoleEnum[] roles = {RoleEnum.CLR_FATHER, RoleEnum.CLR_MOTHER, RoleEnum.CLR_TUTOR };
         for (Child child : children) {
             Assert.assertNotSame(child.getFirstName(), "XXXX");
             Assert.assertNotNull(child.getAdress());
             Assert.assertEquals(child.getLastName(), "LASTNAME");
             if (child.getFirstName().equals("childone")) {
-                Assert.assertEquals(child.getLegalResponsibles().size(), 3);
+                assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
             } else if (child.getFirstName().equals("childtwo")) {
-                Assert.assertEquals(child.getLegalResponsibles().size(), 1);                
+                assertEquals(1, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
             }
         }
     }
@@ -567,31 +483,15 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         adults.remove(homeFolderUncle);
 
-        // removing this adult from children's legal responsibles
-        // will be necessary be done in the Front Office since adult
-        // will no longer be available for adding as a legal responsible
-        Set lrSet = child1.getLegalResponsibles();
-        Iterator lrSetIt = lrSet.iterator();
-        while (lrSetIt.hasNext()) {
-            ChildLegalResponsible clr =
-                (ChildLegalResponsible) lrSetIt.next();
-            if (clr.getLegalResponsible().equals(homeFolderUncle)) {
-                lrSet.remove(clr);
-                break;
-            }
-        }
-        child1.setLegalResponsibles(lrSet);
-
-        Address newAdress = BusinessObjectsFactory.gimmeAdress("1","Rue des Ecoles", "Paris", "75005");
-        Adult newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER,"adult","new",null, FamilyStatusType.SINGLE);
-        newAdult.setAdress(newAdress);
+        Address newAdress = 
+            BusinessObjectsFactory.gimmeAdress("1","Rue des Ecoles", "Paris", "75005");
+        Adult newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER,"adult",
+                "new", newAdress, FamilyStatusType.SINGLE);
         newAdult.setPassword("toto");
 
         adults.add(newAdult);
 
-        iHomeFolderModificationRequestService.modify(hfmr,
-                                                     adults, children,
-                                                     adress);
+        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
     }
 
     public void testSimpleAdultsAddRemoveValidated()
@@ -602,15 +502,14 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // check modifications have been saved
-        Set allAdults = iHomeFolderService.getAdults(homeFolder.getId());
-        Assert.assertEquals(allAdults.size(), 3);
-        Assert.assertFalse(allAdults.contains(homeFolderUncle));
+        Set<Adult> allAdults = iHomeFolderService.getAdults(homeFolder.getId());
+        assertEquals(3, allAdults.size());
+        assertFalse(allAdults.contains(homeFolderUncle));
 
         continueWithNewTransaction();
         
         // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         iHomeFolderModificationRequestService.complete(hfmr.getId());
@@ -620,7 +519,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         
         // check removed adult has been deleted from DB
         try {
-            iAdultService.getById(homeFolderUncle.getId());
+            iIndividualService.getById(homeFolderUncle.getId());
             fail("Adult should have been removed");
         } catch (CvqObjectNotFoundException confe) {
             // that's what we expected
@@ -628,17 +527,13 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         // check new adult and its specific adress are well stored
         allAdults = iHomeFolderService.getAdults(homeFolder.getId());
-        Assert.assertEquals(allAdults.size(), 3);
+        assertEquals(3, allAdults.size());
         boolean foundNewAdult = false;
-        Iterator allAdultsIt = allAdults.iterator();
-        while (allAdultsIt.hasNext()) {
-            Adult tempAdult = (Adult) allAdultsIt.next();
-            logger.debug("got : " + tempAdult.getFirstName() + " "
-                         + tempAdult.getLastName());
+        for (Adult tempAdult : allAdults) {
             if (tempAdult.getLastName().equals("adult")) {
                 foundNewAdult = true;
-                Assert.assertNotNull(tempAdult.getAdress());
-                Assert.assertEquals(tempAdult.getAdress().getPostalCode(), "75005");
+                assertNotNull(tempAdult.getAdress());
+                assertEquals("75005", tempAdult.getAdress().getPostalCode());
             }
         }
         if (!foundNewAdult)
@@ -653,8 +548,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         iHomeFolderModificationRequestService.cancel(hfmr.getId());
@@ -663,7 +557,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         
         // check removed adult has been restored
         try {
-            iAdultService.getById(homeFolderUncle.getId());
+            iIndividualService.getById(homeFolderUncle.getId());
         } catch (CvqObjectNotFoundException confe) {
             fail("Adult should have been restored");
         }
@@ -674,37 +568,17 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         hfmrId = createModificationRequest();
 
-        Adult responsibleToRemove = homeFolder.getHomeFolderResponsible();
+        Adult responsibleToRemove = 
+            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         adults.remove(responsibleToRemove);
-        responsibleToRemove.removeHomeFolderResponsibleRole();
-        responsibleToRemove.removeHomeFolderFinancialResponsibleRole();
 
-        // removing this adult from children's legal responsibles
-        // will be necessary done in the Front Office since adult
-        // will no longer be available for adding as a legal responsible
-        Set lrSet = child1.getLegalResponsibles();
-        lrSet.clear();
-        ChildLegalResponsible clr = new ChildLegalResponsible();
-        clr.setRole(LegalResponsibleRole.FATHER);
-        clr.setLegalResponsible(homeFolderUncle);
-        clr.setChild(child1);
-        lrSet.add(clr);
-        clr = new ChildLegalResponsible();
-        clr.setRole(LegalResponsibleRole.MOTHER);
-        clr.setLegalResponsible(homeFolderWoman);
-        clr.setChild(child1);
-        lrSet.add(clr);
-
-        lrSet = child2.getLegalResponsibles();
-        lrSet.clear();
-        clr = new ChildLegalResponsible();
-        clr.setRole(LegalResponsibleRole.FATHER);
-        clr.setLegalResponsible(homeFolderUncle);
-        clr.setChild(child2);
-        lrSet.add(clr);
-
-        homeFolderUncle.addHomeFolderResponsibleRole();
+        iHomeFolderService.addHomeFolderRole(homeFolderUncle.getId(), homeFolder.getId(), 
+                RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), child2, RoleEnum.CLR_FATHER);
         homeFolderUncle.setPassword("toto");
+
+        iHomeFolderService.removeHomeFolderRole(responsibleToRemove.getId(), 
+                homeFolder.getId(), RoleEnum.HOME_FOLDER_RESPONSIBLE);
 
         iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
     }
@@ -712,25 +586,32 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
     public void testHomeFolderResponsibleChangeValidated()
         throws CvqException {
 
-        prepareHomeFolderResponsibleChange();
+        try {
+            prepareHomeFolderResponsibleChange();
 
-        continueWithNewTransaction();
+            continueWithNewTransaction();
 
-        // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+            // be an agent to perform request state changes
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.complete(hfmr.getId());
-        iHomeFolderModificationRequestService.validate(hfmr.getId());
+            iHomeFolderModificationRequestService.complete(hfmr.getId());
+            iHomeFolderModificationRequestService.validate(hfmr.getId());
 
-        continueWithNewTransaction();
+            continueWithNewTransaction();
+
+            homeFolder = iHomeFolderService.getById(homeFolder.getId());
+            adults = iHomeFolderService.getAdults(homeFolder.getId());
+            Assert.assertEquals(adults.size(), 2);
+            Adult homeFolderResponsible = 
+                iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            Assert.assertEquals(homeFolderResponsible.getLastName(), homeFolderUncle.getLastName());
+            Assert.assertEquals(homeFolderResponsible.getFirstName(), homeFolderUncle.getFirstName());
         
-        homeFolder = iHomeFolderService.getById(homeFolder.getId());
-        adults = iHomeFolderService.getAdults(homeFolder.getId());
-        Assert.assertEquals(adults.size(), 2);
-        Adult homeFolderResponsible = homeFolder.getHomeFolderResponsible();
-        Assert.assertEquals(homeFolderResponsible.getLastName(), homeFolderUncle.getLastName());
-        Assert.assertEquals(homeFolderResponsible.getFirstName(), homeFolderUncle.getFirstName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     public void testHomeFolderResponsibleChangeCancelled()
@@ -751,7 +632,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         homeFolder = iHomeFolderService.getById(homeFolder.getId());
         adults = iHomeFolderService.getAdults(homeFolder.getId());
         Assert.assertEquals(adults.size(), 3);
-        Adult homeFolderResponsible = homeFolder.getHomeFolderResponsible();
+        Adult homeFolderResponsible = 
+            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         Assert.assertEquals(homeFolderResponsible.getLastName(), "LASTNAME");
         Assert.assertEquals(homeFolderResponsible.getFirstName(), "responsible");
     }
@@ -764,98 +646,116 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
     public void testSchoolRegistrationsSideEffect()
         throws CvqException {
 
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+        try {
+            
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
+            // create a vo card request (to create home folder and associates)
+            CreationBean cb = gimmeAnHomeFolder();
 
-        Long requestId = cb.getRequestId();
-        proposedLogin = cb.getLogin();
+            Long requestId = cb.getRequestId();
+            proposedLogin = cb.getLogin();
 
-        // be an agent to perform request state changes
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iRequestService.complete(requestId);
-        iRequestService.validate(requestId);
+            continueWithNewTransaction();
+            
+            // be an agent to perform request state changes
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+            
+            iRequestService.complete(requestId);
+            iRequestService.validate(requestId);
+
+            continueWithNewTransaction();
+            
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+            SecurityContext.setCurrentEcitizen(proposedLogin);
+
+            // get the home folder id
+            homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+            Long homeFolderId = homeFolder.getId();
+            assertNotNull(homeFolderId);
+
+            // register a child to school
+
+            // get a school for our school and canteen registrations
+            Set schoolsSet = schoolService.getAll();
+            if (schoolsSet == null || schoolsSet.size() == 0)
+                fail("No school created in the system, can't go further");
+            School school = (School) schoolsSet.iterator().next();
+
+            // fill the child with the most we can
+            child1.setNote("Coucou, je suis l'enfant child1");
+            child1.setBirthPostalCode("93240");
+            child1.setBirthCity("Livry-Gargan");
+            child1.setSex(SexType.MALE);
+            child1.setBadgeNumber("XXX111GGG");
+
+            SchoolRegistrationRequest srr = new SchoolRegistrationRequest();
+            srr.setCurrentSchoolName("Ecolde des Yarglas");
+            srr.setSection(SectionType.CP);
+            srr.setUrgencyPhone("0102030405");
+            srr.setSchool(school);
+            srr.setSubjectId(child1.getId());
+            srr.setRequesterId(SecurityContext.getCurrentUserId());
+            
+            Long srrId =
+                iSchoolRegistrationRequestService.create(srr);
+
+            continueWithNewTransaction();
+
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
+            iSchoolRegistrationRequestService.complete(srrId);
+            iSchoolRegistrationRequestService.validate(srrId);
+
+            continueWithNewTransaction();
+
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+            SecurityContext.setCurrentEcitizen(proposedLogin);
+
+            Set<Long> authorizedSchoolRegistrations =
+                iSchoolRegistrationRequestService.getAuthorizedSubjects(homeFolderId).keySet();
+            assertEquals(1, authorizedSchoolRegistrations.size());
+
+            // create the home folder modification request
+            homeFolder = iHomeFolderService.getById(homeFolderId);
+            homeFolderResponsible = 
+                iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            hfmr = iHomeFolderModificationRequestService.create(homeFolderId,
+                    homeFolderResponsible.getId());
+            hfmrId = hfmr.getId();
+
+            Set<Adult> adultSet = new HashSet<Adult>();
+            adultSet.add(homeFolderResponsible);
+            adultSet.add(homeFolderWoman);
+            adultSet.add(homeFolderUncle);
+            Set<Child> childSet = new HashSet<Child>();
+            childSet.add(child1);
+            childSet.add(child2);
+            Address newAdress =
+                BusinessObjectsFactory.gimmeAdress("1","Rue du centre", "Drancy", "93700");
+
+            iHomeFolderModificationRequestService.modify(hfmr, adultSet, childSet, newAdress);
+
+            continueWithNewTransaction();
+
+            authorizedSchoolRegistrations =
+                iSchoolRegistrationRequestService.getAuthorizedSubjects(homeFolderId).keySet();
+            assertEquals(1, authorizedSchoolRegistrations.size());
+
+            // that's ok, cancel the home folder modification request
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
+            iHomeFolderModificationRequestService.cancel(hfmr.getId());
+            iSchoolRegistrationRequestService.delete(srrId);
+
+            continueWithNewTransaction();
         
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-
-        // get the home folder id
-        homeFolder = iHomeFolderService.getByRequestId(requestId);
-        Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
-
-        // register a child to school
-
-        // get a school for our school and canteen registrations
-        Set schoolsSet = schoolService.getAll();
-        if (schoolsSet == null || schoolsSet.size() == 0)
-            fail("No school created in the system, can't go further");
-        School school = (School) schoolsSet.iterator().next();
-
-        // fill the child with the most we can
-        child1.setNote("Coucou, je suis l'enfant child1");
-        child1.setBirthPostalCode("93240");
-        child1.setBirthCity("Livry-Gargan");
-        child1.setSex(SexType.MALE);
-        child1.setBadgeNumber("XXX111GGG");
-
-        SchoolRegistrationRequest srr = new SchoolRegistrationRequest();
-        srr.setCurrentSchoolName("Ecolde des Yarglas");
-        srr.setSection(SectionType.CP);
-        srr.setUrgencyPhone("0102030405");
-        srr.setSchool(school);
-        srr.setSubject(child1);
-
-        Long srrId =
-            iSchoolRegistrationRequestService.create(srr, homeFolderResponsible.getId());
-
-        continueWithNewTransaction();
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iSchoolRegistrationRequestService.complete(srrId);
-        iSchoolRegistrationRequestService.validate(srrId);
-
-        continueWithNewTransaction();
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-
-        Set authorizedSchoolRegistrations =
-            iSchoolRegistrationRequestService.getAuthorizedSubjects(homeFolderId).keySet();
-        Assert.assertEquals(authorizedSchoolRegistrations.size(), 1);
-
-        // create the home folder modification request
-        homeFolder = iHomeFolderService.getById(homeFolderId);
-        hfmr = iHomeFolderModificationRequestService.create(homeFolderId,
-                homeFolder.getHomeFolderResponsible().getId());
-        hfmrId = hfmr.getId();
-        
-        Set<Adult> adultSet = new HashSet<Adult>();
-        adultSet.add(homeFolderResponsible);
-        adultSet.add(homeFolderWoman);
-        adultSet.add(homeFolderUncle);
-        Set<Child> childSet = new HashSet<Child>();
-        childSet.add(child1);
-        childSet.add(child2);
-        Address newAdress =
-            BusinessObjectsFactory.gimmeAdress("1","Rue du centre", "Drancy", "93700");
-
-        iHomeFolderModificationRequestService.modify(hfmr, adultSet, childSet, newAdress);
-
-        continueWithNewTransaction();
-        
-        authorizedSchoolRegistrations =
-            iSchoolRegistrationRequestService.getAuthorizedSubjects(homeFolderId).keySet();
-        Assert.assertEquals(authorizedSchoolRegistrations.size(), 1);
-        
-        // that's ok, cancel the home folder modification request
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        iHomeFolderModificationRequestService.cancel(hfmr.getId());
-        continueWithNewTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 }

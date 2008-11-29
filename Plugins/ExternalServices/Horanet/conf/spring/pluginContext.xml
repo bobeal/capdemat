@@ -26,8 +26,8 @@
     <property name="homeFolderService">
       <ref bean="homeFolderService" />
     </property>
-    <property name="childService">
-      <ref bean="childService" />
+    <property name="individualService">
+      <ref bean="individualService" />
     </property>
   </bean>
 

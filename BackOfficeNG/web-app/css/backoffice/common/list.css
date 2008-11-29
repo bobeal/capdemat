@@ -18,6 +18,14 @@
 	border:1px solid #C8DDFF;
 }
 
+#search-results div.pagination span {
+  margin-right: 0.5em;
+}
+
+#search-results div.pagination a {
+  margin-right: 0.5em;
+}
+
 #search-results li {
   margin-bottom: 1em;
   padding-bottom: 0.5em;

@@ -7,19 +7,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlException;
-import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
-import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.PlaceReservationData;
 import fr.cg95.cvq.business.users.TicketTypeSelection;
 import fr.cg95.cvq.exception.CvqException;
@@ -29,7 +27,6 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.reservation.IPlaceReservationRequestService;
-import fr.cg95.cvq.xml.request.reservation.PlaceReservationRequestDocument;
 
 /**
  * Implementation of the place reservation request service.
@@ -43,38 +40,30 @@ public final class PlaceReservationRequestService
 
     private IPlaceReservationService placeReservationService;
     
-    public Long create(Request request, Long requesterId) 
+    public Long create(Request request, Adult requester, Individual subject) 
         throws CvqException, CvqObjectNotFoundException {
 
-        PlaceReservationRequest prr = (PlaceReservationRequest) request;
-        
-        // if valid subscriber, check place reservation validity
-        if (prr.getSubscriberNumber() != null && !prr.getSubscriberNumber().equals("")) {
-            if (!isValidSubscriberNumber(prr.getSubscriberNumber()))
-                throw new CvqObjectNotFoundException("Unknown subscriber number");
-            if (checkPlaceReservationData(prr.getPlaceReservation(), 
-                    prr.getSubscriberNumber()) != null)
-                throw new CvqModelException("Error in choosen number of places "
-                        + " for subscriber " + prr.getSubscriberNumber());
-        }
-        
-        initializeCommonAttributes(prr, requesterId);
+        performBusinessChecks(request, requester, subject);
 
-        return create(prr);
+        PlaceReservationRequest prr = (PlaceReservationRequest) request;
+        performSpecificChecks(prr);
+        
+        return finalizeAndPersist(prr);
     }
 
-    public Long create(Node prrNode) throws CvqException {
+    public Long create(Request request) throws CvqException {
 
-        PlaceReservationRequestDocument prrDocument = null;
-        try {
-            prrDocument = PlaceReservationRequestDocument.Factory.parse(prrNode);
-        } catch (XmlException xe) {
-            logger.error("create() Error while parsing received data");
-            xe.printStackTrace();
-        }
+        performBusinessChecks(request, null, null);
+
+        PlaceReservationRequest prr = (PlaceReservationRequest) request;
+        performSpecificChecks(prr);
         
-        PlaceReservationRequest prr = PlaceReservationRequest.xmlToModel(prrDocument);
-
+        return finalizeAndPersist(prr);
+    }
+    
+    private void performSpecificChecks(PlaceReservationRequest prr) 
+        throws CvqException {
+        
         // if valid subscriber, check place reservation validity
         if (prr.getSubscriberNumber() != null && !prr.getSubscriberNumber().equals("")) {
             if (!isValidSubscriberNumber(prr.getSubscriberNumber()))
@@ -84,18 +73,6 @@ public final class PlaceReservationRequestService
                 throw new CvqModelException("Error in choosen number of places "
                         + " for subscriber " + prr.getSubscriberNumber());
         }
-        
-        HomeFolder homeFolder = super.createOrSynchronizeHomeFolder(prr);
-        
-        initializeCommonAttributes(prr);
-
-        Long requestId = super.create(prr);
-        if (homeFolder != null) {
-            homeFolder.setBoundToRequest(Boolean.valueOf(true));
-            homeFolder.setOriginRequestId(requestId);
-        }
-    
-        return requestId;
     }
     
     public Map<String, Integer> getAuthorizedNumberOfPlaces(final String subscriberNumber) 
@@ -186,14 +163,12 @@ public final class PlaceReservationRequestService
                 continue;
             }
             // get tickets choosen by user
-            Set tickets = placeReservationData.getTickets();
-            if (tickets == null || tickets.size() == 0) {
-                logger.debug("checkPlaceReservationData() no tickets found for current entry");
+            Set<TicketTypeSelection> tickets = placeReservationData.getTickets();
+            if (tickets == null || tickets.isEmpty()) {
+                logger.warn("checkPlaceReservationData() no tickets found for current entry");
                 continue;
             }
-            Iterator ticketsIt = tickets.iterator();
-            while (ticketsIt.hasNext()) {
-                TicketTypeSelection ticketTypeSelection = (TicketTypeSelection) ticketsIt.next();
+            for (TicketTypeSelection ticketTypeSelection : tickets) {
                 logger.debug("checkPlaceReservationData() looking at " 
                         + ticketTypeSelection.getName());
                 if (subscriberTickets.contains(ticketTypeSelection.getName())) {
@@ -222,7 +197,7 @@ public final class PlaceReservationRequestService
             }
         }
         
-        if (errorReservationSet.size() > 0)
+        if (!errorReservationSet.isEmpty())
             return errorReservationSet;
         else
             return null;
@@ -265,32 +240,29 @@ public final class PlaceReservationRequestService
         }
         
         cancelReservations((PlaceReservationRequest) request);
+        // TODO use a standard request action
         reject(request, "PAYMENT_REFUSED");
     }
 
     private void cancelReservations(PlaceReservationRequest placeReservationRequest) 
         throws CvqException {
         
-        List<PlaceReservationData> reservationSet = placeReservationRequest.getPlaceReservation();
-        if (reservationSet == null || reservationSet.size() == 0) {
+        List<PlaceReservationData> reservationList = placeReservationRequest.getPlaceReservation();
+        if (reservationList == null || reservationList.isEmpty()) {
             logger.warn("onPaymentRefused() no reservation to cancel");
             return;
         }
 
-        Iterator reservationSetIt = reservationSet.iterator();
-        while (reservationSetIt.hasNext()) {
-            PlaceReservationData placeReservationData =
-                (PlaceReservationData) reservationSetIt.next();
+        for (PlaceReservationData placeReservationData : reservationList) {
             String placeReservationKey = placeReservationData.getName();
-            Set tickets = placeReservationData.getTickets();
-            if (tickets == null || tickets.size() == 0) {
-                logger.debug("cancelReservations() no tickets associated to " + placeReservationKey);
+            Set<TicketTypeSelection> tickets = placeReservationData.getTickets();
+            if (tickets == null || tickets.isEmpty()) {
+                logger.warn("cancelReservations() no tickets associated to " + placeReservationKey);
                 continue;
             }
             int numberOfTickets = 0;
-            Iterator ticketsIt = tickets.iterator();
-            while (ticketsIt.hasNext()) {
-                numberOfTickets += ((TicketTypeSelection) ticketsIt.next()).getNumber().intValue();
+            for (TicketTypeSelection ticket : tickets) {
+                numberOfTickets += ticket.getNumber();
             }
             placeReservationService.updateRemainingPlacesForReservation(getLabel(), 
                     placeReservationKey, numberOfTickets);

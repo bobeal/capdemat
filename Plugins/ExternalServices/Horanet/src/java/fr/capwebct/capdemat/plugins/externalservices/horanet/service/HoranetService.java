@@ -15,8 +15,8 @@ import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IChildService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IIndividualService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,7 +91,7 @@ public class HoranetService implements IExternalProviderService {
     private Call call;
 
     private IHomeFolderService homeFolderService;
-    private IChildService childService;
+    private IIndividualService individualService;
 
     public void init() {
     }
@@ -162,19 +162,22 @@ public class HoranetService implements IExternalProviderService {
             // extract child information iff request's subject is of type child
             String childId = "";
             String childBadgeNumber = "";
-            Object subject = request.getSubject();
-            if (subject != null && subject instanceof Child) {
-                Child child = (Child) request.getSubject();
-                childId = child.getId().toString();
-                childBadgeNumber = (child.getBadgeNumber() == null ? "" : child.getBadgeNumber());
+            Long subjectId = request.getSubjectId();
+            Child subject = individualService.getChildById(subjectId);
+            if (subject != null) {
+                childId = subject.getId().toString();
+                childBadgeNumber = 
+                    (subject.getBadgeNumber() == null ? "" : subject.getBadgeNumber());
             }
+            
+            HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
             
             call.invoke(new Object[] {
                     getPostalCodeFromRequest(request),
                     request.getRequestType().getLabel(),
                     request.getRequestType().getLabel(),
                     request.getId().toString(),
-                    request.getHomeFolder().getId().toString(),
+                    homeFolder.getId().toString(),
                     childId,
                     childBadgeNumber,
                     schoolName
@@ -469,11 +472,11 @@ public class HoranetService implements IExternalProviderService {
 
                 Child child = null;
                 try {
-                    child = childService.getById(new Long(childId));
+                    child = individualService.getChildById(new Long(childId));
                 } catch (CvqObjectNotFoundException confe) {
                     logger.error("getHomeFolderAccounts() could not find child with id : " + childId);
                     // does it worth trying with the child card ?
-                    child = childService.getByBadgeNumber(card);
+                    child = individualService.getChildByBadgeNumber(card);
                     if (child == null) {
                         logger.error("getHomeFolderAccounts() could not find child with card : " + card);
                         continue;
@@ -549,12 +552,12 @@ public class HoranetService implements IExternalProviderService {
 
                 Child child = null;
                 try {
-                    child = childService.getById(new Long(childId));
+                    child = individualService.getChildById(new Long(childId));
                 } catch (CvqObjectNotFoundException confe) {
                     logger.error("getIndividualAccountsInformation() could not find child : " 
                             + childId);
                     // does it worth trying with the child card ?
-                    child = childService.getByBadgeNumber(card);
+                    child = individualService.getChildByBadgeNumber(card);
                     if (child == null) {
                         logger.error("getIndividualAccountsInformation() could not find child with card : " 
                                 + card);
@@ -906,8 +909,8 @@ public class HoranetService implements IExternalProviderService {
         this.homeFolderService = homeFolderService;
     }
 
-    public final void setChildService(final IChildService childService) {
-        this.childService = childService;
+    public final void setIndividualService(final IIndividualService individualService) {
+        this.individualService = individualService;
     }
 
     public String getLabel() {

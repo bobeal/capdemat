@@ -12,6 +12,10 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
@@ -36,6 +40,7 @@ import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.quering.BaseOperator;
 import fr.cg95.cvq.util.quering.ISelectArgument;
@@ -44,12 +49,20 @@ import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 import fr.cg95.cvq.util.quering.criterias.InCriteria;
 import fr.cg95.cvq.util.quering.criterias.SimpleCriteria;
 
-public class ExternalService implements IExternalService {
+public class ExternalService implements IExternalService, BeanFactoryAware {
 
     private static Logger logger = Logger.getLogger(ExternalService.class);
 
     private IGenericDAO genericDAO;
     private IExternalServiceTraceDAO externalServiceTraceDAO;
+    private IHomeFolderService homeFolderService;
+    
+    private ListableBeanFactory beanFactory;
+
+    public void init() {
+        this.homeFolderService = (IHomeFolderService)
+            beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
+    }
     
     public boolean authenticate(String externalServiceLabel, String password) {
         IExternalProviderService externalProviderService =
@@ -73,13 +86,13 @@ public class ExternalService implements IExternalService {
         if (externalProviderServices == null || externalProviderServices.isEmpty())
             return;
         
-        HomeFolder homeFolder = request.getHomeFolder();
+        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         for (IExternalProviderService externalProviderService : externalProviderServices) {
             // before sending the request to the external service, eventually set 
             // the external identifiers if they are known ...
             String externalServiceLabel = externalProviderService.getLabel();
             ExternalServiceIdentifierMapping esim = 
-                getIdentifierMapping(externalServiceLabel, request.getHomeFolder().getId());
+                getIdentifierMapping(externalServiceLabel, homeFolder.getId());
             if (esim != null) {
                 homeFolder.setExternalId(esim.getExternalId());
                 homeFolder.setExternalCapDematId(esim.getExternalCapDematId());
@@ -100,9 +113,9 @@ public class ExternalService implements IExternalService {
                 // the CapDemat external identifier
                 esim = new ExternalServiceIdentifierMapping();
                 esim.setExternalServiceLabel(externalServiceLabel);
-                esim.setHomeFolderId(request.getHomeFolder().getId());
+                esim.setHomeFolderId(homeFolder.getId());
                 esim.setExternalCapDematId(UUID.randomUUID().toString());
-                for (Object object : request.getHomeFolder().getIndividuals()) {
+                for (Object object : homeFolder.getIndividuals()) {
                     Individual individual = (Individual) object;
                     esim.addIndividualMapping(individual.getId(), UUID.randomUUID().toString(), null);
                 }
@@ -623,5 +636,14 @@ public class ExternalService implements IExternalService {
 
     public void setGenericDAO(IGenericDAO genericDAO) {
         this.genericDAO = genericDAO;
+    }
+
+    public void setHomeFolderService(IHomeFolderService homeFolderService) {
+        this.homeFolderService = homeFolderService;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory arg0) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) arg0;
     }
 }

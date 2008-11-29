@@ -25,8 +25,6 @@ public class DocumentAction implements Serializable {
     private Date date;
     /** the document's state resulting of this action */
     private DocumentState resultingState;
-    /** the document concerned by this action */
-    private Document document;
 
     /** default constructor */
     public DocumentAction() {
@@ -104,19 +102,6 @@ public class DocumentAction implements Serializable {
 
     public void setResultingState(DocumentState resultingState) {
         this.resultingState = resultingState;
-    }
-
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.document.Document"
-     *  column="document_id"
-     */
-    public Document getDocument() {
-        return this.document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
     }
 
     public String toString() {

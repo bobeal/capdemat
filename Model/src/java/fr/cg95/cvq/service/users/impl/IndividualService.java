@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -14,14 +13,24 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.document.IDocumentDAO;
+import fr.cg95.cvq.business.users.SexType;
+import fr.cg95.cvq.business.users.TitleType;
+import fr.cg95.cvq.dao.users.IAdultDAO;
+import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
+import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
+import fr.cg95.cvq.exception.CvqBadPasswordException;
+import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * Implementation of the {@link IIndividualService} service.
@@ -36,58 +45,76 @@ public class IndividualService implements IIndividualService {
         Collections.synchronizedCollection(new ArrayList<String>());
     
     protected IIndividualDAO individualDAO;
-    protected IDocumentDAO documentDAO;
+    protected IAdultDAO adultDAO;
+    protected IChildDAO childDAO;
+    
     protected IAuthenticationService authenticationService;
 
-    public IndividualService() {
-        super();
-    }
-
-    public Set get(final Set criteriaSet, final String orderedBy, final boolean onlyIds,
+    public List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy, 
             final boolean searchAmongArchived)
         throws CvqException {
         
-        return new LinkedHashSet(individualDAO.search(criteriaSet, orderedBy, onlyIds, 
-                searchAmongArchived ? null : new ActorState[] { ActorState.ARCHIVED }));
+        return individualDAO.search(criteriaSet, orderedBy, 
+                searchAmongArchived ? null : new ActorState[] { ActorState.ARCHIVED });
     }
 
     public Individual getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
+        throws CvqObjectNotFoundException {
         return (Individual) individualDAO.findById(Individual.class, id);
+    }
+
+    public Adult getAdultById(final Long id)
+        throws CvqObjectNotFoundException {
+
+        return (Adult) adultDAO.findById(Adult.class, id);
+    }
+
+    public Child getChildById(final Long id) 
+        throws CvqObjectNotFoundException {
+        
+        return (Child) childDAO.findById(Child.class, id);
+    }
+
+    public Child getChildByBadgeNumber(String badgeNumber) throws CvqException {
+        return childDAO.findByBadgeNumber(badgeNumber);
     }
 
     public Individual getByLogin(final String login)
         throws CvqException {
 
-        Individual individual = null;
-        individual = individualDAO.findByLogin(login);
-        return individual;
+        return individualDAO.findByLogin(login);
     }
 
     public Individual getByCertificate(final String certificate)
         throws CvqException {
 
-        Individual individual = null;
-        individual = individualDAO.findByCertificate(certificate);
-        return individual;
+        return individualDAO.findByCertificate(certificate);
     }
 
     public Individual getByFederationKey(final String federationKey)
         throws CvqException {
 
-        Individual individual = null;
-        individual = individualDAO.findByFederationKey(federationKey);
-        return individual;
+        return individualDAO.findByFederationKey(federationKey);
     }
 
-    // TODO : use document service instead
-    public Set getAssociatedDocuments(final Long individualId)
-        throws CvqException {
+    public void modifyPassword(final Adult adult, final String oldPassword, 
+            final String newPassword)
+        throws CvqException, CvqBadPasswordException {
 
-        logger.debug("getAssociatedDocuments() searching documents for individual id : " + individualId);
+        // check the old password
+        try {
+            authenticationService.authenticate(adult.getLogin(), oldPassword);
+        } catch (CvqAuthenticationFailedException cafe) {
+            logger.warn("modifyPassword() old password does not match for user "
+                        + adult.getLogin());
+            throw new CvqBadPasswordException("Old password does not match for user "
+                                   + adult.getLogin());
+        } catch (CvqDisabledAccountException cdae) {
+            logger.info("modifyPassword() account is disabled, still authorizing password change");
+        }
 
-        List documentsList = documentDAO.listByIndividual(individualId);
-        return new LinkedHashSet(documentsList);
+        // it's ok, set the new one
+        authenticationService.resetAdultPassword(adult, newPassword);
     }
 
     public String encryptPassword(final String clearPassword)
@@ -96,11 +123,10 @@ public class IndividualService implements IIndividualService {
         return authenticationService.encryptPassword(clearPassword);
     }
 
-    private String computeNewLogin(List baseList, String baseLogin) {
+    private String computeNewLogin(List<String> baseList, String baseLogin) {
 
         TreeSet<Integer> indexesSet = new TreeSet<Integer>();
-        for (int i=0; i < baseList.size(); i++) {
-            String login = (String) baseList.get(i);
+        for (String login : baseList) {
             String index = login.substring(baseLogin.length());
             if (index == null || index.equals(""))
                 index = "1";
@@ -150,8 +176,7 @@ public class IndividualService implements IIndividualService {
 
         synchronized (bookedLogin) {
 
-            if (individual.getFirstName() == null
-                    || individual.getLastName() == null)
+            if (individual.getFirstName() == null || individual.getLastName() == null)
                 throw new CvqModelException("Individual must have not-null first and last names");
 
             // lower case and remove any whitespace from last and first names
@@ -161,9 +186,7 @@ public class IndividualService implements IIndividualService {
             lastName = lastName.replaceAll(" ", "-");
             String baseLogin = firstName + "." + lastName;
             logger.debug("assignLogin() searching from " + baseLogin);
-            List similarLogins = null;
-            similarLogins = individualDAO.getSimilarLogins(baseLogin);
-
+            List<String> similarLogins = individualDAO.getSimilarLogins(baseLogin);
             String finalLogin = computeNewLogin(similarLogins, baseLogin);
             logger.debug("assignLogin() setting login : " + finalLogin);
 
@@ -180,16 +203,47 @@ public class IndividualService implements IIndividualService {
         if (individual == null)
             return null;
         
+        if (individual instanceof Adult) {
+            initializeAdult((Adult) individual, assignLogin);
+        } else if (individual instanceof Child) {
+            initializeChild((Child) individual);            
+        }
+        
         individual.setState(ActorState.PENDING);
         individual.setCreationDate(new Date());
+        
         if (address != null)
             individual.setAdress(address);
+        else if (homeFolder != null)
+            individual.setAdress(homeFolder.getAdress());
+        
         if (homeFolder != null)
             individual.setHomeFolder(homeFolder);
         
         return individualDAO.create(individual);
     }
 
+    private void initializeAdult(Adult adult, boolean assignLogin) 
+        throws CvqException {
+        
+        if (adult.getFamilyStatus() == null)
+            adult.setFamilyStatus(FamilyStatusType.OTHER);
+        if (adult.getSex() == null)
+            adult.setSex(SexType.UNKNOWN);
+        if (adult.getTitle() == null)
+            adult.setTitle(TitleType.UNKNOWN);
+        // generate a login even if user has not asked for a personal space
+        if (assignLogin)
+            assignLogin(adult);
+        if (adult.getPassword() != null)
+            adult.setPassword(encryptPassword(adult.getPassword()));        
+    }
+    
+    private void initializeChild(Child child) {
+        if (child.getSex() == null)
+            child.setSex(SexType.UNKNOWN);
+    }
+    
     public void modify(final Individual individual)
         throws CvqException {
 
@@ -201,19 +255,12 @@ public class IndividualService implements IIndividualService {
         individualDAO.update(individual);
     }
 
-    protected void delete(final Individual individual) 
+    public void delete(final Individual individual) 
         throws CvqException {
 
-		logger.debug("Gonna delete individual with id : " + individual.getId());
-//            individual.setAdress(null);
-            
-            // TODO : remove orphan documents ?
-		if (individual.getDocuments() != null)
-			individual.getDocuments().clear();
-        
+        individual.setAdress(null);
 		individualDAO.delete(individual);
 	}
-
 
     public void updateIndividualState(Individual individual, ActorState newState) 
         throws CvqException {
@@ -226,8 +273,12 @@ public class IndividualService implements IIndividualService {
         this.individualDAO = individualDAO;
     }
 
-    public void setDocumentDAO(IDocumentDAO documentDAO) {
-        this.documentDAO = documentDAO;
+    public void setAdultDAO(IAdultDAO adultDAO) {
+        this.adultDAO = adultDAO;
+    }
+
+    public void setChildDAO(IChildDAO childDAO) {
+        this.childDAO = childDAO;
     }
 
     public void setAuthenticationService(IAuthenticationService authenticationService) {

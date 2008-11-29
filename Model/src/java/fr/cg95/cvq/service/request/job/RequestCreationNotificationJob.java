@@ -22,7 +22,7 @@ import fr.cg95.cvq.util.mail.IMailService;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class RequestCreationNotificationJob {
+public class RequestCreationNotificationJob {
 
     private static Logger logger = Logger.getLogger(RequestCreationNotificationJob.class);
 
@@ -48,7 +48,7 @@ public final class RequestCreationNotificationJob {
             return;
         }
 
-        List requestsToNotify = 
+        List<Request> requestsToNotify = 
             requestDAO.listByNotMatchingActionLabel(IRequestService.REQUEST_CREATION_NOTIFICATION);
         logger.debug("notifyLocalAuthRequestsCreation() got "
                 + requestsToNotify.size() + " requests to notify");
@@ -81,7 +81,7 @@ public final class RequestCreationNotificationJob {
                 if (alertSent) {
                     // email alert successfully sent, update request accordingly
                     for (Request request : requestList) {
-                        requestService.addAction(request, 
+                        requestService.addAction(request.getId(), 
                                 IRequestService.REQUEST_CREATION_NOTIFICATION, null);
                     }
                 }

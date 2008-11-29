@@ -22,7 +22,7 @@ public interface IVoCardRequestService extends IRequestService {
     /**
      * Create an account creation request.
      */
-    void create(final VoCardRequest vocd, final Set<Adult> adults, final Set<Child> children, 
+    void create(VoCardRequest vocd, Set<Adult> adults, Set<Child> children, 
             final Address adress)
         throws CvqException;
 }

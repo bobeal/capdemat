@@ -9,6 +9,7 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
+import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext;
 
@@ -21,6 +22,7 @@ class RequestController {
     ICategoryService categoryService
     IRequestService defaultRequestService
     IRequestStatisticsService requestStatisticsService
+    IHomeFolderService homeFolderService
     
     def translationService
     
@@ -124,11 +126,11 @@ class RequestController {
             (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
             
         // now, perform the search request
-        def requests = defaultRequestService.extendedGet(criteria, sortBy, params.dir, 
-                results, recordOffset)
+        def requests = defaultRequestService.get(criteria, sortBy, params.dir, results, recordOffset)
         def recordsList = []
         requests.each {
             def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null
+            def homeFolder = homeFolderService.getById(it.homeFolderId)             
             def quality = 'green'
             if (it.redAlert)
                 quality = 'red'
@@ -138,13 +140,15 @@ class RequestController {
                 'id':it.id,
                 'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
                 'creationDate':DateUtils.formatDate(it.creationDate),
-                'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
-                'subjectLastName':it.subject ? it.subject.lastName + " " + it.subject.firstName : "",
-                'homeFolderId':it.homeFolder.id,
+                'requesterLastName':it.requesterLastName,
+                'requesterFirstName': it.requesterFirstName,
+                'subjectLastName':it.subjectLastName,
+                'subjectFirstName': it.subjectFirstName,
+                'homeFolderId':it.homeFolderId,
                 'state':it.state.toString(),
                 'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
                 'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
-                'permanent':!it.homeFolder.boundToRequest,
+                'permanent': !homeFolder.boundToRequest,
                 'quality':quality
             ]
             recordsList.add(record)
@@ -178,7 +182,7 @@ class RequestController {
         
         if(method == 'get') {
             state['defaultDisplay'] = state['displayForm']
-            state['filters'] = ['categoryFilter':'','requestTypeFilter':'']
+            state['filters'] = ['categoryFilter':'','requestTypeIdFilter':'']
         } else { 
             state = JSON.parse(params.pageState);
         }
@@ -198,15 +202,16 @@ class RequestController {
         def requestMap = [:]
         
         if(state?.displayForm?.contains('Late'))
-            requestMap.redRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_RED,state);
+            requestMap.redRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_RED,state)
         if(state?.displayForm?.contains('Alert'))
-            requestMap.orangeRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_ORANGE,state);
+            requestMap.orangeRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_ORANGE,state)
         if(state?.displayForm?.contains('New'))
-            requestMap.pendingRequests = filterRequests("SEARCH_BY_STATE",RequestState.PENDING,state);
+            requestMap.pendingRequests = filterRequests("SEARCH_BY_STATE",RequestState.PENDING,state)
         if(state?.displayForm?.contains('Validated'))
-            requestMap.validatedRequests = filterRequests("SEARCH_BY_STATE",RequestState.VALIDATED,state);
+            requestMap.validatedRequests = filterRequests("SEARCH_BY_STATE",RequestState.VALIDATED,state)
         if(state?.displayForm?.contains('Last'))
-            requestMap.lastRequests = filterRequests("SEARCH_BY_LAST_INTERVENING_AGENT_ID",SecurityContext.currentUserId,state);
+            requestMap.lastRequests = filterRequests("SEARCH_BY_LAST_INTERVENING_AGENT_ID",
+                    SecurityContext.currentUserId,state)
         
         render (view:'taskBoard', model:["requestMap":requestMap,
                                          "state" : state,
@@ -243,20 +248,20 @@ class RequestController {
         
         if(state?.filters?.categoryFilter) {
             critere = new Critere()
-            critere.attribut = "categoryId"
+            critere.attribut = Request.SEARCH_BY_CATEGORY_ID
             critere.comparatif = critere.EQUALS
             critere.value = state.filters.categoryFilter
             criteriaSet.add(critere)
         }
-        if(state?.filters?.requestTypeFilter) {
+        if(state?.filters?.requestTypeIdFilter) {
             critere = new Critere()
-            critere.attribut = "requestType"
+            critere.attribut = Request.SEARCH_BY_REQUEST_TYPE_ID
             critere.comparatif = critere.EQUALS
-            critere.value = state.filters.requestTypeFilter
+            critere.value = state.filters.requestTypeIdFilter
             criteriaSet.add(critere)
         }
         return [
-            'all' : defaultRequestService.extendedGet(criteriaSet, null, null, tasksShowNb, 0),
+            'all' : defaultRequestService.get(criteriaSet, null, null, tasksShowNb, 0),
             'count' : defaultRequestService.getCount(criteriaSet)
         ]
     }

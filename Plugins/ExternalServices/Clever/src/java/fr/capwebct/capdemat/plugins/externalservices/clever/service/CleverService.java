@@ -32,6 +32,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.authority.ILocalReferentialService;
+import fr.cg95.cvq.service.users.IIndividualService;
 
 public class CleverService implements IExternalProviderService {
     private static Logger logger = Logger.getLogger(CleverService.class);
@@ -42,6 +43,7 @@ public class CleverService implements IExternalProviderService {
 
     private CleverSMSServiceProvider provider;
     private ILocalReferentialService localReferentialService;
+    private IIndividualService individualService;
 
     private String endportpath;
     private String username;
@@ -60,7 +62,7 @@ public class CleverService implements IExternalProviderService {
             CleverSMSContactSEI contactService = provider.getContactService();
 
             SmsNotificationRequest snr = (SmsNotificationRequest) request;
-            Adult adult = (Adult) snr.getSubject();
+            Adult adult = individualService.getAdultById(snr.getSubjectId());
 
             Integer cleverSmsContactId = null;
             if (snr.getCleverSmsContactId() != null && snr.getCleverSmsContactId().length() > 0)
@@ -200,5 +202,9 @@ public class CleverService implements IExternalProviderService {
 
     public void setLocalReferentialService(ILocalReferentialService localReferentialService) {
         this.localReferentialService = localReferentialService;
+    }
+
+    public void setIndividualService(IIndividualService individualService) {
+        this.individualService = individualService;
     }
 }

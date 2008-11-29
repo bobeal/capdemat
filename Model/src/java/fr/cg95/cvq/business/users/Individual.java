@@ -22,7 +22,8 @@ import fr.cg95.cvq.xml.common.IndividualType;
  */
 public class Individual implements Historizable, Serializable {
 
-    // Search field ()used in DAO and Service Layer)
+    // Search fields used in DAO and Service Layer
+    
     public static final String SEARCH_BY_LASTNAME = "lastName";
     public static final String SEARCH_BY_FIRSTNAME = "firstName";
     public static final String SEARCH_BY_BIRTHDATE = "birthDate";
@@ -35,7 +36,7 @@ public class Individual implements Historizable, Serializable {
     private Long id;
     
     /**
-     * the external identifier that is dynamically set for external services
+     * the external identifier that is dynamically set for each external service
      * that provide us this information. It is not persisted.
      */
     private String externalId;
@@ -65,8 +66,8 @@ public class Individual implements Historizable, Serializable {
     private Address adress;
     private Card card;
     private HomeFolder homeFolder;
-
-    private Set documents;
+    
+    private Set<IndividualRole> individualRoles;
 
     /** default constructor */
     public Individual() {
@@ -471,24 +472,29 @@ public class Individual implements Historizable, Serializable {
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
-     *  cascade="all-delete-orphan"
+     *  cascade="all"
+     *  order-by="id asc"
      * @hibernate.key
-     *  column="individual_id"
+     *  column="owner_id"
      * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.document.Document"
+     *  class="fr.cg95.cvq.business.users.IndividualRole"
      */
-    public Set getDocuments() {
-        return this.documents;
+    public Set<IndividualRole> getIndividualRoles() {
+        return individualRoles;
     }
 
-    public void setDocuments(Set documents) {
-        this.documents = documents;
+    public void setIndividualRoles(Set<IndividualRole> individualRoles) {
+        this.individualRoles = individualRoles;
     }
 
+    public String getFullName() {
+        return getLastName() + " " + getFirstName();
+    }
+    
     public String toString() {
         return new ToStringBuilder(this)
+            .append("name", getFullName())
             .append("id", getId())
             .toString();
     }

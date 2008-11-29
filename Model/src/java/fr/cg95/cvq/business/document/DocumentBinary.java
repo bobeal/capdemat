@@ -20,7 +20,6 @@ public class DocumentBinary implements Serializable {
     private Long id;
     private Integer pageNumber;
     private byte[] data;
-    private Document document;
 
     /** default constructor */
     public DocumentBinary() {
@@ -64,19 +63,6 @@ public class DocumentBinary implements Serializable {
 
     public void setData(byte[] data) {
         this.data = data;
-    }
-
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.document.Document"
-     *  column="document_id"
-     */
-    public Document getDocument() {
-        return this.document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
     }
 
     public String toString() {

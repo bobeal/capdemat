@@ -47,13 +47,12 @@ public class FakeExternalServiceTest extends ServiceTestCase {
             // create a vo card request (to create home folder and associates)
             CreationBean cb = gimmeAnHomeFolder();
 
-            Long requestId = cb.getRequestId();
             String proposedLogin = cb.getLogin();
 
             SecurityContext.setCurrentEcitizen(proposedLogin);
 
             // get the home folder id
-            HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
+            HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
             Long homeFolderId = homeFolder.getId();
 
             // register the mock external provider service with the LACB

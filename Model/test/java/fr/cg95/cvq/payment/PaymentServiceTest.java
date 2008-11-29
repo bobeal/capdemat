@@ -106,7 +106,7 @@ public class PaymentServiceTest extends ServiceTestCase {
         // create a vo card request (to create home folder and associates)
         CreationBean cb = gimmeAnHomeFolder();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         
         Payment payment = gimmePayment(cb.getRequestId());
 
@@ -170,7 +170,7 @@ public class PaymentServiceTest extends ServiceTestCase {
         // create a vo card request (to create home folder and associates)
         CreationBean cb = gimmeAnHomeFolder();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(cb.getRequestId());
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
 
         Payment payment = gimmePayment(cb.getRequestId());
         

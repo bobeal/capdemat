@@ -35,12 +35,6 @@
     alter table child 
         drop constraint FK5A3F51C71A211CC;
 
-    alter table child_legal_responsible_map 
-        drop constraint FK62E1102A30CABB22;
-
-    alter table child_legal_responsible_map 
-        drop constraint FK62E1102AC5C931EC;
-
     alter table compostable_waste_collection_request 
         drop constraint FKAFF7287782587E99;
 
@@ -73,12 +67,6 @@
 
     alter table document 
         drop constraint FK335CD11B8EAF8712;
-
-    alter table document 
-        drop constraint FK335CD11B59302132;
-
-    alter table document 
-        drop constraint FK335CD11B8BD77771;
 
     alter table document_action 
         drop constraint FKA42545DA7A6C6B5B;
@@ -182,6 +170,9 @@
     alter table individual 
         drop constraint FKFD3DA2998BD77771;
 
+    alter table individual_role 
+        drop constraint FK3C7D4E5CD4C3A2D8;
+
     alter table library_registration_request 
         drop constraint FKEA37820D82587E99;
 
@@ -282,25 +273,16 @@
         drop constraint FKEAA6DC2682587E99;
 
     alter table request 
-        drop constraint FK414EF28F1BC4A960;
-
-    alter table request 
         drop constraint FK414EF28FC5FD0068;
 
     alter table request 
         drop constraint FK414EF28F396D729D;
 
-    alter table request 
-        drop constraint FK414EF28F8BD77771;
-
     alter table request_action 
         drop constraint FK7AC459E6848EB249;
 
-    alter table request_document_map 
-        drop constraint FKCBC2F7E87A6C6B5B;
-
-    alter table request_document_map 
-        drop constraint FKCBC2F7E8848EB249;
+    alter table request_document 
+        drop constraint FK712980CB848EB249;
 
     alter table request_note 
         drop constraint FK4DABB7A2848EB249;
@@ -400,8 +382,6 @@
 
     drop table child;
 
-    drop table child_legal_responsible_map;
-
     drop table compostable_waste_collection_request;
 
     drop table compostable_waste_collection_request_compostable_waste_type;
@@ -445,6 +425,8 @@
     drop table home_folder_modification_request;
 
     drop table individual;
+
+    drop table individual_role;
 
     drop table library_registration_request;
 
@@ -502,7 +484,7 @@
 
     drop table request_action;
 
-    drop table request_document_map;
+    drop table request_document;
 
     drop table request_form;
 
@@ -555,7 +537,6 @@
 
     create table adult (
         id int8 not null,
-        home_folder_roles int4,
         title varchar(16),
         maiden_name varchar(255),
         name_of_use varchar(255),
@@ -668,14 +649,6 @@
         id int8 not null,
         note varchar(255),
         badge_number varchar(255),
-        primary key (id)
-    );
-
-    create table child_legal_responsible_map (
-        id int8 not null,
-        role varchar(8),
-        child_id int8,
-        legal_responsible_id int8,
         primary key (id)
     );
 
@@ -1058,6 +1031,15 @@
         primary key (id)
     );
 
+    create table individual_role (
+        id int8 not null,
+        role varchar(255),
+        home_folder_id int8,
+        individual_id int8,
+        owner_id int8,
+        primary key (id)
+    );
+
     create table library_registration_request (
         id int8 not null,
         registration_number varchar(255),
@@ -1383,13 +1365,14 @@
         means_of_contact_id int8,
         request_step varchar(16),
         requester_id int8,
+        requester_last_name varchar(255),
         request_type_id int8,
         season_uuid varchar(255),
         orange_alert bool,
         red_alert bool,
         validation_date timestamp,
-        subject_table_name varchar(255),
         subject_id int8,
+        subject_last_name varchar(255),
         primary key (id)
     );
 
@@ -1405,10 +1388,11 @@
         primary key (id)
     );
 
-    create table request_document_map (
-        document_id int8 not null,
-        request_id int8 not null,
-        primary key (request_id, document_id)
+    create table request_document (
+        id int8 not null,
+        document_id int8,
+        request_id int8,
+        primary key (id)
     );
 
     create table request_form (
@@ -1624,16 +1608,6 @@
         foreign key (id) 
         references individual;
 
-    alter table child_legal_responsible_map 
-        add constraint FK62E1102A30CABB22 
-        foreign key (child_id) 
-        references child;
-
-    alter table child_legal_responsible_map 
-        add constraint FK62E1102AC5C931EC 
-        foreign key (legal_responsible_id) 
-        references adult;
-
     alter table compostable_waste_collection_request 
         add constraint FKAFF7287782587E99 
         foreign key (id) 
@@ -1688,16 +1662,6 @@
         add constraint FK335CD11B8EAF8712 
         foreign key (document_type_id) 
         references document_type;
-
-    alter table document 
-        add constraint FK335CD11B59302132 
-        foreign key (individual_id) 
-        references individual;
-
-    alter table document 
-        add constraint FK335CD11B8BD77771 
-        foreign key (home_folder_id) 
-        references home_folder;
 
     alter table document_action 
         add constraint FKA42545DA7A6C6B5B 
@@ -1869,6 +1833,11 @@
         foreign key (home_folder_id) 
         references home_folder;
 
+    alter table individual_role 
+        add constraint FK3C7D4E5CD4C3A2D8 
+        foreign key (owner_id) 
+        references individual;
+
     alter table library_registration_request 
         add constraint FKEA37820D82587E99 
         foreign key (id) 
@@ -2035,11 +2004,6 @@
         references request;
 
     alter table request 
-        add constraint FK414EF28F1BC4A960 
-        foreign key (requester_id) 
-        references adult;
-
-    alter table request 
         add constraint FK414EF28FC5FD0068 
         foreign key (request_type_id) 
         references request_type;
@@ -2049,23 +2013,13 @@
         foreign key (means_of_contact_id) 
         references means_of_contact;
 
-    alter table request 
-        add constraint FK414EF28F8BD77771 
-        foreign key (home_folder_id) 
-        references home_folder;
-
     alter table request_action 
         add constraint FK7AC459E6848EB249 
         foreign key (request_id) 
         references request;
 
-    alter table request_document_map 
-        add constraint FKCBC2F7E87A6C6B5B 
-        foreign key (document_id) 
-        references document;
-
-    alter table request_document_map 
-        add constraint FKCBC2F7E8848EB249 
+    alter table request_document 
+        add constraint FK712980CB848EB249 
         foreign key (request_id) 
         references request;
 

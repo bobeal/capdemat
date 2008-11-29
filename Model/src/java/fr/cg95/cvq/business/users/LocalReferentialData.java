@@ -3,7 +3,6 @@ package fr.cg95.cvq.business.users;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import fr.cg95.cvq.xml.common.LocalReferentialDataType;
@@ -27,7 +26,7 @@ public class LocalReferentialData implements Serializable {
     private Integer priority;
     private String additionalInformationLabel;
     private String additionalInformationValue;
-    private Set children;
+    private Set<LocalReferentialData> children;
     private LocalReferentialData parent;
 
     public LocalReferentialData() {}
@@ -49,9 +48,7 @@ public class LocalReferentialData implements Serializable {
             LocalReferentialDataType[] lrdTab =
                 new LocalReferentialDataType[localReferentialData.getChildren().size()];
             int i = 0;
-            Iterator childrenIt = localReferentialData.getChildren().iterator();
-            while (childrenIt.hasNext()) {
-                LocalReferentialData lrd = (LocalReferentialData) childrenIt.next();
+            for (LocalReferentialData lrd : localReferentialData.getChildren()) {
                 lrdTab[i] = LocalReferentialData.modelToXml(lrd);
                 i++;
             }
@@ -160,11 +157,11 @@ public class LocalReferentialData implements Serializable {
      *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      *  column="local_referential_child_data_id"
      */
-    public Set getChildren() {
+    public Set<LocalReferentialData> getChildren() {
         return this.children;
     }
 
-    public void setChildren(Set children) {
+    public void setChildren(Set<LocalReferentialData> children) {
         this.children = children;
     }
 

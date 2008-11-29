@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +37,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
+import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 /**
@@ -49,6 +49,7 @@ public class HoranetServiceTest extends ServiceTestCase {
 	private ISchoolRegistrationRequestService srrService;
 	private ISchoolCanteenRegistrationRequestService scrrService;
 	private IPerischoolActivityRegistrationRequestService parrService;
+	private IHomeFolderService homeFolderService;
 	
 	private void setServices() throws CvqException{
 		ConfigurableApplicationContext cac;
@@ -61,6 +62,7 @@ public class HoranetServiceTest extends ServiceTestCase {
     			(ISchoolCanteenRegistrationRequestService) cac.getBean("schoolCanteenRegistrationRequestService");
     		parrService = 
     			(IPerischoolActivityRegistrationRequestService) cac.getBean("perischoolActivityRegistrationRequestService");
+    		homeFolderService = (IHomeFolderService) cac.getBean("homeFolderService");
         } catch (Exception e) {
             throw new CvqException(e.getMessage());
         }
@@ -102,7 +104,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(requestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         homeFolder.setFamilyQuotient("354,44");
         iHomeFolderService.modify(homeFolder);
         
@@ -118,10 +120,11 @@ public class HoranetServiceTest extends ServiceTestCase {
         srrRequest.setCurrentSection(SectionType.FIRST_SECTION);
         srrRequest.setCurrentSchoolAddress("CurrentSchoolAddress");
         srrRequest.setCurrentSchoolName("CurrentSchoolName");
-        srrRequest.setSubject(child1);
+        srrRequest.setSubjectId(child1.getId());
+        srrRequest.setSubjectLastName(child1.getLastName());
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
         srrRequest.setMeansOfContact(meansOfContact);
-        srrService.create(srrRequest, homeFolderResponsible.getId());
+        srrService.create(srrRequest);
      
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -147,14 +150,15 @@ public class HoranetServiceTest extends ServiceTestCase {
         scrrRequest.setDoctorName("DoctorName");
         scrrRequest.setHospitalizationPermission(Boolean.valueOf(true));
         scrrRequest.setFoodAllergy(Boolean.valueOf(true));
-        scrrRequest.setSubject(child1);
+        scrrRequest.setSubjectId(child1.getId());
+        scrrRequest.setSubjectLastName(child1.getLastName());
         scrrRequest.setMeansOfContact(meansOfContact);
         LocalReferentialData foodDietLrd = new LocalReferentialData();
         foodDietLrd.setName("NoPork");
         List<LocalReferentialData> foodDiets = new ArrayList<LocalReferentialData>();
         foodDiets.add(foodDietLrd);
         scrrRequest.setFoodDiet(foodDiets);
-        scrrService.create(scrrRequest, homeFolderResponsible.getId());
+        scrrService.create(scrrRequest);
         
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -179,14 +183,15 @@ public class HoranetServiceTest extends ServiceTestCase {
         parrRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
         parrRequest.setUrgencyPhone("0102030405");
         parrRequest.setHospitalizationPermission(Boolean.valueOf(true));
-        parrRequest.setSubject(child1);
+        parrRequest.setSubjectId(child1.getId());
+        parrRequest.setSubjectLastName(child1.getLastName());
         parrRequest.setMeansOfContact(meansOfContact);
         LocalReferentialData activityLrd = new LocalReferentialData();
         activityLrd.setName("EveningNursery");
         List<LocalReferentialData> activities = new ArrayList<LocalReferentialData>();
         activities.add(activityLrd);
         parrRequest.setPerischoolActivity(activities);
-        parrService.create(parrRequest, homeFolderResponsible.getId());
+        parrService.create(parrRequest);
 
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -317,7 +322,7 @@ public class HoranetServiceTest extends ServiceTestCase {
 
         HomeFolderModificationRequest hfmr = 
             iHomeFolderModificationRequestService.create(homeFolder.getId(), 
-                    homeFolder.getHomeFolderResponsible().getId());
+                    homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId());
         Address address = homeFolder.getAdress();
         address.setStreetName("Ma nouvelle adresse");
         iHomeFolderModificationRequestService.modify(hfmr, 

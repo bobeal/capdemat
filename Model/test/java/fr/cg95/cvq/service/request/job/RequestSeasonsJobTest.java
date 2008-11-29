@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.users.job;
+package fr.cg95.cvq.service.request.job;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -22,12 +22,10 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.job.RequestSeasonsJob;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.SchoolRegistrationRequestFeeder;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument;
 
 public class RequestSeasonsJobTest extends ServiceTestCase {
  
@@ -94,7 +92,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         
         /* Create a season */
         RequestSeason season = BusinessObjectsFactory.gimmeRequestSeason("Saison 0235", 0, 2, 3, 5);
-        iRequestService.createRequestTypeSeasons(requestType, season);
+        iRequestService.addRequestTypeSeason(requestType.getId(), season);
         continueWithNewTransaction();
         
         /* Make season registration start */
@@ -105,7 +103,6 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         
         // create a vo card request (to create home folder and associates)
         CreationBean cb = gimmeAnHomeFolder();
-        Long voCardRequestId = cb.getRequestId();
         String proposedLogin = cb.getLogin();
 
         // close current session and re-open a new one
@@ -114,7 +111,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
+        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Assert.assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
         Assert.assertNotNull(homeFolderId);
@@ -127,16 +124,15 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
         request.setCurrentSchoolAddress("CurrentSchoolAddress");
         request.setCurrentSchoolName("CurrentSchoolName");
-        request.setRequester(homeFolder.getHomeFolderResponsible());
-        SchoolRegistrationRequestFeeder.setSubject(request, homeFolder);
+        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
+        SchoolRegistrationRequestFeeder.setSubject(request, 
+                schoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
 
         MeansOfContact meansOfContact = 
             iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
         request.setMeansOfContact(meansOfContact);
 
-        SchoolRegistrationRequestDocument requestDoc =
-            (SchoolRegistrationRequestDocument) request.modelToXml();
-        Long requestId = schoolRegistrationRequestService.create(requestDoc.getDomNode());
+        Long requestId = schoolRegistrationRequestService.create(request);
 
         continueWithNewTransaction();
         

@@ -207,57 +207,8 @@ public final class AgentService implements IAgentService {
                 SecurityContext.getAgentGroups(), SecurityContext.getCurrentSite());
     }
 
-    public void setCategoryProfile(final Long agentId, final Long categoryId, 
-            final CategoryProfile categoryProfile) throws CvqException {
-
-        if (agentId == null)
-            throw new CvqException("No agent id provided");
-        Agent agent = getById(agentId);
-        if (agent == null)
-            throw new CvqObjectNotFoundException("Agent with id " + agentId + " not found");
-        
-        if (agent.getCategoriesRoles() == null)
-            agent.setCategoriesRoles(new HashSet<CategoryRoles>());
-
-        Iterator categoriesRolesIt = agent.getCategoriesRoles().iterator();
-        if (categoryProfile == null) {
-            // setting profile to NONE means we're unassociating agent from a category
-            Set<CategoryRoles> newCategoryRoles = new HashSet<CategoryRoles>();
-            while (categoriesRolesIt.hasNext()) {
-                CategoryRoles categoryRoles = (CategoryRoles) categoriesRolesIt.next();
-                if (!categoryRoles.getCategory().getId().equals(categoryId)) {
-                    newCategoryRoles.add(categoryRoles);
-                }
-            }
-            agent.setCategoriesRoles(newCategoryRoles);
-        } else {
-            boolean foundCategoryRole = false;
-            while (categoriesRolesIt.hasNext()) {
-                CategoryRoles categoryRoles = (CategoryRoles) categoriesRolesIt.next();
-                if (categoryRoles.getCategory().getId().equals(categoryId)) {
-                    // found an existing role for this category, just update the profile 
-                    categoryRoles.setProfile(categoryProfile);
-                    foundCategoryRole = true;
-                    break;
-                }
-            }
-
-            if (!foundCategoryRole) {
-                // did not found an existing profile for this category, create one
-                CategoryRoles categoryRoles = new CategoryRoles();
-                categoryRoles.setAgent(agent);
-                categoryRoles.setCategory((Category) categoryDAO.findById(Category.class, categoryId));
-                categoryRoles.setProfile(categoryProfile);
-                agent.getCategoriesRoles().add(categoryRoles);
-            }
-        }
-        
-        agentDAO.update(agent);
-        logger.debug("Modified agent : " + agent.getId());
-    }
-
-    public void addCategoryRole(final Long agentId, final  Long categoryId
-            , final CategoryProfile categoryProfile ) throws CvqException {
+    public void addCategoryRole(final Long agentId, final  Long categoryId, 
+            final CategoryProfile categoryProfile ) throws CvqException {
         
         if (agentId == null)
             throw new CvqException("No agent id provided");
@@ -272,17 +223,15 @@ public final class AgentService implements IAgentService {
         agentDAO.update(agent);
     }
     
-    public void modifyCategoryRole(final Long agentId, final  Long categoryId
-            , final CategoryProfile categoryProfile ) throws CvqException {
+    public void modifyCategoryRole(final Long agentId, final  Long categoryId, 
+            final CategoryProfile categoryProfile ) throws CvqException {
         
         if (agentId == null)
             throw new CvqException("No agent id provided");
         Agent agent = getById(agentId);
         
         boolean foundCategoryRole = false;
-        Iterator categoriesRolesIt = agent.getCategoriesRoles().iterator();
-        while (categoriesRolesIt.hasNext()) {
-            CategoryRoles categoryRoles = (CategoryRoles) categoriesRolesIt.next();
+        for (CategoryRoles categoryRoles : agent.getCategoriesRoles()) {
             if (categoryRoles.getCategory().getId().equals(categoryId)) {
                 categoryRoles.setProfile(categoryProfile);
                 foundCategoryRole = true;
@@ -306,9 +255,7 @@ public final class AgentService implements IAgentService {
         Agent agent = getById(agentId);
         
         boolean foundCategoryRole = false;
-        Iterator categoriesRolesIt = agent.getCategoriesRoles().iterator();
-        while (categoriesRolesIt.hasNext()) {
-            CategoryRoles categoryRoles = (CategoryRoles) categoriesRolesIt.next();
+        for (CategoryRoles categoryRoles : agent.getCategoriesRoles()) {
             if (categoryRoles.getCategory().getId().equals(categoryId)) {
                 agent.getCategoriesRoles().remove(categoryRoles);
                 foundCategoryRole = true;

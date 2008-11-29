@@ -3,7 +3,7 @@ package fr.cg95.cvq.service.request.civil;
 import fr.cg95.cvq.service.request.IRequestService;
 
 /**
- * @author sanjay.goojrah@businessdecision.com
+ * @author bor@zenexity.fr
  */
 public interface IDeathDetailsRequestService extends IRequestService {
 	

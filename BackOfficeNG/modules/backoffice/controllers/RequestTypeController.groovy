@@ -8,6 +8,7 @@ import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.document.IDocumentService
+import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.business.request.RequestSeason
@@ -22,6 +23,7 @@ class RequestTypeController {
     IRequestService defaultRequestService
     IRequestServiceRegistry requestServiceRegistry
     IDocumentService documentService
+    IDocumentTypeService documentTypeService
     ICategoryService categoryService
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
     
@@ -240,19 +242,16 @@ class RequestTypeController {
         def list = []
         def reqs = []
         def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        def docs = documentService.getAllDocumentTypes()
-        docs = docs.sort{it.name}
         requestType.requirements.each { r -> reqs.add(r.documentType.id)}
-        //println requestType.requirements
-        docs.each{ d ->
+        documentTypeService.getAllDocumentTypes().each{ d ->
             list.add([
                 'documentId' : d.id,
                 'name' : message(code:"documentType.${d.name.trim().replaceAll(/^\w/,{it.toLowerCase()}).replaceAll(/\s+/,'')}"),
                 'bound' : reqs.contains(d.id),
                 'class' : reqs.contains(d.id) ? '' : 'notBelong'
             ])
-            
         }
+        list = list.sort{it.name}
         render(template:"documentList",model:["documents":list])
     }
     
@@ -289,7 +288,7 @@ class RequestTypeController {
             form.setLabel(params.label)
             form.setTemplateName(params.templateName)
             form.setShortLabel(params.shortLabel)
-            defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
+            defaultRequestService.modifyRequestTypeForm(Long.valueOf(params.requestTypeId),form)
             
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else if(method=="get") {
@@ -314,7 +313,7 @@ class RequestTypeController {
                 form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
                 form.setPersonalizedData(params.editor.getBytes())
                 
-                defaultRequestService.processRequestTypeForm(Long.valueOf(params.requestTypeId),form)
+                defaultRequestService.modifyRequestTypeForm(Long.valueOf(params.requestTypeId),form)
                 render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
             } else {
                 throw new Exception("mail_templates.some_of_mandatory_fields_is_empty")

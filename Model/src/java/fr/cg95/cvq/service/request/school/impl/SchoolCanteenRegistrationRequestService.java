@@ -1,21 +1,16 @@
 package fr.cg95.cvq.service.request.school.impl;
 
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlException;
-import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
-import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
-import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument;
 
 /**
  * Implementation of the school canteen registration request service.
@@ -27,57 +22,21 @@ public final class SchoolCanteenRegistrationRequestService
 
     private static Logger logger = Logger.getLogger(SchoolCanteenRegistrationRequestService.class);
 
-    protected ISchoolRegistrationRequestService schoolRegistrationRequestService;
-
-    public Long create(final Request request, final Long requesterId)
+    public Long create(final Request request)
         throws CvqException, CvqObjectNotFoundException {
+
+        performBusinessChecks(request);
 
         SchoolCanteenRegistrationRequest scrr = (SchoolCanteenRegistrationRequest) request;
         School school = scrr.getSchool();
-
-        initializeCommonAttributes(scrr, requesterId);
-
-        // FIXME : as long as connectivity with Horanet services is not up,
-        // school canteen registrations can be done without having an
-        // associated school
-        if (school == null) {
-            logger.warn("create() No school id provided");
-            // throw new CvqException("No school provided !");
-        } 
-
-        return create(scrr);
-    }
-
-    public Long create(Node node) throws CvqException {
-
-        SchoolCanteenRegistrationRequestDocument requestDocument = null;
-        try {
-            requestDocument = SchoolCanteenRegistrationRequestDocument.Factory.parse(node);
-        } catch (XmlException xe) {
-            logger.error("create() Error while parsing received data");
-            xe.printStackTrace();
-        }
-
-        SchoolCanteenRegistrationRequest request = 
-            SchoolCanteenRegistrationRequest.xmlToModel(requestDocument);
-        HomeFolder homeFolder = super.createOrSynchronizeHomeFolder(request);
-
-        initializeCommonAttributes(request);
-
-        if (request.getSchool() != null) {
-            School school = (School) genericDAO.findById(School.class, request.getSchool().getId());
-            request.setSchool(school);
+        if (school != null) {
+            School syncSchool = (School) genericDAO.findById(School.class, school.getId());
+            scrr.setSchool(syncSchool);
         }
         
-        Long requestId = super.create(request);
-        if (homeFolder != null) {
-            homeFolder.setBoundToRequest(Boolean.valueOf(true));
-            homeFolder.setOriginRequestId(requestId);
-        }
-        
-        return requestId;
+        return finalizeAndPersist(scrr);
     }
-    
+
     public void validate(final Request request) 
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         
@@ -99,10 +58,6 @@ public final class SchoolCanteenRegistrationRequestService
     
     public boolean accept(final Request request) {
         return request instanceof SchoolCanteenRegistrationRequest;
-    }
-
-    public void setSchoolRegistrationRequestService(final ISchoolRegistrationRequestService schoolRegistrationRequestService) {
-        this.schoolRegistrationRequestService = schoolRegistrationRequestService;
     }
 
     public Request getSkeletonRequest() throws CvqException {

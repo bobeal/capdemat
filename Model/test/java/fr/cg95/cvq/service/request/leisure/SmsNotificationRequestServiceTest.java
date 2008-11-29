@@ -4,24 +4,18 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.document.*;
-import fr.cg95.cvq.business.request.social.*;
 import fr.cg95.cvq.business.request.leisure.*;
 import fr.cg95.cvq.exception.*;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.leisure.ISmsNotificationRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.ServiceTestCase;
-import fr.cg95.cvq.testtool.TestUtils;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
-import fr.cg95.cvq.xml.request.leisure.SmsNotificationRequestDocument;
-
 import org.apache.commons.lang.StringUtils;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import junit.framework.Assert;
 
 import java.util.*;
 import java.io.File;
@@ -37,9 +31,8 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
 
     protected void onSetUp() throws Exception {
     	super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
         iSmsNotificationRequestService = 
-            (ISmsNotificationRequestService) cac.getBean(StringUtils.uncapitalize("SmsNotificationRequest") + "Service");
+            (ISmsNotificationRequestService) getBean(StringUtils.uncapitalize("SmsNotificationRequest") + "Service");
     }
 
     protected SmsNotificationRequest fillMeARequest() throws CvqException {
@@ -68,23 +61,24 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
         doc.setEcitizenNote("Ma carte d'identitÃ© !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(iDocumentService.getDocumentTypeById(IDocumentService.IDENTITY_RECEIPT_TYPE));
-        Long documentId = iDocumentService.create(doc, request.getHomeFolder().getId(), 
-        					  request.getRequester().getId());
+        doc.setHomeFolderId(request.getHomeFolderId());
+        doc.setIndividualId(request.getRequesterId());
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        Long documentId = iDocumentService.create(doc);
         iSmsNotificationRequestService.addDocument(request.getId(), documentId);
-        Set documentsSet =
+        Set<RequestDocument> documentsSet =
             iSmsNotificationRequestService.getAssociatedDocuments(request.getId());
-        Assert.assertEquals(documentsSet.size(), 1);
+        assertEquals(documentsSet.size(), 1);
 
         // FIXME : test list of pending / in-progress registrations
         Critere testCrit = new Critere();
-        testCrit.setAttribut(Request.SEARCH_BY_REQUESTER_LASTNAME);
+        testCrit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
         testCrit.setComparatif(Critere.EQUALS);
-        testCrit.setValue(request.getRequester().getLastName());
-        Set testCritSet = new HashSet();
+        testCrit.setValue(request.getHomeFolderId());
+        Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
-        Set allRequests = iRequestService.get(testCritSet, null, false);
-        Assert.assertNotNull(allRequests);
+        List<Request> allRequests = iRequestService.get(testCritSet, null, null, -1, 0);
+        assertNotNull(allRequests);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -120,87 +114,62 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
         iSmsNotificationRequestService.delete(request.getId());
     }
 
+    public void testWithHomeFolderPojo()
+    		throws CvqException, CvqObjectNotFoundException,
+                java.io.FileNotFoundException, java.io.IOException {
 
-    public void testWithHomeFolderXml() throws CvqException,
-			CvqObjectNotFoundException, java.io.FileNotFoundException,
-			java.io.IOException {
+         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        startTransaction();
-        
-	SecurityContext.setCurrentSite(localAuthorityName,
-					SecurityContext.FRONT_OFFICE_CONTEXT);
+         // create a vo card request (to create home folder and associates)
+         CreationBean cb = gimmeAnHomeFolder();
 
-	// create a vo card request (to create home folder and associates)
-	CreationBean cb = gimmeAnHomeFolder();
+         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
-	Long voCardRequestId = cb.getRequestId();
-	String proposedLogin = cb.getLogin();
+         // get the home folder id
+         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+         assertNotNull(homeFolder);
+         Long homeFolderId = homeFolder.getId();
+         assertNotNull(homeFolderId);
 
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-	SecurityContext.setCurrentEcitizen(proposedLogin);
+         // fill and create the request
+         //////////////////////////////
 
-	// get the home folder id
-	HomeFolder homeFolder = iHomeFolderService.getByRequestId(voCardRequestId);
-	Assert.assertNotNull(homeFolder);
-	Long homeFolderId = homeFolder.getId();
-	Assert.assertNotNull(homeFolderId);
+         SmsNotificationRequest request = fillMeARequest();
+         request.setRequesterId(SecurityContext.getCurrentUserId());
+         SmsNotificationRequestFeeder.setSubject(request, 
+             iSmsNotificationRequestService.getSubjectPolicy(), null, homeFolder);
+         
+         Long requestId =
+              iSmsNotificationRequestService.create(request);
 
-	// fill and create the request
-	// ////////////////////////////
+         SmsNotificationRequest requestFromDb =
+        	 	(SmsNotificationRequest) iSmsNotificationRequestService.getById(requestId);
+         assertEquals(requestId, requestFromDb.getId());
+         assertNotNull(requestFromDb.getRequesterId());
+         assertNotNull(requestFromDb.getRequesterLastName());
+         if (requestFromDb.getSubjectId() != null)
+             assertNotNull(requestFromDb.getSubjectLastName());
+         
+         completeValidateAndDelete(requestFromDb);
 
-	SmsNotificationRequest request = fillMeARequest();
-	request.setRequester(homeFolder.getHomeFolderResponsible());
-        SmsNotificationRequestFeeder.setSubject(request, homeFolder);
-
-        Set authorizedSubjects = iSmsNotificationRequestService.getAuthorizedSubjects(homeFolderId).keySet();
-
-	SmsNotificationRequestDocument requestDoc =
-		(SmsNotificationRequestDocument) request.modelToXml();
-	Long requestId = iSmsNotificationRequestService.create(requestDoc.getDomNode());
-
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-        Map newAuthorizedSubjectsMap = iSmsNotificationRequestService.getAuthorizedSubjects(homeFolderId);
-        if (newAuthorizedSubjectsMap == null) 
-            Assert.assertEquals(authorizedSubjects.size(), 1);
-        else
-            Assert.assertEquals(newAuthorizedSubjectsMap.size(), authorizedSubjects.size() - 1);
-
-	SmsNotificationRequest requestFromDb = 
-		(SmsNotificationRequest) iSmsNotificationRequestService.getById(requestId);
-	Assert.assertEquals(requestId, requestFromDb.getId());
-	Adult requester = requestFromDb.getRequester();
-	Assert.assertNotNull(requester);
-	Assert.assertNotNull(requestFromDb.getMeansOfContact());
-    Assert.assertEquals(requestFromDb.getMeansOfContact().getType(), MeansOfContactEnum.EMAIL);
-
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-	completeValidateAndDelete(requestFromDb);
-
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-        HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
-        Assert.assertNotNull(homeFolderAfterDelete);
-        Assert.assertNotNull(homeFolderAfterDelete.getHomeFolderResponsible());
+         HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
+         assertNotNull(homeFolderAfterDelete);
+         assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
+         
+         SecurityContext.resetCurrentSite();
     }
+
 
     public void testWithoutHomeFolder()
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	if (!iSmsNotificationRequestService.supportUnregisteredCreation())
-	    return;
+	      if (!iSmsNotificationRequestService.supportUnregisteredCreation())
+	         return;
 
-	startTransaction();
+	      startTransaction();
 	
-        SecurityContext.setCurrentSite(localAuthorityName,
-                                        SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
         SmsNotificationRequest request = fillMeARequest();
 
@@ -209,14 +178,13 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address,
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
-        request.setRequester(requester);
         requester.setAdress(address);
-        SmsNotificationRequestFeeder.setSubject(request, null);
+        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        SmsNotificationRequestFeeder.setSubject(request, 
+            iSmsNotificationRequestService.getSubjectPolicy(), requester, null);
 
-        SmsNotificationRequestDocument requestDoc = 
-            (SmsNotificationRequestDocument) request.modelToXml();
         Long requestId =
-             iSmsNotificationRequestService.create(requestDoc.getDomNode());
+             iSmsNotificationRequestService.create(request, requester, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -226,12 +194,14 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
 
         SmsNotificationRequest requestFromDb =
             (SmsNotificationRequest) iSmsNotificationRequestService.getById(requestId);
-        Assert.assertEquals(requestId, requestFromDb.getId());
-        requester = requestFromDb.getRequester();
-        Assert.assertNotNull(requester);
+        assertEquals(requestId, requestFromDb.getId());
+        assertNotNull(requestFromDb.getRequesterId());
+        assertNotNull(requestFromDb.getRequesterLastName());
+        if (requestFromDb.getSubjectId() != null)
+            assertNotNull(requestFromDb.getSubjectLastName());
         
-        Long homeFolderId = requestFromDb.getHomeFolder().getId();
-        Long requesterId = requestFromDb.getRequester().getId();
+        Long homeFolderId = requestFromDb.getHomeFolderId();
+        Long requesterId = requestFromDb.getRequesterId();
 
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -248,7 +218,7 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
             // great, that was expected
         }
         try {
-            iAdultService.getById(requesterId);
+            iIndividualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

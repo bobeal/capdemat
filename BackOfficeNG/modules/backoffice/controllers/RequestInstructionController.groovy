@@ -1,8 +1,7 @@
-import fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.business.users.RoleEnumimport fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.*
 import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.service.users.IChildService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.document.IDocumentService
 
@@ -37,7 +36,6 @@ class RequestInstructionController {
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
     IRequestService defaultRequestService
     IHomeFolderService homeFolderService
-    IChildService childService
     IIndividualService individualService
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
@@ -75,7 +73,7 @@ class RequestInstructionController {
 
         // manage allowed and associated documents to a request
         def isDocumentProvide
-        defaultRequestService.getAllowedDocuments(request.getRequestType()).each { documentTypeIt ->
+        defaultRequestService.getAllowedDocuments(request.requestType.id).each { documentTypeIt ->
             isDocumentProvide = false
             requestDocuments.each { documentIt ->
                 if (documentIt.documentType == documentTypeIt)
@@ -98,7 +96,7 @@ class RequestInstructionController {
             adults = homeFolderService.getAdults(request.homeFolder.id)
             children = homeFolderService.getChildren(request.homeFolder.id)
             children.each {
-                clr.put(it.id, childService.getLegalResponsibles(it.id))
+                clr.put(it.id, homeFolderService.getBySubjectRoles(it.id,                        [RoleEnum.CLR_FATHER,RoleEnum.CLR_MOTHER,RoleEnum.CLR_TUTOR]))
             }
         }
 

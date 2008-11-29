@@ -2,7 +2,6 @@ package fr.cg95.cvq.dao.users.hibernate;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 
@@ -18,7 +17,7 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
         super();
     }
     
-    public List listByHomeFolder(final Long homeFolderId) {
+    public List listAdultsByHomeFolder(final Long homeFolderId) {
         StringBuffer sb = new StringBuffer(100);
         sb.append("select adult from Adult as adult")
             .append(" join adult.homeFolder homeFolder")

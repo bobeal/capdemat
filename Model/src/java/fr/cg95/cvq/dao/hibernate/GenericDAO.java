@@ -1,6 +1,5 @@
 package fr.cg95.cvq.dao.hibernate;
 
-import org.hibernate.HibernateException;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -21,9 +20,14 @@ public class GenericDAO implements IGenericDAO {
     }
 
     public Object findById(final Class clazz, final Long id) 
-        throws CvqObjectNotFoundException, CvqPermissionException {
+        throws CvqObjectNotFoundException {
 
-        return findById(clazz, id, null);
+        // FIXME : temp catch block while waiting for permission migrations
+        try {
+            return findById(clazz, id, null);
+        } catch (CvqPermissionException e) {
+            return null;
+        }
     }
 
     public Object findById(final Class clazz, final Long id, 

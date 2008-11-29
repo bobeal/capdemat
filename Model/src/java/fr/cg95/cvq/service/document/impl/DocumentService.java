@@ -307,7 +307,7 @@ public class DocumentService implements IDocumentService {
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void deleteHomeFolderDocuments(Long homeFolderId) throws CvqException {
-        List<Document> documents = getHomeFolderDocuments(homeFolderId);
+        List<Document> documents = getHomeFolderDocuments(homeFolderId, -1);
         for (Document document : documents)
             documentDAO.delete(document);
     }
@@ -335,10 +335,10 @@ public class DocumentService implements IDocumentService {
     }
     
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Document> getHomeFolderDocuments(final Long homeFolderId)
+    public List<Document> getHomeFolderDocuments(final Long homeFolderId, int maxResults)
         throws CvqException {
 
-        return documentDAO.listByHomeFolder(homeFolderId);
+        return documentDAO.listByHomeFolder(homeFolderId, maxResults);
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)

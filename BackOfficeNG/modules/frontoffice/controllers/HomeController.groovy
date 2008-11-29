@@ -1,6 +1,7 @@
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
+import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.civil.IMarriageDetailsRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -31,16 +32,18 @@ import grails.converters.JSON
 
 class HomeController {
 
-    EcitizenService ecitizenService
+    def ecitizenService
+    def translationService
+    
     IRequestService defaultRequestService
     LocalAuthorityRegistry localAuthorityRegistry
     IMarriageDetailsRequestService marriageDetailsRequestService
     IHomeFolderService homeFolderService
     IPaymentService paymentService
+    IDocumentService documentService
     
     Adult currentEcitizen
     MarriageDetailsRequest mdr 
-    def translationService
     
     def defaultAction = "index"
     
@@ -65,19 +68,11 @@ class HomeController {
         
         result.dashBoard.payments = this.getTopFivePayments();
         result.dashBoard.documents = this.getTopFiveDocuments();
-        
-        
-        //println this.getTopFivePayments();
-//        this.getTopFiveDocuments().all.each{
-//            println it.id;
-//        };
-//        println '#######################'
-//        this.getTopFiveDocuments().all2.each {
-//            println it.id;
-//        }
+
         return result;
     }
     
+    /*
     def demo = {
         flash.currentMenu = 'home'
         if (mdr == null)
@@ -159,6 +154,7 @@ class HomeController {
       
       //render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab, message:message])
     }
+    */
     
     def protected getTopFiveRequests = {
         
@@ -171,7 +167,7 @@ class HomeController {
         criteriaSet.add(critere)
         
         return [
-            'all' : defaultRequestService.extendedGet(criteriaSet, null, null, 5, 0),
+            'all' : defaultRequestService.get(criteriaSet, null, null, 5, 0),
             'count' : defaultRequestService.getCount(criteriaSet),
             'records' : []
         ]
@@ -189,7 +185,7 @@ class HomeController {
     
     def protected getTopFiveDocuments = {
         return [
-            'all': homeFolderService.getAssociatedDocuments(this.currentEcitizen.homeFolder.id, 5)
+            'all': documentService.getHomeFolderDocuments(this.currentEcitizen.homeFolder.id, 5)
         ]
     }
 }

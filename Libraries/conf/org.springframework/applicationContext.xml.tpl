@@ -248,7 +248,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="authenticationService" ref="authenticationService"/>
   </bean>
 
-  <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService">
+  <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService"
+    init-method="init">
     <property name="localAuthorityRegistry"> 
   	 	<ref bean="localAuthorityRegistry"/>
   	</property>
@@ -259,9 +260,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
       <ref local="individualService"/>
     </property>
     <property name="documentService" ref="documentService" />
+    <!-- 
     <property name="requestService">
       <ref local="defaultRequestService"/>
     </property>
+    -->
     <property name="paymentService">
       <ref local="paymentService"/>
     </property>
@@ -543,8 +546,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService" init-method="init">
     <property name="paymentDAO" ref="paymentDAO" />
-    <property name="requestService" ref="defaultRequestService" />
     <!-- 
+    <property name="requestService" ref="defaultRequestService" />
     <property name="homeFolderService" ref="homeFolderService" />
     <property name="externalService" ref="externalService" />
     -->

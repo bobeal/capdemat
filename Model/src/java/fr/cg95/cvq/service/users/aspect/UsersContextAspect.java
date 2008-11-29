@@ -57,8 +57,10 @@ public class UsersContextAspect implements Ordered {
         }
 
         if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId, context.privilege()))
-            throw new PermissionException("Denied access to method " + method.getName());
-
+            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                    "access denied on home folder " + homeFolderId 
+                        + " / individual " + individualId);
     }
     
     @Override

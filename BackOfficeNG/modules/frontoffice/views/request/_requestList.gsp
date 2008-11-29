@@ -6,20 +6,21 @@
       <li>
         <p class="first-line">
           <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
-          <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">${record.label}
-          - <g:message code="request.searchResult.requestId" /> 
+          <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">
+          ${record.label}
+          <g:message code="request.searchResult.requestId" /> 
           <span>${record.id}</span>
           - <g:message code="layout.from" /> 
-          <span>${record.requesterLastName}</span>
+          <span>${record.requesterLastName} ${record.requesterFirstName}</span>
           <g:if test="${record.subjectLastName && record.subjectLastName != ''}">
-           <g:message code="layout.for" /> ${record.subjectLastName}
+           <g:message code="layout.for" /> ${record.subjectLastName} ${record.subjectFirstName}
           </g:if>
           </a>
         </p>
-        
+
         <p class="second-line">
           <g:message code="request.searchResult.creationDate" /> 
-          <span >${record.creationDate}</span> - 
+          <span>${record.creationDate}</span> - 
           <g:if test="${record.lastModificationDate}">
             <g:message code="request.property.lastModificationDate" /> ${record.lastModificationDate}
             <g:if test="${record.lastInterveningAgentId}">

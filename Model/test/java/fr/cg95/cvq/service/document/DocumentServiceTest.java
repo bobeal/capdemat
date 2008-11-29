@@ -104,7 +104,7 @@ public class DocumentServiceTest extends ServiceTestCase {
 
         // check the document and its two binary have been successfully added ...
         // ... to the home folder
-        List<Document> documentsList = iDocumentService.getHomeFolderDocuments(homeFolderId);
+        List<Document> documentsList = iDocumentService.getHomeFolderDocuments(homeFolderId, -1);
         assertEquals("Bad number of associated documents on home folder", 1, documentsList.size());
         Set<DocumentBinary> docBinarySet = iDocumentService.getAllPages(docId);
         assertEquals("Bad number of associated data on document", 2, docBinarySet.size());

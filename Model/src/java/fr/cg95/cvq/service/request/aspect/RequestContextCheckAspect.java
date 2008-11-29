@@ -27,14 +27,13 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
 import fr.cg95.cvq.security.annotation.IsSubject;
-import fr.cg95.cvq.security.aspect.ContextAspect;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 
 @Aspect
 public class RequestContextCheckAspect implements Ordered {
     
-    private Logger logger = Logger.getLogger(ContextAspect.class);
+    private Logger logger = Logger.getLogger(RequestContextCheckAspect.class);
     
     private IRequestDAO requestDAO;
     private IRequestTypeDAO requestTypeDAO;
@@ -42,12 +41,22 @@ public class RequestContextCheckAspect implements Ordered {
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.request..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
         
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+
         if (!context.type().equals(ContextType.ECITIZEN) 
                 && !context.type().equals(ContextType.ECITIZEN_AGENT)
-                && !context.type().equals(ContextType.AGENT))
+                && !context.type().equals(ContextType.AGENT)) {
+            logger.debug("contextAnnotatedMethod() unhandled context type ("
+                    + context.type() + ") on method " + signature.getMethod().getName()
+                    + ", ignoring");
             return;
+        }
         
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        if (context.privilege().equals(ContextPrivilege.NONE)) {
+            logger.debug("contextAnnotatedMethod() no special privilege asked"
+                    + " on method " + signature.getMethod().getName() + ", returning");
+            return;
+        }
         
         Method method = signature.getMethod();
         Annotation[][] parametersAnnotations = method.getParameterAnnotations();
@@ -69,7 +78,9 @@ public class RequestContextCheckAspect implements Ordered {
                         try {
                             request = (Request) requestDAO.findById(Request.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
-                            throw new PermissionException(Request.class, argument, context.privilege());
+                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                                    "unknown resource type : " + argument);
                         }
                     } else if (argument instanceof Request) {
                         request = (Request) argument;
@@ -83,7 +94,9 @@ public class RequestContextCheckAspect implements Ordered {
                         try {
                             requestType = (RequestType) requestTypeDAO.findById(RequestType.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
-                            throw new PermissionException(Request.class, argument, context.privilege());
+                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                                    "unknown resource type : " + argument);
                         }                        
                     } else if (argument instanceof RequestType) {
                         requestType = (RequestType) argument;
@@ -110,9 +123,9 @@ public class RequestContextCheckAspect implements Ordered {
                     }
                     
                     // if we are here, that means agent is not authorized
-                    throw new PermissionException("Denied " + context.privilege()
-                            + " access to request type " + requestType.getLabel()
-                            + " for agent " + SecurityContext.getCurrentAgent());
+                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                            "request type " + requestType.getLabel());
                     
                 } else if (parameterAnnotation.annotationType().equals(IsSubject.class)) {
                     
@@ -122,9 +135,12 @@ public class RequestContextCheckAspect implements Ordered {
         }
 
         if (!GenericAccessManager.performPermissionCheck(homeFolderId, null, context.privilege()))
-            throw new PermissionException("Denied access to method " + method.getName());
+            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                    "access denied on home folder " + homeFolderId);
         
         if (SecurityContext.isBackOfficeContext()) {
+            // TODO ACMF
             // for agents, check they have the right privilege for the current request's associated category
             
         }

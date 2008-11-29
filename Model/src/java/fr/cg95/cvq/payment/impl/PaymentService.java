@@ -39,7 +39,6 @@ import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.payment.PaymentServiceBean;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.request.impl.DefaultRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
 public final class PaymentService implements IPaymentService, BeanFactoryAware {
@@ -58,8 +57,13 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
             beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
         this.externalService = (IExternalService)
             beanFactory.getBeansOfType(IExternalService.class, false, true).values().iterator().next();
-//        this.requestService = (IRequestService)
-//            beanFactory.getBeansOfType(IRequestService.class, false, true).values().iterator().next();
+        Map<String, IRequestService> beans = beanFactory.getBeansOfType(IRequestService.class, false, true);
+        for (String beanName : beans.keySet()) {
+            if (beanName.equals("defaultRequestService")) {
+                this.requestService = beans.get(beanName);
+                break;
+            }
+        }
     }
     
 	public Map<String, String> getAllBrokers(PaymentMode paymentMode) throws CvqException {

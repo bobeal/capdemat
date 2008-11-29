@@ -53,12 +53,16 @@ public class DocumentContextCheckAspect implements Ordered {
                         try {
                             document = (Document) documentDAO.findById(Document.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
-                            throw new PermissionException(Document.class, argument, context.privilege());
+                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                                    "unknown resource type : " + argument);
                         }
                     } else if (argument instanceof Document) {
                         document = (Document) argument;
                     } else {
-                        throw new PermissionException("Unable to retrieve document from " + argument);                        
+                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                                joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                                "unable to retrieve document from " + argument);
                     }
                     homeFolderId = document.getHomeFolderId();
                     individualId = document.getIndividualId();
@@ -67,8 +71,12 @@ public class DocumentContextCheckAspect implements Ordered {
             i++;
         }
 
-        if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId, context.privilege()))
-            throw new PermissionException("Denied access to method " + method.getName());
+        if (!GenericAccessManager.performPermissionCheck(homeFolderId, 
+                individualId, context.privilege()))
+            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                    "access denied on home folder " + homeFolderId 
+                        + " / individual " + individualId);
     }
     
     @Override

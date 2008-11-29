@@ -323,7 +323,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         assertNotNull("Retrieved cartevaloise request is null !", dcvoRetr);
 
         // test attachment of the documents
-        List<Document> homeFolderDocuments = iDocumentService.getHomeFolderDocuments(homeFolder.getId());
+        List<Document> homeFolderDocuments = iDocumentService.getHomeFolderDocuments(homeFolder.getId(), -1);
         assertEquals(1, homeFolderDocuments.size());
         Document homeFolderDoc = homeFolderDocuments.get(0);
         assertEquals("Mon livret de famille", homeFolderDoc.getEcitizenNote());

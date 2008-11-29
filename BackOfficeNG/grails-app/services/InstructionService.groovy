@@ -8,18 +8,22 @@ class InstructionService {
     IIndividualService individualService
     
     def getActionPosterDetails = { posterId ->
+    
+        if (posterId == -1)
+            return 'Système'
+
         def poster
         try {
-            poster = this.agentService.getById(Long.valueOf(posterId));
+            poster = this.agentService.getById(Long.valueOf(posterId))
         }catch (CvqObjectNotFoundException) {}
         
-        if(!poster){
+        if (!poster) {
             try {
-                poster = this.individualService.getById(Long.valueOf(posterId));
+                poster = this.individualService.getById(Long.valueOf(posterId))
             }catch (CvqObjectNotFoundException) {}
         }
         
-        if(poster) return "${poster?.firstName} ${poster?.lastName}"
-        else return 'Système'
+        if (poster) return "${poster?.firstName} ${poster?.lastName}"
+        else return null
     }
 }

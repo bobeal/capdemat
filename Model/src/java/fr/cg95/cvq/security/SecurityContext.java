@@ -230,11 +230,11 @@ public class SecurityContext {
      *
      * @throws CvqException if security context is not initialized
      */
-    public static String getCurrentUserLogin() throws CvqException {
+    public static String getCurrentUserLogin() {
 
         CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
-            throw new CvqException("No user yet in security context");
+            return null;
 
         if (credentialBean.isFoContext()) {
             return credentialBean.getEcitizen() == null ? "" : credentialBean.getEcitizen().getLogin();
@@ -251,11 +251,11 @@ public class SecurityContext {
      *
      * @throws CvqException if security context is not initialized
      */
-    public static Long getCurrentUserId() throws CvqException {
+    public static Long getCurrentUserId() {
 
         CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
-            throw new CvqException("No user yet in security context");
+            return null;
 
         if (credentialBean.isFoContext()) {
             return credentialBean.getEcitizen() == null ? null : credentialBean.getEcitizen().getId();

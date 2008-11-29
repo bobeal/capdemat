@@ -28,7 +28,8 @@ class SessionFilters {
                         HibernateUtil.beginTransaction()
                         
                         try {
-                            SecurityContext.setCurrentSite(lacb.getName(), "backOffice")
+                            SecurityContext.setCurrentSite(lacb.getName(), 
+                                    SecurityContext.BACK_OFFICE_CONTEXT)
                             SecurityContext.setCurrentLocale(request.getLocale())
                         } catch (CvqException ce) {
                             ce.printStackTrace()
@@ -54,18 +55,15 @@ class SessionFilters {
             setupFrontUser(controller:'frontoffice*',action:'*') {
                 before = {
                     try {
-                        SecurityContext.setCurrentContext("frontOffice")
+                        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                         SecurityContext.setCurrentEcitizen("benjamin.legrand")
                     } catch (CvqException ce) {
                         ce.printStackTrace()
                         throw new ServletException()
                     }
                 }
-                after = {
-                    
-                }
             }
-            
+
             userExtraction(controller:'backoffice*', action:'*') {
                 before = {
                         if (session.getAttribute(CASFilter.CAS_FILTER_USER) == null) {

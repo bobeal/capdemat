@@ -38,22 +38,15 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
         return crit.list();
     }
 
-    public List<Document> listByHomeFolder(final Long homeFolderId) {
-        Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
-        crit.add(Critere.compose("homeFolderId", homeFolderId, Critere.EQUALS));
-        crit.addOrder(Order.asc("id"));
-        
-        return crit.list();
-    }
-    
     public List<Document> listByHomeFolder (final Long homeFolderId, int max) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
-        crit.createCriteria("homeFolder").add(Critere.compose("id", homeFolderId, Critere.EQUALS));
-        crit.addOrder(Order.asc("id"));
-        crit.setMaxResults(max);
-        List<Document> results = crit.list();
+        crit.add(Critere.compose("homeFolderId", homeFolderId, Critere.EQUALS));
+        crit.addOrder(Order.desc("endValidityDate"));
         
-        return filterSearchResults(results);
+        if (max != -1)
+            crit.setMaxResults(max);
+
+        return crit.list();
     }
 
     public List<Document> listByIndividual(final Long individualId) {

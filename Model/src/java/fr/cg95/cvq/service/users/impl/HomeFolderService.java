@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 
-import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
@@ -50,7 +53,7 @@ import fr.cg95.cvq.util.mail.IMailService;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class HomeFolderService implements IHomeFolderService {
+public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     private static Logger logger = Logger.getLogger(HomeFolderService.class);
 
@@ -68,6 +71,18 @@ public class HomeFolderService implements IHomeFolderService {
     protected IDocumentService documentService;
     protected IPaymentService paymentService;
     protected IExternalService externalService;
+
+    private ListableBeanFactory beanFactory;
+
+    public void init() {
+        Map<String, IRequestService> beans = beanFactory.getBeansOfType(IRequestService.class, false, true);
+        for (String beanName : beans.keySet()) {
+            if (beanName.equals("defaultRequestService")) {
+                this.requestService = beans.get(beanName);
+                break;
+            }
+        }        
+    }
     
     @Override
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
@@ -785,6 +800,11 @@ public class HomeFolderService implements IHomeFolderService {
 
     public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory arg0) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) arg0;
     }
 }
 

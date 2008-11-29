@@ -174,7 +174,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(type=ContextType.ECITIZEN_AGENT, privilege=ContextPrivilege.NONE)
     public List<Request> get(Set<Critere> criteriaSet, final String sort, final String dir,
             final int recordsReturned, final int startIndex)
         throws CvqException {
@@ -189,7 +189,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(type=ContextType.ECITIZEN_AGENT, privilege=ContextPrivilege.NONE)
     public Long getCount(Set<Critere> criteriaSet) throws CvqException {
 
         if (criteriaSet == null)

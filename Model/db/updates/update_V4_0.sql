@@ -182,9 +182,9 @@ alter table technical_intervention_request_intervention_type add column interven
 select init_hibernate_list_index('technical_intervention_request_intervention_type', 'intervention_type_id', 'intervention_type_index');
 alter table technical_intervention_request_intervention_type add constraint technical_intervention_request_intervention_type_pkey primary key (technical_intervention_request_id, intervention_type_index);
 
-alter individual add column home_folder_index int4;
+alter table individual add column home_folder_index int4;
 select init_hibernate_list_index('individual', 'id', 'home_folder_index');
-alter table individual add constraint home_folder_pkey primary key (home_folder_id, home_folder_index);
+-- alter table individual add constraint home_folder_pkey primary key (home_folder_id, home_folder_index);
 
 DROP function init_hibernate_list_index(text,text,text);
 

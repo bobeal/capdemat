@@ -1,12 +1,15 @@
+-- request letter templates enhancements
 alter table request_form add column personalized_data bytea ;
 alter table request_form add column template_name varchar(255);
 
+-- vacations registration request removal
 drop table vacations_diary ;
 drop table vacations_registration_request_other_individual ;
 drop table vacations_registration_request ;
 delete from requirement where request_type_id = (select id from request_type where label = 'Vacations Registration');
 delete from request_type where label = 'Vacations Registration';
 
+-- migration to indexed lists in requests collections elements
 
 -- stgl specific drop contraint managment
 create function stgl_constraint_drop() returns void as $$
@@ -98,8 +101,7 @@ alter table sms_notification_request_interests drop constraint sms_notification_
 alter table technical_intervention_request_intervention_type drop constraint technical_intervention_request_intervention_type_pkey ;
 
 
--- Add and int hibernate list index
-
+-- Add an int hibernate list index
 CREATE FUNCTION init_hibernate_list_index(table_name text, id_col_name text, index_col_name text) RETURNS void AS $$
  DECLARE
     current_index integer := 0;
@@ -182,7 +184,7 @@ alter table technical_intervention_request_intervention_type add constraint tech
 
 DROP function init_hibernate_list_index(text,text,text);
 
-
+-- agents preferences enhancements
 ALTER TABLE agent ADD COLUMN preferences bytea;        
 
 

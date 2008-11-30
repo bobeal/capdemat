@@ -38,12 +38,6 @@ public interface IRequestDAO extends IGenericDAO {
             final Long requestTypeId, final Long categoryId);
 
     /**
-     * @deprecated kept for compatibility with existing Back Office
-     */
-    Long oldCountByResultingState(final String[] resultingState, final Date startDate, final Date endDate, 
-            final Long requestTypeId, final Long categoryId);
-
-    /**
      * Return the list of all requests whose requester has the given id.
      */
     List<Request> listByRequester(final Long requesterId);

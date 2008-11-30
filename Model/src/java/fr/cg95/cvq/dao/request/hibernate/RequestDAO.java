@@ -1,19 +1,11 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
 
@@ -31,8 +23,6 @@ import fr.cg95.cvq.util.Critere;
  * @author bor@zenexity.fr
  */
 public class RequestDAO extends GenericDAO implements IRequestDAO {
-
-    private static Logger logger = Logger.getLogger(RequestDAO.class);
 
     public List<Request> search(final Set<Critere> criteria, final String sort, String dir, 
             int recordsReturned, int startIndex) {
@@ -299,16 +289,6 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
 
     public Long count(final Set<Critere> criteria) {
-        // this function is used by the statistics service
-        // but also to get a count of pending requests
-        // so there is currently no way to do an access check here
-
-        // FIXME : filter requests that agent is not authorized to see ?
-        // (different service)
-
-        // security = SecurityPolicy.get(new Request());
-        // security.check(PrivilegeDescriptor.MANAGE);
-
         return searchCount(criteria).longValue();
     }
 
@@ -320,16 +300,16 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer();
-        sb.append("select count(*) from Request as request, RequestAction as requestAction")
-            .append(" where request.id = requestAction.request");
+        sb.append("select distinct(request.id) from Request request join request.actions action")
+        .append(" where 1 = 1");
 
         if (startDate != null) {
-            sb.append(" and requestAction.date > ?");
+            sb.append(" and action.date > ?");
             objectList.add(startDate);
             typeList.add(Hibernate.TIMESTAMP);
         }
         if (endDate != null) {
-            sb.append(" and requestAction.date < ?");
+            sb.append(" and action.date < ?");
             objectList.add(endDate);
             typeList.add(Hibernate.TIMESTAMP);
         }
@@ -339,7 +319,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 .append("'");
         }
 
-        sb.append(" and requestAction.resultingState in (");
+        sb.append(" and action.resultingState in (");
         for (int i = 0; i < resultingStates.size(); i++) {
             sb.append("'").append(resultingStates.get(i)).append("'");
             if (i != resultingStates.size() - 1)
@@ -364,14 +344,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        Iterator resultsIt = HibernateUtil.getSession()
+        
+        return Long.valueOf(HibernateUtil.getSession()
             .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .iterate();
-        if (resultsIt != null && resultsIt.hasNext())
-            return  (Long)resultsIt.next();
-        else
-            return new Long(0);
+            .setParameters(objectTab, typeTab).list().size());
     }
 
     public Long countByResultingState(final String[] resultingState, final Date startDate, final Date endDate,
@@ -382,16 +358,16 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         StringBuffer sb = new StringBuffer();
 
-        sb.append("select count(*) from Request as request, RequestAction as requestAction")
-            .append(" where request.id = requestAction.request");
+        sb.append("select distinct(request.id) from Request request join request.actions action")
+            .append(" where 1 = 1");
 
         if (startDate != null) {
-            sb.append(" and requestAction.date > ?");
+            sb.append(" and action.date > ?");
             objectList.add(startDate);
             typeList.add(Hibernate.TIMESTAMP);
         }
         if (endDate != null) {
-            sb.append(" and requestAction.date < ?");
+            sb.append(" and action.date < ?");
             objectList.add(endDate);
             typeList.add(Hibernate.TIMESTAMP);
         }
@@ -405,7 +381,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             sb.append(" and (");
             for (int i = 0; i < resultingState.length; i++) {
                 String state = resultingState[i];
-                sb.append(" requestAction.resultingState = '").append(state).append("'");
+                sb.append(" action.resultingState = '").append(state).append("'");
                 if (i < (resultingState.length - 1))
                     sb.append(" or ");
             }
@@ -416,96 +392,14 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             sb.append(" and request.requestType.id = '").append(requestTypeId).append("'");
         }
 
-        logger.debug("countByResultingState() sending : " + sb.toString());
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
 
-        Iterator resultsIt = HibernateUtil.getSession()
+        return Long.valueOf(HibernateUtil.getSession()
                 .createQuery(sb.toString())
-                .setParameters(objectTab, typeTab)
-                .iterate();
-        
-        if (resultsIt != null && resultsIt.hasNext())
-            return (Long)resultsIt.next();
-        else
-            return new Long(0);
+                .setParameters(objectTab, typeTab).list().size());
     }
-    
-    public Long oldCountByResultingState(final String[] resultingState, final Date startDate, final Date endDate,
-            final Long requestTypeId, final Long categoryId) {
 
-        StringBuffer tables = new StringBuffer();
-        StringBuffer subquery = new StringBuffer();
-        StringBuffer where = new StringBuffer();
-
-        tables.append("select count(*) from request, request_action,");
-        
-        subquery.append("(select request_id, max(date) as date from request_action")
-                .append(" where resulting_state <> '' group by request_id) last_entries");
-
-        where.append(" where request.id=request_action.request_id")
-            .append(" and request_action.request_id=last_entries.request_id")
-            .append(" and request_action.date=last_entries.date");
-        
-        if (startDate != null) {
-            where.append(" and request_action.date > '")
-                .append(parseDate(startDate) + "'");
-        }
-        if (endDate != null) {
-            where.append(" and request_action.date < '")
-                .append(parseDate(endDate) + "'");
-        }
-
-        if (categoryId != null) {
-            tables.append(" request_type, category,");
-            where.append(" and request.request_type_id = request_type.id ")
-                .append("and request_type.category_id = ").append(categoryId);
-        }
-
-        if (resultingState != null && resultingState.length > 0) {
-            where.append(" and (");
-            for (int i = 0; i < resultingState.length; i++) {
-                String state = resultingState[i];
-                where.append(" request_action.resulting_state = '").append(state).append("'");
-                if (i < (resultingState.length - 1))
-                    where.append(" or ");
-            }
-            where.append(")");
-        }
-        
-        if (requestTypeId != null) {
-            if (tables.indexOf("request_type") == -1) {
-                tables.append(" request_type,");
-                where.append(" and request.request_type_id = ").append(requestTypeId);
-            }
-        }
-
-        try {
-            ResultSet result = HibernateUtil.getSession().connection()
-                    .createStatement().executeQuery(tables.append(subquery).append(where).toString());
-            if (result.next()) {
-                return new Long(result.getInt(1));
-            } else {
-                return new Long(0);
-            }
-        } catch (HibernateException e) {
-            e.getMessage();
-        } catch (SQLException e) {
-            e.getMessage();
-        }
-        throw new RuntimeException();
-    }
-    
-    private String parseDate(Date date) {
-        if (date == null)
-            return "";
-        
-        // create a date formatter
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
-
-        return df.format(date);
-    }
-    
     public List<Request> listByRequester(final Long requesterId) {
 
         List<Type> typeList = new ArrayList<Type>();

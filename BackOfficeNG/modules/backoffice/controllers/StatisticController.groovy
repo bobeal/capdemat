@@ -103,7 +103,6 @@ class StatisticController {
         def results = requestStatisticsService.getSummarizedStats(IRequestStatisticsService.Timescale.MONTH,
                 lifecycle, null, null)
         results.each { k,v ->
-        	log.debug "adding ${k} : ${v}"
 			if (v.intValue() > 0) {
 			    def label = new StringBuffer().append(translationService.getEncodedRequestTypeLabelTranslation(k.label))
 			    	.append(" (").append(v).append(")")
@@ -114,7 +113,7 @@ class StatisticController {
         
         def chart = new GoogleChartBuilder()
         def url = chart.pieChart {
-            size(w:600,h:200)
+            size(w:700,h:200)
             /*
             title() {
                 row('Total : ${cdData.sum()}')
@@ -138,7 +137,6 @@ class StatisticController {
         def results = requestStatisticsService.getQualityStats(IRequestStatisticsService.Timescale.MONTH,
                 null, null)
         results.each { k,v ->
-        	log.debug "adding ${k} : ${v}"
 			if (v.intValue() > 0) {
 			    if (k == "qualityTypeOk")
         			cdColors.add('74c343')
@@ -168,6 +166,3 @@ class StatisticController {
     }
 
 }
-
-
-

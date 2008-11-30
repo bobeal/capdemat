@@ -42,12 +42,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     private ICategoryService categoryService;
     private IRequestTypeDAO requestTypeDAO;
     
-    public RequestStatisticsService() {
-        super();
-    }
-
     /**
-     * FIXME : This should be better handled by an aspect. 
+     * TODO ACMF
      */
     private void checkAgentRights() throws CvqException {
         Agent agent = SecurityContext.getCurrentAgent();
@@ -60,24 +56,12 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         throw new CvqPermissionException("Statistics", PrivilegeDescriptor.MANAGE);
     }
     
-    private List<String> getCategoriesWithManagerProfile(Agent agent) 
-        throws CvqException {
-        
-        List<Category> agentCategories = 
-            categoryService.getAgentManagedCategories(agent);
-        List<String> categoriesNames = new ArrayList<String>();
-        for (Category category : agentCategories) {
-            categoriesNames.add(category.getName());
-        }
-        
-        return categoriesNames;
-    }
-    
-    public Long getCount(final Set criteriaSet)
+    public Long getCount(final Set<Critere> criteriaSet)
         throws CvqException {
         
         checkAgentRights();
-        
+
+        // TODO REFACTORING mutualize with similar function in RequestService
         Critere crit = new Critere();
         List<Category> agentCategories = 
             categoryService.getAgentManagedCategories(SecurityContext.getCurrentAgent());
@@ -125,7 +109,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         String[] resultingState = getStatesFromLifecycle(lifecycle);        
         List<Date> searchDates = getNextSearchEndDate(timescale, null);
         
-        Date now = new Date();
+//        Date now = new Date();
+        Date now = getShiftedDemoDate();
 
         if (requestTypeId == null && categoryId == null) {
             List<RequestType> requestTypes = requestTypeDAO.listAll();
@@ -150,7 +135,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         
         List<Date> searchDates = getNextSearchEndDate(timescale, null);
             
-        Date now = new Date();
+//        Date now = new Date();
+        Date now = getShiftedDemoDate();
         
         Long count = requestDAO.countByQuality(searchDates.get(0), now, 
                 lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, categoryId);
@@ -179,7 +165,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         
         Calendar calendar = new GregorianCalendar();
         if (startDate == null) {
-            startDate = new Date();
+//            startDate = new Date();
+            startDate = getShiftedDemoDate();
             calendar.setTime(startDate);
             calendar.set(Calendar.HOUR_OF_DAY, 0);
             calendar.set(Calendar.MINUTE, 0);
@@ -195,7 +182,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         
         List<Date> results = new ArrayList<Date>();
         results.add(calendar.getTime());
-        Date now = new Date();
+//        Date now = new Date();
+        Date now = getShiftedDemoDate();
         if (timescale.equals(Timescale.MONTH) || timescale.equals(Timescale.WEEK)) {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             if (calendar.getTime().after(now))
@@ -211,6 +199,18 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         } else {
             return null;
         }
+    }
+    
+    /**
+     * TODO DEMO HACKS
+     */
+    private Date getShiftedDemoDate() {
+        Date date = new Date();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR, -3);
+        
+        return calendar.getTime();
     }
     
     private String[] getStatesFromLifecycle(final Lifecycle lifecycle) {

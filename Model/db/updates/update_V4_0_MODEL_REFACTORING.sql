@@ -18,8 +18,6 @@ alter table request
     drop constraint FK414EF28F1BC4A960;
 
 -- RRR3 : contraint on documents
--- TODO REFACTORING : migrate existing data
-
 create table request_document (
     id int8 not null,
     document_id int8,
@@ -32,11 +30,9 @@ alter table request_document
     foreign key (request_id) 
     references request;
          
-alter table request_document_map 
-    drop constraint FKCBC2F7E87A6C6B5B;
-alter table request_document_map 
-    drop constraint FKCBC2F7E8848EB249;
-drop table request_document_map;
+insert into request_document select nextval('hibernate_sequence'), document_id, request_id from request_document_map;
+
+drop table request_document_map cascade;
 
 -- RRR4 : add requester and subject last name
 alter table request add column requester_last_name varchar(255);
@@ -73,7 +69,6 @@ insert into individual_role select nextval('hibernate_sequence'), 'HomeFolderRes
 alter table adult drop column home_folder_roles;
 
 -- migration of existing "child legal responsible" roles
-
 insert into individual_role select nextval('hibernate_sequence'), 'ClrFather', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Father' and child_id is not null;
 insert into individual_role select nextval('hibernate_sequence'), 'ClrMother', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Mother' and child_id is not null;
 insert into individual_role select nextval('hibernate_sequence'), 'ClrTutor', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Tutor' and child_id is not null;

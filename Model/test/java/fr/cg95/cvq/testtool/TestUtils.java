@@ -1,6 +1,7 @@
 package fr.cg95.cvq.testtool;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public final class TestUtils {
             Adult requester, HomeFolder homeFolder) {
         
         if (homeFolder != null) {
-            Set<Individual> individuals = homeFolder.getIndividuals();
+            List<Individual> individuals = homeFolder.getIndividuals();
             for (Individual individual : individuals) {
                 if (individual instanceof Adult && 
                         (subjectPolicy.equals(IRequestService.SUBJECT_POLICY_ADULT)

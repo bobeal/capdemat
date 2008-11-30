@@ -1028,6 +1028,7 @@
         adress_id int8,
         card_id int8,
         home_folder_id int8,
+        home_folder_index int4,
         primary key (id)
     );
 
@@ -1366,6 +1367,7 @@
         request_step varchar(16),
         requester_id int8,
         requester_last_name varchar(255),
+        requester_first_name varchar(255),
         request_type_id int8,
         season_uuid varchar(255),
         orange_alert bool,
@@ -1373,6 +1375,7 @@
         validation_date timestamp,
         subject_id int8,
         subject_last_name varchar(255),
+        subject_first_name varchar(255),
         primary key (id)
     );
 

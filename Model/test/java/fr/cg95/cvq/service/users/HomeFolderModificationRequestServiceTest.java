@@ -117,7 +117,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         // prepare objects for modifications
         adress = homeFolder.getAdress();
-        Set<Individual> individuals = homeFolder.getIndividuals();
+        List<Individual> individuals = homeFolder.getIndividuals();
         adults = new HashSet<Adult>();
         children = new HashSet<Child>();
         for (Individual individual : individuals) {
@@ -185,7 +185,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
         Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
-        Set<Individual> individuals = homeFolder.getIndividuals();
+        List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
                 Assert.assertEquals(homeFolderUncle.getFirstName3(), "Groumph");
@@ -241,7 +241,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75012");
         Assert.assertEquals(adress.getCity(), "Paris".toUpperCase());
-        Set<Individual> individuals = homeFolder.getIndividuals();
+        List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
                 Assert.assertEquals(individual.getLastName(), "LASTNAME");

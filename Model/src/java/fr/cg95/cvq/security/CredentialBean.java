@@ -2,6 +2,7 @@ package fr.cg95.cvq.security;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -148,7 +149,7 @@ public class CredentialBean {
 		this.individualRoles = adult.getIndividualRoles();
 	        
 		this.individualsIds = new HashSet<Long>();
-		Set<Individual> individuals = adult.getHomeFolder().getIndividuals();
+		List<Individual> individuals = adult.getHomeFolder().getIndividuals();
 		for (Individual individual : individuals) {
 		    this.individualsIds.add(individual.getId());
 		}

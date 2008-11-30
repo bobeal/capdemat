@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,7 +34,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
             (ISchoolRegistrationRequestService) getBean(ISchoolRegistrationRequestService.SERVICE_NAME);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
         // find the first request type with registrations/seasons notions
         List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
@@ -57,15 +58,18 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
-        iRequestService.getRequestTypeSeasons(requestType.getId());
-        
         Set<RequestSeason> requestSeasons = 
             iRequestService.getRequestTypeSeasons(requestType.getId());
+        Set<String> uuids = new HashSet<String>();
         for (RequestSeason rs : requestSeasons) {
-            iRequestService.removeRequestTypeSeason(requestType.getId(), rs.getUuid());
+            uuids.add(rs.getUuid());
         }
+        for (String uuid : uuids) {
+            iRequestService.removeRequestTypeSeason(requestType.getId(), uuid);            
+        }
+        
         continueWithNewTransaction();
         
         // test all seasons have been succesfully removed
@@ -85,6 +89,8 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         iRequestService.addRequestTypeSeason(requestType.getId(), season1);
         
         continueWithNewTransaction();
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+        
         assertEquals(2, requestType.getSeasons().size());
         
         // Modify
@@ -93,12 +99,17 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         season2.setUuid(season1.getUuid());
   
         iRequestService.modifyRequestTypeSeason(requestType.getId(), season2);
+
         continueWithNewTransaction();
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+
         assertEquals(2, requestType.getSeasons().size());
         
         // Remove
         iRequestService.removeRequestTypeSeason(requestType.getId(), season2.getUuid());
+
         continueWithNewTransaction();
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         Set<RequestSeason> requestTypeSeasons =
             iRequestService.getRequestTypeSeasons(requestType.getId());

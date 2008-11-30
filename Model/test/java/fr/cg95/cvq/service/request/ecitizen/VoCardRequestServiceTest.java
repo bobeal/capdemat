@@ -315,7 +315,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         assertNotNull("Retrieved home folder is null !", homeFolder);
         Adult respHomeFolderRetr = iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         assertNotNull("Retrieved home folder responsible is null !", respHomeFolderRetr);
-        Set<Individual> individuSetRetr = homeFolder.getIndividuals();
+        List<Individual> individuSetRetr = homeFolder.getIndividuals();
         assertEquals(individuSetRetr.size(),5);
         List<Request> folderRequests = iRequestService.getByRequesterId(homeFolderResponsible.getId());
         assertEquals(1, folderRequests.size());

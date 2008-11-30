@@ -1,7 +1,9 @@
 package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -45,7 +47,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     private Boolean boundToRequest;
     
     private Set<Payment> payments;
-    private Set<Individual> individuals;
+    private List<Individual> individuals;
 
     /** default constructor */
     public HomeFolder() {
@@ -92,7 +94,8 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         homeFolder.setAdress(Address.xmlToModel(homeFolderType.getAddress()));
 
         IndividualType[] individualsArray = homeFolderType.getIndividualsArray();
-        Set<Individual> individualsSet = new HashSet<Individual>();
+        Arrays.asList(individualsArray);
+        List<Individual> individualsSet = new ArrayList<Individual>();
         for (int i=0; i < individualsArray.length; i++) {
             individualsSet.add(Individual.xmlToModel(individualsArray[i]));
         }
@@ -184,27 +187,23 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     }
 
     /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     *  cascade="delete"
+     * @hibernate.list
+     *  inverse="false"
+     *  cascade="all"
+     *  table="individual"
      * @hibernate.key
      *  column="home_folder_id"
+     * @hibernate.list-index
+     *  column="home_folder_index"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.users.Individual"
      */
-    public Set<Individual> getIndividuals() {
+    public List<Individual> getIndividuals() {
         return this.individuals;
     }
 
-    public void setIndividuals(Set<Individual> individuals) {
+    public void setIndividuals(List<Individual> individuals) {
         this.individuals = individuals;
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this)
-            .append("id", getId())
-            .toString();
     }
 
     /**
@@ -253,5 +252,11 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
 
     public final void setFamilyQuotient(String familyQuotient) {
         this.familyQuotient = familyQuotient;
+    }
+
+    public String toString() {
+        return new ToStringBuilder(this)
+            .append("id", getId())
+            .toString();
     }
 }

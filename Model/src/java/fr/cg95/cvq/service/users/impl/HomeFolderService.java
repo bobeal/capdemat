@@ -110,7 +110,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         homeFolderDAO.create(homeFolder);
         genericDAO.create(address);
 
-        Set<Individual> allIndividuals = new HashSet<Individual>();
+        List<Individual> allIndividuals = new ArrayList<Individual>();
         allIndividuals.addAll(adults);
         if (children != null)
             allIndividuals.addAll(children);
@@ -184,7 +184,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
         documentService.deleteHomeFolderDocuments(homeFolder.getId());
 
-        Set<Individual> individuals = homeFolder.getIndividuals();
+        List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
             documentService.deleteIndividualDocuments(individual.getId());
         }
@@ -612,7 +612,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 		homeFolderDAO.update(homeFolder);
 
 		// retrieve individuals and validate them
-		Set<Individual> homeFolderIndividuals = homeFolder.getIndividuals();
+		List<Individual> homeFolderIndividuals = homeFolder.getIndividuals();
 		for (Individual individual : homeFolderIndividuals) {
 			individualService.updateIndividualState(individual, newState);
 		}

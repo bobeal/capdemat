@@ -111,7 +111,8 @@ public class RequestContextCheckAspect implements Ordered {
                             // we found the request type we are interested in
                             if (context.privilege().equals(ContextPrivilege.READ)
                                     || (context.privilege().equals(ContextPrivilege.WRITE)
-                                            && categoryRole.getProfile().equals(CategoryProfile.READ_WRITE))
+                                            && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
+                                                    || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
                                             || (context.privilege().equals(ContextPrivilege.MANAGE)
                                                     && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
                                 // that's ok, let's return

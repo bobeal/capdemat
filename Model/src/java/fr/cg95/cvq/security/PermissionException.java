@@ -7,33 +7,25 @@ public class PermissionException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    private Class<?> clazz;
-    private String methodName;
-    private ContextType type;
-    private ContextPrivilege privilege;
-    private String message;
+    private String fullMessage;
 
     public PermissionException(Class<?> c, String methodName, ContextType type, 
             ContextPrivilege privilege, String message) {
         super("");
-        this.clazz = c;
-        this.methodName = methodName;
-        this.type = type;
-        this.privilege = privilege;
-        this.message = message;
-    }
-    
-    public String getMessage() {
-        StringBuffer sb = new StringBuffer()
-            .append("denied access to ").append(clazz.getName()).append(".").append(methodName)
-            .append(" with type").append(type)
-            .append(" and privilege ").append(privilege)
-            .append(" for ").append(SecurityContext.getCurrentUserLogin())
-            .append(" (").append(SecurityContext.getCurrentUserId() + ")");
+
+        StringBuffer sb = new StringBuffer().append("denied access to ").append(c.getName())
+                .append(".").append(methodName).append(" with type ").append(type)
+                .append(" and privilege ").append(privilege).append(" for ")
+                .append(SecurityContext.getCurrentUserLogin()).append(" (")
+                .append(SecurityContext.getCurrentUserId() + ")");
 
         if (message != null)
             sb.append(" - additional information : ").append(message);
         
-        return sb.toString();
+        this.fullMessage = sb.toString();
+    }
+    
+    public String getMessage() {
+        return this.fullMessage;
     }
 }

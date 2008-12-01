@@ -3,7 +3,7 @@ package fr.cg95.cvq.dao.authority.hibernate;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.dao.authority.IRecreationCenterDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
@@ -29,7 +29,7 @@ public class RecreationCenterDAO extends GenericDAO implements IRecreationCenter
         return (RecreationCenter) crit.uniqueResult();
     }
 
-    public List listAll() {
+    public List<RecreationCenter> listAll() {
         return HibernateUtil.getSession()
             .createQuery("from RecreationCenter as recreationCenter")
             .list();

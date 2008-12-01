@@ -80,7 +80,7 @@ public class AuthenticationService implements IAuthenticationService {
         String encryptedPassword = encryptPassword(passwd);
         if (!encryptedPassword.equals(tempAdult.getPassword())) {
             logger.error("authenticate() bad password for login " + login);
-            throw new CvqAuthenticationFailedException();
+            throw new CvqAuthenticationFailedException("individual.error.badPassword");
         }
 
         return individual.getHomeFolder();

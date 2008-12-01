@@ -159,14 +159,14 @@ public interface IExternalService {
     /**
      * Get ids of requests that match the given search criteria.
      * 
-     * TODO move to request service after DAOs improvements
+     * TODO GENERIC DAO move to request service after DAOs improvements
      */
     Set<Long> getRequestIds(Set<ISearchCriteria> searchCriterias);
     
     /**
      * Get ids of validated requests with the given types within the given previous days.
      * 
-     * TODO move to request service after DAOs improvements
+     * TODO GENERIC DAO move to request service after DAOs improvements
      */
     Set<Long> getValidatedRequestIds(Set<String> requestTypesLabels, int numberOfDays);    
 }

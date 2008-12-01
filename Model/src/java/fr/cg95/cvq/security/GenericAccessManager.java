@@ -118,7 +118,6 @@ public class GenericAccessManager {
                 return false;
             }
         } else if (credentialBean.isBoContext()) {
-            // TODO ACMF : implement privilege checks
             SiteRoles[] siteRoles = SecurityContext.getCurrentCredentialBean().getSiteRoles();
             boolean hasAnAgentProfile = false;
             for (SiteRoles siteRole : siteRoles) {

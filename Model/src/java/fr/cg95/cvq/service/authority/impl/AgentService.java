@@ -1,9 +1,7 @@
 package fr.cg95.cvq.service.authority.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +20,10 @@ import fr.cg95.cvq.dao.authority.IAgentDAO;
 import fr.cg95.cvq.dao.authority.ICategoryDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILdapService;
 import fr.cg95.cvq.util.Critere;
@@ -73,7 +73,7 @@ public final class AgentService implements IAgentService {
             agentDAO.delete(agent);
     }
 
-    public List<Agent> get(final Set criteriaSet)
+    public List<Agent> get(final Set<Critere> criteriaSet)
         throws CvqException {
 
         List<Agent> agents = agentDAO.search(criteriaSet);
@@ -149,34 +149,6 @@ public final class AgentService implements IAgentService {
         return new LinkedHashSet<Agent>(results);
     }
 
-    public void modifyRights(final Long agentId, final Map categoriesProfiles)
-        throws CvqException, CvqObjectNotFoundException {
-
-        if (agentId == null)
-            throw new CvqException("No agent id provided");
-        Agent agent = getById(agentId);
-
-        ArrayList<String> categoriesList = new ArrayList<String>();
-
-        // decode category <-> profiles assocations
-        Set<CategoryRoles> categoriesRolesSet = new LinkedHashSet<CategoryRoles>();
-        Iterator it = categoriesProfiles.keySet().iterator();
-        while (it.hasNext()) {
-            Long categoryId = (Long) it.next();
-            Category category = 
-                (Category) categoryDAO.findById(Category.class, categoryId, 
-                        PrivilegeDescriptor.READ);
-            categoriesList.add(category.getName());
-            CategoryProfile profile = (CategoryProfile) categoriesProfiles.get(categoryId);
-            logger.debug("modifyRights() adding profile " + profile + " on category " + category.getName());
-            categoriesRolesSet.add(new CategoryRoles(profile,category,agent));
-        }
-        agent.setCategoriesRoles(categoriesRolesSet);
-        agentDAO.update(agent);
-
-        logger.debug("Modified agent : " + agent.getId());
-    }
-
     public void updateUserProfiles(String username, List<String> groups,
             Map<String, String> informations) throws CvqException {
 
@@ -207,6 +179,8 @@ public final class AgentService implements IAgentService {
                 SecurityContext.getAgentGroups(), SecurityContext.getCurrentSite());
     }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void addCategoryRole(final Long agentId, final  Long categoryId, 
             final CategoryProfile categoryProfile ) throws CvqException {
         
@@ -223,6 +197,8 @@ public final class AgentService implements IAgentService {
         agentDAO.update(agent);
     }
     
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void modifyCategoryRole(final Long agentId, final  Long categoryId, 
             final CategoryProfile categoryProfile ) throws CvqException {
         
@@ -248,6 +224,8 @@ public final class AgentService implements IAgentService {
             agentDAO.update(agent);
     }
     
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException {
         
         if (agentId == null)
@@ -266,18 +244,17 @@ public final class AgentService implements IAgentService {
             agentDAO.update(agent);
     }
     
-    public void modifyProfiles(Agent agent, final List newGroups, final List administratorGroups,
-            final List agentGroups, final LocalAuthority localAuthority)
+    public void modifyProfiles(Agent agent, final List<String> newGroups, 
+            final List<String> administratorGroups,
+            final List<String> agentGroups, final LocalAuthority localAuthority)
         throws CvqException {
         
         // check if user became administrator
         for (int i = 0; i < newGroups.size(); i++) {
             if (administratorGroups.contains(newGroups.get(i))) {
-                Set agentSiteRoles = agent.getSitesRoles();
-                Iterator agentSiteRolesIt = agentSiteRoles.iterator();
+                Set<SiteRoles> agentSiteRoles = agent.getSitesRoles();
                 boolean alreadyAdmin = false;
-                while (agentSiteRolesIt.hasNext()) {
-                    SiteRoles siteRoles = (SiteRoles) agentSiteRolesIt.next();
+                for (SiteRoles siteRoles : agentSiteRoles) {
                     if (siteRoles.getProfile().equals(SiteProfile.ADMIN)) {
                         alreadyAdmin = true;
                         break;
@@ -301,11 +278,9 @@ public final class AgentService implements IAgentService {
         
 
         // check if user is no longer administrator
-        Set agentSiteRoles = agent.getSitesRoles();
-        Iterator agentSiteRolesIt = agentSiteRoles.iterator();
+        Set<SiteRoles> agentSiteRoles = agent.getSitesRoles();
         boolean wasAdmin = false;
-        while (agentSiteRolesIt.hasNext()) {
-            SiteRoles siteRoles = (SiteRoles) agentSiteRolesIt.next();
+        for (SiteRoles siteRoles : agentSiteRoles) {
             if (siteRoles.getProfile().equals(SiteProfile.ADMIN)) {
                 wasAdmin = true;
                 break;

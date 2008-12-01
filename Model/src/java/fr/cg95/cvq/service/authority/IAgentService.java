@@ -10,6 +10,7 @@ import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * Service related to the management of agents.
@@ -37,7 +38,7 @@ public interface IAgentService {
     List<Agent> getAll()
         throws CvqException;
     
-    List<Agent> get(final Set criteriaSet)
+    List<Agent> get(final Set<Critere> criteriaSet)
         throws CvqException;
 
     /**
@@ -47,21 +48,9 @@ public interface IAgentService {
     Set<Agent> getAuthorizedForCategory(final Long categoryId)
         throws CvqException;
 
-    /**
-     * Modify rights associated to an agent.
-     *
-     * @param agentId id of agent for which we want to modify rights
-     * @param categorysProfiles a map whose key is the category id
-     *                         and value the profile
-     *
-     * @see fr.cg95.cvq.business.authority.CategoryProfile
-     * @deprecated
-     */
-    void modifyRights(final Long agentId, final Map categorysProfiles)
-        throws CvqException, CvqObjectNotFoundException;
-
-    void modifyProfiles(Agent agent, final List newGroups, final List administratorGroups,
-            final List agentGroups, final LocalAuthority localAuthority)
+    void modifyProfiles(Agent agent, final List<String> newGroups, 
+            final List<String> administratorGroups,
+            final List<String> agentGroups, final LocalAuthority localAuthority)
         throws CvqException;
     
     void updateUserProfiles(String username, List<String> groups, 

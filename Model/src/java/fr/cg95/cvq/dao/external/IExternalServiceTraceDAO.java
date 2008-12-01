@@ -9,7 +9,7 @@ import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 import fr.cg95.cvq.util.quering.sort.ISortCriteria;
 
 /**
- * TODO Global generic method to place to above level
+ * TODO GENERIC DAO Global generic method to place to above level
  * 
  * @author Victor Bartel
  */

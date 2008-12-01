@@ -18,5 +18,5 @@ public interface IRecreationCenterDAO extends IGenericDAO {
     /**
      * Return the list of all known recreation centers.
      */
-    List listAll();
+    List<RecreationCenter> listAll();
 }

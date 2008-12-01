@@ -348,7 +348,7 @@ public class LocalizationService implements ILocalizationService {
     private SchemaType getSchemaTypeFromRequestLabel(final String requestLabel) {
         
         String classToLookFor = requestLabel.replaceFirst("business", "xml").concat("Document");
-        logger.debug("getSchemaTypeFromRequestLabel() Searching for " + classToLookFor);
+//        logger.debug("getSchemaTypeFromRequestLabel() Searching for " + classToLookFor);
 
         return schemaTypeLoader.typeForClassname(classToLookFor);
     }

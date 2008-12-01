@@ -84,7 +84,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
     #elseif($xmlSchemaType == "ChildType")
         request.set$field(child1);
     #elseif($xmlSchemaType == "RecreationCenterType")
-       request.set$field((RecreationCenter) recreationCenterService.getAll().iterator().next());
+       request.set$field(recreationCenterService.getAll().get(0));
     #elseif($xmlSchemaType == "SchoolType")
        request.set$field((School) schoolService.getAll().iterator().next());
     #end

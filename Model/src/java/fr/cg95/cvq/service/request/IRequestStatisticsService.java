@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request;
 
+import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.util.Critere;
@@ -67,9 +68,8 @@ public interface IRequestStatisticsService {
     
     /**
      * Get only a count of requests according to a set of criteria.
-     * Needs an Manage profile to be performed
-     *
-     * @see fr.cg95.cvq.business.authority.SiteProfile
+     * 
+     * Needs a {@link CategoryProfile#MANAGER manager profile} to be performed.
      */
     Long getCount(final Set<Critere> criteriaSet)
         throws CvqException;

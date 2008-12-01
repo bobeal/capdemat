@@ -1,8 +1,6 @@
 package fr.cg95.cvq.service.authority.impl;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -32,13 +30,10 @@ public final class RecreationCenterService implements IRecreationCenterService {
         return recreationCenterDAO.findByName(recreationCenterName);
     }
 
-    public Set getAll()
+    public List<RecreationCenter> getAll()
         throws CvqException {
 
-        List recreationCenters = null;
-            recreationCenters = recreationCenterDAO.listAll();
-        
-        return new LinkedHashSet(recreationCenters);
+        return recreationCenterDAO.listAll();
     }
 
     public Long create(final RecreationCenter recreationCenter)

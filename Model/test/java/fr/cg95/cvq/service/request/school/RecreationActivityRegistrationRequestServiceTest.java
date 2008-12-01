@@ -39,7 +39,7 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
 
         RecreationActivityRegistrationRequest request = new RecreationActivityRegistrationRequest();
           request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
-               request.setRecreationCenter((RecreationCenter) recreationCenterService.getAll().iterator().next());
+               request.setRecreationCenter(recreationCenterService.getAll().get(0));
                 request.setHospitalizationPermission(Boolean.valueOf(true));
             request.setClassTripPermission(Boolean.valueOf(true));
                     request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));

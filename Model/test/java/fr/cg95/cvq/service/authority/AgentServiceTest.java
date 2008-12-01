@@ -17,7 +17,7 @@ import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.permission.CvqPermissionException;
+import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
@@ -50,32 +50,31 @@ public class AgentServiceTest extends ServiceTestCase {
                     + category.getName() + " (" + category.getId() + ")");
         }
 
-        // add agent to the categories it does not belong to
+        // try adding agent to a category it does not belong to
         List<Category> allCategories = iCategoryService.getAll();
-        for (int i=0; i < allCategories.size(); i++) {
-            Category category = allCategories.get(i);
-            logger.debug("Got category : " + category.getName());
+        for (Category category : allCategories) {
             if (!agentCategories.contains(category.getId())) {
-                logger.debug("Agent is not registered in category (" + category.getId() 
-                        + "), adding it with write modifications");
-                categoriesProfilesMap.put(category.getId(), CategoryProfile.READ_WRITE);
+                try {
+                    iAgentService.addCategoryRole(agent.getId(), category.getId(), CategoryProfile.READ_WRITE);
+                    fail("should have thrown an exception");
+                } catch (PermissionException pe) {
+                    // that was expected
+                }
+                break;
             }
-        }
-
-        try {
-            iAgentService.modifyRights(agent.getId(),categoriesProfilesMap);
-            fail("should have thrown an exception");
-        } catch (CvqPermissionException cpe) {
-            // ok
         }
 
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         // first, try to modify its rights
-        try {
-            iAgentService.modifyRights(agent.getId(),categoriesProfilesMap);
-        } catch (CvqPermissionException cpe) {
-            cpe.printStackTrace();
-            fail("should have not thrown an exception");
+        for (Category category : allCategories) {
+            if (!agentCategories.contains(category.getId())) {
+                try {
+                    iAgentService.addCategoryRole(agent.getId(), category.getId(), CategoryProfile.READ_WRITE);
+                } catch (PermissionException pe) {
+                    fail("should not have thrown an exception");
+                }
+                break;
+            }
         }
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);

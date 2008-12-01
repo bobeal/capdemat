@@ -187,13 +187,13 @@ public class ElementBo {
         this.step = step;
     }
 
+    // FIXME - manage condition and mandatory state of the element. separation of concerns ??
     public String getConditionsClass() {
-        if (conditions == null)
-            return "";
-        
         StringBuffer sb = new StringBuffer();
-        for (Condition c : conditions) {
-            sb.append("condition-" + c.getName() + "-" + c.getType() + " ");
+        sb.append(mandatory ? "required " : "");
+        if (conditions != null) {
+            for (Condition c : conditions)
+                sb.append("condition-" + c.getName() + "-" + c.getType() + " ");
         }
         return sb.toString().trim();
     }

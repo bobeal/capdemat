@@ -33,8 +33,10 @@
             <step index="4" ref="validation" />
           </steps>
           <conditions>
+            <condition name="isTestNature" />
             <condition name="isWithRelationship" />
             <condition name="isTestCondition" />
+            <condition name="isMotive" />
           </conditions>
         </common>
       </xs:appinfo>
@@ -78,7 +80,7 @@
                     </conditions>
                   </common>
                   <fo />
-                  <bo column="1" after="Motive" />
+                  <bo column="1" after="Comment" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -94,11 +96,14 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
+                    <conditions>
+                      <condition name="isMotive" type="filled" />
+                    </conditions>
                   </common>
                   <fo>
                     <textarea rows="3" />
                   </fo>
-                  <bo column="1"/>
+                  <bo column="1" after="Motive" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -110,6 +115,7 @@
                     <step name="type"  />
                     <conditions>
                       <condition name="isWithRelationship" type="filled" />
+                      <condition name="isMotive" type="trigger" />
                     </conditions>
                   </common>
                   <fo>
@@ -125,6 +131,9 @@
                 <xs:appinfo>
                   <common>
                     <step name="nature" />
+                    <conditions>
+                      <condition name="isTestNature" type="trigger" />
+                    </conditions>
                   </common>
                   <fo>
                     <radio />
@@ -145,6 +154,9 @@
                 <xs:appinfo>
                   <common>
                     <step name="nature" />
+                    <conditions>
+                      <condition name="isTestNature" type="filled" />
+                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />
@@ -157,6 +169,9 @@
                 <xs:appinfo>
                   <common>
                     <step name="nature" />
+                    <conditions>
+                      <condition name="isTestNature" type="unfilled" />
+                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />
@@ -175,6 +190,9 @@
                 <xs:appinfo>
                   <common>
                     <step name="nature" />
+                    <conditions>
+                      <condition name="isTestNature" type="unfilled" />
+                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />

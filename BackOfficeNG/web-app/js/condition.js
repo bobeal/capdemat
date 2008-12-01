@@ -9,9 +9,15 @@
   var ylj = YAHOO.lang.JSON;
   var yl = YAHOO.lang;
   var yu = YAHOO.util;
-
+  
   zcb.Condition = function() {
-
+  
+    var reset = function() {
+       zcb.Condition.triggers = [];
+       zcb.Condition.filleds = [];
+       zcb.Condition.unfilleds = [];
+    }
+  
     var currentTriggerValue = function (ddEl) {
       var formEl = yud.getLastChild(ddEl);
       if (yud.hasClass(ddEl,'validate-capdematEnum'))
@@ -27,98 +33,166 @@
         return yl.trim(yud.getFirstChild(ddEl).innerHTML);
     }
     
-    var listenerDisplay = function (listenerEl, displayStyle) {
-      if (listenerEl.tagName === 'dl'.toUpperCase()) {
-        yud.setStyle(listenerEl, 'display', displayStyle);
-        yud.setStyle(yud.getPreviousSibling(listenerEl), 'display', displayStyle);
+    var listenerSwitch = function (listenerEl, action) {
+      var actionClass = action ? 'action-editField' : 'not-action-editField';
+      var notActionClass = action ? 'not-action-editField' : 'action-editField';
+      
+      if (listenerEl.tagName === 'dl'.toUpperCase() && action === yud.hasClass(listenerEl, 'not-action-editField')) {
+        zct.toggleClass(listenerEl,'not-action-editField');
+        zct.each(yus.query('dt', listenerEl), function(){
+          zct.toggleClass(this,'not-action-editField');
+        });
+        zct.each(yus.query('dd', listenerEl), function(){
+          if (yud.hasClass(this, notActionClass))
+            yud.replaceClass(this, notActionClass, actionClass);
+        });
       }
-      else if (listenerEl.tagName === 'dt'.toUpperCase())
-        yud.setStyle(yud.getAncestorByTagName(listenerEl, 'dl'), 'display', displayStyle);
+      else if (listenerEl.tagName === 'dt'.toUpperCase() && action === yud.hasClass(listenerEl, 'not-action-editField')) {
+          var listenerDdEl = yud.getNextSibling(listenerEl);
+          zct.toggleClass(listenerEl,'not-action-editField');
+          if (yud.hasClass(listenerDdEl, notActionClass))
+            yud.replaceClass(listenerDdEl, notActionClass, actionClass);
+      }
     }
     
     return {
+      /* type triggers = [json{requestField : value}, json{requestField : value}, json{requestField : value} ... ] 
+       * triggers[n] affects filled[n] and unfilled[n] 
+       */
       triggers : undefined,
+      
+      /* type filled = [<htlmEl>[], <htlmEl>[], <htlmEl>[] ... ] */
       filleds : undefined,
+      
+      /* type unfilles = type filled */
       unfilleds : undefined,
       
-      init : function() { 
+      init : function() {
+          reset();
+          zcb.Condition.setAll();
+          zcb.Condition.test();
       },
       
       run : function(e) {
-          console.log('zcb.Condition.run');
-          
-          zcb.Condition.getTriggers(e);
-          
-          var j = 0; zct.each(zcb.Condition.triggers, function(){return j++});
-          if (j > 0) {
+          reset();
+          zcb.Condition.set(e);
+          zcb.Condition.test();
+      },
+      
+      test : function() {
+          zct.each(zcb.Condition.triggers, function(i) {
             zcc.doAjaxCall(
-              '/condition/'
-               + '?triggers='+ ylj.stringify(zcb.Condition.triggers),
-              null,
-              function(o) {
-                var json = ylj.parse(o.responseText);
-                if (json.test) {
-                  zcb.Condition.display(zcb.Condition.filleds);
-                  zcb.Condition.hide(zcb.Condition.unfilleds);
-                } else {
-                  zcb.Condition.hide(zcb.Condition.filleds);
-                  zcb.Condition.display(zcb.Condition.unfilleds);
-                }
-              });
+                '/condition/?triggers='+ ylj.stringify(this),
+                null,
+                function(o) {
+                  var json = ylj.parse(o.responseText);
+                  if (json.test) {
+                    zcb.Condition.active(zcb.Condition.filleds[i]);
+                    zcb.Condition.unactive(zcb.Condition.unfilleds[i]);
+                  } else {
+                    // Not tested
+                    // zcb.Condition.addFilledsDescendants();
+                    zcb.Condition.unactive(zcb.Condition.filleds[i]);
+                    zcb.Condition.active(zcb.Condition.unfilleds[i]);
+                  }
+                });
+           });
+      },
+      
+      setAll : function() {
+          var conditionTriggers = {};
+          zct.each (yus.query('dt', 'requestData'), function() {
+            var trigger = /condition-(\w+)-trigger/i.exec(this.className);
+            if (!yl.isNull(trigger))
+              conditionTriggers[trigger[0]] = trigger[0]; 
+          });
+          
+          zct.each (conditionTriggers, function() {
+            zcb.Condition.addTriggers(
+                this.split('-')[1],
+                yud.getElementsByClassName([this], null, 'requestData'), 
+                null);
+          });
+      },
+      
+      set : function(e) {
+          var targetEl = yue.getTarget(e);
+          var currentDdEl = yud.getAncestorByTagName(targetEl, 'dd');
+          var dtTriggers;
+          var trigger = /condition-(\w+)-trigger/i
+              .exec(yud.getPreviousSibling(currentDdEl).className);
+          if (!yl.isNull(trigger)) {
+            dtTriggers = yud.getElementsByClassName(trigger[0], null, 'requestData');
+            zcb.Condition.addTriggers(trigger[1], dtTriggers, currentDdEl);
           }
       },
       
-      getTriggers : function(e) {
-          zcb.Condition.triggers = {};
-          var targetEl = yue.getTarget(e);
-          var currentDdEl = yud.getAncestorByTagName(targetEl, 'dd');
-          
-          var dtTriggers;
-          zct.each (yud.getPreviousSibling(currentDdEl).className.split(' '), function() {
-            if (this.indexOf('-trigger') != -1) {
-              dtTriggers = yud.getElementsByClassName(this, null, 'requestData');
-              zcb.Condition.getFilleds(this.replace('-trigger', '-filled'));
-              zcb.Condition.getUnfilleds(this.replace('-trigger', '-unsfilled'));
-            }
-          });
-          
-          if (yl.isUndefined(dtTriggers))
-            return;
-          
-          zct.each (dtTriggers, function() {
-            var ddEl = yud.getNextSibling(this);
-            var value;
-            if (ddEl.id === currentDdEl.id)
-              value = currentTriggerValue(ddEl);
-            else 
-              value = triggerValue(ddEl);
-            
-            zcb.Condition.triggers[ddEl.id] = value;
-          });
+      addTriggers : function (conditionName, triggerDtEls, currentDdEl) {
+          if (!yl.isUndefined(triggerDtEls) && triggerDtEls.length > 0) {
+            var jsonTrigger = {};
+            zct.each (triggerDtEls, function() {
+              var ddEl = yud.getNextSibling(this);
+              var value;
+              if (currentDdEl != null && ddEl.id === currentDdEl.id)
+                value = currentTriggerValue(ddEl);
+              else 
+                value = triggerValue(ddEl);
+              
+              jsonTrigger[ddEl.id] = value;
+            });
+            zcb.Condition.triggers.push(jsonTrigger);
+            zcb.Condition.addFilleds(['condition', conditionName, 'filled'].join('-'));
+            zcb.Condition.addUnfilleds(['condition', conditionName, 'unfilled'].join('-'));
+          }
       },
       
-      getFilleds : function(condition) {
-          zcb.Condition.filleds = yud.getElementsByClassName(condition, null, 'requestData');
+      addFilleds : function(condition) {
+          zcb.Condition.filleds.push(yud.getElementsByClassName(condition, null, 'requestData'));
       },
       
-      getUnfilleds : function(condition) {
-          zcb.Condition.unfilleds = yud.getElementsByClassName(condition, null, 'requestData');
+      addUnfilleds : function(condition) {
+          zcb.Condition.unfilleds.push(yud.getElementsByClassName(condition, null, 'requestData'));
       },
       
-      display : function(elArray) {
-          zct.each(elArray, function() {
-            listenerDisplay(this, 'block');
-          });
+//      addFilledsDescendants : function() {
+//          var descendants = [];
+//          
+//          var recursion = function(listenerEls) {
+//            var childs = [];
+//            zct.each(listenerEls, function() {
+//              var trigger = /condition-(\w+)-trigger/i.exec(this.className);
+//              if (!yl.isNull(trigger)) {
+//                childs = childs.concat(yud.getElementsByClassName(
+//                    tirgger[0].replace('-trigger', '-filled'), null, 'requestData'));
+//                childs = childs.concat(yud.getElementsByClassName(
+//                    tirgger[0].replace('-trigger', '-unfilled'), null, 'requestData'));
+//              }
+//            });
+//            descendants = descendants.concat(childs);
+//            if (childs.length > 0)
+//              recursion(childs);
+//          }
+//          
+//          recursion(zcb.Condition.filleds);
+//          filleds = filleds.concat(descendants);
+//      },
+//      
+//      addUnfilledsDescendants : function() {
+//          zcb.Condition.unfilleds;
+//      },
+      
+      active : function(elArray) {
+          zct.each(elArray, function() { listenerSwitch(this, true); });
       },
       
-      hide : function (elArray) {
-          zct.each(elArray, function() {
-            listenerDisplay(this,  'none');
-          });
+      unactive : function (elArray) {
+          zct.each(elArray, function() { listenerSwitch(this, false); });
       }
       
     };
     
   }();
+  
+  yue.onDOMReady(zcb.Condition.init);
   
 }());

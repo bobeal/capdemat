@@ -186,9 +186,17 @@ class RequestInstructionController {
     def condition = {
         def triggers = JSON.parse(params.triggers)
         try {
-          log.debug(triggers)  
+            log.debug(triggers)
+            def tests = []
+            if (triggers.format != null)
+              tests.add(triggers.format == "FullCopy" ? true : false)
+            if (triggers.motive != null)
+              tests.add(triggers.motive == "NotaryAct" ? true : false)
             
-            render ([test: triggers.format == "FullCopy" ? true : false, status:"ok", success_msg:message(code:"message.conditionTested")] as JSON)
+            def test = true
+            tests.each{ test = test && it }
+            
+            render ([test: test , status:"ok", success_msg:message(code:"message.conditionTested")] as JSON)
         } catch (CvqException ce) {
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
         }

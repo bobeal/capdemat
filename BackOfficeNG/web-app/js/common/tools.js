@@ -369,6 +369,20 @@
       return true;
     }
   };
+  
+   /**
+   * @description Toggles css class for specified DOM element
+   * @method toggleClass
+   * @namespace zenexity.capdemat.tools
+   * @param node {HTMLElement} scope element
+   * @param className {String} class to be toggled
+   * 
+   * @author vba@zenexity.fr
+   **/
+  zct.toggleClass = function(node,className) {
+    if(YAHOO.util.Dom.hasClass(node,className)) YAHOO.util.Dom.removeClass(node,className);
+    else YAHOO.util.Dom.addClass(node,className);
+  }
 
   zct.each(["Height", "Width"], function(i, name){
     var type = name.toLowerCase();
@@ -397,8 +411,6 @@
       a.onComplete.subscribe(callback);
     }
   });
-
-
 
 
 }());

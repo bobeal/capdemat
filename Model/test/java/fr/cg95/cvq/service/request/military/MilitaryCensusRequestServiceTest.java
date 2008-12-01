@@ -189,6 +189,7 @@ public class MilitaryCensusRequestServiceTest extends ServiceTestCase {
 
          MilitaryCensusRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          MilitaryCensusRequestFeeder.setSubject(request, 
              iMilitaryCensusRequestService.getSubjectPolicy(), null, homeFolder);
          

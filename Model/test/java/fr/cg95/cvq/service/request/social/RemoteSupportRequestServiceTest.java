@@ -166,6 +166,7 @@ public class RemoteSupportRequestServiceTest extends ServiceTestCase {
 
          RemoteSupportRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          RemoteSupportRequestFeeder.setSubject(request, 
              iRemoteSupportRequestService.getSubjectPolicy(), null, homeFolder);
          

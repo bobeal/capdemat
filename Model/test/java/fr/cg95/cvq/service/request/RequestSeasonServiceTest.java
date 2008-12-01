@@ -89,7 +89,6 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         iRequestService.addRequestTypeSeason(requestType.getId(), season1);
         
         continueWithNewTransaction();
-        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
         assertEquals(2, requestType.getSeasons().size());
         
@@ -101,7 +100,6 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         iRequestService.modifyRequestTypeSeason(requestType.getId(), season2);
 
         continueWithNewTransaction();
-        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         assertEquals(2, requestType.getSeasons().size());
         
@@ -109,7 +107,6 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         iRequestService.removeRequestTypeSeason(requestType.getId(), season2.getUuid());
 
         continueWithNewTransaction();
-        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         Set<RequestSeason> requestTypeSeasons =
             iRequestService.getRequestTypeSeasons(requestType.getId());
@@ -252,7 +249,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
     public void testGetRequestAssociatedSeason() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         requestType = 
             iRequestService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel());
@@ -295,7 +292,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         /* Test season associated to the school registration request */
         RequestSeason srrSeason = iRequestService.getRequestAssociatedSeason(requestId);

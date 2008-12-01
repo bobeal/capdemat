@@ -85,7 +85,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
     public void testJob() throws CvqException {
        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         requestType = 
             iRequestService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel());
@@ -182,5 +182,6 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         requestFromDb = iRequestService.getById(requestId);
         Assert.assertEquals(requestFromDb.getState(), RequestState.EXPIRED);
         
+        iRequestService.delete(requestId);
     }
 }

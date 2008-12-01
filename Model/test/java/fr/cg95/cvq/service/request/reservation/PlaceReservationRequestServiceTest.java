@@ -59,7 +59,7 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
         ///////////////////////////////
 
         Document doc = new Document();
-        doc.setEcitizenNote("Ma carte d'identitÃ© !");
+        doc.setEcitizenNote("Ma carte d'identité !");
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
@@ -137,6 +137,7 @@ public class PlaceReservationRequestServiceTest extends ServiceTestCase {
 
          PlaceReservationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          PlaceReservationRequestFeeder.setSubject(request, 
              iPlaceReservationRequestService.getSubjectPolicy(), null, homeFolder);
          

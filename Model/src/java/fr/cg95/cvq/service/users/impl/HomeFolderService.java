@@ -88,7 +88,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public HomeFolder create(final Adult adult) throws CvqException {
 
-        Set<Adult> adults = new HashSet<Adult>();
+        List<Adult> adults = new ArrayList<Adult>();
         adults.add(adult);
         
         return create(adults, null, adult.getAdress());
@@ -96,7 +96,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
-    public HomeFolder create(Set<Adult> adults, Set<Child> children, Address address)
+    public HomeFolder create(List<Adult> adults, List<Child> children, Address address)
         throws  CvqException, CvqModelException {
 
         if (adults == null)
@@ -231,20 +231,18 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public final Set<Child> getChildren(final Long homeFolderId)
+    public final List<Child> getChildren(final Long homeFolderId)
         throws CvqException {
 
-        List<Child> childList = childDAO.listChildrenByHomeFolder(homeFolderId);
-        return new LinkedHashSet<Child>(childList);
+        return childDAO.listChildrenByHomeFolder(homeFolderId);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public final Set<Adult> getAdults(final Long homeFolderId)
+    public final List<Adult> getAdults(final Long homeFolderId)
         throws CvqException {
 
-        List<Adult> adultList = adultDAO.listAdultsByHomeFolder(homeFolderId);
-        return new LinkedHashSet<Adult>(adultList);
+        return adultDAO.listAdultsByHomeFolder(homeFolderId);
     }
 
     @Override
@@ -396,10 +394,10 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void checkAndFinalizeRoles(Long homeFolderId, Set<Adult> adults, Set<Child> children)
+    public void checkAndFinalizeRoles(Long homeFolderId, List<Adult> adults, List<Child> children)
         throws CvqException, CvqModelException {
         
-        Set<Individual> allIndividuals = new HashSet<Individual>();
+        List<Individual> allIndividuals = new ArrayList<Individual>();
         allIndividuals.addAll(adults);
         if (children != null)
             allIndividuals.addAll(children);
@@ -710,7 +708,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         
         updateHomeFolderState(homeFolder, ActorState.ARCHIVED);
         
-        requestService.archiveHomeFolderRequests(homeFolder);
+        requestService.archiveHomeFolderRequests(homeFolder.getId());
     }
 
     public void notifyPaymentByMail(Payment payment) throws CvqException {

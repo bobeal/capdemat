@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.ecitizen;
 
+import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
@@ -43,7 +44,7 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
      *         home folder responsible) or null if not needed
      */
     CreationBean modify(final HomeFolderModificationRequest hfmr,
-            final Set<Adult> adults, final Set<Child> children, final Address adress)
+            final List<Adult> adults, final List<Child> children, final Address adress)
         throws CvqException;
 
     /**

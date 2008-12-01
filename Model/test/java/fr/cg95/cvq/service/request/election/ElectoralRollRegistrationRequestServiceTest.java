@@ -145,6 +145,7 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
 
          ElectoralRollRegistrationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          ElectoralRollRegistrationRequestFeeder.setSubject(request, 
              iElectoralRollRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          

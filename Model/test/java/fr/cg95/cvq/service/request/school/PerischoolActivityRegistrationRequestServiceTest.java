@@ -144,6 +144,7 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
 
          PerischoolActivityRegistrationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          PerischoolActivityRegistrationRequestFeeder.setSubject(request, 
              iPerischoolActivityRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          

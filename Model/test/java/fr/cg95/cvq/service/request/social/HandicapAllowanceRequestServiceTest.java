@@ -318,6 +318,7 @@ public class HandicapAllowanceRequestServiceTest extends ServiceTestCase {
 
          HandicapAllowanceRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          HandicapAllowanceRequestFeeder.setSubject(request, 
              iHandicapAllowanceRequestService.getSubjectPolicy(), null, homeFolder);
          

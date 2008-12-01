@@ -147,6 +147,7 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
 
          SewerConnectionRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          SewerConnectionRequestFeeder.setSubject(request, 
              iSewerConnectionRequestService.getSubjectPolicy(), null, homeFolder);
          

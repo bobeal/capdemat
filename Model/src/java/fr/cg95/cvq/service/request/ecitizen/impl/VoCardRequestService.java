@@ -1,6 +1,6 @@
 package fr.cg95.cvq.service.request.ecitizen.impl;
 
-import java.util.Set;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -41,7 +41,7 @@ public final class VoCardRequestService
      * </li>
      *
      */
-    public void create(VoCardRequest dcvo, Set<Adult> adults, Set<Child> children, 
+    public void create(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
             final Address address) throws CvqException {
 
         HomeFolder homeFolder = homeFolderService.create(adults, children, address);

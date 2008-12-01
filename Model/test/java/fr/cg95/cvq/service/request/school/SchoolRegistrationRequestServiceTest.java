@@ -144,6 +144,7 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
 
          SchoolRegistrationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          SchoolRegistrationRequestFeeder.setSubject(request, 
              iSchoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          

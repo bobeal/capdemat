@@ -152,6 +152,7 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
 
          DeathDetailsRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          DeathDetailsRequestFeeder.setSubject(request, 
              iDeathDetailsRequestService.getSubjectPolicy(), null, homeFolder);
          

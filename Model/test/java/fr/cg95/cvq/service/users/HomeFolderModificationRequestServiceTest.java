@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.users;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -50,8 +51,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
     // define some objects that will be reused throughout the different tests
     private Address adress;
-    private Set<Adult> adults;
-    private Set<Child> children;
+    private List<Adult> adults;
+    private List<Child> children;
     private HomeFolder homeFolder;
     private HomeFolderModificationRequest hfmr;
     private Long hfmrId;
@@ -118,8 +119,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         // prepare objects for modifications
         adress = homeFolder.getAdress();
         List<Individual> individuals = homeFolder.getIndividuals();
-        adults = new HashSet<Adult>();
-        children = new HashSet<Child>();
+        adults = new ArrayList<Adult>();
+        children = new ArrayList<Child>();
         for (Individual individual : individuals) {
             if (individual instanceof Child)
                 children.add((Child) individual);
@@ -150,7 +151,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         Adult testReloadedWoman = iIndividualService.getAdultById(homeFolderWoman.getId());
         testReloadedWoman.setFirstName2("Angélique");
-        Set<Adult> newAdults = new HashSet<Adult>();
+        List<Adult> newAdults = new ArrayList<Adult>();
         newAdults.add(homeFolderUncle);
         newAdults.add(homeFolderResponsible);
         newAdults.add(testReloadedWoman);
@@ -502,7 +503,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // check modifications have been saved
-        Set<Adult> allAdults = iHomeFolderService.getAdults(homeFolder.getId());
+        List<Adult> allAdults = iHomeFolderService.getAdults(homeFolder.getId());
         assertEquals(3, allAdults.size());
         assertFalse(allAdults.contains(homeFolderUncle));
 
@@ -726,11 +727,11 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
                     homeFolderResponsible.getId());
             hfmrId = hfmr.getId();
 
-            Set<Adult> adultSet = new HashSet<Adult>();
+            List<Adult> adultSet = new ArrayList<Adult>();
             adultSet.add(homeFolderResponsible);
             adultSet.add(homeFolderWoman);
             adultSet.add(homeFolderUncle);
-            Set<Child> childSet = new HashSet<Child>();
+            List<Child> childSet = new ArrayList<Child>();
             childSet.add(child1);
             childSet.add(child2);
             Address newAdress =

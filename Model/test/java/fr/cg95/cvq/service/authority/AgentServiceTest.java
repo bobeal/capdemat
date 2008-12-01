@@ -86,7 +86,8 @@ public class AgentServiceTest extends ServiceTestCase {
         // test agent is correctly set in the requests notes
         CreationBean cb = gimmeAnHomeFolder();
         Request request = iRequestService.getById(cb.getRequestId());
-        Assert.assertNull(request.getNotes());
+        assertNull(request.getNotes());
+
         iRequestService.addNote(request.getId(), RequestNoteType.DEFAULT_NOTE, 
                 "Paris est magique");
 
@@ -98,7 +99,7 @@ public class AgentServiceTest extends ServiceTestCase {
             iRequestService.addNote(request.getId(), RequestNoteType.DEFAULT_NOTE,
                                     "Paris Paris Paris");
             fail("should have thrown an exception");
-        } catch (CvqException ce) {
+        } catch (PermissionException pe) {
             // that's good
         }
 

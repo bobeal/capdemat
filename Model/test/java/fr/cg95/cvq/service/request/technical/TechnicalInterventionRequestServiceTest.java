@@ -137,6 +137,7 @@ public class TechnicalInterventionRequestServiceTest extends ServiceTestCase {
 
          TechnicalInterventionRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          TechnicalInterventionRequestFeeder.setSubject(request, 
              iTechnicalInterventionRequestService.getSubjectPolicy(), null, homeFolder);
          

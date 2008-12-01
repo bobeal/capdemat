@@ -26,6 +26,7 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
@@ -62,8 +63,7 @@ public class RequestContextCheckAspect implements Ordered {
         Annotation[][] parametersAnnotations = method.getParameterAnnotations();
         Object[] arguments = joinPoint.getArgs();
         Long homeFolderId = null;
-        Long requesterId = null;
-        Long subjectId = null;
+        Long individualId = null;
         int i = 0;
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
@@ -71,7 +71,11 @@ public class RequestContextCheckAspect implements Ordered {
                 if (parameterAnnotation.annotationType().equals(IsHomeFolder.class)) {
                     homeFolderId = (Long) argument;
                 } else if (parameterAnnotation.annotationType().equals(IsIndividual.class)) {
-                    requesterId = (Long) argument;
+                    individualId = (Long) argument;
+                } else if (parameterAnnotation.annotationType().equals(IsSubject.class)) {
+                    individualId = (Long) argument;
+                } else if (parameterAnnotation.annotationType().equals(IsRequester.class)) {
+                    individualId = (Long) argument;
                 } else if (parameterAnnotation.annotationType().equals(IsRequest.class)) {
                     Request request = null;
                     if (argument instanceof Long) {
@@ -86,8 +90,8 @@ public class RequestContextCheckAspect implements Ordered {
                         request = (Request) argument;
                     }
                     homeFolderId = request.getHomeFolderId();
-                    requesterId = request.getRequesterId();
-                    subjectId = request.getSubjectId();
+//                    requesterId = request.getRequesterId();
+                    individualId = request.getSubjectId();
                 } else if (parameterAnnotation.annotationType().equals(IsRequestType.class)) {
                     RequestType requestType = null;
                     if (argument instanceof Long) {
@@ -107,18 +111,22 @@ public class RequestContextCheckAspect implements Ordered {
                     for (CategoryRoles categoryRole : categoryRoles) {
                         Set<RequestType> categoryRequests = 
                             categoryRole.getCategory().getRequestTypes();
-                        if (categoryRequests != null && categoryRequests.contains(requestType)) {
-                            // we found the request type we are interested in
-                            if (context.privilege().equals(ContextPrivilege.READ)
-                                    || (context.privilege().equals(ContextPrivilege.WRITE)
-                                            && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
-                                                    || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
-                                            || (context.privilege().equals(ContextPrivilege.MANAGE)
-                                                    && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
-                                // that's ok, let's return
-                                return;
-                            } else {
-                                break;
+                        if (categoryRequests == null)
+                            continue;
+                        for (RequestType requestTypeToCheck : categoryRequests) {
+                            if (requestTypeToCheck.getId().equals(requestType.getId())) {
+                                // we found the request type we are interested in
+                                if (context.privilege().equals(ContextPrivilege.READ)
+                                        || (context.privilege().equals(ContextPrivilege.WRITE)
+                                                && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
+                                                        || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
+                                                        || (context.privilege().equals(ContextPrivilege.MANAGE)
+                                                                && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
+                                    // that's ok, let's return
+                                    return;
+                                } else {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -128,14 +136,12 @@ public class RequestContextCheckAspect implements Ordered {
                             joinPoint.getSignature().getName(), context.type(), context.privilege(),
                             "request type " + requestType.getLabel());
                     
-                } else if (parameterAnnotation.annotationType().equals(IsSubject.class)) {
-                    
-                }
+                } 
             }
             i++;
         }
 
-        if (!GenericAccessManager.performPermissionCheck(homeFolderId, null, context.privilege()))
+        if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId, context.privilege()))
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                     joinPoint.getSignature().getName(), context.type(), context.privilege(), 
                     "access denied on home folder " + homeFolderId);

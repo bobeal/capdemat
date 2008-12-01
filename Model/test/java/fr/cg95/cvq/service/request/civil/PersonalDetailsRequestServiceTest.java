@@ -198,6 +198,7 @@ public class PersonalDetailsRequestServiceTest extends ServiceTestCase {
 
          PersonalDetailsRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          PersonalDetailsRequestFeeder.setSubject(request, 
              iPersonalDetailsRequestService.getSubjectPolicy(), null, homeFolder);
          

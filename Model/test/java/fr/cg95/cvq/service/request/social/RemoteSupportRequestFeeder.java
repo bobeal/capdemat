@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.social;
 import fr.cg95.cvq.business.request.social.RemoteSupportRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.testtool.TestUtils;
 
 public class RemoteSupportRequestFeeder {
 
@@ -12,6 +13,6 @@ public class RemoteSupportRequestFeeder {
     public static void setSubject(RemoteSupportRequest request,
             String subjectPolicy, Adult requester, HomeFolder homeFolder) {
         
-        request.setSubjectId(requester.getId());
+        TestUtils.feedRequestSubject(request, subjectPolicy, requester, homeFolder);
     }
 }

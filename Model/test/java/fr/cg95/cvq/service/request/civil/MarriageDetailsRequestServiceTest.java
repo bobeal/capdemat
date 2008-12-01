@@ -170,6 +170,7 @@ public class MarriageDetailsRequestServiceTest extends ServiceTestCase {
 
          MarriageDetailsRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          MarriageDetailsRequestFeeder.setSubject(request, 
              iMarriageDetailsRequestService.getSubjectPolicy(), null, homeFolder);
          

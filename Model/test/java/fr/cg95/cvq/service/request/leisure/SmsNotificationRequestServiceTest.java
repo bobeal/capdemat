@@ -136,6 +136,7 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
 
          SmsNotificationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          SmsNotificationRequestFeeder.setSubject(request, 
              iSmsNotificationRequestService.getSubjectPolicy(), null, homeFolder);
          

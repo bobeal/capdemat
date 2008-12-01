@@ -111,7 +111,7 @@ public class ConcertoCsvImportServiceTest extends ServiceTestCase {
         // TODO Better refactor this, to respect Address Normalisation
         Assert.assertEquals(address.getStreetName(), "12 RUE DE COTTE");
         
-        Set<Child> children = iHomeFolderService.getChildren(homeFolder.getId());
+        List<Child> children = iHomeFolderService.getChildren(homeFolder.getId());
         Assert.assertEquals(children.size(), 2);
         for (Child child : children) {
             Assert.assertEquals(child.getLastName(), "KAFKA");

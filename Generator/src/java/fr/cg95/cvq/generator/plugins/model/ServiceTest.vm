@@ -113,7 +113,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeById(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = iDocumentService.create(doc);
         i${request.requestName}Service.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
@@ -186,6 +186,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
 
          ${request.requestName} request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          ${request.requestName}Feeder.setSubject(request, 
              i${request.requestName}Service.getSubjectPolicy(), null, homeFolder);
          

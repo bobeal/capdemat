@@ -15,6 +15,7 @@ import fr.cg95.cvq.business.request.social.DhrRequesterHasSpouse;
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.testtool.TestUtils;
 
 public class DomesticHelpRequestFeeder {
 
@@ -76,6 +77,6 @@ public class DomesticHelpRequestFeeder {
     public static void setSubject(DomesticHelpRequest request, 
             String subjectPolicy, Adult requester, HomeFolder homeFolder) {
 
-        request.setSubjectId(requester.getId());
+        TestUtils.feedRequestSubject(request, subjectPolicy, requester, homeFolder);
     }
 }

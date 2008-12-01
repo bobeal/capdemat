@@ -379,7 +379,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
         }
     }
     
-    private Adult getAdultCopyFromAdults(Set<Adult> adults, Adult adult) {
+    private Adult getAdultCopyFromAdults(List<Adult> adults, Adult adult) {
         for (Adult tempAdult : adults) {
             if ((tempAdult.getLastName() != null 
                     && tempAdult.getLastName().equals(adult.getLastName()))
@@ -407,8 +407,8 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
     
     private class ConcertoDataTransfertObject {
         
-        private Set<Child> children = new HashSet<Child>();
-        private Set<Adult> adults = new HashSet<Adult>();
+        private List<Child> children = new ArrayList<Child>();
+        private List<Adult> adults = new ArrayList<Adult>();
         private Set<SchoolCanteenRegistrationRequest> childrenSchoolCanteenRegistrations = 
             new HashSet<SchoolCanteenRegistrationRequest>();
         private Set<SchoolRegistrationRequest> childrenSchoolRegistrations =
@@ -430,19 +430,19 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
             this.address = address;
         }
         
-        public final Set<Adult> getAdults() {
+        public final List<Adult> getAdults() {
             return adults;
         }
         
-        public final void setAdults(Set<Adult> adults) {
+        public final void setAdults(List<Adult> adults) {
             this.adults = adults;
         }
         
-        public final Set<Child> getChildren() {
+        public final List<Child> getChildren() {
             return children;
         }
         
-        public final void setChildren(Set<Child> children) {
+        public final void setChildren(List<Child> children) {
             this.children = children;
         }
         

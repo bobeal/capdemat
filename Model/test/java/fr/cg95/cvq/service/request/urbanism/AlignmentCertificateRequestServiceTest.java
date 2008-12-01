@@ -146,6 +146,7 @@ public class AlignmentCertificateRequestServiceTest extends ServiceTestCase {
 
          AlignmentCertificateRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          AlignmentCertificateRequestFeeder.setSubject(request, 
              iAlignmentCertificateRequestService.getSubjectPolicy(), null, homeFolder);
          

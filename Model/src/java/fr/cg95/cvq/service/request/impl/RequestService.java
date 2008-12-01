@@ -1497,11 +1497,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         if (isOfRegistrationKind()
                 && requestType.getHasAutomaticActivation()
                 && requestType.getSeasons() == null)
-            activate(request);
+            requestWorkflowService.activate(request);
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
     public void activate(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1510,7 +1510,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
     public void activate(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
@@ -1518,7 +1518,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
     public void expire(final Long id)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1527,7 +1527,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
     public void expire(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
@@ -1618,13 +1618,13 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void archiveHomeFolderRequests(HomeFolder homeFolder)
+    public void archiveHomeFolderRequests(Long homeFolderId)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
-        List<Request> requests = getByHomeFolderId(homeFolder.getId());
+        List<Request> requests = getByHomeFolderId(homeFolderId);
         if (requests == null || requests.isEmpty()) {
             logger.debug("archiveHomeFolderRequests() no requests associated to home folder "
-                    + homeFolder.getId());
+                    + homeFolderId);
             return;
         }
 

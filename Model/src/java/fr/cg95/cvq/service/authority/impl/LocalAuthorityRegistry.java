@@ -444,7 +444,7 @@ public class LocalAuthorityRegistry
 
         } catch (Exception e) {
             logger.error("callback() got an exception, rollbacking");
-//            e.printStackTrace();
+            e.printStackTrace();
             HibernateUtil.rollbackTransaction();
         } finally {
             HibernateUtil.closeSession();

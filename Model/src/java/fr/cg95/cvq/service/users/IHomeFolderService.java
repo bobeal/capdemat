@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -45,7 +44,7 @@ public interface IHomeFolderService {
      * 
      * It is called upon the issuing of an home folder creation request.
      */
-    HomeFolder create(Set<Adult> adults, Set<Child> children, Address address)
+    HomeFolder create(List<Adult> adults, List<Child> children, Address address)
         throws CvqException, CvqModelException;
 
     void modify(@IsHomeFolder final HomeFolder homeFolder)
@@ -66,10 +65,10 @@ public interface IHomeFolderService {
     HomeFolder getById(@IsHomeFolder final Long id)
         throws CvqException, CvqObjectNotFoundException;
 
-    Set<Child> getChildren(@IsHomeFolder final Long homeFolderId)
+    List<Child> getChildren(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
 
-    Set<Adult> getAdults(@IsHomeFolder final Long homeFolderId)
+    List<Adult> getAdults(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
     
     List<Individual> getIndividuals(@IsHomeFolder final Long homeFolderId)
@@ -112,7 +111,7 @@ public interface IHomeFolderService {
      * identifier values.
      */
     void checkAndFinalizeRoles(@IsHomeFolder Long homeFolderId, 
-            Set<Adult> adults, Set<Child> children)
+            List<Adult> adults, List<Child> children)
         throws CvqException, CvqModelException;
 
     boolean hasHomeFolderRole(@IsIndividual final Long ownerId, 

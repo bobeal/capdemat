@@ -644,7 +644,7 @@ public interface IRequestService {
     /**
      * Archive all requests belonging to the given {@link HomeFolder home folder}.
      */
-    void archiveHomeFolderRequests(@IsHomeFolder final HomeFolder homeFolder)
+    void archiveHomeFolderRequests(@IsHomeFolder final Long homeFolderId)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
     /**

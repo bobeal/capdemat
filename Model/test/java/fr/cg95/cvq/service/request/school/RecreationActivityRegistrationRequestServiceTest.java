@@ -143,6 +143,7 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
 
          RecreationActivityRegistrationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          RecreationActivityRegistrationRequestFeeder.setSubject(request, 
              iRecreationActivityRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          

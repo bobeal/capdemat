@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.ecitizen.impl;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
@@ -71,10 +71,6 @@ public class HomeFolderModificationRequestService
         return hfmr;
     }
 
-    public Long create(Node node) throws CvqException {
-        throw new CvqException("Not yet implemented !");
-    }
-
     private boolean hasModificationRequestInProgress(final HomeFolder homeFolder)
         throws CvqException {
 
@@ -125,7 +121,7 @@ public class HomeFolderModificationRequestService
     }
     
     public CreationBean modify(final HomeFolderModificationRequest hfmr,
-            final Set<Adult> newAdults, final Set<Child> newChildren, final Address adress)
+            final List<Adult> newAdults, final List<Child> newChildren, final Address adress)
         throws CvqException {
 
         historyInterceptor.setCurrentRequest(hfmr);
@@ -143,8 +139,8 @@ public class HomeFolderModificationRequestService
         // take a snapshot of the "old" home folder
         // (ie as it was before issuing this modification request)
         
-        Set<Child> oldChildren = new HashSet<Child>();
-        Set<Adult> oldAdults = new HashSet<Adult>();
+        List<Child> oldChildren = new ArrayList<Child>();
+        List<Adult> oldAdults = new ArrayList<Adult>();
         for (Individual tempInd : oldHomeFolder.getIndividuals()) {
             if (tempInd instanceof Adult) {
                 oldAdults.add((Adult) tempInd);
@@ -162,6 +158,9 @@ public class HomeFolderModificationRequestService
                 // because request can be refused
                 // if the request is validated, the child will be removed then
                 child.setHomeFolder(null);
+                
+                // TODO INDEXED LISTS TO TEST MORE
+                oldHomeFolder.getIndividuals().remove(child);
 
                 individualService.modify(child);
             }
@@ -194,6 +193,9 @@ public class HomeFolderModificationRequestService
                 // because request can be refused
                 // if the request is validated, the adult will be removed then
                 adult.setHomeFolder(null);
+
+                // TODO INDEXED LISTS TO TEST MORE
+                oldHomeFolder.getIndividuals().remove(adult);
 
                 individualService.modify(adult);
             } else {
@@ -639,7 +641,7 @@ public class HomeFolderModificationRequestService
         homeFolderService.validate(request.getHomeFolderId());
     }
 
-    private boolean containsIndividual(final Set<? extends Individual> setToSearchIn, 
+    private boolean containsIndividual(final List<? extends Individual> setToSearchIn, 
             final Individual individualToLookFor) {
     
         if (setToSearchIn == null || setToSearchIn.isEmpty())

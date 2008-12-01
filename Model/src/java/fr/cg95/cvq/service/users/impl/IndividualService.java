@@ -217,8 +217,12 @@ public class IndividualService implements IIndividualService {
         else if (homeFolder != null)
             individual.setAdress(homeFolder.getAdress());
         
-        if (homeFolder != null)
+        if (homeFolder != null) {
             individual.setHomeFolder(homeFolder);
+            if (homeFolder.getIndividuals() == null)
+                homeFolder.setIndividuals(new ArrayList<Individual>());
+            homeFolder.getIndividuals().add(individual);
+        }
         
         return individualDAO.create(individual);
     }

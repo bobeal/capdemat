@@ -243,6 +243,8 @@
   <!-- ================================================================================= -->
 
   <target name="run-model-unit-tests" depends="prepare-configfiles">
+    <property name="deploy.properties_dir" value="${model.dir}/test/conf/spring"/>
+    <property name="deploy.properties_file" value="model.properties"/>
     <ant dir="${model.dir}" target="run-tests" />
   </target>
 

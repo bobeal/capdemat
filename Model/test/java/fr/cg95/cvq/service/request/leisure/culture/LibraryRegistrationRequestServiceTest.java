@@ -137,6 +137,7 @@ public class LibraryRegistrationRequestServiceTest extends ServiceTestCase {
 
          LibraryRegistrationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          LibraryRegistrationRequestFeeder.setSubject(request, 
              iLibraryRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          

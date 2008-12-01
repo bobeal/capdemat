@@ -1,6 +1,7 @@
 package fr.cg95.cvq.testtool;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -406,6 +407,10 @@ public class ServiceTestCase
     public CreationBean gimmeAnHomeFolder()
         throws CvqException {
 
+        // keep current context to reset it after home folder creation
+        String currentContext = SecurityContext.getCurrentContext();
+        Agent currentAgent = SecurityContext.getCurrentAgent();
+        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         VoCardRequest request = new VoCardRequest();
@@ -424,7 +429,7 @@ public class ServiceTestCase
         homeFolderUncle =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "uncle", address,
                     FamilyStatusType.SINGLE);
-        Set<Adult> adultSet = new HashSet<Adult>();
+        List<Adult> adultSet = new ArrayList<Adult>();
         adultSet.add(homeFolderResponsible);
         adultSet.add(homeFolderWoman);
         adultSet.add(homeFolderUncle);
@@ -439,7 +444,7 @@ public class ServiceTestCase
         child2.setSex(SexType.MALE);
         iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleEnum.CLR_FATHER);
 
-        Set<Child> childSet = new HashSet<Child>();
+        List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);
         childSet.add(child2);
 
@@ -453,6 +458,11 @@ public class ServiceTestCase
         
         homeFolderVoCardRequestIds.put(request.getHomeFolderId(), voCardRequestId);
 
+        if (currentContext != null)
+            SecurityContext.setCurrentContext(currentContext);
+        if (currentAgent != null)
+            SecurityContext.setCurrentAgent(currentAgent);
+        
         return cb;
     }
 }

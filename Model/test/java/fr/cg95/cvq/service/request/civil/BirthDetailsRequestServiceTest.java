@@ -164,6 +164,7 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
 
          BirthDetailsRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          BirthDetailsRequestFeeder.setSubject(request, 
              iBirthDetailsRequestService.getSubjectPolicy(), null, homeFolder);
          

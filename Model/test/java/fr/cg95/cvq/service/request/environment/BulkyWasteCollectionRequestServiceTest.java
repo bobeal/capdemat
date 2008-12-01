@@ -136,6 +136,7 @@ public class BulkyWasteCollectionRequestServiceTest extends ServiceTestCase {
 
          BulkyWasteCollectionRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          BulkyWasteCollectionRequestFeeder.setSubject(request, 
              iBulkyWasteCollectionRequestService.getSubjectPolicy(), null, homeFolder);
          

@@ -225,6 +225,7 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
 
          DomesticHelpRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          DomesticHelpRequestFeeder.setSubject(request, 
              iDomesticHelpRequestService.getSubjectPolicy(), null, homeFolder);
          

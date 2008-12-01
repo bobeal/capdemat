@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.ecitizen;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -122,7 +123,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
                     FamilyStatusType.WIDOW);
         iHomeFolderService.addIndividualRole(mother, adultGrandMother, RoleEnum.TUTOR);
 
-        Set<Adult> adultSet = new HashSet<Adult>();
+        List<Adult> adultSet = new ArrayList<Adult>();
         adultSet.add(mother);
         adultSet.add(adultGrandMother);
         adultSet.add(homeFolderResponsible);
@@ -145,7 +146,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         tutorNotInHomeFolder.setAdress(tutorAddress);
         
         Child child2 = BusinessObjectsFactory.gimmeChild("LASTNAME", "Child2");
-        Set<Child> childSet = new HashSet<Child>();
+        List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);
         childSet.add(child2);
         iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleEnum.CLR_FATHER);

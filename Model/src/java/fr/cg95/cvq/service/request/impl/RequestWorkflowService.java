@@ -304,12 +304,12 @@ public class RequestWorkflowService {
         } else if (rs.equals(RequestState.NOTIFIED)) {
             requestStateList.add(RequestState.CLOSED);
             requestStateList.add(RequestState.ARCHIVED);
-            requestStateList.add(RequestState.ACTIVE);
-        } else if (rs.equals(RequestState.ACTIVE)) {
-            requestStateList.add(RequestState.EXPIRED);
-            requestStateList.add(RequestState.CLOSED);
-        } else if (rs.equals(RequestState.EXPIRED)) {
-            requestStateList.add(RequestState.ARCHIVED);
+//            requestStateList.add(RequestState.ACTIVE);
+//        } else if (rs.equals(RequestState.ACTIVE)) {
+//            requestStateList.add(RequestState.EXPIRED);
+//            requestStateList.add(RequestState.CLOSED);
+//        } else if (rs.equals(RequestState.EXPIRED)) {
+//            requestStateList.add(RequestState.ARCHIVED);
         } else if (rs.equals(RequestState.CLOSED)) {
             requestStateList.add(RequestState.ARCHIVED);
         }
@@ -346,8 +346,8 @@ public class RequestWorkflowService {
             requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
             requestStateSet.add(RequestState.CLOSED);
             requestStateSet.addAll(getStatesBefore(RequestState.CLOSED));
-            requestStateSet.add(RequestState.EXPIRED);
-            requestStateSet.addAll(getStatesBefore(RequestState.EXPIRED));
+//            requestStateSet.add(RequestState.EXPIRED);
+//            requestStateSet.addAll(getStatesBefore(RequestState.EXPIRED));
             requestStateSet.add(RequestState.REJECTED);
             requestStateSet.addAll(getStatesBefore(RequestState.REJECTED));
             requestStateSet.add(RequestState.CANCELLED);
@@ -361,14 +361,14 @@ public class RequestWorkflowService {
         } else if (rs.equals(RequestState.CLOSED)) {
             requestStateSet.add(RequestState.NOTIFIED);
             requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
-            requestStateSet.add(RequestState.ACTIVE);
-            requestStateSet.addAll(getStatesBefore(RequestState.ACTIVE));
-        } else if (rs.equals(RequestState.ACTIVE)) {
-            requestStateSet.add(RequestState.NOTIFIED);
-            requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
-        } else if (rs.equals(RequestState.EXPIRED)) {
-            requestStateSet.add(RequestState.ACTIVE);
-            requestStateSet.addAll(getStatesBefore(RequestState.ACTIVE));
+//            requestStateSet.add(RequestState.ACTIVE);
+//            requestStateSet.addAll(getStatesBefore(RequestState.ACTIVE));
+//        } else if (rs.equals(RequestState.ACTIVE)) {
+//            requestStateSet.add(RequestState.NOTIFIED);
+//            requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
+//        } else if (rs.equals(RequestState.EXPIRED)) {
+//            requestStateSet.add(RequestState.ACTIVE);
+//            requestStateSet.addAll(getStatesBefore(RequestState.ACTIVE));
         }
 
         return requestStateSet;

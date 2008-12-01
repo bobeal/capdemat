@@ -135,6 +135,7 @@ public class MusicSchoolRegistrationRequestServiceTest extends ServiceTestCase {
 
          MusicSchoolRegistrationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          MusicSchoolRegistrationRequestFeeder.setSubject(request, 
              iMusicSchoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          

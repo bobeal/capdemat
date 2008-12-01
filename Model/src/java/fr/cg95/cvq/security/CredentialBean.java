@@ -134,6 +134,9 @@ public class CredentialBean {
 		// in case we are changing of user inside a transaction, reset the cache
 		// (only happens during unit tests)
 		resetCaches();
+		
+		getSiteRoles();
+		getCategoryRoles();
     }
 
 	public Adult getEcitizen() {
@@ -252,11 +255,13 @@ public class CredentialBean {
 
         if (categoryRoles == null) {
             Set<CategoryRoles> categoryRolesSet = agent.getCategoriesRoles();
-            categoryRoles = new CategoryRoles[categoryRolesSet.size()];
-            int i = 0;
-            for (CategoryRoles cr : categoryRolesSet) {
-                categoryRoles[i] = cr;
-                i++;
+            if (categoryRolesSet != null) {
+                categoryRoles = new CategoryRoles[categoryRolesSet.size()];
+                int i = 0;
+                for (CategoryRoles cr : categoryRolesSet) {
+                    categoryRoles[i] = cr;
+                    i++;
+                }
             }
         }
 
@@ -308,7 +313,6 @@ public class CredentialBean {
      * than currently logged-in ecitizen.
      */
     public boolean belongsToSameHomeFolder(final Long individualId) {
-        System.err.println(this.individualsIds);
         if (this.individualsIds == null || this.individualsIds.isEmpty())
             return false;
         

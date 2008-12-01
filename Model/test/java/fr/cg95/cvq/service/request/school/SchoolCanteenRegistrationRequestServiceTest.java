@@ -148,6 +148,7 @@ public class SchoolCanteenRegistrationRequestServiceTest extends ServiceTestCase
 
          SchoolCanteenRegistrationRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          SchoolCanteenRegistrationRequestFeeder.setSubject(request, 
              iSchoolCanteenRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
          

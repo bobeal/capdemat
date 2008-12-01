@@ -136,6 +136,7 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
 
          CompostableWasteCollectionRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          CompostableWasteCollectionRequestFeeder.setSubject(request, 
              iCompostableWasteCollectionRequestService.getSubjectPolicy(), null, homeFolder);
          

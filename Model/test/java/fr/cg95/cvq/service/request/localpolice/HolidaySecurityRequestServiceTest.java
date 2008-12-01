@@ -157,6 +157,7 @@ public class HolidaySecurityRequestServiceTest extends ServiceTestCase {
 
          HolidaySecurityRequest request = fillMeARequest();
          request.setRequesterId(SecurityContext.getCurrentUserId());
+         request.setHomeFolderId(homeFolderId);
          HolidaySecurityRequestFeeder.setSubject(request, 
              iHolidaySecurityRequestService.getSubjectPolicy(), null, homeFolder);
          

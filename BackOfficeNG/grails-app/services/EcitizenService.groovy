@@ -1,11 +1,13 @@
+
 class EcitizenService {
     
     def instructionService;
     def translationService;
+    def propertiesService;
+    
     
     def prepareRecords = { requests ->
         if (!requests?.records) requests.records = []
-
         requests.all.each{
             requests.records.add([
                 'id':it.id,
@@ -22,5 +24,10 @@ class EcitizenService {
         }
         
         return requests
-    }    
+    }
+    
+    
+//    def abstract setMessageSource = { messageSource ->
+//        this.messageSource = messageSource;
+//    }
 }

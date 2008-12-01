@@ -66,95 +66,43 @@ class HomeController {
         result.dashBoard.requests = this.getTopFiveRequests();
         result.dashBoard.requests = ecitizenService.prepareRecords(result.dashBoard.requests);
         
-        result.dashBoard.payments = this.getTopFivePayments();
-        result.dashBoard.documents = this.getTopFiveDocuments();
-
+        result.dashBoard.payments = preparePayments(this.getTopFivePayments());
+        result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments());
         return result;
     }
     
-    /*
-    def demo = {
-        flash.currentMenu = 'home'
-        if (mdr == null)
-          mdr = new MarriageDetailsRequest()
+    def preparePayments = { payments ->
+        payments.all.each{
+            payments.records.add([
+                'id' : it.id,
+                'initializationDate' : DateUtils.formatDate(it.initializationDate),
+                'commitDate' : DateUtils.formatDate(it.commitDate),
+                'state' : it.state.toString(),
+                'amount' : it.amount,
+                'paymentMode' : message(code:"payment.mode."+it.paymentMode.toString())
+            ]);
+        }
         
-        def requester = new Adult()
-        mdr.setRequester(requester)
-        session["mariageDetailsRequest"] = mdr
+        return payments;
     }
     
-    def validRequester = {
-        log.debug("validRequester - START")
-         
-        mdr = session["mariageDetailsRequest"]
-        def address = new Address()
-        
-        bindData(mdr.requester, params)
-        // test persistentString managment ...
-        mdr.requester.setTitle(TitleType.forString(params.title))
-        
-        bindData(address, params)
-        
-        mdr.requester.setAdress(address)
-        
-        session["mariageDetailsRequest"] = mdr
-        
-        if (params.submitMdrRequester)
-          currentTab = "tab1"
-          
-        //render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab])
+    def prepareDocuments = { docs ->
+        docs.all.each{
+            def current = it; 
+            docs.records.add([
+                'id' : current.id,
+                'creationDate' : DateUtils.formatDate(current.creationDate),
+                'validationDate' : DateUtils.formatDate(current.validationDate),
+                'endValidityDate' : DateUtils.formatDate(current.endValidityDate),
+                'state' : current.state.toString(),
+                'name' : current.documentType.name,
+                'title' : message(
+                    code: "documentType."+ StringUtils.firstCase(
+                        current.documentType.name.replaceAll(' ',''),"Lower"))
+            ]);
+        }
+        return docs;
     }
-    
-    def validDetailsNature = {
-        log.debug("validDetailsNature - START")
-        
-        mdr = session["mariageDetailsRequest"]
-        
-        bindData(mdr, params)
-        
-        if (params.requesterQuality != null)
-            mdr.setRequesterQuality(MarriageRequesterQualityType.forString(params.requesterQuality))
-        if (params.format != null)
-            mdr.setFormat(MarriageCertificateFormatType.forString(params.format))
-        if (params.relationship != null)
-            mdr.setRelationship(MarriageRelationshipType.forString(params.relationship))
-            
-        if (params.submitMdrDetailsNature)
-          currentTab = "tab2"
-        else if (params.submitMdrDetailsFormat)
-          currentTab = "tab3"
-        
-        session["mariageDetailsRequest"] = mdr
-        render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab])
-    }
-    
-    def validDetailsFormat = {
-    }
-    
-    def validDocument = {
-    }
-    
-    def validMeansOfContact = {
-    }
-    
-    def sendRequest = {
-      
-      log.debug("sendRequest - START")
-      
-      mdr = session["mariageDetailsRequest"]
-      
-      Node mdrNode = mdr.modelToXml().getDomNode()
-      SecurityContext.setCurrentSite("valdoise", "frontOffice")
-      marriageDetailsRequestService.create(mdrNode)
-      
-      if (params.submitMdrSend)
-          currentTab = "tab6"
-      
-      def message = "Demande envoyée !!"
-      
-      //render(view:"fong/request/edit", model:[mdr:mdr, currentTab:currentTab, message:message])
-    }
-    */
     
     def protected getTopFiveRequests = {
         
@@ -178,14 +126,16 @@ class HomeController {
             'all' : paymentService.extendedGet(null, null, null, null, null, null, null, null, 
                 this.currentEcitizen.homeFolder.id, null, 'commitDate', 'DESC', 5, 0),
             'count' : paymentService.getPaymentCount(null, null, null, null, null, null, null, 
-                null, this.currentEcitizen.homeFolder.id, null)
+                null, this.currentEcitizen.homeFolder.id, null),
+            'records' : []
         ]
         
     }
     
     def protected getTopFiveDocuments = {
         return [
-            'all': documentService.getHomeFolderDocuments(this.currentEcitizen.homeFolder.id, 5)
+            'all': documentService.getHomeFolderDocuments(this.currentEcitizen.homeFolder.id, 5),
+            'records' : []
         ]
     }
 }

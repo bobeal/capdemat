@@ -17,7 +17,6 @@
           </g:if>
           </a>
         </p>
-
         <p class="second-line">
           <g:message code="request.searchResult.creationDate" /> 
           <span>${record.creationDate}</span> - 

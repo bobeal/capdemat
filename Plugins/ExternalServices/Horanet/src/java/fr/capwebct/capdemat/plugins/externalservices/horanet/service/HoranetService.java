@@ -846,8 +846,8 @@ public class HoranetService implements IExternalProviderService {
             ExternalAccountItem eai = (ExternalAccountItem) i.next();
             org.jdom.Element account = new org.jdom.Element("account");
             account.setAttribute("account-id", eai.getExternalItemId());
-            if (eai.getRequest() != null)
-                account.setAttribute("request-id", eai.getRequest().getId().toString());
+            if (eai.getRequestId() != null)
+                account.setAttribute("request-id", eai.getRequestId().toString());
             if (eai instanceof ExternalDepositAccountItem) {
                 ExternalDepositAccountItem edai = (ExternalDepositAccountItem) eai;
                 account.setAttribute("account-old-value", edai.getOldValue().intValue() + "");

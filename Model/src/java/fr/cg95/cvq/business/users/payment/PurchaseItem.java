@@ -2,8 +2,6 @@ package fr.cg95.cvq.business.users.payment;
 
 import java.io.Serializable;
 
-import fr.cg95.cvq.business.request.Request;
-
 /**
  * Generic representation of an item that can be bought.
  * 
@@ -24,17 +22,16 @@ public abstract class PurchaseItem implements Serializable {
     private Long id;
     private String label;
     private Double amount;
-    private Request request;
+    private Long requestId;
     // FIXME : used for support information and effective broker
     //              maybe a renaming should be appropriate ?
     private String supportedBroker;
-    private Payment payment;
     
     public PurchaseItem(final String label, final Double amount,
-            final Request request, final String supportedBroker) {
+            final Long requestId, final String supportedBroker) {
         this.label = label;
         this.amount = amount;
-        this.request = request;
+        this.requestId = requestId;
         this.supportedBroker = supportedBroker;
     }
 
@@ -86,29 +83,15 @@ public abstract class PurchaseItem implements Serializable {
     }
 
     /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.request.Request"
+     * @hibernate.property
      *  column="request_id"
      */
-    public final Request getRequest() {
-        return request;
+    public final Long getRequestId() {
+        return requestId;
     }
 
-    public final void setRequest(final Request request) {
-        this.request = request;
-    }
-
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.payment.Payment"
-     *  column="payment_id"
-     */
-    public final Payment getPayment() {
-        return payment;
-    }
-
-    public final void setPayment(Payment payment) {
-        this.payment = payment;
+    public final void setRequestId(final Long requestId) {
+        this.requestId = requestId;
     }
 
     public final String getSupportedBroker() {

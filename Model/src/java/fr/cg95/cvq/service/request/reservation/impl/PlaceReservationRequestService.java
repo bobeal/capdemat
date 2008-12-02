@@ -17,6 +17,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.PlaceReservationData;
 import fr.cg95.cvq.business.users.TicketTypeSelection;
@@ -43,12 +44,12 @@ public final class PlaceReservationRequestService
     public Long create(Request request, Adult requester, Individual subject) 
         throws CvqException, CvqObjectNotFoundException {
 
-        performBusinessChecks(request, requester, subject);
+        HomeFolder homeFolder = performBusinessChecks(request, requester, subject);
 
         PlaceReservationRequest prr = (PlaceReservationRequest) request;
         performSpecificChecks(prr);
         
-        return finalizeAndPersist(prr);
+        return finalizeAndPersist(prr, homeFolder);
     }
 
     public Long create(Request request) throws CvqException {
@@ -147,6 +148,11 @@ public final class PlaceReservationRequestService
             final String subscriberNumber) 
         throws CvqException {
     
+        if (placeReservationDatas == null) {
+            logger.info("checkPlaceReservationData() no data in reservation, returning");
+            return null;
+        }
+        
         Map<String, Integer> placesPerPrice = getAuthorizedNumberOfPlaces(subscriberNumber);
         Set<String> errorReservationSet = new HashSet<String>();
         

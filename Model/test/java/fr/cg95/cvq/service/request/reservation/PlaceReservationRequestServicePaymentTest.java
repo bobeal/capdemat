@@ -1,7 +1,5 @@
 package fr.cg95.cvq.service.request.reservation;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +8,6 @@ import java.util.Map;
 import junit.framework.Assert;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
-import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.InternalRequestItem;
@@ -27,36 +24,26 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         CvqObjectNotFoundException, java.io.FileNotFoundException,
         java.io.IOException {
 
-        SecurityContext.setCurrentSite(localAuthorityName,
-                SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         // create a vo card request (to create home folder and associates)
         CreationBean cb = gimmeAnHomeFolder();
-
         String proposedLogin = cb.getLogin();
-
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
-        Assert.assertNotNull(homeFolder);
-        Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
 
         // fill and create the request
         // ////////////////////////////
 
         PlaceReservationRequest request = fillMeARequest();
-        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
+        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId());
 
         Long requestId = iPlaceReservationRequestService.create(request);
         PlaceReservationRequest requestFromDb = 
             (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
         
-        Assert.assertEquals(requestId, requestFromDb.getId());
-        Adult requester = iIndividualService.getAdultById(requestFromDb.getRequesterId());
-        Assert.assertNotNull(requester);
-
         // simulate a payment on this request
         /////////////////////////////////////
         
@@ -68,6 +55,12 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         
         URL url = iPaymentService.initPayment(payment);
         Assert.assertNotNull(url);
+        
+        // prepare the payment's commit
+        
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        
         String urlAsString = url.toString();
         logger.debug("URL : " + urlAsString);
         int referenceIndex = urlAsString.indexOf("cvqReference=");
@@ -83,27 +76,20 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         parameters.put("status", "OK");
         parameters.put("capDematFake", "true");
         PaymentResultStatus returnStatus = iPaymentService.commitPayment(parameters);
-        Assert.assertEquals(returnStatus, PaymentResultStatus.OK);
+        assertEquals(returnStatus, PaymentResultStatus.OK);
 
+        // check that request has been validated and payment reference is correctly set
         requestFromDb = 
             (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
-        Assert.assertEquals(requestFromDb.getState(), RequestState.VALIDATED);
-        Assert.assertNotNull(requestFromDb.getPaymentReference());
+        assertEquals(requestFromDb.getState(), RequestState.VALIDATED);
+        assertNotNull(requestFromDb.getPaymentReference());
 
         List<Payment> bills = iPaymentService.getByHomeFolder(homeFolder);
-        Assert.assertNotNull(bills);
-        Assert.assertEquals(bills.size(), 1);
+        assertNotNull(bills);
+        assertEquals(bills.size(), 1);
 
-        byte[] generatedCertificate = 
-            iRequestService.getCertificate(requestId, RequestState.VALIDATED);
-
-        if (generatedCertificate == null)
-            fail("No certificate found");
-
-        File file = File.createTempFile("tmp" + requestId, ".pdf");
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.write(generatedCertificate);
-
+        iPlaceReservationRequestService.delete(requestId);
+        
         commitTransaction();
     }
 }

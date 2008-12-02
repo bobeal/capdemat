@@ -243,9 +243,6 @@
         drop constraint FK9493CEF96E5CE64D;
 
     alter table purchase_item 
-        drop constraint FKB1132791848EB249;
-
-    alter table purchase_item 
         drop constraint FKB113279154BCD4FA;
 
     alter table purchase_item_specific_data 
@@ -1278,7 +1275,6 @@
         label varchar(255),
         amount float8,
         request_id int8,
-        payment_id int8,
         external_item_id varchar(255),
         external_service_label varchar(255),
         old_value float8,
@@ -1293,6 +1289,7 @@
         unit_price float8,
         old_quantity int4,
         reference varchar(255),
+        payment_id int8,
         primary key (id)
     );
 
@@ -1955,11 +1952,6 @@
         add constraint FK9493CEF96E5CE64D 
         foreign key (place_reservation_id) 
         references place_reservation_data;
-
-    alter table purchase_item 
-        add constraint FKB1132791848EB249 
-        foreign key (request_id) 
-        references request;
 
     alter table purchase_item 
         add constraint FKB113279154BCD4FA 

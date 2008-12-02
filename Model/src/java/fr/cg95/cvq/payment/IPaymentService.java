@@ -54,7 +54,8 @@ public interface IPaymentService {
      *         than already added items.
      */
     void addPurchaseItemToPayment(Payment payment, PurchaseItem purchaseItem)
-        throws CvqInvalidBrokerException, CvqModelException;
+        throws CvqInvalidBrokerException, CvqModelException, CvqException, 
+            CvqObjectNotFoundException;
     
     /**
      * Remove a purchase item from the user's payment and update payment information accordingly.

@@ -78,7 +78,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
            genericDAO.update(requestType);
            continueWithNewTransaction();
        } catch (Exception e) {
-           throw new CvqException(e.getMessage());
+           fail(e.getMessage());
        }
     }
 
@@ -168,6 +168,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         Assert.assertEquals(requestFromDb.getState(), RequestState.ACTIVE);
         
         continueWithNewTransaction();
+        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
@@ -176,6 +177,9 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         
         /* Must set requestState to 'EXPIRE' */
         requestSeasonsJob.launchJob();
+        
+        // the job clauses the current transaction, so re-open a new one
+        startTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 

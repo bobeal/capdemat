@@ -38,7 +38,7 @@ public class Payment implements Serializable, Comparable {
     private HomeFolder homeFolder;
     private Adult requester;
     private PaymentMode paymentMode;
-    private Set purchaseItems;
+    private Set<PurchaseItem> purchaseItems;
     private boolean commitAlert;
     
     /** 
@@ -202,7 +202,6 @@ public class Payment implements Serializable, Comparable {
 
     /**
      * @hibernate.set
-     *  inverse="true"
      *  lazy="true"
      *  cascade="all"
      * @hibernate.key
@@ -210,11 +209,11 @@ public class Payment implements Serializable, Comparable {
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.users.payment.PurchaseItem"
      */
-    public final Set getPurchaseItems() {
+    public final Set<PurchaseItem> getPurchaseItems() {
         return purchaseItems;
     }
 
-    public final void setPurchaseItems(Set purchaseItems) {
+    public final void setPurchaseItems(Set<PurchaseItem> purchaseItems) {
         this.purchaseItems = purchaseItems;
     }
 

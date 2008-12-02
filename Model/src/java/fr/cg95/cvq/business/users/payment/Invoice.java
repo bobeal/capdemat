@@ -28,7 +28,7 @@ public class Invoice extends PurchaseItem {
             final Request request, final String supportedBroker, final String reference,
             final Date issueDate) {
         
-        super(label, amount, request, supportedBroker);
+        super(label, amount, request == null ? null : request.getId(), supportedBroker);
         
         this.reference = reference;
         this.issueDate = issueDate;

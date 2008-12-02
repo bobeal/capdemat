@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -100,14 +100,14 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         Set<PurchaseItem> purchaseItems = new HashSet<PurchaseItem>();
         purchaseItems.add(purchaseItem);
         payment.setPurchaseItems(purchaseItems);
-        purchaseItem.setPayment(payment);
         payment.setPaymentMode(paymentMode);
 
         return payment;
     }
 
     public final void addPurchaseItemToPayment(Payment payment, PurchaseItem purchaseItem)
-        throws CvqInvalidBrokerException, CvqModelException {
+        throws CvqInvalidBrokerException, CvqModelException, CvqException, 
+            CvqObjectNotFoundException {
 
         checkPurchaseItem(purchaseItem);
 
@@ -121,7 +121,6 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
 
         processPurchaseItemAmount(purchaseItem);
         payment.getPurchaseItems().add(purchaseItem);
-        purchaseItem.setPayment(payment);
         double newAmount = payment.getAmount().doubleValue()
             + purchaseItem.getAmount().doubleValue();
         payment.setAmount(Double.valueOf(newAmount));
@@ -244,11 +243,9 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
             
             // search the payment provider that will recognize the parameters
             // sounds dirty but don't have anything better for the moment ...
-            Set paymentProviderServices =
+            Set<IPaymentProviderService> paymentProviderServices =
                 SecurityContext.getCurrentConfigurationBean().getPaymentServicesObjects();
-            Iterator ppsIt = paymentProviderServices.iterator();
-            while (ppsIt.hasNext()) {
-                IPaymentProviderService tempPps = (IPaymentProviderService) ppsIt.next();
+            for (IPaymentProviderService tempPps : paymentProviderServices) {
                 if (tempPps.handleParameters(parameters))
                     return tempPps;
             }
@@ -283,10 +280,9 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
             String bankReference, String broker, Long homeFolderId, String requesterLastName,
             String sort, String dir, int recordsReturned, int startIndex) {
         
-        List search = paymentDAO.search(initDateFrom, initDateTo, commitDateFrom,commitDateTo, 
+        return paymentDAO.search(initDateFrom, initDateTo, commitDateFrom,commitDateTo, 
                 paymentState, cvqReference, bankReference, broker, homeFolderId, requesterLastName,
                 sort, dir, recordsReturned, startIndex);
-        return search;
     }
 
     public long getPaymentCount(Date initDateFrom, Date initDateTo, Date commitDateFrom,
@@ -294,9 +290,9 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
             String bankReference, String broker, Long homeFolderId,
             String requesterLastName) throws CvqException {
 
-            return paymentDAO.count(initDateFrom, initDateTo, commitDateFrom, commitDateTo,
-                    paymentState, cvqReference, bankReference, broker, homeFolderId, 
-                    requesterLastName);
+        return paymentDAO.count(initDateFrom, initDateTo, commitDateFrom, commitDateTo,
+                paymentState, cvqReference, bankReference, broker, homeFolderId, 
+                requesterLastName);
     }
 
     public void delete(Long id) throws CvqException, CvqObjectNotFoundException {
@@ -314,12 +310,12 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
      */
     private PaymentServiceBean getPaymentServiceBean(IPaymentProviderService paymentProviderService) {
 
-        Map paymentServices = 
+        Map<IPaymentProviderService, PaymentServiceBean> paymentServices = 
             SecurityContext.getCurrentConfigurationBean().getPaymentServices();
         if (paymentServices == null || paymentServices.isEmpty())
             return null;
         
-        return (PaymentServiceBean) paymentServices.get(paymentProviderService);
+        return paymentServices.get(paymentProviderService);
     }
     
     /**
@@ -328,16 +324,14 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
     private IPaymentProviderService getPaymentServiceByBrokerAndMode(String broker, 
             PaymentMode paymentMode) {
 
-        Map paymentServices = 
+        Map<IPaymentProviderService, PaymentServiceBean>  paymentServices = 
             SecurityContext.getCurrentConfigurationBean().getPaymentServices();
         if (paymentServices == null || paymentServices.isEmpty())
             return null;
 
-        Iterator it = paymentServices.keySet().iterator();
-        while (it.hasNext()) {
-            IPaymentProviderService service = (IPaymentProviderService) it.next();
+        for (IPaymentProviderService service : paymentServices.keySet()) {
             if (service.getPaymentMode().equals(paymentMode)) {
-                PaymentServiceBean psb = (PaymentServiceBean) paymentServices.get(service);
+                PaymentServiceBean psb = paymentServices.get(service);
                 if (broker.equals(psb.getBroker()))
                     return service;
             }
@@ -352,15 +346,17 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
      * TODO : to be validated
      */
     private String getBrokerForPurchaseItem(PurchaseItem purchaseItem, PaymentMode paymentMode) 
-        throws CvqInvalidBrokerException, CvqModelException{
+        throws CvqInvalidBrokerException, CvqModelException, CvqObjectNotFoundException,
+            CvqException {
         
         String broker = null;
         if (purchaseItem instanceof Invoice) {
             broker = purchaseItem.getSupportedBroker();
         } else if (purchaseItem instanceof InternalRequestItem) {
-            if (purchaseItem.getRequest() == null)
+            if (purchaseItem.getRequestId() == null)
                 throw new CvqModelException("payment.internal_request_item.missing_request");
-            RequestType requestType = purchaseItem.getRequest().getRequestType();
+            Request request = requestService.getById(purchaseItem.getRequestId());
+            RequestType requestType = request.getRequestType();
             broker = getBrokerFromRequestType(requestType.getLabel(), paymentMode);
         } else if (purchaseItem instanceof ExternalAccountItem) {
             // there are two cases for an external account item :

@@ -25,7 +25,7 @@ public class InternalRequestItem extends PurchaseItem {
             final Request request, final String supportedBroker, final Integer quantity,
             final Double unitPrice) {
         
-        super(label, amount, request, supportedBroker);
+        super(label, amount, request == null ? null : request.getId(), supportedBroker);
         
         this.quantity = quantity;
         this.unitPrice = unitPrice;

@@ -739,17 +739,19 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
         // for each different request found in purchased items list, notify the associated
         // service of payment result status
-        Set<Request> requests = new HashSet<Request>();
+        Set<Long> requests = new HashSet<Long>();
         Set<PurchaseItem> purchaseItems = payment.getPurchaseItems();
         for (PurchaseItem purchaseItem : purchaseItems) {
             // if purchase item is bound to a request, notify the corresponding service
-            if (purchaseItem.getRequest() != null)
-                requests.add(purchaseItem.getRequest());
+            if (purchaseItem.getRequestId() != null)
+                requests.add(purchaseItem.getRequestId());
         }
 
         if (!requests.isEmpty()) {
-        	for (Request request : requests) {
-                IRequestService requestService = requestServiceRegistry.getRequestService(request);
+        	for (Long requestId : requests) {
+        	    Request request = getById(requestId);
+                IRequestService requestService = 
+                    requestServiceRegistry.getRequestService(getById(requestId));
                 if (payment.getState().equals(PaymentState.VALIDATED))
                     requestService.onPaymentValidated(request, payment.getBankReference());
                 else if (payment.getState().equals(PaymentState.CANCELLED))

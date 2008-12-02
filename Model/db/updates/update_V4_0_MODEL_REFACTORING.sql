@@ -79,4 +79,9 @@ alter table child_legal_responsible_map
     drop constraint FK62E1102AC5C931EC;
 drop table child_legal_responsible_map;
 
+-- Side effet : Payment related refactorings (PRR)
 
+-- PRR1 : purchase item constraint on request
+alter table purchase_item
+    drop constraint fkb1132791ef51c842;
+    

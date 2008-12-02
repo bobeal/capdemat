@@ -126,10 +126,15 @@ class RequestInstructionController {
         def propertyType = propertyTypes.validate
         def widget = widgetMap[propertyType] ? widgetMap[propertyType] : "string"
 
+        // big hacks allow list datading for all request different from VoCard and HomeFolder
+        // Will be remove with homefolder refactoring
+        // here inline edition will pass until 10 element per list
+        def individualId = params.propertyName.tokenize("[]").size() > 1 ? Integer.valueOf(params.propertyName.tokenize("[]")[1]).intValue() : 0 
+        
         def model = ["requestId": Long.valueOf(params.id),
                      "individualId": params.propertyName.tokenize("[]")[1],
                      // the "simple" property name, with de-referencement
-                     "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                     "propertyNameTp": individualId > 10 ? propertyNameTokens[propertyNameTokens.size() -1] : params.propertyName,
                      // the "fully qualifier" property name
                      "propertyName": params.propertyName,
                      "propertyType": propertyType,
@@ -172,9 +177,10 @@ class RequestInstructionController {
                 bind(request)
             }
 //            log.debug("Binder custum editor PersistentStringEnum = " +
-//                    getBinder(individual)
+//                    getBinder(request)
 //                        .propertyEditorRegistry
 //                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
+
             render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } catch (CvqException ce) {
             ce.printStackTrace()

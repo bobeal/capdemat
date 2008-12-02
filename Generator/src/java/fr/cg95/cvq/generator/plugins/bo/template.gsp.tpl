@@ -69,11 +69,11 @@
               </dl>
               <% } else if (element.typeClass == "COLLECTION") { %>
               <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
-              <g:each var="it" in="\${request.${element.javaFieldName}}" statut="index">
-              <dl>
+              <g:each var="it" in="\${request.${element.javaFieldName}}" status="index">
+              <dl class="${element.conditionsClass}">
                 <% for (subElement in element.elements) { %>
                   <dt class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> : </dt>
-                  <dd id="${element.javaFieldName}.[\${index}].${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>
+                  <dd id="${element.javaFieldName}[\${index}].${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>
                     <% displayWidget(subElement, 'it') %>
                   </dd>
                 <% } %>

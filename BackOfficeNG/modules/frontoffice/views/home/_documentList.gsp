@@ -7,17 +7,19 @@
       <li>
         <p class="first-line">
           <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="document.state" />
-          ${record.title},
+          <span>
+            ${record.title}
+            <g:if test="${record.subject.firstName.length() > 0}">
+              (${record.subject.firstName})
+            </g:if>
+          </span>
+
           <g:if test="${record.creationDate != ''}">
-            <g:message code="document.property.creationDate" /> : 
-            <span>${record.creationDate},</span>
-          </g:if>
-          <g:if test="${record.validationDate != ''}">
-            <g:message code="document.property.validationDate" /> : 
-            <span>${record.validationDate},</span>
+            <g:message code="document.header.createdAt" />
+            <span>${record.creationDate}</span>
           </g:if>
           <g:if test="${record.endValidityDate != ''}">
-            <g:message code="document.property.endValidityDate" /> : 
+            <g:message code="document.header.expireAt" />
             <span>${record.endValidityDate}</span>
           </g:if>
         </p>

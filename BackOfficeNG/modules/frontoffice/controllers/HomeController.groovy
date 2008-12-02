@@ -1,34 +1,18 @@
-import fr.cg95.cvq.payment.IPaymentService;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
+import fr.cg95.cvq.business.document.Document
+import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest
+import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.Individual
+import fr.cg95.cvq.payment.IPaymentService
+import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.civil.IMarriageDetailsRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.exception.CvqException
-import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest
-import fr.cg95.cvq.business.users.Adult
-import fr.cg95.cvq.business.users.Address
-
-import fr.cg95.cvq.business.users.TitleType
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType
-import fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType
-import fr.cg95.cvq.business.request.civil.MarriageRelationshipType
-
-import fr.cg95.cvq.xml.request.civil.MarriageDetailsRequestDocument
-import org.w3c.dom.Node
-
-import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.util.Critere;
-
-
-import java.math.BigInteger
-
-
-import grails.converters.JSON
+import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.util.Critere
 
 class HomeController {
 
@@ -41,6 +25,7 @@ class HomeController {
     IHomeFolderService homeFolderService
     IPaymentService paymentService
     IDocumentService documentService
+    IIndividualService individualService
     
     Adult currentEcitizen
     MarriageDetailsRequest mdr 
@@ -78,6 +63,7 @@ class HomeController {
                 'initializationDate' : DateUtils.formatDate(it.initializationDate),
                 'commitDate' : DateUtils.formatDate(it.commitDate),
                 'state' : it.state.toString(),
+                'bankReference' : it.bankReference,
                 'amount' : it.amount,
                 'paymentMode' : message(code:"payment.mode."+it.paymentMode.toString())
             ]);
@@ -88,13 +74,17 @@ class HomeController {
     
     def prepareDocuments = { docs ->
         docs.all.each{
-            def current = it; 
+            def current = it;
+            Individual sbj;
+            if(it?.individualId != null)
+                sbj = this.individualService.getById(it.individualId);
             docs.records.add([
                 'id' : current.id,
                 'creationDate' : DateUtils.formatDate(current.creationDate),
                 'validationDate' : DateUtils.formatDate(current.validationDate),
                 'endValidityDate' : DateUtils.formatDate(current.endValidityDate),
                 'state' : current.state.toString(),
+                'subject' : this.describeSubject(sbj),
                 'name' : current.documentType.name,
                 'title' : message(
                     code: "documentType."+ StringUtils.firstCase(
@@ -103,7 +93,7 @@ class HomeController {
         }
         return docs;
     }
-    
+
     def protected getTopFiveRequests = {
         
         Set criteriaSet = new HashSet<Critere>();
@@ -137,5 +127,18 @@ class HomeController {
             'all': documentService.getHomeFolderDocuments(this.currentEcitizen.homeFolder.id, 5),
             'records' : []
         ]
+    }
+
+    private describeSubject = {Object sub ->
+        def result = ['firstName':'','lastName':'','title':'']
+        if(!sub) return result
+        
+        result.firstName = ((Individual)sub).getFirstName()
+        result.lastName = ((Individual)sub).getLastName()
+
+        if(sub.getClass().getSimpleName() == 'Child')result.title = 'request.individual.kid'
+        else if(sub.getClass().getSimpleName() == 'Adult')result.title ((Adult)sub).getTitle()
+
+        return result
     }
 }

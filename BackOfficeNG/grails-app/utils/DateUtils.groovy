@@ -25,6 +25,7 @@ public class DateUtils {
     }
     
     public static formatDate(Date date) {
+        if(date == null) return ''
         try {
             return sdf2.format(date);
         } catch (ParseException pe) {

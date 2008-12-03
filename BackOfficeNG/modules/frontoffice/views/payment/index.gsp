@@ -8,18 +8,11 @@
       
       <div id="yui-main"> 
         <div id="main" class="yui-b">
-          
-          <div class="yui-navset">
-            <div class="yui-content" style="margin-left:1em!important;">
-            
-            </div>
-          </div>
-     
+
         </div> 
-      </div> 
+      </div> <!-- end of yui-main -->
     
       <div id="narrow" class="yui-b">
-      
         <div id="requestSubject" class="requestBox">
           <h3>
             <g:message code="header.filterBy" />
@@ -28,8 +21,8 @@
             
           </div>
         </div>
-      
       </div><!-- end of narrow -->
+      
       <g:hiddenField name="ps" value="${pageState}" />
     </form>
   </body>

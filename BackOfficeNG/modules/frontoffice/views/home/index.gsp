@@ -8,44 +8,19 @@
       
       <div id="yui-main"> 
         <div id="main" class="yui-b">
-          
-          <div class="yui-navset">
-            <div class="yui-content" style="margin-left:1em!important;">
-            
-              <g:if test="${commonInfo != null}">
-                <div id="informationPanel">
-                  ${commonInfo}
-                </div>
-              </g:if>
-              <p>
-                <g:render template="requestList" />
-              </p>
-              <p>
-                <g:render template="paymentList" />
-              </p>
-              <p>
-                <g:render template="documentList" />
-              </p>
-            
+          <g:if test="${commonInfo != null}">
+            <div class="information-box">
+              ${commonInfo}
             </div>
-          </div>
-     
+          </g:if>
+          <g:render template="requestList" />
+          <g:render template="paymentList" />
+          <g:render template="documentList" />
         </div> 
       </div> 
-    <!-- 
       <div id="narrow" class="yui-b">
+      </div>
       
-        <div id="requestSubject" class="requestBox">
-          <h3>
-            <g:message code="header.filterBy" />
-          </h3>
-          <div class="body">
-            
-          </div>
-        </div>
-      
-      </div>-->
-      <!-- end of narrow -->
       <g:hiddenField name="ps" value="${pageState}" />
     </form>
   </body>

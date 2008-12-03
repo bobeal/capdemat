@@ -12,11 +12,18 @@
   
   <!-- common -->
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'fong/css/common/yui', file:'tabview.css')}" />
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'fong/css/common', file:'tag.css')}" />
-  <!-- layout -->
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'fong/css', file:'style.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'tag.css')}" />
   
   <!-- FONG CSS -->
+  <!-- layout -->
+  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'layout.css')}" />
+  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'box.css')}" />
+  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'homefolder.css')}" />
+  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
+  
+  <!--[if IE 6]>
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/frontoffice/hacks',file:'ie6.css')}" />
+  <![endif]-->
 
   <!-- yui -->
   <!-- Dependency for Connection Manager / Also provides YAHOO Global Object -->

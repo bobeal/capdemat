@@ -1,0 +1,163 @@
+/*--------------------------------------------------------------
+
+    box
+
+---------------------------------------------------------------*/
+
+
+/* no box - TODO : verify usefulness
+---------------------------------------------------------------*/
+
+.nobox h3 {
+  margin: 1em 0 .2em 0;
+  padding: 5px 0 0 0;
+  font-size: 1.3em;
+  font-weight: normal;
+  border-bottom: 2px solid #C690BB;
+}
+
+.nobox ul { margin: 0 ; padding: 0; }
+
+.nobox li {
+  margin: 0; padding: .5em 0;
+  list-style-type: none;
+  font-size: .9em;
+  border-bottom: 1px dashed #C690BB;
+}
+.nobox li:hover { color: #000000; background: #ffcff5; }
+
+
+/* request box - TODO : must be rename
+---------------------------------------------------------------*/
+
+.requestBox { margin: 0 0 1.5em 0; color: #000000; }
+
+.requestBox h3 {
+  margin: 0 0 .2em 0; padding: .7em .5em;
+  font-size: 1.1em;
+  -moz-border-radius: .5em .5em 0 0;
+  background: #c690bb;
+}
+
+.requestBox .body {
+  padding: .5em;
+  color: #000000;
+  background: #dddddd;
+}
+
+.requestBox .body select {
+  width: 100%;
+  display: block;
+  margin: .1em 0 1em 0;
+  padding: .2em;
+  border: 1px solid #cdcdcd;
+  border-top-color: #7fa646;
+  font-size: 1.1em;
+  font-weight: normal;
+  color: #4e662b;
+}
+
+.requestBox .body strong {
+  font-size: 1.2em;
+}
+
+.requestBox .body a {
+  display: block;
+  margin: .5em 0 0 0;
+  text-decoration: none;  
+}
+.requestBox .body a:hover {
+  text-decoration: underline;
+}
+
+.requestBox .body ul { margin: 0; padding: 0; }
+.requestBox .body li {
+  margin: 0; padding: .5em 0;
+  list-style-type: none;
+  border-bottom: 1px dashed #7fa646;
+}
+.requestBox .body li a { display: inline; }
+
+
+/* help box
+---------------------------------------------------------------*/
+
+.helpBox {
+  margin: .2em 0 0 12em;
+  padding: 1em 1.5em;
+  background: #dddddd ;
+}
+
+.helpBox h3 {
+  margin: 0 0 .5em 0;
+  font-size: 1.6em;
+  font-weight: normal;
+  border-bottom: 1px solid #C690BB;
+}
+
+.helpBox dl        { margin: 0; padding: 0; font-size: 1.1em; }
+.helpBox dt        { padding: .7em 0 0 0; font-weight: bold; }
+.helpBox dd        { margin: 0; padding: 0 .2em .5em .2em; border-bottom: 1px dashed #C690BB; }
+.helpBox  dd:hover { background: #ffcff5; color: #000000; }
+
+
+/* Information box
+---------------------------------------------------------------*/
+.information-box {
+  margin: 0 0 1em 0;  padding: 1em;
+  border: 3px solid #ffaa00;
+  background: #ffffcc;
+}
+
+
+/* list box
+--------------------------------------------------------------*/
+
+.list-box { margin: 0 0 1em 0; background: #ffffff; }
+
+.list-box h2 { 
+  margin: 0 !important;
+  color: #C690BB; background: #4c3848;
+  border-bottom: 3px solid #C690BB;
+}
+
+.list-box p.paginator, .list-box p.see-all { padding: 1em; font-size: 1.2em; } 
+.list-box p.paginator { margin: 0;  text-align: center; }
+.list-box p.see-all   { text-align: right; }
+
+.list-box p.see-all a, .list-box p.paginator a { color: #4C3848; text-decoration: none; }
+.list-box p.see-all a:hover, 
+.list-box p.paginator a:hover,
+.list-box p.paginator span.currentStep { color: #ffffff; background: #C690BB; }
+
+.list-box p.paginator a.step,
+.list-box p.paginator span.currentStep,
+.list-box p.paginator a.prevLink,
+.list-box p.paginator a.nextLink { padding: 0 .3em; }
+
+.list-box ul { margin: 0; padding: 0 1em; font-size: 1.1em; }
+
+.list-box ul li {
+  list-style-type: none;
+  margin: 0; padding: .6em 0;
+  border-bottom: 1px dashed #bbbbbb;
+}
+
+.list-box ul li p { margin: 0;}
+.list-box ul li .tag-state { float: right;}
+
+
+/* main box 
+--------------------------------------------------------------*/
+
+.main-box { margin: 0 0 1em 0; background: #ffffff; }
+
+.main-box h2 { 
+  margin: 0 !important;
+  color: #C690BB; background: #4c3848;
+  border-bottom: 3px solid #C690BB;
+}
+
+.main-box p { padding: .2em 1em; }
+
+

@@ -9,20 +9,17 @@
       <div id="yui-main"> 
         <div id="main" class="yui-b">
           
-          <div class="yui-navset">
-            <div class="yui-content" style="margin-left:1em!important;">
-            
-              <div id="search-results">
-                <g:render template="requestList" />
-                <g:paginate action="index" total="${requests.count}" 
-                            max="10" next="&gt;" prev="&lt;"
-                            params="${['ps':pageState]}"
-                            />
-              </div>
-            
+            <div class="list-box">
+              <h2><g:message code="request.header.requests" /></h2>
+              <p class="paginator">
+                <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+              </p>
+              <g:render template="requestList" />
+              <p class="paginator">
+                <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+              </p>
             </div>
-          </div>
-     
+              
         </div> 
       </div> 
     

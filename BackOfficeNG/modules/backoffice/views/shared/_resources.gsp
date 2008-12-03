@@ -14,7 +14,7 @@
   <!-- BONG CSS -->
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'layout.css')}" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'box.css')}" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'tag.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/common',file:'tag.css')}" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'form.css')}" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'list.css')}" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'panel.css')}" />

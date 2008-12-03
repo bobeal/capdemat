@@ -113,7 +113,7 @@ class HomeController {
     
     def protected getTopFivePayments = {
         return [
-            'all' : paymentService.extendedGet(null, null, null, null, null, null, null, null, 
+            'all' : paymentService. extendedGet(null, null, null, null, null, null, null, null, 
                 this.currentEcitizen.homeFolder.id, null, 'commitDate', 'DESC', 5, 0),
             'count' : paymentService.getPaymentCount(null, null, null, null, null, null, null, 
                 null, this.currentEcitizen.homeFolder.id, null),

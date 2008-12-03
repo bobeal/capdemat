@@ -6,5 +6,3 @@ function initRequest() {
 YAHOO.util.Event.onDOMReady(initRequest);
 
 
-
-

@@ -1,0 +1,27 @@
+/*--------------------------------------------------------------
+
+    homFolder
+
+---------------------------------------------------------------*/
+
+
+/* definition list (for homeFolder.individual) */
+.individual dl {
+  margin : 1em ; padding: 1em;
+  border-top: 3px solid #C690BB;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background-color: #ffffff; 
+}
+
+.individual dl dt {
+  float: left; width: 9em;
+  font-weight: bold;
+  text-align : right;
+}
+
+.individual dl dd {
+  border-left: 1px dashed #aaaaaa;
+  margin: 0 0 0 10em;
+  padding: 0 0 .5em .5em;
+}

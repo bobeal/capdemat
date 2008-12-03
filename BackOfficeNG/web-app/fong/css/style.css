@@ -1,14 +1,8 @@
 /*--------------------------------------------------------------
 
-    layout.css
-    
-    color:
-      violet =      #c690bb
-      dark vilet =  #4c3848
-      grenn =       #A0D158
-      light green = #E6F5BD
+    global layout description
 
- -------------------------------------------------------------*/
+---------------------------------------------------------------*/
  
 html {
  background: #cccccc;
@@ -25,11 +19,13 @@ body {
 /* heder
 --------------------------------------------------------------*/
 #hd {
+  margin: 0 0 1.5em 0;
+  overflow: auto;
 }
 
 #hd h1 {
  width: 250px;
- float:left;
+ float: left;
  margin: .3em 0 0 0;
  font-size: 3em;
  font-weight: normal;
@@ -47,93 +43,77 @@ body {
   text-align: right;
 }
 
+#hd #hd-menu a {
+  height: 20px;
+  margin: 0 0 1px 1px; padding: .5em 1em;
+  text-decoration: none;
+  color: #ffffff;
+  background: #4c3848 ;
+  -moz-border-radius: 0 0 .5em .5em;
+}
+#hd #hd-menu a:hover {
+  background: #c690bb;
+}
 
-
-/* main
+/* main menu
    TODO - Becareful to main border color
 --------------------------------------------------------------*/
 
-#bd {
-  border: 5px solid #4c3848;
-  background: #4c3848;
-  clear: both;
-}
-
-#bd-2 {
-  border: 1px solid #4c3848;
-  padding: 1em;
-  overflow: auto;
-}
-
-#bd-menu {
-  width: auto;
-  display: block; clear: both;
-  margin: 5em auto 0 auto;
+#main-menu {
   font-size: 1.2em;
   text-align: center;
   background: transparent;
 }
-#bd-menu a {
-  width: auto; height: 30px;
+#main-menu a {
+  height: 35px;
   float: left;
   margin: 0 0 1px 1px; padding: 0 1em;
-  background: #c690bb;
-  border: 5px solid #c690bb;
-  -moz-border-radius: .5em .5em 0 0;
   text-decoration: none;
-}
-#bd-menu a:hover,
-#bd-menu a.current {
-  border-color: #4c3848;
-  background: #4c3848 ;
-}
-
-#bd-menu a:first-child {
- margin-left: 0;
-}
-
-#bd-menu a.current {
-  height: 35px;
-  position: relative;
-  top: 6px;
-  border-bottom:0;
-}
-
-#bd-menu a span {
-  width: auto; height: 20px;
-  display: block;
-  padding: 5px;
-  -moz-border-radius: .5em .5em 0 0;
-  font-size: 0.85em;
-  font-weight: bold;
   background: #c690bb;
-  
-  color: #ffffff;
+  -moz-border-radius: .5em .5em 0 0;
+}
+#main-menu a:hover,
+#main-menu a.current { border-color: #4c3848; background: #4c3848 ; }
+#main-menu a:first-child { margin-left: 0; }
+
+#main-menu a.current {
+  position: relative; top: 6px;
+  border-bottom: 0;
 }
 
-#bd-menu a.current span,
-#bd-menu a:hover span {
-  border: 1px solid #4c3848;
-  background: #4c3848 ;
+#main-menu a span {
+  height: 20px;
+  display: block;
+  padding: .5em;
+  font-size: 0.85em; font-weight: bold;
+  color: #ffffff; background: #c690bb;
 }
-#bd-menu a.current span {
-  position: relative;
-  height: 25px;
-  border-bottom:0;
+
+#main-menu a.current span, #main-menu a:hover span { background: #4c3848 ; }
+#main-menu a.current span { height: 25px; position: relative; border-bottom:0; }
+
+
+/* main body
+   TODO - Becareful to main border color
+--------------------------------------------------------------*/
+
+#bd {
+  padding: 2em;
+  background: #4c3848;
+  overflow: auto;
+  clear: both;
 }
 
 #main {
-/*  margin: 4em 0 0 2em;*/
   padding-right: 1em;
   background: transparent;
 }
 
+
 h2 {
- margin: 0 0 .6em 0; 
- padding:0;
- font-size: 2em;
- font-weight: normal;
- color: #ffffff;
+ margin: 1em 0 0 0; padding: 0;
+ font-size: 2em; font-weight: normal;
+ color: #C690BB;
 }
 h2 span {
   display: block;
@@ -309,6 +289,7 @@ h2 a#requestSubmit:hover {
 
 /* box 
 --------------------------------------------------------------*/
+
 /* request box */
 .requestBox {
   margin: 0 0 1.5em 0;
@@ -393,6 +374,90 @@ h2 a#requestSubmit:hover {
 .helpBox  dd:hover {
   background: #ffcff5;
   color: #000000;
+}
+
+/* Information box */
+.information-box {
+  margin: 0 0 1em 0;  padding: 1em;
+  border: 3px solid #ffaa00;
+  background: #ffffcc;
+}
+
+
+/* list
+--------------------------------------------------------------*/
+
+.list-box
+ { margin: 0 0 1em 0; background: #ffffff; }
+
+.list-box h2 { 
+  margin: 0 !important;
+  color: #C690BB; background: #4c3848;
+  border-bottom: 3px solid #C690BB;
+}
+
+.list-box p.paginator, .list-box p.see-all { padding: 1em; font-size: 1.2em; } 
+.list-box p.paginator { margin: 0;  text-align: center; }
+.list-box p.see-all   { text-align: right; }
+
+.list-box p.see-all a, .list-box p.paginator a { color: #4C3848; text-decoration: none; }
+.list-box p.see-all a:hover, 
+.list-box p.paginator a:hover,
+.list-box p.paginator span.currentStep { color: #ffffff; background: #C690BB; }
+
+.list-box p.paginator a.step,
+.list-box p.paginator span.currentStep,
+.list-box p.paginator a.prevLink,
+.list-box p.paginator a.nextLink { padding: 0 .3em; }
+
+.list-box ul { margin: 0; padding: 0 1em; font-size: 1.1em; }
+
+.list-box ul li {
+  list-style-type: none;
+  margin: 0; padding: .6em 0;
+  border-bottom: 1px dashed #bbbbbb;
+}
+
+.list-box ul li p { margin: 0;}
+.list-box ul li .tag-state { float: right;}
+
+
+/* re box 
+--------------------------------------------------------------*/
+
+.main-box { margin: 0 0 1em 0; background: #ffffff; }
+
+.main-box h2 { 
+  margin: 0 !important;
+  color: #C690BB; background: #4c3848;
+  border-bottom: 3px solid #C690BB;
+}
+
+.main-box p { padding: .2em 1em; }
+
+
+/* homFolder
+--------------------------------------------------------------*/
+
+/* definition list (for homeFolder.individual) */
+dl {
+  margin : 1em ; padding: 1em;
+  border-top: 3px solid #C690BB;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background-color: #ffffff; 
+}
+
+dl dt {
+  float: left; width: 9em;
+  font-weight: bold;
+  text-align : right;
+}
+
+dl dd {
+  border-left: 1px dashed #aaaaaa;
+  margin: 0 0 0 10em;
+  padding: 0 0 .5em .5em;
 }
 
 /* misc

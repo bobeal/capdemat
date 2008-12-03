@@ -17,14 +17,14 @@
          <span>CapDémat - FrontOffice NG</span>
        </h1>
        <map id="hd-menu">
-        <a href="#">se déconnecter</a> | 
-        <a href="#">aide</a> |
+        <a href="#">se déconnecter</a>
+        <a href="#">aide</a>
         <a href="#">f.a.q</a> 
        </map>
      </div>
      
        <!-- main navifgation bar -->
-     <div id="bd-menu">
+     <div id="main-menu">
        <a href="${createLink(controller:'frontofficeHome')}" 
           class="${menu.current(elem:'home')}" >
           <span>Accueil</span>
@@ -57,9 +57,7 @@
      
      <!-- header -->
      <div id="bd">
-     <div id="bd-2">
        <g:layoutBody />
-     </div> <!-- end bd-2  -->
      </div> <!-- end bd  -->
      
    <!-- footer -->

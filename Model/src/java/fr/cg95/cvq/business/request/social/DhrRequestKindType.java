@@ -28,6 +28,12 @@ public final class DhrRequestKindType extends PersistentStringEnum {
 
 
 
+    public static DhrRequestKindType[] allDhrRequestKindTypes = {
+        INDIVIDUAL,
+        COUPLE
+    };
+
+
     public static DhrRequestKindType getDefaultDhrRequestKindType() {
         return null;
     }

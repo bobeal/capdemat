@@ -1,19 +1,17 @@
 package fr.cg95.cvq.generator.common;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author rdj@zenexity.fr
  */
 public class ElementCommon {
     
     private Step step;
-    private Condition condition;
-    
+    private Set<Condition> conditions = new HashSet<Condition>();
+
     public ElementCommon() {}
-    
-    public ElementCommon(Step step, Condition condition) {
-        this.step = step;
-        this.condition = condition;
-    }
 
     public Step getStep() {
         return step;
@@ -23,12 +21,25 @@ public class ElementCommon {
         this.step = step;
     }
 
-    public Condition getCondition() {
-        return condition;
-    }
-
-    public void setCondition(Condition condition) {
-        this.condition = condition;
+    public Set<Condition> getConditions() {
+        return conditions;
     }
     
+    public void addCondition(Condition condition) {
+        for (Condition c : conditions)
+            if (c.getName().equals(condition.getName())) 
+                throw new RuntimeException("addCondition() - Condition {" + condition.getName() +"} " +
+                		"have more than 1 participation in element");
+        
+        if (condition.getType() == null)
+            throw new RuntimeException("addCondition() - Condition {" + condition.getName() +"} " +
+            		"must define attribute type=\"\" element ");
+        try {
+            Condition.ConditionType.valueOf(condition.getType().toUpperCase());
+        } catch (IllegalArgumentException iae) {
+            throw new RuntimeException("addCondition() - Condition type {"+ condition.getType() +"} is not one of " +
+            		"{"+ Condition.ConditionType.valuesAsString() +"}");
+        }
+        conditions.add(condition);
+    }
 }

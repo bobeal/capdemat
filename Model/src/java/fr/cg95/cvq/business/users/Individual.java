@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -472,7 +473,7 @@ public class Individual implements Historizable, Serializable {
 
     /**
      * @hibernate.set
-     *  lazy="true"
+     *  lazy="false"
      *  cascade="all"
      *  order-by="id asc"
      * @hibernate.key
@@ -484,6 +485,17 @@ public class Individual implements Historizable, Serializable {
         return individualRoles;
     }
 
+    public Set<RoleEnum> getIndividualRoles(final Long individualId) {
+        Set<RoleEnum> result = new HashSet<RoleEnum>();
+        for (IndividualRole individualRole : individualRoles) {
+            if (individualRole.getIndividualId() != null
+                    && individualRole.getIndividualId().equals(individualId))
+                result.add(individualRole.getRole());
+        }
+        
+        return result;
+    }
+    
     public void setIndividualRoles(Set<IndividualRole> individualRoles) {
         this.individualRoles = individualRoles;
     }

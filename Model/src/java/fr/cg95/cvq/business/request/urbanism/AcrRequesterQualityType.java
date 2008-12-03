@@ -28,6 +28,12 @@ public final class AcrRequesterQualityType extends PersistentStringEnum {
 
 
 
+    public static AcrRequesterQualityType[] allAcrRequesterQualityTypes = {
+        OWNER,
+        TENANT
+    };
+
+
     public static AcrRequesterQualityType getDefaultAcrRequesterQualityType() {
         return null;
     }

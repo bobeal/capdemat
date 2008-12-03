@@ -28,6 +28,12 @@ public final class DhrAssetKindType extends PersistentStringEnum {
 
 
 
+    public static DhrAssetKindType[] allDhrAssetKindTypes = {
+        REAL_ESTATE,
+        OTHER
+    };
+
+
     public static DhrAssetKindType getDefaultDhrAssetKindType() {
         return null;
     }

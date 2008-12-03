@@ -8,7 +8,7 @@
       
       <div id="yui-main"> 
         <div id="main" class="yui-b">
-          
+         
           <div class="yui-navset">
             <div class="yui-content">
               <!-- HOME FOLDER DATA -->
@@ -34,16 +34,11 @@
               <g:render template="children" />
             </div>
           </div>
-     
         </div> 
-      </div> 
-    
+      </div>     
       <div id="narrow" class="yui-b">
-      
-        <div id="requestSubject" class="requestBox">
-        </div>
-      
       </div><!-- end of narrow -->
+      
       <g:hiddenField name="ps" value="${pageState}" />
     </form>
   </body>

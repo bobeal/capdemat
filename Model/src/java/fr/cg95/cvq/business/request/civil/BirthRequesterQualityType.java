@@ -38,6 +38,22 @@ public final class BirthRequesterQualityType extends PersistentStringEnum {
 
 
 
+    public static BirthRequesterQualityType[] allBirthRequesterQualityTypes = {
+        REQUESTER,
+        SPOUSE,
+        PARENT,
+        GRAND_PARENT,
+        CHILD,
+        LEGAL_REPRESENTANT,
+        AGENT,
+        HEIR_FAMILY,
+        HEIR,
+        AUTHORIZED,
+        LAWYER_NOTARY,
+        OTHER
+    };
+
+
     public static BirthRequesterQualityType getDefaultBirthRequesterQualityType() {
         return null;
     }

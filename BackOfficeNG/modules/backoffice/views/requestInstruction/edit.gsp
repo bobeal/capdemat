@@ -3,12 +3,13 @@
     <title><g:message code="request.header.requestTreatment" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" ></link>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestInstruction.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'document.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'condition.js')}"></script>
     <script type="text/javascript">
         zenexity.capdemat.bong.requestId = '${request.id}';
     </script>
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" ></link>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
   </head>
@@ -46,6 +47,9 @@
         </g:elseif>
         <g:elseif test="${request.requestType.label == 'Home Folder Modification'}">
           <g:render template="/backofficeRequestInstruction/requestType/homeFolderModificationRequest" model="['request':request]" />
+        </g:elseif>
+        <g:elseif test="${request.requestType.label == 'Birth Details'}">
+          <g:render template="/requestInstruction/requestType/birthDetailsRequest" model="['request':request]" />
         </g:elseif>
         <g:else>
           <g:render template="/backofficeRequestInstruction/requestType/defaultRequest" model="['request':request]" />

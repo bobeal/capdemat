@@ -38,6 +38,22 @@ public final class MarriageRequesterQualityType extends PersistentStringEnum {
 
 
 
+    public static MarriageRequesterQualityType[] allMarriageRequesterQualityTypes = {
+        REQUESTER,
+        SPOUSE,
+        PARENT,
+        GRAND_PARENT,
+        CHILD,
+        LEGAL_REPRESENTANT,
+        AGENT,
+        HEIR_FAMILY,
+        HEIR,
+        AUTHORIZED,
+        LAWYER_NOTARY,
+        OTHER
+    };
+
+
     public static MarriageRequesterQualityType getDefaultMarriageRequesterQualityType() {
         return null;
     }

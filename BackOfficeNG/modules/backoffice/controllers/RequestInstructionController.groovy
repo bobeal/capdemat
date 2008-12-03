@@ -1,4 +1,5 @@
-import fr.cg95.cvq.business.users.RoleEnumimport fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.business.users.RoleEnum
+import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.*
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -59,44 +60,46 @@ class RequestInstructionController {
         def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
 
         def documentList = []
+        def providedDocumentTypes = []
         def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
     
         requestDocuments.each {
+            def document = documentService.getById(it.documentId)
+            providedDocumentTypes.add(document.documentType.id)
             documentList.add(
-            [ "id": it.id,
-              "name": it.documentType.name,
-              "endValidityDate" : it.endValidityDate == null ? "" : DateUtils.formatDate((Date)it.endValidityDate),
-              "pageNumber": documentService.getPagesNumber(it.id),
-              "state": CapdematUtils.adaptCapdematEnum(it.state, "document.state")
-                ])
+                    [ "id": document.id,
+                      "name": document.documentType.name,
+                      "endValidityDate" : document.endValidityDate == null ? "" : DateUtils.formatDate(document.endValidityDate),
+                      "pageNumber": documentService.getPagesNumber(document.id),
+                      "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
+                    ]
+            )
         }
 
         // manage allowed and associated documents to a request
-        def isDocumentProvide
+        def isDocumentProvided
         defaultRequestService.getAllowedDocuments(request.requestType.id).each { documentTypeIt ->
-            isDocumentProvide = false
-            requestDocuments.each { documentIt ->
-                if (documentIt.documentType == documentTypeIt)
-                    isDocumentProvide = true
-            }
-            if (!isDocumentProvide)
+            isDocumentProvided = false
+            if (providedDocumentTypes.contains(documentTypeIt.id))
+                isDocumentProvided = true
+            if (!isDocumentProvided)
                 documentList.add(
                     [ "id": 0,
-                  "name": documentTypeIt.name,
-                  "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
+                      "name": documentTypeIt.name,
+                      "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
                     ])
         }
         
-    // just for VoCardRequest and HomeFolderModificationRequest
+        // just for VoCardRequest and HomeFolderModificationRequest
         def adults
         def children
         def clr = [:]
         if (request instanceof  fr.cg95.cvq.business.request.ecitizen.VoCardRequest
             || request instanceof fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest) {
-            adults = homeFolderService.getAdults(request.homeFolder.id)
-            children = homeFolderService.getChildren(request.homeFolder.id)
+            adults = homeFolderService.getAdults(request.homeFolderId)
+            children = homeFolderService.getChildren(request.homeFolderId)
             children.each {
-                clr.put(it.id, homeFolderService.getBySubjectRoles(it.id,                        [RoleEnum.CLR_FATHER,RoleEnum.CLR_MOTHER,RoleEnum.CLR_TUTOR]))
+                clr.put(it.id, homeFolderService.getBySubjectRoles(it.id,                        [RoleEnum.CLR_FATHER,RoleEnum.CLR_MOTHER,RoleEnum.CLR_TUTOR] as RoleEnum[]))
             }
         }
 
@@ -116,58 +119,97 @@ class RequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgetMap = [ string:"string", email:"string", number:"string",
-                          date:"date", address:"address", capdematEnum:"capdematEnum" ]
-
+        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum" ]
+        
         // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
-
-        def propertyTypeList = params.propertyType.tokenize(" ")
+        
+        def propertyTypes = JSON.parse(params.propertyType)
+        
         // one of the widgetMap keys
-        def propertyType = propertyTypeList[0]
+        def propertyType = propertyTypes.validate
+        def widget = widgetMap[propertyType] ? widgetMap[propertyType] : "string"
 
+        // big hacks allow list datading for all request different from VoCard and HomeFolder
+        // Will be remove with homefolder refactoring
+        // here inline edition will pass until 10 element per list
+        def individualId = params.propertyName.tokenize("[]").size() > 1 ? Integer.valueOf(params.propertyName.tokenize("[]")[1]).intValue() : 0 
+        
         def model = ["requestId": Long.valueOf(params.id),
                      "individualId": params.propertyName.tokenize("[]")[1],
                      // the "simple" property name, with de-referencement
-                     "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                     "propertyNameTp": individualId > 10 ? propertyNameTokens[propertyNameTokens.size() -1] : params.propertyName,
                      // the "fully qualifier" property name
                      "propertyName": params.propertyName,
                      "propertyType": propertyType,
-                     "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""]
-
+                     "required" : propertyTypes.required ? "required" : ""]
+        
+        // value init (by type)
         def propertyValue
         if (propertyType == "address") {
             propertyValue = JSON.parse(params.propertyValue)
         } else if (propertyType == "capdematEnum") {
-            def propertyJavaType = propertyTypeList[1].tokenize(".")
-            def allPropertyValue = Class.forName(propertyTypeList[1])
+            def propertyJavaType = propertyTypes.javatype.tokenize(".")
+            def allPropertyValue = Class.forName(propertyTypes.javatype)
                     .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
-
             model["allPropertyValue"] = allPropertyValue
             def propertyValueTokens = params.propertyValue.tokenize(" ")
             propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
             // will contain the fully qualified class name of the "CapDemat enum" class
-            model["propertyValueType"] = propertyTypeList[1]
+            model["propertyValueType"] = propertyTypes.javatype
         } else {
             propertyValue = params.propertyValue
+            model["i18nKeyPrefix"] = propertyTypes.i18n
+            model["regex"] = params.propertyRegex
+            if (params.propertyRegex != "")
+                model["propertyType"] = "regex"
         }
         model["propertyValue"] = propertyValue
 
-        render( template: "/backofficeRequestInstruction/widget/" + widgetMap[propertyType], model:model)
+        render( template: "/backofficeRequestInstruction/widget/" + widget, model:model)
     }
 
     def modify = {
         if (params.requestId == null || params.individualId == null )
              return
-        def individual = individualService.getById(Long.valueOf(params.individualId))
+        try {
+            def request = defaultRequestService.getById(Long.valueOf(params.requestId))
+            if (["VO Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
+                def individual = individualService.getById(Long.valueOf(params.individualId))
+                bind(individual)
+            } else {
+                bind(request)
+            }
+//            log.debug("Binder custum editor PersistentStringEnum = " +
+//                    getBinder(request)
+//                        .propertyEditorRegistry
+//                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
 
-        log.debug("Binder custum editor PersistentStringEnum = " +
-            getBinder(individual)
-                .propertyEditorRegistry
-                .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
-        )
-        bind(individual)
-        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } catch (CvqException ce) {
+            ce.printStackTrace()
+            log.error "modify() error while saving property of request"
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }
+    }
+    
+    def condition = {
+        def triggers = JSON.parse(params.triggers)
+        try {
+            log.debug(triggers)
+            def tests = []
+            if (triggers.format != null)
+              tests.add(triggers.format == "FullCopy" ? true : false)
+            if (triggers.motive != null)
+              tests.add(triggers.motive == "NotaryAct" ? true : false)
+            
+            def test = true
+            tests.each{ test = test && it }
+            
+            render ([test: test , status:"ok", success_msg:message(code:"message.conditionTested")] as JSON)
+        } catch (CvqException ce) {
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }
     }
 
 
@@ -304,6 +346,11 @@ class RequestInstructionController {
 
     def modifyDocument = {
         def document = documentService.getById(Long.valueOf(params.documentId))
+        log.debug("Binder custum editor PersistentStringEnum = " +
+                    getBinder(document)
+                        .propertyEditorRegistry
+                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
+
         bind(document)
         documentService.modify(document)
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
@@ -316,7 +363,7 @@ class RequestInstructionController {
     // TODO : rename action
     def contactInformation = {
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        Adult requester = request.getRequester()
+        Adult requester = individualService.getById(request.requesterId)
 
         def requesterMeansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
@@ -341,13 +388,13 @@ class RequestInstructionController {
         // this task must maybe be done by a service
         def defaultContactRecipient
         if (request.meansOfContact.type == MeansOfContactEnum.EMAIL)
-            defaultContactRecipient = request.requester.email
+            defaultContactRecipient = requester.email
         else if (request.meansOfContact.type == MeansOfContactEnum.SMS)
-            defaultContactRecipient = request.requester.mobilePhone
+            defaultContactRecipient = requester.mobilePhone
 
-        requesterMeansOfContacts.each(){
+        requesterMeansOfContacts.each() {
             it.i18nKey = message(code:it.i18nKey)
-        };
+        }
 
         render( template: "ecitizenContact",
             model:[
@@ -359,8 +406,8 @@ class RequestInstructionController {
                     "request": [
                         "id" : request.id,
                         "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
-                        "requesterMobilePhone": request.requester.mobilePhone,
-                        "requesterEmail": request.requester.email,
+                        "requesterMobilePhone": requester.mobilePhone,
+                        "requesterEmail": requester.email,
                         "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact.type,
                                                                           "request.meansOfContact")
                     ]
@@ -387,16 +434,13 @@ class RequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def homeFolder = {
-//        def homeFolder = homeFolderService.getByrequestId(Long.valueOf(params.id))
-//        def adults = homeFolderService.getAdults(homeFolder.id)
-//        def children = homeFolderService.getChildren(homeFolder.id)
-
     		render(template:'homeFolderData')
     }
 
     def homeFolderRequests = {
-    		def request = defaultRequestService.getById(Long.valueOf(params.id))
-        def homeFolderRequests = defaultRequestService.getByHomeFolderId(request.homeFolder.id);
+   	    def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def homeFolderRequests = defaultRequestService.getByHomeFolderId(request.homeFolderId);
+        def homeFolder = homeFolderService.getById(request.homeFolderId)             
 
         def records = []
         homeFolderRequests.each {
@@ -410,18 +454,17 @@ class RequestInstructionController {
               'id':it.id,
               'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
               'creationDate':DateUtils.formatDate(it.creationDate),
-              'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
-              'subjectLastName':it.subject ? it.subject.lastName + " " + it.subject.firstName : "",
-              'homeFolderId':it.homeFolder.id,
+              'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
+              'subjectLastName':it.subjectId ? it.subjectLastName + " " + it.subjectFirstName : "",
+              'homeFolderId':it.homeFolderId,
               'state':it.state.toString(),
               'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
               'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
-              'prmanent':!it.homeFolder.boundToRequest,
+              'permanent':!homeFolder.boundToRequest,
               'quality':quality
           ]
           records.add(record)
         }
-        log.debug ("homefolder record list = " + records.size())
         render(template:'/backofficeRequest/searchResult', collection: records, var:'record')
     }
 
@@ -430,22 +473,13 @@ class RequestInstructionController {
         def requestActionList = []
         requestActions.each {
             def user = instructionService.getActionPosterDetails(it.agentId)
-            //def user = ""
-            //try {
-            //    def requestAgent = agentService.getById(it.agentId)
-            //    user = requestAgent.firstName + " " + requestAgent.lastName
-            //} catch (CvqObjectNotFoundException) {
-            //    //FIXME: Extract this to an external service
-            //    user = "Demandeur"
-            //}
             def requestAction = [
                 'id':it.id,
                 'agent_name':user,
                 'label':it.label,
                 'note':it.note,
-                'date':it.date.toString(),
-                'resulting_state':it.resultingState.toString(),
-                'request_id':it.request.id
+                'date':DateUtils.formatDate(it.date),
+                'resulting_state':it.resultingState.toString()
             ]
             requestActionList.add(requestAction)
         }
@@ -457,19 +491,11 @@ class RequestInstructionController {
         def requestNoteList = []
         requestNotes.each {
             def user = instructionService.getActionPosterDetails(it.agentId)
-            //def user = ""
-            //try {
-            //    def requestAgent = agentService.getById(it.agentId)
-            //    user = requestAgent.firstName + " " + requestAgent.lastName
-            //} catch (CvqObjectNotFoundException) {
-            //    user = "Demandeur"
-            //}
             def requestNote = [
                'id':it.id,
                'agent_name':user,
                'type':it.type,
                'note':it.note,
-               'request_id':it.request.id
             ]
             requestNoteList.add(requestNote)
         }
@@ -486,9 +512,8 @@ class RequestInstructionController {
     }
 
     def trace = {
-        //throw new CvqException('AAAAAAAAAA','action.cancel');
-        def request = this.defaultRequestService.getById(Long.valueOf(params?.requestId))
-        this.defaultRequestService.addAction(request, params?.traceLabel, params?.message)
+        this.defaultRequestService.addAction(Long.valueOf(params.requestId), 
+                params.traceLabel, params.message)
         render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)
     }
 
@@ -539,9 +564,13 @@ class RequestInstructionController {
         def form = this.defaultRequestService.getRequestFormById(Long.valueOf(formId))
         Request request = this.defaultRequestService.getById(Long.valueOf(requestId))
             
-        Adult requester = request.getRequester()
+        Adult requester = individualService.getById(request.requesterId)
         def address = requester.getHomeFolder().getAdress()
-        def subject = this.getSubjectDescription(request.getSubject())
+        def subjectObject = null
+        if (request.subjectId) {
+            subjectObject = individualService.getById(request.subjectId)
+        }
+        def subject = this.getSubjectDescription(subjectObject)
         def forms = []
         forms.add(form)
     

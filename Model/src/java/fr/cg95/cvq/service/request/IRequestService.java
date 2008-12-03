@@ -245,6 +245,12 @@ public interface IRequestService {
      */
     void addAction(@IsRequest final Long requestId, final String label, final String note)
         throws CvqException;
+
+    /**
+     * Add a system action trace for the given request.
+     */
+    void addSystemAction(@IsRequest final Long requestId, final String label)
+        throws CvqException;
     
     /**
      * Get references of documents associated to a request.

@@ -186,14 +186,14 @@ public class RequestInstructionDurationCheckerJob {
                     // email alert successfully sent, update requests accordingly
                     if (orangeRequests.size() > 0) {
                         for (Request request : orangeRequests) {
-                            requestService.addAction(request.getId(), 
-                                    IRequestService.REQUEST_ORANGE_ALERT_NOTIFICATION, null); 
+                            requestService.addSystemAction(request.getId(), 
+                                    IRequestService.REQUEST_ORANGE_ALERT_NOTIFICATION); 
                         }
                     }
                     if (redRequests.size() > 0) {
                         for (Request request : redRequests) {
-                            requestService.addAction(request.getId(), 
-                                    IRequestService.REQUEST_RED_ALERT_NOTIFICATION, null);
+                            requestService.addSystemAction(request.getId(), 
+                                    IRequestService.REQUEST_RED_ALERT_NOTIFICATION);
                         }
                     }
                 }

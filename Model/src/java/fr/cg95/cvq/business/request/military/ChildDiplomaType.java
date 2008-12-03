@@ -38,6 +38,22 @@ public final class ChildDiplomaType extends PersistentStringEnum {
 
 
 
+    public static ChildDiplomaType[] allChildDiplomaTypes = {
+        B_A_C,
+        B_E_P,
+        B_E_P_C,
+        BREVET,
+        C_F_G,
+        C_A_P,
+        D_A_E_U,
+        D_E_A,
+        D_E_U_G,
+        LICENCE,
+        MAITRISE,
+        UNKNOWN
+    };
+
+
     public static ChildDiplomaType getDefaultChildDiplomaType() {
         return UNKNOWN;
     }

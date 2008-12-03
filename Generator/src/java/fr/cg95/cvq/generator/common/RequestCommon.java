@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class RequestCommon {
     
+    public final static String MODEL_REQUEST_NS = "fr.cg95.cvq.business.request";
+    
     private String namespace;
     private List<Step> steps;
     private Set<Condition> conditions;
@@ -38,7 +40,7 @@ public class RequestCommon {
             i++;
             if (s.getName() != null && s.getName().equals(step.getName()))
                 throw new RuntimeException("AddStep() - " +
-                		"Step name {"+ step.getName() +"} already exists");
+                		"Step {"+ step.getName() +"} already exists");
             if (s.getIndex() == step.getIndex())
                 throw new RuntimeException("AddStep() - " +
                 		"Step {"+ step.getName() +"} defines index {"+ step.getIndex() +"} that already exists");
@@ -57,6 +59,25 @@ public class RequestCommon {
     public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
+    
+    private Step getStepByName(String name) {
+        for (Step s : steps)
+            if (s.getName().equals(name))
+                return s;   
+        return null;
+    }
+    
+    public void addConditionStep(String stepName, String conditionName) {
+        Step step = getStepByName(stepName);
+        if (step  != null) {
+            for (Step s : steps)
+                if (s.containsConditionName(conditionName) && !s.getName().equals(stepName))
+                    throw new RuntimeException("addConditionStep() - Condition {"+ conditionName +"} " +
+                    		"is already associated with Step {"+ s.getName() +"}");
+            
+            step.addConditionName(conditionName);
+        }
+    }
 
     public void addCondition(Condition condition) {
         if (conditions == null)
@@ -64,8 +85,8 @@ public class RequestCommon {
         
         for (Condition c : conditions) {
             if (c.getName().equals(condition.getName()))
-                throw new RuntimeException("AddStep() - " +
-                		"Condition name {"+ condition.getName() +"} already exists");
+                throw new RuntimeException("addCondition() - " +
+                		"Condition {"+ condition.getName() +"} already exists");
         }
         conditions.add(condition);
     }
@@ -85,30 +106,34 @@ public class RequestCommon {
         
         boolean isStepDefined = false;
         for (Step s : steps) {
-            if (s.getName() != null && s.getName().equals(step.getName()))
+            if (s.getName() != null && s.getName().equals(step.getName())) {
                 isStepDefined = true;
+                break;
+            }
         }
         if (! isStepDefined)
             throw new RuntimeException("setCurrentElementStep() - " +
-            		"Step with name {"+ step.getName() +"} do not exists");
+                    "Step {"+ step.getName() +"} do not exists");
         
         currentElementCommon.setStep(step);
     }
     
-    public void setCurrentElementCondition (Condition condition) {
+    public void addCurrentElementCondition (Condition condition) {
         if (currentElementCommon == null)
             currentElementCommon = new ElementCommon();
         
         boolean isConditionDefined = false;
         for (Condition c : conditions) {
-            if (c.getName().equals(condition.getName()))
+            if (c.getName().equals(condition.getName())) {
                 isConditionDefined = true;
+                break;
+            }
         }
         if (! isConditionDefined)
-            throw new RuntimeException("setCurrentElementCondition() - " +
-            		"Condition with name {"+ condition.getName() +"} do not exists");
+            throw new RuntimeException("setCurrentElementCondition() - Condition "
+                    + "{"+ condition.getName() +"} do not exists");
         
-        currentElementCommon.setCondition(condition);
+        currentElementCommon.addCondition(condition);
     }
     
     public ElementCommon getCurrentElementCommon() {

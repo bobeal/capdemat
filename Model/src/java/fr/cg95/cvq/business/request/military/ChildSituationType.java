@@ -33,6 +33,17 @@ public final class ChildSituationType extends PersistentStringEnum {
 
 
 
+    public static ChildSituationType[] allChildSituationTypes = {
+        COLLEGE,
+        HIGHSCHOOL,
+        STUDENT,
+        EMPLOYEE,
+        APPRENTICE,
+        OTHER,
+        UNKNOWN
+    };
+
+
     public static ChildSituationType getDefaultChildSituationType() {
         return UNKNOWN;
     }

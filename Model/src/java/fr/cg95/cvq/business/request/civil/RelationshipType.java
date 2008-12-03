@@ -28,6 +28,12 @@ public final class RelationshipType extends PersistentStringEnum {
 
 
 
+    public static RelationshipType[] allRelationshipTypes = {
+        HUSBAND,
+        WIFE
+    };
+
+
     public static RelationshipType getDefaultRelationshipType() {
         return HUSBAND;
     }

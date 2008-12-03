@@ -31,6 +31,15 @@ public final class DeathCertificateMotiveType extends PersistentStringEnum {
 
 
 
+    public static DeathCertificateMotiveType[] allDeathCertificateMotiveTypes = {
+        NOTARY_ACT,
+        MARRIAGE,
+        PASSPORT,
+        PENSION,
+        OTHER
+    };
+
+
     public static DeathCertificateMotiveType getDefaultDeathCertificateMotiveType() {
         return null;
     }

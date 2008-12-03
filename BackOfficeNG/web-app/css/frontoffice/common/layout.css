@@ -1,0 +1,139 @@
+/*--------------------------------------------------------------
+
+    global layout description
+
+---------------------------------------------------------------*/
+
+
+/* global reset
+--------------------------------------------------------------*/
+
+html { background: #cccccc; }
+
+
+/* heder
+--------------------------------------------------------------*/
+#hd { margin: 0 0 1.5em 0; overflow: auto; }
+
+#hd h1 {
+  width: 250px;
+  float: left;
+  margin: .3em 0 0 0;
+  font-size: 3em; font-weight: normal;
+  color: #4c3848;
+}
+
+#hd h1 span {
+  display: block;
+  padding: .1em 0 0 0;
+  font-size: .4em;
+}
+
+#hd #hd-menu { display: block; text-align: right; }
+
+#hd #hd-menu a {
+  height: 20px;
+  margin: 0 0 1px 1px; padding: .5em 1em;
+  -moz-border-radius: 0 0 .5em .5em;
+  text-decoration: none;
+  color: #ffffff; background: #4c3848 ;
+}
+#hd #hd-menu a:hover {  background: #c690bb; }
+
+
+/* main menu
+--------------------------------------------------------------*/
+
+#main-menu {
+  font-size: 1.2em;
+  text-align: center;
+  background: transparent;
+}
+
+#main-menu a {
+  height: 35px;
+  float: left;
+  margin: 0 0 1px 1px; padding: 0 1em;
+  -moz-border-radius: .5em .5em 0 0;
+  text-decoration: none;
+  background: #c690bb;
+}
+#main-menu a:hover,
+#main-menu a.current     { border-color: #4c3848; background: #4c3848 ; }
+#main-menu a:first-child { margin-left: 0; }
+
+#main-menu a.current     { position: relative; top: 6px; border-bottom: 0; }
+
+#main-menu a span {
+  height: 20px;
+  display: block;
+  padding: .5em;
+  font-size: 0.85em; font-weight: bold;
+  color: #ffffff; background: #c690bb;
+}
+
+#main-menu a.current span, #main-menu a:hover span { background: #4c3848 ; }
+#main-menu a.current span { height: 25px; position: relative; border-bottom:0; }
+
+
+/* main body
+--------------------------------------------------------------*/
+
+#bd {
+  padding: 2em;
+  background: #4c3848;
+  overflow: auto;
+  clear: both;
+}
+
+#main { padding-right: 1em; background: transparent;
+}
+
+
+h2 {
+  margin: 1em 0 0 0; padding: 0;
+  font-size: 2em; font-weight: normal;
+  color: #C690BB;
+}
+h2 span { display: block; line-height: 1.5em; font-size: .5em; }
+
+
+/* narrow
+--------------------------------------------------------------*/
+#narrow { background: transparent; color: #ffffff; }
+
+
+/* footer
+--------------------------------------------------------------*/
+#ft { padding: .5em; text-align: right; }
+
+
+
+/* misc
+--------------------------------------------------------------*/
+.mandatory {
+  padding: 0 .5em;
+  color: #000000;
+  background: #C690BB;
+}
+
+/* navigation tab link TODO - improve integration */
+.navTab { height: 2em }
+.nextTab, .prevTab { color: #2020AA; }
+.nextTab { float: right; }
+.prevTab { float: left; }
+
+.nextTab:hover, .prevTab:hover { background: #2020AA; color:#ffffff; }
+
+
+/* messages (error , alertl, validation) */
+.message {
+ padding: 1em 0;
+ text-align: center;
+ font-size: 2em;
+ color: #ffffff;
+ background: #20aa20;
+}
+
+.hidden { display: none; }
+

@@ -29,6 +29,13 @@ public final class HarSocialSecurityMemberShipKindType extends PersistentStringE
 
 
 
+    public static HarSocialSecurityMemberShipKindType[] allHarSocialSecurityMemberShipKindTypes = {
+        INSURED,
+        CLAIMANT,
+        NO_MEMBER_SHIP
+    };
+
+
     public static HarSocialSecurityMemberShipKindType getDefaultHarSocialSecurityMemberShipKindType() {
         return null;
     }

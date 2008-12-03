@@ -74,8 +74,8 @@
             <input type="submit" value="${message(code:'action.filter')}"/>
           </div>
         </div>
-
       </div><!-- end of narrow -->
+
       <g:hiddenField name="ps" value="${pageState}" />
     </form>
   </body>

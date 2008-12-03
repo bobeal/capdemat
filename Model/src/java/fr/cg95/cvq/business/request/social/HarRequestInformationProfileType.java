@@ -28,6 +28,12 @@ public final class HarRequestInformationProfileType extends PersistentStringEnum
 
 
 
+    public static HarRequestInformationProfileType[] allHarRequestInformationProfileTypes = {
+        ADULT,
+        LESS_THAN20
+    };
+
+
     public static HarRequestInformationProfileType getDefaultHarRequestInformationProfileType() {
         return null;
     }

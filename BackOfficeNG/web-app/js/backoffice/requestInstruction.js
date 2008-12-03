@@ -1,6 +1,5 @@
 zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 
-
 (function() {
 
   var zcbr = zenexity.capdemat.bong.request;
@@ -23,73 +22,72 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   zcbr.Instruction = function() {
 
     function init() {
-      /* tabiews */
+      /* tabviews */
       var requestInformationTabview = new ywtv();
       requestInformationTabview.addTab( new ywt({
-          label: 'Historique', dataSrc: zcb.baseUrl + "/requestActions/" + zcb.requestId,
+          label: 'Historique', dataSrc: zcb.baseUrl + '/requestActions/' + zcb.requestId,
           cacheData: true, active: true }));
       requestInformationTabview.addTab( new ywt({
-          label: 'Commentaires', dataSrc: zcb.baseUrl + "/requestNotes/" + zcb.requestId,
+          label: 'Commentaires', dataSrc: zcb.baseUrl + '/requestNotes/' + zcb.requestId,
           cacheData: false }));
       requestInformationTabview.addTab( new ywt({
-          label: 'Compte', dataSrc: zcb.baseUrl + "/homeFolder",
+          label: 'Compte', dataSrc: zcb.baseUrl + '/homeFolder',
           cacheData: true }));
       requestInformationTabview.addTab( new ywt({
-          label: 'Demandes', dataSrc: zcb.baseUrl + "/homeFolderRequests/" + zcb.requestId,
+          label: 'Demandes', dataSrc: zcb.baseUrl + '/homeFolderRequests/' + zcb.requestId,
           cacheData: true }));
 
-      requestInformationTabview.appendTo("requestInformation");
+      requestInformationTabview.appendTo('requestInformation');
 
-      zcbr.Instruction.dataTabView = new yw.TabView("requestData");
-      //var requestDataTabView = new ywtv("requestData");
+      zcbr.Instruction.dataTabView = new yw.TabView('requestData');
+      //var requestDataTabView = new ywtv('requestData');
 
       /* panels */
       zcb.instructionStatePanel = new ywp(
-        "instructionStatePanel",
-        { width: "135%",
+        'instructionStatePanel',
+        { width: '135%',
           visible: false,
           constraintoviewport: true, draggable: false,
-          underlay: "none", close: false
+          underlay: 'none', close: false
         });
       zcb.instructionStatePanel.render();
 
       zcb.requestDocumentPanel = new ywp(
-        "requestDocumentPanel",
-        { width: "800px", y: 120,
+        'requestDocumentPanel',
+        { width: '800px', y: 120,
           visible: false,
           constraintoviewport: false, draggable: true,
-          underlay: "shadow", close: true
+          underlay: 'shadow', close: true
         });
       zcb.requestDocumentPanel.render();
 
       zcb.ecitizenContactPanel = new ywp(
-        "ecitizenContactPanel",
-        { width: "650px",
+        'ecitizenContactPanel',
+        { width: '650px',
           visible: false,
           constraintoviewport: false, draggable: true,
-          underlay: "shadow", close: true
+          underlay: 'shadow', close: true
         });
       zcb.ecitizenContactPanel.render();
 
     }
 
-
     /*
      * Request Instruction Worflow managment
-     */
+     * ------------------------------------------------------------------------------------------ */
 
     function submitChangeStateForm(targetEl , formId) {
       // bad strategy to refresh tag state ...
-      var nodes = yus.query("input[name=stateType]", formId);
+      var nodes = yus.query('input[name=stateType]', formId);
       var oldTagStateEl;
-      if (nodes[0].getAttribute("value") != "documentState")
-        oldTagStateEl = yud.get(nodes[0].getAttribute("value"));
+      if (nodes[0].getAttribute('value') != 'documentState')
+        oldTagStateEl = yud.get(nodes[0].getAttribute('value'));
       else {
-        nodes = yus.query("input[name=id]", formId);
-        oldTagStateEl = yud.get( "documentState_" + nodes[0].getAttribute("value"));
+        nodes = yus.query('input[name=id]', formId);
+        oldTagStateEl = yud.get( 'documentState_' + nodes[0].getAttribute('value'));
       }
 
-      nodes = yus.query("input:checked", formId);
+      nodes = yus.query('input:checked', formId);
       var newTagStateEl = yud.getNextSibling(nodes[0]);
 
       zct.doAjaxFormSubmitCall(
@@ -97,7 +95,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           null,
           function(o) {
             var response = ylj.parse(o.responseText);
-            if (response.status === "ok") {
+            if (response.status === 'ok') {
               oldTagStateEl.className = newTagStateEl.className;
               oldTagStateEl.innerHTML = newTagStateEl.innerHTML;
 
@@ -110,9 +108,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 
     function getStateTransitions(stateCssClass, stateType) {
       var id;
-      if (stateType.indexOf("documentState_") != -1) {
-        id = stateType.replace("documentState_", "");
-        stateType = "documentState";
+      if (stateType.indexOf('documentState_') != -1) {
+        id = stateType.replace('documentState_', '');
+        stateType = 'documentState';
       } else {
         id = zcb.requestId
       }
@@ -130,43 +128,176 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     function switchStatePanel(targetEl) {
       yud.setStyle(
           zcb.instructionStatePanel.id,
-          "border-color",
-          yud.getStyle(targetEl, "background-color"));
+          'border-color',
+          yud.getStyle(targetEl, 'background-color'));
 
-      zcb.instructionStatePanel.cfg.setProperty("context", [targetEl,"tr","br"])
+      zcb.instructionStatePanel.cfg.setProperty('context', [targetEl,'tr','br'])
 
-      if (! zcb.instructionStatePanel.cfg.getProperty("visible"))
+      if (! zcb.instructionStatePanel.cfg.getProperty('visible'))
         getStateTransitions(targetEl.className, targetEl.id);
       else
         zcb.instructionStatePanel.hide();
     }
 
     yue.addListener(
-        "narrow",
-        "click",
+        'narrow',
+        'click',
         function (e) {
           var targetEl = yue.getTarget(e);
 
-          if (yud.hasClass(targetEl, "cancelStateChange")) {
+          if (yud.hasClass(targetEl, 'cancelStateChange')) {
             zcb.instructionStatePanel.hide();
           }
-          else if (yud.hasClass(targetEl, "submitStateChange")) {
-            if (FIC_checkForm(e, yud.get("changeStateFormErrors")))
-              submitChangeStateForm(targetEl, "changeStateForm");
+          else if (yud.hasClass(targetEl, 'submitStateChange')) {
+            if (FIC_checkForm(e, yud.get('changeStateFormErrors')))
+              submitChangeStateForm(targetEl, 'changeStateForm');
           }
-          else if (yud.hasClass(targetEl, "documentLink")) {
+          else if (yud.hasClass(targetEl, 'documentLink')) {
             yue.preventDefault(e);
             zenexity.capdemat.bong.document.getRequestDocument(targetEl);
           }
-          else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, "documentLink")) {
+          else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink')) {
             switchStatePanel(targetEl);
           }
         });
 
-
     /*
-     * ecitizen contact management
-     */
+     * request data inline edition managment
+     * ------------------------------------------------------------------------------------------ */
+    
+    var modifyField = function (targetEl, isSubmit) {
+      var formEl = yud.getAncestorByTagName(targetEl, 'form');
+      var propertyValue;
+
+      var ddEl = yud.getAncestorByTagName(targetEl, 'dd');
+      var propertyWrapperEl = yud.getFirstChild(ddEl);
+
+      if (isSubmit && yud.hasClass(ddEl, 'validate-capdematEnum')) {
+        zct.each (yud.get(formEl.id.replace('_Form', '') + '_Field').options, function() {
+            if (this.selected === true)
+              propertyValue = this;
+        });
+        propertyWrapperEl.innerHTML = propertyValue.text;
+        // TODO - fix className value updatating !
+        // propertyWrapperEl.className = propertyValue.value;
+      }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-address')) {
+        var addressFields = yud.getChildren(propertyWrapperEl);
+        var newAddressFields = yus.query('fieldset input', formEl);
+        zct.each (newAddressFields, function(i) {
+            addressFields[i].innerHTML = this.value ;
+        });
+      }
+      else if (isSubmit) {
+        var elName = formEl.id.replace('_Form', '') + '_Field';
+        propertyValue = yud.get(elName).value;
+        propertyWrapperEl.innerHTML = propertyValue;
+      }
+      yud.removeClass(propertyWrapperEl, 'invisible');
+
+      new yuel(ddEl).removeChild(formEl);
+      yud.removeClass(ddEl, 'current-editField');
+    }
+    
+    return { 
+      inlineEditEvent : undefined,
+      init : function() { 
+          init();
+          zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
+          yue.on('requestData','click', 
+              zcbr.Instruction.inlineEditEvent.dispatch, zcbr.Instruction.inlineEditEvent, true
+          );
+      },
+      getTarget : function (e) {
+          var targetEl = yue.getTarget(e);
+          if (targetEl.tagName != 'DD' && targetEl.tagName != 'INPUT')
+            targetEl = yud.getAncestorByTagName(targetEl, 'dd');
+          return targetEl;
+      },
+      getHandler : function(e) {
+        var targetEl = zcbr.Instruction.getTarget(e);
+        if (yl.isNull(targetEl) || yud.hasClass(targetEl, 'current-editField'))
+          return undefined;
+        else if (targetEl.tagName === 'DD')
+          return targetEl.className.split(' ')[0].split('-')[1];
+        else
+          return targetEl.className.split(' ')[0];
+      },
+      editField : function(e) {
+          var targetEl = zcbr.Instruction.getTarget(e);
+          var propertyValue;
+          var propertyWrapperEl = yud.getFirstChild(targetEl);
+          var jsonPropertyType = {}
+          zct.each(targetEl.className.split(' '), function(i) {
+            var entry = this.split('-');
+            jsonPropertyType[entry[0]] = entry[1];
+          });
+          
+          if (jsonPropertyType['validate'] === 'address') {
+            var jsonAddress = {};     
+            zct.each(yud.getChildren(propertyWrapperEl), function(i) {
+                jsonAddress[this.className] = this.innerHTML;
+            });
+            propertyValue = ylj.stringify(jsonAddress);
+          }
+          else if (jsonPropertyType['validate'] ===  'capdematEnum') {
+            propertyValue = propertyWrapperEl.className;
+          }
+          else {
+            propertyValue = propertyWrapperEl.innerHTML;
+          }
+
+          zct.doAjaxCall(
+            '/widget/?id=' + zenexity.capdemat.bong.requestId
+            + '&propertyType=' + ylj.stringify(jsonPropertyType)
+            + '&propertyName=' + targetEl.id
+            + '&propertyValue=' + propertyValue
+            + '&propertyRegex=' + (yl.isUndefined(targetEl.attributes.regex) ? '' : targetEl.attributes.regex.value),
+            null, 
+            function(o) {
+              yud.addClass(targetEl, 'current-editField');
+              yud.addClass(yud.getFirstChild(targetEl), 'invisible');
+              targetEl.innerHTML += o.responseText;
+
+              if (yud.hasClass(targetEl, 'validate-date')) {
+                YAHOO.capdematBo.calendar.cal = new Array(1);
+                yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + '_Field'} );
+              }
+          });
+      },
+      submitField : function (e) {
+          var targetEl = zcbr.Instruction.getTarget(e);
+          var formEl = yud.getAncestorByTagName(targetEl, 'form');
+          
+          if (!FIC_checkForm(e, yud.get(formEl.id + 'Errors')))
+            return;
+          
+          zct.doAjaxFormSubmitCall(formEl.id, null, function(o) {
+                var response = ylj.parse(o.responseText);
+                if (response.status === 'ok') {
+                  zcb.Condition.run(e);
+                  modifyField(targetEl, true);
+                  yud.setStyle(formEl.id.replace('_Form', ''), 'background', '#aaffaa');
+                }
+                else {
+                  yud.get(formId + 'Error').innerHTML = response.error_msg;
+                }
+          });
+      },
+      revertField : function (e) {
+          modifyField(zcbr.Instruction.getTarget(e), false);
+      }
+    };
+    
+  }();
+  
+  YAHOO.util.Event.onDOMReady(zcbr.Instruction.init);
+  
+  /*
+  * ecitizen contact management
+  * ------------------------------------------------------------------------------------------ */
+  
+  zcbr.Contact = function() {
 
     function submitContactForm(formId) {
       zct.doAjaxFormSubmitCall (formId,null,
@@ -178,204 +309,34 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     function getEcitizenContactPanel(targetEl) {
       // hacks for ie6
       var action = targetEl.pathname;
-      if (action.indexOf("/") != 0)
-        action = "/" + action;
+      if (action.indexOf('/') != 0)
+        action = '/' + action;
 
       zcb.ecitizenContactPanel.show();
-
-//      zct.doAjaxCall(
-//          action,
-//          null,
-//          function(o) {
-//           zcb.ecitizenContactPanel.setBody(o.responseText);
-//           zcb.ecitizenContactPanel.show();
-//          });
     }
 
     yue.addListener(
-        "ecitizenContact",
-        "click",
+        'ecitizenContact',
+        'click',
         function(e) {
           var targetEl = yue.getTarget(e);
-          if (targetEl.id === "ecitizenContactLink") {
+          if (targetEl.id === 'ecitizenContactLink') {
             yue.preventDefault(e);
             getEcitizenContactPanel(targetEl);
           }
         });
-//          else if (targetEl.id === "submitContactForm") {
-//            if (FIC_checkForm(e, yud.get("contactFormErrors")))
-//              submitContactForm("contactForm");
-//          }
-//          else if (targetEl.id === "discardContactForm") {
-//            zcb.ecitizenContactPanel.hide();
-//          }
-//        });
-
-    /* ecitizen means of contact default  */
-//    yue.addListener(
-//        "ecitizenContact",
-//        "change",
-//        function(e) {
-//          var targetEl = yue.getTarget(e);
-//
-//          if (targetEl.name === "meansOfContact") {
-//            var contactReciepientEl = yud.get("contactReciepient");
-//
-//            if (targetEl.value === "Email")
-//              contactReciepientEl.value = yud.get("requesterEmail").value;
-//            else if (targetEl.value === "Sms")
-//              contactReciepientEl.value = yud.get("requesterMobilePhone").value;
-//          }
-//        });
-
-
-    /*
-     * request data inline edition managment
-     */
-
-    function submitEditProperty(targetEl, formId) {
-      zct.doAjaxFormSubmitCall(
-          formId,
-          null,
-          function(o) {
-            var response = ylj.parse(o.responseText);
-            if (response.status === "ok") {
-              modifyPropertyForm(targetEl, true);
-              yud.setStyle(formId.replace("_Form", ""), "background", "#aaffaa");
-            }
-            else {
-              yud.get(formId + "Error").innerHTML = response.error_msg;
-            }
-          });
-    }
-
-    function modifyPropertyForm(targetEl, isSubmit) {
-      var formEl = yud.getAncestorByTagName(targetEl, "form");
-      var propertyValue;
-
-      var ddEl = yud.getAncestorByTagName(targetEl, "dd");
-      var wrapperPropertyValueEl = yud.getFirstChild(ddEl);
-
-      if (isSubmit && yud.hasClass(ddEl, "capdematEnum")) {
-        zct.each(
-            yud.get(formEl.id.replace("_Form", "") + "_Field").options,
-            function() {
-              if (this.selected === true)
-               propertyValue = this.text;
-            });
-        wrapperPropertyValueEl.innerHTML = propertyValue;
-      }
-      else if (isSubmit && yud.hasClass(ddEl, "address")) {
-        var addressFields = yud.getChildren(wrapperPropertyValueEl);
-        var newAddressFields = yus.query("fieldset input", formEl);
-        zct.each(
-            newAddressFields,
-            function(i) {
-              addressFields[i].innerHTML = this.value ;
-            });
-      }
-      else if (isSubmit) {
-        var elName = formEl.id.replace("_Form", "") + "_Field";
-        propertyValue = yud.get(elName).value;
-        wrapperPropertyValueEl.innerHTML = propertyValue;
-      }
-      yud.removeClass(wrapperPropertyValueEl, "invisible");
-
-      new yuel(ddEl).removeChild(formEl);
-      yud.removeClass(ddEl, "currentEditProperty");
-    }
-
-    function showEditProperty(targetEl) {
-      var propertyValue;
-      var wrapperPropertyValueEl = yud.getFirstChild(targetEl);
-
-      if (yud.hasClass(targetEl, "address")) {
-        var addressFields = yud.getChildren(wrapperPropertyValueEl);
-
-        var jsonAddress = {
-          "additionalDeliveryInformation": addressFields[0].innerHTML,
-          "additionalGeographicalInformation": addressFields[1].innerHTML,
-          "streetNumber": addressFields[2].innerHTML,
-          "streetName": addressFields[3].innerHTML,
-          "placeNameOrService": addressFields[4].innerHTML,
-          "postalCode": addressFields[5].innerHTML,
-          "city": addressFields[6].innerHTML,
-          "countryName": addressFields[7].innerHTML
-        }
-        propertyValue = ylj.stringify(jsonAddress);
-
-      }
-      else if (yud.hasClass(targetEl, "capdematEnum")) {
-        propertyValue = wrapperPropertyValueEl.className;
-      }
-      else {
-        propertyValue = wrapperPropertyValueEl.innerHTML;
-      }
-
-      zct.doAjaxCall(
-          "/widget/?"
-            + "id=" + zenexity.capdemat.bong.requestId
-            + "&propertyType=" + targetEl.className
-            + "&propertyName=" + targetEl.id
-            + "&propertyValue=" + propertyValue,
-          null,
-          function(o) {
-            yud.addClass(targetEl, "currentEditProperty");
-            yud.addClass(yud.getFirstChild(targetEl), "invisible");
-            targetEl.innerHTML += o.responseText;
-
-            if (yud.hasClass(targetEl, "date")) {
-              YAHOO.capdematBo.calendar.cal = new Array(1);
-              yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + "_Field"} );
-            }
-          });
-    }
-
-    yue.addListener(
-        "requestData",
-        "click",
-        function(e) {
-            var targetEl = yue.getTarget(e);
-
-            if (targetEl.tagName != "DD" && targetEl.tagName != "INPUT") {
-              targetEl = yud.getAncestorByTagName(targetEl, "dd");
-            }
-
-            if (yud.hasClass(targetEl, "currentEditProperty"))   {
-              return;
-            }
-            else if (yud.hasClass(targetEl, "string")
-                || yud.hasClass(targetEl, "email")
-                || yud.hasClass(targetEl, "address")
-                || yud.hasClass(targetEl, "number")
-                || yud.hasClass(targetEl, "date")
-                || yud.hasClass(targetEl, "capdematEnum")
-               ) {
-              showEditProperty(targetEl);
-            }
-            else if (yud.hasClass(targetEl, "submit")) {
-              var formEl = yud.getAncestorByTagName(targetEl, "form");
-              if (FIC_checkForm(e, yud.get(formEl.id + "Errors")))
-                submitEditProperty(targetEl, formEl.id);
-            }
-            else if (yud.hasClass(targetEl, "discard")) {
-              modifyPropertyForm(targetEl, false);
-            }
-        });
-
-    var d = zcc.debug;
-    //var c = console;
+    
     var initContact = function() {
-      var url = ["/contactInformation/",zcb.requestId].join('');
+      var url = ['/contactInformation/',zcb.requestId].join('');
       zct.doAjaxCall(url,'',function(o){
         zcb.ecitizenContactPanel.setBody(o.responseText);
         var select = yud.get('meansOfContact');
-        yue.on(select,'change',zcbr.Instruction.showPanels);
-        zcbr.Instruction.showPanels(select[select.selectedIndex]);
+        yue.on(select,'change',zcbr.Contact.showPanels);
+        zcbr.Contact.showPanels(select[select.selectedIndex]);
         yue.on(yus.query('textarea[name=smsMessage]')[0],'keyup',function(e){
           zct.limitArea(yue.getTarget(e),160,'smsNotifier');
         });
-        zcbr.Instruction.changeType(yus.query('select.mails option')[0]);
+        zcbr.Contact.changeType(yus.query('select.mails option')[0]);
       });
     };
     var toggleState = function(el,state) {
@@ -392,21 +353,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       dataTabView: undefined,
       formEvent: undefined,
       init: function() {
-        //d.dir(window.opener);
-        //d.print(self.location);
-        init();
         initContact();
-
-        zcbr.Instruction.formEvent = new zct.Event(zcbr.Instruction,zcbr.Instruction.getHandler);
-        yue.on('contactForm','click',zcbr.Instruction.formEvent.dispatch,zcbr.Instruction.formEvent,true);
-        yue.on('requestForms','change',zcbr.Instruction.changeType);
+        zcbr.Contact.formEvent = new zct.Event(zcbr.Contact,zcbr.Contact.getHandler);
+        yue.on('contactForm','click',zcbr.Contact.formEvent.dispatch,zcbr.Contact.formEvent,true);
+        yue.on('requestForms','change',zcbr.Contact.changeType);
       },
       notify : function(o) {
         var json = ylj.parse(o.responseText);
         zct.Notifier.processMessage('success',json.success_msg,'contactMsg');
       },
       previewRequestForm : function(e) {
-        zcbr.Instruction.prepareLink()
+        zcbr.Contact.prepareLink()
       },
       getHandler : function(e) {
         var target = yue.getTarget(e);
@@ -424,7 +381,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             zct.style(link,{display:'none'});
             zct.style(linkPdf,{display:'none'});
           } 
-          zcbr.Instruction.prepareLink();
+          zcbr.Contact.prepareLink();
         } else {
           zct.style(yud.get('previewError'),{display:'inline'});
           zct.style(yus.query('fieldset#emailButtons')[0],{display:'none'});
@@ -441,7 +398,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var linkPdf = yud.get('previewRequestFormPdf');
         var url = zenexity.capdemat.bong.baseUrl;
         var id = zct.val(yud.get('requestForms'));
-        var message = encodeURIComponent(zct.val(zcbr.Instruction.messageBox));
+        var message = encodeURIComponent(zct.val(zcbr.Contact.messageBox));
         link.href = [url,'/preview/?type=html&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
         linkPdf.href = [url,'/preview/?type=pdf&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
       },
@@ -474,7 +431,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var value = zct.val(target);
         var container = yud.getAncestorByTagName(target,'form');
         var rules = [];
-        zct.each(zcbr.Instruction.showRules,function(k,v){
+        zct.each(zcbr.Contact.showRules,function(k,v){
           var regex = new RegExp(['^',k,'$'].join(''),'i');
           if(regex.test(value))rules = zct.merge(rules,v);
         });
@@ -491,7 +448,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         zct.each(yus.query('#contactForm input[type=hidden]'),function(i,el){
           if(/^(message|recipient|meansOfContact)$/i.test(el.name))el.value = "";
         });
-        zcbr.Instruction.messageBox = zcbr.Instruction.getByGroup('message');
+        zcbr.Contact.messageBox = zcbr.Contact.getByGroup('message');
       },
       validate : function(form) {
         var container = yud.get('contactFormErrors');
@@ -513,19 +470,20 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   }();
 
   zct.each(['sendSms','sendEmail','trace'],function(i,name){
-    zcbr.Instruction[name] = function(e){
-      zcbr.Instruction.prepareForm(e);
+    zcbr.Contact[name] = function(e){
+      zcbr.Contact.prepareForm(e);
       form = yud.get('contactForm');
       form.action = [zcb.baseUrl,'/',name].join('');
       zct.text(yud.get('contactFormErrors'),'');
       
-      if(zcbr.Instruction.validate(form)) {
-        zct.doAjaxFormSubmitCall(form.id,[],zcbr.Instruction.notify);
+      if(zcbr.Contact.validate(form)) {
+        zct.doAjaxFormSubmitCall(form.id,[],zcbr.Contact.notify);
       }
     };
   });
 
-  YAHOO.util.Event.onDOMReady(zcbr.Instruction.init);
+  YAHOO.util.Event.onDOMReady(zcbr.Contact.init);
 
+}()
 
-}());
+);

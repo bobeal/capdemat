@@ -28,6 +28,12 @@ public final class RsrDwellingType extends PersistentStringEnum {
 
 
 
+    public static RsrDwellingType[] allRsrDwellingTypes = {
+        APPARTMENT,
+        HOUSE
+    };
+
+
     public static RsrDwellingType getDefaultRsrDwellingType() {
         return null;
     }

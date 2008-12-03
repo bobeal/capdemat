@@ -35,7 +35,7 @@ public interface IMeansOfContactService {
     /**
      * Get all enabled Means of Contact, for a particular adult.
      *
-     * <br /> A Means of Contact is enable for an adult if :
+     * a means of contact is enabled for an adult if :
      * <ul>
      *   <li>it's enabled in local authority</li>
      *   <li>and adult has filled matching field of the Means of Contact</li>

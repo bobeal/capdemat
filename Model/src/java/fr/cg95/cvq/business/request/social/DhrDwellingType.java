@@ -30,6 +30,14 @@ public final class DhrDwellingType extends PersistentStringEnum {
 
 
 
+    public static DhrDwellingType[] allDhrDwellingTypes = {
+        DOMICILE,
+        ETABLISSMENT_P_A,
+        ACCUEIL_PARTICULIER_ONEREUX,
+        AUTRE
+    };
+
+
     public static DhrDwellingType getDefaultDhrDwellingType() {
         return null;
     }

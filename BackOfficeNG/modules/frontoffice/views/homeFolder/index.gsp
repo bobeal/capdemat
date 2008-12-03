@@ -16,13 +16,18 @@
 
               <div class="sub-mainbox-raduis" style="line-height:2em">
                 <div>
-                  <g:message code="property.active"/> : <span class="tag-enable">oui</span>
+                  <g:message code="property.active"/> :
+                  <span class="tag-enable">${homeFolder.isActive}</span>
                 </div>
                 <div>
-                  <g:message code="property.state"/> : <span class="tag-enable">validé</span>
+                  <g:message code="property.state"/> :
+                  <span class="tag-enable">
+                    <g:capdematEnumToFlag var="${homeFolder.state}" i18nKeyPrefix="actor.state" />
+                  </span>
                 </div>
                 <div>
-                  <g:message code="request.requester.property.adress"/> :  <b>64 rue TaitBout 75009 Paris</b>
+                  <g:message code="request.requester.property.adress"/> :
+                  <b>${homeFolder.addressDetails}</b>
                 </div>
               </div>
               <g:render template="adults" />

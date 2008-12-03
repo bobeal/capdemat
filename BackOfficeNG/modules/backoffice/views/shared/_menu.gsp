@@ -8,7 +8,7 @@
     <g:message code="menu.taskBoard" />
   </a>
   <a id="requestMenuItem" href="<g:createLink controller='backofficeRequest'/>">
-    <g:message code="menu.requests" />
+    <g:message code="menu.search" />
   </a>
   <a id="statisticsMenuItem" href="<g:createLink controller='backofficeStatistic'/>">
     <g:message code="menu.statistics" />

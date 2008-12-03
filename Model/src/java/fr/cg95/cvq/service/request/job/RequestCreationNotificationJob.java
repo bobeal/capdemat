@@ -81,8 +81,8 @@ public class RequestCreationNotificationJob {
                 if (alertSent) {
                     // email alert successfully sent, update request accordingly
                     for (Request request : requestList) {
-                        requestService.addAction(request.getId(), 
-                                IRequestService.REQUEST_CREATION_NOTIFICATION, null);
+                        requestService.addSystemAction(request.getId(), 
+                                IRequestService.REQUEST_CREATION_NOTIFICATION);
                     }
                 }
             } else {

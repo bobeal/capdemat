@@ -22,7 +22,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   zcbr.Instruction = function() {
 
     function init() {
-      /* tabiews */
+      /* tabviews */
       var requestInformationTabview = new ywtv();
       requestInformationTabview.addTab( new ywt({
           label: 'Historique', dataSrc: zcb.baseUrl + '/requestActions/' + zcb.requestId,
@@ -203,7 +203,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       inlineEditEvent : undefined,
       init : function() { 
           init();
-          zcbr.Instruction.inlineEditEvent = new zcc.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
+          zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
           yue.on('requestData','click', 
               zcbr.Instruction.inlineEditEvent.dispatch, zcbr.Instruction.inlineEditEvent, true
           );
@@ -247,7 +247,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             propertyValue = propertyWrapperEl.innerHTML;
           }
 
-          zcc.doAjaxCall(
+          zct.doAjaxCall(
             '/widget/?id=' + zenexity.capdemat.bong.requestId
             + '&propertyType=' + ylj.stringify(jsonPropertyType)
             + '&propertyName=' + targetEl.id
@@ -272,7 +272,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           if (!FIC_checkForm(e, yud.get(formEl.id + 'Errors')))
             return;
           
-          zcc.doAjaxFormSubmitCall(formEl.id, null, function(o) {
+          zct.doAjaxFormSubmitCall(formEl.id, null, function(o) {
                 var response = ylj.parse(o.responseText);
                 if (response.status === 'ok') {
                   zcb.Condition.run(e);
@@ -326,11 +326,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           }
         });
     
-    var d = zcc.debug;
-    //var c = console;
     var initContact = function() {
       var url = ['/contactInformation/',zcb.requestId].join('');
-      zcc.doAjaxCall(url,'',function(o){
+      zct.doAjaxCall(url,'',function(o){
         zcb.ecitizenContactPanel.setBody(o.responseText);
         var select = yud.get('meansOfContact');
         yue.on(select,'change',zcbr.Contact.showPanels);
@@ -355,12 +353,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       dataTabView: undefined,
       formEvent: undefined,
       init: function() {
-        //d.dir(window.opener);
-        //d.print(self.location);
-//        init();
         initContact();
-
-        zcbr.Contact.formEvent = new zcc.Event(zcbr.Contact,zcbr.Contact.getHandler);
+        zcbr.Contact.formEvent = new zct.Event(zcbr.Contact,zcbr.Contact.getHandler);
         yue.on('contactForm','click',zcbr.Contact.formEvent.dispatch,zcbr.Contact.formEvent,true);
         yue.on('requestForms','change',zcbr.Contact.changeType);
       },
@@ -379,8 +373,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         if(!!e) {
           var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
           var link = yud.get('previewRequestForm');
-          if(target.value > -1)zct.style(link,{display:'inline'});
-          else zct.style(link,{display:'none'});
+          var linkPdf = yud.get('previewRequestFormPdf');
+          if(target.value > -1) {
+            zct.style(link,{display:'inline'});
+            zct.style(linkPdf,{display:'inline'});
+          } else {
+            zct.style(link,{display:'none'});
+            zct.style(linkPdf,{display:'none'});
+          } 
           zcbr.Contact.prepareLink();
         } else {
           zct.style(yud.get('previewError'),{display:'inline'});
@@ -399,7 +399,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var url = zenexity.capdemat.bong.baseUrl;
         var id = zct.val(yud.get('requestForms'));
         var message = encodeURIComponent(zct.val(zcbr.Contact.messageBox));
-        link.href = [url,'/preview/?fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
+        link.href = [url,'/preview/?type=html&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
+        linkPdf.href = [url,'/preview/?type=pdf&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
       },
       prepareForm : function() {
         form = yud.get('contactForm');
@@ -476,7 +477,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       zct.text(yud.get('contactFormErrors'),'');
       
       if(zcbr.Contact.validate(form)) {
-        zcc.doAjaxFormSubmitCall(form.id,[],zcbr.Contact.notify);
+        zct.doAjaxFormSubmitCall(form.id,[],zcbr.Contact.notify);
       }
     };
   });

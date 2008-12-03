@@ -355,12 +355,21 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void addAction(final Long requestId, final String label, final String note)
         throws CvqException {
 
         Request request = getById(requestId);
         addActionTrace(label, note, new Date(), null, request, null);
+    }
+
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
+    public void addSystemAction(final Long requestId, final String label)
+        throws CvqException {
+
+        Request request = getById(requestId);
+        addActionTrace(label, null, new Date(), null, request, null);
     }
 
     @Override

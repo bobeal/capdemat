@@ -64,10 +64,12 @@
       <dt><g:message code="homeFolder.child.property.legalResponsibles" /> : </dt>
       <dd>
         <ul>
-        <g:each var="clr" in="${childLegalResponsibles}">
+        <g:each var="individual" in="${childLegalResponsibles}">
           <li>
-            <g:capdematEnumToFlag var="${clr.role}" i18nKeyPrefix="homeFolder.child.LegalResponsibleRole" /> 
-            ${clr.legalResponsible.firstName} ${clr.legalResponsible.lastName}
+            <g:each in="${individual.getIndividualRoles(child.id)}" var="roleEnum">
+              <g:capdematEnumToFlag var="${roleEnum}" i18nKeyPrefix="homeFolder.child.LegalResponsibleRole" />
+            </g:each> 
+            ${individual.firstName} ${individual.lastName}
           </li>
         </g:each>
         </ul>

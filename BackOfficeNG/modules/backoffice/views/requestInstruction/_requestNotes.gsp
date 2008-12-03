@@ -5,11 +5,11 @@
   <input type="hidden" id="requestId" name="requestId" value="${requestId}">
 </form>
 
-<ul>
-  <g:if test="${requestNoteList.size() == 0}">
-  <g:message code="request.message.noComment" /> <g:message code="request.property.comment" /> !
-  </g:if>
-  <g:else>
+<g:if test="${requestNoteList.size() == 0}">
+ <g:message code="request.message.noComment" /> <g:message code="request.property.comment" /> !
+</g:if>
+<g:else>
+  <ul>
     <g:each var="requestNote" in="${requestNoteList}">
       <li>
         <span class="first-line">
@@ -24,6 +24,6 @@
         </span>
       </li>
     </g:each>
-  </g:else>
-</ul>
+  </ul>
+</g:else>
 

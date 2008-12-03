@@ -22,8 +22,7 @@
           </div>
         </div>
       </div><!-- end of narrow -->
-      
-      </div><!-- end of narrow -->
+
       <g:hiddenField name="ps" value="${pageState}" />
     </form>
   </body>

@@ -23,4 +23,12 @@ class CapdematUtils {
         ]
     }
 
+    public static adaptDocumentTypeName(name) {
+        return "documentType.${name.trim().replaceAll(/^\w/,{it.toLowerCase()}).replaceAll(/\s+/,'')}"
+    }
+    
+    public static adaptRequestActionLabel(label) {
+        def transformedLabel = label.toLowerCase().replaceAll('_.',{it.toUpperCase().substring(1)})
+        return "request.actionLabel.${transformedLabel}"
+    }
 }

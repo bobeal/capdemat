@@ -24,6 +24,15 @@ public class DateUtils {
         }
     }
     
+    public static formatShortDate(Date date) {
+        if(date == null) return ''
+        try {
+            return sdf.format(date);
+        } catch (ParseException pe) {
+            return ""
+        }
+    }
+
     public static formatDate(Date date) {
         if(date == null) return ''
         try {

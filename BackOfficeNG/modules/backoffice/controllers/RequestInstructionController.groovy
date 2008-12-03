@@ -68,8 +68,8 @@ class RequestInstructionController {
             providedDocumentTypes.add(document.documentType.id)
             documentList.add(
                     [ "id": document.id,
-                      "name": document.documentType.name,
-                      "endValidityDate" : document.endValidityDate == null ? "" : DateUtils.formatDate(document.endValidityDate),
+                      "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
+                      "endValidityDate" : document.endValidityDate == null ? "" : DateUtils.formatShortDate(document.endValidityDate),
                       "pageNumber": documentService.getPagesNumber(document.id),
                       "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
                     ]
@@ -85,7 +85,7 @@ class RequestInstructionController {
             if (!isDocumentProvided)
                 documentList.add(
                     [ "id": 0,
-                      "name": documentTypeIt.name,
+                      "name": message(code:CapdematUtils.adaptDocumentTypeName(documentTypeIt.name)),
                       "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
                     ])
         }
@@ -473,13 +473,17 @@ class RequestInstructionController {
         def requestActionList = []
         requestActions.each {
             def user = instructionService.getActionPosterDetails(it.agentId)
+            def resultingState = null
+            if (it.label.equals(IRequestService.STATE_CHANGE_ACTION)) {
+                resultingState = "request.state." + StringUtils.pascalToCamelCase(it.resultingState.toString())
+            }
             def requestAction = [
                 'id':it.id,
                 'agent_name':user,
-                'label':it.label,
+                'label':message(code:CapdematUtils.adaptRequestActionLabel(it.label)),
                 'note':it.note,
                 'date':DateUtils.formatDate(it.date),
-                'resulting_state':it.resultingState.toString()
+                'resulting_state':resultingState
             ]
             requestActionList.add(requestAction)
         }

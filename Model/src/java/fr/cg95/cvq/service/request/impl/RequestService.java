@@ -1672,14 +1672,12 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         throws CvqException {
 
         // retrieve user or agent id according to context
-        Long userId = null;
-        if (request instanceof VoCardRequest) {
+        Long userId = SecurityContext.getCurrentUserId();
+        if (userId == null && request instanceof VoCardRequest) {
             VoCardRequest vocr = (VoCardRequest) request;
             // there can't be a logged in user at VO card request creation time
             userId = vocr.getRequesterId();
-        } else {
-            userId = SecurityContext.getCurrentUserId();
-        }
+        } 
 
         RequestAction requestAction = new RequestAction();
         requestAction.setAgentId(userId);

@@ -2,8 +2,6 @@ package helpers
 
 class ModuleHelper {
     
-    ///home/vba/projects/capdemat/git/capdemat/BackOfficeNG/./modules/test/controllers/IndexController.groovy
-    
     public main = { args ->
     }
     

@@ -164,7 +164,6 @@ class RequestTypeController {
     // called asynchronously
     // return a JSON array of all the request types
     def loadAllRequestTypes = {
-        log.debug "loadAllRequestTypes()"
         def allRequestTypes = defaultRequestService.getAllRequestTypes()
         render('builder': 'json') {
             // name has to be different from any object in the scope
@@ -246,7 +245,7 @@ class RequestTypeController {
         documentTypeService.getAllDocumentTypes().each{ d ->
             list.add([
                 'documentId' : d.id,
-                'name' : message(code:"documentType.${d.name.trim().replaceAll(/^\w/,{it.toLowerCase()}).replaceAll(/\s+/,'')}"),
+                'name' : message(code:CapdematUtils.adaptDocumentTypeName(d.name)),
                 'bound' : reqs.contains(d.id),
                 'class' : reqs.contains(d.id) ? '' : 'notBelong'
             ])

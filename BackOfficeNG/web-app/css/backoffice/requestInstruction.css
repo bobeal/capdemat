@@ -161,6 +161,10 @@
   border-left: 1px dashed #aaaaaa;
 }
 
+#requestInformation .tag-state {
+  float: right;
+}
+
 /* request instruction worflow panel
 -------------------------------------------------------------- */
 

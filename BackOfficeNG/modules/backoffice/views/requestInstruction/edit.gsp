@@ -31,11 +31,11 @@
           </div>
           <h1>
             <g:message code="request.header.request" /> :
-            ${requestLabel} (<g:message code="property.id" /> : ${request.id})
+            ${requestLabel} (${request.id})
           </h1>
         </div>
 
-        <!-- request data template selectection by request type -->
+        <!-- request data template selection by request type -->
         <g:if test="${request.requestType.label == 'Library Registration'}">
           <g:render template="/backofficeRequestInstruction/requestType/libraryRegistrationRequest" model="['request':request]" />
         </g:if>
@@ -49,7 +49,7 @@
           <g:render template="/backofficeRequestInstruction/requestType/homeFolderModificationRequest" model="['request':request]" />
         </g:elseif>
         <g:elseif test="${request.requestType.label == 'Birth Details'}">
-          <g:render template="/requestInstruction/requestType/birthDetailsRequest" model="['request':request]" />
+          <g:render template="/backofficeRequestInstruction/requestType/birthDetailsRequest" model="['request':request]" />
         </g:elseif>
         <g:else>
           <g:render template="/backofficeRequestInstruction/requestType/defaultRequest" model="['request':request]" />
@@ -65,8 +65,10 @@
               <g:if test="${document.id != 0}">
                 <li>
                   <a class="documentLink" href="/document/${document.id}">${document.name}</a>
-                   - ${document.pageNumber} pages
-                    ( ${document.endValidityDate} )
+                   - ${document.pageNumber} <g:message code="property.pages"/>
+                   <g:if test="${document.endValidityDate}">
+                    (<g:message code="document.property.endValidityDate"/> : ${document.endValidityDate})
+                   </g:if>
                 </li>
               </g:if>
             </g:each>

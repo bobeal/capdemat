@@ -1,5 +1,12 @@
 <h2>Nouvelles</h2>
 
+<p>4 Décembre 2008</p>
+<ul>
+  <li>Mise en forme de l'historique de la demande dans l'écran d'instruction</li>
+  <li>Page d'accueil de l'espace personnel du citoyen (Front Office)</li>
+  <li>Liste des demandes d'un compte famille (Front Office)</li>
+</ul>
+
 <p>17 Novembre 2008</p>
 <ul>
   <li>Prototype de rendu PDF des courriers types lors de l'instruction des téléservices</li>

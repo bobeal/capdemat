@@ -33,7 +33,10 @@
             <step index="4" ref="validation" />
           </steps>
           <conditions>
+            <condition name="isTestNature" />
             <condition name="isWithRelationship" />
+            <condition name="isTestCondition" />
+            <condition name="isMotive" />
           </conditions>
         </common>
       </xs:appinfo>
@@ -43,16 +46,20 @@
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
           
-            <xs:element name="Format" type="bdr:BirthCertificateFormatType">
+            <xs:element name="Format" type="bdr:BirthCertificateFormatType" minOccurs="0">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
                     <step name="type" />
-                    <condition name="isWithRelationship" type="trigger" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="trigger" />
+                      <condition name="isTestCondition" type="filled" required="true" />
+                    </conditions>
                   </common>
                   <fo>
                     <radio />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -68,8 +75,12 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="trigger" />
+                    </conditions>
                   </common>
                   <fo />
+                  <bo column="1" after="Comment" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -85,10 +96,14 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
+                    <conditions>
+                      <condition name="isMotive" type="filled" />
+                    </conditions>
                   </common>
                   <fo>
                     <textarea rows="3" />
                   </fo>
+                  <bo column="1" after="Motive" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -97,11 +112,16 @@
               <xs:annotation>
                 <xs:appinfo>
                   <common>
-                    <step name="type" />
+                    <step name="type"  />
+                    <conditions>
+                      <condition name="isWithRelationship" type="filled" />
+                      <condition name="isMotive" type="trigger" />
+                    </conditions>
                   </common>
                   <fo>
                     <select />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -110,11 +130,15 @@
               <xs:annotation>
                 <xs:appinfo>
                   <common>
-                    <step name="nature" /> 
+                    <step name="nature" />
+                    <conditions>
+                      <condition name="isTestNature" type="trigger" />
+                    </conditions>
                   </common>
                   <fo>
                     <radio />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -130,8 +154,12 @@
                 <xs:appinfo>
                   <common>
                     <step name="nature" />
+                    <conditions>
+                      <condition name="isTestNature" type="filled" />
+                    </conditions>
                   </common>
                   <fo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -141,8 +169,12 @@
                 <xs:appinfo>
                   <common>
                     <step name="nature" />
+                    <conditions>
+                      <condition name="isTestNature" type="unfilled" />
+                    </conditions>
                   </common>
                   <fo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -158,8 +190,12 @@
                 <xs:appinfo>
                   <common>
                     <step name="nature" />
+                    <conditions>
+                      <condition name="isTestNature" type="unfilled" />
+                    </conditions>
                   </common>
                   <fo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -177,6 +213,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -194,6 +231,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="2" jsregexp="^[a-zA-Z]+$" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -211,6 +249,7 @@
                     <step name="nature" />
                   </common>
                   <fo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -226,11 +265,14 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
-                    <condition name="isWithRelationship" type="filled" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="filled" />
+                    </conditions>
                   </common>
                   <fo>
                     <label />
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -246,11 +288,14 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
-                    <condition name="isWithRelationship" type="filled" />
+                    <conditions>
+                      <condition name="isWithRelationship" type="filled" />
+                    </conditions>
                   </common>
                   <fo>
                     <label />
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -369,6 +414,7 @@
               <step name="type" />
             </common>
             <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -382,9 +428,10 @@
               <step name="type" />
             </common>
             <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
-      </xs:element>      
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
   
@@ -400,6 +447,7 @@
               <step name="type" />
             </common>
             <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -413,6 +461,7 @@
               <step name="type" />
             </common>
             <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

@@ -29,6 +29,13 @@ public final class HarDwellingKindType extends PersistentStringEnum {
 
 
 
+    public static HarDwellingKindType[] allHarDwellingKindTypes = {
+        DOMICILE,
+        THIRD_PARTY_DOMICILE,
+        OTHER
+    };
+
+
     public static HarDwellingKindType getDefaultHarDwellingKindType() {
         return null;
     }

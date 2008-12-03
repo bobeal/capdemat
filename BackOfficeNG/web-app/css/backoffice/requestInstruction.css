@@ -59,17 +59,13 @@
   border-top: 1px dashed #FFD053;
 }
 
-#requestData dl dt { width: 9em; text-align: right; clear: both; }
+#requestData dl dt { width: 9em; min-height: 1.5em; text-align: right; clear: both; }
+#requestData dl dt.required { font-weight: bold; }
 
-#requestData dl dd { width: 16em; min-height: 1.2em; font-weight: bold; }
+#requestData dl dd { width: 14em; font-size: 1.15em; }
 
-#requestData dl dd.string:hover,
-#requestData dl dd.email:hover,
-#requestData dl dd.address:hover,
-#requestData dl dd.number:hover,
-#requestData dl dd.date:hover,
-#requestData dl dd.capdematEnum:hover        { background: #ffffff; cursor: pointer; }
-#requestData dl dd.currentEditProperty:hover { background: transparent; cursor: default; }/* not used ! */
+#requestData dl dd.action-editField:hover           { background: #ffffff; cursor: pointer; }
+#requestData dl dd.current-editField:hover { background: transparent; cursor: default; }/* not used ! */
 
 #requestData dl dd ul li { padding: .3em 0; }
 
@@ -84,6 +80,9 @@
 #requestData dl dd .editable-list-form input.line1        { width: 19%; }
 #requestData dl dd .editable-list-form input.line2        { width: 74%; }
 #requestData dl dd .editable-list-form input.validate-date-au { width: 80%; }
+
+/* condition test=false */
+#requestData .not-action-editField { color: #888 !important; background-color: #ffffab !important; }
 
 
 /* request attached document

@@ -30,6 +30,14 @@ public final class MarriageCertificateFormatType extends PersistentStringEnum {
 
 
 
+    public static MarriageCertificateFormatType[] allMarriageCertificateFormatTypes = {
+        FULL_COPY,
+        EXTRACT_WITH_RELATIONSHIP,
+        EXTRACT_WITHOUT_RELATIONSHIP,
+        MULTILINGUAL_EXTRACT
+    };
+
+
     public static MarriageCertificateFormatType getDefaultMarriageCertificateFormatType() {
         return null;
     }

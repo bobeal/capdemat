@@ -35,6 +35,19 @@ public final class BirthCertificateMotiveType extends PersistentStringEnum {
 
 
 
+    public static BirthCertificateMotiveType[] allBirthCertificateMotiveTypes = {
+        NOTARY_ACT,
+        NATIONAL_IDENTITY_CARD,
+        FRENCH_NATIONALITY_CERTIFICATE,
+        MARRIAGE,
+        PACS,
+        PASSPORT,
+        PENSION,
+        LEGAL_PROCEEDINGS,
+        OTHER
+    };
+
+
     public static BirthCertificateMotiveType getDefaultBirthCertificateMotiveType() {
         return null;
     }

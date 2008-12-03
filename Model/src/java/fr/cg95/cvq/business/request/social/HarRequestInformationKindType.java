@@ -28,6 +28,12 @@ public final class HarRequestInformationKindType extends PersistentStringEnum {
 
 
 
+    public static HarRequestInformationKindType[] allHarRequestInformationKindTypes = {
+        FIRST,
+        RENEWAL
+    };
+
+
     public static HarRequestInformationKindType getDefaultHarRequestInformationKindType() {
         return null;
     }

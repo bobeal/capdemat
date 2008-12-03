@@ -34,6 +34,18 @@ public final class MarriageCertificateMotiveType extends PersistentStringEnum {
 
 
 
+    public static MarriageCertificateMotiveType[] allMarriageCertificateMotiveTypes = {
+        NOTARY_ACT,
+        FRENCH_NATIONALITY_CERTIFICATE,
+        MARITAL_REGIME_CHANGE,
+        FRENCH_NATIONALITY_ACQUISITION_DECLARATION,
+        DIVORCE_SEPARATION,
+        PASSPORT,
+        PENSION,
+        OTHER
+    };
+
+
     public static MarriageCertificateMotiveType getDefaultMarriageCertificateMotiveType() {
         return null;
     }

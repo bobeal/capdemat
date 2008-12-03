@@ -1,5 +1,8 @@
 package fr.cg95.cvq.generator.common;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author rdj@zenexity.fr
  */
@@ -8,6 +11,8 @@ public class Step {
     private int index;
     private String name;
     private String ref;
+    
+    private Set<String> conditionNames = new HashSet<String>();
     
     public Step (String index, String name, String ref) {
         try { 
@@ -47,5 +52,13 @@ public class Step {
     
     public void setRef(String ref) {
         this.ref = ref;
+    }
+    
+    public void addConditionName(String name) {
+        conditionNames.add(name);
+    }
+    
+    public boolean containsConditionName(String name) {
+        return conditionNames.contains(name);
     }
 }

@@ -30,6 +30,14 @@ public final class BirthCertificateFormatType extends PersistentStringEnum {
 
 
 
+    public static BirthCertificateFormatType[] allBirthCertificateFormatTypes = {
+        FULL_COPY,
+        EXTRACT_WITH_RELATIONSHIP,
+        EXTRACT_WITHOUT_RELATIONSHIP,
+        MULTILINGUAL_EXTRACT
+    };
+
+
     public static BirthCertificateFormatType getDefaultBirthCertificateFormatType() {
         return null;
     }

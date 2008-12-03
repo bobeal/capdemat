@@ -29,6 +29,13 @@ public final class HarAdultLegalAccessRepresentativeKindType extends PersistentS
 
 
 
+    public static HarAdultLegalAccessRepresentativeKindType[] allHarAdultLegalAccessRepresentativeKindTypes = {
+        FAMILY_MEMBER,
+        AGENCY,
+        OTHER
+    };
+
+
     public static HarAdultLegalAccessRepresentativeKindType getDefaultHarAdultLegalAccessRepresentativeKindType() {
         return null;
     }

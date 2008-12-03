@@ -122,8 +122,7 @@ public class DummyPlugin implements IPluginGenerator {
         else if (applicationDocumentation.getRequestCommon().getCurrentElementCommon() != null)
             logger.warn(getIndent() + "onApplicationInformation() - currentElementCommom= [" +
                     "step: [name:" + applicationDocumentation.getRequestCommon().getCurrentElementCommon().getStep().getName() +
-                    "] condition: [name: " + applicationDocumentation.getRequestCommon().getCurrentElementCommon().getCondition().getName() +
-                    "]");
+                    "] conditions.size:" + applicationDocumentation.getRequestCommon().getCurrentElementCommon().getConditions().size() );
         else 
             logger.warn(getIndent() + "onApplicationInformation() - currentElementCommom= [null]");
     }

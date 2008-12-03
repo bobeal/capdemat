@@ -29,6 +29,13 @@ public final class CertificateType extends PersistentStringEnum {
 
 
 
+    public static CertificateType[] allCertificateTypes = {
+        BIRTH,
+        MARRIAGE,
+        DEATH
+    };
+
+
     public static CertificateType getDefaultCertificateType() {
         return null;
     }

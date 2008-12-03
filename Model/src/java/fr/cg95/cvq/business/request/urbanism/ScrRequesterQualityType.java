@@ -28,6 +28,12 @@ public final class ScrRequesterQualityType extends PersistentStringEnum {
 
 
 
+    public static ScrRequesterQualityType[] allScrRequesterQualityTypes = {
+        OWNER,
+        TENANT
+    };
+
+
     public static ScrRequesterQualityType getDefaultScrRequesterQualityType() {
         return null;
     }

@@ -28,6 +28,12 @@ public final class DhrRequesterHasSpouse extends PersistentStringEnum {
 
 
 
+    public static DhrRequesterHasSpouse[] allDhrRequesterHasSpouses = {
+        TRUE,
+        FALSE
+    };
+
+
     public static DhrRequesterHasSpouse getDefaultDhrRequesterHasSpouse() {
         return null;
     }

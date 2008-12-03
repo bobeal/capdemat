@@ -29,6 +29,13 @@ public final class CertificateFormatType extends PersistentStringEnum {
 
 
 
+    public static CertificateFormatType[] allCertificateFormatTypes = {
+        FULL_COPY,
+        EXTRACT_WITH_RELATIONSHIP,
+        EXTRACT_WITHOUT_RELATIONSHIP
+    };
+
+
     public static CertificateFormatType getDefaultCertificateFormatType() {
         return null;
     }

@@ -1,4 +1,5 @@
-import fr.cg95.cvq.business.users.RoleEnumimport fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.business.users.RoleEnum
+import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.*
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -116,40 +117,50 @@ class RequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgetMap = [ string:"string", email:"string", number:"string",
-                          date:"date", address:"address", capdematEnum:"capdematEnum" ]
-
+        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum" ]
+        
         // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
-
-        def propertyTypeList = params.propertyType.tokenize(" ")
+        
+        def propertyTypes = JSON.parse(params.propertyType)
+        
         // one of the widgetMap keys
-        def propertyType = propertyTypeList[0]
+        def propertyType = propertyTypes.validate
+        def widget = widgetMap[propertyType] ? widgetMap[propertyType] : "string"
 
+        // big hacks allow list datading for all request different from VoCard and HomeFolder
+        // Will be remove with homefolder refactoring
+        // here inline edition will pass until 10 element per list
+        def individualId = params.propertyName.tokenize("[]").size() > 1 ? Integer.valueOf(params.propertyName.tokenize("[]")[1]).intValue() : 0 
+        
         def model = ["requestId": Long.valueOf(params.id),
                      "individualId": params.propertyName.tokenize("[]")[1],
                      // the "simple" property name, with de-referencement
-                     "propertyNameTp": propertyNameTokens[propertyNameTokens.size() -1],
+                     "propertyNameTp": individualId > 10 ? propertyNameTokens[propertyNameTokens.size() -1] : params.propertyName,
                      // the "fully qualifier" property name
                      "propertyName": params.propertyName,
                      "propertyType": propertyType,
-                     "required" : propertyTypeList[propertyTypeList.size() -1] == "required" ? "required" : ""]
-
+                     "required" : propertyTypes.required ? "required" : ""]
+        
+        // value init (by type)
         def propertyValue
         if (propertyType == "address") {
             propertyValue = JSON.parse(params.propertyValue)
         } else if (propertyType == "capdematEnum") {
-            def propertyJavaType = propertyTypeList[1].tokenize(".")
-            def allPropertyValue = Class.forName(propertyTypeList[1])
+            def propertyJavaType = propertyTypes.javatype.tokenize(".")
+            def allPropertyValue = Class.forName(propertyTypes.javatype)
                     .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
-
             model["allPropertyValue"] = allPropertyValue
             def propertyValueTokens = params.propertyValue.tokenize(" ")
             propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
             // will contain the fully qualified class name of the "CapDemat enum" class
-            model["propertyValueType"] = propertyTypeList[1]
+            model["propertyValueType"] = propertyTypes.javatype
         } else {
             propertyValue = params.propertyValue
+            model["i18nKeyPrefix"] = propertyTypes.i18n
+            model["regex"] = params.propertyRegex
+            if (params.propertyRegex != "")
+                model["propertyType"] = "regex"
         }
         model["propertyValue"] = propertyValue
 
@@ -159,15 +170,44 @@ class RequestInstructionController {
     def modify = {
         if (params.requestId == null || params.individualId == null )
              return
-        def individual = individualService.getById(Long.valueOf(params.individualId))
+        try {
+            def request = defaultRequestService.getById(Long.valueOf(params.requestId))
+            if (["VO Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
+                def individual = individualService.getById(Long.valueOf(params.individualId))
+                bind(individual)
+            } else {
+                bind(request)
+            }
+//            log.debug("Binder custum editor PersistentStringEnum = " +
+//                    getBinder(request)
+//                        .propertyEditorRegistry
+//                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
 
-        log.debug("Binder custum editor PersistentStringEnum = " +
-            getBinder(individual)
-                .propertyEditorRegistry
-                .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class ,null)
-        )
-        bind(individual)
-        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } catch (CvqException ce) {
+            ce.printStackTrace()
+            log.error "modify() error while saving property of request"
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }
+    }
+    
+    def condition = {
+        def triggers = JSON.parse(params.triggers)
+        try {
+            log.debug(triggers)
+            def tests = []
+            if (triggers.format != null)
+              tests.add(triggers.format == "FullCopy" ? true : false)
+            if (triggers.motive != null)
+              tests.add(triggers.motive == "NotaryAct" ? true : false)
+            
+            def test = true
+            tests.each{ test = test && it }
+            
+            render ([test: test , status:"ok", success_msg:message(code:"message.conditionTested")] as JSON)
+        } catch (CvqException ce) {
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }
     }
 
 

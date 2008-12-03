@@ -28,6 +28,12 @@ public final class DeathCertificateFormatType extends PersistentStringEnum {
 
 
 
+    public static DeathCertificateFormatType[] allDeathCertificateFormatTypes = {
+        FULL_COPY,
+        MULTILINGUAL_EXTRACT
+    };
+
+
     public static DeathCertificateFormatType getDefaultDeathCertificateFormatType() {
         return null;
     }

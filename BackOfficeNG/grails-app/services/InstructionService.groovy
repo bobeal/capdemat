@@ -9,6 +9,9 @@ class InstructionService {
     
     def getActionPosterDetails = { posterId ->
     
+        if (posterId == null || posterId.equals(""))
+            return ''
+            
         if (posterId == -1)
             return 'Système'
 

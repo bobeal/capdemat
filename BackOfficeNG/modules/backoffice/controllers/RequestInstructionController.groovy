@@ -57,6 +57,7 @@ class RequestInstructionController {
     def edit = {
 
         def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def requester = individualService.getById(request.requesterId)
         def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
 
         def documentList = []
@@ -104,6 +105,7 @@ class RequestInstructionController {
         }
 
         [ "request": request,
+          "requester": requester,
           "adults" : adults,
           "children" : children,
           "childrenLegalResponsibles" : clr,
@@ -444,7 +446,6 @@ class RequestInstructionController {
 
         def records = []
         homeFolderRequests.each {
-          def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null
           def quality = 'green'
           if (it.redAlert)
               quality = 'red'
@@ -459,7 +460,7 @@ class RequestInstructionController {
               'homeFolderId':it.homeFolderId,
               'state':it.state.toString(),
               'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
-              'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
+              'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId),
               'permanent':!homeFolder.boundToRequest,
               'quality':quality
           ]

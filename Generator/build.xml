@@ -127,7 +127,8 @@
   <!-- depends on dist could be enough but we have to call deploy to test the generated data so ... -->
   <target name="generator" description="Code Generator In Action" depends="deploy">
 
-    <taskdef name="generator" classname="fr.cg95.cvq.generator.tool.GeneratorTask" classpathref="classpath.generator">
+    <taskdef name="generator" classname="fr.cg95.cvq.generator.tool.GeneratorTask" 
+      classpathref="classpath.generator">
     </taskdef>
 
     <generator>

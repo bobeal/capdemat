@@ -9,18 +9,17 @@
       <div id="yui-main">
         <div id="main" class="yui-b">
 
-          <div class="yui-navset">
-            <div class="yui-content" >
-
-              <div id="search-results">
-                <g:render template="documentList" />
-                %{--<g:paginate action="index" total="${documents?.count}"--}%
-                            %{--max="10" next="&gt;" prev="&lt;"--}%
-                            %{--params="${['ps':pageState]}"--}%
-                            %{--/>--}%
-              </div>
-
-            </div>
+          <div class="list-box">
+            <h2>
+              <g:message code="menu.documents" />
+            </h2>
+            <p class="paginator">
+              <g:paginate action="index" total="${documents.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+            </p>
+            <g:render template="documentList" />
+            <p class="paginator">
+              <g:paginate action="index" total="${documents.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+            </p>
           </div>
 
         </div>
@@ -38,13 +37,13 @@
             </label>
             
             <g:select
-              id="dtf"
-              name="dtf"
+              id="df"
+              name="df"
               from="${types}"
-              value="${state?.dtf}"
+              value="${state?.df}"
               noSelection="['':' ']"
               valueMessagePrefix="document.type"
-            />
+              />
 
             <label for="nf">
               <g:message code="property.individual" /> :
@@ -52,6 +51,8 @@
 
             <g:select
               id="nf"
+              optionKey="id"
+              optionValue="fullName"
               name="nf"
               from="${individuals}"
               value="${state?.nf}"
@@ -61,15 +62,13 @@
               <g:message code="property.state" /> :
             </label>
             <g:select
-              optionKey="id"
-              optionValue="label"
               id="sf"
               name="sf"
               from="${states}"
               value="${state?.sf}"
               noSelection="['':' ']"
               valueMessagePrefix="document.state"
-            />
+              />
 
             <input type="submit" value="${message(code:'action.filter')}"/>
           </div>

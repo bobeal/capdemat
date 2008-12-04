@@ -8,31 +8,38 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
+import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
-import fr.cg95.cvq.security.annotation.Context;
-import fr.cg95.cvq.security.annotation.ContextType;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
-import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.security.annotation.*;
 import fr.cg95.cvq.service.document.annotation.IsDocument;
+import fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect;
 
 @Aspect
 public class DocumentContextCheckAspect implements Ordered {
 
+    private Logger logger = Logger.getLogger(RequestContextCheckAspect.class);
     private IDocumentDAO documentDAO;
     
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.document..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
         
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        
         if (!context.type().equals(ContextType.ECITIZEN) 
                 && !context.type().equals(ContextType.ECITIZEN_AGENT))
             return;
         
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        if (context.privilege().equals(ContextPrivilege.NONE)) {
+            logger.debug("contextAnnotatedMethod() no special privilege asked"
+                    + " on method " + signature.getMethod().getName() + ", returning");
+            return;
+        }
+        
         
         Method method = signature.getMethod();
         Annotation[][] parametersAnnotations = method.getParameterAnnotations();

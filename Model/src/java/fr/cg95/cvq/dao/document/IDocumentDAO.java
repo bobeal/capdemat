@@ -1,6 +1,7 @@
 package fr.cg95.cvq.dao.document;
 
 import java.util.List;
+import java.util.Hashtable;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentState;
@@ -31,4 +32,21 @@ public interface IDocumentDAO extends IGenericDAO {
      * Return the documents which are in the given state.
      */
     List<Document> listByState(final DocumentState documentState);
+
+    /**
+     * Return the {@link Document documents} that response to passed criterias.
+     */
+    List<Document> search(Hashtable<String,Object> searchParams,int max,int offset);
+    
+    /**
+     * Return the {@link Document documents} that response to passed criterias.
+     */
+    List<Document> search(Hashtable<String,Object> searchParams,int max);
+    
+    /**
+     * Return the {@link Document documents} that response to passed criterias.
+     */
+    List<Document> search(Hashtable<String,Object> searchParams);
+
+    Integer searchCount(Hashtable<String,Object> searchParams);
 }

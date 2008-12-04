@@ -1,13 +1,6 @@
 package fr.cg95.cvq.service.document.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 
@@ -19,6 +12,8 @@ import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.document.DocumentTypeValidity;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.document.IDocumentBinaryDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
@@ -347,7 +342,40 @@ public class DocumentService implements IDocumentService {
 
         return documentDAO.listByIndividual(individualId);
     }
-
+    
+    @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.NONE)
+    public Integer searchCount(Hashtable<String,Object> searchParams) {
+        return this.documentDAO.searchCount(this.prepareSearchParams(searchParams));
+    }
+    
+    @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.NONE)
+    public List<Document> search(Hashtable<String,Object> searchParams,int max,int offset) {
+        return this.documentDAO.search(this.prepareSearchParams(searchParams),max,offset);
+    }
+    
+    public List<Document> search(Hashtable<String,Object> searchParams,int max) {
+        return this.search(searchParams,max,-1);
+    }
+    
+    public List<Document> search(Hashtable<String,Object> searchParams) {
+        return this.search(searchParams,-1,-1);
+    }
+    
+    protected Hashtable<String,Object> prepareSearchParams(Hashtable<String,Object> searchParams) {
+        Adult user = SecurityContext.getCurrentEcitizen();
+        
+        if(!searchParams.containsKey("homeFolderId") && !searchParams.containsKey("individualId")) {
+            List<Long> individuals = new ArrayList<Long>();
+            for(Individual i : user.getHomeFolder().getIndividuals())
+                individuals.add(i.getId());
+            
+            searchParams.put("homeFolderId",user.getHomeFolder().getId());
+            searchParams.put("individualId",individuals);
+        }
+        
+        return searchParams;
+    }
+    
     // Document Workflow related methods
     // TODO : make workflow method private - migrate unit tests
     //////////////////////////////////////////////////////////

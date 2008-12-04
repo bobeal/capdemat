@@ -750,7 +750,7 @@
       displaySuccess : function(message,cn) {
         var el = new yu.Element(yud.get(zct.Notifier.getMessageZone(cn)));
         el.replaceClass('invisible','success-top');
-        zct.style(el.get('element'),{'background-color':'#DDFFDD',display:'block'});
+        zct.style(el.get('element'),{'background-color':'#20aa20',display:'block'});
         zct.text(el.get('element'),message);
         zct.fadeIn(el.get('element'),0.01,function(e,n){
           zct.fadeNone(el.get('element'),3,function(e,n){

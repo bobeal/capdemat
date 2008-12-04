@@ -167,11 +167,14 @@ strong { font-weight: bold !important; }
   padding: .2em;
   text-align: center;
   font-weight:bold;
-  border: 3px solid #CCCCCC;
-  color: #fff; background: 20aa20;
+  border-bottom: 1px solid #666666;
+  border-right: 1px solid #666666;
+  -moz-border-radius: .5em;
+	-webkit-border-radius: .5em;
+  color: #fff;
 }
 .error-top   { color: #ff0000; background: transparent /*#ffdddd*/ url(../../../images/icon_error.png) no-repeat 6px 6px;}
-.success-top { color: #00aa00; background: transparent /*#ddffdd*/;}
+.success-top { color: #ffffff; background: transparent /*#20aa20*/;}
 
 .error { color: red; text-align: center; }
 

@@ -16,14 +16,12 @@
       <g:message code="${document.depositOrigin.i18nKey}" />
     </span>
     
-    <g:if test="${document.endValidityDate}">
-      <span id="documentEndValidityDate">
-        <g:message code="document.property.endValidityDate" />
-        <strong>
-          <g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>
-        </strong>
-      </span>
-    </g:if>
+    <span id="documentEndValidityDate">
+      <g:message code="document.property.endValidityDate" />
+      <strong>
+        <g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>
+      </strong>
+    </span>
     
     <div id="documentTransitionStates"></div>
   </h1>
@@ -81,7 +79,7 @@
        <!-- Page 2 -->
       <div id="page2">
         <h2><g:message code="document.header.information" /></h2>
-      
+        <div id="documentInformationtMsg" style="display:none"></div>
         <form method="POST" id="modifyDocumentForm" action="<g:createLink action="modifyDocument" />">
           <div id="modifyDocumentFormErrors" class="error"></div> 
           <label for="ecitizenNote">
@@ -93,10 +91,10 @@
             <g:message code="document.property.agentNote" /> :
           </label>
           <input type="text" name="agentNote" size="50" title="" value="${document.agentNote}"  />
-          
+
           <input type="hidden" name="documentId" value="${document.id}" />
           
-          <input type="button" id="submitModifyDocumentForm" class="form-button" value="<g:message code="action.send" />" />
+          <input type="button" id="submitModifyDocumentForm" class="form-button" value="<g:message code="action.save" />" />
           
         </form>
       </div>

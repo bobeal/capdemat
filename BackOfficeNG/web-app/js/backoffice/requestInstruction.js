@@ -40,7 +40,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       requestInformationTabview.appendTo('requestInformation');
 
       zcbr.Instruction.dataTabView = new yw.TabView('requestData');
-      //var requestDataTabView = new ywtv('requestData');
 
       /* panels */
       zcb.instructionStatePanel = new ywp(

@@ -81,7 +81,7 @@
       
       test : function() {
           zct.each(zcb.Condition.triggers, function(i) {
-            zcc.doAjaxCall(
+            zct.doAjaxCall(
                 '/condition/?triggers='+ ylj.stringify(this),
                 null,
                 function(o) {

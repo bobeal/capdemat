@@ -16,6 +16,8 @@ document state: pending, validated, checked, refused, outdated
 data state: pending, valid, unvalid
 deposit type: pc, terminal, mailed_paper, brought_paper
 deposit origin: agent, ecitizen
+role: home_folder_responsible, clr_mother, clr_father, clr_tutor, tutor
+payment : initialized, validated, refused, cancelled
 */
 
 
@@ -34,8 +36,10 @@ deposit origin: agent, ecitizen
 .tag-enable, .tag-disable,
 /* category profils */
 .tag-read_only, .tag-read_write, .tag-manager,
-/* legal responsible role */
-.tag-mother, .tag-father, .tag-tutor { 
+/*  role */
+.tag-homefolderresponsible, .tag-clrmother, .tag-clrfather, .tag-clrtutor, tutor,
+/*  payment */ 
+.tag-initialized { 
   padding: 0 .2em;
   border-bottom: 1px solid;
   border-right: 1px solid;
@@ -52,6 +56,9 @@ deposit origin: agent, ecitizen
 .tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
 
 /* green */
+.tag-clrtutor,
+.tag-tutor,
+.tag-initialized,
 .tag-valid,
 .tag-validated,
 .tag-complete,
@@ -70,12 +77,13 @@ deposit origin: agent, ecitizen
 .tag-not_provided  { background: #dedede; color: #cc2020; border-color: #aa2020; }
 
 /* blue */
-.tag-father,
+.tag-clrfather,
 .tag-active,
 .tag-checked,
 .tag-read_only     { background: #2020cc; border-color:#2020aa; }
 
 /* orange*/
+.tag-homefolderresponsible,
 .tag-read_write,
 .tag-agent         { background: #ec7000; border-color:#da7000; }
 
@@ -84,10 +92,9 @@ deposit origin: agent, ecitizen
 .tag-manager       { background: #aa00ff; border-color:#aa00ff; }
 
 /* pink */
-.tag-mother        { background: #ff00aa; border-color:#ff0088; }
+.tag-clrmother    { background: #ff00aa; border-color:#ff0088; }
 
 /* gray */
-.tag-tutor,
 .tag-closed,
 .tag-cancelled,
 .tag-archived,

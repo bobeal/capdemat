@@ -21,9 +21,9 @@ zenexity.capdemat.bong.document = function() {
         formId,
         null,
         function(o) {
-          var response = ylj.parse(o.responseText);
-          if (response.status === "ok") {
-//            console.log("submitModifyDocumentForm() SUCCESS");
+          var json = ylj.parse(o.responseText);
+          if (json.status === "ok") {
+            zct.Notifier.processMessage('success',json.success_msg,'documentInformationtMsg');
             if (formId === "documentStateForm") {
               yud.setStyle("documentTransitionStates", "display", "none");
               zcb.documentStateUpdateEvent.fire(formId);

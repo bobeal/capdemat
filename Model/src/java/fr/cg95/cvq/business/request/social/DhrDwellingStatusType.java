@@ -12,8 +12,8 @@ public final class DhrDwellingStatusType extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
 
-    public static final DhrDwellingStatusType OWNER = new DhrDwellingStatusType("Owner");
-    public static final DhrDwellingStatusType TENANT = new DhrDwellingStatusType("Tenant");
+    public static final DhrDwellingStatusType OWNER = new DhrDwellingStatusType("owner");
+    public static final DhrDwellingStatusType TENANT = new DhrDwellingStatusType("tenant");
 
 
     /**

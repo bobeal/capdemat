@@ -1,0 +1,98 @@
+<%
+import org.apache.commons.lang.StringUtils
+
+namespaceAlias = foObject.namespaceAlias 
+namespace = foObject.xsdNamespace
+requestName = foObject.requestName
+%>
+
+import fr.cg95.cvq.business.request.social.${requestName}
+import fr.cg95.cvq.service.request.social.I${requestName}Service
+
+class ${requestName}Controller {
+
+    ${requestName} ${namespaceAlias} 
+    I${requestName}Service ${StringUtils.uncapitalize(requestName)}Service
+   
+    def translationService
+    
+    def defaultAction = "edit"
+    
+    def currentTab = "tab1"
+    
+    def beforeInterceptor = {
+        session["currentMenu"] = "request"
+    }
+    
+    def edit = {
+        if (${namespaceAlias} == null)
+          ${namespaceAlias} = new ${requestName}()
+          
+        session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
+        render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
+        	model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab,translationService:translationService])
+    }
+    
+    <%
+    	for(steps in foObject.stepMap) {
+			step = steps.value
+	%>
+    def valid${StringUtils.capitalize(step.name)} = {
+    	log.debug("valid${StringUtils.capitalize(step.name)} - START")
+        
+		${namespaceAlias} = session["${StringUtils.uncapitalize(requestName)}"]
+		bind(${namespaceAlias})
+        currentTab = getCurrentTab(params)
+          
+		session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
+        render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab, translationService:translationService])
+    }
+    <%	
+    	}
+    %>
+    
+    
+    def getCurrentTab = { currentTab ->
+	<%
+    	i = 0
+		for(steps in foObject.stepMap) {
+			step = steps.value
+			if (i == 0) {
+	%>
+		if (params.submit${StringUtils.capitalize(namespaceAlias)}${StringUtils.capitalize(step.name)})
+		   currentTab = "tab${i+1}"
+	<%			
+			} else { 
+	%>
+		else if (params.submit${StringUtils.capitalize(namespaceAlias)}${StringUtils.capitalize(step.name)})
+		   currentTab = "tab${i+1}"
+	<%
+			}
+			i++
+		}
+	%>
+		return currentTab
+    } 
+    
+    def checkConditions = {
+    	log.debug("checkConditions - START")
+    	def conditions = new HashMap();
+    	params.each {
+    		if (it.key.contains("cn_")) {
+    			conditions.put(it.value, new HashMap())
+    		}	
+    	}
+    	params.each {
+    	  def currentParam = it
+    	  conditions.each {
+    	    if (currentParam.key.contains(it.key) && !currentParam.key.contains("cn_")) {
+    	      def triggerName = currentParam.key.substring(currentParam.key.indexOf("_") + 1, currentParam.key.length())
+    	      conditions.get(it.key).put(triggerName, currentParam.value)
+    	    }
+    	  }
+    	}
+    	def args = [conditions]
+    	render ${StringUtils.uncapitalize(requestName)}Service.invokeMethod("areConditionsFilled", args as Object[])
+    }
+    
+}

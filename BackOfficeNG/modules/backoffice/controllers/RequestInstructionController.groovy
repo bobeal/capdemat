@@ -358,83 +358,13 @@ class RequestInstructionController {
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
-
-    /* eCitizen contact managment
-    * --------------------------------------------------------------------- */
-
-    // TODO : rename action
-    def contactInformation = {
-        def request = defaultRequestService.getById(Long.valueOf(params.id))
-        Adult requester = individualService.getById(request.requesterId)
-
-        def requesterMeansOfContacts = []
-        meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
-            requesterMeansOfContacts.add(
-                CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact"))
-        }
-
-        def requestForms = []
-        //requestForms.add(["id":-1,"shortLabel":"...","type":""])
-        defaultRequestService.getRequestTypeForms(request.requestType.id, RequestFormType.REQUEST_MAIL_TEMPLATE).each {
-            String data = ''
-            if(it?.personalizedData) data = new String(it?.personalizedData)
-
-            requestForms.add(
-                [ "id": it.id,
-                  "shortLabel": it.shortLabel,
-                  "type": CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact")
-                ]
-            )
-        }
-
-        // this task must maybe be done by a service
-        def defaultContactRecipient
-        if (request.meansOfContact.type == MeansOfContactEnum.EMAIL)
-            defaultContactRecipient = requester.email
-        else if (request.meansOfContact.type == MeansOfContactEnum.SMS)
-            defaultContactRecipient = requester.mobilePhone
-
-        requesterMeansOfContacts.each() {
-            it.i18nKey = message(code:it.i18nKey)
-        }
-
-        render( template: "ecitizenContact",
-            model:[
-                   "requesterMeansOfContacts": requesterMeansOfContacts,
-                    "requestForms": requestForms,
-                    "traceLabel" :  IRequestService.REQUEST_CONTACT_CITIZEN,
-                    "defaultContactRecipient": defaultContactRecipient,
-                    "requester": requester,
-                    "request": [
-                        "id" : request.id,
-                        "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
-                        "requesterMobilePhone": requester.mobilePhone,
-                        "requesterEmail": requester.email,
-                        "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact.type,
-                                                                          "request.meansOfContact")
-                    ]
-                ]
-        )
-    }
-
-    // TODO test field
-    def notifyContact = {
-        def meansOfContact = MeansOfContactEnum.forString(params.meansOfContact)
-        def to = params.contactRecipient
-        def body = params.contactMessage
-
-        if (meansOfContact == MeansOfContactEnum.EMAIL)
-            meansOfContactService.notifyRequesterByEmail(null, to , "", body, null)
-        else if (meansOfContact == MeansOfContactEnum.SMS)
-            meansOfContactService.notifyRequesterBySms(to, body)
-
-        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-    }
-
-
     /*  request information  managment
     * --------------------------------------------------------------------- */
 
+    def help = {
+    		render(template:'help')
+    }
+    
     def homeFolder = {
     		render(template:'homeFolderData')
     }
@@ -515,6 +445,65 @@ class RequestInstructionController {
             redirect(controller:"request")
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
+    
+   
+   /* eCitizen contact managment
+    * --------------------------------------------------------------------- */
+
+    // TODO : rename action
+    def contactInformation = {
+        def request = defaultRequestService.getById(Long.valueOf(params.id))
+        Adult requester = individualService.getById(request.requesterId)
+
+        def requesterMeansOfContacts = []
+        meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
+            requesterMeansOfContacts.add(
+                CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact"))
+        }
+
+        def requestForms = []
+        //requestForms.add(["id":-1,"shortLabel":"...","type":""])
+        defaultRequestService.getRequestTypeForms(request.requestType.id, RequestFormType.REQUEST_MAIL_TEMPLATE).each {
+            String data = ''
+            if(it?.personalizedData) data = new String(it?.personalizedData)
+
+            requestForms.add(
+                [ "id": it.id,
+                  "shortLabel": it.shortLabel,
+                  "type": CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact")
+                ]
+            )
+        }
+
+        // this task must maybe be done by a service
+        def defaultContactRecipient
+        if (request.meansOfContact.type == MeansOfContactEnum.EMAIL)
+            defaultContactRecipient = requester.email
+        else if (request.meansOfContact.type == MeansOfContactEnum.SMS)
+            defaultContactRecipient = requester.mobilePhone
+
+        requesterMeansOfContacts.each() {
+            it.i18nKey = message(code:it.i18nKey)
+        }
+
+        render( template: "ecitizenContact",
+            model:[
+                   "requesterMeansOfContacts": requesterMeansOfContacts,
+                    "requestForms": requestForms,
+                    "traceLabel" :  IRequestService.REQUEST_CONTACT_CITIZEN,
+                    "defaultContactRecipient": defaultContactRecipient,
+                    "requester": requester,
+                    "request": [
+                        "id" : request.id,
+                        "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+                        "requesterMobilePhone": requester.mobilePhone,
+                        "requesterEmail": requester.email,
+                        "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact.type,
+                                                                          "request.meansOfContact")
+                    ]
+                ]
+        )
+    }
 
     def trace = {
         this.defaultRequestService.addAction(Long.valueOf(params.requestId), 
@@ -549,7 +538,7 @@ class RequestInstructionController {
     }
 
     def preview = {
-        	
+
         if (params.type == 'html') {
         	response.contentType = 'text/html; charset=utf-8'
         	render this.prepareTemplate(params?.rid,params?.fid,params?.msg?.encodeAsHTML(),params.type)

@@ -749,4 +749,6 @@ public interface IRequestService {
      */
     void onExternalServiceSendRequest(Request request, String sendRequestResult) 
         throws CvqException;
+
+    public Map<String, Boolean> areConditionsFilled(final Map<String, Map<String, String>> inputs);
 }

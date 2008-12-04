@@ -38,38 +38,87 @@ public class RemoteSupportRequestServiceTest extends ServiceTestCase {
     protected RemoteSupportRequest fillMeARequest() throws CvqException {
 
         RemoteSupportRequest request = new RemoteSupportRequest();
-            if ("TrusteePhone".length() > 10)
-        request.setTrusteePhone("TrusteePhone".substring(0, 10));
+          request.setRsrRequesterBirthDate(new Date());
+            request.setRsrSpouseIsDisabledPerson(Boolean.valueOf(true));
+              if ("RsrContactPhone".length() > 10)
+        request.setRsrContactPhone("RsrContactPhone".substring(0, 10));
       else
-        request.setTrusteePhone("TrusteePhone");
-                request.setEmergency(Boolean.valueOf(true));
-              if ("TrusteeName".length() > 38)
-        request.setTrusteeName("TrusteeName".substring(0, 38));
+        request.setRsrContactPhone("RsrContactPhone");
+                  if ("RsrSpouseName".length() > 38)
+        request.setRsrSpouseName("RsrSpouseName".substring(0, 38));
       else
-        request.setTrusteeName("TrusteeName");
-                request.setAppartmentNumber(BigInteger.valueOf(1));
-              request.setTrustee(TrusteeType.REQUESTER);
-                  if ("ContactPhone".length() > 10)
-        request.setContactPhone("ContactPhone".substring(0, 10));
+        request.setRsrSpouseName("RsrSpouseName");
+                  if ("RsrSecondContactFirstName".length() > 38)
+        request.setRsrSecondContactFirstName("RsrSecondContactFirstName".substring(0, 38));
       else
-        request.setContactPhone("ContactPhone");
-                request.setFloor(BigInteger.valueOf(1));
-              request.setDwelling(RsrDwellingType.APPARTMENT);
-                  if ("ContactFirstName".length() > 38)
-        request.setContactFirstName("ContactFirstName".substring(0, 38));
+        request.setRsrSecondContactFirstName("RsrSecondContactFirstName");
+                  if ("RsrContactName".length() > 38)
+        request.setRsrContactName("RsrContactName".substring(0, 38));
       else
-        request.setContactFirstName("ContactFirstName");
-                  if ("TrusteeFirstName".length() > 38)
-        request.setTrusteeFirstName("TrusteeFirstName".substring(0, 38));
+        request.setRsrContactName("RsrContactName");
+                        	    request.setRsrRequesterAddress(address);
+                        request.setRsrIsEmergency(Boolean.valueOf(true));
+              if ("RsrTrusteeName".length() > 38)
+        request.setRsrTrusteeName("RsrTrusteeName".substring(0, 38));
       else
-        request.setTrusteeFirstName("TrusteeFirstName");
-                request.setTaxable(Boolean.valueOf(true));
-            request.setSeniorAssitanceBeneficiary(Boolean.valueOf(true));
-              if ("ContactName".length() > 38)
-        request.setContactName("ContactName".substring(0, 38));
+        request.setRsrTrusteeName("RsrTrusteeName");
+                  request.setRsrContactKind(RsrContactKindType.REQUESTER);
+                  if ("RsrSecondRequesterFirstName".length() > 38)
+        request.setRsrSecondRequesterFirstName("RsrSecondRequesterFirstName".substring(0, 38));
       else
-        request.setContactName("ContactName");
-                  request.setContact(RsrContactType.REQUESTER);
+        request.setRsrSecondRequesterFirstName("RsrSecondRequesterFirstName");
+                  if ("RsrTrusteePhone".length() > 10)
+        request.setRsrTrusteePhone("RsrTrusteePhone".substring(0, 10));
+      else
+        request.setRsrTrusteePhone("RsrTrusteePhone");
+                request.setRsrRequesterFloor(BigInteger.valueOf(1));
+            request.setRsrRequesterFlatNumber(BigInteger.valueOf(1));
+              if ("RsrSecondContactName".length() > 38)
+        request.setRsrSecondContactName("RsrSecondContactName".substring(0, 38));
+      else
+        request.setRsrSecondContactName("RsrSecondContactName");
+                  if ("RsrSecondSpouseFirstName".length() > 38)
+        request.setRsrSecondSpouseFirstName("RsrSecondSpouseFirstName".substring(0, 38));
+      else
+        request.setRsrSecondSpouseFirstName("RsrSecondSpouseFirstName");
+                  if ("RsrRequesterFirstName".length() > 38)
+        request.setRsrRequesterFirstName("RsrRequesterFirstName".substring(0, 38));
+      else
+        request.setRsrRequesterFirstName("RsrRequesterFirstName");
+                  request.setRsrSpouseGender(SexType.MALE);
+                request.setRsrRequesterIsAPABeneficiary(Boolean.valueOf(true));
+              if ("RsrContactFirstName".length() > 38)
+        request.setRsrContactFirstName("RsrContactFirstName".substring(0, 38));
+      else
+        request.setRsrContactFirstName("RsrContactFirstName");
+                request.setRsrRequesterIsTaxable(Boolean.valueOf(true));
+              request.setRsrRequesterMaritalStatus(RsrMaritalStatusType.ALONE);
+                  if ("RsrRequesterName".length() > 38)
+        request.setRsrRequesterName("RsrRequesterName".substring(0, 38));
+      else
+        request.setRsrRequesterName("RsrRequesterName");
+                  if ("RsrRequesterPersonalPhone".length() > 10)
+        request.setRsrRequesterPersonalPhone("RsrRequesterPersonalPhone".substring(0, 10));
+      else
+        request.setRsrRequesterPersonalPhone("RsrRequesterPersonalPhone");
+                  if ("RsrTrusteeFirstName".length() > 38)
+        request.setRsrTrusteeFirstName("RsrTrusteeFirstName".substring(0, 38));
+      else
+        request.setRsrTrusteeFirstName("RsrTrusteeFirstName");
+                  if ("RsrSecondContactPhone".length() > 10)
+        request.setRsrSecondContactPhone("RsrSecondContactPhone".substring(0, 10));
+      else
+        request.setRsrSecondContactPhone("RsrSecondContactPhone");
+                    request.setRsrEmergencyMotive("RsrEmergencyMotive");
+                request.setRsrRequesterIsDisabledPerson(Boolean.valueOf(true));
+              if ("RsrSpouseFirstName".length() > 38)
+        request.setRsrSpouseFirstName("RsrSpouseFirstName".substring(0, 38));
+      else
+        request.setRsrSpouseFirstName("RsrSpouseFirstName");
+                request.setRsrSpouseBirthDate(new Date());
+              request.setRsrRequestKind(RsrRequestKindType.INDIVIDUAL);
+                  request.setRsrRequesterResidenceKind(RsrResidenceKindType.FLAT);
+                  request.setRsrRequesterGender(SexType.MALE);
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

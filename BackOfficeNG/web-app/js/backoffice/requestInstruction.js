@@ -36,11 +36,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       requestInformationTabview.addTab( new ywt({
           label: 'Demandes', dataSrc: zcb.baseUrl + '/homeFolderRequests/' + zcb.requestId,
           cacheData: true }));
+      requestInformationTabview.addTab( new ywt({
+          label: 'Aide', dataSrc: zcb.baseUrl + '/help',
+          cacheData: true }));
 
       requestInformationTabview.appendTo('requestInformation');
 
       zcbr.Instruction.dataTabView = new yw.TabView('requestData');
-      //var requestDataTabView = new ywtv('requestData');
 
       /* panels */
       zcb.instructionStatePanel = new ywp(

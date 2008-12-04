@@ -46,12 +46,12 @@ public class DhrRealAsset implements Serializable {
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         DhrRealAssetType dhrRealAsset = DhrRealAssetType.Factory.newInstance();
-        if (this.realAssetValue != null)
-            dhrRealAsset.setRealAssetValue(new BigInteger(this.realAssetValue.toString()));
         if (this.realAssetNetFloorArea != null)
             dhrRealAsset.setRealAssetNetFloorArea(new BigInteger(this.realAssetNetFloorArea.toString()));
-        if (this.realAssetAddress != null)
-            dhrRealAsset.setRealAssetAddress(Address.modelToXml(this.realAssetAddress));
+        if (this.dhrRealAssetAddress != null)
+            dhrRealAsset.setDhrRealAssetAddress(Address.modelToXml(this.dhrRealAssetAddress));
+        if (this.dhrRealAssetValue != null)
+            dhrRealAsset.setDhrRealAssetValue(new BigInteger(this.dhrRealAssetValue.toString()));
         return dhrRealAsset;
     }
 
@@ -60,10 +60,10 @@ public class DhrRealAsset implements Serializable {
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         DhrRealAsset dhrRealAsset = new DhrRealAsset();
-        dhrRealAsset.setRealAssetValue(dhrRealAssetDoc.getRealAssetValue());
         dhrRealAsset.setRealAssetNetFloorArea(dhrRealAssetDoc.getRealAssetNetFloorArea());
-        if (dhrRealAssetDoc.getRealAssetAddress() != null)
-            dhrRealAsset.setRealAssetAddress(Address.xmlToModel(dhrRealAssetDoc.getRealAssetAddress()));
+        if (dhrRealAssetDoc.getDhrRealAssetAddress() != null)
+            dhrRealAsset.setDhrRealAssetAddress(Address.xmlToModel(dhrRealAssetDoc.getDhrRealAssetAddress()));
+        dhrRealAsset.setDhrRealAssetValue(dhrRealAssetDoc.getDhrRealAssetValue());
         return dhrRealAsset;
     }
 
@@ -84,22 +84,6 @@ public class DhrRealAsset implements Serializable {
         return this.id;
     }
 
-    private java.math.BigInteger realAssetValue;
-
-    public final void setRealAssetValue(final java.math.BigInteger realAssetValue) {
-        this.realAssetValue = realAssetValue;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="real_asset_value"
-     *  type="serializable"
-     */
-    public final java.math.BigInteger getRealAssetValue() {
-        return this.realAssetValue;
-    }
-
     private java.math.BigInteger realAssetNetFloorArea;
 
     public final void setRealAssetNetFloorArea(final java.math.BigInteger realAssetNetFloorArea) {
@@ -116,21 +100,36 @@ public class DhrRealAsset implements Serializable {
         return this.realAssetNetFloorArea;
     }
 
-    private fr.cg95.cvq.business.users.Address realAssetAddress;
+    private fr.cg95.cvq.business.users.Address dhrRealAssetAddress;
 
-    public final void setRealAssetAddress(final fr.cg95.cvq.business.users.Address realAssetAddress) {
-        this.realAssetAddress = realAssetAddress;
+    public final void setDhrRealAssetAddress(final fr.cg95.cvq.business.users.Address dhrRealAssetAddress) {
+        this.dhrRealAssetAddress = dhrRealAssetAddress;
     }
 
 
     /**
      * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="real_asset_address_id"
+     *  column="dhr_real_asset_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final fr.cg95.cvq.business.users.Address getRealAssetAddress() {
-        return this.realAssetAddress;
+    public final fr.cg95.cvq.business.users.Address getDhrRealAssetAddress() {
+        return this.dhrRealAssetAddress;
+    }
+
+    private java.math.BigInteger dhrRealAssetValue;
+
+    public final void setDhrRealAssetValue(final java.math.BigInteger dhrRealAssetValue) {
+        this.dhrRealAssetValue = dhrRealAssetValue;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="dhr_real_asset_value"
+     *  type="serializable"
+     */
+    public final java.math.BigInteger getDhrRealAssetValue() {
+        return this.dhrRealAssetValue;
     }
 
 }

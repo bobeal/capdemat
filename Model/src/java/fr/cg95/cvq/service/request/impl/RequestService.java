@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -2002,5 +2003,31 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
         this.beanFactory = (ListableBeanFactory) arg0;
+    }
+    
+    public Map<String, Boolean> areConditionsFilled(final Map<String, Map<String, String>> inputs) {
+        Map<String, Boolean> result = new HashMap<String, Boolean>();
+        boolean isConditionFilled = false;
+        Iterator<Map.Entry<String, Map<String, String>>> it = inputs.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Map<String, String>> pairs = it.next();
+            isConditionFilled = isConditionFilled(pairs.getKey(), pairs.getValue());
+            result.put(pairs.getKey(), isConditionFilled);
+        }
+        return result;
+    }
+    
+    private boolean isConditionFilled(final String conditionName, final Map<String,String> inputs) {
+        boolean filled = false;
+        String conditionMethodName = "check" + StringUtils.capitalize(conditionName);    
+        try {
+            Class clazz = Class.forName(this.getClass().getName());
+            Object o = clazz.newInstance();
+            Method method = clazz.getMethod(conditionMethodName, new Class[] {Map.class});
+            filled = (Boolean)method.invoke(o, inputs);
+        } catch (Exception e) {
+            logger.error(conditionMethodName + " is not implemented");
+        }
+        return filled;
     }
 }

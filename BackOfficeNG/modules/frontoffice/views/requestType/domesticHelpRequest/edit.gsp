@@ -5,7 +5,7 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
-      <h2>
+      <h2 class="request-creation">
 <!--      <a href="#" id="requestSubmit">envoyer</a>-->
       <g:render template="/frontofficeRequestType/widget/requestDesc" model="[requestType: dhr]"/> 
       <span><g:message code="dhr.duration.label" /><strong><g:message code="dhr.duration.value" /></strong></span>
@@ -377,6 +377,13 @@
       );
          
 	  YAHOO.util.Event.onDOMReady(checkAllConditions);
+	  
+	  // Request TabView Initialization
+    function initRequest() {
+      var requestFormTabView = new YAHOO.widget.TabView('requestTabView');
+    }
+
+    YAHOO.util.Event.onDOMReady(initRequest);
    </script>
 
   </body>

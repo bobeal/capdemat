@@ -20,9 +20,11 @@ version: 2.5.2
 
 .yui-skin-fong .yui-navset .yui-nav li,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav li {
+  display: block;
   margin: .3em .3em .3em 0;
   list-style-type: none;
-  background: transparent;}
+  background: transparent;
+}
 
 .yui-skin-fong .yui-navset .yui-nav .selected,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav .selected { 
@@ -51,8 +53,7 @@ version: 2.5.2
 /* img style test */
 .yui-skin-fong .yui-navset .yui-nav a em img,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a em img {
-  width: 1.4em;
-  height: 1.4em;
+  width: 1.4em; height: 1.4em;
   float: left;
   margin-right: .2em;
 }

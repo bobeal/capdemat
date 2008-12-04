@@ -46,26 +46,26 @@ public class DhrNotRealAsset implements Serializable {
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         DhrNotRealAssetType dhrNotRealAsset = DhrNotRealAssetType.Factory.newInstance();
-        if (this.assetValue != null)
-            dhrNotRealAsset.setAssetValue(new BigInteger(this.assetValue.toString()));
-        dhrNotRealAsset.setAssetBeneficiaryFirstName(this.assetBeneficiaryFirstName);
-        if (this.assetNotaryAddress != null)
-            dhrNotRealAsset.setAssetNotaryAddress(Address.modelToXml(this.assetNotaryAddress));
-        dhrNotRealAsset.setAssetNotaryName(this.assetNotaryName);
-        if (this.assetBeneficiaryAddress != null)
-            dhrNotRealAsset.setAssetBeneficiaryAddress(Address.modelToXml(this.assetBeneficiaryAddress));
-        if (this.assetAddress != null)
-            dhrNotRealAsset.setAssetAddress(Address.modelToXml(this.assetAddress));
-        if (this.assetType != null)
-            dhrNotRealAsset.setAssetType(fr.cg95.cvq.xml.request.social.DhrAssetTypeType.Enum.forString(this.assetType.toString()));
-        date = this.assetDate;
+        if (this.dhrNotRealAssetValue != null)
+            dhrNotRealAsset.setDhrNotRealAssetValue(new BigInteger(this.dhrNotRealAssetValue.toString()));
+        if (this.dhrNotRealAssetAddress != null)
+            dhrNotRealAsset.setDhrNotRealAssetAddress(Address.modelToXml(this.dhrNotRealAssetAddress));
+        date = this.dhrNotRealAssetDate;
         if (date != null) {
             calendar.setTime(date);
-            dhrNotRealAsset.setAssetDate(calendar);
+            dhrNotRealAsset.setDhrNotRealAssetDate(calendar);
         }
-        dhrNotRealAsset.setAssetBeneficiaryName(this.assetBeneficiaryName);
-        if (this.assetKind != null)
-            dhrNotRealAsset.setAssetKind(fr.cg95.cvq.xml.request.social.DhrAssetKindType.Enum.forString(this.assetKind.toString()));
+        dhrNotRealAsset.setDhrNotRealAssetNotaryName(this.dhrNotRealAssetNotaryName);
+        dhrNotRealAsset.setDhrNotRealAssetBeneficiaryName(this.dhrNotRealAssetBeneficiaryName);
+        dhrNotRealAsset.setDhrNotRealAssetBeneficiaryFirstName(this.dhrNotRealAssetBeneficiaryFirstName);
+        if (this.dhrNotRealAssetType != null)
+            dhrNotRealAsset.setDhrNotRealAssetType(fr.cg95.cvq.xml.request.social.DhrAssetTypeType.Enum.forString(this.dhrNotRealAssetType.toString()));
+        if (this.dhrNotRealAssetBeneficiaryAddress != null)
+            dhrNotRealAsset.setDhrNotRealAssetBeneficiaryAddress(Address.modelToXml(this.dhrNotRealAssetBeneficiaryAddress));
+        if (this.dhrNotRealAssetNotaryAddress != null)
+            dhrNotRealAsset.setDhrNotRealAssetNotaryAddress(Address.modelToXml(this.dhrNotRealAssetNotaryAddress));
+        if (this.dhrNotRealAssetKind != null)
+            dhrNotRealAsset.setDhrNotRealAssetKind(fr.cg95.cvq.xml.request.social.DhrAssetKindType.Enum.forString(this.dhrNotRealAssetKind.toString()));
         return dhrNotRealAsset;
     }
 
@@ -74,28 +74,28 @@ public class DhrNotRealAsset implements Serializable {
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         DhrNotRealAsset dhrNotRealAsset = new DhrNotRealAsset();
-        dhrNotRealAsset.setAssetValue(dhrNotRealAssetDoc.getAssetValue());
-        dhrNotRealAsset.setAssetBeneficiaryFirstName(dhrNotRealAssetDoc.getAssetBeneficiaryFirstName());
-        if (dhrNotRealAssetDoc.getAssetNotaryAddress() != null)
-            dhrNotRealAsset.setAssetNotaryAddress(Address.xmlToModel(dhrNotRealAssetDoc.getAssetNotaryAddress()));
-        dhrNotRealAsset.setAssetNotaryName(dhrNotRealAssetDoc.getAssetNotaryName());
-        if (dhrNotRealAssetDoc.getAssetBeneficiaryAddress() != null)
-            dhrNotRealAsset.setAssetBeneficiaryAddress(Address.xmlToModel(dhrNotRealAssetDoc.getAssetBeneficiaryAddress()));
-        if (dhrNotRealAssetDoc.getAssetAddress() != null)
-            dhrNotRealAsset.setAssetAddress(Address.xmlToModel(dhrNotRealAssetDoc.getAssetAddress()));
-        if (dhrNotRealAssetDoc.getAssetType() != null)
-            dhrNotRealAsset.setAssetType(fr.cg95.cvq.business.request.social.DhrAssetTypeType.forString(dhrNotRealAssetDoc.getAssetType().toString()));
-        else
-            dhrNotRealAsset.setAssetType(fr.cg95.cvq.business.request.social.DhrAssetTypeType.getDefaultDhrAssetTypeType());
-        calendar = dhrNotRealAssetDoc.getAssetDate();
+        dhrNotRealAsset.setDhrNotRealAssetValue(dhrNotRealAssetDoc.getDhrNotRealAssetValue());
+        if (dhrNotRealAssetDoc.getDhrNotRealAssetAddress() != null)
+            dhrNotRealAsset.setDhrNotRealAssetAddress(Address.xmlToModel(dhrNotRealAssetDoc.getDhrNotRealAssetAddress()));
+        calendar = dhrNotRealAssetDoc.getDhrNotRealAssetDate();
         if (calendar != null) {
-            dhrNotRealAsset.setAssetDate(calendar.getTime());
+            dhrNotRealAsset.setDhrNotRealAssetDate(calendar.getTime());
         }
-        dhrNotRealAsset.setAssetBeneficiaryName(dhrNotRealAssetDoc.getAssetBeneficiaryName());
-        if (dhrNotRealAssetDoc.getAssetKind() != null)
-            dhrNotRealAsset.setAssetKind(fr.cg95.cvq.business.request.social.DhrAssetKindType.forString(dhrNotRealAssetDoc.getAssetKind().toString()));
+        dhrNotRealAsset.setDhrNotRealAssetNotaryName(dhrNotRealAssetDoc.getDhrNotRealAssetNotaryName());
+        dhrNotRealAsset.setDhrNotRealAssetBeneficiaryName(dhrNotRealAssetDoc.getDhrNotRealAssetBeneficiaryName());
+        dhrNotRealAsset.setDhrNotRealAssetBeneficiaryFirstName(dhrNotRealAssetDoc.getDhrNotRealAssetBeneficiaryFirstName());
+        if (dhrNotRealAssetDoc.getDhrNotRealAssetType() != null)
+            dhrNotRealAsset.setDhrNotRealAssetType(fr.cg95.cvq.business.request.social.DhrAssetTypeType.forString(dhrNotRealAssetDoc.getDhrNotRealAssetType().toString()));
         else
-            dhrNotRealAsset.setAssetKind(fr.cg95.cvq.business.request.social.DhrAssetKindType.getDefaultDhrAssetKindType());
+            dhrNotRealAsset.setDhrNotRealAssetType(fr.cg95.cvq.business.request.social.DhrAssetTypeType.getDefaultDhrAssetTypeType());
+        if (dhrNotRealAssetDoc.getDhrNotRealAssetBeneficiaryAddress() != null)
+            dhrNotRealAsset.setDhrNotRealAssetBeneficiaryAddress(Address.xmlToModel(dhrNotRealAssetDoc.getDhrNotRealAssetBeneficiaryAddress()));
+        if (dhrNotRealAssetDoc.getDhrNotRealAssetNotaryAddress() != null)
+            dhrNotRealAsset.setDhrNotRealAssetNotaryAddress(Address.xmlToModel(dhrNotRealAssetDoc.getDhrNotRealAssetNotaryAddress()));
+        if (dhrNotRealAssetDoc.getDhrNotRealAssetKind() != null)
+            dhrNotRealAsset.setDhrNotRealAssetKind(fr.cg95.cvq.business.request.social.DhrAssetKindType.forString(dhrNotRealAssetDoc.getDhrNotRealAssetKind().toString()));
+        else
+            dhrNotRealAsset.setDhrNotRealAssetKind(fr.cg95.cvq.business.request.social.DhrAssetKindType.getDefaultDhrAssetKindType());
         return dhrNotRealAsset;
     }
 
@@ -116,164 +116,161 @@ public class DhrNotRealAsset implements Serializable {
         return this.id;
     }
 
-    private java.math.BigInteger assetValue;
+    private java.math.BigInteger dhrNotRealAssetValue;
 
-    public final void setAssetValue(final java.math.BigInteger assetValue) {
-        this.assetValue = assetValue;
+    public final void setDhrNotRealAssetValue(final java.math.BigInteger dhrNotRealAssetValue) {
+        this.dhrNotRealAssetValue = dhrNotRealAssetValue;
     }
 
 
     /**
      * @hibernate.property
-     *  column="asset_value"
+     *  column="dhr_not_real_asset_value"
      *  type="serializable"
      */
-    public final java.math.BigInteger getAssetValue() {
-        return this.assetValue;
+    public final java.math.BigInteger getDhrNotRealAssetValue() {
+        return this.dhrNotRealAssetValue;
     }
 
-    private String assetBeneficiaryFirstName;
+    private fr.cg95.cvq.business.users.Address dhrNotRealAssetAddress;
 
-    public final void setAssetBeneficiaryFirstName(final String assetBeneficiaryFirstName) {
-        this.assetBeneficiaryFirstName = assetBeneficiaryFirstName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="asset_beneficiary_first_name"
-     *  length="38"
-     */
-    public final String getAssetBeneficiaryFirstName() {
-        return this.assetBeneficiaryFirstName;
-    }
-
-    private fr.cg95.cvq.business.users.Address assetNotaryAddress;
-
-    public final void setAssetNotaryAddress(final fr.cg95.cvq.business.users.Address assetNotaryAddress) {
-        this.assetNotaryAddress = assetNotaryAddress;
+    public final void setDhrNotRealAssetAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetAddress) {
+        this.dhrNotRealAssetAddress = dhrNotRealAssetAddress;
     }
 
 
     /**
      * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="asset_notary_address_id"
+     *  column="dhr_not_real_asset_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final fr.cg95.cvq.business.users.Address getAssetNotaryAddress() {
-        return this.assetNotaryAddress;
+    public final fr.cg95.cvq.business.users.Address getDhrNotRealAssetAddress() {
+        return this.dhrNotRealAssetAddress;
     }
 
-    private String assetNotaryName;
+    private java.util.Date dhrNotRealAssetDate;
 
-    public final void setAssetNotaryName(final String assetNotaryName) {
-        this.assetNotaryName = assetNotaryName;
+    public final void setDhrNotRealAssetDate(final java.util.Date dhrNotRealAssetDate) {
+        this.dhrNotRealAssetDate = dhrNotRealAssetDate;
     }
 
 
     /**
      * @hibernate.property
-     *  column="asset_notary_name"
-     *  length="38"
+     *  column="dhr_not_real_asset_date"
      */
-    public final String getAssetNotaryName() {
-        return this.assetNotaryName;
+    public final java.util.Date getDhrNotRealAssetDate() {
+        return this.dhrNotRealAssetDate;
     }
 
-    private fr.cg95.cvq.business.users.Address assetBeneficiaryAddress;
+    private String dhrNotRealAssetNotaryName;
 
-    public final void setAssetBeneficiaryAddress(final fr.cg95.cvq.business.users.Address assetBeneficiaryAddress) {
-        this.assetBeneficiaryAddress = assetBeneficiaryAddress;
+    public final void setDhrNotRealAssetNotaryName(final String dhrNotRealAssetNotaryName) {
+        this.dhrNotRealAssetNotaryName = dhrNotRealAssetNotaryName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="dhr_not_real_asset_notary_name"
+     *  length="38"
+     */
+    public final String getDhrNotRealAssetNotaryName() {
+        return this.dhrNotRealAssetNotaryName;
+    }
+
+    private String dhrNotRealAssetBeneficiaryName;
+
+    public final void setDhrNotRealAssetBeneficiaryName(final String dhrNotRealAssetBeneficiaryName) {
+        this.dhrNotRealAssetBeneficiaryName = dhrNotRealAssetBeneficiaryName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="dhr_not_real_asset_beneficiary_name"
+     *  length="38"
+     */
+    public final String getDhrNotRealAssetBeneficiaryName() {
+        return this.dhrNotRealAssetBeneficiaryName;
+    }
+
+    private String dhrNotRealAssetBeneficiaryFirstName;
+
+    public final void setDhrNotRealAssetBeneficiaryFirstName(final String dhrNotRealAssetBeneficiaryFirstName) {
+        this.dhrNotRealAssetBeneficiaryFirstName = dhrNotRealAssetBeneficiaryFirstName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="dhr_not_real_asset_beneficiary_first_name"
+     *  length="38"
+     */
+    public final String getDhrNotRealAssetBeneficiaryFirstName() {
+        return this.dhrNotRealAssetBeneficiaryFirstName;
+    }
+
+    private fr.cg95.cvq.business.request.social.DhrAssetTypeType dhrNotRealAssetType;
+
+    public final void setDhrNotRealAssetType(final fr.cg95.cvq.business.request.social.DhrAssetTypeType dhrNotRealAssetType) {
+        this.dhrNotRealAssetType = dhrNotRealAssetType;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="dhr_not_real_asset_type"
+     */
+    public final fr.cg95.cvq.business.request.social.DhrAssetTypeType getDhrNotRealAssetType() {
+        return this.dhrNotRealAssetType;
+    }
+
+    private fr.cg95.cvq.business.users.Address dhrNotRealAssetBeneficiaryAddress;
+
+    public final void setDhrNotRealAssetBeneficiaryAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetBeneficiaryAddress) {
+        this.dhrNotRealAssetBeneficiaryAddress = dhrNotRealAssetBeneficiaryAddress;
     }
 
 
     /**
      * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="asset_beneficiary_address_id"
+     *  column="dhr_not_real_asset_beneficiary_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final fr.cg95.cvq.business.users.Address getAssetBeneficiaryAddress() {
-        return this.assetBeneficiaryAddress;
+    public final fr.cg95.cvq.business.users.Address getDhrNotRealAssetBeneficiaryAddress() {
+        return this.dhrNotRealAssetBeneficiaryAddress;
     }
 
-    private fr.cg95.cvq.business.users.Address assetAddress;
+    private fr.cg95.cvq.business.users.Address dhrNotRealAssetNotaryAddress;
 
-    public final void setAssetAddress(final fr.cg95.cvq.business.users.Address assetAddress) {
-        this.assetAddress = assetAddress;
+    public final void setDhrNotRealAssetNotaryAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetNotaryAddress) {
+        this.dhrNotRealAssetNotaryAddress = dhrNotRealAssetNotaryAddress;
     }
 
 
     /**
      * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="asset_address_id"
+     *  column="dhr_not_real_asset_notary_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final fr.cg95.cvq.business.users.Address getAssetAddress() {
-        return this.assetAddress;
+    public final fr.cg95.cvq.business.users.Address getDhrNotRealAssetNotaryAddress() {
+        return this.dhrNotRealAssetNotaryAddress;
     }
 
-    private fr.cg95.cvq.business.request.social.DhrAssetTypeType assetType;
+    private fr.cg95.cvq.business.request.social.DhrAssetKindType dhrNotRealAssetKind;
 
-    public final void setAssetType(final fr.cg95.cvq.business.request.social.DhrAssetTypeType assetType) {
-        this.assetType = assetType;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="asset_type"
-     */
-    public final fr.cg95.cvq.business.request.social.DhrAssetTypeType getAssetType() {
-        return this.assetType;
-    }
-
-    private java.util.Date assetDate;
-
-    public final void setAssetDate(final java.util.Date assetDate) {
-        this.assetDate = assetDate;
+    public final void setDhrNotRealAssetKind(final fr.cg95.cvq.business.request.social.DhrAssetKindType dhrNotRealAssetKind) {
+        this.dhrNotRealAssetKind = dhrNotRealAssetKind;
     }
 
 
     /**
      * @hibernate.property
-     *  column="asset_date"
+     *  column="dhr_not_real_asset_kind"
      */
-    public final java.util.Date getAssetDate() {
-        return this.assetDate;
-    }
-
-    private String assetBeneficiaryName;
-
-    public final void setAssetBeneficiaryName(final String assetBeneficiaryName) {
-        this.assetBeneficiaryName = assetBeneficiaryName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="asset_beneficiary_name"
-     *  length="38"
-     */
-    public final String getAssetBeneficiaryName() {
-        return this.assetBeneficiaryName;
-    }
-
-    private fr.cg95.cvq.business.request.social.DhrAssetKindType assetKind;
-
-    public final void setAssetKind(final fr.cg95.cvq.business.request.social.DhrAssetKindType assetKind) {
-        this.assetKind = assetKind;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="asset_kind"
-     */
-    public final fr.cg95.cvq.business.request.social.DhrAssetKindType getAssetKind() {
-        return this.assetKind;
+    public final fr.cg95.cvq.business.request.social.DhrAssetKindType getDhrNotRealAssetKind() {
+        return this.dhrNotRealAssetKind;
     }
 
 }

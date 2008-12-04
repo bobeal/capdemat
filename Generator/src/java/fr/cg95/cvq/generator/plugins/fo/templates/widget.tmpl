@@ -1,0 +1,124 @@
+<%
+import org.apache.commons.lang.StringUtils 
+
+if (valuePrefix != null) {
+	value = namespaceAlias + "." + valuePrefix + StringUtils.uncapitalize(element.name)
+} else {
+	value = namespaceAlias + "." + StringUtils.uncapitalize(element.name)
+}
+
+if (widgetType.equals("yesnoWidget")) {
+// *********************************** yesnoWidget *********************************** 
+	if (validationStep == false) {
+%>
+<g:render template="/frontofficeRequestType/widget/yesno"
+			   		model="[name:'${StringUtils.uncapitalize(element.name)}', 
+			   		validation:'${element.validation}', 
+			   		condition:'${element.condition}',
+			   		title:message(code:'${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.validationError'),
+			   		checked:${value}]" />
+<%
+	} else {
+		validationRender  = namespaceAlias + "." + valuePrefix + StringUtils.uncapitalize(element.name)
+%>
+<g:render template="/frontofficeRequestType/widget/outputText"
+					model="[value:${validationRender},
+					type:'yesnoWidget',
+					condition:'${element.condition}']" />
+<%	
+	}
+} else if (widgetType.equals("textWidget")) {
+// *********************************** textWidget *********************************** 
+	if (validationStep == false) {
+%>
+<g:render template="/frontofficeRequestType/widget/text" 
+			 		model="[name:'${StringUtils.uncapitalize(element.name)}', 
+			 		validation:'${element.validation}', 
+			 		condition:'${element.condition}',
+			 		value:${value}, 
+			 		title:message(code:'${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.validationError')]"/>
+
+<%
+	} else {
+		validationRender  = namespaceAlias + "." + valuePrefix + StringUtils.uncapitalize(element.name)
+%>
+<g:render template="/frontofficeRequestType/widget/outputText"
+					model="[value:${validationRender},
+					type:'textWidget',
+					condition:'${element.condition}']" />
+<%	
+	}
+} else if (widgetType.equals("textareaWidget")) {
+// *********************************** textareaWidget *********************************** 
+	if (validationStep == false) {
+%>
+<g:render template="/frontofficeRequestType/widget/textarea" 
+			   		model="[name:'${StringUtils.uncapitalize(element.name)}', 
+			   		validation:'${element.validation}',
+			   		condition:'${element.condition}',
+			   		rows:${element.rows}, 
+			   		value:${value},
+			   		title:message(code:'${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.validationError')]"/>
+<%
+	} else {
+		validationRender  = namespaceAlias + "." + valuePrefix + StringUtils.uncapitalize(element.name)
+%>
+<g:render template="/frontofficeRequestType/widget/outputText"
+					model="[value:${validationRender},
+					type:'textareaWidget',
+					condition:'${element.condition}']" />
+<%	
+	}
+} else if (widgetType.equals("selectWidget")) {
+// *********************************** selectWidget *********************************** 
+	if (validationStep == false) {
+%>
+<g:render template="/frontofficeRequestType/widget/select"
+					model="[name:'${StringUtils.uncapitalize(element.name)}',
+ 					validation:'${element.validation}', 
+ 					condition:'${element.condition}', 
+ 					title:message(code:'${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.validationError'), 
+ 					defaultOption:message(code:'${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.defaultOption'),
+ 					selected:${value}, 
+ 					namespace:'${element.namespace}', 
+ 					modelNamespace:'${element.modelNamespace}',
+ 					elementTypeName:'${element.elementTypeName}']"/>
+<%
+	} else {
+		validationRender  = namespaceAlias + "." + valuePrefix + StringUtils.uncapitalize(element.name)
+%>
+<g:render template="/frontofficeRequestType/widget/outputText"
+					model="[value:${validationRender},
+					type:'selectWidget',
+					condition:'${element.condition}',
+					namespace:'${element.namespace}',
+ 					elementTypeName:'${element.elementTypeName}']" />
+<%	
+	}
+} else if (widgetType.equals("radioWidget")) {
+// *********************************** radioWidget ***********************************
+	if (validationStep == false) { 
+%>
+<g:render template="/frontofficeRequestType/widget/radio" 
+					model="[name:'${StringUtils.uncapitalize(element.name)}', 
+					validation:'${element.validation}',	
+					condition:'${element.condition}',
+					title:message(code:'${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.validationError'),
+					checked:${value},	
+					namespace:'${element.namespace}',
+					modelNamespace:'${element.modelNamespace}',
+					elementTypeName:'${element.elementTypeName}']"/>
+<%
+	} else {
+		validationRender  = namespaceAlias + "." + valuePrefix + StringUtils.uncapitalize(element.name)
+%>
+<g:render template="/frontofficeRequestType/widget/outputText"
+					model="[value:${validationRender},
+					type:'radioWidget',
+					condition:'${element.condition}',
+					namespace:'${element.namespace}',
+ 					elementTypeName:'${element.elementTypeName}']" />
+<%	
+	}
+}
+%>

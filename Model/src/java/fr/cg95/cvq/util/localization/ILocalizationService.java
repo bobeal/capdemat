@@ -1,5 +1,7 @@
 package fr.cg95.cvq.util.localization;
 
+import java.util.Map;
+
 import net.sf.saxon.om.NodeInfo;
 
 /**
@@ -65,4 +67,25 @@ public interface ILocalizationService {
 	 */
 	public String getRequestLabelTranslation(final String requestTypeName, final String lang, 
             boolean fullDesc);
+	
+	/**
+	 * Get global referential data associated to the given element type name
+	 * from the given request namespace.
+	 * 
+	 * The result is a Map
+	 */
+	public Map getEnumsDataMap(final String requestNamespace,
+			final String elementTypeName, final String lang);
+	
+	/**
+	 * Get the long or short description of an element's name.
+	 */
+	public String getElementDesc(final String requestNamespace, 
+			final String elementTypeName, final String elementName, final String lang, final boolean fullDesc);
+	
+	/**
+	 * Get the long or short description of a global element's name.
+	 */
+	public String getGlobalElementDesc(final String className, final String elementName, 
+			final String lang, final boolean fullDesc);
 }

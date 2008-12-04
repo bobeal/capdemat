@@ -8,46 +8,46 @@ import fr.cg95.cvq.xml.request.social.*;
  *
  * Generated class file, do not edit !
  */
-public final class RsrContactType extends PersistentStringEnum { 
+public final class RsrContactKindType extends PersistentStringEnum { 
 
     private static final long serialVersionUID = 1L;
 
-    public static final RsrContactType REQUESTER = new RsrContactType("Requester");
-    public static final RsrContactType OTHER = new RsrContactType("Other");
+    public static final RsrContactKindType REQUESTER = new RsrContactKindType("requester");
+    public static final RsrContactKindType OTHER = new RsrContactKindType("other");
 
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
-    private RsrContactType(String value) {
+    private RsrContactKindType(String value) {
        super(value);
     }
 
 
-    public RsrContactType() {}
+    public RsrContactKindType() {}
 
 
 
-    public static RsrContactType[] allRsrContactTypes = {
+    public static RsrContactKindType[] allRsrContactKindTypes = {
         REQUESTER,
         OTHER
     };
 
 
-    public static RsrContactType getDefaultRsrContactType() {
+    public static RsrContactKindType getDefaultRsrContactKindType() {
         return null;
     }
 
 
-    public static RsrContactType forString(final String enumAsString) {
+    public static RsrContactKindType forString(final String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
-            return getDefaultRsrContactType();
+            return getDefaultRsrContactKindType();
 
         if (enumAsString.equals(REQUESTER.toString()))
             return REQUESTER;
         else if (enumAsString.equals(OTHER.toString()))
             return OTHER;
 
-        return getDefaultRsrContactType();
+        return getDefaultRsrContactKindType();
     }
 }

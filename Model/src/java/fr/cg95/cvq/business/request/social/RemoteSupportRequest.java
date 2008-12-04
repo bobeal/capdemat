@@ -32,6 +32,12 @@ public class RemoteSupportRequest extends Request implements Serializable {
 
     public RemoteSupportRequest() {
         super();
+        rsrSpouseIsDisabledPerson = Boolean.valueOf(false);
+        rsrIsEmergency = Boolean.valueOf(false);
+        rsrRequesterIsAPABeneficiary = Boolean.valueOf(false);
+        rsrRequesterIsTaxable = Boolean.valueOf(false);
+        rsrRequesterIsDisabledPerson = Boolean.valueOf(false);
+        rsrRequestKind = fr.cg95.cvq.business.request.social.RsrRequestKindType.INDIVIDUAL;
     }
 
 
@@ -53,28 +59,67 @@ public class RemoteSupportRequest extends Request implements Serializable {
         RemoteSupportRequestDocument remoteSupportRequestDoc = RemoteSupportRequestDocument.Factory.newInstance();
         RemoteSupportRequestDocument.RemoteSupportRequest remoteSupportRequest = remoteSupportRequestDoc.addNewRemoteSupportRequest();
         super.fillCommonXmlInfo(remoteSupportRequest);
-        remoteSupportRequest.setTrusteePhone(this.trusteePhone);
-        if (this.emergency != null)
-            remoteSupportRequest.setEmergency(this.emergency.booleanValue());
-        remoteSupportRequest.setTrusteeName(this.trusteeName);
-        if (this.appartmentNumber != null)
-            remoteSupportRequest.setAppartmentNumber(new BigInteger(this.appartmentNumber.toString()));
-        if (this.trustee != null)
-            remoteSupportRequest.setTrustee(fr.cg95.cvq.xml.request.social.TrusteeType.Enum.forString(this.trustee.toString()));
-        remoteSupportRequest.setContactPhone(this.contactPhone);
-        if (this.floor != null)
-            remoteSupportRequest.setFloor(new BigInteger(this.floor.toString()));
-        if (this.dwelling != null)
-            remoteSupportRequest.setDwelling(fr.cg95.cvq.xml.request.social.RsrDwellingType.Enum.forString(this.dwelling.toString()));
-        remoteSupportRequest.setContactFirstName(this.contactFirstName);
-        remoteSupportRequest.setTrusteeFirstName(this.trusteeFirstName);
-        if (this.taxable != null)
-            remoteSupportRequest.setTaxable(this.taxable.booleanValue());
-        if (this.seniorAssitanceBeneficiary != null)
-            remoteSupportRequest.setSeniorAssitanceBeneficiary(this.seniorAssitanceBeneficiary.booleanValue());
-        remoteSupportRequest.setContactName(this.contactName);
-        if (this.contact != null)
-            remoteSupportRequest.setContact(fr.cg95.cvq.xml.request.social.RsrContactType.Enum.forString(this.contact.toString()));
+        RsrRequesterType rsrRequesterTypeRsrRequester = remoteSupportRequest.addNewRsrRequester();
+        date = this.rsrRequesterBirthDate;
+        if (date != null) {
+            calendar.setTime(date);
+            rsrRequesterTypeRsrRequester.setRsrRequesterBirthDate(calendar);
+        }
+        RsrSpouseType rsrSpouseTypeRsrSpouse = remoteSupportRequest.addNewRsrSpouse();
+        if (this.rsrSpouseIsDisabledPerson != null)
+            rsrSpouseTypeRsrSpouse.setRsrSpouseIsDisabledPerson(this.rsrSpouseIsDisabledPerson.booleanValue());
+        RsrContactType rsrContactTypeRsrFirstContact = remoteSupportRequest.addNewRsrFirstContact();
+        rsrContactTypeRsrFirstContact.setRsrContactPhone(this.rsrContactPhone);
+        rsrSpouseTypeRsrSpouse.setRsrSpouseName(this.rsrSpouseName);
+        RsrSecondContactType rsrSecondContactTypeRsrSecondContact = remoteSupportRequest.addNewRsrSecondContact();
+        rsrSecondContactTypeRsrSecondContact.setRsrSecondContactFirstName(this.rsrSecondContactFirstName);
+        rsrContactTypeRsrFirstContact.setRsrContactName(this.rsrContactName);
+        if (this.rsrRequesterAddress != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterAddress(Address.modelToXml(this.rsrRequesterAddress));
+        RsrEmergencyType rsrEmergencyTypeRsrEmergency = remoteSupportRequest.addNewRsrEmergency();
+        if (this.rsrIsEmergency != null)
+            rsrEmergencyTypeRsrEmergency.setRsrIsEmergency(this.rsrIsEmergency.booleanValue());
+        RsrTrusteeType rsrTrusteeTypeRsrTrustee = remoteSupportRequest.addNewRsrTrustee();
+        rsrTrusteeTypeRsrTrustee.setRsrTrusteeName(this.rsrTrusteeName);
+        if (this.rsrContactKind != null)
+            remoteSupportRequest.setRsrContactKind(fr.cg95.cvq.xml.request.social.RsrContactKindType.Enum.forString(this.rsrContactKind.toString()));
+        rsrRequesterTypeRsrRequester.setRsrSecondRequesterFirstName(this.rsrSecondRequesterFirstName);
+        rsrTrusteeTypeRsrTrustee.setRsrTrusteePhone(this.rsrTrusteePhone);
+        if (this.rsrRequesterFloor != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterFloor(new BigInteger(this.rsrRequesterFloor.toString()));
+        if (this.rsrRequesterFlatNumber != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterFlatNumber(new BigInteger(this.rsrRequesterFlatNumber.toString()));
+        rsrSecondContactTypeRsrSecondContact.setRsrSecondContactName(this.rsrSecondContactName);
+        rsrSpouseTypeRsrSpouse.setRsrSecondSpouseFirstName(this.rsrSecondSpouseFirstName);
+        rsrRequesterTypeRsrRequester.setRsrRequesterFirstName(this.rsrRequesterFirstName);
+        if (this.rsrSpouseGender != null)
+            rsrSpouseTypeRsrSpouse.setRsrSpouseGender(fr.cg95.cvq.xml.common.SexType.Enum.forString(this.rsrSpouseGender.toString()));
+        if (this.rsrRequesterIsAPABeneficiary != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterIsAPABeneficiary(this.rsrRequesterIsAPABeneficiary.booleanValue());
+        rsrContactTypeRsrFirstContact.setRsrContactFirstName(this.rsrContactFirstName);
+        if (this.rsrRequesterIsTaxable != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterIsTaxable(this.rsrRequesterIsTaxable.booleanValue());
+        if (this.rsrRequesterMaritalStatus != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterMaritalStatus(fr.cg95.cvq.xml.request.social.RsrMaritalStatusType.Enum.forString(this.rsrRequesterMaritalStatus.toString()));
+        rsrRequesterTypeRsrRequester.setRsrRequesterName(this.rsrRequesterName);
+        rsrRequesterTypeRsrRequester.setRsrRequesterPersonalPhone(this.rsrRequesterPersonalPhone);
+        rsrTrusteeTypeRsrTrustee.setRsrTrusteeFirstName(this.rsrTrusteeFirstName);
+        rsrSecondContactTypeRsrSecondContact.setRsrSecondContactPhone(this.rsrSecondContactPhone);
+        rsrEmergencyTypeRsrEmergency.setRsrEmergencyMotive(this.rsrEmergencyMotive);
+        if (this.rsrRequesterIsDisabledPerson != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterIsDisabledPerson(this.rsrRequesterIsDisabledPerson.booleanValue());
+        rsrSpouseTypeRsrSpouse.setRsrSpouseFirstName(this.rsrSpouseFirstName);
+        date = this.rsrSpouseBirthDate;
+        if (date != null) {
+            calendar.setTime(date);
+            rsrSpouseTypeRsrSpouse.setRsrSpouseBirthDate(calendar);
+        }
+        if (this.rsrRequestKind != null)
+            remoteSupportRequest.setRsrRequestKind(fr.cg95.cvq.xml.request.social.RsrRequestKindType.Enum.forString(this.rsrRequestKind.toString()));
+        if (this.rsrRequesterResidenceKind != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterResidenceKind(fr.cg95.cvq.xml.request.social.RsrResidenceKindType.Enum.forString(this.rsrRequesterResidenceKind.toString()));
+        if (this.rsrRequesterGender != null)
+            rsrRequesterTypeRsrRequester.setRsrRequesterGender(fr.cg95.cvq.xml.common.SexType.Enum.forString(this.rsrRequesterGender.toString()));
         return remoteSupportRequestDoc;
     }
 
@@ -92,248 +137,579 @@ public class RemoteSupportRequest extends Request implements Serializable {
         List list = new ArrayList();
         RemoteSupportRequest remoteSupportRequest = new RemoteSupportRequest();
         remoteSupportRequest.fillCommonModelInfo(remoteSupportRequest,remoteSupportRequestXml);
-        remoteSupportRequest.setTrusteePhone(remoteSupportRequestXml.getTrusteePhone());
-        remoteSupportRequest.setEmergency(Boolean.valueOf(remoteSupportRequestXml.getEmergency()));
-        remoteSupportRequest.setTrusteeName(remoteSupportRequestXml.getTrusteeName());
-        remoteSupportRequest.setAppartmentNumber(remoteSupportRequestXml.getAppartmentNumber());
-        if (remoteSupportRequestXml.getTrustee() != null)
-            remoteSupportRequest.setTrustee(fr.cg95.cvq.business.request.social.TrusteeType.forString(remoteSupportRequestXml.getTrustee().toString()));
+        calendar = remoteSupportRequestXml.getRsrRequester().getRsrRequesterBirthDate();
+        if (calendar != null) {
+            remoteSupportRequest.setRsrRequesterBirthDate(calendar.getTime());
+        }
+        remoteSupportRequest.setRsrSpouseIsDisabledPerson(Boolean.valueOf(remoteSupportRequestXml.getRsrSpouse().getRsrSpouseIsDisabledPerson()));
+        remoteSupportRequest.setRsrContactPhone(remoteSupportRequestXml.getRsrFirstContact().getRsrContactPhone());
+        remoteSupportRequest.setRsrSpouseName(remoteSupportRequestXml.getRsrSpouse().getRsrSpouseName());
+        remoteSupportRequest.setRsrSecondContactFirstName(remoteSupportRequestXml.getRsrSecondContact().getRsrSecondContactFirstName());
+        remoteSupportRequest.setRsrContactName(remoteSupportRequestXml.getRsrFirstContact().getRsrContactName());
+        if (remoteSupportRequestXml.getRsrRequester().getRsrRequesterAddress() != null)
+            remoteSupportRequest.setRsrRequesterAddress(Address.xmlToModel(remoteSupportRequestXml.getRsrRequester().getRsrRequesterAddress()));
+        remoteSupportRequest.setRsrIsEmergency(Boolean.valueOf(remoteSupportRequestXml.getRsrEmergency().getRsrIsEmergency()));
+        remoteSupportRequest.setRsrTrusteeName(remoteSupportRequestXml.getRsrTrustee().getRsrTrusteeName());
+        if (remoteSupportRequestXml.getRsrContactKind() != null)
+            remoteSupportRequest.setRsrContactKind(fr.cg95.cvq.business.request.social.RsrContactKindType.forString(remoteSupportRequestXml.getRsrContactKind().toString()));
         else
-            remoteSupportRequest.setTrustee(fr.cg95.cvq.business.request.social.TrusteeType.getDefaultTrusteeType());
-        remoteSupportRequest.setContactPhone(remoteSupportRequestXml.getContactPhone());
-        remoteSupportRequest.setFloor(remoteSupportRequestXml.getFloor());
-        if (remoteSupportRequestXml.getDwelling() != null)
-            remoteSupportRequest.setDwelling(fr.cg95.cvq.business.request.social.RsrDwellingType.forString(remoteSupportRequestXml.getDwelling().toString()));
+            remoteSupportRequest.setRsrContactKind(fr.cg95.cvq.business.request.social.RsrContactKindType.getDefaultRsrContactKindType());
+        remoteSupportRequest.setRsrSecondRequesterFirstName(remoteSupportRequestXml.getRsrRequester().getRsrSecondRequesterFirstName());
+        remoteSupportRequest.setRsrTrusteePhone(remoteSupportRequestXml.getRsrTrustee().getRsrTrusteePhone());
+        remoteSupportRequest.setRsrRequesterFloor(remoteSupportRequestXml.getRsrRequester().getRsrRequesterFloor());
+        remoteSupportRequest.setRsrRequesterFlatNumber(remoteSupportRequestXml.getRsrRequester().getRsrRequesterFlatNumber());
+        remoteSupportRequest.setRsrSecondContactName(remoteSupportRequestXml.getRsrSecondContact().getRsrSecondContactName());
+        remoteSupportRequest.setRsrSecondSpouseFirstName(remoteSupportRequestXml.getRsrSpouse().getRsrSecondSpouseFirstName());
+        remoteSupportRequest.setRsrRequesterFirstName(remoteSupportRequestXml.getRsrRequester().getRsrRequesterFirstName());
+        if (remoteSupportRequestXml.getRsrSpouse().getRsrSpouseGender() != null)
+            remoteSupportRequest.setRsrSpouseGender(fr.cg95.cvq.business.users.SexType.forString(remoteSupportRequestXml.getRsrSpouse().getRsrSpouseGender().toString()));
         else
-            remoteSupportRequest.setDwelling(fr.cg95.cvq.business.request.social.RsrDwellingType.getDefaultRsrDwellingType());
-        remoteSupportRequest.setContactFirstName(remoteSupportRequestXml.getContactFirstName());
-        remoteSupportRequest.setTrusteeFirstName(remoteSupportRequestXml.getTrusteeFirstName());
-        remoteSupportRequest.setTaxable(Boolean.valueOf(remoteSupportRequestXml.getTaxable()));
-        remoteSupportRequest.setSeniorAssitanceBeneficiary(Boolean.valueOf(remoteSupportRequestXml.getSeniorAssitanceBeneficiary()));
-        remoteSupportRequest.setContactName(remoteSupportRequestXml.getContactName());
-        if (remoteSupportRequestXml.getContact() != null)
-            remoteSupportRequest.setContact(fr.cg95.cvq.business.request.social.RsrContactType.forString(remoteSupportRequestXml.getContact().toString()));
+            remoteSupportRequest.setRsrSpouseGender(fr.cg95.cvq.business.users.SexType.getDefaultSexType());
+        remoteSupportRequest.setRsrRequesterIsAPABeneficiary(Boolean.valueOf(remoteSupportRequestXml.getRsrRequester().getRsrRequesterIsAPABeneficiary()));
+        remoteSupportRequest.setRsrContactFirstName(remoteSupportRequestXml.getRsrFirstContact().getRsrContactFirstName());
+        remoteSupportRequest.setRsrRequesterIsTaxable(Boolean.valueOf(remoteSupportRequestXml.getRsrRequester().getRsrRequesterIsTaxable()));
+        if (remoteSupportRequestXml.getRsrRequester().getRsrRequesterMaritalStatus() != null)
+            remoteSupportRequest.setRsrRequesterMaritalStatus(fr.cg95.cvq.business.request.social.RsrMaritalStatusType.forString(remoteSupportRequestXml.getRsrRequester().getRsrRequesterMaritalStatus().toString()));
         else
-            remoteSupportRequest.setContact(fr.cg95.cvq.business.request.social.RsrContactType.getDefaultRsrContactType());
+            remoteSupportRequest.setRsrRequesterMaritalStatus(fr.cg95.cvq.business.request.social.RsrMaritalStatusType.getDefaultRsrMaritalStatusType());
+        remoteSupportRequest.setRsrRequesterName(remoteSupportRequestXml.getRsrRequester().getRsrRequesterName());
+        remoteSupportRequest.setRsrRequesterPersonalPhone(remoteSupportRequestXml.getRsrRequester().getRsrRequesterPersonalPhone());
+        remoteSupportRequest.setRsrTrusteeFirstName(remoteSupportRequestXml.getRsrTrustee().getRsrTrusteeFirstName());
+        remoteSupportRequest.setRsrSecondContactPhone(remoteSupportRequestXml.getRsrSecondContact().getRsrSecondContactPhone());
+        remoteSupportRequest.setRsrEmergencyMotive(remoteSupportRequestXml.getRsrEmergency().getRsrEmergencyMotive());
+        remoteSupportRequest.setRsrRequesterIsDisabledPerson(Boolean.valueOf(remoteSupportRequestXml.getRsrRequester().getRsrRequesterIsDisabledPerson()));
+        remoteSupportRequest.setRsrSpouseFirstName(remoteSupportRequestXml.getRsrSpouse().getRsrSpouseFirstName());
+        calendar = remoteSupportRequestXml.getRsrSpouse().getRsrSpouseBirthDate();
+        if (calendar != null) {
+            remoteSupportRequest.setRsrSpouseBirthDate(calendar.getTime());
+        }
+        if (remoteSupportRequestXml.getRsrRequestKind() != null)
+            remoteSupportRequest.setRsrRequestKind(fr.cg95.cvq.business.request.social.RsrRequestKindType.forString(remoteSupportRequestXml.getRsrRequestKind().toString()));
+        else
+            remoteSupportRequest.setRsrRequestKind(fr.cg95.cvq.business.request.social.RsrRequestKindType.getDefaultRsrRequestKindType());
+        if (remoteSupportRequestXml.getRsrRequester().getRsrRequesterResidenceKind() != null)
+            remoteSupportRequest.setRsrRequesterResidenceKind(fr.cg95.cvq.business.request.social.RsrResidenceKindType.forString(remoteSupportRequestXml.getRsrRequester().getRsrRequesterResidenceKind().toString()));
+        else
+            remoteSupportRequest.setRsrRequesterResidenceKind(fr.cg95.cvq.business.request.social.RsrResidenceKindType.getDefaultRsrResidenceKindType());
+        if (remoteSupportRequestXml.getRsrRequester().getRsrRequesterGender() != null)
+            remoteSupportRequest.setRsrRequesterGender(fr.cg95.cvq.business.users.SexType.forString(remoteSupportRequestXml.getRsrRequester().getRsrRequesterGender().toString()));
+        else
+            remoteSupportRequest.setRsrRequesterGender(fr.cg95.cvq.business.users.SexType.getDefaultSexType());
         return remoteSupportRequest;
     }
 
-    private String trusteePhone;
+    private java.util.Date rsrRequesterBirthDate;
 
-    public final void setTrusteePhone(final String trusteePhone) {
-        this.trusteePhone = trusteePhone;
+    public final void setRsrRequesterBirthDate(final java.util.Date rsrRequesterBirthDate) {
+        this.rsrRequesterBirthDate = rsrRequesterBirthDate;
     }
 
 
     /**
      * @hibernate.property
-     *  column="trustee_phone"
+     *  column="rsr_requester_birth_date"
+     */
+    public final java.util.Date getRsrRequesterBirthDate() {
+        return this.rsrRequesterBirthDate;
+    }
+
+    private Boolean rsrSpouseIsDisabledPerson;
+
+    public final void setRsrSpouseIsDisabledPerson(final Boolean rsrSpouseIsDisabledPerson) {
+        this.rsrSpouseIsDisabledPerson = rsrSpouseIsDisabledPerson;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_spouse_is_disabled_person"
+     */
+    public final Boolean getRsrSpouseIsDisabledPerson() {
+        return this.rsrSpouseIsDisabledPerson;
+    }
+
+    private String rsrContactPhone;
+
+    public final void setRsrContactPhone(final String rsrContactPhone) {
+        this.rsrContactPhone = rsrContactPhone;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_contact_phone"
      *  length="10"
      */
-    public final String getTrusteePhone() {
-        return this.trusteePhone;
+    public final String getRsrContactPhone() {
+        return this.rsrContactPhone;
     }
 
-    private Boolean emergency;
+    private String rsrSpouseName;
 
-    public final void setEmergency(final Boolean emergency) {
-        this.emergency = emergency;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="emergency"
-     */
-    public final Boolean getEmergency() {
-        return this.emergency;
-    }
-
-    private String trusteeName;
-
-    public final void setTrusteeName(final String trusteeName) {
-        this.trusteeName = trusteeName;
+    public final void setRsrSpouseName(final String rsrSpouseName) {
+        this.rsrSpouseName = rsrSpouseName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="trustee_name"
+     *  column="rsr_spouse_name"
      *  length="38"
      */
-    public final String getTrusteeName() {
-        return this.trusteeName;
+    public final String getRsrSpouseName() {
+        return this.rsrSpouseName;
     }
 
-    private java.math.BigInteger appartmentNumber;
+    private String rsrSecondContactFirstName;
 
-    public final void setAppartmentNumber(final java.math.BigInteger appartmentNumber) {
-        this.appartmentNumber = appartmentNumber;
+    public final void setRsrSecondContactFirstName(final String rsrSecondContactFirstName) {
+        this.rsrSecondContactFirstName = rsrSecondContactFirstName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="appartment_number"
-     *  type="serializable"
+     *  column="rsr_second_contact_first_name"
+     *  length="38"
      */
-    public final java.math.BigInteger getAppartmentNumber() {
-        return this.appartmentNumber;
+    public final String getRsrSecondContactFirstName() {
+        return this.rsrSecondContactFirstName;
     }
 
-    private fr.cg95.cvq.business.request.social.TrusteeType trustee;
+    private String rsrContactName;
 
-    public final void setTrustee(final fr.cg95.cvq.business.request.social.TrusteeType trustee) {
-        this.trustee = trustee;
+    public final void setRsrContactName(final String rsrContactName) {
+        this.rsrContactName = rsrContactName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="trustee"
+     *  column="rsr_contact_name"
+     *  length="38"
      */
-    public final fr.cg95.cvq.business.request.social.TrusteeType getTrustee() {
-        return this.trustee;
+    public final String getRsrContactName() {
+        return this.rsrContactName;
     }
 
-    private String contactPhone;
+    private fr.cg95.cvq.business.users.Address rsrRequesterAddress;
 
-    public final void setContactPhone(final String contactPhone) {
-        this.contactPhone = contactPhone;
+    public final void setRsrRequesterAddress(final fr.cg95.cvq.business.users.Address rsrRequesterAddress) {
+        this.rsrRequesterAddress = rsrRequesterAddress;
+    }
+
+
+    /**
+     * @hibernate.many-to-one
+     *  column="rsr_requester_address_id"
+     *  class="fr.cg95.cvq.business.users.Address"
+     */
+    public final fr.cg95.cvq.business.users.Address getRsrRequesterAddress() {
+        return this.rsrRequesterAddress;
+    }
+
+    private Boolean rsrIsEmergency;
+
+    public final void setRsrIsEmergency(final Boolean rsrIsEmergency) {
+        this.rsrIsEmergency = rsrIsEmergency;
     }
 
 
     /**
      * @hibernate.property
-     *  column="contact_phone"
+     *  column="rsr_is_emergency"
+     */
+    public final Boolean getRsrIsEmergency() {
+        return this.rsrIsEmergency;
+    }
+
+    private String rsrTrusteeName;
+
+    public final void setRsrTrusteeName(final String rsrTrusteeName) {
+        this.rsrTrusteeName = rsrTrusteeName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_trustee_name"
+     *  length="38"
+     */
+    public final String getRsrTrusteeName() {
+        return this.rsrTrusteeName;
+    }
+
+    private fr.cg95.cvq.business.request.social.RsrContactKindType rsrContactKind;
+
+    public final void setRsrContactKind(final fr.cg95.cvq.business.request.social.RsrContactKindType rsrContactKind) {
+        this.rsrContactKind = rsrContactKind;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_contact_kind"
+     */
+    public final fr.cg95.cvq.business.request.social.RsrContactKindType getRsrContactKind() {
+        return this.rsrContactKind;
+    }
+
+    private String rsrSecondRequesterFirstName;
+
+    public final void setRsrSecondRequesterFirstName(final String rsrSecondRequesterFirstName) {
+        this.rsrSecondRequesterFirstName = rsrSecondRequesterFirstName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_second_requester_first_name"
+     *  length="38"
+     */
+    public final String getRsrSecondRequesterFirstName() {
+        return this.rsrSecondRequesterFirstName;
+    }
+
+    private String rsrTrusteePhone;
+
+    public final void setRsrTrusteePhone(final String rsrTrusteePhone) {
+        this.rsrTrusteePhone = rsrTrusteePhone;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_trustee_phone"
      *  length="10"
      */
-    public final String getContactPhone() {
-        return this.contactPhone;
+    public final String getRsrTrusteePhone() {
+        return this.rsrTrusteePhone;
     }
 
-    private java.math.BigInteger floor;
+    private java.math.BigInteger rsrRequesterFloor;
 
-    public final void setFloor(final java.math.BigInteger floor) {
-        this.floor = floor;
+    public final void setRsrRequesterFloor(final java.math.BigInteger rsrRequesterFloor) {
+        this.rsrRequesterFloor = rsrRequesterFloor;
     }
 
 
     /**
      * @hibernate.property
-     *  column="floor"
+     *  column="rsr_requester_floor"
      *  type="serializable"
      */
-    public final java.math.BigInteger getFloor() {
-        return this.floor;
+    public final java.math.BigInteger getRsrRequesterFloor() {
+        return this.rsrRequesterFloor;
     }
 
-    private fr.cg95.cvq.business.request.social.RsrDwellingType dwelling;
+    private java.math.BigInteger rsrRequesterFlatNumber;
 
-    public final void setDwelling(final fr.cg95.cvq.business.request.social.RsrDwellingType dwelling) {
-        this.dwelling = dwelling;
+    public final void setRsrRequesterFlatNumber(final java.math.BigInteger rsrRequesterFlatNumber) {
+        this.rsrRequesterFlatNumber = rsrRequesterFlatNumber;
     }
 
 
     /**
      * @hibernate.property
-     *  column="dwelling"
+     *  column="rsr_requester_flat_number"
+     *  type="serializable"
      */
-    public final fr.cg95.cvq.business.request.social.RsrDwellingType getDwelling() {
-        return this.dwelling;
+    public final java.math.BigInteger getRsrRequesterFlatNumber() {
+        return this.rsrRequesterFlatNumber;
     }
 
-    private String contactFirstName;
+    private String rsrSecondContactName;
 
-    public final void setContactFirstName(final String contactFirstName) {
-        this.contactFirstName = contactFirstName;
+    public final void setRsrSecondContactName(final String rsrSecondContactName) {
+        this.rsrSecondContactName = rsrSecondContactName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="contact_first_name"
+     *  column="rsr_second_contact_name"
      *  length="38"
      */
-    public final String getContactFirstName() {
-        return this.contactFirstName;
+    public final String getRsrSecondContactName() {
+        return this.rsrSecondContactName;
     }
 
-    private String trusteeFirstName;
+    private String rsrSecondSpouseFirstName;
 
-    public final void setTrusteeFirstName(final String trusteeFirstName) {
-        this.trusteeFirstName = trusteeFirstName;
+    public final void setRsrSecondSpouseFirstName(final String rsrSecondSpouseFirstName) {
+        this.rsrSecondSpouseFirstName = rsrSecondSpouseFirstName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="trustee_first_name"
+     *  column="rsr_second_spouse_first_name"
      *  length="38"
      */
-    public final String getTrusteeFirstName() {
-        return this.trusteeFirstName;
+    public final String getRsrSecondSpouseFirstName() {
+        return this.rsrSecondSpouseFirstName;
     }
 
-    private Boolean taxable;
+    private String rsrRequesterFirstName;
 
-    public final void setTaxable(final Boolean taxable) {
-        this.taxable = taxable;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="taxable"
-     */
-    public final Boolean getTaxable() {
-        return this.taxable;
-    }
-
-    private Boolean seniorAssitanceBeneficiary;
-
-    public final void setSeniorAssitanceBeneficiary(final Boolean seniorAssitanceBeneficiary) {
-        this.seniorAssitanceBeneficiary = seniorAssitanceBeneficiary;
+    public final void setRsrRequesterFirstName(final String rsrRequesterFirstName) {
+        this.rsrRequesterFirstName = rsrRequesterFirstName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="senior_assitance_beneficiary"
-     */
-    public final Boolean getSeniorAssitanceBeneficiary() {
-        return this.seniorAssitanceBeneficiary;
-    }
-
-    private String contactName;
-
-    public final void setContactName(final String contactName) {
-        this.contactName = contactName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="contact_name"
+     *  column="rsr_requester_first_name"
      *  length="38"
      */
-    public final String getContactName() {
-        return this.contactName;
+    public final String getRsrRequesterFirstName() {
+        return this.rsrRequesterFirstName;
     }
 
-    private fr.cg95.cvq.business.request.social.RsrContactType contact;
+    private fr.cg95.cvq.business.users.SexType rsrSpouseGender;
 
-    public final void setContact(final fr.cg95.cvq.business.request.social.RsrContactType contact) {
-        this.contact = contact;
+    public final void setRsrSpouseGender(final fr.cg95.cvq.business.users.SexType rsrSpouseGender) {
+        this.rsrSpouseGender = rsrSpouseGender;
     }
 
 
     /**
      * @hibernate.property
-     *  column="contact"
+     *  column="rsr_spouse_gender"
      */
-    public final fr.cg95.cvq.business.request.social.RsrContactType getContact() {
-        return this.contact;
+    public final fr.cg95.cvq.business.users.SexType getRsrSpouseGender() {
+        return this.rsrSpouseGender;
+    }
+
+    private Boolean rsrRequesterIsAPABeneficiary;
+
+    public final void setRsrRequesterIsAPABeneficiary(final Boolean rsrRequesterIsAPABeneficiary) {
+        this.rsrRequesterIsAPABeneficiary = rsrRequesterIsAPABeneficiary;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_requester_is_a_p_a_beneficiary"
+     */
+    public final Boolean getRsrRequesterIsAPABeneficiary() {
+        return this.rsrRequesterIsAPABeneficiary;
+    }
+
+    private String rsrContactFirstName;
+
+    public final void setRsrContactFirstName(final String rsrContactFirstName) {
+        this.rsrContactFirstName = rsrContactFirstName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_contact_first_name"
+     *  length="38"
+     */
+    public final String getRsrContactFirstName() {
+        return this.rsrContactFirstName;
+    }
+
+    private Boolean rsrRequesterIsTaxable;
+
+    public final void setRsrRequesterIsTaxable(final Boolean rsrRequesterIsTaxable) {
+        this.rsrRequesterIsTaxable = rsrRequesterIsTaxable;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_requester_is_taxable"
+     */
+    public final Boolean getRsrRequesterIsTaxable() {
+        return this.rsrRequesterIsTaxable;
+    }
+
+    private fr.cg95.cvq.business.request.social.RsrMaritalStatusType rsrRequesterMaritalStatus;
+
+    public final void setRsrRequesterMaritalStatus(final fr.cg95.cvq.business.request.social.RsrMaritalStatusType rsrRequesterMaritalStatus) {
+        this.rsrRequesterMaritalStatus = rsrRequesterMaritalStatus;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_requester_marital_status"
+     */
+    public final fr.cg95.cvq.business.request.social.RsrMaritalStatusType getRsrRequesterMaritalStatus() {
+        return this.rsrRequesterMaritalStatus;
+    }
+
+    private String rsrRequesterName;
+
+    public final void setRsrRequesterName(final String rsrRequesterName) {
+        this.rsrRequesterName = rsrRequesterName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_requester_name"
+     *  length="38"
+     */
+    public final String getRsrRequesterName() {
+        return this.rsrRequesterName;
+    }
+
+    private String rsrRequesterPersonalPhone;
+
+    public final void setRsrRequesterPersonalPhone(final String rsrRequesterPersonalPhone) {
+        this.rsrRequesterPersonalPhone = rsrRequesterPersonalPhone;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_requester_personal_phone"
+     *  length="10"
+     */
+    public final String getRsrRequesterPersonalPhone() {
+        return this.rsrRequesterPersonalPhone;
+    }
+
+    private String rsrTrusteeFirstName;
+
+    public final void setRsrTrusteeFirstName(final String rsrTrusteeFirstName) {
+        this.rsrTrusteeFirstName = rsrTrusteeFirstName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_trustee_first_name"
+     *  length="38"
+     */
+    public final String getRsrTrusteeFirstName() {
+        return this.rsrTrusteeFirstName;
+    }
+
+    private String rsrSecondContactPhone;
+
+    public final void setRsrSecondContactPhone(final String rsrSecondContactPhone) {
+        this.rsrSecondContactPhone = rsrSecondContactPhone;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_second_contact_phone"
+     *  length="10"
+     */
+    public final String getRsrSecondContactPhone() {
+        return this.rsrSecondContactPhone;
+    }
+
+    private String rsrEmergencyMotive;
+
+    public final void setRsrEmergencyMotive(final String rsrEmergencyMotive) {
+        this.rsrEmergencyMotive = rsrEmergencyMotive;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_emergency_motive"
+     */
+    public final String getRsrEmergencyMotive() {
+        return this.rsrEmergencyMotive;
+    }
+
+    private Boolean rsrRequesterIsDisabledPerson;
+
+    public final void setRsrRequesterIsDisabledPerson(final Boolean rsrRequesterIsDisabledPerson) {
+        this.rsrRequesterIsDisabledPerson = rsrRequesterIsDisabledPerson;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_requester_is_disabled_person"
+     */
+    public final Boolean getRsrRequesterIsDisabledPerson() {
+        return this.rsrRequesterIsDisabledPerson;
+    }
+
+    private String rsrSpouseFirstName;
+
+    public final void setRsrSpouseFirstName(final String rsrSpouseFirstName) {
+        this.rsrSpouseFirstName = rsrSpouseFirstName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_spouse_first_name"
+     *  length="38"
+     */
+    public final String getRsrSpouseFirstName() {
+        return this.rsrSpouseFirstName;
+    }
+
+    private java.util.Date rsrSpouseBirthDate;
+
+    public final void setRsrSpouseBirthDate(final java.util.Date rsrSpouseBirthDate) {
+        this.rsrSpouseBirthDate = rsrSpouseBirthDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_spouse_birth_date"
+     */
+    public final java.util.Date getRsrSpouseBirthDate() {
+        return this.rsrSpouseBirthDate;
+    }
+
+    private fr.cg95.cvq.business.request.social.RsrRequestKindType rsrRequestKind;
+
+    public final void setRsrRequestKind(final fr.cg95.cvq.business.request.social.RsrRequestKindType rsrRequestKind) {
+        this.rsrRequestKind = rsrRequestKind;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_request_kind"
+     */
+    public final fr.cg95.cvq.business.request.social.RsrRequestKindType getRsrRequestKind() {
+        return this.rsrRequestKind;
+    }
+
+    private fr.cg95.cvq.business.request.social.RsrResidenceKindType rsrRequesterResidenceKind;
+
+    public final void setRsrRequesterResidenceKind(final fr.cg95.cvq.business.request.social.RsrResidenceKindType rsrRequesterResidenceKind) {
+        this.rsrRequesterResidenceKind = rsrRequesterResidenceKind;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_requester_residence_kind"
+     */
+    public final fr.cg95.cvq.business.request.social.RsrResidenceKindType getRsrRequesterResidenceKind() {
+        return this.rsrRequesterResidenceKind;
+    }
+
+    private fr.cg95.cvq.business.users.SexType rsrRequesterGender;
+
+    public final void setRsrRequesterGender(final fr.cg95.cvq.business.users.SexType rsrRequesterGender) {
+        this.rsrRequesterGender = rsrRequesterGender;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="rsr_requester_gender"
+     */
+    public final fr.cg95.cvq.business.users.SexType getRsrRequesterGender() {
+        return this.rsrRequesterGender;
     }
 
 }

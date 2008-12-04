@@ -35,7 +35,7 @@ public final class DhrRequestKindType extends PersistentStringEnum {
 
 
     public static DhrRequestKindType getDefaultDhrRequestKindType() {
-        return null;
+        return INDIVIDUAL;
     }
 
 

@@ -48,19 +48,25 @@
         drop constraint FK85B0A9C782587E99;
 
     alter table dhr_not_real_asset 
-        drop constraint FK2BA9F1ECBB7505EB;
+        drop constraint FK2BA9F1EC6D5B4A55;
 
     alter table dhr_not_real_asset 
-        drop constraint FK2BA9F1ECDAD946D1;
+        drop constraint FK2BA9F1EC79D85259;
 
     alter table dhr_not_real_asset 
-        drop constraint FK2BA9F1EC4EF8925D;
+        drop constraint FK2BA9F1EC1F99E36F;
 
     alter table dhr_not_real_asset 
         drop constraint FK2BA9F1ECD6AE1BE8;
 
+    alter table dhr_previous_dwelling 
+        drop constraint FKB0B96E274AF76B3A;
+
+    alter table dhr_previous_dwelling 
+        drop constraint FKB0B96E27D6AE1BE8;
+
     alter table dhr_real_asset 
-        drop constraint FK6AA7D980A3F3FF52;
+        drop constraint FK6AA7D9809D2A9E41;
 
     alter table dhr_real_asset 
         drop constraint FK6AA7D980D6AE1BE8;
@@ -75,25 +81,19 @@
         drop constraint FKA62BD3A57A6C6B5B;
 
     alter table domestic_help_request 
-        drop constraint FK3C0081128E87091B;
-
-    alter table domestic_help_request 
-        drop constraint FK3C0081126FFC52CB;
+        drop constraint FK3C00811289BB4925;
 
     alter table domestic_help_request 
         drop constraint FK3C00811282587E99;
 
     alter table domestic_help_request 
-        drop constraint FK3C008112A2B2928B;
+        drop constraint FK3C0081123044483F;
 
     alter table domestic_help_request 
-        drop constraint FK3C008112B3BAD17C;
+        drop constraint FK3C008112D045047B;
 
     alter table domestic_help_request 
-        drop constraint FK3C0081121C4A2C9A;
-
-    alter table domestic_help_request 
-        drop constraint FK3C008112F802E509;
+        drop constraint FK3C008112D6EC023A;
 
     alter table electoral_roll_registration_request 
         drop constraint FK4562552982587E99;
@@ -269,6 +269,9 @@
     alter table remote_support_request 
         drop constraint FKEAA6DC2682587E99;
 
+    alter table remote_support_request 
+        drop constraint FKEAA6DC26413637F3;
+
     alter table request 
         drop constraint FK414EF28FC5FD0068;
 
@@ -386,6 +389,8 @@
     drop table death_details_request;
 
     drop table dhr_not_real_asset;
+
+    drop table dhr_previous_dwelling;
 
     drop table dhr_real_asset;
 
@@ -679,28 +684,41 @@
 
     create table dhr_not_real_asset (
         id int8 not null,
-        asset_value bytea,
-        asset_beneficiary_first_name varchar(38),
-        asset_notary_address_id int8,
-        asset_notary_name varchar(38),
-        asset_beneficiary_address_id int8,
-        asset_address_id int8,
-        asset_type varchar(255),
-        asset_date timestamp,
-        asset_beneficiary_name varchar(38),
-        asset_kind varchar(255),
+        dhr_not_real_asset_value bytea,
+        dhr_not_real_asset_address_id int8,
+        dhr_not_real_asset_date timestamp,
+        dhr_not_real_asset_notary_name varchar(38),
+        dhr_not_real_asset_beneficiary_name varchar(38),
+        dhr_not_real_asset_beneficiary_first_name varchar(38),
+        dhr_not_real_asset_type varchar(255),
+        dhr_not_real_asset_beneficiary_address_id int8,
+        dhr_not_real_asset_notary_address_id int8,
+        dhr_not_real_asset_kind varchar(255),
         domestic_help_request_id int8,
-        not_real_assets_index int4,
+        dhr_not_real_asset_index int4,
+        primary key (id)
+    );
+
+    create table dhr_previous_dwelling (
+        id int8 not null,
+        dhr_previous_dwelling_status varchar(255),
+        dhr_previous_dwelling_kind varchar(255),
+        dhr_previous_dwelling_comment varchar(255),
+        dhr_previous_dwelling_departure_date timestamp,
+        dhr_previous_dwelling_address_id int8,
+        dhr_previous_dwelling_arrival_date timestamp,
+        domestic_help_request_id int8,
+        dhr_previous_dwelling_index int4,
         primary key (id)
     );
 
     create table dhr_real_asset (
         id int8 not null,
-        real_asset_value bytea,
         real_asset_net_floor_area bytea,
-        real_asset_address_id int8,
+        dhr_real_asset_address_id int8,
+        dhr_real_asset_value bytea,
         domestic_help_request_id int8,
-        real_assets_index int4,
+        dhr_real_asset_index int4,
         primary key (id)
     );
 
@@ -753,62 +771,62 @@
 
     create table domestic_help_request (
         id int8 not null,
-        not_real_assets_values_total bytea,
-        current_dwelling_type varchar(255),
+        dhr_spouse_principal_pension_plan varchar(255),
+        dhr_spouse_profession varchar(255),
+        dhr_net_income bytea,
         professional_taxes bytea,
-        spouse_pensions bytea,
-        taxes_total bytea,
-        tutor_address_id int8,
-        pension_plan_precision varchar(50),
-        spouse_complementary_pension_plan_precision varchar(50),
-        family_referent_address_id int8,
-        family_referent_designated bool,
-        current_dwelling_arrival_date timestamp,
-        income_tax bytea,
-        spouse_more_than15_years_in_france bool,
-        requester_request_kind varchar(255),
-        tutor_name varchar(38),
-        spouse_allowances bytea,
-        current_dwelling_net_floor_area bytea,
-        current_dwelling_status varchar(255),
-        spouse_employer varchar(50),
-        requester_pension_plan varchar(255),
-        nationality varchar(32),
-        real_assets_values_total bytea,
-        spouse_employer_address_id int8,
-        complementary_pension_plan_precision varchar(50),
-        spouse_nationality varchar(32),
-        previous_dwelling_address_id int8,
-        current_dwelling_address_id int8,
-        current_dwelling_personal_phone varchar(10),
-        spouse_information_id int8,
-        tutor_presence bool,
-        requester_incomes_annual_total bytea,
-        tutor varchar(255),
-        family_referent_name varchar(38),
-        spouse_real_estate_investment_income bytea,
+        dhr_is_spouse_retired bool,
+        dhr_spouse_title varchar(255),
+        dhr_requester_birth_date timestamp,
+        dhr_real_estate_investment_income bytea,
+        dhr_requester_is_french_resident bool,
+        dhr_current_dwelling_address_id int8,
+        dhr_spouse_france_arrival_date timestamp,
+        dhr_requester_nationality varchar(255),
+        dhr_current_dwelling_arrival_date timestamp,
+        dhr_incomes_annual_total bytea,
+        dhr_referent_first_name varchar(38),
+        dhr_requester_have_guardian bool,
+        dhr_income_tax bytea,
+        dhr_spouse_birth_date timestamp,
+        dhr_spouse_birth_place varchar(255),
+        dhr_current_dwelling_net_area int2,
+        dhr_requester_france_arrival_date timestamp,
+        dhr_requester_title varchar(255),
+        dhr_current_dwelling_status varchar(255),
+        dhr_spouse_family_status varchar(255),
+        dhr_spouse_first_name varchar(38),
+        dhr_furniture_investment_income bytea,
+        dhr_guardian_address_id int8,
+        dhr_referent_name varchar(38),
         local_rate bytea,
-        requester_pensions bytea,
-        spouse_france_arrival_date timestamp,
-        family_referent_first_name varchar(38),
-        requester_has_spouse varchar(255),
+        dhr_spouse_employer varchar(255),
+        dhr_request_kind varchar(255),
+        dhr_principal_pension_plan varchar(255),
+        dhr_complementary_pension_plan varchar(255),
+        dhr_referent_address_id int8,
         property_taxes bytea,
-        previous_dwelling_arrival_date timestamp,
-        spouse_incomes_annual_total bytea,
-        spouse_occupation varchar(50),
-        france_arrival_date timestamp,
-        requester_allowances bytea,
-        spouse_pension_plan varchar(255),
-        more_than15_years_in_france bool,
-        requester_furniture_investment_income bytea,
-        spouse_furniture_investment_income bytea,
-        previous_dwelling_departure_date timestamp,
-        spouse_pension_plan_precision varchar(50),
-        spouse_net_income bytea,
-        requester_real_estate_investment_income bytea,
-        spouse_pensionner bool,
-        requester_net_income bytea,
-        current_dwelling_room_number bytea,
+        dhr_guardian_name varchar(38),
+        pensions bytea,
+        dhr_current_dwelling_kind varchar(255),
+        dhr_current_dwelling_number_of_room int2,
+        dhr_guardian_measure varchar(255),
+        dhr_current_dwelling_phone varchar(10),
+        dhr_spouse_is_french_resident bool,
+        dhr_requester_first_name varchar(38),
+        dhr_allowances bytea,
+        dhr_requester_family_status varchar(255),
+        dhr_requester_maiden_name varchar(38),
+        dhr_spouse_nationality varchar(255),
+        dhr_requester_name varchar(38),
+        dhr_spouse_maiden_name varchar(38),
+        dhr_spouse_name varchar(38),
+        dhr_spouse_pension_plan_detail varchar(255),
+        dhr_requester_birth_place varchar(255),
+        dhr_spouse_address_id int8,
+        dhr_have_family_referent bool,
+        dhr_pension_plan_detail varchar(255),
+        dhr_spouse_complementary_pension_plan varchar(255),
         primary key (id)
     );
 
@@ -1335,20 +1353,39 @@
 
     create table remote_support_request (
         id int8 not null,
-        trustee_phone varchar(10),
-        emergency bool,
-        trustee_name varchar(38),
-        appartment_number bytea,
-        trustee varchar(255),
-        contact_phone varchar(10),
-        floor bytea,
-        dwelling varchar(255),
-        contact_first_name varchar(38),
-        trustee_first_name varchar(38),
-        taxable bool,
-        senior_assitance_beneficiary bool,
-        contact_name varchar(38),
-        contact varchar(255),
+        rsr_requester_birth_date timestamp,
+        rsr_spouse_is_disabled_person bool,
+        rsr_contact_phone varchar(10),
+        rsr_spouse_name varchar(38),
+        rsr_second_contact_first_name varchar(38),
+        rsr_contact_name varchar(38),
+        rsr_requester_address_id int8,
+        rsr_is_emergency bool,
+        rsr_trustee_name varchar(38),
+        rsr_contact_kind varchar(255),
+        rsr_second_requester_first_name varchar(38),
+        rsr_trustee_phone varchar(10),
+        rsr_requester_floor bytea,
+        rsr_requester_flat_number bytea,
+        rsr_second_contact_name varchar(38),
+        rsr_second_spouse_first_name varchar(38),
+        rsr_requester_first_name varchar(38),
+        rsr_spouse_gender varchar(255),
+        rsr_requester_is_a_p_a_beneficiary bool,
+        rsr_contact_first_name varchar(38),
+        rsr_requester_is_taxable bool,
+        rsr_requester_marital_status varchar(255),
+        rsr_requester_name varchar(38),
+        rsr_requester_personal_phone varchar(10),
+        rsr_trustee_first_name varchar(38),
+        rsr_second_contact_phone varchar(10),
+        rsr_emergency_motive varchar(255),
+        rsr_requester_is_disabled_person bool,
+        rsr_spouse_first_name varchar(38),
+        rsr_spouse_birth_date timestamp,
+        rsr_request_kind varchar(255),
+        rsr_requester_residence_kind varchar(255),
+        rsr_requester_gender varchar(255),
         primary key (id)
     );
 
@@ -1629,18 +1666,18 @@
         references request;
 
     alter table dhr_not_real_asset 
-        add constraint FK2BA9F1ECBB7505EB 
-        foreign key (asset_beneficiary_address_id) 
+        add constraint FK2BA9F1EC6D5B4A55 
+        foreign key (dhr_not_real_asset_address_id) 
         references address;
 
     alter table dhr_not_real_asset 
-        add constraint FK2BA9F1ECDAD946D1 
-        foreign key (asset_address_id) 
+        add constraint FK2BA9F1EC79D85259 
+        foreign key (dhr_not_real_asset_notary_address_id) 
         references address;
 
     alter table dhr_not_real_asset 
-        add constraint FK2BA9F1EC4EF8925D 
-        foreign key (asset_notary_address_id) 
+        add constraint FK2BA9F1EC1F99E36F 
+        foreign key (dhr_not_real_asset_beneficiary_address_id) 
         references address;
 
     alter table dhr_not_real_asset 
@@ -1648,9 +1685,19 @@
         foreign key (domestic_help_request_id) 
         references domestic_help_request;
 
+    alter table dhr_previous_dwelling 
+        add constraint FKB0B96E274AF76B3A 
+        foreign key (dhr_previous_dwelling_address_id) 
+        references address;
+
+    alter table dhr_previous_dwelling 
+        add constraint FKB0B96E27D6AE1BE8 
+        foreign key (domestic_help_request_id) 
+        references domestic_help_request;
+
     alter table dhr_real_asset 
-        add constraint FK6AA7D980A3F3FF52 
-        foreign key (real_asset_address_id) 
+        add constraint FK6AA7D9809D2A9E41 
+        foreign key (dhr_real_asset_address_id) 
         references address;
 
     alter table dhr_real_asset 
@@ -1674,13 +1721,8 @@
         references document;
 
     alter table domestic_help_request 
-        add constraint FK3C0081128E87091B 
-        foreign key (family_referent_address_id) 
-        references address;
-
-    alter table domestic_help_request 
-        add constraint FK3C0081126FFC52CB 
-        foreign key (tutor_address_id) 
+        add constraint FK3C00811289BB4925 
+        foreign key (dhr_referent_address_id) 
         references address;
 
     alter table domestic_help_request 
@@ -1689,23 +1731,18 @@
         references request;
 
     alter table domestic_help_request 
-        add constraint FK3C008112A2B2928B 
-        foreign key (current_dwelling_address_id) 
+        add constraint FK3C0081123044483F 
+        foreign key (dhr_guardian_address_id) 
         references address;
 
     alter table domestic_help_request 
-        add constraint FK3C008112B3BAD17C 
-        foreign key (spouse_employer_address_id) 
+        add constraint FK3C008112D045047B 
+        foreign key (dhr_spouse_address_id) 
         references address;
 
     alter table domestic_help_request 
-        add constraint FK3C0081121C4A2C9A 
-        foreign key (spouse_information_id) 
-        references adult;
-
-    alter table domestic_help_request 
-        add constraint FK3C008112F802E509 
-        foreign key (previous_dwelling_address_id) 
+        add constraint FK3C008112D6EC023A 
+        foreign key (dhr_current_dwelling_address_id) 
         references address;
 
     alter table electoral_roll_registration_request 
@@ -1997,6 +2034,11 @@
         add constraint FKEAA6DC2682587E99 
         foreign key (id) 
         references request;
+
+    alter table remote_support_request 
+        add constraint FKEAA6DC26413637F3 
+        foreign key (rsr_requester_address_id) 
+        references address;
 
     alter table request 
         add constraint FK414EF28FC5FD0068 

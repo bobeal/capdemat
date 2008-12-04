@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -217,7 +218,7 @@ public class LocalizationService implements ILocalizationService {
         if (schemaAnnotation == null)
             return null;
         
-        Map<String, String> resultEnums = new HashMap<String, String>();
+        Map<String, String> resultEnums = new LinkedHashMap<String, String>();
         XmlObject[] xmlObjects = schemaAnnotation.getUserInformation();
         for (int j = 0; j < xmlObjects.length; j++) {
             boolean foundLang = false;
@@ -353,6 +354,148 @@ public class LocalizationService implements ILocalizationService {
         return schemaTypeLoader.typeForClassname(classToLookFor);
     }
     
+    public Map<String,String> getEnumsDataMap(final String requestNamespace, 
+            final String elementTypeName, final String lang) {
+    	Map<String,String> enumsMap;
+        logger.debug("getEnumsDataMap() searching enums of type " + elementTypeName + " in request "
+                + requestNamespace);
+
+        QName qname = new QName(requestNamespace, elementTypeName);
+	    SchemaType schemaType = schemaTypeLoader.findType(qname);
+		if (schemaType == null) {
+			logger.warn("getEnumsDataMap() could not find QName : " + qname);
+			return null;
+		}
+		SchemaAnnotation schemaAnnotation = schemaType.getAnnotation();
+		enumsMap = parseEnums(schemaAnnotation, lang);
+		
+        return enumsMap;
+    }
+
+    public String getGlobalElementDesc(final String className, 
+			final String elementName, final String lang, final boolean fullDesc) {
+ 
+    	 logger.debug("getGlobalElementDesc() searching for field " + elementName + " in class "
+                + " for lang " + lang);
+    	String requestTypeShortName = className.substring(className.lastIndexOf('.') + 1);
+        SchemaType schemaType = getSchemaTypeFromRequestLabel(className);
+        
+    	schemaType = schemaTypeLoader.typeForClassname(schemaType.getFullJavaName()+ "." + requestTypeShortName);
+        SchemaParticle schemaParticle = schemaType.getContentModel();
+
+        SchemaProperty[] schemaProperties = schemaType.getElementProperties();
+        for (int i = 0; i < schemaProperties.length; i++) {
+            QName qName = schemaProperties[i].getName();
+            if (qName.getLocalPart().equals(elementName)) {
+
+                // first, try to find translation on annotation inside element
+                // particle declaration
+                SchemaParticle elementParticle = schemaParticle.getParticleChild(i);
+                SchemaLocalElement localElement = (SchemaLocalElement) elementParticle;
+                String translation = extractDesc(localElement.getAnnotation(), lang, fullDesc);
+                if (translation != null)
+                    return translation;
+
+                // not found so search on element type declaration
+                SchemaType propertyType = schemaProperties[i].getType();
+                while (propertyType != null) {
+                    SchemaAnnotation schemaAnnotation = propertyType.getAnnotation();
+                    translation = extractDesc(schemaAnnotation, lang, fullDesc);
+                    if (translation != null)
+                        return translation;
+                    propertyType = propertyType.getBaseType();
+                }
+            }
+        }
+        return elementName;
+    }
+
+    public String getElementDesc(final String requestNamespace,
+			final String elementTypeName, final String elementName,
+			final String lang, final boolean fullDesc) {
+    	 logger.debug("getElementDesc() searching for field "
+				+ elementName + " in class " + " for lang " + lang);
+		QName qname = new QName(requestNamespace, elementTypeName);
+		SchemaType schemaType = schemaTypeLoader.findType(qname);
+		SchemaParticle schemaParticle = schemaType.getContentModel();
+		SchemaProperty[] schemaProperties = schemaType.getElementProperties();
+		for (int i = 0; i < schemaProperties.length; i++) {
+			QName qName = schemaProperties[i].getName();
+			if (qName.getLocalPart().equals(elementName)) {
+
+				// first, try to find translation on annotation inside element
+				// particle declaration
+				SchemaParticle elementParticle = schemaParticle
+						.getParticleChild(i);
+				SchemaLocalElement localElement = (SchemaLocalElement) elementParticle;
+				String translation = extractDesc(localElement
+						.getAnnotation(), lang, fullDesc);
+				if (translation != null)
+					return translation;
+
+				// not found so search on element type declaration
+				SchemaType propertyType = schemaProperties[i].getType();
+				while (propertyType != null) {
+					SchemaAnnotation schemaAnnotation = propertyType
+							.getAnnotation();
+					translation = extractDesc(schemaAnnotation, lang, fullDesc);
+					if (translation != null)
+						return translation;
+					propertyType = propertyType.getBaseType();
+				}
+			}
+		}
+		return elementName;
+	}
+    
+
+    private static String extractDesc(final SchemaAnnotation schemaAnnotation,
+            final String lang, final boolean fullDesc) {
+    	String descToExtract;
+    	if (fullDesc == true) descToExtract = "http://www.cg95.fr/cvq/schema/longdesc";
+    	else descToExtract = "http://www.cg95.fr/cvq/schema/shortdesc";
+        if (schemaAnnotation == null)
+            return null;
+        
+        XmlObject[] xmlObjects = schemaAnnotation.getUserInformation();
+        for (int j = 0; j < xmlObjects.length; j++) {
+            boolean foundLang = false;
+            boolean foundSource = false;
+            XmlCursor xc = xmlObjects[j].newCursor();
+            try {
+
+                xc.push();
+
+                if (xc.toFirstAttribute()) {
+                    // look for attributes
+                    do {
+                        if (xc.getName().getLocalPart().equals("lang")
+                                && xc.getTextValue().equals(lang)) {
+                            foundLang = true;
+                        }
+                        if (xc.getName().getLocalPart().equals("source")
+                                && xc.getTextValue().equals(
+                                		descToExtract)) {
+                            foundSource = true;
+                        }
+
+                        if (foundLang && foundSource) {
+                            xc.pop();
+                            return normalize(xc.getTextValue());
+                        }
+
+                    } while (xc.toNextAttribute());
+                }
+
+            } finally {
+                xc.dispose();
+            }
+        }
+
+        return null;
+    }
+
+    
     private static String extractTranslation(final SchemaAnnotation schemaAnnotation,
             final String lang) {
 
@@ -396,7 +539,7 @@ public class LocalizationService implements ILocalizationService {
 
         return null;
     }
-
+    
     private static String normalize(final String inputString) {
         String output = inputString.trim();
         output = output.replaceAll("\n\t", "");

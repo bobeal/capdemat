@@ -47,6 +47,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/users/payment/PurchaseItem.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrNotRealAsset.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/DhrPreviousDwelling.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/HarFamilyDependent.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
         <value>fr/cg95/cvq/business/external/ExternalServiceTrace.hbm.xml</value>

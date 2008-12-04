@@ -1,0 +1,56 @@
+<% 
+import org.apache.commons.lang.StringUtils
+if (widgetType.equals("labelWidget")) {
+	def help = null
+	def validation = null
+	if (validationStep == false) {
+		help = "message(code:'${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.help')"
+		validation = element.validation
+	} 
+	if (element.globalElement) {
+%>
+<!--${element.name} -->
+<g:render template="/frontofficeRequestType/widget/label" 
+			   		model="[forName:'${StringUtils.uncapitalize(element.name)}',
+			   		help:${help},
+			   		validation:'${validation}',
+			   		condition:'${element.condition}',
+			   		elementName:'${element.name}',
+			   		requestType: ${namespaceAlias}]"/> 
+<%
+   	} else {
+%>
+<!--${element.name} -->
+<g:render template="/frontofficeRequestType/widget/label" 
+			   		model="[forName:'${StringUtils.uncapitalize(element.name)}',
+			   		help:${help},
+			   		validation:'${validation}',
+			   		condition:'${element.condition}',
+			   		elementName:'${element.name}', 
+			   		namespace:'${element.parentNamespace}',
+			   		elementTypeName : '${element.parentXmlSchemaType}']"/> 
+<% } 
+//********************* legend ********************************
+} else if (widgetType.equals("legendWidget")) {
+	if (element.globalElement) {
+%>
+<!--${element.name} --> 
+<g:render template="/frontofficeRequestType/widget/legend"
+			   		model="[elementName:'${element.name}',
+			   		condition:'${element.condition}',
+			   		requestType: ${namespaceAlias}]"/>
+<%
+    } else {
+%>
+<!--${element.name} -->
+<g:render template="/frontofficeRequestType/widget/legend" 
+			   		model="[forName:'${StringUtils.uncapitalize(element.name)}',
+			   		condition:'${element.condition}',
+			   		elementName:'${element.name}', 
+			   		namespace:'${element.parentNamespace}',
+			   		elementTypeName : '${element.parentXmlSchemaType}']"/> 
+<%  } 
+%>
+<%
+}
+%>

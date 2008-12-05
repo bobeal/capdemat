@@ -1,10 +1,7 @@
-
 class EcitizenService {
     
     def instructionService;
     def translationService;
-    def propertiesService;
-    
     
     def prepareRecords = { requests ->
         if (!requests?.records) requests.records = []
@@ -12,22 +9,17 @@ class EcitizenService {
             requests.records.add([
                 'id':it.id,
                 'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
-                'creationDate':DateUtils.formatDate(it.creationDate),
+                'creationDate':it.creationDate,
                 'requesterLastName':it.requesterLastName,
                 'requesterFirstName': it.requesterFirstName,
                 'subjectLastName':it.subjectLastName,
                 'subjectFirstName': it.subjectFirstName,
                 'state':it.state.toString(),
-                'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
+                'lastModificationDate':it.lastModificationDate,
                 'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId) ,
             ]);
         }
         
         return requests
     }
-    
-    
-//    def abstract setMessageSource = { messageSource ->
-//        this.messageSource = messageSource;
-//    }
 }

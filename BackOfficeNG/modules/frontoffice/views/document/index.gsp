@@ -14,11 +14,11 @@
               <g:message code="menu.documents" />
             </h2>
             <p class="paginator">
-              <g:paginate action="index" total="${documents.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+              <g:paginate action="index" total="${documents.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
             </p>
             <g:render template="documentList" />
             <p class="paginator">
-              <g:paginate action="index" total="${documents.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+              <g:paginate action="index" total="${documents.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
             </p>
           </div>
 
@@ -39,6 +39,8 @@
             <g:select
               id="df"
               name="df"
+              optionKey="id"
+              optionValue="name"
               from="${types}"
               value="${state?.df}"
               noSelection="['':' ']"

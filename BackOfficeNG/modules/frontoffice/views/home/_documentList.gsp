@@ -1,22 +1,19 @@
 <div class="list-box">
-  <h2><g:message code="document.header.endValidityDateDocuments" /></h2>
+  <h2><g:message code="document.header.lastDocuments" /></h2>
   <g:if test="${dashBoard.documents?.records.size() > 0}">
     <ul>
       <g:each var="record" in="${dashBoard.documents.records}">
         <li>
             <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="document.state" />
-            ${record.title},
-            <g:if test="${record.creationDate != ''}">
-              <g:message code="document.property.creationDate" /> : 
-              <span>${record.creationDate},</span>
+            ${record.title}
+            <g:if test="${record.subject}">
+              <g:message code="document.searchResult.subject" args="${[record.subject]}"/>
             </g:if>
-            <g:if test="${record.validationDate != ''}">
-              <g:message code="document.property.validationDate" /> : 
-              <span>${record.validationDate},</span>
-            </g:if>
-            <g:if test="${record.endValidityDate != ''}">
-              <g:message code="document.property.endValidityDate" /> : 
-              <span>${record.endValidityDate}</span>
+            - <g:message code="document.searchResult.creationDate" 
+              args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" /> 
+            <g:if test="${record.endValidityDate}">
+              - <g:message code="document.searchResult.endValidityDate" 
+                  args="${[formatDate(date:record.endValidityDate,formatName:'format.date')]}" /> 
             </g:if>
         </li>
       </g:each>

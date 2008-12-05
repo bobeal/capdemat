@@ -7,9 +7,9 @@
   - <g:message code="request.searchResult.requestId" /> <strong>${record.id}</strong>
   - <g:message code="layout.from" /> <strong>${record.requesterLastName}</strong>
 
-  <g:message code="request.searchResult.creationDate" />
+  - <g:message code="request.searchResult.oldCreationDate" />
   <strong>
-    <g:formatDate format="dd-MM-yyyy hh:mm" date="${record.creationDate}"/>
+    <g:formatDate formatName="format.fullDate" date="${record.creationDate}"/>
   </strong>
 </li>
 

@@ -180,7 +180,7 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         CompostableWasteCollectionRequestFeeder.setSubject(request, 
             iCompostableWasteCollectionRequestService.getSubjectPolicy(), requester, null);
 

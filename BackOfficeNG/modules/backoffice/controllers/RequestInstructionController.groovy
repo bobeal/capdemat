@@ -1,4 +1,4 @@
-import fr.cg95.cvq.business.users.RoleEnum
+import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.*
@@ -100,7 +100,7 @@ class RequestInstructionController {
             adults = homeFolderService.getAdults(request.homeFolderId)
             children = homeFolderService.getChildren(request.homeFolderId)
             children.each {
-                clr.put(it.id, homeFolderService.getBySubjectRoles(it.id,                        [RoleEnum.CLR_FATHER,RoleEnum.CLR_MOTHER,RoleEnum.CLR_TUTOR] as RoleEnum[]))
+                clr.put(it.id, homeFolderService.getBySubjectRoles(it.id,                        [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
             }
         }
 

@@ -30,7 +30,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
@@ -92,7 +92,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         homeFolderResponsible.setCfbn("5050505E");
         homeFolderResponsible.setEmail("bor@zenexity.fr");
         homeFolderResponsible.setNameOfUse("NAMEOFUSE");
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
 
         Adult mother = new Adult();
         mother.setTitle(TitleType.MADAM);
@@ -121,7 +121,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         Adult adultGrandMother = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "LASTNAME","josiane", null, 
                     FamilyStatusType.WIDOW);
-        iHomeFolderService.addIndividualRole(mother, adultGrandMother, RoleEnum.TUTOR);
+        iHomeFolderService.addIndividualRole(mother, adultGrandMother, RoleType.TUTOR);
 
         List<Adult> adultSet = new ArrayList<Adult>();
         adultSet.add(mother);
@@ -136,8 +136,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         child1.setFirstName2("Yargla");
         child1.setFirstName3("Djaba");
         child1.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleEnum.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(mother, child1, RoleEnum.CLR_MOTHER);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(mother, child1, RoleType.CLR_MOTHER);
 
         Adult tutorNotInHomeFolder = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "TUTOR", "outside", null, 
@@ -149,9 +149,9 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);
         childSet.add(child2);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleEnum.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(mother, child2, RoleEnum.CLR_MOTHER);
-        iHomeFolderService.addIndividualRole(tutorNotInHomeFolder, child2, RoleEnum.CLR_TUTOR);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleType.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(mother, child2, RoleType.CLR_MOTHER);
+        iHomeFolderService.addIndividualRole(tutorNotInHomeFolder, child2, RoleType.CLR_TUTOR);
 
         iVoCardRequestService.create(dcvo, adultSet, childSet, address);
 

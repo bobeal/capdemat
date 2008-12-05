@@ -262,7 +262,7 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         DomesticHelpRequestFeeder.setSubject(request, 
             iDomesticHelpRequestService.getSubjectPolicy(), requester, null);
 

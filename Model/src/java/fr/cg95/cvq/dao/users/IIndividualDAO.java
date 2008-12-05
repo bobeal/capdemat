@@ -5,7 +5,7 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.util.Critere;
 
@@ -57,19 +57,19 @@ public interface IIndividualDAO extends IGenericDAO {
      * Return the list of {@link Individual individuals} who have the given role (if one 
      * provided) or any role (if none provided) on the given home folder.
      */
-    List<Individual> listByHomeFolderRole(final Long homeFolderId, final RoleEnum role);
+    List<Individual> listByHomeFolderRole(final Long homeFolderId, final RoleType role);
     
     /**
      * Return the list of {@link Individual individuals} who have the given role (if one 
      * provided) or any role (if none provided) on the given subject.
      */
-    List<Individual> listBySubjectRole(final Long subjectId, final RoleEnum role);
+    List<Individual> listBySubjectRole(final Long subjectId, final RoleType role);
     
     /**
      * Return the list of {@link Individual individuals} who have the given roles 
      * on the given subject.
      */
-    List<Individual> listBySubjectRoles(final Long subjectId, final RoleEnum[] roles);
+    List<Individual> listBySubjectRoles(final Long subjectId, final RoleType[] roles);
     
     /**
      * Return the list of individual logins that start with the given

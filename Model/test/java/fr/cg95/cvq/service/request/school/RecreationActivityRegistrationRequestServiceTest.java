@@ -187,7 +187,7 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         RecreationActivityRegistrationRequestFeeder.setSubject(request, 
             iRecreationActivityRegistrationRequestService.getSubjectPolicy(), requester, null);
 

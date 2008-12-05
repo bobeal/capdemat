@@ -53,12 +53,12 @@ payment : initialized, validated, refused, cancelled
 
 /* yellow */
 .tag-pending,
+.tag-initialized,
 .tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
 
 /* green */
 .tag-clrtutor,
 .tag-tutor,
-.tag-initialized,
 .tag-valid,
 .tag-validated,
 .tag-complete,

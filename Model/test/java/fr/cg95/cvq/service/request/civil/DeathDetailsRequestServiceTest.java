@@ -196,7 +196,7 @@ public class DeathDetailsRequestServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         DeathDetailsRequestFeeder.setSubject(request, 
             iDeathDetailsRequestService.getSubjectPolicy(), requester, null);
 

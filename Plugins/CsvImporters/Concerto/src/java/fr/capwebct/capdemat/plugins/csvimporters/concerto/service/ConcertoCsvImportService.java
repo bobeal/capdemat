@@ -25,7 +25,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.LocalReferentialData;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ISchoolService;
@@ -160,7 +160,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                     cdto.setAddress(currentAddress);
                     
                     homeFolderService.addHomeFolderRole(currentHomeFolderResponsible, 
-                            RoleEnum.HOME_FOLDER_RESPONSIBLE);
+                            RoleType.HOME_FOLDER_RESPONSIBLE);
                     currentHomeFolderResponsible.setPassword(authenticationService.generatePassword());
                     cdto.setHomeFolderResponsible(currentHomeFolderResponsible);
                     cdto.getAdults().add(currentHomeFolderResponsible);
@@ -370,12 +370,12 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
     private void addLegalResponsibleToChild(Child child, Adult adult) throws CvqException {
 
         if (adult.getTitle().equals(TitleType.MISTER)) {
-            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_FATHER);
+            homeFolderService.addIndividualRole(adult, child, RoleType.CLR_FATHER);
         } else if (adult.getTitle().equals(TitleType.MADAM)
                 || adult.getTitle().equals(TitleType.MISS)) {
-            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_MOTHER);
+            homeFolderService.addIndividualRole(adult, child, RoleType.CLR_MOTHER);
         } else {
-            homeFolderService.addIndividualRole(adult, child, RoleEnum.CLR_TUTOR);
+            homeFolderService.addIndividualRole(adult, child, RoleType.CLR_TUTOR);
         }
     }
     

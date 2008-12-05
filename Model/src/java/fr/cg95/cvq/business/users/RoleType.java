@@ -2,27 +2,30 @@ package fr.cg95.cvq.business.users;
 
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
-public final class RoleEnum extends PersistentStringEnum{
+public final class RoleType extends PersistentStringEnum{
 
-    public static final RoleEnum HOME_FOLDER_RESPONSIBLE = new RoleEnum("HomeFolderResponsible");
-    public static final RoleEnum CLR_MOTHER = new RoleEnum("ClrMother");
-    public static final RoleEnum CLR_FATHER = new RoleEnum("ClrFather");
-    public static final RoleEnum CLR_TUTOR = new RoleEnum("ClrTutor");
-    public static final RoleEnum TUTOR = new RoleEnum("Tutor");
+    public static final RoleType HOME_FOLDER_RESPONSIBLE = new RoleType("HomeFolderResponsible");
+    public static final RoleType CLR_MOTHER = new RoleType("ClrMother");
+    public static final RoleType CLR_FATHER = new RoleType("ClrFather");
+    public static final RoleType CLR_TUTOR = new RoleType("ClrTutor");
+    public static final RoleType TUTOR = new RoleType("Tutor");
     
     private static final long serialVersionUID = 1L;
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
-    private RoleEnum(final String role) {
+    private RoleType(final String role) {
         super(role);
     }
     
-    public RoleEnum() {
+    public RoleType() {
     }
+
+    public static final RoleType[] allRoleTypes = { HOME_FOLDER_RESPONSIBLE, CLR_MOTHER,
+        CLR_FATHER, CLR_TUTOR, TUTOR };
     
-    public static RoleEnum forString(String role) {
+    public static RoleType forString(String role) {
         if (role == null || role.length() == 0)
             return null;
         

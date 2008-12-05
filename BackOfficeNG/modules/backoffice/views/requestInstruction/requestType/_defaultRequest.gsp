@@ -11,26 +11,26 @@
         <div class="yui-u first">
           <dl>
            <dt><g:message code="request.requester.property.lastName" /> : </dt> 
-          <dd>${request.requester.lastName}</dd>
+          <dd>${request.requesterLastName}</dd>
           
           <dt><g:message code="request.requester.property.firstName" /> : </dt>
-          <dd>${request.requester.firstName}</dd>
+          <dd>${request.requesterFirstName}</dd>
           
           <dt><g:message code="request.requester.property.birthDate" /> : </dt>
-          <dd>${request.requester.birthDate}</dd>
+          <dd>${requester.birthDate}</dd>
           
           <dt><g:message code="request.requester.property.adress" /> : </dt>
           <dd>
-           ${request.requester.adress.streetName}&nbsp;
-           ${request.requester.adress.postalCode}&nbsp;
-           ${request.requester.adress.city}
+           ${requester.adress.streetName}&nbsp;
+           ${requester.adress.postalCode}&nbsp;
+           ${requester.adress.city}
           </dd>
           
           <dt><g:message code="request.requester.property.mobilePhone" /> : </dt>
-          <dd>${request.requester.mobilePhone}</dd>
+          <dd>${requester.mobilePhone}</dd>
           
           <dt><g:message code="request.requester.property.eMail" /> : </dt>
-          <dd>${request.requester.email}</dd>
+          <dd>${requester.email}</dd>
           </dl>
         </div>
         <div class="yui-u"></div>

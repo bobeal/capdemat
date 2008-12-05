@@ -180,7 +180,7 @@ public class BulkyWasteCollectionRequestServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         BulkyWasteCollectionRequestFeeder.setSubject(request, 
             iBulkyWasteCollectionRequestService.getSubjectPolicy(), requester, null);
 

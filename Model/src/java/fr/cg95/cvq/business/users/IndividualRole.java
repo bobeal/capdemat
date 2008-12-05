@@ -22,7 +22,7 @@ public class IndividualRole implements Historizable, Serializable {
     /**
      * Role kind.
      */
-    private RoleEnum role;
+    private RoleType role;
 
     /**
      * Eventual home folder that is the subject of the role.
@@ -59,11 +59,11 @@ public class IndividualRole implements Historizable, Serializable {
      * @hibernate.property 
      *  column="role"
      */
-    public RoleEnum getRole() {
+    public RoleType getRole() {
         return role;
     }
 
-    public void setRole(RoleEnum role) {
+    public void setRole(RoleType role) {
         this.role = role;
     }
 

@@ -28,7 +28,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.FamilyStatusType;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -420,7 +420,7 @@ public class ServiceTestCase
         homeFolderResponsible =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,
                     FamilyStatusType.MARRIED);
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
         homeFolderResponsible.setPassword("toto");
 
         homeFolderWoman =
@@ -436,13 +436,13 @@ public class ServiceTestCase
 
         child1 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childone");
         child1.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleEnum.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(homeFolderWoman, child1, RoleEnum.CLR_MOTHER);
-        iHomeFolderService.addIndividualRole(homeFolderUncle, child1, RoleEnum.CLR_TUTOR);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(homeFolderWoman, child1, RoleType.CLR_MOTHER);
+        iHomeFolderService.addIndividualRole(homeFolderUncle, child1, RoleType.CLR_TUTOR);
         
         child2 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childtwo");
         child2.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleEnum.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleType.CLR_FATHER);
 
         List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);

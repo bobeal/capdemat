@@ -12,7 +12,7 @@ import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
@@ -132,7 +132,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     }
 
     @Override
-    public List<Individual> listByHomeFolderRole(Long homeFolderId, RoleEnum role) {
+    public List<Individual> listByHomeFolderRole(Long homeFolderId, RoleType role) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select individual from Individual as individual")
@@ -151,7 +151,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     }
 
     @Override
-    public List<Individual> listBySubjectRole(Long subjectId, RoleEnum role) {
+    public List<Individual> listBySubjectRole(Long subjectId, RoleType role) {
         StringBuffer sb = new StringBuffer();
         sb.append("select individual from Individual as individual")
             .append(" join individual.individualRoles individualRole ")
@@ -169,7 +169,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     }
 
     @Override
-    public List<Individual> listBySubjectRoles(Long subjectId, RoleEnum[] roles) {
+    public List<Individual> listBySubjectRoles(Long subjectId, RoleType[] roles) {
         StringBuffer sb = new StringBuffer();
         sb.append("select individual from Individual as individual")
             .append(" join individual.individualRoles individualRole ")

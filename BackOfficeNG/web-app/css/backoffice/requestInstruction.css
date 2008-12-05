@@ -115,25 +115,13 @@
 #requestInformation { margin-top: 10px; }
 
 /* list */
-#requestInformation div div div ul { margin: 10px; color: #666;}
-#requestInformation div div div li { 
-  padding: .5em 0 .5em 0; 
-  border-bottom:1px dashed #C1CFE2;
-}
+#requestInformation div div div ul { margin: 10px;}
+#requestInformation div div div li { padding: .7em 0; border-bottom: 1px dashed #C1CFE2; }
 
 /* form */
-#requestInformation div div div form { 
-  padding: .5em 0 .5em 0; 
-  border-bottom:1px dashed #C1CFE2;
-}
-
-#requestInformation div div div form label {
-  display:inline;
-  padding-left: 10px;
-  float:none;
-  font-weight: bold; 
-  color: #666;
- }
+#requestInformation div div div form { margin: 10px;  padding: 0; }
+#requestInformation div div div form label { display: block; float: none; margin: 0; text-align: left; }
+#requestInformation div div div form input { margin: 0; }
  
 /* definition list (for homeFolder.individual) */
 #requestInformation dl {
@@ -161,9 +149,8 @@
   border-left: 1px dashed #aaaaaa;
 }
 
-#requestInformation .tag-state {
-  float: right;
-}
+#requestInformation .tag-state { float: right; }
+#requestInformation .comment   { font-size: 1.4em; font-weight: normal; }
 
 /* request instruction worflow panel
 -------------------------------------------------------------- */

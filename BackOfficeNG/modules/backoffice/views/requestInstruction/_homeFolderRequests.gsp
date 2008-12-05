@@ -1,1 +1,3 @@
-Les autres demandes de mon foyer !
+<ul>
+  <g:render template="/backofficeRequest/searchResult" var="record" collection="${records}" />
+</ul>

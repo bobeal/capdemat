@@ -12,9 +12,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   var yus = YAHOO.util.Selector;
   var yud = YAHOO.util.Dom;
   var ylj = YAHOO.lang.JSON;
-  var ywtv = YAHOO.widget.TabView;
-  var ywt = YAHOO.widget.Tab;
-  var ywp = YAHOO.widget.Panel;
   var yl = YAHOO.lang;
   var yw = YAHOO.widget;
   var yu = YAHOO.util;
@@ -22,30 +19,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   zcbr.Instruction = function() {
 
     function init() {
-      /* tabviews */
-      var requestInformationTabview = new ywtv();
-      requestInformationTabview.addTab( new ywt({
-          label: 'Historique', dataSrc: zcb.baseUrl + '/requestActions/' + zcb.requestId,
-          cacheData: true, active: true }));
-      requestInformationTabview.addTab( new ywt({
-          label: 'Commentaires', dataSrc: zcb.baseUrl + '/requestNotes/' + zcb.requestId,
-          cacheData: false }));
-      requestInformationTabview.addTab( new ywt({
-          label: 'Compte', dataSrc: zcb.baseUrl + '/homeFolder',
-          cacheData: true }));
-      requestInformationTabview.addTab( new ywt({
-          label: 'Demandes', dataSrc: zcb.baseUrl + '/homeFolderRequests/' + zcb.requestId,
-          cacheData: true }));
-      requestInformationTabview.addTab( new ywt({
-          label: 'Aide', dataSrc: zcb.baseUrl + '/help',
-          cacheData: true }));
-
-      requestInformationTabview.appendTo('requestInformation');
-
+      /* tabview */
       zcbr.Instruction.dataTabView = new yw.TabView('requestData');
 
       /* panels */
-      zcb.instructionStatePanel = new ywp(
+      zcb.instructionStatePanel = new yw.Panel(
         'instructionStatePanel',
         { width: '135%',
           visible: false,
@@ -54,7 +32,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         });
       zcb.instructionStatePanel.render();
 
-      zcb.requestDocumentPanel = new ywp(
+      zcb.requestDocumentPanel = new yw.Panel(
         'requestDocumentPanel',
         { width: '800px', y: 120,
           visible: false,
@@ -63,7 +41,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         });
       zcb.requestDocumentPanel.render();
 
-      zcb.ecitizenContactPanel = new ywp(
+      zcb.ecitizenContactPanel = new yw.Panel(
         'ecitizenContactPanel',
         { width: '650px',
           visible: false,
@@ -275,15 +253,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             return;
           
           zct.doAjaxFormSubmitCall(formEl.id, null, function(o) {
-                var response = ylj.parse(o.responseText);
-                if (response.status === 'ok') {
-                  zcb.Condition.run(e);
-                  modifyField(targetEl, true);
-                  yud.setStyle(formEl.id.replace('_Form', ''), 'background', '#aaffaa');
-                }
-                else {
-                  yud.get(formId + 'Error').innerHTML = response.error_msg;
-                }
+              var response = ylj.parse(o.responseText);
+              if (response.status === 'ok') {
+                zcb.Condition.run(e);
+                modifyField(targetEl, true);
+                yud.setStyle(formEl.id.replace('_Form', ''), 'background', '#aaffaa');
+              }
+              else {
+                yud.get(formId + 'Error').innerHTML = response.error_msg;
+              }
           });
       },
       revertField : function (e) {
@@ -296,8 +274,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   YAHOO.util.Event.onDOMReady(zcbr.Instruction.init);
   
   /*
-  * ecitizen contact management
-  * ------------------------------------------------------------------------------------------ */
+   * ecitizen contact management
+   * ------------------------------------------------------------------------------------------ */
   
   zcbr.Contact = function() {
 
@@ -485,6 +463,79 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   });
 
   YAHOO.util.Event.onDOMReady(zcbr.Contact.init);
+  
+  
+  /*
+   * request Instruction Information
+   * ------------------------------------------------------------------------------------------ */
+  
+  zcbr.Information = function() {
+
+    return {
+      clickEvent : undefined,
+      
+      init: function() {
+          var infoTabView = new yw.TabView();
+          infoTabView.addTab( new yw.Tab({
+              label: 'Historique', dataSrc: zcb.baseUrl + '/requestActions/' + zcb.requestId,
+              cacheData: true, active: true }));
+          infoTabView.addTab( new yw.Tab({
+              label: 'Commentaires', dataSrc: zcb.baseUrl + '/requestNotes/' + zcb.requestId,
+              }));
+          infoTabView.addTab( new yw.Tab({
+              label: 'Compte', dataSrc: zcb.baseUrl + '/homeFolder',
+              cacheData: true }));
+          infoTabView.addTab( new yw.Tab({
+              label: 'Demandes', dataSrc: zcb.baseUrl + '/homeFolderRequests/' + zcb.requestId,
+              cacheData: true }));
+          infoTabView.addTab( new yw.Tab({
+              label: 'Aide', dataSrc: zcb.baseUrl + '/help',
+              cacheData: true }));
+
+          infoTabView.appendTo('requestInformation');
+          
+          // TODO - disable 'enter' key event in 'note' input
+//          yue.onAvailable('note', function() {
+//            var noteKl = new yu.KeyListener ('note', {key: 13}, null);
+//            noteKl.disable();
+//          });
+          
+          zcbr.Information.clickEvent = new zct.Event(zcbr.Information, zcbr.Information.getHandler);
+          yue.on('requestInformation','click', zcbr.Information.clickEvent.dispatch,
+            zcbr.Information.clickEvent, true
+          );
+      },
+      
+      getHandler : function(e) {
+          var target = yue.getTarget(e);
+          return target.id;
+      },
+      
+      submitNote : function(e) {
+          var formEl = yud.getAncestorByTagName(yue.getTarget(e), 'form');
+          
+          zct.doAjaxFormSubmitCall(formEl.id, null, function(o) {
+              var json = ylj.parse(o.responseText);
+              if (json.status === 'ok') {
+                zcbr.Information.refreshNotes(yud.getAncestorBy(formEl), json.success_msg);
+              }
+              else {
+                //
+                // zct.Notifier.processMessage('error',json.error_msg,'noteMsg');
+              }
+          });
+      },
+      
+      refreshNotes : function(el, msg) {
+          zct.doAjaxCall('/requestNotes/' + zcb.requestId, null, function(o) {
+              zct.html(el, o.responseText);     
+              zct.Notifier.processMessage('success',msg,'noteMsg');      
+          });
+      }
+    };
+
+  }();
+  YAHOO.util.Event.onDOMReady(zcbr.Information.init);
 
 }()
 

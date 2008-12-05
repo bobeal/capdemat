@@ -17,11 +17,11 @@
           </a>
         </p>
         <p>
-          <g:message code="request.searchResult.creationDate" /> 
-          <span>${record.creationDate}</span> - 
+          <g:message code="request.searchResult.creationDate" 
+            args="${[formatDate(date:record.creationDate,formatName:'format.date')]}"/> 
           <g:if test="${record.lastModificationDate}">
-            <g:message code="request.property.lastModificationDate" />
-            ${record.lastModificationDate}
+            - <g:message code="request.property.lastModificationDate" />
+            <g:formatDate date="${record.lastModificationDate}" formatName="format.date" />
             <g:if test="${record.lastInterveningAgentId}">
               <g:message code="layout.by" />
               ${record.lastInterveningAgentId}

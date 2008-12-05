@@ -8,7 +8,7 @@
         <g:message code="homeFolder.header.born" />
         <g:if test="${record?.birthDate}">
           <g:message code="homeFolder.header.on" />
-          ${format('value':record.birthDate,'formatName':'format.date')}
+          ${formatDate(date:record.birthDate,formatName:'format.date')}
         </g:if>
         <g:if test="${record?.birthCity || record?.birthPostalCode || record?.birthCountry}">
           <g:message code="homeFolder.header.in" /> 

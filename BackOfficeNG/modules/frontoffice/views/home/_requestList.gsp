@@ -13,6 +13,8 @@
             <g:if test="${record.subjectLastName && record.subjectLastName != ''}">
              <g:message code="layout.for" /> ${record.subjectLastName} ${record.subjectFirstName}
             </g:if>
+            - <g:message code="request.searchResult.creationDate"
+              args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" />
         </li>
       </g:each>
     </ul>

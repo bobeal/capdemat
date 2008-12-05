@@ -299,7 +299,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         ${request.requestName}Feeder.setSubject(request, 
             i${request.requestName}Service.getSubjectPolicy(), requester, null);
 

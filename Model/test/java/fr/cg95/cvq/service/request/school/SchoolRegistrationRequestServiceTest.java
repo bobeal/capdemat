@@ -188,7 +188,7 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         SchoolRegistrationRequestFeeder.setSubject(request, 
             iSchoolRegistrationRequestService.getSubjectPolicy(), requester, null);
 

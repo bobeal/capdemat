@@ -214,7 +214,7 @@ public class MarriageDetailsRequestServiceTest extends ServiceTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         MarriageDetailsRequestFeeder.setSubject(request, 
             iMarriageDetailsRequestService.getSubjectPolicy(), requester, null);
 

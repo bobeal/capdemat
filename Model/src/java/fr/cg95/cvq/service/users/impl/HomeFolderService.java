@@ -21,7 +21,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
@@ -264,7 +264,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void addHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+    public void addHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
             throws CvqException {
 
         Individual owner = individualService.getById(ownerId);
@@ -277,7 +277,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
-    public void addHomeFolderRole(Individual owner, RoleEnum role)
+    public void addHomeFolderRole(Individual owner, RoleType role)
             throws CvqException {
 
         IndividualRole individualRole = new IndividualRole();
@@ -287,7 +287,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void addIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+    public void addIndividualRole(Long ownerId, Individual individual, RoleType role)
             throws CvqException {
 
         Individual owner = individualService.getById(ownerId);
@@ -301,7 +301,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     }
 
     @Override
-    public void addIndividualRole(Individual owner, Individual individual, RoleEnum role)
+    public void addIndividualRole(Individual owner, Individual individual, RoleType role)
             throws CvqException {
 
         IndividualRole individualRole = new IndividualRole();
@@ -339,7 +339,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public boolean removeHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+    public boolean removeHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
             throws CvqException {
         Individual owner = individualService.getById(ownerId);
         if (owner.getIndividualRoles() == null)
@@ -362,7 +362,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public boolean removeIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+    public boolean removeIndividualRole(Long ownerId, Individual individual, RoleType role)
             throws CvqException {
 
         Individual owner = individualService.getById(ownerId);
@@ -407,7 +407,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         for (Adult adult : adults) {
             if (adult.getIndividualRoles() != null) {
                 for (IndividualRole individualRole : adult.getIndividualRoles()) {
-                    if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                    if (individualRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
                         logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
                                 + " is home folder responsible");
                         if (foundHomeFolderResponsible)
@@ -415,7 +415,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
                         foundHomeFolderResponsible = true;
                         individualRole.setHomeFolderId(homeFolderId);
                         individualService.modify(adult);
-                    } else if (individualRole.getRole().equals(RoleEnum.TUTOR)) {
+                    } else if (individualRole.getRole().equals(RoleType.TUTOR)) {
                         logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
                                 + " is tutor");
                         String individualName = individualRole.getIndividualName();
@@ -434,9 +434,9 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
                             individualRole.setHomeFolderId(homeFolderId);
                         }
                         individualService.modify(adult);
-                    } else if (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
-                            || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
-                            || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)) {
+                    } else if (individualRole.getRole().equals(RoleType.CLR_FATHER)
+                            || individualRole.getRole().equals(RoleType.CLR_MOTHER)
+                            || individualRole.getRole().equals(RoleType.CLR_TUTOR)) {
                         logger.debug("checkAndFinalizeRoles() adult " + adult.getId() 
                                 + " is " + individualRole.getRole() + " for "
                                 + individualRole.getIndividualName() + "("
@@ -457,7 +457,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         }
         
         // check all children have at least a legal responsible
-        RoleEnum[] roles = {RoleEnum.CLR_FATHER, RoleEnum.CLR_MOTHER, RoleEnum.CLR_TUTOR};
+        RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR};
         if (children != null) {
             for (Child child : children) {
                 // TODO REFACTORING : there is something strange here !
@@ -468,9 +468,9 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
                     if (adult.getIndividualRoles() != null) {
                         for (IndividualRole individualRole : adult.getIndividualRoles()) {
                             if (child.getId().equals(individualRole.getIndividualId())
-                                    && (individualRole.getRole().equals(RoleEnum.CLR_FATHER)
-                                            || individualRole.getRole().equals(RoleEnum.CLR_MOTHER)
-                                            || individualRole.getRole().equals(RoleEnum.CLR_TUTOR)))
+                                    && (individualRole.getRole().equals(RoleType.CLR_FATHER)
+                                            || individualRole.getRole().equals(RoleType.CLR_MOTHER)
+                                            || individualRole.getRole().equals(RoleType.CLR_TUTOR)))
                                 legalResponsibles.add(adult);
                         }
                     }
@@ -490,7 +490,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleEnum role)
+    public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
             throws CvqException {
         
         Individual owner = individualService.getById(ownerId);
@@ -508,7 +508,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public boolean hasIndividualRole(Long ownerId, Individual individual, RoleEnum role)
+    public boolean hasIndividualRole(Long ownerId, Individual individual, RoleType role)
             throws CvqException {
 
         Individual owner = individualService.getById(ownerId);
@@ -536,7 +536,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     public Adult getHomeFolderResponsible(Long homeFolderId) throws CvqException {
         
         List<Individual> individuals = 
-            individualDAO.listByHomeFolderRole(homeFolderId, RoleEnum.HOME_FOLDER_RESPONSIBLE);
+            individualDAO.listByHomeFolderRole(homeFolderId, RoleType.HOME_FOLDER_RESPONSIBLE);
         
         // here we can make the assumption that we properly enforced the role
         return (Adult) individuals.get(0);
@@ -544,19 +544,19 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Individual> getByHomeFolderRole(Long homeFolderId, RoleEnum role) {
+    public List<Individual> getByHomeFolderRole(Long homeFolderId, RoleType role) {
         return individualDAO.listByHomeFolderRole(homeFolderId, role);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Individual> getBySubjectRole(Long subjectId, RoleEnum role) {
+    public List<Individual> getBySubjectRole(Long subjectId, RoleType role) {
         return individualDAO.listBySubjectRole(subjectId, role);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Individual> getBySubjectRoles(Long subjectId, RoleEnum[] roles) {
+    public List<Individual> getBySubjectRoles(Long subjectId, RoleType[] roles) {
         return individualDAO.listBySubjectRoles(subjectId, roles);
     }
 

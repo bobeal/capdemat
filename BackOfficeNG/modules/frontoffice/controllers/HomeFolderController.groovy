@@ -35,7 +35,7 @@ class HomeFolderController {
         homeFolderService.getChildren(homeFolderId).each{
             def rs = []
             homeFolderService.getBySubjectRoles(it.id,
-                [RoleEnum.CLR_FATHER,RoleEnum.CLR_MOTHER,RoleEnum.CLR_TUTOR] as RoleEnum[]).each {
+                [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]).each {
                 rs.add(['fullName': "${it.firstName} ${it.lastName}"])
             }
             result.children.add([

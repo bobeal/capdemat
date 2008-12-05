@@ -25,7 +25,7 @@ import fr.cg95.cvq.business.users.HistoryEntry;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.hibernate.HistoryInterceptor;
 import fr.cg95.cvq.dao.users.IHistoryEntryDAO;
@@ -228,7 +228,7 @@ public class HomeFolderModificationRequestService
             if (loggedInUserChange) {
 
                 for (IndividualRole individualRole : adult.getIndividualRoles()) {
-                    if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                    if (individualRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
                         logger.debug("modify() Got the new logged in user with login : "
                                 + adult.getLogin());
                         cb = new CreationBean();

@@ -9,7 +9,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
@@ -78,29 +78,29 @@ public interface IHomeFolderService {
     /////////////////////////////////////
     
     void addHomeFolderRole(@IsIndividual final Long ownerId, 
-            @IsHomeFolder final Long homeFolderId, final RoleEnum role)
+            @IsHomeFolder final Long homeFolderId, final RoleType role)
         throws CvqException;
     
-    void addHomeFolderRole(@IsIndividual final Individual owner, final RoleEnum role)
+    void addHomeFolderRole(@IsIndividual final Individual owner, final RoleType role)
         throws CvqException;
 
     void addIndividualRole(@IsIndividual final Long ownerId, 
-            final Individual individual, final RoleEnum role)
+            final Individual individual, final RoleType role)
         throws CvqException;
     
     void addIndividualRole(@IsIndividual final Individual owner, 
-            final Individual individual, final RoleEnum role)
+            final Individual individual, final RoleType role)
         throws CvqException;
 
     void removeRolesOnSubject(@IsHomeFolder final Long homeFolderId, final Long individualId)
         throws CvqException;    
 
     boolean removeHomeFolderRole(@IsIndividual final Long ownerId, 
-            @IsHomeFolder final Long homeFolderId, final RoleEnum role)
+            @IsHomeFolder final Long homeFolderId, final RoleType role)
         throws CvqException;
     
     boolean removeIndividualRole(@IsIndividual final Long ownerId, final Individual individual, 
-            final RoleEnum role)
+            final RoleType role)
         throws CvqException;
     
     /**
@@ -115,27 +115,27 @@ public interface IHomeFolderService {
         throws CvqException, CvqModelException;
 
     boolean hasHomeFolderRole(@IsIndividual final Long ownerId, 
-            @IsHomeFolder final Long homeFolderId, final RoleEnum role)
+            @IsHomeFolder final Long homeFolderId, final RoleType role)
         throws CvqException;
     
     boolean hasIndividualRole(@IsIndividual final Long ownerId, 
-            final Individual individual, final RoleEnum role)
+            final Individual individual, final RoleType role)
         throws CvqException;
     
     /**
      * Get the adult that has the 
-     * {@link RoleEnum#HOME_FOLDER_RESPONSIBLE home folder responsible role} on the
+     * {@link RoleType#HOME_FOLDER_RESPONSIBLE home folder responsible role} on the
      * given home folder.
      */
     Adult getHomeFolderResponsible(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
     
     List<Individual> getByHomeFolderRole(@IsHomeFolder final Long homeFolderId, 
-            RoleEnum role);
+            RoleType role);
 
-    List<Individual> getBySubjectRole(@IsIndividual Long subjectId, RoleEnum role);
+    List<Individual> getBySubjectRole(@IsIndividual Long subjectId, RoleType role);
 
-    List<Individual> getBySubjectRoles(@IsIndividual Long subjectId, RoleEnum[] roles);
+    List<Individual> getBySubjectRoles(@IsIndividual Long subjectId, RoleType[] roles);
 
     /**
      * Get external accounts information and state for the given home folder. Designed

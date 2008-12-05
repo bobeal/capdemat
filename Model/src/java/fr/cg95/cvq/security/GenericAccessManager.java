@@ -8,7 +8,7 @@ import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.IndividualRole;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 
 public class GenericAccessManager {
@@ -47,8 +47,8 @@ public class GenericAccessManager {
                     Set<IndividualRole> homeFolderRoles = credentialBean.getHomeFolderRoles();
                     boolean hasRequiredHomeFolderRole = false;
                     for (IndividualRole homeFolderRole : homeFolderRoles) {
-                        if (homeFolderRole.getRole().equals(RoleEnum.TUTOR)
-                                || homeFolderRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                        if (homeFolderRole.getRole().equals(RoleType.TUTOR)
+                                || homeFolderRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
                             hasRequiredHomeFolderRole = true;
                             break;
                         }
@@ -85,8 +85,8 @@ public class GenericAccessManager {
                 // first check home folder scoped roles
                 Set<IndividualRole> homeFolderRoles = credentialBean.getHomeFolderRoles();
                 for (IndividualRole homeFolderRole : homeFolderRoles) {
-                    if (homeFolderRole.getRole().equals(RoleEnum.TUTOR)
-                            || homeFolderRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                    if (homeFolderRole.getRole().equals(RoleType.TUTOR)
+                            || homeFolderRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
                         hasRequiredIndividualRole = true;
                         break;
                     }
@@ -98,7 +98,7 @@ public class GenericAccessManager {
                         credentialBean.getIndividualRoles(individualId);
                     for (IndividualRole individualRole : individualRoles) {
                         if (individualRole.getIndividualId().equals(individualId)
-                                && individualRole.getRole().equals(RoleEnum.TUTOR)) {
+                                && individualRole.getRole().equals(RoleType.TUTOR)) {
                             hasRequiredIndividualRole = true;
                             break;
                         }

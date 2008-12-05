@@ -11,7 +11,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.IndividualRole;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
@@ -53,7 +53,7 @@ public final class VoCardRequestService
         for (Adult adult : adults) {
             if (adult.getIndividualRoles() != null) {
                 for (IndividualRole individualRole : adult.getIndividualRoles()) {
-                    if (individualRole.getRole().equals(RoleEnum.HOME_FOLDER_RESPONSIBLE)) {
+                    if (individualRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
                         homeFolderResponsible = adult;
                         break;
                     }

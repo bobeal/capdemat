@@ -23,7 +23,7 @@ import fr.cg95.cvq.business.users.HistoryEntry;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
-import fr.cg95.cvq.business.users.RoleEnum;
+import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
@@ -259,15 +259,15 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "adult", "new", 
                 null, FamilyStatusType.SINGLE);
         adults.add(newAdult);
-        iHomeFolderService.addIndividualRole(newAdult, child1, RoleEnum.CLR_TUTOR);
+        iHomeFolderService.addIndividualRole(newAdult, child1, RoleType.CLR_TUTOR);
         
         iHomeFolderService.removeIndividualRole(homeFolderUncle.getId(), child1, 
-                RoleEnum.CLR_TUTOR); 
+                RoleType.CLR_TUTOR); 
         
         newChild = BusinessObjectsFactory.gimmeChild("child", "new");
         iHomeFolderService.addIndividualRole(homeFolderResponsible.getId(), 
-                newChild, RoleEnum.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(newAdult, newChild, RoleEnum.CLR_TUTOR);
+                newChild, RoleType.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(newAdult, newChild, RoleType.CLR_TUTOR);
         children.add(newChild);
 
         iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
@@ -299,10 +299,10 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         assertEquals(2, adult.getIndividualRoles().size());
         IndividualRole individualRole = adult.getIndividualRoles().iterator().next();
         if (individualRole.getIndividualId().equals(child1.getId())) {
-            assertEquals(RoleEnum.CLR_TUTOR, individualRole.getRole());
+            assertEquals(RoleType.CLR_TUTOR, individualRole.getRole());
             assertEquals(child1.getId(), individualRole.getIndividualId());
         } else if (individualRole.getIndividualId().equals(newChild.getId())) {
-            assertEquals(RoleEnum.CLR_TUTOR, individualRole.getRole());
+            assertEquals(RoleType.CLR_TUTOR, individualRole.getRole());
             assertEquals(newChild.getId(), individualRole.getIndividualId());            
         } else {
             fail("should have been one of above");
@@ -319,7 +319,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             continueWithNewTransaction();
 
             List<Individual> individuals = 
-                iHomeFolderService.getBySubjectRole(child1.getId(), RoleEnum.CLR_TUTOR);
+                iHomeFolderService.getBySubjectRole(child1.getId(), RoleType.CLR_TUTOR);
             assertEquals(1, individuals.size());
             assertEquals(newAdult.getId(), individuals.get(0).getId());
 
@@ -338,7 +338,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
                 // that was expected
             }
 
-            individuals = iHomeFolderService.getBySubjectRole(child1.getId(), RoleEnum.CLR_TUTOR);
+            individuals = iHomeFolderService.getBySubjectRole(child1.getId(), RoleType.CLR_TUTOR);
             assertEquals(1, individuals.size());
             assertEquals(homeFolderUncle.getId(), individuals.get(0).getId());
 
@@ -359,11 +359,11 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         newChild = BusinessObjectsFactory.gimmeChild("Badiane", "XXXX");
         iHomeFolderService.addIndividualRole(homeFolderResponsible.getId(), 
-                newChild, RoleEnum.CLR_FATHER);
+                newChild, RoleType.CLR_FATHER);
         iHomeFolderService.addIndividualRole(homeFolderWoman.getId(), 
-                newChild, RoleEnum.CLR_MOTHER);
+                newChild, RoleType.CLR_MOTHER);
         iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), 
-                newChild, RoleEnum.CLR_TUTOR);
+                newChild, RoleType.CLR_TUTOR);
         children.add(newChild);
 
         iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
@@ -388,7 +388,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             // check modifications have been saved
             children = iHomeFolderService.getChildren(homeFolder.getId());
             assertEquals(2, children.size());
-            RoleEnum[] roles = {RoleEnum.CLR_FATHER, RoleEnum.CLR_MOTHER, RoleEnum.CLR_TUTOR };
+            RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR };
             for (Child child : children) {
                 if (child.getFirstName().equals(child1.getFirstName())) {
                     assertEquals(child.getBirthCity(), "Paris");
@@ -462,7 +462,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         children = iHomeFolderService.getChildren(homeFolder.getId());
         assertEquals(2, children.size());
-        RoleEnum[] roles = {RoleEnum.CLR_FATHER, RoleEnum.CLR_MOTHER, RoleEnum.CLR_TUTOR };
+        RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR };
         for (Child child : children) {
             Assert.assertNotSame(child.getFirstName(), "XXXX");
             Assert.assertNotNull(child.getAdress());
@@ -574,12 +574,12 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         adults.remove(responsibleToRemove);
 
         iHomeFolderService.addHomeFolderRole(homeFolderUncle.getId(), homeFolder.getId(), 
-                RoleEnum.HOME_FOLDER_RESPONSIBLE);
-        iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), child2, RoleEnum.CLR_FATHER);
+                RoleType.HOME_FOLDER_RESPONSIBLE);
+        iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), child2, RoleType.CLR_FATHER);
         homeFolderUncle.setPassword("toto");
 
         iHomeFolderService.removeHomeFolderRole(responsibleToRemove.getId(), 
-                homeFolder.getId(), RoleEnum.HOME_FOLDER_RESPONSIBLE);
+                homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
 
         iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
     }

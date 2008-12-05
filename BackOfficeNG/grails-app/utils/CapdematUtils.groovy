@@ -31,4 +31,58 @@ class CapdematUtils {
         def transformedLabel = label.toLowerCase().replaceAll('_.',{it.toUpperCase().substring(1)})
         return "request.actionLabel.${transformedLabel}"
     }
+    
+    public static requestGroup() {
+        return [
+            'school': [ 
+                'School Registration',
+                'Perischool Activity Registration',
+                'School Canteen Registration',
+                'Recreation Activity Registration'
+            ],
+            'civil': [
+                'Death Details',
+                'Marriage Details',
+                'Birth Details',
+                'Personal Details',
+                'Military Census'
+            ],
+            'social': [
+                'Domestic Help',
+                'Handicap Allowance',
+                'Remote Support'
+            ],
+            'environment': [
+                'Bulky Waste Collection',
+                'Compostable Waste Collection'
+            ],
+            'election': [
+                'Electoral Roll Registration'
+            ],
+            'security': [
+                'Holiday Security'
+            ],
+            'leisure': [
+                'Sms Notification',
+                'Music School Registration'
+            ],
+            'culture': [
+                'Place Reservation', 
+                'Library Registration'
+            ],
+            'technical': [
+                'Technical Intervention'
+            ],
+            'urbanisme': [
+                'Sewer Connection',
+                'Alignment Certificate'
+            ]
+//            ,
+//            'ecitizen' : [
+//                'VO Card Request',
+//                'Home Folder Modification'
+//            ]
+        ]
+
+    }
 }

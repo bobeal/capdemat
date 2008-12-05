@@ -87,6 +87,10 @@ class HomeController {
         }
         return docs;
     }
+    
+    def login = {
+      return ['login': true, 'groups': CapdematUtils.requestGroup()]
+    }
 
     def protected getTopFiveRequests = {
         

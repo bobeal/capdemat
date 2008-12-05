@@ -1,6 +1,5 @@
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.request.Request
-import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.payment.IPaymentService
@@ -21,18 +20,14 @@ class HomeController {
     
     IRequestService defaultRequestService
     LocalAuthorityRegistry localAuthorityRegistry
-    IMarriageDetailsRequestService marriageDetailsRequestService
     IHomeFolderService homeFolderService
     IPaymentService paymentService
     IDocumentService documentService
     IIndividualService individualService
     
     Adult currentEcitizen
-    MarriageDetailsRequest mdr 
     
     def defaultAction = "index"
-    
-    def currentTab = "tab1"
     
     def beforeInterceptor = {
         this.currentEcitizen = SecurityContext.getCurrentEcitizen();
@@ -60,11 +55,10 @@ class HomeController {
         payments.all.each{
             payments.records.add([
                 'id' : it.id,
-                'initializationDate' : DateUtils.formatDate(it.initializationDate),
-                'commitDate' : DateUtils.formatDate(it.commitDate),
+                'initializationDate' : it.initializationDate,
                 'state' : it.state.toString(),
                 'bankReference' : it.bankReference,
-                'amount' : it.amount,
+                'amount' : it.euroAmount,
                 'paymentMode' : message(code:"payment.mode."+it.paymentMode.toString())
             ]);
         }
@@ -113,8 +107,8 @@ class HomeController {
     
     def protected getTopFivePayments = {
         return [
-            'all' : paymentService. extendedGet(null, null, null, null, null, null, null, null, 
-                this.currentEcitizen.homeFolder.id, null, 'commitDate', 'DESC', 5, 0),
+            'all' : paymentService.extendedGet(null, null, null, null, null, null, null, null, 
+                this.currentEcitizen.homeFolder.id, null, 'initializationDate', 'desc', 5, 0),
             'count' : paymentService.getPaymentCount(null, null, null, null, null, null, null, 
                 null, this.currentEcitizen.homeFolder.id, null),
             'records' : []

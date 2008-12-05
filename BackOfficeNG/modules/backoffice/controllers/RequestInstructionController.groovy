@@ -396,7 +396,7 @@ class RequestInstructionController {
           ]
           records.add(record)
         }
-        render(template:'/backofficeRequest/searchResult', collection: records, var:'record')
+        render(template:'homeFolderRequests', model: ['records': records])
     }
 
     def requestActions = {
@@ -437,13 +437,14 @@ class RequestInstructionController {
         render(template:'requestNotes', model:['requestNoteList':requestNoteList,'requestId':params.id])
     }
 
-    def addRequestNote = {
-        if (params.requestId != null && params.newRequestNote != null)
-            defaultRequestService.addNote(Long.valueOf(params.requestId),
-                    RequestNoteType.DEFAULT_NOTE, params.newRequestNote)
-        else
-            redirect(controller:"request")
-        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+    def requestNote = {
+        if (params.requestId != null && params.note != null) {
+            defaultRequestService.addNote(
+                Long.valueOf(params.requestId), RequestNoteType.DEFAULT_NOTE, params.note)
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } else
+            render ([status: "error", error_msg:message(code:"error.missingParmeter")] as JSON)
+        
     }
     
    

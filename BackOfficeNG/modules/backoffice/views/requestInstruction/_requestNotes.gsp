@@ -1,7 +1,8 @@
-<form method="POST" id="requestNoteForm" action="${createLink(action:'addRequestNote')}">
-  <label for="newRequestNote"><g:message code="request.note.addLabel" /></label>
-  <input type="text" id="newRequestNote" name="newRequestNote" size="60" />
-  <input type="button" id="submitNewRequestNote" name="submitNewRequestNote" 
+<form method="POST" id="requestNoteForm" action="${createLink(action:'requestNote')}">
+  <div id="noteMsg" style="display:none"></div>
+  <label for="note"><g:message code="request.note.addLabel" /></label>
+  <input type="text" id="note" name="note" size="60" />
+  <input type="button" id="submitNote" name="submitNote" 
     value="${message(code:'action.save')}"  />
   <input type="hidden" id="requestId" name="requestId" value="${requestId}">
 </form>
@@ -13,15 +14,14 @@
   <ul>
     <g:each var="requestNote" in="${requestNoteList}">
       <li>
-        <span class="first-line">
-            <b>${requestNote.type}</b>
-            - <g:message code="request.property.comment" /> n° <b>${requestNote.id}</b>
-            - <g:message code="layout.from" /> <b>${requestNote.agent_name}</b>
-        </span>
-        <br/>
-        <span class="second-line">
-            <u><g:message code="request.property.comment" /></u> : ${requestNote.note}
-        </span>
+        <span class="tag-state">${requestNote.type}</span>
+        <p class="comment">
+          ${requestNote.note}
+        </p>
+        <p>
+          <g:message code="request.property.comment" /> n° <strong>${requestNote.id}</strong>
+          <g:message code="layout.from" /> <strong>${requestNote.agent_name}</strong>
+        </p>
       </li>
     </g:each>
   </ul>

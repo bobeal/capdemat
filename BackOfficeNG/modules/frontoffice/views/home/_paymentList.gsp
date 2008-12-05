@@ -6,16 +6,16 @@
         <li>
             <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="payment.state" />
             <p>
-              <g:message code="payment.property.paymentMode" /> : 
-              <span>${record.paymentMode},</span>
-              <g:message code="payment.property.amount" /> : 
-              <span>${record.amount},</span>
-            </p>
-            <p>
-              <g:message code="payment.property.initializationDate" /> : 
-              <span>${record.initializationDate},</span>
-              <g:message code="payment.property.commitDate" /> : 
-              <span>${record.commitDate}</span>
+              <g:message code="payment.property.payment" /> 
+              <g:if test="${record.bankReference}">
+                ${record.bankReference}
+              </g:if>
+              <g:message code="payment.searchResult.amount" /> 
+              <span><g:formatNumber number="${record.amount / 100}" formatName="format.currency"/></span>
+              - <g:message code="payment.searchResult.paidBy" />  
+              <span>${record.paymentMode}</span>
+              <g:message code="payment.searchResult.initializationDate" /> 
+              <g:formatDate date="${record.initializationDate}" formatName="format.fullDate"/>
             </p>
         </li>
       </g:each>
@@ -27,6 +27,6 @@
     </p>
   </g:if>
   <g:else>
-    <strong><g:message code="message.noDocuments" /></strong>
+    <strong><g:message code="message.noPayments" /></strong>
   </g:else>
 </div>

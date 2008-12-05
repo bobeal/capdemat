@@ -24,7 +24,7 @@ class CapdematUtils {
     }
 
     public static adaptDocumentTypeName(name) {
-        return "documentType.${name.trim().replaceAll(/^\w/,{it.toLowerCase()}).replaceAll(/\s+/,'')}"
+        return "documentType."+ StringUtils.firstCase(name.replaceAll(' ',''),"Lower")
     }
     
     public static adaptRequestActionLabel(label) {

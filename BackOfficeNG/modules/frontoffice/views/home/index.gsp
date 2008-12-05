@@ -4,7 +4,6 @@
   </head>
   
   <body>
-    <form action="${createLink(action:'index')}" method="post" id="mainForm">
       
       <div id="yui-main"> 
         <div id="main" class="yui-b">
@@ -18,11 +17,10 @@
           <g:render template="documentList" />
         </div> 
       </div> 
+
       <div id="narrow" class="yui-b">
       </div>
       
-      <g:hiddenField name="ps" value="${pageState}" />
-    </form>
   </body>
 </html>
 

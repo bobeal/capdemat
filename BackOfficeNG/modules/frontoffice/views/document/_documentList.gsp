@@ -1,4 +1,4 @@
-<g:if test="${documents?.all?.size() > 0}">
+<g:if test="${documents.count > 0}">
   <ul>
     <g:each var="record" in="${documents.all}">
       <li>
@@ -11,31 +11,27 @@
           </g:if>
           <span>
             ${record.title}
-            <g:if test="${record?.subject}">
+            <g:if test="${record.subject}">
                (${record.subject})
             </g:if> 
           </span>
-          <g:if test="${record?.endValidityDate}">
+          <g:if test="${record.endValidityDate}">
             <g:message code="message.expireOn" />
             <span>
-              ${format('value':record.endValidityDate,'formatName':'format.date')}
+              ${formatDate(date:record.endValidityDate,formatName:'format.date')}
             </span>
           </g:if>
         </p>
         <p>
-          <g:if test="${record?.creationDate || record?.depositor}">
-            <span>
-              <g:message code="message.created" />
-              <g:if test="${record?.creationDate}">
-                <g:message code="message.date.on" />
-                ${format('value':record.creationDate,'formatName':'format.date')}
-              </g:if>
-              <g:if test="${record?.depositor}">
-                <g:message code="message.by" />
-                ${record.depositor?.firstName} ${record.depositor?.lastName}
-              </g:if>
-            </span>
-          </g:if>
+          <span>
+            <g:message code="message.created" />
+            <g:message code="message.date.on" />
+            ${formatDate(date:record.creationDate,formatName:'format.date')}
+            <g:if test="${record.depositor}">
+              <g:message code="message.by" />
+              ${record.depositor.firstName} ${record.depositor.lastName}
+            </g:if>
+          </span>
           <g:capdematEnumToFlag var="${record.depositType}" i18nKeyPrefix="document.depositType" />
           <g:capdematEnumToFlag var="${record.depositOrigin}" i18nKeyPrefix="document.depositOrigin" />
         </p>

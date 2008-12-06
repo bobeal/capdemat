@@ -1,9 +1,9 @@
 package fr.cg95.cvq.service.document;
 
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
-import java.util.Hashtable;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
@@ -15,8 +15,6 @@ import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
-import fr.cg95.cvq.security.annotation.Context;
-import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.document.annotation.IsDocument;
 
 /**

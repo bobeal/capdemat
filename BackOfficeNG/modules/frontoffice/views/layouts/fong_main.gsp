@@ -82,6 +82,9 @@
      <a href="http://www.zenexity.fr">Conçu et réalisé par Zenexity</a>
    </div>
    
+   <!-- hack to avoid seeing zct.notifier div -->
+   <div class="yui-skin-sam"></div>
+   
    </div> <!-- end doc -->
  
   </body>

@@ -314,7 +314,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         yue.on(select,'change',zcbr.Contact.showPanels);
         zcbr.Contact.showPanels(select[select.selectedIndex]);
         yue.on(yus.query('textarea[name=smsMessage]')[0],'keyup',function(e){
-          zct.limitArea(yue.getTarget(e),160,'smsNotifier');
+          zct.limitArea(yue.getTarget(e),130,'smsNotifier');
         });
         zcbr.Contact.changeType(yus.query('select.mails option')[0]);
       });

@@ -289,7 +289,7 @@ class RequestTypeController {
             form.setShortLabel(params.shortLabel)
             defaultRequestService.modifyRequestTypeForm(Long.valueOf(params.requestTypeId),form)
             
-            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            render([status:"ok", success_msg:message(code:"message.updateDone") ] as JSON)
         } else if(method=="get") {
             def requestForm = null
             def templates = defaultRequestService.getMailTemplates('.*[.]html$')
@@ -335,9 +335,10 @@ class RequestTypeController {
         
         if(templateFile.exists()) {
             def forms = [];
+            def content = templateFile.text + '${render("template":"templatePanel")}'
             forms.add(defaultRequestService.getRequestFormById(formId))
             
-            def template = groovyPagesTemplateEngine.createTemplate(templateFile);
+            def template = groovyPagesTemplateEngine.createTemplate(content,'page1');
             def out = new StringWriter();
             def originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
@@ -345,10 +346,9 @@ class RequestTypeController {
             requestAttributes.setOut(originalOut)
             
             render out.toString()
+        } else { 
+            render message(code:'message.templateDoesNotExist')
         }
-        
-        render message(code:'message.templateDoesNotExist')
-        //render(template:"tmp",model:['name':params.id])
     }
 }
 

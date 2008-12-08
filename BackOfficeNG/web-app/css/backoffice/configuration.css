@@ -173,3 +173,6 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
   background-color: #FFDFBF;
 }
 
+.template-panel {
+	margin: 2em;
+}

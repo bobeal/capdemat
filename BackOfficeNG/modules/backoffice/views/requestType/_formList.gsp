@@ -1,4 +1,4 @@
-<div id="insertInList"></div>
+<!--<div id="insertInList"></div>-->
 <ul id="requestFormList" class="editableList">
   <g:each in="${requestForms}" var="form">
     <li id="formItem_${form.id}">

@@ -72,8 +72,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var params = {
           typeId : zcbrp.currentId,
           formId : tform.requestFormId.value,
-          file : yu.Dom.getAncestorByTagName(target,'form')
-            .currentTemplateName.value
+          file : yu.Dom.getAncestorByTagName(target,'form').templateName.value //currentTemplateName.value
         };
         var url = ['/loadMailTemplate/?', zct.param(params)].join('');
         zct.doAjaxCall(url,[],function(o){
@@ -82,9 +81,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             .replace(/.*<body>(.*)<\/body>.*/gi,'$1')
             .replace(/\uffff/g,'\n');
           
-          var tname = yus.query('input[name=currentTemplateName]',tform,!0).value;
-          var label = ['Personnalisation de <strong>',tname,
-            '</strong> <span class="close">X</span>'].join('');
+          var tname = yus.query('input[name=label]',tform,!0).value;
+          var label = ['Personnalisation de <strong>',tname,'</strong>'].join('');
           var newTab = new YAHOO.widget.Tab({
             label: label,
             active: true,
@@ -93,6 +91,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           
           zcbrt.Manager.tabView.addTab(newTab);
           zcbrt.Manager.tabView.get('tabs')[0].set('disabled', true);
+          var templatePanel = new yu.Element('templatePanel');
+          templatePanel.appendTo(yu.Dom.get('workArea_Tab1').parentNode);
+          zct.style(templatePanel.get('element'),{'display':'block'});
           
           var divs = yus.query('div#workArea_Tab1 div');
           var editables = zct.grep(divs,function(n){
@@ -101,15 +102,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           zct.each(editables,function(i){
             yue.addListener(this,'click',zcbrt.Manager.edit);
           });
-          yue.on(newTab.getElementsByClassName('close')[0], 'click', function(e,t){
-            YAHOO.util.Event.preventDefault(e);
-            zcbrt.Manager.tabView.removeTab(t);
-            zcbrt.Manager.tabView.get('tabs')[0].set('disabled', false);
-            zcbrt.Manager.tabView.set('activeIndex', 0);
-          }, newTab);
+          yue.on(yu.Dom.get('closeWorkTab'),'click',zcbrp.Forms.closeWorkTab,newTab);
           eform.requestTypeId.value = zcbrp.currentId;
           eform.requestFormId.value = tform.requestFormId.value;
         });
+      },
+      closeWorkTab : function(e,t) {
+        YAHOO.util.Event.preventDefault(e);
+        zcbrt.Manager.tabView.removeTab(t);
+        zcbrt.Manager.tabView.get('tabs')[0].set('disabled', false);
+        zcbrt.Manager.tabView.set('activeIndex', 0);
       },
       modifyForm : function(target) {
         var form = yu.Dom.getAncestorByTagName(target,'form');
@@ -119,11 +121,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           zct.doAjaxFormSubmitCall(form.getAttribute("id"),[],function(o){
             var li = new yu.Element(form.parentNode.parentNode);
             var json = YAHOO.lang.JSON.parse(o.responseText);
-            var id = zct.val(yus.query('input[name=id]',form)[0]);
-            zcbrp.Forms.detachContainer(target);
+            var rm = zct.val(yus.query('input[name=requestFormId]',form)[0]);
             
-            li.removeChild(form.parentNode);
             zct.Notifier.processMessage('success',json.success_msg);
+            zcbrp.Forms.detachContainer(target);
+            if(!!rm) li.removeChild(form.parentNode);
             zcbrp.Forms.reloadList();
           });
         }
@@ -151,7 +153,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var formsEl = yus.query('div#requestFormList')[0];
         zct.doAjaxCall(url,[],function(o){
           formsEl.innerHTML = o.responseText;
-          var container = document.getElementById('requestFormList');
+          var container = document.getElementById('formsConfiguration');
           yue.purgeElement(container,false);
           yue.on(container,'click',zcbrp.Forms.dispatchEvent);
         });
@@ -175,8 +177,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         el.removeChild(div);
       },
       detachContainer : function(actor) {
-        o = yu.Dom.getAncestorByTagName(actor,'form')
-          .parentNode.parentNode;
+        var o = yu.Dom.getAncestorByTagName(actor,'form').parentNode.parentNode;
         delete zcbrp.Forms.containers[o.getAttribute('id')];
       },
       handlers : {

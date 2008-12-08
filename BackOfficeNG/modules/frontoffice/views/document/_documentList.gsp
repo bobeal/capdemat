@@ -18,7 +18,7 @@
           <g:if test="${record?.endValidityDate}">
             <g:message code="message.expireOn" />
             <span>
-              ${format('value':record.endValidityDate,'formatName':'format.date')}
+              <g:formatDate value="${record.endValidityDate}" formatName="format.date" />
             </span>
           </g:if>
         </p>
@@ -28,7 +28,7 @@
               <g:message code="message.created" />
               <g:if test="${record?.creationDate}">
                 <g:message code="message.date.on" />
-                ${format('value':record.creationDate,'formatName':'format.date')}
+                <g:formatDate value="${record.creationDate}" formatName="format.date" />
               </g:if>
               <g:if test="${record?.depositor}">
                 <g:message code="message.by" />

@@ -7,30 +7,30 @@
   
       <div class="yui-g login-box"> 
         <div class="yui-u first">
-          <h2>Login</h2>
+          <h2>Connexion</h2>
           <form id="loginForm" method="post" action="${createLink(action:'login')}" >
           
-            <label for="login">Login</label>
+            <label for="login">Identifiant</label>
             <input type="text" name="login" />
             
-            <label for="password">Password</label>
+            <label for="password">Mot de passe</label>
             <input type="password" name="password" />
             
-            <a href="">Forgot your password ?</a>
+            <a href="">Mot de passe oublié ?</a>
           </form>
         </div> 
         <div class="yui-u">
-          <h2>Create an account</h2>
+          <h2>Créer un compte</h2>
           
-          By creating an account, you will acces to
+          En créant un compte, vous avez accès à 
           <ul>
-            <li>all request</li>
-            <li>Family account advanced managment feature</li>
-            <li>Payment managment</li>
-            <li>Document managment</li>
-            <li>A new life without stress !</li>
+            <li>Un bouquet riche de téléservices</li>
+            <li>Des fonctionnalités avancées de gestion de votre compte famille</li>
+            <li>Du paiement sécurisé</li>
+            <li>Du stockage sécurisé de vos pièces justificatives</li>
+            <li>... Une nouvelle vie sans stress !</li>
           </ul>
-          <a id="voCardRequestLink" href="VoCardRequestCreation">Create an account</a>
+          <a id="voCardRequestLink" href="VoCardRequestCreation">Créer un compte</a>
         </div>
       </div>
        
@@ -40,10 +40,11 @@
         <g:each var="group" in="${groups}" status="i">
           <div class="group-box">
             <h3>${group.key}</h3>
+            <img style="float:left;padding:1em;" src="<g:createLinkTo dir="fong/images" file="${group.key}.gif" />" />
             <ul>
-            <g:each var="rtLabel" in="${group.value}">
-              <li><a href=""><g:translateRequestTypeLabel label="${rtLabel}"/></a></li>
-            </g:each>
+              <g:each var="rtLabel" in="${group.value}">
+                <li><a href=""><g:translateRequestTypeLabel label="${rtLabel}"/></a></li>
+              </g:each>
             </ul>
           </div>
           <g:if test="${(groups.size() - 2) / 2 < i }">  

@@ -196,24 +196,14 @@ public class FoPlugin implements IPluginGenerator {
                     }
                 }
             }
-        } else {
-            logger.debug("currentElementsStack.isEmpty");
-        }
-        // USE FOR VALIDATION elementProperties.getXmlSchemaType
-        // elementProperties.getEnumValues() MUST BE USE for Enums with no fo
-        // tag select or radio --> default select
+        } 
+        // VALIDATION
         if (!currentSimpleFoElementsStack.isEmpty()) {
             StackElementProperties topStackElement = currentElementsStack.peek();
             Element element = currentSimpleFoElementsStack.peek().getElement();
-            if (elementProperties.getMinOccurs().intValue() == 1) {
-                if (!elementProperties.isComplexType())
-                    element.setValidation(Validation.getValidation(element,
-                            elementProperties.getXmlSchemaType(), topStackElement
-                                    .getTypeNamespace(), elementProperties.getMinOccurs()
-                                    .intValue()));
-                else
-                    logger.debug("This element is required but complexType");
-            }
+            if (!elementProperties.isComplexType())
+                element.setValidation(Validation.getValidation(element, elementProperties
+                        .getXmlSchemaType(), elementProperties.getMinOccurs().intValue()));
         }
         if (elementProperties.isComplexType()) {
             if (!currentElementsStack.isEmpty()) {
@@ -246,10 +236,10 @@ public class FoPlugin implements IPluginGenerator {
 	        for (Step step : steps) {
 	           if (step.getRef() != null) {
 	               if (step.getRef().equals("validation")) {
-	                   stepName = "default_step_ref_validation";
+	                   stepName = "validationRef";
 	                   foObject.setNeededValidation(true);
 	               }
-	               if (step.getRef().equals("document")) stepName = "default_step_ref_document";   
+	               if (step.getRef().equals("document")) stepName = "documentRef";   
 	           }
 	           else stepName = step.getName();
 	           foObject.addStep(new FoStep(step.getIndex(), stepName, step.getRef()));
@@ -435,6 +425,11 @@ public class FoPlugin implements IPluginGenerator {
                         if ( !currentElementsStack.isEmpty()) {
                             selectElement.setElementTypeName(topStackElement.getType());
                             selectElement.setNamespace(topStackElement.getTypeNamespace());
+                            if (selectElement.getNamespace().contains(XMLBEANS_REFERENTIAL_NS)) {
+                                selectElement.setModelNamespace(MODEL_USERS_NS);
+                            } else {
+                                selectElement.setModelNamespace(MODEL_REQUEST_NS + "." + foObject.getNamespace());
+                            }
                             currentSimpleFoElementsStack.push(new StackElementFo(
                                     currentElementsStack.peek().getStepName(), selectElement));
                             currentElementsStack.peek().setFoElementComplete(true);
@@ -682,10 +677,7 @@ public class FoPlugin implements IPluginGenerator {
     }
 
     private void launchGroovy() {
-        //foObject.displaySteps();
         FoRenderer foRenderer = new FoRenderer(foObject, outputDir);
         foRenderer.render();
-        //FoRenderer.init(foObject, outputDir);
-        //System.out.println("Result : " + result);
     }
 }

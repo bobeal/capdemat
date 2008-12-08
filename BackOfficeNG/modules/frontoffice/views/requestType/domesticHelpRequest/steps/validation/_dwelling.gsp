@@ -21,7 +21,7 @@
 
 <!--AdditionalDeliveryInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalDeliveryInformation',
+			   		model="[forName:'dhrCurrentDwellingAddress.additionalDeliveryInformation',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -38,7 +38,7 @@
 
 <!--AdditionalGeographicalInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalGeographicalInformation',
+			   		model="[forName:'dhrCurrentDwellingAddress.additionalGeographicalInformation',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -55,7 +55,7 @@
 
 <!--StreetNumber -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetNumber',
+			   		model="[forName:'dhrCurrentDwellingAddress.streetNumber',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -72,7 +72,7 @@
 
 <!--StreetName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetName',
+			   		model="[forName:'dhrCurrentDwellingAddress.streetName',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -89,7 +89,7 @@
 
 <!--PlaceNameOrService -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'placeNameOrService',
+			   		model="[forName:'dhrCurrentDwellingAddress.placeNameOrService',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -106,7 +106,7 @@
 
 <!--PostalCode -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'postalCode',
+			   		model="[forName:'dhrCurrentDwellingAddress.postalCode',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -123,7 +123,7 @@
 
 <!--City -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'city',
+			   		model="[forName:'dhrCurrentDwellingAddress.city',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -140,7 +140,7 @@
 
 <!--CountryName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'countryName',
+			   		model="[forName:'dhrCurrentDwellingAddress.countryName',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',

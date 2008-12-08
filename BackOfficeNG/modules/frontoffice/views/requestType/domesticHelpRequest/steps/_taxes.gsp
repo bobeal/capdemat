@@ -12,7 +12,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrIncomeTax',
 			   		help:message(code:'dhr.property.dhrIncomeTax.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrIncomeTax', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -21,7 +21,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrIncomeTax', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrIncomeTax, 
 			 		title:message(code:'dhr.property.dhrIncomeTax.validationError')]"/>
@@ -32,7 +32,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'localRate',
 			   		help:message(code:'dhr.property.localRate.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'LocalRate', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -41,7 +41,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'localRate', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.localRate, 
 			 		title:message(code:'dhr.property.localRate.validationError')]"/>
@@ -52,7 +52,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'propertyTaxes',
 			   		help:message(code:'dhr.property.propertyTaxes.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'PropertyTaxes', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -61,7 +61,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'propertyTaxes', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.propertyTaxes, 
 			 		title:message(code:'dhr.property.propertyTaxes.validationError')]"/>
@@ -72,7 +72,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'professionalTaxes',
 			   		help:message(code:'dhr.property.professionalTaxes.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'ProfessionalTaxes', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -81,7 +81,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'professionalTaxes', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.professionalTaxes, 
 			 		title:message(code:'dhr.property.professionalTaxes.validationError')]"/>

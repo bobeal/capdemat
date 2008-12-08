@@ -38,191 +38,389 @@ public class HandicapAllowanceRequestServiceTest extends ServiceTestCase {
     protected HandicapAllowanceRequest fillMeARequest() throws CvqException {
 
         HandicapAllowanceRequest request = new HandicapAllowanceRequest();
-            if ("AdultRequesterFirstName".length() > 38)
-        request.setAdultRequesterFirstName("AdultRequesterFirstName".substring(0, 38));
+            request.setHarLessThan20RequesterGender(HarGenderType.MALE);
+                            request.setHarPaymentAgencyBeneficiaryNumber("HarPaymentAgencyBeneficiaryNumber");
+                    request.setHarPreviousFormation("HarPreviousFormation");
+                request.setHarFollowUp(Boolean.valueOf(true));
+            request.setHarLegalAccessPresence(Boolean.valueOf(true));
+                request.setHarSocialSecurityAgencyName("HarSocialSecurityAgencyName");
+                  if ("HarRequesterCity".length() > 32)
+        request.setHarRequesterCity("HarRequesterCity".substring(0, 32));
       else
-        request.setAdultRequesterFirstName("AdultRequesterFirstName");
-                  if ("LessThan20ReferentBirthPlaceCity".length() > 32)
-        request.setLessThan20ReferentBirthPlaceCity("LessThan20ReferentBirthPlaceCity".substring(0, 32));
+        request.setHarRequesterCity("HarRequesterCity");
+                        request.setHarDisabilityRecognition(Boolean.valueOf(true));
+            request.setHarAdditionalAllocationForEducationOfDisabledChildren(Boolean.valueOf(true));
+              if ("HarLessThan20RequesterRepresentativeFirstName".length() > 38)
+        request.setHarLessThan20RequesterRepresentativeFirstName("HarLessThan20RequesterRepresentativeFirstName".substring(0, 38));
       else
-        request.setLessThan20ReferentBirthPlaceCity("LessThan20ReferentBirthPlaceCity");
-                          if ("LessThan20FatherMobilePhone".length() > 10)
-        request.setLessThan20FatherMobilePhone("LessThan20FatherMobilePhone".substring(0, 10));
+        request.setHarLessThan20RequesterRepresentativeFirstName("HarLessThan20RequesterRepresentativeFirstName");
+                request.setHarDisabilityPension(Boolean.valueOf(true));
+            request.setHarDisabilityCard(Boolean.valueOf(true));
+            request.setHarFreePensionMembershipRequest(Boolean.valueOf(true));
+              request.setHarLessThan20RequesterAuthorityHolder(HarLessThan20RequesterAuthorityHolderType.FATHER);
+                    request.setHarHousingFacilitiesDetails("HarHousingFacilitiesDetails");
+                request.setHarSpecializedTransport(Boolean.valueOf(true));
+              if ("HarSocialSecurityAgencyPostalCode".length() > 5)
+        request.setHarSocialSecurityAgencyPostalCode("HarSocialSecurityAgencyPostalCode".substring(0, 5));
       else
-        request.setLessThan20FatherMobilePhone("LessThan20FatherMobilePhone");
-                  if ("LessThan20ReferentHomePhone".length() > 10)
-        request.setLessThan20ReferentHomePhone("LessThan20ReferentHomePhone".substring(0, 10));
+        request.setHarSocialSecurityAgencyPostalCode("HarSocialSecurityAgencyPostalCode");
+                    request.setHarSchoolAddress("HarSchoolAddress");
+                    request.setHarAttendedGrade("HarAttendedGrade");
+                request.setHarHousingFacilities(Boolean.valueOf(true));
+            request.setHarHomeSchooling(Boolean.valueOf(true));
+            request.setHarFollowedByPhysician(Boolean.valueOf(true));
+              if ("HarDwellingSocialReceptionCity".length() > 32)
+        request.setHarDwellingSocialReceptionCity("HarDwellingSocialReceptionCity".substring(0, 32));
       else
-        request.setLessThan20ReferentHomePhone("LessThan20ReferentHomePhone");
-                        	    request.setLessThan20ReferentAddress(address);
-                        request.setWritingHelp(Boolean.valueOf(true));
-            request.setFamilyHasFamilyDependents(Boolean.valueOf(true));
-                request.setLessThan20ParentalAuthorityDepartment("LessThan20ParentalAuthorityDepartment");
-                  if ("LessThan20LegalRepresentativeHomePhone".length() > 10)
-        request.setLessThan20LegalRepresentativeHomePhone("LessThan20LegalRepresentativeHomePhone".substring(0, 10));
+        request.setHarDwellingSocialReceptionCity("HarDwellingSocialReceptionCity");
+                request.setHarOtherRequest(Boolean.valueOf(true));
+            request.setHarParkingCard(Boolean.valueOf(true));
+              request.setFamilyStatus(HarFamilyStatusType.SINGLE);
+                  if ("HarLessThan20RequesterRepresentativeDepartment".length() > 2)
+        request.setHarLessThan20RequesterRepresentativeDepartment("HarLessThan20RequesterRepresentativeDepartment".substring(0, 2));
       else
-        request.setLessThan20LegalRepresentativeHomePhone("LessThan20LegalRepresentativeHomePhone");
-                  if ("AdultRequesterLastName".length() > 38)
-        request.setAdultRequesterLastName("AdultRequesterLastName".substring(0, 38));
+        request.setHarLessThan20RequesterRepresentativeDepartment("HarLessThan20RequesterRepresentativeDepartment");
+                    request.setHarSpecializedTransportDetails("HarSpecializedTransportDetails");
+                  if ("HarLessThan20RequesterRepresentativeCity".length() > 32)
+        request.setHarLessThan20RequesterRepresentativeCity("HarLessThan20RequesterRepresentativeCity".substring(0, 32));
       else
-        request.setAdultRequesterLastName("AdultRequesterLastName");
-                    request.setHelperResponsability("HelperResponsability");
-                  request.setPaymentAgencyBeneficiary(HarPaymentAgencyBeneficiaryType.INSURED);
-                    request.setLessThan20FatherJob("LessThan20FatherJob");
-                request.setAdultRequesterBirthDate(new Date());
-              request.setRequestInformationRequesterProfile(HarRequestInformationProfileType.ADULT);
-                  request.setRequestInformationKind(HarRequestInformationKindType.FIRST);
-                        	    request.setPaymentAgencyAddress(address);
-                                	    request.setLessThan20FatherAddress(address);
-                          if ("AdultRequesterBirthPlaceCity".length() > 32)
-        request.setAdultRequesterBirthPlaceCity("AdultRequesterBirthPlaceCity".substring(0, 32));
+        request.setHarLessThan20RequesterRepresentativeCity("HarLessThan20RequesterRepresentativeCity");
+                  if ("HarRequesterBirthCity".length() > 32)
+        request.setHarRequesterBirthCity("HarRequesterBirthCity".substring(0, 32));
       else
-        request.setAdultRequesterBirthPlaceCity("AdultRequesterBirthPlaceCity");
-                    request.setComments("Comments");
-                    request.setAdultRequesterEmail("AdultRequesterEmail");
-                        	    request.setSocialSecurityAgencyAddress(address);
-                                	    request.setDwellingReceptionAddress(address);
-                          if ("AdultRequesterMobilePhone".length() > 10)
-        request.setAdultRequesterMobilePhone("AdultRequesterMobilePhone".substring(0, 10));
+        request.setHarRequesterBirthCity("HarRequesterBirthCity");
+                    request.setHarProfessionalStatusProfession("HarProfessionalStatusProfession");
+                    request.setHarCDESDepartment("HarCDESDepartment");
+                request.setHarCompensatoryAllowanceForExpenses(Boolean.valueOf(true));
+                request.setHarPaymentAgencyAddress("HarPaymentAgencyAddress");
+                    request.setHarLessThan20RequesterRepresentativeStreetName("HarLessThan20RequesterRepresentativeStreetName");
+                request.setHarCDESFile(Boolean.valueOf(true));
+                request.setHarFollowedByPhysicianDetails("HarFollowedByPhysicianDetails");
+                  if ("HarLessThan20RequesterCity".length() > 32)
+        request.setHarLessThan20RequesterCity("HarLessThan20RequesterCity".substring(0, 32));
       else
-        request.setAdultRequesterMobilePhone("AdultRequesterMobilePhone");
-                  if ("LessThan20ReferentMobilePhone".length() > 10)
-        request.setLessThan20ReferentMobilePhone("LessThan20ReferentMobilePhone".substring(0, 10));
+        request.setHarLessThan20RequesterCity("HarLessThan20RequesterCity");
+                    request.setHarCurrentFormation("HarCurrentFormation");
+                          if ("HarLessThan20RequesterRepresentativeName".length() > 38)
+        request.setHarLessThan20RequesterRepresentativeName("HarLessThan20RequesterRepresentativeName".substring(0, 38));
       else
-        request.setLessThan20ReferentMobilePhone("LessThan20ReferentMobilePhone");
-                  if ("AdultLegalAccessRepresentativeLastName".length() > 38)
-        request.setAdultLegalAccessRepresentativeLastName("AdultLegalAccessRepresentativeLastName".substring(0, 38));
+        request.setHarLessThan20RequesterRepresentativeName("HarLessThan20RequesterRepresentativeName");
+                  if ("HarLessThan20RequesterParentFirstName".length() > 38)
+        request.setHarLessThan20RequesterParentFirstName("HarLessThan20RequesterParentFirstName".substring(0, 38));
       else
-        request.setAdultLegalAccessRepresentativeLastName("AdultLegalAccessRepresentativeLastName");
-                  request.setAdultLegalAccessKind(HarAdultLegalAccessKindType.SAUVEGARDE_JUSTICE);
-                  if ("LessThan20ReferentFirstName".length() > 38)
-        request.setLessThan20ReferentFirstName("LessThan20ReferentFirstName".substring(0, 38));
+        request.setHarLessThan20RequesterParentFirstName("HarLessThan20RequesterParentFirstName");
+                    request.setHarCOTOREPNumber("HarCOTOREPNumber");
+                request.setHarDisabledWorkerRecognition(Boolean.valueOf(true));
+              if ("HarHighSchoolCity".length() > 32)
+        request.setHarHighSchoolCity("HarHighSchoolCity".substring(0, 32));
       else
-        request.setLessThan20ReferentFirstName("LessThan20ReferentFirstName");
-                  if ("LessThan20LegalRepresentativeFirstName".length() > 38)
-        request.setLessThan20LegalRepresentativeFirstName("LessThan20LegalRepresentativeFirstName".substring(0, 38));
+        request.setHarHighSchoolCity("HarHighSchoolCity");
+                request.setHarTechnicalHelpRequest(Boolean.valueOf(true));
+                request.setHarFollowedByHospitalDetails("HarFollowedByHospitalDetails");
+                    request.setHarProjectNeeds("HarProjectNeeds");
+                    request.setHarTechnicalAssistanceDetails("HarTechnicalAssistanceDetails");
+                    request.setHarCDESNumber("HarCDESNumber");
+                    request.setHarHighSchoolGrade("HarHighSchoolGrade");
+                request.setHarHighSchool(Boolean.valueOf(true));
+                request.setHarSchoolName("HarSchoolName");
+                  if ("HarLessThan20RequesterName".length() > 38)
+        request.setHarLessThan20RequesterName("HarLessThan20RequesterName".substring(0, 38));
       else
-        request.setLessThan20LegalRepresentativeFirstName("LessThan20LegalRepresentativeFirstName");
-                  if ("LessThan20FatherFirstName".length() > 38)
-        request.setLessThan20FatherFirstName("LessThan20FatherFirstName".substring(0, 38));
+        request.setHarLessThan20RequesterName("HarLessThan20RequesterName");
+                    request.setHarLegalAccessRepresentativeKindDetail("HarLegalAccessRepresentativeKindDetail");
+                  if ("HarHomeSchoolingAccompanistFirstName".length() > 38)
+        request.setHarHomeSchoolingAccompanistFirstName("HarHomeSchoolingAccompanistFirstName".substring(0, 38));
       else
-        request.setLessThan20FatherFirstName("LessThan20FatherFirstName");
-                  if ("AdultLegalAccessRepresentativeMobilePhone".length() > 10)
-        request.setAdultLegalAccessRepresentativeMobilePhone("AdultLegalAccessRepresentativeMobilePhone".substring(0, 10));
+        request.setHarHomeSchoolingAccompanistFirstName("HarHomeSchoolingAccompanistFirstName");
+                  if ("HarHighSchoolPostalCode".length() > 5)
+        request.setHarHighSchoolPostalCode("HarHighSchoolPostalCode".substring(0, 5));
       else
-        request.setAdultLegalAccessRepresentativeMobilePhone("AdultLegalAccessRepresentativeMobilePhone");
-                    request.setLessThan20MotherReductionRatio("LessThan20MotherReductionRatio");
-                  if ("LessThan20RequesterMobilePhone".length() > 10)
-        request.setLessThan20RequesterMobilePhone("LessThan20RequesterMobilePhone".substring(0, 10));
+        request.setHarHighSchoolPostalCode("HarHighSchoolPostalCode");
+                  request.setHarRequestInformationProfile(HarRequestInformationProfileType.ADULT);
+                request.setHarIndemnified(Boolean.valueOf(true));
+                request.setHarOtherRequestDetails("HarOtherRequestDetails");
+                    request.setHarHighSchoolAddress("HarHighSchoolAddress");
+                request.setHarIsCareAssistant(Boolean.valueOf(true));
+              if ("HarLegalAccessRepresentativePostalCode".length() > 5)
+        request.setHarLegalAccessRepresentativePostalCode("HarLegalAccessRepresentativePostalCode".substring(0, 5));
       else
-        request.setLessThan20RequesterMobilePhone("LessThan20RequesterMobilePhone");
-                  if ("LessThan20FatherHomePhone".length() > 10)
-        request.setLessThan20FatherHomePhone("LessThan20FatherHomePhone".substring(0, 10));
+        request.setHarLegalAccessRepresentativePostalCode("HarLegalAccessRepresentativePostalCode");
+                request.setHarCOTOREPFile(Boolean.valueOf(true));
+            request.setHarDailyAllowances(Boolean.valueOf(true));
+              if ("HarLessThan20RequesterBirthCity".length() > 32)
+        request.setHarLessThan20RequesterBirthCity("HarLessThan20RequesterBirthCity".substring(0, 32));
       else
-        request.setLessThan20FatherHomePhone("LessThan20FatherHomePhone");
-                  request.setDwellingReceptionType(HarDwellingReceptionType.INTERNSHIP);
-                    request.setLessThan20FatherReductionRatio("LessThan20FatherReductionRatio");
-                        	    request.setAdultRequesterAddress(address);
-                            request.setPaymentAgencyName("PaymentAgencyName");
-                    request.setDwellingSocialReceptionNaming("DwellingSocialReceptionNaming");
-                  request.setFamilyStatus(FamilyStatusType.MARRIED);
-                        	    request.setLessThan20MotherAddress(address);
-                            request.setLessThan20Requester(homeFolderWoman);
-                  if ("LessThan20ParentalAuthorityName".length() > 38)
-        request.setLessThan20ParentalAuthorityName("LessThan20ParentalAuthorityName".substring(0, 38));
+        request.setHarLessThan20RequesterBirthCity("HarLessThan20RequesterBirthCity");
+                  request.setHarSocialSecurityMemberShipKind(HarSocialSecurityMemberShipKindType.INSURED);
+                  if ("HarSocialSecurityNumber".length() > 13)
+        request.setHarSocialSecurityNumber("HarSocialSecurityNumber".substring(0, 13));
       else
-        request.setLessThan20ParentalAuthorityName("LessThan20ParentalAuthorityName");
-                  if ("AdultLegalAccessRepresentativePrecision".length() > 50)
-        request.setAdultLegalAccessRepresentativePrecision("AdultLegalAccessRepresentativePrecision".substring(0, 50));
+        request.setHarSocialSecurityNumber("HarSocialSecurityNumber");
+                                  if ("HarLegalAccessRepresentativeMobilePhone".length() > 10)
+        request.setHarLegalAccessRepresentativeMobilePhone("HarLegalAccessRepresentativeMobilePhone".substring(0, 10));
       else
-        request.setAdultLegalAccessRepresentativePrecision("AdultLegalAccessRepresentativePrecision");
-                        	    request.setLessThan20LegalRepresentativeAddress(address);
-                            request.setSocialSecurityAgencyName("SocialSecurityAgencyName");
-                  request.setDwellingReceptionNaming(HarDwellingReceptionType.INTERNSHIP);
-                  if ("LessThan20MotherFirstName".length() > 38)
-        request.setLessThan20MotherFirstName("LessThan20MotherFirstName".substring(0, 38));
+        request.setHarLegalAccessRepresentativeMobilePhone("HarLegalAccessRepresentativeMobilePhone");
+                request.setHarPTCARenewalRequest(Boolean.valueOf(true));
+            request.setHarSchoolingEnrolment(Boolean.valueOf(true));
+            request.setHarSpecializedGrade(Boolean.valueOf(true));
+            request.setHarDwellingSocialReception(Boolean.valueOf(true));
+                request.setHarRequesterStreetName("HarRequesterStreetName");
+                  if ("HarLessThan20RequesterParentCity".length() > 32)
+        request.setHarLessThan20RequesterParentCity("HarLessThan20RequesterParentCity".substring(0, 32));
       else
-        request.setLessThan20MotherFirstName("LessThan20MotherFirstName");
-                  if ("SocialSecurityNumber".length() > 13)
-        request.setSocialSecurityNumber("SocialSecurityNumber".substring(0, 13));
+        request.setHarLessThan20RequesterParentCity("HarLessThan20RequesterParentCity");
+                request.setHarSupportedByAnInstitution(Boolean.valueOf(true));
+                request.setHarStudiesLevel("HarStudiesLevel");
+                request.setHarVocationalTrainingRequest(Boolean.valueOf(true));
+            request.setHarDisabledWorkerRecognitionRequest(Boolean.valueOf(true));
+                request.setHarLegalAccessRepresentativeStreetName("HarLegalAccessRepresentativeStreetName");
+                request.setHarTransportCostAllocationRequest(Boolean.valueOf(true));
+            request.setHarDisabilityCompensation(Boolean.valueOf(true));
+              request.setHarDwellingKind(HarDwellingKindType.PLACE_OF_RESIDENCE);
+                request.setHarIsFamilyCarer(Boolean.valueOf(true));
+            request.setHarCustomCar(Boolean.valueOf(true));
+            request.setHarIsCarer(Boolean.valueOf(true));
+              if ("HarLegalAccessRepresentativePhone".length() > 10)
+        request.setHarLegalAccessRepresentativePhone("HarLegalAccessRepresentativePhone".substring(0, 10));
       else
-        request.setSocialSecurityNumber("SocialSecurityNumber");
-                  if ("LessThan20MotherMobilePhone".length() > 10)
-        request.setLessThan20MotherMobilePhone("LessThan20MotherMobilePhone".substring(0, 10));
+        request.setHarLegalAccessRepresentativePhone("HarLegalAccessRepresentativePhone");
+                    request.setHarAssistanceUnderDisabilityDetails("HarAssistanceUnderDisabilityDetails");
+                  if ("HarLessThan20RequesterParentMobilePhone".length() > 10)
+        request.setHarLessThan20RequesterParentMobilePhone("HarLessThan20RequesterParentMobilePhone".substring(0, 10));
       else
-        request.setLessThan20MotherMobilePhone("LessThan20MotherMobilePhone");
-                request.setLessThan20MotherActivityReduction(Boolean.valueOf(true));
-              if ("LessThan20ReferentLastName".length() > 38)
-        request.setLessThan20ReferentLastName("LessThan20ReferentLastName".substring(0, 38));
+        request.setHarLessThan20RequesterParentMobilePhone("HarLessThan20RequesterParentMobilePhone");
+                  if ("HarLegalAccessRepresentativeName".length() > 38)
+        request.setHarLegalAccessRepresentativeName("HarLegalAccessRepresentativeName".substring(0, 38));
       else
-        request.setLessThan20ReferentLastName("LessThan20ReferentLastName");
-                    request.setAdultLegalAccessRepresentativeEmail("AdultLegalAccessRepresentativeEmail");
-                  request.setLessThan20ReferentBirthPlaceCountry(CountryType.UNKNOWN);
-                    request.setPaymentAgencyBeneficiaryNumber("PaymentAgencyBeneficiaryNumber");
-                request.setLessThan20LegalRepresentative(Boolean.valueOf(true));
-              if ("AdultLegalAccessRepresentativeHomePhone".length() > 10)
-        request.setAdultLegalAccessRepresentativeHomePhone("AdultLegalAccessRepresentativeHomePhone".substring(0, 10));
+        request.setHarLegalAccessRepresentativeName("HarLegalAccessRepresentativeName");
+                  if ("HarDwellingReceptionPostalCode".length() > 5)
+        request.setHarDwellingReceptionPostalCode("HarDwellingReceptionPostalCode".substring(0, 5));
       else
-        request.setAdultLegalAccessRepresentativeHomePhone("AdultLegalAccessRepresentativeHomePhone");
-                  request.setAdultRequesterBirthPlaceCountry(CountryType.UNKNOWN);
-                        	    request.setDwellingSocialReceptionAddress(address);
-                        request.setRequestInformationExpirationDate(new Date());
-              request.setAdultRequesterTitle(TitleType.MISTER);
-                        	    request.setAdultLegalAccessRepresentativeAddress(address);
-                          if ("LessThan20RequesterHomePhone".length() > 10)
-        request.setLessThan20RequesterHomePhone("LessThan20RequesterHomePhone".substring(0, 10));
+        request.setHarDwellingReceptionPostalCode("HarDwellingReceptionPostalCode");
+                    request.setHarCOTOREPDepartment("HarCOTOREPDepartment");
+                request.setHarProfessionalOrientation(Boolean.valueOf(true));
+              if ("HarPaymentAgencyPostalCode".length() > 5)
+        request.setHarPaymentAgencyPostalCode("HarPaymentAgencyPostalCode".substring(0, 5));
       else
-        request.setLessThan20RequesterHomePhone("LessThan20RequesterHomePhone");
-                  request.setAdultLegalAccessRepresentativeKind(HarAdultLegalAccessRepresentativeKindType.FAMILY_MEMBER);
-                request.setLessThan20ReferentBirthDate(new Date());
-            request.setAdultLegalAccessPresence(Boolean.valueOf(true));
-            request.setDwellingEstablishmentReception(Boolean.valueOf(true));
-                request.setLessThan20RequesterEmail("LessThan20RequesterEmail");
-                request.setDwellingSocialReception(Boolean.valueOf(true));
-            request.setHopesAndNeeds(Boolean.valueOf(true));
-            request.setLessThan20FatherActivityReduction(Boolean.valueOf(true));
-              if ("LessThan20FatherLastName".length() > 38)
-        request.setLessThan20FatherLastName("LessThan20FatherLastName".substring(0, 38));
+        request.setHarPaymentAgencyPostalCode("HarPaymentAgencyPostalCode");
+                  request.setHarLegalAccessKind(HarLegalAccessKindType.SAFEGUARDING_JUSTICE);
+                request.setHarDwellingEstablishmentReception(Boolean.valueOf(true));
+              if ("HarLessThan20RequesterFirstName".length() > 38)
+        request.setHarLessThan20RequesterFirstName("HarLessThan20RequesterFirstName".substring(0, 38));
       else
-        request.setLessThan20FatherLastName("LessThan20FatherLastName");
-                  if ("LessThan20MotherLastName".length() > 38)
-        request.setLessThan20MotherLastName("LessThan20MotherLastName".substring(0, 38));
+        request.setHarLessThan20RequesterFirstName("HarLessThan20RequesterFirstName");
+                request.setHarRequesterBirthDate(new Date());
+              if ("HarRequesterFirstName".length() > 38)
+        request.setHarRequesterFirstName("HarRequesterFirstName".substring(0, 38));
       else
-        request.setLessThan20MotherLastName("LessThan20MotherLastName");
-                  if ("LessThan20MotherHomePhone".length() > 10)
-        request.setLessThan20MotherHomePhone("LessThan20MotherHomePhone".substring(0, 10));
+        request.setHarRequesterFirstName("HarRequesterFirstName");
+                    request.setHarExtraCurricular("HarExtraCurricular");
+                    request.setHarLegalAccessRepresentativeEmail("HarLegalAccessRepresentativeEmail");
+                  request.setHarProfessionalStatusEnvironment(HarProfessionalStatusEnvironmentType.ORDINARY);
+                request.setHarElectiveFunctionDetails(Boolean.valueOf(true));
+            request.setHarOrdinaryworkingRequest(Boolean.valueOf(true));
+            request.setHarIncreaseForIndependentLivingRequest(Boolean.valueOf(true));
+              if ("HarSocialProfessionalPostalCode".length() > 5)
+        request.setHarSocialProfessionalPostalCode("HarSocialProfessionalPostalCode".substring(0, 5));
       else
-        request.setLessThan20MotherHomePhone("LessThan20MotherHomePhone");
-                    request.setDwellingPrecision("DwellingPrecision");
-                  request.setLessThan20ParentalAuthorityHolder(HarLessThan20ParentalAuthorityHolderType.FATHER);
-                  if ("LessThan20LegalRepresentativeMobilePhone".length() > 10)
-        request.setLessThan20LegalRepresentativeMobilePhone("LessThan20LegalRepresentativeMobilePhone".substring(0, 10));
+        request.setHarSocialProfessionalPostalCode("HarSocialProfessionalPostalCode");
+                  if ("HarLegalAccessRepresentativeCity".length() > 32)
+        request.setHarLegalAccessRepresentativeCity("HarLegalAccessRepresentativeCity".substring(0, 32));
       else
-        request.setLessThan20LegalRepresentativeMobilePhone("LessThan20LegalRepresentativeMobilePhone");
-                  request.setSocialSecurityMemberShipKind(HarSocialSecurityMemberShipKindType.INSURED);
-                  request.setLessThan20ReferentTitle(TitleType.MISTER);
-                    request.setNeeds("Needs");
-                    request.setLessThan20ReferentEmail("LessThan20ReferentEmail");
-                    request.setLessThan20MotherJob("LessThan20MotherJob");
-                  if ("AdultLegalAccessRepresentativeFirstName".length() > 38)
-        request.setAdultLegalAccessRepresentativeFirstName("AdultLegalAccessRepresentativeFirstName".substring(0, 38));
+        request.setHarLegalAccessRepresentativeCity("HarLegalAccessRepresentativeCity");
+                  if ("HarSchoolCity".length() > 32)
+        request.setHarSchoolCity("HarSchoolCity".substring(0, 32));
       else
-        request.setAdultLegalAccessRepresentativeFirstName("AdultLegalAccessRepresentativeFirstName");
-                  if ("LessThan20LegalRepresentativeLastName".length() > 38)
-        request.setLessThan20LegalRepresentativeLastName("LessThan20LegalRepresentativeLastName".substring(0, 38));
+        request.setHarSchoolCity("HarSchoolCity");
+                request.setHarDisabledPriorityCardRequest(Boolean.valueOf(true));
+              if ("HarLessThan20RequesterRepresentativePostalCode".length() > 5)
+        request.setHarLessThan20RequesterRepresentativePostalCode("HarLessThan20RequesterRepresentativePostalCode".substring(0, 5));
       else
-        request.setLessThan20LegalRepresentativeLastName("LessThan20LegalRepresentativeLastName");
-                  if ("HelperName".length() > 38)
-        request.setHelperName("HelperName".substring(0, 38));
+        request.setHarLessThan20RequesterRepresentativePostalCode("HarLessThan20RequesterRepresentativePostalCode");
+                  request.setHarSchoolingKind(HarSchoolingKindType.FULL_TIME);
+                    request.setHarProfessionalStatusAddress("HarProfessionalStatusAddress");
+                request.setFamilyHasFamilyDependents(Boolean.valueOf(true));
+              if ("HarLessThan20RequesterPhone".length() > 10)
+        request.setHarLessThan20RequesterPhone("HarLessThan20RequesterPhone".substring(0, 10));
       else
-        request.setHelperName("HelperName");
-                  request.setDwellingKind(HarDwellingKindType.DOMICILE);
-                  if ("AdultRequesterHomePhone".length() > 10)
-        request.setAdultRequesterHomePhone("AdultRequesterHomePhone".substring(0, 10));
+        request.setHarLessThan20RequesterPhone("HarLessThan20RequesterPhone");
+                request.setHarSupplementForSingleParents(Boolean.valueOf(true));
+            request.setHarLessThan20RequesterRepresentativeReductionRatio(BigInteger.valueOf(1));
+                request.setHarDwellingSocialReceptionAddress("HarDwellingSocialReceptionAddress");
+                  if ("HarDwellingReceptionCity".length() > 32)
+        request.setHarDwellingReceptionCity("HarDwellingReceptionCity".substring(0, 32));
       else
-        request.setAdultRequesterHomePhone("AdultRequesterHomePhone");
-                    request.setHopes("Hopes");
-      
+        request.setHarDwellingReceptionCity("HarDwellingReceptionCity");
+                request.setHarFollowedByProfessional(Boolean.valueOf(true));
+            request.setHarShelteredWorkRequest(Boolean.valueOf(true));
+              if ("HarLessThan20RequesterMobilePhone".length() > 10)
+        request.setHarLessThan20RequesterMobilePhone("HarLessThan20RequesterMobilePhone".substring(0, 10));
+      else
+        request.setHarLessThan20RequesterMobilePhone("HarLessThan20RequesterMobilePhone");
+                request.setHarIndemnifiedDate(new Date());
+                request.setHarAnimalAidDetails("HarAnimalAidDetails");
+                request.setHarElectiveFunction(Boolean.valueOf(true));
+              if ("HarHomeSchoolingAccompanistLastName".length() > 38)
+        request.setHarHomeSchoolingAccompanistLastName("HarHomeSchoolingAccompanistLastName".substring(0, 38));
+      else
+        request.setHarHomeSchoolingAccompanistLastName("HarHomeSchoolingAccompanistLastName");
+                    request.setHarDisabilityPensionCategory("HarDisabilityPensionCategory");
+                  if ("HarRequesterName".length() > 38)
+        request.setHarRequesterName("HarRequesterName".substring(0, 38));
+      else
+        request.setHarRequesterName("HarRequesterName");
+                  request.setHarProfessionalStatusKind(HarProfessionalStatusKindType.EMPLOYEE);
+                    request.setHarSocialSecurityAgencyAddress("HarSocialSecurityAgencyAddress");
+                    request.setHarPaymentAgencyName("HarPaymentAgencyName");
+                  if ("HarRequesterMaidenName".length() > 38)
+        request.setHarRequesterMaidenName("HarRequesterMaidenName".substring(0, 38));
+      else
+        request.setHarRequesterMaidenName("HarRequesterMaidenName");
+                  if ("HarLessThan20RequesterParentPhone".length() > 10)
+        request.setHarLessThan20RequesterParentPhone("HarLessThan20RequesterParentPhone".substring(0, 10));
+      else
+        request.setHarLessThan20RequesterParentPhone("HarLessThan20RequesterParentPhone");
+                    if ("HarSocialProfessionalCity".length() > 32)
+        request.setHarSocialProfessionalCity("HarSocialProfessionalCity".substring(0, 32));
+      else
+        request.setHarSocialProfessionalCity("HarSocialProfessionalCity");
+                request.setHarTechnicalAssistance(Boolean.valueOf(true));
+                request.setHarLessThan20RequesterParentJob("HarLessThan20RequesterParentJob");
+                request.setHarLessThan20RequesterBirthDate(new Date());
+                request.setHarMDPHNumber("HarMDPHNumber");
+                  request.setHarDwellingReceptionType(HarDwellingReceptionKindType.INTERNSHIP);
+                request.setHarDisabledAdultAllowanceRequest(Boolean.valueOf(true));
+              if ("HarDwellingSocialReceptionPostalCode".length() > 5)
+        request.setHarDwellingSocialReceptionPostalCode("HarDwellingSocialReceptionPostalCode".substring(0, 5));
+      else
+        request.setHarDwellingSocialReceptionPostalCode("HarDwellingSocialReceptionPostalCode");
+                request.setHarDisabledAdultAllocation(Boolean.valueOf(true));
+                if ("HarRequesterPhone".length() > 10)
+        request.setHarRequesterPhone("HarRequesterPhone".substring(0, 10));
+      else
+        request.setHarRequesterPhone("HarRequesterPhone");
+                request.setHarThridPartySupplement(Boolean.valueOf(true));
+            request.setHarDisabilityCardRequest(Boolean.valueOf(true));
+              request.setHarLegalAccessRepresentativeKind(HarLegalAccessRepresentativeKindType.FAMILY_MEMBER);
+                  if ("HarProfessionalStatusPostalCode".length() > 5)
+        request.setHarProfessionalStatusPostalCode("HarProfessionalStatusPostalCode".substring(0, 5));
+      else
+        request.setHarProfessionalStatusPostalCode("HarProfessionalStatusPostalCode");
+                request.setHarProfessionalEvaluation(Boolean.valueOf(true));
+            request.setHarEducationAllocationOfDisabledChildrenRequest(Boolean.valueOf(true));
+              if ("HarSchoolPostalCode".length() > 5)
+        request.setHarSchoolPostalCode("HarSchoolPostalCode".substring(0, 5));
+      else
+        request.setHarSchoolPostalCode("HarSchoolPostalCode");
+                    request.setHarDwellingReceptionAddress("HarDwellingReceptionAddress");
+                  if ("HarRequesterPostalCode".length() > 5)
+        request.setHarRequesterPostalCode("HarRequesterPostalCode".substring(0, 5));
+      else
+        request.setHarRequesterPostalCode("HarRequesterPostalCode");
+                    request.setHarFollowedByProfessionalDetails("HarFollowedByProfessionalDetails");
+                request.setHarSchoolingTime(BigInteger.valueOf(1));
+              request.setHarPaymentAgencyBeneficiary(HarPaymentAgencyBeneficiaryType.C_A_F);
+                request.setHarSendToSchool(Boolean.valueOf(true));
+                request.setHarSpecializedGradeDetails("HarSpecializedGradeDetails");
+                    request.setHarSocialProfessionalLastName("HarSocialProfessionalLastName");
+                  if ("HarPaymentAgencyCity".length() > 32)
+        request.setHarPaymentAgencyCity("HarPaymentAgencyCity".substring(0, 32));
+      else
+        request.setHarPaymentAgencyCity("HarPaymentAgencyCity");
+                    request.setHarSupportedByAnInstitutionDetails("HarSupportedByAnInstitutionDetails");
+                  request.setHarHomeSchoolingKind(HarHomeSchoolingKindType.ALONE);
+                request.setHarLessThan20RequesterRepresentativeActivityReduction(Boolean.valueOf(true));
+              if ("HarLessThan20RequesterRepresentativeMobilePhone".length() > 10)
+        request.setHarLessThan20RequesterRepresentativeMobilePhone("HarLessThan20RequesterRepresentativeMobilePhone".substring(0, 10));
+      else
+        request.setHarLessThan20RequesterRepresentativeMobilePhone("HarLessThan20RequesterRepresentativeMobilePhone");
+                            request.setHarDwellingPrecision("HarDwellingPrecision");
+                request.setHarRegisterAsUnemployed(Boolean.valueOf(true));
+                request.setHarProjectComments("HarProjectComments");
+                  if ("HarRequesterMobilePhone".length() > 10)
+        request.setHarRequesterMobilePhone("HarRequesterMobilePhone".substring(0, 10));
+      else
+        request.setHarRequesterMobilePhone("HarRequesterMobilePhone");
+                  request.setHarRequesterTitle(HarTitleType.MISS);
+                    request.setHarLessThan20RequesterParentStreetName("HarLessThan20RequesterParentStreetName");
+                    request.setHarSocialProfessionalAddress("HarSocialProfessionalAddress");
+                    request.setHarCustomCarDetails("HarCustomCarDetails");
+                    request.setHarLessThan20RequesterEmail("HarLessThan20RequesterEmail");
+                request.setHarThridPartyCompensatoryAllowance(Boolean.valueOf(true));
+            request.setHarMDPHFile(Boolean.valueOf(true));
+                request.setHarAdditionalAllocationForEducationOfDisabledChildrenDetails("HarAdditionalAllocationForEducationOfDisabledChildrenDetails");
+                request.setHarEducationAllocationOfDisabledChildren(Boolean.valueOf(true));
+            request.setHarThridPersonCompensatoryAllowance(Boolean.valueOf(true));
+            request.setHarCustomCarRequest(Boolean.valueOf(true));
+            request.setHarAnimalAid(Boolean.valueOf(true));
+            request.setHarRegisterAsUnemployedDate(new Date());
+            request.setHarProfessionalOrientationRequest(Boolean.valueOf(true));
+                request.setHarRequesterEmail("HarRequesterEmail");
+                request.setHarFollowedByHospital(Boolean.valueOf(true));
+            request.setHarIncreaseForIndependentLiving(Boolean.valueOf(true));
+              if ("HarLessThan20RequesterParentPostalCode".length() > 5)
+        request.setHarLessThan20RequesterParentPostalCode("HarLessThan20RequesterParentPostalCode".substring(0, 5));
+      else
+        request.setHarLessThan20RequesterParentPostalCode("HarLessThan20RequesterParentPostalCode");
+                  if ("HarLegalAccessRepresentativeFirstName".length() > 38)
+        request.setHarLegalAccessRepresentativeFirstName("HarLegalAccessRepresentativeFirstName".substring(0, 38));
+      else
+        request.setHarLegalAccessRepresentativeFirstName("HarLegalAccessRepresentativeFirstName");
+                request.setHarDisabilityCostAllocationRequest(Boolean.valueOf(true));
+                request.setDwellingReceptionNaming("DwellingReceptionNaming");
+                    request.setHarProjectWish("HarProjectWish");
+                  if ("HarSocialSecurityAgencyCity".length() > 32)
+        request.setHarSocialSecurityAgencyCity("HarSocialSecurityAgencyCity".substring(0, 32));
+      else
+        request.setHarSocialSecurityAgencyCity("HarSocialSecurityAgencyCity");
+                  if ("HarLessThan20RequesterParentName".length() > 38)
+        request.setHarLessThan20RequesterParentName("HarLessThan20RequesterParentName".substring(0, 38));
+      else
+        request.setHarLessThan20RequesterParentName("HarLessThan20RequesterParentName");
+                    request.setHarLessThan20RequesterStreetName("HarLessThan20RequesterStreetName");
+                    request.setHarDiploma("HarDiploma");
+                request.setHarEuropeanParkingCardRequest(Boolean.valueOf(true));
+              request.setHarRequesterBirthCountry(CountryType.UNKNOWN);
+                  if ("HarProfessionalStatusCity".length() > 32)
+        request.setHarProfessionalStatusCity("HarProfessionalStatusCity".substring(0, 32));
+      else
+        request.setHarProfessionalStatusCity("HarProfessionalStatusCity");
+                  if ("HarLessThan20RequesterPostalCode".length() > 5)
+        request.setHarLessThan20RequesterPostalCode("HarLessThan20RequesterPostalCode".substring(0, 5));
+      else
+        request.setHarLessThan20RequesterPostalCode("HarLessThan20RequesterPostalCode");
+                    request.setHarMDPHDepartment("HarMDPHDepartment");
+                  if ("HarLessThan20RequesterRepresentativePhone".length() > 10)
+        request.setHarLessThan20RequesterRepresentativePhone("HarLessThan20RequesterRepresentativePhone".substring(0, 10));
+      else
+        request.setHarLessThan20RequesterRepresentativePhone("HarLessThan20RequesterRepresentativePhone");
+                request.setHarAssistanceUnderDisability(Boolean.valueOf(true));
+            request.setHarWorkAccidentAnnuity(Boolean.valueOf(true));
+                    request.setHarUnemploymentBenefits(Boolean.valueOf(true));
+                request.setHarProfessionalOrientationDetails("HarProfessionalOrientationDetails");
+                request.setHarHousingFacilitiesRequest(Boolean.valueOf(true));
+              if ("HarHomeSchoolingAccompanistCity".length() > 32)
+        request.setHarHomeSchoolingAccompanistCity("HarHomeSchoolingAccompanistCity".substring(0, 32));
+      else
+        request.setHarHomeSchoolingAccompanistCity("HarHomeSchoolingAccompanistCity");
+                    request.setHarDwellingSocialReceptionNaming("HarDwellingSocialReceptionNaming");
+                request.setHarPersonalizedSchoolingPlan(Boolean.valueOf(true));
+            request.setHarAssistanceRequest(Boolean.valueOf(true));
+            request.setHarSocialWelfare(Boolean.valueOf(true));
+                request.setHarHomeSchoolingAccompanistAddress("HarHomeSchoolingAccompanistAddress");
+                request.setHarInstitutionSupportRequest(Boolean.valueOf(true));
+            request.setHarThirdPartyHelpRequest(Boolean.valueOf(true));
+              if ("HarHomeSchoolingAccompanistPostalCode".length() > 5)
+        request.setHarHomeSchoolingAccompanistPostalCode("HarHomeSchoolingAccompanistPostalCode".substring(0, 5));
+      else
+        request.setHarHomeSchoolingAccompanistPostalCode("HarHomeSchoolingAccompanistPostalCode");
+                request.setHarProfessionalStatusDate(new Date());
+            request.setHarDisabilityRecognitionRequest(Boolean.valueOf(true));
+            request.setHarRequestDealWithSameProfessional(Boolean.valueOf(true));
+              request.setHarLessThan20RequesterBirthCountry(CountryType.UNKNOWN);
+                    request.setHarHighSchoolName("HarHighSchoolName");
+                request.setHarPainfulStandingCard(Boolean.valueOf(true));
+  
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

@@ -8,7 +8,18 @@
       
       <div id="yui-main"> 
         <div id="main" class="yui-b">
-
+          <div class="list-box">
+            <h2>Quelques liens temporaires ...</h2>
+            <p>
+              <a href="${createLink(controller:'frontofficeHandicapAllowanceRequest')}">Demande de compensation du handicap</a>
+            </p>
+            <p>
+              <a href="${createLink(controller:'frontofficeDomesticHelpRequest')}">Demande d'aide ménagère</a>
+            </p>
+            <p>
+              <a href="${createLink(controller:'frontofficeHome',action:'login')}">Maquette page d'accueil</a>            
+            </p>
+          </div>
         </div> 
       </div> <!-- end of yui-main -->
     

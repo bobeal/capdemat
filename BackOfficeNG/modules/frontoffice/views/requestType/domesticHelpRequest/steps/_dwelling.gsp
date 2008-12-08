@@ -21,9 +21,9 @@
 
 <!--AdditionalDeliveryInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalDeliveryInformation',
+			   		model="[forName:'dhrCurrentDwellingAddress.additionalDeliveryInformation',
 			   		help:message(code:'dhr.property.additionalDeliveryInformation.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'AdditionalDeliveryInformation', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -31,8 +31,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'additionalDeliveryInformation', 
-			 		validation:'', 
+			 		model="[name:'dhrCurrentDwellingAddress.additionalDeliveryInformation', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingAddress?.additionalDeliveryInformation, 
 			 		title:message(code:'dhr.property.additionalDeliveryInformation.validationError')]"/>
@@ -41,9 +41,9 @@
 
 <!--AdditionalGeographicalInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalGeographicalInformation',
+			   		model="[forName:'dhrCurrentDwellingAddress.additionalGeographicalInformation',
 			   		help:message(code:'dhr.property.additionalGeographicalInformation.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'AdditionalGeographicalInformation', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -51,8 +51,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'additionalGeographicalInformation', 
-			 		validation:'', 
+			 		model="[name:'dhrCurrentDwellingAddress.additionalGeographicalInformation', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingAddress?.additionalGeographicalInformation, 
 			 		title:message(code:'dhr.property.additionalGeographicalInformation.validationError')]"/>
@@ -61,9 +61,9 @@
 
 <!--StreetNumber -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetNumber',
+			   		model="[forName:'dhrCurrentDwellingAddress.streetNumber',
 			   		help:message(code:'dhr.property.streetNumber.help'),
-			   		validation:'',
+			   		validation:' ',
 			   		condition:'',
 			   		elementName:'StreetNumber', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -71,8 +71,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'streetNumber', 
-			 		validation:'', 
+			 		model="[name:'dhrCurrentDwellingAddress.streetNumber', 
+			 		validation:' ', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingAddress?.streetNumber, 
 			 		title:message(code:'dhr.property.streetNumber.validationError')]"/>
@@ -81,9 +81,9 @@
 
 <!--StreetName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetName',
+			   		model="[forName:'dhrCurrentDwellingAddress.streetName',
 			   		help:message(code:'dhr.property.streetName.help'),
-			   		validation:'required ',
+			   		validation:'required  ',
 			   		condition:'',
 			   		elementName:'StreetName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -91,8 +91,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'streetName', 
-			 		validation:'required ', 
+			 		model="[name:'dhrCurrentDwellingAddress.streetName', 
+			 		validation:'required  ', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingAddress?.streetName, 
 			 		title:message(code:'dhr.property.streetName.validationError')]"/>
@@ -101,9 +101,9 @@
 
 <!--PlaceNameOrService -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'placeNameOrService',
+			   		model="[forName:'dhrCurrentDwellingAddress.placeNameOrService',
 			   		help:message(code:'dhr.property.placeNameOrService.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'PlaceNameOrService', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -111,8 +111,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'placeNameOrService', 
-			 		validation:'', 
+			 		model="[name:'dhrCurrentDwellingAddress.placeNameOrService', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingAddress?.placeNameOrService, 
 			 		title:message(code:'dhr.property.placeNameOrService.validationError')]"/>
@@ -121,9 +121,9 @@
 
 <!--PostalCode -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'postalCode',
+			   		model="[forName:'dhrCurrentDwellingAddress.postalCode',
 			   		help:message(code:'dhr.property.postalCode.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-postalcode',
 			   		condition:'',
 			   		elementName:'PostalCode', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -131,8 +131,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'postalCode', 
-			 		validation:'required ', 
+			 		model="[name:'dhrCurrentDwellingAddress.postalCode', 
+			 		validation:'required  validate-postalcode', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingAddress?.postalCode, 
 			 		title:message(code:'dhr.property.postalCode.validationError')]"/>
@@ -141,9 +141,9 @@
 
 <!--City -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'city',
+			   		model="[forName:'dhrCurrentDwellingAddress.city',
 			   		help:message(code:'dhr.property.city.help'),
-			   		validation:'required ',
+			   		validation:'required  ',
 			   		condition:'',
 			   		elementName:'City', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -151,8 +151,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'city', 
-			 		validation:'required ', 
+			 		model="[name:'dhrCurrentDwellingAddress.city', 
+			 		validation:'required  ', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingAddress?.city, 
 			 		title:message(code:'dhr.property.city.validationError')]"/>
@@ -161,9 +161,9 @@
 
 <!--CountryName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'countryName',
+			   		model="[forName:'dhrCurrentDwellingAddress.countryName',
 			   		help:message(code:'dhr.property.countryName.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'CountryName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -171,8 +171,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'countryName', 
-			 		validation:'', 
+			 		model="[name:'dhrCurrentDwellingAddress.countryName', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingAddress?.countryName, 
 			 		title:message(code:'dhr.property.countryName.validationError')]"/>
@@ -184,7 +184,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrCurrentDwellingPhone',
 			   		help:message(code:'dhr.property.dhrCurrentDwellingPhone.help'),
-			   		validation:'',
+			   		validation:'  validate-phone',
 			   		condition:'',
 			   		elementName:'DhrCurrentDwellingPhone', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -193,7 +193,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrCurrentDwellingPhone', 
-			 		validation:'', 
+			 		validation:'  validate-phone', 
 			 		condition:'',
 			 		value:dhr.dhrCurrentDwellingPhone, 
 			 		title:message(code:'dhr.property.dhrCurrentDwellingPhone.validationError')]"/>
@@ -227,7 +227,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrCurrentDwellingArrivalDate',
 			   		help:message(code:'dhr.property.dhrCurrentDwellingArrivalDate.help'),
-			   		validation:'',
+			   		validation:'  validate-date-au',
 			   		condition:'isCurrentDwellingPlaceOfResidence-filled ',
 			   		elementName:'DhrCurrentDwellingArrivalDate', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -236,7 +236,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrCurrentDwellingArrivalDate', 
-			 		validation:'', 
+			 		validation:'  validate-date-au', 
 			 		condition:'isCurrentDwellingPlaceOfResidence-filled ',
 			 		value:dhr.dhrCurrentDwellingArrivalDate, 
 			 		title:message(code:'dhr.property.dhrCurrentDwellingArrivalDate.validationError')]"/>
@@ -247,7 +247,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrCurrentDwellingStatus',
 			   		help:message(code:'dhr.property.dhrCurrentDwellingStatus.help'),
-			   		validation:'',
+			   		validation:' validate-one-required',
 			   		condition:'isCurrentDwellingPlaceOfResidence-filled ',
 			   		elementName:'DhrCurrentDwellingStatus', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -256,7 +256,7 @@
 
 <g:render template="/frontofficeRequestType/widget/radio" 
 					model="[name:'dhrCurrentDwellingStatus', 
-					validation:'',	
+					validation:' validate-one-required',	
 					condition:'isCurrentDwellingPlaceOfResidence-filled ',
 					title:message(code:'dhr.property.dhrCurrentDwellingStatus.validationError'),
 					checked:dhr.dhrCurrentDwellingStatus,	
@@ -269,7 +269,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrCurrentDwellingNumberOfRoom',
 			   		help:message(code:'dhr.property.dhrCurrentDwellingNumberOfRoom.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'isCurrentDwellingPlaceOfResidence-filled ',
 			   		elementName:'DhrCurrentDwellingNumberOfRoom', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -278,7 +278,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrCurrentDwellingNumberOfRoom', 
-			 		validation:'', 
+			 		validation:'  ', 
 			 		condition:'isCurrentDwellingPlaceOfResidence-filled ',
 			 		value:dhr.dhrCurrentDwellingNumberOfRoom, 
 			 		title:message(code:'dhr.property.dhrCurrentDwellingNumberOfRoom.validationError')]"/>
@@ -289,7 +289,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrCurrentDwellingNetArea',
 			   		help:message(code:'dhr.property.dhrCurrentDwellingNetArea.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'isCurrentDwellingPlaceOfResidence-filled ',
 			   		elementName:'DhrCurrentDwellingNetArea', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -298,7 +298,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrCurrentDwellingNetArea', 
-			 		validation:'', 
+			 		validation:'  ', 
 			 		condition:'isCurrentDwellingPlaceOfResidence-filled ',
 			 		value:dhr.dhrCurrentDwellingNetArea, 
 			 		title:message(code:'dhr.property.dhrCurrentDwellingNetArea.validationError')]"/>

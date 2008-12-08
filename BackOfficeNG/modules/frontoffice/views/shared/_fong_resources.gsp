@@ -26,16 +26,23 @@
   <!-- Dependency for Connection Manager / Also provides YAHOO Global Object -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo', file:'yahoo-min.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo-dom-event', file:'yahoo-dom-event.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/dragdrop',file:'dragdrop-min.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/element', file:'element-beta-min.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/event',file:'event-min.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/connection',file:'connection-min.js')}"></script>
   <!-- Button -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/button',file:'button-min.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/animation',file:'animation-min.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/container',file:'container-min.js')}"></script>
   <!-- Calendar -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/calendar',file:'calendar-min.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/selector',file:'selector-beta-min.js')}"></script>
   
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/tabview', file:'tabview-min.js')}"></script>
   <!-- request 
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'common.js')}"></script>
   -->
+  <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'tools.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'validation.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
  

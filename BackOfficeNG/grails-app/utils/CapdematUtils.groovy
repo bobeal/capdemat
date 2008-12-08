@@ -73,7 +73,7 @@ class CapdematUtils {
             'technical': [
                 'Technical Intervention'
             ],
-            'urbanisme': [
+            'urbanism': [
                 'Sewer Connection',
                 'Alignment Certificate'
             ]

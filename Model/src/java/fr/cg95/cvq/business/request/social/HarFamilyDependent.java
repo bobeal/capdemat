@@ -46,14 +46,14 @@ public class HarFamilyDependent implements Serializable {
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         HarFamilyDependentType harFamilyDependent = HarFamilyDependentType.Factory.newInstance();
-        if (this.familyDependentActualSituation != null)
-            harFamilyDependent.setFamilyDependentActualSituation(fr.cg95.cvq.xml.request.social.HarFamilyDependentActualSituationType.Enum.forString(this.familyDependentActualSituation.toString()));
-        harFamilyDependent.setFamilyDependentLastName(this.familyDependentLastName);
-        harFamilyDependent.setFamilyDependentFirstName(this.familyDependentFirstName);
-        date = this.familyDependentBirthDate;
+        if (this.harFamilyDependentActualSituation != null)
+            harFamilyDependent.setHarFamilyDependentActualSituation(fr.cg95.cvq.xml.request.social.HarFamilyDependentActualSituationType.Enum.forString(this.harFamilyDependentActualSituation.toString()));
+        harFamilyDependent.setHarFamilyDependentFirstName(this.harFamilyDependentFirstName);
+        harFamilyDependent.setHarFamilyDependentLastName(this.harFamilyDependentLastName);
+        date = this.harFamilyDependentBirthDate;
         if (date != null) {
             calendar.setTime(date);
-            harFamilyDependent.setFamilyDependentBirthDate(calendar);
+            harFamilyDependent.setHarFamilyDependentBirthDate(calendar);
         }
         return harFamilyDependent;
     }
@@ -63,15 +63,15 @@ public class HarFamilyDependent implements Serializable {
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         HarFamilyDependent harFamilyDependent = new HarFamilyDependent();
-        if (harFamilyDependentDoc.getFamilyDependentActualSituation() != null)
-            harFamilyDependent.setFamilyDependentActualSituation(fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType.forString(harFamilyDependentDoc.getFamilyDependentActualSituation().toString()));
+        if (harFamilyDependentDoc.getHarFamilyDependentActualSituation() != null)
+            harFamilyDependent.setHarFamilyDependentActualSituation(fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType.forString(harFamilyDependentDoc.getHarFamilyDependentActualSituation().toString()));
         else
-            harFamilyDependent.setFamilyDependentActualSituation(fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType.getDefaultHarFamilyDependentActualSituationType());
-        harFamilyDependent.setFamilyDependentLastName(harFamilyDependentDoc.getFamilyDependentLastName());
-        harFamilyDependent.setFamilyDependentFirstName(harFamilyDependentDoc.getFamilyDependentFirstName());
-        calendar = harFamilyDependentDoc.getFamilyDependentBirthDate();
+            harFamilyDependent.setHarFamilyDependentActualSituation(fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType.getDefaultHarFamilyDependentActualSituationType());
+        harFamilyDependent.setHarFamilyDependentFirstName(harFamilyDependentDoc.getHarFamilyDependentFirstName());
+        harFamilyDependent.setHarFamilyDependentLastName(harFamilyDependentDoc.getHarFamilyDependentLastName());
+        calendar = harFamilyDependentDoc.getHarFamilyDependentBirthDate();
         if (calendar != null) {
-            harFamilyDependent.setFamilyDependentBirthDate(calendar.getTime());
+            harFamilyDependent.setHarFamilyDependentBirthDate(calendar.getTime());
         }
         return harFamilyDependent;
     }
@@ -93,66 +93,66 @@ public class HarFamilyDependent implements Serializable {
         return this.id;
     }
 
-    private fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType familyDependentActualSituation;
+    private fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType harFamilyDependentActualSituation;
 
-    public final void setFamilyDependentActualSituation(final fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType familyDependentActualSituation) {
-        this.familyDependentActualSituation = familyDependentActualSituation;
+    public final void setHarFamilyDependentActualSituation(final fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType harFamilyDependentActualSituation) {
+        this.harFamilyDependentActualSituation = harFamilyDependentActualSituation;
     }
 
 
     /**
      * @hibernate.property
-     *  column="family_dependent_actual_situation"
+     *  column="har_family_dependent_actual_situation"
      */
-    public final fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType getFamilyDependentActualSituation() {
-        return this.familyDependentActualSituation;
+    public final fr.cg95.cvq.business.request.social.HarFamilyDependentActualSituationType getHarFamilyDependentActualSituation() {
+        return this.harFamilyDependentActualSituation;
     }
 
-    private String familyDependentLastName;
+    private String harFamilyDependentFirstName;
 
-    public final void setFamilyDependentLastName(final String familyDependentLastName) {
-        this.familyDependentLastName = familyDependentLastName;
+    public final void setHarFamilyDependentFirstName(final String harFamilyDependentFirstName) {
+        this.harFamilyDependentFirstName = harFamilyDependentFirstName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="family_dependent_last_name"
+     *  column="har_family_dependent_first_name"
      *  length="38"
      */
-    public final String getFamilyDependentLastName() {
-        return this.familyDependentLastName;
+    public final String getHarFamilyDependentFirstName() {
+        return this.harFamilyDependentFirstName;
     }
 
-    private String familyDependentFirstName;
+    private String harFamilyDependentLastName;
 
-    public final void setFamilyDependentFirstName(final String familyDependentFirstName) {
-        this.familyDependentFirstName = familyDependentFirstName;
+    public final void setHarFamilyDependentLastName(final String harFamilyDependentLastName) {
+        this.harFamilyDependentLastName = harFamilyDependentLastName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="family_dependent_first_name"
+     *  column="har_family_dependent_last_name"
      *  length="38"
      */
-    public final String getFamilyDependentFirstName() {
-        return this.familyDependentFirstName;
+    public final String getHarFamilyDependentLastName() {
+        return this.harFamilyDependentLastName;
     }
 
-    private java.util.Date familyDependentBirthDate;
+    private java.util.Date harFamilyDependentBirthDate;
 
-    public final void setFamilyDependentBirthDate(final java.util.Date familyDependentBirthDate) {
-        this.familyDependentBirthDate = familyDependentBirthDate;
+    public final void setHarFamilyDependentBirthDate(final java.util.Date harFamilyDependentBirthDate) {
+        this.harFamilyDependentBirthDate = harFamilyDependentBirthDate;
     }
 
 
     /**
      * @hibernate.property
-     *  column="family_dependent_birth_date"
+     *  column="har_family_dependent_birth_date"
      */
-    public final java.util.Date getFamilyDependentBirthDate() {
-        return this.familyDependentBirthDate;
+    public final java.util.Date getHarFamilyDependentBirthDate() {
+        return this.harFamilyDependentBirthDate;
     }
 
 }

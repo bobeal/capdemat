@@ -2,6 +2,7 @@
 
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
+import fr.cg95.cvq.business.users.Address
 
 class DomesticHelpRequestController {
 
@@ -21,6 +22,12 @@ class DomesticHelpRequestController {
     def edit = {
         if (dhr == null)
           dhr = new DomesticHelpRequest()
+        
+        dhr.setDhrReferentAddress(new Address())
+dhr.setDhrGuardianAddress(new Address())
+dhr.setDhrSpouseAddress(new Address())
+dhr.setDhrCurrentDwellingAddress(new Address())
+
           
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -72,8 +79,8 @@ class DomesticHelpRequestController {
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
     }
     
-    def validDefault_step_ref_document = {
-    	log.debug("validDefault_step_ref_document - START")
+    def validDocumentRef = {
+    	log.debug("validDocumentRef - START")
         
 		dhr = session["domesticHelpRequest"]
 		bind(dhr)
@@ -83,8 +90,8 @@ class DomesticHelpRequestController {
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
     }
     
-    def validDefault_step_ref_validation = {
-    	log.debug("validDefault_step_ref_validation - START")
+    def validValidationRef = {
+    	log.debug("validValidationRef - START")
         
 		dhr = session["domesticHelpRequest"]
 		bind(dhr)
@@ -110,10 +117,10 @@ class DomesticHelpRequestController {
 		else if (params.submitDhrTaxes)
 		   currentTab = "tab4"
 	
-		else if (params.submitDhrDefault_step_ref_document)
+		else if (params.submitDhrDocumentRef)
 		   currentTab = "tab5"
 	
-		else if (params.submitDhrDefault_step_ref_validation)
+		else if (params.submitDhrValidationRef)
 		   currentTab = "tab6"
 	
 		return currentTab

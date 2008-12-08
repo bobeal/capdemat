@@ -12,8 +12,8 @@ public final class HarDwellingKindType extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
 
-    public static final HarDwellingKindType DOMICILE = new HarDwellingKindType("Domicile");
-    public static final HarDwellingKindType THIRD_PARTY_DOMICILE = new HarDwellingKindType("ThirdPartyDomicile");
+    public static final HarDwellingKindType PLACE_OF_RESIDENCE = new HarDwellingKindType("PlaceOfResidence");
+    public static final HarDwellingKindType THIRD_PARTY_PLACE_OF_RESIDENCE = new HarDwellingKindType("ThirdPartyPlaceOfResidence");
     public static final HarDwellingKindType OTHER = new HarDwellingKindType("Other");
 
 
@@ -30,8 +30,8 @@ public final class HarDwellingKindType extends PersistentStringEnum {
 
 
     public static HarDwellingKindType[] allHarDwellingKindTypes = {
-        DOMICILE,
-        THIRD_PARTY_DOMICILE,
+        PLACE_OF_RESIDENCE,
+        THIRD_PARTY_PLACE_OF_RESIDENCE,
         OTHER
     };
 
@@ -45,10 +45,10 @@ public final class HarDwellingKindType extends PersistentStringEnum {
         if (enumAsString == null || enumAsString.equals(""))
             return getDefaultHarDwellingKindType();
 
-        if (enumAsString.equals(DOMICILE.toString()))
-            return DOMICILE;
-        else if (enumAsString.equals(THIRD_PARTY_DOMICILE.toString()))
-            return THIRD_PARTY_DOMICILE;
+        if (enumAsString.equals(PLACE_OF_RESIDENCE.toString()))
+            return PLACE_OF_RESIDENCE;
+        else if (enumAsString.equals(THIRD_PARTY_PLACE_OF_RESIDENCE.toString()))
+            return THIRD_PARTY_PLACE_OF_RESIDENCE;
         else if (enumAsString.equals(OTHER.toString()))
             return OTHER;
 

@@ -8,7 +8,14 @@
       
       <div id="yui-main"> 
         <div id="main" class="yui-b">
-
+          <div class="list-box">
+            <p>
+              <a href="${createLink(controller:'frontofficeHandicapAllowanceRequest')}">Demande de compensation du handicap</a>
+            </p>
+            <p>
+              <a href="${createLink(controller:'frontofficeDomesticHelpRequest')}">Demande d'aide ménagère</a>
+            </p>
+          </div>
         </div> 
       </div> <!-- end of yui-main -->
     

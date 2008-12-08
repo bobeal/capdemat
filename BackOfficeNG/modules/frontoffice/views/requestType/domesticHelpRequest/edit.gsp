@@ -15,7 +15,7 @@
         <strong class="mandatory">Livret de famille</strong>
       </span>
     </h2>
-  <div id="yui-main" class="yui-skin-fong"> 
+  <div id="yui-main"> 
     <div id="main" class="yui-b">
        <div id="requestTabView" class="yui-navset">
          <ul class="yui-nav">
@@ -51,14 +51,14 @@
          <li class="${currentTab == 'tab5' ? 'selected' : ''}"><a href="#tab5"><em>
              <span class="tag-no_right">5</span>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-             <g:message code="dhr.step.default_step_ref_document.label" />
+             <g:message code="dhr.step.documentRef.label" />
            </em></a></li>
          
 		  
          <li class="${currentTab == 'tab6' ? 'selected' : ''}"><a href="#tab6"><em>
              <span class="tag-no_right">6</span>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-             <g:message code="dhr.step.default_step_ref_validation.label" />
+             <g:message code="dhr.step.validationRef.label" />
            </em></a></li>
          
 		 
@@ -66,7 +66,7 @@
          <div class="yui-content">
          
            <div id="tab1">
-             <form method="POST" action="<g:createLink action="validSubject" />">
+             <form method="POST" id="subjectForm" action="<g:createLink action="validSubject" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
                  <g:message code="dhr.step.subject.label" />
@@ -75,9 +75,12 @@
                
                <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/subject" /> 
                
+               <div class="error" id="subjectFormErrors"> </div>
+               
                <!-- Input submit-->
-               <input type="submit" 
-		           name="submitDhrSubject" 
+               <input type="button"
+                   id="submitSubject" 
+		           name="submitSubject" 
 		           value="<g:message code='dhr.step.subject.submitLabel'/>" />
              </form>
              <!-- navigation link -->
@@ -89,7 +92,7 @@
            </div>  
          
            <div id="tab2">
-             <form method="POST" action="<g:createLink action="validDwelling" />">
+             <form method="POST" id="dwellingForm" action="<g:createLink action="validDwelling" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
                  <g:message code="dhr.step.dwelling.label" />
@@ -98,9 +101,12 @@
                
                <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/dwelling" /> 
                
+               <div class="error" id="dwellingFormErrors"> </div>
+               
                <!-- Input submit-->
-               <input type="submit" 
-		           name="submitDhrDwelling" 
+               <input type="button"
+                   id="submitDwelling" 
+		           name="submitDwelling" 
 		           value="<g:message code='dhr.step.dwelling.submitLabel'/>" />
              </form>
              <!-- navigation link -->
@@ -113,7 +119,7 @@
            </div>  
          
            <div id="tab3">
-             <form method="POST" action="<g:createLink action="validResources" />">
+             <form method="POST" id="resourcesForm" action="<g:createLink action="validResources" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
                  <g:message code="dhr.step.resources.label" />
@@ -122,9 +128,12 @@
                
                <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/resources" /> 
                
+               <div class="error" id="resourcesFormErrors"> </div>
+               
                <!-- Input submit-->
-               <input type="submit" 
-		           name="submitDhrResources" 
+               <input type="button"
+                   id="submitResources" 
+		           name="submitResources" 
 		           value="<g:message code='dhr.step.resources.submitLabel'/>" />
              </form>
              <!-- navigation link -->
@@ -137,7 +146,7 @@
            </div>  
          
            <div id="tab4">
-             <form method="POST" action="<g:createLink action="validTaxes" />">
+             <form method="POST" id="taxesForm" action="<g:createLink action="validTaxes" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
                  <g:message code="dhr.step.taxes.label" />
@@ -146,9 +155,12 @@
                
                <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/taxes" /> 
                
+               <div class="error" id="taxesFormErrors"> </div>
+               
                <!-- Input submit-->
-               <input type="submit" 
-		           name="submitDhrTaxes" 
+               <input type="button"
+                   id="submitTaxes" 
+		           name="submitTaxes" 
 		           value="<g:message code='dhr.step.taxes.submitLabel'/>" />
              </form>
              <!-- navigation link -->
@@ -161,19 +173,22 @@
            </div>  
          
            <div id="tab5">
-             <form method="POST" action="<g:createLink action="validDefault_step_ref_document" />">
+             <form method="POST" id="documentRefForm" action="<g:createLink action="validDocumentRef" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
-                 <g:message code="dhr.step.default_step_ref_document.label" />
-                 <span><g:message code="dhr.step.default_step_ref_document.desc" /></span>
+                 <g:message code="dhr.step.documentRef.label" />
+                 <span><g:message code="dhr.step.documentRef.desc" /></span>
                </h3>
                
-               <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/default_step_ref_document" /> 
+               <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/documentRef" /> 
+               
+               <div class="error" id="documentRefFormErrors"> </div>
                
                <!-- Input submit-->
-               <input type="submit" 
-		           name="submitDhrDefault_step_ref_document" 
-		           value="<g:message code='dhr.step.default_step_ref_document.submitLabel'/>" />
+               <input type="button"
+                   id="submitDocumentRef" 
+		           name="submitDocumentRef" 
+		           value="<g:message code='dhr.step.documentRef.submitLabel'/>" />
              </form>
              <!-- navigation link -->
              <div class="navTab">
@@ -185,19 +200,22 @@
            </div>  
          
            <div id="tab6">
-             <form method="POST" action="<g:createLink action="validDefault_step_ref_validation" />">
+             <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
-                 <g:message code="dhr.step.default_step_ref_validation.label" />
-                 <span><g:message code="dhr.step.default_step_ref_validation.desc" /></span>
+                 <g:message code="dhr.step.validationRef.label" />
+                 <span><g:message code="dhr.step.validationRef.desc" /></span>
                </h3>
                
-               <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/default_step_ref_validation" /> 
+               <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/validationRef" /> 
+               
+               <div class="error" id="validationRefFormErrors"> </div>
                
                <!-- Input submit-->
-               <input type="submit" 
-		           name="submitDhrDefault_step_ref_validation" 
-		           value="<g:message code='dhr.step.default_step_ref_validation.submitLabel'/>" />
+               <input type="button"
+                   id="submitValidationRef" 
+		           name="submitValidationRef" 
+		           value="<g:message code='dhr.step.validationRef.submitLabel'/>" />
              </form>
              <!-- navigation link -->
              <div class="navTab">
@@ -354,7 +372,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isOtherPensionPlan", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       
@@ -378,7 +396,47 @@
          
 	  YAHOO.util.Event.onDOMReady(checkAllConditions);
 	  
-	  // Request TabView Initialization
+	  // VALIDATION
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitSubject");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('subjectFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "subjectForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitDwelling");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('dwellingFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "dwellingForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitResources");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('resourcesFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "resourcesForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitTaxes");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('taxesFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "taxesForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitDocumentRef");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('documentRefFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "documentRefForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitValidationRef");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('validationRefFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "validationRefForm");
+	  
+	  
+	  function onSubmitClick(ev, formId) {
+		zenexity.capdemat.common.doAjaxFormSubmitCall(formId ,null,  
+		function(o) {
+		     if (o.status == "200")
+		     	resetFormErrors(formId + "Errors");
+		});
+	  }
+	  
+	  function resetFormErrors(formErrors) { 
+		YAHOO.util.Dom.get(formErrors).innerHTML = '';
+		
+	  }
+	  
+    // Request TabView Initialization
     function initRequest() {
       var requestFormTabView = new YAHOO.widget.TabView('requestTabView');
     }

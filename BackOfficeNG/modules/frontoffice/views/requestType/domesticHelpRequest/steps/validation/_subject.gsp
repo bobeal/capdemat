@@ -90,7 +90,7 @@
 
 <!--AdditionalDeliveryInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalDeliveryInformation',
+			   		model="[forName:'dhrReferentAddress.additionalDeliveryInformation',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -107,7 +107,7 @@
 
 <!--AdditionalGeographicalInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalGeographicalInformation',
+			   		model="[forName:'dhrReferentAddress.additionalGeographicalInformation',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -124,7 +124,7 @@
 
 <!--StreetNumber -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetNumber',
+			   		model="[forName:'dhrReferentAddress.streetNumber',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -141,7 +141,7 @@
 
 <!--StreetName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetName',
+			   		model="[forName:'dhrReferentAddress.streetName',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -158,7 +158,7 @@
 
 <!--PlaceNameOrService -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'placeNameOrService',
+			   		model="[forName:'dhrReferentAddress.placeNameOrService',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -175,7 +175,7 @@
 
 <!--PostalCode -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'postalCode',
+			   		model="[forName:'dhrReferentAddress.postalCode',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -192,7 +192,7 @@
 
 <!--City -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'city',
+			   		model="[forName:'dhrReferentAddress.city',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -209,7 +209,7 @@
 
 <!--CountryName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'countryName',
+			   		model="[forName:'dhrReferentAddress.countryName',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -550,7 +550,7 @@
 
 <!--AdditionalDeliveryInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalDeliveryInformation',
+			   		model="[forName:'dhrGuardianAddress.additionalDeliveryInformation',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -567,7 +567,7 @@
 
 <!--AdditionalGeographicalInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalGeographicalInformation',
+			   		model="[forName:'dhrGuardianAddress.additionalGeographicalInformation',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -584,7 +584,7 @@
 
 <!--StreetNumber -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetNumber',
+			   		model="[forName:'dhrGuardianAddress.streetNumber',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -601,7 +601,7 @@
 
 <!--StreetName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetName',
+			   		model="[forName:'dhrGuardianAddress.streetName',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -618,7 +618,7 @@
 
 <!--PlaceNameOrService -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'placeNameOrService',
+			   		model="[forName:'dhrGuardianAddress.placeNameOrService',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -635,7 +635,7 @@
 
 <!--PostalCode -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'postalCode',
+			   		model="[forName:'dhrGuardianAddress.postalCode',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -652,7 +652,7 @@
 
 <!--City -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'city',
+			   		model="[forName:'dhrGuardianAddress.city',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -669,7 +669,7 @@
 
 <!--CountryName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'countryName',
+			   		model="[forName:'dhrGuardianAddress.countryName',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -886,7 +886,7 @@
 			   		model="[forName:'dhrIsSpouseRetired',
 			   		help:null,
 			   		validation:'null',
-			   		condition:'isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ',
+			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ',
 			   		elementName:'DhrIsSpouseRetired', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
 			   		elementTypeName : 'DhrSpouseStatusType']"/> 
@@ -895,7 +895,7 @@
 <g:render template="/frontofficeRequestType/widget/outputText"
 					model="[value:dhr.dhrIsSpouseRetired,
 					type:'yesnoWidget',
-					condition:'isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ']" />
+					condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ']" />
 
 
 <!--DhrSpousePrincipalPensionPlan -->
@@ -903,7 +903,7 @@
 			   		model="[forName:'dhrSpousePrincipalPensionPlan',
 			   		help:null,
 			   		validation:'null',
-			   		condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ',
+			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ',
 			   		elementName:'DhrSpousePrincipalPensionPlan', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
 			   		elementTypeName : 'DhrSpouseStatusType']"/> 
@@ -912,7 +912,7 @@
 <g:render template="/frontofficeRequestType/widget/outputText"
 					model="[value:dhr.dhrSpousePrincipalPensionPlan,
 					type:'selectWidget',
-					condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ',
+					condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ',
 					namespace:'http://www.cg95.fr/cvq/schema/dhr',
  					elementTypeName:'DhrPrincipalPensionPlanType']" />
 
@@ -998,7 +998,7 @@
 
 <!--AdditionalDeliveryInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalDeliveryInformation',
+			   		model="[forName:'dhrSpouseAddress.additionalDeliveryInformation',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -1015,7 +1015,7 @@
 
 <!--AdditionalGeographicalInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalGeographicalInformation',
+			   		model="[forName:'dhrSpouseAddress.additionalGeographicalInformation',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -1032,7 +1032,7 @@
 
 <!--StreetNumber -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetNumber',
+			   		model="[forName:'dhrSpouseAddress.streetNumber',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -1049,7 +1049,7 @@
 
 <!--StreetName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetName',
+			   		model="[forName:'dhrSpouseAddress.streetName',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -1066,7 +1066,7 @@
 
 <!--PlaceNameOrService -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'placeNameOrService',
+			   		model="[forName:'dhrSpouseAddress.placeNameOrService',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -1083,7 +1083,7 @@
 
 <!--PostalCode -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'postalCode',
+			   		model="[forName:'dhrSpouseAddress.postalCode',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -1100,7 +1100,7 @@
 
 <!--City -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'city',
+			   		model="[forName:'dhrSpouseAddress.city',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',
@@ -1117,7 +1117,7 @@
 
 <!--CountryName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'countryName',
+			   		model="[forName:'dhrSpouseAddress.countryName',
 			   		help:null,
 			   		validation:'null',
 			   		condition:'',

@@ -217,5 +217,8 @@ public interface IDocumentService {
 
     List<Document> search(Hashtable<String,Object> searchParams);
     
+    List<Document> search();
+    
     Integer searchCount(Hashtable<String,Object> searchParams);
+    Integer searchCount();
 }

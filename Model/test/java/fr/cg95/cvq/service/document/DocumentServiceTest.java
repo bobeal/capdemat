@@ -2,10 +2,12 @@ package fr.cg95.cvq.service.document;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
@@ -238,6 +240,25 @@ public class DocumentServiceTest extends ServiceTestCase {
         // retrieve all known document types
         allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
         Assert.assertNotNull(allDocumentTypes);
+        
+        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        int count = iDocumentService.searchCount();
+        Assert.assertNotSame(count, 0);
+        
+        List<Document> docs = new ArrayList<Document>();
+        Hashtable<String, Object> params = new Hashtable<String, Object>();
+        params.put("documentType", iDocumentTypeService.getDocumentTypeByType(
+                IDocumentTypeService.TAXES_NOTIFICATION_TYPE));
+        
+        docs = iDocumentService.search(params);
+        Assert.assertNotSame(docs.size(), 0);
+        
+        params = new Hashtable<String, Object>();
+        params.put("homeFolderId", homeFolderId);        
+        
+        count = iDocumentService.searchCount(params);
+        docs = iDocumentService.search(params);
+        Assert.assertEquals(docs.size(), count);
     }
     
     public void testCreate() throws CvqException {

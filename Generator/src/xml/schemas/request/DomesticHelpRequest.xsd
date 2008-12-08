@@ -78,6 +78,7 @@
                   <fo>
                     <radio/>
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -97,6 +98,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -116,6 +118,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -135,6 +138,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -154,6 +158,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -176,6 +181,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -198,6 +204,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -217,6 +224,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -236,6 +244,7 @@
                   <fo>
                     <oneToMany/>
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -255,6 +264,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -279,6 +289,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -298,6 +309,7 @@
                   <fo>
                     <oneToMany/>
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -317,6 +329,7 @@
                   <fo>
                     <oneToMany/>
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -336,6 +349,7 @@
                   <fo>
                     <label/>
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -392,6 +406,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -413,6 +428,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -434,6 +450,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -457,6 +474,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -493,6 +511,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -512,6 +531,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -530,6 +550,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -548,6 +569,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -569,6 +591,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -586,6 +609,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -604,6 +628,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -626,6 +651,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -646,6 +672,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -666,6 +693,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -771,6 +799,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -791,6 +820,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -808,6 +838,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -869,6 +900,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -891,6 +923,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -912,6 +945,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -935,6 +969,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -992,6 +1027,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1011,6 +1047,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1029,6 +1066,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1047,6 +1085,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1068,6 +1107,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1085,6 +1125,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1103,6 +1144,7 @@
               <step name="subject"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1125,6 +1167,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1145,6 +1188,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1165,6 +1209,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1200,6 +1245,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1223,6 +1269,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1243,6 +1290,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1263,6 +1311,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1283,6 +1332,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1303,6 +1353,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1326,6 +1377,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1360,6 +1412,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1378,6 +1431,7 @@
               <step name="dwelling"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1400,6 +1454,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1420,6 +1475,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1442,6 +1498,7 @@
             <fo>
               <radio/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1462,6 +1519,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1482,6 +1540,7 @@
               </conditions>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1586,6 +1645,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1608,6 +1668,7 @@
             <fo>
               <select/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1630,6 +1691,7 @@
             <fo>
               <radio/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1647,6 +1709,7 @@
               <step name="dwelling"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1664,6 +1727,7 @@
               <step name="dwelling"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1681,6 +1745,7 @@
               <step name="dwelling"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1712,6 +1777,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1729,6 +1795,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1746,6 +1813,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1763,6 +1831,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1780,6 +1849,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1796,6 +1866,10 @@
             <common>
               <step name="resources"/>
             </common>
+            <!--
+            <fo /> // TODO - FORGOT by MVE ???
+            -->
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1830,6 +1904,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1847,6 +1922,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1864,6 +1940,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1897,6 +1974,7 @@
             <fo>
               <radio/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1919,6 +1997,7 @@
             <fo>
               <radio/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1942,6 +2021,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1959,6 +2039,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1976,6 +2057,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1996,6 +2078,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -2013,6 +2096,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -2030,6 +2114,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -2047,6 +2132,7 @@
               <step name="resources"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -2067,6 +2153,7 @@
             <fo>
             	<label/>
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -2130,6 +2217,7 @@
               <step name="taxes"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -2147,6 +2235,7 @@
               <step name="taxes"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -2164,6 +2253,7 @@
               <step name="taxes"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -2181,6 +2271,7 @@
               <step name="taxes"/>
             </common>
             <fo/>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

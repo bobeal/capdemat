@@ -300,7 +300,7 @@
     </target>
     -->
 	
-	<target name="run-tests" depends="prepare-configfiles, compile-tests, schemaexport" description="Runs the Junit test suite. Notice: A known Ant/Junit bug prevents this
+	<target name="run-tests" depends="prepare-configfiles, compile-tests" description="Runs the Junit test suite. Notice: A known Ant/Junit bug prevents this
   	task to automatically work so add lib/junit/junit.jar to your CLASSPATH environment
 	variable prior to running the test suite">
 
@@ -354,7 +354,8 @@
 			<formatter type="plain" usefile="false" />
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-				  <include name="**/CapdematTestSuite.class"/>
+				  <include name="**/DomesticHelpRequestServiceTest.class"/>
+				  <!--include name="**/CapdematTestSuite.class"/-->
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />
 					<!-- required an LDAP directory -->

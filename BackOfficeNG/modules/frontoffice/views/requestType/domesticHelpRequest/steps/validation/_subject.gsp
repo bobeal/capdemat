@@ -886,7 +886,7 @@
 			   		model="[forName:'dhrIsSpouseRetired',
 			   		help:null,
 			   		validation:'null',
-			   		condition:'isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ',
+			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ',
 			   		elementName:'DhrIsSpouseRetired', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
 			   		elementTypeName : 'DhrSpouseStatusType']"/> 
@@ -895,7 +895,7 @@
 <g:render template="/frontofficeRequestType/widget/outputText"
 					model="[value:dhr.dhrIsSpouseRetired,
 					type:'yesnoWidget',
-					condition:'isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ']" />
+					condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ']" />
 
 
 <!--DhrSpousePrincipalPensionPlan -->
@@ -903,7 +903,7 @@
 			   		model="[forName:'dhrSpousePrincipalPensionPlan',
 			   		help:null,
 			   		validation:'null',
-			   		condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ',
+			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ',
 			   		elementName:'DhrSpousePrincipalPensionPlan', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
 			   		elementTypeName : 'DhrSpouseStatusType']"/> 
@@ -912,7 +912,7 @@
 <g:render template="/frontofficeRequestType/widget/outputText"
 					model="[value:dhr.dhrSpousePrincipalPensionPlan,
 					type:'selectWidget',
-					condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ',
+					condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ',
 					namespace:'http://www.cg95.fr/cvq/schema/dhr',
  					elementTypeName:'DhrPrincipalPensionPlanType']" />
 

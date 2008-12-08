@@ -1028,7 +1028,7 @@
 			   		model="[forName:'dhrIsSpouseRetired',
 			   		help:message(code:'dhr.property.dhrIsSpouseRetired.help'),
 			   		validation:'required ',
-			   		condition:'isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ',
+			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ',
 			   		elementName:'DhrIsSpouseRetired', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
 			   		elementTypeName : 'DhrSpouseStatusType']"/> 
@@ -1037,7 +1037,7 @@
 <g:render template="/frontofficeRequestType/widget/yesno"
 			   		model="[name:'dhrIsSpouseRetired', 
 			   		validation:'required ', 
-			   		condition:'isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ',
+			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ',
 			   		title:message(code:'dhr.property.dhrIsSpouseRetired.validationError'),
 			   		checked:dhr.dhrIsSpouseRetired]" />
 
@@ -1047,7 +1047,7 @@
 			   		model="[forName:'dhrSpousePrincipalPensionPlan',
 			   		help:message(code:'dhr.property.dhrSpousePrincipalPensionPlan.help'),
 			   		validation:'',
-			   		condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ',
+			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ',
 			   		elementName:'DhrSpousePrincipalPensionPlan', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
 			   		elementTypeName : 'DhrSpouseStatusType']"/> 
@@ -1056,7 +1056,7 @@
 <g:render template="/frontofficeRequestType/widget/select"
 					model="[name:'dhrSpousePrincipalPensionPlan',
  					validation:'', 
- 					condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ', 
+ 					condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ', 
  					title:message(code:'dhr.property.dhrSpousePrincipalPensionPlan.validationError'), 
  					defaultOption:message(code:'dhr.property.dhrSpousePrincipalPensionPlan.defaultOption'),
  					selected:dhr.dhrSpousePrincipalPensionPlan, 

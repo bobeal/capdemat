@@ -1,21 +1,21 @@
 <%
   def displayWidget(element, wrapper) {
     def widgets = [
-      "date" : 
+      'date' : 
           "<span><g:formatDate format=\"dd/MM/yyyy\" date=\"\${${wrapper}.${element.javaFieldName}}\"/></span>"
-      ,"capdematEnum" :
+      ,'capdematEnum' :
           "<g:capdematEnumToField var=\"\${${wrapper}.${element.javaFieldName}}\" i18nKeyPrefix=\"${element.i18nPrefixCode}\" />"
-      ,"address" :
-          ['<div>'
-          ,'<p class="additionalDeliveryInformation">\${${wrapper}.${element.javaFieldName}.additionalDeliveryInformation}</p>'
-          ,'<p class="additionalGeographicalInformation">\${${wrapper}.${element.javaFieldName}.additionalGeographicalInformation}</p>'
-          ,'<span class="streetNumber">\${${wrapper}.${element.javaFieldName}.streetNumber}</span>'
-          ,'<span class="streetName">\${${wrapper}.${element.javaFieldName}.streetName}</span>'
-          ,'<p class="placeNameOrService">\${${wrapper}.${element.javaFieldName}.placeNameOrService}</p>'
-          ,'<span class="postalCode">\${${wrapper}.${element.javaFieldName}.postalCode}</span>'
-          ,'<span class="city">\${${wrapper}.${element.javaFieldName}.city}</span>'
-          ,'<p class="countryName">\${${wrapper}.${element.javaFieldName}.countryName}</p>'
-          ,'</div>'
+      ,'address' :
+          ["<div>"
+          ,"<p class=\"additionalDeliveryInformation\">\${${wrapper}.${element.javaFieldName}.additionalDeliveryInformation}</p>"
+          ,"<p class=\"additionalGeographicalInformation\">\${${wrapper}.${element.javaFieldName}.additionalGeographicalInformation}</p>"
+          ,"<span class=\"streetNumber\">\${${wrapper}.${element.javaFieldName}.streetNumber}</span> "
+          ,"<span class=\"streetName\">\${${wrapper}.${element.javaFieldName}.streetName}</span>"
+          ,"<p class=\"placeNameOrService\">\${${wrapper}.${element.javaFieldName}.placeNameOrService}</p>"
+          ,"<span class=\"postalCode\">\${${wrapper}.${element.javaFieldName}.postalCode}</span>"
+          ,"<span class=\"city\">\${${wrapper}.${element.javaFieldName}.city}</span>"
+          ,"<p class=\"countryName\">\${${wrapper}.${element.javaFieldName}.countryName}</p>"
+          ,"</div>"
           ].join()
     ]
     
@@ -30,7 +30,7 @@
   <ul class="yui-nav">
   <% for(step in requestBo.steps) { %>
     <li${step.index == 0 ? ' class="selected"' :'' }>
-      <a href="#page${step.index}"><em><g:message code="request.property.step.${step.name}" /></em></a>
+      <a href="#page${step.index}"><em><g:message code="${requestBo.acronym}.step.${step.name}.label" /></em></a>
     </li>
   <% } %>
   </ul>
@@ -40,7 +40,7 @@
     <!-- step start -->
     <div id="page${step.index}">
       <h2><g:message code="property.form" />
-        <span><g:message code="request.property.step.${step.name}" /></span>
+        <span><g:message code="${requestBo.acronym}.step.${step.name}.label" /></span>
       </h2>
         <% if (step.name == "requester") { %>
         <g:render template="/backofficeRequestInstruction/requestType/adult" model="['adult':requester, 'action':'no-action']" />

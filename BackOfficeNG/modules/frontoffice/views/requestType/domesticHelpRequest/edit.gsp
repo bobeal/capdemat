@@ -15,7 +15,7 @@
         <strong class="mandatory">Livret de famille</strong>
       </span>
     </h2>
-  <div id="yui-main" class="yui-skin-fong"> 
+  <div id="yui-main"> 
     <div id="main" class="yui-b">
        <div id="requestTabView" class="yui-navset">
          <ul class="yui-nav">
@@ -354,7 +354,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isOtherPensionPlan", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

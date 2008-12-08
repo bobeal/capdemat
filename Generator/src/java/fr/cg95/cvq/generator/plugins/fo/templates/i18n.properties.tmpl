@@ -55,12 +55,14 @@ for(steps in foObject.stepMap) {
 			fielsetElements.each {
 				if (it.class.name.indexOf("SelectElement") != -1) {
 %>
+${namespaceAlias}.property.${StringUtils.uncapitalize(it.name)}.label= ${it.name}
 ${namespaceAlias}.property.${StringUtils.uncapitalize(it.name)}.defaultOption = ${default_messages.getProperty('widget.select.defaultOptions.label')}
 ${namespaceAlias}.property.${StringUtils.uncapitalize(it.name)}.help= (Help ${it.name})
 ${namespaceAlias}.property.${StringUtils.uncapitalize(it.name)}.validationError= ${it.name} validation error
 <%
 				} else {
 %>
+${namespaceAlias}.property.${StringUtils.uncapitalize(it.name)}.label= ${it.name}
 ${namespaceAlias}.property.${StringUtils.uncapitalize(it.name)}.help= (Help ${it.name})
 ${namespaceAlias}.property.${StringUtils.uncapitalize(it.name)}.validationError= ${it.name} validation error
 
@@ -69,12 +71,14 @@ ${namespaceAlias}.property.${StringUtils.uncapitalize(it.name)}.validationError=
 			}
 		} else if (element.class.name.indexOf("SelectElement") != -1) {
 %>
+${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.label= ${element.name}
 ${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.defaultOption = ${default_messages.getProperty('widget.select.defaultOptions.label')}
 ${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.help= (Help ${element.name})
 ${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.validationError= ${element.name} validation error
 <%
 		} else {
 %>
+${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.label= ${element.name}
 ${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.help= (Help ${element.name})
 ${namespaceAlias}.property.${StringUtils.uncapitalize(element.name)}.validationError= ${element.name} validation error
 <%

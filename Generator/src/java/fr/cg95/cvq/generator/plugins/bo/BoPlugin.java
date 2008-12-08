@@ -101,8 +101,8 @@ public class BoPlugin implements IPluginGenerator {
             elementBo.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
         else if (elementProp.isComplexType())
             elementBo.setTypeClass(ElementBo.ElementTypeClass.COMPLEX);
-        if (elementProp.getMaxOccurs() != null
-                && elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
+        if (elementProp.getMaxOccurs() == null
+                || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
             elementBo.setTypeClass(ElementBo.ElementTypeClass.COLLECTION);
         
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)

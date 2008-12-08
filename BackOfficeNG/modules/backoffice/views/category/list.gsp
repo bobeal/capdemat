@@ -36,9 +36,9 @@
               <div>
                 <g:each in="${category.requestTypes}" var="requestType">
                   <g:if test="${requestType.active}">
-                    <strong class="enabled">
+                    <!-- <strong class="enabled"> -->
                       <g:translateRequestTypeLabel label="${requestType.label}" />
-                    </strong>
+                    <!-- </strong> -->
                   </g:if>
                   <g:else>
                     <span class="disabled">

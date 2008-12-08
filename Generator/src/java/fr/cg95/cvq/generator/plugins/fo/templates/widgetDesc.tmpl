@@ -1,5 +1,11 @@
 <% 
 import org.apache.commons.lang.StringUtils
+if (valuePrefix != null) {
+	name = valuePrefix.replace('?', '') + StringUtils.uncapitalize(element.name)
+} else {
+	name = StringUtils.uncapitalize(element.name)
+}
+
 if (widgetType.equals("labelWidget")) {
 	def help = null
 	def validation = null
@@ -11,7 +17,7 @@ if (widgetType.equals("labelWidget")) {
 %>
 <!--${element.name} -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'${StringUtils.uncapitalize(element.name)}',
+			   		model="[forName:'${StringUtils.uncapitalize(name)}',
 			   		help:${help},
 			   		validation:'${validation}',
 			   		condition:'${element.condition}',
@@ -22,7 +28,7 @@ if (widgetType.equals("labelWidget")) {
 %>
 <!--${element.name} -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'${StringUtils.uncapitalize(element.name)}',
+			   		model="[forName:'${StringUtils.uncapitalize(name)}',
 			   		help:${help},
 			   		validation:'${validation}',
 			   		condition:'${element.condition}',

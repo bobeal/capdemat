@@ -27,15 +27,15 @@ dhr.step.taxes.label = taxes
 dhr.step.taxes.desc = taxes informations.
 dhr.step.taxes.submitLabel = Valider cette page
 
-// default_step_ref_document step
-dhr.step.default_step_ref_document.label = Documents
-dhr.step.default_step_ref_document.desc = Cette &eacute;tape vous permet de fournir des justificatifs num&eacute;ris&eacute;s, elle n'est pas obligatoire 
-dhr.step.default_step_ref_document.submitLabel = Valider cette page
+// documentRef step
+dhr.step.documentRef.label = Documents
+dhr.step.documentRef.desc = Cette &eacute;tape vous permet de fournir des justificatifs num&eacute;ris&eacute;s, elle n'est pas obligatoire 
+dhr.step.documentRef.submitLabel = Valider cette page
 
-// default_step_ref_validation step
-dhr.step.default_step_ref_validation.label = Validation
-dhr.step.default_step_ref_validation.desc = V&eacute;rifiez les donn&eacute;es saisies et envoyez votre demande
-dhr.step.default_step_ref_validation.submitLabel = Valider cette page
+// validationRef step
+dhr.step.validationRef.label = Validation
+dhr.step.validationRef.desc = V&eacute;rifiez les donn&eacute;es saisies et envoyez votre demande
+dhr.step.validationRef.submitLabel = Valider cette page
 
 
 // Elements labels

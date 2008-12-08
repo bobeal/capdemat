@@ -136,7 +136,7 @@
     this.setBody(body);
     this.render("bd");
   };
-
+  
   YAHOO.lang.extend(zcc.deleteConfirmationDialog, YAHOO.widget.SimpleDialog);
   YAHOO.lang.extend(zcc.errorMessageDialog, YAHOO.widget.SimpleDialog);
   YAHOO.lang.extend(zcc.responseResultAnimation, YAHOO.util.ColorAnim);
@@ -144,7 +144,6 @@
 
   YAHOO.util.Event.onDOMReady(function(){
     zcc.setMenu();
-    //zcc.Notifier.init();
   });
 
 }());

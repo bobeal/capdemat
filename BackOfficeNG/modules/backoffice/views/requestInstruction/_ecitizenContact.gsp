@@ -126,7 +126,7 @@
         <input type="button" id="trace_sms" name="trace_sms"
             value="${message(code:'action.trace')}" />
         <input type="button" id="discardChanges_Sms" name="discardChanges_Sms"
-            value="${message(code:'action.discard')}" />
+            value="${message(code:'action.close')}" />
       </fieldset>
       
       <!-- Mail buttons -->
@@ -136,7 +136,7 @@
         <input type="button" id="trace_email" name="trace_email"
             value="${message(code:'action.trace')}" />
         <input type="button" id="discardChanges_mail" name="discardChanges_mail"
-            value="${message(code:'action.discard')}" />
+            value="${message(code:'action.close')}" />
       </fieldset>
       
       <!-- Default buttons -->
@@ -144,7 +144,7 @@
         <input type="button" id="trace_default" name="trace_default"
             value="${message(code:'action.trace')}" class="form-button" />
         <input type="button" id="discardChanges_default" name="discardChanges_default"
-            value="${message(code:'action.discard')}" />
+            value="${message(code:'action.close')}" />
       </fieldset>
 
     </form>

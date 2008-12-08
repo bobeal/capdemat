@@ -106,7 +106,7 @@ public class FoObject {
 		try {
 		if (stepMap != null) {
 			for (int i = 0; i < stepMap.size(); i++) {
-				System.out.println(stepMap.get(i).toString());
+				logger.debug(stepMap.get(i).toString());
 			}
 		}
 		} catch (Exception e) {e.printStackTrace();}

@@ -38,6 +38,8 @@ public class FoRenderer {
     private final String WIDGET_DESC_TEMPLATE = TEMPLATES_DIR + "widgetDesc.tmpl";
     
     private final String DOCUMENT_REF_TEMPLATE = TEMPLATES_DIR + "documentRef.tmpl";
+    
+    private final String MEANS_OF_CONTACT_TEMPLATE = TEMPLATES_DIR + "meansOfContact.tmpl";
 
     private FoObject foObject;
 
@@ -56,6 +58,8 @@ public class FoRenderer {
     private Template widgetDescTemplate;
     
     private Template documentTemplate;
+    
+    private Template meansOfContactTemplate;
 
     public FoRenderer(FoObject foObject, String outputDir) {
         this.foObject = foObject;
@@ -97,8 +101,10 @@ public class FoRenderer {
                         stepRender.append(getElementRender(element, "", needsValidation));
                     }
                 } else {
-                    if (step.getRef().equals("validation"))
+                    if (step.getRef().equals("validation")) {
+                        stepRender.append(getMeansOfContact());
                         stepRender.append(editValidationRender);
+                    }
                     if (step.getRef().equals("document"))
                         stepRender.append(getDocumentRef());
                 }
@@ -137,6 +143,11 @@ public class FoRenderer {
         Writable w = getDocumentTemplate().make();
         return w;
     }
+    
+    private Writable getMeansOfContact() {
+        Writable w = getMeansOfContactTemplate().make();
+        return w;
+    }
 
     private Writable getWidgetRender(Element currentElement, String widgetType, String valuePrefix, boolean validationStep) {
         Map<String, Object> binding = new HashMap<String, Object>();
@@ -156,6 +167,7 @@ public class FoRenderer {
         binding.put("widgetType", widgetType);
         binding.put("element", currentElement);
         binding.put("namespaceAlias", getFoObject().getNamespaceAlias());
+        binding.put("valuePrefix", valuePrefix);
         binding.put("validationStep", validationStep);
         Writable w = getWidgetDescTemplate().make(binding);
         return w;
@@ -237,12 +249,7 @@ public class FoRenderer {
 //            }
 //            result.append("</fieldset>\n");
         } else if (currentElement instanceof ComplexElement) {
-            result
-                    .append("<strong><font color=\"red\"> I m a complex element no fieldset !!!!</font></strong>");
             ComplexElement complexElement = (ComplexElement) currentElement;
-            result
-                    .append("<strong><font color=\"red\"> I m a complex widget but there s not a widget render !!!!</font></strong>");
-            //result.append("<fieldset>\n");
             for (Element element : complexElement.getElementList()) {
                 if (complexElement.isExternalElement())
                     result.append(getElementRender(element, valuePrefix
@@ -251,7 +258,6 @@ public class FoRenderer {
                 else
                     result.append(getElementRender(element, valuePrefix, needsValidation));
             }
-            //result.append("</fieldset>\n");
         } else {
             logger.error("Don't pass here ... ");
         }
@@ -343,6 +349,9 @@ public class FoRenderer {
             file = new File(DOCUMENT_REF_TEMPLATE);
             template = simpleEngine.createTemplate(file);
             setDocumentTemplate(template);
+            file = new File(MEANS_OF_CONTACT_TEMPLATE);
+            template = simpleEngine.createTemplate(file);
+            setMeansOfContactTemplate(template);
 
         } catch (Exception e) {
            logger.error("Templates are not initialized");
@@ -429,6 +438,14 @@ public class FoRenderer {
 
     public void setDocumentTemplate(Template documentTemplate) {
         this.documentTemplate = documentTemplate;
+    }
+
+    public Template getMeansOfContactTemplate() {
+        return meansOfContactTemplate;
+    }
+
+    public void setMeansOfContactTemplate(Template meansOfContactTemplate) {
+        this.meansOfContactTemplate = meansOfContactTemplate;
     }
 
     public FoObject getFoObject() {

@@ -348,9 +348,17 @@ public class DocumentService implements IDocumentService {
         return this.documentDAO.searchCount(this.prepareSearchParams(searchParams));
     }
     
+    public Integer searchCount() {
+        return this.searchCount(new Hashtable<String, Object>());
+    }
+    
     @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.NONE)
     public List<Document> search(Hashtable<String,Object> searchParams,int max,int offset) {
         return this.documentDAO.search(this.prepareSearchParams(searchParams),max,offset);
+    }
+    
+    public List<Document> search() {
+        return this.search(new Hashtable<String, Object>(),-1,-1);
     }
     
     public List<Document> search(Hashtable<String,Object> searchParams,int max) {

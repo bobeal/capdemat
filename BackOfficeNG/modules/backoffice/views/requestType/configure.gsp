@@ -49,6 +49,7 @@
                   <div class="editableListSwithcher">
                     <a id="linkShowDatasheet" href="javascript:;">${message(code:'action.create')}</a>
                   </div>
+                  <div id="insertInList"></div>
                   <div id="requestFormList"></div>
                   <div class="separator"></div>
                 </div>

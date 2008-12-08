@@ -33,7 +33,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrHaveFamilyReferent',
 			   		help:message(code:'dhr.property.dhrHaveFamilyReferent.help'),
-			   		validation:'required ',
+			   		validation:'required validate-one-required',
 			   		condition:'haveFamilyReferent-trigger ',
 			   		elementName:'DhrHaveFamilyReferent', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -42,7 +42,7 @@
 
 <g:render template="/frontofficeRequestType/widget/yesno"
 			   		model="[name:'dhrHaveFamilyReferent', 
-			   		validation:'required ', 
+			   		validation:'required validate-one-required', 
 			   		condition:'haveFamilyReferent-trigger ',
 			   		title:message(code:'dhr.property.dhrHaveFamilyReferent.validationError'),
 			   		checked:dhr.dhrHaveFamilyReferent]" />
@@ -52,7 +52,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrReferentName',
 			   		help:message(code:'dhr.property.dhrReferentName.help'),
-			   		validation:'',
+			   		validation:'  validate-lastname',
 			   		condition:'haveFamilyReferent-filled ',
 			   		elementName:'DhrReferentName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -61,7 +61,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrReferentName', 
-			 		validation:'', 
+			 		validation:'  validate-lastname', 
 			 		condition:'haveFamilyReferent-filled ',
 			 		value:dhr.dhrReferentName, 
 			 		title:message(code:'dhr.property.dhrReferentName.validationError')]"/>
@@ -72,7 +72,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrReferentFirstName',
 			   		help:message(code:'dhr.property.dhrReferentFirstName.help'),
-			   		validation:'',
+			   		validation:'  validate-firstname',
 			   		condition:'haveFamilyReferent-filled ',
 			   		elementName:'DhrReferentFirstName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -81,7 +81,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrReferentFirstName', 
-			 		validation:'', 
+			 		validation:'  validate-firstname', 
 			 		condition:'haveFamilyReferent-filled ',
 			 		value:dhr.dhrReferentFirstName, 
 			 		title:message(code:'dhr.property.dhrReferentFirstName.validationError')]"/>
@@ -101,9 +101,9 @@
 
 <!--AdditionalDeliveryInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalDeliveryInformation',
+			   		model="[forName:'dhrReferentAddress.additionalDeliveryInformation',
 			   		help:message(code:'dhr.property.additionalDeliveryInformation.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'AdditionalDeliveryInformation', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -111,8 +111,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'additionalDeliveryInformation', 
-			 		validation:'', 
+			 		model="[name:'dhrReferentAddress.additionalDeliveryInformation', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrReferentAddress?.additionalDeliveryInformation, 
 			 		title:message(code:'dhr.property.additionalDeliveryInformation.validationError')]"/>
@@ -121,9 +121,9 @@
 
 <!--AdditionalGeographicalInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalGeographicalInformation',
+			   		model="[forName:'dhrReferentAddress.additionalGeographicalInformation',
 			   		help:message(code:'dhr.property.additionalGeographicalInformation.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'AdditionalGeographicalInformation', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -131,8 +131,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'additionalGeographicalInformation', 
-			 		validation:'', 
+			 		model="[name:'dhrReferentAddress.additionalGeographicalInformation', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrReferentAddress?.additionalGeographicalInformation, 
 			 		title:message(code:'dhr.property.additionalGeographicalInformation.validationError')]"/>
@@ -141,9 +141,9 @@
 
 <!--StreetNumber -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetNumber',
+			   		model="[forName:'dhrReferentAddress.streetNumber',
 			   		help:message(code:'dhr.property.streetNumber.help'),
-			   		validation:'',
+			   		validation:' ',
 			   		condition:'',
 			   		elementName:'StreetNumber', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -151,8 +151,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'streetNumber', 
-			 		validation:'', 
+			 		model="[name:'dhrReferentAddress.streetNumber', 
+			 		validation:' ', 
 			 		condition:'',
 			 		value:dhr.dhrReferentAddress?.streetNumber, 
 			 		title:message(code:'dhr.property.streetNumber.validationError')]"/>
@@ -161,9 +161,9 @@
 
 <!--StreetName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetName',
+			   		model="[forName:'dhrReferentAddress.streetName',
 			   		help:message(code:'dhr.property.streetName.help'),
-			   		validation:'required ',
+			   		validation:'required  ',
 			   		condition:'',
 			   		elementName:'StreetName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -171,8 +171,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'streetName', 
-			 		validation:'required ', 
+			 		model="[name:'dhrReferentAddress.streetName', 
+			 		validation:'required  ', 
 			 		condition:'',
 			 		value:dhr.dhrReferentAddress?.streetName, 
 			 		title:message(code:'dhr.property.streetName.validationError')]"/>
@@ -181,9 +181,9 @@
 
 <!--PlaceNameOrService -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'placeNameOrService',
+			   		model="[forName:'dhrReferentAddress.placeNameOrService',
 			   		help:message(code:'dhr.property.placeNameOrService.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'PlaceNameOrService', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -191,8 +191,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'placeNameOrService', 
-			 		validation:'', 
+			 		model="[name:'dhrReferentAddress.placeNameOrService', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrReferentAddress?.placeNameOrService, 
 			 		title:message(code:'dhr.property.placeNameOrService.validationError')]"/>
@@ -201,9 +201,9 @@
 
 <!--PostalCode -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'postalCode',
+			   		model="[forName:'dhrReferentAddress.postalCode',
 			   		help:message(code:'dhr.property.postalCode.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-postalcode',
 			   		condition:'',
 			   		elementName:'PostalCode', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -211,8 +211,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'postalCode', 
-			 		validation:'required ', 
+			 		model="[name:'dhrReferentAddress.postalCode', 
+			 		validation:'required  validate-postalcode', 
 			 		condition:'',
 			 		value:dhr.dhrReferentAddress?.postalCode, 
 			 		title:message(code:'dhr.property.postalCode.validationError')]"/>
@@ -221,9 +221,9 @@
 
 <!--City -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'city',
+			   		model="[forName:'dhrReferentAddress.city',
 			   		help:message(code:'dhr.property.city.help'),
-			   		validation:'required ',
+			   		validation:'required  ',
 			   		condition:'',
 			   		elementName:'City', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -231,8 +231,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'city', 
-			 		validation:'required ', 
+			 		model="[name:'dhrReferentAddress.city', 
+			 		validation:'required  ', 
 			 		condition:'',
 			 		value:dhr.dhrReferentAddress?.city, 
 			 		title:message(code:'dhr.property.city.validationError')]"/>
@@ -241,9 +241,9 @@
 
 <!--CountryName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'countryName',
+			   		model="[forName:'dhrReferentAddress.countryName',
 			   		help:message(code:'dhr.property.countryName.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'CountryName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -251,8 +251,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'countryName', 
-			 		validation:'', 
+			 		model="[name:'dhrReferentAddress.countryName', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrReferentAddress?.countryName, 
 			 		title:message(code:'dhr.property.countryName.validationError')]"/>
@@ -320,7 +320,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRequesterName',
 			   		help:message(code:'dhr.property.dhrRequesterName.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-lastname',
 			   		condition:'',
 			   		elementName:'DhrRequesterName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -329,7 +329,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrRequesterName', 
-			 		validation:'required ', 
+			 		validation:'required  validate-lastname', 
 			 		condition:'',
 			 		value:dhr.dhrRequesterName, 
 			 		title:message(code:'dhr.property.dhrRequesterName.validationError')]"/>
@@ -340,7 +340,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRequesterFirstName',
 			   		help:message(code:'dhr.property.dhrRequesterFirstName.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-firstname',
 			   		condition:'',
 			   		elementName:'DhrRequesterFirstName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -349,7 +349,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrRequesterFirstName', 
-			 		validation:'required ', 
+			 		validation:'required  validate-firstname', 
 			 		condition:'',
 			 		value:dhr.dhrRequesterFirstName, 
 			 		title:message(code:'dhr.property.dhrRequesterFirstName.validationError')]"/>
@@ -360,7 +360,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRequesterMaidenName',
 			   		help:message(code:'dhr.property.dhrRequesterMaidenName.help'),
-			   		validation:'',
+			   		validation:'  validate-lastname',
 			   		condition:'isMadam-filled ',
 			   		elementName:'DhrRequesterMaidenName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -369,7 +369,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrRequesterMaidenName', 
-			 		validation:'', 
+			 		validation:'  validate-lastname', 
 			 		condition:'isMadam-filled ',
 			 		value:dhr.dhrRequesterMaidenName, 
 			 		title:message(code:'dhr.property.dhrRequesterMaidenName.validationError')]"/>
@@ -380,7 +380,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRequesterBirthDate',
 			   		help:message(code:'dhr.property.dhrRequesterBirthDate.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-date-au',
 			   		condition:'',
 			   		elementName:'DhrRequesterBirthDate', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -389,7 +389,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrRequesterBirthDate', 
-			 		validation:'required ', 
+			 		validation:'required  validate-date-au', 
 			 		condition:'',
 			 		value:dhr.dhrRequesterBirthDate, 
 			 		title:message(code:'dhr.property.dhrRequesterBirthDate.validationError')]"/>
@@ -400,7 +400,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRequesterBirthPlace',
 			   		help:message(code:'dhr.property.dhrRequesterBirthPlace.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-string',
 			   		condition:'',
 			   		elementName:'DhrRequesterBirthPlace', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -409,7 +409,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrRequesterBirthPlace', 
-			 		validation:'required ', 
+			 		validation:'required  validate-string', 
 			 		condition:'',
 			 		value:dhr.dhrRequesterBirthPlace, 
 			 		title:message(code:'dhr.property.dhrRequesterBirthPlace.validationError')]"/>
@@ -443,7 +443,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRequesterFranceArrivalDate',
 			   		help:message(code:'dhr.property.dhrRequesterFranceArrivalDate.help'),
-			   		validation:'',
+			   		validation:'  validate-date-au',
 			   		condition:'isNonEuropean-filled ',
 			   		elementName:'DhrRequesterFranceArrivalDate', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -452,7 +452,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrRequesterFranceArrivalDate', 
-			 		validation:'', 
+			 		validation:'  validate-date-au', 
 			 		condition:'isNonEuropean-filled ',
 			 		value:dhr.dhrRequesterFranceArrivalDate, 
 			 		title:message(code:'dhr.property.dhrRequesterFranceArrivalDate.validationError')]"/>
@@ -463,7 +463,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRequesterIsFrenchResident',
 			   		help:message(code:'dhr.property.dhrRequesterIsFrenchResident.help'),
-			   		validation:'',
+			   		validation:' validate-one-required',
 			   		condition:'isNonEuropean-filled ',
 			   		elementName:'DhrRequesterIsFrenchResident', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -472,7 +472,7 @@
 
 <g:render template="/frontofficeRequestType/widget/yesno"
 			   		model="[name:'dhrRequesterIsFrenchResident', 
-			   		validation:'', 
+			   		validation:' validate-one-required', 
 			   		condition:'isNonEuropean-filled ',
 			   		title:message(code:'dhr.property.dhrRequesterIsFrenchResident.validationError'),
 			   		checked:dhr.dhrRequesterIsFrenchResident]" />
@@ -515,7 +515,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrPensionPlanDetail',
 			   		help:message(code:'dhr.property.dhrPensionPlanDetail.help'),
-			   		validation:'',
+			   		validation:'  validate-string',
 			   		condition:'isOtherPensionPlan-filled ',
 			   		elementName:'DhrPensionPlanDetail', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -524,7 +524,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrPensionPlanDetail', 
-			 		validation:'', 
+			 		validation:'  validate-string', 
 			 		condition:'isOtherPensionPlan-filled ',
 			 		value:dhr.dhrPensionPlanDetail, 
 			 		title:message(code:'dhr.property.dhrPensionPlanDetail.validationError')]"/>
@@ -535,7 +535,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrComplementaryPensionPlan',
 			   		help:message(code:'dhr.property.dhrComplementaryPensionPlan.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-string',
 			   		condition:'',
 			   		elementName:'DhrComplementaryPensionPlan', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -544,7 +544,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrComplementaryPensionPlan', 
-			 		validation:'required ', 
+			 		validation:'required  validate-string', 
 			 		condition:'',
 			 		value:dhr.dhrComplementaryPensionPlan, 
 			 		title:message(code:'dhr.property.dhrComplementaryPensionPlan.validationError')]"/>
@@ -565,7 +565,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRequesterHaveGuardian',
 			   		help:message(code:'dhr.property.dhrRequesterHaveGuardian.help'),
-			   		validation:'required ',
+			   		validation:'required validate-one-required',
 			   		condition:'haveGuardian-trigger ',
 			   		elementName:'DhrRequesterHaveGuardian', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -574,7 +574,7 @@
 
 <g:render template="/frontofficeRequestType/widget/yesno"
 			   		model="[name:'dhrRequesterHaveGuardian', 
-			   		validation:'required ', 
+			   		validation:'required validate-one-required', 
 			   		condition:'haveGuardian-trigger ',
 			   		title:message(code:'dhr.property.dhrRequesterHaveGuardian.validationError'),
 			   		checked:dhr.dhrRequesterHaveGuardian]" />
@@ -584,7 +584,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrGuardianMeasure',
 			   		help:message(code:'dhr.property.dhrGuardianMeasure.help'),
-			   		validation:'',
+			   		validation:' validate-not-first',
 			   		condition:'haveGuardian-filled ',
 			   		elementName:'DhrGuardianMeasure', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -593,7 +593,7 @@
 
 <g:render template="/frontofficeRequestType/widget/select"
 					model="[name:'dhrGuardianMeasure',
- 					validation:'', 
+ 					validation:' validate-not-first', 
  					condition:'haveGuardian-filled ', 
  					title:message(code:'dhr.property.dhrGuardianMeasure.validationError'), 
  					defaultOption:message(code:'dhr.property.dhrGuardianMeasure.defaultOption'),
@@ -607,7 +607,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrGuardianName',
 			   		help:message(code:'dhr.property.dhrGuardianName.help'),
-			   		validation:'',
+			   		validation:'  validate-lastname',
 			   		condition:'haveGuardian-filled ',
 			   		elementName:'DhrGuardianName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -616,7 +616,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrGuardianName', 
-			 		validation:'', 
+			 		validation:'  validate-lastname', 
 			 		condition:'haveGuardian-filled ',
 			 		value:dhr.dhrGuardianName, 
 			 		title:message(code:'dhr.property.dhrGuardianName.validationError')]"/>
@@ -636,9 +636,9 @@
 
 <!--AdditionalDeliveryInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalDeliveryInformation',
+			   		model="[forName:'dhrGuardianAddress.additionalDeliveryInformation',
 			   		help:message(code:'dhr.property.additionalDeliveryInformation.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'AdditionalDeliveryInformation', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -646,8 +646,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'additionalDeliveryInformation', 
-			 		validation:'', 
+			 		model="[name:'dhrGuardianAddress.additionalDeliveryInformation', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrGuardianAddress?.additionalDeliveryInformation, 
 			 		title:message(code:'dhr.property.additionalDeliveryInformation.validationError')]"/>
@@ -656,9 +656,9 @@
 
 <!--AdditionalGeographicalInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalGeographicalInformation',
+			   		model="[forName:'dhrGuardianAddress.additionalGeographicalInformation',
 			   		help:message(code:'dhr.property.additionalGeographicalInformation.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'AdditionalGeographicalInformation', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -666,8 +666,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'additionalGeographicalInformation', 
-			 		validation:'', 
+			 		model="[name:'dhrGuardianAddress.additionalGeographicalInformation', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrGuardianAddress?.additionalGeographicalInformation, 
 			 		title:message(code:'dhr.property.additionalGeographicalInformation.validationError')]"/>
@@ -676,9 +676,9 @@
 
 <!--StreetNumber -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetNumber',
+			   		model="[forName:'dhrGuardianAddress.streetNumber',
 			   		help:message(code:'dhr.property.streetNumber.help'),
-			   		validation:'',
+			   		validation:' ',
 			   		condition:'',
 			   		elementName:'StreetNumber', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -686,8 +686,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'streetNumber', 
-			 		validation:'', 
+			 		model="[name:'dhrGuardianAddress.streetNumber', 
+			 		validation:' ', 
 			 		condition:'',
 			 		value:dhr.dhrGuardianAddress?.streetNumber, 
 			 		title:message(code:'dhr.property.streetNumber.validationError')]"/>
@@ -696,9 +696,9 @@
 
 <!--StreetName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetName',
+			   		model="[forName:'dhrGuardianAddress.streetName',
 			   		help:message(code:'dhr.property.streetName.help'),
-			   		validation:'required ',
+			   		validation:'required  ',
 			   		condition:'',
 			   		elementName:'StreetName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -706,8 +706,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'streetName', 
-			 		validation:'required ', 
+			 		model="[name:'dhrGuardianAddress.streetName', 
+			 		validation:'required  ', 
 			 		condition:'',
 			 		value:dhr.dhrGuardianAddress?.streetName, 
 			 		title:message(code:'dhr.property.streetName.validationError')]"/>
@@ -716,9 +716,9 @@
 
 <!--PlaceNameOrService -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'placeNameOrService',
+			   		model="[forName:'dhrGuardianAddress.placeNameOrService',
 			   		help:message(code:'dhr.property.placeNameOrService.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'PlaceNameOrService', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -726,8 +726,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'placeNameOrService', 
-			 		validation:'', 
+			 		model="[name:'dhrGuardianAddress.placeNameOrService', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrGuardianAddress?.placeNameOrService, 
 			 		title:message(code:'dhr.property.placeNameOrService.validationError')]"/>
@@ -736,9 +736,9 @@
 
 <!--PostalCode -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'postalCode',
+			   		model="[forName:'dhrGuardianAddress.postalCode',
 			   		help:message(code:'dhr.property.postalCode.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-postalcode',
 			   		condition:'',
 			   		elementName:'PostalCode', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -746,8 +746,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'postalCode', 
-			 		validation:'required ', 
+			 		model="[name:'dhrGuardianAddress.postalCode', 
+			 		validation:'required  validate-postalcode', 
 			 		condition:'',
 			 		value:dhr.dhrGuardianAddress?.postalCode, 
 			 		title:message(code:'dhr.property.postalCode.validationError')]"/>
@@ -756,9 +756,9 @@
 
 <!--City -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'city',
+			   		model="[forName:'dhrGuardianAddress.city',
 			   		help:message(code:'dhr.property.city.help'),
-			   		validation:'required ',
+			   		validation:'required  ',
 			   		condition:'',
 			   		elementName:'City', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -766,8 +766,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'city', 
-			 		validation:'required ', 
+			 		model="[name:'dhrGuardianAddress.city', 
+			 		validation:'required  ', 
 			 		condition:'',
 			 		value:dhr.dhrGuardianAddress?.city, 
 			 		title:message(code:'dhr.property.city.validationError')]"/>
@@ -776,9 +776,9 @@
 
 <!--CountryName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'countryName',
+			   		model="[forName:'dhrGuardianAddress.countryName',
 			   		help:message(code:'dhr.property.countryName.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'CountryName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -786,8 +786,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'countryName', 
-			 		validation:'', 
+			 		model="[name:'dhrGuardianAddress.countryName', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrGuardianAddress?.countryName, 
 			 		title:message(code:'dhr.property.countryName.validationError')]"/>
@@ -855,7 +855,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseName',
 			   		help:message(code:'dhr.property.dhrSpouseName.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-lastname',
 			   		condition:'',
 			   		elementName:'DhrSpouseName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -864,7 +864,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseName', 
-			 		validation:'required ', 
+			 		validation:'required  validate-lastname', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseName, 
 			 		title:message(code:'dhr.property.dhrSpouseName.validationError')]"/>
@@ -875,7 +875,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseFirstName',
 			   		help:message(code:'dhr.property.dhrSpouseFirstName.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-firstname',
 			   		condition:'',
 			   		elementName:'DhrSpouseFirstName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -884,7 +884,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseFirstName', 
-			 		validation:'required ', 
+			 		validation:'required  validate-firstname', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseFirstName, 
 			 		title:message(code:'dhr.property.dhrSpouseFirstName.validationError')]"/>
@@ -895,7 +895,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseMaidenName',
 			   		help:message(code:'dhr.property.dhrSpouseMaidenName.help'),
-			   		validation:'',
+			   		validation:'  validate-lastname',
 			   		condition:'isSpouseMadam-filled ',
 			   		elementName:'DhrSpouseMaidenName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -904,7 +904,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseMaidenName', 
-			 		validation:'', 
+			 		validation:'  validate-lastname', 
 			 		condition:'isSpouseMadam-filled ',
 			 		value:dhr.dhrSpouseMaidenName, 
 			 		title:message(code:'dhr.property.dhrSpouseMaidenName.validationError')]"/>
@@ -915,7 +915,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseBirthDate',
 			   		help:message(code:'dhr.property.dhrSpouseBirthDate.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-date-au',
 			   		condition:'',
 			   		elementName:'DhrSpouseBirthDate', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -924,7 +924,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseBirthDate', 
-			 		validation:'required ', 
+			 		validation:'required  validate-date-au', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseBirthDate, 
 			 		title:message(code:'dhr.property.dhrSpouseBirthDate.validationError')]"/>
@@ -935,7 +935,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseBirthPlace',
 			   		help:message(code:'dhr.property.dhrSpouseBirthPlace.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-string',
 			   		condition:'',
 			   		elementName:'DhrSpouseBirthPlace', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -944,7 +944,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseBirthPlace', 
-			 		validation:'required ', 
+			 		validation:'required  validate-string', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseBirthPlace, 
 			 		title:message(code:'dhr.property.dhrSpouseBirthPlace.validationError')]"/>
@@ -978,7 +978,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseFranceArrivalDate',
 			   		help:message(code:'dhr.property.dhrSpouseFranceArrivalDate.help'),
-			   		validation:'',
+			   		validation:'  validate-date-au',
 			   		condition:'isSpouseNonEuropean-filled ',
 			   		elementName:'DhrSpouseFranceArrivalDate', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -987,7 +987,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseFranceArrivalDate', 
-			 		validation:'', 
+			 		validation:'  validate-date-au', 
 			 		condition:'isSpouseNonEuropean-filled ',
 			 		value:dhr.dhrSpouseFranceArrivalDate, 
 			 		title:message(code:'dhr.property.dhrSpouseFranceArrivalDate.validationError')]"/>
@@ -998,7 +998,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseIsFrenchResident',
 			   		help:message(code:'dhr.property.dhrSpouseIsFrenchResident.help'),
-			   		validation:'',
+			   		validation:' validate-one-required',
 			   		condition:'isSpouseNonEuropean-filled ',
 			   		elementName:'DhrSpouseIsFrenchResident', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -1007,7 +1007,7 @@
 
 <g:render template="/frontofficeRequestType/widget/yesno"
 			   		model="[name:'dhrSpouseIsFrenchResident', 
-			   		validation:'', 
+			   		validation:' validate-one-required', 
 			   		condition:'isSpouseNonEuropean-filled ',
 			   		title:message(code:'dhr.property.dhrSpouseIsFrenchResident.validationError'),
 			   		checked:dhr.dhrSpouseIsFrenchResident]" />
@@ -1069,7 +1069,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpousePensionPlanDetail',
 			   		help:message(code:'dhr.property.dhrSpousePensionPlanDetail.help'),
-			   		validation:'',
+			   		validation:'  validate-string',
 			   		condition:'isSpouseOtherPensionPlan-filled ',
 			   		elementName:'DhrSpousePensionPlanDetail', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -1078,7 +1078,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpousePensionPlanDetail', 
-			 		validation:'', 
+			 		validation:'  validate-string', 
 			 		condition:'isSpouseOtherPensionPlan-filled ',
 			 		value:dhr.dhrSpousePensionPlanDetail, 
 			 		title:message(code:'dhr.property.dhrSpousePensionPlanDetail.validationError')]"/>
@@ -1089,7 +1089,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseComplementaryPensionPlan',
 			   		help:message(code:'dhr.property.dhrSpouseComplementaryPensionPlan.help'),
-			   		validation:'',
+			   		validation:'  validate-string',
 			   		condition:'isSpouseRetired-filled ',
 			   		elementName:'DhrSpouseComplementaryPensionPlan', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -1098,7 +1098,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseComplementaryPensionPlan', 
-			 		validation:'', 
+			 		validation:'  validate-string', 
 			 		condition:'isSpouseRetired-filled ',
 			 		value:dhr.dhrSpouseComplementaryPensionPlan, 
 			 		title:message(code:'dhr.property.dhrSpouseComplementaryPensionPlan.validationError')]"/>
@@ -1109,7 +1109,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseProfession',
 			   		help:message(code:'dhr.property.dhrSpouseProfession.help'),
-			   		validation:'',
+			   		validation:'  validate-string',
 			   		condition:'isSpouseRetired-unfilled ',
 			   		elementName:'DhrSpouseProfession', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -1118,7 +1118,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseProfession', 
-			 		validation:'', 
+			 		validation:'  validate-string', 
 			 		condition:'isSpouseRetired-unfilled ',
 			 		value:dhr.dhrSpouseProfession, 
 			 		title:message(code:'dhr.property.dhrSpouseProfession.validationError')]"/>
@@ -1129,7 +1129,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpouseEmployer',
 			   		help:message(code:'dhr.property.dhrSpouseEmployer.help'),
-			   		validation:'',
+			   		validation:'  validate-string',
 			   		condition:'isSpouseRetired-unfilled ',
 			   		elementName:'DhrSpouseEmployer', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -1138,7 +1138,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrSpouseEmployer', 
-			 		validation:'', 
+			 		validation:'  validate-string', 
 			 		condition:'isSpouseRetired-unfilled ',
 			 		value:dhr.dhrSpouseEmployer, 
 			 		title:message(code:'dhr.property.dhrSpouseEmployer.validationError')]"/>
@@ -1158,9 +1158,9 @@
 
 <!--AdditionalDeliveryInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalDeliveryInformation',
+			   		model="[forName:'dhrSpouseAddress.additionalDeliveryInformation',
 			   		help:message(code:'dhr.property.additionalDeliveryInformation.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'AdditionalDeliveryInformation', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -1168,8 +1168,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'additionalDeliveryInformation', 
-			 		validation:'', 
+			 		model="[name:'dhrSpouseAddress.additionalDeliveryInformation', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseAddress?.additionalDeliveryInformation, 
 			 		title:message(code:'dhr.property.additionalDeliveryInformation.validationError')]"/>
@@ -1178,9 +1178,9 @@
 
 <!--AdditionalGeographicalInformation -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'additionalGeographicalInformation',
+			   		model="[forName:'dhrSpouseAddress.additionalGeographicalInformation',
 			   		help:message(code:'dhr.property.additionalGeographicalInformation.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'AdditionalGeographicalInformation', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -1188,8 +1188,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'additionalGeographicalInformation', 
-			 		validation:'', 
+			 		model="[name:'dhrSpouseAddress.additionalGeographicalInformation', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseAddress?.additionalGeographicalInformation, 
 			 		title:message(code:'dhr.property.additionalGeographicalInformation.validationError')]"/>
@@ -1198,9 +1198,9 @@
 
 <!--StreetNumber -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetNumber',
+			   		model="[forName:'dhrSpouseAddress.streetNumber',
 			   		help:message(code:'dhr.property.streetNumber.help'),
-			   		validation:'',
+			   		validation:' ',
 			   		condition:'',
 			   		elementName:'StreetNumber', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -1208,8 +1208,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'streetNumber', 
-			 		validation:'', 
+			 		model="[name:'dhrSpouseAddress.streetNumber', 
+			 		validation:' ', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseAddress?.streetNumber, 
 			 		title:message(code:'dhr.property.streetNumber.validationError')]"/>
@@ -1218,9 +1218,9 @@
 
 <!--StreetName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'streetName',
+			   		model="[forName:'dhrSpouseAddress.streetName',
 			   		help:message(code:'dhr.property.streetName.help'),
-			   		validation:'required ',
+			   		validation:'required  ',
 			   		condition:'',
 			   		elementName:'StreetName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -1228,8 +1228,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'streetName', 
-			 		validation:'required ', 
+			 		model="[name:'dhrSpouseAddress.streetName', 
+			 		validation:'required  ', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseAddress?.streetName, 
 			 		title:message(code:'dhr.property.streetName.validationError')]"/>
@@ -1238,9 +1238,9 @@
 
 <!--PlaceNameOrService -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'placeNameOrService',
+			   		model="[forName:'dhrSpouseAddress.placeNameOrService',
 			   		help:message(code:'dhr.property.placeNameOrService.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'PlaceNameOrService', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -1248,8 +1248,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'placeNameOrService', 
-			 		validation:'', 
+			 		model="[name:'dhrSpouseAddress.placeNameOrService', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseAddress?.placeNameOrService, 
 			 		title:message(code:'dhr.property.placeNameOrService.validationError')]"/>
@@ -1258,9 +1258,9 @@
 
 <!--PostalCode -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'postalCode',
+			   		model="[forName:'dhrSpouseAddress.postalCode',
 			   		help:message(code:'dhr.property.postalCode.help'),
-			   		validation:'required ',
+			   		validation:'required  validate-postalcode',
 			   		condition:'',
 			   		elementName:'PostalCode', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -1268,8 +1268,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'postalCode', 
-			 		validation:'required ', 
+			 		model="[name:'dhrSpouseAddress.postalCode', 
+			 		validation:'required  validate-postalcode', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseAddress?.postalCode, 
 			 		title:message(code:'dhr.property.postalCode.validationError')]"/>
@@ -1278,9 +1278,9 @@
 
 <!--City -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'city',
+			   		model="[forName:'dhrSpouseAddress.city',
 			   		help:message(code:'dhr.property.city.help'),
-			   		validation:'required ',
+			   		validation:'required  ',
 			   		condition:'',
 			   		elementName:'City', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -1288,8 +1288,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'city', 
-			 		validation:'required ', 
+			 		model="[name:'dhrSpouseAddress.city', 
+			 		validation:'required  ', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseAddress?.city, 
 			 		title:message(code:'dhr.property.city.validationError')]"/>
@@ -1298,9 +1298,9 @@
 
 <!--CountryName -->
 <g:render template="/frontofficeRequestType/widget/label" 
-			   		model="[forName:'countryName',
+			   		model="[forName:'dhrSpouseAddress.countryName',
 			   		help:message(code:'dhr.property.countryName.help'),
-			   		validation:'',
+			   		validation:'  ',
 			   		condition:'',
 			   		elementName:'CountryName', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/common',
@@ -1308,8 +1308,8 @@
 
 
 <g:render template="/frontofficeRequestType/widget/text" 
-			 		model="[name:'countryName', 
-			 		validation:'', 
+			 		model="[name:'dhrSpouseAddress.countryName', 
+			 		validation:'  ', 
 			 		condition:'',
 			 		value:dhr.dhrSpouseAddress?.countryName, 
 			 		title:message(code:'dhr.property.countryName.validationError')]"/>

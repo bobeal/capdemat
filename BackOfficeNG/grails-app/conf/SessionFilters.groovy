@@ -67,7 +67,9 @@ class SessionFilters {
             userExtraction(controller:'backoffice*', action:'*') {
                 before = {
                         if (session.getAttribute(CASFilter.CAS_FILTER_USER) == null) {
-                            throw new ServletException("No user found in session !")
+                            // throw new ServletException("No user found in session !")
+                            response.sendRedirect('/BackOfficeNG/cas.gsp')
+                            return
                         }
                         
                         String user = (String) session.getAttribute(CASFilter.CAS_FILTER_USER)

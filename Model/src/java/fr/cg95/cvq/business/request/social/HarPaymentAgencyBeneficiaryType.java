@@ -12,8 +12,9 @@ public final class HarPaymentAgencyBeneficiaryType extends PersistentStringEnum 
 
     private static final long serialVersionUID = 1L;
 
-    public static final HarPaymentAgencyBeneficiaryType INSURED = new HarPaymentAgencyBeneficiaryType("Insured");
-    public static final HarPaymentAgencyBeneficiaryType CLAIMANT = new HarPaymentAgencyBeneficiaryType("Claimant");
+    public static final HarPaymentAgencyBeneficiaryType C_A_F = new HarPaymentAgencyBeneficiaryType("CAF");
+    public static final HarPaymentAgencyBeneficiaryType M_S_A = new HarPaymentAgencyBeneficiaryType("MSA");
+    public static final HarPaymentAgencyBeneficiaryType OTHER = new HarPaymentAgencyBeneficiaryType("Other");
     public static final HarPaymentAgencyBeneficiaryType NO_MEMBER_SHIP = new HarPaymentAgencyBeneficiaryType("NoMemberShip");
 
 
@@ -30,8 +31,9 @@ public final class HarPaymentAgencyBeneficiaryType extends PersistentStringEnum 
 
 
     public static HarPaymentAgencyBeneficiaryType[] allHarPaymentAgencyBeneficiaryTypes = {
-        INSURED,
-        CLAIMANT,
+        C_A_F,
+        M_S_A,
+        OTHER,
         NO_MEMBER_SHIP
     };
 
@@ -45,10 +47,12 @@ public final class HarPaymentAgencyBeneficiaryType extends PersistentStringEnum 
         if (enumAsString == null || enumAsString.equals(""))
             return getDefaultHarPaymentAgencyBeneficiaryType();
 
-        if (enumAsString.equals(INSURED.toString()))
-            return INSURED;
-        else if (enumAsString.equals(CLAIMANT.toString()))
-            return CLAIMANT;
+        if (enumAsString.equals(C_A_F.toString()))
+            return C_A_F;
+        else if (enumAsString.equals(M_S_A.toString()))
+            return M_S_A;
+        else if (enumAsString.equals(OTHER.toString()))
+            return OTHER;
         else if (enumAsString.equals(NO_MEMBER_SHIP.toString()))
             return NO_MEMBER_SHIP;
 

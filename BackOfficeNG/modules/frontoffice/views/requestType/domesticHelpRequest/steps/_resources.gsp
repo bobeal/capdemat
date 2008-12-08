@@ -12,7 +12,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'pensions',
 			   		help:message(code:'dhr.property.pensions.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'Pensions', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -21,7 +21,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'pensions', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.pensions, 
 			 		title:message(code:'dhr.property.pensions.validationError')]"/>
@@ -32,7 +32,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrAllowances',
 			   		help:message(code:'dhr.property.dhrAllowances.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrAllowances', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -41,7 +41,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrAllowances', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrAllowances, 
 			 		title:message(code:'dhr.property.dhrAllowances.validationError')]"/>
@@ -52,7 +52,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrFurnitureInvestmentIncome',
 			   		help:message(code:'dhr.property.dhrFurnitureInvestmentIncome.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrFurnitureInvestmentIncome', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -61,7 +61,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrFurnitureInvestmentIncome', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrFurnitureInvestmentIncome, 
 			 		title:message(code:'dhr.property.dhrFurnitureInvestmentIncome.validationError')]"/>
@@ -72,7 +72,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRealEstateInvestmentIncome',
 			   		help:message(code:'dhr.property.dhrRealEstateInvestmentIncome.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrRealEstateInvestmentIncome', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -81,7 +81,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrRealEstateInvestmentIncome', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrRealEstateInvestmentIncome, 
 			 		title:message(code:'dhr.property.dhrRealEstateInvestmentIncome.validationError')]"/>
@@ -92,7 +92,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrNetIncome',
 			   		help:message(code:'dhr.property.dhrNetIncome.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrNetIncome', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -101,7 +101,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrNetIncome', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrNetIncome, 
 			 		title:message(code:'dhr.property.dhrNetIncome.validationError')]"/>
@@ -122,7 +122,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'pensions',
 			   		help:message(code:'dhr.property.pensions.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'Pensions', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -131,7 +131,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'pensions', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.pensions, 
 			 		title:message(code:'dhr.property.pensions.validationError')]"/>
@@ -142,7 +142,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrAllowances',
 			   		help:message(code:'dhr.property.dhrAllowances.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrAllowances', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -151,7 +151,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrAllowances', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrAllowances, 
 			 		title:message(code:'dhr.property.dhrAllowances.validationError')]"/>
@@ -162,7 +162,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrFurnitureInvestmentIncome',
 			   		help:message(code:'dhr.property.dhrFurnitureInvestmentIncome.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrFurnitureInvestmentIncome', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -171,7 +171,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrFurnitureInvestmentIncome', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrFurnitureInvestmentIncome, 
 			 		title:message(code:'dhr.property.dhrFurnitureInvestmentIncome.validationError')]"/>
@@ -182,7 +182,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrRealEstateInvestmentIncome',
 			   		help:message(code:'dhr.property.dhrRealEstateInvestmentIncome.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrRealEstateInvestmentIncome', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -191,7 +191,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrRealEstateInvestmentIncome', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrRealEstateInvestmentIncome, 
 			 		title:message(code:'dhr.property.dhrRealEstateInvestmentIncome.validationError')]"/>
@@ -202,7 +202,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrNetIncome',
 			   		help:message(code:'dhr.property.dhrNetIncome.help'),
-			   		validation:'',
+			   		validation:'  validate-positiveinteger',
 			   		condition:'',
 			   		elementName:'DhrNetIncome', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -211,7 +211,7 @@
 
 <g:render template="/frontofficeRequestType/widget/text" 
 			 		model="[name:'dhrNetIncome', 
-			 		validation:'', 
+			 		validation:'  validate-positiveinteger', 
 			 		condition:'',
 			 		value:dhr.dhrNetIncome, 
 			 		title:message(code:'dhr.property.dhrNetIncome.validationError')]"/>

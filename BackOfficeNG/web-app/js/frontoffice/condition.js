@@ -33,7 +33,7 @@ var Condition = {
   startRequest:function(conditionsName, triggersParam, requestName) {
     var transaction;
     var conditionsNameParam;
-	  var sUrl = "/BackOfficeNG/" + requestName + "/checkConditions";
+	  var sUrl = "/BackOfficeNG/frontoffice/" + requestName + "/checkConditions";
 	  for(i = 0; i < conditionsName.length; i++) {
 	  if (conditionsName[i] != null) {
 	    if (conditionsNameParam == null) {

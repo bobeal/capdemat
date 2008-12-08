@@ -4,10 +4,28 @@ import org.apache.commons.lang.StringUtils
 namespaceAlias = foObject.namespaceAlias 
 namespace = foObject.xsdNamespace
 requestName = foObject.requestName
+//TODO Remove that 
+// Only works with AddressType
+def checkExtenalElement(currentElement) {
+  if (currentElement.isExternalElement()) {
+    if (currentElement.elementList[0].parentXmlSchemaType.equals("AddressType")) {
+    	println namespaceAlias + ".set" + currentElement.name + "(new Address())"
+    } 
+  } 
+  else {
+    currentElement.elementList.each {
+  	  if (it.class.name.indexOf("FieldsetElement") != -1 || it.class.name.indexOf("ComplexElement") != -1) {
+  	    checkExtenalElement(it)
+  	  }
+  	}
+  }
+}
+
 %>
 
 import fr.cg95.cvq.business.request.social.${requestName}
 import fr.cg95.cvq.service.request.social.I${requestName}Service
+import fr.cg95.cvq.business.users.Address
 
 class ${requestName}Controller {
 
@@ -27,6 +45,19 @@ class ${requestName}Controller {
     def edit = {
         if (${namespaceAlias} == null)
           ${namespaceAlias} = new ${requestName}()
+        
+        <%
+        for(steps in foObject.stepMap) {
+		  elements = steps.value.elementList
+		  elements.each {
+		    element = it
+			if (element.class.name.indexOf("FieldsetElement") != -1 || element.class.name.indexOf("ComplexElement") != -1) {
+			  checkExtenalElement(element)
+			}		
+		  }
+		}
+
+        %>
           
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 

@@ -57,7 +57,7 @@
 				step = steps.get(i) 
 		 %>
            <div id="tab${step.index + 1}">
-             <form method="POST" action="<g:createLink action="valid${StringUtils.capitalize(step.name)}" />">
+             <form method="POST" id="${StringUtils.uncapitalize(step.name)}Form" action="<g:createLink action="valid${StringUtils.capitalize(step.name)}" />">
                <h3>
                  <span class="tag-rejected"><g:message code="${namespaceAlias}.step.tag.rejected"/></span>
                  <g:message code="${namespaceAlias}.step.${step.name}.label" />
@@ -66,9 +66,12 @@
                
                <g:render template="/frontofficeRequestType/${StringUtils.uncapitalize(foObject.requestName)}/steps/${step.name}" /> 
                
+               <div class="error" id="${StringUtils.uncapitalize(step.name)}FormErrors"> </div>
+               
                <!-- Input submit-->
-               <input type="submit" 
-		           name="submit${StringUtils.capitalize(namespaceAlias)}${StringUtils.capitalize(step.name)}" 
+               <input type="button"
+                   id="submit${StringUtils.capitalize(step.name)}" 
+		           name="submit${StringUtils.capitalize(step.name)}" 
 		           value="<g:message code='${namespaceAlias}.step.${step.name}.submitLabel'/>" />
              </form>
              <!-- navigation link -->
@@ -262,7 +265,34 @@
          
 	  YAHOO.util.Event.onDOMReady(checkAllConditions);
 	  
-	  // Request TabView Initialization
+	  // VALIDATION
+	  <%
+	  i = 0
+	  steps.each {
+		step = steps.get(i)
+	  %>
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submit${StringUtils.capitalize(step.name)}");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('${StringUtils.uncapitalize(step.name)}FormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "${StringUtils.uncapitalize(step.name)}Form");
+	  <%	
+		i++
+	  }
+	  %>
+	  
+	  function onSubmitClick(ev, formId) {
+		zenexity.capdemat.common.doAjaxFormSubmitCall(formId ,null,  
+		function(o) {
+		     if (o.status == "200")
+		     	resetFormErrors(formId + "Errors");
+		});
+	  }
+	  
+	  function resetFormErrors(formErrors) { 
+		YAHOO.util.Dom.get(formErrors).innerHTML = '';
+		
+	  }
+	  
+    // Request TabView Initialization
     function initRequest() {
       var requestFormTabView = new YAHOO.widget.TabView('requestTabView');
     }

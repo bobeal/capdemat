@@ -27,15 +27,15 @@ dhr.step.taxes.label = taxes
 dhr.step.taxes.desc = taxes informations.
 dhr.step.taxes.submitLabel = Validate this page
 
-// default_step_ref_document step
-dhr.step.default_step_ref_document.label = Document label
-dhr.step.default_step_ref_document.desc = Document desc
-dhr.step.default_step_ref_document.submitLabel = Validate this page
+// documentRef step
+dhr.step.documentRef.label = Document label
+dhr.step.documentRef.desc = Document desc
+dhr.step.documentRef.submitLabel = Validate this page
 
-// default_step_ref_validation step
-dhr.step.default_step_ref_validation.label = Validation label
-dhr.step.default_step_ref_validation.desc = Validation desc
-dhr.step.default_step_ref_validation.submitLabel = Validate this page
+// validationRef step
+dhr.step.validationRef.label = Validation label
+dhr.step.validationRef.desc = Validation desc
+dhr.step.validationRef.submitLabel = Validate this page
 
 
 // Elements labels

@@ -35,19 +35,19 @@
             <ul>
               <li>
                 <label for="creationDate"><g:message code="property.creationDate" /></label>
-                <input type="radio" id="creationDate" ${sortBy == 'creationDate' ? 'checked' : ''} />
+                <input type="radio" name="requestSorter" id="creationDate" ${sortBy == 'creationDate' ? 'checked' : ''} />
               </li>
               <li>
                 <label for="requesterLastName"><g:message code="property.requester" /></label>
-                <input type="radio" id="requesterLastName" ${sortBy == 'requesterLastName' ? 'checked' : ''} />
+                <input type="radio" name="requestSorter" id="requesterLastName" ${sortBy == 'requesterLastName' ? 'checked' : ''} />
               </li>
               <li>
                 <label for="requestId"><g:message code="property.requestId" /></label>
-                <input type="radio" id="requestId" ${sortBy == 'requestId' ? 'checked' : ''} />
+                <input type="radio" name="requestSorter" id="requestId" ${sortBy == 'requestId' ? 'checked' : ''} />
               </li>
               <li>
                 <label for="homeFolderId"><g:message code="property.homeFolderId" /></label>
-                <input type="radio" id="homeFolderId" ${sortBy == 'homeFolderId' ? 'checked' : ''} />
+                <input type="radio" name="requestSorter" id="homeFolderId" ${sortBy == 'homeFolderId' ? 'checked' : ''} />
               </li>
             </ul>
           </form>

@@ -2,6 +2,7 @@
 
   var yue = YAHOO.util.Event;
   var yud = YAHOO.util.Dom;
+  var yus = YAHOO.util.Selector;
   var zct = zenexity.capdemat.tools;
   zct.namespace("zenexity.capdemat.bong.request");
   var zcbr = zenexity.capdemat.bong.request;
@@ -74,13 +75,13 @@
     };
 
     var filterSearchRequest = function(filterType) {
-      yud.get('filterBy').value = yud.get('filterBy').value + 
-        '@' + filterType + '=' + yud.get(filterType).value;                
+      yud.get('filterBy').value = [yud.get('filterBy').value, 
+        '@', filterType, '=', yud.get(filterType).value].join('');
       yud.get('requestForm').submit();
     };
       
     var switchSearchForm = function(formType) {
-        var url = '/loadSearchForm?formType=' + formType + '&' + zcc.collectSearchFormValues('requestForm');
+        var url = ['/loadSearchForm?formType=', formType, '&', zcc.collectSearchFormValues('requestForm')].join('');
         zct.doAjaxCall(url, null,
           function(o) {
             yud.get('head').innerHTML = o.responseText;
@@ -97,12 +98,12 @@
         initCalendars();
         initSwitcher();
         displayPaginator();
-        yue.addListener("requestSearchSorters", "change", 
+        yue.on(yus.query('input[type*=radio]'), 'click', 
           function(e) {
             sortSearchRequest(yue.getTarget(e).id);
           }
         );
-        yue.addListener("requestSearchFilters", "change", 
+        yue.on(yus.query('select[id*=Filter]'), 'change', 
           function(e) {
             filterSearchRequest(yue.getTarget(e).id);
           }

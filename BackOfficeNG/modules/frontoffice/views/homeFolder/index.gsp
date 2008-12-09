@@ -27,7 +27,7 @@
         <g:message code="request.requester.property.adress"/> : <strong>${homeFolder.addressDetails}</strong>
       </p>
     </div>
-          
+    
     <div class="yui-g individual">
       <div class="yui-u first">
         <g:render template="adults" />

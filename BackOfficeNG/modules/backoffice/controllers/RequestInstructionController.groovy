@@ -1,4 +1,3 @@
-import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.*
@@ -6,25 +5,27 @@ import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.document.IDocumentService
 
+import fr.cg95.cvq.business.document.DocumentState
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.MeansOfContactEnum
+
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Child
+import fr.cg95.cvq.business.users.RoleType
 
-import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.exception.*
+import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.mail.IMailService
+
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
-
-import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.util.mail.IMailService;
-import fr.cg95.cvq.util.mail.impl.MailService;
 
 import java.util.Date
 import java.io.File;
@@ -282,16 +283,10 @@ class RequestInstructionController {
 
         def actions = []
         document.actions.each {
-            def agent
-            try {
-                agent = it.agentId ? agentService.getById(it.agentId) : null
-            } catch (CvqObjectNotFoundException) {
-                agent = null
-            }
 
             actions.add(
                 [ "id": it.id,
-                  "agentName": agent ? agent.lastName + " " + agent.firstName : "",
+                  "agentName": instructionService.getActionPosterDetails(it.agentId),
                   "label": it.label,
                   "note": it.note,
                   "date": it.date,
@@ -302,7 +297,7 @@ class RequestInstructionController {
         render( template:"requestDocument",
                 model: [ "document":
                             [ "id": document.id,
-                              "name": document.documentType.name,
+                              "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
                               "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
                               "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
                               "depositOrigin": CapdematUtils.adaptCapdematEnum(document.depositOrigin, "document.depositOrigin"),
@@ -348,10 +343,10 @@ class RequestInstructionController {
 
     def modifyDocument = {
         def document = documentService.getById(Long.valueOf(params.documentId))
-        log.debug("Binder custum editor PersistentStringEnum = " +
-                    getBinder(document)
-                        .propertyEditorRegistry
-                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
+//        log.debug("Binder custum editor PersistentStringEnum = " +
+//                    getBinder(document)
+//                        .propertyEditorRegistry
+//                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
 
         bind(document)
         documentService.modify(document)

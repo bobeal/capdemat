@@ -6,7 +6,7 @@
     
 
     <g:message code="document.header.document" /> : ${document.name} 
-    (<g:message code="property.id" />: ${document.id})
+    (${document.id})
     
     <span id="documentDepositType" class="${document.depositType.cssClass}">
       <g:message code="${document.depositType.i18nKey}" />
@@ -19,7 +19,7 @@
     <span id="documentEndValidityDate">
       <g:message code="document.property.endValidityDate" />
       <strong>
-        <g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/>
+        <g:formatDate formatName="format.date" date="${document.endValidityDate}"/>
       </strong>
     </span>
     
@@ -69,7 +69,7 @@
               </span>
               
               <strong>${action.label}</strong>
-              - <strong><g:formatDate format="dd/MM/yyyy" date="${document.endValidityDate}"/></strong>
+              - <strong><g:formatDate formatName="format.date" date="${action.date}"/></strong>
               - <strong>${action.agentName}</strong>
             </li>
           </g:each>

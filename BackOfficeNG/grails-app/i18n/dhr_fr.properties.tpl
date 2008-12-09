@@ -15,6 +15,14 @@ dhr.step.subject.label = subject
 dhr.step.subject.desc = subject informations.
 dhr.step.subject.submitLabel = Valider cette page
 
+dhr.step.familyReferent.label = familyReferent
+dhr.step.familyReferent.desc = familyReferent informations.
+dhr.step.familyReferent.submitLabel = Valider cette page
+
+dhr.step.spouse.label = spouse
+dhr.step.spouse.desc = spouse informations.
+dhr.step.spouse.submitLabel = Valider cette page
+
 dhr.step.dwelling.label = dwelling
 dhr.step.dwelling.desc = dwelling informations.
 dhr.step.dwelling.submitLabel = Valider cette page
@@ -39,30 +47,6 @@ dhr.step.validationRef.submitLabel = Valider cette page
 
 
 // Elements labels
-
-dhr.property.dhrRequestKind.label= DhrRequestKind
-dhr.property.dhrRequestKind.help= (Help DhrRequestKind)
-dhr.property.dhrRequestKind.validationError= DhrRequestKind validation error
-
-dhr.property.dhrHaveFamilyReferent.label= DhrHaveFamilyReferent
-dhr.property.dhrHaveFamilyReferent.help= (Help DhrHaveFamilyReferent)
-dhr.property.dhrHaveFamilyReferent.validationError= DhrHaveFamilyReferent validation error
-
-
-dhr.property.dhrReferentName.label= DhrReferentName
-dhr.property.dhrReferentName.help= (Help DhrReferentName)
-dhr.property.dhrReferentName.validationError= DhrReferentName validation error
-
-
-dhr.property.dhrReferentFirstName.label= DhrReferentFirstName
-dhr.property.dhrReferentFirstName.help= (Help DhrReferentFirstName)
-dhr.property.dhrReferentFirstName.validationError= DhrReferentFirstName validation error
-
-
-dhr.property.dhrReferentAddress.label= DhrReferentAddress
-dhr.property.dhrReferentAddress.help= (Help DhrReferentAddress)
-dhr.property.dhrReferentAddress.validationError= DhrReferentAddress validation error
-
 
 dhr.property.dhrRequesterTitle.label= DhrRequesterTitle
 dhr.property.dhrRequesterTitle.defaultOption = Choisissez...
@@ -148,6 +132,32 @@ dhr.property.dhrGuardianAddress.label= DhrGuardianAddress
 dhr.property.dhrGuardianAddress.help= (Help DhrGuardianAddress)
 dhr.property.dhrGuardianAddress.validationError= DhrGuardianAddress validation error
 
+ 
+
+dhr.property.dhrHaveFamilyReferent.label= DhrHaveFamilyReferent
+dhr.property.dhrHaveFamilyReferent.help= (Help DhrHaveFamilyReferent)
+dhr.property.dhrHaveFamilyReferent.validationError= DhrHaveFamilyReferent validation error
+
+
+dhr.property.dhrReferentName.label= DhrReferentName
+dhr.property.dhrReferentName.help= (Help DhrReferentName)
+dhr.property.dhrReferentName.validationError= DhrReferentName validation error
+
+
+dhr.property.dhrReferentFirstName.label= DhrReferentFirstName
+dhr.property.dhrReferentFirstName.help= (Help DhrReferentFirstName)
+dhr.property.dhrReferentFirstName.validationError= DhrReferentFirstName validation error
+
+
+dhr.property.dhrReferentAddress.label= DhrReferentAddress
+dhr.property.dhrReferentAddress.help= (Help DhrReferentAddress)
+dhr.property.dhrReferentAddress.validationError= DhrReferentAddress validation error
+
+ 
+
+dhr.property.dhrRequestKind.label= DhrRequestKind
+dhr.property.dhrRequestKind.help= (Help DhrRequestKind)
+dhr.property.dhrRequestKind.validationError= DhrRequestKind validation error
 
 dhr.property.dhrSpouseTitle.label= DhrSpouseTitle
 dhr.property.dhrSpouseTitle.defaultOption = Choisissez...
@@ -233,6 +243,31 @@ dhr.property.dhrSpouseAddress.label= DhrSpouseAddress
 dhr.property.dhrSpouseAddress.help= (Help DhrSpouseAddress)
 dhr.property.dhrSpouseAddress.validationError= DhrSpouseAddress validation error
 
+
+dhr.property.pensions.label= Pensions
+dhr.property.pensions.help= (Help Pensions)
+dhr.property.pensions.validationError= Pensions validation error
+
+
+dhr.property.dhrAllowances.label= DhrAllowances
+dhr.property.dhrAllowances.help= (Help DhrAllowances)
+dhr.property.dhrAllowances.validationError= DhrAllowances validation error
+
+
+dhr.property.dhrFurnitureInvestmentIncome.label= DhrFurnitureInvestmentIncome
+dhr.property.dhrFurnitureInvestmentIncome.help= (Help DhrFurnitureInvestmentIncome)
+dhr.property.dhrFurnitureInvestmentIncome.validationError= DhrFurnitureInvestmentIncome validation error
+
+
+dhr.property.dhrRealEstateInvestmentIncome.label= DhrRealEstateInvestmentIncome
+dhr.property.dhrRealEstateInvestmentIncome.help= (Help DhrRealEstateInvestmentIncome)
+dhr.property.dhrRealEstateInvestmentIncome.validationError= DhrRealEstateInvestmentIncome validation error
+
+
+dhr.property.dhrNetIncome.label= DhrNetIncome
+dhr.property.dhrNetIncome.help= (Help DhrNetIncome)
+dhr.property.dhrNetIncome.validationError= DhrNetIncome validation error
+
  
 
 dhr.property.dhrCurrentDwellingAddress.label= DhrCurrentDwellingAddress
@@ -274,31 +309,6 @@ dhr.property.dhrPreviousDwelling.label= DhrPreviousDwelling
 dhr.property.dhrPreviousDwelling.help= (Help DhrPreviousDwelling)
 dhr.property.dhrPreviousDwelling.validationError= DhrPreviousDwelling validation error
  
-
-dhr.property.pensions.label= Pensions
-dhr.property.pensions.help= (Help Pensions)
-dhr.property.pensions.validationError= Pensions validation error
-
-
-dhr.property.dhrAllowances.label= DhrAllowances
-dhr.property.dhrAllowances.help= (Help DhrAllowances)
-dhr.property.dhrAllowances.validationError= DhrAllowances validation error
-
-
-dhr.property.dhrFurnitureInvestmentIncome.label= DhrFurnitureInvestmentIncome
-dhr.property.dhrFurnitureInvestmentIncome.help= (Help DhrFurnitureInvestmentIncome)
-dhr.property.dhrFurnitureInvestmentIncome.validationError= DhrFurnitureInvestmentIncome validation error
-
-
-dhr.property.dhrRealEstateInvestmentIncome.label= DhrRealEstateInvestmentIncome
-dhr.property.dhrRealEstateInvestmentIncome.help= (Help DhrRealEstateInvestmentIncome)
-dhr.property.dhrRealEstateInvestmentIncome.validationError= DhrRealEstateInvestmentIncome validation error
-
-
-dhr.property.dhrNetIncome.label= DhrNetIncome
-dhr.property.dhrNetIncome.help= (Help DhrNetIncome)
-dhr.property.dhrNetIncome.validationError= DhrNetIncome validation error
-
 
 dhr.property.pensions.label= Pensions
 dhr.property.pensions.help= (Help Pensions)

@@ -23,8 +23,8 @@ class DomesticHelpRequestController {
         if (dhr == null)
           dhr = new DomesticHelpRequest()
         
-        dhr.setDhrReferentAddress(new Address())
-dhr.setDhrGuardianAddress(new Address())
+        dhr.setDhrGuardianAddress(new Address())
+dhr.setDhrReferentAddress(new Address())
 dhr.setDhrSpouseAddress(new Address())
 dhr.setDhrCurrentDwellingAddress(new Address())
 
@@ -37,6 +37,28 @@ dhr.setDhrCurrentDwellingAddress(new Address())
     
     def validSubject = {
     	log.debug("validSubject - START")
+        
+		dhr = session["domesticHelpRequest"]
+		bind(dhr)
+        currentTab = getCurrentTab(params)
+          
+		session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+    }
+    
+    def validFamilyReferent = {
+    	log.debug("validFamilyReferent - START")
+        
+		dhr = session["domesticHelpRequest"]
+		bind(dhr)
+        currentTab = getCurrentTab(params)
+          
+		session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+    }
+    
+    def validSpouse = {
+    	log.debug("validSpouse - START")
         
 		dhr = session["domesticHelpRequest"]
 		bind(dhr)
@@ -108,20 +130,26 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 		if (params.submitDhrSubject)
 		   currentTab = "tab1"
 	
-		else if (params.submitDhrDwelling)
+		else if (params.submitDhrFamilyReferent)
 		   currentTab = "tab2"
 	
-		else if (params.submitDhrResources)
+		else if (params.submitDhrSpouse)
 		   currentTab = "tab3"
 	
-		else if (params.submitDhrTaxes)
+		else if (params.submitDhrDwelling)
 		   currentTab = "tab4"
 	
-		else if (params.submitDhrDocumentRef)
+		else if (params.submitDhrResources)
 		   currentTab = "tab5"
 	
-		else if (params.submitDhrValidationRef)
+		else if (params.submitDhrTaxes)
 		   currentTab = "tab6"
+	
+		else if (params.submitDhrDocumentRef)
+		   currentTab = "tab7"
+	
+		else if (params.submitDhrValidationRef)
+		   currentTab = "tab8"
 	
 		return currentTab
     } 

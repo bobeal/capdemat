@@ -29,11 +29,13 @@
           <namespace name="social"/>
           <steps>
             <step index="0" name="subject"/>
-            <step index="1" name="dwelling"/>
-            <step index="2" name="resources"/>
-            <step index="3" name="taxes"/>
-            <step index="4" ref="document"/>
-            <step index="5" ref="validation"/>
+            <step index="1" name="familyReferent"/>
+            <step index="2" name="spouse"/>
+            <step index="3" name="dwelling"/>
+            <step index="4" name="resources"/>
+            <step index="5" name="taxes"/>
+            <step index="6" ref="document"/>
+            <step index="7" ref="validation"/>
           </steps>
           <conditions>
             <condition name="isCoupleRequest"/>
@@ -59,49 +61,6 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
-
-            <xs:element name="DhrRequestKind" type="dhr:DhrRequestKindType" default="Individual">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Type de la demande
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Type de la demande
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="subject"/>
-                    <conditions>
-                      <condition name="isCoupleRequest" type="trigger"/>
-                    </conditions>
-                  </common>
-                  <fo>
-                    <radio/>
-                  </fo>
-                  <bo column="1" />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="DhrFamilyReferent" type="dhr:DhrFamilyReferentType">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Référent familial
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Référent familial
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="subject"/>
-                  </common>
-                  <fo>
-                    <label/>
-                  </fo>
-                  <bo column="1" />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
 
             <xs:element name="DhrRequester" type="dhr:DhrRequesterType">
               <xs:annotation>
@@ -163,6 +122,49 @@
               </xs:annotation>
             </xs:element>
 
+            <xs:element name="DhrFamilyReferent" type="dhr:DhrFamilyReferentType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Référent familial
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Référent familial
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="familyReferent"/>
+                  </common>
+                  <fo>
+                    <label/>
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DhrRequestKind" type="dhr:DhrRequestKindType" default="Individual">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Type de la demande
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Type de la demande
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="spouse"/>
+                    <conditions>
+                      <condition name="isCoupleRequest" type="trigger"/>
+                    </conditions>
+                  </common>
+                  <fo>
+                    <radio/>
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
             <xs:element name="DhrSpouse" type="dhr:DhrSpouseType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -173,7 +175,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject"/>
+                    <step name="spouse"/>
                     <conditions>
                       <condition name="isCoupleRequest" type="filled"/>
                     </conditions>
@@ -196,7 +198,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject"/>
+                    <step name="spouse"/>
                     <conditions>
                       <condition name="isCoupleRequest" type="filled"/>
                     </conditions>
@@ -205,6 +207,34 @@
                     <label/>
                   </fo>
                   <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DhrSpouseIncomes" type="dhr:DhrIncomesType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Ressources du conjoint
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ressources du conjoint
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="spouse"/>
+                    <conditions>
+                      <condition name="isCoupleRequest" type="filled"/>
+                    </conditions>
+                    <!--  
+                    <conditions>
+                      <condition name="isCoupleRequestSpouseIncomes" type="filled" required="true"/>
+                    </conditions> 
+                    -->
+                  </common>
+                  <fo>
+                    <label/>
+                  </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -260,31 +290,6 @@
                 <xs:appinfo>
                   <common>
                     <step name="resources"/>
-                  </common>
-                  <fo>
-                    <label/>
-                  </fo>
-                  <bo column="1" />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="DhrSpouseIncomes" type="dhr:DhrIncomesType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Ressources du conjoint
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Ressources du conjoint
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="resources"/>
-                    <!--  
-                    <conditions>
-                      <condition name="isCoupleRequestSpouseIncomes" type="filled" required="true"/>
-                    </conditions> 
-                    -->
                   </common>
                   <fo>
                     <label/>
@@ -400,7 +405,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="familyReferent"/>
               <conditions>
                 <condition name="haveFamilyReferent" type="trigger"/>
               </conditions>
@@ -413,16 +418,10 @@
 
       <xs:element name="DhrReferentName" type="cvq:LastNameType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
-              <step name="subject"/>
+              <step name="familyReferent"/>
               <conditions>
                 <condition name="haveFamilyReferent" type="filled" required="true"/>
               </conditions>
@@ -435,16 +434,10 @@
 
       <xs:element name="DhrReferentFirstName" type="cvq:FirstNameType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Prénom
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
-              <step name="subject"/>
+              <step name="familyReferent"/>
               <conditions>
                 <condition name="haveFamilyReferent" type="filled" required="true"/>
               </conditions>
@@ -457,16 +450,10 @@
 
       <xs:element name="DhrReferentAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
-              <step name="subject"/>
+              <step name="familyReferent"/>
               <conditions>
                 <condition name="haveFamilyReferent" type="filled" required="true"/>
               </conditions>
@@ -493,14 +480,8 @@
     </xs:annotation>
     <xs:sequence>
 
-      <xs:element name="DhrRequesterTitle" type="dhr:DhrTitleType">
+      <xs:element name="DhrRequesterTitle" type="cvq:TitleType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Civilité
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Civilité
-          </xs:documentation>
           <xs:appinfo>
             <common>
               <step name="subject"/>
@@ -516,14 +497,8 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="DhrRequesterFamilyStatus" type="dhr:DhrFamilyStatusType">
+      <xs:element name="DhrRequesterFamilyStatus" type="cvq:FamilyStatusType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Situation de famille
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Situation de famille
-          </xs:documentation>
           <xs:appinfo>
             <common>
               <step name="subject"/>
@@ -538,12 +513,6 @@
 
       <xs:element name="DhrRequesterName" type="cvq:LastNameType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
@@ -557,12 +526,6 @@
 
       <xs:element name="DhrRequesterFirstName" type="cvq:FirstNameType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Prénom
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
@@ -633,14 +596,8 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="DhrRequesterNationality" type="dhr:DhrNationalityType">
+      <xs:element name="DhrRequesterNationality" type="cvq:NationalityType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nationalité
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nationalité
-          </xs:documentation>
           <xs:appinfo>
             <common>
               <step name="subject"/>
@@ -701,82 +658,14 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:simpleType name="DhrTitleType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Civilité
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Civilité
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Mister" value="Monsieur" />
-        <enum key="Madam" value="Madame" />
-        <enum key="Miss" value="Mademoiselle" />
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Mister"/>
-      <xs:enumeration value="Madam"/>
-      <xs:enumeration value="Miss"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="DhrFamilyStatusType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Situation de famille
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Situation de famille
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Single" value="Célibataire"/>
-        <enum key="Married" value="Marié(e)"/>
-        <enum key="PACS" value="PACS"/>
-        <enum key="CommonLawMarriage" value="Concubinage"/>
-        <enum key="Divorced" value="Divorcé(e)"/>
-        <enum key="Widow" value="Veuf(ve)"/>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Single"/>
-      <xs:enumeration value="Married"/>
-      <xs:enumeration value="PACS"/>
-      <xs:enumeration value="CommonLawMarriage"/>
-      <xs:enumeration value="Divorced"/>
-      <xs:enumeration value="Widow"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="DhrNationalityType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Nationalité
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Nationalité
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="French" value="Française"/>
-        <enum key="EU" value="UE"/>
-        <enum key="NonEU" value="Hors UE"/>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="French" />
-      <xs:enumeration value="EU" />
-      <xs:enumeration value="NonEU" />
-    </xs:restriction>
-  </xs:simpleType>
 
   <xs:complexType name="DhrRequesterPensionPlanType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Régime de retraire
+        Régime de retraite
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Régime de retraire
+        Régime de retraite
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -887,10 +776,10 @@
       <xs:element name="DhrRequesterHaveGuardian" type="xs:boolean" default="false">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Le Demandeur est il sous tutelle ?
+            Le demandeur est-il sous tutelle ?
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Présence Tuteur
+            Présence tuteur
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -907,12 +796,6 @@
 
       <xs:element name="DhrGuardianMeasure" type="dhr:DhrGuardianMeasureType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Mesure Tuteur
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Mesure Tuteur
-          </xs:documentation>
           <xs:appinfo>
             <common>
               <step name="subject"/>
@@ -931,10 +814,10 @@
       <xs:element name="DhrGuardianName" type="cvq:LastNameType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom du Tuteur ou de l'association
+            Nom du tuteur ou de l'association
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom du Tuteur ou de l'association
+            Nom du tuteur ou de l'association
           </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
@@ -952,12 +835,6 @@
 
       <xs:element name="DhrGuardianAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
@@ -980,10 +857,10 @@
   <xs:simpleType name="DhrGuardianMeasureType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Mesure Tuteur
+        Mesure tuteur
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Mesure Tuteur
+        Mesure tuteur
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="safeguardingJustice" value="Sauvegarde de justice"/>
@@ -1009,17 +886,11 @@
     </xs:annotation>
     <xs:sequence>
 
-      <xs:element name="DhrSpouseTitle" type="dhr:DhrTitleType">
+      <xs:element name="DhrSpouseTitle" type="cvq:TitleType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Civilité
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Civilité
-          </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseMadam" type="trigger"/>
               </conditions>
@@ -1032,17 +903,11 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="DhrSpouseFamilyStatus" type="dhr:DhrFamilyStatusType">
+      <xs:element name="DhrSpouseFamilyStatus" type="cvq:FamilyStatusType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Situation de famille
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Situation de famille
-          </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
             </common>
             <fo>
               <select/>
@@ -1054,16 +919,10 @@
 
       <xs:element name="DhrSpouseName" type="cvq:LastNameType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
             </common>
             <fo/>
             <bo />
@@ -1073,16 +932,10 @@
 
       <xs:element name="DhrSpouseFirstName" type="cvq:FirstNameType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Prénom
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
             </common>
             <fo/>
             <bo />
@@ -1101,7 +954,7 @@
           <xs:appinfo>
             <model namespace="users"/>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseMadam" type="filled" required="true"/>
               </conditions>
@@ -1122,7 +975,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
             </common>
             <fo/>
             <bo />
@@ -1141,7 +994,7 @@
           <xs:appinfo>
             <model namespace="users"/>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
             </common>
             <fo/>
             <bo />
@@ -1149,17 +1002,11 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="DhrSpouseNationality" type="dhr:DhrNationalityType">
+      <xs:element name="DhrSpouseNationality" type="cvq:NationalityType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nationalité
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nationalité
-          </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseNonEuropean" type="trigger"/>
               </conditions>
@@ -1182,7 +1029,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseNonEuropean" type="filled" required="true"/>
               </conditions>
@@ -1203,7 +1050,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseNonEuropean" type="filled" required="true"/>
               </conditions>
@@ -1238,7 +1085,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseOtherPensionPlan" type="trigger"/>
                 <condition name="isSpouseRetired" type="trigger"/>
@@ -1260,7 +1107,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseRetired" type="filled" required="true"/>
                 <condition name="isSpouseOtherPensionPlan" type="trigger"/>
@@ -1284,7 +1131,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseOtherPensionPlan" type="filled" required="true"/>
               </conditions>
@@ -1305,7 +1152,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseRetired" type="filled" required="true"/>
               </conditions>
@@ -1326,7 +1173,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseRetired" type="unfilled" required="true"/>
               </conditions>
@@ -1347,7 +1194,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseRetired" type="unfilled" required="true"/>
               </conditions>
@@ -1360,16 +1207,10 @@
 
       <xs:element name="DhrSpouseAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
-              <step name="subject"/>
+              <step name="spouse"/>
               <conditions>
                 <condition name="isSpouseRetired" type="unfilled" required="true"/>
               </conditions>
@@ -1398,12 +1239,6 @@
 
       <xs:element name="DhrCurrentDwellingAddress" type="cvq:AddressType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
@@ -1557,13 +1392,13 @@
         Nature de l'habitation
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="placeOfRecidence" value="Domicile"/>
+        <enum key="placeOfResidence" value="Domicile"/>
         <enum key="retirementHome" value="Etablissement PA"/>
         <enum key="other" value="Accueil particulier à titre onéreux"/>
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:enumeration value="placeOfRecidence"/>
+      <xs:enumeration value="placeOfResidence"/>
       <xs:enumeration value="retirementHome"/>
       <xs:enumeration value="other"/>
     </xs:restriction>
@@ -1594,7 +1429,7 @@
         Nombre de pièces (hors cuisine et salle de bains)
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Nombre de pièce
+        Nombre de pièces
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:decimal">
@@ -1621,22 +1456,16 @@
   <xs:complexType name="DhrPreviousDwellingType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Habitation antérieur
+        Habitation antérieure
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Habitation antérieur
+        Habitation antérieure
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
 
       <xs:element name="DhrPreviousDwellingAddress" type="cvq:AddressType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
@@ -1866,9 +1695,6 @@
             <common>
               <step name="resources"/>
             </common>
-            <!--
-            <fo /> // TODO - FORGOT by MVE ???
-            -->
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -1890,12 +1716,6 @@
 
       <xs:element name="DhrRealAssetAddress" type="cvq:AddressType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
@@ -2004,12 +1824,6 @@
 
       <xs:element name="DhrNotRealAssetAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
@@ -2064,12 +1878,6 @@
       
       <xs:element name="DhrNotRealAssetBeneficiaryAddress" type="cvq:AddressType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>
@@ -2139,12 +1947,6 @@
       
       <xs:element name="DhrNotRealAssetNotaryAddress" type="cvq:AddressType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
           <xs:appinfo>
             <model namespace="users"/>
             <common>

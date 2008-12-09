@@ -30,33 +30,47 @@
          <li class="${currentTab == 'tab2' ? 'selected' : ''}"><a href="#tab2"><em>
              <span class="tag-no_right">2</span>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-             <g:message code="dhr.step.dwelling.label" />
+             <g:message code="dhr.step.familyReferent.label" />
            </em></a></li>
          
 		  
          <li class="${currentTab == 'tab3' ? 'selected' : ''}"><a href="#tab3"><em>
              <span class="tag-no_right">3</span>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-             <g:message code="dhr.step.resources.label" />
+             <g:message code="dhr.step.spouse.label" />
            </em></a></li>
          
 		  
          <li class="${currentTab == 'tab4' ? 'selected' : ''}"><a href="#tab4"><em>
              <span class="tag-no_right">4</span>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-             <g:message code="dhr.step.taxes.label" />
+             <g:message code="dhr.step.dwelling.label" />
            </em></a></li>
          
 		  
          <li class="${currentTab == 'tab5' ? 'selected' : ''}"><a href="#tab5"><em>
              <span class="tag-no_right">5</span>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-             <g:message code="dhr.step.documentRef.label" />
+             <g:message code="dhr.step.resources.label" />
            </em></a></li>
          
 		  
          <li class="${currentTab == 'tab6' ? 'selected' : ''}"><a href="#tab6"><em>
              <span class="tag-no_right">6</span>
+             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+             <g:message code="dhr.step.taxes.label" />
+           </em></a></li>
+         
+		  
+         <li class="${currentTab == 'tab7' ? 'selected' : ''}"><a href="#tab7"><em>
+             <span class="tag-no_right">7</span>
+             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+             <g:message code="dhr.step.documentRef.label" />
+           </em></a></li>
+         
+		  
+         <li class="${currentTab == 'tab8' ? 'selected' : ''}"><a href="#tab8"><em>
+             <span class="tag-no_right">8</span>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
              <g:message code="dhr.step.validationRef.label" />
            </em></a></li>
@@ -92,6 +106,60 @@
            </div>  
          
            <div id="tab2">
+             <form method="POST" id="familyReferentForm" action="<g:createLink action="validFamilyReferent" />">
+               <h3>
+                 <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+                 <g:message code="dhr.step.familyReferent.label" />
+                 <span><g:message code="dhr.step.familyReferent.desc" /></span>
+               </h3>
+               
+               <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/familyReferent" /> 
+               
+               <div class="error" id="familyReferentFormErrors"> </div>
+               
+               <!-- Input submit-->
+               <input type="button"
+                   id="submitFamilyReferent" 
+		           name="submitFamilyReferent" 
+		           value="<g:message code='dhr.step.familyReferent.submitLabel'/>" />
+             </form>
+             <!-- navigation link -->
+             <div class="navTab">
+               
+               <a href="#tab1" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+               
+               <a href="#tab3" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+             </div>
+           </div>  
+         
+           <div id="tab3">
+             <form method="POST" id="spouseForm" action="<g:createLink action="validSpouse" />">
+               <h3>
+                 <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+                 <g:message code="dhr.step.spouse.label" />
+                 <span><g:message code="dhr.step.spouse.desc" /></span>
+               </h3>
+               
+               <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/spouse" /> 
+               
+               <div class="error" id="spouseFormErrors"> </div>
+               
+               <!-- Input submit-->
+               <input type="button"
+                   id="submitSpouse" 
+		           name="submitSpouse" 
+		           value="<g:message code='dhr.step.spouse.submitLabel'/>" />
+             </form>
+             <!-- navigation link -->
+             <div class="navTab">
+               
+               <a href="#tab2" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+               
+               <a href="#tab4" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+             </div>
+           </div>  
+         
+           <div id="tab4">
              <form method="POST" id="dwellingForm" action="<g:createLink action="validDwelling" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -112,13 +180,13 @@
              <!-- navigation link -->
              <div class="navTab">
                
-               <a href="#tab1" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+               <a href="#tab3" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
                
-               <a href="#tab3" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+               <a href="#tab5" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
              </div>
            </div>  
          
-           <div id="tab3">
+           <div id="tab5">
              <form method="POST" id="resourcesForm" action="<g:createLink action="validResources" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -139,13 +207,13 @@
              <!-- navigation link -->
              <div class="navTab">
                
-               <a href="#tab2" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+               <a href="#tab4" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
                
-               <a href="#tab4" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+               <a href="#tab6" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
              </div>
            </div>  
          
-           <div id="tab4">
+           <div id="tab6">
              <form method="POST" id="taxesForm" action="<g:createLink action="validTaxes" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -166,13 +234,13 @@
              <!-- navigation link -->
              <div class="navTab">
                
-               <a href="#tab3" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+               <a href="#tab5" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
                
-               <a href="#tab5" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+               <a href="#tab7" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
              </div>
            </div>  
          
-           <div id="tab5">
+           <div id="tab7">
              <form method="POST" id="documentRefForm" action="<g:createLink action="validDocumentRef" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -193,13 +261,13 @@
              <!-- navigation link -->
              <div class="navTab">
                
-               <a href="#tab4" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+               <a href="#tab6" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
                
-               <a href="#tab6" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+               <a href="#tab8" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
              </div>
            </div>  
          
-           <div id="tab6">
+           <div id="tab8">
              <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
                <h3>
                  <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -220,7 +288,7 @@
              <!-- navigation link -->
              <div class="navTab">
                
-               <a href="#tab5" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+               <a href="#tab7" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
                
              </div>
            </div>  
@@ -372,7 +440,8 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+        Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       
       function conditionChange(e) {
@@ -400,6 +469,14 @@
 	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitSubject");
       submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('subjectFormErrors'));
       submitRsrSubjectButton.on("click", onSubmitClick, "subjectForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitFamilyReferent");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('familyReferentFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "familyReferentForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitSpouse");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('spouseFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "spouseForm");
 	  
 	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitDwelling");
       submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('dwellingFormErrors'));

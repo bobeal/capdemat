@@ -8,6 +8,7 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.HandicapAllowanceRequest;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.social.IHandicapAllowanceRequestService;

@@ -84,7 +84,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
             dhrSpouseStatusTypeDhrSpouseStatus.setDhrIsSpouseRetired(this.dhrIsSpouseRetired.booleanValue());
         DhrSpouseType dhrSpouseTypeDhrSpouse = domesticHelpRequest.addNewDhrSpouse();
         if (this.dhrSpouseTitle != null)
-            dhrSpouseTypeDhrSpouse.setDhrSpouseTitle(fr.cg95.cvq.xml.request.social.TitleType.Enum.forString(this.dhrSpouseTitle.toString()));
+            dhrSpouseTypeDhrSpouse.setDhrSpouseTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(this.dhrSpouseTitle.toString()));
         DhrRequesterType dhrRequesterTypeDhrRequester = domesticHelpRequest.addNewDhrRequester();
         date = this.dhrRequesterBirthDate;
         if (date != null) {
@@ -115,7 +115,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
             domesticHelpRequest.setDhrNotRealAssetArray(dhrNotRealAssetTypeTab);
         }
         if (this.dhrRequesterNationality != null)
-            dhrRequesterTypeDhrRequester.setDhrRequesterNationality(fr.cg95.cvq.xml.request.social.NationalityType.Enum.forString(this.dhrRequesterNationality.toString()));
+            dhrRequesterTypeDhrRequester.setDhrRequesterNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(this.dhrRequesterNationality.toString()));
         date = this.dhrCurrentDwellingArrivalDate;
         if (date != null) {
             calendar.setTime(date);
@@ -142,11 +142,11 @@ public class DomesticHelpRequest extends Request implements Serializable {
             dhrRequesterTypeDhrRequester.setDhrRequesterFranceArrivalDate(calendar);
         }
         if (this.dhrRequesterTitle != null)
-            dhrRequesterTypeDhrRequester.setDhrRequesterTitle(fr.cg95.cvq.xml.request.social.TitleType.Enum.forString(this.dhrRequesterTitle.toString()));
+            dhrRequesterTypeDhrRequester.setDhrRequesterTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(this.dhrRequesterTitle.toString()));
         if (this.dhrCurrentDwellingStatus != null)
             dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingStatus(fr.cg95.cvq.xml.request.social.DhrDwellingStatusType.Enum.forString(this.dhrCurrentDwellingStatus.toString()));
         if (this.dhrSpouseFamilyStatus != null)
-            dhrSpouseTypeDhrSpouse.setDhrSpouseFamilyStatus(fr.cg95.cvq.xml.request.social.FamilyStatusType.Enum.forString(this.dhrSpouseFamilyStatus.toString()));
+            dhrSpouseTypeDhrSpouse.setDhrSpouseFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(this.dhrSpouseFamilyStatus.toString()));
         dhrSpouseTypeDhrSpouse.setDhrSpouseFirstName(this.dhrSpouseFirstName);
         if (this.dhrFurnitureInvestmentIncome != null)
             dhrIncomesTypeDhrRequesterIncomes.setDhrFurnitureInvestmentIncome(new BigInteger(this.dhrFurnitureInvestmentIncome.toString()));
@@ -180,10 +180,10 @@ public class DomesticHelpRequest extends Request implements Serializable {
         if (this.dhrAllowances != null)
             dhrIncomesTypeDhrRequesterIncomes.setDhrAllowances(new BigInteger(this.dhrAllowances.toString()));
         if (this.dhrRequesterFamilyStatus != null)
-            dhrRequesterTypeDhrRequester.setDhrRequesterFamilyStatus(fr.cg95.cvq.xml.request.social.FamilyStatusType.Enum.forString(this.dhrRequesterFamilyStatus.toString()));
+            dhrRequesterTypeDhrRequester.setDhrRequesterFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(this.dhrRequesterFamilyStatus.toString()));
         dhrRequesterTypeDhrRequester.setDhrRequesterMaidenName(this.dhrRequesterMaidenName);
         if (this.dhrSpouseNationality != null)
-            dhrSpouseTypeDhrSpouse.setDhrSpouseNationality(fr.cg95.cvq.xml.request.social.NationalityType.Enum.forString(this.dhrSpouseNationality.toString()));
+            dhrSpouseTypeDhrSpouse.setDhrSpouseNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(this.dhrSpouseNationality.toString()));
         i = 0;
         if (dhrPreviousDwelling != null) {
             fr.cg95.cvq.xml.request.social.DhrPreviousDwellingType[] dhrPreviousDwellingTypeTab = new fr.cg95.cvq.xml.request.social.DhrPreviousDwellingType[dhrPreviousDwelling.size()];
@@ -239,9 +239,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         domesticHelpRequest.setProfessionalTaxes(domesticHelpRequestXml.getDhrTaxesAmount().getProfessionalTaxes());
         domesticHelpRequest.setDhrIsSpouseRetired(Boolean.valueOf(domesticHelpRequestXml.getDhrSpouseStatus().getDhrIsSpouseRetired()));
         if (domesticHelpRequestXml.getDhrSpouse().getDhrSpouseTitle() != null)
-            domesticHelpRequest.setDhrSpouseTitle(fr.cg95.cvq.business.request.social.TitleType.forString(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseTitle().toString()));
+            domesticHelpRequest.setDhrSpouseTitle(fr.cg95.cvq.business.users.TitleType.forString(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseTitle().toString()));
         else
-            domesticHelpRequest.setDhrSpouseTitle(fr.cg95.cvq.business.request.social.TitleType.getDefaultTitleType());
+            domesticHelpRequest.setDhrSpouseTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
         calendar = domesticHelpRequestXml.getDhrRequester().getDhrRequesterBirthDate();
         if (calendar != null) {
             domesticHelpRequest.setDhrRequesterBirthDate(calendar.getTime());
@@ -262,9 +262,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         }
         domesticHelpRequest.setDhrNotRealAsset(dhrNotRealAssetList);
         if (domesticHelpRequestXml.getDhrRequester().getDhrRequesterNationality() != null)
-            domesticHelpRequest.setDhrRequesterNationality(fr.cg95.cvq.business.request.social.NationalityType.forString(domesticHelpRequestXml.getDhrRequester().getDhrRequesterNationality().toString()));
+            domesticHelpRequest.setDhrRequesterNationality(fr.cg95.cvq.business.users.NationalityType.forString(domesticHelpRequestXml.getDhrRequester().getDhrRequesterNationality().toString()));
         else
-            domesticHelpRequest.setDhrRequesterNationality(fr.cg95.cvq.business.request.social.NationalityType.getDefaultNationalityType());
+            domesticHelpRequest.setDhrRequesterNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
         calendar = domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingArrivalDate();
         if (calendar != null) {
             domesticHelpRequest.setDhrCurrentDwellingArrivalDate(calendar.getTime());
@@ -283,17 +283,17 @@ public class DomesticHelpRequest extends Request implements Serializable {
             domesticHelpRequest.setDhrRequesterFranceArrivalDate(calendar.getTime());
         }
         if (domesticHelpRequestXml.getDhrRequester().getDhrRequesterTitle() != null)
-            domesticHelpRequest.setDhrRequesterTitle(fr.cg95.cvq.business.request.social.TitleType.forString(domesticHelpRequestXml.getDhrRequester().getDhrRequesterTitle().toString()));
+            domesticHelpRequest.setDhrRequesterTitle(fr.cg95.cvq.business.users.TitleType.forString(domesticHelpRequestXml.getDhrRequester().getDhrRequesterTitle().toString()));
         else
-            domesticHelpRequest.setDhrRequesterTitle(fr.cg95.cvq.business.request.social.TitleType.getDefaultTitleType());
+            domesticHelpRequest.setDhrRequesterTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
         if (domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingStatus() != null)
             domesticHelpRequest.setDhrCurrentDwellingStatus(fr.cg95.cvq.business.request.social.DhrDwellingStatusType.forString(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingStatus().toString()));
         else
             domesticHelpRequest.setDhrCurrentDwellingStatus(fr.cg95.cvq.business.request.social.DhrDwellingStatusType.getDefaultDhrDwellingStatusType());
         if (domesticHelpRequestXml.getDhrSpouse().getDhrSpouseFamilyStatus() != null)
-            domesticHelpRequest.setDhrSpouseFamilyStatus(fr.cg95.cvq.business.request.social.FamilyStatusType.forString(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseFamilyStatus().toString()));
+            domesticHelpRequest.setDhrSpouseFamilyStatus(fr.cg95.cvq.business.users.FamilyStatusType.forString(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseFamilyStatus().toString()));
         else
-            domesticHelpRequest.setDhrSpouseFamilyStatus(fr.cg95.cvq.business.request.social.FamilyStatusType.getDefaultFamilyStatusType());
+            domesticHelpRequest.setDhrSpouseFamilyStatus(fr.cg95.cvq.business.users.FamilyStatusType.getDefaultFamilyStatusType());
         domesticHelpRequest.setDhrSpouseFirstName(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseFirstName());
         domesticHelpRequest.setDhrFurnitureInvestmentIncome(domesticHelpRequestXml.getDhrRequesterIncomes().getDhrFurnitureInvestmentIncome());
         if (domesticHelpRequestXml.getDhrRequesterGuardian().getDhrGuardianAddress() != null)
@@ -328,14 +328,14 @@ public class DomesticHelpRequest extends Request implements Serializable {
         domesticHelpRequest.setDhrRequesterFirstName(domesticHelpRequestXml.getDhrRequester().getDhrRequesterFirstName());
         domesticHelpRequest.setDhrAllowances(domesticHelpRequestXml.getDhrRequesterIncomes().getDhrAllowances());
         if (domesticHelpRequestXml.getDhrRequester().getDhrRequesterFamilyStatus() != null)
-            domesticHelpRequest.setDhrRequesterFamilyStatus(fr.cg95.cvq.business.request.social.FamilyStatusType.forString(domesticHelpRequestXml.getDhrRequester().getDhrRequesterFamilyStatus().toString()));
+            domesticHelpRequest.setDhrRequesterFamilyStatus(fr.cg95.cvq.business.users.FamilyStatusType.forString(domesticHelpRequestXml.getDhrRequester().getDhrRequesterFamilyStatus().toString()));
         else
-            domesticHelpRequest.setDhrRequesterFamilyStatus(fr.cg95.cvq.business.request.social.FamilyStatusType.getDefaultFamilyStatusType());
+            domesticHelpRequest.setDhrRequesterFamilyStatus(fr.cg95.cvq.business.users.FamilyStatusType.getDefaultFamilyStatusType());
         domesticHelpRequest.setDhrRequesterMaidenName(domesticHelpRequestXml.getDhrRequester().getDhrRequesterMaidenName());
         if (domesticHelpRequestXml.getDhrSpouse().getDhrSpouseNationality() != null)
-            domesticHelpRequest.setDhrSpouseNationality(fr.cg95.cvq.business.request.social.NationalityType.forString(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseNationality().toString()));
+            domesticHelpRequest.setDhrSpouseNationality(fr.cg95.cvq.business.users.NationalityType.forString(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseNationality().toString()));
         else
-            domesticHelpRequest.setDhrSpouseNationality(fr.cg95.cvq.business.request.social.NationalityType.getDefaultNationalityType());
+            domesticHelpRequest.setDhrSpouseNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
         List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwellingList = new ArrayList<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> ();
         if ( domesticHelpRequestXml.sizeOfDhrPreviousDwellingArray() > 0) {
             for (int i = 0; i < domesticHelpRequestXml.getDhrPreviousDwellingArray().length; i++) {
@@ -456,9 +456,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.dhrIsSpouseRetired;
     }
 
-    private fr.cg95.cvq.business.request.social.TitleType dhrSpouseTitle;
+    private fr.cg95.cvq.business.users.TitleType dhrSpouseTitle;
 
-    public final void setDhrSpouseTitle(final fr.cg95.cvq.business.request.social.TitleType dhrSpouseTitle) {
+    public final void setDhrSpouseTitle(final fr.cg95.cvq.business.users.TitleType dhrSpouseTitle) {
         this.dhrSpouseTitle = dhrSpouseTitle;
     }
 
@@ -467,7 +467,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
      * @hibernate.property
      *  column="dhr_spouse_title"
      */
-    public final fr.cg95.cvq.business.request.social.TitleType getDhrSpouseTitle() {
+    public final fr.cg95.cvq.business.users.TitleType getDhrSpouseTitle() {
         return this.dhrSpouseTitle;
     }
 
@@ -571,9 +571,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.dhrNotRealAsset;
     }
 
-    private fr.cg95.cvq.business.request.social.NationalityType dhrRequesterNationality;
+    private fr.cg95.cvq.business.users.NationalityType dhrRequesterNationality;
 
-    public final void setDhrRequesterNationality(final fr.cg95.cvq.business.request.social.NationalityType dhrRequesterNationality) {
+    public final void setDhrRequesterNationality(final fr.cg95.cvq.business.users.NationalityType dhrRequesterNationality) {
         this.dhrRequesterNationality = dhrRequesterNationality;
     }
 
@@ -583,7 +583,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
      *  column="dhr_requester_nationality"
      *  length="32"
      */
-    public final fr.cg95.cvq.business.request.social.NationalityType getDhrRequesterNationality() {
+    public final fr.cg95.cvq.business.users.NationalityType getDhrRequesterNationality() {
         return this.dhrRequesterNationality;
     }
 
@@ -725,9 +725,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.dhrRequesterFranceArrivalDate;
     }
 
-    private fr.cg95.cvq.business.request.social.TitleType dhrRequesterTitle;
+    private fr.cg95.cvq.business.users.TitleType dhrRequesterTitle;
 
-    public final void setDhrRequesterTitle(final fr.cg95.cvq.business.request.social.TitleType dhrRequesterTitle) {
+    public final void setDhrRequesterTitle(final fr.cg95.cvq.business.users.TitleType dhrRequesterTitle) {
         this.dhrRequesterTitle = dhrRequesterTitle;
     }
 
@@ -736,7 +736,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
      * @hibernate.property
      *  column="dhr_requester_title"
      */
-    public final fr.cg95.cvq.business.request.social.TitleType getDhrRequesterTitle() {
+    public final fr.cg95.cvq.business.users.TitleType getDhrRequesterTitle() {
         return this.dhrRequesterTitle;
     }
 
@@ -755,9 +755,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.dhrCurrentDwellingStatus;
     }
 
-    private fr.cg95.cvq.business.request.social.FamilyStatusType dhrSpouseFamilyStatus;
+    private fr.cg95.cvq.business.users.FamilyStatusType dhrSpouseFamilyStatus;
 
-    public final void setDhrSpouseFamilyStatus(final fr.cg95.cvq.business.request.social.FamilyStatusType dhrSpouseFamilyStatus) {
+    public final void setDhrSpouseFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType dhrSpouseFamilyStatus) {
         this.dhrSpouseFamilyStatus = dhrSpouseFamilyStatus;
     }
 
@@ -766,7 +766,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
      * @hibernate.property
      *  column="dhr_spouse_family_status"
      */
-    public final fr.cg95.cvq.business.request.social.FamilyStatusType getDhrSpouseFamilyStatus() {
+    public final fr.cg95.cvq.business.users.FamilyStatusType getDhrSpouseFamilyStatus() {
         return this.dhrSpouseFamilyStatus;
     }
 
@@ -1082,9 +1082,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.dhrAllowances;
     }
 
-    private fr.cg95.cvq.business.request.social.FamilyStatusType dhrRequesterFamilyStatus;
+    private fr.cg95.cvq.business.users.FamilyStatusType dhrRequesterFamilyStatus;
 
-    public final void setDhrRequesterFamilyStatus(final fr.cg95.cvq.business.request.social.FamilyStatusType dhrRequesterFamilyStatus) {
+    public final void setDhrRequesterFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType dhrRequesterFamilyStatus) {
         this.dhrRequesterFamilyStatus = dhrRequesterFamilyStatus;
     }
 
@@ -1093,7 +1093,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
      * @hibernate.property
      *  column="dhr_requester_family_status"
      */
-    public final fr.cg95.cvq.business.request.social.FamilyStatusType getDhrRequesterFamilyStatus() {
+    public final fr.cg95.cvq.business.users.FamilyStatusType getDhrRequesterFamilyStatus() {
         return this.dhrRequesterFamilyStatus;
     }
 
@@ -1113,9 +1113,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return this.dhrRequesterMaidenName;
     }
 
-    private fr.cg95.cvq.business.request.social.NationalityType dhrSpouseNationality;
+    private fr.cg95.cvq.business.users.NationalityType dhrSpouseNationality;
 
-    public final void setDhrSpouseNationality(final fr.cg95.cvq.business.request.social.NationalityType dhrSpouseNationality) {
+    public final void setDhrSpouseNationality(final fr.cg95.cvq.business.users.NationalityType dhrSpouseNationality) {
         this.dhrSpouseNationality = dhrSpouseNationality;
     }
 
@@ -1125,7 +1125,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
      *  column="dhr_spouse_nationality"
      *  length="32"
      */
-    public final fr.cg95.cvq.business.request.social.NationalityType getDhrSpouseNationality() {
+    public final fr.cg95.cvq.business.users.NationalityType getDhrSpouseNationality() {
         return this.dhrSpouseNationality;
     }
 

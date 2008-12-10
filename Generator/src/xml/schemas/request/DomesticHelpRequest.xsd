@@ -483,6 +483,7 @@
       <xs:element name="DhrRequesterTitle" type="cvq:TitleType">
         <xs:annotation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="subject"/>
               <conditions>
@@ -500,6 +501,7 @@
       <xs:element name="DhrRequesterFamilyStatus" type="cvq:FamilyStatusType">
         <xs:annotation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="subject"/>
             </common>
@@ -599,6 +601,7 @@
       <xs:element name="DhrRequesterNationality" type="cvq:NationalityType">
         <xs:annotation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="subject"/>
               <conditions>
@@ -889,6 +892,7 @@
       <xs:element name="DhrSpouseTitle" type="cvq:TitleType">
         <xs:annotation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="spouse"/>
               <conditions>
@@ -906,6 +910,7 @@
       <xs:element name="DhrSpouseFamilyStatus" type="cvq:FamilyStatusType">
         <xs:annotation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="spouse"/>
             </common>
@@ -992,7 +997,6 @@
             Lieu de naissance
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
             <common>
               <step name="spouse"/>
             </common>
@@ -1005,6 +1009,7 @@
       <xs:element name="DhrSpouseNationality" type="cvq:NationalityType">
         <xs:annotation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="spouse"/>
               <conditions>
@@ -1849,6 +1854,7 @@
             Nom du bénéficiaire
           </xs:documentation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="resources"/>
             </common>
@@ -1867,6 +1873,7 @@
             Prénom du bénéficiaire
           </xs:documentation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="resources"/>
             </common>
@@ -1936,6 +1943,7 @@
             Nom du notaire
           </xs:documentation>
           <xs:appinfo>
+            <model namespace="users"/>
             <common>
               <step name="resources"/>
             </common>

@@ -30,7 +30,7 @@
         <a href="#tab2"><em>
          <span class="tag-no_right">2</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-         <g:message code="dhr.step.dwelling.label" />
+         <g:message code="dhr.step.familyReferent.label" />
        </em></a>
        </li>    
 		  
@@ -38,7 +38,7 @@
         <a href="#tab3"><em>
          <span class="tag-no_right">3</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-         <g:message code="dhr.step.resources.label" />
+         <g:message code="dhr.step.spouse.label" />
        </em></a>
        </li>    
 		  
@@ -46,7 +46,7 @@
         <a href="#tab4"><em>
          <span class="tag-no_right">4</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-         <g:message code="dhr.step.taxes.label" />
+         <g:message code="dhr.step.dwelling.label" />
        </em></a>
        </li>    
 		  
@@ -54,13 +54,29 @@
         <a href="#tab5"><em>
          <span class="tag-no_right">5</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-         <g:message code="dhr.step.documentRef.label" />
+         <g:message code="dhr.step.resources.label" />
        </em></a>
        </li>    
 		  
        <li class="${currentTab == 'tab6' ? 'selected' : ''}">
         <a href="#tab6"><em>
          <span class="tag-no_right">6</span>
+         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <g:message code="dhr.step.taxes.label" />
+       </em></a>
+       </li>    
+		  
+       <li class="${currentTab == 'tab7' ? 'selected' : ''}">
+        <a href="#tab7"><em>
+         <span class="tag-no_right">7</span>
+         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <g:message code="dhr.step.documentRef.label" />
+       </em></a>
+       </li>    
+		  
+       <li class="${currentTab == 'tab8' ? 'selected' : ''}">
+        <a href="#tab8"><em>
+         <span class="tag-no_right">8</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
          <g:message code="dhr.step.validationRef.label" />
        </em></a>
@@ -81,73 +97,6 @@
             
             
               
-                <label>dhrRequestKind</label>
-                
-          <select name="dhrRequestKind" class="isCoupleRequest-trigger  required validate-one-required" title="">
-            <option value="">Choisissez...</option>
-            <g:each in="${['Individual','Couple']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrRequestKind_${it}"><g:message code="${it}" /></option>
-            </g:each>
-          </select>
-          
-              
-              
-            
-            
-              
-                <fieldset>
-                <legend>dhrFamilyReferent</legend>
-                
-                  <label>dhrHaveFamilyReferent</label>
-                  
-                    
-          <select name="dhrHaveFamilyReferent" class="haveFamilyReferent-trigger  required validate-one-required" title="">
-            <option value="">Choisissez...</option>
-            <g:each in="${[true,false]}">
-              <option value="${it}" ${it == dhr.dhrHaveFamilyReferent ? 'selected="selected"': ''}><g:message code="property.${it}"/></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label>dhrReferentName</label>
-                  
-                    <input name="dhrReferentName" value="${dhr.dhrReferentName}" class="haveFamilyReferent-filled    validate-lastname" title="">
-                  
-                
-                  <label>dhrReferentFirstName</label>
-                  
-                    <input name="dhrReferentFirstName" value="${dhr.dhrReferentFirstName}" class="haveFamilyReferent-filled    validate-firstname" title="">
-                  
-                
-                  <label>dhrReferentAddress</label>
-                  
-                    
-          <div>
-          <label>additional delivery information</label>
-          <input type="text" value="${dhr.dhrReferentAddress.additionalDeliveryInformation}" maxlength="38" name="dhrReferentAddress.additionalDeliveryInformation"/>  
-          <label>additional geographical information</label>
-          <input type="text" value="${dhr.dhrReferentAddress.additionalGeographicalInformation}" maxlength="38" name="dhrReferentAddress.additionalGeographicalInformation"/>
-          <label> street number - street name</label>
-          <input type="text" class="line1" value="${dhr.dhrReferentAddress.streetNumber}" maxlength="5" name="dhrReferentAddress.streetNumber"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrReferentAddress.streetName}" maxlength="32" name="dhrReferentAddress.streetName"/>
-          <label>place name or service</label>    
-          <input type="text" value="${dhr.dhrReferentAddress.placeNameOrService}" maxlength="38" name="dhrReferentAddress.placeNameOrService"/>
-          <label> postal code - city </label>
-          <input type="text" class="line1" value="${dhr.dhrReferentAddress.postalCode}" maxlength="5" name="dhrReferentAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="CERGY" maxlength="32" name="dhrReferentAddress.city"/>
-          <label>country name</label>
-          <input type="text" value="${dhr.dhrReferentAddress.countryName}" maxlength="38" name="dhrReferentAddress.countryName"/>
-          <div>
-          
-                  
-                
-                </fieldset>
-              
-              
-            
-            
-              
                 <fieldset>
                 <legend>dhrRequester</legend>
                 
@@ -156,8 +105,8 @@
                     
           <select name="dhrRequesterTitle" class="isMadam-trigger  required validate-not-first" title="">
             <option value="">Choisissez...</option>
-            <g:each in="${['Mister','Madam','Miss']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrRequesterTitle_${it}" ${it == dhr.dhrRequesterTitle ? 'selected="selected"': ''}><g:message code="${it}" /></option>
+            <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
+              <option value="fr.cg95.cvq.business.users.DhrRequesterTitle_${it}" ${it == dhr.dhrRequesterTitle ? 'selected="selected"': ''}><g:message code="${it}" /></option>
             </g:each>
           </select>
           
@@ -168,8 +117,8 @@
                     
           <select name="dhrRequesterFamilyStatus" class=" required validate-not-first" title="">
             <option value="">Choisissez...</option>
-            <g:each in="${['Single','Married','PACS','CommonLawMarriage','Divorced','Widow']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrRequesterFamilyStatus_${it}" ${it == dhr.dhrRequesterFamilyStatus ? 'selected="selected"': ''}><g:message code="${it}" /></option>
+            <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
+              <option value="fr.cg95.cvq.business.users.DhrRequesterFamilyStatus_${it}" ${it == dhr.dhrRequesterFamilyStatus ? 'selected="selected"': ''}><g:message code="${it}" /></option>
             </g:each>
           </select>
           
@@ -205,8 +154,8 @@
                     
           <select name="dhrRequesterNationality" class="isNonEuropean-trigger  required validate-not-first" title="">
             <option value="">Choisissez...</option>
-            <g:each in="${['French','EU','NonEU']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrRequesterNationality_${it}" ${it == dhr.dhrRequesterNationality ? 'selected="selected"': ''}><g:message code="${it}" /></option>
+            <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
+              <option value="fr.cg95.cvq.business.users.DhrRequesterNationality_${it}" ${it == dhr.dhrRequesterNationality ? 'selected="selected"': ''}><g:message code="${it}" /></option>
             </g:each>
           </select>
           
@@ -324,6 +273,126 @@
               
               
             
+           
+           <div class="error" id="subjectFormErrors"> </div>
+           
+           <!-- Input submit-->
+           <input type="button" 
+              id="submitSubject" 
+              name="submitSubject" 
+              value="<g:message code='dhr.step.subject.submitLabel'/>" />
+         </form>
+         <!-- navigation link -->
+         <div class="navTab">
+           
+           
+           <a href="#tab2" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+         </div>
+       </div>  
+     
+       <div id="tab2">
+         <form method="POST" id="familyReferentForm" action="<g:createLink action="validFamilyReferent" />">
+           <h3>
+             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <g:message code="dhr.step.familyReferent.label" />
+             <span><g:message code="dhr.step.familyReferent.desc" /></span>
+           </h3>
+           
+            
+            
+              
+                <fieldset>
+                <legend>dhrFamilyReferent</legend>
+                
+                  <label>dhrHaveFamilyReferent</label>
+                  
+                    
+          <select name="dhrHaveFamilyReferent" class="haveFamilyReferent-trigger  required validate-one-required" title="">
+            <option value="">Choisissez...</option>
+            <g:each in="${[true,false]}">
+              <option value="${it}" ${it == dhr.dhrHaveFamilyReferent ? 'selected="selected"': ''}><g:message code="property.${it}"/></option>
+            </g:each>
+          </select>
+          
+                  
+                
+                  <label>dhrReferentName</label>
+                  
+                    <input name="dhrReferentName" value="${dhr.dhrReferentName}" class="haveFamilyReferent-filled    validate-lastname" title="">
+                  
+                
+                  <label>dhrReferentFirstName</label>
+                  
+                    <input name="dhrReferentFirstName" value="${dhr.dhrReferentFirstName}" class="haveFamilyReferent-filled    validate-firstname" title="">
+                  
+                
+                  <label>dhrReferentAddress</label>
+                  
+                    
+          <div>
+          <label>additional delivery information</label>
+          <input type="text" value="${dhr.dhrReferentAddress.additionalDeliveryInformation}" maxlength="38" name="dhrReferentAddress.additionalDeliveryInformation"/>  
+          <label>additional geographical information</label>
+          <input type="text" value="${dhr.dhrReferentAddress.additionalGeographicalInformation}" maxlength="38" name="dhrReferentAddress.additionalGeographicalInformation"/>
+          <label> street number - street name</label>
+          <input type="text" class="line1" value="${dhr.dhrReferentAddress.streetNumber}" maxlength="5" name="dhrReferentAddress.streetNumber"/>
+          <input type="text" title="" class="line2 required" value="${dhr.dhrReferentAddress.streetName}" maxlength="32" name="dhrReferentAddress.streetName"/>
+          <label>place name or service</label>    
+          <input type="text" value="${dhr.dhrReferentAddress.placeNameOrService}" maxlength="38" name="dhrReferentAddress.placeNameOrService"/>
+          <label> postal code - city </label>
+          <input type="text" class="line1" value="${dhr.dhrReferentAddress.postalCode}" maxlength="5" name="dhrReferentAddress.postalCode"/>
+          <input type="text" title="" class="line2 required" value="CERGY" maxlength="32" name="dhrReferentAddress.city"/>
+          <label>country name</label>
+          <input type="text" value="${dhr.dhrReferentAddress.countryName}" maxlength="38" name="dhrReferentAddress.countryName"/>
+          <div>
+          
+                  
+                
+                </fieldset>
+              
+              
+            
+           
+           <div class="error" id="familyReferentFormErrors"> </div>
+           
+           <!-- Input submit-->
+           <input type="button" 
+              id="submitFamilyReferent" 
+              name="submitFamilyReferent" 
+              value="<g:message code='dhr.step.familyReferent.submitLabel'/>" />
+         </form>
+         <!-- navigation link -->
+         <div class="navTab">
+           
+           <a href="#tab1" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           
+           <a href="#tab3" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+         </div>
+       </div>  
+     
+       <div id="tab3">
+         <form method="POST" id="spouseForm" action="<g:createLink action="validSpouse" />">
+           <h3>
+             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <g:message code="dhr.step.spouse.label" />
+             <span><g:message code="dhr.step.spouse.desc" /></span>
+           </h3>
+           
+            
+            
+              
+                <label>dhrRequestKind</label>
+                
+          <select name="dhrRequestKind" class="isCoupleRequest-trigger  required validate-one-required" title="">
+            <option value="">Choisissez...</option>
+            <g:each in="${['Individual','Couple']}">
+              <option value="fr.cg95.cvq.business.request.social.DhrRequestKind_${it}"><g:message code="${it}" /></option>
+            </g:each>
+          </select>
+          
+              
+              
+            
             
               
                 <fieldset>
@@ -334,8 +403,8 @@
                     
           <select name="dhrSpouseTitle" class="isSpouseMadam-trigger  required validate-not-first" title="">
             <option value="">Choisissez...</option>
-            <g:each in="${['Mister','Madam','Miss']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrSpouseTitle_${it}" ${it == dhr.dhrSpouseTitle ? 'selected="selected"': ''}><g:message code="${it}" /></option>
+            <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
+              <option value="fr.cg95.cvq.business.users.DhrSpouseTitle_${it}" ${it == dhr.dhrSpouseTitle ? 'selected="selected"': ''}><g:message code="${it}" /></option>
             </g:each>
           </select>
           
@@ -346,8 +415,8 @@
                     
           <select name="dhrSpouseFamilyStatus" class=" required validate-not-first" title="">
             <option value="">Choisissez...</option>
-            <g:each in="${['Single','Married','PACS','CommonLawMarriage','Divorced','Widow']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrSpouseFamilyStatus_${it}" ${it == dhr.dhrSpouseFamilyStatus ? 'selected="selected"': ''}><g:message code="${it}" /></option>
+            <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
+              <option value="fr.cg95.cvq.business.users.DhrSpouseFamilyStatus_${it}" ${it == dhr.dhrSpouseFamilyStatus ? 'selected="selected"': ''}><g:message code="${it}" /></option>
             </g:each>
           </select>
           
@@ -383,8 +452,8 @@
                     
           <select name="dhrSpouseNationality" class="isSpouseNonEuropean-trigger  required validate-not-first" title="">
             <option value="">Choisissez...</option>
-            <g:each in="${['French','EU','NonEU']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrSpouseNationality_${it}" ${it == dhr.dhrSpouseNationality ? 'selected="selected"': ''}><g:message code="${it}" /></option>
+            <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
+              <option value="fr.cg95.cvq.business.users.DhrSpouseNationality_${it}" ${it == dhr.dhrSpouseNationality ? 'selected="selected"': ''}><g:message code="${it}" /></option>
             </g:each>
           </select>
           
@@ -486,24 +555,59 @@
               
               
             
+            
+              
+                <fieldset>
+                <legend>dhrSpouseIncomes</legend>
+                
+                  <label>pensions</label>
+                  
+                    <input name="pensions" value="${dhr.pensions}" class="   validate-positiveinteger" title="">
+                  
+                
+                  <label>dhrAllowances</label>
+                  
+                    <input name="dhrAllowances" value="${dhr.dhrAllowances}" class="   validate-positiveinteger" title="">
+                  
+                
+                  <label>dhrFurnitureInvestmentIncome</label>
+                  
+                    <input name="dhrFurnitureInvestmentIncome" value="${dhr.dhrFurnitureInvestmentIncome}" class="   validate-positiveinteger" title="">
+                  
+                
+                  <label>dhrRealEstateInvestmentIncome</label>
+                  
+                    <input name="dhrRealEstateInvestmentIncome" value="${dhr.dhrRealEstateInvestmentIncome}" class="   validate-positiveinteger" title="">
+                  
+                
+                  <label>dhrNetIncome</label>
+                  
+                    <input name="dhrNetIncome" value="${dhr.dhrNetIncome}" class="   validate-positiveinteger" title="">
+                  
+                
+                </fieldset>
+              
+              
+            
            
-           <div class="error" id="subjectFormErrors"> </div>
+           <div class="error" id="spouseFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
-              id="submitSubject" 
-              name="submitSubject" 
-              value="<g:message code='dhr.step.subject.submitLabel'/>" />
+              id="submitSpouse" 
+              name="submitSpouse" 
+              value="<g:message code='dhr.step.spouse.submitLabel'/>" />
          </form>
          <!-- navigation link -->
          <div class="navTab">
            
+           <a href="#tab2" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
            
-           <a href="#tab2" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab4" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
        </div>  
      
-       <div id="tab2">
+       <div id="tab4">
          <form method="POST" id="dwellingForm" action="<g:createLink action="validDwelling" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -549,7 +653,7 @@
                     
           <select name="dhrCurrentDwellingKind" class="isCurrentDwellingPlaceOfResidence-trigger  required validate-not-first" title="">
             <option value="">Choisissez...</option>
-            <g:each in="${['placeOfRecidence','retirementHome','other']}">
+            <g:each in="${['placeOfResidence','retirementHome','other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrCurrentDwellingKind_${it}" ${it == dhr.dhrCurrentDwellingKind ? 'selected="selected"': ''}><g:message code="${it}" /></option>
             </g:each>
           </select>
@@ -606,13 +710,13 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab1" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab3" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
            
-           <a href="#tab3" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab5" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
        </div>  
      
-       <div id="tab3">
+       <div id="tab5">
          <form method="POST" id="resourcesForm" action="<g:createLink action="validResources" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -625,40 +729,6 @@
               
                 <fieldset>
                 <legend>dhrRequesterIncomes</legend>
-                
-                  <label>pensions</label>
-                  
-                    <input name="pensions" value="${dhr.pensions}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label>dhrAllowances</label>
-                  
-                    <input name="dhrAllowances" value="${dhr.dhrAllowances}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label>dhrFurnitureInvestmentIncome</label>
-                  
-                    <input name="dhrFurnitureInvestmentIncome" value="${dhr.dhrFurnitureInvestmentIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label>dhrRealEstateInvestmentIncome</label>
-                  
-                    <input name="dhrRealEstateInvestmentIncome" value="${dhr.dhrRealEstateInvestmentIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label>dhrNetIncome</label>
-                  
-                    <input name="dhrNetIncome" value="${dhr.dhrNetIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                </fieldset>
-              
-              
-            
-            
-              
-                <fieldset>
-                <legend>dhrSpouseIncomes</legend>
                 
                   <label>pensions</label>
                   
@@ -715,13 +785,13 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab2" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab4" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
            
-           <a href="#tab4" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab6" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
        </div>  
      
-       <div id="tab4">
+       <div id="tab6">
          <form method="POST" id="taxesForm" action="<g:createLink action="validTaxes" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -771,13 +841,13 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab3" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab5" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
            
-           <a href="#tab5" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab7" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
        </div>  
      
-       <div id="tab5">
+       <div id="tab7">
          <form method="POST" id="documentRefForm" action="<g:createLink action="validDocumentRef" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -798,13 +868,13 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab4" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab6" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
            
-           <a href="#tab6" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab8" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
        </div>  
      
-       <div id="tab6">
+       <div id="tab8">
          <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
@@ -825,7 +895,7 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab5" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab7" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
            
          </div>
        </div>  
@@ -919,6 +989,14 @@
 	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitSubject");
       submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('subjectFormErrors'));
       submitRsrSubjectButton.on("click", onSubmitClick, "subjectForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitFamilyReferent");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('familyReferentFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "familyReferentForm");
+	  
+	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitSpouse");
+      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('spouseFormErrors'));
+      submitRsrSubjectButton.on("click", onSubmitClick, "spouseForm");
 	  
 	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitDwelling");
       submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('dwellingFormErrors'));

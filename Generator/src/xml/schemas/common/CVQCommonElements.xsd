@@ -1351,6 +1351,7 @@
         <enum key="Divorced" value="Divorcé(e)" />
         <enum key="Widow" value="Veuf(ve)" />
         <enum key="CommonLawMarriage" value="Concubinage" />
+        <enum key="PACS" value="PACS"/>
         <enum key="Other" value="Autre" />
       </xs:documentation>
     </xs:annotation>
@@ -1360,6 +1361,7 @@
       <xs:enumeration value="Divorced" />
       <xs:enumeration value="Widow" />
       <xs:enumeration value="CommonLawMarriage" />
+      <xs:enumeration value="PACS"/>
       <xs:enumeration value="Other" />
     </xs:restriction>
   </xs:simpleType>

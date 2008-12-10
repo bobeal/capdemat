@@ -1746,9 +1746,9 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         for (RequestForm requestForm : requestFormList) {
             if (!requestForm.getId().equals(requestFormId)) {
                 if (requestForm.getLabel().equals(label))
-                    throw new CvqModelException("requestForm.label_already_used");
+                    throw new CvqModelException("label already used","requestForm.message.labelAlreadyUsed");
                 if (requestForm.getShortLabel().equals(shortLabel))
-                    throw new CvqModelException("requestForm.shortLabel_already_used");
+                    throw new CvqModelException("short label already used","requestForm.message.shortLabelAlreadyUsed");
             }
         }
     }
@@ -1774,16 +1774,16 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType == null)
-            throw new CvqModelException("requestForm.requestType_is_invalid");
+            throw new CvqModelException("request type is invalid","requestForm.message.requestTypeIsInvalid");
 
         checkRequestFormLabelUniqueness(requestForm.getLabel(), requestForm.getShortLabel(),
                 requestForm.getType(), requestTypeId,
                 requestForm.getId() == null ? new Long(-1) : requestForm.getId());
 
         if (requestForm.getLabel() == null && requestForm.getLabel().trim() == "")
-            throw new CvqModelException("requestForm.label_is_null");
+            throw new CvqModelException("label is null","requestForm.message.labelIsNull");
         if (requestForm.getShortLabel() == null && requestForm.getShortLabel().trim() == "")
-            throw new CvqModelException("requestForm.shortLabel_is_null");
+            throw new CvqModelException("short label is null","requestForm.message.shortLabelIsNull");
 
         if (this.requestTypeContainsForm(requestType, requestForm)) {
             result = requestForm.getId();

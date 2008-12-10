@@ -11,7 +11,6 @@ import fr.cg95.cvq.business.request.social.DhrAssetKindType;
 import fr.cg95.cvq.business.request.social.DhrAssetTypeType;
 import fr.cg95.cvq.business.request.social.DhrNotRealAsset;
 import fr.cg95.cvq.business.request.social.DhrRealAsset;
-import fr.cg95.cvq.business.request.social.DhrRequesterHasSpouse;
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;

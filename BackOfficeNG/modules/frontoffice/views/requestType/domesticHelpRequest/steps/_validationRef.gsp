@@ -13,6 +13,10 @@
 </select>
 <h3><g:message code='dhr.step.subject.label' /></h3> 
 <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/validation/subject" />
+<h3><g:message code='dhr.step.familyReferent.label' /></h3> 
+<g:render template="/frontofficeRequestType/domesticHelpRequest/steps/validation/familyReferent" />
+<h3><g:message code='dhr.step.spouse.label' /></h3> 
+<g:render template="/frontofficeRequestType/domesticHelpRequest/steps/validation/spouse" />
 <h3><g:message code='dhr.step.dwelling.label' /></h3> 
 <g:render template="/frontofficeRequestType/domesticHelpRequest/steps/validation/dwelling" />
 <h3><g:message code='dhr.step.resources.label' /></h3> 

@@ -43,27 +43,27 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
                 request.setDhrNetIncome(BigInteger.valueOf(1));
             request.setProfessionalTaxes(BigInteger.valueOf(1));
             request.setDhrIsSpouseRetired(Boolean.valueOf(true));
-              request.setDhrSpouseTitle(DhrTitleType.MISTER);
+              request.setDhrSpouseTitle(TitleType.MISTER);
                 request.setDhrRequesterBirthDate(new Date());
             request.setDhrRealEstateInvestmentIncome(BigInteger.valueOf(1));
             request.setDhrRequesterIsFrenchResident(Boolean.valueOf(true));
                     	    request.setDhrCurrentDwellingAddress(address);
                         request.setDhrSpouseFranceArrivalDate(new Date());
-                      request.setDhrRequesterNationality(DhrNationalityType.FRENCH);
+                      request.setDhrRequesterNationality(NationalityType.FRENCH);
                 request.setDhrCurrentDwellingArrivalDate(new Date());
-            request.setDhrIncomesAnnualTotal(BigInteger.valueOf(1));
               if ("DhrReferentFirstName".length() > 38)
         request.setDhrReferentFirstName("DhrReferentFirstName".substring(0, 38));
       else
         request.setDhrReferentFirstName("DhrReferentFirstName");
-                request.setDhrRequesterHaveGuardian(Boolean.valueOf(true));
+                request.setDhrIncomesAnnualTotal(BigInteger.valueOf(1));
+            request.setDhrRequesterHaveGuardian(Boolean.valueOf(true));
             request.setDhrIncomeTax(BigInteger.valueOf(1));
-            request.setDhrSpouseBirthDate(new Date());
+              request.setDhrSpouseBirthDate(new Date());
                 request.setDhrSpouseBirthPlace("DhrSpouseBirthPlace");
-                  request.setDhrRequesterFranceArrivalDate(new Date());
-              request.setDhrRequesterTitle(DhrTitleType.MISTER);
+                request.setDhrRequesterFranceArrivalDate(new Date());
+              request.setDhrRequesterTitle(TitleType.MISTER);
                   request.setDhrCurrentDwellingStatus(DhrDwellingStatusType.OWNER);
-                  request.setDhrSpouseFamilyStatus(DhrFamilyStatusType.SINGLE);
+                  request.setDhrSpouseFamilyStatus(FamilyStatusType.MARRIED);
                   if ("DhrSpouseFirstName".length() > 38)
         request.setDhrSpouseFirstName("DhrSpouseFirstName".substring(0, 38));
       else
@@ -86,7 +86,7 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
       else
         request.setDhrGuardianName("DhrGuardianName");
                 request.setPensions(BigInteger.valueOf(1));
-              request.setDhrCurrentDwellingKind(DhrDwellingKindType.PLACE_OF_RECIDENCE);
+              request.setDhrCurrentDwellingKind(DhrDwellingKindType.PLACE_OF_RESIDENCE);
                     request.setDhrGuardianMeasure(DhrGuardianMeasureType.SAFEGUARDING_JUSTICE);
                   if ("DhrCurrentDwellingPhone".length() > 10)
         request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone".substring(0, 10));
@@ -98,13 +98,13 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
       else
         request.setDhrRequesterFirstName("DhrRequesterFirstName");
                 request.setDhrAllowances(BigInteger.valueOf(1));
-              request.setDhrRequesterFamilyStatus(DhrFamilyStatusType.SINGLE);
+              request.setDhrRequesterFamilyStatus(FamilyStatusType.MARRIED);
                   if ("DhrRequesterMaidenName".length() > 38)
         request.setDhrRequesterMaidenName("DhrRequesterMaidenName".substring(0, 38));
       else
         request.setDhrRequesterMaidenName("DhrRequesterMaidenName");
-                  request.setDhrSpouseNationality(DhrNationalityType.FRENCH);
-                  if ("DhrRequesterName".length() > 38)
+                  request.setDhrSpouseNationality(NationalityType.FRENCH);
+                          if ("DhrRequesterName".length() > 38)
         request.setDhrRequesterName("DhrRequesterName".substring(0, 38));
       else
         request.setDhrRequesterName("DhrRequesterName");
@@ -112,7 +112,7 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
         request.setDhrSpouseMaidenName("DhrSpouseMaidenName".substring(0, 38));
       else
         request.setDhrSpouseMaidenName("DhrSpouseMaidenName");
-                          if ("DhrSpouseName".length() > 38)
+                  if ("DhrSpouseName".length() > 38)
         request.setDhrSpouseName("DhrSpouseName".substring(0, 38));
       else
         request.setDhrSpouseName("DhrSpouseName");

@@ -12,7 +12,7 @@ public final class DhrDwellingKindType extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
 
-    public static final DhrDwellingKindType PLACE_OF_RECIDENCE = new DhrDwellingKindType("placeOfRecidence");
+    public static final DhrDwellingKindType PLACE_OF_RESIDENCE = new DhrDwellingKindType("placeOfResidence");
     public static final DhrDwellingKindType RETIREMENT_HOME = new DhrDwellingKindType("retirementHome");
     public static final DhrDwellingKindType OTHER = new DhrDwellingKindType("other");
 
@@ -30,7 +30,7 @@ public final class DhrDwellingKindType extends PersistentStringEnum {
 
 
     public static DhrDwellingKindType[] allDhrDwellingKindTypes = {
-        PLACE_OF_RECIDENCE,
+        PLACE_OF_RESIDENCE,
         RETIREMENT_HOME,
         OTHER
     };
@@ -45,8 +45,8 @@ public final class DhrDwellingKindType extends PersistentStringEnum {
         if (enumAsString == null || enumAsString.equals(""))
             return getDefaultDhrDwellingKindType();
 
-        if (enumAsString.equals(PLACE_OF_RECIDENCE.toString()))
-            return PLACE_OF_RECIDENCE;
+        if (enumAsString.equals(PLACE_OF_RESIDENCE.toString()))
+            return PLACE_OF_RESIDENCE;
         else if (enumAsString.equals(RETIREMENT_HOME.toString()))
             return RETIREMENT_HOME;
         else if (enumAsString.equals(OTHER.toString()))

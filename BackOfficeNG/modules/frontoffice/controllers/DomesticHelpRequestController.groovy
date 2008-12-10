@@ -1,10 +1,13 @@
 
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
 import fr.cg95.cvq.business.users.Address
 
 class DomesticHelpRequestController {
+
+    ILocalAuthorityRegistry localAuthorityRegistry
 
     DomesticHelpRequest dhr 
     IDomesticHelpRequestService domesticHelpRequestService
@@ -15,9 +18,7 @@ class DomesticHelpRequestController {
     
     def currentTab = "tab1"
     
-    def beforeInterceptor = {
-        session["currentMenu"] = "request"
-    }
+    def steps = ["subject", "familyReferent", "spouse", "dwelling", "resources", "taxes"]
     
     def edit = {
         if (dhr == null)
@@ -30,8 +31,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
           
         session["domesticHelpRequest"] = dhr
+        
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-        	model:[dhr:dhr, currentTab:currentTab,translationService:translationService])
+        	model:[dhr:dhr, currentTab:currentTab,translationService:translationService,
+        	       help:getHelp()])
     }
     
     
@@ -43,7 +46,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         currentTab = getCurrentTab(params)
           
 		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+                model:[dhr:dhr, currentTab:currentTab, translationService:translationService, help:getHelp()])
     }
     
     def validFamilyReferent = {
@@ -54,7 +58,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         currentTab = getCurrentTab(params)
           
 		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+                model:[dhr:dhr, currentTab:currentTab, translationService:translationService, , help:getHelp()])
     }
     
     def validSpouse = {
@@ -65,7 +70,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         currentTab = getCurrentTab(params)
           
 		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+                model:[dhr:dhr, currentTab:currentTab, translationService:translationService, help:getHelp()])
     }
     
     def validDwelling = {
@@ -76,7 +82,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         currentTab = getCurrentTab(params)
           
 		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+                model:[dhr:dhr, currentTab:currentTab, translationService:translationService, help:getHelp()])
     }
     
     def validResources = {
@@ -87,7 +94,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         currentTab = getCurrentTab(params)
           
 		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+                model:[dhr:dhr, currentTab:currentTab, translationService:translationService, help:getHelp()])
     }
     
     def validTaxes = {
@@ -98,7 +106,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         currentTab = getCurrentTab(params)
           
 		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+                model:[dhr:dhr, currentTab:currentTab, translationService:translationService, help:getHelp()])
     }
     
     def validDocumentRef = {
@@ -109,7 +118,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         currentTab = getCurrentTab(params)
           
 		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+                model:[dhr:dhr, currentTab:currentTab, translationService:translationService, help:getHelp()])
     }
     
     def validValidationRef = {
@@ -120,10 +130,20 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         currentTab = getCurrentTab(params)
           
 		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+                model:[dhr:dhr, currentTab:currentTab, translationService:translationService, help:getHelp()])
     }
     
     
+    def getHelp = {
+            
+            def help = [:]
+            steps.each {
+                help[it] = localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelp("domesticHelpRequest",it)
+            }
+
+            return help
+    }
     
     def getCurrentTab = { currentTab ->
 	

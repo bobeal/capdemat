@@ -103,6 +103,12 @@
                
                <a href="#tab2" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
              </div>
+
+<div class="requestHelp">
+        <h3>Aide</h3>
+        ${help.subject}
+</div>
+
            </div>  
          
            <div id="tab2">
@@ -130,6 +136,11 @@
                
                <a href="#tab3" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
              </div>
+
+<div class="requestHelp">
+        <h3>Aide</h3>
+        ${help.familyReferent}
+</div>
            </div>  
          
            <div id="tab3">
@@ -157,6 +168,14 @@
                
                <a href="#tab4" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
              </div>
+
+<g:if test="${help.spouse}">
+  <div class="requestHelp">
+    <h3>Aide</h3>
+    ${help.spouse}
+  </div>
+</g:if>
+
            </div>  
          
            <div id="tab4">
@@ -291,13 +310,16 @@
                <a href="#tab7" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
                
              </div>
+
            </div>  
                  
        	 </div><!-- end yui-content -->
        </div><!-- end requestTabView -->
  	  
+        <!-- 
 <div class="helpBox">
         <h3>Aide</h3>
+        ${help}
         <dl>
           <dt>Sujet</dt>
           <dd>
@@ -320,6 +342,7 @@
           </dd>
         </dl>
       </div>
+        -->
      
      </div> <!-- end main -->
     </div> <!-- end yui-main -->
@@ -440,7 +463,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

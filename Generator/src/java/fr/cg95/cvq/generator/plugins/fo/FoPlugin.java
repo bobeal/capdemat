@@ -193,6 +193,7 @@ public class FoPlugin implements IPluginGenerator {
                     if (!currentElementsStack.peek().getTypeNamespace().equals(foObject.getXsdNamespace())
                             && elementProperties.isComplexType()) {
                         currentComplexFoElementsStack.peek().getElement().setExternalElement(true);
+                        currentComplexFoElementsStack.peek().getElement().setXmlSchemaType(elementProperties.getXmlSchemaType());
                     }
                 }
             }
@@ -214,6 +215,10 @@ public class FoPlugin implements IPluginGenerator {
                 currentElementsStack.peek().setComplexType(true);
             }
         }
+        
+        // HACK for enumeraation managment
+        if(!currentSimpleFoElementsStack.isEmpty())
+            currentSimpleFoElementsStack.peek().getElement().setEnumValues(elementProperties.getEnumValues());
     }
 
 	public void endElementProperties() {
@@ -285,6 +290,7 @@ public class FoPlugin implements IPluginGenerator {
 	private void processFoChildNode(ApplicationDocumentation applicationDocumentation, Set<Condition> conditions) {
 		logger.debug("processFoChildNode()");
         Element element = createElement(conditions);
+        element.setModelNamespace(MODEL_REQUEST_NS + "." + foObject.getNamespace());
         // Must rewrite be rewrite
         if (applicationDocumentation.hasChildNode(RADIO_TAG)) {
             Node[] widgetTab = applicationDocumentation.getChildrenNodes(RADIO_TAG);
@@ -398,12 +404,12 @@ public class FoPlugin implements IPluginGenerator {
 	
 	private void processLabelNode(String stepName, Node label, Element element) {
 		logger.debug("processLabelNode()");
-		FieldsetElement fielsetElement = new FieldsetElement(element); 
+		FieldsetElement fielsetElement = new FieldsetElement(element);
 		if ( !currentElementsStack.isEmpty()) {
             currentComplexFoElementsStack.push(new StackComplexFoElement(stepName, fielsetElement));
             //currentElementsStack.peek().setFoElementComplete(true);
             currentElementsStack.peek().setFoElementComplete(true);
-        } 
+        }
 	}
 	
 	private void processDefaultElement(ElementProperties elementProperties,
@@ -421,7 +427,7 @@ public class FoPlugin implements IPluginGenerator {
                 } else {
                     // Default select for Enum
                     if (elementProperties.getEnumValues() != null) {
-                        SelectElement selectElement = new SelectElement(element); 
+                        SelectElement selectElement = new SelectElement(element);
                         if ( !currentElementsStack.isEmpty()) {
                             selectElement.setElementTypeName(topStackElement.getType());
                             selectElement.setNamespace(topStackElement.getTypeNamespace());
@@ -674,6 +680,7 @@ public class FoPlugin implements IPluginGenerator {
         public void setConditions(Set<Condition> conditions) {
             this.conditions = conditions;
         }
+        
     }
 
     private void launchGroovy() {

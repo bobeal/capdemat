@@ -903,7 +903,7 @@
 			   		model="[forName:'dhrSpousePrincipalPensionPlan',
 			   		help:null,
 			   		validation:'null',
-			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ',
+			   		condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ',
 			   		elementName:'DhrSpousePrincipalPensionPlan', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
 			   		elementTypeName : 'DhrSpouseStatusType']"/> 
@@ -912,7 +912,7 @@
 <g:render template="/frontofficeRequestType/widget/outputText"
 					model="[value:dhr.dhrSpousePrincipalPensionPlan,
 					type:'selectWidget',
-					condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ',
+					condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ',
 					namespace:'http://www.cg95.fr/cvq/schema/dhr',
  					elementTypeName:'DhrPrincipalPensionPlanType']" />
 

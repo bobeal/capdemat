@@ -53,202 +53,251 @@
      
      <!-- header -->
      <div id="bd">
-     <div id="bd-2">
+     <h2>
+       Demande d'aide Ménagère
+       <span>A brief description of the current service</span>
+     </h2>
        
-       <div id="yui-main"> 
-         <div id="main" class="yui-b">
-	         <h2>
-	           Demande d'aide Ménagère
-	           <span>A brief description of the current service</span>
-	         </h2>
-           <div id="requestDocument">
-           <div>
+     <div id="requestTabView" class="yui-navset">
+       <ul class="yui-nav">
+         <li class="selected">
+          <a href="#tab1">
+           <em><span class="tag-validated">v</span>Tab One Label</em></a>
+          </li>
+         <li><a href="#tab2"><em><span class="tag-validated">v</span>Tab Two Label</em></a></li>
+         <li><a href="#tab3"><em><span class="tag-rejected">r</span>Tab Three Label</em></a></li>
+         <li><a href="#tab4"><em><span class="tag-pending">p</span>Tab Three Label</em></a></li>
+         <li><a href="#tab5"><em><span class="tag-pending">p</span>Veeeery loooong tag name - Tab Three Label</em></a></li>
+         <li><a href="#tab6"><em><span class="tag-pending">p</span>Tab Three Label</em></a></li>
+       </ul>            
+       <div class="yui-content">
+         <div id="tab1">
+           <form action="#">
              <h3>
-               <span class="tag-pending">incomplet</span>
-               Documents à fournir
+               <span class="tag-validated">complet</span>                       
+               Display From Test
+               <span> A brief description of the current selected page filedset </span>
              </h3>
-             <span class="tag-validated">ok</span><a href="#" class="mandatory">Catre d'identité</a> |
-<!--	             <a href="#">Justificatif de dommicile</a> | -->
-             <span class="tag-validated">ok</span><a href="#">Avis d'impostioné</a> |
-             <a href="#" class="mandatory">Catre de membre de l'UMP</a> 
-           </div>
-           </div>
-	           
-           <div id="requestTabView" class="yui-navset">
-             <ul class="yui-nav">
-               <li class="selected">
-                <a href="#tab1">
-                 <em><span class="tag-validated">v</span>Tab One Label</em></a>
-                </li>
-               <li><a href="#tab2"><em><span class="tag-validated">v</span>Tab Two Label</em></a></li>
-               <li><a href="#tab3"><em><span class="tag-rejected">r</span>Tab Three Label</em></a></li>
-               <li><a href="#tab4"><em><span class="tag-pending">p</span>Tab Three Label</em></a></li>
-               <li><a href="#tab5"><em><span class="tag-pending">p</span>Veeeery loooong tag name - Tab Three Label</em></a></li>
-               <li><a href="#tab6"><em><span class="tag-pending">p</span>Tab Three Label</em></a></li>
-             </ul>            
-             <div class="yui-content">
-               <div id="tab1">
-                 <form action="#">
-                   <h3>
-                     <span class="tag-validated">complet</span>                       
-                     Display From Test
-                     <span> A brief description of the current selected page filedset </span>
-                   </h3>
-                   
-                   <label>
-                     Input text 1
-                     <span>(longer description ofthis field)</span>
-                   </label>
-                   <input type="text" />
-                   
-                   <label>
-                     Input text 2
-                     <span>(very very very very very very looooooooooooonger description ofthis field)</span>
-                   </label>
-                   <input type="text" />
-                   
-                   <label>Text area display test</label>
-                   <textarea></textarea>
-                   
-                   <label>Select box display test</label>
-                   <select name="requestTypeSelect">
-                     <option>Demande d'aide ménagère</option>
-                     <option>Demande d'assistance à distance</option>
-                     <option>Demande d'acte de naissance</option>
-                     <option>Demande d'acte de de décès</option>
-                     <option>Inscription scolaire</option>
-                     <option>Inscription à la cantine scolaire</option>
-                   </select>
-                   
-                   <!-- List of checkbox -->
-                   <ul>
-                     <li>
-                       <label>CheckBox 1</label>
-                       <input type="checkbox" />
-                     </li>
-                     <li>
-                       <label>CheckBox 2</label>
-                       <input type="checkbox" />
-                     </li>
-                     <li>
-                       <label>CheckBox 3</label>
-                       <input type="checkbox" />
-                     </li>
-                   </ul>
-                   
-                   <!-- List of radio -->
-                   <ul>
-                     <li>
-                       <label>Radio 1</label>
-                       <input type="radio" />
-                     </li>
-                     <li>
-                       <label>Radio 2</label>
-                       <input type="radio" />
-                     </li>
-                     <li>
-                       <label>Radio  3</label>
-                       <input type="radio" />
-                     </li>
-                   </ul>
-                   
-                   <label>Input File 1</label>
-                   <input type="file" />
-                   
-                   <!-- Input submit-->
-                   <input type="submit" value="confirm page" />
-                   
-                 </form>
-               </div>
-               <div id="tab2">
-                 <form action="#">
-                   <h3>Display tab2</h3>
-                 </form>
-               </div>
-               <div id="tab3">
-                 <form action="#">
-                   <h3>Display tab2</h3>
-                 </form>
-               </div>
-               <div id="tab4">
-                 <form action="#">
-                   <h3>Veeeery loooong tag name Display tab4</h3>
-                 </form>
-               </div>
-               <div id="tab5">
-                 <form action="#">
-                   <h3>Display tab4</h3>
-                 </form>
-               </div>
-               <div id="tab6">
-                 <form action="#">
-                   <h3>Display tab6</h3>
-                 </form>
-               </div>
-               
-            </div><!-- end yui-content -->
-            
-          </div><!-- end requestTabView -->
+             
+             <h4> Premier filedSet</h4>
+             <dl>
+              <dt><label>address</label></dt>
+              <dd>
+                <fieldset>
+                  <label>additional delivery information</label>
+                  <input type="text" value="" maxlength="38" name="adress.additionalDeliveryInformation"/>
+                      
+                  <label>additional geographical information</label>
+                  <input type="text" value="" maxlength="38" name="adress.additionalGeographicalInformation"/>
+                  
+                  <label>
+                    street number
+                     - 
+                    street name
+                  </label>
+                  <input type="text" class="line1" value="33" maxlength="5" name="adress.streetNumber"/>
+                  
+                  <input type="text" title="street name - value required" class="line2 required" value="RUE PREMIER" maxlength="32" name="adress.streetName"/>
+                  
+                  <label>place name or service</label>    
+                  <input type="text" value="" maxlength="38" name="adress.placeNameOrService"/>
+                  
+                  <label>
+                    postal code
+                     - 
+                    city
+                  </label>
+                  <input type="text" class="line1" value="555" maxlength="5" name="adress.postalCode"/>
+                 
+                  <input type="text" title="city - value required" class="line2 required" value="CERGY" maxlength="32" name="adress.city"/>
+                  
+                  <label>country name</label>
+                  <input type="text" value="" maxlength="38" name="adress.countryName"/> 
+                </fieldset>
+              </dd>
+              
+              <dt>
+               <label>Input text 1</label>
+              </dt>
+              <dd>
+                <input type="text" />
+                <span>(longer description ofthis field)</span>
+              </dd>
+              
+              <dt>
+                <label>Input text 2</label>
+              </dt>
+              <dd> 
+                <input type="text" />
+                <span>(very very very very very very looooooooooooonger description ofthis field)</span>
+              </dd>
+              
+              <dt><label>mobile phone</label></dt>
+              <dd>
+                <input type="file" />
+              </dd>
+              
+              <dt><label>office phone</label></dt>
+              <dd>
+                <input type="text" />
+              </dd>
+              
+              <dt><label>profession</label></dt>
+              <dd>
+                <ul>
+                   <li>
+                     <input type="radio" />
+                     Radio 1
+                   </li>
+                   <li>
+                    <input type="radio" />
+                     Radio 2
+                   </li>
+                   <li>
+                     <input type="radio" />
+                     Radio  3
+                   </li>
+                 </ul>
+                </dd>
+             </dl>
+             
+             <h4>Deuxième filedSet</h4>
+             <dl>
+              <dt><label>address</label></dt>
+              <dd>
+                <textarea></textarea>
+              </dd>
+              
+              <dt>
+               <label>Input text 1</label>
+              </dt>
+              <dd>
+                <input type="text" />
+                <span>(longer description ofthis field)</span>
+              </dd>
+              
+              <dt>
+                <label>Input text 2</label>
+              </dt>
+              <dd> 
+                <input type="text" />
+                <span>(very very very very very very looooooooooooonger description ofthis field)</span>
+              </dd>
+              
+              
+              <dt><label>office phone</label></dt>
+              <dd>
+                <input type="text" />
+              </dd>
 
-         </div> <!-- end main -->
-       </div> <!-- end yui-main -->
-       
-       <div id="narrow" class="yui-b">
-       
-         <h3>Télé Services</h3>
-         <form action="#">
-           <select name="requestTypeSelect">
-             <option>Demande d'aide ménagère</option>
-             <option>Demande d'assistance à distance</option>
-             <option>Demande d'acte de naissance</option>
-             <option>Demande d'acte de de décès</option>
-             <option>Inscription scolaire</option>
-             <option>Inscription à la cantine scolaire</option>
-           </select>
-         </form>
+             </dl>
+             
+             <!--
+             <label>
+               Input text 1
+               <span>(longer description ofthis field)</span>
+             </label>
+             <input type="text" />
+             
+             <label>
+               Input text 2
+               <span>(very very very very very very looooooooooooonger description ofthis field)</span>
+             </label>
+             <input type="text" />
+             
+             <label>Text area display test</label>
+             <textarea></textarea>
+             
+             <label>Select box display test</label>
+             <select name="requestTypeSelect">
+               <option>Demande d'aide ménagère</option>
+               <option>Demande d'assistance à distance</option>
+               <option>Demande d'acte de naissance</option>
+               <option>Demande d'acte de de décès</option>
+               <option>Inscription scolaire</option>
+               <option>Inscription à la cantine scolaire</option>
+             </select>
+             -->
+             <!-- List of checkbox -->
+             <!--
+             <ul>
+               <li>
+                 <label>CheckBox 1</label>
+                 <input type="checkbox" />
+               </li>
+               <li>
+                 <label>CheckBox 2</label>
+                 <input type="checkbox" />
+               </li>
+               <li>
+                 <label>CheckBox 3</label>
+                 <input type="checkbox" />
+               </li>
+             </ul>
+             -->
+             <!-- List of radio -->
+             <!--
+             <ul>
+               <li>
+                 <label>Radio 1</label>
+                 <input type="radio" />
+               </li>
+               <li>
+                 <label>Radio 2</label>
+                 <input type="radio" />
+               </li>
+               <li>
+                 <label>Radio  3</label>
+                 <input type="radio" />
+               </li>
+             </ul>
+             
+             <label>Input File 1</label>
+             <input type="file" />
+             -->
+             <!-- Input submit-->
+             <input type="submit" value="confirm page" />
+             
+           </form>
+         </div>
+         <div id="tab2">
+           <form action="#">
+             <h3>Display tab2</h3>
+           </form>
+         </div>
+         <div id="tab3">
+           <form action="#">
+             <h3>Display tab2</h3>
+           </form>
+         </div>
+         <div id="tab4">
+           <form action="#">
+             <h3>Veeeery loooong tag name Display tab4</h3>
+           </form>
+         </div>
+         <div id="tab5">
+           <form action="#">
+             <h3>Display tab4</h3>
+           </form>
+         </div>
+         <div id="tab6">
+           <form action="#">
+             <h3>Display tab6</h3>
+           </form>
+         </div>
          
-         <h3>Broullons</h3>
-         <ul>
-           <li><span class="tag-validated">complet</span>Demande d'assistance à distance </li>
-           <li><span class="tag-validated">complet</span>Inscription scolair</li>
-           <li><span class="tag-pending">partiel</span>Inscription à la cantine scolaire</li>
-         </ul>
-         
-         <h3>Denières demandes</h3>
-         <ul>
-           <li><span class="tag-pending">traitée</span>Demande d'assistance à distance - 12/08/2008</li>
-           <li><span class="tag-validated">validée</span>Inscription scolair - 10/08/2008</li>
-           <li><span class="tag-rejected">annulée</span>Inscription à la cantine scolaire - 10/08/2008</li>
-         </ul>
-         
-         <h3>Documents</h3>
-         <ul>
-           <li>Carte d'identité - rafik</li>
-           <li>Passeport - superman</li>
-           <li>Lvret de famille - Zenexity</li>
-           <li>Justificatif de domocile - rue Taitbout</li>
-         </ul>
-         
-         <h3>Compte famille</h3>
-         <ul>
-           <li>Rafik DJEJDIG - 10/10/1910</li>
-           <li>Rafik DJEJDIG - 10/10/1910</li>
-           <li>Rafik DJEJDIG - 10/10/1910</li>
-           <li>Rafik DJEJDIG - 10/10/1910</li>
-         </ul>
-         
-       </div><!-- end of narrow -->
-       
-     </div> <!-- end bd-2  -->
+      </div><!-- end yui-content -->
+      
+    </div><!-- end requestTabView -->
    
-   </div> <!-- end bd  -->
+  </div> <!-- end bd  -->
    
-   <!-- footer -->
-   <div id="ft">
-   &copy;2008 - zenexity lab
-   </div>
-   
-   </div> <!-- end doc -->
+ <!-- footer -->
+ <div id="ft">
+ &copy;2008 - zenexity lab
+ </div>
+ 
+ </div> <!-- end doc -->
  
   </body>
 </html>

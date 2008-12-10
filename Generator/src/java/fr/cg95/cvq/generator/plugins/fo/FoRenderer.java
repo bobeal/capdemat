@@ -71,8 +71,8 @@ public class FoRenderer {
     public void render() {
         createController();
         createEditFile();
-        createI18nFiles();
-        createSteps();
+//        createI18nFiles();
+//        createSteps();
     }
 
     private void createSteps() {
@@ -367,7 +367,8 @@ public class FoRenderer {
             writer.close();
             logger.info(fileName + " is successfully created");
         } catch (Exception e) {
-            logger.error("create file error");
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
 

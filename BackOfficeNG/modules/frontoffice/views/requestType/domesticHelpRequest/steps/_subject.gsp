@@ -1027,7 +1027,7 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrIsSpouseRetired',
 			   		help:message(code:'dhr.property.dhrIsSpouseRetired.help'),
-			   		validation:'required ',
+			   		validation:'required validate-one-required',
 			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ',
 			   		elementName:'DhrIsSpouseRetired', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
@@ -1036,7 +1036,7 @@
 
 <g:render template="/frontofficeRequestType/widget/yesno"
 			   		model="[name:'dhrIsSpouseRetired', 
-			   		validation:'required ', 
+			   		validation:'required validate-one-required', 
 			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ',
 			   		title:message(code:'dhr.property.dhrIsSpouseRetired.validationError'),
 			   		checked:dhr.dhrIsSpouseRetired]" />
@@ -1046,8 +1046,8 @@
 <g:render template="/frontofficeRequestType/widget/label" 
 			   		model="[forName:'dhrSpousePrincipalPensionPlan',
 			   		help:message(code:'dhr.property.dhrSpousePrincipalPensionPlan.help'),
-			   		validation:'',
-			   		condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ',
+			   		validation:' validate-not-first',
+			   		condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ',
 			   		elementName:'DhrSpousePrincipalPensionPlan', 
 			   		namespace:'http://www.cg95.fr/cvq/schema/dhr',
 			   		elementTypeName : 'DhrSpouseStatusType']"/> 
@@ -1055,8 +1055,8 @@
 
 <g:render template="/frontofficeRequestType/widget/select"
 					model="[name:'dhrSpousePrincipalPensionPlan',
- 					validation:'', 
- 					condition:'isSpouseOtherPensionPlan-trigger isSpouseRetired-filled ', 
+ 					validation:' validate-not-first', 
+ 					condition:'isSpouseRetired-filled isSpouseOtherPensionPlan-trigger ', 
  					title:message(code:'dhr.property.dhrSpousePrincipalPensionPlan.validationError'), 
  					defaultOption:message(code:'dhr.property.dhrSpousePrincipalPensionPlan.defaultOption'),
  					selected:dhr.dhrSpousePrincipalPensionPlan, 

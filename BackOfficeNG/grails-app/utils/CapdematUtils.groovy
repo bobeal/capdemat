@@ -41,8 +41,7 @@ class CapdematUtils {
                 'label' : 'Scolaire',
                 'requests': [
                     'School Registration':[
-                        'link': 'School Registration'.replaceAll(' ','') + "Request"
-                    ],
+                        'link': 'School Registration'.replaceAll(' ','') + "Request"],
                     'Perischool Activity Registration':[
                         'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
                     'School Canteen Registration':[
@@ -55,83 +54,83 @@ class CapdematUtils {
                 'label' : 'Etat Civil',
                 'requests': [
                     'Death Details':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Death Details'.replaceAll(' ','') + "Request"],
                     'Marriage Details':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Marriage Details'.replaceAll(' ','') + "Request"],
                     'Birth Details':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Birth Details'.replaceAll(' ','') + "Request"],
                     'Personal Details':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Personal Details'.replaceAll(' ','') + "Request"],
                     'Military Census':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Military Census'.replaceAll(' ','') + "Request"]
                 ]
             ],
             'social': [ 
                 'label' : 'Social',
                 'requests': [
                     'Domestic Help':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Domestic Help'.replaceAll(' ','') + "Request"],
                     'Handicap Allowance':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Handicap Allowance'.replaceAll(' ','') + "Request"],
                     'Remote Support':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Remote Support'.replaceAll(' ','') + "Request"]
                 ]
             ],
             'environment': [ 
                 'label' : 'Environnement',
                 'requests': [
                     'Bulky Waste Collection':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Bulky Waste Collection'.replaceAll(' ','') + "Request"],
                     'Compostable Waste Collection':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Compostable Waste Collection'.replaceAll(' ','') + "Request"]
                 ]
             ],
             'election': [ 
                 'label' : 'Election',
                 'requests': [
                     'Electoral Roll Registration':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Electoral Roll Registration'.replaceAll(' ','') + "Request"]
                 ]
             ],
             'security': [ 
                 'label' : 'Sécurité',
                 'requests': [
                     'Holiday Security':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Holiday Security'.replaceAll(' ','') + "Request"]
                 ]
             ],
             'leisure': [ 
                 'label' : 'Loisirs',
                 'requests': [
                     'Sms Notification':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Sms Notification'.replaceAll(' ','') + "Request"],
                     'Music School Registration':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Music School Registration'.replaceAll(' ','') + "Request"]
                 ]
             ],
             'culture': [ 
                 'label' : 'Culturel',
                 'requests': [
                     'Place Reservation':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"], 
+                        'link': 'Place Reservation'.replaceAll(' ','') + "Request"], 
                     'Library Registration':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Library Registration'.replaceAll(' ','') + "Request"]
                 ]
             ],
             'technical': [ 
                 'label' : 'Service technique',
                 'requests': [
                     'Technical Intervention':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Technical Intervention'.replaceAll(' ','') + "Request"]
                 ]
             ],
             'urbanism': [ 
                 'label' : 'Urbanisme',
                 'requests': [
                    'Sewer Connection':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                        'link': 'Sewer Connection'.replaceAll(' ','') + "Request"],
                    'Alignment Certificate':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                        'link': 'Alignment Certificate'.replaceAll(' ','') + "Request"]
                 ]
             ]
         ]

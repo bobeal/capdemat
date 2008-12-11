@@ -41,9 +41,9 @@ public class RequestBo {
         return steps;
     }
     public void setSteps(List<Step> steps) {
-        this.steps = steps;
+        this.steps = new ArrayList<Step>(steps);
         
-        for (Iterator<Step> it = steps.iterator(); it.hasNext();) {
+        for (Iterator<Step> it = this.steps.iterator(); it.hasNext();) {
             if (it.next().getName() == null)
                 it.remove();
         }

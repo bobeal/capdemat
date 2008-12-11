@@ -13,12 +13,25 @@
     def widgets = [
       'YesnoElement' : 
           """
-          <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="">
-            <option value="">Choisissez...</option>
+          <ul class="${element.condition}">
             <g:each in="\${[true,false]}">
-              <option value="\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'selected="selected"': ''}><g:message code="property.\${it}"/></option>
+            <li>
+              <input type="radio" class="${element.condition} ${element.validation}" title="" value="\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'checked="checked"': ''} />
+	            <g:message code="widget.yesno.\${it ? 'yes' : 'no'}" />
+            </li>
             </g:each>
-          </select>
+          </ul>
+          """
+      ,'RadioElement' :
+          """
+          <ul class="${element.condition}">
+            <g:each in="\${${element.enumValuesAsString}}">
+            <li>
+              <input type="radio" class="${element.condition} ${element.validation}" title="" value="${element.modelNamespace}.${element.name}_\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}.toString() ? 'checked="checked"': ''} />
+	            <g:message code="\${it}" />  
+            </li>
+            </g:each>
+          </ul>
           """
       ,'SelectElement' :
           """
@@ -29,18 +42,9 @@
             </g:each>
           </select>
           """
-       ,'RadioElement' :
-          """
-          <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="">
-            <option value="">Choisissez...</option>
-            <g:each in="\${${element.enumValuesAsString}}">
-              <option value="${element.modelNamespace}.${element.name}_\${it}"><g:message code="\${it}" /></option>
-            </g:each>
-          </select>
-          """
       ,'AddressType' :
           """
-          <div>
+          <div class="address-fieldset ${element.condition}">
           <label>additional delivery information</label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalDeliveryInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalDeliveryInformation"/>  
           <label>additional geographical information</label>
@@ -52,10 +56,10 @@
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.placeNameOrService}" maxlength="38" name="${wrapper}${element.javaName}.placeNameOrService"/>
           <label> postal code - city </label>
           <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.postalCode}" maxlength="5" name="${wrapper}${element.javaName}.postalCode"/>
-          <input type="text" title="" class="line2 required" value="CERGY" maxlength="32" name="${wrapper}${element.javaName}.city"/>
+          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.city}" maxlength="32" name="${wrapper}${element.javaName}.city"/>
           <label>country name</label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.countryName}" maxlength="38" name="${wrapper}${element.javaName}.countryName"/>
-          <div>
+          </div>
           """
     ]
     

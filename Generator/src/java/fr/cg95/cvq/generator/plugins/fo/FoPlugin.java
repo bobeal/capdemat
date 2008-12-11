@@ -68,9 +68,6 @@ public class FoPlugin implements IPluginGenerator {
 	
 	private FoObject foObject;
 	
-	// ########### 
-	
-
 	private static Logger logger = Logger.getLogger(FoPlugin.class);
 
 	public FoPlugin() {
@@ -101,16 +98,15 @@ public class FoPlugin implements IPluginGenerator {
 	}
 
 	public void startRequest(String requestName, String xsdNamespace) {
-		logger.debug("startRequest -->");
-		
+		logger.debug("startRequest() - " + requestName);
 		foObject = new FoObject(requestName, xsdNamespace);
-		logger.warn("****** Generating code for  " + requestName + " ******");
 	}
 
 	public void endRequest(String requestName) {
-		logger.debug("endRequest -->");
-		//foObject.displaySteps();
-		launchGroovy();
+	    logger.debug("endRequest() - " + requestName);
+        FoRenderer foRenderer = new FoRenderer(foObject, outputDir);
+        foRenderer.render();
+        logger.warn("endRequest() GENERATION SUCCESS FOR - " + requestName);
 	}
 
 	public void startElement(String elementName, String type) {
@@ -159,7 +155,6 @@ public class FoPlugin implements IPluginGenerator {
             if (currentElementsStack.peek().isComplexType()) {
                 currentComplexElementsStack.pop();
             }
-                
         }
 		currentElementsStack.pop();
         depth--;
@@ -681,10 +676,5 @@ public class FoPlugin implements IPluginGenerator {
             this.conditions = conditions;
         }
         
-    }
-
-    private void launchGroovy() {
-        FoRenderer foRenderer = new FoRenderer(foObject, outputDir);
-        foRenderer.render();
     }
 }

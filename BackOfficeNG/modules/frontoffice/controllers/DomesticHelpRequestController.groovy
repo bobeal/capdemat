@@ -121,6 +121,34 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       meansOfContact:getMeansOfContact()])
     }
     
+    def validDocumentRef = {
+        log.debug("validDocumentRef - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
+        currentTab = getCurrentTab(params)
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
+    }
+    
+    def validValidationRef = {
+        log.debug("validValidationRef - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
+        currentTab = getCurrentTab(params)
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
+    }
+    
     
     def getMeansOfContact = {
         def result = []
@@ -158,6 +186,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         steps.add("taxes")
 
+        steps.add("documentRef")
+
+        steps.add("validationRef")
+
         def help = [:]
         steps.each {
             help[it] = localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelp("domesticHelpRequest",it)
@@ -185,6 +217,12 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 	
 		else if (params.submitDhrTaxes)
 		   currentTab = "tab6"
+	
+		else if (params.submitDhrDocumentRef)
+		   currentTab = "tab7"
+	
+		else if (params.submitDhrValidationRef)
+		   currentTab = "tab8"
 	
 		return currentTab
     } 

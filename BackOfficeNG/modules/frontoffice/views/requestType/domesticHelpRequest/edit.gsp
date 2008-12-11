@@ -10,8 +10,12 @@
       <span><g:message code="dhr.duration.label" /><strong><g:message code="dhr.duration.value" /></strong></span>
       <span>
         Documents à fournir :
-        <strong>Pièce d'identité</strong>, 
-        <strong class="mandatory">Livret de famille</strong>
+        <g:each in="${documentTypes}" var="documentType" status="index">
+          <strong>
+            <g:message code="${documentType.value}"/>
+            <g:if test="${index < documentTypes.size() - 1}">,</g:if>
+          </strong>
+        </g:each>
       </span>
     </h2>
     
@@ -22,7 +26,9 @@
         <a href="#tab1"><em>
          <span class="tag-no_right">1</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+
          <g:message code="dhr.step.subject.label" />
+
        </em></a>
        </li>    
 		  
@@ -30,7 +36,9 @@
         <a href="#tab2"><em>
          <span class="tag-no_right">2</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+
          <g:message code="dhr.step.familyReferent.label" />
+
        </em></a>
        </li>    
 		  
@@ -38,7 +46,9 @@
         <a href="#tab3"><em>
          <span class="tag-no_right">3</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+
          <g:message code="dhr.step.spouse.label" />
+
        </em></a>
        </li>    
 		  
@@ -46,7 +56,9 @@
         <a href="#tab4"><em>
          <span class="tag-no_right">4</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+
          <g:message code="dhr.step.dwelling.label" />
+
        </em></a>
        </li>    
 		  
@@ -54,7 +66,9 @@
         <a href="#tab5"><em>
          <span class="tag-no_right">5</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+
          <g:message code="dhr.step.resources.label" />
+
        </em></a>
        </li>    
 		  
@@ -62,7 +76,9 @@
         <a href="#tab6"><em>
          <span class="tag-no_right">6</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+
          <g:message code="dhr.step.taxes.label" />
+
        </em></a>
        </li>    
 		  
@@ -70,7 +86,9 @@
         <a href="#tab7"><em>
          <span class="tag-no_right">7</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-         <g:message code="dhr.step.documentRef.label" />
+
+         <g:message code="request.step.document.label" />
+
        </em></a>
        </li>    
 		  
@@ -78,7 +96,9 @@
         <a href="#tab8"><em>
          <span class="tag-no_right">8</span>
          <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
-         <g:message code="dhr.step.validationRef.label" />
+
+         <g:message code="request.step.validation.label" />
+
        </em></a>
        </li>    
 		 
@@ -87,13 +107,16 @@
      <div class="yui-content">
      
        <div id="tab1">
+
          <form method="POST" id="subjectForm" action="<g:createLink action="validSubject" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
+
            </h3>
-           
+
             
             
               
@@ -278,14 +301,16 @@
               
             
            
+
            <div class="error" id="subjectFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitSubject" 
               name="submitSubject" 
-              value="<g:message code='dhr.step.subject.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
+         
          <!-- navigation link -->
          <div class="navTab">
            
@@ -299,17 +324,19 @@
              ${help.subject}
            </div>
          </g:if>
-         
        </div>  
      
        <div id="tab2">
+
          <form method="POST" id="familyReferentForm" action="<g:createLink action="validFamilyReferent" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
+
            </h3>
-           
+
             
             
               
@@ -367,14 +394,16 @@
               
             
            
+
            <div class="error" id="familyReferentFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitFamilyReferent" 
               name="submitFamilyReferent" 
-              value="<g:message code='dhr.step.familyReferent.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
+         
          <!-- navigation link -->
          <div class="navTab">
            
@@ -389,17 +418,19 @@
              ${help.familyReferent}
            </div>
          </g:if>
-         
        </div>  
      
        <div id="tab3">
+
          <form method="POST" id="spouseForm" action="<g:createLink action="validSpouse" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
+
            </h3>
-           
+
             
             
               
@@ -514,10 +545,10 @@
                   <label>dhrIsSpouseRetired</label>
                   
                     
-          <ul class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ">
+          <ul class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ">
             <g:each in="${[true,false]}">
             <li>
-              <input type="radio" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
+              <input type="radio" class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
 	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
             </li>
             </g:each>
@@ -618,14 +649,16 @@
               
             
            
+
            <div class="error" id="spouseFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitSpouse" 
               name="submitSpouse" 
-              value="<g:message code='dhr.step.spouse.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
+         
          <!-- navigation link -->
          <div class="navTab">
            
@@ -640,17 +673,19 @@
              ${help.spouse}
            </div>
          </g:if>
-         
        </div>  
      
        <div id="tab4">
+
          <form method="POST" id="dwellingForm" action="<g:createLink action="validDwelling" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
+
            </h3>
-           
+
             
             
               
@@ -737,14 +772,16 @@
               
             
            
+
            <div class="error" id="dwellingFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitDwelling" 
               name="submitDwelling" 
-              value="<g:message code='dhr.step.dwelling.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
+         
          <!-- navigation link -->
          <div class="navTab">
            
@@ -759,17 +796,19 @@
              ${help.dwelling}
            </div>
          </g:if>
-         
        </div>  
      
        <div id="tab5">
+
          <form method="POST" id="resourcesForm" action="<g:createLink action="validResources" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
+
            </h3>
-           
+
             
             
               
@@ -820,14 +859,16 @@
               
             
            
+
            <div class="error" id="resourcesFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitResources" 
               name="submitResources" 
-              value="<g:message code='dhr.step.resources.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
+         
          <!-- navigation link -->
          <div class="navTab">
            
@@ -842,17 +883,19 @@
              ${help.resources}
            </div>
          </g:if>
-         
        </div>  
      
        <div id="tab6">
+
          <form method="POST" id="taxesForm" action="<g:createLink action="validTaxes" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
+
            </h3>
-           
+
             
             
               
@@ -884,14 +927,16 @@
               
             
            
+
            <div class="error" id="taxesFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitTaxes" 
               name="submitTaxes" 
-              value="<g:message code='dhr.step.taxes.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
+         
          <!-- navigation link -->
          <div class="navTab">
            
@@ -906,27 +951,12 @@
              ${help.taxes}
            </div>
          </g:if>
-         
        </div>  
      
        <div id="tab7">
-         <form method="POST" id="documentRefForm" action="<g:createLink action="validDocumentRef" />">
-           <h3>
-             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
-             <g:message code="dhr.step.documentRef.label" />
-             <span><g:message code="dhr.step.documentRef.desc" /></span>
-           </h3>
-           
-            
-           
-           <div class="error" id="documentRefFormErrors"> </div>
-           
-           <!-- Input submit-->
-           <input type="button" 
-              id="submitDocumentRef" 
-              name="submitDocumentRef" 
-              value="<g:message code='dhr.step.documentRef.submitLabel'/>" />
-         </form>
+
+         <g:render template="/frontofficeRequestType/documentStep"/>
+         
          <!-- navigation link -->
          <div class="navTab">
            
@@ -941,27 +971,37 @@
              ${help.documentRef}
            </div>
          </g:if>
-         
        </div>  
      
        <div id="tab8">
+
          <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
            <h3>
              <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
-             <g:message code="dhr.step.validationRef.label" />
-             <span><g:message code="dhr.step.validationRef.desc" /></span>
+
+             <g:message code="request.step.validation.label" />
+             <span><g:message code="request.step.validation.desc" /></span>
+
            </h3>
-           
-            
-           
+
+           <!-- render template of final summary -->
+             
+           <!-- render means of contact selection list -->
+           <select name="meansOfContact">
+             <g:each in="${meansOfContact}" var="moc">
+               <option value="${moc.key}">${moc.label}</option>
+             </g:each>
+           </select>
+
            <div class="error" id="validationRefFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitValidationRef" 
               name="submitValidationRef" 
-              value="<g:message code='dhr.step.validationRef.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
+         
          <!-- navigation link -->
          <div class="navTab">
            
@@ -975,7 +1015,6 @@
              ${help.validationRef}
            </div>
          </g:if>
-         
        </div>  
              
  	 </div><!-- end yui-content -->
@@ -1012,7 +1051,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

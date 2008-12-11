@@ -27,13 +27,15 @@ import fr.cg95.cvq.business.request.social.${requestName}
 import fr.cg95.cvq.business.users.Address
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.I${requestName}Service
+import fr.cg95.cvq.service.request.IMeansOfContactService
 
 class ${requestName}Controller {
 
     ${requestName} ${namespaceAlias} 
     I${requestName}Service ${StringUtils.uncapitalize(requestName)}Service
     ILocalAuthorityRegistry localAuthorityRegistry
-    
+    IMeansOfContactService meansOfContactService
+
     def translationService
     
     def defaultAction = "edit"
@@ -43,24 +45,24 @@ class ${requestName}Controller {
     def edit = {
         if (${namespaceAlias} == null)
           ${namespaceAlias} = new ${requestName}()
-        
-        <%
-        for(steps in foObject.stepMap) {
-		  elements = steps.value.elementList
-		  elements.each {
-		    element = it
-			if (element.class.name.indexOf("FieldsetElement") != -1 || element.class.name.indexOf("ComplexElement") != -1) {
-			  checkExtenalElement(element)
-			}		
-		  }
-		}
+<%
+  for(steps in foObject.stepMap) {
+    elements = steps.value.elementList
+    elements.each {
+      element = it
+      if (element.class.name.indexOf("FieldsetElement") != -1 || element.class.name.indexOf("ComplexElement") != -1) {
+        checkExtenalElement(element)
+      }
+    }
+  }
+%>
 
-        %>
-          
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
             model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab,
-                   translationService:translationService, help:getHelp()])
+                   translationService:translationService, help:getHelp(),
+                   documentTypes:getDocumentTypes(),
+                   meansOfContact:getMeansOfContact()])
     }
     
     <%
@@ -76,11 +78,34 @@ class ${requestName}Controller {
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
                model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     <%	
     	}
     %>
+    
+    def getMeansOfContact = {
+        def result = []
+        def meansOfContact = meansOfContactService.getCurrentEcitizenEnabledMeansOfContact()
+        meansOfContact.each {
+            result.add([
+                        key:it.type,
+                        label: message(code:"request.meansOfContact." + StringUtils.pascalToCamelCase(it.type.toString()))])
+        }
+        return result.sort {it.label}
+    }
+    
+    def getDocumentTypes = {
+        def requestType = ${StringUtils.uncapitalize(requestName)}Service.getRequestTypeByLabel(${StringUtils.uncapitalize(requestName)}Service.getLabel())
+        def documentTypes = ${StringUtils.uncapitalize(requestName)}Service.getAllowedDocuments(requestType.getId())
+        def result = [:]
+        documentTypes.each {
+            result[it.id] = CapdematUtils.adaptDocumentTypeName(it.name)
+        }
+        return result
+    }
     
     def getHelp = {
         def steps = []

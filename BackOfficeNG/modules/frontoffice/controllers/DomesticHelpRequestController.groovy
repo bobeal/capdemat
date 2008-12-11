@@ -20,17 +20,17 @@ class DomesticHelpRequestController {
     def edit = {
         if (dhr == null)
           dhr = new DomesticHelpRequest()
-        
-        dhr.setDhrGuardianAddress(new Address())
+dhr.setDhrGuardianAddress(new Address())
 dhr.setDhrReferentAddress(new Address())
 dhr.setDhrSpouseAddress(new Address())
 dhr.setDhrCurrentDwellingAddress(new Address())
 
-          
+
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
             model:[dhr:dhr, currentTab:currentTab,
-                   translationService:translationService, help:getHelp()])
+                   translationService:translationService, help:getHelp(),
+                   documentTypes:getDocumentTypes()])
     }
     
     
@@ -43,7 +43,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes()])
     }
     
     def validFamilyReferent = {
@@ -55,7 +56,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes()])
     }
     
     def validSpouse = {
@@ -67,7 +69,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes()])
     }
     
     def validDwelling = {
@@ -79,7 +82,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes()])
     }
     
     def validResources = {
@@ -91,7 +95,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes()])
     }
     
     def validTaxes = {
@@ -103,7 +108,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes()])
     }
     
     def validDocumentRef = {
@@ -115,7 +121,8 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes()])
     }
     
     def validValidationRef = {
@@ -127,9 +134,20 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:currentTab, 
-                      translationService:translationService, help:getHelp()])
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes()])
     }
     
+    
+    def getDocumentTypes = {
+        def requestType = domesticHelpRequestService.getRequestTypeByLabel(domesticHelpRequestService.getLabel())
+        def documentTypes = domesticHelpRequestService.getAllowedDocuments(requestType.getId())
+        def result = [:]
+        documentTypes.each {
+            result[it.id] = CapdematUtils.adaptDocumentTypeName(it.name)
+        }
+        return result
+    }
     
     def getHelp = {
         def steps = []

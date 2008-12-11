@@ -77,8 +77,12 @@
       <span><g:message code="${namespaceAlias}.duration.label" /><strong><g:message code="${namespaceAlias}.duration.value" /></strong></span>
       <span>
         Documents à fournir :
-        <strong>Pièce d'identité</strong>, 
-        <strong class="mandatory">Livret de famille</strong>
+        <g:each in="\${documentTypes}" var="documentType" status="index">
+          <strong>
+            <g:message code="\${documentType.value}"/>
+            <g:if test="\${index < documentTypes.size() - 1}">,</g:if>
+          </strong>
+        </g:each>
       </span>
     </h2>
     
@@ -89,7 +93,21 @@
         <a href="#tab${step.index + 1}"><em>
          <span class="tag-no_right">${step.index + 1}</span>
          <span class="tag-rejected"><g:message code="${namespaceAlias}.step.tag.rejected.short" /></span>
+<%
+  if (step.name == 'documentRef') {
+%>
+         <g:message code="request.step.document.label" />
+<%
+  } else if (step.name == 'validationRef') {
+%>
+         <g:message code="request.step.validation.label" />
+<%
+  } else {
+%>
          <g:message code="${namespaceAlias}.step.${step.name}.label" />
+<%
+  }
+%>
        </em></a>
        </li>    
 		 <% } %>
@@ -98,11 +116,29 @@
      <div class="yui-content">
      <% steps.each { step = it.value %>
        <div id="tab${step.index + 1}">
+<%
+  if (step.name == 'documentRef') {
+%>
+         <g:render template="/frontofficeRequestType/documentStep"/>
+<%
+  } else {
+%>
          <form method="POST" id="${StringUtils.uncapitalize(step.name)}Form" action="<g:createLink action="valid${StringUtils.capitalize(step.name)}" />">
            <h3>
              <span class="tag-rejected"><g:message code="${namespaceAlias}.step.tag.rejected"/></span>
+<%
+    if (step.name == 'validationRef') {
+%>
+             <g:message code="request.step.validation.label" />
+             <span><g:message code="request.step.validation.desc" /></span>
+<%
+    } else {
+%>
              <g:message code="${namespaceAlias}.step.${step.name}.label" />
              <span><g:message code="${namespaceAlias}.step.${step.name}.desc" /></span>
+<%
+    }
+%>
            </h3>
            
             <% step.elementList.each { element -> %>
@@ -140,6 +176,9 @@
               name="submit${StringUtils.capitalize(step.name)}" 
               value="<g:message code='${namespaceAlias}.step.${step.name}.submitLabel'/>" />
          </form>
+<%
+  } 
+%>         
          <!-- navigation link -->
          <div class="navTab">
            <%  
@@ -158,7 +197,6 @@
              \${help.${step.name}}
            </div>
          </g:if>
-         
        </div>  
      <% } %>        
  	 </div><!-- end yui-content -->

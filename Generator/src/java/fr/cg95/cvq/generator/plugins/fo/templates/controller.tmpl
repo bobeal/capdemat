@@ -24,23 +24,21 @@ def checkExtenalElement(currentElement) {
 %>
 
 import fr.cg95.cvq.business.request.social.${requestName}
-import fr.cg95.cvq.service.request.social.I${requestName}Service
 import fr.cg95.cvq.business.users.Address
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.request.social.I${requestName}Service
 
 class ${requestName}Controller {
 
     ${requestName} ${namespaceAlias} 
     I${requestName}Service ${StringUtils.uncapitalize(requestName)}Service
-   
+    ILocalAuthorityRegistry localAuthorityRegistry
+    
     def translationService
     
     def defaultAction = "edit"
     
     def currentTab = "tab1"
-    
-    def beforeInterceptor = {
-        session["currentMenu"] = "request"
-    }
     
     def edit = {
         if (${namespaceAlias} == null)
@@ -61,7 +59,8 @@ class ${requestName}Controller {
           
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
-        	model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab,translationService:translationService])
+            model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab,
+                   translationService:translationService, help:getHelp()])
     }
     
     <%
@@ -69,19 +68,36 @@ class ${requestName}Controller {
 			step = steps.value
 	%>
     def valid${StringUtils.capitalize(step.name)} = {
-    	log.debug("valid${StringUtils.capitalize(step.name)} - START")
-        
-		${namespaceAlias} = session["${StringUtils.uncapitalize(requestName)}"]
-		bind(${namespaceAlias})
+        log.debug("valid${StringUtils.capitalize(step.name)} - START")
+        ${namespaceAlias} = session["${StringUtils.uncapitalize(requestName)}"]
+        bind(${namespaceAlias})
         currentTab = getCurrentTab(params)
-          
-		session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
-        render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab, translationService:translationService])
+
+        session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
+        render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
+               model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp()])
     }
     <%	
     	}
     %>
     
+    def getHelp = {
+        def steps = []
+<%
+  for (step in foObject.stepMap.values()) {
+%>
+        steps.add("${step.name}")
+<%
+  }
+%>
+        def help = [:]
+        steps.each {
+            help[it] = localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelp("${StringUtils.uncapitalize(requestName)}",it)
+        }
+
+        return help
+    }
     
     def getCurrentTab = { currentTab ->
 	<%

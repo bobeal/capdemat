@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 
+import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
 
@@ -119,6 +121,19 @@ public class RequestBo {
                     afters.add(after);
             }
         }
+    }
+    
+    // i18n
+    private Map<String,Map<String,String>> i18nLabels = new HashMap<String, Map<String,String>>();
+
+    public Map<String, Map<String,String>> getI18nLabels() {
+        return i18nLabels;
+    }
+    
+    public void addI18nLabel(String lang, String descType, String label) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(descType, label);
+        i18nLabels.put(lang, map);
     }
     
 }

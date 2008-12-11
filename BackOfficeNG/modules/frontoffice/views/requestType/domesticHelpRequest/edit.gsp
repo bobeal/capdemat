@@ -25,7 +25,7 @@
        <li class="${currentTab == 'tab1' ? 'selected' : ''}">
         <a href="#tab1"><em>
          <span class="tag-no_right">1</span>
-         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
          <g:message code="dhr.step.subject.label" />
 
@@ -35,7 +35,7 @@
        <li class="${currentTab == 'tab2' ? 'selected' : ''}">
         <a href="#tab2"><em>
          <span class="tag-no_right">2</span>
-         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
          <g:message code="dhr.step.familyReferent.label" />
 
@@ -45,7 +45,7 @@
        <li class="${currentTab == 'tab3' ? 'selected' : ''}">
         <a href="#tab3"><em>
          <span class="tag-no_right">3</span>
-         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
          <g:message code="dhr.step.spouse.label" />
 
@@ -55,7 +55,7 @@
        <li class="${currentTab == 'tab4' ? 'selected' : ''}">
         <a href="#tab4"><em>
          <span class="tag-no_right">4</span>
-         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
          <g:message code="dhr.step.dwelling.label" />
 
@@ -65,7 +65,7 @@
        <li class="${currentTab == 'tab5' ? 'selected' : ''}">
         <a href="#tab5"><em>
          <span class="tag-no_right">5</span>
-         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
          <g:message code="dhr.step.resources.label" />
 
@@ -75,7 +75,7 @@
        <li class="${currentTab == 'tab6' ? 'selected' : ''}">
         <a href="#tab6"><em>
          <span class="tag-no_right">6</span>
-         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
          <g:message code="dhr.step.taxes.label" />
 
@@ -85,7 +85,7 @@
        <li class="${currentTab == 'tab7' ? 'selected' : ''}">
         <a href="#tab7"><em>
          <span class="tag-no_right">7</span>
-         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
          <g:message code="request.step.document.label" />
 
@@ -95,7 +95,7 @@
        <li class="${currentTab == 'tab8' ? 'selected' : ''}">
         <a href="#tab8"><em>
          <span class="tag-no_right">8</span>
-         <span class="tag-rejected"><g:message code="dhr.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
          <g:message code="request.step.validation.label" />
 
@@ -110,7 +110,7 @@
 
          <form method="POST" id="subjectForm" action="<g:createLink action="validSubject" />">
            <h3>
-             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
 
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
@@ -315,7 +315,7 @@
          <div class="navTab">
            
            
-           <a href="#tab2" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab2" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.subject}">
@@ -330,7 +330,7 @@
 
          <form method="POST" id="familyReferentForm" action="<g:createLink action="validFamilyReferent" />">
            <h3>
-             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
 
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
@@ -407,9 +407,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab1" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab1" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab3" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab3" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.familyReferent}">
@@ -424,7 +424,7 @@
 
          <form method="POST" id="spouseForm" action="<g:createLink action="validSpouse" />">
            <h3>
-             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
 
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
@@ -545,10 +545,10 @@
                   <label>dhrIsSpouseRetired</label>
                   
                     
-          <ul class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ">
+          <ul class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ">
             <g:each in="${[true,false]}">
             <li>
-              <input type="radio" class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
+              <input type="radio" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
 	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
             </li>
             </g:each>
@@ -559,7 +559,7 @@
                   <label>dhrSpousePrincipalPensionPlan</label>
                   
                     
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
             <option value="">Choisissez...</option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrSpousePrincipalPensionPlan_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="${it}" /></option>
@@ -662,9 +662,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab2" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab2" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab4" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab4" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.spouse}">
@@ -679,7 +679,7 @@
 
          <form method="POST" id="dwellingForm" action="<g:createLink action="validDwelling" />">
            <h3>
-             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
 
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
@@ -785,9 +785,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab3" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab3" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab5" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab5" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.dwelling}">
@@ -802,7 +802,7 @@
 
          <form method="POST" id="resourcesForm" action="<g:createLink action="validResources" />">
            <h3>
-             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
 
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
@@ -872,9 +872,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab4" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab4" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab6" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab6" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.resources}">
@@ -889,7 +889,7 @@
 
          <form method="POST" id="taxesForm" action="<g:createLink action="validTaxes" />">
            <h3>
-             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
 
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
@@ -940,9 +940,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab5" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab5" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab7" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab7" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.taxes}">
@@ -960,9 +960,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab6" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab6" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab8" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
+           <a href="#tab8" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.documentRef}">
@@ -977,7 +977,7 @@
 
          <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
            <h3>
-             <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
+             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
 
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
@@ -1005,7 +1005,7 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab7" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
+           <a href="#tab7" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
          </div>
          

@@ -96,7 +96,7 @@
        <li class="\${currentTab == 'tab${step.index + 1}' ? 'selected' : ''}">
         <a href="#tab${step.index + 1}"><em>
          <span class="tag-no_right">${step.index + 1}</span>
-         <span class="tag-rejected"><g:message code="${namespaceAlias}.step.tag.rejected.short" /></span>
+         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 <%
   if (step.name == 'documentRef') {
 %>
@@ -129,7 +129,7 @@
 %>
          <form method="POST" id="${StringUtils.uncapitalize(step.name)}Form" action="<g:createLink action="valid${StringUtils.capitalize(step.name)}" />">
            <h3>
-             <span class="tag-rejected"><g:message code="${namespaceAlias}.step.tag.rejected"/></span>
+             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
 <%
     if (step.name == 'validationRef') {
 %>
@@ -204,11 +204,11 @@
            <%  
            	if (step.index != 0) { 
            %>
-           <a href="#tab${step.index}" class="prevTab"><g:message code="${namespaceAlias}.step.navigation.previous"/></a><% }%>
+           <a href="#tab${step.index}" class="prevTab"><g:message code="request.step.navigation.previous"/></a><% }%>
            <% 
              if (step.index != steps.size() - 1) {
            %>
-           <a href="#tab${step.index + 2}" class="nextTab"><g:message code="${namespaceAlias}.step.navigation.next"/></a><% }%>
+           <a href="#tab${step.index + 2}" class="nextTab"><g:message code="request.step.navigation.next"/></a><% }%>
          </div>
          
          <g:if test="\${help.${step.name}}">

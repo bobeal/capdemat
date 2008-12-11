@@ -2,30 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
 	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	  <title>CapDeamt Lab - FrontOfficeNG</title>
+	  <title>CapDémat Lab - FrontOfficeNG</title>
     <!-- yui -->	  
-    <link rel="stylesheet" type="text/css" href="./css/yui/reset/reset.css" />
-    <link rel="stylesheet" type="text/css" href="./css/yui/fonts/fonts.css" />
-    <link rel="stylesheet" type="text/css" href="./css/yui/grids/grids.css" />
-    <link rel="stylesheet" type="text/css" href="./css/yui/reset-fonts-grids/reset-fonts-grids.css" />
-    <link rel="stylesheet" type="text/css" href="./css/yui/base/base.css" />
-<!--    <link rel="stylesheet" type="text/css" href="./js/yui/tabview/assets/tabview.css" />-->
-<!--    <link rel="stylesheet" type="text/css" href="./js/yui/tabview/assets/tabview-core.css" />-->
-<!--    <link rel="stylesheet" type="text/css" href="./js/yui/tabview/assets/border_tabs.css" />-->
-<!--    <link rel="stylesheet" type="text/css" href="./js/yui/tabview/assets/skin-sam.css" />-->
+    <link rel="stylesheet" type="text/css" href="./css/frontoffice/yui/reset-fonts-grids/reset-fonts-grids.css" />
+    <link rel="stylesheet" type="text/css" href="./css/frontoffice/yui/tabview/tabview.css" />
     <!-- common -->
-    <link rel="stylesheet" type="text/css" href="./css/common/yui/tabview.css" />
     <link rel="stylesheet" type="text/css" href="./css/common/tag.css" />
     <!-- layout -->
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
-    
+    <link rel="stylesheet" type="text/css" href="./css/frontoffice/protostyle.css" />
+    <link rel="stylesheet" type="text/css" href="./css/frontoffice/common/yui-skin/tabview.css" />
     <!-- yui -->
     <script type="text/javascript" src="./js/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
     <script type="text/javascript" src="./js/yui/element/element-beta-min.js"></script>
     <script type="text/javascript" src="./js/yui/tabview/tabview-min.js"></script>
-    <!-- request -->
-    <script type="text/javascript" src="./js/script.js"></script>
-  
   </head>
   <body>
   
@@ -35,7 +24,7 @@
      <div id="hd">
        <h1>
          Zenexity Lab
-         <span>CapDemat - FrontOffice NG</span>
+         <span>CapDémat - FrontOffice NG</span>
        </h1>
        <map id="hd-menu">
         <a href="#">se déconnecter</a> | 
@@ -298,7 +287,14 @@
  </div>
  
  </div> <!-- end doc -->
- 
+ <script type="text/javascript">
+   // Request TabView Initialization
+   function initRequest() {
+     var requestFormTabView = new YAHOO.widget.TabView('requestTabView');
+   }
+
+   YAHOO.util.Event.onDOMReady(initRequest);
+ </script>
   </body>
 </html>
 

@@ -81,26 +81,6 @@
 
        </em></a>
        </li>    
-		  
-       <li class="${currentTab == 'tab7' ? 'selected' : ''}">
-        <a href="#tab7"><em>
-         <span class="tag-no_right">7</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
-
-         <g:message code="request.step.document.label" />
-
-       </em></a>
-       </li>    
-		  
-       <li class="${currentTab == 'tab8' ? 'selected' : ''}">
-        <a href="#tab8"><em>
-         <span class="tag-no_right">8</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
-
-         <g:message code="request.step.validation.label" />
-
-       </em></a>
-       </li>    
 		 
 		 </ul>
 		 
@@ -559,7 +539,7 @@
                   <label>dhrSpousePrincipalPensionPlan</label>
                   
                     
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
             <option value="">Choisissez...</option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrSpousePrincipalPensionPlan_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="${it}" /></option>
@@ -942,77 +922,12 @@
            
            <a href="#tab5" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab7" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.taxes}">
            <div class="requestHelp">
              <h3>Aide</h3>
              ${help.taxes}
-           </div>
-         </g:if>
-       </div>  
-     
-       <div id="tab7">
-
-         <g:render template="/frontofficeRequestType/documentStep"/>
-         
-         <!-- navigation link -->
-         <div class="navTab">
-           
-           <a href="#tab6" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
-           
-           <a href="#tab8" class="nextTab"><g:message code="request.step.navigation.next"/></a>
-         </div>
-         
-         <g:if test="${help.documentRef}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.documentRef}
-           </div>
-         </g:if>
-       </div>  
-     
-       <div id="tab8">
-
-         <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
-           <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
-
-             <g:message code="request.step.validation.label" />
-             <span><g:message code="request.step.validation.desc" /></span>
-
-           </h3>
-
-           <!-- render template of final summary -->
-             
-           <!-- render means of contact selection list -->
-           <select name="meansOfContact">
-             <g:each in="${meansOfContact}" var="moc">
-               <option value="${moc.key}">${moc.label}</option>
-             </g:each>
-           </select>
-
-           <div class="error" id="validationRefFormErrors"> </div>
-           
-           <!-- Input submit-->
-           <input type="button" 
-              id="submitValidationRef" 
-              name="submitValidationRef" 
-              value="${message(code:'action.save')}" />
-         </form>
-         
-         <!-- navigation link -->
-         <div class="navTab">
-           
-           <a href="#tab7" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
-           
-         </div>
-         
-         <g:if test="${help.validationRef}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.validationRef}
            </div>
          </g:if>
        </div>  
@@ -1051,7 +966,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isOtherPensionPlan", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       
@@ -1100,14 +1015,6 @@
 	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitTaxes");
       submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('taxesFormErrors'));
       submitRsrSubjectButton.on("click", onSubmitClick, "taxesForm");
-	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitDocumentRef");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('documentRefFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "documentRefForm");
-	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitValidationRef");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('validationRefFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "validationRefForm");
 	  
 	  
 	  function onSubmitClick(ev, formId) {

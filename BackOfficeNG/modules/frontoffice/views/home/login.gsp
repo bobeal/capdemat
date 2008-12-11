@@ -40,7 +40,7 @@
         <g:each var="group" in="${groups}" status="i">
           <div class="group-box">
             <h3>${group.key}</h3>
-            <img style="float:left;padding:1em;" src="<g:createLinkTo dir="fong/images" file="${group.key}.gif" />" />
+            <img style="float:left;padding:1em;" src="<g:createLinkTo dir="images/frontoffice" file="${group.key}.gif" />" />
             <ul>
               <g:each var="rtLabel" in="${group.value}">
                 <li><a href=""><g:translateRequestTypeLabel label="${rtLabel}"/></a></li>

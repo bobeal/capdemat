@@ -1,9 +1,21 @@
+
 dhr.step.subject.label =
+dhr.step.subject.desc =
+
 dhr.step.familyReferent.label =
+dhr.step.familyReferent.desc =
+
 dhr.step.spouse.label =
+dhr.step.spouse.desc =
+
 dhr.step.dwelling.label =
+dhr.step.dwelling.desc =
+
 dhr.step.resources.label =
+dhr.step.resources.desc =
+
 dhr.step.taxes.label =
+dhr.step.taxes.desc =
 
 
 dhr.property.dhrRequester.help =

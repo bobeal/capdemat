@@ -545,10 +545,10 @@
                   <label>dhrIsSpouseRetired</label>
                   
                     
-          <ul class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ">
+          <ul class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ">
             <g:each in="${[true,false]}">
             <li>
-              <input type="radio" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
+              <input type="radio" class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
 	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
             </li>
             </g:each>
@@ -559,7 +559,7 @@
                   <label>dhrSpousePrincipalPensionPlan</label>
                   
                     
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
             <option value="">Choisissez...</option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrSpousePrincipalPensionPlan_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="${it}" /></option>
@@ -1051,7 +1051,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

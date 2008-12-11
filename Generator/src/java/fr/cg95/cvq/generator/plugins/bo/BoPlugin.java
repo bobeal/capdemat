@@ -95,11 +95,14 @@ public class BoPlugin implements IPluginGenerator {
             Template template2 = templateEngine.createTemplate(new File(i18nTmpTemplate));
             
             for (String lang: requestBo.getI18nLabels().keySet()) {
-                String output;
-                if (lang.equals("en"))
-                    output = i18n0utputDir + requestBo.getAcronym() + ".properties";
-                else
-                    output = i18n0utputDir + requestBo.getAcronym() + "_" + lang + ".properties";
+                String output = i18n0utputDir + requestBo.getAcronym();
+                String templateOutput = i18n0utputDir + requestBo.getAcronym() + "customized";
+                if (!lang.equals("en")) {
+                    output += "_" + lang;
+                    templateOutput += "_" + lang;
+                }
+                output += ".properties";
+                templateOutput += ".properties";
                 
                 Map<String, Object> bindingMap = new HashMap<String, Object>();
                 bindingMap.put("lang", lang);
@@ -109,7 +112,7 @@ public class BoPlugin implements IPluginGenerator {
                 bindingMap.put("elements", i18nElements);
                 
                 template.make(bindingMap).writeTo(new FileWriter(output));
-                template2.make(bindingMap).writeTo(new FileWriter(output + ".tmp"));
+                template2.make(bindingMap).writeTo(new FileWriter(templateOutput + ".tmp"));
             }
         } catch (CompilationFailedException cfe) {
             logger.error(cfe.getMessage()); 

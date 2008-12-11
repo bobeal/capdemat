@@ -35,7 +35,7 @@ public interface ILocalAuthorityRegistry {
 
     LocalAuthority getLocalAuthorityByName(final String name);
     
-    Set getAllLocalAuthoritiesNames();
+    Set<String> getAllLocalAuthoritiesNames();
 
     /**
      * Return a common referential resource located in the referential repository.
@@ -68,6 +68,12 @@ public interface ILocalAuthorityRegistry {
             final String filename, final boolean fallbackToDefault);
     
     /**
+     * Get the help data for the given request / step pair.
+     */
+    String getBufferedCurrentLocalAuthorityRequestHelp(final String requestLabel,
+            final String step);
+    
+    /**
      * Get resource pointed to by filename for the given local authority.
      *
      * @see #getCurrentLocalAuthorityResource
@@ -76,9 +82,6 @@ public interface ILocalAuthorityRegistry {
             final String filename, final boolean fallbackToDefault);
 
     File getRequestXmlResource(Long id);
-    
-    String getCurrentLocalAuthorityName();
-    LocalAuthorityConfigurationBean getCurrentLocalAuthorityBean();
     
     void registerLocalAuthorities(Resource[] localAuthoritiesFiles)
         throws CvqConfigurationException;

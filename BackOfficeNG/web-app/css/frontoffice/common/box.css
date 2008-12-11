@@ -79,28 +79,6 @@
 .requestBox .body li a { display: inline; }
 
 
-/* help box
----------------------------------------------------------------*/
-
-.helpBox {
-  margin: .2em 0 0 18em;
-  padding: 1em 1.5em;
-  background: #dddddd ;
-}
-
-.helpBox h3 {
-  margin: 0 0 .5em 0;
-  font-size: 1.6em;
-  font-weight: normal;
-  border-bottom: 1px solid #C690BB;
-}
-
-.helpBox dl        { margin: 0; padding: 0; font-size: 1.1em; }
-.helpBox dt        { padding: .7em 0 0 0; font-weight: bold; }
-.helpBox dd        { margin: 0; padding: 0 .2em .5em .2em; border-bottom: 1px dashed #C690BB; }
-.helpBox  dd:hover { background: #ffcff5; color: #000000; }
-
-
 /* Information box
 ---------------------------------------------------------------*/
 .information-box {

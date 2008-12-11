@@ -155,37 +155,19 @@
            %>
            <a href="#tab${step.index + 2}" class="nextTab"><g:message code="${namespaceAlias}.step.navigation.next"/></a><% }%>
          </div>
+         
+         <g:if test="\${help.${step.name}}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             \${help.${step.name}}
+           </div>
+         </g:if>
+         
        </div>  
      <% } %>        
  	 </div><!-- end yui-content -->
  </div><!-- end requestTabView -->
  	  
-      <div class="helpBox">
-        <h3>Aide</h3>
-        <dl>
-          <dt>Sujet</dt>
-          <dd>
-            Afin d'améliorer la communication et les échanges et de favoriser la participation 
-            et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
-          </dd>
-          <dt>Documents</dt>
-          <dd>
-            Afin d'améliorer la communication et les échanges et de favoriser la participation 
-          </dd>
-          <dt>Formulaire</dt>
-          <dd>
-             et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
-            Afin d'améliorer la communication et les échanges et de favoriser la participation
-          </dd>
-          <dt>Moyen de contact</dt>
-          <dd>
-            de favoriser la participation 
-            et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
-          </dd>
-        </dl>
-      </div>
-     
-    
     <script type="text/javascript">
       // next Links
       var activeNextTabByLink = function(e) {

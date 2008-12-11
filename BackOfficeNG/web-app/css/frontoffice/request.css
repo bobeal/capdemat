@@ -130,6 +130,23 @@ h2.request-creation {
 
 
 
+/* request help
+--------------------------------------------------------------*/
+
+.requestHelp {
+  margin: .2em 0 0 0em;
+  padding: 1em 1.5em;
+  background: #dddddd ;
+  border-top: 1px solid black;
+}
+
+#requestTabView .requestHelp h3 {
+  margin: 0 0 .5em 0;
+  font-size: 1.6em;
+  font-weight: normal;
+  border-bottom: 1px solid #C690BB;
+}
+
 /* styles copied from MVE SVN commit
 --------------------------------------------------------------*/
 

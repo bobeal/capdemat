@@ -292,6 +292,14 @@
            
            <a href="#tab2" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
+         
+         <g:if test="${help.subject}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             ${help.subject}
+           </div>
+         </g:if>
+         
        </div>  
      
        <div id="tab2">
@@ -374,6 +382,14 @@
            
            <a href="#tab3" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
+         
+         <g:if test="${help.familyReferent}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             ${help.familyReferent}
+           </div>
+         </g:if>
+         
        </div>  
      
        <div id="tab3">
@@ -617,6 +633,14 @@
            
            <a href="#tab4" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
+         
+         <g:if test="${help.spouse}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             ${help.spouse}
+           </div>
+         </g:if>
+         
        </div>  
      
        <div id="tab4">
@@ -728,6 +752,14 @@
            
            <a href="#tab5" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
+         
+         <g:if test="${help.dwelling}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             ${help.dwelling}
+           </div>
+         </g:if>
+         
        </div>  
      
        <div id="tab5">
@@ -803,6 +835,14 @@
            
            <a href="#tab6" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
+         
+         <g:if test="${help.resources}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             ${help.resources}
+           </div>
+         </g:if>
+         
        </div>  
      
        <div id="tab6">
@@ -859,6 +899,14 @@
            
            <a href="#tab7" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
+         
+         <g:if test="${help.taxes}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             ${help.taxes}
+           </div>
+         </g:if>
+         
        </div>  
      
        <div id="tab7">
@@ -886,6 +934,14 @@
            
            <a href="#tab8" class="nextTab"><g:message code="dhr.step.navigation.next"/></a>
          </div>
+         
+         <g:if test="${help.documentRef}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             ${help.documentRef}
+           </div>
+         </g:if>
+         
        </div>  
      
        <div id="tab8">
@@ -912,37 +968,19 @@
            <a href="#tab7" class="prevTab"><g:message code="dhr.step.navigation.previous"/></a>
            
          </div>
+         
+         <g:if test="${help.validationRef}">
+           <div class="requestHelp">
+             <h3>Aide</h3>
+             ${help.validationRef}
+           </div>
+         </g:if>
+         
        </div>  
              
  	 </div><!-- end yui-content -->
  </div><!-- end requestTabView -->
  	  
-      <div class="helpBox">
-        <h3>Aide</h3>
-        <dl>
-          <dt>Sujet</dt>
-          <dd>
-            Afin d'améliorer la communication et les échanges et de favoriser la participation 
-            et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
-          </dd>
-          <dt>Documents</dt>
-          <dd>
-            Afin d'améliorer la communication et les échanges et de favoriser la participation 
-          </dd>
-          <dt>Formulaire</dt>
-          <dd>
-             et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
-            Afin d'améliorer la communication et les échanges et de favoriser la participation
-          </dd>
-          <dt>Moyen de contact</dt>
-          <dd>
-            de favoriser la participation 
-            et la contribution, le projet CapDémat se dote de nouveaux moyens de discussion
-          </dd>
-        </dl>
-      </div>
-     
-    
     <script type="text/javascript">
       // next Links
       var activeNextTabByLink = function(e) {

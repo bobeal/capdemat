@@ -57,7 +57,7 @@ public class LocalAuthorityRegistry
     private ApplicationContext parentApplicationContext;
 
     /** Keep a map of all services interested in local authorities lifecycle */
-    protected Collection allListenerServices;
+    protected Collection<ILocalAuthorityLifecycleAware> allListenerServices;
 
     private ILocalAuthorityDAO localAuthorityDAO;
     
@@ -78,10 +78,7 @@ public class LocalAuthorityRegistry
     }
 
     public LocalAuthorityConfigurationBean getLocalAuthorityBeanByUrl(final String url) {
-        Iterator lacbIt = configurationBeansMap.values().iterator();
-        while (lacbIt.hasNext()) {
-            LocalAuthorityConfigurationBean lacb =
-                (LocalAuthorityConfigurationBean) lacbIt.next();
+        for (LocalAuthorityConfigurationBean lacb : configurationBeansMap.values()) {
             if (lacb.supportUrl(url))
                 return lacb;
         }
@@ -108,16 +105,8 @@ public class LocalAuthorityRegistry
         return localAuthorityDAO.findByName(name);
     }
 
-    public Set getAllLocalAuthoritiesNames() {
+    public Set<String> getAllLocalAuthoritiesNames() {
         return configurationBeansMap.keySet();
-    }
-
-    public String getCurrentLocalAuthorityName() {
-        return SecurityContext.getCurrentSite().getName();
-    }
-    
-    public LocalAuthorityConfigurationBean getCurrentLocalAuthorityBean() {
-        return SecurityContext.getCurrentConfigurationBean();
     }
 
     private File getAssetsFile(final String resourceType, final String localAuthorityName,
@@ -207,7 +196,7 @@ public class LocalAuthorityRegistry
     private String getRequestXmlPath(Long id) {
         return String.format("%1$s/%2$s/%3$s/%4$s.xml", 
                 this.getAssetsBase(),
-                this.getCurrentLocalAuthorityName(),
+                SecurityContext.getCurrentConfigurationBean().getName(),
                 REQUEST_XML_RESOURCE_TYPE,
                 id);
     }
@@ -217,6 +206,23 @@ public class LocalAuthorityRegistry
 
         File resourceFile = 
             getCurrentLocalAuthorityResource(resourceType, filename, fallbackToDefault);
+        return getFileContent(resourceFile);
+    }
+
+    public String getBufferedCurrentLocalAuthorityRequestHelp(final String requestLabel,
+            final String step) {
+
+        StringBuffer filePath = new StringBuffer().append(assetsBase)
+            .append(SecurityContext.getCurrentSite().getName().toLowerCase())
+            .append("/").append(HTML_RESOURCE_TYPE).append("/request/").append(requestLabel)
+            .append("/").append(step).append(".html");
+        File resourceFile = new File(filePath.toString());
+
+        return getFileContent(resourceFile);
+    }
+
+    private String getFileContent(File resourceFile) {
+        
         if (resourceFile == null || !resourceFile.exists())
             return null;
         
@@ -244,9 +250,9 @@ public class LocalAuthorityRegistry
                 }
         }
 
-        return result;
+        return result;        
     }
-
+    
     public File getLocalAuthorityResource(final String resourceType, 
             final String localAuthorityName, final String filename, 
             final boolean fallbackToDefault) {
@@ -371,10 +377,7 @@ public class LocalAuthorityRegistry
             }
             
             // notify listener services of the new local authority
-            Iterator listenerIt = allListenerServices.iterator();
-            while (listenerIt.hasNext()) {
-                ILocalAuthorityLifecycleAware service =
-                    (ILocalAuthorityLifecycleAware) listenerIt.next();
+            for (ILocalAuthorityLifecycleAware service : allListenerServices) {
                 service.addLocalAuthority(lacb.getName().toLowerCase());
             }
         }
@@ -454,9 +457,7 @@ public class LocalAuthorityRegistry
     
 	public void browseAndCallback(Object object, String callbackMethodName, 
             Object[] methodArgs) {
-		Iterator localAuthoritiesIt = configurationBeansMap.keySet().iterator();
-		while (localAuthoritiesIt.hasNext()) {
-			String localAuthorityName = (String) localAuthoritiesIt.next();
+		for (String localAuthorityName : configurationBeansMap.keySet()) {
             logger.debug("browseAndCallback() calling " + callbackMethodName
                     + " for " + localAuthorityName);
 			callback(localAuthorityName, object, callbackMethodName, methodArgs);
@@ -464,15 +465,13 @@ public class LocalAuthorityRegistry
 	}
 
     public void generateLocalAuthoritiesList() {
-        Set allLocalAuthoriesNames = getAllLocalAuthoritiesNames();
-        Iterator it = allLocalAuthoriesNames.iterator();
+        Set<String> allLocalAuthoriesNames = getAllLocalAuthoritiesNames();
 
         try {
             String filename = getAssetsBase() + localAuthoritiesListFilename;
             logger.debug("generateLocalAuthoritiesList() writing list in " + filename);
             FileOutputStream fos = new FileOutputStream(filename);
-            while (it.hasNext()) {
-                String localAuth = (String) it.next();
+            for (String localAuth : allLocalAuthoriesNames) {
                 fos.write(localAuth.getBytes());
                 fos.write('\n');
             }

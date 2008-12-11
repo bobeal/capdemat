@@ -122,7 +122,7 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
     protected String getXmlOutputFolder() {
         return String.format("%1$s/%2$s/%3$s/", 
                 this.localAuthorityRegistry.getAssetsBase(),
-                this.localAuthorityRegistry.getCurrentLocalAuthorityName(),
+                SecurityContext.getCurrentConfigurationBean().getName(),
                 ILocalAuthorityRegistry.REQUEST_XML_RESOURCE_TYPE);
     }
     

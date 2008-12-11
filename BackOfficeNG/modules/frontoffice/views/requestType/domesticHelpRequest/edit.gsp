@@ -192,12 +192,14 @@
                   <label>dhrRequesterIsFrenchResident</label>
                   
                     
-          <select name="dhrRequesterIsFrenchResident" class="isNonEuropean-filled   validate-one-required" title="">
-            <option value="">Choisissez...</option>
+          <ul class="isNonEuropean-filled ">
             <g:each in="${[true,false]}">
-              <option value="${it}" ${it == dhr.dhrRequesterIsFrenchResident ? 'selected="selected"': ''}><g:message code="property.${it}"/></option>
+            <li>
+              <input type="radio" class="isNonEuropean-filled   validate-one-required" title="" value="${it}" name="dhrRequesterIsFrenchResident" ${it == dhr.dhrRequesterIsFrenchResident ? 'checked="checked"': ''} />
+	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
+            </li>
             </g:each>
-          </select>
+          </ul>
           
                   
                 
@@ -244,12 +246,14 @@
                   <label>dhrRequesterHaveGuardian</label>
                   
                     
-          <select name="dhrRequesterHaveGuardian" class="haveGuardian-trigger  required validate-one-required" title="">
-            <option value="">Choisissez...</option>
+          <ul class="haveGuardian-trigger ">
             <g:each in="${[true,false]}">
-              <option value="${it}" ${it == dhr.dhrRequesterHaveGuardian ? 'selected="selected"': ''}><g:message code="property.${it}"/></option>
+            <li>
+              <input type="radio" class="haveGuardian-trigger  required validate-one-required" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == dhr.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
+	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
+            </li>
             </g:each>
-          </select>
+          </ul>
           
                   
                 
@@ -273,7 +277,7 @@
                   <label>dhrGuardianAddress</label>
                   
                     
-          <div>
+          <div class="address-fieldset haveGuardian-filled ">
           <label>additional delivery information</label>
           <input type="text" value="${dhr.dhrGuardianAddress.additionalDeliveryInformation}" maxlength="38" name="dhrGuardianAddress.additionalDeliveryInformation"/>  
           <label>additional geographical information</label>
@@ -285,10 +289,10 @@
           <input type="text" value="${dhr.dhrGuardianAddress.placeNameOrService}" maxlength="38" name="dhrGuardianAddress.placeNameOrService"/>
           <label> postal code - city </label>
           <input type="text" class="line1" value="${dhr.dhrGuardianAddress.postalCode}" maxlength="5" name="dhrGuardianAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="CERGY" maxlength="32" name="dhrGuardianAddress.city"/>
+          <input type="text" title="" class="line2 required" value="${dhr.dhrGuardianAddress.city}" maxlength="32" name="dhrGuardianAddress.city"/>
           <label>country name</label>
           <input type="text" value="${dhr.dhrGuardianAddress.countryName}" maxlength="38" name="dhrGuardianAddress.countryName"/>
-          <div>
+          </div>
           
                   
                 
@@ -341,12 +345,14 @@
                   <label>dhrHaveFamilyReferent</label>
                   
                     
-          <select name="dhrHaveFamilyReferent" class="haveFamilyReferent-trigger  required validate-one-required" title="">
-            <option value="">Choisissez...</option>
+          <ul class="haveFamilyReferent-trigger ">
             <g:each in="${[true,false]}">
-              <option value="${it}" ${it == dhr.dhrHaveFamilyReferent ? 'selected="selected"': ''}><g:message code="property.${it}"/></option>
+            <li>
+              <input type="radio" class="haveFamilyReferent-trigger  required validate-one-required" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == dhr.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
+	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
+            </li>
             </g:each>
-          </select>
+          </ul>
           
                   
                 
@@ -363,7 +369,7 @@
                   <label>dhrReferentAddress</label>
                   
                     
-          <div>
+          <div class="address-fieldset haveFamilyReferent-filled ">
           <label>additional delivery information</label>
           <input type="text" value="${dhr.dhrReferentAddress.additionalDeliveryInformation}" maxlength="38" name="dhrReferentAddress.additionalDeliveryInformation"/>  
           <label>additional geographical information</label>
@@ -375,10 +381,10 @@
           <input type="text" value="${dhr.dhrReferentAddress.placeNameOrService}" maxlength="38" name="dhrReferentAddress.placeNameOrService"/>
           <label> postal code - city </label>
           <input type="text" class="line1" value="${dhr.dhrReferentAddress.postalCode}" maxlength="5" name="dhrReferentAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="CERGY" maxlength="32" name="dhrReferentAddress.city"/>
+          <input type="text" title="" class="line2 required" value="${dhr.dhrReferentAddress.city}" maxlength="32" name="dhrReferentAddress.city"/>
           <label>country name</label>
           <input type="text" value="${dhr.dhrReferentAddress.countryName}" maxlength="38" name="dhrReferentAddress.countryName"/>
-          <div>
+          </div>
           
                   
                 
@@ -428,12 +434,14 @@
               
                 <label>dhrRequestKind</label>
                 
-          <select name="dhrRequestKind" class="isCoupleRequest-trigger  required validate-one-required" title="">
-            <option value="">Choisissez...</option>
+          <ul class="isCoupleRequest-trigger ">
             <g:each in="${['Individual','Couple']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrRequestKind_${it}"><g:message code="${it}" /></option>
+            <li>
+              <input type="radio" class="isCoupleRequest-trigger  required validate-one-required" title="" value="fr.cg95.cvq.business.request.social.DhrRequestKind_${it}" name="dhrRequestKind" ${it == dhr.dhrRequestKind.toString() ? 'checked="checked"': ''} />
+	            <g:message code="${it}" />  
+            </li>
             </g:each>
-          </select>
+          </ul>
           
               
               
@@ -512,12 +520,14 @@
                   <label>dhrSpouseIsFrenchResident</label>
                   
                     
-          <select name="dhrSpouseIsFrenchResident" class="isSpouseNonEuropean-filled   validate-one-required" title="">
-            <option value="">Choisissez...</option>
+          <ul class="isSpouseNonEuropean-filled ">
             <g:each in="${[true,false]}">
-              <option value="${it}" ${it == dhr.dhrSpouseIsFrenchResident ? 'selected="selected"': ''}><g:message code="property.${it}"/></option>
+            <li>
+              <input type="radio" class="isSpouseNonEuropean-filled   validate-one-required" title="" value="${it}" name="dhrSpouseIsFrenchResident" ${it == dhr.dhrSpouseIsFrenchResident ? 'checked="checked"': ''} />
+	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
+            </li>
             </g:each>
-          </select>
+          </ul>
           
                   
                 
@@ -533,12 +543,14 @@
                   <label>dhrIsSpouseRetired</label>
                   
                     
-          <select name="dhrIsSpouseRetired" class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger  required validate-one-required" title="">
-            <option value="">Choisissez...</option>
+          <ul class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ">
             <g:each in="${[true,false]}">
-              <option value="${it}" ${it == dhr.dhrIsSpouseRetired ? 'selected="selected"': ''}><g:message code="property.${it}"/></option>
+            <li>
+              <input type="radio" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
+	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
+            </li>
             </g:each>
-          </select>
+          </ul>
           
                   
                 
@@ -577,7 +589,7 @@
                   <label>dhrSpouseAddress</label>
                   
                     
-          <div>
+          <div class="address-fieldset isSpouseRetired-unfilled ">
           <label>additional delivery information</label>
           <input type="text" value="${dhr.dhrSpouseAddress.additionalDeliveryInformation}" maxlength="38" name="dhrSpouseAddress.additionalDeliveryInformation"/>  
           <label>additional geographical information</label>
@@ -589,10 +601,10 @@
           <input type="text" value="${dhr.dhrSpouseAddress.placeNameOrService}" maxlength="38" name="dhrSpouseAddress.placeNameOrService"/>
           <label> postal code - city </label>
           <input type="text" class="line1" value="${dhr.dhrSpouseAddress.postalCode}" maxlength="5" name="dhrSpouseAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="CERGY" maxlength="32" name="dhrSpouseAddress.city"/>
+          <input type="text" title="" class="line2 required" value="${dhr.dhrSpouseAddress.city}" maxlength="32" name="dhrSpouseAddress.city"/>
           <label>country name</label>
           <input type="text" value="${dhr.dhrSpouseAddress.countryName}" maxlength="38" name="dhrSpouseAddress.countryName"/>
-          <div>
+          </div>
           
                   
                 
@@ -680,7 +692,7 @@
                   <label>dhrCurrentDwellingAddress</label>
                   
                     
-          <div>
+          <div class="address-fieldset ">
           <label>additional delivery information</label>
           <input type="text" value="${dhr.dhrCurrentDwellingAddress.additionalDeliveryInformation}" maxlength="38" name="dhrCurrentDwellingAddress.additionalDeliveryInformation"/>  
           <label>additional geographical information</label>
@@ -692,10 +704,10 @@
           <input type="text" value="${dhr.dhrCurrentDwellingAddress.placeNameOrService}" maxlength="38" name="dhrCurrentDwellingAddress.placeNameOrService"/>
           <label> postal code - city </label>
           <input type="text" class="line1" value="${dhr.dhrCurrentDwellingAddress.postalCode}" maxlength="5" name="dhrCurrentDwellingAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="CERGY" maxlength="32" name="dhrCurrentDwellingAddress.city"/>
+          <input type="text" title="" class="line2 required" value="${dhr.dhrCurrentDwellingAddress.city}" maxlength="32" name="dhrCurrentDwellingAddress.city"/>
           <label>country name</label>
           <input type="text" value="${dhr.dhrCurrentDwellingAddress.countryName}" maxlength="38" name="dhrCurrentDwellingAddress.countryName"/>
-          <div>
+          </div>
           
                   
                 
@@ -724,12 +736,14 @@
                   <label>dhrCurrentDwellingStatus</label>
                   
                     
-          <select name="dhrCurrentDwellingStatus" class="isCurrentDwellingPlaceOfResidence-filled   validate-one-required" title="">
-            <option value="">Choisissez...</option>
+          <ul class="isCurrentDwellingPlaceOfResidence-filled ">
             <g:each in="${['owner','tenant']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrCurrentDwellingStatus_${it}"><g:message code="${it}" /></option>
+            <li>
+              <input type="radio" class="isCurrentDwellingPlaceOfResidence-filled   validate-one-required" title="" value="fr.cg95.cvq.business.request.social.DhrCurrentDwellingStatus_${it}" name="dhrCurrentDwellingStatus" ${it == dhr.dhrCurrentDwellingStatus.toString() ? 'checked="checked"': ''} />
+	            <g:message code="${it}" />  
+            </li>
             </g:each>
-          </select>
+          </ul>
           
                   
                 
@@ -1024,7 +1038,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isOtherPensionPlan", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

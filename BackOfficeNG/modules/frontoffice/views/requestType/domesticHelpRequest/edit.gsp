@@ -6,7 +6,7 @@
   </head>  
   <body>
       <h2 class="request-creation">
-      <g:message code="dhr.name" /> 
+      <g:message code="dhr.label" /> 
       <span><g:message code="dhr.duration.label" /><strong><g:message code="dhr.duration.value" /></strong></span>
       <span>
         Documents à fournir :
@@ -559,7 +559,7 @@
                   <label>dhrSpousePrincipalPensionPlan</label>
                   
                     
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
             <option value="">Choisissez...</option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrSpousePrincipalPensionPlan_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="${it}" /></option>
@@ -1051,7 +1051,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

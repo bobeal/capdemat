@@ -1,11 +1,14 @@
 package fr.cg95.cvq.generator.plugins.bo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
 
@@ -214,5 +217,24 @@ public class ElementBo {
     
     public List<ElementBo> getElements() {
         return elements;
+    }
+   
+    // i18n
+    private Map<String,UserDocumentation> i18nUserDoc = new HashMap<String, UserDocumentation>();
+
+    public Map<String, UserDocumentation> getI18nUserDoc() {
+        return i18nUserDoc;
+    }
+    
+    public void addi18nUserDocText (String lang, String text) {
+        if (i18nUserDoc.get(lang) == null)
+            i18nUserDoc.put(lang, new UserDocumentation());
+        i18nUserDoc.get(lang).setText(text);
+    }
+    
+    public void addi18nUserDocEnums (String lang, HashMap<String,String> enums) {
+        if (i18nUserDoc.get(lang) == null)
+            i18nUserDoc.put(lang, new UserDocumentation());
+        i18nUserDoc.get(lang).setXmlTranslationNodes(enums);
     }
 }

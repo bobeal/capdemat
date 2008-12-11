@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -33,6 +35,12 @@ public class BoPlugin implements IPluginGenerator {
     private String outputDir;
     private String groovyTemplate;
     
+    // i18n 
+    private String i18n0utputDir;
+    private String i18nTemplate;
+    private String i18nTmpTemplate;
+    private List<ElementBo> i18nElements = new ArrayList<ElementBo>();
+    
     private RequestBo requestBo;
     
     private ElementStack elementBoStack;
@@ -44,6 +52,12 @@ public class BoPlugin implements IPluginGenerator {
             NamedNodeMap childAttributesMap = configurationNode.getFirstChild().getAttributes();
             outputDir = childAttributesMap.getNamedItem("outputdir").getNodeValue();
             groovyTemplate = childAttributesMap.getNamedItem("groovytemplate").getNodeValue();
+            
+            // i18n
+            i18n0utputDir = childAttributesMap.getNamedItem("i18noutputdir").getNodeValue();
+            i18nTemplate = childAttributesMap.getNamedItem("i18ntemplate").getNodeValue();
+            i18nTmpTemplate = childAttributesMap.getNamedItem("i18ntmptemplate").getNodeValue();
+            
         } catch (NullPointerException npe) {
             throw new RuntimeException ("Check bo-plugin.xml <properties outputdir=\"\" groovytemplate=\"\"/> configuration tag");
         }
@@ -73,11 +87,41 @@ public class BoPlugin implements IPluginGenerator {
         } catch (IOException ioe) {
             logger.error(ioe.getMessage()); 
         }
+        
+        // i18n
+        try {
+            SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
+            Template template = templateEngine.createTemplate(new File(i18nTemplate));
+            Template template2 = templateEngine.createTemplate(new File(i18nTmpTemplate));
+            
+            for (String lang: requestBo.getI18nLabels().keySet()) {
+                String output;
+                if (lang.equals("en"))
+                    output = i18n0utputDir + requestBo.getAcronym() + ".properties";
+                else
+                    output = i18n0utputDir + requestBo.getAcronym() + "_" + lang + ".properties";
+                
+                Map<String, Object> bindingMap = new HashMap<String, Object>();
+                bindingMap.put("lang", lang);
+                bindingMap.put("acronym", requestBo.getAcronym());
+                bindingMap.put("requestI18n", requestBo.getI18nLabels());
+                bindingMap.put("steps", requestBo.getSteps());
+                bindingMap.put("elements", i18nElements);
+                
+                template.make(bindingMap).writeTo(new FileWriter(output));
+                template2.make(bindingMap).writeTo(new FileWriter(output + ".tmp"));
+            }
+        } catch (CompilationFailedException cfe) {
+            logger.error(cfe.getMessage()); 
+        } catch (ClassNotFoundException cnfe) {
+            logger.error(cnfe.getMessage()); 
+        } catch (IOException ioe) {
+            logger.error(ioe.getMessage()); 
+        }
     }
     
     public void startElement(String elementName, String type) {
         logger.debug("endElement()");
-        
         elementBoStack.push(++depth, new ElementBo(elementName, this.requestBo.getAcronym()));
     }
     
@@ -131,6 +175,9 @@ public class BoPlugin implements IPluginGenerator {
                     + "." + appDoc.getRequestCommon().getNamespace());
             elementBo.setDisplay(true);
             
+            // i18n
+            i18nElements.add(elementBo);
+            
             if (appDoc.getNodeName().equals("bo")) {
                 Map<String,String> attributes = new HashMap<String,String>();
                 Node node = appDoc.getXmlNode();
@@ -151,9 +198,19 @@ public class BoPlugin implements IPluginGenerator {
     public void onUserInformation(UserDocumentation userDoc) {
         logger.debug("onUserInformation()");
         
-        if (elementBoStack.peek(depth) != null)
-            if(userDoc.getSourceUri().equals(IPluginGenerator.SHORT_DESC))
-                elementBoStack.peek(depth).setLabel(userDoc.getText());
+        if (depth == 0) {
+            if (userDoc.getSourceUri().equals(IPluginGenerator.SHORT_DESC))
+                requestBo.addI18nLabel(userDoc.getLang(), "short", userDoc.getText());
+            if (userDoc.getSourceUri().equals(IPluginGenerator.LONG_DESC))
+                requestBo.addI18nLabel(userDoc.getLang(), "long", userDoc.getText());
+        }
+        if (elementBoStack.peek(depth) != null) {
+            if (userDoc.getSourceUri().equals(IPluginGenerator.SHORT_DESC))
+                elementBoStack.peek(depth).addi18nUserDocText(userDoc.getLang(), userDoc.getText());
+            if (userDoc.getSourceUri().equals(IPluginGenerator.ENUM_TRANS))
+                elementBoStack.peek(depth).addi18nUserDocEnums(userDoc.getLang(), userDoc.getXmlTranslationNodes());
+        }
+            
     }
     
     public void shutdown() { }

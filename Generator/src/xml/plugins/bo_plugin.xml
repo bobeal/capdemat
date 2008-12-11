@@ -16,6 +16,9 @@
     <properties
       outputdir="./BackOfficeNG/modules/backoffice/views/requestInstruction/requestType/" 
       groovytemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/template.gsp.tpl"
+      i18ntemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/i18n.properties.tpl"
+      i18ntmptemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/i18n.properties.tmp.tpl"
+      i18noutputdir="./BackOfficeNG/grails-app/i18n/" 
     />
   </configuration>
   

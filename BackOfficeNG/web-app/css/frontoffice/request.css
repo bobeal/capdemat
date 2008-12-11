@@ -26,9 +26,7 @@ h2.request-creation {
   font-size: .75em;
 }
 
-#requestTabView h3 .tag-pending,
-#requestTabView h3 .tag-validated,
-#requestTabView h3 .tag-rejected {
+#requestTabView h3 .tag-state {
   float: right;
 }
  

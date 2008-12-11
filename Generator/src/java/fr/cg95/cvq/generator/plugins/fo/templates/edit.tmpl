@@ -144,7 +144,20 @@
     }
 %>
            </h3>
-           
+<%
+    if (step.name == 'validationRef') {
+%>
+           <!-- render template of final summary -->
+             
+           <!-- render means of contact selection list -->
+           <select name="meansOfContact">
+             <g:each in="\${meansOfContact}" var="moc">
+               <option value="\${moc.key}">\${moc.label}</option>
+             </g:each>
+           </select>
+<%
+    } else {
+%>
             <% step.elementList.each { element -> %>
             
               <% if (element.xmlSchemaType == "AddressType") { %>
@@ -172,13 +185,16 @@
               
             <% } %>
            
+<%
+    }
+%>
            <div class="error" id="${StringUtils.uncapitalize(step.name)}FormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submit${StringUtils.capitalize(step.name)}" 
               name="submit${StringUtils.capitalize(step.name)}" 
-              value="<g:message code='${namespaceAlias}.step.${step.name}.submitLabel'/>" />
+              value="\${message(code:'action.save')}" />
          </form>
 <%
   } 

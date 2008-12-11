@@ -27,13 +27,15 @@ import fr.cg95.cvq.business.request.social.${requestName}
 import fr.cg95.cvq.business.users.Address
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.I${requestName}Service
+import fr.cg95.cvq.service.request.IMeansOfContactService
 
 class ${requestName}Controller {
 
     ${requestName} ${namespaceAlias} 
     I${requestName}Service ${StringUtils.uncapitalize(requestName)}Service
     ILocalAuthorityRegistry localAuthorityRegistry
-    
+    IMeansOfContactService meansOfContactService
+
     def translationService
     
     def defaultAction = "edit"
@@ -59,7 +61,8 @@ class ${requestName}Controller {
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
             model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab,
                    translationService:translationService, help:getHelp(),
-                   documentTypes:getDocumentTypes()])
+                   documentTypes:getDocumentTypes(),
+                   meansOfContact:getMeansOfContact()])
     }
     
     <%
@@ -76,11 +79,23 @@ class ${requestName}Controller {
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
                model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab, 
                       translationService:translationService, help:getHelp(),
-                      documentTypes:getDocumentTypes()])
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     <%	
     	}
     %>
+    
+    def getMeansOfContact = {
+        def result = []
+        def meansOfContact = meansOfContactService.getCurrentEcitizenEnabledMeansOfContact()
+        meansOfContact.each {
+            result.add([
+                        key:it.type,
+                        label: message(code:"request.meansOfContact." + StringUtils.pascalToCamelCase(it.type.toString()))])
+        }
+        return result.sort {it.label}
+    }
     
     def getDocumentTypes = {
         def requestType = ${StringUtils.uncapitalize(requestName)}Service.getRequestTypeByLabel(${StringUtils.uncapitalize(requestName)}Service.getLabel())

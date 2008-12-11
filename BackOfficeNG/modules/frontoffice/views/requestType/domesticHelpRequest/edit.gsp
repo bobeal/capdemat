@@ -116,7 +116,7 @@
              <span><g:message code="dhr.step.subject.desc" /></span>
 
            </h3>
-           
+
             
             
               
@@ -301,13 +301,14 @@
               
             
            
+
            <div class="error" id="subjectFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitSubject" 
               name="submitSubject" 
-              value="<g:message code='dhr.step.subject.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
          
          <!-- navigation link -->
@@ -335,7 +336,7 @@
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
 
            </h3>
-           
+
             
             
               
@@ -393,13 +394,14 @@
               
             
            
+
            <div class="error" id="familyReferentFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitFamilyReferent" 
               name="submitFamilyReferent" 
-              value="<g:message code='dhr.step.familyReferent.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
          
          <!-- navigation link -->
@@ -428,7 +430,7 @@
              <span><g:message code="dhr.step.spouse.desc" /></span>
 
            </h3>
-           
+
             
             
               
@@ -543,10 +545,10 @@
                   <label>dhrIsSpouseRetired</label>
                   
                     
-          <ul class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ">
+          <ul class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ">
             <g:each in="${[true,false]}">
             <li>
-              <input type="radio" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
+              <input type="radio" class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
 	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
             </li>
             </g:each>
@@ -557,7 +559,7 @@
                   <label>dhrSpousePrincipalPensionPlan</label>
                   
                     
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
             <option value="">Choisissez...</option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrSpousePrincipalPensionPlan_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="${it}" /></option>
@@ -647,13 +649,14 @@
               
             
            
+
            <div class="error" id="spouseFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitSpouse" 
               name="submitSpouse" 
-              value="<g:message code='dhr.step.spouse.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
          
          <!-- navigation link -->
@@ -682,7 +685,7 @@
              <span><g:message code="dhr.step.dwelling.desc" /></span>
 
            </h3>
-           
+
             
             
               
@@ -769,13 +772,14 @@
               
             
            
+
            <div class="error" id="dwellingFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitDwelling" 
               name="submitDwelling" 
-              value="<g:message code='dhr.step.dwelling.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
          
          <!-- navigation link -->
@@ -804,7 +808,7 @@
              <span><g:message code="dhr.step.resources.desc" /></span>
 
            </h3>
-           
+
             
             
               
@@ -855,13 +859,14 @@
               
             
            
+
            <div class="error" id="resourcesFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitResources" 
               name="submitResources" 
-              value="<g:message code='dhr.step.resources.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
          
          <!-- navigation link -->
@@ -890,7 +895,7 @@
              <span><g:message code="dhr.step.taxes.desc" /></span>
 
            </h3>
-           
+
             
             
               
@@ -922,13 +927,14 @@
               
             
            
+
            <div class="error" id="taxesFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitTaxes" 
               name="submitTaxes" 
-              value="<g:message code='dhr.step.taxes.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
          
          <!-- navigation link -->
@@ -977,16 +983,23 @@
              <span><g:message code="request.step.validation.desc" /></span>
 
            </h3>
-           
-            
-           
+
+           <!-- render template of final summary -->
+             
+           <!-- render means of contact selection list -->
+           <select name="meansOfContact">
+             <g:each in="${meansOfContact}" var="moc">
+               <option value="${moc.key}">${moc.label}</option>
+             </g:each>
+           </select>
+
            <div class="error" id="validationRefFormErrors"> </div>
            
            <!-- Input submit-->
            <input type="button" 
               id="submitValidationRef" 
               name="submitValidationRef" 
-              value="<g:message code='dhr.step.validationRef.submitLabel'/>" />
+              value="${message(code:'action.save')}" />
          </form>
          
          <!-- navigation link -->
@@ -1038,7 +1051,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

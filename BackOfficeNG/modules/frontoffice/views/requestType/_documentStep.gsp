@@ -1,4 +1,3 @@
-<form method="POST" id="documentRefForm" action="${createLink(action:'validDocumentRef')}">
   <h3>
     <span class="tag-rejected"><g:message code="dhr.step.tag.rejected"/></span>
     <g:message code="request.step.document.label" />
@@ -20,7 +19,6 @@
   <input type="button" id="submitDocumentRef" name="submitDocumentRef" 
          value="${message(code:'action.save')}" />
 
-</form>
 
 
              

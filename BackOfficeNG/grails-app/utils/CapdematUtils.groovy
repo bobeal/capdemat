@@ -32,57 +32,110 @@ class CapdematUtils {
         return "request.actionLabel.${transformedLabel}"
     }
     
+    /**
+     * Temp static map of requests and groups, while this notion is not fully implemented. 
+     */
     public static requestGroup() {
-        return [
+        def requestGroupMap = [
             'school': [ 
-                'School Registration',
-                'Perischool Activity Registration',
-                'School Canteen Registration',
-                'Recreation Activity Registration'
+                'label' : 'Scolaire',
+                'requests': [
+                    'School Registration':[
+                        'link': 'School Registration'.replaceAll(' ','') + "Request"
+                    ],
+                    'Perischool Activity Registration':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'School Canteen Registration':[
+                        'link': 'School Canteen Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Recreation Activity Registration':[
+                        'link': 'Recreation Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'civil': [
-                'Death Details',
-                'Marriage Details',
-                'Birth Details',
-                'Personal Details',
-                'Military Census'
+            'civil': [ 
+                'label' : 'Etat Civil',
+                'requests': [
+                    'Death Details':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Marriage Details':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Birth Details':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Personal Details':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Military Census':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'social': [
-                'Domestic Help',
-                'Handicap Allowance',
-                'Remote Support'
+            'social': [ 
+                'label' : 'Social',
+                'requests': [
+                    'Domestic Help':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Handicap Allowance':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Remote Support':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'environment': [
-                'Bulky Waste Collection',
-                'Compostable Waste Collection'
+            'environment': [ 
+                'label' : 'Environnement',
+                'requests': [
+                    'Bulky Waste Collection':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Compostable Waste Collection':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'election': [
-                'Electoral Roll Registration'
+            'election': [ 
+                'label' : 'Election',
+                'requests': [
+                    'Electoral Roll Registration':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'security': [
-                'Holiday Security'
+            'security': [ 
+                'label' : 'Sécurité',
+                'requests': [
+                    'Holiday Security':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'leisure': [
-                'Sms Notification',
-                'Music School Registration'
+            'leisure': [ 
+                'label' : 'Loisirs',
+                'requests': [
+                    'Sms Notification':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                    'Music School Registration':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'culture': [
-                'Place Reservation', 
-                'Library Registration'
+            'culture': [ 
+                'label' : 'Culturel',
+                'requests': [
+                    'Place Reservation':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"], 
+                    'Library Registration':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'technical': [
-                'Technical Intervention'
+            'technical': [ 
+                'label' : 'Service technique',
+                'requests': [
+                    'Technical Intervention':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ],
-            'urbanism': [
-                'Sewer Connection',
-                'Alignment Certificate'
+            'urbanism': [ 
+                'label' : 'Urbanisme',
+                'requests': [
+                   'Sewer Connection':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
+                   'Alignment Certificate':[
+                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"]
+                ]
             ]
-//            ,
-//            'ecitizen' : [
-//                'VO Card Request',
-//                'Home Folder Modification'
-//            ]
         ]
 
+        return requestGroupMap
     }
 }

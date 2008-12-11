@@ -34,28 +34,7 @@
         </div>
       </div>
        
-      <div class="yui-g">
-        <div class="yui-u first">
-        
-        <g:each var="group" in="${groups}" status="i">
-          <div class="group-box">
-            <h3>${group.key}</h3>
-            <img style="float:left;padding:1em;" src="<g:createLinkTo dir="images/frontoffice" file="${group.key}.gif" />" />
-            <ul>
-              <g:each var="rtLabel" in="${group.value}">
-                <li><a href=""><g:translateRequestTypeLabel label="${rtLabel}"/></a></li>
-              </g:each>
-            </ul>
-          </div>
-          <g:if test="${(groups.size() - 2) / 2 < i }">  
-            </div>
-            <div class="yui-u">
-          </g:if>
-        </g:each>
-
-        </div> 
-        
-      </div>
+      <g:render template="/shared/services" />
 
   </body>
 </html>

@@ -75,7 +75,7 @@ class HomeController {
     }
     
     def login = {
-      return ['login': true, 'groups': CapdematUtils.requestGroup()]
+        return ['login': true, 'groups': CapdematUtils.requestGroup()]
     }
 
     def protected getTopFiveRequests = {

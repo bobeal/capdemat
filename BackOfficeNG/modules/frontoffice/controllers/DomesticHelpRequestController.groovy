@@ -1,129 +1,202 @@
 
 
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest
-import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
 import fr.cg95.cvq.business.users.Address
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
+import fr.cg95.cvq.service.request.IMeansOfContactService
 
 class DomesticHelpRequestController {
 
     DomesticHelpRequest dhr 
     IDomesticHelpRequestService domesticHelpRequestService
-   
+    ILocalAuthorityRegistry localAuthorityRegistry
+    IMeansOfContactService meansOfContactService
+
     def translationService
     
     def defaultAction = "edit"
     
     def currentTab = "tab1"
     
-    def beforeInterceptor = {
-        session["currentMenu"] = "request"
-    }
-    
     def edit = {
         if (dhr == null)
           dhr = new DomesticHelpRequest()
-        
-        dhr.setDhrGuardianAddress(new Address())
+dhr.setDhrGuardianAddress(new Address())
 dhr.setDhrReferentAddress(new Address())
 dhr.setDhrSpouseAddress(new Address())
 dhr.setDhrCurrentDwellingAddress(new Address())
 
-          
+
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-        	model:[dhr:dhr, currentTab:currentTab,translationService:translationService])
+            model:[dhr:dhr, currentTab:currentTab,
+                   translationService:translationService, help:getHelp(),
+                   documentTypes:getDocumentTypes(),
+                   meansOfContact:getMeansOfContact()])
     }
     
     
     def validSubject = {
-    	log.debug("validSubject - START")
-        
-		dhr = session["domesticHelpRequest"]
-		bind(dhr)
+        log.debug("validSubject - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
         currentTab = getCurrentTab(params)
-          
-		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     
     def validFamilyReferent = {
-    	log.debug("validFamilyReferent - START")
-        
-		dhr = session["domesticHelpRequest"]
-		bind(dhr)
+        log.debug("validFamilyReferent - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
         currentTab = getCurrentTab(params)
-          
-		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     
     def validSpouse = {
-    	log.debug("validSpouse - START")
-        
-		dhr = session["domesticHelpRequest"]
-		bind(dhr)
+        log.debug("validSpouse - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
         currentTab = getCurrentTab(params)
-          
-		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     
     def validDwelling = {
-    	log.debug("validDwelling - START")
-        
-		dhr = session["domesticHelpRequest"]
-		bind(dhr)
+        log.debug("validDwelling - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
         currentTab = getCurrentTab(params)
-          
-		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     
     def validResources = {
-    	log.debug("validResources - START")
-        
-		dhr = session["domesticHelpRequest"]
-		bind(dhr)
+        log.debug("validResources - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
         currentTab = getCurrentTab(params)
-          
-		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     
     def validTaxes = {
-    	log.debug("validTaxes - START")
-        
-		dhr = session["domesticHelpRequest"]
-		bind(dhr)
+        log.debug("validTaxes - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
         currentTab = getCurrentTab(params)
-          
-		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     
     def validDocumentRef = {
-    	log.debug("validDocumentRef - START")
-        
-		dhr = session["domesticHelpRequest"]
-		bind(dhr)
+        log.debug("validDocumentRef - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
         currentTab = getCurrentTab(params)
-          
-		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     
     def validValidationRef = {
-    	log.debug("validValidationRef - START")
-        
-		dhr = session["domesticHelpRequest"]
-		bind(dhr)
+        log.debug("validValidationRef - START")
+        dhr = session["domesticHelpRequest"]
+        bind(dhr)
         currentTab = getCurrentTab(params)
-          
-		session["domesticHelpRequest"] = dhr
-        render(view:"frontofficeRequestType/domesticHelpRequest/edit", model:[dhr:dhr, currentTab:currentTab, translationService:translationService])
+
+        session["domesticHelpRequest"] = dhr
+        render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
+               model:[dhr:dhr, currentTab:currentTab, 
+                      translationService:translationService, help:getHelp(),
+                      documentTypes:getDocumentTypes(),
+                      meansOfContact:getMeansOfContact()])
     }
     
     
+    def getMeansOfContact = {
+        def result = []
+        def meansOfContact = meansOfContactService.getCurrentEcitizenEnabledMeansOfContact()
+        meansOfContact.each {
+            result.add([
+                        key:it.type,
+                        label: message(code:"request.meansOfContact." + StringUtils.pascalToCamelCase(it.type.toString()))])
+        }
+        return result.sort {it.label}
+    }
+    
+    def getDocumentTypes = {
+        def requestType = domesticHelpRequestService.getRequestTypeByLabel(domesticHelpRequestService.getLabel())
+        def documentTypes = domesticHelpRequestService.getAllowedDocuments(requestType.getId())
+        def result = [:]
+        documentTypes.each {
+            result[it.id] = CapdematUtils.adaptDocumentTypeName(it.name)
+        }
+        return result
+    }
+    
+    def getHelp = {
+        def steps = []
+
+        steps.add("subject")
+
+        steps.add("familyReferent")
+
+        steps.add("spouse")
+
+        steps.add("dwelling")
+
+        steps.add("resources")
+
+        steps.add("taxes")
+
+        steps.add("documentRef")
+
+        steps.add("validationRef")
+
+        def help = [:]
+        steps.each {
+            help[it] = localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelp("domesticHelpRequest",it)
+        }
+
+        return help
+    }
     
     def getCurrentTab = { currentTab ->
 	

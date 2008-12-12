@@ -32,6 +32,7 @@ import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.util.localization.ILocalizationService;
@@ -187,9 +188,9 @@ public class CertificateService implements ICertificateService {
 
                 transformer.setParameter("localAuthorityName",
                         localAuthorityRegistry.getAssetsBase()
-                        + localAuthorityRegistry.getCurrentLocalAuthorityName().toLowerCase());
+                        + SecurityContext.getCurrentConfigurationBean().getName().toLowerCase());
                 transformer.setParameter("friendlyLocalAuthorityName",
-                        localAuthorityRegistry.getCurrentLocalAuthorityBean().getDisplayTitle());
+                        SecurityContext.getCurrentConfigurationBean().getDisplayTitle());
                 transformer.setParameter("localizationService", localizationService);
                 
                 File logoFile = 

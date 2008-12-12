@@ -41,9 +41,9 @@ public class RequestBo {
         return steps;
     }
     public void setSteps(List<Step> steps) {
-        this.steps = steps;
+        this.steps = new ArrayList<Step>(steps);
         
-        for (Iterator<Step> it = steps.iterator(); it.hasNext();) {
+        for (Iterator<Step> it = this.steps.iterator(); it.hasNext();) {
             if (it.next().getName() == null)
                 it.remove();
         }
@@ -119,6 +119,19 @@ public class RequestBo {
                     afters.add(after);
             }
         }
+    }
+    
+    // i18n
+    private Map<String,Map<String,String>> i18nLabels = new HashMap<String, Map<String,String>>();
+
+    public Map<String, Map<String,String>> getI18nLabels() {
+        return i18nLabels;
+    }
+    
+    public void addI18nLabel(String lang, String descType, String label) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(descType, label);
+        i18nLabels.put(lang, map);
     }
     
 }

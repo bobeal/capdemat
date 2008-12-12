@@ -13,7 +13,7 @@
      <!-- header -->
      <div id="hd">
        <h1>
-         <img src="${createLinkTo(dir:'fong/images/',file:'logo_zen_200.png')}" alt="Zenexity Lab" />
+         <img src="${createLinkTo(dir:'images/frontoffice',file:'logo_zen_200.png')}" alt="Zenexity Lab" />
          <span>CapDémat - FrontOffice NG</span>
        </h1>
        <map id="hd-menu">

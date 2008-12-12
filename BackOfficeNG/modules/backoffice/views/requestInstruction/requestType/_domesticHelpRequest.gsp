@@ -8,15 +8,23 @@
     </li>
   
     <li>
-      <a href="#page1"><em><g:message code="dhr.step.dwelling.label" /></em></a>
+      <a href="#page1"><em><g:message code="dhr.step.familyReferent.label" /></em></a>
     </li>
   
     <li>
-      <a href="#page2"><em><g:message code="dhr.step.resources.label" /></em></a>
+      <a href="#page2"><em><g:message code="dhr.step.spouse.label" /></em></a>
     </li>
   
     <li>
-      <a href="#page3"><em><g:message code="dhr.step.taxes.label" /></em></a>
+      <a href="#page3"><em><g:message code="dhr.step.dwelling.label" /></em></a>
+    </li>
+  
+    <li>
+      <a href="#page4"><em><g:message code="dhr.step.resources.label" /></em></a>
+    </li>
+  
+    <li>
+      <a href="#page5"><em><g:message code="dhr.step.taxes.label" /></em></a>
     </li>
   
   </ul>
@@ -35,52 +43,16 @@
           <div class="yui-u first">
             
               
-              <dl>
-                <dt class="required condition-isCoupleRequest-trigger"><g:message code="dhr.property.dhrRequestKind.label" /> : </dt>
-                <dd id="dhrRequestKind" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequestKind javatype-fr.cg95.cvq.business.request.social.DhrRequestKindType" >
-                  <g:capdematEnumToField var="${request.dhrRequestKind}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
-                </dd>
-              </dl>
-              
-            
-              
-              <h3><g:message code="dhr.property.dhrFamilyReferent.label" /></h3>
-              <dl class="required">
-                
-                  <dt class="required condition-haveFamilyReferent-trigger"><g:message code="dhr.property.dhrHaveFamilyReferent.label" /> : </dt>
-                  <dd id="dhrHaveFamilyReferent" class="action-editField validate-boolean required-true i18n-dhr.property.dhrHaveFamilyReferent" >
-                    <span>${request.dhrHaveFamilyReferent}</span>
-                  </dd>
-                
-                  <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> : </dt>
-                  <dd id="dhrReferentName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrReferentName" >
-                    <span>${request.dhrReferentName}</span>
-                  </dd>
-                
-                  <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentFirstName.label" /> : </dt>
-                  <dd id="dhrReferentFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrReferentFirstName" >
-                    <span>${request.dhrReferentFirstName}</span>
-                  </dd>
-                
-                  <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentAddress.label" /> : </dt>
-                  <dd id="dhrReferentAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrReferentAddress" >
-                    <div><p class="additionalDeliveryInformation">${request.dhrReferentAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrReferentAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrReferentAddress.streetNumber}</span> <span class="streetName">${request.dhrReferentAddress.streetName}</span><p class="placeNameOrService">${request.dhrReferentAddress.placeNameOrService}</p><span class="postalCode">${request.dhrReferentAddress.postalCode}</span><span class="city">${request.dhrReferentAddress.city}</span><p class="countryName">${request.dhrReferentAddress.countryName}</p></div>
-                  </dd>
-                
-              </dl>
-              
-            
-              
               <h3><g:message code="dhr.property.dhrRequester.label" /></h3>
               <dl class="required">
                 
                   <dt class="required condition-isMadam-trigger"><g:message code="dhr.property.dhrRequesterTitle.label" /> : </dt>
-                  <dd id="dhrRequesterTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterTitle javatype-fr.cg95.cvq.business.request.social.DhrTitleType" >
+                  <dd id="dhrRequesterTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterTitle javatype-fr.cg95.cvq.business.request.social.TitleType" >
                     <g:capdematEnumToField var="${request.dhrRequesterTitle}" i18nKeyPrefix="dhr.property.dhrRequesterTitle" />
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrRequesterFamilyStatus.label" /> : </dt>
-                  <dd id="dhrRequesterFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterFamilyStatus javatype-fr.cg95.cvq.business.request.social.DhrFamilyStatusType" >
+                  <dd id="dhrRequesterFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterFamilyStatus javatype-fr.cg95.cvq.business.request.social.FamilyStatusType" >
                     <g:capdematEnumToField var="${request.dhrRequesterFamilyStatus}" i18nKeyPrefix="dhr.property.dhrRequesterFamilyStatus" />
                   </dd>
                 
@@ -110,7 +82,7 @@
                   </dd>
                 
                   <dt class="required condition-isNonEuropean-trigger"><g:message code="dhr.property.dhrRequesterNationality.label" /> : </dt>
-                  <dd id="dhrRequesterNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterNationality javatype-fr.cg95.cvq.business.request.social.DhrNationalityType" >
+                  <dd id="dhrRequesterNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterNationality javatype-fr.cg95.cvq.business.request.social.NationalityType" >
                     <g:capdematEnumToField var="${request.dhrRequesterNationality}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" />
                   </dd>
                 
@@ -182,17 +154,142 @@
               </dl>
               
             
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- step test end -->
+        
+    </div>
+    <!-- step end -->
+    
+    <!-- step start -->
+    <div id="page1">
+      <h2><g:message code="property.form" />
+        <span><g:message code="dhr.step.familyReferent.label" /></span>
+      </h2>
+        
+        <div class="yui-g">
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <h3><g:message code="dhr.property.dhrFamilyReferent.label" /></h3>
+              <dl class="required">
+                
+                  <dt class="required condition-haveFamilyReferent-trigger"><g:message code="dhr.property.dhrHaveFamilyReferent.label" /> : </dt>
+                  <dd id="dhrHaveFamilyReferent" class="action-editField validate-boolean required-true i18n-dhr.property.dhrHaveFamilyReferent" >
+                    <span>${request.dhrHaveFamilyReferent}</span>
+                  </dd>
+                
+                  <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> : </dt>
+                  <dd id="dhrReferentName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrReferentName" >
+                    <span>${request.dhrReferentName}</span>
+                  </dd>
+                
+                  <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentFirstName.label" /> : </dt>
+                  <dd id="dhrReferentFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrReferentFirstName" >
+                    <span>${request.dhrReferentFirstName}</span>
+                  </dd>
+                
+                  <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentAddress.label" /> : </dt>
+                  <dd id="dhrReferentAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrReferentAddress" >
+                    <div><p class="additionalDeliveryInformation">${request.dhrReferentAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrReferentAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrReferentAddress.streetNumber}</span> <span class="streetName">${request.dhrReferentAddress.streetName}</span><p class="placeNameOrService">${request.dhrReferentAddress.placeNameOrService}</p><span class="postalCode">${request.dhrReferentAddress.postalCode}</span><span class="city">${request.dhrReferentAddress.city}</span><p class="countryName">${request.dhrReferentAddress.countryName}</p></div>
+                  </dd>
+                
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- step test end -->
+        
+    </div>
+    <!-- step end -->
+    
+    <!-- step start -->
+    <div id="page2">
+      <h2><g:message code="property.form" />
+        <span><g:message code="dhr.step.spouse.label" /></span>
+      </h2>
+        
+        <div class="yui-g">
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class="required condition-isCoupleRequest-trigger"><g:message code="dhr.property.dhrRequestKind.label" /> : </dt>
+                <dd id="dhrRequestKind" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequestKind javatype-fr.cg95.cvq.business.request.social.DhrRequestKindType" >
+                  <g:capdematEnumToField var="${request.dhrRequestKind}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
+                </dd>
+              </dl>
+              
+            
+              
+              <h3><g:message code="dhr.property.dhrSpouseIncomes.label" /></h3>
+              <dl class="condition-isCoupleRequest-filled">
+                
+                  <dt class=""><g:message code="dhr.property.pensions.label" /> : </dt>
+                  <dd id="pensions" class="action-editField validate-positiveInteger i18n-dhr.property.pensions" >
+                    <span>${request.pensions}</span>
+                  </dd>
+                
+                  <dt class=""><g:message code="dhr.property.dhrAllowances.label" /> : </dt>
+                  <dd id="dhrAllowances" class="action-editField validate-positiveInteger i18n-dhr.property.dhrAllowances" >
+                    <span>${request.dhrAllowances}</span>
+                  </dd>
+                
+                  <dt class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /> : </dt>
+                  <dd id="dhrFurnitureInvestmentIncome" class="action-editField validate-positiveInteger i18n-dhr.property.dhrFurnitureInvestmentIncome" >
+                    <span>${request.dhrFurnitureInvestmentIncome}</span>
+                  </dd>
+                
+                  <dt class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /> : </dt>
+                  <dd id="dhrRealEstateInvestmentIncome" class="action-editField validate-positiveInteger i18n-dhr.property.dhrRealEstateInvestmentIncome" >
+                    <span>${request.dhrRealEstateInvestmentIncome}</span>
+                  </dd>
+                
+                  <dt class=""><g:message code="dhr.property.dhrNetIncome.label" /> : </dt>
+                  <dd id="dhrNetIncome" class="action-editField validate-positiveInteger i18n-dhr.property.dhrNetIncome" >
+                    <span>${request.dhrNetIncome}</span>
+                  </dd>
+                
+                  <dt class="required"><g:message code="dhr.property.dhrIncomesAnnualTotal.label" /> : </dt>
+                  <dd id="dhrIncomesAnnualTotal" class="action-editField validate-positiveInteger required-true i18n-dhr.property.dhrIncomesAnnualTotal" >
+                    <span>${request.dhrIncomesAnnualTotal}</span>
+                  </dd>
+                
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
               
               <h3><g:message code="dhr.property.dhrSpouse.label" /></h3>
               <dl class="required condition-isCoupleRequest-filled">
                 
                   <dt class="required condition-isSpouseMadam-trigger"><g:message code="dhr.property.dhrSpouseTitle.label" /> : </dt>
-                  <dd id="dhrSpouseTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseTitle javatype-fr.cg95.cvq.business.request.social.DhrTitleType" >
+                  <dd id="dhrSpouseTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseTitle javatype-fr.cg95.cvq.business.request.social.TitleType" >
                     <g:capdematEnumToField var="${request.dhrSpouseTitle}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" />
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> : </dt>
-                  <dd id="dhrSpouseFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseFamilyStatus javatype-fr.cg95.cvq.business.request.social.DhrFamilyStatusType" >
+                  <dd id="dhrSpouseFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseFamilyStatus javatype-fr.cg95.cvq.business.request.social.FamilyStatusType" >
                     <g:capdematEnumToField var="${request.dhrSpouseFamilyStatus}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" />
                   </dd>
                 
@@ -222,7 +319,7 @@
                   </dd>
                 
                   <dt class="required condition-isSpouseNonEuropean-trigger"><g:message code="dhr.property.dhrSpouseNationality.label" /> : </dt>
-                  <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.request.social.DhrNationalityType" >
+                  <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.request.social.NationalityType" >
                     <g:capdematEnumToField var="${request.dhrSpouseNationality}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" />
                   </dd>
                 
@@ -243,12 +340,12 @@
               <h3><g:message code="dhr.property.dhrSpouseStatus.label" /></h3>
               <dl class="required condition-isCoupleRequest-filled">
                 
-                  <dt class="required condition-isSpouseRetired-trigger condition-isSpouseOtherPensionPlan-trigger"><g:message code="dhr.property.dhrIsSpouseRetired.label" /> : </dt>
+                  <dt class="required condition-isSpouseOtherPensionPlan-trigger condition-isSpouseRetired-trigger"><g:message code="dhr.property.dhrIsSpouseRetired.label" /> : </dt>
                   <dd id="dhrIsSpouseRetired" class="action-editField validate-boolean required-true i18n-dhr.property.dhrIsSpouseRetired" >
                     <span>${request.dhrIsSpouseRetired}</span>
                   </dd>
                 
-                  <dt class="required condition-isSpouseRetired-filled condition-isSpouseOtherPensionPlan-trigger"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>
+                  <dt class="required condition-isSpouseOtherPensionPlan-trigger condition-isSpouseRetired-filled"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>
                   <dd id="dhrSpousePrincipalPensionPlan" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpousePrincipalPensionPlan javatype-fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType" >
                     <g:capdematEnumToField var="${request.dhrSpousePrincipalPensionPlan}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" />
                   </dd>
@@ -291,7 +388,7 @@
     <!-- step end -->
     
     <!-- step start -->
-    <div id="page1">
+    <div id="page3">
       <h2><g:message code="property.form" />
         <span><g:message code="dhr.step.dwelling.label" /></span>
       </h2>
@@ -398,7 +495,7 @@
     <!-- step end -->
     
     <!-- step start -->
-    <div id="page2">
+    <div id="page4">
       <h2><g:message code="property.form" />
         <span><g:message code="dhr.step.resources.label" /></span>
       </h2>
@@ -411,43 +508,6 @@
               
               <h3><g:message code="dhr.property.dhrRequesterIncomes.label" /></h3>
               <dl class="required">
-                
-                  <dt class=""><g:message code="dhr.property.pensions.label" /> : </dt>
-                  <dd id="pensions" class="action-editField validate-positiveInteger i18n-dhr.property.pensions" >
-                    <span>${request.pensions}</span>
-                  </dd>
-                
-                  <dt class=""><g:message code="dhr.property.dhrAllowances.label" /> : </dt>
-                  <dd id="dhrAllowances" class="action-editField validate-positiveInteger i18n-dhr.property.dhrAllowances" >
-                    <span>${request.dhrAllowances}</span>
-                  </dd>
-                
-                  <dt class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /> : </dt>
-                  <dd id="dhrFurnitureInvestmentIncome" class="action-editField validate-positiveInteger i18n-dhr.property.dhrFurnitureInvestmentIncome" >
-                    <span>${request.dhrFurnitureInvestmentIncome}</span>
-                  </dd>
-                
-                  <dt class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /> : </dt>
-                  <dd id="dhrRealEstateInvestmentIncome" class="action-editField validate-positiveInteger i18n-dhr.property.dhrRealEstateInvestmentIncome" >
-                    <span>${request.dhrRealEstateInvestmentIncome}</span>
-                  </dd>
-                
-                  <dt class=""><g:message code="dhr.property.dhrNetIncome.label" /> : </dt>
-                  <dd id="dhrNetIncome" class="action-editField validate-positiveInteger i18n-dhr.property.dhrNetIncome" >
-                    <span>${request.dhrNetIncome}</span>
-                  </dd>
-                
-                  <dt class="required"><g:message code="dhr.property.dhrIncomesAnnualTotal.label" /> : </dt>
-                  <dd id="dhrIncomesAnnualTotal" class="action-editField validate-positiveInteger required-true i18n-dhr.property.dhrIncomesAnnualTotal" >
-                    <span>${request.dhrIncomesAnnualTotal}</span>
-                  </dd>
-                
-              </dl>
-              
-            
-              
-              <h3><g:message code="dhr.property.dhrSpouseIncomes.label" /></h3>
-              <dl class="">
                 
                   <dt class=""><g:message code="dhr.property.pensions.label" /> : </dt>
                   <dd id="pensions" class="action-editField validate-positiveInteger i18n-dhr.property.pensions" >
@@ -581,7 +641,7 @@
     <!-- step end -->
     
     <!-- step start -->
-    <div id="page3">
+    <div id="page5">
       <h2><g:message code="property.form" />
         <span><g:message code="dhr.step.taxes.label" /></span>
       </h2>

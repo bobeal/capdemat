@@ -26,9 +26,7 @@ h2.request-creation {
   font-size: .75em;
 }
 
-#requestTabView h3 .tag-pending,
-#requestTabView h3 .tag-validated,
-#requestTabView h3 .tag-rejected {
+#requestTabView h3 .tag-state {
   float: right;
 }
  
@@ -59,7 +57,7 @@ h2.request-creation {
   width: 80%;
   display: block;
   margin: .1em 0 1em 0;
-  padding: .2em;
+  padding: .1em;
   border: 1px solid #cdcdcd;
   border-top-color: #7fa646;
   font-size: 1.1em;
@@ -69,11 +67,12 @@ h2.request-creation {
 
 #requestTabView form ul{
   width: 80%;
-  margin: .2em 0 1em 0;
+  margin: .2em 0 .5em 0;
 }
 #requestTabView form li {
   padding: .2em 0;
   list-style-type: none;
+  display: inline;
 }
 
 #requestTabView form  li label,
@@ -104,11 +103,11 @@ h2.request-creation {
 }
 
 #requestTabView fieldset {
-  padding: 1em 0 0 1em;
+  margin: 0 0 .5em 0; padding: 1em 0 0 1em;
   border-left: 3px solid #A0D158;
 }
 #requestTabView legend {
-  margin-top: 1em !important; 
+  margin-top: .5em !important; 
   font-size: 1.3em;
   font-weight: bold;
   color: #7fa646;
@@ -116,6 +115,35 @@ h2.request-creation {
 
 .mandatoryField { background: #E6F5BD;}
 
+#requestTabView .address-fieldset {
+  width: 80%;
+  margin: 0 0 1em; padding: .5em;
+  border: 1px dashed #A0D158;
+  font-size: .9em;
+}
+#requestTabView .address-fieldset input { width: 99%; margin: 0; padding: .1em; }
+#requestTabView .address-fieldset label { margin-top: .5em; color: #333; }
+#requestTabView .address-fieldset input.line1 { display: inline; width: 15%; }
+#requestTabView .address-fieldset input.line2 { display: inline; width: 82%; }
+
+
+
+/* request help
+--------------------------------------------------------------*/
+
+.requestHelp {
+  margin: .2em 0 0 0em;
+  padding: 1em 1.5em;
+  background: #dddddd ;
+  border-top: 1px solid black;
+}
+
+#requestTabView .requestHelp h3 {
+  margin: 0 0 .5em 0;
+  font-size: 1.6em;
+  font-weight: normal;
+  border-bottom: 1px solid #C690BB;
+}
 
 /* styles copied from MVE SVN commit
 --------------------------------------------------------------*/

@@ -118,13 +118,13 @@ public class DomesticHelpRequestService extends RequestService implements
     }
     
     public boolean checkIsMadam(final Map<String,String> inputs){
-        if (inputs.get("dhrRequesterTitle").equals("fr.cg95.cvq.business.request.social.DhrTitleType_Madam"))
+        if (inputs.get("dhrRequesterTitle").equals("fr.cg95.cvq.business.users.TitleType_Madam"))
             return true;
         return false;
     }
     
     public boolean checkIsNonEuropean(final Map<String,String> inputs){
-        if (inputs.get("dhrRequesterNationality").equals("fr.cg95.cvq.business.request.social.DhrNationalityType_NonEU"))
+        if (inputs.get("dhrRequesterNationality").equals("fr.cg95.cvq.business.users.NationalityType_OutsideEuropeanUnion"))
             return true;
         return false;
     }
@@ -142,13 +142,13 @@ public class DomesticHelpRequestService extends RequestService implements
     }
     
     public boolean checkIsSpouseMadam(final Map<String,String> inputs){
-        if (inputs.get("dhrSpouseTitle").equals("fr.cg95.cvq.business.request.social.DhrTitleType_Madam"))
+        if (inputs.get("dhrSpouseTitle").equals("fr.cg95.cvq.business.users.TitleType_Madam"))
             return true;
         return false;
     }
     
     public boolean checkIsSpouseNonEuropean(final Map<String,String> inputs){
-        if (inputs.get("dhrSpouseNationality").equals("fr.cg95.cvq.business.request.social.DhrNationalityType_NonEU"))
+        if (inputs.get("dhrSpouseNationality").equals("fr.cg95.cvq.business.users.NationalityType_OutsideEuropeanUnion"))
             return true;
         return false;
     }
@@ -169,13 +169,13 @@ public class DomesticHelpRequestService extends RequestService implements
     }
     
     public boolean checkIsCurrentDwellingPlaceOfResidence(final Map<String,String> inputs){
-        if (inputs.get("dhrCurrentDwellingKind").equals("fr.cg95.cvq.business.request.social.DhrDwellingKindType_placeOfRecidence"))
+        if (inputs.get("dhrCurrentDwellingKind").equals("fr.cg95.cvq.business.request.social.DhrDwellingKindType_placeOfResidence"))
             return true;
         return false;
     }
     
     public boolean checkIsPreviousDwellingPlaceOfResidence(final Map<String,String> inputs){
-        if (inputs.get("dhrPreviousDwellingKind").equals("fr.cg95.cvq.business.request.social.DhrDwellingKindType_placeOfRecidence"))
+        if (inputs.get("dhrPreviousDwellingKind").equals("fr.cg95.cvq.business.request.social.DhrDwellingKindType_placeOfResidence"))
             return true;
         return false;
     }

@@ -28,7 +28,7 @@
           <ul class="${element.condition}">
             <g:each in="\${${element.enumValuesAsString}}">
             <li>
-              <input type="radio" class="${element.condition} ${element.validation}" title="" value="${element.modelNamespace}.${element.name}_\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}.toString() ? 'checked="checked"': ''} />
+              <input type="radio" class="${element.condition} ${element.validation}" title="" value="${element.modelNamespace}.${element.javaType}_\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}.toString() ? 'checked="checked"': ''} />
 	            <g:message code="${i18nPrefix}.${element.javaName}.\${it}" />  
             </li>
             </g:each>
@@ -39,7 +39,7 @@
           <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="\${${element.enumValuesAsString}}">
-              <option value="${element.modelNamespace}.${element.name}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'selected="selected"': ''}><g:message code="${i18nPrefix}.${element.javaName}.\${it}" /></option>
+              <option value="${element.modelNamespace}.${element.javaType}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'selected="selected"': ''}><g:message code="${i18nPrefix}.${element.javaName}.\${it}" /></option>
             </g:each>
           </select>
           """
@@ -50,7 +50,7 @@
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalDeliveryInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalDeliveryInformation"/>  
           <label><g:message code="address.property.additionalGeographicalInformation" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalGeographicalInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalGeographicalInformation"/>
-          <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /><</label>
+          <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
           <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetNumber}" maxlength="5" name="${wrapper}${element.javaName}.streetNumber"/>
           <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetName}" maxlength="32" name="${wrapper}${element.javaName}.streetName"/>
           <label><g:message code="address.property.placeNameOrService" /></label>
@@ -161,18 +161,17 @@
     } else {
 %>
             <% step.elementList.each { element -> %>
-            
               <% if (element.xmlSchemaType == "AddressType") { %>
-                <label><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
+                <label class="${element.condition}"><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
                 <% displayWidget(element, "AddressType", "") %>
               <% } else if (element.class.simpleName == 'OneToManyElement') { %>
-                <label><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
+                <label class="${element.condition}"><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
                 <pre>TODO -> ON TO MANY</pre>
               <% } else if(element.class.simpleName == 'FieldsetElement') { %>
-                <fieldset>
+                <fieldset class="${element.condition}">
                 <legend><g:message code="${i18nPrefix}.${element.javaName}.label" /></legend>
                 <% element.elementList.each { subElement -> %>
-                  <label><g:message code="${i18nPrefix}.${subElement.javaName}.label" /> <span><g:message code="${i18nPrefix}.${subElement.javaName}.help" /></span></label>
+                  <label class="${subElement.condition}"><g:message code="${i18nPrefix}.${subElement.javaName}.label" /> <span><g:message code="${i18nPrefix}.${subElement.javaName}.help" /></span></label>
                   <% if (subElement.xmlSchemaType == "AddressType") { %>
                     <% displayWidget(subElement, "AddressType", "") %>
                   <% } else { %>
@@ -181,7 +180,7 @@
                 <% } %>
                 </fieldset>
               <% } else { %>
-                <label><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
+                <label class="${element.condition}"><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
                 <% displayWidget(element, element.class.simpleName, "") %>
               <% } %>
               

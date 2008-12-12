@@ -212,8 +212,12 @@ public class FoPlugin implements IPluginGenerator {
         }
         
         // HACK for enumeraation managment
-        if(!currentSimpleFoElementsStack.isEmpty())
+        if(!currentSimpleFoElementsStack.isEmpty()) {
             currentSimpleFoElementsStack.peek().getElement().setEnumValues(elementProperties.getEnumValues());
+            currentSimpleFoElementsStack.peek().getElement().setJavaType(elementProperties.getXmlSchemaType());
+            if (elementProperties.isReferentialType())
+                currentSimpleFoElementsStack.peek().getElement().setModelNamespace(MODEL_USERS_NS);
+        }
     }
 
 	public void endElementProperties() {

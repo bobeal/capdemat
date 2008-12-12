@@ -4,8 +4,8 @@
   </head>
   
   <body>
+    <h2 class="individual-header">${individual.firstName} ${individual.lastName}</h2>
     <div class="main-box individual-detail">
-      <h2>${individual.firstName} ${individual.lastName}</h2>
       <g:if test="${isChild}">
         <g:render template="childDetail" 
           model="[child:individual,roles:roles]"/>

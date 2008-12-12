@@ -177,7 +177,7 @@ input, textarea, select {
   border:1px solid #000;
   background-color:#FFFFFF;
   border: 1px solid #cdcdcd;
-    border-top-color: #7fa646;
+  border-top-color: #7fa646;
 }
 
 .validation-failed { /* for textboxes, textareas, passwords */

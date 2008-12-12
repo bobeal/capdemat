@@ -1,0 +1,101 @@
+html { 
+  background-color: #FFFFFF !important; 
+}
+
+#hd #hd-menu a,
+#main-menu a:hover, #main-menu a.current,
+#main-menu a.current span, #main-menu a:hover span,
+#bd,
+.list-box h2,
+.main-box h2,
+.group-box h3,
+.individual-detail h3 { 
+  background-color: #b6aca5 !important;
+}
+
+#hd h1,
+.list-box p.paginator a {
+  color: #b6aca5 !important;
+}
+
+#main-menu a:hover,
+#main-menu a.current { 
+  border-color: #b6aca5 !important;
+}
+
+.individual-detail h2,
+.list-box p.see-all a {
+  color: #FF812B !important;
+}
+
+.list-box p.see-all a:hover, 
+.list-box p.paginator a:hover {
+  color: #FFFFFF !important;
+}
+
+.list-box h2,
+.nobox h3, .nobox li {
+  border-bottom-color: #FF812B !important;
+}
+
+#hd #hd-menu a:hover,
+#main-menu a, #main-menu a span,
+.requestBox h3,
+.list-box p.see-all a:hover, 
+.list-box p.paginator a:hover,
+.list-box p.paginator span.currentStep,
+.login-box a:hover,
+.group-box a:hover,
+.mandatory {
+  background-color: #FF812B !important;
+}
+
+h2,
+.main-box h2,
+.list-box h2,
+.group-box h3,
+.login-box a,
+.individual-detail h3 { 
+  color: #FFFFFF !important; 
+}
+
+.requestBox .body {
+  background-color: #FFFFFF !important;
+}
+
+.group-box h3,
+.login-box,
+.main-box h2,
+#requestTabView .requestHelp h3,
+.individual-detail h3, .individual-detail dl {
+  border-bottom-color: #FF812B !important;
+}
+
+.individual dl,
+.login-box form input,
+.individual-detail dl dt, .individual-detail dl dd  {
+  border-top-color: #FF812B !important;
+}
+
+.yui-skin-fong .yui-navset .yui-nav a, .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
+  color: #FFFFFF !important;
+  background-color: #FF812B !important;
+}
+
+.yui-skin-fong .yui-navset .yui-nav .selected a, .yui-skin-fong .yui-navset .yui-nav .selected a:focus, .yui-skin-fong .yui-navset .yui-nav .selected a:hover {
+  background-color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+#requestTabView h3 {
+  border-bottom-color: #FF812B !important;
+}
+
+#requestTabView legend {
+  color: #FF812B !important;
+}
+
+#requestTabView fieldset {
+  border-left-color: #FF812B !important;
+}

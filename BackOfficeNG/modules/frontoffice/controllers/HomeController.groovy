@@ -54,9 +54,9 @@ class HomeController {
         def error = '', result
         if(request.post) {
             try { result = authenticationService.authenticate(params.login,params.password) } 
-            catch (CvqUnknownUserException e) {error='message.unknownUser'}
-            catch (CvqAuthenticationFailedException e) {error='message.authenticationFailed'}
-            catch (CvqDisabledAccountException e) {error='message.disabledAccount'}
+            catch (CvqUnknownUserException e) {error='error.unknownUser'}
+            catch (CvqAuthenticationFailedException e) {error='error.authenticationFailed'}
+            catch (CvqDisabledAccountException e) {error='error.disabledAccount'}
             
             if(result && result instanceof HomeFolder) { 
                 session.currentUser = params.login

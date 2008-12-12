@@ -138,7 +138,9 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 
 .hidden { display: none; }
 
-
+.login-error { 
+  color: red;
+}
 
 /* login box
 --------------------------------------------------------------*/
@@ -157,6 +159,13 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
   padding: .2em;
   border: 0; border-top: 3px solid #c690bb;
   font-size: 1.1em; font-weight: normal;
+}
+
+.login-box form input[type="submit"] {
+  width: auto;
+  margin-top: .5em;
+  border: 1px solid #cccccc;
+  -moz-border-radius: .3em;
 }
 
 .login-box a       { color: #c690bb; }

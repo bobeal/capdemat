@@ -99,3 +99,7 @@ h2,
 #requestTabView fieldset {
   border-left-color: #FF812B !important;
 }
+
+.login-box form input[type="submit"] {
+  border-color: #FF812B;
+}

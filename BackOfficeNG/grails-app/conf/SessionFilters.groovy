@@ -55,7 +55,7 @@ class SessionFilters {
             setupFrontUser(controller:'frontoffice*',action:'*') {
                 before = {
                     try {
-                        if(!session?.currentUser) {
+                        if(!session.currentUser) {
                             if(actionName != 'login') 
                                 redirect (controller:'frontofficeHome',action:'login')
                         } else {

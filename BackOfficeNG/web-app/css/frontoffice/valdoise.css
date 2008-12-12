@@ -100,6 +100,10 @@ h2,
   border-left-color: #FF812B !important;
 }
 
+#requestTabView input, #requestTabView select, #requestTabView textarea {
+  border-top-color: #FF812B !important;
+}
+
 .login-box form input[type="submit"] {
   border-color: #FF812B;
 }

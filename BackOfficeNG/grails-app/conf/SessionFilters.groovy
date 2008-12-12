@@ -55,8 +55,13 @@ class SessionFilters {
             setupFrontUser(controller:'frontoffice*',action:'*') {
                 before = {
                     try {
-                        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
-                        SecurityContext.setCurrentEcitizen("benjamin.legrand")
+                        if(!session?.currentUser) {
+                            if(actionName != 'login') 
+                                redirect (controller:'frontofficeHome',action:'login')
+                        } else {
+                            SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
+                            SecurityContext.setCurrentEcitizen(session.currentUser)
+                        }
                     } catch (CvqException ce) {
                         ce.printStackTrace()
                         throw new ServletException()

@@ -9,13 +9,15 @@
         <div class="yui-u first">
           <h2>Connexion</h2>
           <form id="loginForm" method="post" action="${createLink(action:'login')}" >
-          
+            <g:if test="${error}">
+              <span class="error">${error}</span>
+            </g:if>
             <label for="login">Identifiant</label>
-            <input type="text" name="login" />
+            <input type="text" id="login" name="login" />
             
             <label for="password">Mot de passe</label>
-            <input type="password" name="password" />
-            
+            <input type="password" id="password" name="password" />
+            <input type="submit" value="${message(code:'action.login')}" />
             <a href="">Mot de passe oublié ?</a>
           </form>
         </div> 

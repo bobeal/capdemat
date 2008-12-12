@@ -9,9 +9,9 @@
         <div class="yui-u first">
           <h2>Connexion</h2>
           <form id="loginForm" method="post" action="${createLink(action:'login')}" >
-            %{--<g:if test="${error}">--}%
-              %{--<span class="loginError">${error}</span>--}%
-            %{--</g:if>--}%
+            <g:if test="${error}">
+              <span class="error">${error}</span>
+            </g:if>
             <label for="login">Identifiant</label>
             <input type="text" id="login" name="login" />
             

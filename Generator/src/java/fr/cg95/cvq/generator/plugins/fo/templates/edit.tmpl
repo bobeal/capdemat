@@ -1,7 +1,8 @@
 <% 
    import org.apache.commons.lang.StringUtils
    
-   namespaceAlias = foObject.namespaceAlias 
+   namespaceAlias = foObject.namespaceAlias
+   i18nPrefix = foObject.namespaceAlias + '.property'
    requestName = foObject.requestName
    steps = foObject.stepMap
    conditionsName = foObject.conditionsNames
@@ -28,7 +29,7 @@
             <g:each in="\${${element.enumValuesAsString}}">
             <li>
               <input type="radio" class="${element.condition} ${element.validation}" title="" value="${element.modelNamespace}.${element.name}_\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}.toString() ? 'checked="checked"': ''} />
-	            <g:message code="\${it}" />  
+	            <g:message code="${i18nPrefix}.${element.javaName}.\${it}" />  
             </li>
             </g:each>
           </ul>
@@ -36,28 +37,28 @@
       ,'SelectElement' :
           """
           <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="">
-            <option value="">Choisissez...</option>
+            <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="\${${element.enumValuesAsString}}">
-              <option value="${element.modelNamespace}.${element.name}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'selected="selected"': ''}><g:message code="\${it}" /></option>
+              <option value="${element.modelNamespace}.${element.name}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'selected="selected"': ''}><g:message code="${i18nPrefix}.${element.javaName}.\${it}" /></option>
             </g:each>
           </select>
           """
       ,'AddressType' :
           """
           <div class="address-fieldset ${element.condition}">
-          <label>additional delivery information</label>
+          <label><g:message code="address.property.additionalDeliveryInformation" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalDeliveryInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalDeliveryInformation"/>  
-          <label>additional geographical information</label>
+          <label><g:message code="address.property.additionalGeographicalInformation" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalGeographicalInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalGeographicalInformation"/>
-          <label> street number - street name</label>
+          <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /><</label>
           <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetNumber}" maxlength="5" name="${wrapper}${element.javaName}.streetNumber"/>
           <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetName}" maxlength="32" name="${wrapper}${element.javaName}.streetName"/>
-          <label>place name or service</label>    
+          <label><g:message code="address.property.placeNameOrService" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.placeNameOrService}" maxlength="38" name="${wrapper}${element.javaName}.placeNameOrService"/>
-          <label> postal code - city </label>
+          <label><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
           <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.postalCode}" maxlength="5" name="${wrapper}${element.javaName}.postalCode"/>
           <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.city}" maxlength="32" name="${wrapper}${element.javaName}.city"/>
-          <label>country name</label>
+          <label><g:message code="address.property.countryName" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.countryName}" maxlength="38" name="${wrapper}${element.javaName}.countryName"/>
           </div>
           """
@@ -77,7 +78,8 @@
   </head>  
   <body>
       <h2 class="request-creation">
-      <g:message code="${namespaceAlias}.label" /> 
+      <g:message code="${namespaceAlias}.label" />
+      <span><g:message code="${namespaceAlias}.description" /></span> 
       <span><g:message code="${namespaceAlias}.duration.label" /><strong><g:message code="${namespaceAlias}.duration.value" /></strong></span>
       <span>
         Documents à fournir :
@@ -161,16 +163,16 @@
             <% step.elementList.each { element -> %>
             
               <% if (element.xmlSchemaType == "AddressType") { %>
-                <label>${element.javaName}</label>
+                <label><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
                 <% displayWidget(element, "AddressType", "") %>
               <% } else if (element.class.simpleName == 'OneToManyElement') { %>
-                <label>${element.javaName}</label>
+                <label><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
                 <pre>TODO -> ON TO MANY</pre>
               <% } else if(element.class.simpleName == 'FieldsetElement') { %>
                 <fieldset>
-                <legend>${element.javaName}</legend>
+                <legend><g:message code="${i18nPrefix}.${element.javaName}.label" /></legend>
                 <% element.elementList.each { subElement -> %>
-                  <label>${subElement.javaName}</label>
+                  <label><g:message code="${i18nPrefix}.${subElement.javaName}.label" /> <span><g:message code="${i18nPrefix}.${subElement.javaName}.help" /></span></label>
                   <% if (subElement.xmlSchemaType == "AddressType") { %>
                     <% displayWidget(subElement, "AddressType", "") %>
                   <% } else { %>
@@ -179,7 +181,7 @@
                 <% } %>
                 </fieldset>
               <% } else { %>
-                <label>${element.javaName}</label>
+                <label><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
                 <% displayWidget(element, element.class.simpleName, "") %>
               <% } %>
               

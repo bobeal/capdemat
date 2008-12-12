@@ -8,11 +8,15 @@ class HomeFolderController {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     
-    Adult currentEcitizen = SecurityContext.getCurrentEcitizen()
+    Adult currentEcitizen
+
+    def beforeInterceptor = {
+        this.currentEcitizen = SecurityContext.getCurrentEcitizen();
+    }
 
     def index = {
         def result = ['adults':[], 'children': [], homeFolder: []]
-        def homeFolderId = currentEcitizen.homeFolder.id
+        def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
         homeFolderService.getAdults(homeFolderId).each { adult ->
             result.adults.add([
                 'id' : adult.id,

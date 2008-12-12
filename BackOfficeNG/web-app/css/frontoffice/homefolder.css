@@ -35,6 +35,10 @@
   border: none;
 }
 
+h2.individual-header {
+  text-align: center;  
+}
+
 .individual-detail h2 {
   font-size: 2em;
   font-weight: normal;
@@ -48,7 +52,8 @@
   font-size: 2em;
   font-weight: normal;
   padding-top: 1em;
-  color: #C690BB; background: #4c3848;
+  color: #C690BB; 
+  background: #4c3848;
   border-bottom: 3px solid #C690BB;  
 }
 

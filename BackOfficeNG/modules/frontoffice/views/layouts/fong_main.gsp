@@ -18,7 +18,7 @@
        </h1>
        <map id="hd-menu">
         <g:if test="${!login}">
-        <a href="#">se déconnecter</a>
+        <a href="${createLink(controller:'frontofficeHome',action:'logout')}">se déconnecter</a>
         </g:if>
         <a href="#">aide</a>
         <a href="#">f.a.q</a> 

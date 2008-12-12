@@ -277,7 +277,7 @@ class RequestTypeController {
     }
     
     def form = {
-        def method = request.getMethod().toLowerCase()
+        def method = request.getMethod().toLowerCase(), id
         if(method == "post" && params?.requestTypeId) {
             RequestForm form = new RequestForm()
             if(params?.requestFormId) {
@@ -287,9 +287,9 @@ class RequestTypeController {
             form.setLabel(params.label)
             form.setTemplateName(params.templateName)
             form.setShortLabel(params.shortLabel)
-            defaultRequestService.modifyRequestTypeForm(Long.valueOf(params.requestTypeId),form)
+            id = defaultRequestService.modifyRequestTypeForm(Long.valueOf(params.requestTypeId),form)
             
-            render([status:"ok", success_msg:message(code:"message.updateDone") ] as JSON)
+            render(['id':id,status:"ok",success_msg:message(code:"message.updateDone")] as JSON)
         } else if(method=="get") {
             def requestForm = null
             def templates = defaultRequestService.getMailTemplates('.*[.]html$')

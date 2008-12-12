@@ -7,6 +7,11 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.authentication.IAuthenticationService
+import fr.cg95.cvq.exception.CvqUnknownUserException
+import fr.cg95.cvq.exception.CvqAuthenticationFailedException
+import fr.cg95.cvq.exception.CvqDisabledAccountException
+import fr.cg95.cvq.business.users.HomeFolder
 
 class HomeController {
 
@@ -17,6 +22,7 @@ class HomeController {
     ILocalAuthorityRegistry localAuthorityRegistry
     IPaymentService paymentService
     IDocumentService documentService
+    IAuthenticationService authenticationService
     
     Adult currentEcitizen
     
@@ -44,7 +50,28 @@ class HomeController {
         return result;
     }
     
-    def preparePayments = { payments ->
+    def login = {
+        def error = '', result
+        if(request.post) {
+            try { result = authenticationService.authenticate(params.login,params.password) } 
+            catch (CvqUnknownUserException e) {error='error.unknownUser'}
+            catch (CvqAuthenticationFailedException e) {error='error.authenticationFailed'}
+            catch (CvqDisabledAccountException e) {error='error.disabledAccount'}
+            
+            if(result && result instanceof HomeFolder) { 
+                session.currentUser = params.login
+                redirect(controller:'frontofficeHome')
+            }
+        }
+        return ['login': true,'error': message(code:error),'groups': CapdematUtils.requestGroup()]
+    }
+    
+    def logout = {
+        session.currentUser = null
+        redirect(controller:'frontofficeHome')
+    }
+    
+    def protected preparePayments = { payments ->
         payments.all.each{
             payments.records.add([
                 'id' : it.id,
@@ -59,7 +86,7 @@ class HomeController {
         return payments;
     }
     
-    def prepareDocuments = { docs ->
+    def protected prepareDocuments = { docs ->
         docs.all.each{
             def current = it;
             docs.records.add([
@@ -74,10 +101,6 @@ class HomeController {
         return docs;
     }
     
-    def login = {
-        return ['login': true, 'groups': CapdematUtils.requestGroup()]
-    }
-
     def protected getTopFiveRequests = {
         
         Set criteriaSet = new HashSet<Critere>();

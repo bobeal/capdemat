@@ -43,7 +43,7 @@
         <input id="save_${requestForm?.getId()}" name="save" type="button" 
                class="first-button" value="${message(code:'action.save')}" /> 
         <input id="cancel_${requestForm?.getId()}" name="cancel" type="button" 
-               class="form-button" value="${message(code:'action.cancel')}" />
+               class="form-button" value="${message(code:'action.close')}" />
       </p>
       
   </form>

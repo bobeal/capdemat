@@ -121,12 +121,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           zct.doAjaxFormSubmitCall(form.getAttribute("id"),[],function(o){
             var li = new yu.Element(form.parentNode.parentNode);
             var json = YAHOO.lang.JSON.parse(o.responseText);
-            var rm = zct.val(yus.query('input[name=requestFormId]',form)[0]);
             
             zct.Notifier.processMessage('success',json.success_msg);
             zcbrp.Forms.detachContainer(target);
-            if(!!rm) li.removeChild(form.parentNode);
-            zcbrp.Forms.reloadList();
+            li.removeChild(form.parentNode);
+            zcbrp.Forms.reloadList(json.id);
           });
         }
       },
@@ -148,14 +147,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           })
         }
       },
-      reloadList : function() {
+      reloadList : function(id) {
         var url = ["/formList/",(zcbrp.currentId||0)].join('');
         var formsEl = yus.query('div#requestFormList')[0];
         zct.doAjaxCall(url,[],function(o){
           formsEl.innerHTML = o.responseText;
-          var container = document.getElementById('formsConfiguration');
+          var container = yu.Dom.get('formsConfiguration');
           yue.purgeElement(container,false);
           yue.on(container,'click',zcbrp.Forms.dispatchEvent);
+          
+          var el = yu.Dom.get(['formItem_',(id||0)].join(''));
+          if(!!el)  zcbrp.Forms.loadEditForm(el);
+          
         });
       },
       dispatchEvent : function(e) {

@@ -228,15 +228,6 @@
           <div class="yui-u first">
             
               
-              <dl>
-                <dt class="required condition-isCoupleRequest-trigger"><g:message code="dhr.property.dhrRequestKind.label" /> : </dt>
-                <dd id="dhrRequestKind" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequestKind javatype-fr.cg95.cvq.business.request.social.DhrRequestKindType" >
-                  <g:capdematEnumToField var="${request.dhrRequestKind}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
-                </dd>
-              </dl>
-              
-            
-              
               <h3><g:message code="dhr.property.dhrSpouseIncomes.label" /></h3>
               <dl class="condition-isCoupleRequest-filled">
                 
@@ -281,24 +272,29 @@
             
               
               <h3><g:message code="dhr.property.dhrSpouse.label" /></h3>
-              <dl class="required condition-isCoupleRequest-filled">
+              <dl class="required">
                 
-                  <dt class="required condition-isSpouseMadam-trigger"><g:message code="dhr.property.dhrSpouseTitle.label" /> : </dt>
+                  <dt class="required condition-isCoupleRequest-trigger"><g:message code="dhr.property.dhrRequestKind.label" /> : </dt>
+                  <dd id="dhrRequestKind" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequestKind javatype-fr.cg95.cvq.business.request.social.DhrRequestKindType" >
+                    <g:capdematEnumToField var="${request.dhrRequestKind}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
+                  </dd>
+                
+                  <dt class="required condition-isCoupleRequest-filled condition-isSpouseMadam-trigger"><g:message code="dhr.property.dhrSpouseTitle.label" /> : </dt>
                   <dd id="dhrSpouseTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseTitle javatype-fr.cg95.cvq.business.request.social.TitleType" >
                     <g:capdematEnumToField var="${request.dhrSpouseTitle}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" />
                   </dd>
                 
-                  <dt class="required"><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> : </dt>
+                  <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> : </dt>
                   <dd id="dhrSpouseFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseFamilyStatus javatype-fr.cg95.cvq.business.request.social.FamilyStatusType" >
                     <g:capdematEnumToField var="${request.dhrSpouseFamilyStatus}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" />
                   </dd>
                 
-                  <dt class="required"><g:message code="dhr.property.dhrSpouseName.label" /> : </dt>
+                  <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseName.label" /> : </dt>
                   <dd id="dhrSpouseName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrSpouseName" >
                     <span>${request.dhrSpouseName}</span>
                   </dd>
                 
-                  <dt class="required"><g:message code="dhr.property.dhrSpouseFirstName.label" /> : </dt>
+                  <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseFirstName.label" /> : </dt>
                   <dd id="dhrSpouseFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrSpouseFirstName" >
                     <span>${request.dhrSpouseFirstName}</span>
                   </dd>
@@ -308,17 +304,17 @@
                     <span>${request.dhrSpouseMaidenName}</span>
                   </dd>
                 
-                  <dt class="required"><g:message code="dhr.property.dhrSpouseBirthDate.label" /> : </dt>
+                  <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseBirthDate.label" /> : </dt>
                   <dd id="dhrSpouseBirthDate" class="action-editField validate-date required-true i18n-dhr.property.dhrSpouseBirthDate" >
                     <span><g:formatDate format="dd/MM/yyyy" date="${request.dhrSpouseBirthDate}"/></span>
                   </dd>
                 
-                  <dt class="required"><g:message code="dhr.property.dhrSpouseBirthPlace.label" /> : </dt>
+                  <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseBirthPlace.label" /> : </dt>
                   <dd id="dhrSpouseBirthPlace" class="action-editField validate-string required-true i18n-dhr.property.dhrSpouseBirthPlace" >
                     <span>${request.dhrSpouseBirthPlace}</span>
                   </dd>
                 
-                  <dt class="required condition-isSpouseNonEuropean-trigger"><g:message code="dhr.property.dhrSpouseNationality.label" /> : </dt>
+                  <dt class="required condition-isSpouseNonEuropean-trigger condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseNationality.label" /> : </dt>
                   <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.request.social.NationalityType" >
                     <g:capdematEnumToField var="${request.dhrSpouseNationality}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" />
                   </dd>
@@ -340,12 +336,12 @@
               <h3><g:message code="dhr.property.dhrSpouseStatus.label" /></h3>
               <dl class="required condition-isCoupleRequest-filled">
                 
-                  <dt class="required condition-isSpouseOtherPensionPlan-trigger condition-isSpouseRetired-trigger"><g:message code="dhr.property.dhrIsSpouseRetired.label" /> : </dt>
+                  <dt class="required condition-isSpouseRetired-trigger condition-isSpouseOtherPensionPlan-trigger"><g:message code="dhr.property.dhrIsSpouseRetired.label" /> : </dt>
                   <dd id="dhrIsSpouseRetired" class="action-editField validate-boolean required-true i18n-dhr.property.dhrIsSpouseRetired" >
                     <span>${request.dhrIsSpouseRetired}</span>
                   </dd>
                 
-                  <dt class="required condition-isSpouseOtherPensionPlan-trigger condition-isSpouseRetired-filled"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>
+                  <dt class="required condition-isSpouseRetired-filled condition-isSpouseOtherPensionPlan-trigger"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>
                   <dd id="dhrSpousePrincipalPensionPlan" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpousePrincipalPensionPlan javatype-fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType" >
                     <g:capdematEnumToField var="${request.dhrSpousePrincipalPensionPlan}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" />
                   </dd>

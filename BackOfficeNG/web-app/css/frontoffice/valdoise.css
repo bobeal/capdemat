@@ -56,7 +56,7 @@ h2,
 .group-box h3,
 .login-box a,
 .individual-detail h3 { 
-  color: #FFFFFF !important; 
+  color: #FFFFFF !important;
 }
 
 .requestBox .body {
@@ -75,6 +75,10 @@ h2,
 .login-box form input,
 .individual-detail dl dt, .individual-detail dl dd  {
   border-top-color: #FF812B !important;
+}
+
+.login-box form input[type="submit"] {
+  border-color: #FF812B !important;
 }
 
 .yui-skin-fong .yui-navset .yui-nav a, .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
@@ -100,10 +104,39 @@ h2,
   border-left-color: #FF812B !important;
 }
 
+#requestTabView .address-fieldset {
+  border-color: #FF812B !important;
+}
+
 #requestTabView input, #requestTabView select, #requestTabView textarea {
   border-top-color: #FF812B !important;
 }
 
-.login-box form input[type="submit"] {
-  border-color: #FF812B;
+#requestTabView button[type="button"] {
+  border-color: #FF812B !important;
+  color: #FF812B !important;
 }
+
+#requestTabView button[type="button"]:hover {
+  background-color: #FF812B !important;
+  color: #FFFFFF !important;
+}
+
+#requestTabView .nextTab, #requestTabView .prevTab { 
+  color: #FF812B !important; 
+}
+
+#requestTabView .nextTab:hover, #requestTabView .prevTab:hover { 
+  background: #FF812B !important; 
+  color:#ffffff !important; 
+}
+
+#requestTabView dl {
+  border-bottom-color: #FF812B !important;
+}
+
+#requestTabView dl dt,
+#requestTabView dl dd {
+  border-top-color: #FF812B !important;
+}
+

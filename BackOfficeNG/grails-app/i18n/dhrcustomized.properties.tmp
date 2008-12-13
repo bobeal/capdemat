@@ -1,3 +1,4 @@
+dhr.duration.value =
 
 dhr.step.subject.label =
 dhr.step.subject.desc =
@@ -93,11 +94,11 @@ dhr.property.dhrReferentFirstName.validationError =
 dhr.property.dhrReferentAddress.help =
 dhr.property.dhrReferentAddress.validationError =
 
-dhr.property.dhrRequestKind.help =
-dhr.property.dhrRequestKind.validationError =
-
 dhr.property.dhrSpouse.help =
 dhr.property.dhrSpouse.validationError =
+
+dhr.property.dhrRequestKind.help =
+dhr.property.dhrRequestKind.validationError =
 
 dhr.property.dhrSpouseTitle.help =
 dhr.property.dhrSpouseTitle.validationError =

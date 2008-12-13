@@ -8,13 +8,12 @@
       <h2 class="request-creation">
       <g:message code="dhr.label" />
       <span><g:message code="dhr.description" /></span> 
-      <span><g:message code="dhr.duration.label" /><strong><g:message code="dhr.duration.value" /></strong></span>
+      <span><g:message code="request.duration.label" /><strong> : <g:message code="dhr.duration.value" /></strong></span>
       <span>
-        Documents à fournir :
+        <g:message code="request.requiredDocuments.header" /> :
         <g:each in="${documentTypes}" var="documentType" status="index">
           <strong>
-            <g:message code="${documentType.value}"/>
-            <g:if test="${index < documentTypes.size() - 1}">,</g:if>
+            <g:message code="${documentType.value}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
           </strong>
         </g:each>
       </span>
@@ -496,10 +495,10 @@
                     <input name="dhrSpouseBirthPlace" value="${dhr.dhrSpouseBirthPlace}" class="isCoupleRequest-filled  required  validate-string" title="">
                   
                 
-                  <label class="isCoupleRequest-filled isSpouseNonEuropean-trigger "><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
+                  <label class="isSpouseNonEuropean-trigger isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
                   
                     
-          <select name="dhrSpouseNationality" class="isCoupleRequest-filled isSpouseNonEuropean-trigger  required validate-not-first" title="">
+          <select name="dhrSpouseNationality" class="isSpouseNonEuropean-trigger isCoupleRequest-filled  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
               <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrSpouseNationality ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseNationality.${it}" /></option>
@@ -535,13 +534,13 @@
                 <fieldset class="isCoupleRequest-filled ">
                 <legend><g:message code="dhr.property.dhrSpouseStatus.label" /></legend>
                 
-                  <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger "><g:message code="dhr.property.dhrIsSpouseRetired.label" /> <span><g:message code="dhr.property.dhrIsSpouseRetired.help" /></span></label>
+                  <label class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger "><g:message code="dhr.property.dhrIsSpouseRetired.label" /> <span><g:message code="dhr.property.dhrIsSpouseRetired.help" /></span></label>
                   
                     
-          <ul class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ">
+          <ul class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ">
             <g:each in="${[true,false]}">
             <li>
-              <input type="radio" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
+              <input type="radio" class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
 	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
             </li>
             </g:each>
@@ -549,10 +548,10 @@
           
                   
                 
-                  <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
+                  <label class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
                   
                     
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.${it}" /></option>
@@ -1039,7 +1038,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

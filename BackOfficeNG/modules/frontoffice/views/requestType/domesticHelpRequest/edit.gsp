@@ -430,8 +430,12 @@
 
             
               
-                <label class="isCoupleRequest-trigger "><g:message code="dhr.property.dhrRequestKind.label" /> <span><g:message code="dhr.property.dhrRequestKind.help" /></span></label>
+                <fieldset class="">
+                <legend><g:message code="dhr.property.dhrSpouse.label" /></legend>
                 
+                  <label class="isCoupleRequest-trigger "><g:message code="dhr.property.dhrRequestKind.label" /> <span><g:message code="dhr.property.dhrRequestKind.help" /></span></label>
+                  
+                    
           <ul class="isCoupleRequest-trigger ">
             <g:each in="${['Individual','Couple']}">
             <li>
@@ -441,17 +445,12 @@
             </g:each>
           </ul>
           
-              
-              
-            
-              
-                <fieldset class="isCoupleRequest-filled ">
-                <legend><g:message code="dhr.property.dhrSpouse.label" /></legend>
+                  
                 
-                  <label class="isSpouseMadam-trigger "><g:message code="dhr.property.dhrSpouseTitle.label" /> <span><g:message code="dhr.property.dhrSpouseTitle.help" /></span></label>
+                  <label class="isCoupleRequest-filled isSpouseMadam-trigger "><g:message code="dhr.property.dhrSpouseTitle.label" /> <span><g:message code="dhr.property.dhrSpouseTitle.help" /></span></label>
                   
                     
-          <select name="dhrSpouseTitle" class="isSpouseMadam-trigger  required validate-not-first" title="">
+          <select name="dhrSpouseTitle" class="isCoupleRequest-filled isSpouseMadam-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
               <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrSpouseTitle ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseTitle.${it}" /></option>
@@ -460,10 +459,10 @@
           
                   
                 
-                  <label class=""><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> <span><g:message code="dhr.property.dhrSpouseFamilyStatus.help" /></span></label>
+                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> <span><g:message code="dhr.property.dhrSpouseFamilyStatus.help" /></span></label>
                   
                     
-          <select name="dhrSpouseFamilyStatus" class=" required validate-not-first" title="">
+          <select name="dhrSpouseFamilyStatus" class="isCoupleRequest-filled  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
               <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == dhr.dhrSpouseFamilyStatus ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseFamilyStatus.${it}" /></option>
@@ -472,14 +471,14 @@
           
                   
                 
-                  <label class=""><g:message code="dhr.property.dhrSpouseName.label" /> <span><g:message code="dhr.property.dhrSpouseName.help" /></span></label>
+                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseName.label" /> <span><g:message code="dhr.property.dhrSpouseName.help" /></span></label>
                   
-                    <input name="dhrSpouseName" value="${dhr.dhrSpouseName}" class=" required  validate-lastname" title="">
+                    <input name="dhrSpouseName" value="${dhr.dhrSpouseName}" class="isCoupleRequest-filled  required  validate-lastname" title="">
                   
                 
-                  <label class=""><g:message code="dhr.property.dhrSpouseFirstName.label" /> <span><g:message code="dhr.property.dhrSpouseFirstName.help" /></span></label>
+                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseFirstName.label" /> <span><g:message code="dhr.property.dhrSpouseFirstName.help" /></span></label>
                   
-                    <input name="dhrSpouseFirstName" value="${dhr.dhrSpouseFirstName}" class=" required  validate-firstname" title="">
+                    <input name="dhrSpouseFirstName" value="${dhr.dhrSpouseFirstName}" class="isCoupleRequest-filled  required  validate-firstname" title="">
                   
                 
                   <label class="isSpouseMadam-filled "><g:message code="dhr.property.dhrSpouseMaidenName.label" /> <span><g:message code="dhr.property.dhrSpouseMaidenName.help" /></span></label>
@@ -487,20 +486,20 @@
                     <input name="dhrSpouseMaidenName" value="${dhr.dhrSpouseMaidenName}" class="isSpouseMadam-filled    validate-lastname" title="">
                   
                 
-                  <label class=""><g:message code="dhr.property.dhrSpouseBirthDate.label" /> <span><g:message code="dhr.property.dhrSpouseBirthDate.help" /></span></label>
+                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseBirthDate.label" /> <span><g:message code="dhr.property.dhrSpouseBirthDate.help" /></span></label>
                   
-                    <input name="dhrSpouseBirthDate" value="${dhr.dhrSpouseBirthDate}" class=" required  validate-date-au" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrSpouseBirthPlace.label" /> <span><g:message code="dhr.property.dhrSpouseBirthPlace.help" /></span></label>
-                  
-                    <input name="dhrSpouseBirthPlace" value="${dhr.dhrSpouseBirthPlace}" class=" required  validate-string" title="">
+                    <input name="dhrSpouseBirthDate" value="${dhr.dhrSpouseBirthDate}" class="isCoupleRequest-filled  required  validate-date-au" title="">
                   
                 
-                  <label class="isSpouseNonEuropean-trigger "><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
+                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseBirthPlace.label" /> <span><g:message code="dhr.property.dhrSpouseBirthPlace.help" /></span></label>
+                  
+                    <input name="dhrSpouseBirthPlace" value="${dhr.dhrSpouseBirthPlace}" class="isCoupleRequest-filled  required  validate-string" title="">
+                  
+                
+                  <label class="isCoupleRequest-filled isSpouseNonEuropean-trigger "><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
                   
                     
-          <select name="dhrSpouseNationality" class="isSpouseNonEuropean-trigger  required validate-not-first" title="">
+          <select name="dhrSpouseNationality" class="isCoupleRequest-filled isSpouseNonEuropean-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
               <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrSpouseNationality ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseNationality.${it}" /></option>
@@ -550,10 +549,10 @@
           
                   
                 
-                  <label class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
+                  <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
                   
                     
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.${it}" /></option>
@@ -979,6 +978,8 @@
                <option value="${moc.key}">${moc.label}</option>
              </g:each>
            </select>
+           
+           <g:render template="/frontofficeRequestType/domesticHelpRequest/summary" />
 
            <div class="error" id="validationRefFormErrors"> </div>
            
@@ -1038,7 +1039,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

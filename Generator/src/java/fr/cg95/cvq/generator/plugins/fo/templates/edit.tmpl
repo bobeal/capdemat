@@ -157,6 +157,8 @@
                <option value="\${moc.key}">\${moc.label}</option>
              </g:each>
            </select>
+           
+           <g:render template="/frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/summary" />
 <%
     } else {
 %>

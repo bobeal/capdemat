@@ -22,8 +22,8 @@
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
        
-       <li class="${currentTab == 'tab1' ? 'selected' : ''}">
-        <a href="#tab1"><em>
+       <li class="${currentTab == 'subject' ? 'selected' : ''}">
+        <a href="#subject"><em>
          <span class="tag-no_right">1</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
@@ -32,8 +32,8 @@
        </em></a>
        </li>    
 		  
-       <li class="${currentTab == 'tab2' ? 'selected' : ''}">
-        <a href="#tab2"><em>
+       <li class="${currentTab == 'familyReferent' ? 'selected' : ''}">
+        <a href="#familyReferent"><em>
          <span class="tag-no_right">2</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
@@ -42,8 +42,8 @@
        </em></a>
        </li>    
 		  
-       <li class="${currentTab == 'tab3' ? 'selected' : ''}">
-        <a href="#tab3"><em>
+       <li class="${currentTab == 'spouse' ? 'selected' : ''}">
+        <a href="#spouse"><em>
          <span class="tag-no_right">3</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
@@ -52,8 +52,8 @@
        </em></a>
        </li>    
 		  
-       <li class="${currentTab == 'tab4' ? 'selected' : ''}">
-        <a href="#tab4"><em>
+       <li class="${currentTab == 'dwelling' ? 'selected' : ''}">
+        <a href="#dwelling"><em>
          <span class="tag-no_right">4</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
@@ -62,8 +62,8 @@
        </em></a>
        </li>    
 		  
-       <li class="${currentTab == 'tab5' ? 'selected' : ''}">
-        <a href="#tab5"><em>
+       <li class="${currentTab == 'resources' ? 'selected' : ''}">
+        <a href="#resources"><em>
          <span class="tag-no_right">5</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
@@ -72,8 +72,8 @@
        </em></a>
        </li>    
 		  
-       <li class="${currentTab == 'tab6' ? 'selected' : ''}">
-        <a href="#tab6"><em>
+       <li class="${currentTab == 'taxes' ? 'selected' : ''}">
+        <a href="#taxes"><em>
          <span class="tag-no_right">6</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
@@ -82,8 +82,8 @@
        </em></a>
        </li>    
 		  
-       <li class="${currentTab == 'tab7' ? 'selected' : ''}">
-        <a href="#tab7"><em>
+       <li class="${currentTab == 'documentRef' ? 'selected' : ''}">
+        <a href="#documentRef"><em>
          <span class="tag-no_right">7</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
@@ -92,8 +92,8 @@
        </em></a>
        </li>    
 		  
-       <li class="${currentTab == 'tab8' ? 'selected' : ''}">
-        <a href="#tab8"><em>
+       <li class="${currentTab == 'validationRef' ? 'selected' : ''}">
+        <a href="#validationRef"><em>
          <span class="tag-no_right">8</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 
@@ -106,7 +106,7 @@
 		 
      <div class="yui-content">
      
-       <div id="tab1">
+       <div id="subject">
 
          <form method="POST" id="subjectForm" action="<g:createLink action="validSubject" />">
            <h3>
@@ -128,7 +128,7 @@
           <select name="dhrRequesterTitle" class="isMadam-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-              <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrRequesterTitle ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterTitle.${it}" /></option>
+              <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrRequesterTitle?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterTitle.${it}" /></option>
             </g:each>
           </select>
           
@@ -140,7 +140,7 @@
           <select name="dhrRequesterFamilyStatus" class=" required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
-              <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == dhr.dhrRequesterFamilyStatus ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterFamilyStatus.${it}" /></option>
+              <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == dhr.dhrRequesterFamilyStatus?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterFamilyStatus.${it}" /></option>
             </g:each>
           </select>
           
@@ -177,7 +177,7 @@
           <select name="dhrRequesterNationality" class="isNonEuropean-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-              <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrRequesterNationality ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterNationality.${it}" /></option>
+              <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrRequesterNationality?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterNationality.${it}" /></option>
             </g:each>
           </select>
           
@@ -216,7 +216,7 @@
           <select name="dhrPrincipalPensionPlan" class="isOtherPensionPlan-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrPrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="dhr.property.dhrPrincipalPensionPlan.${it}" /></option>
+              <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrPrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrPrincipalPensionPlan.${it}" /></option>
             </g:each>
           </select>
           
@@ -260,7 +260,7 @@
           <select name="dhrGuardianMeasure" class="haveGuardian-filled   validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == dhr.dhrGuardianMeasure ? 'selected="selected"': ''}><g:message code="dhr.property.dhrGuardianMeasure.${it}" /></option>
+              <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == dhr.dhrGuardianMeasure?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrGuardianMeasure.${it}" /></option>
             </g:each>
           </select>
           
@@ -312,7 +312,7 @@
          <div class="navTab">
            
            
-           <a href="#tab2" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a href="#familyReferent" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.subject}">
@@ -323,7 +323,7 @@
          </g:if>
        </div>  
      
-       <div id="tab2">
+       <div id="familyReferent">
 
          <form method="POST" id="familyReferentForm" action="<g:createLink action="validFamilyReferent" />">
            <h3>
@@ -403,9 +403,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab1" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a href="#subject" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab3" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a href="#spouse" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.familyReferent}">
@@ -416,7 +416,7 @@
          </g:if>
        </div>  
      
-       <div id="tab3">
+       <div id="spouse">
 
          <form method="POST" id="spouseForm" action="<g:createLink action="validSpouse" />">
            <h3>
@@ -446,13 +446,13 @@
           
                   
                 
-                  <label class="isCoupleRequest-filled isSpouseMadam-trigger "><g:message code="dhr.property.dhrSpouseTitle.label" /> <span><g:message code="dhr.property.dhrSpouseTitle.help" /></span></label>
+                  <label class="isSpouseMadam-trigger isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseTitle.label" /> <span><g:message code="dhr.property.dhrSpouseTitle.help" /></span></label>
                   
                     
-          <select name="dhrSpouseTitle" class="isCoupleRequest-filled isSpouseMadam-trigger  required validate-not-first" title="">
+          <select name="dhrSpouseTitle" class="isSpouseMadam-trigger isCoupleRequest-filled  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-              <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrSpouseTitle ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseTitle.${it}" /></option>
+              <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrSpouseTitle?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseTitle.${it}" /></option>
             </g:each>
           </select>
           
@@ -464,7 +464,7 @@
           <select name="dhrSpouseFamilyStatus" class="isCoupleRequest-filled  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
-              <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == dhr.dhrSpouseFamilyStatus ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseFamilyStatus.${it}" /></option>
+              <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == dhr.dhrSpouseFamilyStatus?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseFamilyStatus.${it}" /></option>
             </g:each>
           </select>
           
@@ -501,7 +501,7 @@
           <select name="dhrSpouseNationality" class="isSpouseNonEuropean-trigger isCoupleRequest-filled  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-              <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrSpouseNationality ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseNationality.${it}" /></option>
+              <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrSpouseNationality?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseNationality.${it}" /></option>
             </g:each>
           </select>
           
@@ -534,13 +534,13 @@
                 <fieldset class="isCoupleRequest-filled ">
                 <legend><g:message code="dhr.property.dhrSpouseStatus.label" /></legend>
                 
-                  <label class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger "><g:message code="dhr.property.dhrIsSpouseRetired.label" /> <span><g:message code="dhr.property.dhrIsSpouseRetired.help" /></span></label>
+                  <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger "><g:message code="dhr.property.dhrIsSpouseRetired.label" /> <span><g:message code="dhr.property.dhrIsSpouseRetired.help" /></span></label>
                   
                     
-          <ul class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger ">
+          <ul class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ">
             <g:each in="${[true,false]}">
             <li>
-              <input type="radio" class="isSpouseRetired-trigger isSpouseOtherPensionPlan-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
+              <input type="radio" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
 	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
             </li>
             </g:each>
@@ -554,7 +554,7 @@
           <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.${it}" /></option>
+              <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.${it}" /></option>
             </g:each>
           </select>
           
@@ -653,9 +653,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab2" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a href="#familyReferent" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab4" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a href="#dwelling" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.spouse}">
@@ -666,7 +666,7 @@
          </g:if>
        </div>  
      
-       <div id="tab4">
+       <div id="dwelling">
 
          <form method="POST" id="dwellingForm" action="<g:createLink action="validDwelling" />">
            <h3>
@@ -715,7 +715,7 @@
           <select name="dhrCurrentDwellingKind" class="isCurrentDwellingPlaceOfResidence-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['placeOfResidence','retirementHome','other']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == dhr.dhrCurrentDwellingKind ? 'selected="selected"': ''}><g:message code="dhr.property.dhrCurrentDwellingKind.${it}" /></option>
+              <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == dhr.dhrCurrentDwellingKind?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrCurrentDwellingKind.${it}" /></option>
             </g:each>
           </select>
           
@@ -774,9 +774,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab3" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a href="#spouse" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab5" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a href="#resources" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.dwelling}">
@@ -787,7 +787,7 @@
          </g:if>
        </div>  
      
-       <div id="tab5">
+       <div id="resources">
 
          <form method="POST" id="resourcesForm" action="<g:createLink action="validResources" />">
            <h3>
@@ -858,9 +858,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab4" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a href="#dwelling" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab6" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a href="#taxes" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.resources}">
@@ -871,7 +871,7 @@
          </g:if>
        </div>  
      
-       <div id="tab6">
+       <div id="taxes">
 
          <form method="POST" id="taxesForm" action="<g:createLink action="validTaxes" />">
            <h3>
@@ -925,9 +925,9 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab5" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a href="#resources" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab7" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a href="#documentRef" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.taxes}">
@@ -938,16 +938,16 @@
          </g:if>
        </div>  
      
-       <div id="tab7">
+       <div id="documentRef">
 
          <g:render template="/frontofficeRequestType/documentStep"/>
          
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab6" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a href="#taxes" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
-           <a href="#tab8" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a href="#validationRef" class="nextTab"><g:message code="request.step.navigation.next"/></a>
          </div>
          
          <g:if test="${help.documentRef}">
@@ -958,7 +958,7 @@
          </g:if>
        </div>  
      
-       <div id="tab8">
+       <div id="validationRef">
 
          <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
            <h3>
@@ -992,7 +992,7 @@
          <!-- navigation link -->
          <div class="navTab">
            
-           <a href="#tab7" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a href="#documentRef" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
            
          </div>
          
@@ -1064,50 +1064,45 @@
 	  
 	  // VALIDATION
 	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitSubject");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('subjectFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "subjectForm");
+	  var submitSubjectButton = new YAHOO.widget.Button("submitSubject");
+      submitSubjectButton.on("click", FIC_checkForm, document.getElementById('subjectFormErrors'));
+      submitSubjectButton.on("click", onSubmitClick, "subjectForm");
 	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitFamilyReferent");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('familyReferentFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "familyReferentForm");
+	  var submitFamilyReferentButton = new YAHOO.widget.Button("submitFamilyReferent");
+      submitFamilyReferentButton.on("click", FIC_checkForm, document.getElementById('familyReferentFormErrors'));
+      submitFamilyReferentButton.on("click", onSubmitClick, "familyReferentForm");
 	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitSpouse");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('spouseFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "spouseForm");
+	  var submitSpouseButton = new YAHOO.widget.Button("submitSpouse");
+      submitSpouseButton.on("click", FIC_checkForm, document.getElementById('spouseFormErrors'));
+      submitSpouseButton.on("click", onSubmitClick, "spouseForm");
 	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitDwelling");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('dwellingFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "dwellingForm");
+	  var submitDwellingButton = new YAHOO.widget.Button("submitDwelling");
+      submitDwellingButton.on("click", FIC_checkForm, document.getElementById('dwellingFormErrors'));
+      submitDwellingButton.on("click", onSubmitClick, "dwellingForm");
 	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitResources");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('resourcesFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "resourcesForm");
+	  var submitResourcesButton = new YAHOO.widget.Button("submitResources");
+      submitResourcesButton.on("click", FIC_checkForm, document.getElementById('resourcesFormErrors'));
+      submitResourcesButton.on("click", onSubmitClick, "resourcesForm");
 	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitTaxes");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('taxesFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "taxesForm");
+	  var submitTaxesButton = new YAHOO.widget.Button("submitTaxes");
+      submitTaxesButton.on("click", FIC_checkForm, document.getElementById('taxesFormErrors'));
+      submitTaxesButton.on("click", onSubmitClick, "taxesForm");
 	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitDocumentRef");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('documentRefFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "documentRefForm");
+	  var submitDocumentRefButton = new YAHOO.widget.Button("submitDocumentRef");
+      submitDocumentRefButton.on("click", FIC_checkForm, document.getElementById('documentRefFormErrors'));
+      submitDocumentRefButton.on("click", onSubmitClick, "documentRefForm");
 	  
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submitValidationRef");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('validationRefFormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "validationRefForm");
+	  var submitValidationRefButton = new YAHOO.widget.Button("submitValidationRef");
+      submitValidationRefButton.on("click", FIC_checkForm, document.getElementById('validationRefFormErrors'));
+      submitValidationRefButton.on("click", onSubmitClick, "validationRefForm");
 	  
 	  
 	  function onSubmitClick(ev, formId) {
-		zenexity.capdemat.common.doAjaxFormSubmitCall(formId ,null,  
-		function(o) {
-		     if (o.status == "200")
-		     	resetFormErrors(formId + "Errors");
-		});
+        document.getElementById(formId).submit();
 	  }
 	  
 	  function resetFormErrors(formErrors) { 
 		YAHOO.util.Dom.get(formErrors).innerHTML = '';
-		
 	  }
 	  
     // Request TabView Initialization

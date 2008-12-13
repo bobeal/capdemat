@@ -38,9 +38,9 @@ class ${requestName}Controller {
 
     def translationService
     
-    def defaultAction = "edit"
+    def defaultAction = 'edit'
     
-    def currentTab = "tab1"
+    def currentTab = '${foObject.stepMap.get(0).name}'
     
     def edit = {
         if (${namespaceAlias} == null)
@@ -73,11 +73,10 @@ class ${requestName}Controller {
         log.debug("valid${StringUtils.capitalize(step.name)} - START")
         ${namespaceAlias} = session["${StringUtils.uncapitalize(requestName)}"]
         bind(${namespaceAlias})
-        currentTab = getCurrentTab(params)
 
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
-               model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab, 
+               model:[${namespaceAlias}:${namespaceAlias}, currentTab:'${step.name}', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -123,28 +122,6 @@ class ${requestName}Controller {
 
         return help
     }
-    
-    def getCurrentTab = { currentTab ->
-	<%
-    	i = 0
-		for(steps in foObject.stepMap) {
-			step = steps.value
-			if (i == 0) {
-	%>
-		if (params.submit${StringUtils.capitalize(namespaceAlias)}${StringUtils.capitalize(step.name)})
-		   currentTab = "tab${i+1}"
-	<%			
-			} else { 
-	%>
-		else if (params.submit${StringUtils.capitalize(namespaceAlias)}${StringUtils.capitalize(step.name)})
-		   currentTab = "tab${i+1}"
-	<%
-			}
-			i++
-		}
-	%>
-		return currentTab
-    } 
     
     def checkConditions = {
     	log.debug("checkConditions - START")

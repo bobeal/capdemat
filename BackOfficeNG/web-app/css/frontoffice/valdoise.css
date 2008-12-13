@@ -48,6 +48,7 @@ html {
 .group-box a:hover,
 .mandatory {
   background-color: #FF812B !important;
+  color: #FFFFFF !important;
 }
 
 h2,

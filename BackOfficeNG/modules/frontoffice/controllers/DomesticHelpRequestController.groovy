@@ -15,9 +15,9 @@ class DomesticHelpRequestController {
 
     def translationService
     
-    def defaultAction = "edit"
+    def defaultAction = 'edit'
     
-    def currentTab = "tab1"
+    def currentTab = 'subject'
     
     def edit = {
         if (dhr == null)
@@ -41,11 +41,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validSubject - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-        currentTab = getCurrentTab(params)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:currentTab, 
+               model:[dhr:dhr, currentTab:'subject', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -55,11 +54,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validFamilyReferent - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-        currentTab = getCurrentTab(params)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:currentTab, 
+               model:[dhr:dhr, currentTab:'familyReferent', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -69,11 +67,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validSpouse - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-        currentTab = getCurrentTab(params)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:currentTab, 
+               model:[dhr:dhr, currentTab:'spouse', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -83,11 +80,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validDwelling - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-        currentTab = getCurrentTab(params)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:currentTab, 
+               model:[dhr:dhr, currentTab:'dwelling', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -97,11 +93,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validResources - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-        currentTab = getCurrentTab(params)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:currentTab, 
+               model:[dhr:dhr, currentTab:'resources', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -111,11 +106,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validTaxes - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-        currentTab = getCurrentTab(params)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:currentTab, 
+               model:[dhr:dhr, currentTab:'taxes', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -125,11 +119,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validDocumentRef - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-        currentTab = getCurrentTab(params)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:currentTab, 
+               model:[dhr:dhr, currentTab:'documentRef', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -139,11 +132,10 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validValidationRef - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-        currentTab = getCurrentTab(params)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:currentTab, 
+               model:[dhr:dhr, currentTab:'validationRef', 
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -197,35 +189,6 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         return help
     }
-    
-    def getCurrentTab = { currentTab ->
-	
-		if (params.submitDhrSubject)
-		   currentTab = "tab1"
-	
-		else if (params.submitDhrFamilyReferent)
-		   currentTab = "tab2"
-	
-		else if (params.submitDhrSpouse)
-		   currentTab = "tab3"
-	
-		else if (params.submitDhrDwelling)
-		   currentTab = "tab4"
-	
-		else if (params.submitDhrResources)
-		   currentTab = "tab5"
-	
-		else if (params.submitDhrTaxes)
-		   currentTab = "tab6"
-	
-		else if (params.submitDhrDocumentRef)
-		   currentTab = "tab7"
-	
-		else if (params.submitDhrValidationRef)
-		   currentTab = "tab8"
-	
-		return currentTab
-    } 
     
     def checkConditions = {
     	log.debug("checkConditions - START")

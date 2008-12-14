@@ -1,6 +1,6 @@
 <html>
   <head>
-    <meta name="layout" content="fong_main" />
+    <meta name="layout" content="fo_main" />
   </head>
   
   <body>

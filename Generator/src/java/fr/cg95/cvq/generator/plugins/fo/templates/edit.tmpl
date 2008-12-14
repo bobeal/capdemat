@@ -66,9 +66,11 @@
     
     if (widgets[widget] != null)
       print widgets[widget]
+    else if (element.javaType == 'date')
+      print """<input name="${wrapper}${element.javaName}" value="\${formatDate(formatName:'format.date',date:${namespaceAlias}.${wrapper}${element.javaName})}" class="${element.condition} ${element.validation}" title="">"""
     else
       print """<input name="${wrapper}${element.javaName}" value="\${${namespaceAlias}.${wrapper}${element.javaName}}" class="${element.condition} ${element.validation}" title="">"""
-  }
+}
    
 %>
 <html>

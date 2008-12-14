@@ -9,7 +9,7 @@ html {
 .list-box h2,
 .main-box h2,
 .group-box h3,
-.individual-detail h3 { 
+.data-detail h3 { 
   background-color: #b6aca5 !important;
 }
 
@@ -23,7 +23,7 @@ html {
   border-color: #b6aca5 !important;
 }
 
-.individual-detail h2,
+.data-detail h2,
 .list-box p.see-all a {
   color: #FF812B !important;
 }
@@ -56,7 +56,7 @@ h2,
 .list-box h2,
 .group-box h3,
 .login-box a,
-.individual-detail h3 { 
+.data-detail h3 { 
   color: #FFFFFF !important;
 }
 
@@ -68,13 +68,13 @@ h2,
 .login-box,
 .main-box h2,
 #requestTabView .requestHelp h3,
-.individual-detail h3, .individual-detail dl {
+.data-detail h3, .data-detail dl {
   border-bottom-color: #FF812B !important;
 }
 
 .individual dl,
 .login-box form input,
-.individual-detail dl dt, .individual-detail dl dd  {
+.data-detail dl dt, .data-detail dl dd  {
   border-top-color: #FF812B !important;
 }
 

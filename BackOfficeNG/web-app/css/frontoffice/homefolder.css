@@ -1,10 +1,3 @@
-/*--------------------------------------------------------------
-
-    homFolder
-
----------------------------------------------------------------*/
-
-
 /* definition list (for homeFolder.individual) */
 .individual dl {
   margin-bottom : 1em ;
@@ -34,45 +27,3 @@
   text-align: right;
   border: none;
 }
-
-h2.individual-header {
-  text-align: center;  
-}
-
-.individual-detail h2 {
-  font-size: 2em;
-  font-weight: normal;
-  text-align: center;
-  color: black;
-  border: 3px solid #ffaa00;
-  background: #ffffcc;
-}
-
-.individual-detail h3 {
-  font-size: 2em;
-  font-weight: normal;
-  padding-top: 1em;
-  color: #C690BB; 
-  background: #4c3848;
-  border-bottom: 3px solid #C690BB;  
-}
-
-.individual-detail dl {
-  margin : 10px;
-  border-bottom: 1px dashed #C690BB;
-  color: #333;
-  overflow: auto;
-}
- 
-.individual-detail dl dt,
-.individual-detail dl dd {
-  float: left;
-  margin: 0;
-  padding: .3em;
-  border-top: 1px dashed #C690BB;
-}
-
-.individual-detail dl dt { width: 9em; min-height: 1.5em; text-align: right; clear: both; }
-.individual-detail dl dd { width: 14em; font-size: 1.15em; }
-
-.individual-detail dl dd p { padding: 0.1em; }

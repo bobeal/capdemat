@@ -8,8 +8,6 @@
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/common',file:'tag.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'layout.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'box.css')}" />
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'homefolder.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'valdoise.css')}" />
   <!--[if IE 6]>
   <link rel="stylesheet" href="${createLinkTo(dir:'css/frontoffice/hacks',file:'ie6.css')}" />

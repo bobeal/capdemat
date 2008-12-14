@@ -1,6 +1,8 @@
 <html>
   <head>
     <meta name="layout" content="fo_main" />
+    <!-- TODO : extract styles for form styles -->
+    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
   </head>
   
   <body>
@@ -32,7 +34,7 @@
             <li>Du stockage sécurisé de vos pièces justificatives</li>
             <li>... Une nouvelle vie sans stress !</li>
           </ul>
-          <a id="voCardRequestLink" href="VoCardRequestCreation">Créer un compte</a>
+          <a id="voCardRequestLink" href="#">Créer un compte</a>
         </div>
       </div>
        

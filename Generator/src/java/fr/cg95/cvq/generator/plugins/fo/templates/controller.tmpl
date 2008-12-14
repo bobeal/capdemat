@@ -25,6 +25,7 @@ def checkExtenalElement(currentElement) {
 
 import fr.cg95.cvq.business.request.social.${requestName}
 import fr.cg95.cvq.business.users.Address
+import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.I${requestName}Service
 import fr.cg95.cvq.service.request.IMeansOfContactService
@@ -65,15 +66,23 @@ class ${requestName}Controller {
                    meansOfContact:getMeansOfContact()])
     }
     
-    <%
-    	for(steps in foObject.stepMap) {
-			step = steps.value
-	%>
+<%
+  for(steps in foObject.stepMap) {
+	  step = steps.value
+%>
     def valid${StringUtils.capitalize(step.name)} = {
         log.debug("valid${StringUtils.capitalize(step.name)} - START")
         ${namespaceAlias} = session["${StringUtils.uncapitalize(requestName)}"]
         bind(${namespaceAlias})
 
+<%
+    if (step.name == 'validationRef') {
+%>
+        dhr.subjectId = SecurityContext.currentEcitizen.id
+        domesticHelpRequestService.create(dhr)
+<%
+    }
+%>
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
                model:[${namespaceAlias}:${namespaceAlias}, currentTab:'${step.name}', 
@@ -81,9 +90,9 @@ class ${requestName}Controller {
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    <%	
-    	}
-    %>
+<%	
+  }
+%>
     
     def getMeansOfContact = {
         def result = []

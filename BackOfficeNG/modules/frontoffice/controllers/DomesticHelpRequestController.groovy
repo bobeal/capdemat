@@ -2,6 +2,7 @@
 
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest
 import fr.cg95.cvq.business.users.Address
+import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
 import fr.cg95.cvq.service.request.IMeansOfContactService
@@ -36,11 +37,12 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                    meansOfContact:getMeansOfContact()])
     }
     
-    
+
     def validSubject = {
         log.debug("validSubject - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
+
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -49,11 +51,12 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    
+
     def validFamilyReferent = {
         log.debug("validFamilyReferent - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
+
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -62,11 +65,12 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    
+
     def validSpouse = {
         log.debug("validSpouse - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
+
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -75,11 +79,12 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    
+
     def validDwelling = {
         log.debug("validDwelling - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
+
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -88,11 +93,12 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    
+
     def validResources = {
         log.debug("validResources - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
+
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -101,11 +107,12 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    
+
     def validTaxes = {
         log.debug("validTaxes - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
+
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -114,11 +121,12 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    
+
     def validDocumentRef = {
         log.debug("validDocumentRef - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
+
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -127,11 +135,15 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    
+
     def validValidationRef = {
         log.debug("validValidationRef - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
+
+
+        dhr.subjectId = SecurityContext.currentEcitizen.id
+        domesticHelpRequestService.create(dhr)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -140,7 +152,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
-    
+
     
     def getMeansOfContact = {
         def result = []

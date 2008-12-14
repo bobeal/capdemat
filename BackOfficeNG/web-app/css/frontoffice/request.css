@@ -121,8 +121,6 @@ h2.request-creation {
   color: #7fa646;
 }
 
-.mandatoryField { background: #E6F5BD;}
-
 #requestTabView .address-fieldset {
   width: 80%;
   margin: 0 0 1em; padding: .5em;
@@ -223,11 +221,11 @@ input, textarea, select {
 }
 
 .validation-failed-cr { /* for checkboxes and radios */
-
 }
 
 .validation-failed-sel { /* for selects */
-
+  border:1px dashed #FF3333;
+  background-color:#FFCCCC;
 }
 
 .validation-passed { /* for textboxes, textareas, passwords */
@@ -255,9 +253,3 @@ position:absolute;
   margin: 1em;
   padding: 1em;
 } 
-
-.submit-button {
-  color: red;
-}
-
-

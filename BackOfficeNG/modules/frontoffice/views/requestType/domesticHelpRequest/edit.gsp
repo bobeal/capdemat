@@ -435,7 +435,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isOtherPensionPlan", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "isSpouseRetired", "isRealEstate", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

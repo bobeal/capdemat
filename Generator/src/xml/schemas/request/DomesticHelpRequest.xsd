@@ -1108,7 +1108,6 @@
             <common>
               <step name="spouse"/>
               <conditions>
-                <condition name="isSpouseOtherPensionPlan" type="trigger"/>
                 <condition name="isSpouseRetired" type="trigger"/>
               </conditions>
             </common>

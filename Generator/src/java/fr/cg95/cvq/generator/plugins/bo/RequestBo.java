@@ -129,9 +129,11 @@ public class RequestBo {
     }
     
     public void addI18nLabel(String lang, String descType, String label) {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(descType, label);
-        i18nLabels.put(lang, map);
+        if (i18nLabels.get(lang) == null) {
+            Map<String, String> map = new HashMap<String, String>();
+            i18nLabels.put(lang, map);
+        }
+        i18nLabels.get(lang).put(descType, label);
     }
     
 }

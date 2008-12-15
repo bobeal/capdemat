@@ -29,6 +29,7 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.I${requestName}Service
 import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.users.IIndividualService
 
 class ${requestName}Controller {
 
@@ -36,7 +37,8 @@ class ${requestName}Controller {
     I${requestName}Service ${StringUtils.uncapitalize(requestName)}Service
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
-
+    IIndividualService individualService
+    
     def translationService
     
     def defaultAction = 'edit'
@@ -60,7 +62,7 @@ class ${requestName}Controller {
 
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
-            model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab,
+            model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab, subjects:getAuthorizedSubjects(),
                    translationService:translationService, help:getHelp(),
                    documentTypes:getDocumentTypes(),
                    meansOfContact:getMeansOfContact()])
@@ -78,14 +80,13 @@ class ${requestName}Controller {
 <%
     if (step.name == 'validationRef') {
 %>
-        dhr.subjectId = SecurityContext.currentEcitizen.id
         domesticHelpRequestService.create(dhr)
 <%
     }
 %>
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
-               model:[${namespaceAlias}:${namespaceAlias}, currentTab:'${step.name}', 
+               model:[${namespaceAlias}:${namespaceAlias}, currentTab:'${step.name}', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -93,6 +94,16 @@ class ${requestName}Controller {
 <%	
   }
 %>
+    
+    def getAuthorizedSubjects = { 
+        def subjects = [:]
+        def authorizedSubjects = ${StringUtils.uncapitalize(requestName)}Service.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
+        authorizedSubjects.each { subjectId, seasonsSet ->
+            def subject = individualService.getById(subjectId)
+            subjects[subjectId] = subject.lastName + " " + subject.firstName
+        }
+        return subjects
+    }
     
     def getMeansOfContact = {
         def result = []

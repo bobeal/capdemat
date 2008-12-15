@@ -12,7 +12,7 @@
           ,"<span class=\"streetNumber\">\${${wrapper}.${element.javaFieldName}.streetNumber}</span> "
           ,"<span class=\"streetName\">\${${wrapper}.${element.javaFieldName}.streetName}</span>"
           ,"<p class=\"placeNameOrService\">\${${wrapper}.${element.javaFieldName}.placeNameOrService}</p>"
-          ,"<span class=\"postalCode\">\${${wrapper}.${element.javaFieldName}.postalCode}</span>"
+          ,"<span class=\"postalCode\">\${${wrapper}.${element.javaFieldName}.postalCode}</span> "
           ,"<span class=\"city\">\${${wrapper}.${element.javaFieldName}.city}</span>"
           ,"<p class=\"countryName\">\${${wrapper}.${element.javaFieldName}.countryName}</p>"
           ,"</div>"

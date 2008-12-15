@@ -3,7 +3,8 @@
 
   
     <fieldset class="">
-    <legend><g:message code="dhr.property.dhrSpouse.label" /></legend>
+    <legend><g:message code="dhr.property.dhrSpouse.label" /></legend> 
+      
     
       <label class="isCoupleRequest-trigger "><g:message code="dhr.property.dhrRequestKind.label" /> <span><g:message code="dhr.property.dhrRequestKind.help" /></span></label>
       
@@ -104,7 +105,8 @@
 
   
     <fieldset class="isCoupleRequest-filled ">
-    <legend><g:message code="dhr.property.dhrSpouseStatus.label" /></legend>
+    <legend><g:message code="dhr.property.dhrSpouseStatus.label" /></legend> 
+      
     
       <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger "><g:message code="dhr.property.dhrIsSpouseRetired.label" /> <span><g:message code="dhr.property.dhrIsSpouseRetired.help" /></span></label>
       
@@ -120,10 +122,10 @@
           
       
     
-      <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
+      <label class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
       
         
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.${it}" /></option>
@@ -179,7 +181,8 @@
 
   
     <fieldset class="isCoupleRequest-filled ">
-    <legend><g:message code="dhr.property.dhrSpouseIncomes.label" /></legend>
+    <legend><g:message code="dhr.property.dhrSpouseIncomes.label" /></legend> 
+      
     
       <label class=""><g:message code="dhr.property.pensions.label" /> <span><g:message code="dhr.property.pensions.help" /></span></label>
       

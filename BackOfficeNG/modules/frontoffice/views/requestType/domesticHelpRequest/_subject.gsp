@@ -3,45 +3,15 @@
 
   
     <fieldset class="">
-    <legend><g:message code="dhr.property.dhrRequester.label" /></legend>
-    
-      <label class="isMadam-trigger "><g:message code="dhr.property.dhrRequesterTitle.label" /> <span><g:message code="dhr.property.dhrRequesterTitle.help" /></span></label>
+    <legend><g:message code="dhr.property.dhrRequester.label" /></legend> 
       
-        
-          <select name="dhrRequesterTitle" class="isMadam-trigger  required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-              <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrRequesterTitle?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterTitle.${it}" /></option>
-            </g:each>
-          </select>
-          
-      
-    
-      <label class=""><g:message code="dhr.property.dhrRequesterFamilyStatus.label" /> <span><g:message code="dhr.property.dhrRequesterFamilyStatus.help" /></span></label>
-      
-        
-          <select name="dhrRequesterFamilyStatus" class=" required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
-              <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == dhr.dhrRequesterFamilyStatus?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterFamilyStatus.${it}" /></option>
-            </g:each>
-          </select>
-          
-      
-    
-      <label class=""><g:message code="dhr.property.dhrRequesterName.label" /> <span><g:message code="dhr.property.dhrRequesterName.help" /></span></label>
-      
-        <input name="dhrRequesterName" value="${dhr.dhrRequesterName}" class=" required  validate-lastname" title="<g:message code="dhr.property.dhrRequesterName.validationError" />">
-      
-    
-      <label class=""><g:message code="dhr.property.dhrRequesterFirstName.label" /> <span><g:message code="dhr.property.dhrRequesterFirstName.help" /></span></label>
-      
-        <input name="dhrRequesterFirstName" value="${dhr.dhrRequesterFirstName}" class=" required  validate-firstname" title="<g:message code="dhr.property.dhrRequesterFirstName.validationError" />">
-      
-    
-      <label class="isMadam-filled "><g:message code="dhr.property.dhrRequesterMaidenName.label" /> <span><g:message code="dhr.property.dhrRequesterMaidenName.help" /></span></label>
-      
-        <input name="dhrRequesterMaidenName" value="${dhr.dhrRequesterMaidenName}" class="isMadam-filled    validate-lastname" title="<g:message code="dhr.property.dhrRequesterMaidenName.validationError" />">
+    <label><g:message code="request.property.subjectName" /></label>
+    <select name="subjectId" class="required validate-not-first" title="request.subject.validationError">
+      <option value=""><g:message code="message.select.defaultOption" /></option>
+      <g:each in="${subjects}">
+        <option value="${it.key}" ${it.key == dhr.subjectId ? 'selected="selected"': ''}>${it.value}</option>
+      </g:each>
+    </select>
       
     
       <label class=""><g:message code="dhr.property.dhrRequesterBirthDate.label" /> <span><g:message code="dhr.property.dhrRequesterBirthDate.help" /></span></label>
@@ -90,7 +60,8 @@
 
   
     <fieldset class="">
-    <legend><g:message code="dhr.property.dhrRequesterPensionPlan.label" /></legend>
+    <legend><g:message code="dhr.property.dhrRequesterPensionPlan.label" /></legend> 
+      
     
       <label class="isOtherPensionPlan-trigger "><g:message code="dhr.property.dhrPrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrPrincipalPensionPlan.help" /></span></label>
       
@@ -119,7 +90,8 @@
 
   
     <fieldset class="">
-    <legend><g:message code="dhr.property.dhrRequesterGuardian.label" /></legend>
+    <legend><g:message code="dhr.property.dhrRequesterGuardian.label" /></legend> 
+      
     
       <label class="haveGuardian-trigger "><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /> <span><g:message code="dhr.property.dhrRequesterHaveGuardian.help" /></span></label>
       

@@ -46,31 +46,6 @@
               <h3><g:message code="dhr.property.dhrRequester.label" /></h3>
               <dl class="required">
                 
-                  <dt class="required condition-isMadam-trigger"><g:message code="dhr.property.dhrRequesterTitle.label" /> : </dt>
-                  <dd id="dhrRequesterTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterTitle javatype-fr.cg95.cvq.business.request.social.TitleType" >
-                    <g:capdematEnumToField var="${request.dhrRequesterTitle}" i18nKeyPrefix="dhr.property.dhrRequesterTitle" />
-                  </dd>
-                
-                  <dt class="required"><g:message code="dhr.property.dhrRequesterFamilyStatus.label" /> : </dt>
-                  <dd id="dhrRequesterFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterFamilyStatus javatype-fr.cg95.cvq.business.request.social.FamilyStatusType" >
-                    <g:capdematEnumToField var="${request.dhrRequesterFamilyStatus}" i18nKeyPrefix="dhr.property.dhrRequesterFamilyStatus" />
-                  </dd>
-                
-                  <dt class="required"><g:message code="dhr.property.dhrRequesterName.label" /> : </dt>
-                  <dd id="dhrRequesterName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrRequesterName" >
-                    <span>${request.dhrRequesterName}</span>
-                  </dd>
-                
-                  <dt class="required"><g:message code="dhr.property.dhrRequesterFirstName.label" /> : </dt>
-                  <dd id="dhrRequesterFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrRequesterFirstName" >
-                    <span>${request.dhrRequesterFirstName}</span>
-                  </dd>
-                
-                  <dt class="required condition-isMadam-filled"><g:message code="dhr.property.dhrRequesterMaidenName.label" /> : </dt>
-                  <dd id="dhrRequesterMaidenName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrRequesterMaidenName" >
-                    <span>${request.dhrRequesterMaidenName}</span>
-                  </dd>
-                
                   <dt class="required"><g:message code="dhr.property.dhrRequesterBirthDate.label" /> : </dt>
                   <dd id="dhrRequesterBirthDate" class="action-editField validate-date required-true i18n-dhr.property.dhrRequesterBirthDate" >
                     <span><g:formatDate format="dd/MM/yyyy" date="${request.dhrRequesterBirthDate}"/></span>
@@ -148,7 +123,7 @@
                 
                   <dt class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianAddress.label" /> : </dt>
                   <dd id="dhrGuardianAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrGuardianAddress" >
-                    <div><p class="additionalDeliveryInformation">${request.dhrGuardianAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrGuardianAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrGuardianAddress.streetNumber}</span> <span class="streetName">${request.dhrGuardianAddress.streetName}</span><p class="placeNameOrService">${request.dhrGuardianAddress.placeNameOrService}</p><span class="postalCode">${request.dhrGuardianAddress.postalCode}</span><span class="city">${request.dhrGuardianAddress.city}</span><p class="countryName">${request.dhrGuardianAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${request.dhrGuardianAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrGuardianAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrGuardianAddress.streetNumber}</span> <span class="streetName">${request.dhrGuardianAddress.streetName}</span><p class="placeNameOrService">${request.dhrGuardianAddress.placeNameOrService}</p><span class="postalCode">${request.dhrGuardianAddress.postalCode}</span> <span class="city">${request.dhrGuardianAddress.city}</span><p class="countryName">${request.dhrGuardianAddress.countryName}</p></div>
                   </dd>
                 
               </dl>
@@ -195,7 +170,7 @@
                 
                   <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentAddress.label" /> : </dt>
                   <dd id="dhrReferentAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrReferentAddress" >
-                    <div><p class="additionalDeliveryInformation">${request.dhrReferentAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrReferentAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrReferentAddress.streetNumber}</span> <span class="streetName">${request.dhrReferentAddress.streetName}</span><p class="placeNameOrService">${request.dhrReferentAddress.placeNameOrService}</p><span class="postalCode">${request.dhrReferentAddress.postalCode}</span><span class="city">${request.dhrReferentAddress.city}</span><p class="countryName">${request.dhrReferentAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${request.dhrReferentAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrReferentAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrReferentAddress.streetNumber}</span> <span class="streetName">${request.dhrReferentAddress.streetName}</span><p class="placeNameOrService">${request.dhrReferentAddress.placeNameOrService}</p><span class="postalCode">${request.dhrReferentAddress.postalCode}</span> <span class="city">${request.dhrReferentAddress.city}</span><p class="countryName">${request.dhrReferentAddress.countryName}</p></div>
                   </dd>
                 
               </dl>
@@ -279,7 +254,7 @@
                     <g:capdematEnumToField var="${request.dhrRequestKind}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
                   </dd>
                 
-                  <dt class="required condition-isCoupleRequest-filled condition-isSpouseMadam-trigger"><g:message code="dhr.property.dhrSpouseTitle.label" /> : </dt>
+                  <dt class="required condition-isSpouseMadam-trigger condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseTitle.label" /> : </dt>
                   <dd id="dhrSpouseTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseTitle javatype-fr.cg95.cvq.business.request.social.TitleType" >
                     <g:capdematEnumToField var="${request.dhrSpouseTitle}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" />
                   </dd>
@@ -336,7 +311,7 @@
               <h3><g:message code="dhr.property.dhrSpouseStatus.label" /></h3>
               <dl class="required condition-isCoupleRequest-filled">
                 
-                  <dt class="required condition-isSpouseRetired-trigger condition-isSpouseOtherPensionPlan-trigger"><g:message code="dhr.property.dhrIsSpouseRetired.label" /> : </dt>
+                  <dt class="required condition-isSpouseOtherPensionPlan-trigger condition-isSpouseRetired-trigger"><g:message code="dhr.property.dhrIsSpouseRetired.label" /> : </dt>
                   <dd id="dhrIsSpouseRetired" class="action-editField validate-boolean required-true i18n-dhr.property.dhrIsSpouseRetired" >
                     <span>${request.dhrIsSpouseRetired}</span>
                   </dd>
@@ -368,7 +343,7 @@
                 
                   <dt class="required condition-isSpouseRetired-unfilled"><g:message code="dhr.property.dhrSpouseAddress.label" /> : </dt>
                   <dd id="dhrSpouseAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrSpouseAddress" >
-                    <div><p class="additionalDeliveryInformation">${request.dhrSpouseAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrSpouseAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrSpouseAddress.streetNumber}</span> <span class="streetName">${request.dhrSpouseAddress.streetName}</span><p class="placeNameOrService">${request.dhrSpouseAddress.placeNameOrService}</p><span class="postalCode">${request.dhrSpouseAddress.postalCode}</span><span class="city">${request.dhrSpouseAddress.city}</span><p class="countryName">${request.dhrSpouseAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${request.dhrSpouseAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrSpouseAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrSpouseAddress.streetNumber}</span> <span class="streetName">${request.dhrSpouseAddress.streetName}</span><p class="placeNameOrService">${request.dhrSpouseAddress.placeNameOrService}</p><span class="postalCode">${request.dhrSpouseAddress.postalCode}</span> <span class="city">${request.dhrSpouseAddress.city}</span><p class="countryName">${request.dhrSpouseAddress.countryName}</p></div>
                   </dd>
                 
               </dl>
@@ -400,7 +375,7 @@
                 
                   <dt class="required"><g:message code="dhr.property.dhrCurrentDwellingAddress.label" /> : </dt>
                   <dd id="dhrCurrentDwellingAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrCurrentDwellingAddress" >
-                    <div><p class="additionalDeliveryInformation">${request.dhrCurrentDwellingAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrCurrentDwellingAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrCurrentDwellingAddress.streetNumber}</span> <span class="streetName">${request.dhrCurrentDwellingAddress.streetName}</span><p class="placeNameOrService">${request.dhrCurrentDwellingAddress.placeNameOrService}</p><span class="postalCode">${request.dhrCurrentDwellingAddress.postalCode}</span><span class="city">${request.dhrCurrentDwellingAddress.city}</span><p class="countryName">${request.dhrCurrentDwellingAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${request.dhrCurrentDwellingAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request.dhrCurrentDwellingAddress.additionalGeographicalInformation}</p><span class="streetNumber">${request.dhrCurrentDwellingAddress.streetNumber}</span> <span class="streetName">${request.dhrCurrentDwellingAddress.streetName}</span><p class="placeNameOrService">${request.dhrCurrentDwellingAddress.placeNameOrService}</p><span class="postalCode">${request.dhrCurrentDwellingAddress.postalCode}</span> <span class="city">${request.dhrCurrentDwellingAddress.city}</span><p class="countryName">${request.dhrCurrentDwellingAddress.countryName}</p></div>
                   </dd>
                 
                   <dt class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" /> : </dt>
@@ -449,7 +424,7 @@
                 
                   <dt class="required"><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /> : </dt>
                   <dd id="dhrPreviousDwelling[${index}].dhrPreviousDwellingAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrPreviousDwellingAddress" >
-                    <div><p class="additionalDeliveryInformation">${it.dhrPreviousDwellingAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrPreviousDwellingAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrPreviousDwellingAddress.streetNumber}</span> <span class="streetName">${it.dhrPreviousDwellingAddress.streetName}</span><p class="placeNameOrService">${it.dhrPreviousDwellingAddress.placeNameOrService}</p><span class="postalCode">${it.dhrPreviousDwellingAddress.postalCode}</span><span class="city">${it.dhrPreviousDwellingAddress.city}</span><p class="countryName">${it.dhrPreviousDwellingAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${it.dhrPreviousDwellingAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrPreviousDwellingAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrPreviousDwellingAddress.streetNumber}</span> <span class="streetName">${it.dhrPreviousDwellingAddress.streetName}</span><p class="placeNameOrService">${it.dhrPreviousDwellingAddress.placeNameOrService}</p><span class="postalCode">${it.dhrPreviousDwellingAddress.postalCode}</span> <span class="city">${it.dhrPreviousDwellingAddress.city}</span><p class="countryName">${it.dhrPreviousDwellingAddress.countryName}</p></div>
                   </dd>
                 
                   <dt class="required condition-isPreviousDwellingPlaceOfResidence-trigger"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> : </dt>
@@ -551,7 +526,7 @@
                 
                   <dt class="required"><g:message code="dhr.property.dhrRealAssetAddress.label" /> : </dt>
                   <dd id="dhrRealAsset[${index}].dhrRealAssetAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrRealAssetAddress" >
-                    <div><p class="additionalDeliveryInformation">${it.dhrRealAssetAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrRealAssetAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrRealAssetAddress.streetNumber}</span> <span class="streetName">${it.dhrRealAssetAddress.streetName}</span><p class="placeNameOrService">${it.dhrRealAssetAddress.placeNameOrService}</p><span class="postalCode">${it.dhrRealAssetAddress.postalCode}</span><span class="city">${it.dhrRealAssetAddress.city}</span><p class="countryName">${it.dhrRealAssetAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${it.dhrRealAssetAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrRealAssetAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrRealAssetAddress.streetNumber}</span> <span class="streetName">${it.dhrRealAssetAddress.streetName}</span><p class="placeNameOrService">${it.dhrRealAssetAddress.placeNameOrService}</p><span class="postalCode">${it.dhrRealAssetAddress.postalCode}</span> <span class="city">${it.dhrRealAssetAddress.city}</span><p class="countryName">${it.dhrRealAssetAddress.countryName}</p></div>
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrRealAssetValue.label" /> : </dt>
@@ -585,7 +560,7 @@
                 
                   <dt class="required condition-isRealEstate-filled"><g:message code="dhr.property.dhrNotRealAssetAddress.label" /> : </dt>
                   <dd id="dhrNotRealAsset[${index}].dhrNotRealAssetAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrNotRealAssetAddress" >
-                    <div><p class="additionalDeliveryInformation">${it.dhrNotRealAssetAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrNotRealAssetAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrNotRealAssetAddress.streetNumber}</span> <span class="streetName">${it.dhrNotRealAssetAddress.streetName}</span><p class="placeNameOrService">${it.dhrNotRealAssetAddress.placeNameOrService}</p><span class="postalCode">${it.dhrNotRealAssetAddress.postalCode}</span><span class="city">${it.dhrNotRealAssetAddress.city}</span><p class="countryName">${it.dhrNotRealAssetAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${it.dhrNotRealAssetAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrNotRealAssetAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrNotRealAssetAddress.streetNumber}</span> <span class="streetName">${it.dhrNotRealAssetAddress.streetName}</span><p class="placeNameOrService">${it.dhrNotRealAssetAddress.placeNameOrService}</p><span class="postalCode">${it.dhrNotRealAssetAddress.postalCode}</span> <span class="city">${it.dhrNotRealAssetAddress.city}</span><p class="countryName">${it.dhrNotRealAssetAddress.countryName}</p></div>
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /> : </dt>
@@ -600,7 +575,7 @@
                 
                   <dt class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" /> : </dt>
                   <dd id="dhrNotRealAsset[${index}].dhrNotRealAssetBeneficiaryAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrNotRealAssetBeneficiaryAddress" >
-                    <div><p class="additionalDeliveryInformation">${it.dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrNotRealAssetBeneficiaryAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrNotRealAssetBeneficiaryAddress.streetNumber}</span> <span class="streetName">${it.dhrNotRealAssetBeneficiaryAddress.streetName}</span><p class="placeNameOrService">${it.dhrNotRealAssetBeneficiaryAddress.placeNameOrService}</p><span class="postalCode">${it.dhrNotRealAssetBeneficiaryAddress.postalCode}</span><span class="city">${it.dhrNotRealAssetBeneficiaryAddress.city}</span><p class="countryName">${it.dhrNotRealAssetBeneficiaryAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${it.dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrNotRealAssetBeneficiaryAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrNotRealAssetBeneficiaryAddress.streetNumber}</span> <span class="streetName">${it.dhrNotRealAssetBeneficiaryAddress.streetName}</span><p class="placeNameOrService">${it.dhrNotRealAssetBeneficiaryAddress.placeNameOrService}</p><span class="postalCode">${it.dhrNotRealAssetBeneficiaryAddress.postalCode}</span> <span class="city">${it.dhrNotRealAssetBeneficiaryAddress.city}</span><p class="countryName">${it.dhrNotRealAssetBeneficiaryAddress.countryName}</p></div>
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrNotRealAssetValue.label" /> : </dt>
@@ -620,7 +595,7 @@
                 
                   <dt class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" /> : </dt>
                   <dd id="dhrNotRealAsset[${index}].dhrNotRealAssetNotaryAddress" class="action-editField validate-address required-true i18n-dhr.property.dhrNotRealAssetNotaryAddress" >
-                    <div><p class="additionalDeliveryInformation">${it.dhrNotRealAssetNotaryAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrNotRealAssetNotaryAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrNotRealAssetNotaryAddress.streetNumber}</span> <span class="streetName">${it.dhrNotRealAssetNotaryAddress.streetName}</span><p class="placeNameOrService">${it.dhrNotRealAssetNotaryAddress.placeNameOrService}</p><span class="postalCode">${it.dhrNotRealAssetNotaryAddress.postalCode}</span><span class="city">${it.dhrNotRealAssetNotaryAddress.city}</span><p class="countryName">${it.dhrNotRealAssetNotaryAddress.countryName}</p></div>
+                    <div><p class="additionalDeliveryInformation">${it.dhrNotRealAssetNotaryAddress.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it.dhrNotRealAssetNotaryAddress.additionalGeographicalInformation}</p><span class="streetNumber">${it.dhrNotRealAssetNotaryAddress.streetNumber}</span> <span class="streetName">${it.dhrNotRealAssetNotaryAddress.streetName}</span><p class="placeNameOrService">${it.dhrNotRealAssetNotaryAddress.placeNameOrService}</p><span class="postalCode">${it.dhrNotRealAssetNotaryAddress.postalCode}</span> <span class="city">${it.dhrNotRealAssetNotaryAddress.city}</span><p class="countryName">${it.dhrNotRealAssetNotaryAddress.countryName}</p></div>
                   </dd>
                 
               </dl>

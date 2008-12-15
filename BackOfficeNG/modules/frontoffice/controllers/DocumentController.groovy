@@ -86,23 +86,19 @@ class DocumentController {
         response.outputStream << binary.data
     }
     
+    /**
+     * TODO REFACTORING : CapdematUtils.adaptRequestActionLabel
+     */
     def protected getActions = {document ->
         def actions = []
         document.actions.each {
-            def agent
-            try {
-                agent = it.agentId ? agentService.getById(it.agentId) : null
-            } catch (CvqObjectNotFoundException) {
-                agent = null
-            }
-
             actions.add(
                 [ "id": it.id,
-                  "agentName": agent ? agent.lastName + " " + agent.firstName : "",
-                  "label": it.label,
+                  "agentName": this.instructionService.getActionPosterDetails(it.agentId),
+                  "label": message(code:CapdematUtils.adaptRequestActionLabel(it.label)),
                   "note": it.note,
                   "date": it.date,
-                  "resultingState": CapdematUtils.adaptCapdematEnum(it.resultingState, "document.state")
+                  "resultingState": it.resultingState
                 ])
         }
         

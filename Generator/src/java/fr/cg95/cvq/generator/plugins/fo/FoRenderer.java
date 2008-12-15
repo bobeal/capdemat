@@ -23,7 +23,7 @@ public class FoRenderer {
     private final String TEMPLATES_DIR = "Generator/src/java/fr/cg95/cvq/generator/plugins/fo/templates/";
 
     private final String EDIT_TEMPLATE = TEMPLATES_DIR + "edit.tmpl";
-
+    private final String SUMMARY_TEMPLATE = TEMPLATES_DIR + "summary.tmpl";
     private final String CONTROLLER_TEMPLATE = TEMPLATES_DIR + "controller.tmpl";
 
     private FoObject foObject;
@@ -33,8 +33,8 @@ public class FoRenderer {
     private StringBuffer stepValidationRender;
 
     private Template controllerTemplate;
-
     private Template editTemplate;
+    private Template summaryTemplate;
 
 
     public FoRenderer(FoObject foObject, String outputDir) {
@@ -47,6 +47,7 @@ public class FoRenderer {
     public void render() {
         createController();
         createEditFile();
+        createSummaryFile();
     }
    
     private void createController() {
@@ -75,6 +76,19 @@ public class FoRenderer {
         createFile(editFileName, w);
     }
 
+    private void createSummaryFile() {
+        String summaryDirName = outputDir + '/' + VIEW_DIR
+                + StringUtils.uncapitalize(getFoObject().getRequestName()) + "/";
+        String summaryFileName = summaryDirName + "_summary.gsp";
+        File summaryDir = new File(summaryDirName);
+        if (!summaryDir.exists())
+            summaryDir.mkdirs();
+        Map<String, Object> binding = new HashMap<String, Object>();
+        binding.put("foObject", foObject);
+        Writable w = summaryTemplate.make(binding);
+        createFile(summaryFileName, w);
+    }
+
     private void initTemplates(FoObject foObject) {
 
         SimpleTemplateEngine simpleEngine = new SimpleTemplateEngine();
@@ -87,9 +101,12 @@ public class FoRenderer {
             file = new File(EDIT_TEMPLATE);
             template = simpleEngine.createTemplate(file);
             setEditTemplate(template);
+            file = new File(SUMMARY_TEMPLATE);
+            summaryTemplate = simpleEngine.createTemplate(file);
 
         } catch (Exception e) {
-           logger.error("Templates are not initialized");
+            e.printStackTrace();
+            logger.error("Templates are not initialized");
         }
     }
 

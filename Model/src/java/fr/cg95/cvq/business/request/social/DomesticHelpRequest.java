@@ -157,7 +157,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
             dhrTaxesAmountTypeDhrTaxesAmount.setLocalRate(new BigInteger(this.localRate.toString()));
         dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpouseEmployer(this.dhrSpouseEmployer);
         if (this.dhrRequestKind != null)
-            domesticHelpRequest.setDhrRequestKind(fr.cg95.cvq.xml.request.social.DhrRequestKindType.Enum.forString(this.dhrRequestKind.toString()));
+            dhrSpouseTypeDhrSpouse.setDhrRequestKind(fr.cg95.cvq.xml.request.social.DhrRequestKindType.Enum.forString(this.dhrRequestKind.toString()));
         DhrRequesterPensionPlanType dhrRequesterPensionPlanTypeDhrRequesterPensionPlan = domesticHelpRequest.addNewDhrRequesterPensionPlan();
         if (this.dhrPrincipalPensionPlan != null)
             dhrRequesterPensionPlanTypeDhrRequesterPensionPlan.setDhrPrincipalPensionPlan(fr.cg95.cvq.xml.request.social.DhrPrincipalPensionPlanType.Enum.forString(this.dhrPrincipalPensionPlan.toString()));
@@ -301,8 +301,8 @@ public class DomesticHelpRequest extends Request implements Serializable {
         domesticHelpRequest.setDhrReferentName(domesticHelpRequestXml.getDhrFamilyReferent().getDhrReferentName());
         domesticHelpRequest.setLocalRate(domesticHelpRequestXml.getDhrTaxesAmount().getLocalRate());
         domesticHelpRequest.setDhrSpouseEmployer(domesticHelpRequestXml.getDhrSpouseStatus().getDhrSpouseEmployer());
-        if (domesticHelpRequestXml.getDhrRequestKind() != null)
-            domesticHelpRequest.setDhrRequestKind(fr.cg95.cvq.business.request.social.DhrRequestKindType.forString(domesticHelpRequestXml.getDhrRequestKind().toString()));
+        if (domesticHelpRequestXml.getDhrSpouse().getDhrRequestKind() != null)
+            domesticHelpRequest.setDhrRequestKind(fr.cg95.cvq.business.request.social.DhrRequestKindType.forString(domesticHelpRequestXml.getDhrSpouse().getDhrRequestKind().toString()));
         else
             domesticHelpRequest.setDhrRequestKind(fr.cg95.cvq.business.request.social.DhrRequestKindType.getDefaultDhrRequestKindType());
         if (domesticHelpRequestXml.getDhrRequesterPensionPlan().getDhrPrincipalPensionPlan() != null)

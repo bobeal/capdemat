@@ -1,3 +1,4 @@
+${acronym}.duration.value =
 <% steps.each { %>
 ${acronym}.step.${it.name}.label =
 ${acronym}.step.${it.name}.desc =

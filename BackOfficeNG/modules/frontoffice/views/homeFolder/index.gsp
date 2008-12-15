@@ -1,6 +1,7 @@
 <html>
   <head>
-    <meta name="layout" content="fong_main" />
+    <meta name="layout" content="fo_main" />
+    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'homefolder.css')}" />
   </head>
   
   <body>

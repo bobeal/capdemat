@@ -67,10 +67,10 @@ version: 2.5.2
 
 .yui-skin-fong .yui-navset .yui-nav a:hover,
 .yui-skin-fong .yui-navset .yui-nav a:focus {
-  border: 1px solid /* #A0D158 */ #ffffff;
-  color:#000;
+  border: 1px solid /* #A0D158 #ffffff */;
+/*  color:#000; */
 /*  background:#fff2fc;*/
-  background: #fff;
+  background-color: #ffffff;
 }
 
 .yui-skin-fong .yui-navset .yui-nav .selected a em {

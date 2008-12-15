@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>CapDémat Lab - FrontOfficeNG</title>
-    <g:render template="/shared/fong_resources" />
+    <g:render template="/shared/fo_resources" />
     <g:layoutHead />
   </head>
   <body>

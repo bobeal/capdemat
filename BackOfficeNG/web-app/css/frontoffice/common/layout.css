@@ -118,15 +118,6 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
   background: #C690BB;
 }
 
-/* navigation tab link TODO - improve integration */
-.navTab { height: 2em }
-.nextTab, .prevTab { color: #2020AA; }
-.nextTab { float: right; }
-.prevTab { float: left; }
-
-.nextTab:hover, .prevTab:hover { background: #2020AA; color:#ffffff; }
-
-
 /* messages (error , alertl, validation) */
 .message {
  padding: 1em 0;

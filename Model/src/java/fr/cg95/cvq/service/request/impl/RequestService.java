@@ -897,6 +897,10 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     protected HomeFolder createOrSynchronizeHomeFolder(Request request, Adult requester)
         throws CvqException, CvqModelException {
 
+        // in case requester id is not filled, feed it with currently logged in ecitizen
+        if (request.getRequesterId() == null && SecurityContext.getCurrentEcitizen() != null) 
+            request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
+        
         if (request.getRequesterId() == null) {
             if (supportUnregisteredCreation.booleanValue()) {
                 logger.debug("create() Gonna create implicit home folder");
@@ -915,12 +919,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             }
         } else {
             logger.debug("create() Adult already exists, re-synchronizing it with DB");
-            // resynchronize requester with our model object in order to have a fully filled adult object
+            // load requester in order to have names information
             Individual somebody = individualService.getById(request.getRequesterId());
             if (somebody instanceof Child)
                 throw new CvqModelException("request.error.requesterMustBeAdult");
             Adult adult = (Adult) somebody;
-            request.setRequesterId(adult.getId());
             request.setRequesterLastName(adult.getLastName());
             request.setRequesterFirstName(adult.getFirstName());
             request.setHomeFolderId(adult.getHomeFolder().getId());

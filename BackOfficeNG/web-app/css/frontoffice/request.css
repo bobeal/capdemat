@@ -30,6 +30,10 @@ h2.request-creation {
   float: right;
 }
  
+#requestTabView h4 {
+  font-size: 1.2em;
+}
+
 #requestTabView form {
   min-height: 30em;
   padding:  0 1.5em 1.5em 1.5em;
@@ -86,16 +90,20 @@ h2.request-creation {
   margin-left: 1em;
 }
 
-#requestTabView input[type="submit"] {
+#requestTabView .yui-button {
+  margin-left: 40%;
+}
+
+#requestTabView button[type="button"] {
   width: auto;
   margin: 2em auto 0 auto;
   border: 1px solid #cccccc;
   border-bottom-color: #7fa646;
   border-right-color: #7fa646;
   -moz-border-radius: .3em;
-  font-weight: bold;
 }
-#requestTabView input[type="submit"]:hover {
+
+#requestTabView button[type="button"]:hover {
   border: 1px solid #cdcdcd;
   border-top-color: #7fa646;
   border-left-color: #7fa646;
@@ -113,8 +121,6 @@ h2.request-creation {
   color: #7fa646;
 }
 
-.mandatoryField { background: #E6F5BD;}
-
 #requestTabView .address-fieldset {
   width: 80%;
   margin: 0 0 1em; padding: .5em;
@@ -127,6 +133,35 @@ h2.request-creation {
 #requestTabView .address-fieldset input.line2 { display: inline; width: 82%; }
 
 
+/* navigation tab link TODO - improve integration */
+#requestTabView .navTab { height: 2em }
+#requestTabView .nextTab, #requestTabView .prevTab { color: #2020AA; }
+#requestTabView .nextTab { float: right; }
+#requestTabView .prevTab { float: left; }
+
+#requestTabView .nextTab:hover, #requestTabView .prevTab:hover { background: #2020AA; color:#ffffff; }
+
+/* request summary
+--------------------------------------------------------------*/
+#requestTabView dl {
+  margin : 10px;
+  border-bottom: 1px dashed #C690BB;
+  color: #333;
+  overflow: auto;
+}
+ 
+#requestTabView dl dt,
+#requestTabView dl dd {
+  float: left;
+  margin: 0;
+  padding: .3em;
+  border-top: 1px dashed #C690BB;
+}
+
+#requestTabView dl dt { width: 9em; min-height: 1.5em; text-align: right; clear: both; }
+#requestTabView dl dd { width: 14em; font-size: 1.15em; }
+
+#requestTabView dl dd p { padding: 0.1em; }
 
 /* request help
 --------------------------------------------------------------*/
@@ -186,11 +221,11 @@ input, textarea, select {
 }
 
 .validation-failed-cr { /* for checkboxes and radios */
-
 }
 
 .validation-failed-sel { /* for selects */
-
+  border:1px dashed #FF3333;
+  background-color:#FFCCCC;
 }
 
 .validation-passed { /* for textboxes, textareas, passwords */
@@ -218,9 +253,3 @@ position:absolute;
   margin: 1em;
   padding: 1em;
 } 
-
-.submit-button {
-  color: red;
-}
-
-

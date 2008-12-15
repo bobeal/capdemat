@@ -1,14 +1,10 @@
-<g:if test="${actions?.size() > 0}">
-  <h2>
-    <g:message code="document.header.actionHistory"/>
-  </h2>
-  <div class="individual-detail">
+<g:if test="${!actions?.isEmpty()}">
+  <h3><g:message code="document.header.actionHistory"/></h3>
+  <div class="list-box">
     <ul>
       <g:each var="action" in="${actions}">
         <li>
-          <span class="${action.resultingState.cssClass}">
-            <g:message code="${action.resultingState.i18nKey}" />
-          </span>
+          <g:capdematEnumToFlag var="${action.resultingState}" i18nKeyPrefix="document.state" />
           <strong>${action.label}</strong>
           <g:if test="${action.date}">
             - <strong><g:formatDate date="${action.date}" formatName="format.date" /></strong>

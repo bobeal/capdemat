@@ -39,7 +39,7 @@
           <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="\${${element.enumValuesAsString}}">
-              <option value="${element.modelNamespace}.${element.javaType}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'selected="selected"': ''}><g:message code="${i18nPrefix}.${element.javaName}.\${it}" /></option>
+              <option value="${element.modelNamespace}.${element.javaType}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}?.toString() ? 'selected="selected"': ''}><g:message code="${i18nPrefix}.${element.javaName}.\${it}" /></option>
             </g:each>
           </select>
           """
@@ -66,27 +66,29 @@
     
     if (widgets[widget] != null)
       print widgets[widget]
+    else if (element.javaType == 'date')
+      print """<input name="${wrapper}${element.javaName}" value="\${formatDate(formatName:'format.date',date:${namespaceAlias}.${wrapper}${element.javaName})}" class="${element.condition} ${element.validation}" title="">"""
     else
-      print """<input name="${wrapper}${element.javaName}" value="\${${namespaceAlias}.${wrapper}${element.javaName}}" class="${element.condition} ${element.validation}" title="<g:message code="${i18nPrefix}.${element.javaName}.validationError" />" />"""
+      print """<input name="${wrapper}${element.javaName}" value="\${${namespaceAlias}.${wrapper}${element.javaName}}" class="${element.condition} ${element.validation}" title="">"""
   }
-   
+
 %>
 <html>
   <head>
-    <meta name="layout" content="fong_main" />
+    <meta name="layout" content="fo_main" />
+    <link rel="stylesheet" type="text/css" href="\${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
     <script type="text/javascript" src="\${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
       <h2 class="request-creation">
       <g:message code="${namespaceAlias}.label" />
       <span><g:message code="${namespaceAlias}.description" /></span> 
-      <span><g:message code="${namespaceAlias}.duration.label" /><strong><g:message code="${namespaceAlias}.duration.value" /></strong></span>
+      <span><g:message code="request.duration.label" /><strong> : <g:message code="${namespaceAlias}.duration.value" /></strong></span>
       <span>
-        Documents à fournir :
+        <g:message code="request.requiredDocuments.header" /> :
         <g:each in="\${documentTypes}" var="documentType" status="index">
           <strong>
-            <g:message code="\${documentType.value}"/>
-            <g:if test="\${index < documentTypes.size() - 1}">,</g:if>
+            <g:message code="\${documentType.value}"/><g:if test="\${index < documentTypes.size() - 1}">,</g:if>
           </strong>
         </g:each>
       </span>
@@ -95,8 +97,8 @@
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
       <% steps.each { step = it.value %> 
-       <li class="\${currentTab == 'tab${step.index + 1}' ? 'selected' : ''}">
-        <a href="#tab${step.index + 1}"><em>
+       <li class="\${currentTab == '${step.name}' ? 'selected' : ''}">
+        <a href="#${step.name}"><em>
          <span class="tag-no_right">${step.index + 1}</span>
          <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
 <%
@@ -121,7 +123,7 @@
 		 
      <div class="yui-content">
      <% steps.each { step = it.value %>
-       <div id="tab${step.index + 1}">
+       <div id="${step.name}">
 <%
   if (step.name == 'documentRef') {
 %>
@@ -157,6 +159,8 @@
                <option value="\${moc.key}">\${moc.label}</option>
              </g:each>
            </select>
+           
+           <g:render template="/frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/summary" />
 <%
     } else {
 %>
@@ -205,11 +209,11 @@
            <%  
            	if (step.index != 0) { 
            %>
-           <a href="#tab${step.index}" class="prevTab"><g:message code="request.step.navigation.previous"/></a><% }%>
+           <a href="#${steps.get(step.index -1).name}" class="prevTab"><g:message code="request.step.navigation.previous"/></a><% }%>
            <% 
              if (step.index != steps.size() - 1) {
            %>
-           <a href="#tab${step.index + 2}" class="nextTab"><g:message code="request.step.navigation.next"/></a><% }%>
+           <a href="#${steps.get(step.index + 1).name}" class="nextTab"><g:message code="request.step.navigation.next"/></a><% }%>
          </div>
          
          <g:if test="\${help.${step.name}}">
@@ -285,22 +289,17 @@
 	  
 	  // VALIDATION
 	  <% steps.each { step = it.value %>
-	  var submitRsrSubjectButton = new YAHOO.widget.Button("submit${StringUtils.capitalize(step.name)}");
-      submitRsrSubjectButton.on("click", FIC_checkForm, document.getElementById('${StringUtils.uncapitalize(step.name)}FormErrors'));
-      submitRsrSubjectButton.on("click", onSubmitClick, "${StringUtils.uncapitalize(step.name)}Form");
+	  var submit${StringUtils.capitalize(step.name)}Button = new YAHOO.widget.Button("submit${StringUtils.capitalize(step.name)}");
+      submit${StringUtils.capitalize(step.name)}Button.on("click", FIC_checkForm, document.getElementById('${StringUtils.uncapitalize(step.name)}FormErrors'));
+      submit${StringUtils.capitalize(step.name)}Button.on("click", onSubmitClick, "${StringUtils.uncapitalize(step.name)}Form");
 	  <% } %>
 	  
 	  function onSubmitClick(ev, formId) {
-		zenexity.capdemat.common.doAjaxFormSubmitCall(formId ,null,  
-		function(o) {
-		     if (o.status == "200")
-		     	resetFormErrors(formId + "Errors");
-		});
+        document.getElementById(formId).submit();
 	  }
 	  
 	  function resetFormErrors(formErrors) { 
 		YAHOO.util.Dom.get(formErrors).innerHTML = '';
-		
 	  }
 	  
     // Request TabView Initialization

@@ -4,7 +4,7 @@
       <li>
         <p>
           <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="document.state" />
-          <a href="${createLink(action:'details')}/${record.id}">
+          <a href="${createLink(action:'details',id:record.id)}">
             ${record.title}
           </a>
           <g:if test="${record.subject}">

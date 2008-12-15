@@ -153,5 +153,21 @@ public class Element {
         this.javaType = javaType;
     }
 
-
+    // required
+    public String getRequiredClass() {
+        if (validation.contains("required"))
+            return "required";
+        else
+            return "";
+    }
+    
+    // condition trigger
+    public String getConditionTrigger() {
+         String [] conditions = condition.split(" ");
+         for (int i = 0; i < conditions.length; i++)
+            if (conditions[i].contains("trigger"))
+                return conditions[i];
+         
+         return "";
+    }
 }

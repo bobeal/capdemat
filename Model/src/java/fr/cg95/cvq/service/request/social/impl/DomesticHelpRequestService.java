@@ -160,10 +160,7 @@ public class DomesticHelpRequestService extends RequestService implements
     }
     
     public boolean checkIsSpouseOtherPensionPlan(final Map<String,String> inputs){
-        System.out.println("dhrSpousePrincipalPensionPlan:" + inputs.get("dhrSpousePrincipalPensionPlan"));
-        System.out.println("dhrIsSpouseRetired:" + inputs.get("dhrIsSpouseRetired"));
-        if (inputs.get("dhrSpousePrincipalPensionPlan").equals("fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_Other")
-            && inputs.get("dhrIsSpouseRetired").equals("true"))
+        if (inputs.get("dhrSpousePrincipalPensionPlan").equals("fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_Other"))
             return true;
         return false;
     }

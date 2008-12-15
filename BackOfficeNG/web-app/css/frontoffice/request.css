@@ -26,9 +26,7 @@ h2.request-creation {
   font-size: .75em;
 }
 
-#requestTabView h3 .tag-state {
-  float: right;
-}
+#requestTabView h3 .tag-state { float: right; }
  
 #requestTabView h4 {
   font-size: 1.2em;
@@ -49,11 +47,8 @@ h2.request-creation {
   font-weight: normal;
   font-style: normal;
 }
-#requestTabView label span {
-  font-size: 0.85em;
-  font-style: italic;
-  color: #333;
-}
+#requestTabView label.required { font-weight: bold; }
+#requestTabView label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
 
 #requestTabView input,
 #requestTabView select,
@@ -69,15 +64,8 @@ h2.request-creation {
   color: #4e662b;
 }
 
-#requestTabView form ul{
-  width: 80%;
-  margin: .2em 0 .5em 0;
-}
-#requestTabView form li {
-  padding: .2em 0;
-  list-style-type: none;
-  display: inline;
-}
+#requestTabView form ul { width: 80%; margin: .2em 0 .5em 0; }
+#requestTabView form li { padding: .2em 0; list-style-type: none; display: inline; }
 
 #requestTabView form  li label,
 #requestTabView form  li input[type="checkbox"],
@@ -90,9 +78,7 @@ h2.request-creation {
   margin-left: 1em;
 }
 
-#requestTabView .yui-button {
-  margin-left: 40%;
-}
+#requestTabView .yui-button { margin-left: 40%; }
 
 #requestTabView button[type="button"] {
   width: auto;

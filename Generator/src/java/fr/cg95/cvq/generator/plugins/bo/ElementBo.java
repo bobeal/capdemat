@@ -229,7 +229,8 @@ public class ElementBo {
     public void addi18nUserDocText (String lang, String text) {
         if (i18nUserDoc.get(lang) == null)
             i18nUserDoc.put(lang, new UserDocumentation());
-        i18nUserDoc.get(lang).setText(text);
+        if (i18nUserDoc.get(lang).getText() == null)
+            i18nUserDoc.get(lang).setText(text);
     }
     
     public void addi18nUserDocEnums (String lang, HashMap<String,String> enums) {

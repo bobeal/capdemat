@@ -1,10 +1,10 @@
-<g:if test="${ExceptionUtils.isModelException(exception)}">
-  {"status":"modelException", "message":"${exception.message}", "i18nkey":"${message(code:ExceptionUtils.getModelI18nKey(exception))}" }
-</g:if>
-<g:elseif test="${ExceptionUtils.isPermissionException(exception)}">
-  {"status":"modelException", "message":"${exception.message}", "i18nkey":"${message(code:'error.permission')}" }  
-</g:elseif>
-<g:else>
+%{--<g:if test="${ExceptionUtils.isModelException(exception) && ExceptionUtils.isXRequestError(request)}">--}%
+  %{--{"status":"modelException", "message":"${exception.message}", "i18nkey":"${message(code:ExceptionUtils.getModelI18nKey(exception))}" }--}%
+%{--</g:if>--}%
+%{--<g:elseif test="${ExceptionUtils.isPermissionException(exception)}">--}%
+  %{--{"status":"modelException", "message":"${exception.message}", "i18nkey":"${message(code:'error.permission')}" }  --}%
+%{--</g:elseif>--}%
+%{--<g:else>--}%
     <html>
       <head>
         <title>Grails Runtime Exception</title>
@@ -51,4 +51,4 @@
         </div>
       </body>
     </html>
-</g:else>
+%{--</g:else>--}%

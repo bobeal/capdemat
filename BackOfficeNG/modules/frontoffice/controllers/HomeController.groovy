@@ -12,6 +12,7 @@ import fr.cg95.cvq.exception.CvqUnknownUserException
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqDisabledAccountException
 import fr.cg95.cvq.business.users.HomeFolder
+import fr.cg95.cvq.exception.CvqException
 
 class HomeController {
 
@@ -26,7 +27,7 @@ class HomeController {
     
     Adult currentEcitizen
     
-    def defaultAction = "index"
+    def defaultAction = "index" 
     
     def beforeInterceptor = {
         this.currentEcitizen = SecurityContext.getCurrentEcitizen();

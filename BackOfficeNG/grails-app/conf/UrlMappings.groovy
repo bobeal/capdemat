@@ -6,5 +6,6 @@ class UrlMappings {
                 // apply constraints here 
             }
         }
+        "500"(controller: "system", action: "error")
     }
 }

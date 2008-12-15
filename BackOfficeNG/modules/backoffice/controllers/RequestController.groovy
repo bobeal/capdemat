@@ -14,7 +14,9 @@ import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext;
 
 import grails.converters.*
-import groovy.util.Expando;
+import groovy.util.Expando
+import fr.cg95.cvq.dao.CvqDaoException
+import fr.cg95.cvq.exception.CvqException;
 
 class RequestController {
 

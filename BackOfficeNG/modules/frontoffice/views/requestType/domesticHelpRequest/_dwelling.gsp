@@ -3,7 +3,8 @@
 
   
     <fieldset class="">
-    <legend><g:message code="dhr.property.dhrCurrentDwelling.label" /></legend>
+    <legend><g:message code="dhr.property.dhrCurrentDwelling.label" /></legend> 
+      
     
       <label class=" "><g:message code="dhr.property.dhrCurrentDwellingAddress.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingAddress.help" /></span></label>
       

@@ -3,7 +3,8 @@
 
   
     <fieldset class="">
-    <legend><g:message code="dhr.property.dhrFamilyReferent.label" /></legend>
+    <legend><g:message code="dhr.property.dhrFamilyReferent.label" /></legend> 
+      
     
       <label class="haveFamilyReferent-trigger  required"><g:message code="dhr.property.dhrHaveFamilyReferent.label" /> <span><g:message code="dhr.property.dhrHaveFamilyReferent.help" /></span></label>
       

@@ -67,7 +67,7 @@
       print """<input name="${wrapper}${element.javaName}" value="\${${namespaceAlias}.${wrapper}${element.javaName}}" class="${element.condition} ${element.validation}" title="<g:message code="${i18nPrefix}.${element.javaName}.validationError" />">"""
   }
 %>
-
+<% def displayedSubject = false %>
 <% step.elementList.each { element -> %>
   <% if (element.xmlSchemaType == "AddressType") { %>
     <label class="${element.condition} ${element.requiredClass}"><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
@@ -79,7 +79,16 @@
     -->
   <% } else if(element.class.simpleName == 'FieldsetElement') { %>
     <fieldset class="${element.condition}">
-    <legend><g:message code="${i18nPrefix}.${element.javaName}.label" /></legend>
+    <legend><g:message code="${i18nPrefix}.${element.javaName}.label" /></legend> 
+      <% if (step.name == 'subject' && !displayedSubject) { %>
+    <label><g:message code="request.property.subjectName" /></label>
+    <select name="subjectId" class="required validate-not-first" title="request.subject.validationError">
+      <option value=""><g:message code="message.select.defaultOption" /></option>
+      <g:each in="\${subjects}">
+        <option value="\${it.key}" \${it.key == ${namespaceAlias}.subjectId ? 'selected="selected"': ''}>\${it.value}</option>
+      </g:each>
+    </select>
+      <% displayedSubject = true } %>
     <% element.elementList.each { subElement -> %>
       <label class="${subElement.condition} ${subElement.requiredClass}"><g:message code="${i18nPrefix}.${subElement.javaName}.label" /> <span><g:message code="${i18nPrefix}.${subElement.javaName}.help" /></span></label>
       <% if (subElement.xmlSchemaType == "AddressType") { %>

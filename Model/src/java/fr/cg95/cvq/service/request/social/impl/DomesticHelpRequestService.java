@@ -33,13 +33,6 @@ public class DomesticHelpRequestService extends RequestService implements
         DomesticHelpRequest dhr = (DomesticHelpRequest) request;
         performBusinessChecks(dhr);
 
-        // FIXME : don't understand why I have to re-synchronize adults but not
-        // addresses
-//        Adult spouse = dhr.getSpouseInformation();
-//        if (spouse != null) {
-//            spouse = (Adult) genericDAO.findById(Adult.class, spouse.getId());
-//            dhr.setSpouseInformation(spouse);
-//        }
         processTotals(dhr);
 
         return finalizeAndPersist(dhr);

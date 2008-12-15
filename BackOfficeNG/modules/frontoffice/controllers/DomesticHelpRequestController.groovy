@@ -6,6 +6,7 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
 import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.users.IIndividualService
 
 class DomesticHelpRequestController {
 
@@ -13,7 +14,8 @@ class DomesticHelpRequestController {
     IDomesticHelpRequestService domesticHelpRequestService
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
-
+    IIndividualService individualService
+    
     def translationService
     
     def defaultAction = 'edit'
@@ -31,7 +33,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-            model:[dhr:dhr, currentTab:currentTab,
+            model:[dhr:dhr, currentTab:currentTab, subjects:getAuthorizedSubjects(),
                    translationService:translationService, help:getHelp(),
                    documentTypes:getDocumentTypes(),
                    meansOfContact:getMeansOfContact()])
@@ -46,7 +48,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:'subject', 
+               model:[dhr:dhr, currentTab:'subject', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -60,7 +62,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:'familyReferent', 
+               model:[dhr:dhr, currentTab:'familyReferent', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -74,7 +76,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:'spouse', 
+               model:[dhr:dhr, currentTab:'spouse', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -88,7 +90,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:'dwelling', 
+               model:[dhr:dhr, currentTab:'dwelling', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -102,7 +104,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:'resources', 
+               model:[dhr:dhr, currentTab:'resources', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -116,7 +118,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:'taxes', 
+               model:[dhr:dhr, currentTab:'taxes', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -130,7 +132,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:'documentRef', 
+               model:[dhr:dhr, currentTab:'documentRef', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
@@ -142,17 +144,26 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         bind(dhr)
 
 
-        dhr.subjectId = SecurityContext.currentEcitizen.id
         domesticHelpRequestService.create(dhr)
 
         session["domesticHelpRequest"] = dhr
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
-               model:[dhr:dhr, currentTab:'validationRef', 
+               model:[dhr:dhr, currentTab:'validationRef', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
                       meansOfContact:getMeansOfContact()])
     }
 
+    
+    def getAuthorizedSubjects = { 
+        def subjects = [:]
+        def authorizedSubjects = domesticHelpRequestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
+        authorizedSubjects.each { subjectId, seasonsSet ->
+            def subject = individualService.getById(subjectId)
+            subjects[subjectId] = subject.lastName + " " + subject.firstName
+        }
+        return subjects
+    }
     
     def getMeansOfContact = {
         def result = []

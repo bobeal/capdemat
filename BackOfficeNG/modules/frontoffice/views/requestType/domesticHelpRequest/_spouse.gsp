@@ -3,7 +3,8 @@
 
   
     <fieldset class="">
-    <legend><g:message code="dhr.property.dhrSpouse.label" /></legend>
+    <legend><g:message code="dhr.property.dhrSpouse.label" /></legend> 
+      
     
       <label class="isCoupleRequest-trigger  required"><g:message code="dhr.property.dhrRequestKind.label" /> <span><g:message code="dhr.property.dhrRequestKind.help" /></span></label>
       
@@ -19,10 +20,10 @@
           
       
     
-      <label class="isSpouseMadam-trigger isCoupleRequest-filled  required"><g:message code="dhr.property.dhrSpouseTitle.label" /> <span><g:message code="dhr.property.dhrSpouseTitle.help" /></span></label>
+      <label class="isCoupleRequest-filled isSpouseMadam-trigger  required"><g:message code="dhr.property.dhrSpouseTitle.label" /> <span><g:message code="dhr.property.dhrSpouseTitle.help" /></span></label>
       
         
-          <select name="dhrSpouseTitle" class="isSpouseMadam-trigger isCoupleRequest-filled  required validate-not-first" title="">
+          <select name="dhrSpouseTitle" class="isCoupleRequest-filled isSpouseMadam-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
               <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrSpouseTitle?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseTitle.${it}" /></option>
@@ -104,7 +105,8 @@
 
   
     <fieldset class="isCoupleRequest-filled ">
-    <legend><g:message code="dhr.property.dhrSpouseStatus.label" /></legend>
+    <legend><g:message code="dhr.property.dhrSpouseStatus.label" /></legend> 
+      
     
       <label class="isSpouseRetired-trigger  required"><g:message code="dhr.property.dhrIsSpouseRetired.label" /> <span><g:message code="dhr.property.dhrIsSpouseRetired.help" /></span></label>
       
@@ -179,7 +181,8 @@
 
   
     <fieldset class="isCoupleRequest-filled ">
-    <legend><g:message code="dhr.property.dhrSpouseIncomes.label" /></legend>
+    <legend><g:message code="dhr.property.dhrSpouseIncomes.label" /></legend> 
+      
     
       <label class=" "><g:message code="dhr.property.pensions.label" /> <span><g:message code="dhr.property.pensions.help" /></span></label>
       

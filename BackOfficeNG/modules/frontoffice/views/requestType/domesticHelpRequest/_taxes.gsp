@@ -3,7 +3,8 @@
 
   
     <fieldset class="">
-    <legend><g:message code="dhr.property.dhrTaxesAmount.label" /></legend>
+    <legend><g:message code="dhr.property.dhrTaxesAmount.label" /></legend> 
+      
     
       <label class=" "><g:message code="dhr.property.dhrIncomeTax.label" /> <span><g:message code="dhr.property.dhrIncomeTax.help" /></span></label>
       

@@ -141,6 +141,7 @@ public class DhrNotRealAsset implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_not_real_asset_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
@@ -235,6 +236,7 @@ public class DhrNotRealAsset implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_not_real_asset_beneficiary_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
@@ -251,6 +253,7 @@ public class DhrNotRealAsset implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_not_real_asset_notary_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */

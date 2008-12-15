@@ -1,32 +1,14 @@
 
 
+
   <h3><g:message code="dhr.step.subject.label" /></h3>
 
           <h4><g:message code="dhr.property.dhrRequester.label" /></h4>
           <dl>
 
-             <dt><g:message code="dhr.property.dhrRequesterTitle.label" /></dt>
+              <dt><g:message code="request.property.subjectName" /></dt>
+              <dd>${subjects.get(dhr.subjectId)}</dd>
 
-          <dd>
-            <g:if test="${dhr.dhrRequesterTitle}">
-              <g:message code="dhr.property.dhrRequesterTitle.${dhr.dhrRequesterTitle}"/>
-            </g:if>
-          </dd>
-          
-             <dt><g:message code="dhr.property.dhrRequesterFamilyStatus.label" /></dt>
-
-          <dd>
-            <g:if test="${dhr.dhrRequesterFamilyStatus}">
-              <g:message code="dhr.property.dhrRequesterFamilyStatus.${dhr.dhrRequesterFamilyStatus}"/>
-            </g:if>
-          </dd>
-          
-             <dt><g:message code="dhr.property.dhrRequesterName.label" /></dt>
-<dd>${dhr.dhrRequesterName}</dd>
-             <dt><g:message code="dhr.property.dhrRequesterFirstName.label" /></dt>
-<dd>${dhr.dhrRequesterFirstName}</dd>
-             <dt><g:message code="dhr.property.dhrRequesterMaidenName.label" /></dt>
-<dd>${dhr.dhrRequesterMaidenName}</dd>
              <dt><g:message code="dhr.property.dhrRequesterBirthDate.label" /></dt>
 <dd><g:formatDate formatName="format.date" date="${dhr.dhrRequesterBirthDate}"/></dd>
              <dt><g:message code="dhr.property.dhrRequesterBirthPlace.label" /></dt>
@@ -84,12 +66,14 @@
              <dt><g:message code="dhr.property.dhrGuardianAddress.label" /></dt>
 
           <g:if test="${dhr.dhrGuardianAddress}">
-            <dd>${dhr.dhrGuardianAddress?.additionalDeliveryInformation}</dd>
-            <dd>${dhr.dhrGuardianAddress?.additionalGeographicalInformation}</dd>
-            <dd>${dhr.dhrGuardianAddress?.streetNumber} ${dhr.dhrGuardianAddress?.streetName}</dd>
-            <dd>${dhr.dhrGuardianAddress?.placeNameOrService}</dd>
-            <dd>${dhr.dhrGuardianAddress?.postalCode} ${dhr.dhrGuardianAddress?.city}</dd>
-            <dd>${dhr.dhrGuardianAddress?.countryName}</dd>
+            <dd>
+              <p>${dhr.dhrGuardianAddress?.additionalDeliveryInformation}</p>
+              <p>${dhr.dhrGuardianAddress?.additionalGeographicalInformation}</p>
+              <p>${dhr.dhrGuardianAddress?.streetNumber} ${dhr.dhrGuardianAddress?.streetName}</p>
+              <p>${dhr.dhrGuardianAddress?.placeNameOrService}</p>
+              <p>${dhr.dhrGuardianAddress?.postalCode} ${dhr.dhrGuardianAddress?.city}</p>
+              <p>${dhr.dhrGuardianAddress?.countryName}</p>
+            </dd>
           </g:if>
           
           </dl>
@@ -110,12 +94,14 @@
              <dt><g:message code="dhr.property.dhrReferentAddress.label" /></dt>
 
           <g:if test="${dhr.dhrReferentAddress}">
-            <dd>${dhr.dhrReferentAddress?.additionalDeliveryInformation}</dd>
-            <dd>${dhr.dhrReferentAddress?.additionalGeographicalInformation}</dd>
-            <dd>${dhr.dhrReferentAddress?.streetNumber} ${dhr.dhrReferentAddress?.streetName}</dd>
-            <dd>${dhr.dhrReferentAddress?.placeNameOrService}</dd>
-            <dd>${dhr.dhrReferentAddress?.postalCode} ${dhr.dhrReferentAddress?.city}</dd>
-            <dd>${dhr.dhrReferentAddress?.countryName}</dd>
+            <dd>
+              <p>${dhr.dhrReferentAddress?.additionalDeliveryInformation}</p>
+              <p>${dhr.dhrReferentAddress?.additionalGeographicalInformation}</p>
+              <p>${dhr.dhrReferentAddress?.streetNumber} ${dhr.dhrReferentAddress?.streetName}</p>
+              <p>${dhr.dhrReferentAddress?.placeNameOrService}</p>
+              <p>${dhr.dhrReferentAddress?.postalCode} ${dhr.dhrReferentAddress?.city}</p>
+              <p>${dhr.dhrReferentAddress?.countryName}</p>
+            </dd>
           </g:if>
           
           </dl>
@@ -201,12 +187,14 @@
              <dt><g:message code="dhr.property.dhrSpouseAddress.label" /></dt>
 
           <g:if test="${dhr.dhrSpouseAddress}">
-            <dd>${dhr.dhrSpouseAddress?.additionalDeliveryInformation}</dd>
-            <dd>${dhr.dhrSpouseAddress?.additionalGeographicalInformation}</dd>
-            <dd>${dhr.dhrSpouseAddress?.streetNumber} ${dhr.dhrSpouseAddress?.streetName}</dd>
-            <dd>${dhr.dhrSpouseAddress?.placeNameOrService}</dd>
-            <dd>${dhr.dhrSpouseAddress?.postalCode} ${dhr.dhrSpouseAddress?.city}</dd>
-            <dd>${dhr.dhrSpouseAddress?.countryName}</dd>
+            <dd>
+              <p>${dhr.dhrSpouseAddress?.additionalDeliveryInformation}</p>
+              <p>${dhr.dhrSpouseAddress?.additionalGeographicalInformation}</p>
+              <p>${dhr.dhrSpouseAddress?.streetNumber} ${dhr.dhrSpouseAddress?.streetName}</p>
+              <p>${dhr.dhrSpouseAddress?.placeNameOrService}</p>
+              <p>${dhr.dhrSpouseAddress?.postalCode} ${dhr.dhrSpouseAddress?.city}</p>
+              <p>${dhr.dhrSpouseAddress?.countryName}</p>
+            </dd>
           </g:if>
           
           </dl>
@@ -234,12 +222,14 @@
              <dt><g:message code="dhr.property.dhrCurrentDwellingAddress.label" /></dt>
 
           <g:if test="${dhr.dhrCurrentDwellingAddress}">
-            <dd>${dhr.dhrCurrentDwellingAddress?.additionalDeliveryInformation}</dd>
-            <dd>${dhr.dhrCurrentDwellingAddress?.additionalGeographicalInformation}</dd>
-            <dd>${dhr.dhrCurrentDwellingAddress?.streetNumber} ${dhr.dhrCurrentDwellingAddress?.streetName}</dd>
-            <dd>${dhr.dhrCurrentDwellingAddress?.placeNameOrService}</dd>
-            <dd>${dhr.dhrCurrentDwellingAddress?.postalCode} ${dhr.dhrCurrentDwellingAddress?.city}</dd>
-            <dd>${dhr.dhrCurrentDwellingAddress?.countryName}</dd>
+            <dd>
+              <p>${dhr.dhrCurrentDwellingAddress?.additionalDeliveryInformation}</p>
+              <p>${dhr.dhrCurrentDwellingAddress?.additionalGeographicalInformation}</p>
+              <p>${dhr.dhrCurrentDwellingAddress?.streetNumber} ${dhr.dhrCurrentDwellingAddress?.streetName}</p>
+              <p>${dhr.dhrCurrentDwellingAddress?.placeNameOrService}</p>
+              <p>${dhr.dhrCurrentDwellingAddress?.postalCode} ${dhr.dhrCurrentDwellingAddress?.city}</p>
+              <p>${dhr.dhrCurrentDwellingAddress?.countryName}</p>
+            </dd>
           </g:if>
           
              <dt><g:message code="dhr.property.dhrCurrentDwellingPhone.label" /></dt>

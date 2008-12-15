@@ -48,7 +48,7 @@
                 
                   <dt class="required"><g:message code="dhr.property.dhrRequesterBirthDate.label" /> : </dt>
                   <dd id="dhrRequesterBirthDate" class="action-editField validate-date required-true i18n-dhr.property.dhrRequesterBirthDate" >
-                    <span><g:formatDate format="dd/MM/yyyy" date="${request.dhrRequesterBirthDate}"/></span>
+                    <span><g:formatDate formatName="format.date" date="${request.dhrRequesterBirthDate}"/></span>
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrRequesterBirthPlace.label" /> : </dt>
@@ -63,7 +63,7 @@
                 
                   <dt class="required condition-isNonEuropean-filled"><g:message code="dhr.property.dhrRequesterFranceArrivalDate.label" /> : </dt>
                   <dd id="dhrRequesterFranceArrivalDate" class="action-editField validate-date required-true i18n-dhr.property.dhrRequesterFranceArrivalDate" >
-                    <span><g:formatDate format="dd/MM/yyyy" date="${request.dhrRequesterFranceArrivalDate}"/></span>
+                    <span><g:formatDate formatName="format.date" date="${request.dhrRequesterFranceArrivalDate}"/></span>
                   </dd>
                 
                   <dt class="required condition-isNonEuropean-filled"><g:message code="dhr.property.dhrRequesterIsFrenchResident.label" /> : </dt>
@@ -281,7 +281,7 @@
                 
                   <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseBirthDate.label" /> : </dt>
                   <dd id="dhrSpouseBirthDate" class="action-editField validate-date required-true i18n-dhr.property.dhrSpouseBirthDate" >
-                    <span><g:formatDate format="dd/MM/yyyy" date="${request.dhrSpouseBirthDate}"/></span>
+                    <span><g:formatDate formatName="format.date" date="${request.dhrSpouseBirthDate}"/></span>
                   </dd>
                 
                   <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseBirthPlace.label" /> : </dt>
@@ -289,14 +289,14 @@
                     <span>${request.dhrSpouseBirthPlace}</span>
                   </dd>
                 
-                  <dt class="required condition-isSpouseNonEuropean-trigger condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseNationality.label" /> : </dt>
+                  <dt class="required condition-isCoupleRequest-filled condition-isSpouseNonEuropean-trigger"><g:message code="dhr.property.dhrSpouseNationality.label" /> : </dt>
                   <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.request.social.NationalityType" >
                     <g:capdematEnumToField var="${request.dhrSpouseNationality}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" />
                   </dd>
                 
                   <dt class="required condition-isSpouseNonEuropean-filled"><g:message code="dhr.property.dhrSpouseFranceArrivalDate.label" /> : </dt>
                   <dd id="dhrSpouseFranceArrivalDate" class="action-editField validate-date required-true i18n-dhr.property.dhrSpouseFranceArrivalDate" >
-                    <span><g:formatDate format="dd/MM/yyyy" date="${request.dhrSpouseFranceArrivalDate}"/></span>
+                    <span><g:formatDate formatName="format.date" date="${request.dhrSpouseFranceArrivalDate}"/></span>
                   </dd>
                 
                   <dt class="required condition-isSpouseNonEuropean-filled"><g:message code="dhr.property.dhrSpouseIsFrenchResident.label" /> : </dt>
@@ -390,7 +390,7 @@
                 
                   <dt class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.label" /> : </dt>
                   <dd id="dhrCurrentDwellingArrivalDate" class="action-editField validate-date required-true i18n-dhr.property.dhrCurrentDwellingArrivalDate" >
-                    <span><g:formatDate format="dd/MM/yyyy" date="${request.dhrCurrentDwellingArrivalDate}"/></span>
+                    <span><g:formatDate formatName="format.date" date="${request.dhrCurrentDwellingArrivalDate}"/></span>
                   </dd>
                 
                   <dt class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingStatus.label" /> : </dt>
@@ -439,12 +439,12 @@
                 
                   <dt class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> : </dt>
                   <dd id="dhrPreviousDwelling[${index}].dhrPreviousDwellingArrivalDate" class="action-editField validate-date required-true i18n-dhr.property.dhrPreviousDwellingArrivalDate" >
-                    <span><g:formatDate format="dd/MM/yyyy" date="${it.dhrPreviousDwellingArrivalDate}"/></span>
+                    <span><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingArrivalDate}"/></span>
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> : </dt>
                   <dd id="dhrPreviousDwelling[${index}].dhrPreviousDwellingDepartureDate" class="action-editField validate-date required-true i18n-dhr.property.dhrPreviousDwellingDepartureDate" >
-                    <span><g:formatDate format="dd/MM/yyyy" date="${it.dhrPreviousDwellingDepartureDate}"/></span>
+                    <span><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingDepartureDate}"/></span>
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> : </dt>
@@ -585,7 +585,7 @@
                 
                   <dt class="required"><g:message code="dhr.property.dhrNotRealAssetDate.label" /> : </dt>
                   <dd id="dhrNotRealAsset[${index}].dhrNotRealAssetDate" class="action-editField validate-date required-true i18n-dhr.property.dhrNotRealAssetDate" >
-                    <span><g:formatDate format="dd/MM/yyyy" date="${it.dhrNotRealAssetDate}"/></span>
+                    <span><g:formatDate formatName="format.date" date="${it.dhrNotRealAssetDate}"/></span>
                   </dd>
                 
                   <dt class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /> : </dt>

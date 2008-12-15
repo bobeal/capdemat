@@ -1,4 +1,6 @@
 <%
+  import org.apache.commons.lang.StringUtils
+
   namespaceAlias = foObject.namespaceAlias
   i18nPrefix = foObject.namespaceAlias + '.property'
    
@@ -24,8 +26,8 @@
             <g:each in="\${${element.enumValuesAsString}}">
             <li>
               <input type="radio" class="${element.conditionTrigger} ${element.validation}" value="${element.modelNamespace}.${element.javaType}_\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}.toString() ? 'checked="checked"': ''} title="<g:message code="${i18nPrefix}.${element.javaName}.validationError" />" />
-	            <g:message code="${i18nPrefix}.${element.javaName}.\${it}" />  
-            </li>
+	            <g:capdematEnumToField var="\${it}" i18nKeyPrefix="${i18nPrefix}.${element.javaName}" />
+	          </li>
             </g:each>
           </ul>
           """
@@ -34,7 +36,7 @@
           <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="<g:message code="${i18nPrefix}.${element.javaName}.validationError" />">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="\${${element.enumValuesAsString}}">
-              <option value="${element.modelNamespace}.${element.javaType}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}?.toString() ? 'selected="selected"': ''}><g:message code="${i18nPrefix}.${element.javaName}.\${it}" /></option>
+              <option value="${element.modelNamespace}.${element.javaType}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="\${it}" i18nKeyPrefix="${i18nPrefix}.${element.javaName}" /></option>
             </g:each>
           </select>
           """

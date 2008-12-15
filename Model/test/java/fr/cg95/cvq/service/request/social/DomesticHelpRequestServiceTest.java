@@ -47,8 +47,9 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
                 request.setDhrRequesterBirthDate(new Date());
             request.setDhrRealEstateInvestmentIncome(BigInteger.valueOf(1));
             request.setDhrRequesterIsFrenchResident(Boolean.valueOf(true));
-                    	    request.setDhrCurrentDwellingAddress(address);
-                        request.setDhrSpouseFranceArrivalDate(new Date());
+                            Address DhrCurrentDwellingAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setDhrCurrentDwellingAddress(DhrCurrentDwellingAddress);
+    	                request.setDhrSpouseFranceArrivalDate(new Date());
                       request.setDhrRequesterNationality(NationalityType.FRENCH);
                 request.setDhrCurrentDwellingArrivalDate(new Date());
               if ("DhrReferentFirstName".length() > 38)
@@ -69,8 +70,9 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
       else
         request.setDhrSpouseFirstName("DhrSpouseFirstName");
                 request.setDhrFurnitureInvestmentIncome(BigInteger.valueOf(1));
-                    	    request.setDhrGuardianAddress(address);
-                          if ("DhrReferentName".length() > 38)
+                            Address DhrGuardianAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setDhrGuardianAddress(DhrGuardianAddress);
+    	                  if ("DhrReferentName".length() > 38)
         request.setDhrReferentName("DhrReferentName".substring(0, 38));
       else
         request.setDhrReferentName("DhrReferentName");
@@ -79,8 +81,9 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
                   request.setDhrRequestKind(DhrRequestKindType.INDIVIDUAL);
                   request.setDhrPrincipalPensionPlan(DhrPrincipalPensionPlanType.C_N_A_V);
                     request.setDhrComplementaryPensionPlan("DhrComplementaryPensionPlan");
-                        	    request.setDhrReferentAddress(address);
-                        request.setPropertyTaxes(BigInteger.valueOf(1));
+                                Address DhrReferentAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setDhrReferentAddress(DhrReferentAddress);
+    	                request.setPropertyTaxes(BigInteger.valueOf(1));
               if ("DhrGuardianName".length() > 38)
         request.setDhrGuardianName("DhrGuardianName".substring(0, 38));
       else
@@ -118,8 +121,9 @@ public class DomesticHelpRequestServiceTest extends ServiceTestCase {
         request.setDhrSpouseName("DhrSpouseName");
                     request.setDhrSpousePensionPlanDetail("DhrSpousePensionPlanDetail");
                     request.setDhrRequesterBirthPlace("DhrRequesterBirthPlace");
-                        	    request.setDhrSpouseAddress(address);
-                        request.setDhrHaveFamilyReferent(Boolean.valueOf(true));
+                                Address DhrSpouseAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setDhrSpouseAddress(DhrSpouseAddress);
+    	                request.setDhrHaveFamilyReferent(Boolean.valueOf(true));
                 request.setDhrPensionPlanDetail("DhrPensionPlanDetail");
                     request.setDhrSpouseComplementaryPensionPlan("DhrSpouseComplementaryPensionPlan");
       

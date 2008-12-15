@@ -526,6 +526,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_current_dwelling_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
@@ -811,6 +812,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_guardian_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
@@ -919,6 +921,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_referent_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
@@ -1239,6 +1242,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_spouse_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */

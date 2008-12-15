@@ -109,6 +109,7 @@ public class DhrRealAsset implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_real_asset_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */

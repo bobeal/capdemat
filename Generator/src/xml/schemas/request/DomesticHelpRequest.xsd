@@ -425,7 +425,7 @@
       <xs:element name="DhrReferentAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="familyReferent"/>
               <conditions>
@@ -813,7 +813,7 @@
       <xs:element name="DhrGuardianAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="subject"/>
               <conditions>
@@ -1227,7 +1227,7 @@
       <xs:element name="DhrSpouseAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="spouse"/>
               <conditions>
@@ -1259,7 +1259,7 @@
       <xs:element name="DhrCurrentDwellingAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="dwelling"/>
             </common>
@@ -1486,7 +1486,7 @@
       <xs:element name="DhrPreviousDwellingAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="dwelling"/>
             </common>
@@ -1736,7 +1736,7 @@
       <xs:element name="DhrRealAssetAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="resources"/>
             </common>
@@ -1844,7 +1844,7 @@
       <xs:element name="DhrNotRealAssetAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="resources"/>
               <conditions>
@@ -1900,7 +1900,7 @@
       <xs:element name="DhrNotRealAssetBeneficiaryAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="resources"/>
             </common>
@@ -1970,7 +1970,7 @@
       <xs:element name="DhrNotRealAssetNotaryAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="resources"/>
             </common>

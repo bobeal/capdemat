@@ -30,7 +30,7 @@
           <select name="dhrRequesterNationality" class="isNonEuropean-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-              <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrRequesterNationality?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterNationality.${it}" /></option>
+              <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrRequesterNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" /></option>
             </g:each>
           </select>
           
@@ -69,7 +69,7 @@
           <select name="dhrPrincipalPensionPlan" class="isOtherPensionPlan-trigger  required validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrPrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrPrincipalPensionPlan.${it}" /></option>
+              <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrPrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrPrincipalPensionPlan" /></option>
             </g:each>
           </select>
           
@@ -113,7 +113,7 @@
           <select name="dhrGuardianMeasure" class="haveGuardian-filled   validate-not-first" title="">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == dhr.dhrGuardianMeasure?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrGuardianMeasure.${it}" /></option>
+              <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == dhr.dhrGuardianMeasure?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrGuardianMeasure" /></option>
             </g:each>
           </select>
           

@@ -2,7 +2,7 @@
   def displayWidget(element, wrapper) {
     def widgets = [
       'date' : 
-          "<span><g:formatDate format=\"dd/MM/yyyy\" date=\"\${${wrapper}.${element.javaFieldName}}\"/></span>"
+          "<span><g:formatDate formatName=\"format.date\" date=\"\${${wrapper}.${element.javaFieldName}}\"/></span>"
       ,'capdematEnum' :
           "<g:capdematEnumToField var=\"\${${wrapper}.${element.javaFieldName}}\" i18nKeyPrefix=\"${element.i18nPrefixCode}\" />"
       ,'address' :

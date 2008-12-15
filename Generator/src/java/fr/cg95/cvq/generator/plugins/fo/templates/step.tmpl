@@ -23,7 +23,7 @@
           <ul class="${element.condition}">
             <g:each in="\${${element.enumValuesAsString}}">
             <li>
-              <input type="radio" class="${element.conditionTrigger} ${element.validation}" title="" value="${element.modelNamespace}.${element.javaType}_\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}.toString() ? 'checked="checked"': ''} />
+              <input type="radio" class="${element.conditionTrigger} ${element.validation}" value="${element.modelNamespace}.${element.javaType}_\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}.toString() ? 'checked="checked"': ''} title="<g:message code="${i18nPrefix}.${element.javaName}.validationError" />" />
 	            <g:message code="${i18nPrefix}.${element.javaName}.\${it}" />  
             </li>
             </g:each>
@@ -31,7 +31,7 @@
           """
       ,'SelectElement' :
           """
-          <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="">
+          <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="<g:message code="${i18nPrefix}.${element.javaName}.validationError" />">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="\${${element.enumValuesAsString}}">
               <option value="${element.modelNamespace}.${element.javaType}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}?.toString() ? 'selected="selected"': ''}><g:message code="${i18nPrefix}.${element.javaName}.\${it}" /></option>
@@ -47,12 +47,12 @@
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalGeographicalInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalGeographicalInformation"/>
           <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
           <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetNumber}" maxlength="5" name="${wrapper}${element.javaName}.streetNumber"/>
-          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetName}" maxlength="32" name="${wrapper}${element.javaName}.streetName" title="<g:message code="request.error.required" />" />
+          <input type="text" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetName}" maxlength="32" name="${wrapper}${element.javaName}.streetName" title="<g:message code="address.property.streetName.validationError" />" />
           <label><g:message code="address.property.placeNameOrService" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.placeNameOrService}" maxlength="38" name="${wrapper}${element.javaName}.placeNameOrService"/>
           <label class="required"><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
-          <input type="text" class="line1 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.postalCode}" maxlength="5" name="${wrapper}${element.javaName}.postalCode"/>
-          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.city}" maxlength="32" name="${wrapper}${element.javaName}.city" title="<g:message code="request.error.required" />" />
+          <input type="text" class="line1 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.postalCode}" maxlength="5" name="${wrapper}${element.javaName}.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+          <input type="text" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.city}" maxlength="32" name="${wrapper}${element.javaName}.city" title="<g:message code="address.property.city.validationError" />" />
           <label><g:message code="address.property.countryName" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.countryName}" maxlength="38" name="${wrapper}${element.javaName}.countryName"/>
           </div>

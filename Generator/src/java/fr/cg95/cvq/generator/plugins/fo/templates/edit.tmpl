@@ -52,12 +52,12 @@
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalGeographicalInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalGeographicalInformation"/>
           <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
           <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetNumber}" maxlength="5" name="${wrapper}${element.javaName}.streetNumber"/>
-          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetName}" maxlength="32" name="${wrapper}${element.javaName}.streetName"/>
+          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetName}" maxlength="32" name="${wrapper}${element.javaName}.streetName" title="<g:message code="request.error.required" />" />
           <label><g:message code="address.property.placeNameOrService" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.placeNameOrService}" maxlength="38" name="${wrapper}${element.javaName}.placeNameOrService"/>
           <label><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
           <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.postalCode}" maxlength="5" name="${wrapper}${element.javaName}.postalCode"/>
-          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.city}" maxlength="32" name="${wrapper}${element.javaName}.city"/>
+          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.city}" maxlength="32" name="${wrapper}${element.javaName}.city" title="<g:message code="request.error.required" />" />
           <label><g:message code="address.property.countryName" /></label>
           <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.countryName}" maxlength="38" name="${wrapper}${element.javaName}.countryName"/>
           </div>
@@ -67,7 +67,7 @@
     if (widgets[widget] != null)
       print widgets[widget]
     else
-      print """<input name="${wrapper}${element.javaName}" value="\${${namespaceAlias}.${wrapper}${element.javaName}}" class="${element.condition} ${element.validation}" title="">"""
+      print """<input name="${wrapper}${element.javaName}" value="\${${namespaceAlias}.${wrapper}${element.javaName}}" class="${element.condition} ${element.validation}" title="<g:message code="${i18nPrefix}.${element.javaName}.validationError" />" />"""
   }
    
 %>
@@ -166,7 +166,7 @@
                 <% displayWidget(element, "AddressType", "") %>
               <% } else if (element.class.simpleName == 'OneToManyElement') { %>
                 <label class="${element.condition}"><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
-                <pre>TODO -> ON TO MANY</pre>
+                <!-- TODO = ON TO MANY -->
               <% } else if(element.class.simpleName == 'FieldsetElement') { %>
                 <fieldset class="${element.condition}">
                 <legend><g:message code="${i18nPrefix}.${element.javaName}.label" /></legend>

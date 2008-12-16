@@ -57,7 +57,7 @@
                   </dd>
                 
                   <dt class="required condition-isNonEuropean-trigger"><g:message code="dhr.property.dhrRequesterNationality.label" /> : </dt>
-                  <dd id="dhrRequesterNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterNationality javatype-fr.cg95.cvq.business.request.social.NationalityType" >
+                  <dd id="dhrRequesterNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterNationality javatype-fr.cg95.cvq.business.users.NationalityType" >
                     <g:capdematEnumToField var="${request.dhrRequesterNationality}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" />
                   </dd>
                 
@@ -255,12 +255,12 @@
                   </dd>
                 
                   <dt class="required condition-isCoupleRequest-filled condition-isSpouseMadam-trigger"><g:message code="dhr.property.dhrSpouseTitle.label" /> : </dt>
-                  <dd id="dhrSpouseTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseTitle javatype-fr.cg95.cvq.business.request.social.TitleType" >
+                  <dd id="dhrSpouseTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseTitle javatype-fr.cg95.cvq.business.users.TitleType" >
                     <g:capdematEnumToField var="${request.dhrSpouseTitle}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" />
                   </dd>
                 
                   <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> : </dt>
-                  <dd id="dhrSpouseFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseFamilyStatus javatype-fr.cg95.cvq.business.request.social.FamilyStatusType" >
+                  <dd id="dhrSpouseFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseFamilyStatus javatype-fr.cg95.cvq.business.users.FamilyStatusType" >
                     <g:capdematEnumToField var="${request.dhrSpouseFamilyStatus}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" />
                   </dd>
                 
@@ -290,7 +290,7 @@
                   </dd>
                 
                   <dt class="required condition-isSpouseNonEuropean-trigger condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseNationality.label" /> : </dt>
-                  <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.request.social.NationalityType" >
+                  <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.users.NationalityType" >
                     <g:capdematEnumToField var="${request.dhrSpouseNationality}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" />
                   </dd>
                 
@@ -316,7 +316,7 @@
                     <span><g:message code="message.${request.dhrIsSpouseRetired ? 'yes' : 'no'}" /></span>
                   </dd>
                 
-                  <dt class="required condition-isSpouseRetired-filled condition-isSpouseOtherPensionPlan-trigger"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>
+                  <dt class="required condition-isSpouseOtherPensionPlan-trigger condition-isSpouseRetired-filled"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>
                   <dd id="dhrSpousePrincipalPensionPlan" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpousePrincipalPensionPlan javatype-fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType" >
                     <g:capdematEnumToField var="${request.dhrSpousePrincipalPensionPlan}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" />
                   </dd>

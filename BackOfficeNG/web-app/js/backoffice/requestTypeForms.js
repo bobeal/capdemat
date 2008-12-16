@@ -82,7 +82,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             .replace(/\uffff/g,'\n');
           
           var tname = yus.query('input[name=label]',tform,!0).value;
-          var label = ['Personnalisation de <strong>',tname,'</strong>'].join('');
+          var label = ['Personnalisation de <strong>',tname,'</strong> <span class="close">X</span>'].join('');
           var newTab = new YAHOO.widget.Tab({
             label: label,
             active: true,
@@ -102,6 +102,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           zct.each(editables,function(i){
             yue.addListener(this,'click',zcbrt.Manager.edit);
           });
+          yue.on(newTab.getElementsByClassName('close')[0], 'click', zcbrp.Forms.closeWorkTab,newTab);
           yue.on(yu.Dom.get('closeWorkTab'),'click',zcbrp.Forms.closeWorkTab,newTab);
           eform.requestTypeId.value = zcbrp.currentId;
           eform.requestFormId.value = tform.requestFormId.value;

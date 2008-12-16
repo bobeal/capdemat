@@ -6,73 +6,8 @@
    requestName = foObject.requestName
    steps = foObject.stepMap
    conditionsName = foObject.conditionsNames
-   
-  def displayWidget(element, widget, wrapper) {
-    if (wrapper.length() > 0)
-      wrapper += '.';
-      
-    def widgets = [
-      'YesnoElement' : 
-          """
-          <ul class="${element.condition}">
-            <g:each in="\${[true,false]}">
-            <li>
-              <input type="radio" class="${element.condition} ${element.validation}" title="" value="\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'checked="checked"': ''} />
-	            <g:message code="widget.yesno.\${it ? 'yes' : 'no'}" />
-            </li>
-            </g:each>
-          </ul>
-          """
-      ,'RadioElement' :
-          """
-          <ul class="${element.condition}">
-            <g:each in="\${${element.enumValuesAsString}}">
-            <li>
-              <input type="radio" class="${element.condition} ${element.validation}" title="" value="${element.modelNamespace}.${element.javaType}_\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}.toString() ? 'checked="checked"': ''} />
-	            <g:message code="${i18nPrefix}.${element.javaName}.\${it}" />  
-            </li>
-            </g:each>
-          </ul>
-          """
-      ,'SelectElement' :
-          """
-          <select name="${wrapper}${element.javaName}" class="${element.condition} ${element.validation}" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="\${${element.enumValuesAsString}}">
-              <option value="${element.modelNamespace}.${element.javaType}_\${it}" \${it == ${namespaceAlias}.${wrapper}${element.javaName}?.toString() ? 'selected="selected"': ''}><g:message code="${i18nPrefix}.${element.javaName}.\${it}" /></option>
-            </g:each>
-          </select>
-          """
-      ,'AddressType' :
-          """
-          <div class="address-fieldset ${element.condition}">
-          <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalDeliveryInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalDeliveryInformation"/>  
-          <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.additionalGeographicalInformation}" maxlength="38" name="${wrapper}${element.javaName}.additionalGeographicalInformation"/>
-          <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
-          <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetNumber}" maxlength="5" name="${wrapper}${element.javaName}.streetNumber"/>
-          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.streetName}" maxlength="32" name="${wrapper}${element.javaName}.streetName"/>
-          <label><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.placeNameOrService}" maxlength="38" name="${wrapper}${element.javaName}.placeNameOrService"/>
-          <label><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
-          <input type="text" class="line1" value="\${${namespaceAlias}.${wrapper}${element.javaName}.postalCode}" maxlength="5" name="${wrapper}${element.javaName}.postalCode"/>
-          <input type="text" title="" class="line2 required" value="\${${namespaceAlias}.${wrapper}${element.javaName}.city}" maxlength="32" name="${wrapper}${element.javaName}.city"/>
-          <label><g:message code="address.property.countryName" /></label>
-          <input type="text" value="\${${namespaceAlias}.${wrapper}${element.javaName}.countryName}" maxlength="38" name="${wrapper}${element.javaName}.countryName"/>
-          </div>
-          """
-    ]
-    
-    if (widgets[widget] != null)
-      print widgets[widget]
-    else if (element.javaType == 'date')
-      print """<input name="${wrapper}${element.javaName}" value="\${formatDate(formatName:'format.date',date:${namespaceAlias}.${wrapper}${element.javaName})}" class="${element.condition} ${element.validation}" title="">"""
-    else
-      print """<input name="${wrapper}${element.javaName}" value="\${${namespaceAlias}.${wrapper}${element.javaName}}" class="${element.condition} ${element.validation}" title="">"""
-}
-   
 %>
+
 <html>
   <head>
     <meta name="layout" content="fo_main" />
@@ -100,7 +35,8 @@
        <li class="\${currentTab == '${step.name}' ? 'selected' : ''}">
         <a href="#${step.name}"><em>
          <span class="tag-no_right">${step.index + 1}</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state \${stepStates.${step.name}.cssClass}"><g:message code="\${stepStates.${step.name}.i18nKey}" /></span>
+
 <%
   if (step.name == 'documentRef') {
 %>
@@ -133,7 +69,8 @@
 %>
          <form method="POST" id="${StringUtils.uncapitalize(step.name)}Form" action="<g:createLink action="valid${StringUtils.capitalize(step.name)}" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state \${stepStates.${step.name}.cssClass}"><g:message code="\${stepStates.${step.name}.i18nKey}" /></span>
+
 <%
     if (step.name == 'validationRef') {
 %>
@@ -164,32 +101,7 @@
 <%
     } else {
 %>
-            <% step.elementList.each { element -> %>
-              <% if (element.xmlSchemaType == "AddressType") { %>
-                <label class="${element.condition}"><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
-                <% displayWidget(element, "AddressType", "") %>
-              <% } else if (element.class.simpleName == 'OneToManyElement') { %>
-                <label class="${element.condition}"><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
-                <pre>TODO -> ON TO MANY</pre>
-              <% } else if(element.class.simpleName == 'FieldsetElement') { %>
-                <fieldset class="${element.condition}">
-                <legend><g:message code="${i18nPrefix}.${element.javaName}.label" /></legend>
-                <% element.elementList.each { subElement -> %>
-                  <label class="${subElement.condition}"><g:message code="${i18nPrefix}.${subElement.javaName}.label" /> <span><g:message code="${i18nPrefix}.${subElement.javaName}.help" /></span></label>
-                  <% if (subElement.xmlSchemaType == "AddressType") { %>
-                    <% displayWidget(subElement, "AddressType", "") %>
-                  <% } else { %>
-                    <% displayWidget(subElement, subElement.class.simpleName, "") %>
-                  <% } %>
-                <% } %>
-                </fieldset>
-              <% } else { %>
-                <label class="${element.condition}"><g:message code="${i18nPrefix}.${element.javaName}.label" /> <span><g:message code="${i18nPrefix}.${element.javaName}.help" /></span></label>
-                <% displayWidget(element, element.class.simpleName, "") %>
-              <% } %>
-              
-            <% } %>
-           
+            <g:render template="/frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/${step.name}" />         
 <%
     }
 %>

@@ -1,15 +1,16 @@
 package fr.cg95.cvq.generator.plugins.fo;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.groovy.control.CompilationFailedException;
 
-import groovy.lang.Writable;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
@@ -17,138 +18,98 @@ public class FoRenderer {
     private static Logger logger = Logger.getLogger(FoRenderer.class);
 
     private final String VIEW_DIR = "modules/frontoffice/views/requestType/";
-
     private final String CONTROLLER_DIR = "modules/frontoffice/controllers/";
-
     private final String TEMPLATES_DIR = "Generator/src/java/fr/cg95/cvq/generator/plugins/fo/templates/";
 
     private final String EDIT_TEMPLATE = TEMPLATES_DIR + "edit.tmpl";
+    private final String STEP_TEMPLATE = TEMPLATES_DIR + "step.tmpl";
     private final String SUMMARY_TEMPLATE = TEMPLATES_DIR + "summary.tmpl";
     private final String CONTROLLER_TEMPLATE = TEMPLATES_DIR + "controller.tmpl";
 
     private FoObject foObject;
-
     private String outputDir;
-
-    private StringBuffer stepValidationRender;
-
-    private Template controllerTemplate;
-    private Template editTemplate;
-    private Template summaryTemplate;
 
 
     public FoRenderer(FoObject foObject, String outputDir) {
         this.foObject = foObject;
         this.outputDir = outputDir;
-        initTemplates(foObject);
-
     }
 
     public void render() {
-        createController();
-        createEditFile();
-        createSummaryFile();
+        try {
+            String output = outputDir + '/' + CONTROLLER_DIR;
+            File controllerDir = new File(outputDir);
+            if (!controllerDir.exists())
+                controllerDir.mkdirs();
+            createController(output);
+            
+            output = outputDir + '/' + VIEW_DIR + StringUtils.uncapitalize(foObject.getRequestName()) + "/";
+            File viewDir = new File(outputDir);
+            if (!viewDir .exists())
+                viewDir .mkdirs();
+            createEditFile(output);
+            createStepsFile(output);
+            createSummaryFile(output);   
+            
+        } catch (CompilationFailedException e) {
+            logger.error(e.getMessage());
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            logger.error(e.getMessage());
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
     }
    
-    private void createController() {
-        String controllerDirName = outputDir + '/' + CONTROLLER_DIR;
-        String controllerFileName = controllerDirName + getFoObject().getRequestName()
-                + "Controller.groovy";
-        File controllerDir = new File(controllerDirName);
-        if (!controllerDir.exists())
-            controllerDir.mkdirs();
-        Map<String, Object> binding = new HashMap<String, Object>();
-        binding.put("foObject", foObject);
-        Writable w = getControllerTemplate().make(binding);
-        createFile(controllerFileName, w);
+    private void createController(String outputDir)
+        throws CompilationFailedException, FileNotFoundException, ClassNotFoundException, IOException {
+        
+        SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
+        Template template = templateEngine.createTemplate(new File(CONTROLLER_TEMPLATE));
+        Map<String, Object> bindingMap = new HashMap<String, Object>();
+        bindingMap.put("foObject", foObject);
+        template.make(bindingMap).writeTo(new FileWriter(outputDir +  foObject.getRequestName() + "Controller.groovy"));
+        logger.warn("createController() SUCCESS");
     }
 
-    private void createEditFile() {
-        String editDirName = outputDir + '/' + VIEW_DIR
-                + StringUtils.uncapitalize(getFoObject().getRequestName()) + "/";
-        String editFileName = editDirName + "edit.gsp";
-        File controllerDir = new File(editDirName);
-        if (!controllerDir.exists())
-            controllerDir.mkdirs();
-        Map<String, Object> binding = new HashMap<String, Object>();
-        binding.put("foObject", foObject);
-        Writable w = getEditTemplate().make(binding);
-        createFile(editFileName, w);
+    private void createEditFile(String outputDir)        
+        throws CompilationFailedException, FileNotFoundException, ClassNotFoundException, IOException {
+        
+        SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
+        Template template = templateEngine.createTemplate(new File(EDIT_TEMPLATE));
+        Map<String, Object> bindingMap = new HashMap<String, Object>();
+        bindingMap.put("foObject", foObject);
+        template.make(bindingMap).writeTo(new FileWriter(outputDir + "edit.gsp"));
+        logger.warn("createEditFile() SUCCESS");
     }
-
-    private void createSummaryFile() {
-        String summaryDirName = outputDir + '/' + VIEW_DIR
-                + StringUtils.uncapitalize(getFoObject().getRequestName()) + "/";
-        String summaryFileName = summaryDirName + "_summary.gsp";
-        File summaryDir = new File(summaryDirName);
-        if (!summaryDir.exists())
-            summaryDir.mkdirs();
-        Map<String, Object> binding = new HashMap<String, Object>();
-        binding.put("foObject", foObject);
-        Writable w = summaryTemplate.make(binding);
-        createFile(summaryFileName, w);
-    }
-
-    private void initTemplates(FoObject foObject) {
-
-        SimpleTemplateEngine simpleEngine = new SimpleTemplateEngine();
-        Template template;
-        File file;
-        try {
-            file = new File(CONTROLLER_TEMPLATE);
-            template = simpleEngine.createTemplate(file);
-            setControllerTemplate(template);
-            file = new File(EDIT_TEMPLATE);
-            template = simpleEngine.createTemplate(file);
-            setEditTemplate(template);
-            file = new File(SUMMARY_TEMPLATE);
-            summaryTemplate = simpleEngine.createTemplate(file);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Templates are not initialized");
+    
+    private void createStepsFile(String outputDir) 
+        throws CompilationFailedException, FileNotFoundException, ClassNotFoundException, IOException {
+        
+        SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
+        Template template = templateEngine.createTemplate(new File(STEP_TEMPLATE));
+        
+        Map<String, Object> bindingMap = new HashMap<String, Object>();
+        bindingMap.put("foObject", foObject);
+        for (FoStep step : foObject.getStepMap().values()) {
+            if (step.getElementList() == null || step.getElementList().size() > 0 ) {
+                bindingMap.put("step", step);
+                template.make(bindingMap).writeTo(new FileWriter(outputDir + "_" + step.getName() + ".gsp"));
+            }
         }
+        logger.warn("createStepsFile() SUCCESS");
     }
 
-    // TODO boolean pour retour réussi
-    private void createFile(String fileName, Writable w) {
-        PrintWriter writer;
-        try {
-            writer = new PrintWriter(new FileOutputStream(fileName));
-            w.writeTo(writer);
-            writer.close();
-            logger.info(fileName + " is successfully created");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
+    private void createSummaryFile(String outputDir)        
+        throws CompilationFailedException, FileNotFoundException, ClassNotFoundException, IOException {
+        
+        SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
+        Template template = templateEngine.createTemplate(new File(SUMMARY_TEMPLATE));
+        Map<String, Object> bindingMap = new HashMap<String, Object>();
+        bindingMap.put("foObject", foObject);
+        template.make(bindingMap).writeTo(new FileWriter(outputDir + "_summary.gsp"));
+        logger.warn("createSummaryFile() SUCCESS");
     }
 
-    public Template getControllerTemplate() {
-        return controllerTemplate;
-    }
-
-    public void setControllerTemplate(Template controllerTemplate) {
-        this.controllerTemplate = controllerTemplate;
-    }
-
-    public Template getEditTemplate() {
-        return editTemplate;
-    }
-
-    public void setEditTemplate(Template editTemplate) {
-        this.editTemplate = editTemplate;
-    }
-
-    public StringBuffer getStepValidationRender() {
-        return stepValidationRender;
-    }
-
-    public FoObject getFoObject() {
-        return foObject;
-    }
-
-    public void setFoObject(FoObject foObject) {
-        this.foObject = foObject;
-    }
 }

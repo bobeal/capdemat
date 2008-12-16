@@ -473,9 +473,9 @@ class RequestInstructionController {
 
         // this task must maybe be done by a service
         def defaultContactRecipient
-        if (request.meansOfContact.type == MeansOfContactEnum.EMAIL)
+        if (request.meansOfContact?.type == MeansOfContactEnum.EMAIL)
             defaultContactRecipient = requester.email
-        else if (request.meansOfContact.type == MeansOfContactEnum.SMS)
+        else if (request.meansOfContact?.type == MeansOfContactEnum.SMS)
             defaultContactRecipient = requester.mobilePhone
 
         requesterMeansOfContacts.each() {
@@ -494,7 +494,7 @@ class RequestInstructionController {
                         "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
                         "requesterMobilePhone": requester.mobilePhone,
                         "requesterEmail": requester.email,
-                        "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact.type,
+                        "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact?.type,
                                                                           "request.meansOfContact")
                     ]
                 ]

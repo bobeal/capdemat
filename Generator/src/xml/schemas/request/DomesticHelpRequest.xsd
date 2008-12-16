@@ -65,10 +65,10 @@
             <xs:element name="DhrRequester" type="dhr:DhrRequesterType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Demandeur
+                  Sujet
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Demandeur
+                  Sujet
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -256,10 +256,10 @@
             <xs:element name="DhrRequesterIncomes" type="dhr:DhrIncomesType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Ressources du demandeur
+                  Ressources du sujet
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Ressources du demandeur
+                  Ressources du sujet
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -339,121 +339,18 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:simpleType name="DhrRequestKindType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Type de la demande
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Type de la demande
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Individual" value="Individuelle"/>
-        <enum key="Couple" value="Couple"/>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Individual"/>
-      <xs:enumeration value="Couple"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:complexType name="DhrFamilyReferentType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Référent familial
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Référent familial
-      </xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-
-      <xs:element name="DhrHaveFamilyReferent" type="xs:boolean" default="false">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Référent familial
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Référent familial
-          </xs:documentation>
-          <xs:appinfo>
-            <common>
-              <step name="familyReferent"/>
-              <conditions>
-                <condition name="haveFamilyReferent" type="trigger"/>
-              </conditions>
-            </common>
-            <fo/>
-            <bo />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DhrReferentName" type="cvq:LastNameType" minOccurs="0">
-        <xs:annotation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="familyReferent"/>
-              <conditions>
-                <condition name="haveFamilyReferent" type="filled" required="true"/>
-              </conditions>
-            </common>
-            <fo/>
-            <bo />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DhrReferentFirstName" type="cvq:FirstNameType" minOccurs="0">
-        <xs:annotation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="familyReferent"/>
-              <conditions>
-                <condition name="haveFamilyReferent" type="filled" required="true"/>
-              </conditions>
-            </common>
-            <fo/>
-            <bo />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="DhrReferentAddress" type="cvq:AddressType" minOccurs="0">
-        <xs:annotation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="familyReferent"/>
-              <conditions>
-                <condition name="haveFamilyReferent" type="filled" required="true"/>
-              </conditions>
-            </common>
-            <fo>
-            	<label/>
-            </fo>
-            <bo />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="DhrRequesterType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demandeur
+        Sujet
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Demandeur
+        Sujet
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
 
+<!-- 
       <xs:element name="DhrRequesterTitle" type="cvq:TitleType">
         <xs:annotation>
           <xs:appinfo>
@@ -534,6 +431,7 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
+-->
 
       <xs:element name="DhrRequesterBirthDate" type="xs:date">
         <xs:annotation>
@@ -753,7 +651,7 @@
       <xs:element name="DhrRequesterHaveGuardian" type="xs:boolean" default="false">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Le demandeur est-il sous tutelle ?
+            Le sujet est-il sous tutelle ?
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Présence tuteur
@@ -813,7 +711,7 @@
       <xs:element name="DhrGuardianAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="subject"/>
               <conditions>
@@ -851,6 +749,110 @@
       <xs:enumeration value="curatorship"/>
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:simpleType name="DhrRequestKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Individual" value="Individuelle"/>
+        <enum key="Couple" value="Couple"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Individual"/>
+      <xs:enumeration value="Couple"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="DhrFamilyReferentType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Référent familial
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Référent familial
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="DhrHaveFamilyReferent" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Référent familial
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Référent familial
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="familyReferent"/>
+              <conditions>
+                <condition name="haveFamilyReferent" type="trigger"/>
+              </conditions>
+            </common>
+            <fo/>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="DhrReferentName" type="cvq:LastNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:appinfo>
+            <model namespace="users"/>
+            <common>
+              <step name="familyReferent"/>
+              <conditions>
+                <condition name="haveFamilyReferent" type="filled" required="true"/>
+              </conditions>
+            </common>
+            <fo/>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="DhrReferentFirstName" type="cvq:FirstNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:appinfo>
+            <model namespace="users"/>
+            <common>
+              <step name="familyReferent"/>
+              <conditions>
+                <condition name="haveFamilyReferent" type="filled" required="true"/>
+              </conditions>
+            </common>
+            <fo/>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="DhrReferentAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="familyReferent"/>
+              <conditions>
+                <condition name="haveFamilyReferent" type="filled" required="true"/>
+              </conditions>
+            </common>
+            <fo>
+              <label/>
+            </fo>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="DhrSpouseType">
     <xs:annotation>
@@ -1106,7 +1108,6 @@
             <common>
               <step name="spouse"/>
               <conditions>
-                <condition name="isSpouseOtherPensionPlan" type="trigger"/>
                 <condition name="isSpouseRetired" type="trigger"/>
               </conditions>
             </common>
@@ -1227,7 +1228,7 @@
       <xs:element name="DhrSpouseAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="spouse"/>
               <conditions>
@@ -1259,7 +1260,7 @@
       <xs:element name="DhrCurrentDwellingAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="dwelling"/>
             </common>
@@ -1486,7 +1487,7 @@
       <xs:element name="DhrPreviousDwellingAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="dwelling"/>
             </common>
@@ -1736,7 +1737,7 @@
       <xs:element name="DhrRealAssetAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="resources"/>
             </common>
@@ -1844,7 +1845,7 @@
       <xs:element name="DhrNotRealAssetAddress" type="cvq:AddressType" minOccurs="0">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="resources"/>
               <conditions>
@@ -1900,7 +1901,7 @@
       <xs:element name="DhrNotRealAssetBeneficiaryAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="resources"/>
             </common>
@@ -1970,7 +1971,7 @@
       <xs:element name="DhrNotRealAssetNotaryAddress" type="cvq:AddressType">
         <xs:annotation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="resources"/>
             </common>

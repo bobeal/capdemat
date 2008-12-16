@@ -2,7 +2,7 @@
   def displayWidget(element, wrapper) {
     def widgets = [
       'date' : 
-          "<span><g:formatDate format=\"dd/MM/yyyy\" date=\"\${${wrapper}.${element.javaFieldName}}\"/></span>"
+          "<span><g:formatDate formatName=\"format.date\" date=\"\${${wrapper}.${element.javaFieldName}}\"/></span>"
       ,'capdematEnum' :
           "<g:capdematEnumToField var=\"\${${wrapper}.${element.javaFieldName}}\" i18nKeyPrefix=\"${element.i18nPrefixCode}\" />"
       ,'address' :
@@ -12,11 +12,13 @@
           ,"<span class=\"streetNumber\">\${${wrapper}.${element.javaFieldName}.streetNumber}</span> "
           ,"<span class=\"streetName\">\${${wrapper}.${element.javaFieldName}.streetName}</span>"
           ,"<p class=\"placeNameOrService\">\${${wrapper}.${element.javaFieldName}.placeNameOrService}</p>"
-          ,"<span class=\"postalCode\">\${${wrapper}.${element.javaFieldName}.postalCode}</span>"
+          ,"<span class=\"postalCode\">\${${wrapper}.${element.javaFieldName}.postalCode}</span> "
           ,"<span class=\"city\">\${${wrapper}.${element.javaFieldName}.city}</span>"
           ,"<p class=\"countryName\">\${${wrapper}.${element.javaFieldName}.countryName}</p>"
           ,"</div>"
           ].join()
+      ,'boolean' :
+          "<span><g:message code=\"message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
     ]
     
     if (widgets[element.widget] != null)

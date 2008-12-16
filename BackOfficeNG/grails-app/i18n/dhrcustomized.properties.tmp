@@ -22,21 +22,6 @@ dhr.step.taxes.desc =
 dhr.property.dhrRequester.help =
 dhr.property.dhrRequester.validationError =
 
-dhr.property.dhrRequesterTitle.help =
-dhr.property.dhrRequesterTitle.validationError =
-
-dhr.property.dhrRequesterFamilyStatus.help =
-dhr.property.dhrRequesterFamilyStatus.validationError =
-
-dhr.property.dhrRequesterName.help =
-dhr.property.dhrRequesterName.validationError =
-
-dhr.property.dhrRequesterFirstName.help =
-dhr.property.dhrRequesterFirstName.validationError =
-
-dhr.property.dhrRequesterMaidenName.help =
-dhr.property.dhrRequesterMaidenName.validationError =
-
 dhr.property.dhrRequesterBirthDate.help =
 dhr.property.dhrRequesterBirthDate.validationError =
 

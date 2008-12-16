@@ -76,7 +76,7 @@ class SessionFilters {
                         if (session.getAttribute(CASFilter.CAS_FILTER_USER) == null) {
                             // throw new ServletException("No user found in session !")
                             response.sendRedirect('/BackOfficeNG/cas.gsp')
-                            return
+                            return false
                         }
                         
                         String user = (String) session.getAttribute(CASFilter.CAS_FILTER_USER)

@@ -29,6 +29,7 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.I${requestName}Service
 import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.users.IIndividualService
 
 class ${requestName}Controller {
 
@@ -36,16 +37,33 @@ class ${requestName}Controller {
     I${requestName}Service ${StringUtils.uncapitalize(requestName)}Service
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
-
+    IIndividualService individualService
+    
     def translationService
     
     def defaultAction = 'edit'
     
     def currentTab = '${foObject.stepMap.get(0).name}'
     
+    def steps = [
+<% foObject.stepMap.values().eachWithIndex { step, i -> %>
+      '${step.name}'${i < foObject.stepMap.size() -1 ? ',' : ''}
+<% } %>
+    ]
+    
+    
     def edit = {
+        def stepStates
+        if (stepStates == null) {
+            stepStates = [:]
+            steps.each {
+                stepStates.put(it, ['cssClass': 'tag-pending', 'i18nKey': 'request.step.state.uncomplete'] )
+            }
+        }
+        session['stepStates'] = stepStates
+          
         if (${namespaceAlias} == null)
-          ${namespaceAlias} = new ${requestName}()
+            ${namespaceAlias} = new ${requestName}()
 <%
   for(steps in foObject.stepMap) {
     elements = steps.value.elementList
@@ -60,10 +78,10 @@ class ${requestName}Controller {
 
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
-            model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab,
+            model:[${namespaceAlias}:${namespaceAlias}, currentTab:currentTab, subjects:getAuthorizedSubjects(),
                    translationService:translationService, help:getHelp(),
                    documentTypes:getDocumentTypes(),
-                   meansOfContact:getMeansOfContact()])
+                   meansOfContact:getMeansOfContact(), stepStates:stepStates ])
     }
     
 <%
@@ -78,21 +96,33 @@ class ${requestName}Controller {
 <%
     if (step.name == 'validationRef') {
 %>
-        dhr.subjectId = SecurityContext.currentEcitizen.id
         domesticHelpRequestService.create(dhr)
 <%
     }
 %>
         session["${StringUtils.uncapitalize(requestName)}"] = ${namespaceAlias}
+        session['stepStates'].${step.name} = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/${StringUtils.uncapitalize(requestName)}/edit", 
-               model:[${namespaceAlias}:${namespaceAlias}, currentTab:'${step.name}', 
+               model:[${namespaceAlias}:${namespaceAlias}, currentTab:'${step.name}', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 <%	
   }
 %>
+    
+    def getAuthorizedSubjects = { 
+        def subjects = [:]
+        def authorizedSubjects = ${StringUtils.uncapitalize(requestName)}Service.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
+        authorizedSubjects.each { subjectId, seasonsSet ->
+            def subject = individualService.getById(subjectId)
+            subjects[subjectId] = subject.lastName + " " + subject.firstName
+        }
+        return subjects
+    }
     
     def getMeansOfContact = {
         def result = []
@@ -116,14 +146,7 @@ class ${requestName}Controller {
     }
     
     def getHelp = {
-        def steps = []
-<%
-  for (step in foObject.stepMap.values()) {
-%>
-        steps.add("${step.name}")
-<%
-  }
-%>
+    
         def help = [:]
         steps.each {
             help[it] = localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelp("${StringUtils.uncapitalize(requestName)}",it)

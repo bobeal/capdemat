@@ -10,13 +10,13 @@
     def widgets = [
       'YesnoElement' : 
           """
-          <dd><g:message code="widget.yesno.\${${namespaceAlias}.${wrapper}${element.javaName} ? 'yes' : 'no'}" /></dd>
+          <dd><g:message code="message.\${${namespaceAlias}.${wrapper}${element.javaName} ? 'yes' : 'no'}" /></dd>
           """
       ,'RadioElement' :
           """
           <dd>
             <g:if test="\${${namespaceAlias}.${wrapper}${element.javaName}}">
-              <g:message code="${i18nPrefix}.${element.javaName}.\${${namespaceAlias}.${wrapper}${element.javaName}.toString()}" />  
+              <g:capdematEnumToField var="\${${namespaceAlias}.${wrapper}${element.javaName}}" i18nKeyPrefix="${i18nPrefix}.${element.javaName}" />
             </g:if>
           </dd>
           """
@@ -24,19 +24,21 @@
           """
           <dd>
             <g:if test="\${${namespaceAlias}.${wrapper}${element.javaName}}">
-              <g:message code="${i18nPrefix}.${element.javaName}.\${${namespaceAlias}.${wrapper}${element.javaName}}"/>
+              <g:capdematEnumToField var="\${${namespaceAlias}.${wrapper}${element.javaName}}" i18nKeyPrefix="${i18nPrefix}.${element.javaName}" />
             </g:if>
           </dd>
           """
       ,'AddressType' :
           """
           <g:if test="\${${namespaceAlias}.${wrapper}${element.javaName}}">
-            <dd>\${${namespaceAlias}.${wrapper}${element.javaName}?.additionalDeliveryInformation}</dd>
-            <dd>\${${namespaceAlias}.${wrapper}${element.javaName}?.additionalGeographicalInformation}</dd>
-            <dd>\${${namespaceAlias}.${wrapper}${element.javaName}?.streetNumber} \${${namespaceAlias}.${wrapper}${element.javaName}?.streetName}</dd>
-            <dd>\${${namespaceAlias}.${wrapper}${element.javaName}?.placeNameOrService}</dd>
-            <dd>\${${namespaceAlias}.${wrapper}${element.javaName}?.postalCode} \${${namespaceAlias}.${wrapper}${element.javaName}?.city}</dd>
-            <dd>\${${namespaceAlias}.${wrapper}${element.javaName}?.countryName}</dd>
+            <dd>
+              <p>\${${namespaceAlias}.${wrapper}${element.javaName}?.additionalDeliveryInformation}</p>
+              <p>\${${namespaceAlias}.${wrapper}${element.javaName}?.additionalGeographicalInformation}</p>
+              <p>\${${namespaceAlias}.${wrapper}${element.javaName}?.streetNumber} \${${namespaceAlias}.${wrapper}${element.javaName}?.streetName}</p>
+              <p>\${${namespaceAlias}.${wrapper}${element.javaName}?.placeNameOrService}</p>
+              <p>\${${namespaceAlias}.${wrapper}${element.javaName}?.postalCode} \${${namespaceAlias}.${wrapper}${element.javaName}?.city}</p>
+              <p>\${${namespaceAlias}.${wrapper}${element.javaName}?.countryName}</p>
+            </dd>
           </g:if>
           """
     ]
@@ -49,6 +51,7 @@
       print """<dd>\${${namespaceAlias}.${wrapper}${element.javaName}}</dd>"""
   }
 %>
+<% def displayedSubject = false %>
 <%
   steps.each { 
       step = it.value
@@ -76,7 +79,14 @@
 %>
           <h4><g:message code="${i18nPrefix}.${element.javaName}.label" /></h4>
           <dl>
-<% 
+<%
+                  if (step.name == 'subject' && !displayedSubject) {
+%>
+              <dt><g:message code="request.property.subjectName" /></dt>
+              <dd>\${subjects.get(dhr.subjectId)}</dd>
+<%
+                      displayedSubject = true
+                  }
                   element.elementList.each { subElement -> 
 %>
              <dt><g:message code="${i18nPrefix}.${subElement.javaName}.label" /></dt>

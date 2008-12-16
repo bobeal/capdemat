@@ -179,6 +179,7 @@ public class DhrPreviousDwelling implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="dhr_previous_dwelling_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */

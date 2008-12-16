@@ -33,13 +33,6 @@ public class DomesticHelpRequestService extends RequestService implements
         DomesticHelpRequest dhr = (DomesticHelpRequest) request;
         performBusinessChecks(dhr);
 
-        // FIXME : don't understand why I have to re-synchronize adults but not
-        // addresses
-//        Adult spouse = dhr.getSpouseInformation();
-//        if (spouse != null) {
-//            spouse = (Adult) genericDAO.findById(Adult.class, spouse.getId());
-//            dhr.setSpouseInformation(spouse);
-//        }
         processTotals(dhr);
 
         return finalizeAndPersist(dhr);
@@ -160,10 +153,7 @@ public class DomesticHelpRequestService extends RequestService implements
     }
     
     public boolean checkIsSpouseOtherPensionPlan(final Map<String,String> inputs){
-        System.out.println("dhrSpousePrincipalPensionPlan:" + inputs.get("dhrSpousePrincipalPensionPlan"));
-        System.out.println("dhrIsSpouseRetired:" + inputs.get("dhrIsSpouseRetired"));
-        if (inputs.get("dhrSpousePrincipalPensionPlan").equals("fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_Other")
-            && inputs.get("dhrIsSpouseRetired").equals("true"))
+        if (inputs.get("dhrSpousePrincipalPensionPlan").equals("fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_Other"))
             return true;
         return false;
     }

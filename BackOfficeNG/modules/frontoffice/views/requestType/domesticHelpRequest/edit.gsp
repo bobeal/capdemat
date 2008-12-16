@@ -1,4 +1,5 @@
 
+
 <html>
   <head>
     <meta name="layout" content="fo_main" />
@@ -26,7 +27,8 @@
        <li class="${currentTab == 'subject' ? 'selected' : ''}">
         <a href="#subject"><em>
          <span class="tag-no_right">1</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.subject.cssClass}"><g:message code="${stepStates.subject.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.subject.label" />
 
@@ -36,7 +38,8 @@
        <li class="${currentTab == 'familyReferent' ? 'selected' : ''}">
         <a href="#familyReferent"><em>
          <span class="tag-no_right">2</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.familyReferent.cssClass}"><g:message code="${stepStates.familyReferent.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.familyReferent.label" />
 
@@ -46,7 +49,8 @@
        <li class="${currentTab == 'spouse' ? 'selected' : ''}">
         <a href="#spouse"><em>
          <span class="tag-no_right">3</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.spouse.cssClass}"><g:message code="${stepStates.spouse.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.spouse.label" />
 
@@ -56,7 +60,8 @@
        <li class="${currentTab == 'dwelling' ? 'selected' : ''}">
         <a href="#dwelling"><em>
          <span class="tag-no_right">4</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.dwelling.cssClass}"><g:message code="${stepStates.dwelling.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.dwelling.label" />
 
@@ -66,7 +71,8 @@
        <li class="${currentTab == 'resources' ? 'selected' : ''}">
         <a href="#resources"><em>
          <span class="tag-no_right">5</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.resources.cssClass}"><g:message code="${stepStates.resources.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.resources.label" />
 
@@ -76,7 +82,8 @@
        <li class="${currentTab == 'taxes' ? 'selected' : ''}">
         <a href="#taxes"><em>
          <span class="tag-no_right">6</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.taxes.cssClass}"><g:message code="${stepStates.taxes.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.taxes.label" />
 
@@ -86,7 +93,8 @@
        <li class="${currentTab == 'documentRef' ? 'selected' : ''}">
         <a href="#documentRef"><em>
          <span class="tag-no_right">7</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.documentRef.cssClass}"><g:message code="${stepStates.documentRef.i18nKey}" /></span>
+
 
          <g:message code="request.step.document.label" />
 
@@ -96,7 +104,8 @@
        <li class="${currentTab == 'validationRef' ? 'selected' : ''}">
         <a href="#validationRef"><em>
          <span class="tag-no_right">8</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.validationRef.cssClass}"><g:message code="${stepStates.validationRef.i18nKey}" /></span>
+
 
          <g:message code="request.step.validation.label" />
 
@@ -111,194 +120,15 @@
 
          <form method="POST" id="subjectForm" action="<g:createLink action="validSubject" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.subject.cssClass}"><g:message code="${stepStates.subject.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
 
            </h3>
 
-            
-              
-                <fieldset class="">
-                <legend><g:message code="dhr.property.dhrRequester.label" /></legend>
-                
-                  <label class="isMadam-trigger "><g:message code="dhr.property.dhrRequesterTitle.label" /> <span><g:message code="dhr.property.dhrRequesterTitle.help" /></span></label>
-                  
-                    
-          <select name="dhrRequesterTitle" class="isMadam-trigger  required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-              <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrRequesterTitle?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterTitle.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrRequesterFamilyStatus.label" /> <span><g:message code="dhr.property.dhrRequesterFamilyStatus.help" /></span></label>
-                  
-                    
-          <select name="dhrRequesterFamilyStatus" class=" required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
-              <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == dhr.dhrRequesterFamilyStatus?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterFamilyStatus.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrRequesterName.label" /> <span><g:message code="dhr.property.dhrRequesterName.help" /></span></label>
-                  
-                    <input name="dhrRequesterName" value="${dhr.dhrRequesterName}" class=" required  validate-lastname" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrRequesterFirstName.label" /> <span><g:message code="dhr.property.dhrRequesterFirstName.help" /></span></label>
-                  
-                    <input name="dhrRequesterFirstName" value="${dhr.dhrRequesterFirstName}" class=" required  validate-firstname" title="">
-                  
-                
-                  <label class="isMadam-filled "><g:message code="dhr.property.dhrRequesterMaidenName.label" /> <span><g:message code="dhr.property.dhrRequesterMaidenName.help" /></span></label>
-                  
-                    <input name="dhrRequesterMaidenName" value="${dhr.dhrRequesterMaidenName}" class="isMadam-filled    validate-lastname" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrRequesterBirthDate.label" /> <span><g:message code="dhr.property.dhrRequesterBirthDate.help" /></span></label>
-                  
-                    <input name="dhrRequesterBirthDate" value="${formatDate(formatName:'format.date',date:dhr.dhrRequesterBirthDate)}" class=" required  validate-date-au" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrRequesterBirthPlace.label" /> <span><g:message code="dhr.property.dhrRequesterBirthPlace.help" /></span></label>
-                  
-                    <input name="dhrRequesterBirthPlace" value="${dhr.dhrRequesterBirthPlace}" class=" required  validate-string" title="">
-                  
-                
-                  <label class="isNonEuropean-trigger "><g:message code="dhr.property.dhrRequesterNationality.label" /> <span><g:message code="dhr.property.dhrRequesterNationality.help" /></span></label>
-                  
-                    
-          <select name="dhrRequesterNationality" class="isNonEuropean-trigger  required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-              <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrRequesterNationality?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrRequesterNationality.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class="isNonEuropean-filled "><g:message code="dhr.property.dhrRequesterFranceArrivalDate.label" /> <span><g:message code="dhr.property.dhrRequesterFranceArrivalDate.help" /></span></label>
-                  
-                    <input name="dhrRequesterFranceArrivalDate" value="${formatDate(formatName:'format.date',date:dhr.dhrRequesterFranceArrivalDate)}" class="isNonEuropean-filled    validate-date-au" title="">
-                  
-                
-                  <label class="isNonEuropean-filled "><g:message code="dhr.property.dhrRequesterIsFrenchResident.label" /> <span><g:message code="dhr.property.dhrRequesterIsFrenchResident.help" /></span></label>
-                  
-                    
-          <ul class="isNonEuropean-filled ">
-            <g:each in="${[true,false]}">
-            <li>
-              <input type="radio" class="isNonEuropean-filled   validate-one-required" title="" value="${it}" name="dhrRequesterIsFrenchResident" ${it == dhr.dhrRequesterIsFrenchResident ? 'checked="checked"': ''} />
-	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
-            </li>
-            </g:each>
-          </ul>
-          
-                  
-                
-                </fieldset>
-              
-              
-            
-              
-                <fieldset class="">
-                <legend><g:message code="dhr.property.dhrRequesterPensionPlan.label" /></legend>
-                
-                  <label class="isOtherPensionPlan-trigger "><g:message code="dhr.property.dhrPrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrPrincipalPensionPlan.help" /></span></label>
-                  
-                    
-          <select name="dhrPrincipalPensionPlan" class="isOtherPensionPlan-trigger  required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrPrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrPrincipalPensionPlan.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class="isOtherPensionPlan-filled "><g:message code="dhr.property.dhrPensionPlanDetail.label" /> <span><g:message code="dhr.property.dhrPensionPlanDetail.help" /></span></label>
-                  
-                    <input name="dhrPensionPlanDetail" value="${dhr.dhrPensionPlanDetail}" class="isOtherPensionPlan-filled    validate-string" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrComplementaryPensionPlan.label" /> <span><g:message code="dhr.property.dhrComplementaryPensionPlan.help" /></span></label>
-                  
-                    <input name="dhrComplementaryPensionPlan" value="${dhr.dhrComplementaryPensionPlan}" class=" required  validate-string" title="">
-                  
-                
-                </fieldset>
-              
-              
-            
-              
-                <fieldset class="">
-                <legend><g:message code="dhr.property.dhrRequesterGuardian.label" /></legend>
-                
-                  <label class="haveGuardian-trigger "><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /> <span><g:message code="dhr.property.dhrRequesterHaveGuardian.help" /></span></label>
-                  
-                    
-          <ul class="haveGuardian-trigger ">
-            <g:each in="${[true,false]}">
-            <li>
-              <input type="radio" class="haveGuardian-trigger  required validate-one-required" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == dhr.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
-	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
-            </li>
-            </g:each>
-          </ul>
-          
-                  
-                
-                  <label class="haveGuardian-filled "><g:message code="dhr.property.dhrGuardianMeasure.label" /> <span><g:message code="dhr.property.dhrGuardianMeasure.help" /></span></label>
-                  
-                    
-          <select name="dhrGuardianMeasure" class="haveGuardian-filled   validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == dhr.dhrGuardianMeasure?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrGuardianMeasure.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class="haveGuardian-filled "><g:message code="dhr.property.dhrGuardianName.label" /> <span><g:message code="dhr.property.dhrGuardianName.help" /></span></label>
-                  
-                    <input name="dhrGuardianName" value="${dhr.dhrGuardianName}" class="haveGuardian-filled    validate-lastname" title="">
-                  
-                
-                  <label class="haveGuardian-filled "><g:message code="dhr.property.dhrGuardianAddress.label" /> <span><g:message code="dhr.property.dhrGuardianAddress.help" /></span></label>
-                  
-                    
-          <div class="address-fieldset haveGuardian-filled ">
-          <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" value="${dhr.dhrGuardianAddress.additionalDeliveryInformation}" maxlength="38" name="dhrGuardianAddress.additionalDeliveryInformation"/>  
-          <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" value="${dhr.dhrGuardianAddress.additionalGeographicalInformation}" maxlength="38" name="dhrGuardianAddress.additionalGeographicalInformation"/>
-          <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
-          <input type="text" class="line1" value="${dhr.dhrGuardianAddress.streetNumber}" maxlength="5" name="dhrGuardianAddress.streetNumber"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrGuardianAddress.streetName}" maxlength="32" name="dhrGuardianAddress.streetName"/>
-          <label><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" value="${dhr.dhrGuardianAddress.placeNameOrService}" maxlength="38" name="dhrGuardianAddress.placeNameOrService"/>
-          <label><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
-          <input type="text" class="line1" value="${dhr.dhrGuardianAddress.postalCode}" maxlength="5" name="dhrGuardianAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrGuardianAddress.city}" maxlength="32" name="dhrGuardianAddress.city"/>
-          <label><g:message code="address.property.countryName" /></label>
-          <input type="text" value="${dhr.dhrGuardianAddress.countryName}" maxlength="38" name="dhrGuardianAddress.countryName"/>
-          </div>
-          
-                  
-                
-                </fieldset>
-              
-              
-            
-           
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/subject" />         
 
            <div class="error" id="subjectFormErrors"> </div>
            
@@ -328,69 +158,15 @@
 
          <form method="POST" id="familyReferentForm" action="<g:createLink action="validFamilyReferent" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.familyReferent.cssClass}"><g:message code="${stepStates.familyReferent.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
 
            </h3>
 
-            
-              
-                <fieldset class="">
-                <legend><g:message code="dhr.property.dhrFamilyReferent.label" /></legend>
-                
-                  <label class="haveFamilyReferent-trigger "><g:message code="dhr.property.dhrHaveFamilyReferent.label" /> <span><g:message code="dhr.property.dhrHaveFamilyReferent.help" /></span></label>
-                  
-                    
-          <ul class="haveFamilyReferent-trigger ">
-            <g:each in="${[true,false]}">
-            <li>
-              <input type="radio" class="haveFamilyReferent-trigger  required validate-one-required" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == dhr.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
-	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
-            </li>
-            </g:each>
-          </ul>
-          
-                  
-                
-                  <label class="haveFamilyReferent-filled "><g:message code="dhr.property.dhrReferentName.label" /> <span><g:message code="dhr.property.dhrReferentName.help" /></span></label>
-                  
-                    <input name="dhrReferentName" value="${dhr.dhrReferentName}" class="haveFamilyReferent-filled    validate-lastname" title="">
-                  
-                
-                  <label class="haveFamilyReferent-filled "><g:message code="dhr.property.dhrReferentFirstName.label" /> <span><g:message code="dhr.property.dhrReferentFirstName.help" /></span></label>
-                  
-                    <input name="dhrReferentFirstName" value="${dhr.dhrReferentFirstName}" class="haveFamilyReferent-filled    validate-firstname" title="">
-                  
-                
-                  <label class="haveFamilyReferent-filled "><g:message code="dhr.property.dhrReferentAddress.label" /> <span><g:message code="dhr.property.dhrReferentAddress.help" /></span></label>
-                  
-                    
-          <div class="address-fieldset haveFamilyReferent-filled ">
-          <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" value="${dhr.dhrReferentAddress.additionalDeliveryInformation}" maxlength="38" name="dhrReferentAddress.additionalDeliveryInformation"/>  
-          <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" value="${dhr.dhrReferentAddress.additionalGeographicalInformation}" maxlength="38" name="dhrReferentAddress.additionalGeographicalInformation"/>
-          <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
-          <input type="text" class="line1" value="${dhr.dhrReferentAddress.streetNumber}" maxlength="5" name="dhrReferentAddress.streetNumber"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrReferentAddress.streetName}" maxlength="32" name="dhrReferentAddress.streetName"/>
-          <label><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" value="${dhr.dhrReferentAddress.placeNameOrService}" maxlength="38" name="dhrReferentAddress.placeNameOrService"/>
-          <label><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
-          <input type="text" class="line1" value="${dhr.dhrReferentAddress.postalCode}" maxlength="5" name="dhrReferentAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrReferentAddress.city}" maxlength="32" name="dhrReferentAddress.city"/>
-          <label><g:message code="address.property.countryName" /></label>
-          <input type="text" value="${dhr.dhrReferentAddress.countryName}" maxlength="38" name="dhrReferentAddress.countryName"/>
-          </div>
-          
-                  
-                
-                </fieldset>
-              
-              
-            
-           
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/familyReferent" />         
 
            <div class="error" id="familyReferentFormErrors"> </div>
            
@@ -421,226 +197,15 @@
 
          <form method="POST" id="spouseForm" action="<g:createLink action="validSpouse" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.spouse.cssClass}"><g:message code="${stepStates.spouse.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
 
            </h3>
 
-            
-              
-                <fieldset class="">
-                <legend><g:message code="dhr.property.dhrSpouse.label" /></legend>
-                
-                  <label class="isCoupleRequest-trigger "><g:message code="dhr.property.dhrRequestKind.label" /> <span><g:message code="dhr.property.dhrRequestKind.help" /></span></label>
-                  
-                    
-          <ul class="isCoupleRequest-trigger ">
-            <g:each in="${['Individual','Couple']}">
-            <li>
-              <input type="radio" class="isCoupleRequest-trigger  required validate-one-required" title="" value="fr.cg95.cvq.business.request.social.DhrRequestKindType_${it}" name="dhrRequestKind" ${it == dhr.dhrRequestKind.toString() ? 'checked="checked"': ''} />
-	            <g:message code="dhr.property.dhrRequestKind.${it}" />  
-            </li>
-            </g:each>
-          </ul>
-          
-                  
-                
-                  <label class="isSpouseMadam-trigger isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseTitle.label" /> <span><g:message code="dhr.property.dhrSpouseTitle.help" /></span></label>
-                  
-                    
-          <select name="dhrSpouseTitle" class="isSpouseMadam-trigger isCoupleRequest-filled  required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-              <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == dhr.dhrSpouseTitle?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseTitle.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> <span><g:message code="dhr.property.dhrSpouseFamilyStatus.help" /></span></label>
-                  
-                    
-          <select name="dhrSpouseFamilyStatus" class="isCoupleRequest-filled  required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
-              <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == dhr.dhrSpouseFamilyStatus?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseFamilyStatus.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseName.label" /> <span><g:message code="dhr.property.dhrSpouseName.help" /></span></label>
-                  
-                    <input name="dhrSpouseName" value="${dhr.dhrSpouseName}" class="isCoupleRequest-filled  required  validate-lastname" title="">
-                  
-                
-                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseFirstName.label" /> <span><g:message code="dhr.property.dhrSpouseFirstName.help" /></span></label>
-                  
-                    <input name="dhrSpouseFirstName" value="${dhr.dhrSpouseFirstName}" class="isCoupleRequest-filled  required  validate-firstname" title="">
-                  
-                
-                  <label class="isSpouseMadam-filled "><g:message code="dhr.property.dhrSpouseMaidenName.label" /> <span><g:message code="dhr.property.dhrSpouseMaidenName.help" /></span></label>
-                  
-                    <input name="dhrSpouseMaidenName" value="${dhr.dhrSpouseMaidenName}" class="isSpouseMadam-filled    validate-lastname" title="">
-                  
-                
-                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseBirthDate.label" /> <span><g:message code="dhr.property.dhrSpouseBirthDate.help" /></span></label>
-                  
-                    <input name="dhrSpouseBirthDate" value="${formatDate(formatName:'format.date',date:dhr.dhrSpouseBirthDate)}" class="isCoupleRequest-filled  required  validate-date-au" title="">
-                  
-                
-                  <label class="isCoupleRequest-filled "><g:message code="dhr.property.dhrSpouseBirthPlace.label" /> <span><g:message code="dhr.property.dhrSpouseBirthPlace.help" /></span></label>
-                  
-                    <input name="dhrSpouseBirthPlace" value="${dhr.dhrSpouseBirthPlace}" class="isCoupleRequest-filled  required  validate-string" title="">
-                  
-                
-                  <label class="isCoupleRequest-filled isSpouseNonEuropean-trigger "><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
-                  
-                    
-          <select name="dhrSpouseNationality" class="isCoupleRequest-filled isSpouseNonEuropean-trigger  required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-              <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrSpouseNationality?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpouseNationality.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class="isSpouseNonEuropean-filled "><g:message code="dhr.property.dhrSpouseFranceArrivalDate.label" /> <span><g:message code="dhr.property.dhrSpouseFranceArrivalDate.help" /></span></label>
-                  
-                    <input name="dhrSpouseFranceArrivalDate" value="${formatDate(formatName:'format.date',date:dhr.dhrSpouseFranceArrivalDate)}" class="isSpouseNonEuropean-filled    validate-date-au" title="">
-                  
-                
-                  <label class="isSpouseNonEuropean-filled "><g:message code="dhr.property.dhrSpouseIsFrenchResident.label" /> <span><g:message code="dhr.property.dhrSpouseIsFrenchResident.help" /></span></label>
-                  
-                    
-          <ul class="isSpouseNonEuropean-filled ">
-            <g:each in="${[true,false]}">
-            <li>
-              <input type="radio" class="isSpouseNonEuropean-filled   validate-one-required" title="" value="${it}" name="dhrSpouseIsFrenchResident" ${it == dhr.dhrSpouseIsFrenchResident ? 'checked="checked"': ''} />
-	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
-            </li>
-            </g:each>
-          </ul>
-          
-                  
-                
-                </fieldset>
-              
-              
-            
-              
-                <fieldset class="isCoupleRequest-filled ">
-                <legend><g:message code="dhr.property.dhrSpouseStatus.label" /></legend>
-                
-                  <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger "><g:message code="dhr.property.dhrIsSpouseRetired.label" /> <span><g:message code="dhr.property.dhrIsSpouseRetired.help" /></span></label>
-                  
-                    
-          <ul class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger ">
-            <g:each in="${[true,false]}">
-            <li>
-              <input type="radio" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-trigger  required validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == dhr.dhrIsSpouseRetired ? 'checked="checked"': ''} />
-	            <g:message code="widget.yesno.${it ? 'yes' : 'no'}" />
-            </li>
-            </g:each>
-          </ul>
-          
-                  
-                
-                  <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
-                  
-                    
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class="isSpouseOtherPensionPlan-filled "><g:message code="dhr.property.dhrSpousePensionPlanDetail.label" /> <span><g:message code="dhr.property.dhrSpousePensionPlanDetail.help" /></span></label>
-                  
-                    <input name="dhrSpousePensionPlanDetail" value="${dhr.dhrSpousePensionPlanDetail}" class="isSpouseOtherPensionPlan-filled    validate-string" title="">
-                  
-                
-                  <label class="isSpouseRetired-filled "><g:message code="dhr.property.dhrSpouseComplementaryPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpouseComplementaryPensionPlan.help" /></span></label>
-                  
-                    <input name="dhrSpouseComplementaryPensionPlan" value="${dhr.dhrSpouseComplementaryPensionPlan}" class="isSpouseRetired-filled    validate-string" title="">
-                  
-                
-                  <label class="isSpouseRetired-unfilled "><g:message code="dhr.property.dhrSpouseProfession.label" /> <span><g:message code="dhr.property.dhrSpouseProfession.help" /></span></label>
-                  
-                    <input name="dhrSpouseProfession" value="${dhr.dhrSpouseProfession}" class="isSpouseRetired-unfilled    validate-string" title="">
-                  
-                
-                  <label class="isSpouseRetired-unfilled "><g:message code="dhr.property.dhrSpouseEmployer.label" /> <span><g:message code="dhr.property.dhrSpouseEmployer.help" /></span></label>
-                  
-                    <input name="dhrSpouseEmployer" value="${dhr.dhrSpouseEmployer}" class="isSpouseRetired-unfilled    validate-string" title="">
-                  
-                
-                  <label class="isSpouseRetired-unfilled "><g:message code="dhr.property.dhrSpouseAddress.label" /> <span><g:message code="dhr.property.dhrSpouseAddress.help" /></span></label>
-                  
-                    
-          <div class="address-fieldset isSpouseRetired-unfilled ">
-          <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" value="${dhr.dhrSpouseAddress.additionalDeliveryInformation}" maxlength="38" name="dhrSpouseAddress.additionalDeliveryInformation"/>  
-          <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" value="${dhr.dhrSpouseAddress.additionalGeographicalInformation}" maxlength="38" name="dhrSpouseAddress.additionalGeographicalInformation"/>
-          <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
-          <input type="text" class="line1" value="${dhr.dhrSpouseAddress.streetNumber}" maxlength="5" name="dhrSpouseAddress.streetNumber"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrSpouseAddress.streetName}" maxlength="32" name="dhrSpouseAddress.streetName"/>
-          <label><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" value="${dhr.dhrSpouseAddress.placeNameOrService}" maxlength="38" name="dhrSpouseAddress.placeNameOrService"/>
-          <label><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
-          <input type="text" class="line1" value="${dhr.dhrSpouseAddress.postalCode}" maxlength="5" name="dhrSpouseAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrSpouseAddress.city}" maxlength="32" name="dhrSpouseAddress.city"/>
-          <label><g:message code="address.property.countryName" /></label>
-          <input type="text" value="${dhr.dhrSpouseAddress.countryName}" maxlength="38" name="dhrSpouseAddress.countryName"/>
-          </div>
-          
-                  
-                
-                </fieldset>
-              
-              
-            
-              
-                <fieldset class="isCoupleRequest-filled ">
-                <legend><g:message code="dhr.property.dhrSpouseIncomes.label" /></legend>
-                
-                  <label class=""><g:message code="dhr.property.pensions.label" /> <span><g:message code="dhr.property.pensions.help" /></span></label>
-                  
-                    <input name="pensions" value="${dhr.pensions}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrAllowances.label" /> <span><g:message code="dhr.property.dhrAllowances.help" /></span></label>
-                  
-                    <input name="dhrAllowances" value="${dhr.dhrAllowances}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /> <span><g:message code="dhr.property.dhrFurnitureInvestmentIncome.help" /></span></label>
-                  
-                    <input name="dhrFurnitureInvestmentIncome" value="${dhr.dhrFurnitureInvestmentIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /> <span><g:message code="dhr.property.dhrRealEstateInvestmentIncome.help" /></span></label>
-                  
-                    <input name="dhrRealEstateInvestmentIncome" value="${dhr.dhrRealEstateInvestmentIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrNetIncome.label" /> <span><g:message code="dhr.property.dhrNetIncome.help" /></span></label>
-                  
-                    <input name="dhrNetIncome" value="${dhr.dhrNetIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                </fieldset>
-              
-              
-            
-           
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/spouse" />         
 
            <div class="error" id="spouseFormErrors"> </div>
            
@@ -671,97 +236,15 @@
 
          <form method="POST" id="dwellingForm" action="<g:createLink action="validDwelling" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.dwelling.cssClass}"><g:message code="${stepStates.dwelling.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
 
            </h3>
 
-            
-              
-                <fieldset class="">
-                <legend><g:message code="dhr.property.dhrCurrentDwelling.label" /></legend>
-                
-                  <label class=""><g:message code="dhr.property.dhrCurrentDwellingAddress.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingAddress.help" /></span></label>
-                  
-                    
-          <div class="address-fieldset ">
-          <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" value="${dhr.dhrCurrentDwellingAddress.additionalDeliveryInformation}" maxlength="38" name="dhrCurrentDwellingAddress.additionalDeliveryInformation"/>  
-          <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" value="${dhr.dhrCurrentDwellingAddress.additionalGeographicalInformation}" maxlength="38" name="dhrCurrentDwellingAddress.additionalGeographicalInformation"/>
-          <label><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
-          <input type="text" class="line1" value="${dhr.dhrCurrentDwellingAddress.streetNumber}" maxlength="5" name="dhrCurrentDwellingAddress.streetNumber"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrCurrentDwellingAddress.streetName}" maxlength="32" name="dhrCurrentDwellingAddress.streetName"/>
-          <label><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" value="${dhr.dhrCurrentDwellingAddress.placeNameOrService}" maxlength="38" name="dhrCurrentDwellingAddress.placeNameOrService"/>
-          <label><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
-          <input type="text" class="line1" value="${dhr.dhrCurrentDwellingAddress.postalCode}" maxlength="5" name="dhrCurrentDwellingAddress.postalCode"/>
-          <input type="text" title="" class="line2 required" value="${dhr.dhrCurrentDwellingAddress.city}" maxlength="32" name="dhrCurrentDwellingAddress.city"/>
-          <label><g:message code="address.property.countryName" /></label>
-          <input type="text" value="${dhr.dhrCurrentDwellingAddress.countryName}" maxlength="38" name="dhrCurrentDwellingAddress.countryName"/>
-          </div>
-          
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingPhone.help" /></span></label>
-                  
-                    <input name="dhrCurrentDwellingPhone" value="${dhr.dhrCurrentDwellingPhone}" class="   validate-phone" title="">
-                  
-                
-                  <label class="isCurrentDwellingPlaceOfResidence-trigger "><g:message code="dhr.property.dhrCurrentDwellingKind.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingKind.help" /></span></label>
-                  
-                    
-          <select name="dhrCurrentDwellingKind" class="isCurrentDwellingPlaceOfResidence-trigger  required validate-not-first" title="">
-            <option value=""><g:message code="message.select.defaultOption" /></option>
-            <g:each in="${['placeOfResidence','retirementHome','other']}">
-              <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == dhr.dhrCurrentDwellingKind?.toString() ? 'selected="selected"': ''}><g:message code="dhr.property.dhrCurrentDwellingKind.${it}" /></option>
-            </g:each>
-          </select>
-          
-                  
-                
-                  <label class="isCurrentDwellingPlaceOfResidence-filled "><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.help" /></span></label>
-                  
-                    <input name="dhrCurrentDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:dhr.dhrCurrentDwellingArrivalDate)}" class="isCurrentDwellingPlaceOfResidence-filled    validate-date-au" title="">
-                  
-                
-                  <label class="isCurrentDwellingPlaceOfResidence-filled "><g:message code="dhr.property.dhrCurrentDwellingStatus.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingStatus.help" /></span></label>
-                  
-                    
-          <ul class="isCurrentDwellingPlaceOfResidence-filled ">
-            <g:each in="${['owner','tenant']}">
-            <li>
-              <input type="radio" class="isCurrentDwellingPlaceOfResidence-filled   validate-one-required" title="" value="fr.cg95.cvq.business.request.social.DhrDwellingStatusType_${it}" name="dhrCurrentDwellingStatus" ${it == dhr.dhrCurrentDwellingStatus.toString() ? 'checked="checked"': ''} />
-	            <g:message code="dhr.property.dhrCurrentDwellingStatus.${it}" />  
-            </li>
-            </g:each>
-          </ul>
-          
-                  
-                
-                  <label class="isCurrentDwellingPlaceOfResidence-filled "><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.help" /></span></label>
-                  
-                    <input name="dhrCurrentDwellingNumberOfRoom" value="${dhr.dhrCurrentDwellingNumberOfRoom}" class="isCurrentDwellingPlaceOfResidence-filled    " title="">
-                  
-                
-                  <label class="isCurrentDwellingPlaceOfResidence-filled "><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
-                  
-                    <input name="dhrCurrentDwellingNetArea" value="${dhr.dhrCurrentDwellingNetArea}" class="isCurrentDwellingPlaceOfResidence-filled    " title="">
-                  
-                
-                </fieldset>
-              
-              
-            
-              
-                <label class=""><g:message code="dhr.property.dhrPreviousDwelling.label" /> <span><g:message code="dhr.property.dhrPreviousDwelling.help" /></span></label>
-                <pre>TODO -> ON TO MANY</pre>
-              
-              
-            
-           
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/dwelling" />         
 
            <div class="error" id="dwellingFormErrors"> </div>
            
@@ -792,60 +275,15 @@
 
          <form method="POST" id="resourcesForm" action="<g:createLink action="validResources" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.resources.cssClass}"><g:message code="${stepStates.resources.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
 
            </h3>
 
-            
-              
-                <fieldset class="">
-                <legend><g:message code="dhr.property.dhrRequesterIncomes.label" /></legend>
-                
-                  <label class=""><g:message code="dhr.property.pensions.label" /> <span><g:message code="dhr.property.pensions.help" /></span></label>
-                  
-                    <input name="pensions" value="${dhr.pensions}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrAllowances.label" /> <span><g:message code="dhr.property.dhrAllowances.help" /></span></label>
-                  
-                    <input name="dhrAllowances" value="${dhr.dhrAllowances}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /> <span><g:message code="dhr.property.dhrFurnitureInvestmentIncome.help" /></span></label>
-                  
-                    <input name="dhrFurnitureInvestmentIncome" value="${dhr.dhrFurnitureInvestmentIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /> <span><g:message code="dhr.property.dhrRealEstateInvestmentIncome.help" /></span></label>
-                  
-                    <input name="dhrRealEstateInvestmentIncome" value="${dhr.dhrRealEstateInvestmentIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.dhrNetIncome.label" /> <span><g:message code="dhr.property.dhrNetIncome.help" /></span></label>
-                  
-                    <input name="dhrNetIncome" value="${dhr.dhrNetIncome}" class="   validate-positiveinteger" title="">
-                  
-                
-                </fieldset>
-              
-              
-            
-              
-                <label class=""><g:message code="dhr.property.dhrRealAsset.label" /> <span><g:message code="dhr.property.dhrRealAsset.help" /></span></label>
-                <pre>TODO -> ON TO MANY</pre>
-              
-              
-            
-              
-                <label class=""><g:message code="dhr.property.dhrNotRealAsset.label" /> <span><g:message code="dhr.property.dhrNotRealAsset.help" /></span></label>
-                <pre>TODO -> ON TO MANY</pre>
-              
-              
-            
-           
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/resources" />         
 
            <div class="error" id="resourcesFormErrors"> </div>
            
@@ -876,43 +314,15 @@
 
          <form method="POST" id="taxesForm" action="<g:createLink action="validTaxes" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.taxes.cssClass}"><g:message code="${stepStates.taxes.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
 
            </h3>
 
-            
-              
-                <fieldset class="">
-                <legend><g:message code="dhr.property.dhrTaxesAmount.label" /></legend>
-                
-                  <label class=""><g:message code="dhr.property.dhrIncomeTax.label" /> <span><g:message code="dhr.property.dhrIncomeTax.help" /></span></label>
-                  
-                    <input name="dhrIncomeTax" value="${dhr.dhrIncomeTax}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.localRate.label" /> <span><g:message code="dhr.property.localRate.help" /></span></label>
-                  
-                    <input name="localRate" value="${dhr.localRate}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.propertyTaxes.label" /> <span><g:message code="dhr.property.propertyTaxes.help" /></span></label>
-                  
-                    <input name="propertyTaxes" value="${dhr.propertyTaxes}" class="   validate-positiveinteger" title="">
-                  
-                
-                  <label class=""><g:message code="dhr.property.professionalTaxes.label" /> <span><g:message code="dhr.property.professionalTaxes.help" /></span></label>
-                  
-                    <input name="professionalTaxes" value="${dhr.professionalTaxes}" class="   validate-positiveinteger" title="">
-                  
-                
-                </fieldset>
-              
-              
-            
-           
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/taxes" />         
 
            <div class="error" id="taxesFormErrors"> </div>
            
@@ -963,7 +373,8 @@
 
          <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.validationRef.cssClass}"><g:message code="${stepStates.validationRef.i18nKey}" /></span>
+
 
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
@@ -1039,7 +450,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

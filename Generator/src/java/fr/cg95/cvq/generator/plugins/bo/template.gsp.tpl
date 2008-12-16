@@ -17,6 +17,8 @@
           ,"<p class=\"countryName\">\${${wrapper}.${element.javaFieldName}.countryName}</p>"
           ,"</div>"
           ].join()
+      ,'boolean' :
+          "<span><g:message code=\"message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
     ]
     
     if (widgets[element.widget] != null)

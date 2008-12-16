@@ -122,7 +122,7 @@ class RequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum" ]
+        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum", boolean:"boolean", ]
         
         // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")

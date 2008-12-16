@@ -168,6 +168,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             addressFields[i].innerHTML = this.value ;
         });
       }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-boolean')) {
+        var checkedEl = yus.query("input:checked", formEl, true);
+        propertyWrapperEl.innerHTML = yl.trim(yud.getNextSibling(checkedEl).innerHTML);
+        propertyWrapperEl.className = 'value-' + checkedEl.value; 
+      }
       else if (isSubmit) {
         var elName = formEl.id.replace('_Form', '') + '_Field';
         propertyValue = yud.get(elName).value;
@@ -222,6 +227,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           }
           else if (jsonPropertyType['validate'] ===  'capdematEnum') {
             propertyValue = propertyWrapperEl.className;
+          }
+          else if (jsonPropertyType['validate'] ===  'boolean') {
+            propertyValue = propertyWrapperEl.className.split('-')[1];
           }
           else {
             propertyValue = propertyWrapperEl.innerHTML;

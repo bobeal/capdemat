@@ -18,7 +18,7 @@
           ,"</div>"
           ].join()
       ,'boolean' :
-          "<span><g:message code=\"message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
+          "<span class=\"value-\${${wrapper}.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
     ]
     
     if (widgets[element.widget] != null)

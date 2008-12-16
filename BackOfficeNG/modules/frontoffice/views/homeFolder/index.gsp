@@ -14,10 +14,10 @@
       <p>
         <g:message code="property.active"/> :
         <g:if test="${homeFolder.isActive}">
-          <span class="tag-invalid"><g:message code="message.no" /></span>
+          <span class="tag-valid"><g:message code="message.yes" /></span>
         </g:if>
         <g:else>
-          <span class="tag-valid"><g:message code="message.yes" /></span>
+          <span class="tag-invalid"><g:message code="message.no" /></span>
         </g:else>
       </p>
       <p>

@@ -1,4 +1,4 @@
-<g:if test="${adults.size() > 0}">
+<g:if test="${!adults.isEmpty()}">
   <h2><g:message code="homeFolder.property.adults"/></h2>
 
   <g:each var="record" in="${adults}">
@@ -12,14 +12,14 @@
         </dd>
       </g:if>
       <dd>
-        <g:message code="homeFolder.header.born" />
         <g:if test="${record.birthDate}">
+          <g:message code="homeFolder.header.born" />
           <g:message code="homeFolder.header.on" />
           ${formatDate(date:record.birthDate,formatName:'format.date')}
         </g:if>
         <g:if test="${record.birthCity || record.birthPostalCode || record.birthCountry}">
           <g:message code="homeFolder.header.in" /> 
-          ${record?.birthCity}
+          ${record.birthCity}
           <g:if test="${record.birthPostalCode}"> (${record.birthPostalCode}) </g:if>
           <g:if test="${record.birthCountry}"> - ${record.birthCountry}</g:if>
         </g:if>

@@ -47,7 +47,7 @@ class HomeFolderController {
         
         result.homeFolder = [
             'state' : currentEcitizen.homeFolder.state,
-            'isActive' : currentEcitizen.homeFolder.enabled ? message(code:'message.yes') : message(code:'message.no'),
+            'isActive' : currentEcitizen.homeFolder.enabled,
             'addressDetails' :   "${currentEcitizen.homeFolder.adress.streetNumber} "+
                                  "${currentEcitizen.homeFolder.adress.streetName} " +
                                  "${currentEcitizen.homeFolder.adress.postalCode} " +

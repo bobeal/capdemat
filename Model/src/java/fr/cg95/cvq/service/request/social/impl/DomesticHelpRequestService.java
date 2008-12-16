@@ -1,17 +1,11 @@
 package fr.cg95.cvq.service.request.social.impl;
 
-import java.math.BigInteger;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.social.DhrNotRealAsset;
-import fr.cg95.cvq.business.request.social.DhrRealAsset;
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.impl.RequestService;

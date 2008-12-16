@@ -22,9 +22,39 @@ class DomesticHelpRequestController {
     
     def currentTab = 'subject'
     
+    def steps = [
+
+      'subject',
+
+      'familyReferent',
+
+      'spouse',
+
+      'dwelling',
+
+      'resources',
+
+      'taxes',
+
+      'documentRef',
+
+      'validationRef'
+
+    ]
+    
+    
     def edit = {
+        def stepStates
+        if (stepStates == null) {
+            stepStates = [:]
+            steps.each {
+                stepStates.put(it, ['cssClass': 'tag-pending', 'i18nKey': 'request.step.state.uncomplete'] )
+            }
+        }
+        session['stepStates'] = stepStates
+          
         if (dhr == null)
-          dhr = new DomesticHelpRequest()
+            dhr = new DomesticHelpRequest()
 dhr.setDhrGuardianAddress(new Address())
 dhr.setDhrReferentAddress(new Address())
 dhr.setDhrSpouseAddress(new Address())
@@ -36,7 +66,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
             model:[dhr:dhr, currentTab:currentTab, subjects:getAuthorizedSubjects(),
                    translationService:translationService, help:getHelp(),
                    documentTypes:getDocumentTypes(),
-                   meansOfContact:getMeansOfContact()])
+                   meansOfContact:getMeansOfContact(), stepStates:stepStates ])
     }
     
 
@@ -47,11 +77,14 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
 
         session["domesticHelpRequest"] = dhr
+        session['stepStates'].subject = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:'subject', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 
     def validFamilyReferent = {
@@ -61,11 +94,14 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
 
         session["domesticHelpRequest"] = dhr
+        session['stepStates'].familyReferent = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:'familyReferent', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 
     def validSpouse = {
@@ -75,11 +111,14 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
 
         session["domesticHelpRequest"] = dhr
+        session['stepStates'].spouse = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:'spouse', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 
     def validDwelling = {
@@ -89,11 +128,14 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
 
         session["domesticHelpRequest"] = dhr
+        session['stepStates'].dwelling = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:'dwelling', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 
     def validResources = {
@@ -103,11 +145,14 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
 
         session["domesticHelpRequest"] = dhr
+        session['stepStates'].resources = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:'resources', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 
     def validTaxes = {
@@ -117,11 +162,14 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
 
         session["domesticHelpRequest"] = dhr
+        session['stepStates'].taxes = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:'taxes', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 
     def validDocumentRef = {
@@ -131,11 +179,14 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
 
         session["domesticHelpRequest"] = dhr
+        session['stepStates'].documentRef = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:'documentRef', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 
     def validValidationRef = {
@@ -147,11 +198,14 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         domesticHelpRequestService.create(dhr)
 
         session["domesticHelpRequest"] = dhr
+        session['stepStates'].validationRef = 
+            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
+            
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
                model:[dhr:dhr, currentTab:'validationRef', subjects:getAuthorizedSubjects(),
                       translationService:translationService, help:getHelp(),
                       documentTypes:getDocumentTypes(),
-                      meansOfContact:getMeansOfContact()])
+                      meansOfContact:getMeansOfContact(), stepStates:session['stepStates']])
     }
 
     
@@ -187,24 +241,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
     }
     
     def getHelp = {
-        def steps = []
-
-        steps.add("subject")
-
-        steps.add("familyReferent")
-
-        steps.add("spouse")
-
-        steps.add("dwelling")
-
-        steps.add("resources")
-
-        steps.add("taxes")
-
-        steps.add("documentRef")
-
-        steps.add("validationRef")
-
+    
         def help = [:]
         steps.each {
             help[it] = localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelp("domesticHelpRequest",it)

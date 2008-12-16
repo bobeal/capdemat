@@ -27,7 +27,8 @@
        <li class="${currentTab == 'subject' ? 'selected' : ''}">
         <a href="#subject"><em>
          <span class="tag-no_right">1</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.subject.cssClass}"><g:message code="${stepStates.subject.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.subject.label" />
 
@@ -37,7 +38,8 @@
        <li class="${currentTab == 'familyReferent' ? 'selected' : ''}">
         <a href="#familyReferent"><em>
          <span class="tag-no_right">2</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.familyReferent.cssClass}"><g:message code="${stepStates.familyReferent.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.familyReferent.label" />
 
@@ -47,7 +49,8 @@
        <li class="${currentTab == 'spouse' ? 'selected' : ''}">
         <a href="#spouse"><em>
          <span class="tag-no_right">3</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.spouse.cssClass}"><g:message code="${stepStates.spouse.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.spouse.label" />
 
@@ -57,7 +60,8 @@
        <li class="${currentTab == 'dwelling' ? 'selected' : ''}">
         <a href="#dwelling"><em>
          <span class="tag-no_right">4</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.dwelling.cssClass}"><g:message code="${stepStates.dwelling.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.dwelling.label" />
 
@@ -67,7 +71,8 @@
        <li class="${currentTab == 'resources' ? 'selected' : ''}">
         <a href="#resources"><em>
          <span class="tag-no_right">5</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.resources.cssClass}"><g:message code="${stepStates.resources.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.resources.label" />
 
@@ -77,7 +82,8 @@
        <li class="${currentTab == 'taxes' ? 'selected' : ''}">
         <a href="#taxes"><em>
          <span class="tag-no_right">6</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.taxes.cssClass}"><g:message code="${stepStates.taxes.i18nKey}" /></span>
+
 
          <g:message code="dhr.step.taxes.label" />
 
@@ -87,7 +93,8 @@
        <li class="${currentTab == 'documentRef' ? 'selected' : ''}">
         <a href="#documentRef"><em>
          <span class="tag-no_right">7</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.documentRef.cssClass}"><g:message code="${stepStates.documentRef.i18nKey}" /></span>
+
 
          <g:message code="request.step.document.label" />
 
@@ -97,7 +104,8 @@
        <li class="${currentTab == 'validationRef' ? 'selected' : ''}">
         <a href="#validationRef"><em>
          <span class="tag-no_right">8</span>
-         <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete" /></span>
+         <span class="tag-state ${stepStates.validationRef.cssClass}"><g:message code="${stepStates.validationRef.i18nKey}" /></span>
+
 
          <g:message code="request.step.validation.label" />
 
@@ -112,7 +120,8 @@
 
          <form method="POST" id="subjectForm" action="<g:createLink action="validSubject" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.subject.cssClass}"><g:message code="${stepStates.subject.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
@@ -149,7 +158,8 @@
 
          <form method="POST" id="familyReferentForm" action="<g:createLink action="validFamilyReferent" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.familyReferent.cssClass}"><g:message code="${stepStates.familyReferent.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
@@ -187,7 +197,8 @@
 
          <form method="POST" id="spouseForm" action="<g:createLink action="validSpouse" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.spouse.cssClass}"><g:message code="${stepStates.spouse.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
@@ -225,7 +236,8 @@
 
          <form method="POST" id="dwellingForm" action="<g:createLink action="validDwelling" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.dwelling.cssClass}"><g:message code="${stepStates.dwelling.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
@@ -263,7 +275,8 @@
 
          <form method="POST" id="resourcesForm" action="<g:createLink action="validResources" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.resources.cssClass}"><g:message code="${stepStates.resources.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
@@ -301,7 +314,8 @@
 
          <form method="POST" id="taxesForm" action="<g:createLink action="validTaxes" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.taxes.cssClass}"><g:message code="${stepStates.taxes.i18nKey}" /></span>
+
 
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
@@ -359,7 +373,8 @@
 
          <form method="POST" id="validationRefForm" action="<g:createLink action="validValidationRef" />">
            <h3>
-             <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
+             <span class="tag-state ${stepStates.validationRef.cssClass}"><g:message code="${stepStates.validationRef.i18nKey}" /></span>
+
 
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
@@ -435,7 +450,7 @@
 
  	  function checkAllConditions() {
       	
-      	var conditionsName = ["isNonEuropean", "isOtherPensionPlan", "isCurrentDwellingPlaceOfResidence", "haveFamilyReferent", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
+      	var conditionsName = ["isNonEuropean", "haveFamilyReferent", "isCurrentDwellingPlaceOfResidence", "isOtherPensionPlan", "isRealEstate", "isSpouseRetired", "isSpouseOtherPensionPlan", "isMadam", "isPreviousDwellingPlaceOfResidence", "haveGuardian", "isSpouseNonEuropean", "isCoupleRequest", "isSpouseMadam"];
         Condition.checkConditions(conditionsName, "domesticHelpRequest");
       }
       

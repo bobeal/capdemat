@@ -12,14 +12,9 @@
           <ul class="isCoupleRequest-trigger ">
             <g:each in="${['Individual','Couple']}">
             <li>
-<<<<<<< HEAD:Generator/src/java/fr/cg95/cvq/generator/plugins/fo/templates/step.tmpl
               <input type="radio" class="isCoupleRequest-trigger required validate-one-required" value="fr.cg95.cvq.business.request.social.DhrRequestKindType_${it}" name="dhrRequestKind" ${it == dhr.dhrRequestKind.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrRequestKind.validationError" />" />
-	            <g:message code="dhr.property.dhrRequestKind.${it}" />  
-=======
-              <input type="radio" class="isCoupleRequest-trigger required validate-one-required" title="" value="fr.cg95.cvq.business.request.social.DhrRequestKindType_${it}" name="dhrRequestKind" ${it == dhr.dhrRequestKind.toString() ? 'checked="checked"': ''} />
-              <g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
->>>>>>> 27b1d7b8fa1f6577366ba993062231be88db4978:Generator/src/java/fr/cg95/cvq/generator/plugins/fo/templates/step.tmpl
-            </li>
+	            <g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
+	          </li>
             </g:each>
           </ul>
           
@@ -74,10 +69,10 @@
         <input name="dhrSpouseBirthPlace" value="${dhr.dhrSpouseBirthPlace}" class="isCoupleRequest-filled  required  validate-string" title="<g:message code="dhr.property.dhrSpouseBirthPlace.validationError" />">
       
     
-      <label class="isCoupleRequest-filled isSpouseNonEuropean-trigger  required"><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
+      <label class="isSpouseNonEuropean-trigger isCoupleRequest-filled  required"><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
       
         
-          <select name="dhrSpouseNationality" class="isCoupleRequest-filled isSpouseNonEuropean-trigger  required validate-not-first" title="<g:message code="dhr.property.dhrSpouseNationality.validationError" />">
+          <select name="dhrSpouseNationality" class="isSpouseNonEuropean-trigger isCoupleRequest-filled  required validate-not-first" title="<g:message code="dhr.property.dhrSpouseNationality.validationError" />">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
               <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == dhr.dhrSpouseNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" /></option>
@@ -127,10 +122,10 @@
           
       
     
-      <label class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger  "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
+      <label class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled  "><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
       
         
-          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseRetired-filled isSpouseOtherPensionPlan-trigger   validate-not-first" title="<g:message code="dhr.property.dhrSpousePrincipalPensionPlan.validationError" />">
+          <select name="dhrSpousePrincipalPensionPlan" class="isSpouseOtherPensionPlan-trigger isSpouseRetired-filled   validate-not-first" title="<g:message code="dhr.property.dhrSpousePrincipalPensionPlan.validationError" />">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
               <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == dhr.dhrSpousePrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" /></option>

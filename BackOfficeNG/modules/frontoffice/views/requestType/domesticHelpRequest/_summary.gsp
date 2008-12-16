@@ -17,7 +17,7 @@
 
           <dd>
             <g:if test="${dhr.dhrRequesterNationality}">
-              <g:message code="dhr.property.dhrRequesterNationality.${dhr.dhrRequesterNationality}"/>
+              <g:capdematEnumToField var="${dhr.dhrRequesterNationality}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" />
             </g:if>
           </dd>
           
@@ -25,7 +25,7 @@
 <dd><g:formatDate formatName="format.date" date="${dhr.dhrRequesterFranceArrivalDate}"/></dd>
              <dt><g:message code="dhr.property.dhrRequesterIsFrenchResident.label" /></dt>
 
-          <dd><g:message code="widget.yesno.${dhr.dhrRequesterIsFrenchResident ? 'yes' : 'no'}" /></dd>
+          <dd><g:message code="message.${dhr.dhrRequesterIsFrenchResident ? 'yes' : 'no'}" /></dd>
           
           </dl>
 
@@ -36,7 +36,7 @@
 
           <dd>
             <g:if test="${dhr.dhrPrincipalPensionPlan}">
-              <g:message code="dhr.property.dhrPrincipalPensionPlan.${dhr.dhrPrincipalPensionPlan}"/>
+              <g:capdematEnumToField var="${dhr.dhrPrincipalPensionPlan}" i18nKeyPrefix="dhr.property.dhrPrincipalPensionPlan" />
             </g:if>
           </dd>
           
@@ -51,13 +51,13 @@
 
              <dt><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /></dt>
 
-          <dd><g:message code="widget.yesno.${dhr.dhrRequesterHaveGuardian ? 'yes' : 'no'}" /></dd>
+          <dd><g:message code="message.${dhr.dhrRequesterHaveGuardian ? 'yes' : 'no'}" /></dd>
           
              <dt><g:message code="dhr.property.dhrGuardianMeasure.label" /></dt>
 
           <dd>
             <g:if test="${dhr.dhrGuardianMeasure}">
-              <g:message code="dhr.property.dhrGuardianMeasure.${dhr.dhrGuardianMeasure}"/>
+              <g:capdematEnumToField var="${dhr.dhrGuardianMeasure}" i18nKeyPrefix="dhr.property.dhrGuardianMeasure" />
             </g:if>
           </dd>
           
@@ -85,7 +85,7 @@
 
              <dt><g:message code="dhr.property.dhrHaveFamilyReferent.label" /></dt>
 
-          <dd><g:message code="widget.yesno.${dhr.dhrHaveFamilyReferent ? 'yes' : 'no'}" /></dd>
+          <dd><g:message code="message.${dhr.dhrHaveFamilyReferent ? 'yes' : 'no'}" /></dd>
           
              <dt><g:message code="dhr.property.dhrReferentName.label" /></dt>
 <dd>${dhr.dhrReferentName}</dd>
@@ -115,7 +115,7 @@
 
           <dd>
             <g:if test="${dhr.dhrRequestKind}">
-              <g:message code="dhr.property.dhrRequestKind.${dhr.dhrRequestKind.toString()}" />  
+              <g:capdematEnumToField var="${dhr.dhrRequestKind}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
             </g:if>
           </dd>
           
@@ -123,7 +123,7 @@
 
           <dd>
             <g:if test="${dhr.dhrSpouseTitle}">
-              <g:message code="dhr.property.dhrSpouseTitle.${dhr.dhrSpouseTitle}"/>
+              <g:capdematEnumToField var="${dhr.dhrSpouseTitle}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" />
             </g:if>
           </dd>
           
@@ -131,7 +131,7 @@
 
           <dd>
             <g:if test="${dhr.dhrSpouseFamilyStatus}">
-              <g:message code="dhr.property.dhrSpouseFamilyStatus.${dhr.dhrSpouseFamilyStatus}"/>
+              <g:capdematEnumToField var="${dhr.dhrSpouseFamilyStatus}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" />
             </g:if>
           </dd>
           
@@ -149,7 +149,7 @@
 
           <dd>
             <g:if test="${dhr.dhrSpouseNationality}">
-              <g:message code="dhr.property.dhrSpouseNationality.${dhr.dhrSpouseNationality}"/>
+              <g:capdematEnumToField var="${dhr.dhrSpouseNationality}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" />
             </g:if>
           </dd>
           
@@ -157,7 +157,7 @@
 <dd><g:formatDate formatName="format.date" date="${dhr.dhrSpouseFranceArrivalDate}"/></dd>
              <dt><g:message code="dhr.property.dhrSpouseIsFrenchResident.label" /></dt>
 
-          <dd><g:message code="widget.yesno.${dhr.dhrSpouseIsFrenchResident ? 'yes' : 'no'}" /></dd>
+          <dd><g:message code="message.${dhr.dhrSpouseIsFrenchResident ? 'yes' : 'no'}" /></dd>
           
           </dl>
 
@@ -166,13 +166,13 @@
 
              <dt><g:message code="dhr.property.dhrIsSpouseRetired.label" /></dt>
 
-          <dd><g:message code="widget.yesno.${dhr.dhrIsSpouseRetired ? 'yes' : 'no'}" /></dd>
+          <dd><g:message code="message.${dhr.dhrIsSpouseRetired ? 'yes' : 'no'}" /></dd>
           
              <dt><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /></dt>
 
           <dd>
             <g:if test="${dhr.dhrSpousePrincipalPensionPlan}">
-              <g:message code="dhr.property.dhrSpousePrincipalPensionPlan.${dhr.dhrSpousePrincipalPensionPlan}"/>
+              <g:capdematEnumToField var="${dhr.dhrSpousePrincipalPensionPlan}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" />
             </g:if>
           </dd>
           
@@ -238,7 +238,7 @@
 
           <dd>
             <g:if test="${dhr.dhrCurrentDwellingKind}">
-              <g:message code="dhr.property.dhrCurrentDwellingKind.${dhr.dhrCurrentDwellingKind}"/>
+              <g:capdematEnumToField var="${dhr.dhrCurrentDwellingKind}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingKind" />
             </g:if>
           </dd>
           
@@ -248,7 +248,7 @@
 
           <dd>
             <g:if test="${dhr.dhrCurrentDwellingStatus}">
-              <g:message code="dhr.property.dhrCurrentDwellingStatus.${dhr.dhrCurrentDwellingStatus.toString()}" />  
+              <g:capdematEnumToField var="${dhr.dhrCurrentDwellingStatus}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingStatus" />
             </g:if>
           </dd>
           

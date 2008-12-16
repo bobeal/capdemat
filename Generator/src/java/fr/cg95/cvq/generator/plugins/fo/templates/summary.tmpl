@@ -10,13 +10,13 @@
     def widgets = [
       'YesnoElement' : 
           """
-          <dd><g:message code="widget.yesno.\${${namespaceAlias}.${wrapper}${element.javaName} ? 'yes' : 'no'}" /></dd>
+          <dd><g:message code="message.\${${namespaceAlias}.${wrapper}${element.javaName} ? 'yes' : 'no'}" /></dd>
           """
       ,'RadioElement' :
           """
           <dd>
             <g:if test="\${${namespaceAlias}.${wrapper}${element.javaName}}">
-              <g:message code="${i18nPrefix}.${element.javaName}.\${${namespaceAlias}.${wrapper}${element.javaName}.toString()}" />  
+              <g:capdematEnumToField var="\${${namespaceAlias}.${wrapper}${element.javaName}}" i18nKeyPrefix="${i18nPrefix}.${element.javaName}" />
             </g:if>
           </dd>
           """
@@ -24,7 +24,7 @@
           """
           <dd>
             <g:if test="\${${namespaceAlias}.${wrapper}${element.javaName}}">
-              <g:message code="${i18nPrefix}.${element.javaName}.\${${namespaceAlias}.${wrapper}${element.javaName}}"/>
+              <g:capdematEnumToField var="\${${namespaceAlias}.${wrapper}${element.javaName}}" i18nKeyPrefix="${i18nPrefix}.${element.javaName}" />
             </g:if>
           </dd>
           """

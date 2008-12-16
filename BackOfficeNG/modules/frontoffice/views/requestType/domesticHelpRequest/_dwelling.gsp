@@ -56,14 +56,9 @@
           <ul class="isCurrentDwellingPlaceOfResidence-filled ">
             <g:each in="${['owner','tenant']}">
             <li>
-<<<<<<< HEAD:Generator/src/java/fr/cg95/cvq/generator/plugins/fo/templates/step.tmpl
               <input type="radio" class="  validate-one-required" value="fr.cg95.cvq.business.request.social.DhrDwellingStatusType_${it}" name="dhrCurrentDwellingStatus" ${it == dhr.dhrCurrentDwellingStatus.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrCurrentDwellingStatus.validationError" />" />
-	            <g:message code="dhr.property.dhrCurrentDwellingStatus.${it}" />  
-=======
-              <input type="radio" class="  validate-one-required" title="" value="fr.cg95.cvq.business.request.social.DhrDwellingStatusType_${it}" name="dhrCurrentDwellingStatus" ${it == dhr.dhrCurrentDwellingStatus.toString() ? 'checked="checked"': ''} />
-              <g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingStatus" />
->>>>>>> 27b1d7b8fa1f6577366ba993062231be88db4978:Generator/src/java/fr/cg95/cvq/generator/plugins/fo/templates/step.tmpl
-            </li>
+	            <g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingStatus" />
+	          </li>
             </g:each>
           </ul>
           

@@ -14,7 +14,7 @@ public final class FamilyStatusType extends PersistentStringEnum {
     public static final FamilyStatusType WIDOW = new FamilyStatusType("Widow");
     public static final FamilyStatusType MARRIED = new FamilyStatusType("Married");
     public static final FamilyStatusType COMMON_LAW_MARRIAGE = new FamilyStatusType("CommonLawMarriage");
-    public static final FamilyStatusType PACS = new FamilyStatusType("Pacs");
+    public static final FamilyStatusType PACS = new FamilyStatusType("PACS");
     public static final FamilyStatusType OTHER = new FamilyStatusType("Other");
 
     /**

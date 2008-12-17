@@ -139,8 +139,12 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 .login-box {
   margin: 0 0 2em; padding: 0 0 2em;
   font-size: 1.1em; font-weight: normal;
-  border-bottom: 1px dotted #c690bb;
+  border-bottom: 1px dashed #c690bb;
   color: #ffffff;
+  
+/*  width: 62.3em;*/
+/*  margin:0; padding:0 3em 2em;*/
+/*  position:relative;   left:-2em;*/
 }
 
 .login-box form label { display: block; margin: .5em 0 .1em 0; }

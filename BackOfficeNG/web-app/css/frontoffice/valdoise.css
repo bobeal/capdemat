@@ -65,11 +65,13 @@ h2,
 }
 
 .group-box h3,
-.login-box,
 .main-box h2,
 #requestTabView .requestHelp h3,
 .data-detail h3, .data-detail dl {
   border-bottom-color: #FF812B !important;
+}
+.login-box {
+  border-color: #FFF !important;
 }
 
 .individual dl,
@@ -82,15 +84,19 @@ h2,
   border-color: #FF812B !important;
 }
 
-.yui-skin-fong .yui-navset .yui-nav a, .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
-  color: #FFFFFF !important;
-  background-color: #FF812B !important;
+.yui-skin-fong .yui-navset .yui-nav a,
+.yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
+  color: #FFFFFF ;
+  background-color: #FF812B;
+  border-color: #FF812B;
 }
 
-.yui-skin-fong .yui-navset .yui-nav .selected a, .yui-skin-fong .yui-navset .yui-nav .selected a:focus, .yui-skin-fong .yui-navset .yui-nav .selected a:hover {
+.yui-skin-fong .yui-navset .yui-nav .selected a,
+.yui-skin-fong .yui-navset .yui-nav .selected a:focus,
+.yui-skin-fong .yui-navset .yui-nav a:hover {
+  color: #000000 !important;
   background-color: #FFFFFF !important;
   border-color: #FFFFFF !important;
-  color: #000000 !important;
 }
 
 #requestTabView h3 {
@@ -114,13 +120,19 @@ h2,
 }
 
 #requestTabView button[type="button"] {
-  border-color: #FF812B !important;
-  color: #FF812B !important;
-}
-
-#requestTabView button[type="button"]:hover {
+  border-color: #804016 !important;
+  border-left-color: #FF812B !important;
+  border-top-color: #FF812B !important;
   background-color: #FF812B !important;
   color: #FFFFFF !important;
+}
+
+
+#requestTabView button[type="button"]:hover{
+  border-color: #FF812B !important;
+  border-left-color: #804016 !important;
+  border-top-color: #804016 !important;
+  color: #333 !important;
 }
 
 #requestTabView .nextTab, #requestTabView .prevTab { 

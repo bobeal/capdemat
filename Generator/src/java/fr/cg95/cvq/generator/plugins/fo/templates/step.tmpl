@@ -15,7 +15,7 @@
             <g:each in="\${[true,false]}">
             <li>
               <input type="radio" class="${element.conditionTrigger} ${element.validation}" title="" value="\${it}" name="${wrapper}${element.javaName}" \${it == ${namespaceAlias}.${wrapper}${element.javaName} ? 'checked="checked"': ''} />
-	            <g:message code="widget.yesno.\${it ? 'yes' : 'no'}" />
+	            <g:message code="message.\${it ? 'yes' : 'no'}" />
             </li>
             </g:each>
           </ul>

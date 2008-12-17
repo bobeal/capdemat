@@ -20,8 +20,6 @@ class RequestController {
     
     def defaultAction = "index"
     
-    def beforeInterceptor = {}
-    
     def index = {
         def state = [:]
         def requests = [:]
@@ -85,7 +83,7 @@ class RequestController {
         if(params?.offset)offset = Integer.valueOf(params.offset);
         
         return [
-            'all' : defaultRequestService.get(criteriaSet, null, null, max, offset),
+            'all' : defaultRequestService.get(criteriaSet, Request.SEARCH_BY_CREATION_DATE, 'desc', max, offset),
             'count' : defaultRequestService.getCount(criteriaSet),
             'records' : []
         ]

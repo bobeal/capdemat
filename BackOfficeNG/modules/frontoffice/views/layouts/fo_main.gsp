@@ -16,6 +16,7 @@
          <img src="${createLinkTo(dir:'images/frontoffice',file:'logo_zen_200.png')}" alt="Zenexity Lab" />
          <span>CapDémat - FrontOffice NG</span>
        </h1>
+       <img src="${createLinkTo(dir:'images',file:'logoBoVo.gif')}" alt="Conseil Général du Valdoise" style="float:left; width: 120px;  height: 60px;" />
        <map id="hd-menu">
         <g:if test="${!login}">
         <a href="${createLink(controller:'frontofficeHome',action:'logout')}">se déconnecter</a>

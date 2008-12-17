@@ -144,10 +144,15 @@ public class BoPlugin implements IPluginGenerator {
         ElementBo elementBo = elementBoStack.peek(depth);
         elementBo.setType(elementProp.getXmlSchemaType());
         
+        // TODO - define a more robust namespace mapping policy
+        if (elementProp.isReferentialType())
+            elementBo.setModelNamespace(IPluginGenerator.MODEL_BASE_TARGET_NS + ".users");
+        
         if (elementProp.isSimpleType())
             elementBo.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
         else if (elementProp.isComplexType())
             elementBo.setTypeClass(ElementBo.ElementTypeClass.COMPLEX);
+        
         if (elementProp.getMaxOccurs() == null
                 || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
             elementBo.setTypeClass(ElementBo.ElementTypeClass.COLLECTION);

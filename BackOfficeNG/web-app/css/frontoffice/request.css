@@ -82,10 +82,9 @@ h2.request-creation {
 
 #requestTabView button[type="button"] {
   width: auto;
-  margin: 2em auto 0 auto;
-  border: 1px solid #cccccc;
-  border-bottom-color: #7fa646;
-  border-right-color: #7fa646;
+  margin: 2em auto 0 auto; padding: 0 2em;
+  font-size: 1.3em;
+  border: 1px solid #666;
   -moz-border-radius: .3em;
 }
 
@@ -127,12 +126,25 @@ h2.request-creation {
 
 #requestTabView .nextTab:hover, #requestTabView .prevTab:hover { background: #2020AA; color:#ffffff; }
 
+#requestTabView div.box {
+  min-height: 30em;
+  padding:  0 1.5em 1.5em 1.5em;
+}
+#requestTabView div.box ul {
+  margin: 1em;
+}
+#requestTabView div.box ul li {
+  padding: .3em 0;
+  list-style-type: disc;
+  font-size: 1.2em; font-weight: bold;
+}
+
 /* request summary
 --------------------------------------------------------------*/
 #requestTabView dl {
   margin : 10px;
   border-bottom: 1px dashed #C690BB;
-  color: #333;
+  color: #333; background: #eee;
   overflow: auto;
 }
  
@@ -140,12 +152,12 @@ h2.request-creation {
 #requestTabView dl dd {
   float: left;
   margin: 0;
-  padding: .3em;
+  padding: .4em;
   border-top: 1px dashed #C690BB;
 }
 
-#requestTabView dl dt { width: 9em; min-height: 1.5em; text-align: right; clear: both; }
-#requestTabView dl dd { width: 14em; font-size: 1.15em; }
+#requestTabView dl dt { width: 15em; min-height: 1.5em; text-align: right; clear: both; }
+#requestTabView dl dd { width: 26.5em; font-size: 1.15em; }
 
 #requestTabView dl dd p { padding: 0.1em; }
 

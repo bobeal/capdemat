@@ -71,6 +71,7 @@
 
 /* override editable-list-form */
 #requestData dl dd .editable-list-form                    { margin: 0; font-weight: normal; }
+#requestData dl dd .editable-list-form ul                 { margin : 0; }
 #requestData dl dd .editable-list-form fieldset           { margin: 0; float:none; border: 0; background: transparent; }
 #requestData dl dd .editable-list-form input              { width: auto; display: inline; margin: 0 0 .2em 0; }
 #requestData dl dd .editable-list-form select             { width: 100%; display: block; } 

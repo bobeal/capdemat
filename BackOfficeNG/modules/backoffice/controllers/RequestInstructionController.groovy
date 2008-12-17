@@ -122,7 +122,7 @@ class RequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum" ]
+        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum", boolean:"boolean", ]
         
         // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
@@ -156,7 +156,12 @@ class RequestInstructionController {
             def allPropertyValue = Class.forName(propertyTypes.javatype)
                     .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
             model["allPropertyValue"] = allPropertyValue
+            
+            // FIXME - normalize propertyValue class like class="value<MY_VAL> i18n-<MY_I18n>)"
             def propertyValueTokens = params.propertyValue.tokenize(" ")
+            if (propertyValueTokens.size() == 1)
+                propertyValueTokens = ['',propertyValueTokens[0]]
+                
             propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
             // will contain the fully qualified class name of the "CapDemat enum" class
             model["propertyValueType"] = propertyTypes.javatype

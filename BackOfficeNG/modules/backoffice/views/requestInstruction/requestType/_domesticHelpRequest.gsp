@@ -57,7 +57,7 @@
                   </dd>
                 
                   <dt class="required condition-isNonEuropean-trigger"><g:message code="dhr.property.dhrRequesterNationality.label" /> : </dt>
-                  <dd id="dhrRequesterNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterNationality javatype-fr.cg95.cvq.business.request.social.NationalityType" >
+                  <dd id="dhrRequesterNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterNationality javatype-fr.cg95.cvq.business.users.NationalityType" >
                     <g:capdematEnumToField var="${request.dhrRequesterNationality}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" />
                   </dd>
                 
@@ -68,7 +68,7 @@
                 
                   <dt class="required condition-isNonEuropean-filled"><g:message code="dhr.property.dhrRequesterIsFrenchResident.label" /> : </dt>
                   <dd id="dhrRequesterIsFrenchResident" class="action-editField validate-boolean required-true i18n-dhr.property.dhrRequesterIsFrenchResident" >
-                    <span><g:message code="message.${request.dhrRequesterIsFrenchResident ? 'yes' : 'no'}" /></span>
+                    <span class="value-${request.dhrRequesterIsFrenchResident}"><g:message code="message.${request.dhrRequesterIsFrenchResident ? 'yes' : 'no'}" /></span>
                   </dd>
                 
               </dl>
@@ -108,7 +108,7 @@
                 
                   <dt class="required condition-haveGuardian-trigger"><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /> : </dt>
                   <dd id="dhrRequesterHaveGuardian" class="action-editField validate-boolean required-true i18n-dhr.property.dhrRequesterHaveGuardian" >
-                    <span><g:message code="message.${request.dhrRequesterHaveGuardian ? 'yes' : 'no'}" /></span>
+                    <span class="value-${request.dhrRequesterHaveGuardian}"><g:message code="message.${request.dhrRequesterHaveGuardian ? 'yes' : 'no'}" /></span>
                   </dd>
                 
                   <dt class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianMeasure.label" /> : </dt>
@@ -155,7 +155,7 @@
                 
                   <dt class="required condition-haveFamilyReferent-trigger"><g:message code="dhr.property.dhrHaveFamilyReferent.label" /> : </dt>
                   <dd id="dhrHaveFamilyReferent" class="action-editField validate-boolean required-true i18n-dhr.property.dhrHaveFamilyReferent" >
-                    <span><g:message code="message.${request.dhrHaveFamilyReferent ? 'yes' : 'no'}" /></span>
+                    <span class="value-${request.dhrHaveFamilyReferent}"><g:message code="message.${request.dhrHaveFamilyReferent ? 'yes' : 'no'}" /></span>
                   </dd>
                 
                   <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> : </dt>
@@ -254,13 +254,13 @@
                     <g:capdematEnumToField var="${request.dhrRequestKind}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
                   </dd>
                 
-                  <dt class="required condition-isCoupleRequest-filled condition-isSpouseMadam-trigger"><g:message code="dhr.property.dhrSpouseTitle.label" /> : </dt>
-                  <dd id="dhrSpouseTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseTitle javatype-fr.cg95.cvq.business.request.social.TitleType" >
+                  <dt class="required condition-isSpouseMadam-trigger condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseTitle.label" /> : </dt>
+                  <dd id="dhrSpouseTitle" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseTitle javatype-fr.cg95.cvq.business.users.TitleType" >
                     <g:capdematEnumToField var="${request.dhrSpouseTitle}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" />
                   </dd>
                 
                   <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> : </dt>
-                  <dd id="dhrSpouseFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseFamilyStatus javatype-fr.cg95.cvq.business.request.social.FamilyStatusType" >
+                  <dd id="dhrSpouseFamilyStatus" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseFamilyStatus javatype-fr.cg95.cvq.business.users.FamilyStatusType" >
                     <g:capdematEnumToField var="${request.dhrSpouseFamilyStatus}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" />
                   </dd>
                 
@@ -290,7 +290,7 @@
                   </dd>
                 
                   <dt class="required condition-isSpouseNonEuropean-trigger condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseNationality.label" /> : </dt>
-                  <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.request.social.NationalityType" >
+                  <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.users.NationalityType" >
                     <g:capdematEnumToField var="${request.dhrSpouseNationality}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" />
                   </dd>
                 
@@ -301,7 +301,7 @@
                 
                   <dt class="required condition-isSpouseNonEuropean-filled"><g:message code="dhr.property.dhrSpouseIsFrenchResident.label" /> : </dt>
                   <dd id="dhrSpouseIsFrenchResident" class="action-editField validate-boolean required-true i18n-dhr.property.dhrSpouseIsFrenchResident" >
-                    <span><g:message code="message.${request.dhrSpouseIsFrenchResident ? 'yes' : 'no'}" /></span>
+                    <span class="value-${request.dhrSpouseIsFrenchResident}"><g:message code="message.${request.dhrSpouseIsFrenchResident ? 'yes' : 'no'}" /></span>
                   </dd>
                 
               </dl>
@@ -313,7 +313,7 @@
                 
                   <dt class="required condition-isSpouseRetired-trigger"><g:message code="dhr.property.dhrIsSpouseRetired.label" /> : </dt>
                   <dd id="dhrIsSpouseRetired" class="action-editField validate-boolean required-true i18n-dhr.property.dhrIsSpouseRetired" >
-                    <span><g:message code="message.${request.dhrIsSpouseRetired ? 'yes' : 'no'}" /></span>
+                    <span class="value-${request.dhrIsSpouseRetired}"><g:message code="message.${request.dhrIsSpouseRetired ? 'yes' : 'no'}" /></span>
                   </dd>
                 
                   <dt class="required condition-isSpouseRetired-filled condition-isSpouseOtherPensionPlan-trigger"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>

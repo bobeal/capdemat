@@ -335,9 +335,10 @@ class RequestTypeController {
         
         if(templateFile.exists()) {
             def forms = [];
-            def content = templateFile.text + '${render("template":"templatePanel")}'
-            forms.add(defaultRequestService.getRequestFormById(formId))
+            def content = templateFile.text + "<div id='templatePanel' class='template-panel' style='display:none'><a id='closeWorkTab' href='javascript:;'>${message(code:'requestType.action.returnToMailTypesList')}</a></div>"
             
+            forms.add(defaultRequestService.getRequestFormById(formId))
+
             def template = groovyPagesTemplateEngine.createTemplate(content,'page1');
             def out = new StringWriter();
             def originalOut = requestAttributes.getOut()

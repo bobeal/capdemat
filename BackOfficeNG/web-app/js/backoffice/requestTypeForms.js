@@ -81,12 +81,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             .replace(/.*<body>(.*)<\/body>.*/gi,'$1')
             .replace(/\uffff/g,'\n');
           
+          var close = [
+            '<div id="templatePanel" class="template-panel" style="display:none">',
+            '<a id="closeWorkTab" href="javascript:;">','Retour aux courriers types',
+            '</a>','</div>'
+          ].join('');
+          
           var tname = yus.query('input[name=label]',tform,!0).value;
           var label = ['Personnalisation de <strong>',tname,'</strong> <span class="close">X</span>'].join('');
           var newTab = new YAHOO.widget.Tab({
             label: label,
             active: true,
-            content: ['<div id="workArea_Tab1" class="editable-work-area">',content,'</div>'].join('')
+            content: ['<div id="workArea_Tab1" class="editable-work-area">',content,close,'</div>'].join('')
           });
           
           zcbrt.Manager.tabView.addTab(newTab);

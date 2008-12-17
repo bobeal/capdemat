@@ -3,7 +3,7 @@ import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.util.Critere
 
-import groovy.GoogleChartBuilder
+//import groovy.GoogleChartBuilder
 
 import java.text.SimpleDateFormat
 

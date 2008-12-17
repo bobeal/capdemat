@@ -14,7 +14,7 @@ class SessionFilters {
     
     def filters = {
             
-            openSessionInView(controller:'*', action:'*') {
+            openSessionInView(controller:'(frontoffice*|backoffice*)', action:'*') {
                 before = {
                         ILocalAuthorityRegistry localAuthorityRegistry =
                             applicationContext.getBean("localAuthorityRegistry")

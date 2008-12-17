@@ -1,3 +1,4 @@
+<div class="box">  
   <h3>
     <span class="tag-state tag-uncomplete"><g:message code="request.step.state.uncomplete"/></span>
     <g:message code="request.step.document.label" />
@@ -18,7 +19,7 @@
   <!-- Input submit-->
   <input type="button" id="submitDocumentRef" name="submitDocumentRef" 
          value="${message(code:'action.save')}" />
-
+</div>
 
 
              

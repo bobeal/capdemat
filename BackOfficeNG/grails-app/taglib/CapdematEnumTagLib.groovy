@@ -12,14 +12,14 @@ class CapdematEnumTagLib {
         sb << "</span>"
           
 	      out << body() << sb
-	  }
+	}
 	  
-	   def capdematEnumToText = { attrs, body ->
+    def capdematEnumToText = { attrs, body ->
         def capdematEnum = CapdematUtils.adaptCapdematEnum(attrs.var, attrs.i18nKeyPrefix)  
 	      out << body() << g.message(code: capdematEnum.i18nKey)
-	  }
+    }
 	  
-	  def capdematEnumToField = { attrs, body ->
+    def capdematEnumToField = { attrs, body ->
         
         def sb = new StringBuffer()
 
@@ -41,5 +41,5 @@ class CapdematEnumTagLib {
             sb << "</span>"
         }
 	      out << body() << sb
-	  }
+    }
 }

@@ -76,14 +76,14 @@ class CategoryController {
     }
     
     // return the template used to display a category in the categories menu
-	def loadCategoryMenuItem = {
+    def loadCategoryMenuItem = {
         def category = categoryService.getById(Long.valueOf(params.id))
         render(template:"categoryItem", model:[id:category.id,name:category.name])
     }
 
     /* Category requestType managment
      * --------------------------------------------------------------------- */
-    
+
     def requestTypes = {
         def requestTypes = []
         

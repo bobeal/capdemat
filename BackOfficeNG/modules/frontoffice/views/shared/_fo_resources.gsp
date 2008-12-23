@@ -2,7 +2,6 @@
   <!-- yui -->    
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/yui/reset-fonts-grids', file:'reset-fonts-grids.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/yui/button',file:'button.css')}" />
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/yui/calendar',file:'calendar.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/yui/tabview', file:'tabview.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common/yui-skin', file:'tabview.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/common',file:'tag.css')}" />

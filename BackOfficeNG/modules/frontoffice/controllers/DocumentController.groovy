@@ -28,7 +28,7 @@ class DocumentController {
         result.page = params?.pn ? Integer.parseInt(params.pn) : 1
         result.actions = this.getActions(document)
         
-        def pages = instructionService.getOrderedDocumentPages(document)
+        def pages = getOrderedDocumentPages(document)
         pages.eachWithIndex{item, index ->
             if(result.page == item) {
                 if((index-1) > -1) prevPage = pages.get(index - 1)
@@ -86,9 +86,6 @@ class DocumentController {
         response.outputStream << binary.data
     }
     
-    /**
-     * TODO REFACTORING : CapdematUtils.adaptRequestActionLabel
-     */
     def protected getActions = {document ->
         def actions = []
         document.actions.each {
@@ -166,5 +163,11 @@ class DocumentController {
             fullName:message(code:'property.commonDocuments')
         ])
         return individuals
+    }
+
+    def protected getOrderedDocumentPages = { document ->
+        def result = []
+        documentService.getAllPages(document.id).each{result.add(it.pageNumber)}
+        return result.sort()
     }
 }

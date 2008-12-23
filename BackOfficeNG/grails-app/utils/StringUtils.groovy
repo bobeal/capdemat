@@ -1,30 +1,9 @@
 
 public class StringUtils {
-    /* 
-     * Transforme a string like 'FIRST_NAME' in 'firstName'
-     * FIXME : not ever used 
-     */
-    public static toCamelCase (String s) {
-        def camelCaseSb = new StringBuffer()
-        def isNewWord = false
-        
-        s.toLowerCase().each {
-            if (it != '_') {
-                if (! isNewWord)
-                    camelCaseSb << it
-                else {
-                  camelCaseSb << it.toUpperCase()
-                  isNewWord = false
-                }
-            } else
-                isNewWord = true
-        }
-        return camelCaseSb.toString()
-    }
     
-     /* 
-     * Transforme a string like 'FIRST_NAME' in 'FirstName'
-     */
+    /**
+    * Transform a string like 'FIRST_NAME' into 'FirstName'
+    */
     public static toPascalCase (String s) { 
         def pascalCaseSb = new StringBuffer()
         def isNewWord = false
@@ -44,19 +23,24 @@ public class StringUtils {
         }
         return pascalCaseSb.toString()
     }
-    
-    
+
+    /**
+     * Transform a string like 'FirstName' into 'firstName'
+     */
     public static pascalToCamelCase (String s) {
         def camelCaseSb = new StringBuffer()
         s.eachWithIndex { obj, i ->
             if (i == 0)
                 camelCaseSb << obj.toLowerCase()
             else         
-              camelCaseSb << obj
+                camelCaseSb << obj
         }
         return camelCaseSb.toString()
     }
-    
+
+    /**
+     * Upper or lower case the first character of the given string
+     */
     public static firstCase = { str,cs ->
         if(!['Upper','Lower'].contains(cs)) cs = 'Upper'
         def result = str as List

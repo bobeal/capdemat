@@ -1,12 +1,6 @@
-import fr.cg95.cvq.business.request.RequestForm
-import fr.cg95.cvq.service.request.IRequestService
-import groovy.xml.*
-import java.io.*
-import grails.util.GrailsUtil
 
 class MailTemplateTagLib {
     def forms
-    def zones = []
 
     def editableZone = { attrs, body ->
         def zoneId = "editable-"
@@ -26,43 +20,10 @@ class MailTemplateTagLib {
         out << """<div class="${attrs['class']}" id="$zoneId">$content</div>"""
     }
 
-    def templatesList = {attrs, body ->
-        def writer = new StringWriter()
-        def builder = new MarkupBuilder(writer)
-        def data = attrs['templates']
-        builder.setDoubleQuotes(true)
-
-
-        builder.select(id:"templateList", name:"templateList"){
-            if(data.size() > 0) {
-                data.each{
-                    option(value:it.getName(),it.getName()){}
-                }
-            } else {
-                option() {}
-            }
-          }
-        
-        out << writer.toString();
-    }
-
     /**
      * Assigns model request forms to taglib
      */
     def requestForms = { attrs, body ->
         this.forms = attrs['forms']
-    }
-
-    /**
-     * Generates random string of specified length
-     */
-    private randomString = { length ->
-        def availChars = []
-        ('a'..'z').each { availChars << it.toString() }
-        def max = availChars.size
-        def rnd = new Random()
-        def sb = new StringBuilder()
-        length.times { sb.append(availChars[rnd.nextInt(max)]) }
-        sb.toString()
     }
 }

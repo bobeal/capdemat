@@ -26,7 +26,7 @@
       
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
       <dd id="homeFolder.individual[${child.id}].birthDate" class="action-editField validate-date i18n-homeFolder.individual.property.birthDate">
-        <span><g:formatDate format="dd/MM/yyyy" date="${child.birthDate}"/></span>
+        <span><g:formatDate formatName="format.date" date="${child.birthDate}"/></span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>

@@ -4,13 +4,13 @@
     <strong>${record.requesterLastName}</strong>
     (<g:message code="payment.searchResult.homeFolderId" />
     &nbsp;<strong>${record.homeFolderId}</strong>) 
-    <g:message code="layout.theMale" /> ${record.initializationDate}
+    <g:message code="layout.theMale" /> <g:formatDate formatName="format.fullDate" date="${record.initializationDate}"/>
   </span>
   <br/>
   <g:if test="${record.bankReference}">
     <span class="second-line">
       <g:message code="payment.property.bankReference" /> : <b>${record.bankReference}</b> 
-      <g:message code="payment.searchResult.commitDate" /> ${record.commitDate} -
+      <g:message code="payment.searchResult.commitDate" /> <g:formatDate formatName="format.fullDate" date="${record.commitDate}"/> -
        <span class="state">${record.paymentState}</span>
     </span>
     <br/>

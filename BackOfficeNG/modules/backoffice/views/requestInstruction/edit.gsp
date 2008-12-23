@@ -67,7 +67,8 @@
                   <a class="documentLink" href="/document/${document.id}">${document.name}</a>
                    - ${document.pageNumber} <g:message code="property.pages"/>
                    <g:if test="${document.endValidityDate}">
-                    (<g:message code="document.property.endValidityDate"/> : ${document.endValidityDate})
+                    (<g:message code="document.property.endValidityDate"/> : 
+                      <g:formatDate formatName="format.date" date="${document.endValidityDate}" />)
                    </g:if>
                 </li>
               </g:if>

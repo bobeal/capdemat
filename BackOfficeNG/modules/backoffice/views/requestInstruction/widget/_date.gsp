@@ -1,11 +1,10 @@
-<form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
-  <span id="${propertyName}_FormErrors" class="error"></span> 
+<form method="POST" id="${propertyName}_Form" action="${createLink(action:'modify')}" class="editable-list-form" >
+  <span id="${propertyName}_FormErrors" class="error"></span>
   
   <input id="${propertyName}_Field" name="${propertyNameTp}" type="text" maxlength="10" 
       value="${propertyValue}" 
       class="validate-date-au ${required}" 
-      title="<g:message code="request.error.dateRequired" />" 
-  />
+      title="${message(code:'request.error.dateRequired')}"/>
   
   <a onclick="showCalendar('${propertyName}_FieldShow', 0);">
     <img id="${propertyName}_FieldShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
@@ -15,6 +14,6 @@
   <input name="requestId" type="hidden" value="${requestId}" />
   <input name="individualId" type="hidden" value="${individualId}" />
 
-  <input type="button" class="submitField" value="<g:message code="action.save" />" />
-  <input type="button" class="revertField" value="<g:message code="action.cancel" />" />
+  <input type="button" class="submitField" value="${message(code:'action.save')}" />
+  <input type="button" class="revertField" value="${message(code:'action.cancel')}" />
 </form>

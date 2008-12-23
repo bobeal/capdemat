@@ -16,7 +16,7 @@ import fr.cg95.cvq.exception.CvqException
 
 class HomeController {
 
-    def ecitizenService
+    def requestAdaptorService
     def instructionService
     
     IRequestService defaultRequestService
@@ -44,7 +44,7 @@ class HomeController {
         if(infoFile.exists()) result.commonInfo = infoFile.text;
         
         result.dashBoard.requests = this.getTopFiveRequests();
-        result.dashBoard.requests = ecitizenService.prepareRecords(result.dashBoard.requests);
+        result.dashBoard.requests = requestAdaptorService.prepareRecords(result.dashBoard.requests);
         
         result.dashBoard.payments = preparePayments(this.getTopFivePayments());
         result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments());

@@ -43,7 +43,7 @@
       
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
       <dd id="homeFolder.individual[${adult.id}].birthDate" class="${action}-editField validate-date i18n-homeFolder.individual.property.birthDate">
-        <span><g:formatDate format="dd/MM/yyyy" date="${adult.birthDate}"/></span>
+        <span><g:formatDate formatName="format.date" date="${adult.birthDate}"/></span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>

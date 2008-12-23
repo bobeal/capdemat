@@ -13,7 +13,7 @@ import grails.converters.*
 
 class RequestController {
     
-    def ecitizenService
+    def requestAdaptorService
     IRequestService defaultRequestService
     
     def translationService
@@ -31,7 +31,7 @@ class RequestController {
         if (params.indvFilter != null) state.indvFilter = params.indvFilter;
         
         requests = filterRequests("SEARCH_BY_HOME_FOLDER_ID",adult.homeFolder.id,state,params)
-        requests = ecitizenService.prepareRecords(requests)
+        requests = requestAdaptorService.prepareRecords(requests)
         
         return ([
             'state': state,

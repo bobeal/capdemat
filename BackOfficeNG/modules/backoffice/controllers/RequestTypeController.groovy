@@ -7,22 +7,16 @@ import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ICategoryService
-import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestService
-import fr.cg95.cvq.service.request.IRequestServiceRegistry
-import fr.cg95.cvq.business.request.RequestSeason
 import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
-import fr.cg95.cvq.exception.*
 
 import grails.converters.JSON
 
 class RequestTypeController {
 
     IRequestService defaultRequestService
-    IRequestServiceRegistry requestServiceRegistry
-    IDocumentService documentService
     IDocumentTypeService documentTypeService
     ICategoryService categoryService
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
@@ -56,6 +50,7 @@ class RequestTypeController {
         	adaptedRequestTypes.add(CapdematUtils.adaptRequestType(translationService, it)) 
         }
         adaptedRequestTypes = adaptedRequestTypes.sort{ it.label.toLowerCase() }
+        
         ["requestTypes":adaptedRequestTypes, "allCategories":categoryService.getAll(),
             "filters":parsedFilters.filters,"filterBy":parsedFilters.filterBy]
     }
@@ -65,33 +60,14 @@ class RequestTypeController {
     def baseConfigurationItems = [
         "forms":["requestType.configuration.forms", true],
         "alerts":["requestType.configuration.alerts", true],
-        "documents":["requestType.configuration.documentType",true]
+        "documents":["requestType.configuration.documentType", true]
     ]
-    
     
     def configure = {
     	def requestType = 
         	defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
         def requestTypeLabel =
             translationService.getEncodedRequestTypeLabelTranslation(requestType.label)
-        def requestService = 
-        	requestServiceRegistry.getRequestService(requestType.label)
-        if (requestService.isOfRegistrationKind())
-        	baseConfigurationItems.put("seasons",["requestType.configuration.seasons", true])
-//        if (requestService.getLocalReferentialFilename() != null)
-//        	baseConfigurationItems.put("localReferential",["requestType.configuration.localReferential", true])
-
-        def requestTypeConfigurationData = new RequestTypeConfigurationData()
-    	requestTypeConfigurationData.configurationItems = baseConfigurationItems
-		requestTypeConfigurationData.requestType = requestType
-		requestTypeConfigurationData.requestTypeLabel = requestTypeLabel
-    	
-		def requestTypesConfigurationInProgress = session.requestTypesConfigurationInProgress
-		if (requestTypesConfigurationInProgress == null) {
-		    requestTypesConfigurationInProgress = [:]
-		    session.requestTypesConfigurationInProgress = requestTypesConfigurationInProgress
-		}
-    	requestTypesConfigurationInProgress.put(params.id, requestTypeConfigurationData)
 
         return ["requestType":requestType, "requestTypeLabel":requestTypeLabel,
                 "baseConfigurationItems":baseConfigurationItems,
@@ -105,19 +81,12 @@ class RequestTypeController {
     }
     
     def loadAlertsArea = {
-            def requestType = 
-                 defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-            def lacb = SecurityContext.getCurrentConfigurationBean()
-            render(template:"alerts",model:['requestType':requestType,
+        def requestType = 
+            defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
+        def lacb = SecurityContext.getCurrentConfigurationBean()
+        render(template:"alerts",model:['requestType':requestType,
                                             'instructionDefaultMaxDelay':lacb.getInstructionDefaultMaxDelay(),
                                             'instructionDefaultAlertDelay':lacb.getInstructionDefaultAlertDelay()])
-    }
-
-    def loadSeasonsArea = {
-            def requestType = 
-                defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-            def listSeasons = requestType.getSeasons()
-            render(template:"seasons",model:['requestType':requestType,"listSeasons":listSeasons])
     }
 
     def loadConfigurationSubmenu = {
@@ -131,9 +100,6 @@ class RequestTypeController {
                            'instructionDefaultAlertDelay':lacb.getInstructionDefaultAlertDelay()])
         } else if (params.submenu == "documents"){
             render(template:"documents")
-        } else if (params.submenu == "seasons"){
-              def listSeasons = requestType.getSeasons()
-              render(template:"seasons",model:['requestType':requestType,"listSeasons":listSeasons])
         }
     }
     
@@ -180,63 +146,7 @@ class RequestTypeController {
             }
         }
     }
-    
-    //called asynchronously
-    //save a new season in the list 
-    def saveSeasons = {
-            
-        def requestType = 
-            defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-           
-           def label = params.label
-           def registrationEnd = DateUtils.stringToDate(params.registrationEnd)               
-           def registrationStart = DateUtils.stringToDate(params.registrationStart)
-           def effectStart = DateUtils.stringToDate(params.effectStart)
-           def effectEnd =  DateUtils.stringToDate(params.effectEnd)
-           def validationAuthorizationStart =
-            DateUtils.stringToDate(params.validationAuthorizationStart)            
-            
-           def translationService
-           
-           def requestSeason = new RequestSeason()
-             
-             requestSeason.setLabel(label)
-             requestSeason.setRegistrationStart(registrationStart)
-             requestSeason.setRegistrationEnd(registrationEnd)
-             requestSeason.setEffectStart(effectStart)
-             requestSeason.setEffectEnd(effectEnd)
-             requestSeason.setValidationAuthorizationStart(validationAuthorizationStart)
-           
-            
-             defaultRequestService.createRequestTypeSeasons(requestType,requestSeason)
-             render([status:"ok",seasonUuid: requestSeason.uuid,
-             seasonLabel:requestSeason.label] as JSON)
-                 
-    }
-   
-    // called asynchronously
-    // return the template used to display a season in the seasons List
-   
-    def loadRequestTypeSeasonsList = {
-        def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        def listSeasons = requestType.getSeasons()  
-        render(template:"seasons",model:['requestType':requestType,"listSeasons":listSeasons])
-    }
- 
-    //called asynchronously
-    //delete seasons from the seasons list
-    def deleteSeasons = {
-            def requestType = 
-                defaultRequestService.getRequestTypeById(Long.valueOf(params.requestTypeId))
-               
-                def uuid = params.seasonUuid
-                defaultRequestService.removeRequestTypeSeasons(requestType,uuid)
-                render ([status:"ok",uuid:params.seasonUuid,
-                                 success_msg:message(code:"requestSeason.message.confirmDelete")] as JSON)
-    }
-    
-    
-    
+
     def documentList = {
         def list = []
         def reqs = []
@@ -351,12 +261,5 @@ class RequestTypeController {
         }
     }
 }
-
-class RequestTypeConfigurationData {
-    def configurationItems
-    def requestType
-    def requestTypeLabel
-}
-
 
 

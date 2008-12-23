@@ -71,7 +71,7 @@ class RequestInstructionController {
             documentList.add(
                     [ "id": document.id,
                       "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
-                      "endValidityDate" : document.endValidityDate == null ? "" : DateUtils.formatShortDate(document.endValidityDate),
+                      "endValidityDate" : document.endValidityDate,
                       "pageNumber": documentService.getPagesNumber(document.id),
                       "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
                     ]
@@ -384,12 +384,12 @@ class RequestInstructionController {
           def record = [
               'id':it.id,
               'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
-              'creationDate':DateUtils.formatDate(it.creationDate),
+              'creationDate':it.creationDate,
               'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
               'subjectLastName':it.subjectId ? it.subjectLastName + " " + it.subjectFirstName : "",
               'homeFolderId':it.homeFolderId,
               'state':it.state.toString(),
-              'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
+              'lastModificationDate':it.lastModificationDate,
               'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId),
               'permanent':!homeFolder.boundToRequest,
               'quality':quality
@@ -413,7 +413,7 @@ class RequestInstructionController {
                 'agent_name':user,
                 'label':message(code:CapdematUtils.adaptRequestActionLabel(it.label)),
                 'note':it.note,
-                'date':DateUtils.formatDate(it.date),
+                'date':it.date,
                 'resulting_state':resultingState
             ]
             requestActionList.add(requestAction)

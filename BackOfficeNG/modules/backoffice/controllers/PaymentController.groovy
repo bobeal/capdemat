@@ -74,8 +74,8 @@ class PaymentController {
                 'bankReference':it.bankReference,
                 'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
                 'homeFolderId':it.homeFolder.id,
-                'initializationDate':DateUtils.formatDate(it.initializationDate),
-                'commitDate':it.commitDate == null ? "" : DateUtils.formatDate(it.commitDate),
+                'initializationDate':it.initializationDate,
+                'commitDate':it.commitDate,
                 'paymentState':it.state.toString(),
                 'amount':it.getEuroAmount() + " &euro;",
                 'paymentMode':it.paymentMode.toString()

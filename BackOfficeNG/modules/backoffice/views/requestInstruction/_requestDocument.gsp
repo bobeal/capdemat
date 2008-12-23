@@ -44,8 +44,8 @@
           <img src="<g:createLink action="documentPage" params="[documentId: document.id, pageNumber: page.pageNumber]" />"/>
         </div>
       </g:each>
-
     </div>
+    
   </div>
 
   <!-- editable field bloc -->

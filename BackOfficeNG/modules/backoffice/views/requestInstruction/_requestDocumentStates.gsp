@@ -1,22 +1,22 @@
 
-    <form method="post" id="documentStateForm" action="<g:createLink action="modifyDocument" />" />
+    <form method="post" id="documentStateForm" action="${createLink(action:'modifyDocument')}" />
       <div id="documentStateFormErrors" class="error"></div>
       
       <label for="endValidityDate">
         <g:message code="document.property.endValidityDate" /> :
       </label>
       <input type="text" id="endValidityDate" name="endValidityDate" size="10" 
-          title="" value="<g:formatDate format="dd/MM/yyyy" date="${endValidityDate}"/>" />
+        value="${formatDate(formatName:'format.date',date:endValidityDate)}" />
       <a onclick="showCalendar('endValidityDateShow', 0);">
         <img id="endValidityDateShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="endValidityDateCalContainer" class="yui-cal"></div>
       
-      <label for="endValidityDate">
+      <label for="state">
         <g:message code="request.header.changeState" /> :
       </label>
       
-      <g:if test="${states.size() == 0}">
+      <g:if test="${states.isEmpty()}">
         <g:message code="request.message.noTransition" />
       </g:if>
       <g:else>
@@ -34,7 +34,7 @@
       
       <input type="hidden" name="documentId" value="${documentId}" />
       
-      <input class="submitDocumentStateChange" type="button" value="<g:message code="action.confirm" />" />
-      <input class="cancelDocumentStateChange" type="button" value="<g:message code="action.cancel" />" />
+      <input class="submitDocumentStateChange" type="button" value="${message(code:'action.confirm')}" />
+      <input class="cancelDocumentStateChange" type="button" value="${message(code:'action.cancel')}" />
     </form>
 

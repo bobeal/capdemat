@@ -1,21 +1,21 @@
-<h1><a class="logo" href="<g:createLink controller='request' action='taskBoard'/>">CapDémat</a></h1>
+<h1><a class="logo" href="${createLink(controller:'backofficeRequest',action:'taskBoard')}">CapDémat</a></h1>
 <div id="userInfo">
   ${session.currentUser} - <a href="${createLinkTo(dir:'',file:'casLogout.gsp')}"><g:message code="action.logout" /></a>
 </div>
 <div id="menu">
   <g:if test="${session.currentCredentialBean.hasSiteAgentRole()}">
-  <a id="taskBoardMenuItem" href="<g:createLink controller='backofficeRequest' action='taskBoard' />">
-    <g:message code="menu.taskBoard" />
-  </a>
-  <a id="requestMenuItem" href="<g:createLink controller='backofficeRequest'/>">
-    <g:message code="menu.search" />
-  </a>
-  <a id="statisticsMenuItem" href="<g:createLink controller='backofficeStatistic'/>">
-    <g:message code="menu.statistics" />
-  </a>
-  <a id="requestTypeMenuItem" href="<g:createLink controller='backofficeRequestType'/>">
-    <g:message code="menu.requestTypes" />
-  </a>
+    <a id="taskBoardMenuItem" href="<g:createLink controller='backofficeRequest' action='taskBoard' />">
+      <g:message code="menu.taskBoard" />
+    </a>
+    <a id="requestMenuItem" href="<g:createLink controller='backofficeRequest'/>">
+      <g:message code="menu.search" />
+    </a>
+    <a id="statisticsMenuItem" href="<g:createLink controller='backofficeStatistic'/>">
+      <g:message code="menu.statistics" />
+    </a>
+    <a id="requestTypeMenuItem" href="<g:createLink controller='backofficeRequestType'/>">
+      <g:message code="menu.requestTypes" />
+    </a>
   </g:if>
   <g:if test="${session.currentCredentialBean.hasSiteAdminRole()}">
     <a id="categoryMenuItem" href="<g:createLink controller='backofficeCategory'/>">

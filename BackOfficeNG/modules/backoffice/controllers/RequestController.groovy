@@ -141,14 +141,14 @@ class RequestController {
             def record = [
                 'id':it.id,
                 'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
-                'creationDate':DateUtils.formatDate(it.creationDate),
+                'creationDate':it.creationDate,
                 'requesterLastName':it.requesterLastName,
                 'requesterFirstName': it.requesterFirstName,
                 'subjectLastName':it.subjectLastName,
                 'subjectFirstName': it.subjectFirstName,
                 'homeFolderId':it.homeFolderId,
                 'state':it.state.toString(),
-                'lastModificationDate':it.lastModificationDate == null ? "" :  DateUtils.formatDate(it.lastModificationDate),
+                'lastModificationDate':it.lastModificationDate,
                 'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
                 'permanent': !homeFolder.boundToRequest,
                 'quality':quality

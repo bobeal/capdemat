@@ -288,7 +288,6 @@ class RequestInstructionController {
 
         def actions = []
         document.actions.each {
-
             actions.add(
                 [ "id": it.id,
                   "agentName": instructionService.getActionPosterDetails(it.agentId),
@@ -348,11 +347,6 @@ class RequestInstructionController {
 
     def modifyDocument = {
         def document = documentService.getById(Long.valueOf(params.documentId))
-//        log.debug("Binder custum editor PersistentStringEnum = " +
-//                    getBinder(document)
-//                        .propertyEditorRegistry
-//                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
-
         bind(document)
         documentService.modify(document)
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)

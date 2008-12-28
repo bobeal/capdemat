@@ -4,7 +4,6 @@ import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
-import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.document.IDocumentTypeService

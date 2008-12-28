@@ -1,4 +1,3 @@
-import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry
 import fr.cg95.cvq.business.users.payment.PaymentState
 import fr.cg95.cvq.payment.IPaymentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
@@ -13,17 +12,14 @@ class PaymentController {
     def translationService
     def defaultAction = "search"
     
-    def beforeInterceptor = {
-        session["currentMenu"] = "payment"
-    }
+    def beforeInterceptor = { session["currentMenu"] = "payment" }
 
     def search = {
         def mode = params.mode == null ? 'simple' : params.mode
         [allStates:PaymentState.allPaymentStates,
-         allBrokers:paymentService.getAllBrokers(null),
-         mode:mode]
+         allBrokers:paymentService.getAllBrokers(null), mode:mode]
     }
-    
+
     def configure = {
         def name = "paymentlackmessage.html"
         File file = localAuthorityRegistry.getCurrentLocalAuthorityResource(
@@ -33,7 +29,6 @@ class PaymentController {
             localAuthorityRegistry.saveLocalAuthorityResource(
                     ILocalAuthorityRegistry.HTML_RESOURCE_TYPE, 
                     name,"".getBytes());
-         
             file = localAuthorityRegistry.getCurrentLocalAuthorityResource(
                     ILocalAuthorityRegistry.HTML_RESOURCE_TYPE,name,false)
         }
@@ -51,7 +46,6 @@ class PaymentController {
     }
 
     def loadPayments = {
-        log.debug "loading payments ..."
         def initDateFrom = (params.initDateFrom == null) ? null : DateUtils.stringToDate(params.initDateFrom)
         def initDateTo = (params.initDateTo == null) ? null : DateUtils.stringToDate(params.initDateTo)
         def paymentState = (params.paymentState == null) ? null : PaymentState.forString(params.paymentState)

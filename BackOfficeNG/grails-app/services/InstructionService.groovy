@@ -10,22 +10,21 @@ class InstructionService {
     
         if (posterId == null || posterId.equals(""))
             return ''
-            
-        if (posterId == -1)
+        else if (posterId == -1)
             return 'Système'
 
         def poster
         try {
             poster = this.agentService.getById(Long.valueOf(posterId))
-        }catch (CvqObjectNotFoundException) {}
+        } catch (CvqObjectNotFoundException) {}
         
         if (!poster) {
             try {
                 poster = this.individualService.getById(Long.valueOf(posterId))
-            }catch (CvqObjectNotFoundException) {}
+            } catch (CvqObjectNotFoundException) {}
         }
-        
-        if (poster) return "${poster?.firstName} ${poster?.lastName}"
+
+        if (poster) return "${poster.firstName} ${poster.lastName}"
         else return null
     }
 }

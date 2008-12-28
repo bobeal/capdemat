@@ -1,22 +1,18 @@
 import java.util.Hashtable;
 
-import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.authority.Agent
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
-import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.SecurityContext
 
 import grails.converters.*
-import groovy.util.Expando
-import fr.cg95.cvq.dao.CvqDaoException
-import fr.cg95.cvq.exception.CvqException;
 
 class RequestController {
 
@@ -27,6 +23,7 @@ class RequestController {
     IHomeFolderService homeFolderService
     
     def translationService
+    def instructionService
     
     def defaultAction = "initSearch"
     
@@ -45,32 +42,28 @@ class RequestController {
      * Called when first entering the search screen
      */
     def initSearch = {
-
-        render(view:'search', model:['mode':'simple',
-                                     'inSearch':false,
-                                     'sortBy':defaultSortBy,
-                                     'filters':[:]].plus(initSearchReferential()))
+        render(view:'search', 
+                model:['mode':'simple', 'inSearch':false, 'sortBy':defaultSortBy, 'filters':[:]].plus(initSearchReferential()))
     }
     
     /**
      * Called asynchronously when switching from simple to advanced search mode and vice versa
      */
     def loadSearchForm = {
-            def model = ['totalRecords':params.totalRecords,
-                         'recordOffset':params.recordOffset,
-                         'recordsReturned':params.recordsReturned,
-                         'sortBy':params.sortBy,
-                         'filterBy':params.filterBy].plus(initSearchReferential())
-
-            if (params.formType == 'simple') {
-                model['mode'] = 'simple'
-                render(template:'simpleSearchForm', model:model)
-            } else {
-                model['mode'] = 'advanced'
-                render(template:'advancedSearchForm', model:model)
-            }
+        def model = ['totalRecords':params.totalRecords,
+                     'recordOffset':params.recordOffset,
+                     'recordsReturned':params.recordsReturned,
+                     'sortBy':params.sortBy,
+                     'filterBy':params.filterBy].plus(initSearchReferential())
+        if (params.formType == 'simple') {
+            model['mode'] = 'simple'
+            render(template:'simpleSearchForm', model:model)
+        } else {
+            model['mode'] = 'advanced'
+            render(template:'advancedSearchForm', model:model)
+        }
     }
-    
+
     /**
      * Called (synchronously) when performing a search
      */
@@ -112,15 +105,13 @@ class RequestController {
             else if (key == 'qualityFilter') {
                 critere.attribut = "qualityType"
                 critere.value = "qualityType"+value
-            }
-            else
+            } else
                 critere.value = Long.valueOf(value)
             criteria.add(critere)
         }
         
         // deal with dynamic sorts
         def sortBy = params.sortBy ? params.sortBy : defaultSortBy 
-        log.debug "added sort on ${sortBy}"
         
         // deal with pagination settings
         def results = params.results == null ? resultsPerPage : Integer.valueOf(params.results)
@@ -131,7 +122,6 @@ class RequestController {
         def requests = defaultRequestService.get(criteria, sortBy, params.dir, results, recordOffset)
         def recordsList = []
         requests.each {
-            def agent = it.lastInterveningAgentId ? agentService.getById(it.lastInterveningAgentId) : null
             def homeFolder = homeFolderService.getById(it.homeFolderId)             
             def quality = 'green'
             if (it.redAlert)
@@ -149,7 +139,7 @@ class RequestController {
                 'homeFolderId':it.homeFolderId,
                 'state':it.state.toString(),
                 'lastModificationDate':it.lastModificationDate,
-                'lastInterveningAgentId': agent ? agent.lastName + " " + agent.firstName : "",
+                'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId),
                 'permanent': !homeFolder.boundToRequest,
                 'quality':quality
             ]

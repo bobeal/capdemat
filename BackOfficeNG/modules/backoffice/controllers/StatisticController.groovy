@@ -164,5 +164,4 @@ class StatisticController {
         
       	return url
     }
-
 }

@@ -1,6 +1,5 @@
 import fr.cg95.cvq.business.authority.Category
 import fr.cg95.cvq.business.authority.CategoryProfile
-import fr.cg95.cvq.exception.*
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.request.IRequestService
@@ -14,7 +13,6 @@ class CategoryController {
     IRequestService defaultRequestService
     
     def translationService
-    
     def defaultAction = "list"
     
     def beforeInterceptor = { session["currentMenu"] = "category" }
@@ -44,23 +42,22 @@ class CategoryController {
     def save = {
         def category = null
         def create = true
-            if (params.id != null && params.id != "") {
-                category = categoryService.getById(Long.valueOf(params.id))
-                bindData(category, params)
-                categoryService.modify(category)
-                create = false
-            } else {
-                category = new Category()
-                bindData(category, params)
-                categoryService.create(category)
-            }
-            
-            render ([status:"ok", success_msg:message(code:"message.updateDone"),
-                     id: category.id, name:category.name, create:create] as JSON)
+        if (params.id != null && params.id != "") {
+            category = categoryService.getById(Long.valueOf(params.id))
+            bindData(category, params)
+            categoryService.modify(category)
+            create = false
+        } else {
+            category = new Category()
+            bindData(category, params)
+            categoryService.create(category)
+        }
+
+        render ([status:"ok", success_msg:message(code:"message.updateDone"),
+                 id: category.id, name:category.name, create:create] as JSON)
     }
     
     def delete = {
-        log.debug "delete() deleting category ${params.id}"
         categoryService.delete(Long.valueOf(params.id))
         render ([status:"ok", id:params.id, success_msg:message(code:"category.message.confirmDelete")] as JSON)
     }
@@ -75,29 +72,22 @@ class CategoryController {
         render(template:"categoryForm",model:[category:category, editMode:create ? "create" : "edit"])
     }
     
-    // return the template used to display a category in the categories menu
-    def loadCategoryMenuItem = {
-        def category = categoryService.getById(Long.valueOf(params.id))
-        render(template:"categoryItem", model:[id:category.id,name:category.name])
-    }
-
     /* Category requestType managment
      * --------------------------------------------------------------------- */
 
     def requestTypes = {
         def requestTypes = []
         
-        if (request.post && params.scope == null) {
-            // FIXME :  sort only all requestType (not category requestType)
-            defaultRequestService.getAllRequestTypes().each{ requestTypes.add(adaptRequestType(it)) }
-        }
-        else if (params.scope == "All")
-            defaultRequestService.getAllRequestTypes().each{ requestTypes.add(adaptRequestType(it)) }
-        else if (params.scope == "Category")
-            categoryService.getById(Long.valueOf(params.id)).getRequestTypes().each {
-                requestTypes.add(adaptRequestType(it))
+        if ((request.post && params.scope == null) || params.scope == 'All') {
+            defaultRequestService.getAllRequestTypes().each{ 
+                requestTypes.add(CapdematUtils.adaptRequestType(translationService,it)) 
             }
-
+        } else if (params.scope == 'Category') {
+            categoryService.getById(Long.valueOf(params.id)).getRequestTypes().each {
+                requestTypes.add(CapdematUtils.adaptRequestType(translationService,it))
+            }
+        }
+        
         def orderRequestTypeBy
         if (params.orderRequestTypeBy == null || params.orderRequestTypeBy == "label") {
             requestTypes = requestTypes.sort{ it.label.toLowerCase() }
@@ -131,8 +121,7 @@ class CategoryController {
         def agents = []
         if (request.post && params.scope == null) {
             agentService.getAll().each { agents.add(adaptAgent(it)) }
-        } 
-        else if (params.scope == "All")
+        }  else if (params.scope == "All")
             agentService.getAll().each { agents.add(adaptAgent(it)) }
         else if (params.scope == "Category")
             agentService.getAuthorizedForCategory(Long.valueOf(params.id)).each {
@@ -146,7 +135,6 @@ class CategoryController {
     }
     
     def unassociateAgent = {
-        log.debug "unassociateAgent() unassociating agent ${params.agentId} to ${params.categoryId}"    
         agentService.removeCategoryRole(Long.valueOf(params.agentId), Long.valueOf(params.categoryId))
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
@@ -168,24 +156,14 @@ class CategoryController {
             agentService.modifyCategoryRole(
                   Long.valueOf(params.agentId), 
                   Long.valueOf(params.categoryId),
-                  getProfileFromIndex(Integer.valueOf(params.profileIndex)))
+                  CategoryProfile.allCategoryProfiles[Integer.valueOf(params.profileIndex)])
 
             render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         }
     }
     
-    /* Adapt closure
+    /* Adaptions closure specific to categories
      * --------------------------------------------------------------------- */
-    
-    def adaptRequestType (requestType) {
-        return [
-            id: requestType.id,
-            active: requestType.active,
-            label: translationService.getEncodedRequestTypeLabelTranslation(requestType.label),
-            categoryId: requestType.category?.id, 
-            categoryName: requestType.category?.name
-        ]
-    }
     
     def adaptAgent (businessAgent) {
         def matchingCategorieRole = businessAgent.categoriesRoles.find {
@@ -202,7 +180,6 @@ class CategoryController {
         ]
     }
     
-    // TODO - use CapdematUtils 
     // TODO - modify CategoryProfile enum definition to respect string convention
     def adaptCategoryProfile(categoryProfile) {
         def cssClass
@@ -221,9 +198,4 @@ class CategoryController {
         }
         return [ i18nKey: i18nKey, cssClass: cssClass ]         
     }
-    
-    def getProfileFromIndex(index) {
-        return CategoryProfile.allCategoryProfiles[index]
-    }
 }
-

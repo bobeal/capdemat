@@ -84,10 +84,6 @@
       <span>${stats.queryExecutionMaxTime}</span>
     </p>
     <p>
-      <span><g:message code="monitoring.header.queryExecutionMaxTimeQueryString" /> :</span>
-      <span>${stats.queryExecutionMaxTimeQueryString}</span>
-    </p>
-    <p>
       <span><g:message code="monitoring.header.secondLevelCacheHitCount" /> :</span>
       <span>${stats.secondLevelCacheHitCount}</span>
     </p>
@@ -119,10 +115,10 @@
       <span><g:message code="monitoring.header.transactionCount" /> :</span>
       <span>${stats.transactionCount}</span>
     </p>
-    <p>
-      <span><g:message code="SUMMARY" /> :</span>
-      <span>${stats.logSummary}</span>
-    </p>
+    %{--<p>--}%
+      %{--<span><g:message code="SUMMARY" /> :</span>--}%
+      %{--<span>${stats.logSummary}</span>--}%
+    %{--</p>--}%
 
   </div>
 </g:if>

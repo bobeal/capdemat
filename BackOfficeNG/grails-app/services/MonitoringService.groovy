@@ -13,6 +13,7 @@ class MonitoringService {
     
     ILocalAuthorityRegistry localAuthorityRegistry
     StatisticsService statisticsService
+    def offset = 30
     
     def getHibernateService = { authorityName ->
         SessionFactory sf = this.getSessionFactory(authorityName)
@@ -46,7 +47,6 @@ class MonitoringService {
         result.flushCount = service.flushCount
         result.optimisticFailureCount = service.optimisticFailureCount
         result.prepareStatementCount = service.prepareStatementCount
-        result.queries = service.queries
         result.queryCacheHitCount = service.queryCacheHitCount
         result.queryCacheMissCount = service.queryCacheMissCount
         result.queryCachePutCount = service.queryCachePutCount
@@ -63,6 +63,9 @@ class MonitoringService {
         result.successfulTransactionCount = service.successfulTransactionCount
         result.transactionCount = service.transactionCount
         result.logSummary = service.logSummary()
+        
+        if(service.queries.size()>offset) result.queries = service.queries[0..offset]
+        else result.queries = service.queries
         
         return result
     }

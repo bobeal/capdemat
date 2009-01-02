@@ -1,6 +1,12 @@
-<g:if test="${stats && stats?.queries}" >
-  <h2><g:message code="monitoring.header.queries" /> :</h2>
-  <g:each in="${stats.queries}" var="name">
-    <p>${name}</p>
+
+<h2><g:message code="monitoring.header.mostWastefulQuery" /> :</h2>
+<pre name="code" class="sql">
+  ${stats.queryExecutionMaxTimeQueryString}
+</pre>
+
+<h2><g:message code="monitoring.header.queries" /> (TOP 30):</h2>
+<pre name="code" class="sql">
+  <g:each in="${stats.queries}" var="sql">
+    ${sql}
   </g:each>
-</g:if>
+</pre>

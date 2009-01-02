@@ -2,7 +2,7 @@
   <head>
     <title></title>
     <meta name="layout" content="mn_main" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/monitoring',file:'index.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/monitoring',file:'system.js')}"></script>
   </head>
   <body>
     <div id="yui-main">
@@ -13,13 +13,37 @@
         </div>
         
         <form id="pageForm" method="post" action="${createLink(action:'index')}">
-          <g:render template="os" />
-          <g:render template="runtime" />
-          <g:render template="classLoading" />
-          <g:render template="compilation" />
-          <g:render template="memory" />
-          <g:render template="threads" />
-          <g:render template="garbageCollectors" />
+          
+          <div id="systemTabView" class="yui-navset">
+            <ul class="yui-nav">
+              <li class="selected">
+                <a href="#tabGeneral">
+                  <em><g:message code="monitoring.tab.general" /></em>
+                </a>
+              </li>
+              <li><a href="#tabMemory"><em>
+                <g:message code="monitoring.tab.memory" />
+              </em></a></li>
+              <li><a href="#tabThreads"><em>
+                <g:message code="monitoring.header.threads" />
+              </em></a></li>
+              <li><a href="#tabGarbageCollectors"><em>
+                <g:message code="monitoring.tab.garbage" />
+              </em></a></li>
+            </ul>
+            <div class="yui-content">
+              <div id="tabGeneral">
+                <g:render template="os" />
+                <g:render template="runtime" />
+                <g:render template="classLoading" />
+                <g:render template="compilation" />
+              </div>
+              <div id="tabMemory"><g:render template="memory" /></div>
+              <div id="tabThreads"><g:render template="threads" /></div>
+              <div id="tabGarbageCollectors"><g:render template="garbageCollectors" /></div>
+            </div>
+          </div>
+          
           <input name="pageState" id="pageState" type="hidden" value="${pageState}" />
         </form>
         
@@ -27,22 +51,7 @@
       
     </div>
     
-    <div id="narrow" class="yui-b">
-      
-      <div id="displayPanel" class="nobox">
-        <h3><g:message code="header.display" /></h3>
-        <div class="body">
-          <form action="#" id="displayForm"></form>
-        </div>
-      </div>
-
-      <div class="nobox">
-        <h3><g:message code="header.filterBy" /></h3>
-        <div class="body">
-          <form action="#" id="filterForm"></form>
-        </div>
-      </div>
-    </div>
+    <div id="narrow" class="yui-b"></div>
     
   </body>
 </html>

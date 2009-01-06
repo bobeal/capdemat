@@ -1,5 +1,6 @@
-<h3><g:message code="homeFolder.individual.header.generalInformations" /></h3>
+
 <div class="yui-g">
+  <h3><g:message code="homeFolder.individual.header.generalInformations" /></h3>
   <div class="yui-u first">
     <dl>
       <dt><g:message code="property.creationDate" /> : </dt> 
@@ -28,8 +29,8 @@
   </div>
 </div>
 
-<h3><g:message code="homeFolder.individual.header.civilInformations" /></h3>
 <div class="yui-g">
+  <h3><g:message code="homeFolder.individual.header.civilInformations" /></h3>
   <div class="yui-u first">
     <dl>
       <dt><g:message code="homeFolder.child.property.sex" /> : </dt> 
@@ -67,8 +68,8 @@
   </div>
 </div>
 
-<h3><g:message code="homeFolder.individual.header.contactInformations" /></h3>
 <div class="yui-g">
+  <h3><g:message code="homeFolder.individual.header.contactInformations" /></h3>
   <div class="yui-u first">
     <dl>
       <dt><g:message code="homeFolder.individual.property.address" /> : </dt>

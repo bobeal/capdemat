@@ -4,32 +4,31 @@
 
 ---------------------------------------------------------------*/
 
-h2.data-detail-header {
-  text-align: center;  
-}
+.data-detail { background: transparent; }
 
 .data-detail h2 {
-  font-size: 2em;
-  font-weight: normal;
-  text-align: center;
-  color: black;
-  border: 3px solid #ffaa00;
-  background: #ffffcc;
+  margin: 0 0 .5em !important;
+  font-size: 2.5em;
+  border-bottom: 1px dashed #C690BB;
 }
 
 .data-detail h3 {
-  font-size: 2em;
-  font-weight: normal;
-  padding-top: 1em;
+  margin: 0 0 .5em;
+  font: normal 1.5em sans-serif;
   color: #C690BB; 
-  background: #4c3848;
-  border-bottom: 3px solid #C690BB;  
+}
+
+.data-detail .yui-g {
+  padding: 1em; margin: 0 0 1em;
+  border: 1px solid #C690BB;
+   -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background: #fff;
 }
 
 .data-detail dl {
-  margin : 10px;
-  border-bottom: 1px dashed #C690BB;
-  color: #333;
+  border-bottom: 1px dashed #aaa;
+  color: #333; background: #eee;
   overflow: auto;
 }
  
@@ -38,10 +37,12 @@ h2.data-detail-header {
   float: left;
   margin: 0;
   padding: .3em;
-  border-top: 1px dashed #C690BB;
+  border-top: 1px dashed #aaa;
 }
 
-.data-detail dl dt { width: 9em; min-height: 1.5em; text-align: right; clear: both; }
-.data-detail dl dd { width: 14em; font-size: 1.15em; }
+.data-detail dl dt { width: 10em; min-height: 1.5em; text-align: right; clear: both; }
+.data-detail dl dd { width: 19.5em; font-size: 1.15em; }
 
 .data-detail dl dd p { padding: 0.1em; }
+
+.data-detail .yui-g img { max-width: 97%; margin: 1em; }

@@ -8,8 +8,7 @@ html {
 #bd,
 .list-box h2,
 .main-box h2,
-.group-box h3,
-.data-detail h3 { 
+.group-box h3 { 
   background-color: #b6aca5 !important;
 }
 
@@ -23,7 +22,6 @@ html {
   border-color: #b6aca5 !important;
 }
 
-.data-detail h2,
 .list-box p.see-all a {
   color: #FF812B !important;
 }
@@ -55,8 +53,7 @@ h2,
 .main-box h2,
 .list-box h2,
 .group-box h3,
-.login-box a,
-.data-detail h3 { 
+.login-box a{ 
   color: #FFFFFF !important;
 }
 
@@ -67,7 +64,7 @@ h2,
 .group-box h3,
 .main-box h2,
 #requestTabView .requestHelp h3,
-.data-detail h3, .data-detail dl {
+.data-detail dl {
   border-bottom-color: #FF812B !important;
 }
 .login-box {
@@ -84,6 +81,13 @@ h2,
   border-color: #FF812B !important;
 }
 
+.data-detail h2     { color: #fff !important; border: 0 !important; }
+.data-detail h3     { color: #FF812B !important; }
+.data-detail .yui-g { border-color: #FF812B !important; }
+
+
+h2.request-creation { margin: 0 !important; font-size: 2em !important; }
+
 .yui-skin-fong .yui-navset .yui-nav a,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
   color: #FFFFFF ;
@@ -98,6 +102,8 @@ h2,
   background-color: #FFFFFF !important;
   border-color: #FFFFFF !important;
 }
+
+#requestTabView { margin: 1em 0 0 0 !important; }
 
 #requestTabView h3 {
   border-bottom-color: #FF812B !important;

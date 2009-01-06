@@ -167,8 +167,7 @@ h2.request-creation {
 .requestHelp {
   margin: .2em 0 0 0em;
   padding: 1em 1.5em;
-  background: #dddddd ;
-  border-top: 1px solid black;
+  background: #eeeeee ;
 }
 
 #requestTabView .requestHelp h3 {

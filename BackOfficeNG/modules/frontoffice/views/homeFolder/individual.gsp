@@ -5,8 +5,8 @@
   </head>
   
   <body>
-    <h2 class="data-detail-header">${individual.firstName} ${individual.lastName}</h2>
     <div class="main-box data-detail">
+      <h2>${individual.firstName} ${individual.lastName}</h2>
       <g:if test="${isChild}">
         <g:render template="childDetail" 
           model="[child:individual,roles:roles]"/>

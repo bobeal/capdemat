@@ -5,10 +5,11 @@
   </head>
 
   <body>
-    <h2 class="data-detail-header">${doc.title} (<g:message code="property.id" /> : ${doc.id})</h2>
     <div class="main-box data-detail">
-      <h3><g:message code="document.header.generalInformations" /></h3>
+      <h2>${doc.title} (<g:message code="property.id" /> : ${doc.id})</h2>
+     
       <div class="yui-g">
+         <h3><g:message code="document.header.generalInformations" /></h3>
         <div class="yui-u first">
           <dl>
             <dt><g:message code="document.property.endValidityDate"/> :</dt>

@@ -25,10 +25,6 @@
       <!-- footer -->
       <div id="ft">
         <a href="http://www.zenexity.fr">Conçu et réalisé par Zenexity R&D</a>
-        <p>
-          Le contenu de ce site est la propriété intellectuelle exclusive de Zenexity.<br/>
-          Toute réutilisation de tout ou partie du contenu de ce site est strictement interdite.
-        </p>
       </div>
 
     </div>

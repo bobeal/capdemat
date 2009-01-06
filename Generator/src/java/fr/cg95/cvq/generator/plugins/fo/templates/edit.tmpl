@@ -15,19 +15,17 @@
     <script type="text/javascript" src="\${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
-      <h2 class="request-creation">
-      <g:message code="${namespaceAlias}.label" />
-      <span><g:message code="${namespaceAlias}.description" /></span> 
-      <span><g:message code="request.duration.label" /><strong> : <g:message code="${namespaceAlias}.duration.value" /></strong></span>
-      <span>
+      <h2 class="request-creation"> <g:message code="${namespaceAlias}.label" /></h2>
+      <p><g:message code="${namespaceAlias}.description" /></p> 
+      <p><g:message code="request.duration.label" /><strong> : <g:message code="${namespaceAlias}.duration.value" /></strong></p>
+      <p>
         <g:message code="request.requiredDocuments.header" /> :
         <g:each in="\${documentTypes}" var="documentType" status="index">
           <strong>
             <g:message code="\${documentType.value}"/><g:if test="\${index < documentTypes.size() - 1}">,</g:if>
           </strong>
         </g:each>
-      </span>
-    </h2>
+      </p>
     
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">

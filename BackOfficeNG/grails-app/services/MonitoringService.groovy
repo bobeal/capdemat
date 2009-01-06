@@ -1,13 +1,9 @@
-import org.hibernate.jmx.StatisticsService
-import org.hibernate.SessionFactory
-import org.springframework.jmx.support.*
-import fr.cg95.cvq.service.authority.*
-import org.hibernate.jmx.*
-import fr.cg95.cvq.business.authority.LocalAuthority
+import com.mchange.v2.c3p0.C3P0Registry
 import fr.cg95.cvq.dao.hibernate.HibernateUtil
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import java.lang.management.ManagementFactory
-
-
+import org.hibernate.SessionFactory
+import org.hibernate.jmx.StatisticsService
 
 class MonitoringService {
     
@@ -18,11 +14,32 @@ class MonitoringService {
     def getHibernateService = { authorityName ->
         SessionFactory sf = this.getSessionFactory(authorityName)
         HibernateUtil.setSessionFactory(sf)
-
+        
         StatisticsService service = new StatisticsService()
         service.setSessionFactory(sf)
         service.setStatisticsEnabled(true)
+        
         return service
+    }
+    
+    def getC3P0Information = { authorityName ->
+        def result = [:]
+        
+        def ds = C3P0Registry.pooledDataSourceByName(authorityName)
+        def server = ManagementFactory.platformMBeanServer
+        def mbean = new GroovyMBean(server, 
+                "com.mchange.v2.c3p0:type=PooledDataSource[${ds.identityToken}]")
+        
+        if(mbean) {
+            result.minPoolSize = mbean.minPoolSize
+            result.maxPoolSize = mbean.maxPoolSize
+            result.initialPoolSize = mbean.initialPoolSize
+            result.numUserPools = mbean.numUserPools
+            result.numAllConnections = mbean.numConnectionsAllUsers
+            result.numIdleConnections = mbean.numIdleConnectionsAllUsers
+            result.numUnclosedConnections = mbean.numUnclosedOrphanedConnectionsAllUsers
+        }
+        return result
     }
     
     def getDatabaseInformation = { authorityName ->

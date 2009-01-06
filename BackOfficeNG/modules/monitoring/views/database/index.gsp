@@ -44,6 +44,9 @@
                   <g:message code="monitoring.tab.regions" />
                 </em></a></li>
               </g:if>
+              <li><a href="#tabDataSource"><em>
+                <g:message code="monitoring.tab.datasource" />
+              </em></a></li>
             </ul>
             <div class="yui-content">
               <div id="tabStats"><g:render template="stats" /></div>
@@ -57,6 +60,7 @@
               <g:if test="${stats && stats?.secondLevelCacheRegionNames}" >
                 <div id="tabRegionNames"><g:render template="regionNames" /></div>
               </g:if>
+              <div id="tabDataSource"><g:render template="dataSource" /></div>
             </div>
           </div>
           

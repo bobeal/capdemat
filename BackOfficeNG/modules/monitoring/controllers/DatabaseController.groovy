@@ -11,16 +11,15 @@ public class DatabaseController {
         def authorities = monitoringService.getLocalAuthorities() as List
         def authoritiy = !state?.authorityName ? authorities.get(0) : state.authorityName
         def stats = monitoringService.getDatabaseInformation(authoritiy)
+        def datasource = monitoringService.getC3P0Information(authoritiy)
         
-        //render service.queries
-        //if(!params?.authorityName)
         return [
             pageState: (new JSON(state)).toString().encodeAsHTML(),
             authorities : authorities,
             authoritiy : authoritiy,
             stats : stats,
+            datasource : datasource,
             state: state
         ]
     }
-    
 }

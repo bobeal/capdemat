@@ -13,7 +13,7 @@
         </div>
         
         <form id="pageForm" method="post" action="${createLink(action:'taskBoard')}">
-          <input name="pageState" id="pageState" type="hidden" value="${pageState}"></input>
+          <input name="pageState" id="pageState" type="hidden" value="${pageState}" />
         </form>
         <g:if test="${requestMap.containsKey('redRequests')}">
           <div class="mainbox taskboard-red">

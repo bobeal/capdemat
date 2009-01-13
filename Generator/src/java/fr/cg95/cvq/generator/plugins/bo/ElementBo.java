@@ -218,24 +218,4 @@ public class ElementBo {
     public List<ElementBo> getElements() {
         return elements;
     }
-   
-    // i18n
-    private Map<String,UserDocumentation> i18nUserDoc = new HashMap<String, UserDocumentation>();
-
-    public Map<String, UserDocumentation> getI18nUserDoc() {
-        return i18nUserDoc;
-    }
-    
-    public void addi18nUserDocText (String lang, String text) {
-        if (i18nUserDoc.get(lang) == null)
-            i18nUserDoc.put(lang, new UserDocumentation());
-        if (i18nUserDoc.get(lang).getText() == null)
-            i18nUserDoc.get(lang).setText(text);
-    }
-    
-    public void addi18nUserDocEnums (String lang, HashMap<String,String> enums) {
-        if (i18nUserDoc.get(lang) == null)
-            i18nUserDoc.put(lang, new UserDocumentation());
-        i18nUserDoc.get(lang).setXmlTranslationNodes(enums);
-    }
 }

@@ -121,19 +121,4 @@ public class RequestBo {
         }
     }
     
-    // i18n
-    private Map<String,Map<String,String>> i18nLabels = new HashMap<String, Map<String,String>>();
-
-    public Map<String, Map<String,String>> getI18nLabels() {
-        return i18nLabels;
-    }
-    
-    public void addI18nLabel(String lang, String descType, String label) {
-        if (i18nLabels.get(lang) == null) {
-            Map<String, String> map = new HashMap<String, String>();
-            i18nLabels.put(lang, map);
-        }
-        i18nLabels.get(lang).put(descType, label);
-    }
-    
 }

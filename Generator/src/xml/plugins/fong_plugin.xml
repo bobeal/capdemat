@@ -2,20 +2,23 @@
 <plugin id="fong" classname="fr.cg95.cvq.generator.plugins.fo.FoPlugin">
 
   <documentation>
-    <!-- for elements, we only want shortdesc information -->
     <element parent="element" source="http://www.cg95.fr/cvq/schema/shortdesc"/>
-    <!-- for other elements, we want all information -->
     <element parent="*" source="*"/>
   </documentation>
 
   <appinfo>
-    <!-- we want fo nodes information for requests, elements, and properties -->
-    <element parent="request" node="common"/>
-    <element parent="element,property" node="common,fo"/>
+    <element parent="element,property" node="fo" />
+    <!-- Trigger call of onApplicationInformation() method at 'request' level -->
+    <element parent="request" node="common" />
   </appinfo>
   
   <configuration>
-  	<output dir="BackOfficeNG" />
+    <properties
+      outputdir="./BackOfficeNG/modules/frontoffice/views/requestType/" 
+      edittemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/edit.gsp.tpl"
+      steptemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/step.gsp.tpl"
+      summarytemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/summary.gsp.tpl"
+    />
   </configuration>
   
 </plugin>

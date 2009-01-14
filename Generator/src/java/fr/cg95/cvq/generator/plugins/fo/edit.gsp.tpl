@@ -1,9 +1,8 @@
-<% import org.apache.commons.lang.StringUtils %>
-
 <html>
   <head>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="\${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
+    <script type="text/javascript" src="\${createLinkTo(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="\${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
@@ -26,13 +25,7 @@
           <a href="#${step.name}"><em>
           <span class="tag-no_right">${step.index + 1}</span>
           <span class="tag-state \${stepStates.${step.name}.cssClass}"><g:message code="\${stepStates.${step.name}.i18nKey}" /></span>
-  <% if (step.name == 'documentRef') { %>
-          <g:message code="request.step.document.label" />
-  <% } else if (step.name == 'validationRef') { %>
-          <g:message code="request.step.validation.label" />
-  <% } else { %>
-          <g:message code="${requestFo.acronym}.step.${step.name}.label" />
-  <% } %>
+          <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
           </em></a>
         </li>    
 <% } %>
@@ -41,38 +34,28 @@
      <div class="yui-content">
 <% requestFo.steps.each { step -> %>
        <div id="${step.name}">
-  <% if (step.name == 'documentRef') { %>
-         <g:render template="/frontofficeRequestType/documentStep"/>
-  <% } else { %>
-         <form method="POST" id="${StringUtils.uncapitalize(step.name)}Form" action="<g:createLink action="valid${StringUtils.capitalize(step.name)}" />">
+         <form method="POST" id="${step.camelCaseName}Form" action="<g:createLink action="valid${step.camelCaseName}" />">
            <h3>
              <span class="tag-state \${stepStates.${step.name}.cssClass}"><g:message code="\${stepStates.${step.name}.i18nKey}" /></span>
-    <% if (step.name == 'validationRef') { %>
-             <g:message code="request.step.validation.label" />
-             <span><g:message code="request.step.validation.desc" /></span>
-    <% } else { %>
-             <g:message code="${requestFo.acronym}.step.${step.name}.label" />
-             <span><g:message code="${requestFo.acronym}.step.${step.name}.desc" /></span>
-    <% } %>
+             <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
+             <span><g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.desc" /></span>
            </h3>
-    <% if (step.name == 'validationRef') { %>
+    <% if (step.name == 'validation') { %>
            <select name="meansOfContact">
              <g:each in="\${meansOfContact}" var="moc">
                <option value="\${moc.key}">\${moc.label}</option>
              </g:each>
            </select>
-           <g:render template="/frontofficeRequestType/${StringUtils.uncapitalize(requestFo.name)}/summary" />
-    <% } else { %>
-           <g:render template="/frontofficeRequestType/${StringUtils.uncapitalize(requestFo.name)}/${step.name}" />         
     <% } %>
-           <div class="error" id="${StringUtils.uncapitalize(step.name)}FormErrors"> </div>
+           <g:render template="/frontofficeRequestType/${step.name != 'document' ? requestFo.camelCaseName + '/' : ''}${step.name}" />         
+           <div class="error" id="${step.camelCaseName}FormErrors"> </div>
            <!-- Input submit-->
            <input type="button" 
-              id="submit${StringUtils.capitalize(step.name)}" 
-              name="submit${StringUtils.capitalize(step.name)}" 
+              id="submit${step.camelCaseName}"
+              name="submit${step.camelCaseName}"
               value="\${message(code:'action.save')}" />
          </form>
-  <% } %>         
+
          <!-- navigation link -->
          <div class="navTab">
   <% if (step.index != 0) { %>

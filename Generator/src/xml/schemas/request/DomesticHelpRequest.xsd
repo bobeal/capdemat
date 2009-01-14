@@ -718,9 +718,7 @@
                 <condition name="haveGuardian" type="filled" required="true"/>
               </conditions>
             </common>
-            <fo>
-            	<label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -843,9 +841,7 @@
                 <condition name="haveFamilyReferent" type="filled" required="true"/>
               </conditions>
             </common>
-            <fo>
-              <label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -1235,9 +1231,7 @@
                 <condition name="isSpouseRetired" type="unfilled" required="true"/>
               </conditions>
             </common>
-            <fo>
-            	<label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -1264,9 +1258,7 @@
             <common>
               <step name="dwelling"/>
             </common>
-            <fo>
-            	<label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -1491,9 +1483,7 @@
             <common>
               <step name="dwelling"/>
             </common>
-            <fo>
-            	<label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -1741,9 +1731,7 @@
             <common>
               <step name="resources"/>
             </common>
-            <fo>
-            	<label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -1852,9 +1840,7 @@
                 <condition name="isRealEstate" type="filled" required="true"/>
               </conditions>
             </common>
-            <fo>
-            	<label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -1905,9 +1891,7 @@
             <common>
               <step name="resources"/>
             </common>
-            <fo>
-            	<label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>
@@ -1975,9 +1959,7 @@
             <common>
               <step name="resources"/>
             </common>
-            <fo>
-            	<label/>
-            </fo>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>

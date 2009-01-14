@@ -39,19 +39,19 @@
           """
           <div class="address-fieldset ${element.conditionsClass}">
           <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" value="\${${wrapper}.${element.javaFieldName}.additionalDeliveryInformation}" maxlength="38" name="${element.javaFieldName}.additionalDeliveryInformation"/>  
+          <input type="text" value="\${${wrapper}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" name="${element.javaFieldName}.additionalDeliveryInformation"/>  
           <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" value="\${${wrapper}.${element.javaFieldName}.additionalGeographicalInformation}" maxlength="38" name="${element.javaFieldName}.additionalGeographicalInformation"/>
+          <input type="text" value="\${${wrapper}.${element.javaFieldName}?.additionalGeographicalInformation}" maxlength="38" name="${element.javaFieldName}.additionalGeographicalInformation"/>
           <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
-          <input type="text" class="line1" value="\${${wrapper}.${element.javaFieldName}.streetNumber}" maxlength="5" name="${element.javaFieldName}.streetNumber"/>
-          <input type="text" class="line2 required" value="\${${wrapper}.${element.javaFieldName}.streetName}" maxlength="32" name="${element.javaFieldName}.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+          <input type="text" class="line1" value="\${${wrapper}.${element.javaFieldName}?.streetNumber}" maxlength="5" name="${element.javaFieldName}.streetNumber"/>
+          <input type="text" class="line2 required" value="\${${wrapper}.${element.javaFieldName}?.streetName}" maxlength="32" name="${element.javaFieldName}.streetName" title="<g:message code="address.property.streetName.validationError" />" />
           <label><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" value="\${${wrapper}.${element.javaFieldName}.placeNameOrService}" maxlength="38" name="${element.javaFieldName}.placeNameOrService"/>
+          <input type="text" value="\${${wrapper}.${element.javaFieldName}?.placeNameOrService}" maxlength="38" name="${element.javaFieldName}.placeNameOrService"/>
           <label class="required"><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
-          <input type="text" class="line1 required" value="\${${wrapper}.${element.javaFieldName}.postalCode}" maxlength="5" name="${element.javaFieldName}.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-          <input type="text" class="line2 required" value="\${${wrapper}.${element.javaFieldName}.city}" maxlength="32" name="${element.javaFieldName}.city" title="<g:message code="address.property.city.validationError" />" />
+          <input type="text" class="line1 required" value="\${${wrapper}.${element.javaFieldName}?.postalCode}" maxlength="5" name="${element.javaFieldName}.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+          <input type="text" class="line2 required" value="\${${wrapper}.${element.javaFieldName}?.city}" maxlength="32" name="${element.javaFieldName}.city" title="<g:message code="address.property.city.validationError" />" />
           <label><g:message code="address.property.countryName" /></label>
-          <input type="text" value="\${${wrapper}.${element.javaFieldName}.countryName}" maxlength="38" name="${element.javaFieldName}.countryName"/>
+          <input type="text" value="\${${wrapper}.${element.javaFieldName}?.countryName}" maxlength="38" name="${element.javaFieldName}.countryName"/>
           </div>
           """
        ,'date' :

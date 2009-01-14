@@ -3,7 +3,6 @@ package fr.cg95.cvq.generator.plugins.fo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +32,10 @@ public class RequestFo {
         return name;
     }
     
+    public String getCamelCaseName() {
+        return StringUtils.uncapitalize(name);
+    }
+    
     public String getAcronym() {
         return acronym;
     }
@@ -42,11 +45,9 @@ public class RequestFo {
     }
     public void setSteps(List<Step> steps) {
         this.steps = new ArrayList<Step>(steps);
-        
-        for (Iterator<Step> it = this.steps.iterator(); it.hasNext();) {
-            if (it.next().getName() == null)
-                it.remove();
-        }
+        for (Step step : this.steps)
+            if (step.getName() == null && step.getRef() != null)
+                step.setName(step.getRef());
     }
     
     public Set<Condition> getConditions() {

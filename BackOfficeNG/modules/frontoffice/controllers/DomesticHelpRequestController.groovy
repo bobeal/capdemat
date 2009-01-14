@@ -36,10 +36,9 @@ class DomesticHelpRequestController {
 
       'taxes',
 
-      'documentRef',
+      'document',
 
-      'validationRef'
-
+      'validation'
     ]
     
     
@@ -179,7 +178,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
 
 
         session["domesticHelpRequest"] = dhr
-        session['stepStates'].documentRef = 
+        session['stepStates'].document = 
             ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
             
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -198,7 +197,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         domesticHelpRequestService.create(dhr)
 
         session["domesticHelpRequest"] = dhr
-        session['stepStates'].validationRef = 
+        session['stepStates'].validation = 
             ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
             
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 

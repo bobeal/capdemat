@@ -3,7 +3,14 @@
     <g:each var="record" in="${requests?.records}">
       <li>
         <p>
-          <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
+          <g:if test="${record?.draft}">
+            <span class="tag-draft tag-state">
+              <g:message code="property.draft"/>
+            </span>
+          </g:if>
+          <g:else>
+            <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
+          </g:else>
           <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">
             ${record.label}
             <g:message code="request.searchResult.requestId" />

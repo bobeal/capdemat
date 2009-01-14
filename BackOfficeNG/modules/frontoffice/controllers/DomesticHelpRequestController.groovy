@@ -7,6 +7,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.business.request.Request
 
 class DomesticHelpRequestController {
 
@@ -21,6 +22,7 @@ class DomesticHelpRequestController {
     def defaultAction = 'edit'
     
     def currentTab = 'subject'
+    
     
     def steps = [
 
@@ -42,6 +44,17 @@ class DomesticHelpRequestController {
 
     ]
     
+    def draft = {
+        if(request.post) {
+            Request req = session["domesticHelpRequest"]
+            domesticHelpRequestService.prepareDraft(req)
+            domesticHelpRequestService.createDraft(req)
+            redirect(action:'edit')
+            return false
+        } else if (request.get) {
+            render 'GET - ' + params.id
+        }
+    }
     
     def edit = {
         def stepStates

@@ -1597,6 +1597,7 @@
         subject_id int8,
         subject_last_name varchar(255),
         subject_first_name varchar(255),
+        draft bool,
         primary key (id)
     );
 

@@ -8,6 +8,7 @@ class RequestAdaptorService {
         requests.all.each {
             requests.records.add([
                 'id':it.id,
+                'draft':it.draft,
                 'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
                 'creationDate':it.creationDate,
                 'requesterLastName':it.requesterLastName,

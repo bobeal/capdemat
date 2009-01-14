@@ -17,7 +17,6 @@ class RequestController {
     IRequestService defaultRequestService
     
     def translationService
-    
     def defaultAction = "index"
     
     def index = {
@@ -47,8 +46,11 @@ class RequestController {
         def allRequestTypes = defaultRequestService.getAllRequestTypes()
         def allRequestTypesTranslated =  []
         allRequestTypes.each {
-            allRequestTypesTranslated.add([id:it.id,
-                                           label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()])
+            allRequestTypesTranslated.add([
+                    id:it.id,
+                    label:translationService
+                            .getEncodedRequestTypeLabelTranslation(it.label)
+                            .decodeHTML()])
         }
         return allRequestTypesTranslated.sort{it.label}
     }
@@ -57,6 +59,12 @@ class RequestController {
         Set criteriaSet = new HashSet<Critere>()
         Critere critere = new Critere()
         
+        critere.comparatif = Critere.EQUALS
+        critere.attribut = Request.DRAFT
+        critere.value = [true,false,null]
+        criteriaSet.add(critere)
+        
+        critere = new Critere()
         critere.comparatif = Critere.EQUALS
         critere.attribut = Request."${attr}"
         critere.value = val

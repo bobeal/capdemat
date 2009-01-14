@@ -74,6 +74,7 @@ import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
@@ -803,6 +804,53 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     //////////////////////////////////////////////////////////
     // Workflow related methods
     //////////////////////////////////////////////////////////
+
+    @Override
+    public void prepareDraft(@IsRequest Request request) throws CvqException {
+        request.setDraft(true);
+        this.createOrSynchronizeHomeFolder(request, SecurityContext.getCurrentEcitizen());
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public Long createDraft(@IsRequest Request request) throws CvqException {
+        if (request.getSubjectId() != null) {
+            Individual individual = individualService.getById(request.getSubjectId());
+            request.setSubjectId(individual.getId());
+            request.setSubjectLastName(individual.getLastName());
+            request.setSubjectFirstName(individual.getFirstName());
+        }
+        
+        RequestType requestType = getRequestTypeByLabel(getLabel());
+        request.setRequestType(requestType);
+        request.setState(RequestState.PENDING);
+        request.setDataState(DataState.PENDING);
+        request.setStep(RequestStep.INSTRUCTION);
+        request.setCreationDate(new Date());
+        request.setOrangeAlert(Boolean.FALSE);
+        request.setRedAlert(Boolean.FALSE);
+        
+        if (isOfRegistrationKind()) {
+            requestType = getRequestTypeByLabel(getLabel());
+            Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
+            if (openSeasons != null && !openSeasons.isEmpty())  
+                request.setSeasonUuid(openSeasons.iterator().next().getUuid());
+        }
+        
+        return requestDAO.create(request);
+        
+        // TODO DECOUPLING
+//        logger.debug("create() Gonna generate a pdf of the request");
+//        byte[] pdfData =
+//            certificateService.generateRequestCertificate(request, this.fopConfig);
+
+        // TODO DECOUPLING
+//        notifyRequestCreation(request, pdfData);
+
+//        return requestId;
+        
+        //return finalizeAndPersist(request);
+    }
 
     protected void notifyRequestCreation(Request request, byte[] pdfData)
         throws CvqException {

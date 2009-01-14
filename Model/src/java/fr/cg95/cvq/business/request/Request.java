@@ -41,6 +41,7 @@ public abstract class Request implements Serializable {
     public static final String QUALITY_TYPE_OK = "qualityTypeOk";
     public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     public static final String QUALITY_TYPE_RED = "qualityTypeRed";
+    public static final String DRAFT = "draft";
 
     
     /** identifier field */
@@ -69,6 +70,7 @@ public abstract class Request implements Serializable {
     private Long subjectId;
     private String subjectLastName;
     private String subjectFirstName;
+    private Boolean draft;
     
     private Set<RequestDocument> documents;
     private Set<RequestAction> actions;
@@ -486,5 +488,17 @@ public abstract class Request implements Serializable {
 
     public void setSubjectFirstName(String subjectFirstName) {
         this.subjectFirstName = subjectFirstName;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="draft"
+     */
+    public Boolean getDraft() {
+        return draft;
+    }
+
+    public void setDraft(Boolean draft) {
+        this.draft = draft;
     }
 }

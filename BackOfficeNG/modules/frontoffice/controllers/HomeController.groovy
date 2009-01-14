@@ -30,6 +30,7 @@ class HomeController {
     def defaultAction = "index" 
     
     def beforeInterceptor = {
+        //this['requestService'] = 'RAFIK';
         this.currentEcitizen = SecurityContext.getCurrentEcitizen();
     }
     
@@ -43,8 +44,8 @@ class HomeController {
         
         if(infoFile.exists()) result.commonInfo = infoFile.text;
         
-        result.dashBoard.requests = this.getTopFiveRequests();
-        result.dashBoard.requests = requestAdaptorService.prepareRecords(result.dashBoard.requests);
+        result.dashBoard.requests = requestAdaptorService.prepareRecords(this.getTopFiveRequests());
+        result.dashBoard.drafts = requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true));
         
         result.dashBoard.payments = preparePayments(this.getTopFivePayments());
         result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments());
@@ -102,7 +103,8 @@ class HomeController {
         return docs;
     }
     
-    def protected getTopFiveRequests = {
+    
+    def protected getTopFiveRequests(draft=false) {
         
         Set criteriaSet = new HashSet<Critere>();
         Critere critere = new Critere();
@@ -111,6 +113,13 @@ class HomeController {
         critere.attribut = Request.SEARCH_BY_HOME_FOLDER_ID;
         critere.value = this.currentEcitizen.homeFolder.id
         criteriaSet.add(critere)
+        
+        if(draft) {
+            critere.comparatif = Critere.EQUALS;
+            critere.attribut = Request.DRAFT;
+            critere.value = true
+            criteriaSet.add(critere)
+        }
         
         return [
             'all' : defaultRequestService.get(criteriaSet, 'creationDate', 'desc', 5, 0),

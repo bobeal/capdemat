@@ -204,3 +204,4 @@ DROP function init_hibernate_list_index(text,text,text,text);
 -- agents preferences enhancements
 ALTER TABLE agent ADD COLUMN preferences bytea;        
 
+ALTER TABLE request ADD COLUMN draft bool;

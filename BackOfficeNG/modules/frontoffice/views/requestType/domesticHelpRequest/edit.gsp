@@ -18,6 +18,9 @@
         </strong>
       </g:each>
     </p>
+    <p>
+      <g:render template="/shared/fo_draftPanel" />
+    </p>
     
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">

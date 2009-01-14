@@ -80,6 +80,24 @@ public interface IRequestService {
     //////////////////////////////////////////////////////////
 
     /**
+     * Prepares request draft.
+     * 
+     * @param request current request
+     * @throws CvqException
+     */
+    void prepareDraft(@IsRequest Request request) throws CvqException;
+    
+    /**
+     * Creates a draft request, bypass standard validation procedure. 
+     * 
+     * @param request current request
+     * @return Newly created request identifier
+     * @throws CvqException
+     * @throws CvqObjectNotFoundException
+     */
+    Long createDraft(@IsRequest Request request) throws CvqException; 
+    
+    /**
      * Create a new request from given data.
      * 
      * It is meant to be used <strong>only</strong> by requests who require an home folder, 

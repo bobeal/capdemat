@@ -981,8 +981,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     /**
-     * Check that a request's subject is of the good type with respect to the
-     * given policy.
+     * Perform checks wrt subject policies :
+     * <ul>
+     *   <li>Check that subject is coherent wrt the request's policy.</li>
+     *   <li>Check that subject is allowed to issue a request of the given type</li>
+     * </ul>
      * 
      * @throws CvqModelException if there's a policy violation
      */
@@ -1161,7 +1164,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         throws CvqException {
 
         setAdministrativeInformation(request);
-        
+
         if (isOfRegistrationKind()) {
             RequestType requestType = getRequestTypeByLabel(getLabel());
             Set<RequestSeason> openSeasons = getOpenSeasons(requestType);

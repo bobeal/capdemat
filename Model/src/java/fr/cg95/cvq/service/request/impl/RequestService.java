@@ -79,6 +79,7 @@ import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.xml.common.SubjectType;
@@ -806,50 +807,38 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     //////////////////////////////////////////////////////////
 
     @Override
-    public void prepareDraft(@IsRequest Request request) throws CvqException {
+    public void prepareDraft(Request request) throws CvqException {
         request.setDraft(true);
-        this.createOrSynchronizeHomeFolder(request, SecurityContext.getCurrentEcitizen());
+        request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
+        //this.createOrSynchronizeHomeFolder(request, SecurityContext.getCurrentEcitizen());
+    }
+
+    @Override
+    public void deleteExpiredDrafts(Integer liveDuration) throws CvqException {
+        Set<Critere> criterias = new HashSet<Critere>();
+        
+        Critere criteria = new Critere();
+        criteria.setAttribut(Request.SEARCH_BY_CREATION_DATE);
+        criteria.setComparatif(Critere.LTE);
+        criteria.setValue(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,(liveDuration+1)*(-1)));
+        criterias.add(criteria);
+        
+        criteria = new Critere();
+        criteria.setAttribut(Request.DRAFT);
+        criteria.setComparatif(Critere.EQUALS);
+        criteria.setValue(true);
+        criterias.add(criteria);
+        
+        List<Request> requests = requestDAO.search(criterias,null,null,0,0);
+        for(Request r : requests) this.delete(r);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public Long createDraft(@IsRequest Request request) throws CvqException {
-        if (request.getSubjectId() != null) {
-            Individual individual = individualService.getById(request.getSubjectId());
-            request.setSubjectId(individual.getId());
-            request.setSubjectLastName(individual.getLastName());
-            request.setSubjectFirstName(individual.getFirstName());
-        }
-        
-        RequestType requestType = getRequestTypeByLabel(getLabel());
-        request.setRequestType(requestType);
-        request.setState(RequestState.PENDING);
-        request.setDataState(DataState.PENDING);
-        request.setStep(RequestStep.INSTRUCTION);
-        request.setCreationDate(new Date());
-        request.setOrangeAlert(Boolean.FALSE);
-        request.setRedAlert(Boolean.FALSE);
-        
-        if (isOfRegistrationKind()) {
-            requestType = getRequestTypeByLabel(getLabel());
-            Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
-            if (openSeasons != null && !openSeasons.isEmpty())  
-                request.setSeasonUuid(openSeasons.iterator().next().getUuid());
-        }
-        
-        return requestDAO.create(request);
-        
-        // TODO DECOUPLING
-//        logger.debug("create() Gonna generate a pdf of the request");
-//        byte[] pdfData =
-//            certificateService.generateRequestCertificate(request, this.fopConfig);
-
-        // TODO DECOUPLING
-//        notifyRequestCreation(request, pdfData);
-
-//        return requestId;
-        
-        //return finalizeAndPersist(request);
+    public Long createDraft(Request request) throws CvqException {
+        performBusinessChecks(request, SecurityContext.getCurrentEcitizen(), null);
+        this.setAdministrativeInformation(request);
+        return finalizeAndPersist(request);
     }
 
     protected void notifyRequestCreation(Request request, byte[] pdfData)
@@ -913,8 +902,9 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         throws CvqException, CvqObjectNotFoundException {
         
         HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
-
-        checkSubjectPolicy(request.getSubjectId(), request.getHomeFolderId(), getSubjectPolicy());
+        
+        if(request.getDraft() != true)
+            checkSubjectPolicy(request.getSubjectId(), request.getHomeFolderId(), getSubjectPolicy());
         
         if (request.getSubjectId() != null) {
             Individual individual = individualService.getById(request.getSubjectId());
@@ -1176,15 +1166,17 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             homeFolder.setOriginRequestId(requestId);
             homeFolderService.modify(homeFolder);
         }
-
-        // TODO DECOUPLING
-        logger.debug("create() Gonna generate a pdf of the request");
-        byte[] pdfData =
-            certificateService.generateRequestCertificate(request, this.fopConfig);
-        addActionTrace(CREATION_ACTION, null, new Date(), RequestState.PENDING, request, pdfData);
-
-        // TODO DECOUPLING
-        notifyRequestCreation(request, pdfData);
+        
+        if(request.getDraft() != true) {
+            // TODO DECOUPLING
+            logger.debug("create() Gonna generate a pdf of the request");
+            byte[] pdfData =
+                certificateService.generateRequestCertificate(request, this.fopConfig);
+            addActionTrace(CREATION_ACTION, null, new Date(), RequestState.PENDING, request, pdfData);
+    
+            // TODO DECOUPLING
+            notifyRequestCreation(request, pdfData);
+        }
 
         return requestId;
     }

@@ -95,7 +95,14 @@ public interface IRequestService {
      * @throws CvqException
      * @throws CvqObjectNotFoundException
      */
-    Long createDraft(@IsRequest Request request) throws CvqException; 
+    Long createDraft(@IsRequest Request request) throws CvqException;
+
+    /**
+     * Deletes expired draft
+     * 
+     * @param liveDuration draft live duration idicator (days)
+     */
+    void deleteExpiredDrafts(Integer liveDuration) throws CvqException;
     
     /**
      * Create a new request from given data.

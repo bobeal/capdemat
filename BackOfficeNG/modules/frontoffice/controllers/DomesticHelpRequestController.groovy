@@ -8,6 +8,7 @@ import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.business.request.Request
+import org.codehaus.groovy.reflection.CachedMethod
 
 class DomesticHelpRequestController {
 
@@ -46,17 +47,21 @@ class DomesticHelpRequestController {
     
     def draft = {
         if(request.post) {
-            Request req = session["domesticHelpRequest"]
+            Request req = session.domesticHelpRequest
             domesticHelpRequestService.prepareDraft(req)
             domesticHelpRequestService.createDraft(req)
-            redirect(action:'edit')
-            return false
+            flash.domesticHelpRequest = req
         } else if (request.get) {
-            render 'GET - ' + params.id
+            flash.domesticHelpRequest = this.domesticHelpRequestService.getById(
+                Long.parseLong(params.id))
         }
+        redirect(action:'edit')
+        return false
     }
     
     def edit = {
+        //domesticHelpRequestService.deleteExpiredDrafts(1)
+        
         def stepStates
         if (stepStates == null) {
             stepStates = [:]
@@ -65,16 +70,18 @@ class DomesticHelpRequestController {
             }
         }
         session['stepStates'] = stepStates
-          
-        if (dhr == null)
+        if(flash.domesticHelpRequest) dhr = flash.domesticHelpRequest
+        
+        if (!dhr && !flash.domesticHelpRequest) {
             dhr = new DomesticHelpRequest()
-dhr.setDhrGuardianAddress(new Address())
-dhr.setDhrReferentAddress(new Address())
-dhr.setDhrSpouseAddress(new Address())
-dhr.setDhrCurrentDwellingAddress(new Address())
-
-
-        session["domesticHelpRequest"] = dhr
+            dhr.setDhrGuardianAddress(new Address())
+            dhr.setDhrReferentAddress(new Address())
+            dhr.setDhrSpouseAddress(new Address())
+            dhr.setDhrCurrentDwellingAddress(new Address())
+        }
+        
+        session.domesticHelpRequest = dhr
+        
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
             model:[dhr:dhr, currentTab:currentTab, subjects:getAuthorizedSubjects(),
                    translationService:translationService, help:getHelp(),

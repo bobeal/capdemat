@@ -178,6 +178,31 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="cronExpression" value="0 0 13,23 * * ?" />
   </bean>
 
+  <!-- ******************************************************************** -->
+  <!-- ***************** Draft Management Job Configuration *************** -->
+  <!-- ******************************************************************** -->
+  
+  <bean id="draftManagementJob"
+    class="fr.cg95.cvq.service.request.job.DraftManagementJob">
+    <property name="requestService" ref="defaultRequestService" />
+    <property name="liveDuration" value="2" />
+  </bean>
+  
+  <bean id="draftManagemntJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="draftManagementJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+  
+  <bean id="draftManagementJobTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail">
+      <ref bean="draftManagemntJobInvoker" />
+    </property>
+    <property name="cronExpression" value="0 0 3 * * ?" />
+  </bean>
+  
   <!-- *******************************************************************  -->
   <!-- ************************ Request Xml Generation *******************  -->
   <!-- *******************************************************************  -->

@@ -5,7 +5,7 @@
         <p>
           <g:if test="${record?.draft}">
             <span class="tag-draft tag-state">
-              <g:message code="property.draft"/>
+              <g:message code="request.property.draft"/>
             </span>
           </g:if>
           <g:else>

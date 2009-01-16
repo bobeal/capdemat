@@ -100,7 +100,6 @@ public class FoPlugin implements IPluginGenerator {
             logger.error(ioe.getMessage()); 
         }
     }
-
     
     public void startElement(String elementName, String type) {
         logger.debug("endElement()");

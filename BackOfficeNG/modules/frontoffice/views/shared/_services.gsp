@@ -8,7 +8,7 @@
         <ul>
           <g:each var="requestMap" in="${group.value.get('requests')}">
             <li>
-              <a href="<g:createLink controller="frontoffice${requestMap.value.get('link')}" />">
+              <a href="<g:createLink controller="frontofficeRequestCreation" params="[label:requestMap.key]" />">
                 <g:translateRequestTypeLabel label="${requestMap.key}"/>
               </a>
             </li>

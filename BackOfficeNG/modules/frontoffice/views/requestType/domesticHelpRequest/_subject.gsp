@@ -6,10 +6,10 @@
     <legend><g:message code="dhr.property.dhrRequester.label" /></legend> 
       
     <label><g:message code="request.property.subjectName" /></label>
-    <select name="subjectId" class="required validate-not-first" title="request.subject.validationError">
+    <select name="subjectId" class="required validate-not-first" title="g:message code="request.subject.validationError" /> ">
       <option value=""><g:message code="message.select.defaultOption" /></option>
       <g:each in="${subjects}">
-        <option value="${it.key}" ${it.key == dhr.subjectId ? 'selected="selected"': ''}>${it.value}</option>
+        <option value="${it.key}" ${it.key == request.subjectId ? 'selected="selected"': ''}>${it.value}</option>
       </g:each>
     </select>
       

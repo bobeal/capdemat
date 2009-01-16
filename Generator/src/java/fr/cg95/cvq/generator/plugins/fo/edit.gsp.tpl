@@ -34,26 +34,26 @@
      <div class="yui-content">
 <% requestFo.steps.each { step -> %>
        <div id="${step.name}">
-         <form method="POST" id="${step.camelCaseName}Form" action="<g:createLink action="valid${step.camelCaseName}" />">
+         <form method="POST" id="stepForm-${step.camelCaseName}" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state \${stepStates.${step.name}.cssClass}"><g:message code="\${stepStates.${step.name}.i18nKey}" /></span>
              <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
              <span><g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.desc" /></span>
            </h3>
+           <div>
     <% if (step.name == 'validation') { %>
-           <select name="meansOfContact">
-             <g:each in="\${meansOfContact}" var="moc">
-               <option value="\${moc.key}">\${moc.label}</option>
-             </g:each>
-           </select>
+             <select name="meansOfContact">
+               <g:each in="\${meansOfContact}" var="moc">
+                 <option value="\${moc.key}">\${moc.label}</option>
+               </g:each>
+             </select>
     <% } %>
-           <g:render template="/frontofficeRequestType/${step.name != 'document' ? requestFo.camelCaseName + '/' : ''}${step.name}" />         
+            <g:render template="/frontofficeRequestType/${step.name != 'document' ? requestFo.camelCaseName + '/' : ''}${step.name}" />         
+           </div>
            <div class="error" id="${step.camelCaseName}FormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submit${step.camelCaseName}"
-              name="submit${step.camelCaseName}"
-              value="\${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="\${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-${step.camelCaseName}" name="stepSubmit-${step.camelCaseName}" value="\${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->

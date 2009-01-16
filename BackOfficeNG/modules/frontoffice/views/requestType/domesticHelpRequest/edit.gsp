@@ -90,20 +90,20 @@
      <div class="yui-content">
 
        <div id="subject">
-         <form method="POST" id="subjectForm" action="<g:createLink action="validsubject" />">
+         <form method="POST" id="stepForm-subject" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates.subject.cssClass}"><g:message code="${stepStates.subject.i18nKey}" /></span>
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
            </h3>
+           <div>
     
-           <g:render template="/frontofficeRequestType/domesticHelpRequest/subject" />         
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/subject" />         
+           </div>
            <div class="error" id="subjectFormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submitsubject"
-              name="submitsubject"
-              value="${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-subject" name="stepSubmit-subject" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -122,20 +122,20 @@
        </div>  
 
        <div id="familyReferent">
-         <form method="POST" id="familyReferentForm" action="<g:createLink action="validfamilyReferent" />">
+         <form method="POST" id="stepForm-familyReferent" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates.familyReferent.cssClass}"><g:message code="${stepStates.familyReferent.i18nKey}" /></span>
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
            </h3>
+           <div>
     
-           <g:render template="/frontofficeRequestType/domesticHelpRequest/familyReferent" />         
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/familyReferent" />         
+           </div>
            <div class="error" id="familyReferentFormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submitfamilyReferent"
-              name="submitfamilyReferent"
-              value="${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-familyReferent" name="stepSubmit-familyReferent" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -156,20 +156,20 @@
        </div>  
 
        <div id="spouse">
-         <form method="POST" id="spouseForm" action="<g:createLink action="validspouse" />">
+         <form method="POST" id="stepForm-spouse" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates.spouse.cssClass}"><g:message code="${stepStates.spouse.i18nKey}" /></span>
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
            </h3>
+           <div>
     
-           <g:render template="/frontofficeRequestType/domesticHelpRequest/spouse" />         
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/spouse" />         
+           </div>
            <div class="error" id="spouseFormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submitspouse"
-              name="submitspouse"
-              value="${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-spouse" name="stepSubmit-spouse" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -190,20 +190,20 @@
        </div>  
 
        <div id="dwelling">
-         <form method="POST" id="dwellingForm" action="<g:createLink action="validdwelling" />">
+         <form method="POST" id="stepForm-dwelling" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates.dwelling.cssClass}"><g:message code="${stepStates.dwelling.i18nKey}" /></span>
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
            </h3>
+           <div>
     
-           <g:render template="/frontofficeRequestType/domesticHelpRequest/dwelling" />         
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/dwelling" />         
+           </div>
            <div class="error" id="dwellingFormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submitdwelling"
-              name="submitdwelling"
-              value="${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-dwelling" name="stepSubmit-dwelling" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -224,20 +224,20 @@
        </div>  
 
        <div id="resources">
-         <form method="POST" id="resourcesForm" action="<g:createLink action="validresources" />">
+         <form method="POST" id="stepForm-resources" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates.resources.cssClass}"><g:message code="${stepStates.resources.i18nKey}" /></span>
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
            </h3>
+           <div>
     
-           <g:render template="/frontofficeRequestType/domesticHelpRequest/resources" />         
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/resources" />         
+           </div>
            <div class="error" id="resourcesFormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submitresources"
-              name="submitresources"
-              value="${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-resources" name="stepSubmit-resources" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -258,20 +258,20 @@
        </div>  
 
        <div id="taxes">
-         <form method="POST" id="taxesForm" action="<g:createLink action="validtaxes" />">
+         <form method="POST" id="stepForm-taxes" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates.taxes.cssClass}"><g:message code="${stepStates.taxes.i18nKey}" /></span>
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
            </h3>
+           <div>
     
-           <g:render template="/frontofficeRequestType/domesticHelpRequest/taxes" />         
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/taxes" />         
+           </div>
            <div class="error" id="taxesFormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submittaxes"
-              name="submittaxes"
-              value="${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-taxes" name="stepSubmit-taxes" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -292,20 +292,20 @@
        </div>  
 
        <div id="document">
-         <form method="POST" id="documentForm" action="<g:createLink action="validdocument" />">
+         <form method="POST" id="stepForm-document" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates.document.cssClass}"><g:message code="${stepStates.document.i18nKey}" /></span>
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
            </h3>
+           <div>
     
-           <g:render template="/frontofficeRequestType/document" />         
+            <g:render template="/frontofficeRequestType/document" />         
+           </div>
            <div class="error" id="documentFormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submitdocument"
-              name="submitdocument"
-              value="${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-document" name="stepSubmit-document" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -326,26 +326,26 @@
        </div>  
 
        <div id="validation">
-         <form method="POST" id="validationForm" action="<g:createLink action="validvalidation" />">
+         <form method="POST" id="stepForm-validation" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates.validation.cssClass}"><g:message code="${stepStates.validation.i18nKey}" /></span>
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
            </h3>
+           <div>
     
-           <select name="meansOfContact">
-             <g:each in="${meansOfContact}" var="moc">
-               <option value="${moc.key}">${moc.label}</option>
-             </g:each>
-           </select>
+             <select name="meansOfContact">
+               <g:each in="${meansOfContact}" var="moc">
+                 <option value="${moc.key}">${moc.label}</option>
+               </g:each>
+             </select>
     
-           <g:render template="/frontofficeRequestType/domesticHelpRequest/validation" />         
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/validation" />         
+           </div>
            <div class="error" id="validationFormErrors"> </div>
            <!-- Input submit-->
-           <input type="button" 
-              id="submitvalidation"
-              name="submitvalidation"
-              value="${message(code:'action.save')}" />
+           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="submit" id="stepSubmit-validation" name="stepSubmit-validation" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->

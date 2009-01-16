@@ -185,7 +185,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="draftManagementJob"
     class="fr.cg95.cvq.service.request.job.DraftManagementJob">
     <property name="requestService" ref="defaultRequestService" />
-    <property name="liveDuration" value="2" />
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="mailService" ref="mailService"/>
+    <property name="individualService" ref="individualService"/>
+    <property name="liveDuration" value="4" />
+    <property name="notificationBeforeDelete" value="2" />
   </bean>
   
   <bean id="draftManagemntJobInvoker"

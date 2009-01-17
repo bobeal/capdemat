@@ -10,7 +10,7 @@
   <xs:element name="MarriageDetailsRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande extrait d'acte de mariage
+        Demande d'acte de mariage
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Marriage details request
@@ -19,7 +19,7 @@
         Acte de mariage
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Marriage details request
+        Marriage details
       </xs:documentation>
       <xs:appinfo>
         <model namespace="civil" />
@@ -27,10 +27,10 @@
         <bo namespace="civil"/>
         <xslfo>
           <blocks-def>
-            <block id="0" label="Renseignements concernant l'acte d'&#x00E9;tat civil" column="3" />
+            <block id="0" label="Renseignements concernant l'acte d'état civil" column="3" />
             <block id="1" label="Renseignements concernant le demandeur" column="2" />
             <block id="2"
-              label="Qualit&#x00E9; du demandeur (lien de parent&#x00E9; avec la personne dont vous demandez l'acte)" />
+              label="Qualité du demandeur (lien de parenté avec la personne dont vous demandez l'acte)" />
             <block id="3" label="Etat civil de la personne dont vous demandez l'acte de mariage"
               column="2" />
             <block id="4" label="Informations de filiation de la personne dont vous demandez l'acte"
@@ -70,10 +70,10 @@
             <xs:element name="Copies" type="xs:positiveInteger" default="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Nombre d'actes souhait&#x00E9;
+                  Nombre d'actes souhaité
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nombre d'actes souhait&#x00E9;
+                  Nombre d'actes souhaité
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
@@ -154,7 +154,7 @@
               <xs:annotation>
                 <xs:appinfo>
                   <fo>
-                    <display field="" stage="nature" page="marriage" line="1" help="Choisissez la qualit&#x00E9; du demandeur" />
+                    <display field="" stage="nature" page="marriage" line="1" help="Choisissez la qualité du demandeur" />
                     <display field="" stage="nature" page="displaymarriage" line="1"
                       mode="static" />
 		  			<display mode="labelonly" type="stagetitle" label="Nature" stage="validation" page="summary" line="1"/>
@@ -204,11 +204,11 @@
             <xs:element name="MarriageHusbandLastName" type="cvq:LastNameType" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom de l'&#x00E9;poux
+                  Nom de l'époux
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-       	      		<display mode="labelonly" label="L'&#x00E9;poux" stage="nature" page="marriage" line="4" />
+       	      		<display mode="labelonly" label="L'époux" stage="nature" page="marriage" line="4" />
                     <display field="" stage="nature" page="marriage" line="5" label="Nom"/>
                     <display field="" stage="nature" page="displaymarriage" line="3" mode="static" />
                     <display field="" stage="validation" page="summary" line="4"
@@ -228,11 +228,11 @@
             <xs:element name="MarriageHusbandFirstNames" type="xs:string" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Pr&#x00E9;nom(s) de l'&#x00E9;poux
+                  Prénom(s) de l'époux
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-                    <display field="" stage="nature" page="marriage" line="6" label="Pr&#x00E9;nom(s)"/>
+                    <display field="" stage="nature" page="marriage" line="6" label="Prénom(s)"/>
                     <display field="" stage="nature" page="displaymarriage" line="4" mode="static" />
                     <display field="" stage="validation" page="summary" line="5"
                       mode="static" />
@@ -251,11 +251,11 @@
             <xs:element name="MarriageWifeLastName" type="cvq:LastNameType" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom de l'&#x00E9;pouse
+                  Nom de l'épouse
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-       	      		<display mode="labelonly" label="L'&#x00E9;pouse" stage="nature" page="marriage" line="7" />
+       	      		<display mode="labelonly" label="L'épouse" stage="nature" page="marriage" line="7" />
                     <display field="" stage="nature" page="marriage" line="8" label="Nom"/>
                     <display field="" stage="nature" page="displaymarriage" line="5" mode="static" />
                     <display field="" stage="validation" page="summary" line="6"
@@ -275,11 +275,11 @@
             <xs:element name="MarriageWifeFirstNames" type="xs:string" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Pr&#x00E9;nom(s) de l'&#x00E9;pouse
+                  Prénom(s) de l'épouse
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-                    <display field="" stage="nature" page="marriage" line="9" label="Pr&#x00E9;nom(s)"/>
+                    <display field="" stage="nature" page="marriage" line="9" label="Prénom(s)"/>
                     <display field="" stage="nature" page="displaymarriage" line="6" mode="static" />
                     <display field="" stage="validation" page="summary" line="7"
                       mode="static" />
@@ -348,7 +348,7 @@
             <xs:element name="MarriagePostalCode" type="cvq:DepartmentCodeType" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  D&#x00E9;partement de mariage
+                  Département de mariage
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
@@ -416,11 +416,11 @@
             <xs:element name="FatherFirstNames" type="xs:string" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Pr&#x00E9;nom(s) du p&#x00E8;re
+                  Prénom(s) du p&#x00E8;re
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-                    <display field="" stage="type" page="parents" line="8" label="Pr&#x00E9;nom(s)"
+                    <display field="" stage="type" page="parents" line="8" label="Prénom(s)"
                       condition="format == ExtractWithRelationship" />
                     <display field="" stage="validation" page="summaryrelation" line="38"
                       mode="static" />
@@ -463,11 +463,11 @@
             <xs:element name="MotherFirstNames" type="xs:string" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Pr&#x00E9;nom(s) de la m&#x00E8;re
+                  Prénom(s) de la m&#x00E8;re
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
-                    <display field="" stage="type" page="parents" line="11" label="Pr&#x00E9;nom(s)"
+                    <display field="" stage="type" page="parents" line="11" label="Prénom(s)"
                       condition="format == ExtractWithRelationship" />
                     <display field="" stage="validation" page="summaryrelation" line="40"
                       mode="static" />
@@ -492,13 +492,13 @@
   <xs:simpleType name="MarriageCertificateFormatType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Informations relatives au type de l'acte d'&#x00E9;tat civil
+        Informations relatives au type de l'acte d'état civil
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Type de l'acte
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="FullCopy" value="Copie int&#x00E9;grale" />
+        <enum key="FullCopy" value="Copie intégrale" />
         <enum key="ExtractWithRelationship" value="Extrait avec filiation" />
         <enum key="ExtractWithoutRelationship" value="Extrait sans filiation" />
         <enum key="MultilingualExtract" value="Extrait plurilingue" />
@@ -515,11 +515,11 @@
   <xs:simpleType name="MarriageRequesterQualityType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Qualit&#x00E9; du demandeur (lien de parent&#x00E9; avec la personne dont vous demandez
+        Qualité du demandeur (lien de parenté avec la personne dont vous demandez
         l'acte)
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Qualit&#x00E9; du demandeur
+        Qualité du demandeur
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="Requester" value="Titulaire de l'acte" />
@@ -527,11 +527,11 @@
         <enum key="Parent" value="Son p&#x00E8;re / sa m&#x00E8;re" />
         <enum key="GrandParent" value="Son grand-p&#x00E8;re / sa grand-m&#x00E8;re" />
         <enum key="Child" value="Son fils / sa fille" />
-        <enum key="LegalRepresentant" value="Son repr&#x00E9;sentant l&#x00E9;gal" />
+        <enum key="LegalRepresentant" value="Son représentant légal" />
         <enum key="Agent" value="Son mandataire" />
-        <enum key="HeirFamily" value="Son h&#x00E9;ritier et aussi son fr&#x00E8;re ou sa soeur" />
-        <enum key="Heir" value="Son h&#x00E9;ritier sans être son fr&#x00E8;re ou sa soeur" />
-        <enum key="Authorized" value="Autoris&#x00E9; par le procureur de la R&#x00E9;publique" />
+        <enum key="HeirFamily" value="Son héritier et aussi son fr&#x00E8;re ou sa soeur" />
+        <enum key="Heir" value="Son héritier sans être son fr&#x00E8;re ou sa soeur" />
+        <enum key="Authorized" value="Autorisé par le procureur de la République" />
         <enum key="LawyerNotary" value="Avocat, notaire" />
         <enum key="Other" value="Autre" />
       </xs:documentation>
@@ -558,8 +558,8 @@
         Filiation de
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Husband" value="L'&#x00E9;poux" />
-        <enum key="Wife" value="L'&#x00E9;pouse" />
+        <enum key="Husband" value="L'époux" />
+        <enum key="Wife" value="L'épouse" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">

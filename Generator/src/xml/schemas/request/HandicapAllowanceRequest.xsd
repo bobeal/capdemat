@@ -14,7 +14,7 @@
         Handicap Allowance request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Demande de compensation du handicap
+        Compensation du handicap
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Handicap Allowance request

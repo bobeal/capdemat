@@ -12,16 +12,16 @@
   <xs:element name="DomesticHelpRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Informations concernant la demande d'aide ménagère
+        Demande d'aide ménagère
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Domestic help request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Demande d'aide ménagère
+        Aide ménagère
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Domestic help request
+        Domestic help
       </xs:documentation>
       <xs:appinfo>
         <model namespace="social"/>

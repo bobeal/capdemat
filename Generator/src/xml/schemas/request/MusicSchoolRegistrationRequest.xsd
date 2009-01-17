@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/msrr"
-  xmlns:msrr="http://www.cg95.fr/cvq/schema/msrr" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" elementFormDefault="qualified"
-  attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/msrr" xmlns:msrr="http://www.cg95.fr/cvq/schema/msrr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-    schemaLocation="../common/CVQCommonElements.xsd" />
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
 
   <xs:element name="MusicSchoolRegistrationRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande d'inscription à l'&#x00E9;cole de musique
+        Demande d'inscription à l'école de musique
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Music school registration request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Ecole de musique
+        Inscription à l'école de musique
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Music School Registration
@@ -28,28 +26,29 @@
             mode="static" />
           <display field="Subject.Individual.FirstName" stage="student" page="student" line="2"
             mode="static" />
-          <display field="Subject.Individual.FirstName2" stage="student" page="student" line="3"
-            label="2ème prénom" mode="static" />
-          <display field="Subject.Individual.FirstName3" stage="student" page="student" line="4"
-            label="3ème prénom" mode="static" />
+          <display field="Subject.Individual.FirstName2" stage="student" page="student"
+            line="3" label="2ème prénom" mode="static" />
+          <display field="Subject.Individual.FirstName3" stage="student" page="student"
+            line="4" label="3ème prénom" mode="static" />
           <display field="Subject.Individual.BirthDate" stage="student" page="student" line="5"
             mode="static" />
           <display field="Subject.Individual.Sex" stage="student" page="student" line="6"
             mode="static" />
-          <display field="Subject.Individual.Address" stage="student" page="student"
-            line="7" mode="static" />
+          <display field="Subject.Individual.Address" stage="student" page="student" line="7"
+            mode="static" />
 
-		  <display mode="labelonly" type="stagetitle" label="Student" stage="validation" page="summary" line="0"/>
-          <display field="Subject.Individual.LastName" stage="validation" page="summary" line="1"
-            mode="static" />
-          <display field="Subject.Individual.FirstName" stage="validation" page="summary" line="2"
-            mode="static" />
-          <display field="Subject.Individual.FirstName2" stage="validation" page="summary" line="3"
-            label="2ème prénom" mode="static" />
-          <display field="Subject.Individual.FirstName3" stage="validation" page="summary" line="4"
-            label="3ème prénom" mode="static" />
-          <display field="Subject.Individual.BirthDate" stage="validation" page="summary" line="5"
-            mode="static" />
+          <display mode="labelonly" type="stagetitle" label="Student" stage="validation"
+            page="summary" line="0" />
+          <display field="Subject.Individual.LastName" stage="validation" page="summary"
+            line="1" mode="static" />
+          <display field="Subject.Individual.FirstName" stage="validation" page="summary"
+            line="2" mode="static" />
+          <display field="Subject.Individual.FirstName2" stage="validation" page="summary"
+            line="3" label="2ème prénom" mode="static" />
+          <display field="Subject.Individual.FirstName3" stage="validation" page="summary"
+            line="4" label="3ème prénom" mode="static" />
+          <display field="Subject.Individual.BirthDate" stage="validation" page="summary"
+            line="5" mode="static" />
           <display field="Subject.Individual.Sex" stage="validation" page="summary" line="6"
             mode="static" />
           <display field="Subject.Individual.Address" stage="validation" page="summary"
@@ -64,8 +63,7 @@
             label="3ème prénom" mode="static" />
           <display field="Subject.Individual.BirthDate" page="displaymusic" line="21" mode="static" />
           <display field="Subject.Individual.Sex" page="displaymusic" line="22" mode="static" />
-          <display field="Subject.Individual.Address" page="displaymusic" line="31"
-            mode="static" />
+          <display field="Subject.Individual.Address" page="displaymusic" line="31" mode="static" />
 
           <display field="Subject.Individual.LastName" page="checkmusic" line="1" mode="static" />
           <display field="Subject.Individual.FirstName" page="checkmusic" line="2" mode="static" />
@@ -78,10 +76,9 @@
         <xslfo>
           <blocks-def>
             <block id="0" label="Renseignements concernant le demandeur" column="2" />
-            <block id="1" label="Responsable l&#x00E9;gal (si diff&#x00E9;rent du demandeur)"
-              column="2" />
+            <block id="1" label="Responsable légal (si différent du demandeur)" column="2" />
             <block id="2" label="Personne du foyer à inscrire" column="2" />
-            <block id="3" label="Activit&#x00E9;s" />
+            <block id="3" label="Activités" />
             <block id="4" label="Moyen de contact*" />
             <block id="5" label="R&#x00E8;glementation" />
           </blocks-def>
@@ -105,23 +102,28 @@
           <xs:sequence>
             <xs:element name="Activity" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
               <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Activit&#x00E9;s
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Activités
                 </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                <xs:documentation xml:lang="en"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Activities
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <fo repository="Activity">
-					<display mode="labelonly" label="Pour sélectionner une activité, cliquez sur le bouton qui porte son nom." stage="activities" page="activities" line="0"/>
+                    <display mode="labelonly"
+                      label="Pour sélectionner une activité, cliquez sur le bouton qui porte son nom."
+                      stage="activities" page="activities" line="0" />
                     <display field="" type="referential" stage="activities" page="activities"
                       line="1" />
-                    <display field="" type="referential" stage="activities" page="display" line="1"
-                      mode="static" />
-		  			<display mode="labelonly" type="stagetitle" label="Activities" stage="validation" page="summary" line="10"/>
-                    <display field="" type="referential" stage="validation" page="summary" line="11"
-                      mode="static" />
+                    <display field="" type="referential" stage="activities" page="display"
+                      line="1" mode="static" />
+                    <display mode="labelonly" type="stagetitle" label="Activities" stage="validation"
+                      page="summary" line="10" />
+                    <display field="" type="referential" stage="validation" page="summary"
+                      line="11" mode="static" />
                   </fo>
                   <bo repository="Activity">
                     <display field="" type="referential" page="displaymusic" line="46" />
@@ -140,22 +142,23 @@
                 <xs:appinfo>
                   <fo>
                     <display field="" type="yesno" stage="rules" page="authorisation" line="1"
-                      label="J'ai pris connaissance du r&#x00E8;glement int&#x00E9;rieur de l'&#x00E9;cole de musique." />
-		  			<display mode="labelonly" type="stagetitle" label="Rules" stage="validation" page="summary" line="12"/>
+                      label="J'ai pris connaissance du r&#x00E8;glement intérieur de l'école de musique." />
+                    <display mode="labelonly" type="stagetitle" label="Rules" stage="validation"
+                      page="summary" line="12" />
                     <display field="" type="yesno" stage="validation" page="summary" line="13"
-                      label="J'ai pris connaissance du r&#x00E8;glement int&#x00E9;rieur de l'&#x00E9;cole de musique."
+                      label="J'ai pris connaissance du r&#x00E8;glement intérieur de l'école de musique."
                       mode="static" />
                   </fo>
                   <bo>
-                    <display field="" type="yesno" page="displaymusic" line="51" 
+                    <display field="" type="yesno" page="displaymusic" line="51"
                       label="Acceptation du règlement intérieur" />
                   </bo>
                   <xslfo>
                     <element blockId="5" line="0" column="0">
                       <message>
                         <acceptMessage index="0">
-                          J'ai pris connaissance du r&#x00E8;glement int&#x00E9;rieur de
-                          l'&#x00E9;cole de musique et des conditions de prêts des instruments et
+                          J'ai pris connaissance du r&#x00E8;glement intérieur de
+                          l'école de musique et des conditions de prêts des instruments et
                           m'engage à les respecter.
                         </acceptMessage>
                         <rejectMessage index="0">

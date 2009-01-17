@@ -1,285 +1,304 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/scr" 
-  xmlns:scr="http://www.cg95.fr/cvq/schema/scr"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
-  elementFormDefault="qualified" 
-  attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/scr" xmlns:scr="http://www.cg95.fr/cvq/schema/scr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-    schemaLocation="../common/CVQCommonElements.xsd"/>
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
 
   <xs:element name="SewerConnectionRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-	Demande de raccordement à l'&#x00E9;gout</xs:documentation>
+        Demande de raccordement à l'égout</xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-	Sewer connection request</xs:documentation>
+        Sewer connection request</xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-	Raccordement à l'&#x00E9;gout</xs:documentation>
+        Raccordement à l'égout</xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-	Sewer Connection</xs:documentation>
+        Sewer Connection</xs:documentation>
       <xs:appinfo>
-	<model namespace="urbanism"/>
-	<fo namespace="urban.sewer">
-	  <display field="Requester.LastName" stage="cadastre" page="cadastre" line="1" mode="static"/>
-	  <display field="Requester.FirstName" stage="cadastre" page="cadastre" line="2" mode="static"/>
-	  <display field="Requester.LastName" stage="cadastre" page="display" line="1" mode="static"/>
-	  <display field="Requester.FirstName" stage="cadastre" page="display" line="2" mode="static"/>
-	</fo>
-	<bo namespace="urban">
-	  <display field="Requester.LastName" page="checksewer" line="1" mode="static"/>
-	  <display field="Requester.FirstName" page="checksewer" line="2" mode="static"/>
-	  <display field="Requester.LastName" page="printsewer" line="1" mode="static"/>
-	  <display field="Requester.FirstName" page="printsewer" line="2" mode="static"/>
-	</bo>
-	<xslfo>
-	  <blocks-def>
-	    <block id="0" label="Demandeur*" column="2"/>
-	    <block id="1" label="Identit&#x00E9; du propri&#x00E9;taire" column="2" 
-	      displayCondition="//scr:RequesterQuality/text() = 'Tenant'"/>
-	    <block id="2" label="Situation cadastrale de l'immeuble*" column="2"/>
-	    <block id="3" label="Moyen de contact*"/>
-	  </blocks-def>
-	  <element blockId="0" line="0" column="0" link="Requester">
-	    <complexTemplate/>
-	  </element>
-	  <element blockId="3" line="0" column="0" link="MeansOfContact"
-	    prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
-	    <complexTemplate />
-	  </element>
-	</xslfo>
+        <model namespace="urbanism" />
+        <fo namespace="urban.sewer">
+          <display field="Requester.LastName" stage="cadastre" page="cadastre" line="1"
+            mode="static" />
+          <display field="Requester.FirstName" stage="cadastre" page="cadastre" line="2"
+            mode="static" />
+          <display field="Requester.LastName" stage="cadastre" page="display" line="1" mode="static" />
+          <display field="Requester.FirstName" stage="cadastre" page="display" line="2"
+            mode="static" />
+        </fo>
+        <bo namespace="urban">
+          <display field="Requester.LastName" page="checksewer" line="1" mode="static" />
+          <display field="Requester.FirstName" page="checksewer" line="2" mode="static" />
+          <display field="Requester.LastName" page="printsewer" line="1" mode="static" />
+          <display field="Requester.FirstName" page="printsewer" line="2" mode="static" />
+        </bo>
+        <xslfo>
+          <blocks-def>
+            <block id="0" label="Demandeur*" column="2" />
+            <block id="1" label="Identité du propriétaire" column="2"
+              displayCondition="//scr:RequesterQuality/text() = 'Tenant'" />
+            <block id="2" label="Situation cadastrale de l'immeuble*" column="2" />
+            <block id="3" label="Moyen de contact*" />
+          </blocks-def>
+          <element blockId="0" line="0" column="0" link="Requester">
+            <complexTemplate />
+          </element>
+          <element blockId="3" line="0" column="0" link="MeansOfContact"
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
+            <complexTemplate />
+          </element>
+        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
-	<xs:extension base="cvq:RequestType">
-	  <xs:sequence>
-	    <xs:element name="RequesterQuality" type="scr:ScrRequesterQualityType">
-	      <xs:annotation>
-		<xs:appinfo>
-		  <fo>
-			<display field="" type="radiolist" stage="cadastre" page="cadastre" line="11" mode="inline"/>
-			<display field="" type="radiolist" stage="cadastre" page="display" line="11" mode="static"/>
-		    <display mode="labelonly" type="stagetitle" label="Cadastre" stage="validation" page="summary" line="10"/>
-		    <display field="" type="radiolist" stage="validation" page="summary" line="11" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" page="displaysewer" line="11"/>
-		    <display field="" page="checksewer" line="3" mode="static"/>
-		    <display field="" page="printsewer" line="3" mode="static"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="0" line="1" column="0">
-		      <varargCheckbox displayModulo="2"/>
-		    </element>
-		  </xslfo>
-		</xs:appinfo>
-	      </xs:annotation>
-	    </xs:element>
-	    <xs:element name="OwnerLastName" type="cvq:LastNameType" minOccurs="0">
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="RequesterQuality" type="scr:ScrRequesterQualityType">
               <xs:annotation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-		  Nom du propri&#x00E9;taire
-		</xs:documentation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-		  Nom
-		</xs:documentation>
                 <xs:appinfo>
-		  <fo>
-		    <display field="" stage="cadastre" page="cadastre" line="12" block="Tenant" label="Nom du propri&#x00E9;taire" condition="requesterQuality == Tenant" mode="required"/>
-		    <display field="" stage="cadastre" page="displayowner" line="1" label="Nom du propri&#x00E9;taire" mode="static"/>
-		    <display field="" stage="validation" page="summaryowner" line="1" label="Nom du propri&#x00E9;taire" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" page="displaysewerowner" line="21" label="Nom du propri&#x00E9;taire"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="1" line="0" column="0" columnSpan="2">
-		      <string valueWeight="3"/>
-		    </element>
+                  <fo>
+                    <display field="" type="radiolist" stage="cadastre" page="cadastre"
+                      line="11" mode="inline" />
+                    <display field="" type="radiolist" stage="cadastre" page="display" line="11"
+                      mode="static" />
+                    <display mode="labelonly" type="stagetitle" label="Cadastre" stage="validation"
+                      page="summary" line="10" />
+                    <display field="" type="radiolist" stage="validation" page="summary"
+                      line="11" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaysewer" line="11" />
+                    <display field="" page="checksewer" line="3" mode="static" />
+                    <display field="" page="printsewer" line="3" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="0" line="1" column="0">
+                      <varargCheckbox displayModulo="2" />
+                    </element>
                   </xslfo>
                 </xs:appinfo>
               </xs:annotation>
-	    </xs:element>
-	    <xs:element name="OwnerFirstNames" type="xs:string" minOccurs="0">
+            </xs:element>
+            <xs:element name="OwnerLastName" type="cvq:LastNameType" minOccurs="0">
               <xs:annotation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-		  Pr&#x00E9;nom(s) du propri&#x00E9;taire
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom du propriétaire
 		</xs:documentation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-		  Pr&#x00E9;nom(s)
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom
 		</xs:documentation>
                 <xs:appinfo>
-		  <fo>
-		    <display field="" stage="cadastre" page="cadastre" line="13" block="Tenant" condition="requesterQuality == Tenant" mode="required"/>
-		    <display field="" stage="cadastre" page="displayowner" line="2" mode="static"/>
-		    <display field="" stage="validation" page="summaryowner" line="2" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" page="displaysewerowner" line="22"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="1" line="1" column="0" columnSpan="2">
-		      <string valueWeight="3"/>
-		    </element>
+                  <fo>
+                    <display field="" stage="cadastre" page="cadastre" line="12" block="Tenant"
+                      label="Nom du propriétaire" condition="requesterQuality == Tenant" mode="required" />
+                    <display field="" stage="cadastre" page="displayowner" line="1"
+                      label="Nom du propriétaire" mode="static" />
+                    <display field="" stage="validation" page="summaryowner" line="1"
+                      label="Nom du propriétaire" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaysewerowner" line="21" label="Nom du propriétaire" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="1" line="0" column="0" columnSpan="2">
+                      <string valueWeight="3" />
+                    </element>
                   </xslfo>
                 </xs:appinfo>
               </xs:annotation>
-	    </xs:element>
-	    <xs:element name="OwnerAddress" type="cvq:AddressType" minOccurs="0">
+            </xs:element>
+            <xs:element name="OwnerFirstNames" type="xs:string" minOccurs="0">
               <xs:annotation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-		  Adresse du propri&#x00E9;taire
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prénom(s) du propriétaire
 		</xs:documentation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-		  Adresse du propri&#x00E9;taire
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom(s)
 		</xs:documentation>
                 <xs:appinfo>
-		  <model namespace="users" isTiedToRequest="true" />
-		  <fo>
-		    <display field="" stage="cadastre" page="cadastre" line="14" block="Tenant" condition="requesterQuality == Tenant"/>
-		    <display field="" stage="cadastre" page="displayowner" line="3" mode="static"/>
-		    <display field="" stage="validation" page="summaryowner" line="3" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" page="displaysewerowner" line="31"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="1" line="2" column="0" columnSpan="2">
-		      <complexTemplate/>
-		    </element>
+                  <fo>
+                    <display field="" stage="cadastre" page="cadastre" line="13" block="Tenant"
+                      condition="requesterQuality == Tenant" mode="required" />
+                    <display field="" stage="cadastre" page="displayowner" line="2" mode="static" />
+                    <display field="" stage="validation" page="summaryowner" line="2" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaysewerowner" line="22" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="1" line="1" column="0" columnSpan="2">
+                      <string valueWeight="3" />
+                    </element>
                   </xslfo>
                 </xs:appinfo>
               </xs:annotation>
-	    </xs:element>
-	    <xs:element name="Section" type="xs:string">
-	      <xs:annotation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-		  Section
+            </xs:element>
+            <xs:element name="OwnerAddress" type="cvq:AddressType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Adresse du propriétaire
 		</xs:documentation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-		  Section
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Adresse du propriétaire
 		</xs:documentation>
-		<xs:appinfo>        
-		  <fo>
-		    <display field="" stage="cadastre" page="cadastre" line="21" seperator="20"/>
-		    <display field="" stage="cadastre" page="display" line="21" mode="static"/>
-		    <display field="" stage="validation" page="summary" line="21" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" page="displaysewer" line="51"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="2" line="0" column="0">
-		      <string/>
-		    </element>
-		  </xslfo>                
-		</xs:appinfo>               
-	      </xs:annotation>                
-	    </xs:element>
-	    <xs:element name="Number" type="xs:positiveInteger">
-	      <xs:annotation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-		  Num&#x00E9;ro
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <fo>
+                    <display field="" stage="cadastre" page="cadastre" line="14" block="Tenant"
+                      condition="requesterQuality == Tenant" />
+                    <display field="" stage="cadastre" page="displayowner" line="3" mode="static" />
+                    <display field="" stage="validation" page="summaryowner" line="3" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaysewerowner" line="31" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="1" line="2" column="0" columnSpan="2">
+                      <complexTemplate />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Section" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Section
 		</xs:documentation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-		  Num&#x00E9;ro
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Section
 		</xs:documentation>
-		<xs:appinfo>        
-		  <fo>
-		    <display field="" stage="cadastre" page="cadastre" line="22"/>
-		    <display field="" stage="cadastre" page="display" line="22" mode="static"/>
-		    <display field="" stage="validation" page="summary" line="22" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" page="displaysewer" line="52"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="2" line="1" column="0">
-		      <string/>
-		    </element>
-		  </xslfo>                
-		</xs:appinfo>               
-	      </xs:annotation>                
-	    </xs:element>
-	    <xs:element name="Locality" type="xs:string" minOccurs="0">
-	      <xs:annotation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-		  Lieu-dit
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="cadastre" page="cadastre" line="21" seperator="20" />
+                    <display field="" stage="cadastre" page="display" line="21" mode="static" />
+                    <display field="" stage="validation" page="summary" line="21" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaysewer" line="51" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Number" type="xs:positiveInteger">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Numéro
 		</xs:documentation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-		  Lieu-dit
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Numéro
 		</xs:documentation>
-		<xs:appinfo>        
-		  <fo>
-		    <display field="" stage="cadastre" page="cadastre" line="23"/>
-		    <display field="" stage="cadastre" page="display" line="23" mode="static"/>
-		    <display field="" stage="validation" page="summary" line="23" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" page="displaysewer" line="61"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="2" line="2" column="0">
-		      <string/>
-		    </element>
-		  </xslfo>                
-		</xs:appinfo>               
-	      </xs:annotation>                
-	    </xs:element>
-	    <xs:element name="TransportationRoute" type="xs:string" minOccurs="0">
-	      <xs:annotation>         
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-		  Voie de communication
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="cadastre" page="cadastre" line="22" />
+                    <display field="" stage="cadastre" page="display" line="22" mode="static" />
+                    <display field="" stage="validation" page="summary" line="22" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaysewer" line="52" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="1" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Locality" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Lieu-dit
 		</xs:documentation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-		  Voie de communication
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Lieu-dit
 		</xs:documentation>
-		<xs:appinfo>        
-		  <fo>
-		    <display field="" stage="cadastre" page="cadastre" line="24"/>
-		    <display field="" stage="cadastre" page="display" line="24" mode="static"/>
-		    <display field="" stage="validation" page="summary" line="24" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" page="displaysewer" line="62"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="2" line="0" column="1">
-		      <string/>
-		    </element>
-		  </xslfo>                
-		</xs:appinfo>               
-	      </xs:annotation>                
-	    </xs:element>
-	    <xs:element name="MoreThanTwoYears" type="xs:boolean">
-	      <xs:annotation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-		  Immeuble de plus de 2 ans
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="cadastre" page="cadastre" line="23" />
+                    <display field="" stage="cadastre" page="display" line="23" mode="static" />
+                    <display field="" stage="validation" page="summary" line="23" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaysewer" line="61" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="2" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="TransportationRoute" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Voie de communication
 		</xs:documentation>
-		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-		  Immeuble de plus de 2 ans
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Voie de communication
 		</xs:documentation>
-		<xs:appinfo>        
-		  <fo>
-		    <display field="" type="yesno" stage="cadastre" page="cadastre" line="25" mode="inline"/>
-		    <display field="" type="yesno" stage="cadastre" page="display" line="25" mode="static"/>
-		    <display field="" type="yesno" stage="validation" page="summary" line="25" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display field="" type="yesno" page="displaysewer" line="71"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="2" line="3" column="0">
-		      <yesnoCheckbox/>
-		    </element>
-		  </xslfo>                
-		</xs:appinfo>               
-	      </xs:annotation>                
-	    </xs:element>
-	  </xs:sequence>
-	</xs:extension>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="cadastre" page="cadastre" line="24" />
+                    <display field="" stage="cadastre" page="display" line="24" mode="static" />
+                    <display field="" stage="validation" page="summary" line="24" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displaysewer" line="62" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="0" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="MoreThanTwoYears" type="xs:boolean">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Immeuble de plus de 2 ans
+		</xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Immeuble de plus de 2 ans
+		</xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" type="yesno" stage="cadastre" page="cadastre" line="25"
+                      mode="inline" />
+                    <display field="" type="yesno" stage="cadastre" page="display" line="25"
+                      mode="static" />
+                    <display field="" type="yesno" stage="validation" page="summary" line="25"
+                      mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displaysewer" line="71" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="2" line="3" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
@@ -287,19 +306,19 @@
   <xs:simpleType name="ScrRequesterQualityType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-	Informations relatives aux relations entre le demandeur et la propri&#x00E9;t&#x00E9;
+        Informations relatives aux relations entre le demandeur et la propriété
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-	Agissant en qualit&#x00E9; de
+        Agissant en qualité de
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-	<enum key="Owner" value="Propri&#x00E9;taire"/>
-	<enum key="Tenant" value="Locataire"/>
+        <enum key="Owner" value="Propriétaire" />
+        <enum key="Tenant" value="Locataire" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:enumeration value="Owner"/>
-      <xs:enumeration value="Tenant"/>
+      <xs:enumeration value="Owner" />
+      <xs:enumeration value="Tenant" />
     </xs:restriction>
   </xs:simpleType>
 

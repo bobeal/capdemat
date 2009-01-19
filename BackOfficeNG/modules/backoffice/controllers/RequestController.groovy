@@ -24,6 +24,7 @@ class RequestController {
     
     def translationService
     def instructionService
+    def requestAdaptorService
     
     def defaultAction = 'initSearch'
     
@@ -211,23 +212,14 @@ class RequestController {
                                          'currentUserId' : SecurityContext.currentUserId,
                                          'pageState' : pageState.encodeAsHTML(),
                                          'allCategories':categoryService.getAll(),
-                                         'allRequestTypes':translatedAndSortRequestTypes()])
-    }
-    
-    def translatedAndSortRequestTypes() {
-        def allRequestTypes = defaultRequestService.getAllRequestTypes()
-        def allRequestTypesTranslated =  []
-        allRequestTypes.each {
-            allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()])
-        }
-        return allRequestTypesTranslated.sort{it.label}
+                                         'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes()])
     }
     
     def initSearchReferential() {
         return ['allStates':RequestState.allRequestStates,
                 'allAgents':agentService.getAll(),
                 'allCategories':categoryService.getAll(),
-                'allRequestTypes':translatedAndSortRequestTypes()]
+                'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes()]
     }
     
     protected filterRequests = {attr,val,state ->

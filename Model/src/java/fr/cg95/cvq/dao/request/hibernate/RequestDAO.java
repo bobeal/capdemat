@@ -57,6 +57,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
 
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SUBJECT_ID)) {
+                sb.append(" and request.subjectId " + searchCrit.getSqlComparatif() + " ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
+
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_NAME)) {
                 sb.append(" and request.requestType.category.name "
                         + searchCrit.getComparatif() + " ?");
@@ -202,6 +207,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 objectList.add(searchCrit.getSqlStringValue());
                 typeList.add(Hibernate.STRING);
 
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SUBJECT_ID)) {
+                sb.append(" and request.subjectId " + searchCrit.getComparatif() + " ?");
+                objectList.add(searchCrit.getLongValue());
+                typeList.add(Hibernate.LONG);
+                
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
                 sb.append(" and state " + searchCrit.getComparatif() + " ?");
                 // To ensure we put the good type in the object list

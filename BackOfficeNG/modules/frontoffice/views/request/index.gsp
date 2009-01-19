@@ -12,11 +12,13 @@
             <div class="list-box">
               <h2><g:message code="request.header.requests" /></h2>
               <p class="paginator">
-                <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+                <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" 
+                  params="${['ps':pageState]}"  />
               </p>
               <g:render template="requestList" />
               <p class="paginator">
-                <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+                <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" 
+                  params="${['ps':pageState]}"  />
               </p>
             </div>
               
@@ -30,29 +32,27 @@
             <g:message code="header.filterBy" />
           </h3>
           <div class="body">
-            <label for="categoryFilter">
-              <g:message code="property.individual" /> :
+            <label for="subjectFilter">
+              <g:message code="request.property.subject" /> :
             </label>
-            
             <g:select 
               optionKey="id"
               optionValue="firstName"
-              id="indvFilter"
-              name="indvFilter" 
+              id="subjectFilter"
+              name="subjectFilter" 
               from="${individuals}" 
-              value="${state?.indvFilter}"
+              value="${state.subjectFilter}"
               noSelection="['':' ']"/>
               
-            <label for="requestState">
+            <label for="stateFilter">
               <g:message code="property.requestState" /> :
             </label>
-            
             <g:select 
               id="stateFilter"
               name="stateFilter" 
               from="${requestStates}" 
               valueMessagePrefix="request.state"
-              value="${state?.stateFilter}"
+              value="${state.stateFilter}"
               noSelection="['':' ']"/>
               
             <label for="typeFilter">
@@ -64,7 +64,7 @@
               id="typeFilter"
               name="typeFilter" 
               from="${allRequestTypes}"
-              value="${state?.typeFilter}"
+              value="${state.typeFilter}"
               noSelection="['':' ']"/>
               
             <input type="submit" value="${message(code:'action.filter')}"/>

@@ -82,17 +82,17 @@
     <select name="subjectId" class="required validate-not-first" title="g:message code="request.subject.validationError" /> ">
       <option value=""><g:message code="message.select.defaultOption" /></option>
       <g:each in="\${subjects}">
-        <option value="\${it.key}" \${it.key == request.subjectId ? 'selected="selected"': ''}>\${it.value}</option>
+        <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected="selected"': ''}>\${it.value}</option>
       </g:each>
     </select>
       <% displayedSubject = true } %>
     <% element.elements.each { subElement -> %>
       <label class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
-      <% displayWidget(subElement, "request") %>
+      <% displayWidget(subElement, "rqt") %>
     <% } %>
     </fieldset>
   <% } else { %>
     <label class="${element.conditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-    <% displayWidget(element, "request") %>
+    <% displayWidget(element, "rqt") %>
   <% } %>
 <% } %>

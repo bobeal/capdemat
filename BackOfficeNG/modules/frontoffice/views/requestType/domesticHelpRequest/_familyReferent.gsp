@@ -11,7 +11,7 @@
           <ul class="required condition-haveFamilyReferent-trigger">
             <g:each in="${[true,false]}">
             <li>
-              <input type="radio" class="required condition-haveFamilyReferent-trigger validate-boolean" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == request.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
+              <input type="radio" class="required condition-haveFamilyReferent-trigger validate-boolean" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == rqt.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
 	            <g:message code="message.${it ? 'yes' : 'no'}" />
             </li>
             </g:each>
@@ -19,28 +19,28 @@
           
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> <span><g:message code="dhr.property.dhrReferentName.help" /></span></label>
-      <input name="dhrReferentName" value="${request.dhrReferentName}" class="required condition-haveFamilyReferent-filled validate-lastName" title="<g:message code="dhr.property.dhrReferentName.validationError" />">
+      <input name="dhrReferentName" value="${rqt.dhrReferentName}" class="required condition-haveFamilyReferent-filled validate-lastName" title="<g:message code="dhr.property.dhrReferentName.validationError" />">
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentFirstName.label" /> <span><g:message code="dhr.property.dhrReferentFirstName.help" /></span></label>
-      <input name="dhrReferentFirstName" value="${request.dhrReferentFirstName}" class="required condition-haveFamilyReferent-filled validate-firstName" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />">
+      <input name="dhrReferentFirstName" value="${rqt.dhrReferentFirstName}" class="required condition-haveFamilyReferent-filled validate-firstName" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />">
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentAddress.label" /> <span><g:message code="dhr.property.dhrReferentAddress.help" /></span></label>
       
           <div class="address-fieldset required condition-haveFamilyReferent-filled">
           <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" value="${request.dhrReferentAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrReferentAddress.additionalDeliveryInformation"/>  
+          <input type="text" value="${rqt.dhrReferentAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrReferentAddress.additionalDeliveryInformation"/>  
           <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" value="${request.dhrReferentAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrReferentAddress.additionalGeographicalInformation"/>
+          <input type="text" value="${rqt.dhrReferentAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrReferentAddress.additionalGeographicalInformation"/>
           <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
-          <input type="text" class="line1" value="${request.dhrReferentAddress?.streetNumber}" maxlength="5" name="dhrReferentAddress.streetNumber"/>
-          <input type="text" class="line2 required" value="${request.dhrReferentAddress?.streetName}" maxlength="32" name="dhrReferentAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+          <input type="text" class="line1" value="${rqt.dhrReferentAddress?.streetNumber}" maxlength="5" name="dhrReferentAddress.streetNumber"/>
+          <input type="text" class="line2 required" value="${rqt.dhrReferentAddress?.streetName}" maxlength="32" name="dhrReferentAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
           <label><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" value="${request.dhrReferentAddress?.placeNameOrService}" maxlength="38" name="dhrReferentAddress.placeNameOrService"/>
+          <input type="text" value="${rqt.dhrReferentAddress?.placeNameOrService}" maxlength="38" name="dhrReferentAddress.placeNameOrService"/>
           <label class="required"><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
-          <input type="text" class="line1 required" value="${request.dhrReferentAddress?.postalCode}" maxlength="5" name="dhrReferentAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-          <input type="text" class="line2 required" value="${request.dhrReferentAddress?.city}" maxlength="32" name="dhrReferentAddress.city" title="<g:message code="address.property.city.validationError" />" />
+          <input type="text" class="line1 required" value="${rqt.dhrReferentAddress?.postalCode}" maxlength="5" name="dhrReferentAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+          <input type="text" class="line2 required" value="${rqt.dhrReferentAddress?.city}" maxlength="32" name="dhrReferentAddress.city" title="<g:message code="address.property.city.validationError" />" />
           <label><g:message code="address.property.countryName" /></label>
-          <input type="text" value="${request.dhrReferentAddress?.countryName}" maxlength="38" name="dhrReferentAddress.countryName"/>
+          <input type="text" value="${rqt.dhrReferentAddress?.countryName}" maxlength="38" name="dhrReferentAddress.countryName"/>
           </div>
           
     

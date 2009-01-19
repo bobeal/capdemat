@@ -6,6 +6,10 @@ import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
 
+import grails.converters.JSON
+
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+
 class RequestCreationController {
     
     IRequestServiceRegistry requestServiceRegistry
@@ -14,83 +18,92 @@ class RequestCreationController {
     IIndividualService individualService
     
     def translationService
-    
     def defaultAction = 'edit'
-    def currentTab = 'subject'
     
-    // TODO - define in a hidden field
-    def steps = [
-      'subject',
-      'familyReferent',
-      'spouse',
-      'dwelling',
-      'resources',
-      'taxes',
-      'document',
-      'validation'
-    ]
-    
-    
+     
     def edit = {
         if (params.label == null)
-          return;
-        def stepStates
-        if (stepStates == null) {
-            stepStates = [:]
-            steps.each {
-                stepStates.put(it, ['cssClass': 'tag-pending', 'i18nKey': 'request.step.state.uncomplete'] )
-            }
-        }
-        session['stepStates'] = stepStates
+          redirect(uri: '/frontoffice/requestType')
 
         def requestService = requestServiceRegistry.getRequestService(params.label)
+        def cRequest = requestService.getSkeletonRequest()
+        def uuidString = UUID.randomUUID().toString()
         
-        def cRequest
-        if (session["cRequest"] == null)
-            cRequest = requestService.getSkeletonRequest()
-
-        session["cRequest"] = cRequest
-
-        render( view: "frontofficeRequestType/domesticHelpRequest/edit", 
+        session[uuidString] = [:]
+        session[uuidString].put('cRequest', cRequest)
+        
+        render( view: 'frontofficeRequestType/domesticHelpRequest/edit', 
                 model:
-                  ["request": cRequest, 
-                    currentTab: currentTab, 
-                    subjects: getAuthorizedSubjects(requestService),
-                    help: getHelp(),
-                    documentTypes: getDocumentTypes(requestService),
-                    meansOfContact: getMeansOfContact(),
-                    requestTypeLabel: params.label, 
-                    stepStates: stepStates
-                  ])
+                    ['rqt': cRequest, 
+                    'subjects': getAuthorizedSubjects(requestService),
+                    'documentTypes': getDocumentTypes(requestService),
+                    'meansOfContact': getMeansOfContact(),
+                    'currentStep': 'subject',
+                    'requestTypeLabel': params.label,
+                    'uuidString': uuidString
+                    ])
     }
     
 
     def step = {
-        def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
-        def cRequest = session["cRequest"]
+        log.debug('POST step() - start')
+        
+        if (params.requestTypeInfo == null || params.uuidString == null)
+            redirect(uri: '/frontoffice/requestType')
+            
+        def uuid = params.uuidString
+        def requestTypeInfo = JSON.parse(params.requestTypeInfo)
+        def currentStep
+        
+        def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
+        def cRequest = session[uuid].cRequest
+        
+        params.each {
+            // manage construction of null objectin databinding object-graph
+            if (it.value.getClass() == GrailsParameterMap.class) {
+                def getterName = 'get' + StringUtils.firstCase(it.key.tokenize('.')[0], 'Upper')
+                def getterMethod = cRequest.class.getMethod(getterName)
+                if (getterMethod.invoke(cRequest, null) == null) {
+                    def setterMethod = cRequest.class.getMethod(
+                            'set' + StringUtils.firstCase(it.key.tokenize('.')[0], 'Upper')
+                            ,[getterMethod.returnType] as Class[])
+                    def fieldConstructor = getterMethod.returnType.getConstructor(null)
+                    setterMethod.invoke(cRequest, [fieldConstructor.newInstance(null)] as Object[])
+                }
+            }
+            
+            // Set current step
+            if (it.key.startsWith('stepSubmit-'))
+                currentStep = it.key.replace('stepSubmit-', '')
+        }
+    
         bind(cRequest)
+        session[uuid].cRequest = cRequest
         
+        if (session[uuid].stepStates == null) {
+            session[uuid].stepStates = [:]
+            requestTypeInfo.steps.each {
+                session[uuid].stepStates.put(it, ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete'])
+            }
+        }
         
-
-        log.debug("POST step() - start")
-        println("cRequest -> " + cRequest.dhrRequesterBirthPlace)
+        session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
+        session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
         
-        println("params -> " + params)
-        session["cRequest"] = cRequest
-//        session['stepStates'].subject = 
-//            ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
-       
-        render(view: "frontofficeRequestType/domesticHelpRequest/edit", 
-               model:
-                ["request": cRequest,
-                  currentTab:'subject',
-                  subjects:getAuthorizedSubjects(requestService),
-                  help:getHelp(),
-                  documentTypes:getDocumentTypes(requestService),
-                  meansOfContact:getMeansOfContact(),
-                  requestTypeLabel: params.requestTypeLabel, 
-                  stepStates:session['stepStates']
-                ])
+        if (currentStep == "validation")
+            requestService.create(cRequest)
+          
+        render( view: 'frontofficeRequestType/domesticHelpRequest/edit',
+                model:
+                    ['rqt': cRequest,
+                    'subjects': getAuthorizedSubjects(requestService),
+                    'documentTypes': getDocumentTypes(requestService),
+                    'meansOfContact': getMeansOfContact(),
+                    'currentStep': currentStep,
+                    'requestTypeLabel': requestTypeInfo.label,
+                    'stepStates': session[uuid].stepStates,
+                    'uuidString': uuid
+                    ])
     }
 
     
@@ -99,7 +112,7 @@ class RequestCreationController {
         def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
         authorizedSubjects.each { subjectId, seasonsSet ->
             def subject = individualService.getById(subjectId)
-            subjects[subjectId] = subject.lastName + " " + subject.firstName
+            subjects[subjectId] = subject.lastName + ' ' + subject.firstName
         }
         return subjects
     }
@@ -110,7 +123,7 @@ class RequestCreationController {
         meansOfContact.each {
             result.add([
                         key:it.type,
-                        label: message(code:"request.meansOfContact." + StringUtils.pascalToCamelCase(it.type.toString()))])
+                        label: message(code:'request.meansOfContact.' + StringUtils.pascalToCamelCase(it.type.toString()))])
         }
         return result.sort {it.label}
     }
@@ -125,16 +138,9 @@ class RequestCreationController {
         return result
     }
     
-    def getHelp = {
-        def help = [:]
-        steps.each {
-            help[it] = localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelp("domesticHelpRequest",it)
-        }
-        return help
-    }
     
-    def checkConditions = {
-    	  log.debug("checkConditions - START")
+    def conditions = {
+    	  log.debug('checkConditions - START')
     }
     
 }

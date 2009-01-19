@@ -17,70 +17,111 @@
         </strong>
       </g:each>
     </p>
-    
+
+<g:set var="requestTypeInfo">
+  { 'label': '${requestTypeLabel}'
+    ,'steps': [
+
+      'subject',
+
+      'familyReferent',
+
+      'spouse',
+
+      'dwelling',
+
+      'resources',
+
+      'taxes',
+
+      'document',
+
+      'validation'
+
+   ]
+  }
+</g:set>
+<g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
+
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
 
-        <li class="${currentTab == 'subject' ? 'selected' : ''}">
+  
+        <li class="${['subject', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
+  
           <a href="#subject"><em>
           <span class="tag-no_right">1</span>
-          <span class="tag-state ${stepStates.subject.cssClass}"><g:message code="${stepStates.subject.i18nKey}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <g:message code="dhr.step.subject.label" />
           </em></a>
         </li>    
 
-        <li class="${currentTab == 'familyReferent' ? 'selected' : ''}">
+    
+        <li class="${currentStep == 'familyReferent' ? 'selected' : ''}">
+  
           <a href="#familyReferent"><em>
           <span class="tag-no_right">2</span>
-          <span class="tag-state ${stepStates.familyReferent.cssClass}"><g:message code="${stepStates.familyReferent.i18nKey}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.familyReferent.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.familyReferent.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <g:message code="dhr.step.familyReferent.label" />
           </em></a>
         </li>    
 
-        <li class="${currentTab == 'spouse' ? 'selected' : ''}">
+    
+        <li class="${currentStep == 'spouse' ? 'selected' : ''}">
+  
           <a href="#spouse"><em>
           <span class="tag-no_right">3</span>
-          <span class="tag-state ${stepStates.spouse.cssClass}"><g:message code="${stepStates.spouse.i18nKey}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.spouse.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.spouse.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <g:message code="dhr.step.spouse.label" />
           </em></a>
         </li>    
 
-        <li class="${currentTab == 'dwelling' ? 'selected' : ''}">
+    
+        <li class="${currentStep == 'dwelling' ? 'selected' : ''}">
+  
           <a href="#dwelling"><em>
           <span class="tag-no_right">4</span>
-          <span class="tag-state ${stepStates.dwelling.cssClass}"><g:message code="${stepStates.dwelling.i18nKey}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <g:message code="dhr.step.dwelling.label" />
           </em></a>
         </li>    
 
-        <li class="${currentTab == 'resources' ? 'selected' : ''}">
+    
+        <li class="${currentStep == 'resources' ? 'selected' : ''}">
+  
           <a href="#resources"><em>
           <span class="tag-no_right">5</span>
-          <span class="tag-state ${stepStates.resources.cssClass}"><g:message code="${stepStates.resources.i18nKey}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <g:message code="dhr.step.resources.label" />
           </em></a>
         </li>    
 
-        <li class="${currentTab == 'taxes' ? 'selected' : ''}">
+    
+        <li class="${currentStep == 'taxes' ? 'selected' : ''}">
+  
           <a href="#taxes"><em>
           <span class="tag-no_right">6</span>
-          <span class="tag-state ${stepStates.taxes.cssClass}"><g:message code="${stepStates.taxes.i18nKey}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.taxes.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxes.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <g:message code="dhr.step.taxes.label" />
           </em></a>
         </li>    
 
-        <li class="${currentTab == 'document' ? 'selected' : ''}">
+    
+        <li class="${currentStep == 'document' ? 'selected' : ''}">
+  
           <a href="#document"><em>
           <span class="tag-no_right">7</span>
-          <span class="tag-state ${stepStates.document.cssClass}"><g:message code="${stepStates.document.i18nKey}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <g:message code="request.step.document.label" />
           </em></a>
         </li>    
 
-        <li class="${currentTab == 'validation' ? 'selected' : ''}">
+    
+        <li class="${currentStep == 'validation' ? 'selected' : ''}">
+  
           <a href="#validation"><em>
           <span class="tag-no_right">8</span>
-          <span class="tag-state ${stepStates.validation.cssClass}"><g:message code="${stepStates.validation.i18nKey}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <g:message code="request.step.validation.label" />
           </em></a>
         </li>    
@@ -92,17 +133,19 @@
        <div id="subject">
          <form method="POST" id="stepForm-subject" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates.subject.cssClass}"><g:message code="${stepStates.subject.i18nKey}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
            </h3>
            <div>
-    
+  
             <g:render template="/frontofficeRequestType/domesticHelpRequest/subject" />         
            </div>
            <div class="error" id="subjectFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           
            <input type="submit" id="stepSubmit-subject" name="stepSubmit-subject" value="${message(code:'action.save')}" />
          </form>
 
@@ -113,28 +156,28 @@
            <a href="#familyReferent" class="nextTab"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
-         <g:if test="${help.subject}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.subject}
-           </div>
-         </g:if>
+         <div class="requestHelp">
+           <h3>Aide</h3>
+           <!-- help -->
+         </div>
        </div>  
 
        <div id="familyReferent">
          <form method="POST" id="stepForm-familyReferent" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates.familyReferent.cssClass}"><g:message code="${stepStates.familyReferent.i18nKey}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.familyReferent.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.familyReferent.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
            </h3>
            <div>
-    
+  
             <g:render template="/frontofficeRequestType/domesticHelpRequest/familyReferent" />         
            </div>
            <div class="error" id="familyReferentFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           
            <input type="submit" id="stepSubmit-familyReferent" name="stepSubmit-familyReferent" value="${message(code:'action.save')}" />
          </form>
 
@@ -147,28 +190,28 @@
            <a href="#spouse" class="nextTab"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
-         <g:if test="${help.familyReferent}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.familyReferent}
-           </div>
-         </g:if>
+         <div class="requestHelp">
+           <h3>Aide</h3>
+           <!-- help -->
+         </div>
        </div>  
 
        <div id="spouse">
          <form method="POST" id="stepForm-spouse" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates.spouse.cssClass}"><g:message code="${stepStates.spouse.i18nKey}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.spouse.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.spouse.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
            </h3>
            <div>
-    
+  
             <g:render template="/frontofficeRequestType/domesticHelpRequest/spouse" />         
            </div>
            <div class="error" id="spouseFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           
            <input type="submit" id="stepSubmit-spouse" name="stepSubmit-spouse" value="${message(code:'action.save')}" />
          </form>
 
@@ -181,28 +224,28 @@
            <a href="#dwelling" class="nextTab"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
-         <g:if test="${help.spouse}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.spouse}
-           </div>
-         </g:if>
+         <div class="requestHelp">
+           <h3>Aide</h3>
+           <!-- help -->
+         </div>
        </div>  
 
        <div id="dwelling">
          <form method="POST" id="stepForm-dwelling" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates.dwelling.cssClass}"><g:message code="${stepStates.dwelling.i18nKey}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
            </h3>
            <div>
-    
+  
             <g:render template="/frontofficeRequestType/domesticHelpRequest/dwelling" />         
            </div>
            <div class="error" id="dwellingFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           
            <input type="submit" id="stepSubmit-dwelling" name="stepSubmit-dwelling" value="${message(code:'action.save')}" />
          </form>
 
@@ -215,28 +258,28 @@
            <a href="#resources" class="nextTab"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
-         <g:if test="${help.dwelling}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.dwelling}
-           </div>
-         </g:if>
+         <div class="requestHelp">
+           <h3>Aide</h3>
+           <!-- help -->
+         </div>
        </div>  
 
        <div id="resources">
          <form method="POST" id="stepForm-resources" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates.resources.cssClass}"><g:message code="${stepStates.resources.i18nKey}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
            </h3>
            <div>
-    
+  
             <g:render template="/frontofficeRequestType/domesticHelpRequest/resources" />         
            </div>
            <div class="error" id="resourcesFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           
            <input type="submit" id="stepSubmit-resources" name="stepSubmit-resources" value="${message(code:'action.save')}" />
          </form>
 
@@ -249,28 +292,28 @@
            <a href="#taxes" class="nextTab"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
-         <g:if test="${help.resources}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.resources}
-           </div>
-         </g:if>
+         <div class="requestHelp">
+           <h3>Aide</h3>
+           <!-- help -->
+         </div>
        </div>  
 
        <div id="taxes">
          <form method="POST" id="stepForm-taxes" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates.taxes.cssClass}"><g:message code="${stepStates.taxes.i18nKey}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.taxes.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxes.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
            </h3>
            <div>
-    
+  
             <g:render template="/frontofficeRequestType/domesticHelpRequest/taxes" />         
            </div>
            <div class="error" id="taxesFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           
            <input type="submit" id="stepSubmit-taxes" name="stepSubmit-taxes" value="${message(code:'action.save')}" />
          </form>
 
@@ -283,28 +326,28 @@
            <a href="#document" class="nextTab"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
-         <g:if test="${help.taxes}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.taxes}
-           </div>
-         </g:if>
+         <div class="requestHelp">
+           <h3>Aide</h3>
+           <!-- help -->
+         </div>
        </div>  
 
        <div id="document">
          <form method="POST" id="stepForm-document" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates.document.cssClass}"><g:message code="${stepStates.document.i18nKey}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
            </h3>
            <div>
-    
+  
             <g:render template="/frontofficeRequestType/document" />         
            </div>
            <div class="error" id="documentFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           
            <input type="submit" id="stepSubmit-document" name="stepSubmit-document" value="${message(code:'action.save')}" />
          </form>
 
@@ -317,34 +360,34 @@
            <a href="#validation" class="nextTab"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
-         <g:if test="${help.document}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.document}
-           </div>
-         </g:if>
+         <div class="requestHelp">
+           <h3>Aide</h3>
+           <!-- help -->
+         </div>
        </div>  
 
        <div id="validation">
          <form method="POST" id="stepForm-validation" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates.validation.cssClass}"><g:message code="${stepStates.validation.i18nKey}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
            </h3>
            <div>
-    
+  
              <select name="meansOfContact">
                <g:each in="${meansOfContact}" var="moc">
                  <option value="${moc.key}">${moc.label}</option>
                </g:each>
              </select>
-    
+  
             <g:render template="/frontofficeRequestType/domesticHelpRequest/validation" />         
            </div>
            <div class="error" id="validationFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           
            <input type="submit" id="stepSubmit-validation" name="stepSubmit-validation" value="${message(code:'action.save')}" />
          </form>
 
@@ -355,12 +398,10 @@
   
   
          </div>       
-         <g:if test="${help.validation}">
-           <div class="requestHelp">
-             <h3>Aide</h3>
-             ${help.validation}
-           </div>
-         </g:if>
+         <div class="requestHelp">
+           <h3>Aide</h3>
+           <!-- help -->
+         </div>
        </div>  
         
  	    </div><!-- end yui-content -->

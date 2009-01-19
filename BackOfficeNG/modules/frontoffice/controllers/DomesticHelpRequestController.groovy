@@ -60,7 +60,6 @@ class DomesticHelpRequestController {
     }
     
     def edit = {
-        //domesticHelpRequestService.deleteExpiredDrafts(1)
         
         def stepStates
         if (stepStates == null) {
@@ -236,6 +235,9 @@ class DomesticHelpRequestController {
             def subject = individualService.getById(subjectId)
             subjects[subjectId] = subject.lastName + " " + subject.firstName
         }
+        if(dhr.draft && dhr.subjectId)
+            subjects[dhr.subjectId] = "${dhr.subjectLastName} ${dhr.subjectFirstName}"
+        
         return subjects
     }
     

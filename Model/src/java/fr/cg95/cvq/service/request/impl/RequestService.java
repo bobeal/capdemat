@@ -810,27 +810,6 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     public void prepareDraft(Request request) throws CvqException {
         request.setDraft(true);
         request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
-        //this.createOrSynchronizeHomeFolder(request, SecurityContext.getCurrentEcitizen());
-    }
-
-    @Override
-    public void deleteExpiredDrafts(Integer liveDuration) throws CvqException {
-        Set<Critere> criterias = new HashSet<Critere>();
-        
-        Critere criteria = new Critere();
-        criteria.setAttribut(Request.SEARCH_BY_CREATION_DATE);
-        criteria.setComparatif(Critere.LTE);
-        criteria.setValue(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,(liveDuration+1)*(-1)));
-        criterias.add(criteria);
-        
-        criteria = new Critere();
-        criteria.setAttribut(Request.DRAFT);
-        criteria.setComparatif(Critere.EQUALS);
-        criteria.setValue(true);
-        criterias.add(criteria);
-        
-        List<Request> requests = requestDAO.search(criterias,null,null,0,0);
-        for(Request r : requests) this.delete(r);
     }
 
     @Override
@@ -1162,7 +1141,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                 request.setSeasonUuid(openSeasons.iterator().next().getUuid());
         }
         
-        Long requestId = requestDAO.create(request);
+        Long requestId = (requestDAO.saveOrUpdate(request)).getId();
 
         if (homeFolder != null) {
             homeFolder.setBoundToRequest(Boolean.valueOf(true));

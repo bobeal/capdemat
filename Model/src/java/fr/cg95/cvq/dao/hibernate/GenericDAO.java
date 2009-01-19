@@ -55,13 +55,14 @@ public class GenericDAO implements IGenericDAO {
         Long generatedId = (Long) HibernateUtil.getSession().save(object);
         return generatedId;
     }
+    
+    public <T> T saveOrUpdate(final T object) {
+        HibernateUtil.getSession().saveOrUpdate(object);
+        return object;
+    }
 
     public void update(final Object object) throws CvqPermissionException {
         HibernateUtil.getSession().update(object);
-    }
-
-    public Object saveOrUpdate(final Object object) throws CvqPermissionException {
-        return HibernateUtil.getSession().merge(object);
     }
 
     public void delete(final Object object) throws CvqPermissionException {

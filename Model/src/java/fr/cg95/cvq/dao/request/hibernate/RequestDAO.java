@@ -16,7 +16,6 @@ import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.security.SecurityContext;
 
 /**
  * Hibernate implementation of the {@link IRequestDAO} interface.
@@ -51,7 +50,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                         + searchCrit.getSqlComparatif() + " lower(?)");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
-                                
+
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SUBJECT_LASTNAME)) {
+                sb.append(" and lower(request.subjectLastName) "
+                        + searchCrit.getSqlComparatif() + " lower(?)");
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_NAME)) {
                 sb.append(" and request.requestType.category.name "
                         + searchCrit.getComparatif() + " ?");
@@ -124,7 +129,9 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             else if (sort.equals(Request.SEARCH_BY_HOME_FOLDER_ID))
                 sb.append(" order by request.homeFolderId");
             else if (sort.equals(Request.SEARCH_BY_REQUESTER_LASTNAME))
-                sb.append(" order by request.requesterLastName");
+                sb.append(" order by request.requesterLastName, request.requesterFirstName");
+            else if (sort.equals(Request.SEARCH_BY_SUBJECT_LASTNAME))
+                sb.append(" order by request.subjectLastName, request.subjectFirstName");
             else if (sort.equals(Request.SEARCH_BY_CATEGORY_NAME))
                 sb.append(" order by request.requestType.category.name");
             else if (sort.equals(Request.SEARCH_BY_CREATION_DATE))
@@ -188,7 +195,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                         + searchCrit.getSqlComparatif() + " lower(?)");
                 objectList.add(searchCrit.getSqlStringValue());
                 typeList.add(Hibernate.STRING);
-                
+
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SUBJECT_LASTNAME)) {
+                sb.append(" and lower(request.subjectLastName) "
+                        + searchCrit.getSqlComparatif() + " lower(?)");
+                objectList.add(searchCrit.getSqlStringValue());
+                typeList.add(Hibernate.STRING);
+
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
                 sb.append(" and state " + searchCrit.getComparatif() + " ?");
                 // To ensure we put the good type in the object list

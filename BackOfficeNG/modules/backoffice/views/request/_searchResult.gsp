@@ -9,7 +9,8 @@
       ${record.requesterLastName} ${record.requesterFirstName}
     </span>
     <g:if test="${record.subjectLastName}">
-      <g:message code="layout.for" /> ${record.subjectLastName} ${record.subjectFirstName}
+      <g:message code="layout.for" /> 
+      <span class="${sortBy == 'subjectLastName' ? 'current-sort' : ''}">${record.subjectLastName} ${record.subjectFirstName}</span>
     </g:if>
     <span class="${sortBy == 'homeFolderId' ? 'current-sort' : ''}">(${record.homeFolderId})</span>
     </a>

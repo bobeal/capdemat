@@ -25,6 +25,8 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_REQUEST_ID = "id";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
     public static final String SEARCH_BY_REQUESTER_LASTNAME = "requesterLastName";
+    public static final String SEARCH_BY_SUBJECT_LASTNAME = "subjectLastName";
+    public static final String SEARCH_BY_SUBJECT_ID = "subjectId";
     public static final String SEARCH_BY_CATEGORY_NAME = "categoryName";
     public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
     public static final String SEARCH_BY_REQUEST_TYPE_ID = "requestTypeId";

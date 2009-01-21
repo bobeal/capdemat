@@ -811,15 +811,50 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         request.setDraft(true);
         request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
     }
-
+    
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public Long processDraft(Request request) throws CvqException {
+        if(request.getId() == null) {
+            return this.createDraft(request);
+        } else {
+            this.modifyDraft(request);
+            return request.getId();
+        }
+    }
+    
+    @Override
     public Long createDraft(Request request) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen(), null);
-        this.setAdministrativeInformation(request);
         return finalizeAndPersist(request);
     }
-
+    
+    @Override
+    public void modifyDraft(Request request) throws CvqException {
+        if(this.isSubjectChanged(request)) {
+            this.createDraft(request);
+        } else {
+            createOrSynchronizeHomeFolder(request, null);
+            finalizeAndPersist(request);
+        }
+    }
+    
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void finalizeDraft(Request request) throws CvqException {
+        request.setDraft(false);
+        this.modifyDraft(request);
+    }
+    
+    protected boolean isSubjectChanged(Request request) {
+        Long subjectId = (Long)this.requestDAO.getSubjectId(request.getId());
+        if(subjectId == null) {
+            if(request.getSubjectId() != null) return true;
+            else return false;
+        }
+        return !subjectId.equals(request.getSubjectId());
+    }
+    
     protected void notifyRequestCreation(Request request, byte[] pdfData)
         throws CvqException {
 
@@ -876,14 +911,13 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         return finalizeAndPersist(request, homeFolder);
     }
     
-    protected HomeFolder performBusinessChecks(Request request, Adult requester, 
-            Individual subject)
+    protected HomeFolder performBusinessChecks(Request request,Adult requester,Individual subject)
         throws CvqException, CvqObjectNotFoundException {
         
         HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
         
-        if(request.getDraft() != true)
-            checkSubjectPolicy(request.getSubjectId(), request.getHomeFolderId(), getSubjectPolicy());
+//        if(!request.getDraft() || request.getDraft() == null)
+        checkSubjectPolicy(request.getSubjectId(),request.getHomeFolderId(),getSubjectPolicy());
         
         if (request.getSubjectId() != null) {
             Individual individual = individualService.getById(request.getSubjectId());
@@ -1100,17 +1134,17 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                 result.put(subjectId, null);
             RequestState[] excludedStates = requestWorkflowService
                     .getStatesExcludedForRunningRequests();
-            List<Request> homeFolderRequests = requestDAO.listByHomeFolderAndLabel(homeFolderId,
+            List<Long> homeFolderSubjectIds = requestDAO.getHomeFolderSubjectIds(homeFolderId,
                     getLabel(), excludedStates);
             if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
-                if (!homeFolderRequests.isEmpty()) {
+                if (!homeFolderSubjectIds.isEmpty()) {
                     return null;
                 } else {
                     return result;
                 }
             } else {
-                for (Request request : homeFolderRequests)
-                    result.remove(request.getSubjectId());
+                for (Long subjectId : homeFolderSubjectIds)
+                    result.remove(subjectId);
                 return result;
             }
         }
@@ -1149,7 +1183,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             homeFolderService.modify(homeFolder);
         }
         
-        if(request.getDraft() != true) {
+        if(!request.getDraft() || request.getDraft() == null) {
             // TODO DECOUPLING
             logger.debug("create() Gonna generate a pdf of the request");
             byte[] pdfData =

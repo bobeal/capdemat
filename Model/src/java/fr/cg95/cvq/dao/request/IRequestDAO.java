@@ -93,4 +93,18 @@ public interface IRequestDAO extends IGenericDAO {
      * Return the list of requests which do not have the given action label.
      */
     List<Request> listByNotMatchingActionLabel(final String actionLabel);
+
+    /**
+     * Return list of request drafts prepared for delete notification
+     * 
+     * @param actionLabel Notification label
+     * @param date Limit date
+     * @return drafts list
+     */
+    List<Request> listByDraftNotification(String actionLabel, Date date);
+    
+    Object getSubjectId (Long requestId);
+
+    List<Long> getHomeFolderSubjectIds(Long homeFolderId, String label, 
+                                              RequestState[] excludedStates);
 }

@@ -77,6 +77,7 @@ public abstract class Request implements Serializable {
     private Set<RequestNote> notes;
 
     public Request() {
+        this.draft = false;
     }
 
     public abstract String modelToXmlString() ;
@@ -493,6 +494,7 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.property
      *  column="draft"
+     *  not-null
      */
     public Boolean getDraft() {
         return draft;

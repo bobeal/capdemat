@@ -29,9 +29,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalService;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
-import fr.cg95.cvq.security.annotation.IsRequester;
-import fr.cg95.cvq.security.annotation.IsSubject;
+import fr.cg95.cvq.security.annotation.*;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 import fr.cg95.cvq.util.Critere;
@@ -46,6 +44,7 @@ public interface IRequestService {
     /** service name used by Spring's application context */
     String SERVICE_NAME = "requestService";
     
+    String DRAFT_DELETE_NOTIFICATION = "DRAFT_DELETE_NOTIFICATION";
     String REQUEST_CREATION_NOTIFICATION = "REQUEST_CREATION_NOTIFICATION";
     String REQUEST_ORANGE_ALERT_NOTIFICATION = "REQUEST_ORANGE_ALERT_NOTIFICATION";
     String REQUEST_RED_ALERT_NOTIFICATION = "REQUEST_RED_ALERT_NOTIFICATION";
@@ -87,15 +86,33 @@ public interface IRequestService {
      */
     void prepareDraft(@IsRequest Request request) throws CvqException;
     
+    Long processDraft(@IsRequest Request request) throws CvqException;
+    
     /**
      * Creates a draft request, bypass standard validation procedure. 
      * 
      * @param request current request
      * @return Newly created request identifier
-     * @throws CvqException
+     * @throws CvqException standard capdemat exception
      * @throws CvqObjectNotFoundException
      */
     Long createDraft(@IsRequest Request request) throws CvqException;
+    
+    /**
+     * Modifies a draft of request
+     * 
+     * @param request draft
+     * @throws CvqException standard capdemat exception
+     */
+    void modifyDraft(@IsRequest Request request) throws CvqException;
+
+    /**
+     * Finalizes a request draft
+     * 
+     * @param request draft to finalize
+     * @throws CvqException standard exception
+     */
+    void finalizeDraft(@IsRequest Request request) throws CvqException;
     
     /**
      * Create a new request from given data.
@@ -769,4 +786,6 @@ public interface IRequestService {
         throws CvqException;
 
     public Map<String, Boolean> areConditionsFilled(final Map<String, Map<String, String>> inputs);
+
+    
 }

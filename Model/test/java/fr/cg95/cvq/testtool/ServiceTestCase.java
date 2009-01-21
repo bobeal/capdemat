@@ -465,4 +465,9 @@ public class ServiceTestCase
         
         return cb;
     }
+
+    protected <T> T getApplicationBean(String beanName) {
+        //noinspection unchecked
+        return (T)this.getApplicationContext().getBean(beanName);
+    }
 }

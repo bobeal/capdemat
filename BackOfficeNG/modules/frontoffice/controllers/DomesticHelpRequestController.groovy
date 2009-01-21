@@ -49,11 +49,11 @@ class DomesticHelpRequestController {
         if(request.post) {
             Request req = session.domesticHelpRequest
             domesticHelpRequestService.prepareDraft(req)
-            domesticHelpRequestService.createDraft(req)
+            domesticHelpRequestService.processDraft(req)
             flash.domesticHelpRequest = req
         } else if (request.get) {
             flash.domesticHelpRequest = this.domesticHelpRequestService.getById(
-                Long.parseLong(params.id))
+                Long.parseLong(params.id)) 
         }
         redirect(action:'edit')
         return false
@@ -93,8 +93,7 @@ class DomesticHelpRequestController {
         log.debug("validSubject - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-
-
+        
         session["domesticHelpRequest"] = dhr
         session['stepStates'].subject = 
             ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
@@ -213,8 +212,9 @@ class DomesticHelpRequestController {
         dhr = session["domesticHelpRequest"]
         bind(dhr)
 
-
-        domesticHelpRequestService.create(dhr)
+        if(!dhr.draft) domesticHelpRequestService.create(dhr)
+        else domesticHelpRequestService.finalizeDraft(dhr) 
+        
 
         session["domesticHelpRequest"] = dhr
         session['stepStates'].validationRef = 
@@ -235,7 +235,7 @@ class DomesticHelpRequestController {
             def subject = individualService.getById(subjectId)
             subjects[subjectId] = subject.lastName + " " + subject.firstName
         }
-        if(dhr.draft && dhr.subjectId)
+        if(dhr.draft && !subjects.containsKey(dhr.subjectId))
             subjects[dhr.subjectId] = "${dhr.subjectLastName} ${dhr.subjectFirstName}"
         
         return subjects

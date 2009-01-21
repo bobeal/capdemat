@@ -186,25 +186,38 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     class="fr.cg95.cvq.service.request.job.DraftManagementJob">
     <property name="requestService" ref="defaultRequestService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="localizationService" ref="localizationService" />
+    <property name="requestDAO" ref="requestDAO"/>
     <property name="mailService" ref="mailService"/>
     <property name="individualService" ref="individualService"/>
-    <property name="liveDuration" value="4" />
-    <property name="notificationBeforeDelete" value="2" />
+    <property name="liveDuration" value="15" />
+    <property name="notificationBeforeDelete" value="7" />
   </bean>
   
-  <bean id="draftManagemntJobInvoker"
+  <bean id="draftManagemntRemoverJobInvoker"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
     <property name="targetObject" ref="draftManagementJob" />
-    <property name="targetMethod" value="launchJob" />
+    <property name="targetMethod" value="deleteExpiredDrafts" />
     <property name="concurrent" value="false" />
   </bean>
   
-  <bean id="draftManagementJobTrigger"
+  <bean id="draftManagementRemoverJobTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
-    <property name="jobDetail">
-      <ref bean="draftManagemntJobInvoker" />
-    </property>
-    <property name="cronExpression" value="0 0 3 * * ?" />
+    <property name="jobDetail" ref="draftManagemntNotifierJobInvoker" />
+    <property name="cronExpression" value="0 0 4 * * ?" />
+  </bean>
+  
+  <bean id="draftManagemntNotifierJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="draftManagementJob" />
+    <property name="targetMethod" value="sendNotifications" />
+    <property name="concurrent" value="false" />
+  </bean>
+  
+  <bean id="draftManagementNotifierJobTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="draftManagemntNotifierJobInvoker" />
+    <property name="cronExpression" value="0 0 5 * * ?" />
   </bean>
   
   <!-- *******************************************************************  -->

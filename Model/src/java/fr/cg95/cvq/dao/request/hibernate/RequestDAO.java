@@ -7,10 +7,13 @@ import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -622,6 +625,84 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         sb.append(")");
 
         return HibernateUtil.getSession().createQuery(sb.toString()).list();
+    }
+    
+    public Object getSubjectId(Long requestId) {
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select r.subjectId from Request as r ").append("where r.id = ?");
+        
+        objectList.add(requestId);
+        typeList.add(Hibernate.LONG);
+
+        Type[] typeTab = typeList.toArray(new Type[1]);
+        Object[] objectTab = objectList.toArray(new Object[1]);
+        
+        return HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(objectTab, typeTab)
+            .uniqueResult();
+    }
+    
+    public List<Long> getHomeFolderSubjectIds(Long homeFolderId, String label, 
+                                              RequestState[] excludedStates) {
+        
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        StringBuffer sb = new StringBuffer()
+            .append("select request.subjectId from Request as request");
+
+        sb.append(" where request.homeFolderId = ?");
+        objectList.add(homeFolderId);
+        typeList.add(Hibernate.LONG);
+
+        sb.append(" and request.requestType.label = ?");
+        objectList.add(label);
+        typeList.add(Hibernate.STRING);
+
+        if (excludedStates != null && excludedStates.length > 0) {
+            for (RequestState excludedState : excludedStates) {
+                sb.append(" and request.state != ?");
+                objectList.add(excludedState.toString());
+                typeList.add(Hibernate.STRING);
+            }
+        }
+        Type[] typeTab = typeList.toArray(new Type[1]);
+        Object[] objectTab = objectList.toArray(new Object[1]);
+
+        //noinspection unchecked
+        return (List<Long>)HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list();
+    }
+    
+    public List<Request> listByDraftNotification(String actionLabel, Date date) {
+        
+        Criteria criteria = HibernateUtil.getSession().createCriteria(Request.class);
+        criteria.add(Restrictions.eq("draft", true));
+        criteria.add(Restrictions.le("creationDate",date));
+        
+        List<Request> result = new ArrayList<Request>();
+        List<Request> requests = criteria.list();
+        
+        for(Request r : requests) {
+            boolean sent = false;
+            if(r.getActions() != null) {
+                for(RequestAction a : r.getActions()) {
+                    if(a.getLabel().equals(actionLabel)) {
+                        sent = true;
+                        break;
+                    }
+                }
+                if(!sent) result.add(r);
+            } else {
+                result.add(r);
+            }
+        }
+        
+        return result;
     }
     
     protected StringBuffer processDraft(StringBuffer sb, Set<Critere> criterias) {

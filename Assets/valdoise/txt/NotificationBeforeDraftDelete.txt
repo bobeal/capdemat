@@ -1,8 +1,8 @@
-Dear humans,
+Bonjour,
 
-We would like to inform you that your request of ${requestType} No${requestId}, 
-created at ${creationDate}, expire at ${expirationDate} and will be deleted.
+Nous vous informons que votre brouillon de demande de type ${requestType} No${requestId}, 
+crée le ${creationDate}, va expirer le ${expirationDate} et sera supprimer par la suite.
 
 --
-Regards,
-From Rafik with love
+Cordialement,
+Équipe Capdemat

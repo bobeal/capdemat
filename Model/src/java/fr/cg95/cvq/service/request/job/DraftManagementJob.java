@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Permits to mamage drafts 
+ * Permits to manage drafts 
  *
  * @author Victor Bartel (vba@zenexity.fr)
  */
@@ -48,10 +48,9 @@ public class DraftManagementJob {
         Integer counter = 0; 
         Integer limit = liveDuration - notificationBeforeDelete;
         
-        //List<Request> requests = this.requestService.get(criterias,null,null,0,0);
         List<Request> requests = this.requestDAO.listByDraftNotification(
             IRequestService.DRAFT_DELETE_NOTIFICATION,
-            DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,limit *-1));
+            DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit));
         
         for(Request r : requests) {
             Adult adult = this.individualService.getAdultById(r.getRequesterId());
@@ -59,10 +58,9 @@ public class DraftManagementJob {
             boolean sent = false;
             
             try {
-                mailService.send(
-                    from,adult.getEmail(),null,
-                    "[CapDémat] Votre brouillon sera supprimer dans "+limit.toString()+" jours",
-                    this.buildMailTemplate(r));
+                mailService.send(from, adult.getEmail(), null,
+                        "[CapDémat] Expiration d'une demande sauvée en tant que brouillon",
+                        this.buildMailTemplate(r));
                 sent = true;
                 counter ++;
             } catch(CvqException e) {
@@ -101,7 +99,7 @@ public class DraftManagementJob {
         Critere criteria = new Critere();
         criteria.setAttribut(Request.SEARCH_BY_CREATION_DATE);
         criteria.setComparatif(Critere.LTE);
-        criteria.setValue(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,(dateInterval*(-1))));
+        criteria.setValue(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -dateInterval));
         criterias.add(criteria);
         
         criteria = new Critere();

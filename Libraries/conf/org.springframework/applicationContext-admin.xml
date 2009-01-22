@@ -194,7 +194,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="notificationBeforeDelete" value="7" />
   </bean>
   
-  <bean id="draftManagemntRemoverJobInvoker"
+  <bean id="draftManagementRemoverJobInvoker"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
     <property name="targetObject" ref="draftManagementJob" />
     <property name="targetMethod" value="deleteExpiredDrafts" />
@@ -203,11 +203,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="draftManagementRemoverJobTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
-    <property name="jobDetail" ref="draftManagemntNotifierJobInvoker" />
+    <property name="jobDetail" ref="draftManagementNotifierJobInvoker" />
     <property name="cronExpression" value="0 0 4 * * ?" />
   </bean>
   
-  <bean id="draftManagemntNotifierJobInvoker"
+  <bean id="draftManagementNotifierJobInvoker"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
     <property name="targetObject" ref="draftManagementJob" />
     <property name="targetMethod" value="sendNotifications" />
@@ -216,7 +216,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="draftManagementNotifierJobTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
-    <property name="jobDetail" ref="draftManagemntNotifierJobInvoker" />
+    <property name="jobDetail" ref="draftManagementNotifierJobInvoker" />
     <property name="cronExpression" value="0 0 5 * * ?" />
   </bean>
   

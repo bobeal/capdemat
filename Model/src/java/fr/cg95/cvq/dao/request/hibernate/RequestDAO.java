@@ -739,8 +739,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     protected String prepareDraftQuery(List<Object> values,List<Type> types,Critere crit) {
         String result = "";
         if(crit.getValue() instanceof List) {
-            String sub = "";
-            for(Object o : (List)crit.getValue()) {
+            for(Object o : (List) crit.getValue()) {
                 if(o != null) {
                     result += " request.draft "+ crit.getComparatif() + " ? or ";
                     values.add(o);

@@ -20,25 +20,7 @@
 
 <g:set var="requestTypeInfo">
   { 'label': '${requestTypeLabel}'
-    ,'steps': [
-
-      'subject',
-
-      'familyReferent',
-
-      'spouse',
-
-      'dwelling',
-
-      'resources',
-
-      'taxes',
-
-      'document',
-
-      'validation'
-
-   ]
+    ,'steps': [  'subject',  'familyReferent',  'spouse',  'dwelling',  'resources',  'taxes',  'document',  'validation'  ]
   }
 </g:set>
 <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
@@ -146,7 +128,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
-           <input type="submit" id="stepSubmit-subject" name="stepSubmit-subject" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-subject" name="submit-step-subject" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -178,7 +160,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
-           <input type="submit" id="stepSubmit-familyReferent" name="stepSubmit-familyReferent" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-familyReferent" name="submit-step-familyReferent" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -212,7 +194,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
-           <input type="submit" id="stepSubmit-spouse" name="stepSubmit-spouse" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-spouse" name="submit-step-spouse" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -246,7 +228,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
-           <input type="submit" id="stepSubmit-dwelling" name="stepSubmit-dwelling" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -280,7 +262,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
-           <input type="submit" id="stepSubmit-resources" name="stepSubmit-resources" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-resources" name="submit-step-resources" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -314,7 +296,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
-           <input type="submit" id="stepSubmit-taxes" name="stepSubmit-taxes" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-taxes" name="submit-step-taxes" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -348,7 +330,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
-           <input type="submit" id="stepSubmit-document" name="stepSubmit-document" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-document" name="submit-step-document" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
@@ -388,7 +370,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
-           <input type="submit" id="stepSubmit-validation" name="stepSubmit-validation" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->

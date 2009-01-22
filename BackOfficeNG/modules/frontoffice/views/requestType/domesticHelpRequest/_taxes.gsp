@@ -1,6 +1,8 @@
 
 
 
+
+
   
     <fieldset class="required">
     <legend><g:message code="dhr.property.dhrTaxesAmount.label" /></legend> 

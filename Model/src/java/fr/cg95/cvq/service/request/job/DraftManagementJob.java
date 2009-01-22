@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.request.job;
 
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -12,7 +11,6 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
-import fr.cg95.cvq.security.SecurityContext;
 import org.apache.log4j.Logger;
 
 import java.util.Calendar;

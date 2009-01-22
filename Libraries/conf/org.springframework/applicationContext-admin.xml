@@ -326,6 +326,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="requestInstructionDurationCheckerTrigger" />
         <ref bean="documentValidityCheckerTrigger" />
         <ref bean="requestSeasonsTrigger" />
+        <ref bean="draftManagementRemoverJobTrigger"/>
+        <ref bean="draftManagementNotifierJobTrigger"/>
 	    <!--
         <ref bean="requestWorkflowNavigatorTrigger" />
         <ref bean="ldapSynchronizerTrigger" />

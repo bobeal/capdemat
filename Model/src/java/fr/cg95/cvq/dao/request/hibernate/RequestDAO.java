@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.Type;
 
@@ -650,7 +651,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return HibernateUtil.getSession().createQuery(sb.toString()).list();
     }
     
-    public Object getSubjectId(Long requestId) {
+    public Long getSubjectId(Long requestId) {
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
@@ -663,13 +664,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         Type[] typeTab = typeList.toArray(new Type[1]);
         Object[] objectTab = objectList.toArray(new Object[1]);
         
-        return HibernateUtil.getSession()
+        return (Long)HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab)
             .uniqueResult();
     }
     
-    public List<Long> getHomeFolderSubjectIds(Long homeFolderId, String label, 
+    public List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
                                               RequestState[] excludedStates) {
         
         List<Type> typeList = new ArrayList<Type>();
@@ -703,27 +704,27 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     
     public List<Request> listByDraftNotification(String actionLabel, Date date) {
         
-        Criteria criteria = HibernateUtil.getSession().createCriteria(Request.class);
-        criteria.add(Restrictions.eq("draft", true));
-        criteria.add(Restrictions.le("creationDate",date));
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
         
-        List<Request> result = new ArrayList<Request>();
-        List<Request> requests = criteria.list();
+        StringBuffer sb = new StringBuffer();
+        sb.append("select r from Request r left join r.actions a");
+        sb.append(" where r.draft = true");
+        sb.append(" and r.creationDate <= ?");
+        sb.append(" and (a.label != ?  or a.id = null) ");
         
-        for(Request r : requests) {
-            boolean sent = false;
-            if(r.getActions() != null) {
-                for(RequestAction a : r.getActions()) {
-                    if(a.getLabel().equals(actionLabel)) {
-                        sent = true;
-                        break;
-                    }
-                }
-                if(!sent) result.add(r);
-            } else {
-                result.add(r);
-            }
-        }
+        typeList.add(Hibernate.TIMESTAMP);
+        typeList.add(Hibernate.STRING);
+        
+        objectList.add(date);
+        objectList.add(actionLabel);
+        
+        Type[] typeTab = typeList.toArray(new Type[1]);
+        Object[] objectTab = objectList.toArray(new Object[1]);
+        
+        //noinspection unchecked
+        List<Request> result = HibernateUtil.getSession()
+            .createQuery(sb.toString()).setParameters(objectTab, typeTab).list();
         
         return result;
     }

@@ -95,16 +95,16 @@ public interface IRequestDAO extends IGenericDAO {
     List<Request> listByNotMatchingActionLabel(final String actionLabel);
 
     /**
-     * Return list of request drafts prepared for delete notification
+     * Retrives requests(drafts) that were definded as not sent yet.
      * 
-     * @param actionLabel Notification label
+     * @param actionLabel Notification label that define sending state
      * @param date Limit date
      * @return drafts list
      */
     List<Request> listByDraftNotification(String actionLabel, Date date);
     
-    Object getSubjectId (Long requestId);
+    Long getSubjectId (Long requestId);
 
-    List<Long> getHomeFolderSubjectIds(Long homeFolderId, String label, 
+    List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
                                               RequestState[] excludedStates);
 }

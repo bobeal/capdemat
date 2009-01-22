@@ -7,15 +7,10 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.civil.IBirthDetailsRequestService;
-import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
-import fr.cg95.cvq.util.localization.ILocalizationService;
-import fr.cg95.cvq.util.mail.IMailService;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -27,39 +22,28 @@ import java.util.Set;
  *
  * @author Victor Bartel (vba@zenexity.fr)
  */
+
 public class DraftManagementJobTest extends ServiceTestCase {
     
     private IRequestDAO requestDAO;
-    private IRequestService requestService;
-    private IBirthDetailsRequestService birthDetailsRequestService;
+    private IBirthDetailsRequestService requestService;
+    //private IBirthDetailsRequestService birthDetailsRequestService;
     private DraftManagementJob draftManagementJob;
     
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        Integer liveDuration = 4;
-        Integer notificationBeforeDelete = 2;
-        this.requestService = this.getApplicationBean("defaultRequestService");
-        IIndividualService individualService = this.getApplicationBean("individualService");
+        this.requestService = this.getApplicationBean("birthDetailsRequestService");
         this.draftManagementJob = this.getApplicationBean("draftManagementJob");
-        IMailService mailService = this.getApplicationBean("mailService");
         this.requestDAO = this.getApplicationBean("requestDAO");
-        ILocalizationService localizationService = this.getApplicationBean("localizationService");
-        ILocalAuthorityRegistry localAuthorityRegistry = this.getApplicationBean("localAuthorityRegistry");
-        this.birthDetailsRequestService = this.getApplicationBean("birthDetailsRequestService");
         
-        this.draftManagementJob.setIndividualService(individualService);
-        this.draftManagementJob.setLiveDuration(liveDuration);
-        this.draftManagementJob.setLocalAuthorityRegistry(localAuthorityRegistry);
-        this.draftManagementJob.setLocalizationService(localizationService);
-        this.draftManagementJob.setMailService(mailService);
-        this.draftManagementJob.setNotificationBeforeDelete(notificationBeforeDelete);
-        this.draftManagementJob.setRequestDAO(requestDAO);
-        this.draftManagementJob.setRequestService(requestService);
+        this.draftManagementJob.setLiveDuration(4);
+        this.draftManagementJob.setNotificationBeforeDelete(2);
     }
     
     public void testRequestDraftRemoval() throws CvqException {
         this.createDrafts(4);
+        this.continueWithNewTransaction();
 //        List<Request> requests = this.getDrafts();
         int before = this.getDrafts().size();
         this.draftManagementJob.deleteExpiredDrafts();
@@ -77,6 +61,7 @@ public class DraftManagementJobTest extends ServiceTestCase {
     
     public void testDraftMailSending() throws CvqException {
         this.createDrafts(8);
+        this.continueWithNewTransaction();
         
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         this.draftManagementJob.setLiveDuration(9);
@@ -109,14 +94,14 @@ public class DraftManagementJobTest extends ServiceTestCase {
             SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
             SecurityContext.setCurrentEcitizen(bean.getLogin());
             Request request = new BirthDetailsRequest();
-            this.birthDetailsRequestService.prepareDraft(request);
-            Long id = this.birthDetailsRequestService.processDraft(request);
-            request = this.birthDetailsRequestService.getById(id);
+            this.requestService.prepareDraft(request);
+            Long id = this.requestService.processDraft(request);
+            request = this.requestService.getById(id);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
             
             SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
-            this.birthDetailsRequestService.modify(request);
+            this.requestService.modify(request);
         }
     }
     

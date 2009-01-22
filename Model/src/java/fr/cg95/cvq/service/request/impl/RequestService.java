@@ -74,12 +74,10 @@ import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
-import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.xml.common.SubjectType;
@@ -1134,7 +1132,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                 result.put(subjectId, null);
             RequestState[] excludedStates = requestWorkflowService
                     .getStatesExcludedForRunningRequests();
-            List<Long> homeFolderSubjectIds = requestDAO.getHomeFolderSubjectIds(homeFolderId,
+            List<Long> homeFolderSubjectIds = requestDAO.listHomeFolderSubjectIds(homeFolderId,
                     getLabel(), excludedStates);
             if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE)) {
                 if (!homeFolderSubjectIds.isEmpty()) {

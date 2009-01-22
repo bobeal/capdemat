@@ -496,7 +496,7 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.property
      *  column="draft"
-     *  not-null
+     *  not-null="true"
      */
     public Boolean getDraft() {
         return draft;

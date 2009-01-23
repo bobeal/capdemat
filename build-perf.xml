@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<project name="CapDemat - Performance Test Builder" default="all">
+  <description>
+    To run a test and create the output report: ant -Dtest=script To run a test only: ant
+    -Dtest=script run To run report on existing test output ant -Dtest=script report Additional
+    options -Dshow-data=y - include response data in Failure Details
+  </description>
+
+  <target name="init">
+    <property name="jmeter.home.dir" value="../../jmeter" />
+    <property name="test.perf.dir" value="${basedir}/Model/test/perf" />
+    <property name="test.plan.name" value="capdemat" />
+
+    <!-- Should report include response data for failures? -->
+    <property name="show-data" value="n" />
+
+    <condition property="funcMode">
+      <equals arg1="${show-data}" arg2="y" />
+    </condition>
+
+    <condition property="funcMode" value="false">
+      <not>
+        <equals arg1="${show-data}" arg2="y" />
+      </not>
+    </condition>
+
+    <taskdef name="jmeter" classpath="./Libraries/jmeter/ant-jmeter.jar"
+      classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask" />
+
+  </target>
+
+  <target name="all" depends="run,report" />
+
+  <target name="run" depends="init">
+    <echo>funcMode = ${funcMode}</echo>
+     <delete file="${test.perf.dir}/report/${test.plan.name}.jtl" />
+    <delete file="${test.perf.dir}/report/${test.plan.name}.htm" />
+    <jmeter jmeterhome="${jmeter.home.dir}"
+      testplan="${test.perf.dir}/testplan/${test.plan.name}.jmx"
+      resultlog="${test.perf.dir}/report/${test.plan.name}.jtl">
+
+      <property name="request.threads" value="1" />
+      <property name="request.loop" value="1" />
+
+      <!-- Force suitable defaults -->
+      <property name="jmeter.save.saveservice.output_format" value="xml" />
+      <property name="jmeter.save.saveservice.assertion_results" value="all" />
+      <property name="jmeter.save.saveservice.bytes" value="true" />
+      <property name="jmeter.save.saveservice.response_data.on_error" value="${funcMode}" />
+    </jmeter>
+  </target>
+
+  <target name="report">
+    <xslt force="true" in="${test.perf.dir}/report/${test.plan.name}.jtl"
+      out="${test.perf.dir}/report/${test.plan.name}.htm"
+      style="${test.perf.dir}/xsl/jmeter-results-detail-report_21.xsl">
+      <param name="showData" expression="${show-data}" />
+    </xslt>
+  </target>
+
+</project>

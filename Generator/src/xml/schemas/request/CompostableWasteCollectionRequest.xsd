@@ -18,10 +18,10 @@
 	    Request to collect compostable waste
 	  </xs:documentation>
 	  <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-	    Déchets verts
+	    Enlèvement des déchets verts
 	  </xs:documentation>
 	  <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-	    Compostable waste
+	    Compostable waste collection
 	  </xs:documentation>
 	  <xs:appinfo> 
 	    <model namespace="environment" /> 
@@ -46,7 +46,7 @@
 		    <complexTemplate />
 		  </element>
 		  <element blockId="2" line="0" column="0" link="MeansOfContact"
-		    prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?"> 
+		    prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?"> 
 		    <complexTemplate />
 		  </element>
 		</xslfo>

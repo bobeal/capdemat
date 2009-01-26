@@ -83,7 +83,7 @@
             <block id="1" label="Personne du foyer &#x00E0; inscrire*" column="2" />
             <block id="2" label="Formule d'abonnement*" />
             <block id="3" label="Moyen de contact*" breakAfter="true" />
-            <block id="4" label="Acceptation du r&#x00E8;glement int&#x00E9;rieur" />
+            <block id="4" label="Acceptation du r&#x00E8;glement intérieur" />
             <block id="5" label="Autorisation parentale"
               displayCondition="contains(//lrr:Subject/@xsi:type,'ChildType')" />
             <block id="6"
@@ -94,7 +94,7 @@
             <complexTemplate />
           </element>
           <element blockId="3" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
             <complexTemplate />
           </element>
           <element blockId="1" line="0" column="0" columnSpan="2" link="Subject">
@@ -192,10 +192,10 @@
                       <signature>
                         <acceptMessage index="0">
                           J'autorise mon enfant à emprunter des documents et, après avoir pris
-                          connaissance du règlement, me d&#x00E9;clare responsable de ses choix.
+                          connaissance du règlement, me déclare responsable de ses choix.
                         </acceptMessage>
                         <rejectMessage index="0">
-                          Vous n'avez pas autoris&#x00E9; l'emprunt de documents par votre enfant.
+                          Vous n'avez pas autorisé l'emprunt de documents par votre enfant.
                         </rejectMessage>
                       </signature>
                     </element>

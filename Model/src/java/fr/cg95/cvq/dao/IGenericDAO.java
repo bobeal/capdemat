@@ -32,8 +32,11 @@ public interface IGenericDAO {
 
     /**
      * Save or update a persistent object in DB.
+     * 
+     * @param <T> object to save or update
+     * @return updated object
      */
-    Object saveOrUpdate(final Object object) throws CvqPermissionException;
+    <T> T saveOrUpdate(final T object);
 
     /**
      * Update a persistent object in DB.

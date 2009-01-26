@@ -14,9 +14,9 @@ import grails.converters.*
 class RequestController {
     
     def requestAdaptorService
-    IRequestService defaultRequestService
-    
     def translationService
+
+    IRequestService defaultRequestService
     
     def defaultAction = "index"
     
@@ -28,35 +28,31 @@ class RequestController {
         if (params.ps) state = JSON.parse(params.ps);
         if (params.typeFilter != null) state.typeFilter = params.typeFilter;
         if (params.stateFilter != null) state.stateFilter = params.stateFilter;
-        if (params.indvFilter != null) state.indvFilter = params.indvFilter;
+        if (params.subjectFilter != null) state.subjectFilter = params.subjectFilter;
         
-        requests = filterRequests("SEARCH_BY_HOME_FOLDER_ID",adult.homeFolder.id,state,params)
+        requests = filterRequests('SEARCH_BY_HOME_FOLDER_ID',adult.homeFolder.id,state,params)
         requests = requestAdaptorService.prepareRecords(requests)
         
         return ([
             'state': state,
             'pageState' : (new JSON(state)).toString(),
-            'individuals': adult.homeFolder.individuals.each{ it.id },
-            'allRequestTypes' : translatedAndSortRequestTypes(),
+            'individuals': adult.homeFolder.individuals.sort { it.firstName },
+            'allRequestTypes' : requestAdaptorService.translateAndSortRequestTypes(),
             'requests': requests,
             'requestStates' : RequestState.allRequestStates.collect{ it.toString().toLowerCase()}
         ]);
     }
 
-    protected translatedAndSortRequestTypes() {
-        def allRequestTypes = defaultRequestService.getAllRequestTypes()
-        def allRequestTypesTranslated =  []
-        allRequestTypes.each {
-            allRequestTypesTranslated.add([id:it.id,
-                                           label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()])
-        }
-        return allRequestTypesTranslated.sort{it.label}
-    }
-    
     protected filterRequests = {attr,val,state,params ->
         Set criteriaSet = new HashSet<Critere>()
         Critere critere = new Critere()
         
+        critere.comparatif = Critere.EQUALS
+        critere.attribut = Request.DRAFT
+        critere.value = [true,false,null]
+        criteriaSet.add(critere)
+        
+        critere = new Critere()
         critere.comparatif = Critere.EQUALS
         critere.attribut = Request."${attr}"
         critere.value = val
@@ -76,11 +72,16 @@ class RequestController {
             critere.value = state.typeFilter
             criteriaSet.add(critere)
         }
-        def max = 10;
-        def offset = 0;
-        
-        if(params?.max) max = Integer.valueOf(params.max);
-        if(params?.offset)offset = Integer.valueOf(params.offset);
+        if(state?.subjectFilter) {
+            critere = new Critere()
+            critere.attribut = Request.SEARCH_BY_SUBJECT_ID
+            critere.comparatif = critere.EQUALS
+            critere.value = state.subjectFilter
+            criteriaSet.add(critere)
+        }
+
+        def max = params.max ? Integer.valueOf(params.max) : 10
+        def offset = params.offset ? Integer.valueOf(params.offset) : 0
         
         return [
             'all' : defaultRequestService.get(criteriaSet, Request.SEARCH_BY_CREATION_DATE, 'desc', max, offset),

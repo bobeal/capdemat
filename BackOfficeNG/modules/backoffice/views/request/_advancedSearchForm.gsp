@@ -26,6 +26,9 @@
         <label for="requesterLastName"><g:message code="request.property.requesterLastName" /> :</label>
         <input type="text" name="requesterLastName" size="40" value="${params?.requesterLastName}" />
           
+        <label for="subjectLastName"><g:message code="request.property.subjectLastName" /> :</label>
+        <input type="text" name="subjectLastName" size="40" value="${params?.subjectLastName}" />
+
         <label for="creationDateFrom"><g:message code="request.search.creationDateInterval" /> :</label>
         <input type="text" id="creationDateFrom" name="creationDateFrom" size="10" value="${params?.creationDateFrom}" />
         <a onclick="showCalendar('creationDateFromShow', 0);">

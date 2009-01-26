@@ -15,13 +15,13 @@
         Demande de recensement militaire
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Military Census Request
+        Military census request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Recensement Militaire
+        Recensement militaire
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Military Census
+        Military census
       </xs:documentation>
       <xs:appinfo>
         <model namespace="military" />
@@ -74,7 +74,7 @@
             <complexTemplate />
           </element>
           <element blockId="6" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
             <complexTemplate />
           </element>
         </xslfo>

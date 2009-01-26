@@ -1,150 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/hsr"
-  xmlns:shp="http://www.cg95.fr/cvq/schema/hsr"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/hsr" 
+  xmlns:hsr="http://www.cg95.fr/cvq/schema/hsr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
   xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
-  elementFormDefault="qualified"
-  attributeFormDefault="unqualified">
-	<xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-		schemaLocation="../common/CVQCommonElements.xsd"/>
-	<xs:element name="HolidaySecurityRequest">
-		<xs:annotation>
-			<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Demande de sécurité vacances</xs:documentation>
-			<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Security service on holidays</xs:documentation>
-			<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Sécurité vacances</xs:documentation>
-			<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Holiday security</xs:documentation>
-			<xs:appinfo>
-				<model namespace="localpolice" />
-				<fo namespace="localpolice">
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+  
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
+    schemaLocation="../common/CVQCommonElements.xsd" />
+    
+  <xs:element name="HolidaySecurityRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Demande de sécurité vacances
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Security service on holidays
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Sécurité vacances
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Holiday security
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="localpolice" />
+        <fo namespace="localpolice">
 
-					<display field="Subject.Adult.LastName" stage="subject" page="subject" line="1" mode="static" />
-					<display field="Subject.Adult.FirstName" stage="subject" page="subject" line="2" mode="static" />
-					<display field="Subject.Adult.Address" stage="subject" page="subject" line="3" mode="static" />
-					<display field="Subject.Adult.MobilePhone" stage="subject" page="subject" line="4" />
-					<display field="Subject.Adult.Email" stage="subject" page="subject" line="5" />
+          <display field="Subject.Adult.LastName" stage="subject" page="subject" line="1"
+            mode="static" />
+          <display field="Subject.Adult.FirstName" stage="subject" page="subject" line="2"
+            mode="static" />
+          <display field="Subject.Adult.Address" stage="subject" page="subject" line="3"
+            mode="static" />
+          <display field="Subject.Adult.MobilePhone" stage="subject" page="subject" line="4" />
+          <display field="Subject.Adult.Email" stage="subject" page="subject" line="5" />
 
-					<display field="Subject.Adult.LastName" stage="subject" page="display" line="1" mode="static" />
-					<display field="Subject.Adult.FirstName" stage="subject" page="display" line="2" mode="static" />
-					<display field="Subject.Adult.Address" stage="subject" page="display" line="3" mode="static" />
-					<display field="Subject.Adult.MobilePhone" stage="subject" page="display" line="4" mode="static"/>
-					<display field="Subject.Adult.Email" stage="subject" page="display" line="5" mode="static"/>
+          <display field="Subject.Adult.LastName" stage="subject" page="display" line="1"
+            mode="static" />
+          <display field="Subject.Adult.FirstName" stage="subject" page="display" line="2"
+            mode="static" />
+          <display field="Subject.Adult.Address" stage="subject" page="display" line="3"
+            mode="static" />
+          <display field="Subject.Adult.MobilePhone" stage="subject" page="display" line="4"
+            mode="static" />
+          <display field="Subject.Adult.Email" stage="subject" page="display" line="5" mode="static" />
 
-					<display mode="labelonly" type="stagetitle" label="Subject" stage="validation" page="summary" line="0"/>
-					<display field="Subject.Adult.Address" stage="validation" page="summary" line="3" mode="static" />
-					<display field="Subject.Adult.MobilePhone" stage="validation" page="summary" line="4" mode="static"/>
-					<display field="Subject.Adult.Email" stage="validation" page="summary" line="5" mode="static"/>
-				</fo>
-				<bo namespace="localpolice">
-					<display field="Subject.Adult.LastName" page="displayholidaysecurity" line="1" mode="static" label="Nom"/>
-					<display field="Subject.Adult.FirstName" page="displayholidaysecurity" line="2" mode="static" label="Prénom"/>
-					<display field="Subject.Adult.Address" page="displayholidaysecurity" line="3" mode="static" label="Adresse"/>
-					<display field="Subject.Adult.MobilePhone" page="displayholidaysecurity" line="4" mode="static" label="Téléphone Mobile"/>
-					<display field="Subject.Adult.Email" page="displayholidaysecurity" line="5" mode="static" label="Courriel"/>
+          <display mode="labelonly" type="stagetitle" label="Subject" stage="validation"
+            page="summary" line="0" />
+          <display field="Subject.Adult.Address" stage="validation" page="summary" line="3"
+            mode="static" />
+          <display field="Subject.Adult.MobilePhone" stage="validation" page="summary" line="4"
+            mode="static" />
+          <display field="Subject.Adult.Email" stage="validation" page="summary" line="5"
+            mode="static" />
+        </fo>
+        <bo namespace="localpolice">
+          <display field="Subject.Adult.LastName" page="displayholidaysecurity" line="1"
+            mode="static" label="Nom" />
+          <display field="Subject.Adult.FirstName" page="displayholidaysecurity" line="2"
+            mode="static" label="Prénom" />
+          <display field="Subject.Adult.Address" page="displayholidaysecurity" line="3"
+            mode="static" label="Adresse" />
+          <display field="Subject.Adult.MobilePhone" page="displayholidaysecurity" line="4"
+            mode="static" label="Téléphone Mobile" />
+          <display field="Subject.Adult.Email" page="displayholidaysecurity" line="5" mode="static"
+            label="Courriel" />
 
-					<display field="Subject.Adult.LastName" page="checkholidaysecurity" line="1" mode="static" label="Nom"/>
-					<display field="Subject.Adult.FirstName" page="checkholidaysecurity" line="2" mode="static" label="Prénom"/>
+          <display field="Subject.Adult.LastName" page="checkholidaysecurity" line="1" mode="static"
+            label="Nom" />
+          <display field="Subject.Adult.FirstName" page="checkholidaysecurity" line="2"
+            mode="static" label="Prénom" />
 
-					<display field="Subject.Adult.LastName" page="printholidaysecurity" line="1" mode="static" label="Nom" />
-					<display field="Subject.Adult.FirstName" page="printholidaysecurity" line="2" mode="static" label="Prénom"/>
-				</bo>
-				<xslfo>
-		          <blocks-def>
-		            <block id="0" label="Personne &#x00E0; inscrire*" column="2" />
-		            <block id="1" label="Dates d'absence" />
-		            <block id="2" label="Téléphone d'alerte"/>
-		            <block id="3" label="Personne à contacter"/>
-		            <block id="4" label="Informations complémentaire"/>
-		            <block id="5" label="Souscription réglement"/>
-		            <block id="6" label="Moyen de contact*" />
-		            <block id="7"
-		              label="Informations sur l'inscription (&#x00E0; remplir par l'administration)"
-		              column="2" />
-		          </blocks-def>
-		          <element blockId="6" line="0" column="0" link="MeansOfContact"
-		            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
-		            <complexTemplate />
-		          </element>
-		          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
-		            <complexTemplate/>
-		          </element>
-		        </xslfo>
+          <display field="Subject.Adult.LastName" page="printholidaysecurity" line="1" mode="static"
+            label="Nom" />
+          <display field="Subject.Adult.FirstName" page="printholidaysecurity" line="2"
+            mode="static" label="Prénom" />
+        </bo>
+        <xslfo>
+          <blocks-def>
+            <block id="0" label="Personne &#x00E0; inscrire*" column="2" />
+            <block id="1" label="Dates d'absence" />
+            <block id="2" label="Téléphone d'alerte" />
+            <block id="3" label="Personne à contacter" />
+            <block id="4" label="Informations complémentaire" />
+            <block id="5" label="Souscription réglement" />
+            <block id="6" label="Moyen de contact*" />
+            <block id="7" label="Informations sur l'inscription (&#x00E0; remplir par l'administration)"
+              column="2" />
+          </blocks-def>
+          <element blockId="6" line="0" column="0" link="MeansOfContact"
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
+            <complexTemplate />
+          </element>
+          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
+            <complexTemplate />
+          </element>
+        </xslfo>
 
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="cvq:RequestType">
-					<xs:sequence>
-						<xs:element name="AbsenceStartDate" type="xs:date">
-							<xs:annotation>
-								<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de début d'absence du domicile</xs:documentation>
-								<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Start date of holiday's absence</xs:documentation>
-								<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Date début d'absence</xs:documentation>
-								<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Absence start date</xs:documentation>
-								<xs:appinfo>
-									<fo>
-										<display field="" stage="absencedate" page="absencedate" label="Date de début d'absence" line="1"/>
-										<display stage="validation" page="summary" mode="labelonly" type="stagetitle" label="Absencedate" line="9"/>
-										<display field="" stage="validation" page="summary" label="Date de début d'absence" line="10" mode="static"/>
-									</fo>
-									<bo>
-										<display field="" page="displayholidaysecurity" line="8" mode="static" />
-										<display field="" page="checkholidaysecurity" line="3" mode="static" />
-										<display field="" page="printholidaysecurity" line="3" mode="static" />
-									</bo>
-									<xslfo>
-										<element blockId="1" line="0" column="0">
-											<simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-										</element>
-									</xslfo>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="AbsenceEndDate" type="xs:date">
-							<xs:annotation>
-								<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de fin d'absence du domicile</xs:documentation>
-								<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">End date of holiday's absence</xs:documentation>
-								<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">date fin d'absence</xs:documentation>
-								<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Absence end date</xs:documentation>
-								<xs:appinfo>
-									<fo>
-										<display field="" stage="absencedate" page="absencedate" label="Date de fin d'absence" line="2"/>
-										<display field="" stage="validation" page="summary" label="Date de fin d'absence" line="11" mode="static"/>
-									</fo>
-									<bo>
-										<display field="" page="displayholidaysecurity" line="9" mode="static" />
-										<display field="" page="checkholidaysecurity" line="4" mode="static" />
-										<display field="" page="printholidaysecurity" line="4" mode="static" />
-									</bo>
-									<xslfo>
-										<element blockId="1" line="1" column="0">
-											<simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-										</element>
-									</xslfo>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:element>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="AbsenceStartDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de début d'absence
+                  du domicile</xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Start date of holiday's
+                  absence</xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">Date début d'absence</xs:documentation>
+                <xs:documentation xml:lang="en"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">Absence start date</xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="absencedate" page="absencedate" label="Date de début d'absence"
+                      line="1" />
+                    <display stage="validation" page="summary" mode="labelonly" type="stagetitle"
+                      label="Absencedate" line="9" />
+                    <display field="" stage="validation" page="summary" label="Date de début d'absence"
+                      line="10" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displayholidaysecurity" line="8" mode="static" />
+                    <display field="" page="checkholidaysecurity" line="3" mode="static" />
+                    <display field="" page="printholidaysecurity" line="3" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="1" line="0" column="0">
+                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AbsenceEndDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de fin d'absence du
+                  domicile</xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">End date of holiday's
+                  absence</xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">date fin d'absence</xs:documentation>
+                <xs:documentation xml:lang="en"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">Absence end date</xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display field="" stage="absencedate" page="absencedate" label="Date de fin d'absence"
+                      line="2" />
+                    <display field="" stage="validation" page="summary" label="Date de fin d'absence"
+                      line="11" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" page="displayholidaysecurity" line="9" mode="static" />
+                    <display field="" page="checkholidaysecurity" line="4" mode="static" />
+                    <display field="" page="printholidaysecurity" line="4" mode="static" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="1" line="1" column="0">
+                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
 
-						<xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType" default="false">
-			              <xs:annotation>
-			              	<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Réglementation du service à accepter</xs:documentation>
-								<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Rules and regulation to accept</xs:documentation>
-								<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Réglement</xs:documentation>
-								<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Rules</xs:documentation>
-			                <xs:appinfo>
-			                  <fo>
-			                    <display type="yesno" stage="rules" page="authorisation" line="1" label="J'accepte les conditions réglementaire de ce service" />
-			                    <display mode="labelonly" type="stagetitle" label="Rules" stage="validation" page="summary" line="12" />
-			                    <display type="yesno" stage="validation" page="summary" line="13" label="J'accepte les conditions réglementaire de ce service" mode="static" />
-			                  </fo>
-			                  <bo>
-			                    <display field="" type="yesno" page="displayholidaysecurity" line="52" label="Acceptation du règlement" />
-			                  </bo>
-			                  <xslfo>
-			                    <element blockId="5" line="0" column="0">
-			                      <signature>
-			                        <acceptMessage index="0">
-			                          J'ai pris parfaite connaissance du r&#232;glement du service sécurité vacances qui accompagne cette fiche.
+            <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType"
+              default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Réglementation
+                  du service à accepter</xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Rules and regulation to
+                  accept</xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">Réglement</xs:documentation>
+                <xs:documentation xml:lang="en"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">Rules</xs:documentation>
+                <xs:appinfo>
+                  <fo>
+                    <display type="yesno" stage="rules" page="authorisation" line="1"
+                      label="J'accepte les conditions réglementaire de ce service" />
+                    <display mode="labelonly" type="stagetitle" label="Rules" stage="validation"
+                      page="summary" line="12" />
+                    <display type="yesno" stage="validation" page="summary" line="13"
+                      label="J'accepte les conditions réglementaire de ce service" mode="static" />
+                  </fo>
+                  <bo>
+                    <display field="" type="yesno" page="displayholidaysecurity" line="52"
+                      label="Acceptation du règlement" />
+                  </bo>
+                  <xslfo>
+                    <element blockId="5" line="0" column="0">
+                      <signature>
+                        <acceptMessage index="0">
+                          J'ai pris parfaite connaissance du r&#232;glement du service sécurité vacances qui accompagne cette fiche.
 			                        </acceptMessage>
 			                        <rejectMessage index="0">
 			                          Vous n'avez pas accept&#233; le r&#233;glement.

@@ -11,6 +11,7 @@
         </div>
       </g:if>
       <g:render template="requestList" />
+      <g:render template="draftList" />
       <g:render template="paymentList" />
       <g:render template="documentList" />
     </div> 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>CapDémat Lab - FrontOfficeNG</title>
+    <title>CapDémat - FrontOffice</title>
     <g:render template="/shared/fo_resources" />
     <g:layoutHead />
   </head>
@@ -13,8 +13,9 @@
      <!-- header -->
      <div id="hd">
        <h1>
-         <img src="${createLinkTo(dir:'images/frontoffice',file:'logo_zen_200.png')}" alt="Zenexity Lab" />
-         <span>CapDémat - FrontOffice NG</span>
+         <img src="${createLinkTo(dir:'images/frontoffice',file:'logoFoVo.gif')}" 
+          style="width: 120px; height: 60px;" alt="Logo Val d'Oise" />
+         <span>CapDémat - FrontOffice</span>
        </h1>
        <map id="hd-menu">
         <g:if test="${!login}">
@@ -80,9 +81,14 @@
    <!-- footer -->
    <div id="ft">
      <a href="http://www.capwebct.fr/">
-       <img src="${createLinkTo(dir:'images',file:'logo_capwebct.gif')}" alt="CapWebCT" style="float:left; margin: 0 0 1em;" />
+       <img src="${createLinkTo(dir:'images',file:'logo_capwebct_small.gif')}" alt="CapWebCT" 
+       style="float:left; margin: 0 0 1em;" />
      </a>
-     <a href="http://www.zenexity.fr">Conçu et réalisé par  Zenexity R&D</a>
+     <a href="http://www.prai-idf.fr/public/rubrique.tpl?id=8364&titre=8364">
+       <img src="${createLinkTo(dir:'images',file:'logoUE.png')}" alt="Projet cofinancé par l’Union Européenne (FEDER)" 
+       style="float:left; margin: 0 0 1em;" />
+     </a>
+     <a href="#">Mentions légales</a>
    </div>
    
    <!-- hack to avoid seeing zct.notifier div -->

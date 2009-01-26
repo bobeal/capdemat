@@ -1,0 +1,8 @@
+Dear humans,
+
+We would like to inform you that your request of ${requestType} No${requestId}, 
+created at ${creationDate}, expire at ${expirationDate} and will be deleted.
+
+--
+Regards,
+From Rafik with love

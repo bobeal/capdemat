@@ -1,0 +1,8 @@
+Bonjour,
+
+Nous vous informons que votre brouillon de demande de type ${requestType} No${requestId}, 
+crée le ${creationDate}, va expirer le ${expirationDate} et sera supprimer par la suite.
+
+--
+Cordialement,
+Équipe Capdemat

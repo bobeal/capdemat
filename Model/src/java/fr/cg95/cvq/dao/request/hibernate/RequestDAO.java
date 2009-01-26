@@ -7,10 +7,14 @@ import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -50,7 +54,18 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                         + searchCrit.getSqlComparatif() + " lower(?)");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
-                                
+
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SUBJECT_LASTNAME)) {
+                sb.append(" and lower(request.subjectLastName) "
+                        + searchCrit.getSqlComparatif() + " lower(?)");
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SUBJECT_ID)) {
+                sb.append(" and request.subjectId " + searchCrit.getSqlComparatif() + " ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
+
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_NAME)) {
                 sb.append(" and request.requestType.category.name "
                         + searchCrit.getComparatif() + " ?");
@@ -101,7 +116,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(" and request.requestType.category.id in ( "
                         + searchCrit.getValue() + ")");
-            
+            } else if(searchCrit.getAttribut().equals(Request.DRAFT)) {
+                sb.append(prepareDraftQuery(parametersValues,parametersTypes,searchCrit));
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_QUALITY_TYPE)) {
                  
                 if (searchCrit.getValue().equals(Request.QUALITY_TYPE_ORANGE)) {
@@ -113,14 +129,18 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 }
             }
         }
-
+        
+        this.processDraft(sb,criteria);
+        
         if (sort != null) {
             if (sort.equals(Request.SEARCH_BY_REQUEST_ID))
                 sb.append(" order by request.id");
             else if (sort.equals(Request.SEARCH_BY_HOME_FOLDER_ID))
                 sb.append(" order by request.homeFolderId");
             else if (sort.equals(Request.SEARCH_BY_REQUESTER_LASTNAME))
-                sb.append(" order by request.requesterLastName");
+                sb.append(" order by request.requesterLastName, request.requesterFirstName");
+            else if (sort.equals(Request.SEARCH_BY_SUBJECT_LASTNAME))
+                sb.append(" order by request.subjectLastName, request.subjectFirstName");
             else if (sort.equals(Request.SEARCH_BY_CATEGORY_NAME))
                 sb.append(" order by request.requestType.category.name");
             else if (sort.equals(Request.SEARCH_BY_CREATION_DATE))
@@ -184,6 +204,17 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                         + searchCrit.getSqlComparatif() + " lower(?)");
                 objectList.add(searchCrit.getSqlStringValue());
                 typeList.add(Hibernate.STRING);
+
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SUBJECT_LASTNAME)) {
+                sb.append(" and lower(request.subjectLastName) "
+                        + searchCrit.getSqlComparatif() + " lower(?)");
+                objectList.add(searchCrit.getSqlStringValue());
+                typeList.add(Hibernate.STRING);
+
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SUBJECT_ID)) {
+                sb.append(" and request.subjectId " + searchCrit.getComparatif() + " ?");
+                objectList.add(searchCrit.getLongValue());
+                typeList.add(Hibernate.LONG);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
                 sb.append(" and state " + searchCrit.getComparatif() + " ?");
@@ -266,6 +297,9 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(" and request.requestType.category.id in ( "
                         + searchCrit.getValue() + ")");
+            } 
+            else if(searchCrit.getAttribut().equals(Request.DRAFT)) {
+                sb.append(prepareDraftQuery(objectList,typeList,searchCrit));
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_QUALITY_TYPE)) {
                  
                 if (searchCrit.getValue().equals(Request.QUALITY_TYPE_ORANGE)) {
@@ -276,9 +310,9 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     .append(" and request.redAlert = true");
                 }
             }
-
         }
-
+        
+        this.processDraft(sb,criteria);
         sbSelect.append(sb);
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
@@ -615,6 +649,122 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         sb.append(")");
 
         return HibernateUtil.getSession().createQuery(sb.toString()).list();
+    }
+    
+    public Long getSubjectId(Long requestId) {
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select r.subjectId from Request as r ").append("where r.id = ?");
+        
+        objectList.add(requestId);
+        typeList.add(Hibernate.LONG);
+
+        Type[] typeTab = typeList.toArray(new Type[1]);
+        Object[] objectTab = objectList.toArray(new Object[1]);
+        
+        return (Long)HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(objectTab, typeTab)
+            .uniqueResult();
+    }
+    
+    public List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
+                                              RequestState[] excludedStates) {
+        
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        StringBuffer sb = new StringBuffer()
+            .append("select request.subjectId from Request as request");
+
+        sb.append(" where request.homeFolderId = ?");
+        objectList.add(homeFolderId);
+        typeList.add(Hibernate.LONG);
+
+        sb.append(" and request.requestType.label = ?");
+        objectList.add(label);
+        typeList.add(Hibernate.STRING);
+
+        if (excludedStates != null && excludedStates.length > 0) {
+            for (RequestState excludedState : excludedStates) {
+                sb.append(" and request.state != ?");
+                objectList.add(excludedState.toString());
+                typeList.add(Hibernate.STRING);
+            }
+        }
+        Type[] typeTab = typeList.toArray(new Type[1]);
+        Object[] objectTab = objectList.toArray(new Object[1]);
+
+        //noinspection unchecked
+        return (List<Long>)HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list();
+    }
+    
+    public List<Request> listByDraftNotification(String actionLabel, Date date) {
+        
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append("select r from Request r left join r.actions a");
+        sb.append(" where r.draft = true");
+        sb.append(" and r.creationDate <= ?");
+        sb.append(" and (a.label != ?  or a.id = null) ");
+        
+        typeList.add(Hibernate.TIMESTAMP);
+        typeList.add(Hibernate.STRING);
+        
+        objectList.add(date);
+        objectList.add(actionLabel);
+        
+        Type[] typeTab = typeList.toArray(new Type[1]);
+        Object[] objectTab = objectList.toArray(new Object[1]);
+        
+        //noinspection unchecked
+        List<Request> result = HibernateUtil.getSession()
+            .createQuery(sb.toString()).setParameters(objectTab, typeTab).list();
+        
+        return result;
+    }
+    
+    protected StringBuffer processDraft(StringBuffer sb, Set<Critere> criterias) {
+        if(!this.existsCriteriaName(Request.DRAFT,criterias)) {
+            sb.append(" and (request.draft = false or request.draft is null) ");
+        }
+        return sb;
+    }
+    
+    protected String prepareDraftQuery(List<Object> values,List<Type> types,Critere crit) {
+        String result = "";
+        if(crit.getValue() instanceof List) {
+            for(Object o : (List) crit.getValue()) {
+                if(o != null) {
+                    result += " request.draft "+ crit.getComparatif() + " ? or ";
+                    values.add(o);
+                    types.add(Hibernate.BOOLEAN);
+                }
+                else result += " request.draft is null or";
+            }
+            if(result.contains("or")) { 
+                result = result.substring(0, result.length()-2);
+                result = String.format(" and ( %1$s )",result);
+            }
+        } else {
+            result = " and request.draft " + crit.getComparatif() + " ?";
+            values.add(crit.getValue());
+            types.add(Hibernate.BOOLEAN);
+        }
+        return result;
+    }
+    
+    
+    protected boolean existsCriteriaName(String name, Set<Critere> criterias) {
+        for(Critere c : criterias) {
+            if(c.getAttribut().equals(name)) return true;
+        }
+        return false;
     }
 
     /*

@@ -26,7 +26,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       //Are you sure that you want to perform this action ?
       var content = {
         head:'Attention !',
-        body: 'Confirmez la suppression ?'}
+        body: 'Confirmez la suppression ?'
+      }
       zcbrp.Forms.confirmationDialog = new zct.ConfirmationDialog(
         content,zcbrp.Forms.deleteForm);
     };
@@ -151,7 +152,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             var json = YAHOO.lang.JSON.parse(o.responseText);
             zct.Notifier.processMessage('success',json.success_msg);
             cn.removeChild(li);
-          })
+          });
         }
       },
       reloadList : function(id) {
@@ -198,7 +199,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         'deleteItem' : function(e){zcbrp.Forms.confirmationDialog.show(e);},
         'default': function(){return false;}
       }
-    }
+    };
   }();
   
   yue.onDOMReady(zcbrp.Forms.init);

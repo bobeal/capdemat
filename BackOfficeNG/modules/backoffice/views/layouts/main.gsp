@@ -23,9 +23,7 @@
       </div>
 
       <!-- footer -->
-      <div id="ft">
-        <a href="http://www.zenexity.fr">Conçu et réalisé par Zenexity R&D</a>
-      </div>
+      <div id="ft"></div>
 
     </div>
     

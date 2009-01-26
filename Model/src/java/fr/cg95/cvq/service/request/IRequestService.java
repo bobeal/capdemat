@@ -1,13 +1,5 @@
 package fr.cg95.cvq.service.request;
 
-import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.w3c.dom.Node;
-
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
@@ -35,6 +27,13 @@ import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 import fr.cg95.cvq.util.Critere;
+import org.w3c.dom.Node;
+
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * High level service interface to deal with requests.
@@ -46,6 +45,7 @@ public interface IRequestService {
     /** service name used by Spring's application context */
     String SERVICE_NAME = "requestService";
     
+    String DRAFT_DELETE_NOTIFICATION = "DRAFT_DELETE_NOTIFICATION";
     String REQUEST_CREATION_NOTIFICATION = "REQUEST_CREATION_NOTIFICATION";
     String REQUEST_ORANGE_ALERT_NOTIFICATION = "REQUEST_ORANGE_ALERT_NOTIFICATION";
     String REQUEST_RED_ALERT_NOTIFICATION = "REQUEST_RED_ALERT_NOTIFICATION";
@@ -79,6 +79,42 @@ public interface IRequestService {
     // CRUD related methods
     //////////////////////////////////////////////////////////
 
+    /**
+     * Prepares request draft.
+     * 
+     * @param request current request
+     * @throws CvqException
+     */
+    void prepareDraft(@IsRequest Request request) throws CvqException;
+    
+    Long processDraft(@IsRequest Request request) throws CvqException;
+    
+    /**
+     * Creates a draft request, bypass standard validation procedure. 
+     * 
+     * @param request current request
+     * @return Newly created request identifier
+     * @throws CvqException standard capdemat exception
+     * @throws CvqObjectNotFoundException
+     */
+    Long createDraft(@IsRequest Request request) throws CvqException;
+    
+    /**
+     * Modifies a draft of request
+     * 
+     * @param request draft
+     * @throws CvqException standard capdemat exception
+     */
+    void modifyDraft(@IsRequest Request request) throws CvqException;
+
+    /**
+     * Finalizes a request draft
+     * 
+     * @param request draft to finalize
+     * @throws CvqException standard exception
+     */
+    void finalizeDraft(@IsRequest Request request) throws CvqException;
+    
     /**
      * Create a new request from given data.
      * 
@@ -198,7 +234,7 @@ public interface IRequestService {
     /**
      * Get notes related to a given request.
      *
-     * @return a set of {@link fr.cg95.cvq.business.users.RequestNote} objects
+     * @return a set of {@link fr.cg95.cvq.business.request.RequestNote} objects
      */
     List<RequestNote> getNotes(@IsRequest final Long requestId)
         throws CvqException;
@@ -751,4 +787,6 @@ public interface IRequestService {
         throws CvqException;
 
     public Map<String, Boolean> areConditionsFilled(final Map<String, Map<String, String>> inputs);
+
+    
 }

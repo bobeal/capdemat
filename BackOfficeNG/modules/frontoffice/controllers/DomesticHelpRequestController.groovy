@@ -7,6 +7,8 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.business.request.Request
+import org.codehaus.groovy.reflection.CachedMethod
 
 class DomesticHelpRequestController {
 
@@ -21,6 +23,7 @@ class DomesticHelpRequestController {
     def defaultAction = 'edit'
     
     def currentTab = 'subject'
+    
     
     def steps = [
 
@@ -41,8 +44,22 @@ class DomesticHelpRequestController {
       'validation'
     ]
     
+    def draft = {
+        if(request.post) {
+            Request req = session.domesticHelpRequest
+            domesticHelpRequestService.prepareDraft(req)
+            domesticHelpRequestService.processDraft(req)
+            flash.domesticHelpRequest = req
+        } else if (request.get) {
+            flash.domesticHelpRequest = this.domesticHelpRequestService.getById(
+                Long.parseLong(params.id)) 
+        }
+        redirect(action:'edit')
+        return false
+    }
     
     def edit = {
+        
         def stepStates
         if (stepStates == null) {
             stepStates = [:]
@@ -51,16 +68,18 @@ class DomesticHelpRequestController {
             }
         }
         session['stepStates'] = stepStates
-          
-        if (dhr == null)
+        if(flash.domesticHelpRequest) dhr = flash.domesticHelpRequest
+        
+        if (!dhr && !flash.domesticHelpRequest) {
             dhr = new DomesticHelpRequest()
-dhr.setDhrGuardianAddress(new Address())
-dhr.setDhrReferentAddress(new Address())
-dhr.setDhrSpouseAddress(new Address())
-dhr.setDhrCurrentDwellingAddress(new Address())
-
-
-        session["domesticHelpRequest"] = dhr
+            dhr.setDhrGuardianAddress(new Address())
+            dhr.setDhrReferentAddress(new Address())
+            dhr.setDhrSpouseAddress(new Address())
+            dhr.setDhrCurrentDwellingAddress(new Address())
+        }
+        
+        session.domesticHelpRequest = dhr
+        
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
             model:[dhr:dhr, currentTab:currentTab, subjects:getAuthorizedSubjects(),
                    translationService:translationService, help:getHelp(),
@@ -73,8 +92,7 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         log.debug("validSubject - START")
         dhr = session["domesticHelpRequest"]
         bind(dhr)
-
-
+        
         session["domesticHelpRequest"] = dhr
         session['stepStates'].subject = 
             ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
@@ -193,8 +211,9 @@ dhr.setDhrCurrentDwellingAddress(new Address())
         dhr = session["domesticHelpRequest"]
         bind(dhr)
 
-
-        domesticHelpRequestService.create(dhr)
+        if(!dhr.draft) domesticHelpRequestService.create(dhr)
+        else domesticHelpRequestService.finalizeDraft(dhr) 
+        
 
         session["domesticHelpRequest"] = dhr
         session['stepStates'].validation = 
@@ -215,6 +234,9 @@ dhr.setDhrCurrentDwellingAddress(new Address())
             def subject = individualService.getById(subjectId)
             subjects[subjectId] = subject.lastName + " " + subject.firstName
         }
+        if(dhr.draft && !subjects.containsKey(dhr.subjectId))
+            subjects[dhr.subjectId] = "${dhr.subjectLastName} ${dhr.subjectFirstName}"
+        
         return subjects
     }
     

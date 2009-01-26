@@ -24,20 +24,22 @@ class RequestController {
     
     def translationService
     def instructionService
+    def requestAdaptorService
     
-    def defaultAction = "initSearch"
+    def defaultAction = 'initSearch'
     
-    def supportedKeys = ["requesterLastName", "id", "homeFolderId", "creationDateFrom", "creationDateTo"]
-    def longKeys = ["id", "homeFolderId"]
-    def dateKeys = ["creationDateFrom", "creationDateTo"]
+    // keys supported in advanced search screen : match with keys defined in Request.java
+    def supportedKeys = ['requesterLastName', 'subjectLastName', 'id', 'homeFolderId', 'creationDateFrom', 'creationDateTo']
+    def longKeys = ['id', 'homeFolderId']
+    def dateKeys = ['creationDateFrom', 'creationDateTo']
     def defaultSortBy = 'creationDate'
     def resultsPerPage = 15
     // default number of tasks to show per type
     def tasksShowNb = 5 
     def beforeInterceptor = {
-        session["currentMenu"] = "request"
+        session['currentMenu'] = 'request'
     }
-        
+
     /**
      * Called when first entering the search screen
      */
@@ -98,12 +100,12 @@ class RequestController {
         def parsedFilters = SearchUtils.parseFilters(params.filterBy)
         parsedFilters.filters.each { key, value ->
             Critere critere = new Critere()
-            critere.attribut = key.replaceAll("Filter","")
+            critere.attribut = key.replaceAll('Filter','')
             critere.comparatif = Critere.EQUALS
             if (key == 'stateFilter')
                 critere.value = value
             else if (key == 'qualityFilter') {
-                critere.attribut = "qualityType"
+                critere.attribut = 'qualityType'
                 critere.value = "qualityType"+value
             } else
                 critere.value = Long.valueOf(value)
@@ -185,48 +187,39 @@ class RequestController {
             agentService.modifyPreference(agent,'display',hash)
             state.modifyDisplay = null
             state['defaultDisplay'] = state['displayForm']
-            state['message'] = message(code:"message.updateDone")
+            state['message'] = message(code:'message.updateDone')
         }
         
         pageState = (new JSON(state)).toString()
-        session["currentMenu"] = "taskBoard"
+        session['currentMenu'] = 'taskBoard'
         
         def requestMap = [:]
         
         if(state?.displayForm?.contains('Late'))
-            requestMap.redRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_RED,state)
+            requestMap.redRequests = filterRequests('SEARCH_BY_QUALITY_TYPE',Request.QUALITY_TYPE_RED,state)
         if(state?.displayForm?.contains('Alert'))
-            requestMap.orangeRequests = filterRequests("SEARCH_BY_QUALITY_TYPE",Request.QUALITY_TYPE_ORANGE,state)
+            requestMap.orangeRequests = filterRequests('SEARCH_BY_QUALITY_TYPE',Request.QUALITY_TYPE_ORANGE,state)
         if(state?.displayForm?.contains('New'))
-            requestMap.pendingRequests = filterRequests("SEARCH_BY_STATE",RequestState.PENDING,state)
+            requestMap.pendingRequests = filterRequests('SEARCH_BY_STATE',RequestState.PENDING,state)
         if(state?.displayForm?.contains('Validated'))
-            requestMap.validatedRequests = filterRequests("SEARCH_BY_STATE",RequestState.VALIDATED,state)
+            requestMap.validatedRequests = filterRequests('SEARCH_BY_STATE',RequestState.VALIDATED,state)
         if(state?.displayForm?.contains('Last'))
-            requestMap.lastRequests = filterRequests("SEARCH_BY_LAST_INTERVENING_AGENT_ID",
+            requestMap.lastRequests = filterRequests('SEARCH_BY_LAST_INTERVENING_AGENT_ID',
                     SecurityContext.currentUserId,state)
         
-        render (view:'taskBoard', model:["requestMap":requestMap,
-                                         "state" : state,
-                                         "currentUserId" : SecurityContext.currentUserId,
-                                         "pageState" : pageState.encodeAsHTML(),
-                                         "allCategories":categoryService.getAll(),
-                                         "allRequestTypes":translatedAndSortRequestTypes()])
-    }
-    
-    def translatedAndSortRequestTypes() {
-        def allRequestTypes = defaultRequestService.getAllRequestTypes()
-        def allRequestTypesTranslated =  []
-        allRequestTypes.each {
-            allRequestTypesTranslated.add([id:it.id, label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()])
-        }
-        return allRequestTypesTranslated.sort{it.label}
+        render (view:'taskBoard', model:['requestMap':requestMap,
+                                         'state' : state,
+                                         'currentUserId' : SecurityContext.currentUserId,
+                                         'pageState' : pageState.encodeAsHTML(),
+                                         'allCategories':categoryService.getAll(),
+                                         'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes()])
     }
     
     def initSearchReferential() {
         return ['allStates':RequestState.allRequestStates,
                 'allAgents':agentService.getAll(),
                 'allCategories':categoryService.getAll(),
-                'allRequestTypes':translatedAndSortRequestTypes()]
+                'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes()]
     }
     
     protected filterRequests = {attr,val,state ->

@@ -12,13 +12,13 @@
   <xs:element name="SchoolRegistrationRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande d'inscription à l'école maternelle ou élémentaire
+        Demande d'inscription scolaire
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         School registration request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Inscription Scolaire
+        Inscription scolaire
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         School Registration
@@ -57,7 +57,7 @@
             <block id="2" label="Règlement intérieur" />
           </blocks-def>
           <element blockId="1" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
 	    <complexTemplate />
           </element>
           <element blockId="0" line="3" column="0" columnSpan="2" link="Subject">

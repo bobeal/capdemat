@@ -38,6 +38,7 @@ payment : initialized, validated, refused, cancelled
 .tag-read_only, .tag-read_write, .tag-manager,
 /*  role */
 .tag-homefolderresponsible, .tag-clrmother, .tag-clrfather, .tag-clrtutor, tutor,
+.tag-draft,
 /*  payment */ 
 .tag-initialized { 
   padding: 0 .2em;
@@ -106,3 +107,9 @@ payment : initialized, validated, refused, cancelled
 .tag-mailed_paper,
 .tag-brought_paper { background: #333333; border-color:#cccccc; color:#ffffff; }
 
+/* draft */
+.tag-draft {
+  margin-right: 5px;
+  background: #13d6d6 none repeat scroll 0 0;
+  border-color: #009999;
+}

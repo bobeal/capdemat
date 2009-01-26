@@ -18,10 +18,10 @@
         Remote support request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Demande de téléassistance
+        Téléassistance
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Remote support request
+        Remote support
       </xs:documentation>
       <xs:appinfo>
         <model namespace="social" />

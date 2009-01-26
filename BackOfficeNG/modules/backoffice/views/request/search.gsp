@@ -42,6 +42,10 @@
                 <input type="radio" name="requestSorter" id="requesterLastName" ${sortBy == 'requesterLastName' ? 'checked' : ''} />
               </li>
               <li>
+                <label for="subjectLastName"><g:message code="request.property.subject" /></label>
+                <input type="radio" name="requestSorter" id="subjectLastName" ${sortBy == 'subjectLastName' ? 'checked' : ''} />
+              </li>
+              <li>
                 <label for="requestId"><g:message code="property.requestId" /></label>
                 <input type="radio" name="requestSorter" id="requestId" ${sortBy == 'requestId' ? 'checked' : ''} />
               </li>

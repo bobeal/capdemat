@@ -10,16 +10,16 @@
   <xs:element name="DeathDetailsRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande extrait d'acte décès
+        Demande d'acte de décès
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Death details request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Acte décès
+        Acte de décès
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Death details request
+        Death details
       </xs:documentation>
       <xs:appinfo>
         <model namespace="civil" />
@@ -27,10 +27,10 @@
         <bo namespace="civil"/>
         <xslfo>
           <blocks-def>
-            <block id="0" label="Renseignements concernant l'acte d'&#x00E9;tat civil" column="3" />
+            <block id="0" label="Renseignements concernant l'acte d'état civil" column="3" />
             <block id="1" label="Renseignements concernant le demandeur" column="2" />
             <block id="2"
-              label="Etat civil de la personne dont vous demandez l'acte de d&#x00E9;c&#x00E8;s"
+              label="Etat civil de la personne dont vous demandez l'acte de déc&#x00E8;s"
               column="2" />
             <block id="3" label="Informations de filiation de la personne dont vous demandez l'acte"
               displayCondition="//ddr:Format/text() = 'ExtractWithRelationship' or //ddr:Format/text() = 'FullCopy'" />
@@ -69,10 +69,10 @@
             <xs:element name="Copies" type="xs:positiveInteger" default="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Nombre d'actes souhait&#x00E9;
+                  Nombre d'actes souhaité
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nombre d'actes souhait&#x00E9;
+                  Nombre d'actes souhaité
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
@@ -174,7 +174,7 @@
             <xs:element name="DeathFirstNames" type="xs:string" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Pr&#x00E9;nom(s)
+                  Prénom(s)
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
@@ -197,10 +197,10 @@
             <xs:element name="DeathDate" type="xs:date">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Date de d&#x00E9;c&#x00E8;s de l'individu
+                  Date de déc&#x00E8;s de l'individu
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Date de d&#x00E9;c&#x00E8;s
+                  Date de déc&#x00E8;s
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
@@ -223,7 +223,7 @@
             <xs:element name="DeathCity" type="cvq:CityType" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Ville de d&#x00E9;c&#x00E8;s
+                  Ville de déc&#x00E8;s
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
@@ -246,7 +246,7 @@
             <xs:element name="DeathPostalCode" type="cvq:DepartmentCodeType" minOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  D&#x00E9;partement de d&#x00E9;c&#x00E8;s
+                  Département de déc&#x00E8;s
                 </xs:documentation>
                 <xs:appinfo>
                   <fo>
@@ -275,13 +275,13 @@
   <xs:simpleType name="DeathCertificateFormatType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Informations relatives au type de l'acte d'&#x00E9;tat civil
+        Informations relatives au type de l'acte d'état civil
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Type de l'acte
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="FullCopy" value="Copie int&#x00E9;grale" />
+        <enum key="FullCopy" value="Copie intégrale" />
         <enum key="MultilingualExtract" value="Extrait plurilingue" />
       </xs:documentation>
     </xs:annotation>

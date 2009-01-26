@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/parr"
-  xmlns:parr="http://www.cg95.fr/cvq/schema/parr" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" xmlns:cse="http://www.cg95.fr/cvq/schema/cse"
-  elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/parr" xmlns:parr="http://www.cg95.fr/cvq/schema/parr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  xmlns:cse="http://www.cg95.fr/cvq/schema/cse" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-    schemaLocation="../common/CVQCommonElements.xsd" />
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/cse"
-    schemaLocation="./CommonSchoolElements.xsd" />
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/cse" schemaLocation="./CommonSchoolElements.xsd" />
 
   <xs:element name="PerischoolActivityRegistrationRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande d'inscription d'un enfant &#x00E0; des activit&#x00E9;s p&#x00E9;riscolaires
+        Demande d'inscription aux activités
+        périscolaires
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Perischool Activity Registration
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Inscription aux activit&#x00E9;s p&#x00E9;riscolaires
+        Inscription aux activités
+        périscolaires
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Perischool Activity Registration
@@ -64,7 +63,7 @@
             <block id="7" label="Autorisation d'exploitation de la photo de l'enfant" />
           </blocks-def>
           <element blockId="2" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
+            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
             <complexTemplate />
           </element>
           <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
@@ -103,17 +102,20 @@
             <xs:element name="School" type="cvq:SchoolType" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  L'école dans laquelle est inscrit l'enfant
+                  L'école dans laquelle est
+                  inscrit l'enfant
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  The school in which the child is registered
+                  The school in which the
+                  child is registered
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="authority" />
-				  <bo>
-		            <display field="Name" type="schools" page="checkperischool" line="4" mode="input" />
-				    <display field="Name" page="printperischool" line="4" mode="static"/>
-				  </bo>
+                  <bo>
+                    <display field="Name" type="schools" page="checkperischool" line="4"
+                      mode="input" />
+                    <display field="Name" page="printperischool" line="4" mode="static" />
+                  </bo>
                   <xslfo>
                     <element blockId="0" line="2" column="0">
                       <string selectXPath="cvq:Name" />
@@ -126,10 +128,10 @@
               <xs:annotation>
                 <xs:appinfo>
                   <model namespace="authority" />
-				  <bo>
-		            <display field="" page="checkperischool" line="5" mode="input"/>
-				    <display field="" page="printperischool" line="5" mode="static"/>
-				  </bo>
+                  <bo>
+                    <display field="" page="checkperischool" line="5" mode="input" />
+                    <display field="" page="printperischool" line="5" mode="static" />
+                  </bo>
                   <xslfo>
                     <element blockId="0" line="3" column="1">
                       <string referential="true" />
@@ -142,9 +144,11 @@
               maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Informations relatives aux activités périscolaires de l'enfant
+                  Informations relatives aux
+                  activités périscolaires de l'enfant
                 </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Activités périscolaires
                 </xs:documentation>
                 <xs:appinfo>
@@ -152,10 +156,10 @@
                   <fo repository="activityList">
                     <display field="" type="checklist" stage="inscription" page="perischool"
                       line="4" />
-                    <display field="" type="checklist" stage="inscription" page="display" line="7"
-                      mode="static" />
-                    <display field="" type="checklist" stage="validation" page="summary" line="7"
-                      mode="static" />
+                    <display field="" type="checklist" stage="inscription" page="display"
+                      line="7" mode="static" />
+                    <display field="" type="checklist" stage="validation" page="summary"
+                      line="7" mode="static" />
                   </fo>
                   <bo repository="PerischoolActivity">
                     <display field="" page="displayperischool" line="31" />
@@ -173,7 +177,8 @@
             <xs:element name="OtherIndividual" type="cse:OtherIndividualType" minOccurs="0"
               maxOccurs="unbounded">
               <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Personne à contacter
                 </xs:documentation>
                 <xs:appinfo>
@@ -181,16 +186,16 @@
                   <fo>
                     <display field="LastName" stage="contact" page="contact" line="1" />
                     <display field="FirstName" stage="contact" page="contact" line="2" />
-                    <display field="Address" type="text[3]" stage="contact" page="contact" line="3" />
+                    <display field="Address" type="text[3]" stage="contact" page="contact"
+                      line="3" />
                     <display field="HomePhone" stage="contact" page="contact" line="4"
                       label="Téléphone domicile" />
                     <display field="OfficePhone" stage="contact" page="contact" line="5"
                       label="Téléphone bureau" />
                     <display field="LastName" stage="contact" page="display" line="1" mode="static" />
-                    <display field="FirstName" stage="contact" page="display" line="2"
-                      mode="static" />
-                    <display field="Address" type="text[3]" stage="contact" page="display" line="3"
-                      mode="static" />
+                    <display field="FirstName" stage="contact" page="display" line="2" mode="static" />
+                    <display field="Address" type="text[3]" stage="contact" page="display"
+                      line="3" mode="static" />
                     <display field="HomePhone" stage="contact" page="display" line="4" mode="static"
                       label="Téléphone domicile" />
                     <display field="OfficePhone" stage="contact" page="display" line="5"
@@ -223,8 +228,8 @@
                       label="Téléphone domicile" mode="static" />
                     <display field="OfficePhone" stage="authorized" page="display" line="5"
                       label="Téléphone bureau" mode="static" />
-                    <display mode="labelonly" type="stagetitle" label="Authorized"
-                      stage="validation" page="summary" line="13" />
+                    <display mode="labelonly" type="stagetitle" label="Authorized" stage="validation"
+                      page="summary" line="13" />
                     <display type="list(authorized)" stage="validation" page="summary" line="13"
                       mode="static" label="Personnes autorisées">
                       <display field="LastName" line="1" mode="static" />
@@ -234,9 +239,9 @@
                       <display field="OfficePhone" line="12" mode="static" label="Téléphone bureau" />
                     </display>
                   </fo>
-			      <bo>
-                    <display field="" type="list" page="displayperischool" line="101" class="ParOtherIndividuals"
-                      mode="static">
+                  <bo>
+                    <display field="" type="list" page="displayperischool" line="101"
+                      class="ParOtherIndividuals" mode="static">
                       <display field="Type" line="1" mode="static" />
                       <display field="LastName" line="2" mode="static" />
                       <display field="FirstName" line="3" mode="static" />
@@ -244,7 +249,7 @@
                       <display field="HomePhone" line="5" mode="static" label="Téléphone domicile" />
                       <display field="OfficePhone" line="6" mode="static" label="Téléphone bureau" />
                     </display>
-			      </bo>
+                  </bo>
                   <xslfo>
                     <element blockId="3" line="0" column="0" columnSpan="2">
                       <complexTemplate />
@@ -270,10 +275,12 @@
                     <element blockId="4" line="0" column="0">
                       <signature>
                         <acceptMessage index="0">
-                          J'autorise la participation de mon enfant aux sorties organisées
+                          J'autorise la participation de mon enfant
+                          aux sorties organisées
                         </acceptMessage>
                         <rejectMessage index="0">
-                          Vous n'avez pas autorisé votre enfant à participer aux sorties organisées
+                          Vous n'avez pas autorisé votre enfant à
+                          participer aux sorties organisées
                         </rejectMessage>
                       </signature>
                     </element>

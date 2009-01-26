@@ -1,6 +1,6 @@
 class MenuTagLib {
     def static namespace = "menu"
-    def exclude = ['backoffice','frontoffice','serviceexporter']
+    def exclude = ['backoffice','frontoffice','serviceexporter','monitoring']
     
     def current = {attrs,body ->
         def elem = attrs['elem']
@@ -16,6 +16,7 @@ class MenuTagLib {
     }
     
     def protected getCurrentItem = {
+        //('A'..'Z')
         def result = controllerName
         exclude.each {result = result.replaceAll(it,'')}
         return result.toLowerCase()

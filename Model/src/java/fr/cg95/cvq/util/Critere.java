@@ -3,7 +3,7 @@ package fr.cg95.cvq.util;
 import java.util.Date;
 
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Utility class used to pass criteria search parameters between the presentation layer

@@ -178,6 +178,48 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="cronExpression" value="0 0 13,23 * * ?" />
   </bean>
 
+  <!-- ******************************************************************** -->
+  <!-- ***************** Draft Management Job Configuration *************** -->
+  <!-- ******************************************************************** -->
+  
+  <bean id="draftManagementJob"
+    class="fr.cg95.cvq.service.request.job.DraftManagementJob">
+    <property name="requestService" ref="defaultRequestService" />
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="localizationService" ref="localizationService" />
+    <property name="requestDAO" ref="requestDAO"/>
+    <property name="mailService" ref="mailService"/>
+    <property name="individualService" ref="individualService"/>
+    <property name="liveDuration" value="15" />
+    <property name="notificationBeforeDelete" value="7" />
+  </bean>
+  
+  <bean id="draftManagementRemoverJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="draftManagementJob" />
+    <property name="targetMethod" value="deleteExpiredDrafts" />
+    <property name="concurrent" value="false" />
+  </bean>
+  
+  <bean id="draftManagementRemoverJobTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="draftManagementNotifierJobInvoker" />
+    <property name="cronExpression" value="0 0 4 * * ?" />
+  </bean>
+  
+  <bean id="draftManagementNotifierJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="draftManagementJob" />
+    <property name="targetMethod" value="sendNotifications" />
+    <property name="concurrent" value="false" />
+  </bean>
+  
+  <bean id="draftManagementNotifierJobTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="draftManagementNotifierJobInvoker" />
+    <property name="cronExpression" value="0 0 5 * * ?" />
+  </bean>
+  
   <!-- *******************************************************************  -->
   <!-- ************************ Request Xml Generation *******************  -->
   <!-- *******************************************************************  -->
@@ -284,6 +326,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="requestInstructionDurationCheckerTrigger" />
         <ref bean="documentValidityCheckerTrigger" />
         <ref bean="requestSeasonsTrigger" />
+        <ref bean="draftManagementRemoverJobTrigger"/>
+        <ref bean="draftManagementNotifierJobTrigger"/>
 	    <!--
         <ref bean="requestWorkflowNavigatorTrigger" />
         <ref bean="ldapSynchronizerTrigger" />

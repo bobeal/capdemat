@@ -25,6 +25,8 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_REQUEST_ID = "id";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
     public static final String SEARCH_BY_REQUESTER_LASTNAME = "requesterLastName";
+    public static final String SEARCH_BY_SUBJECT_LASTNAME = "subjectLastName";
+    public static final String SEARCH_BY_SUBJECT_ID = "subjectId";
     public static final String SEARCH_BY_CATEGORY_NAME = "categoryName";
     public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
     public static final String SEARCH_BY_REQUEST_TYPE_ID = "requestTypeId";
@@ -41,6 +43,7 @@ public abstract class Request implements Serializable {
     public static final String QUALITY_TYPE_OK = "qualityTypeOk";
     public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     public static final String QUALITY_TYPE_RED = "qualityTypeRed";
+    public static final String DRAFT = "draft";
 
     
     /** identifier field */
@@ -69,12 +72,14 @@ public abstract class Request implements Serializable {
     private Long subjectId;
     private String subjectLastName;
     private String subjectFirstName;
+    private Boolean draft;
     
     private Set<RequestDocument> documents;
     private Set<RequestAction> actions;
     private Set<RequestNote> notes;
 
     public Request() {
+        this.draft = false;
     }
 
     public abstract String modelToXmlString() ;
@@ -486,5 +491,18 @@ public abstract class Request implements Serializable {
 
     public void setSubjectFirstName(String subjectFirstName) {
         this.subjectFirstName = subjectFirstName;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="draft"
+     *  not-null="true"
+     */
+    public Boolean getDraft() {
+        return draft;
+    }
+
+    public void setDraft(Boolean draft) {
+        this.draft = draft;
     }
 }

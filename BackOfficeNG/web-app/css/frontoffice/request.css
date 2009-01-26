@@ -12,7 +12,7 @@ h2.request-creation {
 }
 
 
-/* request form
+/* creation form
 --------------------------------------------------------------*/
 #requestTabView h3 {
   margin: 1em 0;
@@ -134,7 +134,7 @@ h2.request-creation {
   font-size: 1.2em; font-weight: bold;
 }
 
-/* request summary
+/* validation step (summary)
 --------------------------------------------------------------*/
 #requestTabView dl {
   margin : 10px;
@@ -156,7 +156,7 @@ h2.request-creation {
 
 #requestTabView dl dd p { padding: 0.1em; }
 
-/* request help
+/* help
 --------------------------------------------------------------*/
 
 .requestHelp {
@@ -172,41 +172,18 @@ h2.request-creation {
   border-bottom: 1px solid #C690BB;
 }
 
-/* styles copied from MVE SVN commit
+/* condition
 --------------------------------------------------------------*/
-
-ul.radio_list
-{
-  list-style-type: none;
-}
-
-li.radio_inline
-{
-  display: inline !important;
-}
+.unactive { display: none !important; }
 
 
-div.error_request
-{
-  font-weight: bold;
-  background: #FFFFFF ;
-  margin: 0 0 0 0; 
-  text-align: center;
-  color: red; 
-}
-
-.span-required {
-  color: red;
-  display: inline !important;
-}
+/* javascript validation
+--------------------------------------------------------------*/
 
 
 .validation-failed { /* for textboxes, textareas, passwords */
   border:1px dashed #FF3333;
   background-color:#FFCCCC;
-}
-
-.validation-failed-cr { /* for checkboxes and radios */
 }
 
 .validation-failed-sel { /* for selects */
@@ -219,23 +196,12 @@ div.error_request
   background-color:#fcfcfc;
 }
 
-.validation-passed-cr { /* for checkboxes and radios */
-
-}
-
-.validation-passed-sel { /* for selects */
-
-}
-
-.yui-cal {
-display:none;
-position:absolute;
-}
-
 .error { 
   color: red; 
   font-style: italic;
   text-align: center; 
   margin: 1em;
   padding: 1em;
-} 
+}
+
+

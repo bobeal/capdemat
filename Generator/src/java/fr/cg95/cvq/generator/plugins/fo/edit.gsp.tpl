@@ -19,8 +19,8 @@
     </p>
 
 <g:set var="requestTypeInfo">
-  { 'label': '\${requestTypeLabel}'
-    ,'steps': [ <% requestFo.steps.eachWithIndex { step, i -> %> '${step.name}'${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
+  {"label": "\${requestTypeLabel}"
+    ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
   }
 </g:set>
 <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" />
@@ -63,7 +63,7 @@
            </div>
            <div class="error" id="${step.camelCaseName}FormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="\${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="\${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="\${uuidString}" />
            
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />

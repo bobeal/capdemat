@@ -749,6 +749,10 @@ public interface IRequestService {
      */
     void onExternalServiceSendRequest(Request request, String sendRequestResult) 
         throws CvqException;
-
-    public Map<String, Boolean> areConditionsFilled(final Map<String, Map<String, String>> inputs);
+    
+    /**
+     * Entry point for business conditions treatments
+     * @param triggers - A map where key=control.name and value=control.value, for all controls triggering the same condition 
+     */
+    boolean isConditionFilled (Map<String, String> triggers);
 }

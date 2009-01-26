@@ -19,8 +19,8 @@
     </p>
 
 <g:set var="requestTypeInfo">
-  { 'label': '${requestTypeLabel}'
-    ,'steps': [  'subject',  'familyReferent',  'spouse',  'dwelling',  'resources',  'taxes',  'document',  'validation'  ]
+  {"label": "${requestTypeLabel}"
+    ,"steps": [  "subject",  "familyReferent",  "spouse",  "dwelling",  "resources",  "taxes",  "document",  "validation"  ]
   }
 </g:set>
 <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
@@ -125,7 +125,7 @@
            </div>
            <div class="error" id="subjectFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
            <input type="submit" id="submit-step-subject" name="submit-step-subject" value="${message(code:'action.save')}" />
@@ -157,7 +157,7 @@
            </div>
            <div class="error" id="familyReferentFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
            <input type="submit" id="submit-step-familyReferent" name="submit-step-familyReferent" value="${message(code:'action.save')}" />
@@ -191,7 +191,7 @@
            </div>
            <div class="error" id="spouseFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
            <input type="submit" id="submit-step-spouse" name="submit-step-spouse" value="${message(code:'action.save')}" />
@@ -225,7 +225,7 @@
            </div>
            <div class="error" id="dwellingFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
            <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" value="${message(code:'action.save')}" />
@@ -259,7 +259,7 @@
            </div>
            <div class="error" id="resourcesFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
            <input type="submit" id="submit-step-resources" name="submit-step-resources" value="${message(code:'action.save')}" />
@@ -293,7 +293,7 @@
            </div>
            <div class="error" id="taxesFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
            <input type="submit" id="submit-step-taxes" name="submit-step-taxes" value="${message(code:'action.save')}" />
@@ -327,7 +327,7 @@
            </div>
            <div class="error" id="documentFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
            <input type="submit" id="submit-step-document" name="submit-step-document" value="${message(code:'action.save')}" />
@@ -367,7 +367,7 @@
            </div>
            <div class="error" id="validationFormErrors"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
            
            <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.save')}" />

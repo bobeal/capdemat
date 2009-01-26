@@ -1,6 +1,8 @@
 package fr.cg95.cvq.service.request.social.impl;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -92,82 +94,31 @@ public class DomesticHelpRequestService extends RequestService implements
         return new DomesticHelpRequest();
     }
     
-    public boolean checkIsCoupleRequest(final Map<String,String> inputs){
-        if (inputs.get("dhrRequestKind").equals("fr.cg95.cvq.business.request.social.DhrRequestKindType_Couple"))
-            return true;
-        return false;
+    
+    public final static Map<String,String> filledConditions = new HashMap<String, String>();
+    static {
+        filledConditions.put("dhrRequestKind", "Couple");
+        filledConditions.put("dhrHaveFamilyReferent", "true");
+        filledConditions.put("dhrRequesterNationality", "OutsideEuropeanUnion");
+        filledConditions.put("dhrPrincipalPensionPlan", "Other");
+        filledConditions.put("dhrRequesterHaveGuardian", "true");
+        filledConditions.put("dhrSpouseTitle", "Madam");
+        filledConditions.put("dhrSpouseNationality", "OutsideEuropeanUnion");
+        filledConditions.put("dhrIsSpouseRetired", "true");
+        filledConditions.put("dhrSpousePrincipalPensionPlan", "Other");
+        filledConditions.put("dhrCurrentDwellingKind", "placeOfResidence");
+        filledConditions.put("dhrPreviousDwellingKind", "placeOfResidence");
+        filledConditions.put("dhrNotRealAssetKind", "RealEstate");
     }
     
-    public boolean checkHaveFamilyReferent(final Map<String,String> inputs){
-        if (inputs.get("dhrHaveFamilyReferent").equals("true"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsMadam(final Map<String,String> inputs){
-        if (inputs.get("dhrRequesterTitle").equals("fr.cg95.cvq.business.users.TitleType_Madam"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsNonEuropean(final Map<String,String> inputs){
-        if (inputs.get("dhrRequesterNationality").equals("fr.cg95.cvq.business.users.NationalityType_OutsideEuropeanUnion"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsOtherPensionPlan(final Map<String,String> inputs){
-        if (inputs.get("dhrPrincipalPensionPlan").equals("fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_Other"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkHaveGuardian(final Map<String,String> inputs){
-        if (inputs.get("dhrRequesterHaveGuardian").equals("true"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsSpouseMadam(final Map<String,String> inputs){
-        if (inputs.get("dhrSpouseTitle").equals("fr.cg95.cvq.business.users.TitleType_Madam"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsSpouseNonEuropean(final Map<String,String> inputs){
-        if (inputs.get("dhrSpouseNationality").equals("fr.cg95.cvq.business.users.NationalityType_OutsideEuropeanUnion"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsSpouseRetired(final Map<String,String> inputs){
-        if (inputs.get("dhrIsSpouseRetired").equals("true"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsSpouseOtherPensionPlan(final Map<String,String> inputs){
-        if (inputs.get("dhrSpousePrincipalPensionPlan").equals("fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_Other"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsCurrentDwellingPlaceOfResidence(final Map<String,String> inputs){
-        if (inputs.get("dhrCurrentDwellingKind").equals("fr.cg95.cvq.business.request.social.DhrDwellingKindType_placeOfResidence"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsPreviousDwellingPlaceOfResidence(final Map<String,String> inputs){
-        if (inputs.get("dhrPreviousDwellingKind").equals("fr.cg95.cvq.business.request.social.DhrDwellingKindType_placeOfResidence"))
-            return true;
-        return false;
-    }
-    
-    public boolean checkIsRealEstate(final Map<String,String> inputs){
-        if (inputs.get("dhrNotRealAssetKind").equals("fr.cg95.cvq.business.request.social.DhrAssetKindType_RealEstate"))
-            return true;
-        return false;
+    public boolean isConditionFilled (Map<String, String> triggers) {
+        boolean test = true;
+        for (Entry<String, String> trigger : triggers.entrySet())
+            if (filledConditions.get(trigger.getKey()) != null && filledConditions.get(trigger.getKey()).equals(trigger.getValue()))
+                test = test && true;
+            else
+                return false;
+        return test;
     }
     
 }

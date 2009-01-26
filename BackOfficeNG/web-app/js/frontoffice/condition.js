@@ -29,33 +29,23 @@
       return triggerEls;
     }
     
-    var triggerValue = function (triggerEl) {
+    var getTriggerValue = function (triggerEl) {
       if (zct.nodeName(triggerEl,'select') || yud.hasClass(triggerEl, 'validate-one-required'))
         return triggerEl.value.split('_')[1] || "";
       else
         return triggerEl.value || "";
     }
     
-    var listenerSwitch = function (listenerEl, action) {
-      var actionClass = action ? 'action-editField' : 'not-action-editField';
-      var notActionClass = action ? 'not-action-editField' : 'action-editField';
-      
-      if (listenerEl.tagName === 'dl'.toUpperCase() && action === yud.hasClass(listenerEl, 'not-action-editField')) {
-        zct.toggleClass(listenerEl,'not-action-editField');
-        zct.each(yus.query('dt', listenerEl), function(){
-          zct.toggleClass(this,'not-action-editField');
-        });
-        zct.each(yus.query('dd', listenerEl), function(){
-          if (yud.hasClass(this, notActionClass))
-            yud.replaceClass(this, notActionClass, actionClass);
-        });
-      }
-      else if (listenerEl.tagName === 'dt'.toUpperCase() && action === yud.hasClass(listenerEl, 'not-action-editField')) {
-          var listenerDdEl = yud.getNextSibling(listenerEl);
-          zct.toggleClass(listenerEl,'not-action-editField');
-          if (yud.hasClass(listenerDdEl, notActionClass))
-            yud.replaceClass(listenerDdEl, notActionClass, actionClass);
-      }
+    var getRequestTypeLabel = function () {
+      var inputEl = yud.get('requestTypeInfo');
+      return ylj.parse(yl.trim(inputEl.value.replace(/\n/g,''))).label;
+    }
+    
+    var listenerSwitch = function (listenerEl, active) {
+      if (active)
+        yud.removeClass(listenerEl, 'unactive');
+      else
+        yud.addClass(listenerEl, 'unactive');
     }
     
     return {
@@ -85,7 +75,7 @@
       test : function() {
           zct.each(zcf.Condition.triggers, function(i) {
             zct.doAjaxCall(
-                '/condition/?triggers='+ ylj.stringify(this),
+                '/condition/?requestTypeLabel=' + getRequestTypeLabel() + '&triggers='+ ylj.stringify(this),
                 null,
                 function(o) {
                   var json = ylj.parse(o.responseText);
@@ -131,7 +121,7 @@
           if (!yl.isUndefined(triggerEls) && triggerEls.length > 0) {
             var jsonTrigger = {};
             zct.each (triggerEls, function() {
-              jsonTrigger[this.name] = triggerValue(this);
+              jsonTrigger[this.name] = getTriggerValue(this);
             });
             zcf.Condition.triggers.push(jsonTrigger);
             zcf.Condition.addFilleds(['condition', conditionName, 'filled'].join('-'));

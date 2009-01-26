@@ -97,7 +97,7 @@
       <label class="required"><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /> <span><g:message code="dhr.property.dhrRequesterHaveGuardian.help" /></span></label>
       
             <ul class="required">
-              <g:each var="it" in="${[true,false]}" status="index" >
+              <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-haveGuardian-trigger validate-boolean" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == rqt.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />

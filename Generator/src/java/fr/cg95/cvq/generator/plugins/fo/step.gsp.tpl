@@ -3,7 +3,7 @@
       def widgets = [
         'boolean' : 
             """
-            <ul class="${element.conditionsClass}">
+            <ul class="${element.listenerConditionsClass}">
               <g:each in="\${[true,false]}">
               <li>
                 <input type="radio" class="${element.htmlClass}" title="" value="\${it}" name="${namePrefix}${element.javaFieldName}" \${it == ${valuePrefix}.${element.javaFieldName} ? 'checked="checked"': ''} />
@@ -14,7 +14,7 @@
             """
         ,'radio' :
             """
-            <ul class="${element.conditionsClass}">
+            <ul class="${element.listenerConditionsClass}">
               <g:each in="\${${element.enumValuesAsString}}">
               <li>
                 <input type="radio" class="${element.htmlClass}" value="${element.qualifiedType}_\${it}" name="${namePrefix}${element.javaFieldName}" \${it == ${valuePrefix}.${element.javaFieldName}.toString() ? 'checked="checked"': ''} title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
@@ -34,7 +34,7 @@
             """
         ,'address' :
             """
-            <div class="address-fieldset ${element.conditionsClass}">
+            <div class="address-fieldset ${element.listenerConditionsClass}">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" name="${namePrefix}${element.javaFieldName}.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -57,7 +57,10 @@
                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
             """
          ,'text' :
-            """<input name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">"""
+            """
+            <input name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
+                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
+            """
       ]
       
       if (widgets[element.widget] != null)
@@ -118,13 +121,13 @@
 <% def displayedSubject = false %>
 <% elementList.each { element -> %>
   <% if (element.typeClass == "COLLECTION") { %>
-    <label class="${element.conditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-    <div class="collection-fieldset">
+    <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
+    <div class="collection-fieldset ${element.listenerConditionsClass}">
       <!--<h4><g:message code="${element.i18nPrefixCode}.label" /></h4>-->
       <g:set var="listIndex" value="\${editList?.name == '${element.javaFieldName}' ? editList?.index : ( rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ${element.conditionsClass}">
     <% element.elements.each { subElement -> %>
-        <label class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
+        <label class="${subElement.listenerConditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
         <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
     <% } %>
         <g:if test="\${editList?.name == '${element.javaFieldName}'}">
@@ -135,7 +138,7 @@
         </g:else>
       </fieldset>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
-      <fieldset class="collection-fieldset-edit ${element.conditionsClass}">
+      <fieldset class="collection-fieldset-edit">
         <!-- <legend><g:message code="${element.i18nPrefixCode}.label" /></legend> -->
         <dl>
     <% element.elements.each { subElement -> %>
@@ -150,7 +153,7 @@
     </div>
     
   <% } else if (element.typeClass == "COMPLEX") { %>
-    <fieldset class="${element.conditionsClass}">
+    <fieldset class="${element.listenerConditionsClass}">
     <legend><g:message code="${element.i18nPrefixCode}.label" /></legend> 
       <% if (step.name == 'subject' && !displayedSubject) { %>
     <label><g:message code="request.property.subjectName" /></label>
@@ -162,12 +165,12 @@
     </select>
       <% displayedSubject = true } %>
     <% element.elements.each { subElement -> %>
-      <label class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
+      <label class="${subElement.listenerConditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
       <% displayWidget(subElement, 'rqt', '') %>
     <% } %>
     </fieldset>
   <% } else { %>
-    <label class="${element.conditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
+    <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
     <% displayWidget(element, 'rqt', '') %>
   <% } %>
 <% } %>

@@ -29,9 +29,12 @@
             
     
       <label class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingPhone.help" /></span></label>
-      <input name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone}" class=" validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />">
+      
+            <input name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone}" 
+                    class=" validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />">
+            
     
-      <label class="required condition-isCurrentDwellingPlaceOfResidence-trigger"><g:message code="dhr.property.dhrCurrentDwellingKind.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingKind.help" /></span></label>
+      <label class="required"><g:message code="dhr.property.dhrCurrentDwellingKind.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingKind.help" /></span></label>
       
             <select name="dhrCurrentDwellingKind" class="required condition-isCurrentDwellingPlaceOfResidence-trigger validate-no-first" title="<g:message code="dhr.property.dhrCurrentDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -60,17 +63,23 @@
             
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.help" /></span></label>
-      <input name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom}" class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />">
+      
+            <input name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom}" 
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />">
+            
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
-      <input name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea}" class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNetArea" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />">
+      
+            <input name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea}" 
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNetArea" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />">
+            
     
     </fieldset>
   
 
   
     <label class="required"><g:message code="dhr.property.dhrPreviousDwelling.label" /> <span><g:message code="dhr.property.dhrPreviousDwelling.help" /></span></label>
-    <div class="collection-fieldset">
+    <div class="collection-fieldset required">
       <!--<h4><g:message code="dhr.property.dhrPreviousDwelling.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'dhrPreviousDwelling' ? editList?.index : ( rqt.dhrPreviousDwelling ? rqt.dhrPreviousDwelling.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
@@ -95,7 +104,7 @@
             </div>
             
     
-        <label class="required condition-isPreviousDwellingPlaceOfResidence-trigger"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingKind.help" /></span></label>
+        <label class="required"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingKind.help" /></span></label>
         
             <select name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingKind" class="required condition-isPreviousDwellingPlaceOfResidence-trigger validate-no-first" title="<g:message code="dhr.property.dhrPreviousDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -130,7 +139,10 @@
             
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
-        <input name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment}" class="required validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />">
+        
+            <input name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment}" 
+                    class="required validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />">
+            
     
         <g:if test="${editList?.name == 'dhrPreviousDwelling'}">
           <input type="submit" name="submit-modify-dwelling-dhrPreviousDwelling[${listIndex}]" value="modifier" />
@@ -140,7 +152,7 @@
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">
-      <fieldset class="collection-fieldset-edit required">
+      <fieldset class="collection-fieldset-edit">
         <!-- <legend><g:message code="dhr.property.dhrPreviousDwelling.label" /></legend> -->
         <dl>
     

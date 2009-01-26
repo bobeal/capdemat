@@ -23,9 +23,12 @@
             
     
       <label class="required"><g:message code="dhr.property.dhrRequesterBirthPlace.label" /> <span><g:message code="dhr.property.dhrRequesterBirthPlace.help" /></span></label>
-      <input name="dhrRequesterBirthPlace" value="${rqt.dhrRequesterBirthPlace}" class="required validate-string" title="<g:message code="dhr.property.dhrRequesterBirthPlace.validationError" />">
+      
+            <input name="dhrRequesterBirthPlace" value="${rqt.dhrRequesterBirthPlace}" 
+                    class="required validate-string" title="<g:message code="dhr.property.dhrRequesterBirthPlace.validationError" />">
+            
     
-      <label class="required condition-isNonEuropean-trigger"><g:message code="dhr.property.dhrRequesterNationality.label" /> <span><g:message code="dhr.property.dhrRequesterNationality.help" /></span></label>
+      <label class="required"><g:message code="dhr.property.dhrRequesterNationality.label" /> <span><g:message code="dhr.property.dhrRequesterNationality.help" /></span></label>
       
             <select name="dhrRequesterNationality" class="required condition-isNonEuropean-trigger validate-no-first" title="<g:message code="dhr.property.dhrRequesterNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -61,7 +64,7 @@
     <legend><g:message code="dhr.property.dhrRequesterPensionPlan.label" /></legend> 
       
     
-      <label class="required condition-isOtherPensionPlan-trigger"><g:message code="dhr.property.dhrPrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrPrincipalPensionPlan.help" /></span></label>
+      <label class="required"><g:message code="dhr.property.dhrPrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrPrincipalPensionPlan.help" /></span></label>
       
             <select name="dhrPrincipalPensionPlan" class="required condition-isOtherPensionPlan-trigger validate-no-first" title="<g:message code="dhr.property.dhrPrincipalPensionPlan.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -72,10 +75,16 @@
             
     
       <label class="required condition-isOtherPensionPlan-filled"><g:message code="dhr.property.dhrPensionPlanDetail.label" /> <span><g:message code="dhr.property.dhrPensionPlanDetail.help" /></span></label>
-      <input name="dhrPensionPlanDetail" value="${rqt.dhrPensionPlanDetail}" class="required condition-isOtherPensionPlan-filled validate-string" title="<g:message code="dhr.property.dhrPensionPlanDetail.validationError" />">
+      
+            <input name="dhrPensionPlanDetail" value="${rqt.dhrPensionPlanDetail}" 
+                    class="required condition-isOtherPensionPlan-filled validate-string" title="<g:message code="dhr.property.dhrPensionPlanDetail.validationError" />">
+            
     
       <label class="required"><g:message code="dhr.property.dhrComplementaryPensionPlan.label" /> <span><g:message code="dhr.property.dhrComplementaryPensionPlan.help" /></span></label>
-      <input name="dhrComplementaryPensionPlan" value="${rqt.dhrComplementaryPensionPlan}" class="required validate-string" title="<g:message code="dhr.property.dhrComplementaryPensionPlan.validationError" />">
+      
+            <input name="dhrComplementaryPensionPlan" value="${rqt.dhrComplementaryPensionPlan}" 
+                    class="required validate-string" title="<g:message code="dhr.property.dhrComplementaryPensionPlan.validationError" />">
+            
     
     </fieldset>
   
@@ -85,10 +94,10 @@
     <legend><g:message code="dhr.property.dhrRequesterGuardian.label" /></legend> 
       
     
-      <label class="required condition-haveGuardian-trigger"><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /> <span><g:message code="dhr.property.dhrRequesterHaveGuardian.help" /></span></label>
+      <label class="required"><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /> <span><g:message code="dhr.property.dhrRequesterHaveGuardian.help" /></span></label>
       
-            <ul class="required condition-haveGuardian-trigger">
-              <g:each in="${[true,false]}">
+            <ul class="required">
+              <g:each var="it" in="${[true,false]}" status="index" >
               <li>
                 <input type="radio" class="required condition-haveGuardian-trigger validate-boolean" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == rqt.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
@@ -108,7 +117,10 @@
             
     
       <label class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianName.label" /> <span><g:message code="dhr.property.dhrGuardianName.help" /></span></label>
-      <input name="dhrGuardianName" value="${rqt.dhrGuardianName}" class="required condition-haveGuardian-filled validate-lastName" title="<g:message code="dhr.property.dhrGuardianName.validationError" />">
+      
+            <input name="dhrGuardianName" value="${rqt.dhrGuardianName}" 
+                    class="required condition-haveGuardian-filled validate-lastName" title="<g:message code="dhr.property.dhrGuardianName.validationError" />">
+            
     
       <label class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianAddress.label" /> <span><g:message code="dhr.property.dhrGuardianAddress.help" /></span></label>
       

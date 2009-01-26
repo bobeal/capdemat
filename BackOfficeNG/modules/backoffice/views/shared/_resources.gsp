@@ -63,5 +63,8 @@
   <script type="text/javascript">
     zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
     zenexity.capdemat.bong.currentMenu = "${session['currentMenu']}";
-    zenexity.capdemat.bong.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
+    zenexity.capdemat.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
   </script>
+  
+  
+  

@@ -121,25 +121,27 @@ h2.request-creation { margin: 0 !important; font-size: 2em !important; }
   border-color: #FF812B !important;
 }
 
-#requestTabView input, #requestTabView select, #requestTabView textarea {
+#requestTabView form div input, 
+#requestTabView form div select, 
+#requestTabView form div textarea {
   border-top-color: #FF812B !important;
 }
 
-#requestTabView button[type="button"] {
-  border-color: #804016 !important;
-  border-left-color: #FF812B !important;
-  border-top-color: #FF812B !important;
-  background-color: #FF812B !important;
-  color: #FFFFFF !important;
-}
+/*#requestTabView button[type="button"] {*/
+/*  border-color: #804016 !important;*/
+/*  border-left-color: #FF812B !important;*/
+/*  border-top-color: #FF812B !important;*/
+/*  background-color: #FF812B !important;*/
+/*  color: #FFFFFF !important;*/
+/*}*/
 
 
-#requestTabView button[type="button"]:hover{
-  border-color: #FF812B !important;
-  border-left-color: #804016 !important;
-  border-top-color: #804016 !important;
-  color: #333 !important;
-}
+/*#requestTabView button[type="button"]:hover{*/
+/*  border-color: #FF812B !important;*/
+/*  border-left-color: #804016 !important;*/
+/*  border-top-color: #804016 !important;*/
+/*  color: #333 !important;*/
+/*}*/
 
 #requestTabView .nextTab, #requestTabView .prevTab { 
   color: #FF812B !important; 

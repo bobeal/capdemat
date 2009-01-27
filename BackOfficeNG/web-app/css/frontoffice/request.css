@@ -40,19 +40,19 @@ h2.request-creation {
   background: #fff;
 }
 
-#requestTabView label {
+#requestTabView form div label {
   display: block;
   width: 80%;
   font-size: 1.2em;
   font-weight: normal;
   font-style: normal;
 }
-#requestTabView label.required { font-weight: bold; }
-#requestTabView label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
+#requestTabView form div label.required { font-weight: bold; }
+#requestTabView form div label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
 
-#requestTabView input,
-#requestTabView select,
-#requestTabView textarea {
+#requestTabView form div input,
+#requestTabView form div select,
+#requestTabView form div textarea {
   width: 80%;
   display: block;
   margin: .1em 0 1em 0;
@@ -80,22 +80,8 @@ h2.request-creation {
 
 #requestTabView .yui-button { margin-left: 40%; }
 
-#requestTabView button[type="button"] {
-  width: auto;
-  margin: 2em auto 0 auto; padding: 0 2em;
-  font-size: 1.3em;
-  border: 1px solid #666;
-  -moz-border-radius: .3em;
-}
 
-#requestTabView button[type="button"]:hover {
-  border: 1px solid #cdcdcd;
-  border-top-color: #7fa646;
-  border-left-color: #7fa646;
-  background: #fff;
-}
-
-#requestTabView fieldset {
+#requestTabView form div fieldset {
   margin: 0 0 .5em 0; padding: 1em 0 0 1em;
   border-left: 3px solid #A0D158;
 }
@@ -126,14 +112,14 @@ h2.request-creation {
 
 #requestTabView .nextTab:hover, #requestTabView .prevTab:hover { background: #2020AA; color:#ffffff; }
 
-#requestTabView div.box {
+#requestTabView form div.box {
   min-height: 30em;
   padding:  0 1.5em 1.5em 1.5em;
 }
-#requestTabView div.box ul {
+#requestTabView form div.box ul {
   margin: 1em;
 }
-#requestTabView div.box ul li {
+#requestTabView form div.box ul li {
   padding: .3em 0;
   list-style-type: disc;
   font-size: 1.2em; font-weight: bold;
@@ -205,12 +191,6 @@ div.error_request
   display: inline !important;
 }
 
-input, textarea, select {
-  border:1px solid #000;
-  background-color:#FFFFFF;
-  border: 1px solid #cdcdcd;
-  border-top-color: #7fa646;
-}
 
 .validation-failed { /* for textboxes, textareas, passwords */
   border:1px dashed #FF3333;

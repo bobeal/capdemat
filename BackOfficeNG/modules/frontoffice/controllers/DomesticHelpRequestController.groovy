@@ -39,10 +39,9 @@ class DomesticHelpRequestController {
 
       'taxes',
 
-      'documentRef',
+      'document',
 
-      'validationRef'
-
+      'validation'
     ]
     
     def draft = {
@@ -197,7 +196,7 @@ class DomesticHelpRequestController {
 
 
         session["domesticHelpRequest"] = dhr
-        session['stepStates'].documentRef = 
+        session['stepStates'].document = 
             ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
             
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 
@@ -217,7 +216,7 @@ class DomesticHelpRequestController {
         
 
         session["domesticHelpRequest"] = dhr
-        session['stepStates'].validationRef = 
+        session['stepStates'].validation = 
             ['cssClass': 'tag-complete', 'i18nKey': 'request.step.state.complete'] 
             
         render(view:"frontofficeRequestType/domesticHelpRequest/edit", 

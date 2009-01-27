@@ -33,7 +33,7 @@ public class FoPlugin implements IPluginGenerator {
     private String outputDir;
     private String editTemplate;
     private String stepTemplate;
-    private String summaryTemplate;
+    private String validationTemplate;
     
     private RequestFo requestFo;
     private ElementStack elementFoStack;
@@ -45,7 +45,7 @@ public class FoPlugin implements IPluginGenerator {
             outputDir = childAttributesMap.getNamedItem("outputdir").getNodeValue();
             editTemplate = childAttributesMap.getNamedItem("edittemplate").getNodeValue();
             stepTemplate = childAttributesMap.getNamedItem("steptemplate").getNodeValue();
-            summaryTemplate = childAttributesMap.getNamedItem("summarytemplate").getNodeValue();
+            validationTemplate = childAttributesMap.getNamedItem("validationtemplate").getNodeValue();
         } catch (NullPointerException npe) {
             throw new RuntimeException ("Check fo-plugin.xml <properties outputdir=\"\" edittemplate=\"\" steptemplate=\"\" summarytemplate=\"\"/> configuration tag");
         }
@@ -61,7 +61,7 @@ public class FoPlugin implements IPluginGenerator {
     public void endRequest(String requestName) {
         logger.debug("endRequest()");
         try {
-            String output = outputDir + "/" + requestFo.getName() + "aaaa/";
+            String output = outputDir + "/" + requestFo.getName() + "/";
             if (! new File(output).exists())
                 new File(output).mkdir();
             
@@ -74,9 +74,9 @@ public class FoPlugin implements IPluginGenerator {
             template.make(bindingMap).writeTo(new FileWriter(output + "edit.gsp" ));
             logger.warn("endRequest() - edit.gsp.tpl OK");
             
-            // _summary.gsp template
-            template = templateEngine.createTemplate(new File(summaryTemplate));
-            template.make(bindingMap).writeTo(new FileWriter(output + "_summary.gsp" ));
+            // _validation.gsp template
+            template = templateEngine.createTemplate(new File(validationTemplate));
+            template.make(bindingMap).writeTo(new FileWriter(output + "_validation.gsp" ));
             logger.warn("endRequest() - summary.gsp.tpl OK");
             
             // _<step>.gsp templates
@@ -84,9 +84,11 @@ public class FoPlugin implements IPluginGenerator {
             bindingMap = new HashMap<String, Object>();
             bindingMap.put("acronym", requestFo.getAcronym());
             for (Step step : requestFo.getSteps()) {
-                bindingMap.put("step", step);
-                bindingMap.put("elementList", requestFo.getElementsByStep(step));
-                template.make(bindingMap).writeTo(new FileWriter(output + "_" + step.getName() + ".gsp"));
+                if (!step.getName().equals(step.getRef())) {
+                    bindingMap.put("step", step);
+                    bindingMap.put("elementList", requestFo.getElementsByStep(step));
+                    template.make(bindingMap).writeTo(new FileWriter(output + "_" + step.getName() + ".gsp"));
+                }
             }
             logger.warn("endRequest() - step.gsp.tpl OK");
             
@@ -98,7 +100,6 @@ public class FoPlugin implements IPluginGenerator {
             logger.error(ioe.getMessage()); 
         }
     }
-
     
     public void startElement(String elementName, String type) {
         logger.debug("endElement()");

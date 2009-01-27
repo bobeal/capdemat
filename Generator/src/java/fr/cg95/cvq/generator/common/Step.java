@@ -3,6 +3,8 @@ package fr.cg95.cvq.generator.common;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * @author rdj@zenexity.fr
  */
@@ -44,6 +46,10 @@ public class Step {
     
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getCamelCaseName() {
+        return StringUtils.uncapitalize(name);
     }
     
     public String getRef() {

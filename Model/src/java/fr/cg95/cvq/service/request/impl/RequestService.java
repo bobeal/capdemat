@@ -845,7 +845,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
     
     protected boolean isSubjectChanged(Request request) {
-        Long subjectId = (Long)this.requestDAO.getSubjectId(request.getId());
+        Long subjectId = this.requestDAO.getSubjectId(request.getId());
         if(subjectId == null) {
             if(request.getSubjectId() != null) return true;
             else return false;

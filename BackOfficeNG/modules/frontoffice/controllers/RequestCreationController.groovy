@@ -66,7 +66,7 @@ class RequestCreationController {
               if (it.key.startsWith('submit-'))
                 submitAction = it.key.tokenize('-')
         }
-        
+
         currentStep = submitAction[2]
         
         if (submitAction[1] == 'delete') {
@@ -98,7 +98,7 @@ class RequestCreationController {
                 }
             }
             
-            if (submitAction[1] != 'step') {
+            if (submitAction[1] == 'step') {
                 session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
                 session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
             }

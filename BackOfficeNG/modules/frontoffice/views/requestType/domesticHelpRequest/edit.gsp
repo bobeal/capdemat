@@ -123,7 +123,7 @@
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/subject" />         
            </div>
-           <div class="error" id="subjectFormErrors"> </div>
+           <div class="error" id="stepForm-subject-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
@@ -135,7 +135,7 @@
          <div class="navTab">
   
   
-           <a href="#familyReferent" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#familyReferent"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
          <div class="requestHelp">
@@ -155,7 +155,7 @@
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/familyReferent" />         
            </div>
-           <div class="error" id="familyReferentFormErrors"> </div>
+           <div class="error" id="stepForm-familyReferent-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
@@ -166,10 +166,10 @@
          <!-- navigation link -->
          <div class="navTab">
   
-           <a href="#subject" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a href="#spouse" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#spouse"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
          <div class="requestHelp">
@@ -189,7 +189,7 @@
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/spouse" />         
            </div>
-           <div class="error" id="spouseFormErrors"> </div>
+           <div class="error" id="stepForm-spouse-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
@@ -200,10 +200,10 @@
          <!-- navigation link -->
          <div class="navTab">
   
-           <a href="#familyReferent" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#familyReferent"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a href="#dwelling" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#dwelling"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
          <div class="requestHelp">
@@ -223,7 +223,7 @@
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/dwelling" />         
            </div>
-           <div class="error" id="dwellingFormErrors"> </div>
+           <div class="error" id="stepForm-dwelling-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
@@ -234,10 +234,10 @@
          <!-- navigation link -->
          <div class="navTab">
   
-           <a href="#spouse" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#spouse"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a href="#resources" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#resources"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
          <div class="requestHelp">
@@ -257,7 +257,7 @@
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/resources" />         
            </div>
-           <div class="error" id="resourcesFormErrors"> </div>
+           <div class="error" id="stepForm-resources-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
@@ -268,10 +268,10 @@
          <!-- navigation link -->
          <div class="navTab">
   
-           <a href="#dwelling" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#dwelling"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a href="#taxes" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#taxes"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
          <div class="requestHelp">
@@ -291,7 +291,7 @@
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/taxes" />         
            </div>
-           <div class="error" id="taxesFormErrors"> </div>
+           <div class="error" id="stepForm-taxes-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
@@ -302,10 +302,10 @@
          <!-- navigation link -->
          <div class="navTab">
   
-           <a href="#resources" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#resources"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a href="#document" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
          <div class="requestHelp">
@@ -325,7 +325,7 @@
   
             <g:render template="/frontofficeRequestType/document" />         
            </div>
-           <div class="error" id="documentFormErrors"> </div>
+           <div class="error" id="stepForm-document-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
@@ -336,10 +336,10 @@
          <!-- navigation link -->
          <div class="navTab">
   
-           <a href="#taxes" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#taxes"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a href="#validation" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
   
          </div>       
          <div class="requestHelp">
@@ -365,7 +365,7 @@
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/validation" />         
            </div>
-           <div class="error" id="validationFormErrors"> </div>
+           <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
@@ -376,7 +376,7 @@
          <!-- navigation link -->
          <div class="navTab">
   
-           <a href="#document" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
   
   
          </div>       

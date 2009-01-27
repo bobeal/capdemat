@@ -268,7 +268,7 @@ function FIC_checkField(c,e) {
 		//alpha bad
 		valid = false;
 	} else if (c.indexOf(' validate-date ') != -1) {
-		var d = new date(t);
+		var d = new Date(t);
 		if (isNaN(d)) {
 			//date bad
 			valid = false;

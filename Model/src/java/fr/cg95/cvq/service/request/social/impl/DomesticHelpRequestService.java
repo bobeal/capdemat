@@ -128,7 +128,7 @@ public class DomesticHelpRequestService extends RequestService implements
     
     /**
      * Implements IConditionChecker to describe custom business condition policy
-     * Custom business implementation might be enclose as inner class of related request service
+     * Custom business implementation might be enclosed as inner class of related request service
      * TODO - move to service.request.conditon package
      */
     interface IConditionChecker {
@@ -136,7 +136,7 @@ public class DomesticHelpRequestService extends RequestService implements
     }
     
     /**
-     * Check if condition triggered value is equal to mark point
+     * Check if condition triggered value is equal to mark value
      * TODO - move to service.request.conditon package
      */
     class EqualityChecker implements IConditionChecker {

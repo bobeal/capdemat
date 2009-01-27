@@ -2,51 +2,30 @@
   <head>
     <title><g:message code="payment.header.simpleSearch" /></title>
     <meta name="layout" content="main" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'payment.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
-    <script type="text/javascript">
-      YAHOO.capdematBo.calendar.cal = new Array(2);
-      YAHOO.util.Event.onDOMReady(
-          YAHOO.capdematBo.calendar.init, {id : 0, label : "initDateFrom"}
-      );
-      YAHOO.util.Event.onDOMReady(
-          YAHOO.capdematBo.calendar.init, {id : 1, label : "initDateTo"}
-      );
-    </script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'payment.js')}"></script>
   </head>
   <body>
     
     <div id="yui-main">
       <div class="yui-b">
-        <div class="head">
+      
+        <div id="head" class="head">
           <g:if test="${mode == 'simple'}">
-            <div class="txt-right">
-              <g:message code="action.goToSimpleSearch" /> | 
-              <a href="${createLink(action:'search')}?mode=advanced">
-                <g:message code="action.goToAdvancedSearch" />
-              </a>
-            </div>
-            <div id="search-form">
-              <g:render template="simpleSearchForm" />
-            </div>
+            <g:render template="simpleSearchForm" />
           </g:if>
           <g:else>
-            <div class="txt-right">
-              <a href="${createLink(action:'search')}?mode=simple">
-                <g:message code="action.goToSimpleSearch" />
-              </a>
-               | <g:message code="action.goToAdvancedSearch" />
-            </div>
-            <div id="search-form">
-              <g:render template="advancedSearchForm" />
-            </div>
+            <g:render template="advancedSearchForm" />
           </g:else>
         </div>
-        
-        <div id="search-results"></div>
+
+        <div id="search-results">
+          <g:render template="searchResults" />
+        </div>
         
       </div>
     </div>
+
     
     <!-- filters and sorters -->
     <div id="narrow" class="yui-b">
@@ -61,19 +40,19 @@
       <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>
         <div class="body">
-          <form action="#">
+          <form action="#" id="paymentSearchSorters">
             <ul>
               <li>
-                <label><g:message code="property.date" /></label>
-                <input type="radio" />
+                <label><g:message code="payment.property.requesterLastName" /></label>
+                <input type="radio" id="requesterLastName" ${sortBy == 'requesterLastName' ? 'checked' : ''} />
               </li>
               <li>
-                <label><g:message code="property.requester" /></label>
-                <input type="radio" />
+                <label><g:message code="payment.property.homeFolderId" /></label>
+                <input type="radio" id="homeFolderId" ${sortBy == 'homeFolderId' ? 'checked' : ''} />
               </li>
               <li>
-                <label><g:message code="property.homeFolder" /></label>
-                <input type="radio" />
+                <label><g:message code="payment.property.initializationDate" /></label>
+                <input type="radio" id="initializationDate" ${sortBy == 'initializationDate' ? 'checked' : ''} />
               </li>
             </ul>
           </form>
@@ -83,19 +62,24 @@
       <div class="nobox">
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
-          <form action="#">
-            <label for="paymentState"><g:message code="property.state" /> :</label>
-            <select name="paymentState" id="paymentState">
-              <option value=""></option>
+          <form action="#" id="paymentSearchFilters">
+            <label for="paymentStateFilter"><g:message code="payment.property.paymentState" /> :</label>
+            <select name="paymentStateFilter" id="paymentStateFilter">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
               <g:each in="${allStates}" var="paymentState">
-                <option value="${paymentState}">${paymentState}</option>
+                <option value="${paymentState}" ${filters['paymentStateFilter'] == paymentState.toString() ? 'selected' : ''}>
+                  <g:message code="payment.state.${paymentState.toString().toLowerCase()}" />
+                </option>
               </g:each>
             </select>
-            <label for="broker"><g:message code="payment.property.broker" /> :</label>
-            <select name="broker" id="broker" style="width:100%;">
-              <option value=""></option>
+
+            <label for="brokerFilter"><g:message code="payment.property.broker" /> :</label>
+            <select name="brokerFilter" id="brokerFilter" style="width:100%;">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
               <g:each in="${allBrokers}" var="broker">
-                <option value="${broker.key}">${broker.value}</option>
+                <option value="${broker.key}" ${filters['brokerFilter'] == broker.key ? 'selected' : ''}>
+                  ${broker.key}
+                </option>
               </g:each>
             </select>
           </form>
@@ -105,5 +89,4 @@
     </div>    
   </body>
 </html>
-
 

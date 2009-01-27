@@ -14,8 +14,11 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 
+import fr.cg95.cvq.business.authority.Agent;
+import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
@@ -38,8 +41,12 @@ import fr.cg95.cvq.payment.PaymentResultBean;
 import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.payment.PaymentServiceBean;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.util.Critere;
 
 public final class PaymentService implements IPaymentService, BeanFactoryAware {
 
@@ -402,6 +409,55 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         return null;
     }
    
+    public List<Payment> get(Set<Critere> criteriaSet, final String sort, final String dir,
+            final int recordsReturned, final int startIndex, final PaymentMode paymentMode)
+            throws CvqException {
+
+        if (criteriaSet == null)
+            criteriaSet = new HashSet<Critere>();
+        Critere userFilterCritere = getCurrentUserFilter();
+        if (userFilterCritere != null)
+            criteriaSet.add(userFilterCritere);
+
+        return paymentDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, paymentMode);
+    }
+
+    public Long getCount(Set<Critere> criteriaSet, final PaymentMode paymentMode)
+            throws CvqException {
+
+        if (criteriaSet == null)
+            criteriaSet = new HashSet<Critere>();
+        Critere userFilterCritere = getCurrentUserFilter();
+        if (userFilterCritere != null)
+            criteriaSet.add(userFilterCritere);
+
+        return paymentDAO.count(criteriaSet, paymentMode);
+    }
+    
+    private Critere getCurrentUserFilter() throws CvqException {
+
+        Critere crit = new Critere();
+        if (SecurityContext.isBackOfficeContext()) {
+            Agent agent = SecurityContext.getCurrentAgent();
+            Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
+            if (agentCategoryRoles == null || agentCategoryRoles.isEmpty())
+                return null;
+            StringBuffer sb = new StringBuffer();
+            for (CategoryRoles categoryRoles : agentCategoryRoles) {
+                if (sb.length() > 0)
+                    sb.append(",");
+                sb.append("'").append(categoryRoles.getCategory().getId()).append("'");
+            }
+            crit.setAttribut("belongsToCategory");
+            crit.setComparatif(Critere.EQUALS);
+            crit.setValue(sb.toString());
+        } else {
+            return null;
+        }
+
+        return crit;
+    }
+
     public final void setPaymentDAO(IPaymentDAO paymentDAO) {
         this.paymentDAO = paymentDAO;
     }

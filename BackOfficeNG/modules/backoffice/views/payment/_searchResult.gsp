@@ -1,27 +1,30 @@
 <li>
   <span class="first-line">
-    <g:message code="layout.from" />
-    <strong>${record.requesterLastName}</strong>
-    (<g:message code="payment.searchResult.homeFolderId" />
-    &nbsp;<strong>${record.homeFolderId}</strong>) 
-    <g:message code="layout.theMale" /> <g:formatDate formatName="format.fullDate" date="${record.initializationDate}"/>
+    <g:capdematEnumToFlag var="${record.paymentState}" i18nKeyPrefix="payment.state" />
+    <span style="text-decoration:underline;">
+      <g:message code="payment.property.payment" /> ${record.cvqReference}
+      - <g:message code="layout.from" />
+      <span class="${sortBy == 'requesterLastName' ? 'current-sort' : ''}">
+          ${record.requesterLastName}</span>
+      <span class="${sortBy == 'homeFolderId' ? 'current-sort' : ''}">
+          (${record.homeFolderId})</span>
+      <g:message code="payment.searchResult.amount" /> ${record.amount}
+  	 </span>
   </span>
   <br/>
-  <g:if test="${record.bankReference}">
-    <span class="second-line">
-      <g:message code="payment.property.bankReference" /> : <b>${record.bankReference}</b> 
-      <g:message code="payment.searchResult.commitDate" /> <g:formatDate formatName="format.fullDate" date="${record.commitDate}"/> -
-       <span class="state">${record.paymentState}</span>
-    </span>
-    <br/>
-  </g:if>
-  <span class="third-line">
-    <g:message code="payment.property.amount" /> <b>${record.amount}</b> <g:message code="payment.searchResult.paidBy" /> ${record.paymentMode}
-    <g:if test="${record.broker}">
-      <g:message code="layout.on" />
-      <g:message code="layout.theFemale" />
-      <g:message code="payment.property.broker" /> <i>${record.broker}</i>
+  <span class="second-line">
+    <g:message code="payment.searchResult.initializationDate" />
+    <span class="${sortBy == 'initializationDate' ? 'current-sort' : ''}">
+      <g:formatDate formatName="format.date" date="${record.initializationDate}" /></span>
+    <g:if test="${record.commitDate}">
+      <g:message code="payment.searchResult.commitDate" /> <g:formatDate formatName="format.date" date="${record.commitDate}" />
+    </g:if>
+    <g:if test="${record.bankReference}">
+      <g:message code="payment.searchResult.bankReference" /> ${record.bankReference}
     </g:if>
   </span>
+  <br/>
+  <span class="third-line">
+    <g:message code="payment.searchResult.broker" /> - ${record.broker}
+  </span>
 </li>
-

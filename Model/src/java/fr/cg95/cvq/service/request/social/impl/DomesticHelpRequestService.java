@@ -95,30 +95,59 @@ public class DomesticHelpRequestService extends RequestService implements
     }
     
     
-    public final static Map<String,String> filledConditions = new HashMap<String, String>();
-    static {
-        filledConditions.put("dhrRequestKind", "Couple");
-        filledConditions.put("dhrHaveFamilyReferent", "true");
-        filledConditions.put("dhrRequesterNationality", "OutsideEuropeanUnion");
-        filledConditions.put("dhrPrincipalPensionPlan", "Other");
-        filledConditions.put("dhrRequesterHaveGuardian", "true");
-        filledConditions.put("dhrSpouseTitle", "Madam");
-        filledConditions.put("dhrSpouseNationality", "OutsideEuropeanUnion");
-        filledConditions.put("dhrIsSpouseRetired", "true");
-        filledConditions.put("dhrSpousePrincipalPensionPlan", "Other");
-        filledConditions.put("dhrCurrentDwellingKind", "placeOfResidence");
-        filledConditions.put("dhrPreviousDwellingKind", "placeOfResidence");
-        filledConditions.put("dhrNotRealAssetKind", "RealEstate");
+    public final Map<String,IConditionChecker> filledConditions = new HashMap<String,IConditionChecker>();
+    private void initFilledConditions() {
+        filledConditions.put("dhrRequestKind", new EqualityChecker("Couple"));
+        filledConditions.put("dhrHaveFamilyReferent", new EqualityChecker("true"));
+        filledConditions.put("dhrRequesterNationality", new EqualityChecker("OutsideEuropeanUnion"));
+        filledConditions.put("dhrPrincipalPensionPlan", new EqualityChecker("Other"));
+        filledConditions.put("dhrRequesterHaveGuardian", new EqualityChecker("true"));
+        filledConditions.put("dhrSpouseTitle", new EqualityChecker("Madam"));
+        filledConditions.put("dhrSpouseNationality", new EqualityChecker("OutsideEuropeanUnion"));
+        filledConditions.put("dhrIsSpouseRetired", new EqualityChecker("true"));
+        filledConditions.put("dhrSpousePrincipalPensionPlan", new EqualityChecker("Other"));
+        filledConditions.put("dhrCurrentDwellingKind", new EqualityChecker("placeOfResidence"));
+        filledConditions.put("dhrPreviousDwelling[0].dhrPreviousDwellingKind", new EqualityChecker("placeOfResidence"));
+        filledConditions.put("dhrNotRealAsset[0].dhrNotRealAssetKind", new EqualityChecker("RealEstate"));
     }
     
+    /**
+     * TODO - move to abstract RequestService
+     */
     public boolean isConditionFilled (Map<String, String> triggers) {
+        initFilledConditions();
         boolean test = true;
         for (Entry<String, String> trigger : triggers.entrySet())
-            if (filledConditions.get(trigger.getKey()) != null && filledConditions.get(trigger.getKey()).equals(trigger.getValue()))
+            if (filledConditions.get(trigger.getKey()) != null 
+                && filledConditions.get(trigger.getKey()).test(trigger.getValue()))
                 test = test && true;
             else
                 return false;
         return test;
     }
     
+    /**
+     * Implements IConditionChecker to describe custom business condition policy
+     * Custom business implementation might be enclose as inner class of related request service
+     * TODO - move to service.request.conditon package
+     */
+    interface IConditionChecker {
+        boolean test(String value);
+    }
+    
+    /**
+     * Check if condition triggered value is equal to mark point
+     * TODO - move to service.request.conditon package
+     */
+    class EqualityChecker implements IConditionChecker {
+        private String mark;
+        
+        public EqualityChecker(String mark) {
+            this.mark = mark;
+        }
+        
+        public boolean test(String value) {
+            return mark.equals(value);
+        }
+    }
 }

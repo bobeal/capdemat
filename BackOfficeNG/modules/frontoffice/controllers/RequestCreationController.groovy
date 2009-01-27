@@ -98,8 +98,10 @@ class RequestCreationController {
                 }
             }
             
-            session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
-            session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
+            if (submitAction[1] != 'step') {
+                session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
+                session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
+            }
             
             if (currentStep == "validation")
                 requestService.create(cRequest)

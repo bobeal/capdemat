@@ -10,7 +10,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   var yuel = YAHOO.util.Element;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
-  var yud = YAHOO.util.Dom;
   var ylj = YAHOO.lang.JSON;
   var yl = YAHOO.lang;
   var yw = YAHOO.widget;
@@ -384,7 +383,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       prepareLink: function() {
         var link = yud.get('previewRequestForm');
         var linkPdf = yud.get('previewRequestFormPdf');
-        var url = zenexity.capdemat.bong.baseUrl;
+        var url = zenexity.capdemat.baseUrl;
         var id = zct.val(yud.get('requestForms'));
         var message = encodeURIComponent(zct.val(zcbr.Contact.messageBox));
         link.href = [url,'/preview/?type=html&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
@@ -461,7 +460,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     zcbr.Contact[name] = function(e){
       zcbr.Contact.prepareForm(e);
       form = yud.get('contactForm');
-      form.action = [zcb.baseUrl,'/',name].join('');
+      form.action = [zenexity.capdemat.baseUrl,'/',name].join('');
       zct.text(yud.get('contactFormErrors'),'');
       
       if(zcbr.Contact.validate(form)) {
@@ -485,19 +484,19 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       init: function() {
           var infoTabView = new yw.TabView();
           infoTabView.addTab( new yw.Tab({
-              label: 'Historique', dataSrc: zcb.baseUrl + '/requestActions/' + zcb.requestId,
+              label: 'Historique', dataSrc: zenexity.capdemat.baseUrl + '/requestActions/' + zcb.requestId,
               cacheData: true, active: true }));
           infoTabView.addTab( new yw.Tab({
-              label: 'Commentaires', dataSrc: zcb.baseUrl + '/requestNotes/' + zcb.requestId,
+              label: 'Commentaires', dataSrc: zenexity.capdemat.baseUrl + '/requestNotes/' + zcb.requestId,
               }));
           infoTabView.addTab( new yw.Tab({
-              label: 'Compte', dataSrc: zcb.baseUrl + '/homeFolder',
+              label: 'Compte', dataSrc: zenexity.capdemat.baseUrl + '/homeFolder',
               cacheData: true }));
           infoTabView.addTab( new yw.Tab({
-              label: 'Demandes', dataSrc: zcb.baseUrl + '/homeFolderRequests/' + zcb.requestId,
+              label: 'Demandes', dataSrc: zenexity.capdemat.baseUrl + '/homeFolderRequests/' + zcb.requestId,
               cacheData: true }));
           infoTabView.addTab( new yw.Tab({
-              label: 'Aide', dataSrc: zcb.baseUrl + '/help',
+              label: 'Aide', dataSrc: zenexity.capdemat.baseUrl + '/help',
               cacheData: true }));
 
           infoTabView.appendTo('requestInformation');

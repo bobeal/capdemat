@@ -2062,29 +2062,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         this.beanFactory = (ListableBeanFactory) arg0;
     }
     
-    public Map<String, Boolean> areConditionsFilled(final Map<String, Map<String, String>> inputs) {
-        Map<String, Boolean> result = new HashMap<String, Boolean>();
-        boolean isConditionFilled = false;
-        Iterator<Map.Entry<String, Map<String, String>>> it = inputs.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, Map<String, String>> pairs = it.next();
-            isConditionFilled = isConditionFilled(pairs.getKey(), pairs.getValue());
-            result.put(pairs.getKey(), isConditionFilled);
-        }
-        return result;
+    public boolean isConditionFilled (Map<String, String> triggers) {
+        return true;
     }
     
-    private boolean isConditionFilled(final String conditionName, final Map<String,String> inputs) {
-        boolean filled = false;
-        String conditionMethodName = "check" + StringUtils.capitalize(conditionName);    
-        try {
-            Class clazz = Class.forName(this.getClass().getName());
-            Object o = clazz.newInstance();
-            Method method = clazz.getMethod(conditionMethodName, new Class[] {Map.class});
-            filled = (Boolean)method.invoke(o, inputs);
-        } catch (Exception e) {
-            logger.error(conditionMethodName + " is not implemented");
-        }
-        return filled;
-    }
 }

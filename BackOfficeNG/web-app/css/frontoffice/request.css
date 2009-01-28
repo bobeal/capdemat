@@ -12,7 +12,7 @@ h2.request-creation {
 }
 
 
-/* request form
+/* creation form
 --------------------------------------------------------------*/
 #requestTabView h3 {
   margin: 1em 0;
@@ -104,6 +104,15 @@ h2.request-creation {
 #requestTabView .address-fieldset input.line2 { display: inline; width: 82%; }
 
 
+#requestTabView div.collection-fieldset                      { margin: 0 0 1em 0; padding: 1em 2em; font-size: .9em; background: #ffd; }
+#requestTabView div.collection-fieldset h4                   { font-size: 1.4em; font-weight: bold; color: #FF812B; }
+#requestTabView div.collection-fieldset input[type="submit"] { width: auto; display: inline !important; }
+#requestTabView fieldset.collection-fieldset-add         { border: 2px solid #FF812B; }
+#requestTabView fieldset.collection-fieldset-edit        { padding: 1em 0 1em 1em; border: 0; border-bottom: 2px solid #FF812B; }
+#requestTabView fieldset.collection-fieldset-add legend,
+#requestTabView fieldset.collection-fieldset-edit legend { margin: 0; padding 0; border: 1px solid #FF812B; }
+
+
 /* navigation tab link TODO - improve integration */
 #requestTabView .navTab { height: 2em }
 #requestTabView .nextTab, #requestTabView .prevTab { color: #2020AA; }
@@ -125,7 +134,7 @@ h2.request-creation {
   font-size: 1.2em; font-weight: bold;
 }
 
-/* request summary
+/* validation step (summary)
 --------------------------------------------------------------*/
 #requestTabView dl {
   margin : 10px;
@@ -147,7 +156,7 @@ h2.request-creation {
 
 #requestTabView dl dd p { padding: 0.1em; }
 
-/* request help
+/* help
 --------------------------------------------------------------*/
 
 .requestHelp {
@@ -163,41 +172,18 @@ h2.request-creation {
   border-bottom: 1px solid #C690BB;
 }
 
-/* styles copied from MVE SVN commit
+/* condition
 --------------------------------------------------------------*/
-
-ul.radio_list
-{
-  list-style-type: none;
-}
-
-li.radio_inline
-{
-  display: inline !important;
-}
+.unactive { display: none !important; }
 
 
-div.error_request
-{
-  font-weight: bold;
-  background: #FFFFFF ;
-  margin: 0 0 0 0; 
-  text-align: center;
-  color: red; 
-}
-
-.span-required {
-  color: red;
-  display: inline !important;
-}
+/* javascript validation
+--------------------------------------------------------------*/
 
 
 .validation-failed { /* for textboxes, textareas, passwords */
   border:1px dashed #FF3333;
   background-color:#FFCCCC;
-}
-
-.validation-failed-cr { /* for checkboxes and radios */
 }
 
 .validation-failed-sel { /* for selects */
@@ -210,23 +196,12 @@ div.error_request
   background-color:#fcfcfc;
 }
 
-.validation-passed-cr { /* for checkboxes and radios */
-
-}
-
-.validation-passed-sel { /* for selects */
-
-}
-
-.yui-cal {
-display:none;
-position:absolute;
-}
-
 .error { 
   color: red; 
   font-style: italic;
   text-align: center; 
   margin: 1em;
   padding: 1em;
-} 
+}
+
+

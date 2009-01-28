@@ -617,7 +617,7 @@
     if (zct.isFunction(callback)) handlers.success = callback;
     if (args) handlers.argument = args;
     
-    var url = [zenexity.capdemat.bong.baseUrl, callUrl].join('');
+    var url = [zenexity.capdemat.baseUrl, callUrl].join('');
     if(!!absoluteUrl) url = callUrl;
     
     if(zct.browser.msie) {
@@ -672,7 +672,7 @@
       failure: zct.handleUnexpectedError
     };
     if (zct.isFunction(callback)) handlers.success = callback;
-    var uri = [zenexity.capdemat.bong.baseUrl,url,'?',params].join('');
+    var uri = [zenexity.capdemat.baseUrl,url,'?',params].join('');
     YAHOO.util.Connect.asyncRequest('DELETE', uri, handlers);
   };
   

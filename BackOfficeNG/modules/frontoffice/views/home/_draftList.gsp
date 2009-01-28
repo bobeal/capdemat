@@ -5,7 +5,7 @@
         <g:each var="record" in="${dashBoard.drafts.records}">
           <li>
               <span class="tag-state">
-                <a href="${module.createLink(module:'frontoffice',action:'draft',controller:'DomesticHelpRequest')}/${record.id}">
+                <a href="${module.createLink(module:'frontoffice',action:'draft',controller:'RequestCreation')}/?id=${record.id}&requestTypeLabel=${record.requestTypeLabel}">
                   <g:message code="action.modify"/>
                 </a>
               </span>

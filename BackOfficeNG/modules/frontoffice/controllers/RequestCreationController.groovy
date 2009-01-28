@@ -21,13 +21,33 @@ class RequestCreationController {
     def translationService
     def defaultAction = 'edit'
     
-     
+    def draft = {
+        def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+        
+        if(request.post) {
+            def cRequest = session[params.uuidString].cRequest
+            requestService.prepareDraft(cRequest)
+            requestService.processDraft(cRequest)
+            flash.cRequest = cRequest
+        } else if (request.get) {
+            flash.cRequest = requestService.getById(Long.parseLong(params.id))
+        }
+        redirect(controller:controllerName, params:['label':params.requestTypeLabel])
+        return false
+    }
+    
     def edit = {
         if (params.label == null)
             redirect(uri: '/frontoffice/requestType')
 
         def requestService = requestServiceRegistry.getRequestService(params.label)
-        def cRequest = requestService.getSkeletonRequest()
+println params.label
+println requestService
+        
+        def cRequest
+        if (flash.cRequest) cRequest = flash.cRequest 
+        else cRequest = requestService.getSkeletonRequest()
+        
         def uuidString = UUID.randomUUID().toString()
         
         session[uuidString] = [:]
@@ -36,7 +56,7 @@ class RequestCreationController {
         render( view: 'frontofficeRequestType/domesticHelpRequest/edit', 
                 model:
                     ['rqt': cRequest, 
-                    'subjects': getAuthorizedSubjects(requestService),
+                    'subjects': getAuthorizedSubjects(requestService, cRequest),
                     'documentTypes': getDocumentTypes(requestService),
                     'meansOfContact': getMeansOfContact(),
                     'currentStep': 'subject',
@@ -104,8 +124,10 @@ class RequestCreationController {
                 session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
             }
             
-            if (currentStep == "validation")
-                requestService.create(cRequest)
+            if (currentStep == "validation") {
+                if (!cRequest.draft) domesticHelpRequestService.create(cRequest)
+                else domesticHelpRequestService.finalizeDraft(cRequest)
+            }
         }
         
         session[uuid].cRequest = cRequest
@@ -113,7 +135,7 @@ class RequestCreationController {
         render( view: 'frontofficeRequestType/domesticHelpRequest/edit',
                 model:
                     ['rqt': cRequest,
-                    'subjects': getAuthorizedSubjects(requestService),
+                    'subjects': getAuthorizedSubjects(requestService, cRequest),
                     'documentTypes': getDocumentTypes(requestService),
                     'meansOfContact': getMeansOfContact(),
                     'currentStep': currentStep,
@@ -141,13 +163,17 @@ class RequestCreationController {
         }
     }
     
-    def getAuthorizedSubjects = { requestService ->
+    def getAuthorizedSubjects = { requestService, cRequest ->
         def subjects = [:]
         def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
         authorizedSubjects.each { subjectId, seasonsSet ->
             def subject = individualService.getById(subjectId)
             subjects[subjectId] = subject.lastName + ' ' + subject.firstName
         }
+        
+        if(cRequest.draft && !subjects.containsKey(cRequest.subjectId))
+            subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
+            
         return subjects
     }
     

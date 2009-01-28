@@ -24,6 +24,7 @@ class RequestAdaptorService {
             requests.records.add([
                 'id':it.id,
                 'draft':it.draft,
+                'requestTypeLabel':it.requestType.label,
                 'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
                 'creationDate':it.creationDate,
                 'requesterLastName':it.requesterLastName,

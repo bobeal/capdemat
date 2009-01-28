@@ -28,6 +28,7 @@ public class PerformanceController {
     }
     
     def createHomeFolder = {
+        performanceService.initRoles()
         def hf = performanceService.createHomeFolder(SecurityContext.getCurrentSite().getName())
 //        performanceService.createDrafts((HomeFolder)hf.homeFolder)
         

@@ -5,6 +5,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.exception.CvqException
 
 import grails.converters.JSON
 
@@ -23,7 +24,7 @@ class RequestCreationController {
      
     def edit = {
         if (params.label == null)
-          redirect(uri: '/frontoffice/requestType')
+            redirect(uri: '/frontoffice/requestType')
 
         def requestService = requestServiceRegistry.getRequestService(params.label)
         def cRequest = requestService.getSkeletonRequest()
@@ -53,46 +54,62 @@ class RequestCreationController {
             
         def uuid = params.uuidString
         def requestTypeInfo = JSON.parse(params.requestTypeInfo)
+        
         def currentStep
+        def submitAction
+        def editList
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuid].cRequest
         
+        println(params)
         params.each {
-            // manage construction of null objectin databinding object-graph
-            if (it.value.getClass() == GrailsParameterMap.class) {
-                def getterName = 'get' + StringUtils.firstCase(it.key.tokenize('.')[0], 'Upper')
-                def getterMethod = cRequest.class.getMethod(getterName)
-                if (getterMethod.invoke(cRequest, null) == null) {
-                    def setterMethod = cRequest.class.getMethod(
-                            'set' + StringUtils.firstCase(it.key.tokenize('.')[0], 'Upper')
-                            ,[getterMethod.returnType] as Class[])
-                    def fieldConstructor = getterMethod.returnType.getConstructor(null)
-                    setterMethod.invoke(cRequest, [fieldConstructor.newInstance(null)] as Object[])
+              if (it.key.startsWith('submit-'))
+                submitAction = it.key.tokenize('-')
+        }
+
+        currentStep = submitAction[2]
+        
+        if (submitAction[1] == 'delete') {
+            def listFieldToken = submitAction[3].tokenize('[]')
+            def getterMethod = cRequest.class.getMethod(
+                    'get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
+                    
+            getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listFieldToken[1]).intValue())
+        }
+        else if (submitAction[1] == 'edit') {
+            def listFieldToken = submitAction[3].tokenize('[]')
+            def getterMethod = cRequest.class.getMethod(
+                    'get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
+                    
+            editList = ['name': listFieldToken[0], 
+                        'index': listFieldToken[1],
+                        (listFieldToken[0]): getterMethod.invoke(cRequest, null).get(Integer.valueOf(listFieldToken[1]).intValue())
+                       ]
+        }
+        else {
+            if (submitAction[1] != 'modify')
+                initBind(cRequest, params)
+            bind(cRequest)
+            
+            if (session[uuid].stepStates == null) {
+                session[uuid].stepStates = [:]
+                requestTypeInfo.steps.each {
+                    session[uuid].stepStates.put(it, ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete'])
                 }
             }
             
-            // Set current step
-            if (it.key.startsWith('stepSubmit-'))
-                currentStep = it.key.replace('stepSubmit-', '')
-        }
-    
-        bind(cRequest)
-        session[uuid].cRequest = cRequest
-        
-        if (session[uuid].stepStates == null) {
-            session[uuid].stepStates = [:]
-            requestTypeInfo.steps.each {
-                session[uuid].stepStates.put(it, ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete'])
+            if (submitAction[1] == 'step') {
+                session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
+                session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
             }
+            
+            if (currentStep == "validation")
+                requestService.create(cRequest)
         }
         
-        session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
-        session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
-        
-        if (currentStep == "validation")
-            requestService.create(cRequest)
-          
+        session[uuid].cRequest = cRequest
+
         render( view: 'frontofficeRequestType/domesticHelpRequest/edit',
                 model:
                     ['rqt': cRequest,
@@ -102,10 +119,27 @@ class RequestCreationController {
                     'currentStep': currentStep,
                     'requestTypeLabel': requestTypeInfo.label,
                     'stepStates': session[uuid].stepStates,
-                    'uuidString': uuid
+                    'uuidString': uuid,
+                    'editList': editList
                     ])
     }
 
+    def condition = {
+        if (params.requestTypeLabel == null)
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+            
+        def triggers = JSON.parse(params.triggers)
+        try {
+            def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+            render (
+              [test: requestService.isConditionFilled(triggers)
+              ,status:"ok"
+              ,success_msg:message(code:"message.conditionTested")
+              ] as JSON)
+        } catch (CvqException ce) {
+            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        }
+    }
     
     def getAuthorizedSubjects = { requestService ->
         def subjects = [:]
@@ -138,9 +172,37 @@ class RequestCreationController {
         return result
     }
     
-    
-    def conditions = {
-    	  log.debug('checkConditions - START')
-    }
-    
+    def initBind(object, params) {
+        params.each { param ->
+            if (param.value.getClass() == GrailsParameterMap.class) {
+                def getterName = 'get' + StringUtils.firstCase(param.key.tokenize('.')[0].tokenize('[')[0], 'Upper')
+                def getterMethod = object.class.getMethod(getterName)
+                
+                if (getterMethod.invoke(object, null) == null) {
+                    def setterMethod = object.class.getMethod(
+                            'set' + StringUtils.firstCase(param.key.tokenize('.')[0].tokenize('[')[0], 'Upper')
+                            ,[getterMethod.returnType] as Class[])
+
+                    def fieldConstructor
+                    if (getterMethod.returnType.equals(Class.forName('java.util.List')))
+                        fieldConstructor = Class.forName('java.util.ArrayList').getConstructor()
+                    else
+                        fieldConstructor = getterMethod.returnType.getConstructor(null)
+
+                    setterMethod.invoke(object, [fieldConstructor.newInstance(null)] as Object[])
+                }
+                
+                // add a new element to list (it will be update by databinder)
+                if (getterMethod.returnType.equals(Class.forName('java.util.List'))) {
+                    def listElemType = getterMethod.genericReturnType.actualTypeArguments[0]
+                    def listElem = listElemType.getConstructor(null).newInstance(null)
+                    
+                    initBind(listElem, param.value)
+                    
+                    getterMethod.invoke(object, null).add(listElem)
+                }
+            }
+        }
+     }
+     
 }

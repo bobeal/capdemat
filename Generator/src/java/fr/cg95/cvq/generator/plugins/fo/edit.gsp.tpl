@@ -17,14 +17,12 @@
         </strong>
       </g:each>
     </p>
+    <g:render template="/frontofficeRequestType/draftPanel" />
+
 
 <g:set var="requestTypeInfo">
-  { 'label': '\${requestTypeLabel}'
-    ,'steps': [
-<% requestFo.steps.eachWithIndex { step, i -> %>
-      '${step.name}'${i < requestFo.steps.size() -1 ? ',': ''}
-<% } %>
-   ]
+  {"label": "\${requestTypeLabel}"
+    ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
   }
 </g:set>
 <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" />
@@ -65,21 +63,21 @@
   <% } %>
             <g:render template="/frontofficeRequestType/${step.name != 'document' ? requestFo.camelCaseName + '/' : ''}${step.name}" />         
            </div>
-           <div class="error" id="${step.camelCaseName}FormErrors"> </div>
+           <div class="error" id="stepForm-${step.camelCaseName}-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="\${requestTypeInfo}" />
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="\${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="\${uuidString}" />
            
-           <input type="submit" id="stepSubmit-${step.camelCaseName}" name="stepSubmit-${step.camelCaseName}" value="\${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />
          </form>
 
          <!-- navigation link -->
          <div class="navTab">
   <% if (step.index != 0) { %>
-           <a href="#${requestFo.steps.get(step.index -1).name}" class="prevTab"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#${requestFo.steps.get(step.index -1).name}"><g:message code="request.step.navigation.previous"/></a>
   <% } %>
   <% if (step.index != requestFo.steps.size() - 1) { %>
-           <a href="#${requestFo.steps.get(step.index + 1).name}" class="nextTab"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#${requestFo.steps.get(step.index + 1).name}"><g:message code="request.step.navigation.next"/></a>
   <% }%>
          </div>       
          <div class="requestHelp">

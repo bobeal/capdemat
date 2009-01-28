@@ -28,7 +28,7 @@
   }
   
   function doSearchPayment(filter, sort) {
-    var queryUrl = zenexity.capdemat.bong.baseUrl + "/loadPayments?" +  zcc.collectSearchFormValues('paymentForm');	
+    var queryUrl = zenexity.capdemat.baseUrl + "/loadPayments?" +  zcc.collectSearchFormValues('paymentForm');	
     if (filter) {
       var el = document.getElementById(filter);
       queryUrl += '&' + filter + '=' + el.value;

@@ -1,14 +1,11 @@
 package fr.cg95.cvq.generator.plugins.fo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
 
@@ -237,6 +234,18 @@ public class ElementFo {
         if (conditions != null) {
             for (Condition c : conditions)
                 sb.append("condition-" + c.getName() + "-" + c.getType() + " ");
+        }
+        return sb.toString().trim();
+    }
+    
+    public String getListenerConditionsClass() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(mandatory ? "required " : "");
+        if (conditions != null) {
+            for (Condition c : conditions)
+                if ( ! Condition.ConditionType.valueOf(c.getType().toUpperCase())
+                        .equals(Condition.ConditionType.TRIGGER))
+                    sb.append("condition-" + c.getName() + "-" + c.getType() + " ");
         }
         return sb.toString().trim();
     }

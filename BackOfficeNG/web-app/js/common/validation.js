@@ -268,7 +268,7 @@ function FIC_checkField(c,e) {
 		//alpha bad
 		valid = false;
 	} else if (c.indexOf(' validate-date ') != -1) {
-		var d = new date(t);
+		var d = new Date(t);
 		if (isNaN(d)) {
 			//date bad
 			valid = false;
@@ -398,7 +398,7 @@ function isVisible(e) {
 	if (typeof e == "string") {
 		e = xGetElementById(e);
 	}
-	while (e.nodeName.toLowerCase() != 'body' && e.style.display.toLowerCase() != 'none' && e.style.visibility.toLowerCase() != 'hidden') {
+	while (e.nodeName.toLowerCase() != 'body' && e.style.display.toLowerCase() != 'none' && e.style.visibility.toLowerCase() != 'hidden'  && !YAHOO.util.Dom.hasClass(e, 'unactive')) {
 		e = e.parentNode;
 	}
 	if (e.nodeName.toLowerCase() == 'body') {

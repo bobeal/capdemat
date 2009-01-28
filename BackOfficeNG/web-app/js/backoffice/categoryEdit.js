@@ -41,7 +41,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
       var response = ylj.parse(o.responseText);
       if (response.status === "ok") {
         if (editMode === "create")
-          window.location = zcb.baseUrl + "/edit/" + response.id ;
+          window.location = zenexity.capdemat.baseUrl + "/edit/" + response.id ;
         else {
           // Is message useful
           zct.Notifier.processMessage('success',response.success_msg);

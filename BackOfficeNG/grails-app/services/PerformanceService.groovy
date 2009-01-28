@@ -13,13 +13,20 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.dao.request.IRequestDAO
 import fr.cg95.cvq.exception.CvqObjectNotFoundException
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.DateUtils
 import fr.cg95.cvq.service.request.leisure.music.IMusicSchoolRegistrationRequestService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.business.authority.Agent
+import fr.cg95.cvq.business.authority.Category
+import fr.cg95.cvq.business.authority.CategoryProfile
+import fr.cg95.cvq.business.authority.SiteRoles
+import fr.cg95.cvq.business.authority.CategoryRoles
+import fr.cg95.cvq.business.request.RequestType
+import fr.cg95.cvq.dao.IGenericDAO
+import fr.cg95.cvq.business.authority.SiteProfile
 
 
 public class PerformanceService {
@@ -29,6 +36,11 @@ public class PerformanceService {
     IHomeFolderService homeFolderService
     IIndividualService individualService 
     IRequestDAO requestDAO
+    IGenericDAO genericDAO
+    
+    public String agentNameWithCategoriesRoles = "demo1";
+    public String agentNameWithManageRoles = "manager1";
+    public String agentNameWithSiteRoles = "admin1";
     
     def random = new Random();
     
@@ -114,12 +126,75 @@ public class PerformanceService {
         }
     }
     
+    public initRoles() {
+        
+        try {
+            SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+            return;
+        } catch (CvqObjectNotFoundException confe) {}
+        
+        Agent admin = new Agent();
+        admin.setActive(Boolean.TRUE);
+        admin.setLogin(agentNameWithSiteRoles);
+        SiteRoles siteRoles = new SiteRoles();
+        siteRoles.setAgent(admin);
+        siteRoles.setProfile(SiteProfile.ADMIN);
+        Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>();
+        siteRolesSet.add(siteRoles);
+        admin.setSitesRoles(siteRolesSet);
+        genericDAO.create(admin);
+
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+
+        Category category = new Category();
+        category.setName("General");
+        List<RequestType> requestTypesSet = musicSchoolRegistrationRequestService.getAllRequestTypes();
+        for (RequestType requestType : requestTypesSet) {
+            requestType.setCategory(category);
+            genericDAO.update(requestType);
+        }
+        category.setRequestTypes(new HashSet<RequestType>(requestTypesSet));
+        genericDAO.create(category);
+                        
+        Agent agent = bootstrapAgent(agentNameWithCategoriesRoles, category,
+                CategoryProfile.READ_WRITE);
+        genericDAO.create(agent);
+        
+        Agent manager = bootstrapAgent(agentNameWithManageRoles, category, 
+                CategoryProfile.MANAGER);
+        genericDAO.create(manager);
+    }
+    
+    private Agent bootstrapAgent(String agentName, Category category, CategoryProfile categoryProfile) {
+
+        Agent agent = new Agent();
+        agent.setActive(Boolean.TRUE);
+        agent.setLogin(agentName);
+
+        SiteRoles siteRoles = new SiteRoles();
+        siteRoles.setAgent(agent);
+        siteRoles.setProfile(SiteProfile.AGENT);
+        Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>();
+        siteRolesSet.add(siteRoles);
+        agent.setSitesRoles(siteRolesSet);
+
+        CategoryRoles categoryRoles = new CategoryRoles();
+        categoryRoles.setAgent(agent);
+        categoryRoles.setCategory(category);
+        categoryRoles.setProfile(categoryProfile);
+        Set<CategoryRoles> categoryRolesSet = new HashSet<CategoryRoles>();
+        categoryRolesSet.add(categoryRoles);
+        agent.setCategoriesRoles(categoryRolesSet);
+        
+        return agent;
+    }
+    
     public List removeDrafts(String login) {
         def result = []
         SecurityContext.setCurrentSite(
             SecurityContext.currentSite.name, 
             SecurityContext.BACK_OFFICE_CONTEXT)
-        SecurityContext.setCurrentAgent("admin.valdoise")
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles)
         
         Individual user = individualService.getByLogin(login)
         
@@ -137,10 +212,11 @@ public class PerformanceService {
             result.add(r.getId())
         }
         
-        SecurityContext.setCurrentSite(
-            SecurityContext.currentSite.name, 
-            SecurityContext.FRONT_OFFICE_CONTEXT);
+//        SecurityContext.setCurrentSite(
+//            SecurityContext.currentSite.name, 
+//            SecurityContext.FRONT_OFFICE_CONTEXT);
         
+        SecurityContext.resetCurrentSite();
         return result
     }
     

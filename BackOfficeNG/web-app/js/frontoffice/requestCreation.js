@@ -4,9 +4,6 @@
   var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
   var yue = YAHOO.util.Event;
-  var yus = YAHOO.util.Selector;
-  var ylj = YAHOO.lang.JSON;
-  var yl = YAHOO.lang;
   var yu = YAHOO.util;
   var yw = YAHOO.widget;
   
@@ -17,6 +14,14 @@
           'activeIndex',
           zcf.RequestCreation.requestFormTabView.get('activeIndex') + offset
       );
+    }
+    
+    // hack to append submit input as hidden
+    var addSubmitAsHidden = function (submitEl) {
+      var submitAsHiddenEl = submitEl.cloneNode(false);
+      submitAsHiddenEl.type = 'hidden'
+      var fromYuiEl = new yu.Element(submitEl.form);
+      fromYuiEl.appendChild(submitAsHiddenEl);
     }
 
     return {
@@ -31,8 +36,8 @@
       },
       
       getHandler : function(e) {
-          var target = yue.getTarget(e);
-          tokens = target.id.split('-');
+          var targetEl = yue.getTarget(e);
+          tokens = targetEl.id.split('-');
           if (tokens.length > 1)
             return [tokens[0], zct.capitalize(tokens[1])].join('');
           else
@@ -41,18 +46,14 @@
       
       submitStep : function(e) {
           yue.preventDefault(e);
-          var target = yue.getTarget(e);
-          if (!FIC_checkForm(e, yud.get(target.form.id + '-error')))
+          var targetEl = yue.getTarget(e);
+          if (!FIC_checkForm(e, yud.get(targetEl.form.id + '-error')))
             return;
           else {
             // -- hack to know current step
-            var submitAsTextEl = target.cloneNode(false);
-            submitAsTextEl.type = 'hidden'
-            var fromYuiEl = new yu.Element(target.form);
-            fromYuiEl.appendChild(submitAsTextEl);
-            // -- end of hack
+            addSubmitAsHidden(targetEl);
             
-            target.form.submit();
+            targetEl.form.submit();
           }
       },
       

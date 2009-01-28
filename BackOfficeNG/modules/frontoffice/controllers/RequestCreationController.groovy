@@ -62,6 +62,7 @@ class RequestCreationController {
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuid].cRequest
         
+        println(params)
         params.each {
               if (it.key.startsWith('submit-'))
                 submitAction = it.key.tokenize('-')
@@ -129,7 +130,6 @@ class RequestCreationController {
             
         def triggers = JSON.parse(params.triggers)
         try {
-            log.debug(triggers)
             def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             render (
               [test: requestService.isConditionFilled(triggers)

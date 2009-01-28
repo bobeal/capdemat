@@ -398,7 +398,7 @@ function isVisible(e) {
 	if (typeof e == "string") {
 		e = xGetElementById(e);
 	}
-	while (e.nodeName.toLowerCase() != 'body' && e.style.display.toLowerCase() != 'none' && e.style.visibility.toLowerCase() != 'hidden') {
+	while (e.nodeName.toLowerCase() != 'body' && e.style.display.toLowerCase() != 'none' && e.style.visibility.toLowerCase() != 'hidden'  && !YAHOO.util.Dom.hasClass(e, 'unactive')) {
 		e = e.parentNode;
 	}
 	if (e.nodeName.toLowerCase() == 'body') {

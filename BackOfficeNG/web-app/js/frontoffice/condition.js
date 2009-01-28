@@ -41,13 +41,21 @@
       return ylj.parse(yl.trim(inputEl.value.replace(/\n/g,''))).label;
     }
     
-    var listenerSwitch = function (listenerEl, active) {
-      if (active)
-        yud.removeClass(listenerEl, 'unactive');
-      else
-        yud.addClass(listenerEl, 'unactive');
+    var setDisabled = function (controlEl, active) {
+      if (zct.nodeName(controlEl, 'div'))
+        zct.each(yud.getChildren(controlEl), function() { setDisabled(this, active) });
+        
+      if (!(zct.nodeName(controlEl, 'input') || zct.nodeName(controlEl, 'textarea') || zct.nodeName(controlEl, 'select')))
+        return;
+      controlEl.disabled = active;
     }
     
+    var listenerSwitch = function (listenerEl, active) {
+      active ? yud.removeClass(listenerEl, 'unactive') : yud.addClass(listenerEl, 'unactive');
+      setDisabled(listenerEl, !active);
+    }
+    
+        
     return {
       /* type triggers = [json{requestField : value}, json{requestField : value}, json{requestField : value} ... ] 
        * triggers[n] affects filled[n] and unfilled[n] 

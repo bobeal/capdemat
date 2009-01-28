@@ -17,13 +17,7 @@ public class PerformanceController {
     def beforeInterceptor = {}
     
     def index = {
-        redirect(action:'test')
-        return false
-    }
-    
-    def test = {
-        params.each{println it}
-        render('rafik.dj|bbbbbbbb')
+        render('OK')
     }
     
     def randomSubject = {

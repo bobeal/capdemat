@@ -58,7 +58,8 @@ public class PerformanceService {
     def alpha = ('a'..'z')
     
     public Map createHomeFolder(String authorityName) {
-        SecurityContext.setCurrentSite(authorityName, SecurityContext.FRONT_OFFICE_CONTEXT)
+//        SecurityContext.setCurrentSite(authorityName, SecurityContext.FRONT_OFFICE_CONTEXT)
+        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
         String adult1pass = this.getRandomAlpha(8)
         
         VoCardRequest creationRequest = new VoCardRequest()
@@ -84,16 +85,14 @@ public class PerformanceService {
         homeFolderService.addIndividualRole(adult1, child2, RoleType.CLR_FATHER);
         
         List<Child> children = [child1,child2]
-        List<Individual> individuals = [adult1,adult2,adult3,child1,child2]
-        
-        this.voCardRequestService.create(creationRequest, adults, children, address);
-        
-        HibernateUtil.commitTransaction()
-        HibernateUtil.closeSession()
-        HibernateUtil.beginTransaction()
+        println HibernateUtil.getSession()
+        this.voCardRequestService.create(creationRequest, adults, children, address)
+        this.reopenTransaction()
+        def homeFolder = this.homeFolderService.getById(creationRequest.homeFolderId)
+//        SecurityContext.resetCurrentSite()
         
         return [ 
-            'homeFolder' : this.homeFolderService.getById(creationRequest.getHomeFolderId()),
+            'homeFolder' : homeFolder,
             'password' : adult1pass,
             'adult1' : adult1
         ]

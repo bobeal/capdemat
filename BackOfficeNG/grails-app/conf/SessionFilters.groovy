@@ -9,7 +9,8 @@ import fr.cg95.cvq.util.web.filter.CASFilter
 import javax.servlet.ServletException
 
 import org.hibernate.SessionFactory
-import java.lang.management.ManagementFactory;
+import java.lang.management.ManagementFactory
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 class SessionFilters {
 
@@ -65,6 +66,9 @@ class SessionFilters {
                     } else {
                         SecurityContext.setCurrentEcitizen(session.currentUser)
                     }
+                } catch (CvqObjectNotFoundException ce) {
+                    redirect(controller: 'frontofficeHome', action: 'login')
+                    return false
                 } catch (CvqException ce) {
                     if (session?.currentUser) session.currentUser = null
                     ce.printStackTrace()

@@ -41,8 +41,6 @@ class RequestCreationController {
             redirect(uri: '/frontoffice/requestType')
 
         def requestService = requestServiceRegistry.getRequestService(params.label)
-println params.label
-println requestService
         
         def cRequest
         if (flash.cRequest) cRequest = flash.cRequest 
@@ -81,8 +79,7 @@ println requestService
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuid].cRequest
-        
-        println(params)
+
         params.each {
               if (it.key.startsWith('submit-'))
                 submitAction = it.key.tokenize('-')

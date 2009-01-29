@@ -85,6 +85,9 @@
 /* condition test=false */
 #requestData .not-action-editField { color: #888 !important; background-color: #ffffab !important; }
 
+/* store request.type.label */
+#requestTypeLabel { display: none; }
+
 
 /* request attached document
 -------------------------------------------------------------- */

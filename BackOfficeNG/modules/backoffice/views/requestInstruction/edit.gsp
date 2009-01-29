@@ -33,27 +33,12 @@
             <g:message code="request.header.request" /> :
             ${requestLabel} (${request.id})
           </h1>
+          <span id="requestTypeLabel">${request.requestType.label}</span>
         </div>
 
         <!-- request data template selection by request type -->
-        <g:if test="${request.requestType.label == 'Library Registration'}">
-          <g:render template="/backofficeRequestInstruction/requestType/libraryRegistrationRequest" model="['request':request]" />
-        </g:if>
-        <g:elseif test="${request.requestType.label == 'Domestic Help'}">
-          <g:render template="/backofficeRequestInstruction/requestType/domesticHelpRequest" model="['request':request]" />
-        </g:elseif>
-        <g:elseif test="${request.requestType.label == 'VO Card Request'}">
-          <g:render template="/backofficeRequestInstruction/requestType/voCardRequest" model="['request':request]" />
-        </g:elseif>
-        <g:elseif test="${request.requestType.label == 'Home Folder Modification'}">
-          <g:render template="/backofficeRequestInstruction/requestType/homeFolderModificationRequest" model="['request':request]" />
-        </g:elseif>
-        <g:elseif test="${request.requestType.label == 'Birth Details'}">
-          <g:render template="/backofficeRequestInstruction/requestType/birthDetailsRequest" model="['request':request]" />
-        </g:elseif>
-        <g:else>
-          <g:render template="/backofficeRequestInstruction/requestType/defaultRequest" model="['request':request]" />
-        </g:else>
+        <g:render template="/backofficeRequestInstruction/requestType/${requestTypeTemplate}Request" model="['request':request]" />
+
 
         <!-- request intruction document -->
         <div id="requestDocument">

@@ -157,7 +157,7 @@
                   <fo>
                     <label/>
                   </fo>
-                  <bo column="2" />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -180,7 +180,7 @@
                   <fo>
                     <label/>
                   </fo>
-                  <bo column="2" />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -208,7 +208,7 @@
                   <fo>
                     <label/>
                   </fo>
-                  <bo column="1" />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -879,7 +879,7 @@
             <fo>
               <radio/>
             </fo>
-            <bo column="1" />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

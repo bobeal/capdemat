@@ -7,24 +7,26 @@
           "<g:capdematEnumToField var=\"\${${wrapper}.${element.javaFieldName}}\" i18nKeyPrefix=\"${element.i18nPrefixCode}\" />"
       ,'address' :
           ["<div>"
-          ,"<p class=\"additionalDeliveryInformation\">\${${wrapper}.${element.javaFieldName}.additionalDeliveryInformation}</p>"
-          ,"<p class=\"additionalGeographicalInformation\">\${${wrapper}.${element.javaFieldName}.additionalGeographicalInformation}</p>"
-          ,"<span class=\"streetNumber\">\${${wrapper}.${element.javaFieldName}.streetNumber}</span> "
-          ,"<span class=\"streetName\">\${${wrapper}.${element.javaFieldName}.streetName}</span>"
-          ,"<p class=\"placeNameOrService\">\${${wrapper}.${element.javaFieldName}.placeNameOrService}</p>"
-          ,"<span class=\"postalCode\">\${${wrapper}.${element.javaFieldName}.postalCode}</span> "
-          ,"<span class=\"city\">\${${wrapper}.${element.javaFieldName}.city}</span>"
-          ,"<p class=\"countryName\">\${${wrapper}.${element.javaFieldName}.countryName}</p>"
+          ,"<p class=\"additionalDeliveryInformation\">\${${wrapper}.${element.javaFieldName}?.additionalDeliveryInformation}</p>"
+          ,"<p class=\"additionalGeographicalInformation\">\${${wrapper}.${element.javaFieldName}?.additionalGeographicalInformation}</p>"
+          ,"<span class=\"streetNumber\">\${${wrapper}.${element.javaFieldName}?.streetNumber}</span> "
+          ,"<span class=\"streetName\">\${${wrapper}.${element.javaFieldName}?.streetName}</span>"
+          ,"<p class=\"placeNameOrService\">\${${wrapper}.${element.javaFieldName}?.placeNameOrService}</p>"
+          ,"<span class=\"postalCode\">\${${wrapper}.${element.javaFieldName}?.postalCode}</span> "
+          ,"<span class=\"city\">\${${wrapper}.${element.javaFieldName}?.city}</span>"
+          ,"<p class=\"countryName\">\${${wrapper}.${element.javaFieldName}?.countryName}</p>"
           ,"</div>"
           ].join()
       ,'boolean' :
           "<span class=\"value-\${${wrapper}.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
+      ,'text' :
+          "<span>\${${wrapper}.${element.javaFieldName}}</span>"
     ]
     
     if (widgets[element.widget] != null)
       print widgets[element.widget]
     else
-      print "<span>\${${wrapper}.${element.javaFieldName}}</span>"
+      print widgets['text']
   } 
 %>
 

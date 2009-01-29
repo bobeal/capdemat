@@ -17,20 +17,32 @@
        zcb.Condition.filleds = [];
        zcb.Condition.unfilleds = [];
     }
-  
+    
     var currentTriggerValue = function (ddEl) {
       var formEl = yud.getLastChild(ddEl);
       if (yud.hasClass(ddEl,'validate-capdematEnum'))
-        return formEl[ddEl.id].value.split('_')[1];
-      else
-        return formEl[ddEl.id].value;
+        return formEl[ddEl.id].value.split('_')[1] || '';
+      else if (yud.hasClass(ddEl,'validate-boolean')) {
+        var value;
+        zct.each(formEl[ddEl.id], function(){
+          if (this.checked) value = this.value; 
+        });
+        return value || '';
+      }
+      return formEl[ddEl.id].value || '';
     }
     
     var triggerValue = function (ddEl) {
       if (yud.hasClass(ddEl,'validate-capdematEnum'))
         return yud.getFirstChild(ddEl).className.split(' ')[0];
+      else if (yud.hasClass(ddEl,'validate-boolean'))
+        return yud.getFirstChild(ddEl).className.split('-')[1];
       else
         return yl.trim(yud.getFirstChild(ddEl).innerHTML);
+    }
+    
+    var getRequestTypeLabel = function () {
+      return zct.html(yud.get('requestTypeLabel'));
     }
     
     var listenerSwitch = function (listenerEl, action) {
@@ -82,7 +94,7 @@
       test : function() {
           zct.each(zcb.Condition.triggers, function(i) {
             zct.doAjaxCall(
-                '/condition/?triggers='+ ylj.stringify(this),
+                '/condition/?requestTypeLabel=' + getRequestTypeLabel() + '&triggers='+ ylj.stringify(this),
                 null,
                 function(o) {
                   var json = ylj.parse(o.responseText);
@@ -118,12 +130,13 @@
       set : function(e) {
           var targetEl = yue.getTarget(e);
           var currentDdEl = yud.getAncestorByTagName(targetEl, 'dd');
-          var dtTriggers;
           var trigger = /condition-(\w+)-trigger/i
               .exec(yud.getPreviousSibling(currentDdEl).className);
           if (!yl.isNull(trigger)) {
-            dtTriggers = yud.getElementsByClassName(trigger[0], null, 'requestData');
-            zcb.Condition.addTriggers(trigger[1], dtTriggers, currentDdEl);
+            zcb.Condition.addTriggers(
+                trigger[1],
+                yud.getElementsByClassName(trigger[0], null, 'requestData'),
+                currentDdEl);
           }
       },
       

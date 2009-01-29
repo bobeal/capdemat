@@ -4,11 +4,11 @@ import grails.converters.JSON
 
 class ExceptionUtils {
     
-    def static isXRequestError = { request ->
+    def static isXRequestError(request) {
         return request.getHeader('x-requested-with') != null
     }
     
-    def static isModelException = { ex ->
+    def static isModelException(ex) {
         boolean result = false
         if (ExceptionUtils.extractModelException(ex)) 
             result = true
@@ -16,7 +16,7 @@ class ExceptionUtils {
         return result
     }
     
-    def static isPermissionException = { ex ->
+    def static isPermissionException(ex) {
        def cause = ex?.cause
                
        while (cause) {
@@ -26,13 +26,13 @@ class ExceptionUtils {
        return false;
     }
 
-    def static getModelI18nKey = { ex ->
+    def static getModelI18nKey(ex) {
         def mex = ExceptionUtils.extractModelException(ex)
         if(mex) return mex.i18nKey
         else return ''
     }
     
-    def private static extractModelException = { ex ->
+    def private static extractModelException(ex) {
         def cause = ex?.cause
         
         while(cause) {

@@ -9,16 +9,11 @@ public class CvqModelException extends CvqException {
 
     private static final long serialVersionUID = 1L;
 
-    public CvqModelException() {
-        super();
-    }
-
     public CvqModelException(String reason) {
         super(reason);
     }
 
     public CvqModelException(String reason, String key) {
         super(reason, key);
-        // TODO Auto-generated constructor stub
     }
 }

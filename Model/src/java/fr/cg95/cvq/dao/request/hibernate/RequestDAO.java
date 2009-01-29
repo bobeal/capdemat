@@ -702,7 +702,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             .setParameters(objectTab, typeTab).list();
     }
     
-    public List<Request> listByDraftNotification(String actionLabel, Date date) {
+    public List<Request> listDraftedByNotificationAndDate(String actionLabel, Date date) {
         
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();

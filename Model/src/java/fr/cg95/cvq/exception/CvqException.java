@@ -19,6 +19,7 @@ public class CvqException extends Exception {
 
     public CvqException(final String reason) {
         super(reason);
+        this.i18nKey = reason;
     }
     
     public CvqException(final String reason, String key) {

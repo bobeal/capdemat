@@ -106,7 +106,7 @@ public class CategoryService implements ICategoryService {
         // check there is not yet a category with the same name
         if (getByName(category.getName()) != null) {
             logger.error("create() there is already a category with name : " + category.getName());
-            throw new CvqModelException();
+            throw new CvqModelException("category.error.nameAlreadyExists");
         }
 
         Long categoryId = categoryDAO.create(category);

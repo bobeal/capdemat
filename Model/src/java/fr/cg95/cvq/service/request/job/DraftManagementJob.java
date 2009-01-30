@@ -19,13 +19,20 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Permits to manage drafts 
+ * Job dedicated to the management of drafts.
+ * 
+ * Performs two tasks :
+ * <ul>
+ *   <li>Delete expired drafts</li>
+ *   <li>Send a notification to e-citizens when one of their drafts is about to expire</li>
+ *  </ul>
  *
  * @author Victor Bartel (vba@zenexity.fr)
  */
-
 public class DraftManagementJob {
     
+    private static Logger logger = Logger.getLogger(DraftManagementJob.class);
+
     private IRequestDAO requestDAO;
     private IRequestService requestService;
     private Integer liveDuration;
@@ -34,23 +41,23 @@ public class DraftManagementJob {
     private IMailService mailService;
     private IIndividualService individualService;
     private ILocalizationService localizationService;
-    private static Logger logger = Logger.getLogger(DraftManagementJob.class);
     
     public void deleteExpiredDrafts() throws CvqException {
         Set<Critere> criterias = this.prepareQueryParams(liveDuration);
         List<Request> requests = this.requestDAO.search(criterias,null,null,0,0);
-        for(Request r : requests) this.requestService.delete(r.getId());
+        for (Request r : requests) 
+            this.requestService.delete(r.getId());
     }
     
     public Integer sendNotifications() throws CvqException {
         Integer counter = 0; 
         Integer limit = liveDuration - notificationBeforeDelete;
         
-        List<Request> requests = this.requestDAO.listByDraftNotification(
+        List<Request> requests = this.requestDAO.listDraftedByNotificationAndDate(
             IRequestService.DRAFT_DELETE_NOTIFICATION,
             DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit));
         
-        for(Request r : requests) {
+        for (Request r : requests) {
             Adult adult = this.individualService.getAdultById(r.getRequesterId());
             String from = r.getRequestType().getCategory().getPrimaryEmail();
             boolean sent = false;
@@ -61,10 +68,10 @@ public class DraftManagementJob {
                     this.buildMailTemplate(r));
                 sent = true;
                 counter ++;
-            } catch(CvqException e) {
+            } catch (CvqException e) {
                 logger.error("sendNotifications() "+e.getMessage());
             } finally {
-                if(sent)
+                if (sent)
                     requestService.addSystemAction(r.getId(),
                         IRequestService.DRAFT_DELETE_NOTIFICATION);
             }

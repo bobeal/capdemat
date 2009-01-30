@@ -1,6 +1,6 @@
 package fr.cg95.cvq.service.authority;
 
-import java.util.Set;
+import java.util.List;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.exception.CvqException;
@@ -20,7 +20,7 @@ public interface ISchoolService {
     void modify(final School school)
         throws CvqException;
     
-    Set getAll()
+    List<School> getAll()
         throws CvqException;
 
     School getByName(final String schoolName)

@@ -1,8 +1,6 @@
 package fr.cg95.cvq.service.authority.impl;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -24,26 +22,19 @@ public class SchoolService implements ISchoolService {
 
     private ISchoolDAO schoolDAO;
 
-    public SchoolService() {
-        super();
-    }
-
     public School getByName(final String schoolName)
         throws CvqException {
         return schoolDAO.findByName(schoolName);
     }
 
-    public Set getAll() throws CvqException {
-        List schools = null;
-        schools = schoolDAO.listAll();
-        return new LinkedHashSet(schools);
+    public List<School> getAll() throws CvqException {
+        return schoolDAO.listAll();
     }
 
     public Long create(final School school)
         throws CvqException {
         Long schoolId = null;
 
-        // do some business logic
         if (school != null)
             schoolId = schoolDAO.create(school);
 
@@ -54,9 +45,9 @@ public class SchoolService implements ISchoolService {
 
     public void modify(final School school)
         throws CvqException {
-        // do some business logic
+
         if (school != null)
-                schoolDAO.update(school);
+            schoolDAO.update(school);
     }
     
     public void setDAO(ISchoolDAO schoolDAO) {

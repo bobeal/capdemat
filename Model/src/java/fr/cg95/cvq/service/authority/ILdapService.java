@@ -7,6 +7,7 @@ import fr.cg95.cvq.exception.CvqException;
  * A service used to communicate with an external LDAP directory.
  *
  * @author bor@zenexity.fr
+ * @deprecated
  */
 public interface ILdapService {
 

@@ -107,4 +107,14 @@ public interface ILocalAuthorityRegistry {
     
     List<File> getLocalResourceContent(String resourceType) throws CvqException;
     List<File> getLocalResourceContent(String resourceType, String pattern) throws CvqException;
+
+    /**
+     * Updates local authority draft settings
+     * 
+     * @param liveDuration draft duration
+     * @param notificationBeforeDelete notification before draft removal
+     * @throws CvqException base exception
+     */
+    void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
+        throws CvqException;
 }

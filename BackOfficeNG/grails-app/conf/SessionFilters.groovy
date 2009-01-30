@@ -21,7 +21,7 @@ class SessionFilters {
                 ILocalAuthorityRegistry localAuthorityRegistry =
                 applicationContext.getBean("localAuthorityRegistry")
                 LocalAuthorityConfigurationBean lacb =
-                localAuthorityRegistry.getLocalAuthorityBeanByUrl(request.serverName)
+                    localAuthorityRegistry.getLocalAuthorityBeanByUrl(request.serverName)
                 if (lacb == null)
                     throw new ServletException("No local authority found !")
                 SessionFactory sessionFactory = lacb.getSessionFactory()

@@ -22,6 +22,8 @@ public class LocalAuthority implements Serializable {
 
     private String name;
     private String postalCode;
+    private Integer draftLiveDuration;
+    private Integer draftNotificationBeforeDelete;
 
     /** full constructor */
     public LocalAuthority(String name, String postalCode) {
@@ -99,4 +101,29 @@ public class LocalAuthority implements Serializable {
             .toString();
     }
 
+    /**
+     * @hibernate.property
+     *  column="draft_live_duration"
+     *  not-null="true"
+     */
+    public Integer getDraftLiveDuration() {
+        return draftLiveDuration;
+    }
+
+    public void setDraftLiveDuration(Integer draftLiveDuration) {
+        this.draftLiveDuration = draftLiveDuration;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="draft_notification_before_delete"
+     *  not-null="true"
+     */
+    public Integer getDraftNotificationBeforeDelete() {
+        return draftNotificationBeforeDelete;
+    }
+
+    public void setDraftNotificationBeforeDelete(Integer draftNotificationBeforeDelete) {
+        this.draftNotificationBeforeDelete = draftNotificationBeforeDelete;
+    }
 }

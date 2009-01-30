@@ -57,8 +57,8 @@ public class DraftManagementJob {
             
             try {
                 mailService.send(from, adult.getEmail(), null,
-                        "[CapDémat] Expiration d'une demande sauvée en tant que brouillon",
-                        this.buildMailTemplate(r));
+                    "[CapDémat] Expiration d'une demande sauvée en tant que brouillon",
+                    this.buildMailTemplate(r));
                 sent = true;
                 counter ++;
             } catch(CvqException e) {

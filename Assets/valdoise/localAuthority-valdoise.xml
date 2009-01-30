@@ -8,6 +8,8 @@
     init-method="init">
     <property name="name" value="valdoise"/>
     <property name="postalCode" value="95999"/>
+    <property name="draftLiveDuration" value="7"/>
+    <property name="draftNotificationBeforeDelete" value="20"/>
     <property name="displayTitle" value="Conseil Général du Val d'Oise"/>
     <property name="urls">
       <list>

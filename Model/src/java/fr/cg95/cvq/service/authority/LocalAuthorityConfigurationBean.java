@@ -31,6 +31,8 @@ public final class LocalAuthorityConfigurationBean {
     private String name;
     private String postalCode;
     private List urls;
+    private Integer draftLiveDuration;
+    private Integer draftNotificationBeforeDelete;
 
     /**
      * Whether an email alert is sent to notify of requests whose instruction is in late, 
@@ -407,5 +409,21 @@ public final class LocalAuthorityConfigurationBean {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+    
+    public void setDraftNotificationBeforeDelete(Integer draftNotificationBeforeDelete) {
+        this.draftNotificationBeforeDelete = draftNotificationBeforeDelete;
+    }
+    
+    public void setDraftLiveDuration(Integer draftLiveDuration) {
+        this.draftLiveDuration = draftLiveDuration;
+    }
+
+    public Integer getDraftLiveDuration() {
+        return draftLiveDuration;
+    }
+
+    public Integer getDraftNotificationBeforeDelete() {
+        return draftNotificationBeforeDelete;
     }
 }

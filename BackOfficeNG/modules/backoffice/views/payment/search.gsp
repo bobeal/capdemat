@@ -55,6 +55,7 @@
         <h3><g:message code="header.switchTo" /></h3>
         <div class="body">
           <g:link action="configure">${message(code:'payment.header.configure')}</g:link>
+          <g:link action="setupDrafts">${message(code:'payment.header.setupDrafts')}</g:link>
         </div>
       </div>
       

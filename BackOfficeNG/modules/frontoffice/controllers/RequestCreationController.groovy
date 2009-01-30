@@ -22,7 +22,9 @@ class RequestCreationController {
     def defaultAction = 'edit'
     
     def draft = {
-        def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+        def requestService = requestServiceRegistry.getRequestService(
+            params.requestTypeLabel.toString()
+        )
         
         if(request.post) {
             def cRequest = session[params.uuidString].cRequest
@@ -41,8 +43,6 @@ class RequestCreationController {
             redirect(uri: '/frontoffice/requestType')
 
         def requestService = requestServiceRegistry.getRequestService(params.label)
-println params.label
-println requestService
         
         def cRequest
         if (flash.cRequest) cRequest = flash.cRequest 
@@ -125,8 +125,8 @@ println requestService
             }
             
             if (currentStep == "validation") {
-                if (!cRequest.draft) domesticHelpRequestService.create(cRequest)
-                else domesticHelpRequestService.finalizeDraft(cRequest)
+                if (!cRequest.draft) requestService.create(cRequest)
+                else requestService.finalizeDraft(cRequest)
             }
         }
         

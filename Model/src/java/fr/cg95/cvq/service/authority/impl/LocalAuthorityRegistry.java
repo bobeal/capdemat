@@ -398,6 +398,9 @@ public class LocalAuthorityRegistry
                 LocalAuthority localAuthority = new LocalAuthority();
                 localAuthority.setName(lacb.getName().toLowerCase());
                 localAuthority.setPostalCode(lacb.getPostalCode());
+                localAuthority.setDraftLiveDuration(lacb.getDraftLiveDuration());
+                localAuthority.setDraftNotificationBeforeDelete(
+                    lacb.getDraftNotificationBeforeDelete());
                 localAuthorityDAO.create(localAuthority);
             } catch (CvqPermissionException cpe) {
                 // can't happen, we are admin here
@@ -406,6 +409,14 @@ public class LocalAuthorityRegistry
                         + localAuthorityName);
             }
         }
+    }
+    
+    public void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
+        throws CvqException {
+        LocalAuthority localAuthority = SecurityContext.getCurrentSite();
+        localAuthority.setDraftLiveDuration(liveDuration);
+        localAuthority.setDraftNotificationBeforeDelete(notificationBeforeDelete);
+        localAuthorityDAO.saveOrUpdate(localAuthority);
     }
     
     public void callback(String localAuthority, Object object, String callbackMethodName, 

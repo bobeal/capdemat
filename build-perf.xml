@@ -50,7 +50,7 @@
     </jmeter>
   </target>
 
-  <target name="report">
+  <target name="report" depends="init">
     <xslt force="true" in="${test.perf.dir}/report/${test.plan.name}.jtl"
       out="${test.perf.dir}/report/${test.plan.name}.htm"
       style="${test.perf.dir}/xsl/jmeter-results-detail-report_21.xsl">

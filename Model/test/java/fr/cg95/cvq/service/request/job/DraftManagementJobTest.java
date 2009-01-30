@@ -8,6 +8,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.civil.IBirthDetailsRequestService;
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
@@ -29,6 +30,7 @@ public class DraftManagementJobTest extends ServiceTestCase {
     private IBirthDetailsRequestService requestService;
     //private IBirthDetailsRequestService birthDetailsRequestService;
     private DraftManagementJob draftManagementJob;
+    private ILocalAuthorityRegistry localAuthorityRegistry;
     
     @Override
     protected void onSetUp() throws Exception {
@@ -36,41 +38,57 @@ public class DraftManagementJobTest extends ServiceTestCase {
         this.requestService = this.getApplicationBean("birthDetailsRequestService");
         this.draftManagementJob = this.getApplicationBean("draftManagementJob");
         this.requestDAO = this.getApplicationBean("requestDAO");
+        this.localAuthorityRegistry = this.getApplicationBean("localAuthorityRegistry");
         
-        this.draftManagementJob.setLiveDuration(4);
-        this.draftManagementJob.setNotificationBeforeDelete(2);
+//        this.draftManagementJob.setLiveDuration(4);
+//        this.draftManagementJob.setNotificationBeforeDelete(2);
     }
     
     public void testRequestDraftRemoval() throws CvqException {
         this.createDrafts(4);
+        localAuthorityRegistry.updateDraftSettings(4,2);
         this.continueWithNewTransaction();
+        
 //        List<Request> requests = this.getDrafts();
         int before = this.getDrafts().size();
         this.draftManagementJob.deleteExpiredDrafts();
         int after = this.getDrafts().size();
         assertEquals(before-1,after);
         
-        this.draftManagementJob.setLiveDuration(3);
+//        this.draftManagementJob.setLiveDuration(3);
+        localAuthorityRegistry.updateDraftSettings(3,2);
+        this.continueWithNewTransaction();
+        
         this.draftManagementJob.deleteExpiredDrafts();
         assertEquals(after-1,this.getDrafts().size());
         
-        this.draftManagementJob.setLiveDuration(1);
+//        this.draftManagementJob.setLiveDuration(1);
+        localAuthorityRegistry.updateDraftSettings(1,2);
+        this.continueWithNewTransaction();
+        
         this.draftManagementJob.deleteExpiredDrafts();
         assertEquals(0,this.getDrafts().size());
     }
     
     public void testDraftMailSending() throws CvqException {
         this.createDrafts(8);
+        localAuthorityRegistry.updateDraftSettings(4,2);
         this.continueWithNewTransaction();
         
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-        this.draftManagementJob.setLiveDuration(9);
-        this.draftManagementJob.setNotificationBeforeDelete(4);
+//        this.draftManagementJob.setLiveDuration(9);
+//        this.draftManagementJob.setNotificationBeforeDelete(4);
+        localAuthorityRegistry.updateDraftSettings(9,4);
+        this.continueWithNewTransaction();
+        
         int mailsCount = this.draftManagementJob.sendNotifications();
         assertEquals(mailsCount,4);
         mailsCount = this.draftManagementJob.sendNotifications();
         assertEquals(mailsCount,0);
-        this.draftManagementJob.setNotificationBeforeDelete(5);
+//        this.draftManagementJob.setNotificationBeforeDelete(5);
+        localAuthorityRegistry.updateDraftSettings(9,5);
+        this.continueWithNewTransaction();
+        
         mailsCount = this.draftManagementJob.sendNotifications();
         assertEquals(mailsCount,1);
     }

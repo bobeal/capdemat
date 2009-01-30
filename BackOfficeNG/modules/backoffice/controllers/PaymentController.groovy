@@ -46,25 +46,6 @@ class PaymentController {
             render(view:'configure',model:[editorContent:file.getText()])
         }
     }
-    
-    def setupDrafts = {
-        def entity = [:]
-        
-        if(request.get) {
-            LocalAuthority localAuthority = SecurityContext.getCurrentSite()
-            entity.draftLiveDuration = localAuthority.draftLiveDuration
-            entity.draftNotificationBeforeDelete = localAuthority.draftNotificationBeforeDelete
-        } else {
-            localAuthorityRegistry.updateDraftSettings(
-                Integer.parseInt(params.draftLiveDuration),
-                Integer.parseInt(params.draftNotificationBeforeDelete)
-            )
-            entity.draftLiveDuration = params.draftLiveDuration
-            entity.draftNotificationBeforeDelete = params.draftNotificationBeforeDelete
-            entity.posted = ['state':'success','message':message(code:"message.updateDone")]
-        }
-        return ["entity":entity]
-    }
 
     def loadPayments = {
         def initDateFrom = (params.initDateFrom == null) ? null : DateUtils.stringToDate(params.initDateFrom)

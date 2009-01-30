@@ -190,14 +190,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestDAO" ref="requestDAO"/>
     <property name="mailService" ref="mailService"/>
     <property name="individualService" ref="individualService"/>
-    <property name="liveDuration" value="15" />
-    <property name="notificationBeforeDelete" value="7" />
   </bean>
   
   <bean id="draftManagementRemoverJobInvoker"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
     <property name="targetObject" ref="draftManagementJob" />
-    <property name="targetMethod" value="deleteExpiredDrafts" />
+    <property name="targetMethod" value="launchRemovalJob" />
     <property name="concurrent" value="false" />
   </bean>
   
@@ -210,7 +208,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="draftManagementNotifierJobInvoker"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
     <property name="targetObject" ref="draftManagementJob" />
-    <property name="targetMethod" value="sendNotifications" />
+    <property name="targetMethod" value="launchNotificationJob" />
     <property name="concurrent" value="false" />
   </bean>
   

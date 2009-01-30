@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.job;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
@@ -11,6 +12,7 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.security.SecurityContext;
 import org.apache.log4j.Logger;
 
 import java.util.Calendar;
@@ -35,15 +37,23 @@ public class DraftManagementJob {
 
     private IRequestDAO requestDAO;
     private IRequestService requestService;
-    private Integer liveDuration;
-    private Integer notificationBeforeDelete;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IMailService mailService;
     private IIndividualService individualService;
     private ILocalizationService localizationService;
     
+    public void launchNotificationJob() {
+        localAuthorityRegistry.browseAndCallback(this, "sendNotifications", null);
+    }
+    
+    public void launchRemovalJob() {
+        localAuthorityRegistry.browseAndCallback(this, "deleteExpiredDrafts", null);
+    }
+    
     public void deleteExpiredDrafts() throws CvqException {
-        Set<Critere> criterias = this.prepareQueryParams(liveDuration);
+        LocalAuthority authority = SecurityContext.getCurrentSite();
+        
+        Set<Critere> criterias = this.prepareQueryParams(authority.getDraftLiveDuration());
         List<Request> requests = this.requestDAO.search(criterias,null,null,0,0);
         for (Request r : requests) 
             this.requestService.delete(r.getId());
@@ -51,7 +61,8 @@ public class DraftManagementJob {
     
     public Integer sendNotifications() throws CvqException {
         Integer counter = 0; 
-        Integer limit = liveDuration - notificationBeforeDelete;
+        LocalAuthority authority = SecurityContext.getCurrentSite();
+        Integer limit = authority.getDraftLiveDuration() - authority.getDraftNotificationBeforeDelete();
         
         List<Request> requests = this.requestDAO.listDraftedByNotificationAndDate(
             IRequestService.DRAFT_DELETE_NOTIFICATION,
@@ -65,7 +76,7 @@ public class DraftManagementJob {
             try {
                 mailService.send(from, adult.getEmail(), null,
                     "[CapDémat] Expiration d'une demande sauvée en tant que brouillon",
-                    this.buildMailTemplate(r));
+                    this.buildMailTemplate(r,authority.getDraftLiveDuration()));
                 sent = true;
                 counter ++;
             } catch (CvqException e) {
@@ -79,7 +90,7 @@ public class DraftManagementJob {
         return counter;
     }
     
-    protected String buildMailTemplate(Request request) throws CvqException {
+    protected String buildMailTemplate(Request request, Integer liveDuration) throws CvqException {
         String template = this.localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
             ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE,
             "NotificationBeforeDraftDelete.txt",
@@ -119,15 +130,7 @@ public class DraftManagementJob {
     public void setRequestService(IRequestService requestService) {
         this.requestService = requestService;
     }
-
-    public void setLiveDuration(Integer liveDuration) {
-        this.liveDuration = liveDuration;
-    }
-
-    public void setNotificationBeforeDelete(Integer notificationBeforeDelete) {
-        this.notificationBeforeDelete = notificationBeforeDelete;
-    }
-
+    
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }

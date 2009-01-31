@@ -13,9 +13,9 @@
      <!-- header -->
      <div id="hd">
        <h1>
-         <img src="${createLinkTo(dir:'images/frontoffice',file:'logoFoVo.gif')}" 
-          style="width: 120px; height: 60px;" alt="Logo Val d'Oise" />
-         <span>CapDémat - FrontOffice</span>
+         <img src="${createLink(controller:'localAuthorityResource',action:'logoFo')}"
+          style="width: 120px; height: 60px;" alt="Logo Collectivité" />
+         <span>Vos démarches - ${session.currentSiteDisplayTitle}</span>
        </h1>
        <map id="hd-menu">
         <g:if test="${!login}">

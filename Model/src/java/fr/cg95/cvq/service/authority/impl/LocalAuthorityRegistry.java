@@ -118,6 +118,8 @@ public class LocalAuthorityRegistry
         // TODO Refactor this part, put it more flexible
         if (resourceType.equals(IMAGE_ASSETS_RESOURCE_TYPE)) {
             filePath.append(IMAGE_ASSETS_RESOURCE_TYPE).append("/");
+        } else if (resourceType.equals(CSS_ASSETS_RESOURCE_TYPE)) {
+            filePath.append(CSS_ASSETS_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(LOCAL_REFERENTIAL_RESOURCE_TYPE)) {
             filePath.append(LOCAL_REFERENTIAL_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(EXTERNAL_REFERENTIAL_RESOURCE_TYPE)) {
@@ -183,7 +185,7 @@ public class LocalAuthorityRegistry
     }
     
     public File getCurrentLocalAuthorityResource(final String resourceType, final String filename,
-                                                 final boolean fallbackToDefault) {
+            final boolean fallbackToDefault) {
 
         String currentSiteName = SecurityContext.getCurrentSite().getName();
         return getAssetsFile(resourceType, currentSiteName, filename, fallbackToDefault);
@@ -253,8 +255,8 @@ public class LocalAuthorityRegistry
         return result;        
     }
     
-    public File getLocalAuthorityResource(final String resourceType, 
-            final String localAuthorityName, final String filename, 
+    public File getLocalAuthorityResource(final String localAuthorityName, 
+            final String resourceType, final String filename, 
             final boolean fallbackToDefault) {
 
         return getAssetsFile(resourceType, localAuthorityName, filename, fallbackToDefault);

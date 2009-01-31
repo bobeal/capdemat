@@ -39,6 +39,7 @@ class SessionFilters {
                 }
 
                 session.setAttribute("currentSiteName", lacb.getName().toLowerCase())
+                session.setAttribute("currentSiteDisplayTitle", lacb.getDisplayTitle())
                 session.setAttribute("doRollback", false)
             }
             after = {

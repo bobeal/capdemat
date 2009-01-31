@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/common',file:'tag.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'layout.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'box.css')}" />
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'valdoise.css')}" />
+  <link rel="stylesheet" type="text/css" href="${createLink(controller:'localAuthorityResource',action:'cssFo')}" />
   <!--[if IE 6]>
   <link rel="stylesheet" href="${createLinkTo(dir:'css/frontoffice/hacks',file:'ie6.css')}" />
   <![endif]-->
@@ -29,7 +29,7 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'tools.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'validation.js')}"></script>
   
-    <script type="text/javascript">
+  <script type="text/javascript">
     zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     zenexity.capdemat.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
   </script>

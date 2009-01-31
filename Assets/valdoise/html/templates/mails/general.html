@@ -17,7 +17,7 @@
   <body class="body">
     <div>
       <g:if test="${type == 'html'}">
-        <img class="logo" src="${createLink(controller:'backofficeLocalAuthorityResource',action:'image',id:'logoPdf')}" />
+        <img class="logo" src="${createLink(controller:'localAuthorityResource',action:'image',id:'logoPdf')}" />
       </g:if>
       <g:if test="${type == 'pdf'}">
         <img class="logo" src="${logoLink}" />

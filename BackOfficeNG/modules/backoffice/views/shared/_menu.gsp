@@ -18,6 +18,9 @@
     </a>
   </g:if>
   <g:if test="${session.currentCredentialBean.hasSiteAdminRole()}">
+    <a id="localAuthorityMenuItem" href="<g:createLink controller='backofficeLocalAuthority'/>">
+      <g:message code="menu.localAuthority" />
+    </a>
     <a id="categoryMenuItem" href="<g:createLink controller='backofficeCategory'/>">
       <g:message code="menu.categories" />
     </a>

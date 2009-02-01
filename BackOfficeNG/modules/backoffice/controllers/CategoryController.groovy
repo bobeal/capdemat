@@ -5,16 +5,12 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.request.IRequestService
 
 import grails.converters.JSON
-import fr.cg95.cvq.business.authority.LocalAuthority
-import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 
 class CategoryController {
     
     ICategoryService categoryService
     IAgentService agentService
     IRequestService defaultRequestService
-    ILocalAuthorityRegistry localAuthorityRegistry
     
     def translationService
     def defaultAction = "list"
@@ -201,24 +197,5 @@ class CategoryController {
             cssClass = "tag-manager"
         }
         return [ i18nKey: i18nKey, cssClass: cssClass ]         
-    }
-    
-    def setupDrafts = {
-        def entity = [:]
-        
-        if(request.get) {
-            LocalAuthority localAuthority = SecurityContext.getCurrentSite()
-            entity.draftLiveDuration = localAuthority.draftLiveDuration
-            entity.draftNotificationBeforeDelete = localAuthority.draftNotificationBeforeDelete
-        } else {
-            localAuthorityRegistry.updateDraftSettings(
-                Integer.parseInt(params.draftLiveDuration),
-                Integer.parseInt(params.draftNotificationBeforeDelete)
-            )
-            entity.draftLiveDuration = params.draftLiveDuration
-            entity.draftNotificationBeforeDelete = params.draftNotificationBeforeDelete
-            entity.posted = ['state':'success','message':message(code:"message.updateDone")]
-        }
-        return ["entity":entity]
     }
 }

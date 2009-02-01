@@ -400,9 +400,6 @@ public class LocalAuthorityRegistry
                 LocalAuthority localAuthority = new LocalAuthority();
                 localAuthority.setName(lacb.getName().toLowerCase());
                 localAuthority.setPostalCode(lacb.getPostalCode());
-                localAuthority.setDraftLiveDuration(lacb.getDraftLiveDuration());
-                localAuthority.setDraftNotificationBeforeDelete(
-                    lacb.getDraftNotificationBeforeDelete());
                 localAuthorityDAO.create(localAuthority);
             } catch (CvqPermissionException cpe) {
                 // can't happen, we are admin here

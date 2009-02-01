@@ -7,14 +7,10 @@ import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -327,7 +323,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
 
     public Long countByQuality(final Date startDate, final Date endDate,
-            final List resultingStates, final String qualityType, final Long requestTypeId,
+            final List<String> resultingStates, final String qualityType, final Long requestTypeId,
             final Long categoryId) {
 
         List<Type> typeList = new ArrayList<Type>();

@@ -7,8 +7,6 @@
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="dummy" />
     <property name="postalCode" value="95999"/>
-    <property name="draftLiveDuration" value="7"/>
-    <property name="draftNotificationBeforeDelete" value="20"/>
     <property name="displayTitle">
       <value>Ville de Dummy sur Mer</value>
     </property>

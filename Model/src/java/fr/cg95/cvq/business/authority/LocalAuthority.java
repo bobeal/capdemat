@@ -22,8 +22,8 @@ public class LocalAuthority implements Serializable {
 
     private String name;
     private String postalCode;
-    private Integer draftLiveDuration;
-    private Integer draftNotificationBeforeDelete;
+    private Integer draftLiveDuration = 20;
+    private Integer draftNotificationBeforeDelete = 7;
 
     /** full constructor */
     public LocalAuthority(String name, String postalCode) {

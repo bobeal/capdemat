@@ -17,6 +17,8 @@ import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.RequestCommon;
+import fr.cg95.cvq.generator.common.Step;
+import fr.cg95.cvq.generator.plugins.bo.ElementBo.ElementTypeClass;
 import groovy.lang.Writable;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
@@ -31,7 +33,8 @@ public class BoPlugin implements IPluginGenerator {
     private int depth;
     
     private String outputDir;
-    private String groovyTemplate;
+    private String editTemplate;
+    private String collectionTemplate;
     
     private RequestBo requestBo;
     
@@ -43,7 +46,8 @@ public class BoPlugin implements IPluginGenerator {
         try {
             NamedNodeMap childAttributesMap = configurationNode.getFirstChild().getAttributes();
             outputDir = childAttributesMap.getNamedItem("outputdir").getNodeValue();
-            groovyTemplate = childAttributesMap.getNamedItem("groovytemplate").getNodeValue();
+            editTemplate = childAttributesMap.getNamedItem("edittemplate").getNodeValue();
+            collectionTemplate = childAttributesMap.getNamedItem("collectiontemplate").getNodeValue();
         } catch (NullPointerException npe) {
             throw new RuntimeException ("Check bo-plugin.xml <properties outputdir=\"\" groovytemplate=\"\"/> configuration tag");
         }
@@ -56,16 +60,32 @@ public class BoPlugin implements IPluginGenerator {
         elementBoStack = new ElementStack();
     }
     
+    
     public void endRequest(String requestName) {
-        logger.warn("endRequest()");
+        logger.debug("endRequest()");
         try {
-            SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
-            Template template = templateEngine.createTemplate(new File(groovyTemplate));
+            String output = outputDir + "/" + requestBo.getName() + "/";
+            if (! new File(output).exists())
+                new File(output).mkdir();
             
+            SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
+            
+            // main .../<requestType.name>/_edit.gsp 
+            Template template = templateEngine.createTemplate(new File(editTemplate));
             Map<String, Object> bindingMap = new HashMap<String, Object>();
             bindingMap.put("requestBo", requestBo);
-            Writable w = template.make(bindingMap);
-            w.writeTo(new FileWriter(outputDir + "_" + requestBo.getName() + ".gsp"));
+            template.make(bindingMap).writeTo(new FileWriter(output + "_edit.gsp"));
+            logger.warn("endRequest() - edit.gsp.tpl OK");
+            
+            // .../<requestType.name>_<collection>.gsp templates
+            template = templateEngine.createTemplate(new File(collectionTemplate));
+            bindingMap = new HashMap<String, Object>();
+            for (ElementBo element: requestBo.getElementsByTypeClass(ElementTypeClass.COLLECTION)) {
+                bindingMap.put("element", element);
+                template.make(bindingMap).writeTo(new FileWriter(output + "_" + element.getJavaFieldName() + ".gsp"));
+            }
+            logger.warn("endRequest() - collection.gsp.tpl OK");
+            
         } catch (CompilationFailedException cfe) {
             logger.error(cfe.getMessage()); 
         } catch (ClassNotFoundException cnfe) {

@@ -185,6 +185,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     
     return { 
       inlineEditEvent : undefined,
+      
       init : function() { 
           init();
           zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
@@ -192,9 +193,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               zcbr.Instruction.inlineEditEvent.dispatch, zcbr.Instruction.inlineEditEvent, true
           );
       },
+      
+      // TODO - refactor dispatch policy
       getTarget : function (e) {
           var targetEl = yue.getTarget(e);
-          if (targetEl.tagName != 'DD' && targetEl.tagName != 'INPUT')
+          if (targetEl.tagName != 'DD' && targetEl.tagName != 'INPUT'  && targetEl.tagName != 'A')
             targetEl = yud.getAncestorByTagName(targetEl, 'dd');
           return targetEl;
       },
@@ -202,11 +205,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var targetEl = zcbr.Instruction.getTarget(e);
         if (yl.isNull(targetEl) || yud.hasClass(targetEl, 'current-editField'))
           return undefined;
+        else if (targetEl.tagName === 'A')
+          return targetEl.className;
         else if (targetEl.tagName === 'DD')
           return targetEl.className.split(' ')[0].split('-')[1];
         else
           return targetEl.className.split(' ')[0];
       },
+      
       editField : function(e) {
           var targetEl = zcbr.Instruction.getTarget(e);
           var propertyValue;
@@ -252,6 +258,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               }
           });
       },
+      
       submitField : function (e) {
           var targetEl = zcbr.Instruction.getTarget(e);
           var formEl = yud.getAncestorByTagName(targetEl, 'form');
@@ -271,8 +278,27 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               }
           });
       },
+      
       revertField : function (e) {
           modifyField(zcbr.Instruction.getTarget(e), false);
+      },
+      
+      addListItem : function (e) {    
+          var idRegex = /(\w+)_(\w+)\[(\d+)\]/i.exec(yue.getTarget(e).id);
+          zct.doAjaxCall(
+            '/modifyList/?requestId=' + zcb.requestId + '&listAction=' + yue.getTarget(e).id
+            , null,
+            function(o) { zct.html(yud.get('widget-' + idRegex[2]), o.responseText); }
+          ); 
+      },
+      
+      deleteListItem : function (e) {
+          var idRegex = /(\w+)_(\w+)\[(\d+)\]/i.exec(yue.getTarget(e).id);
+          zct.doAjaxCall(
+            '/modifyList/?requestId=' + zcb.requestId + '&listAction=' + yue.getTarget(e).id
+            , null,
+            function(o) { zct.html(yud.get('widget-' + idRegex[2]), o.responseText); }
+          );
       }
     };
     

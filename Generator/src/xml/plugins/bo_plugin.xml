@@ -14,8 +14,9 @@
   
   <configuration>
     <properties
-      outputdir="./BackOfficeNG/modules/backoffice/views/requestInstruction/requestType/" 
-      groovytemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/template.gsp.tpl"
+      outputdir="./BackOfficeNG/modules/backoffice/views/requestInstruction/requestType/"
+      edittemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/edit.gsp.tpl"
+      collectiontemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/collection.gsp.tpl"
     />
   </configuration>
   

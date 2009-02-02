@@ -122,8 +122,8 @@ class RequestCreationController {
             }
             
             if (currentStep == "validation") {
-                if (!cRequest.draft) domesticHelpRequestService.create(cRequest)
-                else domesticHelpRequestService.finalizeDraft(cRequest)
+                if (!cRequest.draft) requestService.create(cRequest)
+                else requestService.finalizeDraft(cRequest)
             }
         }
         
@@ -195,6 +195,7 @@ class RequestCreationController {
         return result
     }
     
+    // TODO - Share with backoffice controller
     def initBind(object, params) {
         params.each { param ->
             if (param.value.getClass() == GrailsParameterMap.class) {

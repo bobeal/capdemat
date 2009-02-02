@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
+import fr.cg95.cvq.generator.plugins.bo.ElementBo.ElementTypeClass;
 
 /**
  * @author rdj@zenexity.fr
@@ -65,6 +66,15 @@ public class RequestBo {
         if (elements == null)
             elements = new ArrayList<ElementBo>();
         elements.add(element);
+    }
+    
+    public List<ElementBo> getElementsByTypeClass(ElementTypeClass typeClass) {
+        List<ElementBo> typeClassElements = new ArrayList<ElementBo>();
+        for (ElementBo element : elements)
+            if (element.getTypeClass().equals(typeClass.toString()))
+                typeClassElements.add(element);
+        
+        return typeClassElements;
     }
     
     public List<ElementBo> getElementsByStep(Step step, int column) {

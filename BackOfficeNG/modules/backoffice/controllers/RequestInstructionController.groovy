@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.InputStream
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class RequestInstructionController {
 
@@ -183,25 +184,47 @@ class RequestInstructionController {
     def modify = {
         if (params.requestId == null || params.individualId == null )
              return
-        try {
-            def request = defaultRequestService.getById(Long.valueOf(params.requestId))
-            if (["VO Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
-                def individual = individualService.getById(Long.valueOf(params.individualId))
-                bind(individual)
-            } else {
-                bind(request)
-            }
-//            log.debug("Binder custum editor PersistentStringEnum = " +
-//                    getBinder(request)
-//                        .propertyEditorRegistry
-//                        .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
-
-            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-        } catch (CvqException ce) {
-            ce.printStackTrace()
-            log.error "modify() error while saving property of request"
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+        def request = defaultRequestService.getById(Long.valueOf(params.requestId))
+        if (["VO Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
+            def individual = individualService.getById(Long.valueOf(params.individualId))
+            bind(individual)
+        } else {
+            initBind(request, params)
+            bind(request)
         }
+//        log.debug("Binder custum editor PersistentStringEnum = " +
+//                getBinder(request)
+//                    .propertyEditorRegistry
+//                    .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
+
+        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+    }
+    
+    def modifyList = {
+        println 'modifyList START'
+        if (params.requestId == null || params.listAction == null )
+             return
+        
+        def cRequest = defaultRequestService.getById(Long.valueOf(params.requestId))
+        // FIXME find other implemantation
+        def requestTypeTemplate = StringUtils.firstCase(
+                cRequest.requestType.label.replace(' Request', '').replace(' ', ''), 'Lower')
+                
+        def actionTokens = params.listAction.tokenize('_')
+
+        def listElemTokens = actionTokens[1].tokenize('[]')
+        def getterMethod = cRequest.class.getMethod('get' + StringUtils.firstCase(listElemTokens[0], 'Upper'))
+        
+        if (actionTokens[0] == 'delete') {                   
+            getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listElemTokens[1]).intValue())
+        }
+        else if (actionTokens[0] == 'add') {
+            def listElemType = getterMethod.genericReturnType.actualTypeArguments[0]
+            def listElem = listElemType.getConstructor(null).newInstance(null)
+            getterMethod.invoke(cRequest, null).add(listElem)
+        }
+        render (template:'/backofficeRequestInstruction/requestType/' + requestTypeTemplate +'Request/' + listElemTokens[0]
+               ,model: ['request': cRequest])
     }
 
     def condition = {
@@ -209,19 +232,50 @@ class RequestInstructionController {
             render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
             
         def triggers = JSON.parse(params.triggers)
-        try {
-            def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
-            render (
-              [test: requestService.isConditionFilled(triggers)
-              ,status:"ok"
-              ,success_msg:message(code:"message.conditionTested")
-              ] as JSON)
-        } catch (CvqException ce) {
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-        }
+        def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+        render ([test: requestService.isConditionFilled(triggers)
+                ,status:"ok"
+                ,success_msg:message(code:"message.conditionTested")
+                ] as JSON)
     }
     
+    // TODO - Share with backoffice controller
+    def initBind(object, params) {
+        params.each { param ->
+            if (param.value.getClass() == GrailsParameterMap.class) {
+                def getterName = 'get' + StringUtils.firstCase(param.key.tokenize('.')[0].tokenize('[')[0], 'Upper')
+                def getterMethod = object.class.getMethod(getterName)
+                
+                if (getterMethod.invoke(object, null) == null) {
+                    def setterMethod = object.class.getMethod(
+                            'set' + StringUtils.firstCase(param.key.tokenize('.')[0].tokenize('[')[0], 'Upper')
+                            ,[getterMethod.returnType] as Class[])
 
+                    def fieldConstructor
+                    if (getterMethod.returnType.equals(Class.forName('java.util.List')))
+                        fieldConstructor = Class.forName('java.util.ArrayList').getConstructor()
+                    else
+                        fieldConstructor = getterMethod.returnType.getConstructor(null)
+
+                    setterMethod.invoke(object, [fieldConstructor.newInstance(null)] as Object[])
+                }
+                // add/update a new element to list (it will be update by databinder)
+                if (getterMethod.returnType.equals(Class.forName('java.util.List'))) {
+                    def list = getterMethod.invoke(object, null);
+                    def index = Integer.valueOf(param.key.tokenize('[]')[1]).intValue()
+                    if (index >= list.size()) {
+                        def listElemType = getterMethod.genericReturnType.actualTypeArguments[0]
+                        def listElem = listElemType.getConstructor(null).newInstance(null)
+                        initBind(listElem, param.value)
+                        list.add(listElem)
+                    } else {
+                        def listElem = list.get(index)
+                        initBind(listElem, param.value)
+                    }
+                }
+            }
+        }
+    }
 
     /* request state workflow managment
     * --------------------------------------------------------------------- */

@@ -22,13 +22,16 @@ class RequestCreationController {
     def defaultAction = 'edit'
     
     def draft = {
-        def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+        def requestService = requestServiceRegistry.getRequestService(
+            params.requestTypeLabel.toString()
+        )
         
         if(request.post) {
             def cRequest = session[params.uuidString].cRequest
             requestService.prepareDraft(cRequest)
             requestService.processDraft(cRequest)
             flash.cRequest = cRequest
+            flash.confirmationMessage = message(code:'message.savedAsDraft')
         } else if (request.get) {
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
         }
@@ -56,7 +59,7 @@ class RequestCreationController {
                     ['rqt': cRequest, 
                     'subjects': getAuthorizedSubjects(requestService, cRequest),
                     'documentTypes': getDocumentTypes(requestService),
-                    'meansOfContact': getMeansOfContact(),
+                    'meansOfContact': getMeansOfContact(meansOfContactService),
                     'currentStep': 'subject',
                     'requestTypeLabel': params.label,
                     'uuidString': uuidString
@@ -134,7 +137,7 @@ class RequestCreationController {
                     ['rqt': cRequest,
                     'subjects': getAuthorizedSubjects(requestService, cRequest),
                     'documentTypes': getDocumentTypes(requestService),
-                    'meansOfContact': getMeansOfContact(),
+                    'meansOfContact': getMeansOfContact(meansOfContactService),
                     'currentStep': currentStep,
                     'requestTypeLabel': requestTypeInfo.label,
                     'stepStates': session[uuid].stepStates,
@@ -160,7 +163,7 @@ class RequestCreationController {
         }
     }
     
-    def getAuthorizedSubjects = { requestService, cRequest ->
+    def getAuthorizedSubjects(requestService, cRequest) {
         def subjects = [:]
         def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
         authorizedSubjects.each { subjectId, seasonsSet ->
@@ -174,7 +177,7 @@ class RequestCreationController {
         return subjects
     }
     
-    def getMeansOfContact = {
+    def getMeansOfContact(meansOfContactService) {
         def result = []
         def meansOfContact = meansOfContactService.getCurrentEcitizenEnabledMeansOfContact()
         meansOfContact.each {
@@ -185,7 +188,7 @@ class RequestCreationController {
         return result.sort {it.label}
     }
     
-    def getDocumentTypes = { requestService ->
+    def getDocumentTypes(requestService) {
         def requestType = requestService.getRequestTypeByLabel(requestService.getLabel())
         def documentTypes = requestService.getAllowedDocuments(requestType.getId())
         def result = [:]
@@ -228,5 +231,4 @@ class RequestCreationController {
             }
         }
      }
-     
 }

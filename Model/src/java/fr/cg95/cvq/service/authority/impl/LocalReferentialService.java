@@ -242,8 +242,8 @@ public class LocalReferentialService
             Date now = new Date();
             File localReferentialFile =
                 localAuthorityRegistry.getLocalAuthorityResource(
-                        ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE, 
-                        localAuthorityName, localReferentialFilename, true);
+                        localAuthorityName, 
+                        ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE, localReferentialFilename, true);
             LocalReferentialDocument refDoc = null;
             try {
                 refDoc = parse(localReferentialFile);

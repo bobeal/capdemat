@@ -30,7 +30,6 @@ class HomeController {
     def defaultAction = "index" 
     
     def beforeInterceptor = {
-        //this['requestService'] = 'RAFIK';
         this.currentEcitizen = SecurityContext.getCurrentEcitizen();
     }
     

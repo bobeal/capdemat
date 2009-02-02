@@ -18,9 +18,13 @@ class DocumentController {
     
     def instructionService
     
-    Adult currentEcitizen = SecurityContext.getCurrentEcitizen()
+    Adult currentEcitizen
     int maxRows = 10
     
+    def beforeInterceptor = {
+        this.currentEcitizen = SecurityContext.getCurrentEcitizen();
+    }
+
     def details = {
         def result = [:], prevPage, nextPage
         Document document = documentService.getById(Long.valueOf(params.id))

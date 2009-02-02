@@ -30,7 +30,7 @@ public final class LocalAuthorityConfigurationBean {
 
     private String name;
     private String postalCode;
-    private List urls;
+    private List<String> urls;
 
     /**
      * Whether an email alert is sent to notify of requests whose instruction is in late, 
@@ -51,7 +51,7 @@ public final class LocalAuthorityConfigurationBean {
     
     private Integer instructionDefaultMaxDelay;
     private Integer instructionDefaultAlertDelay;
-    private List instructionDoneStates;
+    private List<String> instructionDoneStates;
     
     private String displayTitle;
     private List foAccountTabs;
@@ -274,11 +274,11 @@ public final class LocalAuthorityConfigurationBean {
         return this.name;
     }
 
-    public void setUrls(final List urls) {
+    public void setUrls(final List<String> urls) {
         this.urls = urls;
     }
 
-    public List getUrls() {
+    public List<String> getUrls() {
         return this.urls;
     }
 
@@ -345,7 +345,7 @@ public final class LocalAuthorityConfigurationBean {
 		this.instructionDefaultMaxDelay = instructionDefaultMaxDelay;
 	}
 
-	public void setInstructionDoneStates(List instructionDoneStates) {
+	public void setInstructionDoneStates(List<String> instructionDoneStates) {
 		this.instructionDoneStates = instructionDoneStates;
 	}
 
@@ -357,7 +357,7 @@ public final class LocalAuthorityConfigurationBean {
 		return instructionDefaultMaxDelay;
 	}
 
-	public List getInstructionDoneStates() {
+	public List<String> getInstructionDoneStates() {
 		return instructionDoneStates;
 	}
 

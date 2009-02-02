@@ -61,14 +61,14 @@ public class RequestInstructionDurationCheckerJob {
         }
 
         Date now = new Date();
-        List instructionDoneStates = lacb.getInstructionDoneStates();
+        List<String> instructionDoneStates = lacb.getInstructionDoneStates();
         Integer localAuthLevelAlertDelay = lacb.getInstructionDefaultAlertDelay();
         Integer localAuthLevelMaxDelay = lacb.getInstructionDefaultMaxDelay();
     
         // calculate the list of states that are "before" retrieved states
         Set<RequestState> statesToLookFor = new HashSet<RequestState>();
-        for (Object state : instructionDoneStates) {
-            RequestState requestState = RequestState.forString((String) state);
+        for (String state : instructionDoneStates) {
+            RequestState requestState = RequestState.forString(state);
             statesToLookFor.addAll(requestService.getStatesBefore(requestState));
         }
     

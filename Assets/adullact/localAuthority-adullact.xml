@@ -9,6 +9,8 @@
     <property name="name"><value>adullact</value></property>
     <property name="postalCode" value="12345"/>
     <property name="displayTitle"><value>Adullact</value></property>
+    <property name="draftLiveDuration" value="7"/>
+    <property name="draftNotificationBeforeDelete" value="20"/>
     <property name="urls">
       <list>
         <value>cartevaloise.adullact.org</value>

@@ -209,3 +209,15 @@ ALTER TABLE request ADD COLUMN draft bool;
 UPDATE request SET draft = false WHERE draft IS NULL;
 ALTER TABLE request ALTER COLUMN draft SET NOT NULL;
 ALTER TABLE request ALTER COLUMN draft SET DEFAULT false;
+
+--local authority initial draft configuration 
+ALTER TABLE local_authority ADD COLUMN draft_live_duration int4;
+ALTER TABLE local_authority ADD COLUMN draft_notification_before_delete int4;
+
+UPDATE local_authority 
+SET
+  draft_live_duration = 20,
+  draft_notification_before_delete = 7;
+
+ALTER TABLE local_authority ALTER COLUMN draft_live_duration SET NOT NULL;
+ALTER TABLE local_authority ALTER COLUMN draft_notification_before_delete SET NOT NULL;

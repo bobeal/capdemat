@@ -27,6 +27,9 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILdapService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 
+/**
+ * @deprecated
+ */
 public class LdapService implements ILdapService {
 
     private ILocalAuthorityDAO iLocalAuthorityDAO;

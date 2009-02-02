@@ -65,14 +65,14 @@
           </p>
           <p style="margin-bottom:0.5em;">
             Les téléservices marqués en <span style="color:red;">rouge</span> sont inactifs.
-            Ceux marqués en <span style="color:green">vert</span> sont actifs.
           </p>
           <p style="margin-bottom:0.5em;">
-            En cliquant sur une catégorie, vous pourrez voir et modifier le détail de sa
+            En cliquant sur une catégorie, vous pouvez voir et modifier le détail de sa
             configuration.
           </p>
        </div>
       </div>
+      
     </div>
 
   </body>

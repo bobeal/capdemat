@@ -43,7 +43,6 @@ public interface IAgentService {
 
     /**
      * Return agents that have a right (read or write) for the given category.
-     * 
      */
     Set<Agent> getAuthorizedForCategory(final Long categoryId)
         throws CvqException;
@@ -59,7 +58,7 @@ public interface IAgentService {
     public void addCategoryRole(final Long agentId, final  Long categoryId, 
             final CategoryProfile categoryProfile ) throws CvqException;
     
-    /*
+    /**
      * Modify or add agent's categoryRole
      */
     public void modifyCategoryRole(final Long agentId, final  Long categoryId, 
@@ -68,23 +67,20 @@ public interface IAgentService {
     public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException;
     
     /**
-     * Retrives a cutoff of agent preferences by its key
+     * Retrieves a cutoff of agent preferences by its key.
      * 
-     * @param key 
-     * @param agent scope entity
      * @return Cutoff of agent preferences
      */
-    Hashtable<String, String> getPreferenceByKey(Agent agent,String key);
+    Hashtable<String, String> getPreferenceByKey(Agent agent, String key);
     
     /**
-     * Modifies a cutoff of agent preferences
+     * Modifies a cutoff of agent preferences.
      * 
-     * @param key
      * @param preference cutoff to replace
      * @param agent scope entity
-     * @throws CvqException
      */
-    void modifyPreference(Agent agent,String key,Hashtable<String,String> preference) throws CvqException;
+    void modifyPreference(Agent agent, String key, Hashtable<String,String> preference) 
+        throws CvqException;
     
     /**
      * Get an agent by id.

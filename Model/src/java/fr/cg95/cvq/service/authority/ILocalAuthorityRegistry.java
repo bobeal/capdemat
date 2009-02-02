@@ -24,6 +24,7 @@ public interface ILocalAuthorityRegistry {
     String EXTERNAL_REFERENTIAL_RESOURCE_TYPE = "external_referential";
     String REQUEST_XML_RESOURCE_TYPE = "xml_request";
     
+    String CSS_ASSETS_RESOURCE_TYPE = "css";
     String IMAGE_ASSETS_RESOURCE_TYPE = "img";
     String TXT_ASSETS_RESOURCE_TYPE = "txt";
     String HTML_RESOURCE_TYPE = "html";
@@ -78,7 +79,7 @@ public interface ILocalAuthorityRegistry {
      *
      * @see #getCurrentLocalAuthorityResource
      */
-    File getLocalAuthorityResource(final String resourceType, final String localAuthorityName,
+    File getLocalAuthorityResource(final String localAuthorityName, final String resourceType,
             final String filename, final boolean fallbackToDefault);
 
     File getRequestXmlResource(Long id);
@@ -107,4 +108,14 @@ public interface ILocalAuthorityRegistry {
     
     List<File> getLocalResourceContent(String resourceType) throws CvqException;
     List<File> getLocalResourceContent(String resourceType, String pattern) throws CvqException;
+
+    /**
+     * Updates local authority draft settings
+     * 
+     * @param liveDuration draft duration
+     * @param notificationBeforeDelete notification before draft removal
+     * @throws CvqException base exception
+     */
+    void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
+        throws CvqException;
 }

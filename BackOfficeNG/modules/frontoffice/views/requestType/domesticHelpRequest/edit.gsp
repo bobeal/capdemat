@@ -6,6 +6,7 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
+    <g:render template="/frontofficeRequestType/draftPanel" />
     <h2 class="request-creation"> <g:message code="dhr.label" /></h2>
     <p><g:message code="dhr.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="dhr.duration.value" /></strong></p>
@@ -17,9 +18,9 @@
         </strong>
       </g:each>
     </p>
-    <g:render template="/frontofficeRequestType/draftPanel" />
-
-
+    <g:if test="${flash.confirmationMessage}">
+      <p class="message-confirmation">${flash.confirmationMessage}</p>
+    </g:if>
 <g:set var="requestTypeInfo">
   {"label": "${requestTypeLabel}"
     ,"steps": [  "subject",  "familyReferent",  "spouse",  "dwelling",  "resources",  "taxes",  "document",  "validation"  ]

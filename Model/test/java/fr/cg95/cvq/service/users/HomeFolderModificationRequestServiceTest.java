@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.users;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -679,10 +678,10 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             // register a child to school
 
             // get a school for our school and canteen registrations
-            Set schoolsSet = schoolService.getAll();
-            if (schoolsSet == null || schoolsSet.size() == 0)
+            List<School> schools = schoolService.getAll();
+            if (schools == null || schools.isEmpty())
                 fail("No school created in the system, can't go further");
-            School school = (School) schoolsSet.iterator().next();
+            School school = schools.get(0);
 
             // fill the child with the most we can
             child1.setNote("Coucou, je suis l'enfant child1");

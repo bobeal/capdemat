@@ -31,8 +31,9 @@ public interface IRequestDAO extends IGenericDAO {
      */
     Long count(final Set<Critere> criteria);
 
-    Long countByQuality(final Date startDate, final Date endDate, final List resultingStates,
-    		final String qualityType, final Long requestTypeId, final Long categoryId);
+    Long countByQuality(final Date startDate, final Date endDate, 
+            final List<String> resultingStates, final String qualityType, final Long requestTypeId,
+            final Long categoryId);
     
     Long countByResultingState(final String[] resultingState, final Date startDate, final Date endDate, 
             final Long requestTypeId, final Long categoryId);
@@ -95,16 +96,13 @@ public interface IRequestDAO extends IGenericDAO {
     List<Request> listByNotMatchingActionLabel(final String actionLabel);
 
     /**
-     * Retrives requests(drafts) that were definded as not sent yet.
-     * 
-     * @param actionLabel Notification label that define sending state
-     * @param date Limit date
-     * @return drafts list
+     * Retrieve drafted requests created before given date that don't have the 
+     * given action trace label yet.
      */
-    List<Request> listByDraftNotification(String actionLabel, Date date);
+    List<Request> listDraftedByNotificationAndDate(String actionLabel, Date date);
     
     Long getSubjectId (Long requestId);
 
     List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
-                                              RequestState[] excludedStates);
+            RequestState[] excludedStates);
 }

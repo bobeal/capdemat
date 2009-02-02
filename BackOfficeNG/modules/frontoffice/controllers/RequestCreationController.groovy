@@ -31,6 +31,7 @@ class RequestCreationController {
             requestService.prepareDraft(cRequest)
             requestService.processDraft(cRequest)
             flash.cRequest = cRequest
+            flash.confirmationMessage = message(code:'message.savedAsDraft')
         } else if (request.get) {
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
         }

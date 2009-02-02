@@ -1,6 +1,7 @@
 <html>
   <head>
     <title><g:message code="localAuthority.header.configuration" /></title>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthority.js')}"></script>
     <meta name="layout" content="main" />
     <g:if test="${entity.posted}">
       <script type="text/javascript">
@@ -44,7 +45,7 @@
               class="required validate-positiveinteger" />
               
             <div class="form-button">
-              <input type="submit" value="${message(code:'action.save')}" />
+              <input id="save" name="save" type="button" value="${message(code:'action.save')}" />
             </div>
           </form>
         </div>

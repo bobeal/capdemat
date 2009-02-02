@@ -427,12 +427,11 @@
   
 
   
-  <h3><g:message code="dhr.step.document.label" /></h3>
+  <h3><g:message code="request.step.document.label" /></h3>
+  <!-- TODO : Render document summary template -->
   
   
 
-  
-  <h3><g:message code="dhr.step.validation.label" /></h3>
   
   
 

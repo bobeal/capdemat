@@ -87,10 +87,10 @@
             
     
         <g:if test="${editList?.name == 'dhrRealAsset'}">
-          <input type="submit" name="submit-modify-resources-dhrRealAsset[${listIndex}]" value="modifier" />
+          <input type="submit" name="submit-modify-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" name="submit-add-resources-dhrRealAsset[${listIndex}]" value="ajouter" />
+          <input type="submit" name="submit-add-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrRealAsset}" status="index">
@@ -119,12 +119,11 @@
         <dd>${it.realAssetNetFloorArea}</dd>
     
         </dl>
-        <input type="submit" value="editer" name="submit-edit-resources-dhrRealAsset[${index}]" />
-        <input type="submit" value="supprimmer" name="submit-delete-resources-dhrRealAsset[${index}]" />
+        <input type="submit" value="${message(code:'action.modify')}" name="submit-edit-resources-dhrRealAsset[${index}]" />
+        <input type="submit" value="${message(code:'action.remove')}" name="submit-delete-resources-dhrRealAsset[${index}]" />
       </fieldset>
     </g:each>
     </div>
-    
   
 
   
@@ -249,10 +248,10 @@
             
     
         <g:if test="${editList?.name == 'dhrNotRealAsset'}">
-          <input type="submit" name="submit-modify-resources-dhrNotRealAsset[${listIndex}]" value="modifier" />
+          <input type="submit" name="submit-modify-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" name="submit-add-resources-dhrNotRealAsset[${listIndex}]" value="ajouter" />
+          <input type="submit" name="submit-add-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrNotRealAsset}" status="index">
@@ -336,11 +335,10 @@
               
     
         </dl>
-        <input type="submit" value="editer" name="submit-edit-resources-dhrNotRealAsset[${index}]" />
-        <input type="submit" value="supprimmer" name="submit-delete-resources-dhrNotRealAsset[${index}]" />
+        <input type="submit" value="${message(code:'action.modify')}" name="submit-edit-resources-dhrNotRealAsset[${index}]" />
+        <input type="submit" value="${message(code:'action.remove')}" name="submit-delete-resources-dhrNotRealAsset[${index}]" />
       </fieldset>
     </g:each>
     </div>
-    
   
 

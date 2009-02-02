@@ -131,10 +131,10 @@
         <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
     <% } %>
         <g:if test="\${editList?.name == '${element.javaFieldName}'}">
-          <input type="submit" name="submit-modify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="modifier" />
+          <input type="submit" name="submit-modify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" name="submit-add-${step.name}-${element.javaFieldName}[\${listIndex}]" value="ajouter" />
+          <input type="submit" name="submit-add-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
@@ -146,18 +146,17 @@
         <% displayStaticWidget(subElement, 'it') %>
     <% } %>
         </dl>
-        <input type="submit" value="editer" name="submit-edit-${step.name}-${element.javaFieldName}[\${index}]" />
-        <input type="submit" value="supprimmer" name="submit-delete-${step.name}-${element.javaFieldName}[\${index}]" />
+        <input type="submit" value="\${message(code:'action.modify')}" name="submit-edit-${step.name}-${element.javaFieldName}[\${index}]" />
+        <input type="submit" value="\${message(code:'action.remove')}" name="submit-delete-${step.name}-${element.javaFieldName}[\${index}]" />
       </fieldset>
     </g:each>
     </div>
-    
   <% } else if (element.typeClass == "COMPLEX") { %>
     <fieldset class="${element.listenerConditionsClass}">
     <legend><g:message code="${element.i18nPrefixCode}.label" /></legend> 
       <% if (step.name == 'subject' && !displayedSubject) { %>
     <label><g:message code="request.property.subjectName" /></label>
-    <select name="subjectId" class="required validate-not-first" title="g:message code="request.subject.validationError" /> ">
+    <select name="subjectId" class="required validate-not-first" title="<g:message code="request.subject.validationError" /> ">
       <option value=""><g:message code="message.select.defaultOption" /></option>
       <g:each in="\${subjects}">
         <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected="selected"': ''}>\${it.value}</option>

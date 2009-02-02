@@ -50,10 +50,10 @@
 
 <% def displayedSubject = false %>
 <% requestFo.steps.each { step -> %>
-  <% if (step.name == 'documentRef') { %>
+  <% if (step.name == 'document') { %>
   <h3><g:message code="request.step.document.label" /></h3>
   <!-- TODO : Render document summary template -->
-  <% } else if (step.name != 'validationRef') { %>
+  <% } else if (step.name != 'validation') { %>
   <h3><g:message code="${requestFo.acronym}.step.${step.name}.label" /></h3>
   <% } %>
   <% requestFo.getElementsByStep(step).each { element -> %>

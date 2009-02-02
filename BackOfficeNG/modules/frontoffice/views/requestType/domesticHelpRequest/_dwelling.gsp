@@ -145,10 +145,10 @@
             
     
         <g:if test="${editList?.name == 'dhrPreviousDwelling'}">
-          <input type="submit" name="submit-modify-dwelling-dhrPreviousDwelling[${listIndex}]" value="modifier" />
+          <input type="submit" name="submit-modify-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" name="submit-add-dwelling-dhrPreviousDwelling[${listIndex}]" value="ajouter" />
+          <input type="submit" name="submit-add-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">
@@ -198,11 +198,10 @@
         <dd>${it.dhrPreviousDwellingComment}</dd>
     
         </dl>
-        <input type="submit" value="editer" name="submit-edit-dwelling-dhrPreviousDwelling[${index}]" />
-        <input type="submit" value="supprimmer" name="submit-delete-dwelling-dhrPreviousDwelling[${index}]" />
+        <input type="submit" value="${message(code:'action.modify')}" name="submit-edit-dwelling-dhrPreviousDwelling[${index}]" />
+        <input type="submit" value="${message(code:'action.remove')}" name="submit-delete-dwelling-dhrPreviousDwelling[${index}]" />
       </fieldset>
     </g:each>
     </div>
-    
   
 

@@ -22,7 +22,7 @@
     
       <label class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseTitle.label" /> <span><g:message code="dhr.property.dhrSpouseTitle.help" /></span></label>
       
-            <select name="dhrSpouseTitle" class="required condition-isSpouseMadam-trigger condition-isCoupleRequest-filled validate-no-first" title="<g:message code="dhr.property.dhrSpouseTitle.validationError" />">
+            <select name="dhrSpouseTitle" class="required condition-isCoupleRequest-filled condition-isSpouseMadam-trigger validate-no-first" title="<g:message code="dhr.property.dhrSpouseTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
                 <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.dhrSpouseTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" /></option>
@@ -72,7 +72,7 @@
     
       <label class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
       
-            <select name="dhrSpouseNationality" class="required condition-isSpouseNonEuropean-trigger condition-isCoupleRequest-filled validate-no-first" title="<g:message code="dhr.property.dhrSpouseNationality.validationError" />">
+            <select name="dhrSpouseNationality" class="required condition-isCoupleRequest-filled condition-isSpouseNonEuropean-trigger validate-no-first" title="<g:message code="dhr.property.dhrSpouseNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
                 <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.dhrSpouseNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" /></option>

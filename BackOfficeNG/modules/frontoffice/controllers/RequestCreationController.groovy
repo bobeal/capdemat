@@ -9,8 +9,6 @@ import fr.cg95.cvq.exception.CvqException
 
 import grails.converters.JSON
 
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
-
 class RequestCreationController {
     
     IRequestServiceRegistry requestServiceRegistry
@@ -109,7 +107,7 @@ class RequestCreationController {
         }
         else {
             if (submitAction[1] != 'modify')
-                initBind(cRequest, params)
+                DataBindingUtils.initBind(cRequest, params)
             bind(cRequest)
             
             if (session[uuid].stepStates == null) {
@@ -198,37 +196,4 @@ class RequestCreationController {
         return result
     }
     
-    // TODO - Share with backoffice controller
-    def initBind(object, params) {
-        params.each { param ->
-            if (param.value.getClass() == GrailsParameterMap.class) {
-                def getterName = 'get' + StringUtils.firstCase(param.key.tokenize('.')[0].tokenize('[')[0], 'Upper')
-                def getterMethod = object.class.getMethod(getterName)
-                
-                if (getterMethod.invoke(object, null) == null) {
-                    def setterMethod = object.class.getMethod(
-                            'set' + StringUtils.firstCase(param.key.tokenize('.')[0].tokenize('[')[0], 'Upper')
-                            ,[getterMethod.returnType] as Class[])
-
-                    def fieldConstructor
-                    if (getterMethod.returnType.equals(Class.forName('java.util.List')))
-                        fieldConstructor = Class.forName('java.util.ArrayList').getConstructor()
-                    else
-                        fieldConstructor = getterMethod.returnType.getConstructor(null)
-
-                    setterMethod.invoke(object, [fieldConstructor.newInstance(null)] as Object[])
-                }
-                
-                // add a new element to list (it will be update by databinder)
-                if (getterMethod.returnType.equals(Class.forName('java.util.List'))) {
-                    def listElemType = getterMethod.genericReturnType.actualTypeArguments[0]
-                    def listElem = listElemType.getConstructor(null).newInstance(null)
-                    
-                    initBind(listElem, param.value)
-                    
-                    getterMethod.invoke(object, null).add(listElem)
-                }
-            }
-        }
-     }
 }

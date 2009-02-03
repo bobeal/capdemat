@@ -52,12 +52,15 @@ form.editable-list-form p.same-line input.first-button { margin-left: 28%; }
 -------------------------------------------------------------- */
 #requestData dl { height: 1%; }
 
-#requestData dl dd { width: 14em !important; height: 1.2em; overflow: visible; }
+#requestData dl dd { width: 12em !important; height: 1.2em; overflow: visible; }
 #requestData dl dt { height: 1.2em; width: 10.5em !important; overflow: hidden; }
 
-#requestData dl dd form { overflow: visible; }
-#requestData dl dd form input.submit,
-#requestData dl dd form input.discard, { margin: .5em .5em 0 0;  }
+#requestData dl dd form                  { overflow: visible; }
+#requestData dl dd form input            { width: 98% !important; }
+#requestData dl dd form input.line1      { width: 19% !important; }
+#requestData dl dd form input.line2      { width: 74% !important; }
+#requestData dl dd form input.submitField,
+#requestData dl dd form input.revertField { width: auto !important; }
 
 
 /* document.css

@@ -39,11 +39,17 @@
       <dd id="homeFolder.individual[${adult.id}].firstName3" class="${action}-editField validate-firstname i18n-homeFolder.individual.property.firstName3">
         <span>${adult.firstName3}</span>
       </dd>
+     </dl>
       
-      
+     <dl>
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
       <dd id="homeFolder.individual[${adult.id}].birthDate" class="${action}-editField validate-date i18n-homeFolder.individual.property.birthDate">
         <span><g:formatDate formatName="format.date" date="${adult.birthDate}"/></span>
+      </dd>
+      
+      <dt><g:message code="homeFolder.individual.property.birthPostalCode" /> : </dt>
+      <dd id="homeFolder.individual[${adult.id}].birthPostalCode" class="${action}-editField validate-postalcode i18n-homeFolder.individual.property.birthPostalCode">
+        <span>${adult.birthPostalCode}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>
@@ -108,5 +114,33 @@
         <span>${adult.profession}</span>
       </dd>
      </dl>
+     
+     <dl>
+      <dt><g:message code="homeFolder.individual.property.publicKey" /> : </dt> 
+      <dd id="homeFolder.individual[${adult.id}].publicKey" class="not-action-editField validate-string required-true i18n-homeFolder.individual.property.publicKey">
+        <span style="display:block; overflow: auto">${adult.publicKey}</span>
+      </dd>
+      <dt><g:message code="homeFolder.individual.property.federationKey" /> : </dt> 
+      <dd id="homeFolder.individual[${adult.id}].federationKey" class="action-editField validate-string required-true i18n-homeFolder.individual.property.federationKey">
+        <span>${adult.federationKey}</span>
+      </dd>
+      <dt><g:message code="homeFolder.adult.property.cfbn" /> : </dt> 
+      <dd id="homeFolder.individual[${adult.id}].cfbn" class="action-editField validate-string required-true i18n-homeFolder.adult.property.cfbn">
+        <span>${adult.cfbn}</span>
+      </dd>
+      <dt><g:message code="homeFolder.adult.property.login" /> : </dt> 
+      <dd id="homeFolder.individual[${adult.id}].login" class="action-editField validate-string required-true i18n-homeFolder.adult.property.login">
+        <span>${adult.login}</span>
+      </dd>
+      <dt><g:message code="homeFolder.adult.property.question" /> : </dt> 
+      <dd id="homeFolder.individual[${adult.id}].question" class="action-editField validate-string required-true i18n-homeFolder.adult.property.question">
+        <span>${adult.question}</span>
+      </dd>
+      <dt><g:message code="homeFolder.adult.property.answer" /> : </dt> 
+      <dd id="homeFolder.individual[${adult.id}].answer" class="action-editField validate-string required-true i18n-homeFolder.adult.property.answer">
+        <span>${adult.answer}</span>
+      </dd>
+     </dl>
+     
   </div>
 </div>

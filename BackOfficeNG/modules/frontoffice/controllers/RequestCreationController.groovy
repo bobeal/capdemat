@@ -55,12 +55,13 @@ class RequestCreationController {
         render( view: 'frontofficeRequestType/domesticHelpRequest/edit', 
                 model:
                     ['rqt': cRequest, 
-                    'subjects': getAuthorizedSubjects(requestService, cRequest),
-                    'documentTypes': getDocumentTypes(requestService),
-                    'meansOfContact': getMeansOfContact(meansOfContactService),
-                    'currentStep': 'subject',
-                    'requestTypeLabel': params.label,
-                    'uuidString': uuidString
+                    ,'subjects': getAuthorizedSubjects(requestService, cRequest)
+                    ,'documentTypes': getDocumentTypes(requestService)
+                    ,'meansOfContact': getMeansOfContact(meansOfContactService)
+                    ,'currentStep': 'subject'
+                    ,'requestTypeLabel': params.label
+                    ,'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label))
+                    ,'uuidString': uuidString
                     ])
     }
     
@@ -132,15 +133,16 @@ class RequestCreationController {
 
         render( view: 'frontofficeRequestType/domesticHelpRequest/edit',
                 model:
-                    ['rqt': cRequest,
-                    'subjects': getAuthorizedSubjects(requestService, cRequest),
-                    'documentTypes': getDocumentTypes(requestService),
-                    'meansOfContact': getMeansOfContact(meansOfContactService),
-                    'currentStep': currentStep,
-                    'requestTypeLabel': requestTypeInfo.label,
-                    'stepStates': session[uuid].stepStates,
-                    'uuidString': uuid,
-                    'editList': editList
+                    ['rqt': cRequest
+                    ,'subjects': getAuthorizedSubjects(requestService, cRequest)
+                    ,'documentTypes': getDocumentTypes(requestService)
+                    ,'meansOfContact': getMeansOfContact(meansOfContactService)
+                    ,'currentStep': currentStep
+                    ,'requestTypeLabel': requestTypeInfo.label
+                    ,'stepStates': session[uuid].stepStates
+                    ,'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label))
+                    ,'uuidString': uuid
+                    ,'editList': editList
                     ])
     }
 
@@ -195,5 +197,4 @@ class RequestCreationController {
         }
         return result
     }
-    
 }

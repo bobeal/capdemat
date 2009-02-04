@@ -79,11 +79,13 @@
   <% if (step.index != requestFo.steps.size() - 1) { %>
            <a id="next-tab" href="#${requestFo.steps.get(step.index + 1).name}"><g:message code="request.step.navigation.next"/></a>
   <% }%>
-         </div>       
+         </div>
+         <g:if test="\${helps.${step.name} != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           \${helps.${step.name}}
          </div>
+         </g:if>
        </div>  
 <% } %>        
  	    </div><!-- end yui-content -->

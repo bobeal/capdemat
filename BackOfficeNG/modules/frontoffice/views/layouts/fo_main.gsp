@@ -13,8 +13,7 @@
      <!-- header -->
      <div id="hd">
        <h1>
-         <img src="${createLink(controller:'localAuthorityResource',action:'logoFo')}"
-          style="width: 120px; height: 60px;" alt="Logo Collectivité" />
+         <img src="${createLink(controller:'localAuthorityResource',action:'logoFo')}" alt="Logo Collectivité" />
          <span>Vos démarches - ${session.currentSiteDisplayTitle}</span>
        </h1>
        <map id="hd-menu">

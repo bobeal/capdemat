@@ -31,6 +31,14 @@ class CapdematUtils {
         return "request.actionLabel.${transformedLabel}"
     }
     
+    public static requestTypeLabelAsDir(label) {
+        def dirName = StringUtils.firstCase(label.replace(' ', ''), 'Lower')
+        if (dirName.endsWith(' Request'))
+            return dirName
+        else
+            return dirName + 'Request'
+    }
+    
     /**
      * Temp static map of requests and groups, while this notion is not fully implemented. 
      */

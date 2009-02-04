@@ -60,8 +60,6 @@ class RequestInstructionController {
         def request = defaultRequestService.getById(Long.valueOf(params.id))
         def requester = individualService.getById(request.requesterId)
         def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
-        def requestTypeTemplate = StringUtils.firstCase(
-                request.requestType.label.replace(' Request', '').replace(' ', ''), 'Lower')
 
         def documentList = []
         def providedDocumentTypes = []
@@ -115,7 +113,7 @@ class RequestInstructionController {
           "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
           "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
           "requestLabel": requestLabel,
-          "requestTypeTemplate": requestTypeTemplate,
+          "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
           "documentList": documentList
         ]
     }
@@ -205,10 +203,6 @@ class RequestInstructionController {
              return
         
         def cRequest = defaultRequestService.getById(Long.valueOf(params.requestId))
-        // FIXME find other implemantation
-        def requestTypeTemplate = StringUtils.firstCase(
-                cRequest.requestType.label.replace(' Request', '').replace(' ', ''), 'Lower')
-                
         def actionTokens = params.listAction.tokenize('_')
 
         def listElemTokens = actionTokens[1].tokenize('[]')
@@ -222,7 +216,9 @@ class RequestInstructionController {
             def listElem = listElemType.getConstructor(null).newInstance(null)
             getterMethod.invoke(cRequest, null).add(listElem)
         }
-        render (template:'/backofficeRequestInstruction/requestType/' + requestTypeTemplate +'Request/' + listElemTokens[0]
+        render (template:'/backofficeRequestInstruction/requestType/'
+                          + CapdematUtils.requestTypeLabelAsDir(cRequest.requestType.label) 
+                          +'/' + listElemTokens[0]
                ,model: ['request': cRequest])
     }
 

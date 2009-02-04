@@ -210,7 +210,8 @@ public class LocalAuthorityRegistry
             getCurrentLocalAuthorityResource(resourceType, filename, fallbackToDefault);
         return getFileContent(resourceFile);
     }
-
+    
+    // TODO - no more used
     public String getBufferedCurrentLocalAuthorityRequestHelp(final String requestLabel,
             final String step) {
 
@@ -221,6 +222,31 @@ public class LocalAuthorityRegistry
         File resourceFile = new File(filePath.toString());
 
         return getFileContent(resourceFile);
+    }
+    
+    public Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(final String requestLabel) {
+        
+        StringBuffer requestTypePath = new StringBuffer().append(assetsBase)
+            .append(SecurityContext.getCurrentSite().getName().toLowerCase())
+            .append("/").append(HTML_RESOURCE_TYPE).append("/request/").append(requestLabel);
+            
+        File requestTypeDir = new File(requestTypePath.toString());
+        
+        File[] helpFiles = requestTypeDir.listFiles(new FilenameFilter() { 
+            public boolean accept(File dir, String n) {
+                if(n.endsWith(".html"))
+                    return true;
+                else
+                    return false;
+            }
+        });
+
+        HashMap<String,String> helpMap = new HashMap<String,String>();
+        if (helpFiles != null)
+            for (File helpFile : helpFiles)
+                 helpMap.put(helpFile.getName().replace(".html", ""), getFileContent(helpFile));
+        
+        return helpMap ;
     }
 
     private String getFileContent(File resourceFile) {

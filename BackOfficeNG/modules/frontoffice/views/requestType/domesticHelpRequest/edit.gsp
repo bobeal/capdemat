@@ -139,11 +139,13 @@
   
            <a id="next-tab" href="#familyReferent"><g:message code="request.step.navigation.next"/></a>
   
-         </div>       
+         </div>
+         <g:if test="${helps.subject != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           ${helps.subject}
          </div>
+         </g:if>
        </div>  
 
        <div id="familyReferent">
@@ -173,11 +175,13 @@
   
            <a id="next-tab" href="#spouse"><g:message code="request.step.navigation.next"/></a>
   
-         </div>       
+         </div>
+         <g:if test="${helps.familyReferent != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           ${helps.familyReferent}
          </div>
+         </g:if>
        </div>  
 
        <div id="spouse">
@@ -207,11 +211,13 @@
   
            <a id="next-tab" href="#dwelling"><g:message code="request.step.navigation.next"/></a>
   
-         </div>       
+         </div>
+         <g:if test="${helps.spouse != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           ${helps.spouse}
          </div>
+         </g:if>
        </div>  
 
        <div id="dwelling">
@@ -241,11 +247,13 @@
   
            <a id="next-tab" href="#resources"><g:message code="request.step.navigation.next"/></a>
   
-         </div>       
+         </div>
+         <g:if test="${helps.dwelling != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           ${helps.dwelling}
          </div>
+         </g:if>
        </div>  
 
        <div id="resources">
@@ -275,11 +283,13 @@
   
            <a id="next-tab" href="#taxes"><g:message code="request.step.navigation.next"/></a>
   
-         </div>       
+         </div>
+         <g:if test="${helps.resources != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           ${helps.resources}
          </div>
+         </g:if>
        </div>  
 
        <div id="taxes">
@@ -309,11 +319,13 @@
   
            <a id="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
   
-         </div>       
+         </div>
+         <g:if test="${helps.taxes != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           ${helps.taxes}
          </div>
+         </g:if>
        </div>  
 
        <div id="document">
@@ -343,11 +355,13 @@
   
            <a id="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
   
-         </div>       
+         </div>
+         <g:if test="${helps.document != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           ${helps.document}
          </div>
+         </g:if>
        </div>  
 
        <div id="validation">
@@ -381,11 +395,13 @@
            <a id="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
   
   
-         </div>       
+         </div>
+         <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
            <h3>Aide</h3>
-           <!-- help -->
+           ${helps.validation}
          </div>
+         </g:if>
        </div>  
         
  	    </div><!-- end yui-content -->

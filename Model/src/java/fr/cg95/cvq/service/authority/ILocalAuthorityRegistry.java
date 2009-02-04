@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.authority;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.core.io.Resource;
@@ -69,10 +70,16 @@ public interface ILocalAuthorityRegistry {
             final String filename, final boolean fallbackToDefault);
     
     /**
+     * FIXME - no more used
      * Get the help data for the given request / step pair.
      */
     String getBufferedCurrentLocalAuthorityRequestHelp(final String requestLabel,
             final String step);
+    
+    /**
+     * Get the helps data for the given request as a Map<v=stepName,k=helpDataAsString>.
+     */
+    Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(final String requestLabel);
     
     /**
      * Get resource pointed to by filename for the given local authority.

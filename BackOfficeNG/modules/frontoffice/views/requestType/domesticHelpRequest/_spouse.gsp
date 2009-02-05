@@ -72,7 +72,7 @@
     
       <label class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseNationality.label" /> <span><g:message code="dhr.property.dhrSpouseNationality.help" /></span></label>
       
-            <select name="dhrSpouseNationality" class="required condition-isSpouseNonEuropean-trigger condition-isCoupleRequest-filled validate-no-first" title="<g:message code="dhr.property.dhrSpouseNationality.validationError" />">
+            <select name="dhrSpouseNationality" class="required condition-isCoupleRequest-filled condition-isSpouseNonEuropean-trigger validate-no-first" title="<g:message code="dhr.property.dhrSpouseNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
                 <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.dhrSpouseNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" /></option>

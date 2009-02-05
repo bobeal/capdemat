@@ -32,7 +32,7 @@
               <g:message code="localAuthority.property.draftLiveDuration" /> * :
               <!-- <span> (<g:message code="property.days" />) </span> -->
             </label>
-            <input type="text" class="required" name="draftLiveDuration" value="${entity.draftLiveDuration}" 
+            <input type="text" class="required validate-positiveinteger" name="draftLiveDuration" value="${entity.draftLiveDuration}" 
               class="required validate-positiveinteger" />
           
             <br/>
@@ -40,7 +40,7 @@
               <g:message code="localAuthority.property.draftNotificationBeforeDelete" /> * :
               <!-- <span> (<g:message code="property.days" />) </span> -->
             </label>
-            <input type="text" class="required" name="draftNotificationBeforeDelete" 
+            <input type="text" class="required validate-positiveinteger" name="draftNotificationBeforeDelete" 
               value="${entity.draftNotificationBeforeDelete}" 
               class="required validate-positiveinteger" />
               

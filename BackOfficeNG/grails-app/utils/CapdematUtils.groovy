@@ -33,7 +33,7 @@ class CapdematUtils {
     
     public static requestTypeLabelAsDir(label) {
         def dirName = StringUtils.firstCase(label.replace(' ', ''), 'Lower')
-        if (dirName.endsWith(' Request'))
+        if (dirName.endsWith('Request'))
             return dirName
         else
             return dirName + 'Request'

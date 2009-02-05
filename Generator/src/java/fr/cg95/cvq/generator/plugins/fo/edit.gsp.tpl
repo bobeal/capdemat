@@ -18,7 +18,9 @@
         </strong>
       </g:each>
     </p>
-
+    <g:if test="\${flash.confirmationMessage}">
+      <p class="message-confirmation">\${flash.confirmationMessage}</p>
+    </g:if>
 
 <g:set var="requestTypeInfo">
   {"label": "\${requestTypeLabel}"

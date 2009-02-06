@@ -54,7 +54,7 @@ class RequestCreationController {
         
         render( view: 'frontofficeRequestType/domesticHelpRequest/edit', 
                 model:
-                    ['rqt': cRequest, 
+                    ['rqt': cRequest
                     ,'subjects': getAuthorizedSubjects(requestService, cRequest)
                     ,'documentTypes': getDocumentTypes(requestService)
                     ,'meansOfContact': getMeansOfContact(meansOfContactService)

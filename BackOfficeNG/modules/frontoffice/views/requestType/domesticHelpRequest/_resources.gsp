@@ -38,12 +38,6 @@
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrNetIncome.validationError" />">
             
     
-      <label class="required"><g:message code="dhr.property.dhrIncomesAnnualTotal.label" /> <span><g:message code="dhr.property.dhrIncomesAnnualTotal.help" /></span></label>
-      
-            <input name="dhrIncomesAnnualTotal" value="${rqt.dhrIncomesAnnualTotal}" 
-                    class="required validate-positiveInteger" title="<g:message code="dhr.property.dhrIncomesAnnualTotal.validationError" />">
-            
-    
     </fieldset>
   
 

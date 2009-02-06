@@ -31,8 +31,8 @@ public class ElementStack {
     }
     
     public ElementBo pop(int depth) {
-        if (depth != 1 || this.depth != 1)
-            return null;
+//        if (depth != 1 || this.depth != 1)
+//            return null;
         
         ElementBo element = elements.get(depth).pop();
         

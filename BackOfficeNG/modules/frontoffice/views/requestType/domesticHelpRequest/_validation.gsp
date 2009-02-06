@@ -289,9 +289,6 @@
       <dt><g:message code="dhr.property.dhrNetIncome.label" /></dt>
         <dd>${request.dhrNetIncome}</dd>
       
-      <dt><g:message code="dhr.property.dhrIncomesAnnualTotal.label" /></dt>
-        <dd>${request.dhrIncomesAnnualTotal}</dd>
-      
     </dl>
     
   
@@ -383,9 +380,6 @@
       
       <dt><g:message code="dhr.property.dhrNetIncome.label" /></dt>
         <dd>${request.dhrNetIncome}</dd>
-      
-      <dt><g:message code="dhr.property.dhrIncomesAnnualTotal.label" /></dt>
-        <dd>${request.dhrIncomesAnnualTotal}</dd>
       
     </dl>
     

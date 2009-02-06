@@ -186,6 +186,7 @@ public class ElementFo {
         this.after = after;
     }
 
+    // TODO - finish to implement <fo element="" /> attribute feature
     public String getElementToDisplay() {
         return elementToDisplay;
     }

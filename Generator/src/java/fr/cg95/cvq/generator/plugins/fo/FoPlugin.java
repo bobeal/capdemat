@@ -110,8 +110,10 @@ public class FoPlugin implements IPluginGenerator {
         logger.debug("endElement()");
         if (depth <= 1 && elementFoStack.peek(depth).isDisplay())
             requestFo.addElement(elementFoStack.pop(depth));
-        else
+        else if (elementFoStack.peek(depth).isDisplay())
             elementFoStack.store(depth);
+        else
+            elementFoStack.pop(depth);
         depth--;
     }
 

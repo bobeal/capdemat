@@ -100,11 +100,13 @@ public class BoPlugin implements IPluginGenerator {
     
     public void endElement(String elementName) {
         logger.debug("endElement()");
-       
+
         if (depth <= 1 && elementBoStack.peek(depth).isDisplay())
             requestBo.addElement(elementBoStack.pop(depth));
-        else
+        else if (elementBoStack.peek(depth).isDisplay())
             elementBoStack.store(depth);
+        else
+            elementBoStack.pop(depth);
         
         depth--;
     }

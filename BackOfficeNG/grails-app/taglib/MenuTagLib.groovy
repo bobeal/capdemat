@@ -16,7 +16,6 @@ class MenuTagLib {
     }
     
     def protected getCurrentItem = {
-        //('A'..'Z')
         def result = controllerName
         exclude.each {result = result.replaceAll(it,'')}
         return result.toLowerCase()

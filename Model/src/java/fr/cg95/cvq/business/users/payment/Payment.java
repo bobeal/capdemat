@@ -19,10 +19,19 @@ import fr.cg95.cvq.business.users.HomeFolder;
  *
  * @author bor@zenexity.fr
  * @author rdj@zenexity.fr
+ * @author maxence.veyret@bull.net
  */
 public class Payment implements Serializable, Comparable {
 
 	private static final long serialVersionUID = 1L;
+	
+    public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
+    public static final String SEARCH_BY_REQUESTER_LASTNAME = "requesterLastName";
+    public static final String SEARCH_BY_CVQ_REFERENCE = "cvqReference";
+    public static final String SEARCH_BY_BANK_REFERENCE = "bankReference";
+    public static final String SEARCH_BY_INITIALIZATION_DATE = "initializationDate";
+    public static final String SEARCH_BY_PAYMENT_STATE = "paymentState";
+    public static final String SEARCH_BY_BROKER = "broker";
 
     private Long id;
     /** the broker ("régie" in french) to which this payment is made */

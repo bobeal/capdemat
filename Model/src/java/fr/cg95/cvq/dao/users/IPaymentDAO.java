@@ -2,15 +2,19 @@ package fr.cg95.cvq.dao.users;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.Payment;
+import fr.cg95.cvq.business.users.payment.PaymentMode;
 import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * @author bor@zenexity.fr
  * @author rdj@zenexity.fr
+ * @author maxence.veyret@bull.net
  */
 public interface IPaymentDAO extends IGenericDAO {
 
@@ -45,4 +49,22 @@ public interface IPaymentDAO extends IGenericDAO {
      * Initialized but not commited search amongst payments.
      */
     List searchNotCommited();    
+
+    /**
+     * Look up payments given a set of search criteria.
+     *
+     * @param criteria a set of {@link fr.cg95.cvq.util.Critere} criteria
+     * @param sort an optional string to sort results on
+     * @param dir sort direction (asc or desc)
+     * @param recordsReturned number of records to return (-1 for all)
+     * @param startIndex start index of the records to return
+     * @param paymentMode (Internet or Card, null for all) 
+     */    
+    public List<Payment> search(final Set<Critere> criteria, final String sort, String dir,
+            int recordsReturned, int startIndex, final PaymentMode paymentMode);
+    
+    /**
+     * Return the number of payments that match a set of search criteria.
+     */
+    Long count(final Set<Critere> criteria, final PaymentMode paymentMode);
 }

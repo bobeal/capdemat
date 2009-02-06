@@ -2,7 +2,6 @@ package fr.cg95.cvq.generator.plugins.fo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -40,7 +39,7 @@ public class ElementFo {
     private int rows;
 
     private Step step;
-    private Set<Condition> conditions;
+    private List<Condition> conditions;
     
     private List<ElementFo> elements;
     
@@ -165,7 +164,6 @@ public class ElementFo {
 
     public void setMandatory(boolean mandatory) {
         this.mandatory = mandatory;
-        
         if (conditions != null)
             for (Condition c : this.conditions)
                 if(c.isRequired())
@@ -250,11 +248,11 @@ public class ElementFo {
         return sb.toString().trim();
     }
     
-    public void setConditions(Set<Condition> conditions) {
+    public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
     }
 
-    public Set<Condition> getConditions() {
+    public List<Condition> getConditions() {
         return conditions;
     }
 

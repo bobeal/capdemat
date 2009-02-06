@@ -120,7 +120,7 @@
     
       <label class="required condition-isSpouseRetired-filled"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.help" /></span></label>
       
-            <select name="dhrSpousePrincipalPensionPlan" class="required condition-isSpouseOtherPensionPlan-trigger condition-isSpouseRetired-filled validate-no-first" title="<g:message code="dhr.property.dhrSpousePrincipalPensionPlan.validationError" />">
+            <select name="dhrSpousePrincipalPensionPlan" class="required condition-isSpouseRetired-filled condition-isSpouseOtherPensionPlan-trigger validate-no-first" title="<g:message code="dhr.property.dhrSpousePrincipalPensionPlan.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
                 <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == rqt.dhrSpousePrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" /></option>

@@ -117,7 +117,6 @@ public class DummyPlugin implements IPluginGenerator {
             logger.warn(getIndent() + "onApplicationInformation - applicationDocumentation.getRequestCommon()=[" +
                     "namespace: " + applicationDocumentation.getRequestCommon().getNamespace() +
                     ", steps.size: " + applicationDocumentation.getRequestCommon().getSteps().size() +
-                    ", conditions.size: " + applicationDocumentation.getRequestCommon().getConditions().size() +
                     "]");
         else if (applicationDocumentation.getRequestCommon().getCurrentElementCommon() != null)
             logger.warn(getIndent() + "onApplicationInformation() - currentElementCommom= [" +

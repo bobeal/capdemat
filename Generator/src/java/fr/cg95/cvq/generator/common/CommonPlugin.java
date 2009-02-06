@@ -1,8 +1,5 @@
 package fr.cg95.cvq.generator.common;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
@@ -35,93 +32,46 @@ public class CommonPlugin implements IPluginGenerator {
         logger.warn( "onApplicationInformation() " + 
                 appDoc.getNodeName() + " / " + appDoc.getXmlString());
         
-        Node [] fetchNodes;
-        Map<String,String> attributeValueMap;
         if (depth < 1 ) {
-            if (appDoc.hasChildNode("namespace")) {
-                fetchNodes =  appDoc.getChildrenNodes("namespace");
-                requestCommon.setNamespace(
-                        ApplicationDocumentation.getNodeAttributeValue(fetchNodes[0], "name"));
-            }
-            
+            if (appDoc.hasChildNode("namespace"))
+                requestCommon.setNamespace(ApplicationDocumentation.getNodeAttributeValue(
+                        appDoc.getChildrenNodes("namespace")[0], "name"));
+
+            Step step;
             if (appDoc.hasChildNode("steps")) {
-                fetchNodes =  ApplicationDocumentation.getChildrenNodes(
-                        appDoc.getChildrenNodes("steps")[0], "step");
-                for (Node node : fetchNodes) {
-                    attributeValueMap = new HashMap<String,String>();
-                    attributeValueMap.put("index", 
-                            ApplicationDocumentation.getNodeAttributeValue(node, "index"));
-                    attributeValueMap.put("name", 
-                            ApplicationDocumentation.getNodeAttributeValue(node, "name"));
-                    attributeValueMap.put("ref", 
-                            ApplicationDocumentation.getNodeAttributeValue(node, "ref"));
+                for (Node node : 
+                    ApplicationDocumentation.getChildrenNodes(appDoc.getChildrenNodes("steps")[0], "step")) {
+                    step = new Step(
+                             ApplicationDocumentation.getNodeAttributeValue(node, "index")
+                            ,ApplicationDocumentation.getNodeAttributeValue(node, "name")
+                            ,ApplicationDocumentation.getNodeAttributeValue(node, "ref"));
                     
-                    requestCommon.addStep(new Step(
-                            attributeValueMap.get("index"), attributeValueMap.get("name"), 
-                            attributeValueMap.get("ref")));
-                }
-            }
-            
-            if (appDoc.hasChildNode("conditions")) {
-                fetchNodes =  ApplicationDocumentation.getChildrenNodes(
-                        appDoc.getChildrenNodes("conditions")[0], "condition");
-                for (Node node : fetchNodes) {
-                    requestCommon.addCondition( new Condition(
-                            ApplicationDocumentation.getNodeAttributeValue(node, "name"), null, null));
+                    requestCommon.addStep(step);
+                    
+                    Node[] conditionsNodes = ApplicationDocumentation.getChildrenNodes(node, "conditions");
+                    if(conditionsNodes != null)
+                        for (Node conditionNode : 
+                            ApplicationDocumentation.getChildrenNodes(conditionsNodes[0], "condition"))
+                            requestCommon.addConditionToStep(step, new Condition(
+                                    ApplicationDocumentation.getNodeAttributeValue(conditionNode, "name"), null, null));
                 }
             }
             appDoc.setRequestCommon(requestCommon);
         }
         else {
-            if (appDoc.hasChildNode("step")) {
-                fetchNodes = appDoc.getChildrenNodes("step");
-                requestCommon.setCurrentElementStep(new Step(-1, 
-                        ApplicationDocumentation.getNodeAttributeValue(fetchNodes[0], "name"), null));
-            }
-            if (appDoc.hasChildNode("conditions")) {
-                fetchNodes =  ApplicationDocumentation.getChildrenNodes(
-                        appDoc.getChildrenNodes("conditions")[0], "condition");
-                for (Node node : fetchNodes) {
-                    attributeValueMap = new HashMap<String,String>();
-                    attributeValueMap.put("name",
-                            ApplicationDocumentation.getNodeAttributeValue(node, "name"));
-                    attributeValueMap.put("type", 
-                            ApplicationDocumentation.getNodeAttributeValue(node, "type"));
-                    attributeValueMap.put("required", 
-                            ApplicationDocumentation.getNodeAttributeValue(node, "required"));
+            if (appDoc.hasChildNode("step"))
+                requestCommon.setCurrentElementStep(
+                        new Step(-1, ApplicationDocumentation.getNodeAttributeValue(
+                                appDoc.getChildrenNodes("step")[0], "name"), null));
+
+            if (appDoc.hasChildNode("conditions"))
+                for (Node node : 
+                    ApplicationDocumentation.getChildrenNodes(appDoc.getChildrenNodes("conditions")[0], "condition"))
                     requestCommon.addCurrentElementCondition(new Condition(
-                        attributeValueMap.get("name"), attributeValueMap.get("type"),
-                        attributeValueMap.get("required")));
-                    
-                    /*
-                     * Temporary strategy to manage condition association to 1 and only 1 step
-                     * TODO : add a Set<Condition> field to <Step> class model
-                     * TODO : delete Set<Condition> field from <RequestCommon>
-                     */
-                    requestCommon.addConditionStep(
-                            requestCommon.getCurrentElementCommon().getStep().getName()
-                            , attributeValueMap.get("name"));
-                }
-            }
+                            ApplicationDocumentation.getNodeAttributeValue(node, "name") 
+                            ,ApplicationDocumentation.getNodeAttributeValue(node, "type")
+                            ,ApplicationDocumentation.getNodeAttributeValue(node, "required")));
         }
-        
-        if (depth < 1)
-            logger.debug("onApplicationInformation - requestCommon=[" +
-                    "namespace: " + requestCommon.getNamespace() +
-                    ", steps.size: " + requestCommon.getSteps().size() +
-                    ", conditions.size: " + requestCommon.getConditions().size() +
-                    "]");
-        else {
-            String stepName = requestCommon.getCurrentElementCommon().getStep().getName();
-            int conditionSize = requestCommon.getCurrentElementCommon().getConditions() != null ?
-                    requestCommon.getCurrentElementCommon().getConditions().size() : 0;
-            
-            logger.debug("onApplicationInformation() - currentElementCommom= [" +
-            		"step: [name:" + stepName   +
-            		"] condition: [name: " + conditionSize +
-            		"]");
-        }
-    
     }
     
     public void onOtherApplicationInformation(ApplicationDocumentation appDoc) {

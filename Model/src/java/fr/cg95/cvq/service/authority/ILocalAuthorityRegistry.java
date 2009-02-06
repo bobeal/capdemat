@@ -70,13 +70,6 @@ public interface ILocalAuthorityRegistry {
             final String filename, final boolean fallbackToDefault);
     
     /**
-     * FIXME - no more used
-     * Get the help data for the given request / step pair.
-     */
-    String getBufferedCurrentLocalAuthorityRequestHelp(final String requestLabel,
-            final String step);
-    
-    /**
      * Get the helps data for the given request as a Map<v=stepName,k=helpDataAsString>.
      */
     Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(final String requestLabel);

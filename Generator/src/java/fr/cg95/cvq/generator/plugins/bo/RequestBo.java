@@ -10,7 +10,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.plugins.bo.ElementBo.ElementTypeClass;
 
@@ -22,7 +21,6 @@ public class RequestBo {
     private String name;
     private String acronym;
     private List<Step> steps;
-    private Set<Condition> conditions;
     private List<ElementBo> elements;
 
     public RequestBo(String name, String targetNamespace) {
@@ -41,21 +39,13 @@ public class RequestBo {
     public List<Step> getSteps() {
         return steps;
     }
+    
     public void setSteps(List<Step> steps) {
         this.steps = new ArrayList<Step>(steps);
-        
         for (Iterator<Step> it = this.steps.iterator(); it.hasNext();) {
             if (it.next().getName() == null)
                 it.remove();
         }
-    }
-    
-    public Set<Condition> getConditions() {
-        return conditions;
-    }
-    
-    public void setConditions(Set<Condition> conditions) {
-        this.conditions = conditions;
     }
     
     public List<ElementBo> getElements() {

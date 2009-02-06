@@ -273,7 +273,7 @@
                     <span class="value-${request?.dhrIsSpouseRetired}"><g:message code="message.${request?.dhrIsSpouseRetired ? 'yes' : 'no'}" /></span>
                   </dd>
                 
-                  <dt class="required condition-isSpouseOtherPensionPlan-trigger condition-isSpouseRetired-filled"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>
+                  <dt class="required condition-isSpouseRetired-filled condition-isSpouseOtherPensionPlan-trigger"><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /> : </dt>
                   <dd id="dhrSpousePrincipalPensionPlan" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpousePrincipalPensionPlan javatype-fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType" >
                     <g:capdematEnumToField var="${request?.dhrSpousePrincipalPensionPlan}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" />
                   </dd>

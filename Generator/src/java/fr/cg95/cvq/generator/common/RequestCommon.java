@@ -1,9 +1,7 @@
 package fr.cg95.cvq.generator.common;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author rdj@zenexity.fr
@@ -14,7 +12,6 @@ public class RequestCommon {
     
     private String namespace;
     private List<Step> steps;
-    private Set<Condition> conditions;
     
     private ElementCommon currentElementCommon;
 
@@ -52,51 +49,29 @@ public class RequestCommon {
         steps.add(step);
     }
     
+    private List<Condition> getAllConditions() {
+        List<Condition> conditions = new ArrayList<Condition>();
+        for (Step s : steps)
+                conditions.addAll(s.getConditions());
+        return conditions;
+    }
+    
+    public void addConditionToStep(Step step, Condition condition) {
+        if(!steps.contains(step))
+            return;
+        for(Condition c : getAllConditions())
+            if(c.getName().equals(condition.getName()))
+                throw new RuntimeException("addconditionToStep() - " +
+                        "Condition {"+ condition.getName() +"} already exists");
+        step.addCondition(condition);
+    }
+    
     public List<Step> getSteps() {
         return steps;
     }
 
     public void setSteps(List<Step> steps) {
         this.steps = steps;
-    }
-    
-    private Step getStepByName(String name) {
-        for (Step s : steps)
-            if (s.getName().equals(name))
-                return s;   
-        return null;
-    }
-    
-    public void addConditionStep(String stepName, String conditionName) {
-        Step step = getStepByName(stepName);
-        if (step  != null) {
-            for (Step s : steps)
-                if (s.containsConditionName(conditionName) && !s.getName().equals(stepName))
-                    throw new RuntimeException("addConditionStep() - Condition {"+ conditionName +"} " +
-                    		"is already associated with Step {"+ s.getName() +"}");
-            
-            step.addConditionName(conditionName);
-        }
-    }
-
-    public void addCondition(Condition condition) {
-        if (conditions == null)
-            conditions = new HashSet<Condition>();
-        
-        for (Condition c : conditions) {
-            if (c.getName().equals(condition.getName()))
-                throw new RuntimeException("addCondition() - " +
-                		"Condition {"+ condition.getName() +"} already exists");
-        }
-        conditions.add(condition);
-    }
-    
-    public Set<Condition> getConditions() {
-        return conditions;
-    }
-
-    public void setConditions(Set<Condition> conditions) {
-        this.conditions = conditions;
     }
     
     /* Current Elemeent managment */
@@ -118,15 +93,21 @@ public class RequestCommon {
         currentElementCommon.setStep(step);
     }
     
+    private Step getStepByName(String name) {
+        for (Step s : steps)
+            if (s.getName().equals(name))
+                return s;   
+        return null;
+    }
+
     public void addCurrentElementCondition (Condition condition) {
-        if (currentElementCommon == null)
-            currentElementCommon = new ElementCommon();
-        
         boolean isConditionDefined = false;
-        for (Condition c : conditions) {
-            if (c.getName().equals(condition.getName())) {
-                isConditionDefined = true;
-                break;
+        if (currentElementCommon.getStep() != null) {
+            for (Condition c : getStepByName(currentElementCommon.getStep().getName()).getConditions()) {
+                if (c.getName().equals(condition.getName())) {
+                    isConditionDefined = true;
+                    break;
+                }
             }
         }
         if (! isConditionDefined)

@@ -1,14 +1,10 @@
 package fr.cg95.cvq.generator.plugins.bo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
 
@@ -40,7 +36,7 @@ public class ElementBo {
     private String after;
 
     private Step step;
-    private Set<Condition> conditions;
+    private List<Condition> conditions;
     
     private List<ElementBo> elements;
     
@@ -201,11 +197,11 @@ public class ElementBo {
         return sb.toString().trim();
     }
     
-    public void setConditions(Set<Condition> conditions) {
+    public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
     }
 
-    public Set<Condition> getConditions() {
+    public List<Condition> getConditions() {
         return conditions;
     }
 

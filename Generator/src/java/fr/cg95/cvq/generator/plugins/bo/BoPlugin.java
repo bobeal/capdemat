@@ -17,9 +17,7 @@ import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.RequestCommon;
-import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.plugins.bo.ElementBo.ElementTypeClass;
-import groovy.lang.Writable;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
@@ -146,7 +144,6 @@ public class BoPlugin implements IPluginGenerator {
         logger.debug("onApplicationInformation()");
         if (depth < 1) {
             requestBo.setSteps(appDoc.getRequestCommon().getSteps());
-            requestBo.setConditions(appDoc.getRequestCommon().getConditions());
         } else if (depth >= 1) {
             ElementBo elementBo = elementBoStack.peek(depth);
             elementBo.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
@@ -156,18 +153,10 @@ public class BoPlugin implements IPluginGenerator {
             elementBo.setDisplay(true);
             
             if (appDoc.getNodeName().equals("bo")) {
-                Map<String,String> attributes = new HashMap<String,String>();
                 Node node = appDoc.getXmlNode();
-                attributes.put("column", 
-                        ApplicationDocumentation.getNodeAttributeValue(node, "column"));
-                attributes.put("after", 
-                        ApplicationDocumentation.getNodeAttributeValue(node, "after"));
-                attributes.put("jsregexp", 
-                        ApplicationDocumentation.getNodeAttributeValue(node, "jsregexp"));
-                
-                elementBo.setColumn(attributes.get("column"));
-                elementBo.setAfter(attributes.get("after"));
-                elementBo.setJsRegexp(attributes.get("jsregexp"));
+                elementBo.setColumn(ApplicationDocumentation.getNodeAttributeValue(node, "column"));
+                elementBo.setAfter(ApplicationDocumentation.getNodeAttributeValue(node, "after"));
+                elementBo.setJsRegexp(ApplicationDocumentation.getNodeAttributeValue(node, "jsregexp"));
             }
          }
     }

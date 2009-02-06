@@ -211,19 +211,6 @@ public class LocalAuthorityRegistry
         return getFileContent(resourceFile);
     }
     
-    // TODO - no more used
-    public String getBufferedCurrentLocalAuthorityRequestHelp(final String requestLabel,
-            final String step) {
-
-        StringBuffer filePath = new StringBuffer().append(assetsBase)
-            .append(SecurityContext.getCurrentSite().getName().toLowerCase())
-            .append("/").append(HTML_RESOURCE_TYPE).append("/request/").append(requestLabel)
-            .append("/").append(step).append(".html");
-        File resourceFile = new File(filePath.toString());
-
-        return getFileContent(resourceFile);
-    }
-    
     public Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(final String requestLabel) {
         
         StringBuffer requestTypePath = new StringBuffer().append(assetsBase)

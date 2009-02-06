@@ -1,7 +1,7 @@
 package fr.cg95.cvq.generator.common;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -14,7 +14,7 @@ public class Step {
     private String name;
     private String ref;
     
-    private Set<String> conditionNames = new HashSet<String>();
+    private List<Condition> conditions = new ArrayList<Condition>();
     
     public Step (String index, String name, String ref) {
         try { 
@@ -60,11 +60,18 @@ public class Step {
         this.ref = ref;
     }
     
-    public void addConditionName(String name) {
-        conditionNames.add(name);
+
+    public List<Condition> getConditions() {
+        return conditions;
     }
     
-    public boolean containsConditionName(String name) {
-        return conditionNames.contains(name);
+    public void addCondition(Condition condition) {
+        for (Condition c : conditions)
+            if (c.getName().equals(condition.getName()))
+                throw new RuntimeException("addCondition() - Condition {"+ condition.getName() +"} " 
+                        + "is already associated with Step {"+ name +"}");
+        
+        conditions.add(condition);
     }
+    
 }

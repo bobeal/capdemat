@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
 
 /**
@@ -20,7 +19,6 @@ public class RequestFo {
     private String name;
     private String acronym;
     private List<Step> steps;
-    private Set<Condition> conditions;
     private List<ElementFo> elements;
 
     public RequestFo(String name, String targetNamespace) {
@@ -43,19 +41,12 @@ public class RequestFo {
     public List<Step> getSteps() {
         return steps;
     }
+    
     public void setSteps(List<Step> steps) {
         this.steps = new ArrayList<Step>(steps);
         for (Step step : this.steps)
             if (step.getName() == null && step.getRef() != null)
                 step.setName(step.getRef());
-    }
-    
-    public Set<Condition> getConditions() {
-        return conditions;
-    }
-    
-    public void setConditions(Set<Condition> conditions) {
-        this.conditions = conditions;
     }
     
     public List<ElementFo> getElements() {

@@ -24,36 +24,48 @@
         Domestic help
       </xs:documentation>
       <xs:appinfo>
-        <model namespace="social"/>
+        <model namespace="social" />
         <common>
-          <namespace name="social"/>
+          <namespace name="social" />
           <steps>
-            <step index="0" name="subject"/>
-            <step index="1" name="familyReferent"/>
-            <step index="2" name="spouse"/>
-            <step index="3" name="dwelling"/>
-            <step index="4" name="resources"/>
-            <step index="5" name="taxes"/>
-            <step index="6" ref="document"/>
-            <step index="7" ref="validation"/>
-          </steps>
-          <conditions>
-            <condition name="isCoupleRequest"/>
-            <condition name="haveFamilyReferent"/>
-            <condition name="isMadam"/>
-            <condition name="isNonEuropean"/>
-            <condition name="isOtherPensionPlan"/>
-            <condition name="haveGuardian"/>
-            <condition name="isSpouseMadam"/>
-            <condition name="isSpouseNonEuropean"/>
-            <condition name="isSpouseRetired"/>
-            <condition name="isSpouseOtherPensionPlan"/>
-            <condition name="isCurrentDwellingPlaceOfResidence"/>
-            <condition name="isPreviousDwellingPlaceOfResidence"/>
-            <condition name="isRealEstate"/>
-           <!-- <condition name="isCoupleRequestSpouseIncomes"/> --> 
-            
-          </conditions>
+            <step index="0" name="subject">
+              <conditions>
+                <condition name="isMadam" />
+                <condition name="isNonEuropean" />
+                <condition name="isOtherPensionPlan" />
+                <condition name="haveGuardian" />
+              </conditions>
+            </step>
+            <step index="1" name="familyReferent">
+              <conditions>
+                <condition name="haveFamilyReferent" />
+              </conditions>
+            </step>
+            <step index="2" name="spouse">
+              <conditions>
+                <condition name="isCoupleRequest" />
+                <condition name="isSpouseMadam" />
+                <condition name="isSpouseNonEuropean" />
+                <condition name="isSpouseRetired" />
+                <condition name="isSpouseOtherPensionPlan" />
+                <!-- <condition name="isCoupleRequestSpouseIncomes"/> --> 
+              </conditions>
+            </step>
+            <step index="3" name="dwelling">
+              <conditions>
+                <condition name="isCurrentDwellingPlaceOfResidence" />
+                <condition name="isPreviousDwellingPlaceOfResidence" />
+              </conditions>
+            </step>
+            <step index="4" name="resources">
+              <conditions>
+                <condition name="isRealEstate" />
+              </conditions>
+            </step>
+            <step index="5" name="taxes" />
+            <step index="6" ref="document" />
+            <step index="7" ref="validation" />
+          </steps>  
         </common>
       </xs:appinfo>
     </xs:annotation>

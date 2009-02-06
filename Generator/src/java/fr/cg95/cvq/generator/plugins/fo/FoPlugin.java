@@ -153,7 +153,6 @@ public class FoPlugin implements IPluginGenerator {
 
         if (depth < 1) {
             requestFo.setSteps(appDoc.getRequestCommon().getSteps());
-            requestFo.setConditions(appDoc.getRequestCommon().getConditions());
         } else if (depth >= 1) {
             ElementFo elementFo = elementFoStack.peek(depth);
             elementFo.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
@@ -164,7 +163,6 @@ public class FoPlugin implements IPluginGenerator {
             
             if (appDoc.getNodeName().equals("fo")) {
                 Node node = appDoc.getXmlNode();
-                
                 elementFo.setElementToDisplay(ApplicationDocumentation.getNodeAttributeValue(node, "element"));
                 elementFo.setAfter(ApplicationDocumentation.getNodeAttributeValue(node, "after"));
                 elementFo.setModifier(ApplicationDocumentation.getNodeAttributeValue(node, "modifier"));
@@ -178,10 +176,9 @@ public class FoPlugin implements IPluginGenerator {
                     elementFo.setWidget("radio");
                 
                 if (appDoc.hasChildNode("textarea")) {
-                    Node [] fetchNodes;
                     elementFo.setWidget("textarea");
-                    fetchNodes =  appDoc.getChildrenNodes("textarea");
-                    elementFo.setRows(ApplicationDocumentation.getNodeAttributeValue(fetchNodes[0], "rows"));
+                    elementFo.setRows(ApplicationDocumentation.getNodeAttributeValue(
+                            appDoc.getChildrenNodes("textarea")[0], "rows"));
                 }
             }
          }

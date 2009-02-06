@@ -6,6 +6,7 @@ import java.util.Stack;
 
 /**
  * @author rdj@zenexity.fr
+ *  * TODO : use generic to merge this class with fo and i18n one
  */
 public class ElementStack {
 

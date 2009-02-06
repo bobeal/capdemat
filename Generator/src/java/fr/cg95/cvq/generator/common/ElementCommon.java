@@ -1,7 +1,7 @@
 package fr.cg95.cvq.generator.common;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author rdj@zenexity.fr
@@ -9,7 +9,7 @@ import java.util.Set;
 public class ElementCommon {
     
     private Step step;
-    private Set<Condition> conditions = new HashSet<Condition>();
+    private List<Condition> conditions = new ArrayList<Condition>();
 
     public ElementCommon() {}
 
@@ -21,7 +21,7 @@ public class ElementCommon {
         this.step = step;
     }
 
-    public Set<Condition> getConditions() {
+    public List<Condition> getConditions() {
         return conditions;
     }
     

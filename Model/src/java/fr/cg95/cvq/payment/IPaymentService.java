@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.Payment;
@@ -13,12 +14,14 @@ import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.util.Critere;
 
 
 /**
  * Service dedicated to the management and monitoring of payments.
  *
  * @author bor@zenexity.fr
+ * @author maxence.veyret@bull.net
  */
 public interface IPaymentService {
 
@@ -134,4 +137,24 @@ public interface IPaymentService {
      * Delete a payment.
      */
     void delete(final Payment payment) throws CvqException;
+    
+    /**
+     * Get a constrained list of payments according to a set of criteria and requirements.
+     *
+     * @param criteriaSet a set of {@link Critere criteria} to be applied to the search
+     * @param sort an ordering to apply to results. value is one of the SEARCH_* static
+     *        string defined in this service (null to use default sort on payments ids)
+     * @param dir the direction of the sort (asc or desc, asc by default)
+     * @param recordsReturned the number of records to return (-1 to get all results)
+     * @param startIndex the start index of the records to return
+     * @param paymentMode (Internet or Card, null for all) 
+     */
+    List<Payment> get(Set<Critere> criteriaSet, final String sort, final String dir, 
+            final int recordsReturned, final int startIndex, final PaymentMode paymentMode)
+        throws CvqException;
+    
+    /**
+     * Get a count of payments matching the given criteria.
+     */
+    Long getCount(Set<Critere> criteriaSet, final PaymentMode paymentMode) throws CvqException;
 }

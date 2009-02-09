@@ -1,4 +1,4 @@
-<h1><a class="logo" href="${createLink(controller:'backofficeRequest',action:'taskBoard')}">CapDémat</a></h1>
+<h1><a class="logo">CapDémat</a></h1>
 <div id="userInfo">
   ${session.currentUser} - <a href="${createLinkTo(dir:'',file:'casLogout.gsp')}"><g:message code="action.logout" /></a>
 </div>

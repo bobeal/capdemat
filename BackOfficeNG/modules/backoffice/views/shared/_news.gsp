@@ -1,28 +1,27 @@
 <h2>Nouvelles</h2>
 
 
-<p><strong>4 Fevrier 2008</strong></p>
+<p><strong>4 Février 2008</strong></p>
 <span style="text-decoration:underline;">Back Office</span>
 <ul>
-  <li>Ecran de configuration des brouillons</li>
-  <li>Support des collections dans l'instruction de télé-service</li>
-  <li>Support des conditions</li>
-  <li>Complétion des écrans d'instructions du VOCardRequest et du HomeFolderModificationRequest</li>
-  <li>Corrections des régressions ie6 de l'ecrans d'instruction</li>
-  <li>Complétion et homogénéisation données affichées dans le tableau de bord</li>
+  <li>Ecran de configuration des brouillons (nouveau menu "Collectivités")</li>
+  <li>Support des collections et des conditions dans l'instruction de télé-services</li>
+  <li>Complétion des écrans d'instruction des demandes de création et modification de comptes</li>
+  <li>Corrections des régressions ie6 de l'écran d'instruction</li>
+  <li>Complétion et homogénéisation des données affichées dans le tableau de bord</li>
 </ul>
 <span style="text-decoration:underline;">Front Office</span>
 <ul>
-  <li>Ajout du broullion pour la création de télé-service</li>
-  <li>Support des collections pour la création de télé-service</li>
-  <li>Support des conditions</li>
+  <li>Ajout du mode brouillon pour la création de télé-services</li>
+  <li>Support des collections et des conditions pour la création de télé-services</li>
   <li>Support de la validation côté client (en cours)</li>
-  <li>Récupération générique des ressources de l'asset d'une CT (logo, css, aide)</li>
+  <li>Récupération générique et transparente des ressources d'une CT (logo, css, aide)</li>
 </ul>
 <span style="text-decoration:underline;">Front Office & Back Office</span>
 <ul>
   <li>Ajout d'un tri complémentaire sur les prénoms des demandeurs et sujets dans résultats de recherche sur les TS</li>
   <li>Normalisation des labels des TS dans les schémas XML</li>
+  <li>Ajout des fonctions de filtrage par sujet d'un télé-service</li>
 </ul>
 
 <p><strong>8 Décembre 2008</strong></p>

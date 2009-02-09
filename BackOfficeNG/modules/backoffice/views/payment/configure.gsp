@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/yui/editor',file:'simpleeditor.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/yui/editor',file:'simpleeditor-beta.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'defaultToolbar.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'paymentConfiguration.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js',file:'paymentConfiguration.js')}"></script>
   </head>
   <body>
     

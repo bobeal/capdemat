@@ -36,7 +36,7 @@
           ${cs?.encodeAsHTML()}<br />
         </g:each>
       </div>
-    </div>>
+    </div>
     <h2>Stack Trace</h2>
     <div class="stack">
       <pre><g:each in="${exception.stackTraceLines}">${it.encodeAsHTML()}<br/></g:each></pre>

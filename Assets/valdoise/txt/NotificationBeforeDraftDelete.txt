@@ -1,7 +1,7 @@
 Bonjour,
 
-Nous vous informons que votre brouillon de demande de type ${requestType} No${requestId}, 
-crée le ${creationDate}, va expirer le ${expirationDate} et sera supprimer par la suite.
+Nous vous informons que votre brouillon de demande de type ${requestType} (No ${requestId}), 
+créé le ${creationDate}, va expirer le ${expirationDate} et sera définitivement supprimé.
 
 --
 Cordialement,

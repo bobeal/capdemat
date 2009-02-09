@@ -157,8 +157,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               propertyValue = this;
         });
         propertyWrapperEl.innerHTML = propertyValue.text;
-        // TODO - fix className value updatating !
-        // propertyWrapperEl.className = propertyValue.value;
+        // FIXME - normalize propertyValue class like class="value<MY_VAL> i18n-<MY_I18n>)"
+        var classNameArray = propertyWrapperEl.className.split(' ');
+        if (classNameArray.length > 1)
+          classNameArray[0] = propertyValue.value.split('_')[1];
+        else
+          classNameArray.unshift(propertyValue.value.split('_')[1]);
+        propertyWrapperEl.className = classNameArray.join(' ');   
       }
       else if (isSubmit && yud.hasClass(ddEl, 'validate-address')) {
         var addressFields = yud.getChildren(propertyWrapperEl);
@@ -181,6 +186,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 
       new yuel(ddEl).removeChild(formEl);
       yud.removeClass(ddEl, 'current-editField');
+      
+       // FIXME - poor solution to manage condition chaining
+      zcb.Condition.reInit();
     }
     
     return { 

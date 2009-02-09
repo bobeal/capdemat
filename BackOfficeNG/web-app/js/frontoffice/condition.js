@@ -15,6 +15,8 @@
        zcf.Condition.triggers = [];
        zcf.Condition.filleds = [];
        zcf.Condition.unfilleds = [];
+       zcf.Condition.filledDescendants = [];
+       zcf.Condition.unfilledDescendants = [];
     }
   
     var getTriggerEls = function (triggerClassName) {
@@ -55,18 +57,44 @@
       setDisabled(listenerEl, !active);
     }
     
+    var getDescendants = function(listenerEls) {
+      var descendants = [];
+      var addChildren = function(listenerEls) {
+        var children = [];
+        zct.each(listenerEls, function() {
+          var trigger = /condition-(\w+)-trigger/i.exec(this.className);
+          if (!yl.isNull(trigger)) {
+            this.value = "";
+            children = children.concat(yud.getElementsByClassName(
+                trigger[0].replace('-trigger', '-filled'), null, 'requestTabView'));
+            children = children.concat(yud.getElementsByClassName(
+                trigger[0].replace('-trigger', '-unfilled'), null, 'requestTabView'));
+          }
+        });
+        descendants = descendants.concat(children);
+        if (children.length > 0)
+          addChildren(children);
+      }
+      addChildren(listenerEls);
+      return descendants;
+    }
+    
         
     return {
       /* type triggers = [json{requestField : value}, json{requestField : value}, json{requestField : value} ... ] 
-       * triggers[n] affects filled[n] and unfilled[n] 
+       * triggers[n] affects filled[n], unfilled[n], and idescendants[n]
        */
       triggers : undefined,
       
-      /* type filled = [<htlmEl>[], <htlmEl>[], <htlmEl>[] ... ] */
+      /* type = [<htlmEl>[], <htlmEl>[], <htlmEl>[] ... ] */
       filleds : undefined,
-      
-      /* type unfilleds = type filled */
       unfilleds : undefined,
+      
+      /* type idescendants = type filled
+       * allow to manage indirect decendant chaining
+       */
+      filledDescendants : undefined,
+      unfilledDescendants : undefined,
       
       init : function() {
           reset();
@@ -90,8 +118,10 @@
                   if (json.test) {
                     zcf.Condition.active(zcf.Condition.filleds[i]);
                     zcf.Condition.unactive(zcf.Condition.unfilleds[i]);
+                    zcf.Condition.unactive(zcf.Condition.unfilledDescendants[i]);
                   } else {
                     zcf.Condition.unactive(zcf.Condition.filleds[i]);
+                    zcf.Condition.unactive(zcf.Condition.filledDescendants[i]);
                     zcf.Condition.active(zcf.Condition.unfilleds[i]);
                   }
                 });
@@ -139,10 +169,14 @@
       
       addFilleds : function(condition) {
           zcf.Condition.filleds.push(yud.getElementsByClassName(condition, null, 'requestTabView'));
+          zcf.Condition.filledDescendants.push(getDescendants(
+                  yud.getElementsByClassName(condition, null, 'requestTabView')));
       },
       
       addUnfilleds : function(condition) {
           zcf.Condition.unfilleds.push(yud.getElementsByClassName(condition, null, 'requestTabView'));
+          zcf.Condition.unfilledDescendants.push(getDescendants(
+                  yud.getElementsByClassName(condition, null, 'requestTabView')));
       },
       
       active : function(elArray) {

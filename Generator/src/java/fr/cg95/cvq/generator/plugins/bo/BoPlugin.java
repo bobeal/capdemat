@@ -158,6 +158,7 @@ public class BoPlugin implements IPluginGenerator {
                 Node node = appDoc.getXmlNode();
                 elementBo.setColumn(ApplicationDocumentation.getNodeAttributeValue(node, "column"));
                 elementBo.setAfter(ApplicationDocumentation.getNodeAttributeValue(node, "after"));
+                // TODO Move this attirbute in common declaration
                 elementBo.setJsRegexp(ApplicationDocumentation.getNodeAttributeValue(node, "jsregexp"));
             }
          }

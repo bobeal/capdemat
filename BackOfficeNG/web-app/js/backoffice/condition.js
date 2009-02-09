@@ -11,11 +11,13 @@
   var yu = YAHOO.util;
   
   zcb.Condition = function() {
-  
+    
     var reset = function() {
        zcb.Condition.triggers = [];
        zcb.Condition.filleds = [];
        zcb.Condition.unfilleds = [];
+       zcb.Condition.filledDescendants = [];
+       zcb.Condition.unfilledDescendants = [];
     }
     
     var currentTriggerValue = function (ddEl) {
@@ -67,22 +69,64 @@
       }
     }
     
+    var getDescendants = function(listenerEls) {
+      var descendants = [];
+      var addChildren = function(listenerEls) {
+        var children = [];
+        zct.each(listenerEls, function() {
+          var trigger = /condition-(\w+)-trigger/i.exec(this.className);
+          if (!yl.isNull(trigger)) {
+            children = children.concat(yud.getElementsByClassName(
+                trigger[0].replace('-trigger', '-filled'), null, 'requestData'));
+            children = children.concat(yud.getElementsByClassName(
+                trigger[0].replace('-trigger', '-unfilled'), null, 'requestData'));
+          }
+        });
+        descendants = descendants.concat(children);
+        if (children.length > 0)
+          addChildren(children);
+      }
+      addChildren(listenerEls);
+      return descendants;
+    }
+    
+    // Move to zct, or write a more generic version
+    var isArrayEmpty = function (array) {
+      if (array.join().replace(/,/g,'').length > 0)
+        return false;
+      else
+        return true;
+    }
+    
     return {
       /* type triggers = [json{requestField : value}, json{requestField : value}, json{requestField : value} ... ] 
        * triggers[n] affects filled[n] and unfilled[n] 
        */
       triggers : undefined,
       
-      /* type filled = [<htlmEl>[], <htlmEl>[], <htlmEl>[] ... ] */
+      /* type = [<htlmEl>[], <htlmEl>[], <htlmEl>[] ... ] */
       filleds : undefined,
-      
-      /* type unfilles = type filled */
       unfilleds : undefined,
+      
+      /* type idescendants = type filled
+       * allow to manage indirect decendant chaining
+       */
+      filledDescendants : undefined,
+      unfilledDescendants : undefined,
       
       init : function() {
           reset();
           zcb.Condition.setAll();
           zcb.Condition.test();
+      },
+      
+      // FIXME - poor solution that force a lot of http request to the server
+      reInit : function() {
+          if (!isArrayEmpty(zcb.Condition.filledDescendants.concat(zcb.Condition.unfilledDescendants))) {
+            reset();
+            zcb.Condition.setAll();
+            zcb.Condition.test();
+          }
       },
       
       run : function(e) {
@@ -101,10 +145,10 @@
                   if (json.test) {
                     zcb.Condition.active(zcb.Condition.filleds[i]);
                     zcb.Condition.unactive(zcb.Condition.unfilleds[i]);
+                    zcb.Condition.unactive(zcb.Condition.unfilledDescendants[i]);
                   } else {
-                    // Not tested
-                    // zcb.Condition.addFilledsDescendants();
                     zcb.Condition.unactive(zcb.Condition.filleds[i]);
+                    zcb.Condition.unactive(zcb.Condition.filledDescendants[i]);
                     zcb.Condition.active(zcb.Condition.unfilleds[i]);
                   }
                 });
@@ -161,38 +205,15 @@
       
       addFilleds : function(condition) {
           zcb.Condition.filleds.push(yud.getElementsByClassName(condition, null, 'requestData'));
+          zcb.Condition.filledDescendants.push(getDescendants(
+                  yud.getElementsByClassName(condition, null, 'requestData')));
       },
       
       addUnfilleds : function(condition) {
           zcb.Condition.unfilleds.push(yud.getElementsByClassName(condition, null, 'requestData'));
+          zcb.Condition.unfilledDescendants.push(getDescendants(
+                  yud.getElementsByClassName(condition, null, 'requestData')));
       },
-      
-//      addFilledsDescendants : function() {
-//          var descendants = [];
-//          
-//          var recursion = function(listenerEls) {
-//            var childs = [];
-//            zct.each(listenerEls, function() {
-//              var trigger = /condition-(\w+)-trigger/i.exec(this.className);
-//              if (!yl.isNull(trigger)) {
-//                childs = childs.concat(yud.getElementsByClassName(
-//                    tirgger[0].replace('-trigger', '-filled'), null, 'requestData'));
-//                childs = childs.concat(yud.getElementsByClassName(
-//                    tirgger[0].replace('-trigger', '-unfilled'), null, 'requestData'));
-//              }
-//            });
-//            descendants = descendants.concat(childs);
-//            if (childs.length > 0)
-//              recursion(childs);
-//          }
-//          
-//          recursion(zcb.Condition.filleds);
-//          filleds = filleds.concat(descendants);
-//      },
-//      
-//      addUnfilledsDescendants : function() {
-//          zcb.Condition.unfilleds;
-//      },
       
       active : function(elArray) {
           zct.each(elArray, function() { listenerSwitch(this, true); });

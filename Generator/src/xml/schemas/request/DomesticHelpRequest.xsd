@@ -978,7 +978,7 @@
             <common>
               <step name="spouse"/>
               <conditions>
-                <condition name="isSpouseMadam" type="filled" required="true"/>
+                <condition name="isSpouseMadam" type="filled" required="true" />
               </conditions>
             </common>
             <fo/>

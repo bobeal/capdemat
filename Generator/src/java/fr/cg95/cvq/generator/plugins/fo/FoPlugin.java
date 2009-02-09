@@ -77,7 +77,7 @@ public class FoPlugin implements IPluginGenerator {
             // _validation.gsp template
             template = templateEngine.createTemplate(new File(validationTemplate));
             template.make(bindingMap).writeTo(new FileWriter(output + "_validation.gsp" ));
-            logger.warn("endRequest() - summary.gsp.tpl OK");
+            logger.warn("endRequest() - validation.gsp.tpl OK");
             
             // _<step>.gsp templates
             template = templateEngine.createTemplate(new File(stepTemplate));

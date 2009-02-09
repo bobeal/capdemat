@@ -58,8 +58,15 @@
   <% } %>
   <% requestFo.getElementsByStep(step).each { element -> %>
     <% if (element.typeClass == "COLLECTION") { %>
-    <!-- <h4><g:message code="${element.i18nPrefixCode}.label" /></h4> -->
-    <!-- TODO : Render one to many elements -->
+    <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
+    <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
+    <dl>
+      <% element.elements.each { subElement -> %>
+      <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
+        <% displayWidget(subElement, "it") %>
+      <% } %>
+    </dl>
+    </g:each>
     <% } else if (element.typeClass == "COMPLEX") { %>
     <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
     <dl>
@@ -70,12 +77,12 @@
       <% } %>
       <% element.elements.each { subElement -> %>
       <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
-        <% displayWidget(subElement, "request") %>
+        <% displayWidget(subElement, "rqt") %>
       <% } %>
     </dl>
     <% } else { %>
       <dt><g:message code="${element.i18nPrefixCode}.label" /></dt>
-      <% displayWidget(element, "request") %>
+      <% displayWidget(element, "rqt") %>
     <% } %>
   <% } %>
 <% } %>

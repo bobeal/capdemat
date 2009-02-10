@@ -122,6 +122,7 @@
              <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
            </h3>
            <div>
   
@@ -156,6 +157,7 @@
              <span class="tag-state ${stepStates!= null ? stepStates.familyReferent.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.familyReferent.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.familyReferent?.errorMsg}" /></span>
            </h3>
            <div>
   
@@ -192,6 +194,7 @@
              <span class="tag-state ${stepStates!= null ? stepStates.spouse.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.spouse.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.spouse?.errorMsg}" /></span>
            </h3>
            <div>
   
@@ -228,6 +231,7 @@
              <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.dwelling?.errorMsg}" /></span>
            </h3>
            <div>
   
@@ -264,6 +268,7 @@
              <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.resources?.errorMsg}" /></span>
            </h3>
            <div>
   
@@ -300,6 +305,7 @@
              <span class="tag-state ${stepStates!= null ? stepStates.taxes.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxes.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.taxes?.errorMsg}" /></span>
            </h3>
            <div>
   
@@ -336,6 +342,7 @@
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
            </h3>
            <div>
   
@@ -372,6 +379,7 @@
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
            </h3>
            <div>
   

@@ -54,6 +54,7 @@
              <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
              <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
              <span><g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.desc" /></span>
+             <span class="error"><g:message code="\${stepStates?.${step.name}?.errorMsg}" /></span>
            </h3>
            <div>
   <% if (step.name == 'validation') { %>

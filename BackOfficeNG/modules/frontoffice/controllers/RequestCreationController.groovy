@@ -85,50 +85,55 @@ class RequestCreationController {
               if (it.key.startsWith('submit-'))
                 submitAction = it.key.tokenize('-')
         }
-
         currentStep = submitAction[2]
         
-        if (submitAction[1] == 'delete') {
-            def listFieldToken = submitAction[3].tokenize('[]')
-            def getterMethod = cRequest.class.getMethod(
-                    'get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
-                    
-            getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listFieldToken[1]).intValue())
-        }
-        else if (submitAction[1] == 'edit') {
-            def listFieldToken = submitAction[3].tokenize('[]')
-            def getterMethod = cRequest.class.getMethod(
-                    'get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
-                    
-            editList = ['name': listFieldToken[0], 
-                        'index': listFieldToken[1],
-                        (listFieldToken[0]): getterMethod.invoke(cRequest, null).get(Integer.valueOf(listFieldToken[1]).intValue())
-                       ]
-        }
-        else {
-            DataBindingUtils.initBind(cRequest, params)
-            bind(cRequest)
-            DataBindingUtils.cleanBind(cRequest, params)
-            
-            if (session[uuid].stepStates == null) {
-                session[uuid].stepStates = [:]
-                requestTypeInfo.steps.each {
-                    session[uuid].stepStates.put(it, ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete'])
+        try {
+            if (submitAction[1] == 'delete') {
+                def listFieldToken = submitAction[3].tokenize('[]')
+                def getterMethod = cRequest.class.getMethod(
+                        'get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
+                        
+                getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listFieldToken[1]).intValue())
+            }
+            else if (submitAction[1] == 'edit') {
+                def listFieldToken = submitAction[3].tokenize('[]')
+                def getterMethod = cRequest.class.getMethod(
+                        'get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
+                        
+                editList = ['name': listFieldToken[0], 
+                            'index': listFieldToken[1],
+                            (listFieldToken[0]): getterMethod.invoke(cRequest, null).get(Integer.valueOf(listFieldToken[1]).intValue())
+                           ]
+            }
+            else {
+                DataBindingUtils.initBind(cRequest, params)
+                bind(cRequest)
+                DataBindingUtils.cleanBind(cRequest, params)
+                
+                if (session[uuid].stepStates == null) {
+                    session[uuid].stepStates = [:]
+                    requestTypeInfo.steps.each {
+                        session[uuid].stepStates.put(it, ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete'])
+                    }
                 }
-            }
-            
-            if (submitAction[1] == 'step') {
-                session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
-                session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
-            }
-            
-            if (currentStep == "validation") {
-                if (!cRequest.draft) requestService.create(cRequest)
-                else requestService.finalizeDraft(cRequest)
-            }
-        }
+                if (submitAction[1] == 'step') {
+                    session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
+                    session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
+                    session[uuid].stepStates.get(currentStep)?.errorMsg = ''
+                }
+                
+                if (currentStep == "validation") {
+                    if (!cRequest.draft) requestService.create(cRequest)
+                    else requestService.finalizeDraft(cRequest)
+                }
+            }        
+            session[uuid].cRequest = cRequest
         
-        session[uuid].cRequest = cRequest
+        } catch (CvqException ce) {
+            session[uuid].stepStates.get(currentStep).cssClass = 'tag-invalid'
+            session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.error'
+            session[uuid].stepStates.get(currentStep).errorMsg = ce.message
+        }
 
         render( view: 'frontofficeRequestType/domesticHelpRequest/edit',
                 model:

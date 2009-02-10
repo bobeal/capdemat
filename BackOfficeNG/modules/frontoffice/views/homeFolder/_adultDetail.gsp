@@ -141,22 +141,22 @@
   <h3><g:message code="homeFolder.individual.header.connexionInformations" /></h3>
   <div class="yui-u first">
     <dl>
-      <dt><g:message code="homeFolder.individual.property.login" /> : </dt>
+      <dt><g:message code="homeFolder.adult.property.login" /> : </dt>
       <dd>${adult.login}</dd>
       
-      <dt><g:message code="homeFolder.individual.property.question" /> : </dt>
+      <dt><g:message code="homeFolder.adult.property.question" /> : </dt>
       <dd>${adult.question}</dd>
       
-      <dt><g:message code="homeFolder.individual.property.answer" /> : </dt>
+      <dt><g:message code="homeFolder.adult.property.answer" /> : </dt>
       <dd>${adult.answer}</dd>
     </dl>
   </div>
   <div class="yui-u">
     <dl>
-      <dt><g:message code="homeFolder.adult.property.publicKey" /> : </dt>
+      <dt><g:message code="homeFolder.individual.property.publicKey" /> : </dt>
       <dd>${adult.publicKey}</dd>
       
-      <dt><g:message code="homeFolder.adult.property.federationKey" /> : </dt>
+      <dt><g:message code="homeFolder.individual.property.federationKey" /> : </dt>
       <dd>${adult.federationKey}</dd>
     </dl>
   </div>

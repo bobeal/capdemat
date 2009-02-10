@@ -65,7 +65,6 @@ class RequestCreationController {
                     ])
     }
     
-
     def step = {
         log.debug('POST step() - start')
         
@@ -107,9 +106,9 @@ class RequestCreationController {
                        ]
         }
         else {
-            if (submitAction[1] != 'modify')
-                DataBindingUtils.initBind(cRequest, params)
+            DataBindingUtils.initBind(cRequest, params)
             bind(cRequest)
+            DataBindingUtils.cleanBind(cRequest, params)
             
             if (session[uuid].stepStates == null) {
                 session[uuid].stepStates = [:]

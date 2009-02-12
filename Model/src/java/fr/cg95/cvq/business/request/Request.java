@@ -3,6 +3,8 @@ package fr.cg95.cvq.business.request;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -77,9 +79,12 @@ public abstract class Request implements Serializable {
     private Set<RequestDocument> documents;
     private Set<RequestAction> actions;
     private Set<RequestNote> notes;
+    
+    private Map<String,Map<String,String>> stepStates;
 
     public Request() {
         this.draft = false;
+        this.stepStates = new HashMap<String, Map<String, String>>();
     }
 
     public abstract String modelToXmlString() ;
@@ -504,5 +509,18 @@ public abstract class Request implements Serializable {
 
     public void setDraft(Boolean draft) {
         this.draft = draft;
+    }
+    
+    /**
+     * @hibernate.property
+     *  column="step_states"
+     *  type="serializable"
+     */
+    public Map<String, Map<String, String>> getStepStates() {
+        return stepStates;
+    }
+
+    public void setStepStates(Map<String, Map<String, String>> stepStates) {
+        this.stepStates = stepStates;
     }
 }

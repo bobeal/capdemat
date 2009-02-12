@@ -1600,6 +1600,7 @@
         subject_last_name varchar(255),
         subject_first_name varchar(255),
         draft bool not null,
+        step_states bytea,
         primary key (id)
     );
 

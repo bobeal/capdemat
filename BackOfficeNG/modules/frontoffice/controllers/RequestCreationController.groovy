@@ -60,6 +60,7 @@ class RequestCreationController {
                     ,'meansOfContact': getMeansOfContact(meansOfContactService)
                     ,'currentStep': 'subject'
                     ,'requestTypeLabel': params.label
+                    ,'stepStates': cRequest.stepStates.size() != 0 ? cRequest.stepStates : null 
                     ,'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label))
                     ,'uuidString': uuidString
                     ])
@@ -110,16 +111,17 @@ class RequestCreationController {
                 bind(cRequest)
                 DataBindingUtils.cleanBind(cRequest, params)
                 
-                if (session[uuid].stepStates == null) {
+                if (cRequest.stepStates.size() == 0) {
                     session[uuid].stepStates = [:]
                     requestTypeInfo.steps.each {
-                        session[uuid].stepStates.put(it, ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete'])
+                        def value = ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete']
+                        cRequest.stepStates.put(it, value)
                     }
                 }
                 if (submitAction[1] == 'step') {
-                    session[uuid].stepStates.get(currentStep).cssClass = 'tag-complete'
-                    session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
-                    session[uuid].stepStates.get(currentStep)?.errorMsg = ''
+                    cRequest.stepStates.get(currentStep).cssClass = 'tag-complete'
+                    cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
+                    cRequest.stepStates.get(currentStep)?.errorMsg = ''
                 }
                 
                 if (currentStep == "validation") {
@@ -130,9 +132,9 @@ class RequestCreationController {
             session[uuid].cRequest = cRequest
         
         } catch (CvqException ce) {
-            session[uuid].stepStates.get(currentStep).cssClass = 'tag-invalid'
-            session[uuid].stepStates.get(currentStep).i18nKey = 'request.step.state.error'
-            session[uuid].stepStates.get(currentStep).errorMsg = ce.message
+            cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
+            cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
+            cRequest.stepStates.get(currentStep).errorMsg = ce.message
         }
 
         render( view: 'frontofficeRequestType/domesticHelpRequest/edit',
@@ -143,7 +145,7 @@ class RequestCreationController {
                     ,'meansOfContact': getMeansOfContact(meansOfContactService)
                     ,'currentStep': currentStep
                     ,'requestTypeLabel': requestTypeInfo.label
-                    ,'stepStates': session[uuid].stepStates
+                    ,'stepStates': cRequest.stepStates
                     ,'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label))
                     ,'uuidString': uuid
                     ,'editList': editList

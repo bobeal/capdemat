@@ -221,3 +221,8 @@ SET
 
 ALTER TABLE local_authority ALTER COLUMN draft_live_duration SET NOT NULL;
 ALTER TABLE local_authority ALTER COLUMN draft_notification_before_delete SET NOT NULL;
+
+-- stepState support in requests
+ALTER TABLE request ADD COLUMN step_states bytea;
+
+

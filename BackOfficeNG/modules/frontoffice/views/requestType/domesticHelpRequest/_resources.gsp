@@ -43,7 +43,7 @@
 
   
     <label class="required"><g:message code="dhr.property.dhrRealAsset.label" /> <span><g:message code="dhr.property.dhrRealAsset.help" /></span></label>
-    <div class="collection-fieldset required">
+    <div class="collection-fieldset required validation-scope">
       <!--<h4><g:message code="dhr.property.dhrRealAsset.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'dhrRealAsset' ? editList?.index : ( rqt.dhrRealAsset ? rqt.dhrRealAsset.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
@@ -81,10 +81,10 @@
             
     
         <g:if test="${editList?.name == 'dhrRealAsset'}">
-          <input type="submit" name="submit-modify-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-modify-resources-dhrRealAsset[${listIndex}]" name="submit-modify-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" name="submit-add-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-add-resources-dhrRealAsset[${listIndex}]" name="submit-add-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrRealAsset}" status="index">
@@ -122,7 +122,7 @@
 
   
     <label class="required"><g:message code="dhr.property.dhrNotRealAsset.label" /> <span><g:message code="dhr.property.dhrNotRealAsset.help" /></span></label>
-    <div class="collection-fieldset required">
+    <div class="collection-fieldset required validation-scope">
       <!--<h4><g:message code="dhr.property.dhrNotRealAsset.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'dhrNotRealAsset' ? editList?.index : ( rqt.dhrNotRealAsset ? rqt.dhrNotRealAsset.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
@@ -242,10 +242,10 @@
             
     
         <g:if test="${editList?.name == 'dhrNotRealAsset'}">
-          <input type="submit" name="submit-modify-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-modify-resources-dhrNotRealAsset[${listIndex}]" name="submit-modify-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" name="submit-add-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-add-resources-dhrNotRealAsset[${listIndex}]" name="submit-add-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrNotRealAsset}" status="index">

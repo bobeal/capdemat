@@ -54,7 +54,7 @@ String.prototype.rtrim=function(){
 		* minlength="x" (where x is the minimum number of characters)
 */
 //------------------------------------------------------------------------------------------------------------------
-function FIC_checkForm(e, el) {
+function FIC_checkForm(e, el, includeScope) {
 	var errs = new Array();
 	//this function is called when a form is submitted.
 	if (typeof(e) == "string") {
@@ -64,23 +64,15 @@ function FIC_checkForm(e, el) {
 			return true;
 		}
 	}
-	var elm=e;
-	if (!e.nodeName) {
-		//was fired by yahoo
-		elm = (e.srcElement) ? e.srcElement : e.target;
-	}
-	if (elm.nodeName.toLowerCase() != 'form') {
-		//elm = searchUp(elm,'form');
-		elm = YAHOO.util.Dom.getAncestorByTagName(elm,'form');
-	}
+	
+	FIC_cleanForm(e);
+	var fields = FIC_fetchField(e, includeScope);
 	var all_valid = true;
-	//access form elements
-	//inputs
-	var f_in = elm.getElementsByTagName('input');
-	//selects
-	var f_sl = elm.getElementsByTagName('select');
-	//textareas
-	var f_ta = elm.getElementsByTagName('textarea');
+	
+	var f_in = fields.input;
+	var f_sl = fields.select;
+	var f_ta = fields.textarea;
+	
 	//check inputs
 	for (i=0;i<f_in.length;i++) {
 		if (f_in[i].type.toLowerCase() != 'submit' && f_in[i].type.toLowerCase() != 'button' && f_in[i].type.toLowerCase() != 'hidden') {
@@ -172,6 +164,65 @@ function FIC_checkForm(e, el) {
 	return all_valid;
 } // end FIC_checkForm
 
+/* FIC_fetchField
+ * responsible of fetching field to test by scope
+ * ------------------------------------------- */
+function FIC_fetchField(e, includeScope) {
+  var fields = {'input':[],'select':[],'texterea':[]}
+	var elm = YAHOO.util.Event.getTarget(e);
+	
+	if (includeScope == undefined) {
+	  if (elm.nodeName != 'form'.toUpperCase()) {
+		  elm = YAHOO.util.Dom.getAncestorByTagName(elm,'form');
+	  }
+	  fields.input = elm.getElementsByTagName('input');
+	  fields.select = elm.getElementsByTagName('select');
+	  fields.textarea = elm.getElementsByTagName('textarea');
+	} else if (includeScope) {
+	  if (!YAHOO.util.Dom.hasClass(elm, 'validation-scope')) {
+		  elm = YAHOO.util.Dom.getAncestorByClassName(elm,'validation-scope');
+	  }
+	  fields.input = elm.getElementsByTagName('input');
+	  fields.select = elm.getElementsByTagName('select');
+	  fields.textarea = elm.getElementsByTagName('textarea');
+	}  else if (!includeScope) {
+	  if (elm.nodeName != 'form'.toUpperCase()) {
+		  elm = YAHOO.util.Dom.getAncestorByTagName(elm,'form');
+	  }
+	  var notBelongToScope = function(el) {
+	    if (YAHOO.util.Dom.getAncestorByClassName(el, 'validation-scope') === null)
+	      return true;
+	    else
+	      return false;
+	  };
+	  fields.input = YAHOO.util.Dom.getElementsBy(notBelongToScope, 'input', elm);
+	  fields.select = YAHOO.util.Dom.getElementsBy(notBelongToScope, 'select', elm);
+	  fields.textarea = YAHOO.util.Dom.getElementsBy(notBelongToScope, 'textarea', elm);
+	}
+	
+	return fields
+}
+
+/* FIC_cleanForm
+ * remove all css marker of the previous validation check
+ * ------------------------------------------- */
+function FIC_cleanForm(e) {
+  var fields = FIC_fetchField(e);
+  for (i=0; i<fields.input.length; i++) {
+    var fieldType = fields.input[i].type.toLowerCase();
+    if (fieldType === 'radio' || fieldType === 'checkbox')
+      YAHOO.util.Dom.removeClass(fields.input[i], 'validation-failed-cr');
+    else
+      YAHOO.util.Dom.removeClass(fields.input[i], 'validation-failed');
+  }
+  for (i=0; i<fields.select.length; i++) {
+      YAHOO.util.Dom.removeClass(fields.select[i], 'validation-failed-sel');
+  }
+  for (i=0; i<fields.textarea.length; i++) {
+      YAHOO.util.Dom.removeClass(fields.textarea[i], 'validation-failed');
+  }
+}
+ 
 //==================================================================================================================
 //  FIC_checkField
 //	c = className

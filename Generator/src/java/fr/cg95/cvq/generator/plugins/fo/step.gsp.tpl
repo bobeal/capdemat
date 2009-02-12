@@ -122,7 +122,7 @@
 <% elementList.each { element -> %>
   <% if (element.typeClass == "COLLECTION") { %>
     <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-    <div class="collection-fieldset ${element.listenerConditionsClass}">
+    <div class="collection-fieldset ${element.listenerConditionsClass} validation-scope">
       <!--<h4><g:message code="${element.i18nPrefixCode}.label" /></h4>-->
       <g:set var="listIndex" value="\${editList?.name == '${element.javaFieldName}' ? editList?.index : ( rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ${element.conditionsClass}">
@@ -131,10 +131,10 @@
         <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
     <% } %>
         <g:if test="\${editList?.name == '${element.javaFieldName}'}">
-          <input type="submit" name="submit-modify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
+          <input type="submit" id="submit-modify-${step.name}-${element.javaFieldName}[\${listIndex}]" name="submit-modify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" name="submit-add-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
+          <input type="submit" id="submit-add-${step.name}-${element.javaFieldName}[\${listIndex}]" name="submit-add-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">

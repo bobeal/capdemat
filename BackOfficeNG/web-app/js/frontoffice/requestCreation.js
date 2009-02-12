@@ -24,6 +24,19 @@
       fromYuiEl.appendChild(submitAsHiddenEl);
     }
 
+    var validateAndSubmit = function (e, includeScope) {
+      yue.preventDefault(e);
+      var targetEl = yue.getTarget(e);
+      if (!FIC_checkForm(e, yud.get(targetEl.form.id + '-error'), includeScope))
+        return;
+      else {
+        // -- hack to know current step
+        addSubmitAsHidden(targetEl);
+        
+        targetEl.form.submit();
+      }
+    }
+    
     return {
       clickEvent : undefined,
       requestFormTabView : undefined,
@@ -44,18 +57,11 @@
             return tokens[0];
       },
       
-      submitStep : function(e) {
-          yue.preventDefault(e);
-          var targetEl = yue.getTarget(e);
-          if (!FIC_checkForm(e, yud.get(targetEl.form.id + '-error')))
-            return;
-          else {
-            // -- hack to know current step
-            addSubmitAsHidden(targetEl);
-            
-            targetEl.form.submit();
-          }
-      },
+      submitStep : function(e) { validateAndSubmit(e, false); },
+      
+      submitAdd : function(e) { validateAndSubmit(e, true); },
+      
+      submitModify : function(e) { validateAndSubmit(e, true); },
       
       prevTab : function(e) {
           yue.preventDefault(e);

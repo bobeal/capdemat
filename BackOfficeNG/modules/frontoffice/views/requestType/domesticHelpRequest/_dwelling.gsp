@@ -79,7 +79,7 @@
 
   
     <label class="required"><g:message code="dhr.property.dhrPreviousDwelling.label" /> <span><g:message code="dhr.property.dhrPreviousDwelling.help" /></span></label>
-    <div class="collection-fieldset required">
+    <div class="collection-fieldset required validation-scope">
       <!--<h4><g:message code="dhr.property.dhrPreviousDwelling.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'dhrPreviousDwelling' ? editList?.index : ( rqt.dhrPreviousDwelling ? rqt.dhrPreviousDwelling.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
@@ -145,10 +145,10 @@
             
     
         <g:if test="${editList?.name == 'dhrPreviousDwelling'}">
-          <input type="submit" name="submit-modify-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-modify-dwelling-dhrPreviousDwelling[${listIndex}]" name="submit-modify-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" name="submit-add-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-add-dwelling-dhrPreviousDwelling[${listIndex}]" name="submit-add-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">

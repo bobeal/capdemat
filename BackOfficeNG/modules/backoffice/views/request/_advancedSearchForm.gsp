@@ -1,6 +1,8 @@
 <div class="txt-right" id="requestSearchSwitcher">
-  <a href="javascript:void(0);" class="simple"><g:message code="action.goToSimpleSearch" /></a> | 
-  <g:message code="action.goToAdvancedSearch" />
+  <g:message code="action.goToRequestSearch" /> | 
+  <a href="${module.createLink(module:'backoffice', controller:'HomeFolder',action:'search')}" class="simple">
+    <g:message code="action.goToHomeFolderSearch" />
+  </a>
 </div>
 
 <div id="search-form">

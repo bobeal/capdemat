@@ -68,6 +68,7 @@ class SessionFilters {
                         SecurityContext.setCurrentEcitizen(session.currentUser)
                     }
                 } catch (CvqObjectNotFoundException ce) {
+                    session.currentUser = null;
                     redirect(controller: 'frontofficeHome', action: 'login')
                     return false
                 } catch (CvqException ce) {

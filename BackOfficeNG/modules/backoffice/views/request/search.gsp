@@ -11,12 +11,14 @@
       <div class="yui-b">
       
         <div id="head" class="head">
-          <g:if test="${mode == 'simple'}">
-            <g:render template="simpleSearchForm" />
-          </g:if>
-          <g:else>
-            <g:render template="advancedSearchForm" />
-          </g:else>
+          <g:render template="advancedSearchForm" />
+          
+          %{--<g:if test="${mode == 'simple'}">--}%
+            %{--<g:render template="simpleSearchForm" />--}%
+          %{--</g:if>--}%
+          %{--<g:else>--}%
+            %{--<g:render template="advancedSearchForm" />--}%
+          %{--</g:else>--}%
         </div>
 
         <div id="search-results">

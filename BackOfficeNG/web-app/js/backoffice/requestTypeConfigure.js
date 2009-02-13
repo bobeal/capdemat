@@ -24,11 +24,20 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   
   zcbrp.Conf = function() {
     return {
+      overlay : undefined,
       event : undefined,
       init : function() {
         zcbrp.Conf.event = new zct.Event(zcbrp.Conf,zcbrp.Conf.prepareSimpleClick);
+        zcbrp.Conf.overlay = new YAHOO.widget.Overlay('requestStatePanel',{
+          visible:false,
+          context : ["requestState", "tl", "bl"]
+        });
+        
+        zcbrp.Conf.overlay.render();
+        //zcbrp.Conf.overlay.cfg.setProperty('context', ["requestState", "tr", "tl", ["beforeShow", "windowResize"]]);
         yue.on(yu.Dom.get('secondMenu'),'click',zcbrp.Conf.dispatchEvent);
         yue.on(yu.Dom.get('mainPanel'),'click',zcbrp.Conf.event.dispatch,zcbrp.Conf.event,true);
+        yue.on(yu.Dom.get('requestState'),'click',zcbrp.Conf.displayStateForm,zcbrp.Conf,true);
       },
       prepareSimpleClick : function(e) {
         return (yue.getTarget(e).id||'').split('_')[0];
@@ -48,6 +57,33 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             zct.Notifier.processMessage('success',json.success_msg);
           });
         }
+      },
+      displayStateForm : function() {
+        var url = ['/state/',zcbrp['currentId'] ].join('');
+        zct.doAjaxCall(url,'',function(o){
+          var panel = yu.Dom.get('requestStatePanel')
+          yus.query('.bd',panel)[0].innerHTML = o.responseText;
+          yue.on(yu.Dom.get('cancelButton'),'click',function(){zcbrp.Conf.overlay.hide();});
+          yue.on(yu.Dom.get('saveButton'),'click',function(){
+            zcbrp.Conf.overlay.hide();
+            zct.doAjaxFormSubmitCall('requestStateForm',[],function(o){
+              var json = ylj.parse(o.responseText);
+              var span = yu.Dom.get('requestState');
+              
+              zct.Notifier.processMessage('success',json.success_msg);
+              yu.Dom.removeClass(span,'tag-enable');
+              yu.Dom.removeClass(span,'tag-disable');
+              yu.Dom.addClass(span,['tag-',json.state].join(''));
+              zct.text(span,json.label);
+            });
+          });
+          var state = yu.Dom.get('initRequestState').value;
+          
+          if(state == 'active') zct.style(panel,{'border-color': '#20cc20'});
+          else if(state == 'inactive') zct.style(panel,{'border-color': '#AA2020'});
+          
+          zcbrp.Conf.overlay.show();
+        });
       },
       dispatchEvent : function(e) {
         var method = zct.capitalize(yue.getTarget(e).id.split('_')[1]);

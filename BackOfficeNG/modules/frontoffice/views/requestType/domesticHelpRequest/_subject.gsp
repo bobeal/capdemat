@@ -129,7 +129,7 @@
             <input type="text" value="${rqt.dhrGuardianAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrGuardianAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.dhrGuardianAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrGuardianAddress.additionalGeographicalInformation"/>
-            <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
+            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /></strong></label>
             <input type="text" class="line1" value="${rqt.dhrGuardianAddress?.streetNumber}" maxlength="5" name="dhrGuardianAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.dhrGuardianAddress?.streetName}" maxlength="32" name="dhrGuardianAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>

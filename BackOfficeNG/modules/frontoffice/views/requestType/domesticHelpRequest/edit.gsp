@@ -145,7 +145,7 @@
          </div>
          <g:if test="${helps.subject != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            ${helps.subject}
          </div>
          </g:if>
@@ -182,7 +182,7 @@
          </div>
          <g:if test="${helps.familyReferent != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            ${helps.familyReferent}
          </div>
          </g:if>
@@ -219,7 +219,7 @@
          </div>
          <g:if test="${helps.spouse != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            ${helps.spouse}
          </div>
          </g:if>
@@ -256,7 +256,7 @@
          </div>
          <g:if test="${helps.dwelling != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            ${helps.dwelling}
          </div>
          </g:if>
@@ -293,7 +293,7 @@
          </div>
          <g:if test="${helps.resources != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            ${helps.resources}
          </div>
          </g:if>
@@ -330,7 +330,7 @@
          </div>
          <g:if test="${helps.taxes != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            ${helps.taxes}
          </div>
          </g:if>
@@ -367,7 +367,7 @@
          </div>
          <g:if test="${helps.document != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            ${helps.document}
          </div>
          </g:if>
@@ -408,7 +408,7 @@
          </div>
          <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            ${helps.validation}
          </div>
          </g:if>

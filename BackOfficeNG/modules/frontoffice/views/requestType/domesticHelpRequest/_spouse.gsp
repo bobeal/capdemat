@@ -159,7 +159,7 @@
             <input type="text" value="${rqt.dhrSpouseAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrSpouseAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.dhrSpouseAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrSpouseAddress.additionalGeographicalInformation"/>
-            <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
+            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /></strong></label>
             <input type="text" class="line1" value="${rqt.dhrSpouseAddress?.streetNumber}" maxlength="5" name="dhrSpouseAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.dhrSpouseAddress?.streetName}" maxlength="32" name="dhrSpouseAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>

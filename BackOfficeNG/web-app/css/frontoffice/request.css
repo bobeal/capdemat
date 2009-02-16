@@ -53,6 +53,7 @@ h2.request-creation {
 }
 #requestTabView form div label.required { font-weight: bold; }
 #requestTabView form div label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
+#requestTabView form div label strong   { font-weight: bold; }
 
 #requestTabView form div input,
 #requestTabView form div select,

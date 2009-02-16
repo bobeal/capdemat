@@ -8,8 +8,8 @@
         <ul>
           <g:each var="request" in="${group.value.get('requests')}">
             <li>
-              <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':request.key])}">
-                <g:translateRequestTypeLabel label="${request.key}"/>
+              <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':request])}">
+                <g:translateRequestTypeLabel label="${request}"/>
               </a>
             </li>
           </g:each>

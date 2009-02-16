@@ -85,7 +85,7 @@
          </div>
          <g:if test="\${helps.${step.name} != null}">       
          <div class="requestHelp">
-           <h3>Aide</h3>
+           <h3><g:message code="header.help"/></h3>
            \${helps.${step.name}}
          </div>
          </g:if>

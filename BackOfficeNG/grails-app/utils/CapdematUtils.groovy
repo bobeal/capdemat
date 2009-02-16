@@ -3,7 +3,7 @@ class CapdematUtils {
     /*
      * Generic method to adapt CapDemat enums-like classes (Like RequestState / MeansOfContact / TitleType / ...)
      */
-    public static adaptCapdematEnum (capdematState, i18nKeyPrefix) {
+    public static adaptCapdematEnum(capdematState, i18nKeyPrefix) {
         return [
             "cssClass": "tag-" + capdematState.toString().toLowerCase(), 
             "i18nKey": i18nKeyPrefix + "." + StringUtils.pascalToCamelCase(capdematState.toString()),
@@ -12,7 +12,7 @@ class CapdematUtils {
     }
     
     // TODO : check how one can inject the translation service in this class
-    public static adaptRequestType (translationService, requestType) {
+    public static adaptRequestType(translationService, requestType) {
         return [
             id: requestType.id,
             active: requestType.active,
@@ -47,97 +47,74 @@ class CapdematUtils {
             'school': [ 
                 'label' : 'Scolaire',
                 'requests': [
-                    'School Registration':[
-                        'link': 'School Registration'.replaceAll(' ','') + "Request"],
-                    'Perischool Activity Registration':[
-                        'link': 'Perischool Activity Registration'.replaceAll(' ','') + "Request"],
-                    'School Canteen Registration':[
-                        'link': 'School Canteen Activity Registration'.replaceAll(' ','') + "Request"],
-                    'Recreation Activity Registration':[
-                        'link': 'Recreation Activity Registration'.replaceAll(' ','') + "Request"]
+                    'School Registration',
+                    'Perischool Activity Registration',
+                    'School Canteen Registration',
+                    'Recreation Activity Registration'
                 ]
             ],
             'civil': [ 
                 'label' : 'Etat Civil',
                 'requests': [
-                    'Death Details':[
-                        'link': 'Death Details'.replaceAll(' ','') + "Request"],
-                    'Marriage Details':[
-                        'link': 'Marriage Details'.replaceAll(' ','') + "Request"],
-                    'Birth Details':[
-                        'link': 'Birth Details'.replaceAll(' ','') + "Request"],
-                    'Personal Details':[
-                        'link': 'Personal Details'.replaceAll(' ','') + "Request"],
-                    'Military Census':[
-                        'link': 'Military Census'.replaceAll(' ','') + "Request"]
+                    'Death Details',
+                    'Marriage Details',
+                    'Birth Details',
+                    'Personal Details',
+                    'Military Census'
                 ]
             ],
             'social': [ 
                 'label' : 'Social',
                 'requests': [
-                    'Domestic Help':[
-                        'link': 'Domestic Help'.replaceAll(' ','') + "Request"],
-                    'Handicap Allowance':[
-                        'link': 'Handicap Allowance'.replaceAll(' ','') + "Request"],
-                    'Remote Support':[
-                        'link': 'Remote Support'.replaceAll(' ','') + "Request"]
+                    'Domestic Help',
+                    'Handicap Allowance',
+                    'Remote Support'
                 ]
             ],
             'environment': [ 
                 'label' : 'Environnement',
                 'requests': [
-                    'Bulky Waste Collection':[
-                        'link': 'Bulky Waste Collection'.replaceAll(' ','') + "Request"],
-                    'Compostable Waste Collection':[
-                        'link': 'Compostable Waste Collection'.replaceAll(' ','') + "Request"]
+                    'Bulky Waste Collection',
+                    'Compostable Waste Collection'
                 ]
             ],
             'election': [ 
                 'label' : 'Election',
                 'requests': [
-                    'Electoral Roll Registration':[
-                        'link': 'Electoral Roll Registration'.replaceAll(' ','') + "Request"]
+                    'Electoral Roll Registration'
                 ]
             ],
             'security': [ 
                 'label' : 'Sécurité',
                 'requests': [
-                    'Holiday Security':[
-                        'link': 'Holiday Security'.replaceAll(' ','') + "Request"]
+                    'Holiday Security'
                 ]
             ],
             'leisure': [ 
                 'label' : 'Loisirs',
                 'requests': [
-                    'Sms Notification':[
-                        'link': 'Sms Notification'.replaceAll(' ','') + "Request"],
-                    'Music School Registration':[
-                        'link': 'Music School Registration'.replaceAll(' ','') + "Request"]
+                    'Sms Notification',
+                    'Music School Registration'
                 ]
             ],
             'culture': [ 
                 'label' : 'Culturel',
                 'requests': [
-                    'Place Reservation':[
-                        'link': 'Place Reservation'.replaceAll(' ','') + "Request"], 
-                    'Library Registration':[
-                        'link': 'Library Registration'.replaceAll(' ','') + "Request"]
+                    'Place Reservation', 
+                    'Library Registration'
                 ]
             ],
             'technical': [ 
                 'label' : 'Service technique',
                 'requests': [
-                    'Technical Intervention':[
-                        'link': 'Technical Intervention'.replaceAll(' ','') + "Request"]
+                    'Technical Intervention'
                 ]
             ],
             'urbanism': [ 
                 'label' : 'Urbanisme',
                 'requests': [
-                   'Sewer Connection':[
-                        'link': 'Sewer Connection'.replaceAll(' ','') + "Request"],
-                   'Alignment Certificate':[
-                        'link': 'Alignment Certificate'.replaceAll(' ','') + "Request"]
+                   'Sewer Connection',
+                   'Alignment Certificate'
                 ]
             ]
         ]

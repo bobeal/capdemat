@@ -1,4 +1,4 @@
-<h2><g:message code="request.header.help" /></h2>
+<h2><g:message code="header.help" /></h2>
 
 <h3>Comment instruire un téléservice</h3>
 <p>

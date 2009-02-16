@@ -1,5 +1,4 @@
 import fr.cg95.cvq.business.request.Request
-import fr.cg95.cvq.business.users.Address
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
@@ -16,7 +15,6 @@ class RequestCreationController {
     IMeansOfContactService meansOfContactService
     IIndividualService individualService
     
-    def translationService
     def defaultAction = 'edit'
     
     def draft = {
@@ -42,17 +40,22 @@ class RequestCreationController {
             redirect(uri: '/frontoffice/requestType')
 
         def requestService = requestServiceRegistry.getRequestService(params.label)
+        if (requestService == null) {
+            redirect(uri: '/frontoffice/requestType')
+            return false
+        }
         
         def cRequest
         if (flash.cRequest) cRequest = flash.cRequest 
         else cRequest = requestService.getSkeletonRequest()
-        
+
         def uuidString = UUID.randomUUID().toString()
         
         session[uuidString] = [:]
         session[uuidString].put('cRequest', cRequest)
-        
-        render( view: 'frontofficeRequestType/domesticHelpRequest/edit', 
+
+        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
+        render( view: viewPath, 
                 model:
                     ['rqt': cRequest
                     ,'subjects': getAuthorizedSubjects(requestService, cRequest)
@@ -67,12 +70,11 @@ class RequestCreationController {
     }
     
     def step = {
-        log.debug('POST step() - start')
         
         if (params.requestTypeInfo == null || params.uuidString == null)
             redirect(uri: '/frontoffice/requestType')
             
-        def uuid = params.uuidString
+        def uuidString = params.uuidString
         def requestTypeInfo = JSON.parse(params.requestTypeInfo)
         
         def currentStep
@@ -80,7 +82,7 @@ class RequestCreationController {
         def editList
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
-        def cRequest = session[uuid].cRequest
+        def cRequest = session[uuidString].cRequest
 
         params.each {
               if (it.key.startsWith('submit-'))
@@ -89,6 +91,7 @@ class RequestCreationController {
         currentStep = submitAction[2]
         
         try {
+            // removal of a collection element
             if (submitAction[1] == 'delete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
                 def getterMethod = cRequest.class.getMethod(
@@ -96,6 +99,7 @@ class RequestCreationController {
                         
                 getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listFieldToken[1]).intValue())
             }
+            // edition of a collection element
             else if (submitAction[1] == 'edit') {
                 def listFieldToken = submitAction[3].tokenize('[]')
                 def getterMethod = cRequest.class.getMethod(
@@ -106,13 +110,15 @@ class RequestCreationController {
                             (listFieldToken[0]): getterMethod.invoke(cRequest, null).get(Integer.valueOf(listFieldToken[1]).intValue())
                            ]
             }
+            // standard save action
             else {
                 DataBindingUtils.initBind(cRequest, params)
                 bind(cRequest)
+                // clean empty collections elements
                 DataBindingUtils.cleanBind(cRequest, params)
                 
                 if (cRequest.stepStates.size() == 0) {
-                    session[uuid].stepStates = [:]
+                    session[uuidString].stepStates = [:]
                     requestTypeInfo.steps.each {
                         def value = ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete']
                         cRequest.stepStates.put(it, value)
@@ -121,7 +127,7 @@ class RequestCreationController {
                 if (submitAction[1] == 'step') {
                     cRequest.stepStates.get(currentStep).cssClass = 'tag-complete'
                     cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
-                    cRequest.stepStates.get(currentStep)?.errorMsg = ''
+                    cRequest.stepStates.get(currentStep).errorMsg = ''
                 }
                 
                 if (currentStep == "validation") {
@@ -129,7 +135,7 @@ class RequestCreationController {
                     else requestService.finalizeDraft(cRequest)
                 }
             }        
-            session[uuid].cRequest = cRequest
+            session[uuidString].cRequest = cRequest
         
         } catch (CvqException ce) {
             cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
@@ -137,7 +143,8 @@ class RequestCreationController {
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
         }
 
-        render( view: 'frontofficeRequestType/domesticHelpRequest/edit',
+        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
+        render( view: viewPath,
                 model:
                     ['rqt': cRequest
                     ,'subjects': getAuthorizedSubjects(requestService, cRequest)
@@ -147,25 +154,25 @@ class RequestCreationController {
                     ,'requestTypeLabel': requestTypeInfo.label
                     ,'stepStates': cRequest.stepStates
                     ,'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label))
-                    ,'uuidString': uuid
+                    ,'uuidString': uuidString
                     ,'editList': editList
                     ])
     }
 
     def condition = {
         if (params.requestTypeLabel == null)
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+            render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
             
         def triggers = JSON.parse(params.triggers)
         try {
             def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             render (
-              [test: requestService.isConditionFilled(triggers)
-              ,status:"ok"
-              ,success_msg:message(code:"message.conditionTested")
+              [test: requestService.isConditionFilled(triggers),
+              status:'ok',
+              success_msg:message(code:'message.conditionTested')
               ] as JSON)
         } catch (CvqException ce) {
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+            render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         }
     }
     
@@ -176,7 +183,8 @@ class RequestCreationController {
             def subject = individualService.getById(subjectId)
             subjects[subjectId] = subject.lastName + ' ' + subject.firstName
         }
-        
+
+        // if it's a draft, its subject has to be manually re-added'
         if(cRequest.draft && !subjects.containsKey(cRequest.subjectId))
             subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
             

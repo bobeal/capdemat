@@ -4,12 +4,12 @@
       <div class="group-box">
         <h3>${group.value.get('label')}</h3>
         <img style="float:left;padding:1em;" 
-             src="<g:createLinkTo dir="images/frontoffice" file="${group.key}.gif" />" />
+             src="${createLinkTo(dir:'images/frontoffice',file:group.key + '.gif')}" />
         <ul>
-          <g:each var="requestMap" in="${group.value.get('requests')}">
+          <g:each var="request" in="${group.value.get('requests')}">
             <li>
-              <a href="<g:createLink controller="frontofficeRequestCreation" params="[label:requestMap.key]" />">
-                <g:translateRequestTypeLabel label="${requestMap.key}"/>
+              <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':request.key])}">
+                <g:translateRequestTypeLabel label="${request.key}"/>
               </a>
             </li>
           </g:each>

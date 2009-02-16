@@ -26,29 +26,30 @@ class HomeController {
     IAuthenticationService authenticationService
     
     Adult currentEcitizen
-    
+
+    def resultsPerList = 5
     def defaultAction = "index" 
     
     def beforeInterceptor = {
-        this.currentEcitizen = SecurityContext.getCurrentEcitizen();
+        this.currentEcitizen = SecurityContext.getCurrentEcitizen()
     }
     
     def index = {
-        def result = [:];
-        result.dashBoard = [:];
+        def result = [:]
+        result.dashBoard = [:]
                             
         File infoFile = localAuthorityRegistry.getCurrentLocalAuthorityResource(
             ILocalAuthorityRegistry.HTML_RESOURCE_TYPE, 
-            'information.html',false);
+            'information.html',false)
         
-        if(infoFile.exists()) result.commonInfo = infoFile.text;
+        if(infoFile.exists()) result.commonInfo = infoFile.text
         
-        result.dashBoard.requests = requestAdaptorService.prepareRecords(this.getTopFiveRequests());
-        result.dashBoard.drafts = requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true));
+        result.dashBoard.requests = requestAdaptorService.prepareRecords(this.getTopFiveRequests())
+        result.dashBoard.drafts = requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
         
-        result.dashBoard.payments = preparePayments(this.getTopFivePayments());
-        result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments());
-        return result;
+        result.dashBoard.payments = preparePayments(this.getTopFivePayments())
+        result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments())
+        return result
     }
     
     def login = {
@@ -72,8 +73,8 @@ class HomeController {
         redirect(controller:'frontofficeHome')
     }
     
-    def protected preparePayments = { payments ->
-        payments.all.each{
+    def protected preparePayments(payments) {
+        payments.all.each {
             payments.records.add([
                 'id' : it.id,
                 'initializationDate' : it.initializationDate,
@@ -81,25 +82,25 @@ class HomeController {
                 'bankReference' : it.bankReference,
                 'amount' : it.euroAmount,
                 'paymentMode' : message(code:"payment.mode."+it.paymentMode.toString())
-            ]);
+            ])
         }
         
-        return payments;
+        return payments
     }
     
-    def protected prepareDocuments = { docs ->
-        docs.all.each{
-            def current = it;
+    def protected prepareDocuments(docs) {
+        docs.all.each { doc ->
             docs.records.add([
-                'id' : current.id,
-                'creationDate' : current.creationDate,
-                'endValidityDate' : current.endValidityDate,
-                'state' : current.state.toString(),
-                'subject' : instructionService.getActionPosterDetails(it.individualId),
-                'title' : message(code:CapdematUtils.adaptDocumentTypeName(current.documentType.name))
-            ]);
+                'id' : doc.id,
+                'creationDate' : doc.creationDate,
+                'endValidityDate' : doc.endValidityDate,
+                'state' : doc.state.toString(),
+                'subject' : instructionService.getActionPosterDetails(doc.individualId),
+                'title' : message(code:CapdematUtils.adaptDocumentTypeName(doc.documentType.name))
+            ])
         }
-        return docs;
+
+        return docs
     }
     
     
@@ -110,7 +111,7 @@ class HomeController {
         
         critere.comparatif = Critere.EQUALS;
         critere.attribut = Request.SEARCH_BY_HOME_FOLDER_ID;
-        critere.value = this.currentEcitizen.homeFolder.id
+        critere.value = currentEcitizen.homeFolder.id
         criteriaSet.add(critere)
         
         if(draft) {
@@ -121,16 +122,18 @@ class HomeController {
         }
         
         return [
-            'all' : defaultRequestService.get(criteriaSet, 'creationDate', 'desc', 5, 0),
+            'all' : defaultRequestService.get(criteriaSet, 'creationDate', 'desc', 
+                draft ? -1 : resultsPerList, 0),
             'count' : defaultRequestService.getCount(criteriaSet),
             'records' : []
         ]
     }
     
-    def protected getTopFivePayments = {
+    def protected getTopFivePayments() {
         return [
             'all' : paymentService.extendedGet(null, null, null, null, null, null, null, null, 
-                this.currentEcitizen.homeFolder.id, null, 'initializationDate', 'desc', 5, 0),
+                this.currentEcitizen.homeFolder.id, null, 'initializationDate', 'desc', 
+                resultsPerList, 0),
             'count' : paymentService.getPaymentCount(null, null, null, null, null, null, null, 
                 null, this.currentEcitizen.homeFolder.id, null),
             'records' : []
@@ -138,9 +141,10 @@ class HomeController {
         
     }
     
-    def protected getTopFiveDocuments = {
+    def protected getTopFiveDocuments() {
         return [
-            'all': documentService.getHomeFolderDocuments(this.currentEcitizen.homeFolder.id, 5),
+            'all': documentService.getHomeFolderDocuments(this.currentEcitizen.homeFolder.id, 
+                resultsPerList),
             'records' : []
         ]
     }

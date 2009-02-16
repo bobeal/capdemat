@@ -10,7 +10,12 @@
           <g:capdematEnumToField var="${adult.title}" i18nKeyPrefix="homeFolder.adult.title" />
       </dd>
       
-      <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
+      <dt><g:message code="homeFolder.adult.property.familyStatus" /> : </dt>
+      <dd id="homeFolder.individual[${adult.id}].familyStatus" class="${action}-editField validate-capdematEnum javatype-fr.cg95.cvq.business.users.FamilyStatusType">
+        <g:capdematEnumToField var="${adult.familyStatus}" i18nKeyPrefix="homeFolder.adult.familyStatus" />
+      </dd>
+
+      <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt>
       <dd id="homeFolder.individual[${adult.id}].lastName" class="${action}-editField validate-lastname required-true i18n-homeFolder.individual.property.lastName">
         <span>${adult.lastName}</span>
       </dd>
@@ -62,10 +67,6 @@
         <span>${adult.birthCountry}</span>
       </dd>
       
-      <dt><g:message code="homeFolder.adult.property.familyStatus" /> : </dt>
-      <dd id="homeFolder.individual[${adult.id}].familyStatus" class="${action}-editField validate-capdematEnum javatype-fr.cg95.cvq.business.users.FamilyStatusType">
-        <g:capdematEnumToField var="${adult.familyStatus}" i18nKeyPrefix="homeFolder.adult.familyStatus" />
-      </dd>
     </dl>
   </div>
   
@@ -116,14 +117,6 @@
      </dl>
      
      <dl>
-      <dt><g:message code="homeFolder.individual.property.publicKey" /> : </dt> 
-      <dd id="homeFolder.individual[${adult.id}].publicKey" class="not-action-editField validate-string required-true i18n-homeFolder.individual.property.publicKey">
-        <span style="display:block; overflow: auto">${adult.publicKey}</span>
-      </dd>
-      <dt><g:message code="homeFolder.individual.property.federationKey" /> : </dt> 
-      <dd id="homeFolder.individual[${adult.id}].federationKey" class="action-editField validate-string required-true i18n-homeFolder.individual.property.federationKey">
-        <span>${adult.federationKey}</span>
-      </dd>
       <dt><g:message code="homeFolder.adult.property.cfbn" /> : </dt> 
       <dd id="homeFolder.individual[${adult.id}].cfbn" class="action-editField validate-string required-true i18n-homeFolder.adult.property.cfbn">
         <span>${adult.cfbn}</span>

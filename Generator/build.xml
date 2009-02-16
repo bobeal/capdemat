@@ -23,7 +23,7 @@
       </fileset>
       <pathelement location="${lib.common.dir}/org.apache/log4j/log4j-1.2.8.jar" />
       <pathelement location="${lib.common.dir}/org.apache/common/commons-lang-2.1.jar" />
-      <pathelement location="${lib.common.dir}/groovy/groovy-all-1.0.jar" />
+      <pathelement location="${lib.common.dir}/groovy/groovy-all-1.5.4.jar" />
     </path>
 
     <path id="classpath.generator">
@@ -141,7 +141,7 @@
     </fileset>
       <plugins>
         <fileset dir="${src.xml.plugins.dir}">
-          <include name="bo_plugin.xml" />
+          <include name="fo_plugin.xml" />
           <!--
           <include name="xslfo_plugin.xml" />
           <include name="model_plugin.xml" />

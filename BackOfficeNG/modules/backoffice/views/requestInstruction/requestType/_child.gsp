@@ -81,17 +81,6 @@
         </ul>
       </dd>
      </dl>
-     
-     <dl>
-      <dt><g:message code="homeFolder.individual.property.publicKey" /> : </dt> 
-      <dd id="homeFolder.individual[${child.id}].publicKey" class="not-action-editField validate-string required-true i18n-homeFolder.individual.property.publicKey">
-        <span style="display:block; overflow: auto">${child.publicKey}</span>
-      </dd>
-      <dt><g:message code="homeFolder.individual.property.federationKey" /> : </dt> 
-      <dd id="homeFolder.individual[${child.id}].federationKey" class="action-editField validate-string required-true i18n-homeFolder.individual.property.federationKey">
-        <span>${child.federationKey}</span>
-      </dd>
-     </dl>
-      
+           
   </div>
 </div>

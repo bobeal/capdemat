@@ -305,7 +305,7 @@
 	variable prior to running the test suite">
 
 		<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" 
-			classpath="${libraries.dir}/groovy/groovy-all-1.0.jar" />
+			classpath="${libraries.dir}/groovy/groovy-all-1.5.4.jar" />
 
 		<groovy>
 		  	def dialect

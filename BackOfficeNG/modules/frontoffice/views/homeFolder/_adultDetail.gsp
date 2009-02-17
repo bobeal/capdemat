@@ -143,21 +143,15 @@
     <dl>
       <dt><g:message code="homeFolder.adult.property.login" /> : </dt>
       <dd>${adult.login}</dd>
-      
-      <dt><g:message code="homeFolder.adult.property.question" /> : </dt>
-      <dd>${adult.question}</dd>
-      
-      <dt><g:message code="homeFolder.adult.property.answer" /> : </dt>
-      <dd>${adult.answer}</dd>
     </dl>
   </div>
   <div class="yui-u">
     <dl>
-      <dt><g:message code="homeFolder.individual.property.publicKey" /> : </dt>
-      <dd>${adult.publicKey}</dd>
-      
-      <dt><g:message code="homeFolder.individual.property.federationKey" /> : </dt>
-      <dd>${adult.federationKey}</dd>
+      <dt><g:message code="homeFolder.adult.property.question" /> : </dt>
+      <dd>${adult.question}</dd>
+
+      <dt><g:message code="homeFolder.adult.property.answer" /> : </dt>
+      <dd>${adult.answer}</dd>
     </dl>
   </div>
 </div>

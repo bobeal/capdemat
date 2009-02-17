@@ -84,7 +84,8 @@ class RequestCreationController {
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuidString].cRequest
 
-        params.each {
+        params.each { 
+              println it
               if (it.key.startsWith('submit-'))
                 submitAction = it.key.tokenize('-')
         }
@@ -143,7 +144,7 @@ class RequestCreationController {
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
         }
 
-        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
+        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit"
         render( view: viewPath,
                 model:
                     ['rqt': cRequest

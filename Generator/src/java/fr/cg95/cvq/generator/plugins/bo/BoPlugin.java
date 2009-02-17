@@ -150,16 +150,14 @@ public class BoPlugin implements IPluginGenerator {
             ElementBo elementBo = elementBoStack.peek(depth);
             elementBo.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
             elementBo.setConditions(appDoc.getRequestCommon().getCurrentElementCommon().getConditions());
-            elementBo.setModelNamespace(RequestCommon.MODEL_REQUEST_NS
-                    + "." + appDoc.getRequestCommon().getNamespace());
+            elementBo.setModelNamespace(RequestCommon.MODEL_REQUEST_NS + "." + appDoc.getRequestCommon().getNamespace());
+            elementBo.setJsRegexp(appDoc.getRequestCommon().getCurrentElementCommon().getJsRegexp());
             elementBo.setDisplay(true);
             
             if (appDoc.getNodeName().equals("bo")) {
                 Node node = appDoc.getXmlNode();
                 elementBo.setColumn(ApplicationDocumentation.getNodeAttributeValue(node, "column"));
                 elementBo.setAfter(ApplicationDocumentation.getNodeAttributeValue(node, "after"));
-                // TODO Move this attirbute in common declaration
-                elementBo.setJsRegexp(ApplicationDocumentation.getNodeAttributeValue(node, "jsregexp"));
             }
          }
     }

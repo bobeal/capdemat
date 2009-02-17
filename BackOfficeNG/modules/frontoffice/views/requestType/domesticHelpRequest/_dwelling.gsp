@@ -71,7 +71,7 @@
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
       
             <input name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea}" 
-                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNetArea" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />">
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-regex" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/">
             
     
     </fieldset>

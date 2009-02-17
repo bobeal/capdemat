@@ -107,7 +107,7 @@ public class ElementBo {
     private void setHtmlClass() {
         this.htmlClass = StringUtils.join(new String[] {
             "action-editField"
-            , " " , "validate-" + widget
+            , " " , "validate-", (jsRegexp != null ? "regex" : widget)
             ,(mandatory ? " required-true" : "")
             , " " , "i18n-" +i18nPrefixCode
             ,(widget != null && widget.equals("capdematEnum") ? " " + "javatype-" + getQualifiedType() : "" )

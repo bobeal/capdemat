@@ -59,7 +59,7 @@
          ,'text' :
             """
             <input name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
-                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
+                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />"${element.jsRegexp != null ? ' regex="' + element.jsRegexp + '"' : ''}>
             """
       ]
       

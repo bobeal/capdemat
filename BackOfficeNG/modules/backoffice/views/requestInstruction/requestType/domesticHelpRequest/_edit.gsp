@@ -404,7 +404,7 @@
                   </dd>
                 
                   <dt class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> : </dt>
-                  <dd id="dhrCurrentDwellingNetArea" class="action-editField validate-dhrDwellingNetArea required-true i18n-dhr.property.dhrCurrentDwellingNetArea" >
+                  <dd id="dhrCurrentDwellingNetArea" class="action-editField validate-regex required-true i18n-dhr.property.dhrCurrentDwellingNetArea" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/">
                     <span>${request?.dhrCurrentDwellingNetArea}</span>
                   </dd>
                 

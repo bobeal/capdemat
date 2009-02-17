@@ -159,8 +159,8 @@ public class FoPlugin implements IPluginGenerator {
             ElementFo elementFo = elementFoStack.peek(depth);
             elementFo.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
             elementFo.setConditions(appDoc.getRequestCommon().getCurrentElementCommon().getConditions());
-            elementFo.setModelNamespace(RequestCommon.MODEL_REQUEST_NS
-                    + "." + appDoc.getRequestCommon().getNamespace());
+            elementFo.setModelNamespace(RequestCommon.MODEL_REQUEST_NS + "." + appDoc.getRequestCommon().getNamespace());
+            elementFo.setJsRegexp(appDoc.getRequestCommon().getCurrentElementCommon().getJsRegexp());
             elementFo.setDisplay(true);
             
             if (appDoc.getNodeName().equals("fo")) {
@@ -168,7 +168,6 @@ public class FoPlugin implements IPluginGenerator {
                 elementFo.setElementToDisplay(ApplicationDocumentation.getNodeAttributeValue(node, "element"));
                 elementFo.setAfter(ApplicationDocumentation.getNodeAttributeValue(node, "after"));
                 elementFo.setModifier(ApplicationDocumentation.getNodeAttributeValue(node, "modifier"));
-                elementFo.setJsRegexp(ApplicationDocumentation.getNodeAttributeValue(node, "jsregexp"));
                 
                 if (appDoc.hasChildNode("label"))
                     elementFo.setWidget("label");

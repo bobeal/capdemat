@@ -10,6 +10,7 @@ public class ElementCommon {
     
     private Step step;
     private List<Condition> conditions = new ArrayList<Condition>();
+    private String jsRegexp;
 
     public ElementCommon() {}
 
@@ -41,5 +42,13 @@ public class ElementCommon {
             		"{"+ Condition.ConditionType.valuesAsString() +"}");
         }
         conditions.add(condition);
+    }
+    
+    public String getJsRegexp() {
+        return jsRegexp;
+    }
+
+    public void setJsRegexp(String jsRegexp) {
+        this.jsRegexp = jsRegexp;
     }
 }

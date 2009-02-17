@@ -71,6 +71,10 @@ public class CommonPlugin implements IPluginGenerator {
                             ApplicationDocumentation.getNodeAttributeValue(node, "name") 
                             ,ApplicationDocumentation.getNodeAttributeValue(node, "type")
                             ,ApplicationDocumentation.getNodeAttributeValue(node, "required")));
+            
+            if (appDoc.hasChildNode("validation"))
+                requestCommon.getCurrentElementCommon().setJsRegexp(
+                        ApplicationDocumentation.getNodeAttributeValue(appDoc.getChildrenNodes("validation")[0], "jsregexp"));
         }
     }
     

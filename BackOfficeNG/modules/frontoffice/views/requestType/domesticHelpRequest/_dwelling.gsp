@@ -15,7 +15,7 @@
             <input type="text" value="${rqt.dhrCurrentDwellingAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrCurrentDwellingAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.dhrCurrentDwellingAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrCurrentDwellingAddress.additionalGeographicalInformation"/>
-            <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
+            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /></strong></label>
             <input type="text" class="line1" value="${rqt.dhrCurrentDwellingAddress?.streetNumber}" maxlength="5" name="dhrCurrentDwellingAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.dhrCurrentDwellingAddress?.streetName}" maxlength="32" name="dhrCurrentDwellingAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
@@ -36,7 +36,7 @@
     
       <label class="required"><g:message code="dhr.property.dhrCurrentDwellingKind.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingKind.help" /></span></label>
       
-            <select name="dhrCurrentDwellingKind" class="required condition-isCurrentDwellingPlaceOfResidence-trigger validate-no-first" title="<g:message code="dhr.property.dhrCurrentDwellingKind.validationError" />">
+            <select name="dhrCurrentDwellingKind" class="required condition-isCurrentDwellingPlaceOfResidence-trigger validate-not-first" title="<g:message code="dhr.property.dhrCurrentDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['placeOfResidence','retirementHome','other']}">
                 <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == rqt.dhrCurrentDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingKind" /></option>
@@ -71,7 +71,7 @@
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
       
             <input name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea}" 
-                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNetArea" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />">
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-regex" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/">
             
     
     </fieldset>
@@ -91,7 +91,7 @@
             <input type="text" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.additionalGeographicalInformation"/>
-            <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
+            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /></strong></label>
             <input type="text" class="line1" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.streetNumber}" maxlength="5" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.streetName}" maxlength="32" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
@@ -106,7 +106,7 @@
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingKind.help" /></span></label>
         
-            <select name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingKind" class="required condition-isPreviousDwellingPlaceOfResidence-trigger validate-no-first" title="<g:message code="dhr.property.dhrPreviousDwellingKind.validationError" />">
+            <select name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingKind" class="required condition-isPreviousDwellingPlaceOfResidence-trigger validate-not-first" title="<g:message code="dhr.property.dhrPreviousDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['placeOfResidence','retirementHome','other']}">
                 <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == editList?.dhrPreviousDwelling?.dhrPreviousDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" /></option>

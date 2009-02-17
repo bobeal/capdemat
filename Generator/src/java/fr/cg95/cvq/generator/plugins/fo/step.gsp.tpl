@@ -28,7 +28,7 @@
             <select name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="\${${element.enumValuesAsString}}">
-                <option value="${element.qualifiedType}_\${it}" \${it == ${valuePrefix}.${element.javaFieldName}?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="\${it}" i18nKeyPrefix="${element.i18nPrefixCode}" /></option>
+                <option value="${element.qualifiedType}_\${it}" \${it == ${valuePrefix}.${element.javaFieldName}?.toString() ? 'selected=\"selected\"': ''}><g:capdematEnumToField var="\${it}" i18nKeyPrefix="${element.i18nPrefixCode}" /></option>
               </g:each>
             </select>
             """
@@ -39,7 +39,7 @@
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" name="${namePrefix}${element.javaFieldName}.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.additionalGeographicalInformation}" maxlength="38" name="${namePrefix}${element.javaFieldName}.additionalGeographicalInformation"/>
-            <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
+            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /></strong></label>
             <input type="text" class="line1" value="\${${valuePrefix}.${element.javaFieldName}?.streetNumber}" maxlength="5" name="${namePrefix}${element.javaFieldName}.streetNumber"/>
             <input type="text" class="line2 required" value="\${${valuePrefix}.${element.javaFieldName}?.streetName}" maxlength="32" name="${namePrefix}${element.javaFieldName}.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
@@ -59,7 +59,7 @@
          ,'text' :
             """
             <input name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
-                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
+                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />"${element.jsRegexp != null ? ' regex="' + element.jsRegexp + '"' : ''}>
             """
       ]
       
@@ -159,7 +159,7 @@
     <select name="subjectId" class="required validate-not-first" title="<g:message code="request.subject.validationError" /> ">
       <option value=""><g:message code="message.select.defaultOption" /></option>
       <g:each in="\${subjects}">
-        <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected="selected"': ''}>\${it.value}</option>
+        <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected=\"selected\"': ''}>\${it.value}</option>
       </g:each>
     </select>
       <% displayedSubject = true } %>

@@ -57,15 +57,16 @@ class RequestCreationController {
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
         render( view: viewPath, 
                 model:
-                    ['rqt': cRequest
-                    ,'subjects': getAuthorizedSubjects(requestService, cRequest)
-                    ,'documentTypes': getDocumentTypes(requestService)
-                    ,'meansOfContact': getMeansOfContact(meansOfContactService)
-                    ,'currentStep': 'subject'
-                    ,'requestTypeLabel': params.label
-                    ,'stepStates': cRequest.stepStates.size() != 0 ? cRequest.stepStates : null 
-                    ,'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label))
-                    ,'uuidString': uuidString
+                    ['rqt': cRequest,
+                     'subjects': getAuthorizedSubjects(requestService, cRequest),
+                     'documentTypes': getDocumentTypes(requestService),
+                     'meansOfContact': getMeansOfContact(meansOfContactService),
+                     'currentStep': 'subject',
+                     'requestTypeLabel': params.label,
+                     'stepStates': cRequest.stepStates.size() != 0 ? cRequest.stepStates : null,
+                     'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
+                     'uuidString': uuidString,
+                     'isRequestCreatable': isRequestCreatable(cRequest.stepStates)
                     ])
     }
     
@@ -84,7 +85,8 @@ class RequestCreationController {
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuidString].cRequest
 
-        params.each {
+        params.each { 
+              println it
               if (it.key.startsWith('submit-'))
                 submitAction = it.key.tokenize('-')
         }
@@ -118,13 +120,20 @@ class RequestCreationController {
                 DataBindingUtils.cleanBind(cRequest, params)
                 
                 if (cRequest.stepStates.size() == 0) {
+                    // TODO - refactor
                     session[uuidString].stepStates = [:]
                     requestTypeInfo.steps.each {
-                        def value = ['cssClass': 'tag-uncomplete', 'i18nKey': 'request.step.state.uncomplete']
-                        cRequest.stepStates.put(it, value)
+                        def nameToken = it.tokenize('-')
+                        def value = ['state': 'uncomplete',
+                                     'required': nameToken.size() == 2 ? true : false,
+                                     'cssClass': 'tag-uncomplete',
+                                     'i18nKey': 'request.step.state.uncomplete'
+                                     ]
+                        cRequest.stepStates.put(nameToken[0], value)
                     }
                 }
                 if (submitAction[1] == 'step') {
+                    cRequest.stepStates.get(currentStep).state = 'complete'
                     cRequest.stepStates.get(currentStep).cssClass = 'tag-complete'
                     cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
                     cRequest.stepStates.get(currentStep).errorMsg = ''
@@ -138,24 +147,26 @@ class RequestCreationController {
             session[uuidString].cRequest = cRequest
         
         } catch (CvqException ce) {
+            cRequest.stepStates.get(currentStep).state = 'invalid'
             cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
             cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
         }
 
-        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
+        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit"
         render( view: viewPath,
                 model:
-                    ['rqt': cRequest
-                    ,'subjects': getAuthorizedSubjects(requestService, cRequest)
-                    ,'documentTypes': getDocumentTypes(requestService)
-                    ,'meansOfContact': getMeansOfContact(meansOfContactService)
-                    ,'currentStep': currentStep
-                    ,'requestTypeLabel': requestTypeInfo.label
-                    ,'stepStates': cRequest.stepStates
-                    ,'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label))
-                    ,'uuidString': uuidString
-                    ,'editList': editList
+                    ['rqt': cRequest,
+                     'subjects': getAuthorizedSubjects(requestService, cRequest),
+                     'documentTypes': getDocumentTypes(requestService),
+                     'meansOfContact': getMeansOfContact(meansOfContactService),
+                     'currentStep': currentStep,
+                     'requestTypeLabel': requestTypeInfo.label,
+                     'stepStates': cRequest.stepStates,
+                     'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)),
+                     'uuidString': uuidString,
+                     'editList': editList,
+                     'isRequestCreatable': isRequestCreatable(cRequest.stepStates)
                     ])
     }
 
@@ -210,5 +221,19 @@ class RequestCreationController {
             result[it.id] = CapdematUtils.adaptDocumentTypeName(it.name)
         }
         return result
+    }
+    
+    // TODO - refactor. Maybe move to Request class ...
+    def isRequestCreatable(stepStates) {
+        if (stepStates == null || stepStates.size() == 0)
+            return false;
+        def steps = stepStates.findAll {
+            it.key != 'validation' && it.value.required && it.value.state != 'complete'
+        }
+        println steps
+        if (steps.size() == 0)
+            return true;
+        else
+            return false;
     }
 }

@@ -128,11 +128,12 @@ public class ElementFo {
     
     private void setHtmlClass() {
         this.htmlClass = getConditionsClass() + " ";
-        
-        if (widget == null)
+        if (jsRegexp != null)
+            this.htmlClass += "validate-regex";
+        else if (widget == null)
             return;
-        if (widget.equals("select"))
-            this.htmlClass += "validate-no-first";
+        else if (widget.equals("select"))
+            this.htmlClass += "validate-not-first";
         else if (widget.equals("radio"))
             this.htmlClass += "validate-one-required";
         else 

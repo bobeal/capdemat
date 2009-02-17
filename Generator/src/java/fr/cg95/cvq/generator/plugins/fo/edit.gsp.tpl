@@ -24,7 +24,7 @@
 
 <g:set var="requestTypeInfo">
   {"label": "\${requestTypeLabel}"
-    ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
+    ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}${step.required ? '-required' : ''}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
   }
 </g:set>
 <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" />
@@ -40,7 +40,13 @@
           <a href="#${step.name}"><em>
           <span class="tag-no_right">${step.index + 1}</span>
           <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
-          <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
+    <% if (['validation','document'].contains(step.name) || step.required) { %>
+          <strong>
+            <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
+          </strong>
+    <% } else {%>
+          <g:message code="${requestFo.acronym}.step.${step.name}.label" />
+    <% } %>        
           </em></a>
         </li>    
 <% } %>
@@ -70,8 +76,13 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="\${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="\${uuidString}" />
-           
+  <% if (step.name == 'validation') { %>
+           <g:if test="\${isRequestCreatable}">
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />
+           </g:if>
+  <% } else { %>
+           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />
+  <% } %>
          </form>
 
          <!-- navigation link -->

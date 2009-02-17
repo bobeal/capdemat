@@ -64,7 +64,8 @@
         zct.each(listenerEls, function() {
           var trigger = /condition-(\w+)-trigger/i.exec(this.className);
           if (!yl.isNull(trigger)) {
-            this.value = "";
+            // FIXME - stange idea. maybe want to reset all children values
+            // this.value = "";
             children = children.concat(yud.getElementsByClassName(
                 trigger[0].replace('-trigger', '-filled'), null, 'requestTabView'));
             children = children.concat(yud.getElementsByClassName(

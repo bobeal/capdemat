@@ -36,12 +36,12 @@
                 <condition name="haveGuardian" />
               </conditions>
             </step>
-            <step index="1" name="familyReferent">
+            <step index="1" name="familyReferent" required="false">
               <conditions>
                 <condition name="haveFamilyReferent" />
               </conditions>
             </step>
-            <step index="2" name="spouse">
+            <step index="2" name="spouse" required="false">
               <conditions>
                 <condition name="isCoupleRequest" />
                 <condition name="isSpouseMadam" />
@@ -62,7 +62,7 @@
                 <condition name="isRealEstate" />
               </conditions>
             </step>
-            <step index="5" name="taxes" />
+            <step index="5" name="taxes" required="false" />
             <step index="6" ref="document" />
             <step index="7" ref="validation" />
           </steps>  
@@ -1397,6 +1397,7 @@
               <conditions>
                 <condition name="isCurrentDwellingPlaceOfResidence" type="filled" required="true"/>
               </conditions>
+              <validation jsregexp="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/" />
             </common>
             <fo/>
             <bo />

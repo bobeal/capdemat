@@ -155,8 +155,8 @@ h2.request-creation {
   border-top: 1px dashed #C690BB;
 }
 
-#requestTabView dl dt { width: 15em; min-height: 1.5em; text-align: right; clear: both; }
-#requestTabView dl dd { width: 26.5em; font-size: 1.15em; }
+#requestTabView dl dt { width: 14em; min-height: 1.5em; text-align: right; clear: both; }
+#requestTabView dl dd { width: 25.5em; font-size: 1.15em; }
 
 #requestTabView dl dd p { padding: 0.1em; }
 

@@ -30,7 +30,7 @@
     
       <label class="required"><g:message code="dhr.property.dhrRequesterNationality.label" /> <span><g:message code="dhr.property.dhrRequesterNationality.help" /></span></label>
       
-            <select name="dhrRequesterNationality" class="required condition-isNonEuropean-trigger validate-no-first" title="<g:message code="dhr.property.dhrRequesterNationality.validationError" />">
+            <select name="dhrRequesterNationality" class="required condition-isNonEuropean-trigger validate-not-first" title="<g:message code="dhr.property.dhrRequesterNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
                 <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.dhrRequesterNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" /></option>
@@ -66,7 +66,7 @@
     
       <label class="required"><g:message code="dhr.property.dhrPrincipalPensionPlan.label" /> <span><g:message code="dhr.property.dhrPrincipalPensionPlan.help" /></span></label>
       
-            <select name="dhrPrincipalPensionPlan" class="required condition-isOtherPensionPlan-trigger validate-no-first" title="<g:message code="dhr.property.dhrPrincipalPensionPlan.validationError" />">
+            <select name="dhrPrincipalPensionPlan" class="required condition-isOtherPensionPlan-trigger validate-not-first" title="<g:message code="dhr.property.dhrPrincipalPensionPlan.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
                 <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == rqt.dhrPrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrPrincipalPensionPlan" /></option>
@@ -108,7 +108,7 @@
     
       <label class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianMeasure.label" /> <span><g:message code="dhr.property.dhrGuardianMeasure.help" /></span></label>
       
-            <select name="dhrGuardianMeasure" class="required condition-haveGuardian-filled validate-no-first" title="<g:message code="dhr.property.dhrGuardianMeasure.validationError" />">
+            <select name="dhrGuardianMeasure" class="required condition-haveGuardian-filled validate-not-first" title="<g:message code="dhr.property.dhrGuardianMeasure.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
                 <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == rqt.dhrGuardianMeasure?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrGuardianMeasure" /></option>
@@ -129,7 +129,7 @@
             <input type="text" value="${rqt.dhrGuardianAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrGuardianAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.dhrGuardianAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrGuardianAddress.additionalGeographicalInformation"/>
-            <label class="required"><g:message code="address.property.streetNumber" /> - <g:message code="address.property.streetName" /></label>
+            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /></strong></label>
             <input type="text" class="line1" value="${rqt.dhrGuardianAddress?.streetNumber}" maxlength="5" name="dhrGuardianAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.dhrGuardianAddress?.streetName}" maxlength="32" name="dhrGuardianAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>

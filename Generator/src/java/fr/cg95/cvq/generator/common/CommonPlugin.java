@@ -44,7 +44,8 @@ public class CommonPlugin implements IPluginGenerator {
                     step = new Step(
                              ApplicationDocumentation.getNodeAttributeValue(node, "index")
                             ,ApplicationDocumentation.getNodeAttributeValue(node, "name")
-                            ,ApplicationDocumentation.getNodeAttributeValue(node, "ref"));
+                            ,ApplicationDocumentation.getNodeAttributeValue(node, "ref")
+                            ,ApplicationDocumentation.getNodeAttributeValue(node, "required"));
                     
                     requestCommon.addStep(step);
                     
@@ -71,6 +72,10 @@ public class CommonPlugin implements IPluginGenerator {
                             ApplicationDocumentation.getNodeAttributeValue(node, "name") 
                             ,ApplicationDocumentation.getNodeAttributeValue(node, "type")
                             ,ApplicationDocumentation.getNodeAttributeValue(node, "required")));
+            
+            if (appDoc.hasChildNode("validation"))
+                requestCommon.getCurrentElementCommon().setJsRegexp(
+                        ApplicationDocumentation.getNodeAttributeValue(appDoc.getChildrenNodes("validation")[0], "jsregexp"));
         }
     }
     

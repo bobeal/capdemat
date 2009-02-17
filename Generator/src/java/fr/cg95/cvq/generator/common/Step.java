@@ -13,10 +13,11 @@ public class Step {
     private int index;
     private String name;
     private String ref;
+    private boolean required = true;
     
     private List<Condition> conditions = new ArrayList<Condition>();
     
-    public Step (String index, String name, String ref) {
+    public Step (String index, String name, String ref, String requiredString) {
         try { 
             this.index = Integer.valueOf(index).intValue();
         } catch (NumberFormatException nfe) {
@@ -24,6 +25,8 @@ public class Step {
         }
         this.name = name;
         this.ref = ref;
+        if (requiredString != null)
+            this.required = new Boolean(requiredString).booleanValue();
     }
     
     public Step (int index, String name, String ref) {
@@ -60,6 +63,13 @@ public class Step {
         this.ref = ref;
     }
     
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
 
     public List<Condition> getConditions() {
         return conditions;

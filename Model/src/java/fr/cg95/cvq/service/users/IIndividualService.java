@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.users;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
@@ -35,6 +36,11 @@ public interface IIndividualService {
     List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy, 
             final boolean searchAmongArchived)
         throws CvqException;
+    
+    List<Individual> get(Set<Critere> criterias, Map<String,String> sortParams,
+                                    Integer max, Integer offset);
+
+    Integer getCount(Set<Critere> criterias);
 
     Individual getById(final Long id)
         throws CvqObjectNotFoundException;

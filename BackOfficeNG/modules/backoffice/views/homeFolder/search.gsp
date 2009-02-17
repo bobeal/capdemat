@@ -26,12 +26,54 @@
       <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>
         <div class="body">
+          <form action="#" id="requestSearchSorters">
+            <ul>
+              <li>
+                <label for="sortLastName"><g:message code="property.individualId" /></label>
+                <input type="radio" id="sortLastName" value="id" class="persistent sort"
+                  name="orderBy"  ${state.orderBy == 'id' ? 'checked="checked"' : ''} />
+              </li>
+              <li>
+                <label for="sortLastName"><g:message code="property.lastName" /></label>
+                <input type="radio" id="sortLastName" value="lastName" class="persistent sort"
+                  name="orderBy"  ${state.orderBy == 'lastName' ? 'checked="checked"' : ''} />
+              </li>
+              <li>
+                <label for="sortHomeFolderId"><g:message code="property.homeFolderId" /></label>
+                <input type="radio" id="sortHomeFolderId" value="homeFolder.id" class="persistent sort"
+                  name="orderBy"  ${state.orderBy == 'homeFolder.id' ? 'checked="checked"' : ''} />
+              </li>
+            </ul>
+          </form>
         </div>
       </div>
 
       <div class="nobox">
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
+          
+          <form action="#" id="requestSearchFilters">
+            <label for="actorStateFilter"><g:message code="property.actorState" /> :</label>
+            <select name="actorStateFilter" class="persistent filter">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${actorStates}" var="record">
+                <option value="${record.name}" ${state.actorStateFilter == record.name ? 'selected="selected"' : ''}>
+                  ${record.i18nKey}
+                </option>
+              </g:each>
+            </select>
+            
+            <label for="homeFolderStateFilter"><g:message code="property.homeFolderState" /> :</label>
+            <select name="homeFolderStateFilter" class="persistent filter"> 
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${homeFolderStates}" var="record">
+                <option value="${record.name}" ${state.homeFolderStateFilter == record.name.toString() ? 'selected="selected"' : ''}>
+                  ${record.i18nKey}
+                </option>
+              </g:each>
+            </select>
+          </form>
+
         </div>
       </div>
       

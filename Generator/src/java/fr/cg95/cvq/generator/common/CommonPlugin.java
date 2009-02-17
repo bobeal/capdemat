@@ -44,7 +44,8 @@ public class CommonPlugin implements IPluginGenerator {
                     step = new Step(
                              ApplicationDocumentation.getNodeAttributeValue(node, "index")
                             ,ApplicationDocumentation.getNodeAttributeValue(node, "name")
-                            ,ApplicationDocumentation.getNodeAttributeValue(node, "ref"));
+                            ,ApplicationDocumentation.getNodeAttributeValue(node, "ref")
+                            ,ApplicationDocumentation.getNodeAttributeValue(node, "required"));
                     
                     requestCommon.addStep(step);
                     

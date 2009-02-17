@@ -24,7 +24,7 @@
 
 <g:set var="requestTypeInfo">
   {"label": "${requestTypeLabel}"
-    ,"steps": [  "subject",  "familyReferent",  "spouse",  "dwelling",  "resources",  "taxes",  "document",  "validation"  ]
+    ,"steps": [  "subject-required",  "familyReferent",  "spouse",  "dwelling-required",  "resources-required",  "taxes",  "document-required",  "validation-required"  ]
   }
 </g:set>
 <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
@@ -38,7 +38,11 @@
           <a href="#subject"><em>
           <span class="tag-no_right">1</span>
           <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
-          <g:message code="dhr.step.subject.label" />
+    
+          <strong>
+            <g:message code="dhr.step.subject.label" />
+          </strong>
+            
           </em></a>
         </li>    
 
@@ -48,7 +52,9 @@
           <a href="#familyReferent"><em>
           <span class="tag-no_right">2</span>
           <span class="tag-state ${stepStates!= null ? stepStates.familyReferent.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.familyReferent.i18nKey : 'request.step.state.uncomplete'}" /></span>
+    
           <g:message code="dhr.step.familyReferent.label" />
+            
           </em></a>
         </li>    
 
@@ -58,7 +64,9 @@
           <a href="#spouse"><em>
           <span class="tag-no_right">3</span>
           <span class="tag-state ${stepStates!= null ? stepStates.spouse.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.spouse.i18nKey : 'request.step.state.uncomplete'}" /></span>
+    
           <g:message code="dhr.step.spouse.label" />
+            
           </em></a>
         </li>    
 
@@ -68,7 +76,11 @@
           <a href="#dwelling"><em>
           <span class="tag-no_right">4</span>
           <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
-          <g:message code="dhr.step.dwelling.label" />
+    
+          <strong>
+            <g:message code="dhr.step.dwelling.label" />
+          </strong>
+            
           </em></a>
         </li>    
 
@@ -78,7 +90,11 @@
           <a href="#resources"><em>
           <span class="tag-no_right">5</span>
           <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
-          <g:message code="dhr.step.resources.label" />
+    
+          <strong>
+            <g:message code="dhr.step.resources.label" />
+          </strong>
+            
           </em></a>
         </li>    
 
@@ -88,7 +104,9 @@
           <a href="#taxes"><em>
           <span class="tag-no_right">6</span>
           <span class="tag-state ${stepStates!= null ? stepStates.taxes.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxes.i18nKey : 'request.step.state.uncomplete'}" /></span>
+    
           <g:message code="dhr.step.taxes.label" />
+            
           </em></a>
         </li>    
 
@@ -98,7 +116,11 @@
           <a href="#document"><em>
           <span class="tag-no_right">7</span>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
-          <g:message code="request.step.document.label" />
+    
+          <strong>
+            <g:message code="request.step.document.label" />
+          </strong>
+            
           </em></a>
         </li>    
 
@@ -108,7 +130,11 @@
           <a href="#validation"><em>
           <span class="tag-no_right">8</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
-          <g:message code="request.step.validation.label" />
+    
+          <strong>
+            <g:message code="request.step.validation.label" />
+          </strong>
+            
           </em></a>
         </li>    
 
@@ -132,8 +158,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           
+  
            <input type="submit" id="submit-step-subject" name="submit-step-subject" value="${message(code:'action.save')}" />
+  
          </form>
 
          <!-- navigation link -->
@@ -167,8 +194,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           
+  
            <input type="submit" id="submit-step-familyReferent" name="submit-step-familyReferent" value="${message(code:'action.save')}" />
+  
          </form>
 
          <!-- navigation link -->
@@ -204,8 +232,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           
+  
            <input type="submit" id="submit-step-spouse" name="submit-step-spouse" value="${message(code:'action.save')}" />
+  
          </form>
 
          <!-- navigation link -->
@@ -241,8 +270,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           
+  
            <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" value="${message(code:'action.save')}" />
+  
          </form>
 
          <!-- navigation link -->
@@ -278,8 +308,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           
+  
            <input type="submit" id="submit-step-resources" name="submit-step-resources" value="${message(code:'action.save')}" />
+  
          </form>
 
          <!-- navigation link -->
@@ -315,8 +346,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           
+  
            <input type="submit" id="submit-step-taxes" name="submit-step-taxes" value="${message(code:'action.save')}" />
+  
          </form>
 
          <!-- navigation link -->
@@ -352,8 +384,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           
+  
            <input type="submit" id="submit-step-document" name="submit-step-document" value="${message(code:'action.save')}" />
+  
          </form>
 
          <!-- navigation link -->
@@ -395,8 +428,11 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           
+  
+           <g:if test="${isRequestCreatable}">
            <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.save')}" />
+           </g:if>
+  
          </form>
 
          <!-- navigation link -->

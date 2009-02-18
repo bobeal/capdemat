@@ -23,18 +23,24 @@ public class Step {
         } catch (NumberFormatException nfe) {
             throw new RuntimeException("Step() - Step index {"+ index +"} is not an integer");
         }
+        
+        if (name != null && (name.equals("validation") || name.equals("document")))
+            throw new RuntimeException("Step() - Step name can't be one of {document, validation}");
         this.name = name;
+        
+        if (ref != null && (!ref.equals("validation") && !ref.equals("document")))
+            throw new RuntimeException("Step() - Step ref {"+ ref +"} must be one of {document, validation}");
         this.ref = ref;
+        
         if (requiredString != null)
             this.required = new Boolean(requiredString).booleanValue();
         if (this.ref != null && (this.ref.equals("validation") || this.ref.equals("document")))
             this.required = false;
     }
     
-    public Step (int index, String name, String ref) {
+    public Step (int index, String name) {
         this.index = index;
         this.name = name;
-        this.ref = ref;
     }
     
     public int getIndex() {

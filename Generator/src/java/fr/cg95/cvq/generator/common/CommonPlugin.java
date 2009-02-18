@@ -63,7 +63,7 @@ public class CommonPlugin implements IPluginGenerator {
             if (appDoc.hasChildNode("step"))
                 requestCommon.setCurrentElementStep(
                         new Step(-1, ApplicationDocumentation.getNodeAttributeValue(
-                                appDoc.getChildrenNodes("step")[0], "name"), null));
+                                appDoc.getChildrenNodes("step")[0], "name")));
 
             if (appDoc.hasChildNode("conditions"))
                 for (Node node : 

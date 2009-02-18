@@ -45,8 +45,17 @@ class HomeController {
         if(infoFile.exists()) result.commonInfo = infoFile.text
         
         result.dashBoard.requests = requestAdaptorService.prepareRecords(this.getTopFiveRequests())
-        result.dashBoard.drafts = requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
-        
+        result.dashBoard.drafts =
+            requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
+        result.dashBoard.drafts.records.each {
+            if (defaultRequestService.hasAction(it.id,
+                IRequestService.DRAFT_DELETE_NOTIFICATION)) {
+                it.displayDraftWarning = true
+                it.draftExpirationDate = it.creationDate +
+                    SecurityContext.currentSite.draftLiveDuration
+            }
+        }
+
         result.dashBoard.payments = preparePayments(this.getTopFivePayments())
         result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments())
         return result

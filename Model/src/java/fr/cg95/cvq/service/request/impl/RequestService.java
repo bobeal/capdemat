@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -353,6 +352,13 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         throws CvqException {
 
         return requestActionDAO.listByRequest(id);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public boolean hasAction(final Long requestId, final String label)
+        throws CvqException {
+        return requestActionDAO.hasAction(requestId, label);
     }
 
     @Override

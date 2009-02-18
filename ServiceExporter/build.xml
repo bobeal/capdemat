@@ -81,19 +81,16 @@
           todir="${web.dir}/WEB-INF"
           overwrite="true">
       <filterset>
-        <filter token="perform_db_updates" value="true" />
+        <filter token="perform_db_updates" value="false" />
       </filterset>
     </copy>
     <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml"
           todir="${web.dir}/WEB-INF"
           overwrite="true">
       <filterset>
-        <filter token="perform_db_updates" value="true" />
+        <filter token="perform_db_updates" value="false" />
       </filterset>
     </copy>
-    <copy file="${libraries.springconf.dir}/applicationContext-admin.xml"
-          todir="${web.dir}/WEB-INF"
-          overwrite="true"/>
     <mkdir dir="${web.dir}/WEB-INF/classes" />
     <copy file="${deploy.properties_dir}/${deploy.properties_file}"
           todir="${web.dir}/WEB-INF"

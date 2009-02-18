@@ -19,6 +19,14 @@
                 - <g:message code="request.searchResult.creationDate"
                              args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" />
               </a>
+              <g:if test="${record.displayDraftWarning}">
+                  <span class="draft-warning">
+                      <img src="${createLinkTo(dir:'images',file:'24-message-warn.png')}" />
+                      <g:message code="request.message.draftExpirationWarning"
+                                 args="${[formatDate(date:record.draftExpirationDate,
+                                          formatName:'format.date')]}"/>
+                  </span>
+              </g:if>
           </li>
         </g:each>
       </ul>

@@ -228,7 +228,7 @@ class RequestCreationController {
         if (stepStates == null || stepStates.size() == 0)
             return false;
         def steps = stepStates.findAll {
-            it.key != 'validation' && it.value.required && it.value.state != 'complete'
+            it.value.required && it.value.state != 'complete'
         }
         println steps
         if (steps.size() == 0)

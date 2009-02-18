@@ -24,7 +24,7 @@
 
 <g:set var="requestTypeInfo">
   {"label": "${requestTypeLabel}"
-    ,"steps": [  "subject-required",  "familyReferent",  "spouse",  "dwelling-required",  "resources-required",  "taxes",  "document-required",  "validation-required"  ]
+    ,"steps": [  "subject-required",  "familyReferent",  "spouse",  "dwelling-required",  "resources-required",  "taxes",  "document",  "validation"  ]
   }
 </g:set>
 <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
@@ -117,9 +117,7 @@
           <span class="tag-no_right">7</span>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
-          <strong>
-            <g:message code="request.step.document.label" />
-          </strong>
+          <g:message code="request.step.document.label" />
             
           </em></a>
         </li>    
@@ -146,6 +144,9 @@
          <form method="POST" id="stepForm-subject" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
+             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
+  
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
              <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
@@ -182,6 +183,7 @@
          <form method="POST" id="stepForm-familyReferent" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.familyReferent.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.familyReferent.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
              <span class="error"><g:message code="${stepStates?.familyReferent?.errorMsg}" /></span>
@@ -220,6 +222,7 @@
          <form method="POST" id="stepForm-spouse" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.spouse.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.spouse.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
              <span class="error"><g:message code="${stepStates?.spouse?.errorMsg}" /></span>
@@ -258,6 +261,9 @@
          <form method="POST" id="stepForm-dwelling" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
+             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
+  
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
              <span class="error"><g:message code="${stepStates?.dwelling?.errorMsg}" /></span>
@@ -296,6 +302,9 @@
          <form method="POST" id="stepForm-resources" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
+             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
+  
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
              <span class="error"><g:message code="${stepStates?.resources?.errorMsg}" /></span>
@@ -334,6 +343,7 @@
          <form method="POST" id="stepForm-taxes" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.taxes.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxes.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
              <span class="error"><g:message code="${stepStates?.taxes?.errorMsg}" /></span>
@@ -372,6 +382,7 @@
          <form method="POST" id="stepForm-document" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
              <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
@@ -410,6 +421,9 @@
          <form method="POST" id="stepForm-validation" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
+             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
+  
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
              <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
@@ -429,8 +443,9 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <g:if test="${isRequestCreatable}">
-           <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
+           <g:if test="${!isRequestCreatable}">
+           <span><g:message code="request.step.validation.requiredSteps"/></span>
            </g:if>
   
          </form>

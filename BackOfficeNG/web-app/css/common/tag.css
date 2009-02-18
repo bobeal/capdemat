@@ -38,9 +38,12 @@ payment : initialized, validated, refused, cancelled
 .tag-read_only, .tag-read_write, .tag-manager,
 /*  role */
 .tag-homefolderresponsible, .tag-clrmother, .tag-clrfather, .tag-clrtutor, tutor,
-.tag-draft,
 /*  payment */ 
-.tag-initialized { 
+.tag-initialized,
+/*  request creation */ 
+.tag-required,
+/*  misc */
+.tag-draft { 
   padding: 0 .2em;
   border-bottom: 1px solid;
   border-right: 1px solid;
@@ -89,6 +92,7 @@ payment : initialized, validated, refused, cancelled
 .tag-agent         { background: #ec7000; border-color:#da7000; }
 
 /* violet */
+.tag-required,
 .tag-ecitizen,
 .tag-manager       { background: #aa00ff; border-color:#aa00ff; }
 

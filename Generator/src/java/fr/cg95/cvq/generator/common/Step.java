@@ -27,6 +27,8 @@ public class Step {
         this.ref = ref;
         if (requiredString != null)
             this.required = new Boolean(requiredString).booleanValue();
+        if (this.ref != null && (this.ref.equals("validation") || this.ref.equals("document")))
+            this.required = false;
     }
     
     public Step (int index, String name, String ref) {

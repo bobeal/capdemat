@@ -12,6 +12,7 @@ import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 
 import grails.converters.JSON
+import fr.cg95.cvq.business.request.RequestType
 
 class RequestTypeController {
 
@@ -183,6 +184,31 @@ class RequestTypeController {
         def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
         def forms = defaultRequestService.getRequestTypeForms(id, mailType)
         render(template:"formList",model:["requestForms":forms])
+    }
+    
+    def state = {
+        if(request.get) {
+            def result = [:]
+            
+            RequestType requestType = this.defaultRequestService.getRequestTypeById(Long.parseLong(params.id))
+            result.active = requestType.active
+            result.requestTypeId = params.id
+            result.state = requestType.active ? 'active':'inactive'
+            
+            return result
+        } else {
+            RequestType requestType = this.defaultRequestService.getRequestTypeById(
+                Long.parseLong(params.requestTypeId))
+            requestType.active = params.requestState == 'active'
+            this.defaultRequestService.modifyRequestType(requestType) 
+            
+            render ([
+                'label': message(code: "property.${requestType.active ? 'active' : 'inactive'}"),
+                'state': requestType.active ? 'enable' : 'disable',
+                'success_msg':message(code:"message.updateDone"),
+                'status':"ok"
+            ] as JSON)
+        }
     }
     
     def form = {

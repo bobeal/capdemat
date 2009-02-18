@@ -194,7 +194,7 @@ public class PerformanceService {
         SecurityContext.setCurrentSite(
             SecurityContext.currentSite.name, 
             SecurityContext.BACK_OFFICE_CONTEXT)
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles)
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles)
         
         Individual user = individualService.getByLogin(login)
         

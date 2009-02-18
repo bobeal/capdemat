@@ -14,11 +14,6 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeDocuments.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeConfigure.js')}"></script>
     
-    <!-- 
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeSeasons.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
-    -->
-    
     <script type="text/javascript">
       zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       zenexity.capdemat.bong.requesttype.currentId = '${requestType.id}';
@@ -93,10 +88,10 @@
         <h3><g:message code="property.state" /></h3>
         <div class="body">
           <g:if test="${requestType?.active}">
-            <span class="tag-enable"><g:message code="property.active" /></span>
+            <span id="requestState" class="tag-enable"><g:message code="property.active" /></span>
           </g:if>
           <g:else>
-            <span class="tag-disable"><g:message code="property.inactive" /></span>
+            <span id="requestState" class="tag-disable"><g:message code="property.inactive" /></span>
           </g:else>
         </div>
       </div>
@@ -134,6 +129,11 @@
         </div>
       </div>
 
+    </div>
+    <div id="requestStatePanel" class="state-overlay">
+      <div class="hd" style="cursor: auto;"><g:message code="request.header.changeState" /></div>
+      <div class="bd"></div>
+      <div class="ft"></div>
     </div>
 
   </body>

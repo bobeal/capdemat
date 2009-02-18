@@ -2,6 +2,7 @@ package fr.cg95.cvq.dao.users;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Individual;
@@ -76,4 +77,24 @@ public interface IIndividualDAO extends IGenericDAO {
      * base login.
      */
     List<String> getSimilarLogins(final String baseLogin);
+
+    /**
+     * Produces individuals search using criterias and sort/offset params.
+     * 
+     * @param criterias Search criterias set
+     * @param sortParams Sort params set
+     * @param max Max row to retrive
+     * @param offset Retriving offset
+     * @return List of individuals
+     */
+    List<Individual> search(Set<Critere> criterias, Map<String,String> sortParams,
+                                    Integer max, Integer offset);
+
+    /**
+     * Gets individuals count using criterias and sort/offset params.
+     * 
+     * @param criterias Search criterias set
+     * @return Individuals count
+     */
+    Integer searchCount(Set<Critere> criterias);
 }

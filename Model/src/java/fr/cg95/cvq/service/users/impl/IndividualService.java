@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -56,6 +57,15 @@ public class IndividualService implements IIndividualService {
         
         return individualDAO.search(criteriaSet, orderedBy, 
                 searchAmongArchived ? null : new ActorState[] { ActorState.ARCHIVED });
+    }
+    
+    public List<Individual> get(Set<Critere> criterias, Map<String,String> sortParams,
+                                    Integer max, Integer offset) {
+        return this.individualDAO.search(criterias,sortParams,max,offset);
+    }
+    
+    public Integer getCount(Set<Critere> criterias) {
+        return this.individualDAO.searchCount(criterias);
     }
 
     public Individual getById(final Long id)

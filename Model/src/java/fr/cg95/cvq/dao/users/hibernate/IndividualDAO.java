@@ -3,6 +3,7 @@ package fr.cg95.cvq.dao.users.hibernate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -52,7 +53,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 Critere.compose("certificate", certificate, Critere.EQUALS));
         return (Individual) crit.uniqueResult();
     }
-
+    
     public List<Individual> search(final Set<Critere> criteria, final String orderedBy, 
             final ActorState[] excludedStates) {
 
@@ -68,14 +69,14 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 sb.append(" and lower(individual.lastName) " + searchCrit.getSqlComparatif() + " lower(?)");
                 objectList.add(searchCrit.getSqlStringValue());
                 typeList.add(Hibernate.STRING);
-            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_FIRSTNAME)) {
-                sb.append(" and lower(individual.firstName) " + searchCrit.getSqlComparatif() + " lower(?)");
-                objectList.add(searchCrit.getSqlStringValue());
-                typeList.add(Hibernate.STRING);
-            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_BIRTHDATE)) {
-                sb.append(" and individual.birthDate " + searchCrit.getSqlComparatif() + " ?");
-                objectList.add(searchCrit.getDateValue());
-                typeList.add(Hibernate.DATE);
+//            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_FIRSTNAME)) {
+//                sb.append(" and lower(individual.firstName) " + searchCrit.getSqlComparatif() + " lower(?)");
+//                objectList.add(searchCrit.getSqlStringValue());
+//                typeList.add(Hibernate.STRING);
+//            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_BIRTHDATE)) {
+//                sb.append(" and individual.birthDate " + searchCrit.getSqlComparatif() + " ?");
+//                objectList.add(searchCrit.getDateValue());
+//                typeList.add(Hibernate.DATE);
             } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_ID)) {
                 sb.append(" and individual.homeFolder.id " + searchCrit.getSqlComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());
@@ -93,15 +94,15 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             }
         }
 
-        if (orderedBy != null) {
-            if (orderedBy.equals(Individual.ORDER_BY_LASTNAME))
-                sb.append(" order by individual.lastName");
-            else
-                sb.append(" order by individual.id");
-        } else {
-            // default sort order
-            sb.append(" order by individual.id");
-        }
+//        if (orderedBy != null) {
+//            if (orderedBy.equals(Individual.ORDER_BY_LASTNAME))
+//                sb.append(" order by individual.lastName");
+//            else
+//                sb.append(" order by individual.id");
+//        } else {
+//            // default sort order
+//            sb.append(" order by individual.id");
+//        }
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
@@ -192,5 +193,106 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         }
 
         return query.list();
+    }
+    
+    public List<Individual> search(Set<Critere> criterias, Map<String,String>sortParams,
+                                    Integer max, Integer offset) {
+        List<Type> types = new ArrayList<Type>();
+        List<Object> values = new ArrayList<Object>();
+        
+        StringBuffer sb = this.buildStatement(criterias,types,values,"select individual ");
+        this.buildSort(sortParams,sb);
+        return this.execute(sb.toString(),types,values,max,offset);
+    }
+    
+    public Integer searchCount(Set<Critere> criterias) {
+        List<Type> types = new ArrayList<Type>();
+        List<Object> values = new ArrayList<Object>();
+        
+        StringBuffer sb = this.buildStatement(criterias,types,values,"select count(individual.id) ");
+        return  (this.<Long>execute(sb.toString(),types,values)).intValue();
+    }
+    
+    protected StringBuffer buildStatement(Set<Critere> criterias,List<Type> typeList,
+                                  List<Object> objectList,String prefix) {
+        StringBuffer sb = new StringBuffer();
+        
+        sb.append(prefix != null ? prefix : "") 
+            .append("from Individual as individual join individual.individualRoles roles")
+            .append(" where 1 = 1 ");
+        
+        // go through all the criteria and create the query
+        for (Critere criteria : criterias) {
+            if (criteria.getAttribut().equals(Individual.SEARCH_BY_LASTNAME)) {
+                sb.append(" and lower(individual.lastName) ")
+                    .append(criteria.getSqlComparatif())
+                    .append(" lower(?)");
+                objectList.add(criteria.getSqlStringValue());
+                typeList.add(Hibernate.STRING);
+            } else if (criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_ID)) {
+                sb.append(" and individual.homeFolder.id ")
+                    .append(criteria.getSqlComparatif())
+                    .append(" ?");
+                objectList.add(criteria.getLongValue());
+                typeList.add(Hibernate.LONG);
+            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_INDIVIDUAL_ID)) {
+                sb.append(String.format(" and individual.id %1$s ? ",criteria.getSqlComparatif()));
+                objectList.add(criteria.getLongValue());
+                typeList.add(Hibernate.LONG);
+            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_STATE)) {
+                sb.append(String.format(" and individual.homeFolder.enabled %1$s ? ",criteria.getSqlComparatif()));
+                objectList.add(criteria.getValue());
+                typeList.add(Hibernate.BOOLEAN);
+            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_ACTOR_STATE )) {
+                sb.append(String.format(" and lower(individual.state) %1$s lower(?) ",criteria.getSqlComparatif()));
+                objectList.add(criteria.getValue());
+                typeList.add(Hibernate.STRING);
+            } else if(criteria.getAttribut().equals(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE)) {
+                sb.append(" and roles.role = 'HomeFolderResponsible' ");
+            } else {
+                logger.warn("Unknown search criteria for Individual object");
+            }
+        }
+        return sb;
+    }
+    
+    protected void buildSort(Map<String,String>sortParams, StringBuffer sb) {
+        String query = "";
+        if(sortParams == null) return;
+        for(String key : sortParams.keySet()) {
+            query += String.format(" %1$s %2$s ,",key,
+                sortParams.get(key)!=null ? sortParams.get(key) : "asc");
+        }
+        if(query.length()>0) { 
+            query = "order by "+query;
+            sb.append(query.substring(0,query.length()-2));
+        }
+        
+        //return sb;
+    }
+    
+    protected <T extends List> T execute(String hql, List<Type> typeList, List<Object> valueList, 
+                                         Integer max, Integer offset) {
+        Type[] types = typeList.toArray(new Type[typeList.size()]);
+        Object[] values = valueList.toArray(new Object[valueList.size()]);
+        
+        Query query = HibernateUtil.getSession().createQuery(hql);
+        if(max != null) {
+            query.setMaxResults(max);
+            query.setFirstResult(offset != null ? offset : 0);
+        }
+        
+        //noinspection unchecked
+        return (T) query.setParameters(values, types).list();
+    }
+    
+    protected <T extends Number> T execute(String hql, List<Type> typeList, List<Object> valueList) {
+        Type[] types = typeList.toArray(new Type[typeList.size()]);
+        Object[] values = valueList.toArray(new Object[valueList.size()]);
+        
+        Query query = HibernateUtil.getSession().createQuery(hql).setParameters(values, types);
+        
+        //noinspection unchecked
+        return (T)query.iterate().next();
     }
 }

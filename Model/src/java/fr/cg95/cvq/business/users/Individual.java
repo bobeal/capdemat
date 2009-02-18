@@ -25,11 +25,15 @@ public class Individual implements Historizable, Serializable {
 
     // Search fields used in DAO and Service Layer
     
-    public static final String SEARCH_BY_LASTNAME = "lastName";
     public static final String SEARCH_BY_FIRSTNAME = "firstName";
     public static final String SEARCH_BY_BIRTHDATE = "birthDate";
+    
+    public static final String SEARCH_BY_LASTNAME = "lastName";
+    public static final String SEARCH_BY_ACTOR_STATE = "actorState";
+    public static final String SEARCH_BY_INDIVIDUAL_ID = "individualId";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
-    public static final String ORDER_BY_LASTNAME = "lastName";
+    public static final String SEARCH_BY_HOME_FOLDER_STATE = "homeFolderState";
+    public static final String SEARCH_IS_HOME_FOLDER_RESPONSIBLE = "isHomeFolderResponsible";
     
 	private static final long serialVersionUID = 1L;
 

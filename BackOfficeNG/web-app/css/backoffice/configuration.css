@@ -163,6 +163,7 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
 .editable-zone {
 	cursor: pointer;
 	margin: 2em; padding: 2em;
+  
 	border-top: 1px solid #000;
 	border-left: 1px solid #000;
 	border-bottom: 1px solid #aaa;
@@ -175,4 +176,26 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
 
 .template-panel {
 	margin: 2em;
+}
+
+.state-overlay { 
+  -moz-border-radius-bottomleft:0.5em;
+  -moz-border-radius-bottomright:0.5em;
+  -moz-border-radius-topleft:0.5em;
+  -moz-border-radius-topright:0.5em;
+  background:#EFEFEF none repeat scroll 0 0;
+  border:5px solid #DDDDDD;
+  font-size:1.4em;
+  padding:0.1em 0 0.3em;
+  width: 200px;
+}
+.state-overlay .hd {
+  padding-left : 1em ! important;
+}
+.state-overlay .bt  {
+  margin-top: 1em;
+}
+
+span#requestState {
+  cursor: pointer;
 }

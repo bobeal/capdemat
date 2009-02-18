@@ -22,7 +22,9 @@ public final class ActorState extends PersistentStringEnum {
     }
 
     public ActorState() {}
-
+    
+    public static final ActorState[] allActorStates = { PENDING, VALID, INVALID, ARCHIVED };
+    
     public static ActorState forString(final String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
             return PENDING;

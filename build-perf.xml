@@ -9,7 +9,7 @@
   <target name="init">
     <property name="jmeter.home.dir" value="/home/vba/java/jakarta-jmeter" />
     <property name="test.perf.dir" value="${basedir}/Model/test/perf" />
-    <property name="test.plan.name" value="drafts" />
+    <property name="test.plan.name" value="backoffice-requests" />
 
     <!-- Should report include response data for failures? -->
     <property name="show-data" value="n" />

@@ -5,9 +5,16 @@
     <g:each var="record" in="${records}">
       <li>
         <p class="first-line">
-          ${record.firstName} ${record.lastName} 
-          ${message(code:'property.id')}: ${record.id}
-          ${message(code:'property.homeFolderId')}: ${record.homeFolderId}
+          <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="actor.state" />
+          <a href="${createLink(action:'details',id:record.homeFolderId)}">
+            ${record.firstName} ${record.lastName} (${message(code:'property.homeFolderId')}: ${record.homeFolderId})
+          </a>
+        </p>
+        <p class="second-line">
+          ${record.streetNumber} ${record.streetName}
+          <g:if test="${currentTown != record.town}">
+            ${record.zip} ${record.town}
+          </g:if>
         </p>
       </li>
     </g:each>

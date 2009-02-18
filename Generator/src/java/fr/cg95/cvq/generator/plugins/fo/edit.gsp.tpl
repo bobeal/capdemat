@@ -40,12 +40,12 @@
           <a href="#${step.name}"><em>
           <span class="tag-no_right">${step.index + 1}</span>
           <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
-    <% if (['validation','document'].contains(step.name) || step.required) { %>
+    <% if (step.name == 'validation' || step.required) { %>
           <strong>
             <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
           </strong>
     <% } else {%>
-          <g:message code="${requestFo.acronym}.step.${step.name}.label" />
+          <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
     <% } %>        
           </em></a>
         </li>    
@@ -58,6 +58,9 @@
          <form method="POST" id="stepForm-${step.camelCaseName}" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  <% if (step.name == 'validation' || step.required) { %>
+             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
+  <% } %>
              <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
              <span><g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.desc" /></span>
              <span class="error"><g:message code="\${stepStates?.${step.name}?.errorMsg}" /></span>
@@ -77,8 +80,9 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="\${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="\${uuidString}" />
   <% if (step.name == 'validation') { %>
-           <g:if test="\${isRequestCreatable}">
-           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.send')}" \${!isRequestCreatable ? 'disabled=\"disabled\"': ''}/>
+           <g:if test="\${!isRequestCreatable}">
+           <span><g:message code="request.step.validation.requiredSteps"/></span>
            </g:if>
   <% } else { %>
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />

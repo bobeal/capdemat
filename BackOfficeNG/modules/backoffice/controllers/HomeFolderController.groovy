@@ -4,17 +4,17 @@ import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.ActorState
+import fr.cg95.cvq.security.SecurityContext
 
 class HomeFolderController {
     
     IHomeFolderService homeFolderService
     IIndividualService individualService
     
-    def defaultAction = "index"
+    def defaultAction = "search"
     def defaultMax = 15
     
     def beforeInterceptor = {}
-    def idex = {}
     
     def search = {
         def state = [:], records = [], count = 0
@@ -31,10 +31,19 @@ class HomeFolderController {
             'count' : count,
             'max': this.defaultMax,
             'actorStates': this.buildActorStateFilter(),
+            'currentTown': SecurityContext.currentSite.name,
             'homeFolderStates' : this.buildHomeFolderFilter(),
             'pageState' : (new JSON(state)).toString().encodeAsHTML(),
             'offset' : params?.currentOffset ? params.currentOffset : 0 
         ]);
+    }
+    
+    def details = {
+        
+        return [
+            'adults' : this.homeFolderService.getAdults(Long.parseLong(params.id)),
+            'children' : this.homeFolderService.getChildren(Long.parseLong(params.id))
+        ]
     }
     
     protected List doSearch(state) {
@@ -46,9 +55,14 @@ class HomeFolderController {
         for(Individual human : found) {
             def entry = [
                 'id' : human.id,
+                'state' : human.state,
                 'lastName' : human.lastName,
                 'firstName' : human.firstName,
-                'homeFolderId' : human?.homeFolder?.id
+                'homeFolderId' : human?.homeFolder?.id,
+                'streetName' : human.adress.streetName,
+                'streetNumber' : human.adress.streetNumber,
+                'zip': human.adress.postalCode,
+                'town' : human.adress.city
             ]
             if(!result.contains(entry)) result.add(entry)
         }
@@ -57,7 +71,9 @@ class HomeFolderController {
     }
     
     protected Set<Critere> prepareCriterias(state) {
-        def mapper = ['lastName','homeFolderId','individualId','isHomeFolderResponsible']
+        def mapper = ['lastName','homeFolderId','individualId','actorState','homeFolderState',
+            'isHomeFolderResponsible']
+        
         Set<Critere> criterias = new LinkedHashSet<Critere>()
         
         for(String key : state.keySet()){
@@ -84,8 +100,8 @@ class HomeFolderController {
     
     protected List buildHomeFolderFilter() {
         def result = []
-        result.add(['name':'enabled','i18nKey': message(code:'property.enabled')])
-        result.add(['name':'disabled','i18nKey':message(code:'property.disabled')])
+        result.add(['name':'true','i18nKey': message(code:'property.enabled')])
+        result.add(['name':'false','i18nKey':message(code:'property.disabled')])
         return result
     }
     

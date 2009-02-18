@@ -200,7 +200,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         List<Type> types = new ArrayList<Type>();
         List<Object> values = new ArrayList<Object>();
         
-        StringBuffer sb = this.buildStatement(criterias,types,values,"select individual ");
+        StringBuffer sb = this.buildStatement(criterias,types,values,"select distinct individual ");
         this.buildSort(sortParams,sb);
         return this.execute(sb.toString(),types,values,max,offset);
     }
@@ -209,7 +209,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         List<Type> types = new ArrayList<Type>();
         List<Object> values = new ArrayList<Object>();
         
-        StringBuffer sb = this.buildStatement(criterias,types,values,"select count(individual.id) ");
+        StringBuffer sb = this.buildStatement(criterias,types,values,"select count(distinct individual.id) ");
         return  (this.<Long>execute(sb.toString(),types,values)).intValue();
     }
     
@@ -241,7 +241,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 typeList.add(Hibernate.LONG);
             } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_STATE)) {
                 sb.append(String.format(" and individual.homeFolder.enabled %1$s ? ",criteria.getSqlComparatif()));
-                objectList.add(criteria.getValue());
+                objectList.add(Boolean.parseBoolean(criteria.getValue().toString()));
                 typeList.add(Hibernate.BOOLEAN);
             } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_ACTOR_STATE )) {
                 sb.append(String.format(" and lower(individual.state) %1$s lower(?) ",criteria.getSqlComparatif()));

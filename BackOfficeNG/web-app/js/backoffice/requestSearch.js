@@ -58,16 +58,16 @@
       }
     };
   
-    var initSwitcher = function() {
-        yue.addListener("requestSearchSwitcher", "click", 
-          function(e) {
-            var targetEl = yue.getTarget(e);
-            if (targetEl.tagName === "A") {
-              switchSearchForm(targetEl.className);
-            }
-          }
-        );        
-    };
+//    var initSwitcher = function() {
+//        yue.addListener("requestSearchSwitcher", "click", 
+//          function(e) {
+//            var targetEl = yue.getTarget(e);
+//            if (targetEl.tagName === "A") {
+//              switchSearchForm(targetEl.className);
+//            }
+//          }
+//        );        
+//    };
     
     var sortSearchRequest = function(sortType) {
       yud.get('sortBy').value = sortType;

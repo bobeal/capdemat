@@ -20,12 +20,14 @@
                              args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" />
               </a>
               <g:if test="${record.displayDraftWarning}">
-                  <span class="draft-warning">
-                      <img src="${createLinkTo(dir:'images',file:'24-message-warn.png')}" />
-                      <g:message code="request.message.draftExpirationWarning"
-                                 args="${[formatDate(date:record.draftExpirationDate,
-                                          formatName:'format.date')]}"/>
+                <p class="draft-warning">
+                  <img src="${createLinkTo(dir:'images',file:'24-message-warn.png')}" />
+                  <span>
+                    <g:message code="request.message.draftExpirationWarning"
+                               args="${[formatDate(date:record.draftExpirationDate,
+                                        formatName:'format.date')]}"/>
                   </span>
+                </p>
               </g:if>
           </li>
         </g:each>

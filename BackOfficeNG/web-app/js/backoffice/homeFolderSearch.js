@@ -1,6 +1,7 @@
 
 /**
  * @description This file contains homefolder search client-module
+ * @namespace zenexity.capdemat.backoffice.homeFolder
  * 
  * @author vba@zenexity.fr
  */
@@ -10,7 +11,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
 (function(){
 
   var zct = zenexity.capdemat.tools;
-  var zcc = zenexity.capdemat.common;
   var zcbh = zenexity.capdemat.backoffice.homeFolder;
   
   var yl = YAHOO.lang;

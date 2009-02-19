@@ -12,8 +12,9 @@ class RequestAdaptorService {
         def allRequestTypesTranslated =  []
         allRequestTypes.each {
             allRequestTypesTranslated.add([
-                    id:it.id,
-                    label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()])
+                id:it.id,
+                label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()
+            ])
         }
         return allRequestTypesTranslated.sort{it.label}
     }

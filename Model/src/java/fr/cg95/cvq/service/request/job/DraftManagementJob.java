@@ -27,7 +27,7 @@ import java.util.Set;
  * <ul>
  *   <li>Delete expired drafts</li>
  *   <li>Send a notification to e-citizens when one of their drafts is about to expire</li>
- *  </ul>
+ * </ul>
  *
  * @author Victor Bartel (vba@zenexity.fr)
  */
@@ -50,7 +50,7 @@ public class DraftManagementJob {
         localAuthorityRegistry.browseAndCallback(this, "deleteExpiredDrafts", null);
     }
     
-    public void deleteExpiredDrafts() throws CvqException {
+    public void deleteExpiredDrafts(String localAuthorityName) throws CvqException {
         LocalAuthority authority = SecurityContext.getCurrentSite();
         
         Set<Critere> criterias = this.prepareQueryParams(authority.getDraftLiveDuration());
@@ -59,7 +59,7 @@ public class DraftManagementJob {
             this.requestService.delete(r.getId());
     }
     
-    public Integer sendNotifications() throws CvqException {
+    public Integer sendNotifications(String localAuthorityName) throws CvqException {
         Integer counter = 0; 
         LocalAuthority authority = SecurityContext.getCurrentSite();
         Integer limit = authority.getDraftLiveDuration() - authority.getDraftNotificationBeforeDelete();
@@ -74,9 +74,13 @@ public class DraftManagementJob {
             boolean sent = false;
             
             try {
-                mailService.send(from, adult.getEmail(), null,
-                    "[CapDémat] Expiration d'une demande sauvée en tant que brouillon",
-                    this.buildMailTemplate(r,authority.getDraftLiveDuration()));
+                String mailBody =
+                    this.buildMailTemplate(r, authority.getDraftLiveDuration());
+                if (mailBody != null) {
+                    mailService.send(from, adult.getEmail(), null,
+                        "[CapDémat] Expiration d'une demande sauvée en tant que brouillon",
+                        this.buildMailTemplate(r, authority.getDraftLiveDuration()));
+                }
                 sent = true;
                 counter ++;
             } catch (CvqException e) {
@@ -96,7 +100,9 @@ public class DraftManagementJob {
             "NotificationBeforeDraftDelete.txt",
             false
         );
-        
+
+        if (template == null)
+            return null;
         template = template.replace("${requestType}", 
             localizationService.getRequestLabelTranslation(
                 request.getClass().getName(), "fr", false));

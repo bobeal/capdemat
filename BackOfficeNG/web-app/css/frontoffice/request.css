@@ -54,7 +54,7 @@ h2.request-creation {
 #requestTabView form div label.required { font-weight: bold; }
 #requestTabView form div label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
 
-#requestTabView form div input,
+#requestTabView form div input[type="text"],
 #requestTabView form div select,
 #requestTabView form div textarea {
   width: 80%;
@@ -102,15 +102,24 @@ h2.request-creation {
   border: 1px dashed #A0D158;
   font-size: .9em;
 }
-#requestTabView .address-fieldset input { width: 99%; margin: 0; padding: .1em; }
+#requestTabView .address-fieldset input[type="text"] { width: 99%; margin: 0; padding: .1em; }
 #requestTabView .address-fieldset label { margin-top: .5em; color: #333; }
-#requestTabView .address-fieldset input.line1 { display: inline; width: 15%; }
-#requestTabView .address-fieldset input.line2 { display: inline; width: 82%; }
+#requestTabView .address-fieldset input[type="text"].line1 { display: inline; width: 15%; }
+#requestTabView .address-fieldset input[type="text"].line2 { display: inline; width: 82%; }
+
+#requestTabView .document-add-new { text-align: right; }
+#requestTabView .document-fieldset       { margin: 0 0 1em; }
+#requestTabView .document-fieldset dl.document-linked    { background: #ffb; }
+#requestTabView .document-fieldset dl.document-available    { background: #ffd; }
+#requestTabView .document-fieldset dl dt { width: 14em; font-size:1.1em; }
+#requestTabView .document-fieldset dl dd { width: 26.75em; font-size:1em; }
+#requestTabView .document-fieldset dl dd .tag-state { float: right; }
 
 
 #requestTabView div.collection-fieldset                      { margin: 0 0 1em 0; padding: 1em 2em; font-size: .9em; background: #ffd; }
 #requestTabView div.collection-fieldset h4                   { font-size: 1.4em; font-weight: bold; color: #FF812B; }
-#requestTabView div.collection-fieldset input[type="submit"] { width: auto; display: inline !important; }
+#requestTabView div.collection-fieldset input[type="submit"] { margin: 0 0 1em; }
+
 #requestTabView fieldset.collection-fieldset-add         { border: 2px solid #FF812B; }
 #requestTabView fieldset.collection-fieldset-edit        { padding: 1em 0 1em 1em; border: 0; border-bottom: 2px solid #FF812B; }
 #requestTabView fieldset.collection-fieldset-add legend,

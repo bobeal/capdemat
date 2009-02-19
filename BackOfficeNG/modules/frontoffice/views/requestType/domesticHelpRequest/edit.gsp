@@ -14,7 +14,7 @@
       <g:message code="request.requiredDocuments.header" /> :
       <g:each in="${documentTypes}" var="documentType" status="index">
         <strong>
-          <g:message code="${documentType.value}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
+          <g:message code="${documentType.value.name}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
         </strong>
       </g:each>
     </p>

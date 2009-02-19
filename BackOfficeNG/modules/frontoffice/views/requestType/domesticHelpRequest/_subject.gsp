@@ -18,13 +18,13 @@
     
       <label class="required"><g:message code="dhr.property.dhrRequesterBirthDate.label" /> <span><g:message code="dhr.property.dhrRequesterBirthDate.help" /></span></label>
       
-            <input name="dhrRequesterBirthDate" value="${formatDate(formatName:'format.date',date:rqt.dhrRequesterBirthDate)}" 
+            <input type="text" name="dhrRequesterBirthDate" value="${formatDate(formatName:'format.date',date:rqt.dhrRequesterBirthDate)}" 
                    class="required validate-date" title="<g:message code="dhr.property.dhrRequesterBirthDate.validationError" />">
             
     
       <label class="required"><g:message code="dhr.property.dhrRequesterBirthPlace.label" /> <span><g:message code="dhr.property.dhrRequesterBirthPlace.help" /></span></label>
       
-            <input name="dhrRequesterBirthPlace" value="${rqt.dhrRequesterBirthPlace}" 
+            <input type="text" name="dhrRequesterBirthPlace" value="${rqt.dhrRequesterBirthPlace}" 
                     class="required validate-string" title="<g:message code="dhr.property.dhrRequesterBirthPlace.validationError" />">
             
     
@@ -40,7 +40,7 @@
     
       <label class="required condition-isNonEuropean-filled"><g:message code="dhr.property.dhrRequesterFranceArrivalDate.label" /> <span><g:message code="dhr.property.dhrRequesterFranceArrivalDate.help" /></span></label>
       
-            <input name="dhrRequesterFranceArrivalDate" value="${formatDate(formatName:'format.date',date:rqt.dhrRequesterFranceArrivalDate)}" 
+            <input type="text" name="dhrRequesterFranceArrivalDate" value="${formatDate(formatName:'format.date',date:rqt.dhrRequesterFranceArrivalDate)}" 
                    class="required condition-isNonEuropean-filled validate-date" title="<g:message code="dhr.property.dhrRequesterFranceArrivalDate.validationError" />">
             
     
@@ -76,13 +76,13 @@
     
       <label class="required condition-isOtherPensionPlan-filled"><g:message code="dhr.property.dhrPensionPlanDetail.label" /> <span><g:message code="dhr.property.dhrPensionPlanDetail.help" /></span></label>
       
-            <input name="dhrPensionPlanDetail" value="${rqt.dhrPensionPlanDetail}" 
+            <input type="text" name="dhrPensionPlanDetail" value="${rqt.dhrPensionPlanDetail}" 
                     class="required condition-isOtherPensionPlan-filled validate-string" title="<g:message code="dhr.property.dhrPensionPlanDetail.validationError" />">
             
     
       <label class="required"><g:message code="dhr.property.dhrComplementaryPensionPlan.label" /> <span><g:message code="dhr.property.dhrComplementaryPensionPlan.help" /></span></label>
       
-            <input name="dhrComplementaryPensionPlan" value="${rqt.dhrComplementaryPensionPlan}" 
+            <input type="text" name="dhrComplementaryPensionPlan" value="${rqt.dhrComplementaryPensionPlan}" 
                     class="required validate-string" title="<g:message code="dhr.property.dhrComplementaryPensionPlan.validationError" />">
             
     
@@ -118,7 +118,7 @@
     
       <label class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianName.label" /> <span><g:message code="dhr.property.dhrGuardianName.help" /></span></label>
       
-            <input name="dhrGuardianName" value="${rqt.dhrGuardianName}" 
+            <input type="text" name="dhrGuardianName" value="${rqt.dhrGuardianName}" 
                     class="required condition-haveGuardian-filled validate-lastName" title="<g:message code="dhr.property.dhrGuardianName.validationError" />">
             
     

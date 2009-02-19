@@ -59,9 +59,9 @@
       
       submitStep : function(e) { validateAndSubmit(e, false); },
       
-      submitAdd : function(e) { validateAndSubmit(e, true); },
+      submitCollectionAdd : function(e) { validateAndSubmit(e, true); },
       
-      submitModify : function(e) { validateAndSubmit(e, true); },
+      submitCollectionModify : function(e) { validateAndSubmit(e, true); },
       
       prevTab : function(e) {
           yue.preventDefault(e);

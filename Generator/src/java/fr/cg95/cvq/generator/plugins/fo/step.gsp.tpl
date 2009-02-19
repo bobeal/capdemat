@@ -53,12 +53,12 @@
             """
          ,'date' :
             """
-            <input name="${namePrefix}${element.javaFieldName}" value="\${formatDate(formatName:'format.date',date:${valuePrefix}.${element.javaFieldName})}" 
+            <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${formatDate(formatName:'format.date',date:${valuePrefix}.${element.javaFieldName})}" 
                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
             """
          ,'text' :
             """
-            <input name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
+            <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
                     class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />"${element.jsRegexp != null ? ' regex="' + element.jsRegexp + '"' : ''}>
             """
       ]
@@ -131,10 +131,10 @@
         <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
     <% } %>
         <g:if test="\${editList?.name == '${element.javaFieldName}'}">
-          <input type="submit" id="submit-modify-${step.name}-${element.javaFieldName}[\${listIndex}]" name="submit-modify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-${step.name}-${element.javaFieldName}[\${listIndex}]" name="submit-collectionModify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-add-${step.name}-${element.javaFieldName}[\${listIndex}]" name="submit-add-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-${step.name}-${element.javaFieldName}[\${listIndex}]" name="submit-collectionAdd-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
@@ -146,8 +146,8 @@
         <% displayStaticWidget(subElement, 'it') %>
     <% } %>
         </dl>
-        <input type="submit" value="\${message(code:'action.modify')}" name="submit-edit-${step.name}-${element.javaFieldName}[\${index}]" />
-        <input type="submit" value="\${message(code:'action.remove')}" name="submit-delete-${step.name}-${element.javaFieldName}[\${index}]" />
+        <input type="submit" value="\${message(code:'action.modify')}" name="submit-collectionEdit-${step.name}-${element.javaFieldName}[\${index}]" />
+        <input type="submit" value="\${message(code:'action.remove')}" name="submit-collectionDelete-${step.name}-${element.javaFieldName}[\${index}]" />
       </fieldset>
     </g:each>
     </div>

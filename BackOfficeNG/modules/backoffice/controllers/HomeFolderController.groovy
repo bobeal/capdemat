@@ -5,16 +5,28 @@ import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.ActorState
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.business.users.Child
+import fr.cg95.cvq.business.users.RoleType
+import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.payment.IPaymentService
+import fr.cg95.cvq.business.users.HomeFolder
+import fr.cg95.cvq.business.users.payment.Payment
 
 class HomeFolderController {
     
     IHomeFolderService homeFolderService
     IIndividualService individualService
+    IRequestService defaultRequestService
+    IPaymentService paymentService
     
+    def instructionService
+    def translationService
     def defaultAction = "search"
     def defaultMax = 15
     
     def beforeInterceptor = {}
+    
+    def help = {}
     
     def search = {
         def state = [:], records = [], count = 0
@@ -39,11 +51,63 @@ class HomeFolderController {
     }
     
     def details = {
+        def result = [responsibles:[:],adults:[],children:[]]
         
-        return [
-            'adults' : this.homeFolderService.getAdults(Long.parseLong(params.id)),
-            'children' : this.homeFolderService.getChildren(Long.parseLong(params.id))
-        ]
+        result.adults = this.homeFolderService.getAdults(Long.parseLong(params.id))
+        result.children = this.homeFolderService.getChildren(Long.parseLong(params.id))
+        
+        for(Child child : result.children)
+            result.responsibles.put(child.id, homeFolderService.getBySubjectRoles(child.id,
+                [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
+        
+        return result
+    }
+    
+    def requests = {
+        def result = [requests:[]]
+        //def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def homeFolderRequests = defaultRequestService.getByHomeFolderId(Long.valueOf(params.id));
+        def homeFolder = homeFolderService.getById(Long.valueOf(params.id))
+
+        homeFolderRequests.each {
+          def quality = 'green'
+          if (it.redAlert) quality = 'red'
+          else if (it.orangeAlert) quality = 'orange'
+          def record = [
+              'id':it.id,
+              'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
+              'creationDate':it.creationDate,
+              'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
+              'subjectLastName':it.subjectId ? it.subjectLastName + " " + it.subjectFirstName : "",
+              'homeFolderId':it.homeFolderId,
+              'state':it.state.toString(),
+              'lastModificationDate':it.lastModificationDate,
+              'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId),
+              'permanent':!homeFolder.boundToRequest,
+              'quality':quality
+          ]
+          result.requests.add(record)
+        }
+        return result
+        //render(template:'homeFolderRequests', model: ['records': records])
+    }
+    
+    def payments = {
+        def result = [payments:[]]
+        HomeFolder homefolder = this.homeFolderService.getById(Long.parseLong(params.id))
+        
+        for(Payment payment : this.paymentService.getByHomeFolder(homefolder)) {
+            result.payments.add([
+                'id' : payment.id,
+                'initializationDate' : payment.initializationDate,
+                'state' : payment.state.toString(),
+                'bankReference' : payment.bankReference,
+                'amount' : payment.euroAmount,
+                'paymentMode' : message(code:"payment.mode."+payment.paymentMode.toString())
+            ])
+        }
+        
+        return result
     }
     
     protected List doSearch(state) {
@@ -100,8 +164,8 @@ class HomeFolderController {
     
     protected List buildHomeFolderFilter() {
         def result = []
-        result.add(['name':'true','i18nKey': message(code:'property.enabled')])
-        result.add(['name':'false','i18nKey':message(code:'property.disabled')])
+        result.add(['name':'true','i18nKey': message(code:'property.active')])
+        result.add(['name':'false','i18nKey':message(code:'property.inactive')])
         return result
     }
     
@@ -111,7 +175,7 @@ class HomeFolderController {
         for(ActorState state : ActorState.allActorStates) {
             result.add([
                 'name':state.toString(),
-                'i18nKey': message(code:"individual.actorState.${state.toString()}")
+                'i18nKey': message(code:"actor.state.${state.toString().toLowerCase()}")
             ])
         }
         return result;

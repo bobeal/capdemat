@@ -63,3 +63,41 @@
 #homeFolderData a:hover  { background-color: transparent; }
 
 #homeFolderData .listItemSkeleton { display: none; }
+
+/* list */
+#homeFolderInformation div div div ul { margin: 10px;}
+#homeFolderInformation div div div li { padding: .7em 0; border-bottom: 1px dashed #C1CFE2; }
+
+/* form */
+#homeFolderInformation div div div form { margin: 10px;  padding: 0; }
+#homeFolderInformation div div div form label { display: block; float: none; margin: 0; text-align: left; }
+#homeFolderInformation div div div form input { margin: 0; }
+ 
+/* definition list (for homeFolder.individual) */
+#homeFolderInformation dl {
+  margin : 10px 20px 10px 20px ;
+  padding: 5px;
+  border: 1px solid #cccccc;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background-color: #ffffff; 
+}
+
+#homeFolderInformation dl dt {
+  float: left;
+  width: 10em;
+  font-weight: bold;
+  text-align : right;
+}
+
+#homeFolderInformation dl dd {
+  border-left: 1px dashed #aaaaaa;
+  margin: 0 0 0 11em;
+  padding: 0 0 .5em .5em;
+  border-left: 1px dashed #aaaaaa;
+}
+
+#homeFolderInformation .tag-state { float: right; }
+#homeFolderInformation .comment   { font-size: 1.4em; font-weight: normal; }

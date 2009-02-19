@@ -69,14 +69,14 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 sb.append(" and lower(individual.lastName) " + searchCrit.getSqlComparatif() + " lower(?)");
                 objectList.add(searchCrit.getSqlStringValue());
                 typeList.add(Hibernate.STRING);
-//            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_FIRSTNAME)) {
-//                sb.append(" and lower(individual.firstName) " + searchCrit.getSqlComparatif() + " lower(?)");
-//                objectList.add(searchCrit.getSqlStringValue());
-//                typeList.add(Hibernate.STRING);
-//            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_BIRTHDATE)) {
-//                sb.append(" and individual.birthDate " + searchCrit.getSqlComparatif() + " ?");
-//                objectList.add(searchCrit.getDateValue());
-//                typeList.add(Hibernate.DATE);
+            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_FIRSTNAME)) {
+                sb.append(" and lower(individual.firstName) " + searchCrit.getSqlComparatif() + " lower(?)");
+                objectList.add(searchCrit.getSqlStringValue());
+                typeList.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_BIRTHDATE)) {
+                sb.append(" and individual.birthDate " + searchCrit.getSqlComparatif() + " ?");
+                objectList.add(searchCrit.getDateValue());
+                typeList.add(Hibernate.DATE);
             } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_ID)) {
                 sb.append(" and individual.homeFolder.id " + searchCrit.getSqlComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());
@@ -218,7 +218,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         StringBuffer sb = new StringBuffer();
         
         sb.append(prefix != null ? prefix : "") 
-            .append("from Individual as individual join individual.individualRoles roles")
+            .append("from Individual as individual left join individual.individualRoles roles")
             .append(" where 1 = 1 ");
         
         // go through all the criteria and create the query

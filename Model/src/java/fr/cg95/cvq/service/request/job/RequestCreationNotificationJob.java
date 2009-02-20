@@ -37,7 +37,7 @@ public class RequestCreationNotificationJob {
         localAuthorityRegistry.browseAndCallback(this, "notifyLocalAuthRequestsCreation", null);
     }
 
-    public void notifyLocalAuthRequestsCreation(final String localAuthorityName)
+    public void notifyLocalAuthRequestsCreation()
             throws CvqException {
 
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
@@ -52,7 +52,8 @@ public class RequestCreationNotificationJob {
             requestDAO.listByNotMatchingActionLabel(IRequestService.REQUEST_CREATION_NOTIFICATION);
         logger.debug("notifyLocalAuthRequestsCreation() got "
                 + requestsToNotify.size() + " requests to notify");
-        Map<Category, List<Request>> requestsByService = RequestUtils.groupByCategory(requestsToNotify);
+        Map<Category, List<Request>> requestsByService =
+            RequestUtils.groupByCategory(requestsToNotify);
         for (Category category : requestsByService.keySet()) {
             if (category.getPrimaryEmail() != null && !category.getPrimaryEmail().equals("")) {
                 List<Request> requestList = requestsByService.get(category);
@@ -62,7 +63,8 @@ public class RequestCreationNotificationJob {
                     .append("Voici la liste des derniers télé-services créés :\n");
                 for (Request request : requestList) {
                     String requestTypeLabel = 
-                        localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false);
+                        localizationService.getRequestLabelTranslation(request.getClass().getName(),
+                        "fr", false);
                     body.append("\t").append(requestTypeLabel).append(" : ")
                         .append(request.getId()).append("\n");
                 }

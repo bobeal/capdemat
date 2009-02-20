@@ -202,19 +202,10 @@ public class LdapService implements ILdapService {
             localAuthorityRegistry.browseAndCallback(this, "synchronizeDatabaseWithDirectory", null);
     }
 
-    public void synchronizeDatabaseWithDirectory(final String localAuthorityName)
+    public void synchronizeDatabaseWithDirectory()
             throws CvqException {
 
-        LocalAuthority localAuthority = getCurrentLocalAuthority();
-        if (localAuthority == null) {
-            // local authority does not exist in DB, create it
-            logger.debug("synchronizeCollectivity() Creating local authority : "
-                    + localAuthorityName);
-            localAuthority = new LocalAuthority();
-            localAuthority.setName(localAuthorityName);
-            // localAuthority.setPostalCode(collectivity.getPostalCode());
-            iLocalAuthorityDAO.create(localAuthority);
-        }
+        LocalAuthority localAuthority = SecurityContext.getCurrentSite();
 
         logger.debug("synchronizeCollectivity() Dealing with local authority : "
                 + localAuthority.getName());
@@ -326,10 +317,6 @@ public class LdapService implements ILdapService {
                 }
             }
         }
-    }
-
-    private LocalAuthority getCurrentLocalAuthority() {
-        return SecurityContext.getCurrentSite();
     }
 
     public void setHost(final String host) {

@@ -11,6 +11,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
@@ -54,11 +55,11 @@ public class RequestWorkflowNavigatorJob {
      * For a given local authority, change state of requests whose type and current state match
      * those provided to the specified end state. 
      */
-    public void doRequestWorkflowChange(String localAuthorityName, String requestTypeLabel,
-           String startState, String endState) throws Exception {
+    public void doRequestWorkflowChange(String requestTypeLabel, String startState,
+        String endState) throws Exception {
          
         logger.debug("doRequestWorkflowChange() starting job for local authority " 
-                + localAuthorityName);
+                + SecurityContext.getCurrentSite().getName());
         logger.debug("doRequestWorkflowChange() from state " + startState + " to "
                 + endState);
         RequestState requestState = RequestState.forString(startState);
@@ -66,8 +67,10 @@ public class RequestWorkflowNavigatorJob {
         requestStateSet.add(requestState);
         
         RequestState requestEndState = RequestState.forString(endState);
-        List<Request> requestList = requestDAO.listByStatesAndType(requestStateSet, requestTypeLabel);
-        logger.debug("doRequestWorkflowChange() got " + requestList.size() + " matching request(s)");
+        List<Request> requestList =
+            requestDAO.listByStatesAndType(requestStateSet, requestTypeLabel);
+        logger.debug("doRequestWorkflowChange() got " + requestList.size()
+            + " matching request(s)");
         for (Request request : requestList) {
             IRequestService dynamicRequestService = 
                 requestServiceRegistry.getRequestService(request);

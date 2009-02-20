@@ -16,6 +16,7 @@ import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 
@@ -101,8 +102,9 @@ public class AddressTransformer {
     
     /* Apply address normalization rules to all local authority's address
      */
-    public void normalizeAddress(String localAuthorityName) throws CvqException {
-        // Display current Local Authoriy
+    public void normalizeAddress() throws CvqException {
+        // Display current Local Authority
+        String localAuthorityName = SecurityContext.getCurrentSite().getName();
         System.out.println("Address's migration for : " + localAuthorityName);
         
         StringBuffer updateScriptStringBuffer = 

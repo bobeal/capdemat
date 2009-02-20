@@ -109,10 +109,11 @@ public class DocumentService implements IDocumentService {
     }
     
     @Context(type=ContextType.SUPER_ADMIN)
-    public void checkLocalAuthDocumentsValidity(final String localAuthorityName)
+    public void checkLocalAuthDocumentsValidity()
         throws CvqException {
 
-        logger.debug("checkLocalAuthDocumentsValidity() dealing with " + localAuthorityName);
+        logger.debug("checkLocalAuthDocumentsValidity() dealing with " 
+            + SecurityContext.getCurrentSite().getName());
         
         Date currentDate = new Date();
         List<Document> wholeList = new ArrayList<Document>();

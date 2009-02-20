@@ -50,7 +50,7 @@ public class DraftManagementJob {
         localAuthorityRegistry.browseAndCallback(this, "deleteExpiredDrafts", null);
     }
     
-    public void deleteExpiredDrafts(String localAuthorityName) throws CvqException {
+    public void deleteExpiredDrafts() throws CvqException {
         LocalAuthority authority = SecurityContext.getCurrentSite();
         
         Set<Critere> criterias = this.prepareQueryParams(authority.getDraftLiveDuration());
@@ -59,10 +59,11 @@ public class DraftManagementJob {
             this.requestService.delete(r.getId());
     }
     
-    public Integer sendNotifications(String localAuthorityName) throws CvqException {
+    public Integer sendNotifications() throws CvqException {
         Integer counter = 0; 
         LocalAuthority authority = SecurityContext.getCurrentSite();
-        Integer limit = authority.getDraftLiveDuration() - authority.getDraftNotificationBeforeDelete();
+        Integer limit =
+            authority.getDraftLiveDuration() - authority.getDraftNotificationBeforeDelete();
         
         List<Request> requests = this.requestDAO.listDraftedByNotificationAndDate(
             IRequestService.DRAFT_DELETE_NOTIFICATION,

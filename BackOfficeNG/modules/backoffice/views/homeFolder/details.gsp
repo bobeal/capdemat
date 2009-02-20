@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="request.header.requestTreatment" /></title>
+    <title><g:message code="homeFolder.header.details" args="${[params.id]}"/></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'homeFolderDetails.js')}"></script>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
     <script type="text/javascript">
-      zenexity.capdemat.backoffice.homeFolder.id = parseInt('${params?.id}');
+      zenexity.capdemat.backoffice.homeFolder.id = parseInt('${params.id}');
     </script>
   </head>
   <body>
@@ -16,7 +16,7 @@
       <div class="yui-b">
         <div class="head">
           <h1>
-            ${message(code:'property.homeFolder')} (ID : ${params.id})
+            <g:message code="homeFolder.header.details" args="${[params.id]}"/>
           </h1>
         </div>
           <div id="homeFolderData" class="yellow-yui-tabview">

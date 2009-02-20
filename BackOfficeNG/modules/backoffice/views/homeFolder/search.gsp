@@ -1,8 +1,7 @@
 <html>
   <head>
-    <title><g:message code="request.header.simpleSearch" /></title>
+    <title><g:message code="homeFolder.header.search" /></title>
     <meta name="layout" content="main" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'homeFolderSearch.js')}"></script>
   </head>
   <body>
@@ -26,22 +25,22 @@
       <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>
         <div class="body">
-          <form action="#" id="requestSearchSorters">
+          <form action="#" id="homeFolderSearchSorters">
             <ul>
               <li>
-                <label for="sortLastName"><g:message code="property.lastName" /></label>
+                <label for="sortLastName"><g:message code="property.individualLastName" /></label>
                 <input type="radio" id="sortLastName" value="lastName" class="persistent sort"
-                  name="orderBy"  ${state.orderBy == 'lastName' ? 'checked="checked"' : ''} />
+                  name="orderBy" ${state.orderBy == 'lastName' ? 'checked="checked"' : ''} />
               </li>
               <li>
                 <label for="sortLastName"><g:message code="property.individualId" /></label>
                 <input type="radio" id="sortLastName" value="id" class="persistent sort"
-                  name="orderBy"  ${state.orderBy == 'id' ? 'checked="checked"' : ''} />
+                  name="orderBy" ${state.orderBy == 'id' ? 'checked="checked"' : ''} />
               </li>
               <li>
                 <label for="sortHomeFolderId"><g:message code="property.homeFolderId" /></label>
                 <input type="radio" id="sortHomeFolderId" value="homeFolder.id" class="persistent sort"
-                  name="orderBy"  ${state.orderBy == 'homeFolder.id' ? 'checked="checked"' : ''} />
+                  name="orderBy" ${state.orderBy == 'homeFolder.id' ? 'checked="checked"' : ''} />
               </li>
             </ul>
           </form>

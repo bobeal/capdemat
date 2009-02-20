@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="request.header.simpleSearch" /></title>
+    <title><g:message code="request.header.search" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestSearch.js')}"></script>
@@ -11,14 +11,7 @@
       <div class="yui-b">
       
         <div id="head" class="head">
-          <g:render template="advancedSearchForm" />
-          
-          %{--<g:if test="${mode == 'simple'}">--}%
-            %{--<g:render template="simpleSearchForm" />--}%
-          %{--</g:if>--}%
-          %{--<g:else>--}%
-            %{--<g:render template="advancedSearchForm" />--}%
-          %{--</g:else>--}%
+          <g:render template="advancedSearchForm" />          
         </div>
 
         <div id="search-results">

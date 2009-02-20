@@ -32,7 +32,7 @@ public class RequestSeasonsJob {
         localAuthorityRegistry.browseAndCallback(this, "checkRequestsSeasons", null);
     }
 
-    public void checkRequestsSeasons(final String localAuthorityName)
+    public void checkRequestsSeasons()
         throws CvqException {
     
         List<RequestType> requestTypes = requestService.getAllRequestTypes();

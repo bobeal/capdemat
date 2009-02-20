@@ -47,7 +47,7 @@ public class RequestInstructionDurationCheckerJob {
                 "checkLocalAuthRequestsInstructionDuration", null);
     }
 
-    public void checkLocalAuthRequestsInstructionDuration(final String localAuthorityName)
+    public void checkLocalAuthRequestsInstructionDuration()
         throws CvqException {
 
         // get the list of states for which we consider instruction to be done
@@ -56,7 +56,7 @@ public class RequestInstructionDurationCheckerJob {
         if (!lacb.getInstructionAlertsEnabled().booleanValue()) {
             logger.info("checkLocalAuthRequestsInstructionDuration() " 
                     + "requests instruction alerts are disabled for "
-                    + localAuthorityName + ", returning");
+                    + SecurityContext.getCurrentSite().getName() + ", returning");
             return;
         }
 

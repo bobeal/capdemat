@@ -8,6 +8,7 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
@@ -25,15 +26,17 @@ public class DocumentTypeService implements IDocumentTypeService, ILocalAuthorit
     private DocumentBootstrapper documentBootstrapper;
     
     @Context(type=ContextType.SUPER_ADMIN)
-    public void initSampleDocumentTypes(final String localAuthorityName) 
+    public void initSampleDocumentTypes() 
         throws CvqException {
-        logger.debug("initSampleDocumentTypes() init for " + localAuthorityName);
+        logger.debug("initSampleDocumentTypes() init for " 
+            + SecurityContext.getCurrentSite().getName());
         documentBootstrapper.bootstrapForCurrentLocalAuthority();
     }
 
     public void addLocalAuthority(String localAuthorityName) {
         if (performDbUpdates)
-            localAuthorityRegistry.callback(localAuthorityName, this, "initSampleDocumentTypes", null);
+            localAuthorityRegistry.callback(localAuthorityName, this,
+                "initSampleDocumentTypes", null);
     }
 
     public void removeLocalAuthority(String localAuthorityName) {

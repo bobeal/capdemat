@@ -87,8 +87,26 @@ public interface ILocalAuthorityRegistry {
     void registerLocalAuthorities(Resource[] localAuthoritiesFiles)
         throws CvqConfigurationException;
 
+    /**
+     * The same as {@link browseAndCallback} but for a specific local authority.
+     *
+     * @see browseAndCallback
+     */
     void callback(String localAuthority, Object object, String callbackMethodName, 
             Object[] methodArgs);
+
+    /**
+     * Browse all known local authorities and invoke the given callback method for
+     * each of them.
+     *
+     * This method handles all of the context tasks : setting of the security
+     * context, transaction management, ... callback methods only have to deal
+     * with their business tasks.
+     *
+     * @param object the instance object to which belongs the callback method
+     * @param callbackMethodName the name of the callback method to be called
+     * @param methodArgs optional String arguments to be passed to the callback method
+     */
     void browseAndCallback(Object object, String callbackMethodName, Object[] methodArgs);
     
     /**

@@ -98,7 +98,7 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
             this.validateRequest();
             
             SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-            this.generationJob.performGeneration(localAuthorityName);
+            this.generationJob.performGeneration();
             
             File file = this.localAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
             assertTrue(file.exists());
@@ -110,7 +110,7 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
             trace.setStatus(TraceStatusEnum.ACKNOWLEDGED);
             this.externalService.addTrace(trace);
             
-            this.generationJob.eraseAcknowledgedRequests(localAuthorityName);
+            this.generationJob.eraseAcknowledgedRequests();
             assertFalse(file.exists());
             
         } catch (Exception e) {

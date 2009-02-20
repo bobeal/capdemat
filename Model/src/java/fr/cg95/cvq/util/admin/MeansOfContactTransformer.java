@@ -21,6 +21,7 @@ import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
@@ -132,15 +133,22 @@ public class MeansOfContactTransformer {
     /* Apply Mean of Contact's transformation to a subList.
      * To avoid hibernate memory error
      */
-    public void transformMocSubList(String localAuthorityName) throws CvqException {
+    public void transformMocSubList() throws CvqException {
         
-        MeansOfContact mocMail = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
-        MeansOfContact mocEmail = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
-        MeansOfContact mocHomePhone = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.HOME_PHONE);
-        MeansOfContact mocMobilePhone = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MOBILE_PHONE);
-        MeansOfContact mocOfficePhone = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.OFFICE_PHONE);
-        MeansOfContact mocSms = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.SMS);
-        MeansOfContact mocLAOffice = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE);
+        MeansOfContact mocMail =
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
+        MeansOfContact mocEmail =
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
+        MeansOfContact mocHomePhone =
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.HOME_PHONE);
+        MeansOfContact mocMobilePhone =
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MOBILE_PHONE);
+        MeansOfContact mocOfficePhone =
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.OFFICE_PHONE);
+        MeansOfContact mocSms =
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.SMS);
+        MeansOfContact mocLAOffice =
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE);
         
         // Used to generate updtae instruction if a HibernateError occures
         boolean isErrorCatched = false;
@@ -192,14 +200,16 @@ public class MeansOfContactTransformer {
     /* Split list of RequestMeanOfcontact into sublist with size=100
      * Open one hibernate transaction per sublist and apply MeanOfContact changes
      */
-    public void transformMoc(String localAuthorityName) throws CvqException {
+    public void transformMoc() throws CvqException {
         
-        updateScriptStringBuffer = new StringBuffer("-- REQUEST'S MEANS OF CONTACT UPDATES").append("\n\n");
+        updateScriptStringBuffer =
+            new StringBuffer("-- REQUEST'S MEANS OF CONTACT UPDATES").append("\n\n");
         subStringBuffer = new StringBuffer();
         
         List rmocList = RequestMeansOfContactDAO.listAll();
         
-        // Display current Local Authoriy
+        // Display current Local Authority
+        String localAuthorityName = SecurityContext.getCurrentSite().getName();
         System.out.println("Means Of Contact migration for : " + localAuthorityName);
         
         int subListSize = 50;

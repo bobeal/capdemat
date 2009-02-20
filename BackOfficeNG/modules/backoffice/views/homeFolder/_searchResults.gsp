@@ -12,8 +12,8 @@
         </p>
         <p class="second-line">
           ${record.streetNumber} ${record.streetName}
-          <g:if test="${currentTown != record.town}">
-            ${record.zip} ${record.town}
+          <g:if test="${currentSiteName != record.city}">
+            ${record.postalCode} ${record.city}
           </g:if>
         </p>
       </li>

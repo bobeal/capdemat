@@ -43,7 +43,7 @@ class HomeFolderController {
             'count' : count,
             'max': this.defaultMax,
             'actorStates': this.buildActorStateFilter(),
-            'currentTown': SecurityContext.currentSite.name,
+            'currentSiteName': SecurityContext.currentSite.name,
             'homeFolderStates' : this.buildHomeFolderFilter(),
             'pageState' : (new JSON(state)).toString().encodeAsHTML(),
             'offset' : params?.currentOffset ? params.currentOffset : 0 
@@ -125,8 +125,8 @@ class HomeFolderController {
                 'homeFolderId' : human?.homeFolder?.id,
                 'streetName' : human.adress.streetName,
                 'streetNumber' : human.adress.streetNumber,
-                'zip': human.adress.postalCode,
-                'town' : human.adress.city
+                'postalCode': human.adress.postalCode,
+                'city' : human.adress.city
             ]
             if(!result.contains(entry)) result.add(entry)
         }

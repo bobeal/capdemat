@@ -87,7 +87,7 @@
             yud.get('head').innerHTML = o.responseText;
             initButton();
             initCalendars();
-            initSwitcher();
+            //initSwitcher();
           }
         );
     };
@@ -96,7 +96,7 @@
       init: function() {
         initButton();
         initCalendars();
-        initSwitcher();
+        //initSwitcher();
         displayPaginator();
         yue.on(yus.query('input[type*=radio]'), 'click', 
           function(e) {

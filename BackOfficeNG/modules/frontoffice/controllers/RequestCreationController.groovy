@@ -26,6 +26,8 @@ class RequestCreationController {
             params.requestTypeLabel.toString()
         )
         
+        flash.fromDraft = true
+        
         if(request.post) {
             def cRequest = session[params.uuidString].cRequest
             requestService.prepareDraft(cRequest)
@@ -57,21 +59,23 @@ class RequestCreationController {
         
         session[uuidString] = [:]
         session[uuidString].put('cRequest', cRequest)
+        session[uuidString].draftVisible = (cRequest.draft && !flash?.fromDraft)
 
-        render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit", 
-                model:
-                    ['rqt': cRequest,
-                     'subjects': getAuthorizedSubjects(requestService, cRequest),
-                     'meansOfContact': getMeansOfContact(meansOfContactService),
-                     'currentStep': 'subject',
-                     'requestTypeLabel': params.label,
-                     'stepStates': cRequest.stepStates.size() != 0 ? cRequest.stepStates : null,
-                     'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
-                     'uuidString': uuidString,
-                     'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
-                     'documentTypes': getDocumentTypes(requestService, cRequest),
-                     'isDocumentEditMode': false
-                    ])
+        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
+        render(view: viewPath, model: [
+            'rqt': cRequest,
+            'draftVisible': session[uuidString].draftVisible,
+            'subjects': getAuthorizedSubjects(requestService, cRequest),
+            'meansOfContact': getMeansOfContact(meansOfContactService),
+            'currentStep': 'subject',
+            'requestTypeLabel': params.label,
+            'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
+            'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
+            'uuidString': uuidString,
+            'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
+            'documentTypes': getDocumentTypes(requestService, cRequest),
+            'isDocumentEditMode': false
+        ])
     }
     
     def step = {
@@ -106,6 +110,8 @@ class RequestCreationController {
         }
                 
         try {
+            session[uuidString].draftVisible = true
+            
             if (submitAction[1] == 'documentAdd') {
                 def docParam = targetAsMap(submitAction[3])
                 documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
@@ -170,11 +176,15 @@ class RequestCreationController {
             cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
             cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
+            
+            if(!session[uuidString].cRequest.draft && !session[uuidString].draftVisible)
+                session[uuidString].draftVisible = false
         }
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
                 model:
                     ['rqt': cRequest,
+                     'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
                      'meansOfContact': getMeansOfContact(meansOfContactService),
                      'currentStep': currentStep,
@@ -219,9 +229,8 @@ class RequestCreationController {
             def subject = individualService.getById(subjectId)
             subjects[subjectId] = subject.lastName + ' ' + subject.firstName
         }
-
-        // if it's a draft, its subject has to be manually re-added'
-        if(cRequest.draft && !subjects.containsKey(cRequest.subjectId))
+        
+        if(cRequest.draft && cRequest?.subjectId && !subjects.containsKey(cRequest.subjectId))
             subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
             
         return subjects

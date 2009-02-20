@@ -14,7 +14,7 @@
       <g:message code="request.requiredDocuments.header" /> :
       <g:each in="\${documentTypes}" var="documentType" status="index">
         <strong>
-          <g:message code="\${documentType.value.name}"/><g:if test="\${index < documentTypes.size() - 1}">,</g:if>
+          <g:message code="\${documentType.value.i18nKey}"/><g:if test="\${index < documentTypes.size() - 1}">,</g:if>
         </strong>
       </g:each>
     </p>
@@ -55,7 +55,7 @@
      <div class="yui-content">
 <% requestFo.steps.each { step -> %>
        <div id="${step.name}">
-         <form method="POST" id="stepForm-${step.camelCaseName}" action="<g:createLink action="step" />">
+         <form method="POST" ${step.name == 'document' ? 'enctype=\"multipart/form-data\"' : ''} id="stepForm-${step.camelCaseName}" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
   <% if (step.name == 'validation' || step.required) { %>

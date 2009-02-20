@@ -14,7 +14,7 @@
       <g:message code="request.requiredDocuments.header" /> :
       <g:each in="${documentTypes}" var="documentType" status="index">
         <strong>
-          <g:message code="${documentType.value.name}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
+          <g:message code="${documentType.value.i18nKey}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
         </strong>
       </g:each>
     </p>
@@ -141,7 +141,7 @@
      <div class="yui-content">
 
        <div id="subject">
-         <form method="POST" id="stepForm-subject" action="<g:createLink action="step" />">
+         <form method="POST"  id="stepForm-subject" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -180,7 +180,7 @@
        </div>  
 
        <div id="familyReferent">
-         <form method="POST" id="stepForm-familyReferent" action="<g:createLink action="step" />">
+         <form method="POST"  id="stepForm-familyReferent" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.familyReferent.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.familyReferent.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -219,7 +219,7 @@
        </div>  
 
        <div id="spouse">
-         <form method="POST" id="stepForm-spouse" action="<g:createLink action="step" />">
+         <form method="POST"  id="stepForm-spouse" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.spouse.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.spouse.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -258,7 +258,7 @@
        </div>  
 
        <div id="dwelling">
-         <form method="POST" id="stepForm-dwelling" action="<g:createLink action="step" />">
+         <form method="POST"  id="stepForm-dwelling" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -299,7 +299,7 @@
        </div>  
 
        <div id="resources">
-         <form method="POST" id="stepForm-resources" action="<g:createLink action="step" />">
+         <form method="POST"  id="stepForm-resources" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -340,7 +340,7 @@
        </div>  
 
        <div id="taxes">
-         <form method="POST" id="stepForm-taxes" action="<g:createLink action="step" />">
+         <form method="POST"  id="stepForm-taxes" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.taxes.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxes.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -379,7 +379,7 @@
        </div>  
 
        <div id="document">
-         <form method="POST" id="stepForm-document" action="<g:createLink action="step" />">
+         <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -418,7 +418,7 @@
        </div>  
 
        <div id="validation">
-         <form method="POST" id="stepForm-validation" action="<g:createLink action="step" />">
+         <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
   

@@ -400,9 +400,10 @@ public class LocalAuthorityRegistry
         generateLocalAuthoritiesList();
     }
 
-    protected void instantiateLocalAuthority(final String localAuthorityName) 
+    protected void instantiateLocalAuthority() 
         throws CvqConfigurationException {
-        
+
+        String localAuthorityName = SecurityContext.getCurrentSite().getName();
         LocalAuthorityConfigurationBean lacb =
             (LocalAuthorityConfigurationBean) configurationBeansMap.get(localAuthorityName);
         
@@ -450,16 +451,14 @@ public class LocalAuthorityRegistry
 
             if (args == null || args.length == 0) {
                 Method method = 
-                    object.getClass().getDeclaredMethod(callbackMethodName, new Class[] { String.class } );
-                method.invoke(object, new Object[] { lacb.getName() } );
+                    object.getClass().getDeclaredMethod(callbackMethodName);
+                method.invoke(object);
             } else {
-                Object[] methArgs = new Object[args.length + 1];
-                Class[] methDefArgs = new Class[args.length + 1];
-                methArgs[0] = lacb.getName();
-                methDefArgs[0] = String.class;
+                Object[] methArgs = new Object[args.length];
+                Class[] methDefArgs = new Class[args.length];
                 for (int i=0; i < args.length; i++) {
-                    methArgs[i + 1] = args[i];
-                    methDefArgs[i + 1] = String.class;
+                    methArgs[i] = args[i];
+                    methDefArgs[i] = String.class;
                 }
                 Method method = 
                     object.getClass().getDeclaredMethod(callbackMethodName, methDefArgs);

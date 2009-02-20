@@ -23,6 +23,7 @@ import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService;
@@ -153,7 +154,7 @@ public class RequestServiceRegistry
         // nothing to do
     }
 
-    public void initRequestData(String localAuthorityName, String serviceLabel) 
+    public void initRequestData(String serviceLabel) 
         throws CvqException {
         
         if (serviceLabel == null || serviceLabel.trim().length() == 0) {
@@ -162,7 +163,8 @@ public class RequestServiceRegistry
         }
         
         logger.debug("initRequestData() initializing " + serviceLabel 
-                + " for local authority " + localAuthorityName);
+                + " for local authority " 
+                + SecurityContext.getCurrentSite().getName());
         
         RequestType requestType = requestTypeDAO.findByLabel(serviceLabel);
         if (requestType != null) {

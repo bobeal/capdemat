@@ -1,12 +1,12 @@
 <div class="txt-right" id="requestSearchSwitcher">
   <a href="${module.createLink(module:'backoffice', controller:'Request', action:'initSearch')}" class="simple">
-    <g:message code="action.goToRequestSearch" />
+    <g:message code="property.requestSearch" />
   </a> | 
-    <g:message code="action.goToHomeFolderSearch" />
+    <g:message code="property.homeFolderSearch" />
 </div>
 
 <div id="searchformContainer">
-  <h1><g:message code="homeFolder.header.advancedSearch" /></h1>
+  <h1><g:message code="property.homeFolderSearch" /></h1>
   <form method="POST" id="searchForm" class="advanced-search" action="${createLink(action:"search")}">
     <input type="hidden" id="pageState" name="pageState" value="${pageState}" />
     <div class="yui-g">

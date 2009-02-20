@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'homeFolder.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
+    <script type="text/javascript">
+      zenexity.capdemat.backoffice.homeFolder.id = parseInt('${params?.id}');
+    </script>
   </head>
   <body>
     <div id="yui-main">
@@ -33,23 +36,14 @@
               <g:if test="${children && children.size() > 0}">
                 <div id="page2">
                   <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.children" /></span></h2>
-                  <g:render template="detailsAdults" />
+                  <g:render template="detailsChildren" />
                 </div>
               </g:if>
             </div>
           </div>
-        <!-- request intruction document -->
-        <div id="requestDocument">
-          <!-- Request attached document -->
-          <h2><g:message code="requestType.configuration.documents" /></h2>
-          <div class="box-raduis">
-            <ul><!-- Request TabView --></ul>
-          </div>
-        </div>
         
-        <div id="requestInformation" ><!-- Request TabView --></div>
+        <div id="homeFolderInformation" ><!-- Request TabView --></div>
       </div>
     </div>
-
   </body>
 </html>

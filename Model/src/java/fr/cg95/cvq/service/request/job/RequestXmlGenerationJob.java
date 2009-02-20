@@ -33,7 +33,7 @@ public class RequestXmlGenerationJob {
         localAuthorityRegistry.browseAndCallback(this, "eraseAcknowledgedRequests", null);
     }
     
-    public void performGeneration(final String localAuthorityName) throws CvqException, IOException, 
+    public void performGeneration() throws CvqException, IOException, 
         InstantiationException, IllegalAccessException, ClassNotFoundException {
         
         Set<String> types = externalService.getGenerableRequestTypes();
@@ -56,7 +56,7 @@ public class RequestXmlGenerationJob {
         }
     }
     
-    public void eraseAcknowledgedRequests(final String localAuthorityName) {
+    public void eraseAcknowledgedRequests() {
         Set<ExternalServiceTrace> traces = 
             externalService.getTracesByStatus(TraceStatusEnum.ACKNOWLEDGED);
         

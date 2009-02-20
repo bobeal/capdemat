@@ -29,14 +29,14 @@
           <form action="#" id="requestSearchSorters">
             <ul>
               <li>
-                <label for="sortLastName"><g:message code="property.individualId" /></label>
-                <input type="radio" id="sortLastName" value="id" class="persistent sort"
-                  name="orderBy"  ${state.orderBy == 'id' ? 'checked="checked"' : ''} />
-              </li>
-              <li>
                 <label for="sortLastName"><g:message code="property.lastName" /></label>
                 <input type="radio" id="sortLastName" value="lastName" class="persistent sort"
                   name="orderBy"  ${state.orderBy == 'lastName' ? 'checked="checked"' : ''} />
+              </li>
+              <li>
+                <label for="sortLastName"><g:message code="property.individualId" /></label>
+                <input type="radio" id="sortLastName" value="id" class="persistent sort"
+                  name="orderBy"  ${state.orderBy == 'id' ? 'checked="checked"' : ''} />
               </li>
               <li>
                 <label for="sortHomeFolderId"><g:message code="property.homeFolderId" /></label>

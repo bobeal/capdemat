@@ -10,8 +10,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
 
 (function(){
 
-  var zct = zenexity.capdemat.tools;
-  var zcc = zenexity.capdemat.common;
+  var zc = zenexity.capdemat;
+  var zct = zc.tools;
+  var zcc = zc.common;
   var zcbh = zenexity.capdemat.backoffice.homeFolder;
   
   var yl = YAHOO.lang;
@@ -24,13 +25,33 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
   
   zcbh.Details = function() {
     var initControls = function() {
-      zcbh.Details.tabView = new yw.TabView('homeFolderData');
+      zcbh.Details.topTabView = new yw.TabView('homeFolderData');
+      
+      zcbh.Details.bottomTabView = new yw.TabView();
+      zcbh.Details.bottomTabView.addTab( new yw.Tab({
+        label: 'Demandes', cacheData: true,active:true,
+        dataSrc: [zc.baseUrl,'/requests/',zcbh.id].join('')
+      }));
+      zcbh.Details.bottomTabView.addTab( new yw.Tab({
+        label: 'Payments', cacheData: true,
+        dataSrc: [zc.baseUrl,'/payments/',zcbh.id].join('')
+      }));
+      zcbh.Details.bottomTabView.addTab( new yw.Tab({
+        label: 'Aide', cacheData: true,
+        dataSrc: [zc.baseUrl,'/help/'].join('')
+      }));
+      
+      zcbh.Details.bottomTabView.appendTo('homeFolderInformation');
     };
     return {
       /**
-       * @description Main tab view control
+       * @description Main top tab view control
        */
-      tabView : undefined,
+      topTabView : undefined,
+      /**
+       * @description Bottom tab view control
+       */
+      bottomTabView : undefined,
       /**
       * @description Initialize current module
       */

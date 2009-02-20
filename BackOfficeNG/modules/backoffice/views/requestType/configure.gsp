@@ -2,9 +2,10 @@
   <head>
     <title><g:message code="requestType.header.configuration" /> "${requestTypeLabel}"</title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" ></link>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/yui/editor',file:'simpleeditor.css')}" ></link>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" ></link>
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'form.css')}" />
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/yui/editor',file:'simpleeditor.css')}" />
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/yui/editor',file:'simpleeditor-beta.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'defaultToolbar.js')}"></script>
     
@@ -128,12 +129,12 @@
           </form>
         </div>
       </div>
-
-    </div>
-    <div id="requestStatePanel" class="state-overlay">
-      <div class="hd" style="cursor: auto;"><g:message code="request.header.changeState" /></div>
-      <div class="bd"></div>
-      <div class="ft"></div>
+      
+      <div id="requestStatePanel" class="state-overlay">
+        <div class="hd" style="cursor: auto;"><g:message code="request.header.changeState" /></div>
+        <div class="bd"></div>
+        <div class="ft"></div>
+      </div>
     </div>
 
   </body>

@@ -47,8 +47,9 @@ public class PaymentInitializationDateCheckerJob {
 	 * <br>Format the email's body by replacing variables by their values for each matched payment
 	 * <br>Send an email alert to the configured email address.
 	 */
-	public void checkInitializedPayment(final String localAuthorityName) throws CvqException {
-		logger.debug("checkInitializedPayment() starting job for local authority " + localAuthorityName);
+	public void checkInitializedPayment() throws CvqException {
+		logger.debug("checkInitializedPayment() starting job for local authority " 
+            + SecurityContext.getCurrentSite().getName());
 
 		List paymentList = paymentDAO.searchNotCommited();
 		logger.debug("checkInitializedPayment() number of fail payments : " + paymentList.size());

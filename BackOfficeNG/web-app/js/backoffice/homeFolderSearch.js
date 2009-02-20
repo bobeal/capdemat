@@ -42,6 +42,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
       });
       
       zcbh.Search.paginator.render();
+      
+      new YAHOO.widget.Button('submitSearch');
+      yue.on('submitSearch','click',zcbh.Search.doSearch);
     };
     return {
       /**
@@ -57,7 +60,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
       */
       init : function() {
         zcbh.Search.pageState = ylj.parse(yud.get('pageState').value);
-        yue.on('submitSearch','click',zcbh.Search.doSearch);
         yue.on(yus.query('.sort'),'change',zcbh.Search.doSearch);
         yue.on(yus.query('.filter'),'change',zcbh.Search.doSearch);
         initControls();

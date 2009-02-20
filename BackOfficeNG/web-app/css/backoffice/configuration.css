@@ -186,16 +186,60 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
   background:#EFEFEF none repeat scroll 0 0;
   border:5px solid #DDDDDD;
   font-size:1.4em;
-  padding:0.1em 0 0.3em;
-  width: 200px;
+  text-align : center;
+  padding:0.1em 1em 0.3em;
+  width: 150px;
 }
+
 .state-overlay .hd {
-  padding-left : 1em ! important;
+  color: #000000;
+  font-size: 93%;
+  line-height: 2;
+  padding: 0;
+  font-weight: normal;
+  border: 0;
+  background: transparent;
 }
-.state-overlay .bt  {
-  margin-top: 1em;
+
+.state-overlay .bd {
+  padding: .1em;
+  background: transparent;
+  border: 0;
+}
+
+.state-overlay .ft {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.state-overlay form {
+  margin: 0;
+  padding: 0;
+}
+
+.state-overlay form input[type="button"] {
+  font-size: .8em;
+}
+
+.state-overlay form .error {
+  margin: 0;
+  font-size: .8em;
+  font-style: italic;
+  text-align: center
+}
+
+.state-overlay ul {
+  margin: .2em 0 .5em .5em;
+  text-align: left
+}
+
+.state-overlay ul li {
+  padding: .1em 0;
 }
 
 span#requestState {
   cursor: pointer;
+  float: right;
+  font-size:1.1em;
 }

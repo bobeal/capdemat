@@ -23,10 +23,7 @@ public interface ILdapService {
      * Currently deals with scools and recreation centers.
      * Elements removed from the LDAP directory are not removed from the CVQ database
      * but only de-activated. 
-     *
-     * @param localAuthority name of the local authority to synchronize.
      */
-
-    void synchronizeDatabaseWithDirectory(final String localAuthority)
+    void synchronizeDatabaseWithDirectory()
         throws CvqException;
 }

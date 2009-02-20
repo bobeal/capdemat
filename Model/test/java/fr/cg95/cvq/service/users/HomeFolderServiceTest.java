@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import junit.framework.Assert;
 import fr.cg95.cvq.business.request.Request;
@@ -131,6 +133,68 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         }
     }
 
+    public void testIndividualSearch() throws CvqException {
+        Integer total1 = 0, total2 = 0; 
+        List<CreationBean> beans = new ArrayList<CreationBean>();
+        
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        
+        beans.add(gimmeAnHomeFolder());
+        beans.add(gimmeAnHomeFolder());
+        beans.add(gimmeAnHomeFolder());
+        
+        for(CreationBean bean: beans) {
+            HomeFolder folder = iHomeFolderService.getById(bean.getHomeFolderId());
+            total1 += folder.getIndividuals().size();
+            total2 += iHomeFolderService.getHomeFolderResponsible(bean.getHomeFolderId()) != null ? 1 : 0;
+        }
+        continueWithNewTransaction();
+        
+        Integer result1 = iIndividualService.get(new HashSet<Critere>(),
+            new HashMap<String,String>(),null,null).size();
+        
+        Integer count1 = iIndividualService.getCount(new HashSet<Critere>());
+        
+        assertEquals(total1,result1);
+        assertEquals(count1,result1);
+        
+        Set<Critere> criterias = new HashSet<Critere>();
+        Critere ct = new Critere();
+        ct.setAttribut(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE);
+        criterias.add(ct);
+        
+        Integer count2 = iIndividualService.getCount(criterias);
+        Integer result2 = iIndividualService.get(criterias,
+            new HashMap<String,String>(),null,null).size();
+        
+        assertEquals(total2,result2);
+        assertEquals(count2,result2);
+        assertNotSame(total1,result2);
+        
+        criterias = new HashSet<Critere>();
+        ct = new Critere();
+        ct.setAttribut(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE);
+        criterias.add(ct);
+        ct = new Critere();
+        ct.setAttribut(Individual.SEARCH_BY_HOME_FOLDER_ID);
+        ct.setComparatif(Critere.EQUALS);
+        ct.setValue(beans.get(1).getHomeFolderId());
+        criterias.add(ct);
+        
+        Integer count3 = iIndividualService.getCount(criterias);
+        Integer result3 = iIndividualService.get(criterias,
+            new HashMap<String,String>(),null,null).size();
+        
+        assertTrue(result3 <= 1);
+        assertEquals(count3,result3);
+        
+        Integer result4 = iIndividualService.get(new HashSet<Critere>(),
+            new HashMap<String,String>(),5,null).size();
+        
+        assertTrue(result4 <= 5);
+    }
+    
     public void testAll()
         throws CvqException {
 

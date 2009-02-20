@@ -39,8 +39,9 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
      *  - MeansOfContact removing not yet implement ...
      *  - EMAIL MeansOfContact is enabled by default
      */
-    public void initAvalaibleMeansOfContact(final String localAuthorityName) throws CvqException {
-        logger.debug("initAvalaibleMeansOfContact() init for " + localAuthorityName);
+    public void initAvalaibleMeansOfContact() throws CvqException {
+        logger.debug("initAvalaibleMeansOfContact() init for " 
+            + SecurityContext.getCurrentSite().getName());
 
         MeansOfContactEnum[] mocArray = MeansOfContactEnum.allMeansOfContactEnums;
         List<MeansOfContact> mocList = meansOfContactDAO.listAll();
@@ -65,7 +66,8 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
 
     public void addLocalAuthority(String localAuthorityName) {
         if (performDbUpdates)
-            localAuthorityRegistry.callback(localAuthorityName, this, "initAvalaibleMeansOfContact", null);
+            localAuthorityRegistry.callback(localAuthorityName, this,
+                "initAvalaibleMeansOfContact", null);
     }
 
     public void removeLocalAuthority(String localAuthorityName) {

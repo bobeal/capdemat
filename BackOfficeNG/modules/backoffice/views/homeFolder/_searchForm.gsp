@@ -6,7 +6,7 @@
 </div>
 
 <div id="searchformContainer">
-  <h1><g:message code="homeFolder.header.advancedSearch" /></h1>
+  <h1><g:message code="property.homeFolderSearch" /></h1>
   <form method="POST" id="searchForm" class="advanced-search" action="${createLink(action:"search")}">
     <input type="hidden" id="pageState" name="pageState" value="${pageState}" />
     <div class="yui-g">

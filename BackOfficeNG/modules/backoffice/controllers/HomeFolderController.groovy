@@ -153,13 +153,10 @@ class HomeFolderController {
     }
     
     protected Map<String,String> prepareSort(state) {
-        if(state?.orderBy) {
-            Map<String,String> result = new HashMap<String,String>();
-            result.put("individual." + state.orderBy,'asc')
-            return result
-        } else {
-            return null
-        }
+        if(!state?.orderBy) state.orderBy = 'id'
+        Map<String,String> result = new HashMap<String,String>();
+        result.put("individual." + state.orderBy,'asc')
+        return result
     }
     
     protected List buildHomeFolderFilter() {

@@ -7,7 +7,12 @@
         <p class="first-line">
           <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="actor.state" />
           <a href="${createLink(action:'details',id:record.homeFolderId)}">
-            ${record.firstName} ${record.lastName} (${message(code:'property.homeFolderId')}: ${record.homeFolderId})
+            ${record.firstName} 
+            <span style="${state?.orderBy == 'lastName' ? 'font-weight : bold' : ''}">${record.lastName}</span>
+            (${message(code:'property.homeFolderId')}: 
+            <span style="${state?.orderBy == 'homeFolder.id' ? 'font-weight : bold' : ''}">${record.homeFolderId}</span>, 
+            ${message(code:'property.individualId')}: 
+            <span style="${state?.orderBy == 'id' ? 'font-weight : bold' : ''}">${record.id}</span>)
           </a>
         </p>
         <p class="second-line">

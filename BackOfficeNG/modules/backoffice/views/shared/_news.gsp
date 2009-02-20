@@ -1,7 +1,22 @@
 <h2>Nouvelles</h2>
 
+<p><strong>20 Février 2009</strong></p>
+<span style="text-decoration:underline;">Back Office</span>
+<ul>
+  <li>Ajout du widget d'activation / désactivation d'un type de télé-service</li>
+  <li>Recherche de comptes</li>
+  <li>Affichage détaillé des informations d'un compte (membres, demandes, paiements)</li>
+</ul>
+<span style="text-decoration:underline;">Front Office</span>
+<ul>
+  <li>Message d'alerte sur les brouillons proches de la date d'expiration</li>
+  <li>Fonction de suppression d'un brouillon à partir de la page d'accueil</li>
+  <li>Prototypage ergonomique de l'étape d'ajout de pièces justificatives</li>
+  <li>Notion d'étapes obligatoires / optionnelles</li>
+  <li>Diverses améliorations et corrections dans la création de téléservices</li>
+</ul>
 
-<p><strong>4 Février 2008</strong></p>
+<p><strong>4 Février 2009</strong></p>
 <span style="text-decoration:underline;">Back Office</span>
 <ul>
   <li>Ecran de configuration des brouillons (nouveau menu "Collectivités")</li>

@@ -6,14 +6,17 @@
     <input type="text" name="ecitizenNote" value=""/>
     
     <label>Nouvelle Page</label>
-    <input type="file" name="data-"/>
-    <input type="submit" name="submit-documentAddPage-document-documentTypeId:${documentType.id}" value="ajouter" />
-
-<!--    <label>Page 1</label>-->
-<!--    <input type="file" /> <input type="submit" value="modifier" /> <a href="">aperçu</a>-->
-<!--    <label>Page 2</label>-->
-<!--    <input type="file" /> <input type="submit" value="modifier" /> <a href="">aperçu</a>-->
-
+    <input type="file" name="documentData-0"/>
+    <input type="submit" name="submit-documentAddPage-document-documentTypeId:${documentType.id}_id:${document?.id}" value="ajouter" />
+    
+    <g:each var="data" in="${document?.datas}" >
+    <label>Page ${data.pageNumber}</label>
+    <input type="file" name="documentData-${data.id}"/>
+    <input type="submit" name="submit-documentModifyPage-document-id:${document.id}_dataID:${data.id}" value="modifier" />
+    <input type="submit" name="submit-documentDeletePage-document-id:${document.id}_dataID:${data.id}" value="supprimer" />
+    <a href="">aperçu</a>
+    </g:each>
+    
     <input type="hidden" name="documentId" value="${document}" />
   </fieldset>
 </g:if>

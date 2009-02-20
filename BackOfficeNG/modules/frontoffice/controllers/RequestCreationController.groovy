@@ -1,5 +1,4 @@
 import fr.cg95.cvq.business.request.Request
-fr.cg95.cvq.business.document.DepositOrigin
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
@@ -112,22 +111,22 @@ class RequestCreationController {
                 documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true;
             }
-//            else if (submitAction[1] == 'documentEdit') {
-//                def docParam = targetAsMap(submitAction[3])
-//                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
-//                isDocumentEditMode = true;
-//                document = getDocument(Long.valueOf(docParam.id))
-//            }
-//            else if (submitAction[1] == 'documentAddPage') {
-//                def docParam = targetAsMap(submitAction[3])
-//                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
-//                isDocumentEditMode = true;
-//                
-//                DepositOrigin.ECITIZEN
-//                
-//                documentService.create(newDoc)
-//                requestService.addDocument()
-//            }
+            else if (submitAction[1] == 'documentEdit') {
+                def docParam = targetAsMap(submitAction[3])
+                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                isDocumentEditMode = true;
+                document = getDocument(Long.valueOf(docParam.id))
+            }
+            else if (submitAction[1] == 'documentAddPage') {
+                def docParam = targetAsMap(submitAction[3])
+                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                isDocumentEditMode = true;
+                
+                DepositOrigin.ECITIZEN
+                
+                documentService.create(newDoc)
+                requestService.addDocument()
+            }
             // removal of a collection element
             else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')

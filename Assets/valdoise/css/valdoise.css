@@ -8,6 +8,7 @@ html {
 #bd,
 .list-box h2,
 .main-box h2,
+.confirm-box h2,
 .group-box h3 { 
   background-color: #b6aca5 !important;
 }
@@ -51,6 +52,7 @@ html {
 
 h2,
 .main-box h2,
+.confirm-box h2,
 .list-box h2,
 .group-box h3,
 .login-box a{ 
@@ -63,6 +65,7 @@ h2,
 
 .group-box h3,
 .main-box h2,
+.confirm-box h2,
 #requestTabView .requestHelp h3,
 .data-detail dl {
   border-bottom-color: #FF812B !important;

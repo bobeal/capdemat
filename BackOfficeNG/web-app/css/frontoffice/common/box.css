@@ -139,4 +139,22 @@
 
 .main-box p { padding: .5em .5em; }
 
+/* confirm box
+--------------------------------------------------------------*/
 
+.confirm-box { margin: 0 0 1em 0; background: #ffffff; text-align:center;}
+
+.confirm-box h2 {
+  margin: 0 !important;
+  color: #C690BB; background: #4c3848;
+  border-bottom: 3px solid #C690BB;
+}
+
+.confirm-box p { padding: .5em .5em; }
+.confirm-box p.confirm-message { margin-top:1em; margin-bottom:1em; font-weight:bold; font-size:larger; }
+.confirm-box div.confirm-form { padding-top:2em;padding-bottom:1em; }
+.confirm-box p.confirm-warning span {
+    background-color:#ffcc99;
+    border:1px solid red;
+    padding:0.2em;
+}

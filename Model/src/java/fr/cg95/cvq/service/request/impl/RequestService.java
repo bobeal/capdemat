@@ -1364,7 +1364,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 

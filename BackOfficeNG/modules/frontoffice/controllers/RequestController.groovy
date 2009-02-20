@@ -13,7 +13,7 @@ class RequestController {
 
     IRequestService defaultRequestService
     
-    def defaultAction = "index"
+    def defaultAction = 'index'
     Adult currentEcitizen
 
     def index = {
@@ -37,6 +37,16 @@ class RequestController {
             'requests': requests,
             'requestStates' : RequestState.allRequestStates.collect{ it.toString().toLowerCase()}
         ]);
+    }
+
+    def deleteDraft = {
+        if (request.post) {
+            defaultRequestService.delete(Long.valueOf(params.id))
+            redirect(controller:'frontofficeHome')
+        } else {
+            def request = defaultRequestService.getById(Long.valueOf(params.id))
+            return ['request':requestAdaptorService.prepareRecord(request)]
+        }
     }
 
     protected filterRequests(state,params) {

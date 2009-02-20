@@ -21,10 +21,8 @@ class HomeFolderController {
     
     def instructionService
     def translationService
-    def defaultAction = "search"
+    def defaultAction = 'search'
     def defaultMax = 15
-    
-    def beforeInterceptor = {}
     
     def help = {}
     

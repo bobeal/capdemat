@@ -5,7 +5,9 @@
         <g:each var="record" in="${dashBoard.drafts.records}">
           <li>
               <span class="tag-state">
-                <g:message code="action.remove"/>
+                <a href="${module.createLink(module:'frontoffice',action:'deleteDraft',controller:'Request',id:record.id)}">
+                  <g:message code="action.remove"/>
+                </a>
               </span>
               <a href="${module.createLink(module:'frontoffice',action:'draft',controller:'RequestCreation')}/?id=${record.id}&requestTypeLabel=${record.requestTypeLabel}">
                 ${record.label}

@@ -949,8 +949,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         
         HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
         
-//        if(!request.getDraft() || request.getDraft() == null)
-        checkSubjectPolicy(request.getSubjectId(),request.getHomeFolderId(),getSubjectPolicy());
+        if(!request.getDraft() || request.getDraft() == null)
+            checkSubjectPolicy(request.getSubjectId(),request.getHomeFolderId(),getSubjectPolicy());
         
         if (request.getSubjectId() != null) {
             Individual individual = individualService.getById(request.getSubjectId());
@@ -1364,7 +1364,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 

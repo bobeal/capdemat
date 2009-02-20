@@ -19,23 +19,26 @@ class RequestAdaptorService {
         return allRequestTypesTranslated.sort{it.label}
     }
 
+    public prepareRecord(request) {
+        return ['id':request.id,
+                'draft':request.draft,
+                'requestTypeLabel':request.requestType.label,
+                'label':translationService.getEncodedRequestTypeLabelTranslation(request.requestType.label),
+                'creationDate':request.creationDate,
+                'requesterLastName':request.requesterLastName,
+                'requesterFirstName': request.requesterFirstName,
+                'subjectLastName':request.subjectLastName,
+                'subjectFirstName': request.subjectFirstName,
+                'state':request.state.toString(),
+                'lastModificationDate':request.lastModificationDate,
+                'lastInterveningAgentId': instructionService.getActionPosterDetails(request.lastInterveningAgentId) ,
+        ]
+    }
+
     public prepareRecords(requests) {
         if (!requests.records) requests.records = []
         requests.all.each {
-            requests.records.add([
-                'id':it.id,
-                'draft':it.draft,
-                'requestTypeLabel':it.requestType.label,
-                'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
-                'creationDate':it.creationDate,
-                'requesterLastName':it.requesterLastName,
-                'requesterFirstName': it.requesterFirstName,
-                'subjectLastName':it.subjectLastName,
-                'subjectFirstName': it.subjectFirstName,
-                'state':it.state.toString(),
-                'lastModificationDate':it.lastModificationDate,
-                'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId) ,
-            ]);
+            requests.records.add(prepareRecord(it))
         }
         
         return requests

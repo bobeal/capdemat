@@ -11,17 +11,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
 (function(){
 
   var zc = zenexity.capdemat;
-  var zct = zc.tools;
-  var zcc = zc.common;
   var zcbh = zenexity.capdemat.backoffice.homeFolder;
   
-  var yl = YAHOO.lang;
-  var yu = YAHOO.util;
   var yw = YAHOO.widget;
   var yue = YAHOO.util.Event;
-  var yus = YAHOO.util.Selector;
-  var ylj = YAHOO.lang.JSON;
-  
   
   zcbh.Details = function() {
     var initControls = function() {
@@ -33,7 +26,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
         dataSrc: [zc.baseUrl,'/requests/',zcbh.id].join('')
       }));
       zcbh.Details.bottomTabView.addTab( new yw.Tab({
-        label: 'Payments', cacheData: true,
+        label: 'Paiements', cacheData: true,
         dataSrc: [zc.baseUrl,'/payments/',zcbh.id].join('')
       }));
       zcbh.Details.bottomTabView.addTab( new yw.Tab({

@@ -73,6 +73,7 @@ import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
@@ -344,6 +345,34 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         }
 
         updateLastModificationInformation(request, null);
+    }
+    
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void addDocument(final Request request, final Long documentId)
+        throws CvqException, CvqObjectNotFoundException {
+        RequestDocument requestDocument = new RequestDocument();
+        requestDocument.setDocumentId(documentId);
+        if (request.getDocuments() == null) {
+            Set<RequestDocument> documents = new HashSet<RequestDocument>();
+            documents.add(requestDocument);
+            request.setDocuments(documents);
+        } else {
+            request.getDocuments().add(requestDocument);
+        }
+    }
+    
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void removeDocument(final Request request, final Long documentId)
+        throws CvqException, CvqObjectNotFoundException {
+        Iterator<RequestDocument> it = request.getDocuments().iterator();
+        while (it.hasNext()) {
+            RequestDocument rd = it.next();
+            if (rd.getDocumentId().equals(documentId)){
+                it.remove();
+            }
+        }
     }
 
     @Override

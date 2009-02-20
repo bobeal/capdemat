@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.request.Request
+fr.cg95.cvq.business.document.DepositOrigin
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
@@ -58,8 +59,7 @@ class RequestCreationController {
         session[uuidString] = [:]
         session[uuidString].put('cRequest', cRequest)
 
-        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
-        render( view: viewPath, 
+        render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit", 
                 model:
                     ['rqt': cRequest,
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
@@ -91,14 +91,43 @@ class RequestCreationController {
         
         def isDocumentEditMode = false
         def documentType = [:]
+        def document = [:]
         
+        if (cRequest.stepStates.size() == 0) {
+            session[uuidString].stepStates = [:]
+            requestTypeInfo.steps.each {
+                def nameToken = it.tokenize('-')
+                def value = ['state': 'uncomplete',
+                             'required': nameToken.size() == 2 ? true : false,
+                             'cssClass': 'tag-uncomplete',
+                             'i18nKey': 'request.step.state.uncomplete'
+                             ]
+                cRequest.stepStates.put(nameToken[0], value)
+            }
+        }
+                
         try {
             if (submitAction[1] == 'documentAdd') {
-              def docType = documentTypeService.getDocumentTypeById(Long.valueOf(submitAction[3]))
-              documentType.id = docType.id
-              documentType.name = CapdematUtils.adaptDocumentTypeName(docType.name)
-              isDocumentEditMode = true;
+                def docParam = targetAsMap(submitAction[3])
+                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                isDocumentEditMode = true;
             }
+//            else if (submitAction[1] == 'documentEdit') {
+//                def docParam = targetAsMap(submitAction[3])
+//                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+//                isDocumentEditMode = true;
+//                document = getDocument(Long.valueOf(docParam.id))
+//            }
+//            else if (submitAction[1] == 'documentAddPage') {
+//                def docParam = targetAsMap(submitAction[3])
+//                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+//                isDocumentEditMode = true;
+//                
+//                DepositOrigin.ECITIZEN
+//                
+//                documentService.create(newDoc)
+//                requestService.addDocument()
+//            }
             // removal of a collection element
             else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
@@ -123,19 +152,6 @@ class RequestCreationController {
                 // clean empty collections elements
                 DataBindingUtils.cleanBind(cRequest, params)
                 
-                if (cRequest.stepStates.size() == 0) {
-                    // TODO - refactor
-                    session[uuidString].stepStates = [:]
-                    requestTypeInfo.steps.each {
-                        def nameToken = it.tokenize('-')
-                        def value = ['state': 'uncomplete',
-                                     'required': nameToken.size() == 2 ? true : false,
-                                     'cssClass': 'tag-uncomplete',
-                                     'i18nKey': 'request.step.state.uncomplete'
-                                     ]
-                        cRequest.stepStates.put(nameToken[0], value)
-                    }
-                }
                 if (submitAction[1] == 'step') {
                     cRequest.stepStates.get(currentStep).state = 'complete'
                     cRequest.stepStates.get(currentStep).cssClass = 'tag-complete'
@@ -157,8 +173,7 @@ class RequestCreationController {
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
         }
 
-        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit"
-        render( view: viewPath,
+        render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
                 model:
                     ['rqt': cRequest,
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
@@ -172,7 +187,8 @@ class RequestCreationController {
                      'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
                      'documentTypes': getDocumentTypes(requestService, cRequest),
                      'isDocumentEditMode': isDocumentEditMode,
-                     'documentType': documentType
+                     'documentType': documentType,
+                     'document': document
                     ])
     }
 
@@ -230,11 +246,8 @@ class RequestCreationController {
         def steps = stepStates.findAll {
             it.value.required && it.value.state != 'complete'
         }
-        println steps
-        if (steps.size() == 0)
-            return true;
-        else
-            return false;
+        if (steps.size() == 0) return true;
+        else return false;
     }
     
     
@@ -248,7 +261,7 @@ class RequestCreationController {
         def result = [:]
         documentTypes.each {
             def requestDocType = [:]
-            requestDocType.name = CapdematUtils.adaptDocumentTypeName(it.name)
+            requestDocType.i18nKey = CapdematUtils.adaptDocumentTypeName(it.name)
             requestDocType.associated = getAssociatedDocument (it, cRequest)
             requestDocType.provided = documentService.getProvidedDocuments(it, SecurityContext.currentEcitizen.homeFolder.id, null)
             result[it.id] = requestDocType
@@ -261,5 +274,39 @@ class RequestCreationController {
         def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
         return documents.findAll{ it.type.documentType.id == docType.id }
     }
+    
+    def getDocument (id) {
+        def doc = documentService.getById(id)
+        def result = [:]
+        result.id = doc.id
+        result.ecitizenNote = doc.ecitizenNote
+        doc.datas.each {
+            result.datas[it.pageNumber] = ['id': it.id, 'pageNumber':it.pageNumber]  
+        }
+        return result 
+    }
+    
+    def getDocumentType(id) {
+        def result = [:]
+        def docType = documentTypeService.getDocumentTypeById(id)
+        result.id = docType.id
+        result.i18nKey = CapdematUtils.adaptDocumentTypeName(docType.name)
+        return (result)
+    }
+    
+    
+    /* Utils
+     * ------------------------------------------------------------------------------------------- */
+    
+    // Convert a substring of <input type=submit name > representing target object of action in a map
+    def targetAsMap(stringTarget) {
+        def result = [:]
+        stringTarget.tokenize('_').each {
+            def property = it.tokenize(':')
+            result[property[0]] = property[1]
+        }
+        return result
+    }
+    
 }
 

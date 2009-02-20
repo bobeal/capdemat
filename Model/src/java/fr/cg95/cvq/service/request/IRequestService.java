@@ -266,6 +266,26 @@ public interface IRequestService {
      */
     void addDocument(@IsRequest final Long requestId, final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
+    
+    /**
+     * Add a single document to a request.
+     * Enable adding document to not persisted request
+     *
+     * @param request to which the document has to linked
+     * @param documentId a document that must have been created with the creation
+     *  method provided by the {@link fr.cg95.cvq.service.document.IDocumentService} service
+     */
+    void addDocument(@IsRequest final Request request, final Long documentId)
+        throws CvqException, CvqObjectNotFoundException;
+    
+    /**
+     * Remove link betwenn a document and a request.
+     *
+     * @param request to which the document is linked
+     * @param documentId 
+     */
+    void removeDocument(@IsRequest final Request request, final Long documentId)
+        throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get actions related to a given request.

@@ -1,6 +1,6 @@
 class RequestTypeController {
 
-    def index = { 
+    def index = {
         ['groups': CapdematUtils.requestGroup()]
     }
 }

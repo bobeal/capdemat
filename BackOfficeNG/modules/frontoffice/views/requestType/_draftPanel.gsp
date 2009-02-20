@@ -1,4 +1,4 @@
-<g:if test="${session.currentUser}">
+<g:if test="${session?.currentUser && draftVisible}">
   <form id="draftForm" method="post" action="${createLink(action:'draft')}">
     <div id="draftPanel">
       <g:if test="${draftedMessage}">

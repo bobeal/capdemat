@@ -920,8 +920,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         
         HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
         
-//        if(!request.getDraft() || request.getDraft() == null)
-        checkSubjectPolicy(request.getSubjectId(),request.getHomeFolderId(),getSubjectPolicy());
+        if(!request.getDraft() || request.getDraft() == null)
+            checkSubjectPolicy(request.getSubjectId(),request.getHomeFolderId(),getSubjectPolicy());
         
         if (request.getSubjectId() != null) {
             Individual individual = individualService.getById(request.getSubjectId());

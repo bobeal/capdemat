@@ -10,31 +10,31 @@
     
       <label class=""><g:message code="dhr.property.pensions.label" /> <span><g:message code="dhr.property.pensions.help" /></span></label>
       
-            <input name="pensions" value="${rqt.pensions}" 
+            <input type="text" name="pensions" value="${rqt.pensions}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.pensions.validationError" />">
             
     
       <label class=""><g:message code="dhr.property.dhrAllowances.label" /> <span><g:message code="dhr.property.dhrAllowances.help" /></span></label>
       
-            <input name="dhrAllowances" value="${rqt.dhrAllowances}" 
+            <input type="text" name="dhrAllowances" value="${rqt.dhrAllowances}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrAllowances.validationError" />">
             
     
       <label class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /> <span><g:message code="dhr.property.dhrFurnitureInvestmentIncome.help" /></span></label>
       
-            <input name="dhrFurnitureInvestmentIncome" value="${rqt.dhrFurnitureInvestmentIncome}" 
+            <input type="text" name="dhrFurnitureInvestmentIncome" value="${rqt.dhrFurnitureInvestmentIncome}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrFurnitureInvestmentIncome.validationError" />">
             
     
       <label class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /> <span><g:message code="dhr.property.dhrRealEstateInvestmentIncome.help" /></span></label>
       
-            <input name="dhrRealEstateInvestmentIncome" value="${rqt.dhrRealEstateInvestmentIncome}" 
+            <input type="text" name="dhrRealEstateInvestmentIncome" value="${rqt.dhrRealEstateInvestmentIncome}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrRealEstateInvestmentIncome.validationError" />">
             
     
       <label class=""><g:message code="dhr.property.dhrNetIncome.label" /> <span><g:message code="dhr.property.dhrNetIncome.help" /></span></label>
       
-            <input name="dhrNetIncome" value="${rqt.dhrNetIncome}" 
+            <input type="text" name="dhrNetIncome" value="${rqt.dhrNetIncome}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrNetIncome.validationError" />">
             
     
@@ -70,21 +70,21 @@
     
         <label class="required"><g:message code="dhr.property.dhrRealAssetValue.label" /> <span><g:message code="dhr.property.dhrRealAssetValue.help" /></span></label>
         
-            <input name="dhrRealAsset[${listIndex}].dhrRealAssetValue" value="${editList?.dhrRealAsset?.dhrRealAssetValue}" 
+            <input type="text" name="dhrRealAsset[${listIndex}].dhrRealAssetValue" value="${editList?.dhrRealAsset?.dhrRealAssetValue}" 
                     class="required validate-positiveInteger" title="<g:message code="dhr.property.dhrRealAssetValue.validationError" />">
             
     
         <label class="required"><g:message code="dhr.property.realAssetNetFloorArea.label" /> <span><g:message code="dhr.property.realAssetNetFloorArea.help" /></span></label>
         
-            <input name="dhrRealAsset[${listIndex}].realAssetNetFloorArea" value="${editList?.dhrRealAsset?.realAssetNetFloorArea}" 
+            <input type="text" name="dhrRealAsset[${listIndex}].realAssetNetFloorArea" value="${editList?.dhrRealAsset?.realAssetNetFloorArea}" 
                     class="required validate-positiveInteger" title="<g:message code="dhr.property.realAssetNetFloorArea.validationError" />">
             
     
         <g:if test="${editList?.name == 'dhrRealAsset'}">
-          <input type="submit" id="submit-modify-resources-dhrRealAsset[${listIndex}]" name="submit-modify-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-resources-dhrRealAsset[${listIndex}]" name="submit-collectionModify-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-add-resources-dhrRealAsset[${listIndex}]" name="submit-add-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-resources-dhrRealAsset[${listIndex}]" name="submit-collectionAdd-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrRealAsset}" status="index">
@@ -113,8 +113,8 @@
         <dd>${it.realAssetNetFloorArea}</dd>
     
         </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-edit-resources-dhrRealAsset[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-delete-resources-dhrRealAsset[${index}]" />
+        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-resources-dhrRealAsset[${index}]" />
+        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-resources-dhrRealAsset[${index}]" />
       </fieldset>
     </g:each>
     </div>
@@ -173,13 +173,13 @@
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /> <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.help" /></span></label>
         
-            <input name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryName}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryName}" 
                     class="required validate-lastName" title="<g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.validationError" />">
             
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.label" /> <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.help" /></span></label>
         
-            <input name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryFirstName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryFirstName}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryFirstName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryFirstName}" 
                     class="required validate-firstName" title="<g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.validationError" />">
             
     
@@ -205,19 +205,19 @@
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetValue.label" /> <span><g:message code="dhr.property.dhrNotRealAssetValue.help" /></span></label>
         
-            <input name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetValue" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetValue}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetValue" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetValue}" 
                     class="required validate-positiveInteger" title="<g:message code="dhr.property.dhrNotRealAssetValue.validationError" />">
             
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetDate.label" /> <span><g:message code="dhr.property.dhrNotRealAssetDate.help" /></span></label>
         
-            <input name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetDate" value="${formatDate(formatName:'format.date',date:editList?.dhrNotRealAsset?.dhrNotRealAssetDate)}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetDate" value="${formatDate(formatName:'format.date',date:editList?.dhrNotRealAsset?.dhrNotRealAssetDate)}" 
                    class="required validate-date" title="<g:message code="dhr.property.dhrNotRealAssetDate.validationError" />">
             
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /> <span><g:message code="dhr.property.dhrNotRealAssetNotaryName.help" /></span></label>
         
-            <input name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetNotaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetNotaryName}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetNotaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetNotaryName}" 
                     class="required validate-lastName" title="<g:message code="dhr.property.dhrNotRealAssetNotaryName.validationError" />">
             
     
@@ -242,10 +242,10 @@
             
     
         <g:if test="${editList?.name == 'dhrNotRealAsset'}">
-          <input type="submit" id="submit-modify-resources-dhrNotRealAsset[${listIndex}]" name="submit-modify-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-resources-dhrNotRealAsset[${listIndex}]" name="submit-collectionModify-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-add-resources-dhrNotRealAsset[${listIndex}]" name="submit-add-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-resources-dhrNotRealAsset[${listIndex}]" name="submit-collectionAdd-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrNotRealAsset}" status="index">
@@ -329,8 +329,8 @@
               
     
         </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-edit-resources-dhrNotRealAsset[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-delete-resources-dhrNotRealAsset[${index}]" />
+        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-resources-dhrNotRealAsset[${index}]" />
+        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-resources-dhrNotRealAsset[${index}]" />
       </fieldset>
     </g:each>
     </div>

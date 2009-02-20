@@ -30,7 +30,7 @@
     
       <label class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingPhone.help" /></span></label>
       
-            <input name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone}" 
+            <input type="text" name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone}" 
                     class=" validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />">
             
     
@@ -46,7 +46,7 @@
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.help" /></span></label>
       
-            <input name="dhrCurrentDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:rqt.dhrCurrentDwellingArrivalDate)}" 
+            <input type="text" name="dhrCurrentDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:rqt.dhrCurrentDwellingArrivalDate)}" 
                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-date" title="<g:message code="dhr.property.dhrCurrentDwellingArrivalDate.validationError" />">
             
     
@@ -64,13 +64,13 @@
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.help" /></span></label>
       
-            <input name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom}" 
+            <input type="text" name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom}" 
                     class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />">
             
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
       
-            <input name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea}" 
+            <input type="text" name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea}" 
                     class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-regex" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/">
             
     
@@ -128,27 +128,27 @@
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
         
-            <input name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate)}" 
+            <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate)}" 
                    class="required validate-date" title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />">
             
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
         
-            <input name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate)}" 
+            <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate)}" 
                    class="required validate-date" title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />">
             
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
         
-            <input name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment}" 
+            <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment}" 
                     class="required validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />">
             
     
         <g:if test="${editList?.name == 'dhrPreviousDwelling'}">
-          <input type="submit" id="submit-modify-dwelling-dhrPreviousDwelling[${listIndex}]" name="submit-modify-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-dwelling-dhrPreviousDwelling[${listIndex}]" name="submit-collectionModify-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-add-dwelling-dhrPreviousDwelling[${listIndex}]" name="submit-add-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-dwelling-dhrPreviousDwelling[${listIndex}]" name="submit-collectionAdd-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">
@@ -198,8 +198,8 @@
         <dd>${it.dhrPreviousDwellingComment}</dd>
     
         </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-edit-dwelling-dhrPreviousDwelling[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-delete-dwelling-dhrPreviousDwelling[${index}]" />
+        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-dwelling-dhrPreviousDwelling[${index}]" />
+        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-dwelling-dhrPreviousDwelling[${index}]" />
       </fieldset>
     </g:each>
     </div>

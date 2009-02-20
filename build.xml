@@ -219,6 +219,10 @@
         <filter token="perform_db_updates" value="true" />
       </filterset>
     </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext-admin.xml"
+          todir="BackOfficeNG/grails-app/conf/spring"
+          overwrite="true">
+    </copy>
   </target>
 
   <!-- ================================================================================= -->

@@ -4,6 +4,8 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.document.IDocumentService
+import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.exception.CvqException
 
 import grails.converters.JSON
@@ -14,6 +16,8 @@ class RequestCreationController {
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
     IIndividualService individualService
+    IDocumentService documentService
+    IDocumentTypeService documentTypeService
     
     def defaultAction = 'edit'
     
@@ -59,53 +63,53 @@ class RequestCreationController {
                 model:
                     ['rqt': cRequest,
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
-                     'documentTypes': getDocumentTypes(requestService),
                      'meansOfContact': getMeansOfContact(meansOfContactService),
                      'currentStep': 'subject',
                      'requestTypeLabel': params.label,
                      'stepStates': cRequest.stepStates.size() != 0 ? cRequest.stepStates : null,
                      'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
                      'uuidString': uuidString,
-                     'isRequestCreatable': isRequestCreatable(cRequest.stepStates)
+                     'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
+                     'documentTypes': getDocumentTypes(requestService, cRequest),
+                     'isDocumentEditMode': false
                     ])
     }
     
     def step = {
-        
         if (params.requestTypeInfo == null || params.uuidString == null)
             redirect(uri: '/frontoffice/requestType')
             
         def uuidString = params.uuidString
         def requestTypeInfo = JSON.parse(params.requestTypeInfo)
         
-        def currentStep
-        def submitAction
+        def submitAction = (params.keySet().find { it.startsWith('submit-') }).tokenize('-')
+        def currentStep = submitAction[2]
         def editList
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuidString].cRequest
-
-        params.each { 
-              println it
-              if (it.key.startsWith('submit-'))
-                submitAction = it.key.tokenize('-')
-        }
-        currentStep = submitAction[2]
+        
+        def isDocumentEditMode = false
+        def documentType = [:]
         
         try {
+            if (submitAction[1] == 'documentAdd') {
+              def docType = documentTypeService.getDocumentTypeById(Long.valueOf(submitAction[3]))
+              documentType.id = docType.id
+              documentType.name = CapdematUtils.adaptDocumentTypeName(docType.name)
+              isDocumentEditMode = true;
+            }
             // removal of a collection element
-            if (submitAction[1] == 'delete') {
+            else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
-                def getterMethod = cRequest.class.getMethod(
-                        'get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
+                def getterMethod = cRequest.class.getMethod('get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
                         
                 getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listFieldToken[1]).intValue())
             }
             // edition of a collection element
-            else if (submitAction[1] == 'edit') {
+            else if (submitAction[1] == 'collectionEdit') {
                 def listFieldToken = submitAction[3].tokenize('[]')
-                def getterMethod = cRequest.class.getMethod(
-                        'get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
+                def getterMethod = cRequest.class.getMethod('get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
                         
                 editList = ['name': listFieldToken[0], 
                             'index': listFieldToken[1],
@@ -158,7 +162,6 @@ class RequestCreationController {
                 model:
                     ['rqt': cRequest,
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
-                     'documentTypes': getDocumentTypes(requestService),
                      'meansOfContact': getMeansOfContact(meansOfContactService),
                      'currentStep': currentStep,
                      'requestTypeLabel': requestTypeInfo.label,
@@ -166,7 +169,10 @@ class RequestCreationController {
                      'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)),
                      'uuidString': uuidString,
                      'editList': editList,
-                     'isRequestCreatable': isRequestCreatable(cRequest.stepStates)
+                     'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
+                     'documentTypes': getDocumentTypes(requestService, cRequest),
+                     'isDocumentEditMode': isDocumentEditMode,
+                     'documentType': documentType
                     ])
     }
 
@@ -186,6 +192,10 @@ class RequestCreationController {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         }
     }
+    
+    
+    /* Step and Validation
+     * ------------------------------------------------------------------------------------------- */
     
     def getAuthorizedSubjects(requestService, cRequest) {
         def subjects = [:]
@@ -212,17 +222,7 @@ class RequestCreationController {
         }
         return result.sort {it.label}
     }
-    
-    def getDocumentTypes(requestService) {
-        def requestType = requestService.getRequestTypeByLabel(requestService.getLabel())
-        def documentTypes = requestService.getAllowedDocuments(requestType.getId())
-        def result = [:]
-        documentTypes.each {
-            result[it.id] = CapdematUtils.adaptDocumentTypeName(it.name)
-        }
-        return result
-    }
-    
+     
     // TODO - refactor. Maybe move to Request class ...
     def isRequestCreatable(stepStates) {
         if (stepStates == null || stepStates.size() == 0)
@@ -236,4 +236,30 @@ class RequestCreationController {
         else
             return false;
     }
+    
+    
+    /* Documents
+     * ------------------------------------------------------------------------------------------- */
+
+    def getDocumentTypes(requestService, cRequest) {
+        def requestType = requestService.getRequestTypeByLabel(requestService.getLabel())
+        def documentTypes = requestService.getAllowedDocuments(requestType.getId())
+        
+        def result = [:]
+        documentTypes.each {
+            def requestDocType = [:]
+            requestDocType.name = CapdematUtils.adaptDocumentTypeName(it.name)
+            requestDocType.associated = getAssociatedDocument (it, cRequest)
+            requestDocType.provided = documentService.getProvidedDocuments(it, SecurityContext.currentEcitizen.homeFolder.id, null)
+            result[it.id] = requestDocType
+        }
+        return result
+    }
+    
+    def  getAssociatedDocument (docType, cRequest) {
+        def requestDocuments = cRequest.documents
+        def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
+        return documents.findAll{ it.type.documentType.id == docType.id }
+    }
 }
+

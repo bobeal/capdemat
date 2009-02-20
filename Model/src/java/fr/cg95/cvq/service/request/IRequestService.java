@@ -81,9 +81,6 @@ public interface IRequestService {
 
     /**
      * Prepares request draft.
-     * 
-     * @param request current request
-     * @throws CvqException
      */
     void prepareDraft(@IsRequest Request request) throws CvqException;
     
@@ -274,6 +271,12 @@ public interface IRequestService {
      * Get actions related to a given request.
      */
     List<RequestAction> getActions(@IsRequest final Long requestId)
+        throws CvqException;
+
+    /**
+     * Return whether the given request has an action trace with the given label.
+     */
+    boolean hasAction(@IsRequest final Long requestId, final String label)
         throws CvqException;
 
     /**

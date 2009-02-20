@@ -22,13 +22,13 @@
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> <span><g:message code="dhr.property.dhrReferentName.help" /></span></label>
       
-            <input name="dhrReferentName" value="${rqt.dhrReferentName}" 
+            <input type="text" name="dhrReferentName" value="${rqt.dhrReferentName}" 
                     class="required condition-haveFamilyReferent-filled validate-lastName" title="<g:message code="dhr.property.dhrReferentName.validationError" />">
             
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentFirstName.label" /> <span><g:message code="dhr.property.dhrReferentFirstName.help" /></span></label>
       
-            <input name="dhrReferentFirstName" value="${rqt.dhrReferentFirstName}" 
+            <input type="text" name="dhrReferentFirstName" value="${rqt.dhrReferentFirstName}" 
                     class="required condition-haveFamilyReferent-filled validate-firstName" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />">
             
     

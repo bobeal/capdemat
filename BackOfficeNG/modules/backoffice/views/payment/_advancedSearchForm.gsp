@@ -25,11 +25,13 @@
         <label for="cvqReference"><g:message code="payment.property.cvqReference" /> :</label>
         <input type="text" id="cvqReference" name="cvqReference" size="40" value="${params?.cvqReference}"/>
        
-        <label for="bankReference"><g:message code="payment.property.bankReference" /> :</label>
-        <input type="text" id="bankReference"  name="bankReference" size="40" value="${params?.bankReference}"/>
       </div>
     
       <div class="yui-u">
+      
+        <label for="bankReference"><g:message code="payment.property.bankReference" /> :</label>
+        <input type="text" id="bankReference"  name="bankReference" size="40" value="${params?.bankReference}"/>
+
         <label for="initDateFrom">
           <g:message code="payment.search.initializationDatePeriod" /> :
         </label>

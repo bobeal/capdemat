@@ -211,12 +211,23 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="targetMethod" value="launchNotificationJob" />
     <property name="concurrent" value="false" />
   </bean>
-  
+
   <bean id="draftManagementNotifierJobTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="draftManagementNotifierJobInvoker" />
     <property name="cronExpression" value="0 0 5 * * ?" />
   </bean>
+
+  <!-- testing purposes only -->
+  <!--
+  <bean id="draftManagementNotifierJobTrigger"
+    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="draftManagementNotifierJobInvoker" />
+    <property name="startDelay" value="50000" />
+    <property name="repeatCount" value="0" />
+    <property name="repeatInterval" value="600000"/>
+  </bean>
+  -->
   
   <!-- *******************************************************************  -->
   <!-- ************************ Request Xml Generation *******************  -->

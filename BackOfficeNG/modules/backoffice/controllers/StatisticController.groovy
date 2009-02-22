@@ -3,7 +3,7 @@ import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.util.Critere
 
-//import groovy.GoogleChartBuilder
+import GoogleChartBuilder
 
 import java.text.SimpleDateFormat
 
@@ -88,7 +88,10 @@ class StatisticController {
             data(encoding:'text') {
         		dataSet(transformedCdData)        
             }
-            axis(bottom:labels,left:(0..maxY).step((maxY/10).intValue()).toList())
+            if (maxY < 10)
+                axis(bottom:labels,left:(0..maxY).toList())
+            else
+                axis(bottom:labels,left:(0..maxY).step((maxY/10).intValue()).toList())
             colors {
                 color('84c984')
             }

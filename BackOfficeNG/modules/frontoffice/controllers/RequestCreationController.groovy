@@ -56,11 +56,14 @@ class RequestCreationController {
         def cRequest
         if (flash.cRequest) cRequest = flash.cRequest 
         else cRequest = requestService.getSkeletonRequest()
-
+        
+        def newDocuments = []
+        
         def uuidString = UUID.randomUUID().toString()
         
         session[uuidString] = [:]
-        session[uuidString].put('cRequest', cRequest)
+        session[uuidString].cRequest = cRequest
+        session[uuidString].newDocuments = newDocuments
         session[uuidString].draftVisible = (cRequest.draft && !flash?.fromDraft)
 
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
@@ -75,7 +78,7 @@ class RequestCreationController {
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
             'uuidString': uuidString,
             'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
-            'documentTypes': getDocumentTypes(requestService, cRequest),
+            'documentTypes': getDocumentTypes(requestService, cRequest, newDocuments),
             'isDocumentEditMode': false
         ])
     }
@@ -97,6 +100,9 @@ class RequestCreationController {
         def isDocumentEditMode = false
         def documentType = [:]
         def document = [:]
+        // manage document create with current request (those can be deleted)
+        // Do not work in draft case
+        def newDocuments = session[uuidString].newDocuments 
         
         if (cRequest.stepStates.size() == 0) {
             session[uuidString].stepStates = [:]
@@ -110,7 +116,7 @@ class RequestCreationController {
                 cRequest.stepStates.put(nameToken[0], value)
             }
         }
-                
+        
         try {
             session[uuidString].draftVisible = true
             
@@ -126,10 +132,30 @@ class RequestCreationController {
                 document = getDocument(Long.valueOf(docParam.id))
             }
             else if (submitAction[1] == 'documentSave') {
+                def docParam = targetAsMap(submitAction[3])
+                isDocumentEditMode = false;
+                if (docParam.id != null) {
+                    def doc = documentService.getById(Long.valueOf(docParam.id))
+                    doc.ecitizenNote = params.ecitizenNote
+                }
+            }
+            else if (submitAction[1] == 'documentDelete') {
+                def docParam = targetAsMap(submitAction[3])
+                requestService.removeDocument(cRequest, Long.valueOf(docParam.id))
+                documentService.delete(Long.valueOf(docParam.id))  
                 isDocumentEditMode = false;
             }
-            else if (submitAction[1] == 'documentCancel') {
-                // TODO : implement clean associted document policy
+            else if (submitAction[1] == 'documentAssociate') {
+                def docParam = targetAsMap(submitAction[3])
+                requestService.addDocument(cRequest, Long.valueOf(docParam.id))
+                isDocumentEditMode = false;
+            }
+            else if (submitAction[1] == 'documentUnassociate') {
+                def docParam = targetAsMap(submitAction[3])
+                requestService.removeDocument(cRequest, Long.valueOf(docParam.id))
+                isDocumentEditMode = false;
+            }
+            else if (submitAction[1] == 'documentCancel') { 
                 isDocumentEditMode = false;
             }
             else if (submitAction[1] == 'documentAddPage') {
@@ -145,6 +171,7 @@ class RequestCreationController {
                     newDoc.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(docParam.documentTypeId))
                     docParam.id = documentService.create(newDoc)
                     requestService.addDocument(cRequest, Long.valueOf(docParam.id))
+                    newDocuments.add(docParam.id)
                 }
                 newDocBinary.data = request.getFile('documentData-0').bytes
                 documentService.addPage(Long.valueOf(docParam.id), newDocBinary)
@@ -203,6 +230,7 @@ class RequestCreationController {
                 }
             }        
             session[uuidString].cRequest = cRequest
+            session[uuidString].newDocuments = newDocuments
         
         } catch (CvqException ce) {
             cRequest.stepStates.get(currentStep).state = 'invalid'
@@ -227,7 +255,7 @@ class RequestCreationController {
                      'uuidString': uuidString,
                      'editList': editList,
                      'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
-                     'documentTypes': getDocumentTypes(requestService, cRequest),
+                     'documentTypes': getDocumentTypes(requestService, cRequest, newDocuments),
                      'isDocumentEditMode': isDocumentEditMode,
                      'documentType': documentType,
                      'document': document
@@ -295,7 +323,7 @@ class RequestCreationController {
     /* Documents
      * ------------------------------------------------------------------------------------------- */
 
-    def getDocumentTypes(requestService, cRequest) {
+    def getDocumentTypes(requestService, cRequest, newDocuments) {
         def requestType = requestService.getRequestTypeByLabel(requestService.getLabel())
         def documentTypes = requestService.getAllowedDocuments(requestType.getId())
         
@@ -303,17 +331,34 @@ class RequestCreationController {
         documentTypes.each {
             def requestDocType = [:]
             requestDocType.i18nKey = CapdematUtils.adaptDocumentTypeName(it.name)
-            requestDocType.associated = getAssociatedDocuments(requestService, cRequest, it)
-            requestDocType.provided = documentService.getProvidedDocuments(it, SecurityContext.currentEcitizen.homeFolder.id, null)
+            requestDocType.associated = getAssociatedDocuments(requestService, cRequest, it, newDocuments)
+            requestDocType.provided = getProvidedNotAssociatedDocuments(it , requestDocType.associated)
             result[it.id] = requestDocType
         }
         return result
     }
     
-    def  getAssociatedDocuments(requestService, cRequest, docType) {
+    def  getAssociatedDocuments(requestService, cRequest, docType, newDocuments) {
         def requestDocuments = requestService.getAssociatedDocuments(cRequest)
         def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
-        return documents.findAll{ it.documentType.id == docType.id }
+        def docTypeDocuments = documents.findAll{ it.documentType.id == docType.id }
+        
+        def result = []
+        docTypeDocuments.each {
+            def doc = [:]
+            doc.id = it.id
+            doc.endValidityDate = it.endValidityDate
+            doc.ecitizenNote = it.ecitizenNote
+            doc.isNew = newDocuments.contains(it.id) ? true : false
+            result.add(doc)
+        }
+        return result
+    }
+    
+    def  getProvidedNotAssociatedDocuments(docType, associateds) {
+        def provideds = documentService.getProvidedDocuments(docType, SecurityContext.currentEcitizen.homeFolder.id, null)
+        def associatedIds = associateds.collect{ it.id }
+        return provideds.findAll{ !associatedIds.contains(it.id) }
     }
     
     def getDocument(id) {

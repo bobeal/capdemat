@@ -6,6 +6,7 @@
   <li>Ajout du widget d'activation / désactivation d'un type de télé-service</li>
   <li>Recherche de comptes</li>
   <li>Affichage détaillé des informations d'un compte (membres, demandes, paiements)</li>
+  <li>Retour à la vie de l'écran de statistiques</li>
 </ul>
 <span style="text-decoration:underline;">Front Office</span>
 <ul>

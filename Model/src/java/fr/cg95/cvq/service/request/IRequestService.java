@@ -275,7 +275,7 @@ public interface IRequestService {
      * @param documentId a document that must have been created with the creation
      *  method provided by the {@link fr.cg95.cvq.service.document.IDocumentService} service
      */
-    void addDocument(@IsRequest final Request request, final Long documentId)
+    void addDocument(final Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
     
     /**

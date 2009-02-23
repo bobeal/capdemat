@@ -163,8 +163,6 @@
            <input type="submit" id="submit-step-subject" name="submit-step-subject" value="${message(code:'action.save')}" />
   
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   
   
@@ -200,8 +198,6 @@
            <input type="submit" id="submit-step-familyReferent" name="submit-step-familyReferent" value="${message(code:'action.save')}" />
   
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   
            <a id="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
@@ -239,8 +235,6 @@
            <input type="submit" id="submit-step-spouse" name="submit-step-spouse" value="${message(code:'action.save')}" />
   
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   
            <a id="prev-tab" href="#familyReferent"><g:message code="request.step.navigation.previous"/></a>
@@ -280,8 +274,6 @@
            <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" value="${message(code:'action.save')}" />
   
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   
            <a id="prev-tab" href="#spouse"><g:message code="request.step.navigation.previous"/></a>
@@ -321,8 +313,6 @@
            <input type="submit" id="submit-step-resources" name="submit-step-resources" value="${message(code:'action.save')}" />
   
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   
            <a id="prev-tab" href="#dwelling"><g:message code="request.step.navigation.previous"/></a>
@@ -360,8 +350,6 @@
            <input type="submit" id="submit-step-taxes" name="submit-step-taxes" value="${message(code:'action.save')}" />
   
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   
            <a id="prev-tab" href="#resources"><g:message code="request.step.navigation.previous"/></a>
@@ -396,11 +384,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-document" name="submit-step-document" value="${message(code:'action.save')}" />
-  
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   
            <a id="prev-tab" href="#taxes"><g:message code="request.step.navigation.previous"/></a>
@@ -449,8 +433,6 @@
            </g:if>
   
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   
            <a id="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>

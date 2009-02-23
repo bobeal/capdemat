@@ -1,6 +1,5 @@
 (function(){
   var zcb = zenexity.capdemat.bong;
-  var zcc = zenexity.capdemat.common;
   var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
   var yu = YAHOO.util;
@@ -52,7 +51,7 @@
           var currentLiEl = yud.get("agent_" + agentId);
           currentLiEl.innerHTML += o.responseText;
           // unactive edit item link button
-          yud.addClass(yus.query("a." + yue.getTargetEl().className, "agent_" + agentId, true), "currentEditItem");          
+          yud.addClass(yus.query("a." + yue.getTargetEl().className, "agent_" + agentId, true), "currentEditItem");
       });
     }
 

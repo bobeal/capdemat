@@ -9,7 +9,7 @@ import grails.converters.JSON
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.business.authority.LocalAuthority
 
-class BackofficePaymentController {
+class PaymentController {
     
     IPaymentService paymentService
     ILocalAuthorityRegistry localAuthorityRegistry

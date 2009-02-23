@@ -51,7 +51,7 @@
           var currentLiEl = yud.get("agent_" + agentId);
           currentLiEl.innerHTML += o.responseText;
           // unactive edit item link button
-          yud.addClass(yus.query("a." + yue.getTargetEl().className, "agent_" + agentId, true), "currentEditItem");
+          yud.addClass(yus.query("a." + yue.getTarget(e).className, "agent_" + agentId, true), "currentEditItem");
       });
     }
 
@@ -65,7 +65,11 @@
       },
       
       getHandler : function(e) {
-          return yue.getTarget(e).className.split(' ')[0];
+          var targetClassName = yue.getTarget(e).className
+          if (targetClassName.indexOf('currentEditItem') > 0 )
+            return 'currentEditItem';
+          else
+            return targetClassName.split(' ')[0];
       },
       
       associate : function(e) {

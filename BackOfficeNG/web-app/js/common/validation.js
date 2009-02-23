@@ -168,8 +168,8 @@ function FIC_checkForm(e, el, includeScope) {
  * responsible of fetching field to test by scope
  * ------------------------------------------- */
 function FIC_fetchField(e, includeScope) {
-  var fields = {'input':[],'select':[],'texterea':[]}
-	var elm = YAHOO.util.Event.getTarget(e);
+  var fields = {'input':[],'select':[],'texterea':[]};
+	var elm = e.nodeName ? e : YAHOO.util.Event.getTarget(e);
 	
 	if (includeScope == undefined) {
 	  if (elm.nodeName != 'form'.toUpperCase()) {

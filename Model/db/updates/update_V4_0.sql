@@ -226,3 +226,102 @@ ALTER TABLE local_authority ALTER COLUMN draft_notification_before_delete SET NO
 ALTER TABLE request ADD COLUMN step_states bytea;
 
 
+/*********************************************
+  *                                       *
+  *             DISPLAY GROUP             *
+  *                                       *
+**********************************************/  
+CREATE
+  TABLE display_group 
+  (
+    id int8 NOT NULL,
+    NAME VARCHAR(255),
+    label VARCHAR(255),
+    PRIMARY KEY (id) 
+  ); 
+    
+ALTER
+  TABLE request_type ADD COLUMN display_group_id int8;
+ALTER
+  TABLE request_type ADD CONSTRAINT FK4DAE96EA1D0DF06 FOREIGN KEY ( 
+  display_group_id) REFERENCES display_group;
+
+ALTER TABLE display_group ALTER id SET DEFAULT NEXTVAL('hibernate_sequence');
+
+INSERT INTO public.display_group( name, label)
+  VALUES( 'school', 'Scolaire');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'civil', 'Etat civil');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'social', 'Social');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'environment', 'Environnement');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'election', 'Election');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'security', 'Sécurité');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'leisure', 'Loisirs');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'culture', 'Culturel');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'technical', 'Service technique');
+INSERT INTO public.display_group( name, label)
+  VALUES( 'urbanism', 'Urbanisme');
+
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'school' LIMIT 1)  
+WHERE label = 'School Registration' OR
+label = 'Perischool Activity Registration' OR
+label = 'School Canteen Registration' OR
+label = 'Recreation Activity Registration';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'civil' LIMIT 1)  
+WHERE label = 'Death Details' OR
+label = 'Marriage Details' OR
+label = 'Birth Details' OR
+label = 'Personal Details' OR
+label = 'Military Census';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'social' LIMIT 1)  
+WHERE label = 'Domestic Help' OR
+label = 'Handicap Allowance' OR
+label = 'Remote Support';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'environment' LIMIT 1)  
+WHERE label = 'Bulky Waste Collection' OR
+label = 'Compostable Waste Collection';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'election' LIMIT 1)  
+WHERE label = 'Electoral Roll Registration';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'security' LIMIT 1)  
+WHERE label = 'Holiday Security';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'leisure' LIMIT 1)  
+WHERE label = 'Sms Notification' OR
+label = 'Music School Registration';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'culture' LIMIT 1)  
+WHERE label = 'Place Reservation' OR
+label = 'Library Registration';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'technical' LIMIT 1)  
+WHERE label = 'Technical Intervention';
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'urbanism' LIMIT 1)  
+WHERE label = 'Sewer Connection' OR
+label = 'Alignment Certificate'; 
+
+-- End of statement
+ALTER TABLE display_group ALTER id SET DEFAULT NULL;

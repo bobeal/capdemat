@@ -41,6 +41,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestStep;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
+import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Adult;
@@ -241,6 +242,10 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         return requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates);
     }
 
+    public List<DisplayGroup> getAllDisplayGroups() {
+        return this.requestTypeDAO.listAllDisplayGroup();  
+    }
+    
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Request> getByHomeFolderId(final Long homeFolderId) throws CvqException {

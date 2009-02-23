@@ -303,20 +303,20 @@ class RequestCreationController {
         documentTypes.each {
             def requestDocType = [:]
             requestDocType.i18nKey = CapdematUtils.adaptDocumentTypeName(it.name)
-            requestDocType.associated = getAssociatedDocument (it, cRequest)
+            requestDocType.associated = getAssociatedDocuments(requestService, cRequest, it)
             requestDocType.provided = documentService.getProvidedDocuments(it, SecurityContext.currentEcitizen.homeFolder.id, null)
             result[it.id] = requestDocType
         }
         return result
     }
     
-    def  getAssociatedDocument (docType, cRequest) {
-        def requestDocuments = cRequest.documents
+    def  getAssociatedDocuments(requestService, cRequest, docType) {
+        def requestDocuments = requestService.getAssociatedDocuments(cRequest)
         def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
         return documents.findAll{ it.documentType.id == docType.id }
     }
     
-    def getDocument (id) {
+    def getDocument(id) {
         def doc = documentService.getById(id)
         def result = [:]
         result.id = doc.id

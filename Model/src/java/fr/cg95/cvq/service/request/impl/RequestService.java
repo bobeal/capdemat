@@ -349,10 +349,12 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void addDocument(final Request request, final Long documentId)
+    public void addDocument(Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
         RequestDocument requestDocument = new RequestDocument();
         requestDocument.setDocumentId(documentId);
+        if (request.getId() != null)
+            request = getById(request.getId());
         if (request.getDocuments() == null) {
             Set<RequestDocument> documents = new HashSet<RequestDocument>();
             documents.add(requestDocument);
@@ -364,8 +366,10 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void removeDocument(final Request request, final Long documentId)
+    public void removeDocument(Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
+        if (request.getId() != null)
+            request = getById(request.getId());
         Iterator<RequestDocument> it = request.getDocuments().iterator();
         while (it.hasNext()) {
             RequestDocument rd = it.next();
@@ -414,6 +418,15 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         throws CvqException {
 
         Request request = getById(requestId);
+        return request.getDocuments();
+    }
+    
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Set<RequestDocument> getAssociatedDocuments(Request request)
+        throws CvqException {
+        if (request.getId() != null)
+            request = getById(request.getId());
         return request.getDocuments();
     }
 

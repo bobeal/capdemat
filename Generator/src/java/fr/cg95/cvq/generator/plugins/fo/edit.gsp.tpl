@@ -84,19 +84,17 @@
            <g:if test="\${!isRequestCreatable}">
            <span><g:message code="request.step.validation.requiredSteps"/></span>
            </g:if>
-  <% } else { %>
+  <% } else if (step.name != 'document') { %>
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />
   <% } %>
          </form>
-
-         <!-- navigation link -->
          <div class="navTab">
   <% if (step.index != 0) { %>
            <a id="prev-tab" href="#${requestFo.steps.get(step.index -1).name}"><g:message code="request.step.navigation.previous"/></a>
   <% } %>
   <% if (step.index != requestFo.steps.size() - 1) { %>
            <a id="next-tab" href="#${requestFo.steps.get(step.index + 1).name}"><g:message code="request.step.navigation.next"/></a>
-  <% }%>
+  <% } %>
          </div>
          <g:if test="\${helps.${step.name} != null}">       
          <div class="requestHelp">

@@ -275,7 +275,7 @@ public interface IRequestService {
      * @param documentId a document that must have been created with the creation
      *  method provided by the {@link fr.cg95.cvq.service.document.IDocumentService} service
      */
-    void addDocument(@IsRequest final Request request, final Long documentId)
+    void addDocument(@IsRequest Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
     
     /**
@@ -284,7 +284,7 @@ public interface IRequestService {
      * @param request to which the document is linked
      * @param documentId 
      */
-    void removeDocument(@IsRequest final Request request, final Long documentId)
+    void removeDocument(@IsRequest Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
@@ -317,8 +317,9 @@ public interface IRequestService {
      * As they are not automatically loaded from DB, they have to be explicitely
      * asked for.
      */
-    Set<RequestDocument> getAssociatedDocuments(@IsRequest final Long requestId)
-        throws CvqException;
+    Set<RequestDocument> getAssociatedDocuments(@IsRequest final Long requestId) throws CvqException;
+    
+    Set<RequestDocument> getAssociatedDocuments(@IsRequest Request request) throws CvqException;
 
     /**
      * Get the generated certificate for the given request at the given step.

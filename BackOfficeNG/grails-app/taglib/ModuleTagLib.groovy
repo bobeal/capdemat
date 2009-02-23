@@ -16,13 +16,12 @@ public class ModuleTagLib {
     def protected preBuildLink = {attrs ->
         def result = [:]
         
-        if(modules.contains(attrs.module) && attrs.controller) {
+        if (modules.contains(attrs.module) && attrs.controller) {
             result.controller = this.buildControllerName(attrs.module,attrs.controller)
         }
         
-        if(!attrs.controller) result.controller = controllerName
-        if(!attrs.action) result.action = actionName
-        else result.action = attrs.action
+        if (!attrs.controller) result.controller = controllerName
+        if (attrs.action) result.action = attrs.action
         
         result.url = attrs.url
         result.id = attrs.id

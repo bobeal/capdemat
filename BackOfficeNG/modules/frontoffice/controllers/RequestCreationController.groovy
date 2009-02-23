@@ -1,4 +1,6 @@
 import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.document.Document
+import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
@@ -123,15 +125,46 @@ class RequestCreationController {
                 isDocumentEditMode = true;
                 document = getDocument(Long.valueOf(docParam.id))
             }
+            else if (submitAction[1] == 'documentSave') {
+                isDocumentEditMode = false;
+            }
+            else if (submitAction[1] == 'documentCancel') {
+                // TODO : implement clean associted document policy
+                isDocumentEditMode = false;
+            }
             else if (submitAction[1] == 'documentAddPage') {
                 def docParam = targetAsMap(submitAction[3])
                 documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true;
                 
-                DepositOrigin.ECITIZEN
-                
-                documentService.create(newDoc)
-                requestService.addDocument()
+                def newDocBinary = new DocumentBinary()
+                if (docParam.id == null) {
+                    def newDoc = new Document()
+                    newDoc.homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
+                    newDoc.ecitizenNote = params.ecitizenNote
+                    newDoc.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(docParam.documentTypeId))
+                    docParam.id = documentService.create(newDoc)
+                    requestService.addDocument(cRequest, Long.valueOf(docParam.id))
+                }
+                newDocBinary.data = request.getFile('documentData-0').bytes
+                documentService.addPage(Long.valueOf(docParam.id), newDocBinary)
+                document = getDocument(Long.valueOf(docParam.id))
+            }
+            else if (submitAction[1] == 'documentModifyPage') {
+                def docParam = targetAsMap(submitAction[3])
+                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                isDocumentEditMode = true;
+                def newDocBinary = documentService.getPage(Long.valueOf(docParam.id), Integer.valueOf(docParam.dataPageNumber))
+                newDocBinary.data = request.getFile('documentData-' + docParam.dataPageNumber).bytes
+                documentService.modifyPage(Long.valueOf(docParam.id), newDocBinary)
+                document = getDocument(Long.valueOf(docParam.id))
+            }
+            else if (submitAction[1] == 'documentDeletePage') {
+                def docParam = targetAsMap(submitAction[3])
+                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                isDocumentEditMode = true;
+                documentService.deletePage(Long.valueOf(docParam.id), Integer.valueOf(docParam.dataPageNumber))
+                document = getDocument(Long.valueOf(docParam.id))
             }
             // removal of a collection element
             else if (submitAction[1] == 'collectionDelete') {
@@ -270,26 +303,27 @@ class RequestCreationController {
         documentTypes.each {
             def requestDocType = [:]
             requestDocType.i18nKey = CapdematUtils.adaptDocumentTypeName(it.name)
-            requestDocType.associated = getAssociatedDocument (it, cRequest)
+            requestDocType.associated = getAssociatedDocuments(requestService, cRequest, it)
             requestDocType.provided = documentService.getProvidedDocuments(it, SecurityContext.currentEcitizen.homeFolder.id, null)
             result[it.id] = requestDocType
         }
         return result
     }
     
-    def  getAssociatedDocument (docType, cRequest) {
-        def requestDocuments = cRequest.documents
+    def  getAssociatedDocuments(requestService, cRequest, docType) {
+        def requestDocuments = requestService.getAssociatedDocuments(cRequest)
         def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
-        return documents.findAll{ it.type.documentType.id == docType.id }
+        return documents.findAll{ it.documentType.id == docType.id }
     }
     
-    def getDocument (id) {
+    def getDocument(id) {
         def doc = documentService.getById(id)
         def result = [:]
         result.id = doc.id
         result.ecitizenNote = doc.ecitizenNote
+        result.datas = []
         doc.datas.each {
-            result.datas[it.pageNumber] = ['id': it.id, 'pageNumber':it.pageNumber]  
+            result.datas.add(['id': it.id, 'pageNumber':it.pageNumber])
         }
         return result 
     }

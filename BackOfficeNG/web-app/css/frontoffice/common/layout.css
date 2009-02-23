@@ -11,7 +11,7 @@
 html { background: #cccccc; }
 
 
-/* heder
+/* header
 --------------------------------------------------------------*/
 #hd { margin: 0 0 1.5em 0; overflow: auto; }
 
@@ -118,7 +118,7 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
   background: #C690BB;
 }
 
-/* messages (error , alertl, validation) */
+/* messages (error , alert, validation) */
 .message {
  padding: 1em 0;
  text-align: center;
@@ -190,9 +190,6 @@ strong { font-weight: bold; }
 
 .group-box ul    { margin: 1em 1em 0 10em; padding: 0 0 1em; font-size: 1.2em; }
 .group-box ul li { padding: .3em 0; }
-
-
-
 
 
 

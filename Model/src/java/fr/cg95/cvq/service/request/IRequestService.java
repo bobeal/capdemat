@@ -13,6 +13,7 @@ import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
+import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
@@ -815,4 +816,6 @@ public interface IRequestService {
      * @param triggers - A map where key=control.name and value=control.value, for all controls triggering the same condition 
      */
     boolean isConditionFilled (Map<String, String> triggers);
+
+    List<DisplayGroup> getAllDisplayGroups();
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 
 import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
@@ -22,7 +23,14 @@ public class RequestTypeDAO extends GenericDAO implements IRequestTypeDAO {
             .append("from RequestType as requestType");
         return HibernateUtil.getSession().createQuery(sb.toString()).list();
     }
-
+    
+    public List<DisplayGroup> listAllDisplayGroup() {
+        StringBuffer sb = new StringBuffer().append("from DisplayGroup as displayGroup");
+        
+        //noinspection unchecked
+        return (List<DisplayGroup>)HibernateUtil.getSession().createQuery(sb.toString()).list();
+    }
+    
     public List<RequestType> listByCategoryAndState(final Long categoryId, final Boolean active) {
         Criteria crit = HibernateUtil.getSession().createCriteria(RequestType.class);
         if (categoryId != null)

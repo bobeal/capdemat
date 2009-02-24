@@ -78,7 +78,8 @@
 #requestData dl dd .editable-list-form ul                 { margin : 0; }
 #requestData dl dd .editable-list-form fieldset           { margin: 0; float:none; border: 0; background: transparent; }
 #requestData dl dd .editable-list-form input              { width: auto; display: inline; margin: 0 0 .2em 0; }
-#requestData dl dd .editable-list-form select             { width: 100%; display: block; } 
+#requestData dl dd .editable-list-form select             { width: 100%; display: block; }
+#requestData dl dd .editable-list-form textarea           { width: 96%; display: block; }
 #requestData dl dd .editable-list-form label              { width: auto; display: block; float: none; margin: 0; padding: .3em 0 0 0; text-align: left; } 
 #requestData dl dd .editable-list-form input[type=text]   { width: 98%; }
 #requestData dl dd .editable-list-form input[type=button] { margin: .5em 0 0 0 }

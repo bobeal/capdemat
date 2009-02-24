@@ -86,9 +86,7 @@
                   <common>
                     <step name="subject"/>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -106,9 +104,7 @@
                   <common>
                     <step name="subject"/>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -126,9 +122,7 @@
                   <common>
                     <step name="subject"/>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
@@ -146,9 +140,7 @@
                   <common>
                     <step name="familyReferent"/>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -166,9 +158,7 @@
                   <common>
                     <step name="spouse"/>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -189,9 +179,7 @@
                       <condition name="isCoupleRequest" type="filled"/>
                     </conditions>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -217,9 +205,7 @@
                     </conditions> 
                     -->
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
@@ -237,9 +223,7 @@
                   <common>
                     <step name="dwelling"/>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -277,9 +261,7 @@
                   <common>
                     <step name="resources"/>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -337,9 +319,7 @@
                   <common>
                     <step name="taxes"/>
                   </common>
-                  <fo>
-                    <label/>
-                  </fo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -476,7 +456,7 @@
             <common>
               <step name="subject"/>
             </common>
-            <fo/>
+            <fo />
             <bo />
           </xs:appinfo>
         </xs:annotation>

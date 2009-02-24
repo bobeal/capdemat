@@ -40,7 +40,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="dhr.step.subject.label" />
+            <g:message code="dhr.step.subject.label" /> *
           </strong>
             
           </em></a>
@@ -78,7 +78,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="dhr.step.dwelling.label" />
+            <g:message code="dhr.step.dwelling.label" /> *
           </strong>
             
           </em></a>
@@ -92,7 +92,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="dhr.step.resources.label" />
+            <g:message code="dhr.step.resources.label" /> *
           </strong>
             
           </em></a>
@@ -130,7 +130,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="request.step.validation.label" />
+            <g:message code="request.step.validation.label" /> *
           </strong>
             
           </em></a>

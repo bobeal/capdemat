@@ -19,6 +19,7 @@ class HomeController {
 
     def requestAdaptorService
     def instructionService
+    def requestTypeService
     
     IRequestService defaultRequestService
     ILocalAuthorityRegistry localAuthorityRegistry
@@ -79,7 +80,7 @@ class HomeController {
         return [
             'login': true,
             'error': message(code:error),
-            'groups': instructionService.getDisplayGroups(false,null)
+            'groups': requestTypeService.getDisplayGroups(false,null)
         ]
     }
     

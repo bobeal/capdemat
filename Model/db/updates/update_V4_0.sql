@@ -231,44 +231,30 @@ ALTER TABLE request ADD COLUMN step_states bytea;
   *             DISPLAY GROUP             *
   *                                       *
 **********************************************/  
-CREATE
-  TABLE display_group 
-  (
+CREATE TABLE display_group (
     id int8 NOT NULL,
-    NAME VARCHAR(255),
+    name VARCHAR(255),
     label VARCHAR(255),
     PRIMARY KEY (id) 
-  ); 
-    
-ALTER
-  TABLE request_type ADD COLUMN display_group_id int8;
-ALTER
-  TABLE request_type ADD CONSTRAINT FK4DAE96EA1D0DF06 FOREIGN KEY ( 
+); 
+alter table display_group owner to cvq95;
+
+ALTER TABLE request_type ADD COLUMN display_group_id int8;
+ALTER TABLE request_type ADD CONSTRAINT FK4DAE96EA1D0DF06 FOREIGN KEY (
   display_group_id) REFERENCES display_group;
 
 ALTER TABLE display_group ALTER id SET DEFAULT NEXTVAL('hibernate_sequence');
 
-INSERT INTO public.display_group( name, label)
-  VALUES( 'school', 'Scolaire');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'civil', 'Etat civil');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'social', 'Social');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'environment', 'Environnement');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'election', 'Election');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'security', 'Sécurité');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'leisure', 'Loisirs');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'culture', 'Culturel');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'technical', 'Service technique');
-INSERT INTO public.display_group( name, label)
-  VALUES( 'urbanism', 'Urbanisme');
-
+INSERT INTO display_group( name, label) VALUES( 'school', 'Scolaire');
+INSERT INTO display_group( name, label) VALUES( 'civil', 'Etat civil');
+INSERT INTO display_group( name, label) VALUES( 'social', 'Social');
+INSERT INTO display_group( name, label) VALUES( 'environment', 'Environnement');
+INSERT INTO display_group( name, label) VALUES( 'election', 'Election');
+INSERT INTO display_group( name, label) VALUES( 'security', 'Sécurité');
+INSERT INTO display_group( name, label) VALUES( 'leisure', 'Loisirs');
+INSERT INTO display_group( name, label) VALUES( 'culture', 'Culturel');
+INSERT INTO display_group( name, label) VALUES( 'technical', 'Service technique');
+INSERT INTO display_group( name, label) VALUES( 'urbanism', 'Urbanisme');
 
 UPDATE request_type SET
   display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'school' LIMIT 1)  

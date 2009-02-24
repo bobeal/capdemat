@@ -189,6 +189,11 @@ h2.request-creation {
 --------------------------------------------------------------*/
 .unactive { display: none !important; }
 
+/* summary specifics styles
+--------------------------------------------------------------*/
+.requestSummary {
+    padding: 0em 2em 1em 2em; background-color: white;
+}
 
 /* javascript validation
 --------------------------------------------------------------*/

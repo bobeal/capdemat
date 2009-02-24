@@ -18,6 +18,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -45,7 +46,8 @@ public class RequestServiceRegistry
     
     private IRequestFormDAO requestFormDAO;
     private IRequestTypeDAO requestTypeDAO;
-    
+    private IRequestDAO requestDAO;
+
     private Boolean performDbUpdates;
     
     /** a list of all known local authorities */
@@ -89,11 +91,11 @@ public class RequestServiceRegistry
         return null;
     }
 
-    public IRequestService getRequestService(Long requestTypeId)
+    public IRequestService getRequestService(Long requestId)
         throws CvqObjectNotFoundException {
-        RequestType requestType = 
-            (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
-        return getRequestService(requestType.getLabel());
+        Request request =
+            (Request) requestDAO.findById(Request.class, requestId);
+        return getRequestService(request);
     }
 
     public void registerService(IRequestService service, String label)
@@ -243,6 +245,10 @@ public class RequestServiceRegistry
 
     public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
         this.requestTypeDAO = requestTypeDAO;
+    }
+
+    public void setRequestDAO(IRequestDAO requestDAO) {
+        this.requestDAO = requestDAO;
     }
 
     public void setPerformDbUpdates(Boolean performDbUpdates) {

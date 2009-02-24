@@ -6,8 +6,6 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.util.Critere
 
 import grails.converters.JSON
-import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.business.authority.LocalAuthority
 
 class PaymentController {
     

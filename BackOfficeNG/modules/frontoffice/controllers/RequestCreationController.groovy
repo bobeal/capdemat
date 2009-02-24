@@ -24,9 +24,7 @@ class RequestCreationController {
     def defaultAction = 'edit'
     
     def draft = {
-        def requestService = requestServiceRegistry.getRequestService(
-            params.requestTypeLabel.toString()
-        )
+        def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
         
         flash.fromDraft = true
         
@@ -39,7 +37,7 @@ class RequestCreationController {
         } else if (request.get) {
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
         }
-        redirect(controller:controllerName, params:['label':params.requestTypeLabel])
+        redirect(controller:controllerName, params:['label':requestService.label])
         return false
     }
     
@@ -64,7 +62,7 @@ class RequestCreationController {
         session[uuidString] = [:]
         session[uuidString].cRequest = cRequest
         session[uuidString].newDocuments = newDocuments
-        session[uuidString].draftVisible = (cRequest.draft && !flash?.fromDraft)
+        session[uuidString].draftVisible = (cRequest.draft && !flash.fromDraft)
 
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
         render(view: viewPath, model: [

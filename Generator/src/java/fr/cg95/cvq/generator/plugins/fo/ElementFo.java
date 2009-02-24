@@ -145,8 +145,11 @@ public class ElementFo {
     }
 
     public void setWidget(String type) {
-        if (widget != null)
+        if (widget != null) {
+            if (widget.equals("textarea") && !(type.equals("string") || type.equals("token")))
+                throw new RuntimeException("setWidget() - <textarea /> can be only used for types {string, token}");
             return;
+        }
         this.widget = StringUtils.uncapitalize(StringUtils.removeEnd(type, "Type"));
         setHtmlClass();
     }

@@ -5,7 +5,7 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'homeFolderDetails.js')}"></script>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'homeFolder.css')}" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
+    %{--<link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />--}%
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
     <script type="text/javascript">
       zenexity.capdemat.backoffice.homeFolder.id = parseInt('${params.id}');
@@ -45,5 +45,28 @@
         <div id="homeFolderInformation" ><!-- Request TabView --></div>
       </div>
     </div>
+    <div id="narrow" class="yui-b">
+
+      <!-- home folder state -->
+      <div class="nobox taskstate">
+        <h3><g:message code="property.homeFolderState" /></h3>
+        <div class="body">
+          <span id="homeFolderState" class="tagged tag-${homeFolderState}">
+            <g:message code="actor.state.${homeFolderState}" />
+          </span>
+        </div>
+      </div>
+      <!-- home folder status -->
+      <div class="nobox taskstate">
+        <h3><g:message code="property.homeFolderStatus" /></h3>
+        <div class="body">
+          <span id="homeFolderStatus" class="tagged tag-${homeFolderStatus}">
+            ${message(code:"property."+(homeFolderStatus == 'enable' ? 'active' : 'inactive')).toLowerCase()}
+          </span>
+        </div>
+      </div>
+      
+    </div>
+  
   </body>
 </html>

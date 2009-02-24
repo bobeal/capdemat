@@ -13,7 +13,7 @@ import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.users.payment.Payment
 
 class HomeFolderController {
-    
+
     IHomeFolderService homeFolderService
     IIndividualService individualService
     IRequestService defaultRequestService
@@ -40,9 +40,9 @@ class HomeFolderController {
             'records': records,
             'count' : count,
             'max': this.defaultMax,
-            'actorStates': this.buildActorStateFilter(),
+            'homeFolderStates': this.buildHomeFolderStateFilter(),
             'currentSiteName': SecurityContext.currentSite.name,
-            'homeFolderStates' : this.buildHomeFolderFilter(),
+            'homeFolderStatus' : this.buildHomeFolderStatusFilter(),
             'pageState' : (new JSON(state)).toString().encodeAsHTML(),
             'offset' : params?.currentOffset ? params.currentOffset : 0 
         ]);
@@ -50,9 +50,12 @@ class HomeFolderController {
     
     def details = {
         def result = [responsibles:[:],adults:[],children:[]]
+        HomeFolder folder = this.homeFolderService.getById(Long.parseLong(params.id))
         
         result.adults = this.homeFolderService.getAdults(Long.parseLong(params.id))
         result.children = this.homeFolderService.getChildren(Long.parseLong(params.id))
+        result.homeFolderState = folder.state.toString().toLowerCase()
+        result.homeFolderStatus = folder.enabled ? 'enable' : 'disable'
         
         for(Child child : result.children)
             result.responsibles.put(child.id, homeFolderService.getBySubjectRoles(child.id,
@@ -124,7 +127,10 @@ class HomeFolderController {
                 'streetName' : human.adress.streetName,
                 'streetNumber' : human.adress.streetNumber,
                 'postalCode': human.adress.postalCode,
-                'city' : human.adress.city
+                'city' : human.adress.city,
+                'bornOn': human instanceof Child ? human.birthDate : null,
+                'bornIn': human instanceof Child ? human.birthCity : null
+                
             ]
             if(!result.contains(entry)) result.add(entry)
         }
@@ -133,16 +139,21 @@ class HomeFolderController {
     }
     
     protected Set<Critere> prepareCriterias(state) {
-        def mapper = ['lastName','homeFolderId','individualId','actorState','homeFolderState',
-            'isHomeFolderResponsible']
+        def mapper =[:]
+        mapper.lastName = Critere.STARTSWITH
+        mapper.firstName = Critere.STARTSWITH
+        mapper.homeFolderId = Critere.EQUALS
+        mapper.homeFolderState = Critere.EQUALS 
+        mapper.homeFolderStatus = Critere.EQUALS
+        mapper.isHomeFolderResponsible = Critere.EQUALS
         
         Set<Critere> criterias = new LinkedHashSet<Critere>()
         
         for(String key : state.keySet()){
-            if(mapper.contains(key) && state?."$key") {
+            if(mapper.keySet().contains(key) && state?."$key") {
                 Critere criteria = new Critere()
                 criteria.setAttribut(key)
-                criteria.setComparatif(Critere.EQUALS)
+                criteria.setComparatif(mapper[key].toString())
                 criteria.setValue(state[key])
                 criterias.add(criteria)
             }
@@ -157,14 +168,14 @@ class HomeFolderController {
         return result
     }
     
-    protected List buildHomeFolderFilter() {
+    protected List buildHomeFolderStatusFilter() {
         def result = []
         result.add(['name':'true','i18nKey': message(code:'property.active')])
         result.add(['name':'false','i18nKey':message(code:'property.inactive')])
         return result
     }
     
-    protected List buildActorStateFilter() {
+    protected List buildHomeFolderStateFilter() {
         def result = []
         
         for(ActorState state : ActorState.allActorStates) {

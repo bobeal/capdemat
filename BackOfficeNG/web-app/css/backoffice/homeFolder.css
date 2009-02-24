@@ -101,3 +101,9 @@
 
 #homeFolderInformation .tag-state { float: right; }
 #homeFolderInformation .comment   { font-size: 1.4em; font-weight: normal; }
+
+span.tagged {
+  /*cursor:pointer;*/
+  float:right;
+  font-size:1.1em;
+}

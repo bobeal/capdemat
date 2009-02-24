@@ -13,19 +13,20 @@
     <input type="hidden" name="currentCount" id="currentCount" value="${count}" />
     <input type="hidden" name="currentOffset" id="currentOffset" value="${offset}" />
     <input type="hidden" name="currentMax" id="currentMax" value="${max}" />
-
+    <div id="errorContainer" class="error"><!-- error container --></div>
     <div class="yui-g">
       <div class="yui-u first">
-        <label for="individualId"><g:message code="property.individualId" /> :</label>
-        <input type="text" name="individualId" class="persistent" size="40" value="${state?.individualId}" />
         
-        <label for="homeFolderId"><g:message code="property.homeFolderId" /> :</label>
-        <input type="text" name="homeFolderId" class="persistent" size="40" value="${state?.homeFolderId}" />
+        <label for="firstName"><g:message code="property.individualFirstName" /> :</label>
+        <input type="text" name="firstName" class="persistent" size="40" value="${state?.firstName}" />        
+        <label for="lastName"><g:message code="property.individualLastName" /> :</label>
+        <input type="text" name="lastName" class="persistent" size="40" value="${state?.lastName}" />
+                
       </div>
 
       <div class="yui-u">
-        <label for="lastName"><g:message code="property.individualLastName" /> :</label>
-        <input type="text" name="lastName" class="persistent" size="40" value="${state?.lastName}" />
+        <label for="homeFolderId"><g:message code="property.homeFolderId" /> :</label>
+        <input type="text" name="homeFolderId" class="persistent validate-number" size="40" value="${state?.homeFolderId}" />
         <label for="isHomeFolderResponsible">
           <g:message code="homeFolder.search.isHomeFolderResponsible" /> :
         </label>

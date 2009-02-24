@@ -31,7 +31,7 @@
       <label class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingPhone.help" /></span></label>
       
             <input type="text" name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone}" 
-                    class=" validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />">
+                    class=" validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />" />
             
     
       <label class="required"><g:message code="dhr.property.dhrCurrentDwellingKind.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingKind.help" /></span></label>
@@ -47,7 +47,7 @@
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.help" /></span></label>
       
             <input type="text" name="dhrCurrentDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:rqt.dhrCurrentDwellingArrivalDate)}" 
-                   class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-date" title="<g:message code="dhr.property.dhrCurrentDwellingArrivalDate.validationError" />">
+                   class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-date" title="<g:message code="dhr.property.dhrCurrentDwellingArrivalDate.validationError" />" />
             
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingStatus.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingStatus.help" /></span></label>
@@ -65,13 +65,13 @@
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.help" /></span></label>
       
             <input type="text" name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom}" 
-                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />">
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />" />
             
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
       
             <input type="text" name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea}" 
-                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-regex" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/">
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-regex" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/" />
             
     
     </fieldset>
@@ -129,19 +129,19 @@
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
         
             <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate)}" 
-                   class="required validate-date" title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />">
+                   class="required validate-date" title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
             
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
         
             <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate)}" 
-                   class="required validate-date" title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />">
+                   class="required validate-date" title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
             
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
         
             <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment}" 
-                    class="required validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />">
+                    class="required validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />" />
             
     
         <g:if test="${editList?.name == 'dhrPreviousDwelling'}">

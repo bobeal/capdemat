@@ -169,8 +169,6 @@ public class FoPlugin implements IPluginGenerator {
                 elementFo.setAfter(ApplicationDocumentation.getNodeAttributeValue(node, "after"));
                 elementFo.setModifier(ApplicationDocumentation.getNodeAttributeValue(node, "modifier"));
                 
-                if (appDoc.hasChildNode("label"))
-                    elementFo.setWidget("label");
                 if (appDoc.hasChildNode("select"))
                     elementFo.setWidget("select");
                 if (appDoc.hasChildNode("radio"))

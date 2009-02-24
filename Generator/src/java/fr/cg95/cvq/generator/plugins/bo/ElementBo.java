@@ -27,7 +27,8 @@ public class ElementBo {
     private String i18nPrefixCode;
     private String htmlClass;
     private String widget;
-
+    private int rows;
+    
     private ElementTypeClass typeClass;
  
     private boolean display;
@@ -111,6 +112,7 @@ public class ElementBo {
             ,(mandatory ? " required-true" : "")
             , " " , "i18n-" +i18nPrefixCode
             ,(widget != null && widget.equals("capdematEnum") ? " " + "javatype-" + getQualifiedType() : "" )
+            ,(widget != null && widget.equals("textarea") ? " rows-" + String.valueOf(rows) : "" )
         });
     }
 
@@ -119,8 +121,24 @@ public class ElementBo {
     }
 
     public void setWidget(String type) {
+        if (widget != null)
+            return;
         this.widget = StringUtils.uncapitalize(StringUtils.removeEnd(type, "Type"));
         setHtmlClass();
+    }
+    
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(String rows) {
+        if (rows == null)
+            return;
+        try {
+            this.rows= Integer.valueOf(rows).intValue();
+        } catch (NumberFormatException nfe) {
+            throw new RuntimeException("setRows() - rows {"+ rows +"} is not an integer in " + name + "element.");
+        }
     }
     
     public String getTypeClass() {

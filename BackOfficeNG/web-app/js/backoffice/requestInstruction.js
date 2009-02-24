@@ -221,6 +221,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           return targetEl.className.split(' ')[0];
       },
       
+      // TODO - pluginized edition widget managment
       editField : function(e) {
           var targetEl = zcbr.Instruction.getTarget(e);
           var propertyValue;

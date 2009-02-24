@@ -51,15 +51,19 @@
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.countryName}" maxlength="38" name="${namePrefix}${element.javaFieldName}.countryName"/>
             </div>
             """
+            ,'textarea' :
+            """
+            <textarea name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" rows="${element?.rows}">\${${valuePrefix}.${element.javaFieldName}}</textarea>
+            """
          ,'date' :
             """
             <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${formatDate(formatName:'format.date',date:${valuePrefix}.${element.javaFieldName})}" 
-                   class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
+                   class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
             """
          ,'text' :
             """
             <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
-                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />"${element.jsRegexp != null ? ' regex="' + element.jsRegexp + '"' : ''}>
+                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />"${element.jsRegexp != null ? ' regex="' + element.jsRegexp + '"' : ''} />
             """
       ]
       

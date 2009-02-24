@@ -12,13 +12,13 @@
     <g:each var="data" in="${document?.datas}" >
     <label>Page ${data.pageNumber}</label>
     <input type="file" name="documentData-${data.pageNumber}"/>
-    <input type="submit" name="submit-documentModifyPage-document--documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" value="modifier" />
-    <input type="submit" name="submit-documentDeletePage-document--documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" value="supprimer" />
+    <input type="submit" name="submit-documentModifyPage-document-documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" value="modifier" />
+    <input type="submit" name="submit-documentDeletePage-document-documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" value="supprimer" />
     <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">aperçu</a>
     </g:each>
   </fieldset>
   <input type="submit" name="submit-documentSave-document-id:${document.id}" value="${message(code:'action.save')}" />
-  <input type="submit" name="submit-documentCancel-document" value="${message(code:'action.cancel')}" />
+  <input type="submit" name="submit-documentCancel-document-id:${document.id}" value="${message(code:'action.cancel')}" />
 </g:if>
 <g:else>  
   <g:each in="${documentTypes}" var="documentType">
@@ -35,10 +35,16 @@
         <g:each in="${documentType.value.associated}" var="document">
         <dt>expire le ${formatDate(date:document.endValidityDate,formatName:'format.date')}</dt>
         <dd>
-          <span class="tag-state tag-active">new</span>
-          <input type="submit" name="submit-documentEdit-document-documentTypeId:${documentType.key}_id:${document.id}" value="modifier" />
-          <input type="submit" name="submit-documentDelete-document-id:${document.id}"value="supprimer" />
-          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">aperçu</a>
+          <g:if test="${document.isNew}">
+            <span class="tag-state tag-active">new</span>
+            <input type="submit" name="submit-documentEdit-document-documentTypeId:${documentType.key}_id:${document.id}" value="modifier" />
+            <input type="submit" name="submit-documentDelete-document-id:${document.id}"value="supprimer" />
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">aperçu</a>
+          </g:if>
+          <g:else>
+            <input type="submit" name="submit-documentUnassociate-document-id:${document.id}"value="détacher" />
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">aperçu</a>
+          </g:else>
         </dd>
         </g:each>
       </dl>

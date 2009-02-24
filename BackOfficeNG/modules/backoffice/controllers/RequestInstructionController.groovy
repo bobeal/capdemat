@@ -124,7 +124,7 @@ class RequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum", boolean:"boolean" ]
+        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum", boolean:"boolean", textarea:"textarea"]
         
         // tp implementation
         def propertyNameTokens = params.propertyName.tokenize(".")
@@ -153,7 +153,8 @@ class RequestInstructionController {
         def propertyValue
         if (propertyType == "address") {
             propertyValue = JSON.parse(params.propertyValue)
-        } else if (propertyType == "capdematEnum") {
+        } 
+        else if (propertyType == "capdematEnum") {
             def propertyJavaType = propertyTypes.javatype.tokenize(".")
             def allPropertyValue = Class.forName(propertyTypes.javatype)
                     .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
@@ -167,12 +168,16 @@ class RequestInstructionController {
             propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
             // will contain the fully qualified class name of the "CapDemat enum" class
             model["propertyValueType"] = propertyTypes.javatype
-        } else {
+        }
+        else {
             propertyValue = params.propertyValue
             model["i18nKeyPrefix"] = propertyTypes.i18n
             model["regex"] = params.propertyRegex
             if (params.propertyRegex != "")
                 model["propertyType"] = "regex"
+            
+            if (propertyType == "textarea")
+              model["rows"] = propertyTypes.rows
         }
         model["propertyValue"] = propertyValue
 

@@ -5,6 +5,8 @@ class InstructionService {
     
     IAgentService agentService
     IIndividualService individualService
+
+    
     
     def getActionPosterDetails = { posterId ->
     
@@ -27,4 +29,6 @@ class InstructionService {
         if (poster) return "${poster.firstName} ${poster.lastName}"
         else return null
     }
+    
+
 }

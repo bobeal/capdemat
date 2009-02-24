@@ -1,26 +1,29 @@
-import fr.cg95.cvq.business.document.Document
+import fr.cg95.cvq.authentication.IAuthenticationService
+import fr.cg95.cvq.business.request.DisplayGroup
 import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.HomeFolder
+import fr.cg95.cvq.exception.CvqAuthenticationFailedException
+import fr.cg95.cvq.exception.CvqDisabledAccountException
+import fr.cg95.cvq.exception.CvqUnknownUserException
 import fr.cg95.cvq.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.authentication.IAuthenticationService
-import fr.cg95.cvq.exception.CvqUnknownUserException
-import fr.cg95.cvq.exception.CvqAuthenticationFailedException
-import fr.cg95.cvq.exception.CvqDisabledAccountException
-import fr.cg95.cvq.business.users.HomeFolder
-import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.service.request.IRequestServiceRegistry
 
 class HomeController {
 
     def requestAdaptorService
     def instructionService
+    def requestTypeService
     
     IRequestService defaultRequestService
     ILocalAuthorityRegistry localAuthorityRegistry
+    IRequestServiceRegistry requestServiceRegistry
     IPaymentService paymentService
     IDocumentService documentService
     IAuthenticationService authenticationService
@@ -62,7 +65,7 @@ class HomeController {
     }
     
     def login = {
-        def error = '', result
+        def error = '', result = null
         if(request.post) {
             try { result = authenticationService.authenticate(params.login,params.password) } 
             catch (CvqUnknownUserException e) {error='error.unknownUser'}
@@ -74,7 +77,11 @@ class HomeController {
                 redirect(controller:'frontofficeHome')
             }
         }
-        return ['login': true,'error': message(code:error),'groups': CapdematUtils.requestGroup()]
+        return [
+            'login': true,
+            'error': message(code:error),
+            'groups': requestTypeService.getDisplayGroups(false,null)
+        ]
     }
     
     def logout = {

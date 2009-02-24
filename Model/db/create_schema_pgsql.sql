@@ -275,6 +275,9 @@
     alter table request_type 
         drop constraint FK4DAE96EACE4D7137;
 
+    alter table request_type 
+        drop constraint FK4DAE96EA1D0DF06;
+
     alter table requirement 
         drop constraint FK15A8DC438EAF8712;
 
@@ -378,6 +381,8 @@
     drop table dhr_previous_dwelling;
 
     drop table dhr_real_asset;
+
+    drop table display_group;
 
     drop table document;
 
@@ -716,6 +721,13 @@
         dhr_real_asset_value bytea,
         domestic_help_request_id int8,
         dhr_real_asset_index int4,
+        primary key (id)
+    );
+
+    create table display_group (
+        id int8 not null,
+        name varchar(255),
+        label varchar(255),
         primary key (id)
     );
 
@@ -1652,6 +1664,7 @@
         instruction_alert_delay int4,
         instruction_max_delay int4,
         has_automatic_activation bool,
+        display_group_id int8,
         primary key (id)
     );
 
@@ -2235,6 +2248,11 @@
         add constraint FK4DAE96EACE4D7137 
         foreign key (category_id) 
         references category;
+
+    alter table request_type 
+        add constraint FK4DAE96EA1D0DF06 
+        foreign key (display_group_id) 
+        references display_group;
 
     alter table requirement 
         add constraint FK15A8DC438EAF8712 

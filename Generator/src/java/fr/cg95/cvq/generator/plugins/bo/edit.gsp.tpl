@@ -56,7 +56,7 @@
             <% for (element in requestBo.getElementsByStep(step, column)) { %>
               <% if (element.typeClass == "SIMPLE") { %>
               <dl>
-                <dt class="${element.conditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> : </dt>
+                <dt class="${element.conditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''} : </dt>
                 <dd id="${element.javaFieldName}" class="${element.htmlClass}" ${element.jsRegexp != null ? 'regex="' + element.jsRegexp + '"' : ''}>
                   <% displayWidget(element, 'request') %>
                 </dd>
@@ -65,7 +65,7 @@
               <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
               <dl class="${element.conditionsClass}">
                 <% for (subElement in element.elements) { %>
-                  <dt class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> : </dt>
+                  <dt class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> ${subElement.mandatory ? '*' : ''} : </dt>
                   <dd id="${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>
                     <% displayWidget(subElement, 'request') %>
                   </dd>

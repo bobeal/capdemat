@@ -1,9 +1,9 @@
 <g:if test="${requests?.count > 0}">
   <ul>
-    <g:each var="record" in="${requests?.records}">
+    <g:each var="record" in="${requests.records}">
       <li>
         <p>
-          <g:if test="${record?.draft}">
+          <g:if test="${record.draft}">
             <span class="tag-draft tag-state">
               <g:message code="request.property.draft"/>
             </span>
@@ -11,7 +11,7 @@
           <g:else>
             <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
           </g:else>
-          <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">
+          <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
             ${record.label}
             <g:message code="request.searchResult.requestId" />
             <span>${record.id}</span>

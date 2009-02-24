@@ -4,17 +4,19 @@
     <ul>
       <g:each var="record" in="${dashBoard.requests.records}">
         <li>
-            <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
+          <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
+          <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
             ${record.label}
-            <g:message code="request.searchResult.requestId" /> 
+            <g:message code="request.searchResult.requestId" />
             <span>${record.id}</span>
-            - <g:message code="layout.from" /> 
+            - <g:message code="layout.from" />
             <span>${record.requesterLastName} ${record.requesterFirstName}</span>
             <g:if test="${record.subjectLastName && record.subjectLastName != ''}">
-             <g:message code="layout.for" /> ${record.subjectLastName} ${record.subjectFirstName}
+              <g:message code="layout.for" /> ${record.subjectLastName} ${record.subjectFirstName}
             </g:if>
             - <g:message code="request.searchResult.creationDate"
-              args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" />
+                         args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" />
+          </a>
         </li>
       </g:each>
     </ul>

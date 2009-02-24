@@ -1,5 +1,11 @@
 <h2>Nouvelles</h2>
 
+<p><strong>2 Mars 2009</strong></p>
+<span style="text-decoration:underline;">Back Office</span>
+<ul>
+  <li>Ecran de résumé d'une demande en cours ou terminée</li>
+</ul>
+
 <p><strong>20 Février 2009</strong></p>
 <span style="text-decoration:underline;">Back Office</span>
 <ul>

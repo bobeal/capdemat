@@ -16,23 +16,21 @@ public interface IRequestServiceRegistry {
     String SERVICE_NAME = "requestServiceRegistry";
 
     /**
-     * Get the service responsible for the management of the given request
-     * object.
+     * Get the service responsible for the management of the given request.
      */
     IRequestService getRequestService(Request request);
+
+    /**
+     * Get the service responsible for the management of the given request id.
+     */
+    IRequestService getRequestService(Long requestId)
+        throws CvqObjectNotFoundException;
 
     /**
      * Get the service responsible for the management of the request
      * with the given label.
      */
     IRequestService getRequestService(String requestLabel);
-    
-    /**
-     * Get the service responsible for the management of the request
-     * type with the given id.
-     */
-    IRequestService getRequestService(Long requestTypeId)
-        throws CvqObjectNotFoundException;
     
     IRequestService getDefaultRequestService();
 

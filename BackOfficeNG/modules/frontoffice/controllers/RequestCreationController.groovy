@@ -11,6 +11,7 @@ import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.exception.CvqException
 
 import grails.converters.JSON
+import fr.cg95.cvq.service.request.IRequestService
 
 class RequestCreationController {
     
@@ -261,17 +262,21 @@ class RequestCreationController {
     }
 
     def condition = {
+        def result = []
+        
         if (params.requestTypeLabel == null)
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
-            
-        def triggers = JSON.parse(params.triggers)
+        
         try {
-            def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
-            render (
-              [test: requestService.isConditionFilled(triggers),
-              status:'ok',
-              success_msg:message(code:'message.conditionTested')
-              ] as JSON)
+            IRequestService service = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+            for(Map entry : (JSON.parse(params.conditionsContainer) as List)) {
+                result.add([
+                    success_msg: message(code:'message.conditionTested'),
+                    test: service.isConditionFilled(entry),
+                    status: 'ok'
+                ])
+            }
+            render(result as JSON)
         } catch (CvqException ce) {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         }

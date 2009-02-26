@@ -16,7 +16,7 @@
   };
 
   var userAgent = navigator.userAgent.toLowerCase();
-  var s = YAHOO.util.Selector;
+  //var s = YAHOO.util.Selector;
   var zct = zenexity.capdemat.tools;
   var yus = YAHOO.util.Selector;
   var yue = YAHOO.util.Event;
@@ -258,12 +258,12 @@
    * @author vba@zenexity.fr
    **/
   zct.serializeArray = function(nodeId){
-    var node = s.query('#' + nodeId)[0];
+    var node = yus.query('#' + nodeId)[0];
     var a = [], n = [];
     if (zct.nodeName(node, 'form'))
       a = node.elements;
     else
-      a = s.query('#' + nodeId + ' *');
+      a = yus.query('#' + nodeId + ' *');
 
     n = zct.grep(a, function(o){
       return o.name && !o.disabled &&
@@ -336,24 +336,21 @@
     if (value.constructor == Number)
       value += '';
     return (function(){
-      if (element.nodeType != 1)
-        return;
+      if (element.nodeType != 1) return;
       if (value.constructor == Array && /radio|checkbox/.test(element.type))
         element.checked = (zct.inArray(element.value, value) >= 0 ||
         zct.inArray(element.name, value) >= 0);
       else
         if (zct.nodeName(element, "select")) {
           var values = zct.makeArray(value);
-          var options = s.filter(element, "option");
+          var options = yus.filter(element, "option");
           zct.each(options, function(i){
-            this.selected = (zct.inArray(this.value, values) >= 0 ||
-            zct.inArray(this.text, values) >= 0);
+            element.selected = (zct.inArray(element.value, values) >= 0 ||
+            zct.inArray(element.text, values) >= 0);
           });
-          if (!values.length)
-            element.selectedIndex = -1;
+          if (!values.length) element.selectedIndex = -1;
         }
-        else
-          this.value = value;
+        else element.value = value;
     })();
   };
 

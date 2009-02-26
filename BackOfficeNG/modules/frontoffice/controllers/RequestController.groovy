@@ -2,6 +2,7 @@ import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext
 
@@ -10,7 +11,9 @@ import grails.converters.JSON
 class RequestController {
 
     def requestAdaptorService
+    def translationService
 
+    IRequestServiceRegistry requestServiceRegistry
     IRequestService defaultRequestService
     
     def defaultAction = 'index'
@@ -47,6 +50,17 @@ class RequestController {
             def request = defaultRequestService.getById(Long.valueOf(params.id))
             return ['request':requestAdaptorService.prepareRecord(request)]
         }
+    }
+
+    def summary = {
+        def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
+        def request = defaultRequestService.getById(Long.parseLong(params.id))
+        def requestTypeLabel =
+            translationService.getEncodedRequestTypeLabelTranslation(request.requestType.label)
+        def subjects = [:]
+        subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
+        return ['rqt': request, 'requestTypeLabel':requestTypeLabel,
+                'subjects': subjects]
     }
 
     protected filterRequests(state,params) {

@@ -52,21 +52,21 @@
         <div class="body">
           
           <form action="#" id="individualFilters">
-            <label for="actorState"><g:message code="property.actorState" /> :</label>
-            <select name="actorState" class="persistent filter">
+            <label for="homeFolderState"><g:message code="property.homeFolderState" /> :</label>
+            <select name="homeFolderState" class="persistent filter">
               <option value=""><g:message code="search.filter.defaultValue"/></option>
-              <g:each in="${actorStates}" var="record">
-                <option value="${record.name}" ${state.actorState == record.name ? 'selected="selected"' : ''}>
+              <g:each in="${homeFolderStates}" var="record">
+                <option value="${record.name}" ${state.homeFolderState == record.name ? 'selected="selected"' : ''}>
                   ${record.i18nKey}
                 </option>
               </g:each>
             </select>
             
-            <label for="homeFolderState"><g:message code="property.homeFolderState" /> :</label>
-            <select name="homeFolderState" class="persistent filter"> 
+            <label for="homeFolderStatus"><g:message code="property.homeFolderStatus" /> :</label>
+            <select name="homeFolderStatus" class="persistent filter"> 
               <option value=""><g:message code="search.filter.defaultValue"/></option>
-              <g:each in="${homeFolderStates}" var="record">
-                <option value="${record.name}" ${state.homeFolderState == record.name.toString() ? 'selected="selected"' : ''}>
+              <g:each in="${homeFolderStatus}" var="record">
+                <option value="${record.name}" ${state.homeFolderStatus == record.name.toString() ? 'selected="selected"' : ''}>
                   ${record.i18nKey}
                 </option>
               </g:each>

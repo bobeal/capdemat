@@ -108,25 +108,23 @@
           zcf.Condition.set(e);
           zcf.Condition.test();
       },
-      
+
       test : function() {
-          zct.each(zcf.Condition.triggers, function(i) {
-            zct.doAjaxCall(
-                '/condition/?requestTypeLabel=' + getRequestTypeLabel() + '&triggers='+ ylj.stringify(this),
-                null,
-                function(o) {
-                  var json = ylj.parse(o.responseText);
-                  if (json.test) {
-                    zcf.Condition.active(zcf.Condition.filleds[i]);
-                    zcf.Condition.unactive(zcf.Condition.unfilleds[i]);
-                    zcf.Condition.unactive(zcf.Condition.unfilledDescendants[i]);
-                  } else {
-                    zcf.Condition.unactive(zcf.Condition.filleds[i]);
-                    zcf.Condition.unactive(zcf.Condition.filledDescendants[i]);
-                    zcf.Condition.active(zcf.Condition.unfilleds[i]);
-                  }
-                });
-           });
+        zct.val(yud.get('conditionsContainer'),ylj.stringify(zcf.Condition.triggers)||[]);
+        zct.doAjaxFormSubmitCall('conditionsForm',[],function(o){
+          var json = ylj.parse(o.responseText);
+          zct.each(json,function(i,el){
+            if (el.test) {
+              zcf.Condition.active(zcf.Condition.filleds[i]);
+              zcf.Condition.unactive(zcf.Condition.unfilleds[i]);
+              zcf.Condition.unactive(zcf.Condition.unfilledDescendants[i]);
+            } else {
+              zcf.Condition.unactive(zcf.Condition.filleds[i]);
+              zcf.Condition.unactive(zcf.Condition.filledDescendants[i]);
+              zcf.Condition.active(zcf.Condition.unfilleds[i]);
+            }
+          });
+        });
       },
       
       setAll : function() {

@@ -19,6 +19,15 @@
             ${record.postalCode} ${record.city}
           </g:if>
         </p>
+        <g:if test="${record.bornIn}">
+          <p class="third-line">
+            <g:message code="homeFolder.header.born"/>
+            <g:message code="homeFolder.header.on"/> 
+            <g:formatDate formatName="format.date" date="${record.bornOn}"/>
+            <g:message code="homeFolder.header.in"/> 
+            ${record.bornIn}
+          </p>
+        </g:if>
       </li>
     </g:each>
   </ul>

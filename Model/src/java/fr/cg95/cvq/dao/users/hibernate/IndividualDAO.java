@@ -229,6 +229,12 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                     .append(" lower(?)");
                 objectList.add(criteria.getSqlStringValue());
                 typeList.add(Hibernate.STRING);
+            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_FIRSTNAME)) {
+                sb.append(" and lower(individual.firstName) ")
+                    .append(criteria.getSqlComparatif())
+                    .append(" lower(?)");
+                objectList.add(criteria.getSqlStringValue());
+                typeList.add(Hibernate.STRING);
             } else if (criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_ID)) {
                 sb.append(" and individual.homeFolder.id ")
                     .append(criteria.getSqlComparatif())
@@ -239,12 +245,12 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 sb.append(String.format(" and individual.id %1$s ? ",criteria.getSqlComparatif()));
                 objectList.add(criteria.getLongValue());
                 typeList.add(Hibernate.LONG);
-            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_STATE)) {
+            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_STATUS)) {
                 sb.append(String.format(" and individual.homeFolder.enabled %1$s ? ",criteria.getSqlComparatif()));
                 objectList.add(Boolean.parseBoolean(criteria.getValue().toString()));
                 typeList.add(Hibernate.BOOLEAN);
-            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_ACTOR_STATE )) {
-                sb.append(String.format(" and lower(individual.state) %1$s lower(?) ",criteria.getSqlComparatif()));
+            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_STATE)) {
+                sb.append(String.format(" and lower(individual.homeFolder.state) %1$s lower(?) ",criteria.getSqlComparatif()));
                 objectList.add(criteria.getValue());
                 typeList.add(Hibernate.STRING);
             } else if(criteria.getAttribut().equals(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE)) {

@@ -217,6 +217,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="requestFormDAO" ref="requestFormDAO"/>
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
+    <property name="requestDAO" ref="requestDAO"/>
     <property name="performDbUpdates" value="@perform_db_updates@"/>
   </bean>
 

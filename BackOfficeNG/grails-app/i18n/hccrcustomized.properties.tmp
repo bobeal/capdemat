@@ -1,0 +1,1563 @@
+hccr.duration.value =
+
+hccr.step.subject.label =
+hccr.step.subject.desc =
+
+hccr.step.dwelling.label =
+hccr.step.dwelling.desc =
+
+hccr.step.socialSecurityAndPaymentAgency.label =
+hccr.step.socialSecurityAndPaymentAgency.desc =
+
+hccr.step.occupationnalAndSchoolStatus.label =
+hccr.step.occupationnalAndSchoolStatus.desc =
+
+hccr.step.folders.label =
+hccr.step.folders.desc =
+
+hccr.step.benefits.label =
+hccr.step.benefits.desc =
+
+hccr.step.aid.label =
+hccr.step.aid.desc =
+
+hccr.step.health.label =
+hccr.step.health.desc =
+
+hccr.step.project.label =
+hccr.step.project.desc =
+
+hccr.step.document.label =
+hccr.step.document.desc =
+
+hccr.step.validation.label =
+hccr.step.validation.desc =
+
+
+dhr.property.dhrRequester.help =
+dhr.property.dhrRequester.validationError =
+
+dhr.property.dhrRequesterBirthDate.help =
+dhr.property.dhrRequesterBirthDate.validationError =
+
+dhr.property.dhrRequesterBirthPlace.help =
+dhr.property.dhrRequesterBirthPlace.validationError =
+
+dhr.property.dhrRequesterNationality.help =
+dhr.property.dhrRequesterNationality.validationError =
+
+dhr.property.dhrRequesterFranceArrivalDate.help =
+dhr.property.dhrRequesterFranceArrivalDate.validationError =
+
+dhr.property.dhrRequesterIsFrenchResident.help =
+dhr.property.dhrRequesterIsFrenchResident.validationError =
+
+dhr.property.dhrRequesterPensionPlan.help =
+dhr.property.dhrRequesterPensionPlan.validationError =
+
+dhr.property.dhrPrincipalPensionPlan.help =
+dhr.property.dhrPrincipalPensionPlan.validationError =
+
+dhr.property.dhrPensionPlanDetail.help =
+dhr.property.dhrPensionPlanDetail.validationError =
+
+dhr.property.dhrComplementaryPensionPlan.help =
+dhr.property.dhrComplementaryPensionPlan.validationError =
+
+dhr.property.dhrRequesterGuardian.help =
+dhr.property.dhrRequesterGuardian.validationError =
+
+dhr.property.dhrRequesterHaveGuardian.help =
+dhr.property.dhrRequesterHaveGuardian.validationError =
+
+dhr.property.dhrGuardianMeasure.help =
+dhr.property.dhrGuardianMeasure.validationError =
+
+dhr.property.dhrGuardianName.help =
+dhr.property.dhrGuardianName.validationError =
+
+dhr.property.dhrGuardianAddress.help =
+dhr.property.dhrGuardianAddress.validationError =
+
+dhr.property.dhrFamilyReferent.help =
+dhr.property.dhrFamilyReferent.validationError =
+
+dhr.property.dhrHaveFamilyReferent.help =
+dhr.property.dhrHaveFamilyReferent.validationError =
+
+dhr.property.dhrReferentName.help =
+dhr.property.dhrReferentName.validationError =
+
+dhr.property.dhrReferentFirstName.help =
+dhr.property.dhrReferentFirstName.validationError =
+
+dhr.property.dhrReferentAddress.help =
+dhr.property.dhrReferentAddress.validationError =
+
+dhr.property.dhrSpouse.help =
+dhr.property.dhrSpouse.validationError =
+
+dhr.property.dhrRequestKind.help =
+dhr.property.dhrRequestKind.validationError =
+
+dhr.property.dhrSpouseTitle.help =
+dhr.property.dhrSpouseTitle.validationError =
+
+dhr.property.dhrSpouseFamilyStatus.help =
+dhr.property.dhrSpouseFamilyStatus.validationError =
+
+dhr.property.dhrSpouseName.help =
+dhr.property.dhrSpouseName.validationError =
+
+dhr.property.dhrSpouseFirstName.help =
+dhr.property.dhrSpouseFirstName.validationError =
+
+dhr.property.dhrSpouseMaidenName.help =
+dhr.property.dhrSpouseMaidenName.validationError =
+
+dhr.property.dhrSpouseBirthDate.help =
+dhr.property.dhrSpouseBirthDate.validationError =
+
+dhr.property.dhrSpouseBirthPlace.help =
+dhr.property.dhrSpouseBirthPlace.validationError =
+
+dhr.property.dhrSpouseNationality.help =
+dhr.property.dhrSpouseNationality.validationError =
+
+dhr.property.dhrSpouseFranceArrivalDate.help =
+dhr.property.dhrSpouseFranceArrivalDate.validationError =
+
+dhr.property.dhrSpouseIsFrenchResident.help =
+dhr.property.dhrSpouseIsFrenchResident.validationError =
+
+dhr.property.dhrSpouseStatus.help =
+dhr.property.dhrSpouseStatus.validationError =
+
+dhr.property.dhrIsSpouseRetired.help =
+dhr.property.dhrIsSpouseRetired.validationError =
+
+dhr.property.dhrSpousePrincipalPensionPlan.help =
+dhr.property.dhrSpousePrincipalPensionPlan.validationError =
+
+dhr.property.dhrSpousePensionPlanDetail.help =
+dhr.property.dhrSpousePensionPlanDetail.validationError =
+
+dhr.property.dhrSpouseComplementaryPensionPlan.help =
+dhr.property.dhrSpouseComplementaryPensionPlan.validationError =
+
+dhr.property.dhrSpouseProfession.help =
+dhr.property.dhrSpouseProfession.validationError =
+
+dhr.property.dhrSpouseEmployer.help =
+dhr.property.dhrSpouseEmployer.validationError =
+
+dhr.property.dhrSpouseAddress.help =
+dhr.property.dhrSpouseAddress.validationError =
+
+dhr.property.dhrSpouseIncomes.help =
+dhr.property.dhrSpouseIncomes.validationError =
+
+dhr.property.pensions.help =
+dhr.property.pensions.validationError =
+
+dhr.property.dhrAllowances.help =
+dhr.property.dhrAllowances.validationError =
+
+dhr.property.dhrFurnitureInvestmentIncome.help =
+dhr.property.dhrFurnitureInvestmentIncome.validationError =
+
+dhr.property.dhrRealEstateInvestmentIncome.help =
+dhr.property.dhrRealEstateInvestmentIncome.validationError =
+
+dhr.property.dhrNetIncome.help =
+dhr.property.dhrNetIncome.validationError =
+
+dhr.property.dhrIncomesAnnualTotal.help =
+dhr.property.dhrIncomesAnnualTotal.validationError =
+
+dhr.property.dhrCurrentDwelling.help =
+dhr.property.dhrCurrentDwelling.validationError =
+
+dhr.property.dhrCurrentDwellingAddress.help =
+dhr.property.dhrCurrentDwellingAddress.validationError =
+
+dhr.property.dhrCurrentDwellingPhone.help =
+dhr.property.dhrCurrentDwellingPhone.validationError =
+
+dhr.property.dhrCurrentDwellingKind.help =
+dhr.property.dhrCurrentDwellingKind.validationError =
+
+dhr.property.dhrCurrentDwellingArrivalDate.help =
+dhr.property.dhrCurrentDwellingArrivalDate.validationError =
+
+dhr.property.dhrCurrentDwellingStatus.help =
+dhr.property.dhrCurrentDwellingStatus.validationError =
+
+dhr.property.dhrCurrentDwellingNumberOfRoom.help =
+dhr.property.dhrCurrentDwellingNumberOfRoom.validationError =
+
+dhr.property.dhrCurrentDwellingNetArea.help =
+dhr.property.dhrCurrentDwellingNetArea.validationError =
+
+dhr.property.dhrPreviousDwelling.help =
+dhr.property.dhrPreviousDwelling.validationError =
+
+dhr.property.dhrPreviousDwellingAddress.help =
+dhr.property.dhrPreviousDwellingAddress.validationError =
+
+dhr.property.dhrPreviousDwellingKind.help =
+dhr.property.dhrPreviousDwellingKind.validationError =
+
+dhr.property.dhrPreviousDwellingStatus.help =
+dhr.property.dhrPreviousDwellingStatus.validationError =
+
+dhr.property.dhrPreviousDwellingArrivalDate.help =
+dhr.property.dhrPreviousDwellingArrivalDate.validationError =
+
+dhr.property.dhrPreviousDwellingDepartureDate.help =
+dhr.property.dhrPreviousDwellingDepartureDate.validationError =
+
+dhr.property.dhrPreviousDwellingComment.help =
+dhr.property.dhrPreviousDwellingComment.validationError =
+
+dhr.property.dhrRequesterIncomes.help =
+dhr.property.dhrRequesterIncomes.validationError =
+
+dhr.property.pensions.help =
+dhr.property.pensions.validationError =
+
+dhr.property.dhrAllowances.help =
+dhr.property.dhrAllowances.validationError =
+
+dhr.property.dhrFurnitureInvestmentIncome.help =
+dhr.property.dhrFurnitureInvestmentIncome.validationError =
+
+dhr.property.dhrRealEstateInvestmentIncome.help =
+dhr.property.dhrRealEstateInvestmentIncome.validationError =
+
+dhr.property.dhrNetIncome.help =
+dhr.property.dhrNetIncome.validationError =
+
+dhr.property.dhrIncomesAnnualTotal.help =
+dhr.property.dhrIncomesAnnualTotal.validationError =
+
+dhr.property.dhrRealAsset.help =
+dhr.property.dhrRealAsset.validationError =
+
+dhr.property.dhrRealAssetAddress.help =
+dhr.property.dhrRealAssetAddress.validationError =
+
+dhr.property.dhrRealAssetValue.help =
+dhr.property.dhrRealAssetValue.validationError =
+
+dhr.property.realAssetNetFloorArea.help =
+dhr.property.realAssetNetFloorArea.validationError =
+
+dhr.property.dhrNotRealAsset.help =
+dhr.property.dhrNotRealAsset.validationError =
+
+dhr.property.dhrNotRealAssetType.help =
+dhr.property.dhrNotRealAssetType.validationError =
+
+dhr.property.dhrNotRealAssetKind.help =
+dhr.property.dhrNotRealAssetKind.validationError =
+
+dhr.property.dhrNotRealAssetAddress.help =
+dhr.property.dhrNotRealAssetAddress.validationError =
+
+dhr.property.dhrNotRealAssetBeneficiaryName.help =
+dhr.property.dhrNotRealAssetBeneficiaryName.validationError =
+
+dhr.property.dhrNotRealAssetBeneficiaryFirstName.help =
+dhr.property.dhrNotRealAssetBeneficiaryFirstName.validationError =
+
+dhr.property.dhrNotRealAssetBeneficiaryAddress.help =
+dhr.property.dhrNotRealAssetBeneficiaryAddress.validationError =
+
+dhr.property.dhrNotRealAssetValue.help =
+dhr.property.dhrNotRealAssetValue.validationError =
+
+dhr.property.dhrNotRealAssetDate.help =
+dhr.property.dhrNotRealAssetDate.validationError =
+
+dhr.property.dhrNotRealAssetNotaryName.help =
+dhr.property.dhrNotRealAssetNotaryName.validationError =
+
+dhr.property.dhrNotRealAssetNotaryAddress.help =
+dhr.property.dhrNotRealAssetNotaryAddress.validationError =
+
+dhr.property.dhrTaxesAmount.help =
+dhr.property.dhrTaxesAmount.validationError =
+
+dhr.property.dhrIncomeTax.help =
+dhr.property.dhrIncomeTax.validationError =
+
+dhr.property.localRate.help =
+dhr.property.localRate.validationError =
+
+dhr.property.propertyTaxes.help =
+dhr.property.propertyTaxes.validationError =
+
+dhr.property.professionalTaxes.help =
+dhr.property.professionalTaxes.validationError =
+
+hcar.property.hcarSubject.help =
+hcar.property.hcarSubject.validationError =
+
+hcar.property.subjectTitle.help =
+hcar.property.subjectTitle.validationError =
+
+hcar.property.subjectMaidenName.help =
+hcar.property.subjectMaidenName.validationError =
+
+hcar.property.subjectBirthDate.help =
+hcar.property.subjectBirthDate.validationError =
+
+hcar.property.subjectBirthCity.help =
+hcar.property.subjectBirthCity.validationError =
+
+hcar.property.subjectBirthCountry.help =
+hcar.property.subjectBirthCountry.validationError =
+
+hcar.property.legalAccess.help =
+hcar.property.legalAccess.validationError =
+
+hcar.property.legalAccessPresence.help =
+hcar.property.legalAccessPresence.validationError =
+
+hcar.property.legalAccessKind.help =
+hcar.property.legalAccessKind.validationError =
+
+hcar.property.legalAccessRepresentativeKind.help =
+hcar.property.legalAccessRepresentativeKind.validationError =
+
+hcar.property.legalAccessRepresentativeKindDetail.help =
+hcar.property.legalAccessRepresentativeKindDetail.validationError =
+
+hcar.property.legalAccessRepresentativeName.help =
+hcar.property.legalAccessRepresentativeName.validationError =
+
+hcar.property.legalAccessRepresentativeFirstName.help =
+hcar.property.legalAccessRepresentativeFirstName.validationError =
+
+hcar.property.family.help =
+hcar.property.family.validationError =
+
+hcar.property.familyStatus.help =
+hcar.property.familyStatus.validationError =
+
+hcar.property.familyFamilyDependents.help =
+hcar.property.familyFamilyDependents.validationError =
+
+hcar.property.familyDependents.help =
+hcar.property.familyDependents.validationError =
+
+hcar.property.familyDependentLastName.help =
+hcar.property.familyDependentLastName.validationError =
+
+hcar.property.familyDependentFirstName.help =
+hcar.property.familyDependentFirstName.validationError =
+
+hcar.property.familyDependentBirthDate.help =
+hcar.property.familyDependentBirthDate.validationError =
+
+hcar.property.familyDependentActualSituation.help =
+hcar.property.familyDependentActualSituation.validationError =
+
+hcar.property.dwelling.help =
+hcar.property.dwelling.validationError =
+
+hcar.property.dwellingKind.help =
+hcar.property.dwellingKind.validationError =
+
+hcar.property.dwellingPrecision.help =
+hcar.property.dwellingPrecision.validationError =
+
+hcar.property.dwellingEstablishmentReception.help =
+hcar.property.dwellingEstablishmentReception.validationError =
+
+hcar.property.dwellingReceptionType.help =
+hcar.property.dwellingReceptionType.validationError =
+
+hcar.property.dwellingReceptionNaming.help =
+hcar.property.dwellingReceptionNaming.validationError =
+
+hcar.property.dwellingReceptionAddress.help =
+hcar.property.dwellingReceptionAddress.validationError =
+
+hcar.property.dwellingSocialReception.help =
+hcar.property.dwellingSocialReception.validationError =
+
+hcar.property.dwellingSocialReceptionNaming.help =
+hcar.property.dwellingSocialReceptionNaming.validationError =
+
+hcar.property.dwellingSocialReceptionAddress.help =
+hcar.property.dwellingSocialReceptionAddress.validationError =
+
+hcar.property.socialSecurity.help =
+hcar.property.socialSecurity.validationError =
+
+hcar.property.socialSecurityMemberShipKind.help =
+hcar.property.socialSecurityMemberShipKind.validationError =
+
+hcar.property.socialSecurityNumber.help =
+hcar.property.socialSecurityNumber.validationError =
+
+hcar.property.socialSecurityAgencyName.help =
+hcar.property.socialSecurityAgencyName.validationError =
+
+hcar.property.socialSecurityAgencyAddress.help =
+hcar.property.socialSecurityAgencyAddress.validationError =
+
+hcar.property.paymentAgency.help =
+hcar.property.paymentAgency.validationError =
+
+hcar.property.paymentAgencyBeneficiary.help =
+hcar.property.paymentAgencyBeneficiary.validationError =
+
+hcar.property.paymentAgencyBeneficiaryNumber.help =
+hcar.property.paymentAgencyBeneficiaryNumber.validationError =
+
+hcar.property.paymentAgencyName.help =
+hcar.property.paymentAgencyName.validationError =
+
+hcar.property.paymentAgencyAddress.help =
+hcar.property.paymentAgencyAddress.validationError =
+
+hcar.property.studies.help =
+hcar.property.studies.validationError =
+
+hcar.property.studiesHighSchool.help =
+hcar.property.studiesHighSchool.validationError =
+
+hcar.property.studiesHighSchoolGrade.help =
+hcar.property.studiesHighSchoolGrade.validationError =
+
+hcar.property.studiesHighSchoolName.help =
+hcar.property.studiesHighSchoolName.validationError =
+
+hcar.property.studiesHighSchoolAddress.help =
+hcar.property.studiesHighSchoolAddress.validationError =
+
+hcar.property.studiesAssistanceUnderDisability.help =
+hcar.property.studiesAssistanceUnderDisability.validationError =
+
+hcar.property.studiesAssistanceUnderDisabilityDetails.help =
+hcar.property.studiesAssistanceUnderDisabilityDetails.validationError =
+
+hcar.property.formation.help =
+hcar.property.formation.validationError =
+
+hcar.property.formationStudiesLevel.help =
+hcar.property.formationStudiesLevel.validationError =
+
+hcar.property.formationDiploma.help =
+hcar.property.formationDiploma.validationError =
+
+hcar.property.formationPreviousFormation.help =
+hcar.property.formationPreviousFormation.validationError =
+
+hcar.property.formationCurrentFormation.help =
+hcar.property.formationCurrentFormation.validationError =
+
+hcar.property.professionalStatus.help =
+hcar.property.professionalStatus.validationError =
+
+hcar.property.professionalStatusKind.help =
+hcar.property.professionalStatusKind.validationError =
+
+hcar.property.professionalStatusDate.help =
+hcar.property.professionalStatusDate.validationError =
+
+hcar.property.professionalStatusEnvironment.help =
+hcar.property.professionalStatusEnvironment.validationError =
+
+hcar.property.professionalStatusProfession.help =
+hcar.property.professionalStatusProfession.validationError =
+
+hcar.property.professionalStatusEmployerName.help =
+hcar.property.professionalStatusEmployerName.validationError =
+
+hcar.property.professionalStatusAddress.help =
+hcar.property.professionalStatusAddress.validationError =
+
+hcar.property.professionalStatusRegisterAsUnemployed.help =
+hcar.property.professionalStatusRegisterAsUnemployed.validationError =
+
+hcar.property.professionalStatusRegisterAsUnemployedDate.help =
+hcar.property.professionalStatusRegisterAsUnemployedDate.validationError =
+
+hcar.property.professionalStatusIndemnified.help =
+hcar.property.professionalStatusIndemnified.validationError =
+
+hcar.property.professionalStatusIndemnifiedDate.help =
+hcar.property.professionalStatusIndemnifiedDate.validationError =
+
+hcar.property.professionalStatusElectiveFunction.help =
+hcar.property.professionalStatusElectiveFunction.validationError =
+
+hcar.property.professionalStatusElectiveFunctionDetails.help =
+hcar.property.professionalStatusElectiveFunctionDetails.validationError =
+
+hcar.property.folders.help =
+hcar.property.folders.validationError =
+
+hcar.property.foldersMdph.help =
+hcar.property.foldersMdph.validationError =
+
+hcar.property.foldersMdphNumber.help =
+hcar.property.foldersMdphNumber.validationError =
+
+hcar.property.foldersMdphDepartment.help =
+hcar.property.foldersMdphDepartment.validationError =
+
+hcar.property.foldersCotorep.help =
+hcar.property.foldersCotorep.validationError =
+
+hcar.property.foldersCotorepNumber.help =
+hcar.property.foldersCotorepNumber.validationError =
+
+hcar.property.foldersCotorepDepartment.help =
+hcar.property.foldersCotorepDepartment.validationError =
+
+hcar.property.foldersCdes.help =
+hcar.property.foldersCdes.validationError =
+
+hcar.property.foldersCdesNumber.help =
+hcar.property.foldersCdesNumber.validationError =
+
+hcar.property.foldersCdesDepartment.help =
+hcar.property.foldersCdesDepartment.validationError =
+
+hcar.property.foldersOtherFolders.help =
+hcar.property.foldersOtherFolders.validationError =
+
+hcar.property.otherFolders.help =
+hcar.property.otherFolders.validationError =
+
+hcar.property.otherFolderName.help =
+hcar.property.otherFolderName.validationError =
+
+hcar.property.otherFolderNumber.help =
+hcar.property.otherFolderNumber.validationError =
+
+hcar.property.otherFolderDepartment.help =
+hcar.property.otherFolderDepartment.validationError =
+
+hcar.property.benefits.help =
+hcar.property.benefits.validationError =
+
+hcar.property.benefitsDisabilityRecognition.help =
+hcar.property.benefitsDisabilityRecognition.validationError =
+
+hcar.property.benefitsDisabilityRatio.help =
+hcar.property.benefitsDisabilityRatio.validationError =
+
+hcar.property.benefitsDisabilityCard.help =
+hcar.property.benefitsDisabilityCard.validationError =
+
+hcar.property.benefitsPainfulStandingCard.help =
+hcar.property.benefitsPainfulStandingCard.validationError =
+
+hcar.property.benefitsParkingCard.help =
+hcar.property.benefitsParkingCard.validationError =
+
+hcar.property.benefitsDisabledWorkerRecognition.help =
+hcar.property.benefitsDisabledWorkerRecognition.validationError =
+
+hcar.property.benefitsProfessionalOrientation.help =
+hcar.property.benefitsProfessionalOrientation.validationError =
+
+hcar.property.benefitsProfessionalOrientationDetails.help =
+hcar.property.benefitsProfessionalOrientationDetails.validationError =
+
+hcar.property.benefitsDisabledAdultAllocation.help =
+hcar.property.benefitsDisabledAdultAllocation.validationError =
+
+hcar.property.benefitsIncreaseForIndependentLiving.help =
+hcar.property.benefitsIncreaseForIndependentLiving.validationError =
+
+hcar.property.benefitsEducationAllocationOfDisabledChildren.help =
+hcar.property.benefitsEducationAllocationOfDisabledChildren.validationError =
+
+hcar.property.benefitsEducationOfDisabledChildren.help =
+hcar.property.benefitsEducationOfDisabledChildren.validationError =
+
+hcar.property.benefitsEducationOfDisabledChildrenDetails.help =
+hcar.property.benefitsEducationOfDisabledChildrenDetails.validationError =
+
+hcar.property.benefitsSupplementForSingleParents.help =
+hcar.property.benefitsSupplementForSingleParents.validationError =
+
+hcar.property.benefitsThirdPersonCompensatoryAllowance.help =
+hcar.property.benefitsThirdPersonCompensatoryAllowance.validationError =
+
+hcar.property.benefitsThirdPartyCompensatoryAllowance.help =
+hcar.property.benefitsThirdPartyCompensatoryAllowance.validationError =
+
+hcar.property.benefitsCompensatoryAllowanceForExpenses.help =
+hcar.property.benefitsCompensatoryAllowanceForExpenses.validationError =
+
+hcar.property.benefitsDisabilityCompensation.help =
+hcar.property.benefitsDisabilityCompensation.validationError =
+
+hcar.property.benefitsDisabilityPension.help =
+hcar.property.benefitsDisabilityPension.validationError =
+
+hcar.property.benefitsDisabilityPensionCategory.help =
+hcar.property.benefitsDisabilityPensionCategory.validationError =
+
+hcar.property.benefitsWorkAccidentAnnuity.help =
+hcar.property.benefitsWorkAccidentAnnuity.validationError =
+
+hcar.property.benefitsWorkAccidentAnnuityRatio.help =
+hcar.property.benefitsWorkAccidentAnnuityRatio.validationError =
+
+hcar.property.benefitsSocialWelfare.help =
+hcar.property.benefitsSocialWelfare.validationError =
+
+hcar.property.benefitsUnemploymentBenefits.help =
+hcar.property.benefitsUnemploymentBenefits.validationError =
+
+hcar.property.benefitsDailyAllowances.help =
+hcar.property.benefitsDailyAllowances.validationError =
+
+hcar.property.benefitsThirdPartySupplement.help =
+hcar.property.benefitsThirdPartySupplement.validationError =
+
+hcar.property.benefitsSupportedByAnInstitution.help =
+hcar.property.benefitsSupportedByAnInstitution.validationError =
+
+hcar.property.benefitsSupportedByAnInstitutionDetails.help =
+hcar.property.benefitsSupportedByAnInstitutionDetails.validationError =
+
+hcar.property.benefitsOtherBenefits.help =
+hcar.property.benefitsOtherBenefits.validationError =
+
+hcar.property.otherBenefits.help =
+hcar.property.otherBenefits.validationError =
+
+hcar.property.otherBenefitName.help =
+hcar.property.otherBenefitName.validationError =
+
+hcar.property.familyAssistance.help =
+hcar.property.familyAssistance.validationError =
+
+hcar.property.isFamilyAssistance.help =
+hcar.property.isFamilyAssistance.validationError =
+
+hcar.property.familyAssistanceMembers.help =
+hcar.property.familyAssistanceMembers.validationError =
+
+hcar.property.familyAssistanceMemberRelationship.help =
+hcar.property.familyAssistanceMemberRelationship.validationError =
+
+hcar.property.familyAssistanceMemberLastName.help =
+hcar.property.familyAssistanceMemberLastName.validationError =
+
+hcar.property.familyAssistanceMemberFirstName.help =
+hcar.property.familyAssistanceMemberFirstName.validationError =
+
+hcar.property.homeIntervention.help =
+hcar.property.homeIntervention.validationError =
+
+hcar.property.homeInterventionHomeIntervenant.help =
+hcar.property.homeInterventionHomeIntervenant.validationError =
+
+hcar.property.homeIntervenants.help =
+hcar.property.homeIntervenants.validationError =
+
+hcar.property.homeIntervenantKind.help =
+hcar.property.homeIntervenantKind.validationError =
+
+hcar.property.homeIntervenantDetails.help =
+hcar.property.homeIntervenantDetails.validationError =
+
+hcar.property.care.help =
+hcar.property.care.validationError =
+
+hcar.property.careCareServices.help =
+hcar.property.careCareServices.validationError =
+
+hcar.property.careServices.help =
+hcar.property.careServices.validationError =
+
+hcar.property.careServiceKind.help =
+hcar.property.careServiceKind.validationError =
+
+hcar.property.careServiceCareServiceEmployer.help =
+hcar.property.careServiceCareServiceEmployer.validationError =
+
+hcar.property.careServiceProviderName.help =
+hcar.property.careServiceProviderName.validationError =
+
+hcar.property.careServiceProviderAddress.help =
+hcar.property.careServiceProviderAddress.validationError =
+
+hcar.property.facilities.help =
+hcar.property.facilities.validationError =
+
+hcar.property.facilitiesHousing.help =
+hcar.property.facilitiesHousing.validationError =
+
+hcar.property.facilitiesHousingDetails.help =
+hcar.property.facilitiesHousingDetails.validationError =
+
+hcar.property.facilitiesTechnicalAssistance.help =
+hcar.property.facilitiesTechnicalAssistance.validationError =
+
+hcar.property.facilitiesTechnicalAssistanceDetails.help =
+hcar.property.facilitiesTechnicalAssistanceDetails.validationError =
+
+hcar.property.facilitiesCustomCar.help =
+hcar.property.facilitiesCustomCar.validationError =
+
+hcar.property.facilitiesCustomCarDetails.help =
+hcar.property.facilitiesCustomCarDetails.validationError =
+
+hcar.property.facilitiesAnimalAid.help =
+hcar.property.facilitiesAnimalAid.validationError =
+
+hcar.property.facilitiesAnimalAidDetails.help =
+hcar.property.facilitiesAnimalAidDetails.validationError =
+
+hcar.property.facilitiesSpecializedTransport.help =
+hcar.property.facilitiesSpecializedTransport.validationError =
+
+hcar.property.facilitiesSpecializedTransportDetails.help =
+hcar.property.facilitiesSpecializedTransportDetails.validationError =
+
+hcar.property.professionalSupport.help =
+hcar.property.professionalSupport.validationError =
+
+hcar.property.professionalSupportProfessionals.help =
+hcar.property.professionalSupportProfessionals.validationError =
+
+hcar.property.professionalSupportDealsWithSameProfessional.help =
+hcar.property.professionalSupportDealsWithSameProfessional.validationError =
+
+hcar.property.professionals.help =
+hcar.property.professionals.validationError =
+
+hcar.property.professionalLastName.help =
+hcar.property.professionalLastName.validationError =
+
+hcar.property.professionalFirstName.help =
+hcar.property.professionalFirstName.validationError =
+
+hcar.property.professionalAddress.help =
+hcar.property.professionalAddress.validationError =
+
+hcar.property.socialService.help =
+hcar.property.socialService.validationError =
+
+hcar.property.professionalSupportSocialServiceSupport.help =
+hcar.property.professionalSupportSocialServiceSupport.validationError =
+
+hcar.property.professionalSupportSocialServiceName.help =
+hcar.property.professionalSupportSocialServiceName.validationError =
+
+hcar.property.professionalSupportSocialServiceAddress.help =
+hcar.property.professionalSupportSocialServiceAddress.validationError =
+
+hcar.property.additionalFee.help =
+hcar.property.additionalFee.validationError =
+
+hcar.property.additionalFeeKind.help =
+hcar.property.additionalFeeKind.validationError =
+
+hcar.property.additionalFeeCost.help =
+hcar.property.additionalFeeCost.validationError =
+
+hcar.property.additionalFeePeriodicity.help =
+hcar.property.additionalFeePeriodicity.validationError =
+
+hcar.property.health.help =
+hcar.property.health.validationError =
+
+hcar.property.healthFollowedByDoctor.help =
+hcar.property.healthFollowedByDoctor.validationError =
+
+hcar.property.healthDoctorLastName.help =
+hcar.property.healthDoctorLastName.validationError =
+
+hcar.property.healthDoctorFirstName.help =
+hcar.property.healthDoctorFirstName.validationError =
+
+hcar.property.healthFollowedByProfessional.help =
+hcar.property.healthFollowedByProfessional.validationError =
+
+hcar.property.healthProfessionalLastName.help =
+hcar.property.healthProfessionalLastName.validationError =
+
+hcar.property.healthProfessionalFirstName.help =
+hcar.property.healthProfessionalFirstName.validationError =
+
+hcar.property.healthFollowedByHospital.help =
+hcar.property.healthFollowedByHospital.validationError =
+
+hcar.property.healthHospitalName.help =
+hcar.property.healthHospitalName.validationError =
+
+hcar.property.projectRequests.help =
+hcar.property.projectRequests.validationError =
+
+hcar.property.projectRequestsHandicapRecognition.help =
+hcar.property.projectRequestsHandicapRecognition.validationError =
+
+hcar.property.projectRequestsDisabilityCard.help =
+hcar.property.projectRequestsDisabilityCard.validationError =
+
+hcar.property.projectRequestsDisabledPriorityCard.help =
+hcar.property.projectRequestsDisabledPriorityCard.validationError =
+
+hcar.property.projectRequestsEuropeanParkingCard.help =
+hcar.property.projectRequestsEuropeanParkingCard.validationError =
+
+hcar.property.projectRequestsDisabledAdultAllowance.help =
+hcar.property.projectRequestsDisabledAdultAllowance.validationError =
+
+hcar.property.projectRequestsIncreaseForIndependentLiving.help =
+hcar.property.projectRequestsIncreaseForIndependentLiving.validationError =
+
+hcar.property.projectRequestsEducationAllocationOfDisabledChildren.help =
+hcar.property.projectRequestsEducationAllocationOfDisabledChildren.validationError =
+
+hcar.property.projectRequestsACTPRenewal.help =
+hcar.property.projectRequestsACTPRenewal.validationError =
+
+hcar.property.projectRequestsThirdPartyHelp.help =
+hcar.property.projectRequestsThirdPartyHelp.validationError =
+
+hcar.property.projectRequestsFreePensionMembership.help =
+hcar.property.projectRequestsFreePensionMembership.validationError =
+
+hcar.property.projectRequestsTechnicalHelp.help =
+hcar.property.projectRequestsTechnicalHelp.validationError =
+
+hcar.property.projectRequestsHousingFacilities.help =
+hcar.property.projectRequestsHousingFacilities.validationError =
+
+hcar.property.projectRequestsCustomCar.help =
+hcar.property.projectRequestsCustomCar.validationError =
+
+hcar.property.projectRequestsAssistance.help =
+hcar.property.projectRequestsAssistance.validationError =
+
+hcar.property.projectRequestsTransportCostAllocation.help =
+hcar.property.projectRequestsTransportCostAllocation.validationError =
+
+hcar.property.projectRequestsDisabilityCostAllocation.help =
+hcar.property.projectRequestsDisabilityCostAllocation.validationError =
+
+hcar.property.projectRequestsDisabledWorkerRecognition.help =
+hcar.property.projectRequestsDisabledWorkerRecognition.validationError =
+
+hcar.property.projectRequestsProfessionalOrientation.help =
+hcar.property.projectRequestsProfessionalOrientation.validationError =
+
+hcar.property.projectRequestsOrdinaryWorking.help =
+hcar.property.projectRequestsOrdinaryWorking.validationError =
+
+hcar.property.projectRequestsShelteredWork.help =
+hcar.property.projectRequestsShelteredWork.validationError =
+
+hcar.property.projectRequestsVocationalTraining.help =
+hcar.property.projectRequestsVocationalTraining.validationError =
+
+hcar.property.projectRequestsInstitutionSupport.help =
+hcar.property.projectRequestsInstitutionSupport.validationError =
+
+hcar.property.projectRequestsOther.help =
+hcar.property.projectRequestsOther.validationError =
+
+hcar.property.projectRequestsOtherDetails.help =
+hcar.property.projectRequestsOtherDetails.validationError =
+
+hcar.property.projectWish.help =
+hcar.property.projectWish.validationError =
+
+hcar.property.projectNeeds.help =
+hcar.property.projectNeeds.validationError =
+
+hcar.property.projectComments.help =
+hcar.property.projectComments.validationError =
+
+hccr.property.hccrSubject.help =
+hccr.property.hccrSubject.validationError =
+
+hccr.property.subjectBirthDate.help =
+hccr.property.subjectBirthDate.validationError =
+
+hccr.property.subjectBirthCity.help =
+hccr.property.subjectBirthCity.validationError =
+
+hccr.property.subjectBirthCountry.help =
+hccr.property.subjectBirthCountry.validationError =
+
+hccr.property.subjectParentalAuthorityHolder.help =
+hccr.property.subjectParentalAuthorityHolder.validationError =
+
+hccr.property.father.help =
+hccr.property.father.validationError =
+
+hccr.property.fatherLastName.help =
+hccr.property.fatherLastName.validationError =
+
+hccr.property.fatherFirstName.help =
+hccr.property.fatherFirstName.validationError =
+
+hccr.property.fatherJob.help =
+hccr.property.fatherJob.validationError =
+
+hccr.property.fatherActivityReduction.help =
+hccr.property.fatherActivityReduction.validationError =
+
+hccr.property.fatherActivityReductionRatio.help =
+hccr.property.fatherActivityReductionRatio.validationError =
+
+hccr.property.mother.help =
+hccr.property.mother.validationError =
+
+hccr.property.motherLastName.help =
+hccr.property.motherLastName.validationError =
+
+hccr.property.motherFirstName.help =
+hccr.property.motherFirstName.validationError =
+
+hccr.property.motherJob.help =
+hccr.property.motherJob.validationError =
+
+hccr.property.motherActivityReduction.help =
+hccr.property.motherActivityReduction.validationError =
+
+hccr.property.motherActivityReductionRatio.help =
+hccr.property.motherActivityReductionRatio.validationError =
+
+hccr.property.aseReferent.help =
+hccr.property.aseReferent.validationError =
+
+hccr.property.aseReferentLastName.help =
+hccr.property.aseReferentLastName.validationError =
+
+hccr.property.aseReferentDepartment.help =
+hccr.property.aseReferentDepartment.validationError =
+
+hccr.property.referent.help =
+hccr.property.referent.validationError =
+
+hccr.property.referentLastName.help =
+hccr.property.referentLastName.validationError =
+
+hccr.property.referentFirstName.help =
+hccr.property.referentFirstName.validationError =
+
+hccr.property.referentTitle.help =
+hccr.property.referentTitle.validationError =
+
+hccr.property.referentMaidenName.help =
+hccr.property.referentMaidenName.validationError =
+
+hccr.property.referentBirthDate.help =
+hccr.property.referentBirthDate.validationError =
+
+hccr.property.referentBirthCity.help =
+hccr.property.referentBirthCity.validationError =
+
+hccr.property.referentBirthCountry.help =
+hccr.property.referentBirthCountry.validationError =
+
+hccr.property.referentFamilyStatus.help =
+hccr.property.referentFamilyStatus.validationError =
+
+hccr.property.referentFamilyDependents.help =
+hccr.property.referentFamilyDependents.validationError =
+
+hccr.property.familyDependents.help =
+hccr.property.familyDependents.validationError =
+
+hccr.property.referentFamilyDependentLastName.help =
+hccr.property.referentFamilyDependentLastName.validationError =
+
+hccr.property.referentFamilyDependentFirstName.help =
+hccr.property.referentFamilyDependentFirstName.validationError =
+
+hccr.property.referentFamilyDependentBirthDate.help =
+hccr.property.referentFamilyDependentBirthDate.validationError =
+
+hccr.property.referentFamilyDependentActualSituation.help =
+hccr.property.referentFamilyDependentActualSituation.validationError =
+
+hccr.property.dwelling.help =
+hccr.property.dwelling.validationError =
+
+hccr.property.dwellingKind.help =
+hccr.property.dwellingKind.validationError =
+
+hccr.property.dwellingPrecision.help =
+hccr.property.dwellingPrecision.validationError =
+
+hccr.property.dwellingEstablishmentReception.help =
+hccr.property.dwellingEstablishmentReception.validationError =
+
+hccr.property.dwellingReceptionType.help =
+hccr.property.dwellingReceptionType.validationError =
+
+hccr.property.dwellingReceptionNaming.help =
+hccr.property.dwellingReceptionNaming.validationError =
+
+hccr.property.dwellingReceptionAddress.help =
+hccr.property.dwellingReceptionAddress.validationError =
+
+hccr.property.dwellingSocialReception.help =
+hccr.property.dwellingSocialReception.validationError =
+
+hccr.property.dwellingSocialReceptionNaming.help =
+hccr.property.dwellingSocialReceptionNaming.validationError =
+
+hccr.property.dwellingSocialReceptionAddress.help =
+hccr.property.dwellingSocialReceptionAddress.validationError =
+
+hccr.property.socialSecurity.help =
+hccr.property.socialSecurity.validationError =
+
+hccr.property.socialSecurityMemberShipKind.help =
+hccr.property.socialSecurityMemberShipKind.validationError =
+
+hccr.property.socialSecurityNumber.help =
+hccr.property.socialSecurityNumber.validationError =
+
+hccr.property.socialSecurityAgencyName.help =
+hccr.property.socialSecurityAgencyName.validationError =
+
+hccr.property.socialSecurityAgencyAddress.help =
+hccr.property.socialSecurityAgencyAddress.validationError =
+
+hccr.property.paymentAgency.help =
+hccr.property.paymentAgency.validationError =
+
+hccr.property.paymentAgencyBeneficiary.help =
+hccr.property.paymentAgencyBeneficiary.validationError =
+
+hccr.property.paymentAgencyBeneficiaryNumber.help =
+hccr.property.paymentAgencyBeneficiaryNumber.validationError =
+
+hccr.property.paymentAgencyName.help =
+hccr.property.paymentAgencyName.validationError =
+
+hccr.property.paymentAgencyAddress.help =
+hccr.property.paymentAgencyAddress.validationError =
+
+hccr.property.schooling.help =
+hccr.property.schooling.validationError =
+
+hccr.property.schoolingEnrolment.help =
+hccr.property.schoolingEnrolment.validationError =
+
+hccr.property.schoolingSchoolName.help =
+hccr.property.schoolingSchoolName.validationError =
+
+hccr.property.schoolingSchoolAddress.help =
+hccr.property.schoolingSchoolAddress.validationError =
+
+hccr.property.schoolingSendToSchool.help =
+hccr.property.schoolingSendToSchool.validationError =
+
+hccr.property.schoolingAttendedGrade.help =
+hccr.property.schoolingAttendedGrade.validationError =
+
+hccr.property.schoolingSpecializedGrade.help =
+hccr.property.schoolingSpecializedGrade.validationError =
+
+hccr.property.schoolingSpecializedGradeDetails.help =
+hccr.property.schoolingSpecializedGradeDetails.validationError =
+
+hccr.property.schoolingSchoolingKind.help =
+hccr.property.schoolingSchoolingKind.validationError =
+
+hccr.property.schoolingTime.help =
+hccr.property.schoolingTime.validationError =
+
+hccr.property.schoolingHomeSchooling.help =
+hccr.property.schoolingHomeSchooling.validationError =
+
+hccr.property.schoolingPersonalizedSchoolingPlan.help =
+hccr.property.schoolingPersonalizedSchoolingPlan.validationError =
+
+hccr.property.schoolingHomeSchoolingKind.help =
+hccr.property.schoolingHomeSchoolingKind.validationError =
+
+hccr.property.schoolingHomeSchoolingAccompanistLastName.help =
+hccr.property.schoolingHomeSchoolingAccompanistLastName.validationError =
+
+hccr.property.schoolingHomeSchoolingAccompanistFirstName.help =
+hccr.property.schoolingHomeSchoolingAccompanistFirstName.validationError =
+
+hccr.property.schoolingHomeSchoolingAccompanistAddress.help =
+hccr.property.schoolingHomeSchoolingAccompanistAddress.validationError =
+
+hccr.property.schoolingExtraCurricular.help =
+hccr.property.schoolingExtraCurricular.validationError =
+
+hccr.property.schoolingExtraCurricularDetails.help =
+hccr.property.schoolingExtraCurricularDetails.validationError =
+
+hccr.property.studies.help =
+hccr.property.studies.validationError =
+
+hccr.property.studiesHighSchool.help =
+hccr.property.studiesHighSchool.validationError =
+
+hccr.property.studiesHighSchoolGrade.help =
+hccr.property.studiesHighSchoolGrade.validationError =
+
+hccr.property.studiesHighSchoolName.help =
+hccr.property.studiesHighSchoolName.validationError =
+
+hccr.property.studiesHighSchoolAddress.help =
+hccr.property.studiesHighSchoolAddress.validationError =
+
+hccr.property.studiesAssistanceUnderDisability.help =
+hccr.property.studiesAssistanceUnderDisability.validationError =
+
+hccr.property.studiesAssistanceUnderDisabilityDetails.help =
+hccr.property.studiesAssistanceUnderDisabilityDetails.validationError =
+
+hccr.property.formation.help =
+hccr.property.formation.validationError =
+
+hccr.property.formationStudiesLevel.help =
+hccr.property.formationStudiesLevel.validationError =
+
+hccr.property.formationDiploma.help =
+hccr.property.formationDiploma.validationError =
+
+hccr.property.formationPreviousFormation.help =
+hccr.property.formationPreviousFormation.validationError =
+
+hccr.property.formationCurrentFormation.help =
+hccr.property.formationCurrentFormation.validationError =
+
+hccr.property.professionalStatus.help =
+hccr.property.professionalStatus.validationError =
+
+hccr.property.professionalStatusKind.help =
+hccr.property.professionalStatusKind.validationError =
+
+hccr.property.professionalStatusDate.help =
+hccr.property.professionalStatusDate.validationError =
+
+hccr.property.professionalStatusEnvironment.help =
+hccr.property.professionalStatusEnvironment.validationError =
+
+hccr.property.professionalStatusProfession.help =
+hccr.property.professionalStatusProfession.validationError =
+
+hccr.property.professionalStatusEmployerName.help =
+hccr.property.professionalStatusEmployerName.validationError =
+
+hccr.property.professionalStatusAddress.help =
+hccr.property.professionalStatusAddress.validationError =
+
+hccr.property.professionalStatusRegisterAsUnemployed.help =
+hccr.property.professionalStatusRegisterAsUnemployed.validationError =
+
+hccr.property.professionalStatusRegisterAsUnemployedDate.help =
+hccr.property.professionalStatusRegisterAsUnemployedDate.validationError =
+
+hccr.property.professionalStatusIndemnified.help =
+hccr.property.professionalStatusIndemnified.validationError =
+
+hccr.property.professionalStatusIndemnifiedDate.help =
+hccr.property.professionalStatusIndemnifiedDate.validationError =
+
+hccr.property.professionalStatusElectiveFunction.help =
+hccr.property.professionalStatusElectiveFunction.validationError =
+
+hccr.property.professionalStatusElectiveFunctionDetails.help =
+hccr.property.professionalStatusElectiveFunctionDetails.validationError =
+
+hccr.property.folders.help =
+hccr.property.folders.validationError =
+
+hccr.property.foldersMdph.help =
+hccr.property.foldersMdph.validationError =
+
+hccr.property.foldersMdphNumber.help =
+hccr.property.foldersMdphNumber.validationError =
+
+hccr.property.foldersMdphDepartment.help =
+hccr.property.foldersMdphDepartment.validationError =
+
+hccr.property.foldersCotorep.help =
+hccr.property.foldersCotorep.validationError =
+
+hccr.property.foldersCotorepNumber.help =
+hccr.property.foldersCotorepNumber.validationError =
+
+hccr.property.foldersCotorepDepartment.help =
+hccr.property.foldersCotorepDepartment.validationError =
+
+hccr.property.foldersCdes.help =
+hccr.property.foldersCdes.validationError =
+
+hccr.property.foldersCdesNumber.help =
+hccr.property.foldersCdesNumber.validationError =
+
+hccr.property.foldersCdesDepartment.help =
+hccr.property.foldersCdesDepartment.validationError =
+
+hccr.property.foldersOtherFolders.help =
+hccr.property.foldersOtherFolders.validationError =
+
+hccr.property.otherFolders.help =
+hccr.property.otherFolders.validationError =
+
+hccr.property.otherFolderName.help =
+hccr.property.otherFolderName.validationError =
+
+hccr.property.otherFolderNumber.help =
+hccr.property.otherFolderNumber.validationError =
+
+hccr.property.otherFolderDepartment.help =
+hccr.property.otherFolderDepartment.validationError =
+
+hccr.property.benefits.help =
+hccr.property.benefits.validationError =
+
+hccr.property.benefitsDisabilityRecognition.help =
+hccr.property.benefitsDisabilityRecognition.validationError =
+
+hccr.property.benefitsDisabilityRatio.help =
+hccr.property.benefitsDisabilityRatio.validationError =
+
+hccr.property.benefitsDisabilityCard.help =
+hccr.property.benefitsDisabilityCard.validationError =
+
+hccr.property.benefitsPainfulStandingCard.help =
+hccr.property.benefitsPainfulStandingCard.validationError =
+
+hccr.property.benefitsParkingCard.help =
+hccr.property.benefitsParkingCard.validationError =
+
+hccr.property.benefitsDisabledWorkerRecognition.help =
+hccr.property.benefitsDisabledWorkerRecognition.validationError =
+
+hccr.property.benefitsProfessionalOrientation.help =
+hccr.property.benefitsProfessionalOrientation.validationError =
+
+hccr.property.benefitsProfessionalOrientationDetails.help =
+hccr.property.benefitsProfessionalOrientationDetails.validationError =
+
+hccr.property.benefitsDisabledAdultAllocation.help =
+hccr.property.benefitsDisabledAdultAllocation.validationError =
+
+hccr.property.benefitsIncreaseForIndependentLiving.help =
+hccr.property.benefitsIncreaseForIndependentLiving.validationError =
+
+hccr.property.benefitsEducationAllocationOfDisabledChildren.help =
+hccr.property.benefitsEducationAllocationOfDisabledChildren.validationError =
+
+hccr.property.benefitsEducationOfDisabledChildren.help =
+hccr.property.benefitsEducationOfDisabledChildren.validationError =
+
+hccr.property.benefitsEducationOfDisabledChildrenDetails.help =
+hccr.property.benefitsEducationOfDisabledChildrenDetails.validationError =
+
+hccr.property.benefitsSupplementForSingleParents.help =
+hccr.property.benefitsSupplementForSingleParents.validationError =
+
+hccr.property.benefitsThirdPersonCompensatoryAllowance.help =
+hccr.property.benefitsThirdPersonCompensatoryAllowance.validationError =
+
+hccr.property.benefitsThirdPartyCompensatoryAllowance.help =
+hccr.property.benefitsThirdPartyCompensatoryAllowance.validationError =
+
+hccr.property.benefitsCompensatoryAllowanceForExpenses.help =
+hccr.property.benefitsCompensatoryAllowanceForExpenses.validationError =
+
+hccr.property.benefitsDisabilityCompensation.help =
+hccr.property.benefitsDisabilityCompensation.validationError =
+
+hccr.property.benefitsDisabilityPension.help =
+hccr.property.benefitsDisabilityPension.validationError =
+
+hccr.property.benefitsDisabilityPensionCategory.help =
+hccr.property.benefitsDisabilityPensionCategory.validationError =
+
+hccr.property.benefitsWorkAccidentAnnuity.help =
+hccr.property.benefitsWorkAccidentAnnuity.validationError =
+
+hccr.property.benefitsWorkAccidentAnnuityRatio.help =
+hccr.property.benefitsWorkAccidentAnnuityRatio.validationError =
+
+hccr.property.benefitsSocialWelfare.help =
+hccr.property.benefitsSocialWelfare.validationError =
+
+hccr.property.benefitsUnemploymentBenefits.help =
+hccr.property.benefitsUnemploymentBenefits.validationError =
+
+hccr.property.benefitsDailyAllowances.help =
+hccr.property.benefitsDailyAllowances.validationError =
+
+hccr.property.benefitsThirdPartySupplement.help =
+hccr.property.benefitsThirdPartySupplement.validationError =
+
+hccr.property.benefitsSupportedByAnInstitution.help =
+hccr.property.benefitsSupportedByAnInstitution.validationError =
+
+hccr.property.benefitsSupportedByAnInstitutionDetails.help =
+hccr.property.benefitsSupportedByAnInstitutionDetails.validationError =
+
+hccr.property.benefitsOtherBenefits.help =
+hccr.property.benefitsOtherBenefits.validationError =
+
+hccr.property.otherBenefits.help =
+hccr.property.otherBenefits.validationError =
+
+hccr.property.otherBenefitName.help =
+hccr.property.otherBenefitName.validationError =
+
+hccr.property.familyAssistance.help =
+hccr.property.familyAssistance.validationError =
+
+hccr.property.isFamilyAssistance.help =
+hccr.property.isFamilyAssistance.validationError =
+
+hccr.property.familyAssistanceMembers.help =
+hccr.property.familyAssistanceMembers.validationError =
+
+hccr.property.familyAssistanceMemberRelationship.help =
+hccr.property.familyAssistanceMemberRelationship.validationError =
+
+hccr.property.familyAssistanceMemberLastName.help =
+hccr.property.familyAssistanceMemberLastName.validationError =
+
+hccr.property.familyAssistanceMemberFirstName.help =
+hccr.property.familyAssistanceMemberFirstName.validationError =
+
+hccr.property.homeIntervention.help =
+hccr.property.homeIntervention.validationError =
+
+hccr.property.homeInterventionHomeIntervenant.help =
+hccr.property.homeInterventionHomeIntervenant.validationError =
+
+hccr.property.homeIntervenants.help =
+hccr.property.homeIntervenants.validationError =
+
+hccr.property.homeIntervenantKind.help =
+hccr.property.homeIntervenantKind.validationError =
+
+hccr.property.homeIntervenantDetails.help =
+hccr.property.homeIntervenantDetails.validationError =
+
+hccr.property.care.help =
+hccr.property.care.validationError =
+
+hccr.property.careCareServices.help =
+hccr.property.careCareServices.validationError =
+
+hccr.property.careServices.help =
+hccr.property.careServices.validationError =
+
+hccr.property.careServiceKind.help =
+hccr.property.careServiceKind.validationError =
+
+hccr.property.careServiceCareServiceEmployer.help =
+hccr.property.careServiceCareServiceEmployer.validationError =
+
+hccr.property.careServiceProviderName.help =
+hccr.property.careServiceProviderName.validationError =
+
+hccr.property.careServiceProviderAddress.help =
+hccr.property.careServiceProviderAddress.validationError =
+
+hccr.property.facilities.help =
+hccr.property.facilities.validationError =
+
+hccr.property.facilitiesHousing.help =
+hccr.property.facilitiesHousing.validationError =
+
+hccr.property.facilitiesHousingDetails.help =
+hccr.property.facilitiesHousingDetails.validationError =
+
+hccr.property.facilitiesTechnicalAssistance.help =
+hccr.property.facilitiesTechnicalAssistance.validationError =
+
+hccr.property.facilitiesTechnicalAssistanceDetails.help =
+hccr.property.facilitiesTechnicalAssistanceDetails.validationError =
+
+hccr.property.facilitiesCustomCar.help =
+hccr.property.facilitiesCustomCar.validationError =
+
+hccr.property.facilitiesCustomCarDetails.help =
+hccr.property.facilitiesCustomCarDetails.validationError =
+
+hccr.property.facilitiesAnimalAid.help =
+hccr.property.facilitiesAnimalAid.validationError =
+
+hccr.property.facilitiesAnimalAidDetails.help =
+hccr.property.facilitiesAnimalAidDetails.validationError =
+
+hccr.property.facilitiesSpecializedTransport.help =
+hccr.property.facilitiesSpecializedTransport.validationError =
+
+hccr.property.facilitiesSpecializedTransportDetails.help =
+hccr.property.facilitiesSpecializedTransportDetails.validationError =
+
+hccr.property.professionalSupport.help =
+hccr.property.professionalSupport.validationError =
+
+hccr.property.professionalSupportProfessionals.help =
+hccr.property.professionalSupportProfessionals.validationError =
+
+hccr.property.professionalSupportDealsWithSameProfessional.help =
+hccr.property.professionalSupportDealsWithSameProfessional.validationError =
+
+hccr.property.professionals.help =
+hccr.property.professionals.validationError =
+
+hccr.property.professionalLastName.help =
+hccr.property.professionalLastName.validationError =
+
+hccr.property.professionalFirstName.help =
+hccr.property.professionalFirstName.validationError =
+
+hccr.property.professionalAddress.help =
+hccr.property.professionalAddress.validationError =
+
+hccr.property.socialService.help =
+hccr.property.socialService.validationError =
+
+hccr.property.socialServiceSupport.help =
+hccr.property.socialServiceSupport.validationError =
+
+hccr.property.socialServiceName.help =
+hccr.property.socialServiceName.validationError =
+
+hccr.property.socialServiceAddress.help =
+hccr.property.socialServiceAddress.validationError =
+
+hccr.property.additionalFee.help =
+hccr.property.additionalFee.validationError =
+
+hccr.property.additionalFeeKind.help =
+hccr.property.additionalFeeKind.validationError =
+
+hccr.property.additionalFeeCost.help =
+hccr.property.additionalFeeCost.validationError =
+
+hccr.property.additionalFeePeriodicity.help =
+hccr.property.additionalFeePeriodicity.validationError =
+
+hccr.property.health.help =
+hccr.property.health.validationError =
+
+hccr.property.healthFollowedByDoctor.help =
+hccr.property.healthFollowedByDoctor.validationError =
+
+hccr.property.healthDoctorLastName.help =
+hccr.property.healthDoctorLastName.validationError =
+
+hccr.property.healthDoctorFirstName.help =
+hccr.property.healthDoctorFirstName.validationError =
+
+hccr.property.healthFollowedByProfessional.help =
+hccr.property.healthFollowedByProfessional.validationError =
+
+hccr.property.healthProfessionalLastName.help =
+hccr.property.healthProfessionalLastName.validationError =
+
+hccr.property.healthProfessionalFirstName.help =
+hccr.property.healthProfessionalFirstName.validationError =
+
+hccr.property.healthFollowedByHospital.help =
+hccr.property.healthFollowedByHospital.validationError =
+
+hccr.property.healthHospitalName.help =
+hccr.property.healthHospitalName.validationError =
+
+hccr.property.projectRequests.help =
+hccr.property.projectRequests.validationError =
+
+hccr.property.projectRequestsHandicapRecognition.help =
+hccr.property.projectRequestsHandicapRecognition.validationError =
+
+hccr.property.projectRequestsDisabilityCard.help =
+hccr.property.projectRequestsDisabilityCard.validationError =
+
+hccr.property.projectRequestsDisabledPriorityCard.help =
+hccr.property.projectRequestsDisabledPriorityCard.validationError =
+
+hccr.property.projectRequestsEuropeanParkingCard.help =
+hccr.property.projectRequestsEuropeanParkingCard.validationError =
+
+hccr.property.projectRequestsDisabledAdultAllowance.help =
+hccr.property.projectRequestsDisabledAdultAllowance.validationError =
+
+hccr.property.projectRequestsIncreaseForIndependentLiving.help =
+hccr.property.projectRequestsIncreaseForIndependentLiving.validationError =
+
+hccr.property.projectRequestsEducationAllocationOfDisabledChildren.help =
+hccr.property.projectRequestsEducationAllocationOfDisabledChildren.validationError =
+
+hccr.property.projectRequestsACTPRenewal.help =
+hccr.property.projectRequestsACTPRenewal.validationError =
+
+hccr.property.projectRequestsThirdPartyHelp.help =
+hccr.property.projectRequestsThirdPartyHelp.validationError =
+
+hccr.property.projectRequestsFreePensionMembership.help =
+hccr.property.projectRequestsFreePensionMembership.validationError =
+
+hccr.property.projectRequestsTechnicalHelp.help =
+hccr.property.projectRequestsTechnicalHelp.validationError =
+
+hccr.property.projectRequestsHousingFacilities.help =
+hccr.property.projectRequestsHousingFacilities.validationError =
+
+hccr.property.projectRequestsCustomCar.help =
+hccr.property.projectRequestsCustomCar.validationError =
+
+hccr.property.projectRequestsAssistance.help =
+hccr.property.projectRequestsAssistance.validationError =
+
+hccr.property.projectRequestsTransportCostAllocation.help =
+hccr.property.projectRequestsTransportCostAllocation.validationError =
+
+hccr.property.projectRequestsDisabilityCostAllocation.help =
+hccr.property.projectRequestsDisabilityCostAllocation.validationError =
+
+hccr.property.projectRequestsDisabledWorkerRecognition.help =
+hccr.property.projectRequestsDisabledWorkerRecognition.validationError =
+
+hccr.property.projectRequestsProfessionalOrientation.help =
+hccr.property.projectRequestsProfessionalOrientation.validationError =
+
+hccr.property.projectRequestsOrdinaryWorking.help =
+hccr.property.projectRequestsOrdinaryWorking.validationError =
+
+hccr.property.projectRequestsShelteredWork.help =
+hccr.property.projectRequestsShelteredWork.validationError =
+
+hccr.property.projectRequestsVocationalTraining.help =
+hccr.property.projectRequestsVocationalTraining.validationError =
+
+hccr.property.projectRequestsInstitutionSupport.help =
+hccr.property.projectRequestsInstitutionSupport.validationError =
+
+hccr.property.projectRequestsOther.help =
+hccr.property.projectRequestsOther.validationError =
+
+hccr.property.projectRequestsOtherDetails.help =
+hccr.property.projectRequestsOtherDetails.validationError =
+
+hccr.property.projectWish.help =
+hccr.property.projectWish.validationError =
+
+hccr.property.projectNeeds.help =
+hccr.property.projectNeeds.validationError =
+
+hccr.property.projectComments.help =
+hccr.property.projectComments.validationError =
+

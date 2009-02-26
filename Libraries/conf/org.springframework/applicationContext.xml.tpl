@@ -9,7 +9,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
   <aop:aspectj-autoproxy/>
-  
+
   <bean id="loggingAspect" class="fr.cg95.cvq.util.development.LoggingAspect" />
   <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
   <bean id="hibernateExceptionTranslatorAspect" 
@@ -316,9 +316,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
       <bean class="fr.cg95.cvq.service.document.impl.DocumentBootstrapper">
         <property name="documentTypeDAO" ref="documentTypeDAO" />
       </bean>
-    </property>  
+    </property>
   </bean>
-  
+
   <bean id="cardService" class="fr.cg95.cvq.service.users.impl.CardService">
     <property name="DAO">
       <ref local="genericDAO"/>
@@ -351,7 +351,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
   </bean>
-  
+
   <bean id="perischoolActivityRegistrationRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.PerischoolActivityRegistrationRequestService" 
     parent="requestService">
@@ -486,14 +486,22 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="xslFoFilename" value="domesticHelpRequest.xsl"/>
   </bean>
-
-  <bean id="handicapAllowanceRequestService" 
-    class="fr.cg95.cvq.service.request.social.impl.HandicapAllowanceRequestService" 
+  
+  <bean id="handicapCompensationAdultRequestService" 
+    class="fr.cg95.cvq.service.request.social.impl.HandicapCompensationAdultRequestService" 
     parent="requestService">
-    <property name="label" value="Handicap Allowance"/>
-    <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
-    <property name="xslFoFilename" value="handicapAllowanceRequest.xsl"/>
+    <property name="label" value="Handicap Compensation Adult"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
+    <property name="xslFoFilename" value="handicapCompensationAdultRequest.xsl"/>
   </bean>
+  
+  <bean id="handicapCompensationChildRequestService" 
+    class="fr.cg95.cvq.service.request.social.impl.HandicapCompensationChildRequestService" 
+    parent="requestService">
+    <property name="label" value="Handicap Compensation Child"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="xslFoFilename" value="handicapCompensationChildRequest.xsl"/>
+  </bean>  
 
   <bean id="militaryCensusRequestService" 
     class="fr.cg95.cvq.service.request.military.impl.MilitaryCensusRequestService" 

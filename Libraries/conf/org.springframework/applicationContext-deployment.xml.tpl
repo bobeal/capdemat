@@ -49,13 +49,22 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/social/DhrRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrNotRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrPreviousDwelling.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/social/HarCareAssistant.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/social/HarCarer.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/social/HarDisabilityRelatedCost.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/social/HarFamilyCarer.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/social/HarFamilyDependent.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/social/HarOtherFiles.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/social/HarProfessional.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HcarAdditionalFee.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HcarCareService.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HcarFamilyAssistanceMember.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HcarFamilyDependent.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HcarHomeIntervenant.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HcarOtherFolder.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HcarOtherBenefit.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HcarProfessional.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HccrAdditionalFee.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HccrCareService.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HccrFamilyAssistanceMember.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HccrFamilyDependent.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HccrHomeIntervenant.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HccrOtherFolder.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HccrOtherBenefit.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HccrProfessional.hbm.xml</value>        
         <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
         <value>fr/cg95/cvq/business/external/ExternalServiceTrace.hbm.xml</value>
         <value>fr/cg95/cvq/business/external/ExternalServiceIdentifierMapping.hbm.xml</value>

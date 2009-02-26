@@ -38,87 +38,66 @@ public class RemoteSupportRequestServiceTest extends ServiceTestCase {
     protected RemoteSupportRequest fillMeARequest() throws CvqException {
 
         RemoteSupportRequest request = new RemoteSupportRequest();
-          request.setRsrRequesterBirthDate(new Date());
-            request.setRsrSpouseIsDisabledPerson(Boolean.valueOf(true));
-              if ("RsrContactPhone".length() > 10)
-        request.setRsrContactPhone("RsrContactPhone".substring(0, 10));
+            if ("TrusteePhone".length() > 10)
+        request.setTrusteePhone("TrusteePhone".substring(0, 10));
       else
-        request.setRsrContactPhone("RsrContactPhone");
-                  if ("RsrSpouseName".length() > 38)
-        request.setRsrSpouseName("RsrSpouseName".substring(0, 38));
+        request.setTrusteePhone("TrusteePhone");
+                request.setSpouseIsDisabledPerson(Boolean.valueOf(true));
+            request.setSubjectBirthDate(new Date());
+            request.setSubjectIsAPABeneficiary(Boolean.valueOf(true));
+              request.setSubjectResideWith(RsrSubjectResideWithType.ALONE);
+                request.setSpouseBirthDate(new Date());
+              if ("ContactPhone".length() > 10)
+        request.setContactPhone("ContactPhone".substring(0, 10));
       else
-        request.setRsrSpouseName("RsrSpouseName");
-                  if ("RsrSecondContactFirstName".length() > 38)
-        request.setRsrSecondContactFirstName("RsrSecondContactFirstName".substring(0, 38));
+        request.setContactPhone("ContactPhone");
+                  if ("SpouseLastName".length() > 38)
+        request.setSpouseLastName("SpouseLastName".substring(0, 38));
       else
-        request.setRsrSecondContactFirstName("RsrSecondContactFirstName");
-                  if ("RsrContactName".length() > 38)
-        request.setRsrContactName("RsrContactName".substring(0, 38));
+        request.setSpouseLastName("SpouseLastName");
+                request.setRequestInformationEmergency(Boolean.valueOf(true));
+              request.setRequestInformationRequestKind(RsrRequestInformationRequestKindType.INDIVIDUAL);
+                request.setSubjectIsDisabledPerson(Boolean.valueOf(true));
+              if ("SecondContactLastName".length() > 38)
+        request.setSecondContactLastName("SecondContactLastName".substring(0, 38));
       else
-        request.setRsrContactName("RsrContactName");
-                        	    request.setRsrRequesterAddress(address);
-                        request.setRsrIsEmergency(Boolean.valueOf(true));
-              if ("RsrTrusteeName".length() > 38)
-        request.setRsrTrusteeName("RsrTrusteeName".substring(0, 38));
+        request.setSecondContactLastName("SecondContactLastName");
+                  if ("RequestInformationEmergencyMotive".length() > 180)
+        request.setRequestInformationEmergencyMotive("RequestInformationEmergencyMotive".substring(0, 180));
       else
-        request.setRsrTrusteeName("RsrTrusteeName");
-                  request.setRsrContactKind(RsrContactKindType.REQUESTER);
-                  if ("RsrSecondRequesterFirstName".length() > 38)
-        request.setRsrSecondRequesterFirstName("RsrSecondRequesterFirstName".substring(0, 38));
+        request.setRequestInformationEmergencyMotive("RequestInformationEmergencyMotive");
+                  if ("ContactLastName".length() > 38)
+        request.setContactLastName("ContactLastName".substring(0, 38));
       else
-        request.setRsrSecondRequesterFirstName("RsrSecondRequesterFirstName");
-                  if ("RsrTrusteePhone".length() > 10)
-        request.setRsrTrusteePhone("RsrTrusteePhone".substring(0, 10));
+        request.setContactLastName("ContactLastName");
+                  request.setSpouseTitle(TitleType.MISTER);
+                  request.setSubjectTitle(TitleType.MISTER);
+                  if ("SpouseFirstName".length() > 38)
+        request.setSpouseFirstName("SpouseFirstName".substring(0, 38));
       else
-        request.setRsrTrusteePhone("RsrTrusteePhone");
-                request.setRsrRequesterFloor(BigInteger.valueOf(1));
-            request.setRsrRequesterFlatNumber(BigInteger.valueOf(1));
-              if ("RsrSecondContactName".length() > 38)
-        request.setRsrSecondContactName("RsrSecondContactName".substring(0, 38));
+        request.setSpouseFirstName("SpouseFirstName");
+                  if ("ContactFirstName".length() > 38)
+        request.setContactFirstName("ContactFirstName".substring(0, 38));
       else
-        request.setRsrSecondContactName("RsrSecondContactName");
-                  if ("RsrSecondSpouseFirstName".length() > 38)
-        request.setRsrSecondSpouseFirstName("RsrSecondSpouseFirstName".substring(0, 38));
+        request.setContactFirstName("ContactFirstName");
+                  if ("TrusteeFirstName".length() > 38)
+        request.setTrusteeFirstName("TrusteeFirstName".substring(0, 38));
       else
-        request.setRsrSecondSpouseFirstName("RsrSecondSpouseFirstName");
-                  if ("RsrRequesterFirstName".length() > 38)
-        request.setRsrRequesterFirstName("RsrRequesterFirstName".substring(0, 38));
+        request.setTrusteeFirstName("TrusteeFirstName");
+                  request.setContactKind(RsrContactKindType.REQUESTER);
+                  if ("SecondContactFirstName".length() > 38)
+        request.setSecondContactFirstName("SecondContactFirstName".substring(0, 38));
       else
-        request.setRsrRequesterFirstName("RsrRequesterFirstName");
-                  request.setRsrSpouseGender(SexType.MALE);
-                request.setRsrRequesterIsAPABeneficiary(Boolean.valueOf(true));
-              if ("RsrContactFirstName".length() > 38)
-        request.setRsrContactFirstName("RsrContactFirstName".substring(0, 38));
+        request.setSecondContactFirstName("SecondContactFirstName");
+                request.setSubjectIsTaxable(Boolean.valueOf(true));
+              if ("TrusteeLastName".length() > 38)
+        request.setTrusteeLastName("TrusteeLastName".substring(0, 38));
       else
-        request.setRsrContactFirstName("RsrContactFirstName");
-                request.setRsrRequesterIsTaxable(Boolean.valueOf(true));
-              request.setRsrRequesterMaritalStatus(RsrMaritalStatusType.ALONE);
-                  if ("RsrRequesterName".length() > 38)
-        request.setRsrRequesterName("RsrRequesterName".substring(0, 38));
+        request.setTrusteeLastName("TrusteeLastName");
+                  if ("SecondContactPhone".length() > 10)
+        request.setSecondContactPhone("SecondContactPhone".substring(0, 10));
       else
-        request.setRsrRequesterName("RsrRequesterName");
-                  if ("RsrRequesterPersonalPhone".length() > 10)
-        request.setRsrRequesterPersonalPhone("RsrRequesterPersonalPhone".substring(0, 10));
-      else
-        request.setRsrRequesterPersonalPhone("RsrRequesterPersonalPhone");
-                  if ("RsrTrusteeFirstName".length() > 38)
-        request.setRsrTrusteeFirstName("RsrTrusteeFirstName".substring(0, 38));
-      else
-        request.setRsrTrusteeFirstName("RsrTrusteeFirstName");
-                  if ("RsrSecondContactPhone".length() > 10)
-        request.setRsrSecondContactPhone("RsrSecondContactPhone".substring(0, 10));
-      else
-        request.setRsrSecondContactPhone("RsrSecondContactPhone");
-                    request.setRsrEmergencyMotive("RsrEmergencyMotive");
-                request.setRsrRequesterIsDisabledPerson(Boolean.valueOf(true));
-              if ("RsrSpouseFirstName".length() > 38)
-        request.setRsrSpouseFirstName("RsrSpouseFirstName".substring(0, 38));
-      else
-        request.setRsrSpouseFirstName("RsrSpouseFirstName");
-                request.setRsrSpouseBirthDate(new Date());
-              request.setRsrRequestKind(RsrRequestKindType.INDIVIDUAL);
-                  request.setRsrRequesterResidenceKind(RsrResidenceKindType.FLAT);
-                  request.setRsrRequesterGender(SexType.MALE);
+        request.setSecondContactPhone("SecondContactPhone");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

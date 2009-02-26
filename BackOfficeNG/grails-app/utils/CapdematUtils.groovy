@@ -10,7 +10,7 @@ class CapdematUtils {
             "enumString": capdematState.toString()
         ]
     }
-    
+
     // TODO : check how one can inject the translation service in this class
     public static adaptRequestType(translationService, requestType) {
         return [
@@ -67,7 +67,8 @@ class CapdematUtils {
                 'label' : 'Social',
                 'requests': [
                     'Domestic Help',
-                    'Handicap Allowance',
+                    'Handicap Compensation Adult',
+                    'Handicap Compensation Child',
                     'Remote Support'
                 ]
             ],

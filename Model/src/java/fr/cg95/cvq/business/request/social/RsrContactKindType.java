@@ -12,8 +12,8 @@ public final class RsrContactKindType extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
 
-    public static final RsrContactKindType REQUESTER = new RsrContactKindType("requester");
-    public static final RsrContactKindType OTHER = new RsrContactKindType("other");
+    public static final RsrContactKindType REQUESTER = new RsrContactKindType("Requester");
+    public static final RsrContactKindType OTHER = new RsrContactKindType("Other");
 
 
     /**
@@ -35,7 +35,7 @@ public final class RsrContactKindType extends PersistentStringEnum {
 
 
     public static RsrContactKindType getDefaultRsrContactKindType() {
-        return null;
+        return REQUESTER;
     }
 
 

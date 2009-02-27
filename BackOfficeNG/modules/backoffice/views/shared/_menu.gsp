@@ -1,6 +1,9 @@
 <h1><a class="logo">CapDémat</a></h1>
 <div id="userInfo">
-  ${session.currentUser} - <a href="${createLinkTo(dir:'',file:'casLogout.gsp')}"><g:message code="action.logout" /></a>
+  ${session.currentUser} 
+  - <a href="${createLinkTo(dir:'',file:'casLogout.gsp')}"><g:message code="action.logout" /></a>
+  - <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'helpFo')}"
+       target="blank"><g:message code="header.help" /></a>
 </div>
 <div id="menu">
   <g:if test="${session.currentCredentialBean.hasSiteAgentRole()}">

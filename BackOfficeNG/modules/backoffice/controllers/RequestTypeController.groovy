@@ -22,11 +22,12 @@ class RequestTypeController {
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
     
     def translationService
+    def requestAdaptorService
     
-    def defaultAction = "list"
+    def defaultAction = 'list'
     
     def beforeInterceptor = {
-        session["currentMenu"] = "requestType"
+        session['currentMenu'] = 'requestType'
     }
 
     def list = {
@@ -71,7 +72,7 @@ class RequestTypeController {
 
         return ["requestType":requestType, "requestTypeLabel":requestTypeLabel,
                 "baseConfigurationItems":baseConfigurationItems,
-                "requestTypes":defaultRequestService.getAllRequestTypes()]
+                "requestTypes":requestAdaptorService.translateAndSortRequestTypes()]
     }
 
     def loadGeneralArea = {
@@ -84,9 +85,10 @@ class RequestTypeController {
         def requestType = 
             defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
         def lacb = SecurityContext.getCurrentConfigurationBean()
-        render(template:"alerts",model:['requestType':requestType,
-                                            'instructionDefaultMaxDelay':lacb.getInstructionDefaultMaxDelay(),
-                                            'instructionDefaultAlertDelay':lacb.getInstructionDefaultAlertDelay()])
+        render(template:"alerts",
+               model:['requestType':requestType,
+                      'instructionDefaultMaxDelay':lacb.getInstructionDefaultMaxDelay(),
+                      'instructionDefaultAlertDelay':lacb.getInstructionDefaultAlertDelay()])
     }
 
     def loadConfigurationSubmenu = {
@@ -190,15 +192,16 @@ class RequestTypeController {
         if(request.get) {
             def result = [:]
             
-            RequestType requestType = this.defaultRequestService.getRequestTypeById(Long.parseLong(params.id))
+            RequestType requestType =
+                defaultRequestService.getRequestTypeById(Long.parseLong(params.id))
             result.active = requestType.active
             result.requestTypeId = params.id
             result.state = requestType.active ? 'active':'inactive'
             
             return result
         } else {
-            RequestType requestType = this.defaultRequestService.getRequestTypeById(
-                Long.parseLong(params.requestTypeId))
+            RequestType requestType =
+                defaultRequestService.getRequestTypeById(Long.parseLong(params.requestTypeId))
             requestType.active = params.requestState == 'active'
             this.defaultRequestService.modifyRequestType(requestType) 
             
@@ -215,7 +218,7 @@ class RequestTypeController {
         def method = request.getMethod().toLowerCase(), id
         if(method == "post" && params?.requestTypeId) {
             RequestForm form = new RequestForm()
-            if(params?.requestFormId) {
+            if(params.requestFormId) {
                 form = defaultRequestService.getRequestFormById(Long.valueOf(params.requestFormId))
             }
             form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
@@ -241,9 +244,9 @@ class RequestTypeController {
     
     def mailTemplate = {
         if(request.post) {
-            if(params?.editor != "") {
+            if(params.editor != "") {
                 RequestForm form = defaultRequestService
-                    .getRequestFormById(Long.valueOf(params?.requestFormId))
+                    .getRequestFormById(Long.valueOf(params.requestFormId))
                 form.setType(RequestFormType.REQUEST_MAIL_TEMPLATE)
                 form.setPersonalizedData(params.editor.getBytes())
                 
@@ -260,9 +263,9 @@ class RequestTypeController {
     }
     
     def loadMailTemplate = {
-        def fileName = params?.file
-        def formId = Long.valueOf(params?.formId)
-        def typeId = Long.valueOf(params?.typeId)
+        def fileName = params.file
+        def formId = Long.valueOf(params.formId)
+        def typeId = Long.valueOf(params.typeId)
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         
         File templateFile = defaultRequestService.getTemplateByName(fileName)

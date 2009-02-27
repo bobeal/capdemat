@@ -60,7 +60,8 @@ class RequestController {
         def subjects = [:]
         subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
         return ['rqt': request, 'requestTypeLabel':requestTypeLabel,
-                'subjects': subjects]
+                'subjects': subjects,
+                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)]
     }
 
     protected filterRequests(state,params) {

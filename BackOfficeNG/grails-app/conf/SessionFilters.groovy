@@ -59,7 +59,7 @@ class SessionFilters {
             before = {
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
-                    if (!session?.currentUser) {
+                    if (!session.currentUser) {
                         if (actionName != 'login') {
                             redirect(controller: 'frontofficeHome', action: 'login')
                             return false
@@ -68,11 +68,11 @@ class SessionFilters {
                         SecurityContext.setCurrentEcitizen(session.currentUser)
                     }
                 } catch (CvqObjectNotFoundException ce) {
-                    session.currentUser = null;
+                    session.currentUser = null
                     redirect(controller: 'frontofficeHome', action: 'login')
                     return false
                 } catch (CvqException ce) {
-                    if (session?.currentUser) session.currentUser = null
+                    if (session.currentUser) session.currentUser = null
                     ce.printStackTrace()
                     throw new ServletException()
                 }

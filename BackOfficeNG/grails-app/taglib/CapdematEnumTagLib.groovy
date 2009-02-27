@@ -40,6 +40,7 @@ class CapdematEnumTagLib {
             sb << g.message(code: capdematEnum.i18nKey)
             sb << "</span>"
         }
-	      out << body() << sb
+
+	    out << body() << sb
     }
 }

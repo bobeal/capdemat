@@ -22,7 +22,7 @@
           </g:if>
           <g:if test="${record.certified}">
             <span class="certified">
-              <g:message code="property.certified" />
+              <g:message code="document.property.certified" />
             </span>
           </g:if>
         </p>

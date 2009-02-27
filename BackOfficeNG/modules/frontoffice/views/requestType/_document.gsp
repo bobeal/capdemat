@@ -2,7 +2,7 @@
   <fieldset>
     <legend>${message(code:documentType.i18nKey)}</legend>
     
-    <label>Comentaire</label>
+    <label>Commentaire</label>
     <input type="text" name="ecitizenNote" value="${document.ecitizenNote}"/>
     
     <label>Nouvelle Page</label>

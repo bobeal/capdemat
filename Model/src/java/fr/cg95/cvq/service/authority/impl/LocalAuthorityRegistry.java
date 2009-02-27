@@ -130,6 +130,8 @@ public class LocalAuthorityRegistry
             filePath.append(XSL_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(HTML_RESOURCE_TYPE)) {
             filePath.append(HTML_RESOURCE_TYPE).append("/");
+        } else if (resourceType.equals(PDF_ASSETS_RESOURCE_TYPE)) {
+            filePath.append(PDF_ASSETS_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(REQUEST_XML_RESOURCE_TYPE)) {
             filePath.append(REQUEST_XML_RESOURCE_TYPE).append("/");
         } else if (resourceType.equals(MAIL_TEMPLATES_TYPE)) {

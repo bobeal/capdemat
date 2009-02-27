@@ -67,6 +67,7 @@ class RequestCreationController {
 
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
         render(view: viewPath, model: [
+            'isRequestCreation': true,
             'rqt': cRequest,
             'draftVisible': session[uuidString].draftVisible,
             'subjects': getAuthorizedSubjects(requestService, cRequest),
@@ -83,7 +84,7 @@ class RequestCreationController {
     }
     
     def step = {
-        if (params.requestTypeInfo == null || params.uuidString == null)
+        if (params.requestTypeInfo == null || params.uuidString == null || session[params.uuidString] == null)
             redirect(uri: '/frontoffice/requestType')
             
         def uuidString = params.uuidString
@@ -103,6 +104,8 @@ class RequestCreationController {
         // Do not work in draft case
         def newDocuments = session[uuidString].newDocuments 
         
+        def askConfirmCancel = false
+        
         if (cRequest.stepStates.size() == 0) {
             session[uuidString].stepStates = [:]
             requestTypeInfo.steps.each {
@@ -117,22 +120,37 @@ class RequestCreationController {
         }
         
         try {
-            session[uuidString].draftVisible = true
+            if (submitAction[1] != 'discardCancelRequest')
+                session[uuidString].draftVisible = true
             
-            if (submitAction[1] == 'documentAdd') {
+            if (submitAction[1] == 'cancelRequest') {
+                session[uuidString].draftVisibleBackUp = session[uuidString].draftVisible
+                session[uuidString].draftVisible = false
+                askConfirmCancel = true
+            }
+            else if (submitAction[1] == 'confirmCancelRequest') {
+                session.removeAttribute(uuidString)
+                redirect(uri: '/frontoffice/requestType')
+                return
+            }
+            else if (submitAction[1] == 'discardCancelRequest') {
+                session[uuidString].draftVisible = session[uuidString].draftVisibleBackUp
+                askConfirmCancel = false
+            }
+            else if (submitAction[1] == 'documentAdd') {
                 def docParam = targetAsMap(submitAction[3])
                 documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
-                isDocumentEditMode = true;
+                isDocumentEditMode = true
             }
             else if (submitAction[1] == 'documentEdit') {
                 def docParam = targetAsMap(submitAction[3])
                 documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
-                isDocumentEditMode = true;
+                isDocumentEditMode = true
                 document = getDocument(Long.valueOf(docParam.id))
             }
             else if (submitAction[1] == 'documentSave') {
                 def docParam = targetAsMap(submitAction[3])
-                isDocumentEditMode = false;
+                isDocumentEditMode = false
                 if (docParam.id != null) {
                     def doc = documentService.getById(Long.valueOf(docParam.id))
                     doc.ecitizenNote = params.ecitizenNote
@@ -142,20 +160,20 @@ class RequestCreationController {
                 def docParam = targetAsMap(submitAction[3])
                 requestService.removeDocument(cRequest, Long.valueOf(docParam.id))
                 documentService.delete(Long.valueOf(docParam.id))  
-                isDocumentEditMode = false;
+                isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentAssociate') {
                 def docParam = targetAsMap(submitAction[3])
                 requestService.addDocument(cRequest, Long.valueOf(docParam.id))
-                isDocumentEditMode = false;
+                isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentUnassociate') {
                 def docParam = targetAsMap(submitAction[3])
                 requestService.removeDocument(cRequest, Long.valueOf(docParam.id))
-                isDocumentEditMode = false;
+                isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentCancel') { 
-                isDocumentEditMode = false;
+                isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentAddPage') {
                 def docParam = targetAsMap(submitAction[3])
@@ -179,7 +197,7 @@ class RequestCreationController {
             else if (submitAction[1] == 'documentModifyPage') {
                 def docParam = targetAsMap(submitAction[3])
                 documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
-                isDocumentEditMode = true;
+                isDocumentEditMode = true
                 def newDocBinary = documentService.getPage(Long.valueOf(docParam.id), Integer.valueOf(docParam.dataPageNumber))
                 newDocBinary.data = request.getFile('documentData-' + docParam.dataPageNumber).bytes
                 documentService.modifyPage(Long.valueOf(docParam.id), newDocBinary)
@@ -188,7 +206,7 @@ class RequestCreationController {
             else if (submitAction[1] == 'documentDeletePage') {
                 def docParam = targetAsMap(submitAction[3])
                 documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
-                isDocumentEditMode = true;
+                isDocumentEditMode = true
                 documentService.deletePage(Long.valueOf(docParam.id), Integer.valueOf(docParam.dataPageNumber))
                 document = getDocument(Long.valueOf(docParam.id))
             }
@@ -243,7 +261,9 @@ class RequestCreationController {
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
                 model:
-                    ['rqt': cRequest,
+                    ['isRequestCreation': true,
+                     'askConfirmCancel': askConfirmCancel, 
+                     'rqt': cRequest,
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
                      'meansOfContact': getMeansOfContact(meansOfContactService),
@@ -260,7 +280,8 @@ class RequestCreationController {
                      'document': document
                     ])
     }
-
+    
+    
     def condition = {
         def result = []
         

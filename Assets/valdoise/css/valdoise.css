@@ -3,8 +3,9 @@ html {
 }
 
 #hd #hd-menu a,
-#main-menu a:hover, #main-menu a.current,
-#main-menu a.current span, #main-menu a:hover span,
+#main-menu a:hover, #main-menu a:hover span,
+#main-menu a.disable ,#main-menu a.disable span,
+#main-menu a.current, #main-menu a.current span, 
 #bd,
 .list-box h2,
 .main-box h2,
@@ -19,7 +20,8 @@ html {
 }
 
 #main-menu a:hover,
-#main-menu a.current { 
+#main-menu a.current,
+#main-menu a.disable { 
   border-color: #b6aca5 !important;
 }
 

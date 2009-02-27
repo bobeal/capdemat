@@ -6,7 +6,8 @@
 
   <body>
     <div class="main-box data-detail">
-      <h2>${doc.title} (<g:message code="property.id" /> : ${doc.id})</h2>
+      <h2><g:message code="document.header.details"
+                     args="${[doc.title,doc.id]}"/></h2>
      
       <div class="yui-g">
          <h3><g:message code="document.header.generalInformations" /></h3>

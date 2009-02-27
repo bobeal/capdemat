@@ -121,9 +121,7 @@
             <select name="requestTypeId" id="requestTypeId">
               <option value=""></option>
               <g:each in="${requestTypes}" var="requestType">
-                <option value="${requestType.id}">
-                  <g:translateRequestTypeLabel label="${requestType.label}" />
-                </option>
+                <option value="${requestType.id}">${requestType.label}</option>
               </g:each>
             </select>
           </form>

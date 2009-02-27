@@ -78,7 +78,7 @@ class HomeController {
             }
         }
         return [
-            'login': true,
+            'isLogin': true,
             'error': message(code:error),
             'groups': requestTypeService.getDisplayGroups(false,null)
         ]

@@ -39,12 +39,12 @@
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" name="${namePrefix}${element.javaFieldName}.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.additionalGeographicalInformation}" maxlength="38" name="${namePrefix}${element.javaFieldName}.additionalGeographicalInformation"/>
-            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /></strong></label>
+            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
             <input type="text" class="line1" value="\${${valuePrefix}.${element.javaFieldName}?.streetNumber}" maxlength="5" name="${namePrefix}${element.javaFieldName}.streetNumber"/>
             <input type="text" class="line2 required" value="\${${valuePrefix}.${element.javaFieldName}?.streetName}" maxlength="32" name="${namePrefix}${element.javaFieldName}.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.placeNameOrService}" maxlength="38" name="${namePrefix}${element.javaFieldName}.placeNameOrService"/>
-            <label class="required"><g:message code="address.property.postalCode" /> - <g:message code="address.property.city" /></label>
+            <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
             <input type="text" class="line1 required" value="\${${valuePrefix}.${element.javaFieldName}?.postalCode}" maxlength="5" name="${namePrefix}${element.javaFieldName}.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="\${${valuePrefix}.${element.javaFieldName}?.city}" maxlength="32" name="${namePrefix}${element.javaFieldName}.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
@@ -131,7 +131,7 @@
       <g:set var="listIndex" value="\${editList?.name == '${element.javaFieldName}' ? editList?.index : ( rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ${element.conditionsClass}">
     <% element.elements.each { subElement -> %>
-        <label class="${subElement.listenerConditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
+        <label class="${subElement.listenerConditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> ${subElement.mandatory ? '*' : ''} <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
         <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
     <% } %>
         <g:if test="\${editList?.name == '${element.javaFieldName}'}">
@@ -159,7 +159,7 @@
     <fieldset class="${element.listenerConditionsClass}">
     <legend><g:message code="${element.i18nPrefixCode}.label" /></legend> 
       <% if (step.name == 'subject' && !displayedSubject) { %>
-    <label><g:message code="request.property.subjectName" /></label>
+    <label class="required"><g:message code="request.property.subjectName" /> *</label>
     <select name="subjectId" class="required validate-not-first" title="<g:message code="request.subject.validationError" /> ">
       <option value=""><g:message code="message.select.defaultOption" /></option>
       <g:each in="\${subjects}">
@@ -168,12 +168,12 @@
     </select>
       <% displayedSubject = true } %>
     <% element.elements.each { subElement -> %>
-      <label class="${subElement.listenerConditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
+      <label class="${subElement.listenerConditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> ${subElement.mandatory ? '*' : ''} <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
       <% displayWidget(subElement, 'rqt', '') %>
     <% } %>
     </fieldset>
   <% } else { %>
-    <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
+    <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
     <% displayWidget(element, 'rqt', '') %>
   <% } %>
 <% } %>

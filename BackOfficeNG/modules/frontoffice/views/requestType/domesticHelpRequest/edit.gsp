@@ -6,7 +6,16 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
+    <g:set var="requestTypeInfo">
+      {"label": "${requestTypeLabel}"
+        ,"steps": [  "subject-required",  "familyReferent",  "spouse",  "dwelling-required",  "resources-required",  "taxes",  "document",  "validation"  ]
+      }
+    </g:set>
+    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
     <g:render template="/frontofficeRequestType/draftPanel" />
+    <g:render template="/frontofficeRequestType/cancelPanel" />
+    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
+    
     <h2 class="request-creation"> <g:message code="dhr.label" /></h2>
     <p><g:message code="dhr.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="dhr.duration.value" /></strong></p>
@@ -22,13 +31,6 @@
       <p class="message-confirmation">${flash.confirmationMessage}</p>
     </g:if>
 
-<g:set var="requestTypeInfo">
-  {"label": "${requestTypeLabel}"
-    ,"steps": [  "subject-required",  "familyReferent",  "spouse",  "dwelling-required",  "resources-required",  "taxes",  "document",  "validation"  ]
-  }
-</g:set>
-<g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
-
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
 
@@ -40,7 +42,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="dhr.step.subject.label" />
+            <g:message code="dhr.step.subject.label" /> *
           </strong>
             
           </em></a>
@@ -78,7 +80,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="dhr.step.dwelling.label" />
+            <g:message code="dhr.step.dwelling.label" /> *
           </strong>
             
           </em></a>
@@ -92,7 +94,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="dhr.step.resources.label" />
+            <g:message code="dhr.step.resources.label" /> *
           </strong>
             
           </em></a>
@@ -130,7 +132,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="request.step.validation.label" />
+            <g:message code="request.step.validation.label" /> *
           </strong>
             
           </em></a>

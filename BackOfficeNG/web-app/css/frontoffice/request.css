@@ -13,9 +13,10 @@ h2.request-creation {
 
 /* creation form
 --------------------------------------------------------------*/
-#draftPanel {
+.exitActionForm {
   float: right;
   margin-bottom: 1em;
+  text-align: right;
 }
 
 /* creation form

@@ -6,7 +6,16 @@
     <script type="text/javascript" src="\${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
+    <g:set var="requestTypeInfo">
+      {"label": "\${requestTypeLabel}"
+        ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}${step.required ? '-required' : ''}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
+      }
+    </g:set>
+    <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
     <g:render template="/frontofficeRequestType/draftPanel" />
+    <g:render template="/frontofficeRequestType/cancelPanel" />
+    <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" />
+    
     <h2 class="request-creation"> <g:message code="${requestFo.acronym}.label" /></h2>
     <p><g:message code="${requestFo.acronym}.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="${requestFo.acronym}.duration.value" /></strong></p>
@@ -22,13 +31,6 @@
       <p class="message-confirmation">\${flash.confirmationMessage}</p>
     </g:if>
 
-<g:set var="requestTypeInfo">
-  {"label": "\${requestTypeLabel}"
-    ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}${step.required ? '-required' : ''}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
-  }
-</g:set>
-<g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" />
-
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
 <% requestFo.steps.eachWithIndex { step, i -> %>
@@ -42,7 +44,7 @@
           <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
     <% if (step.name == 'validation' || step.required) { %>
           <strong>
-            <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
+            <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" /> *
           </strong>
     <% } else {%>
           <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />

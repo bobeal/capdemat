@@ -17,15 +17,25 @@
          <span>Vos démarches - ${session.currentSiteDisplayTitle}</span>
        </h1>
        <map id="hd-menu">
-        <g:if test="${!login}">
+        <g:if test="${!isLogin}">
         <a href="${createLink(controller:'frontofficeHome',action:'logout')}">se déconnecter</a>
         </g:if>
         <a href="#">aide</a>
         <a href="#">f.a.q</a> 
        </map>
      </div>
-
-     <g:if test="${!login}">
+     <g:if test="${isRequestCreation}">
+       <div id="main-menu">
+         <a class="disable"><span><g:message code="menu.home" /></span></a>
+         <a class="disable"><span><g:message code="menu.services" /></span></a>
+         <a class="disable"><span><g:message code="menu.accounts" /></span></a>
+         <a class="disable"><span><g:message code="menu.requests" /></span></a>
+         <a class="disable"><span><g:message code="menu.documents" /></span></a>
+         <a class="disable"><span><g:message code="menu.activities" /></span></a>
+         <a class="disable"><span><g:message code="menu.payments" /></span></a>
+       </div>
+     </g:if>
+     <g:elseif test="${!isLogin}">
        <div id="main-menu">
          <a href="${createLink(controller:'frontofficeHome')}" 
             class="${menu.current(elem:'home')}" >
@@ -70,7 +80,7 @@
             </span>
          </a>
        </div>
-     </g:if>
+     </g:elseif>
      
      <!-- header -->
      <div id="bd">

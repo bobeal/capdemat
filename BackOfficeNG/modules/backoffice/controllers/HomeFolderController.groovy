@@ -44,7 +44,7 @@ class HomeFolderController {
             'currentSiteName': SecurityContext.currentSite.name,
             'homeFolderStatus' : this.buildHomeFolderStatusFilter(),
             'pageState' : (new JSON(state)).toString().encodeAsHTML(),
-            'offset' : params?.currentOffset ? params.currentOffset : 0 
+            'offset' : params.currentOffset ? params.currentOffset : 0 
         ]);
     }
     
@@ -66,7 +66,6 @@ class HomeFolderController {
     
     def requests = {
         def result = [requests:[]]
-        //def request = defaultRequestService.getById(Long.valueOf(params.id))
         def homeFolderRequests = defaultRequestService.getByHomeFolderId(Long.valueOf(params.id));
         def homeFolder = homeFolderService.getById(Long.valueOf(params.id))
 
@@ -90,7 +89,6 @@ class HomeFolderController {
           result.requests.add(record)
         }
         return result
-        //render(template:'homeFolderRequests', model: ['records': records])
     }
     
     def payments = {
@@ -113,24 +111,24 @@ class HomeFolderController {
     
     protected List doSearch(state) {
         def result = []
-        def found = individualService.get(this.prepareCriterias(state),
+        def individuals = individualService.get(this.prepareCriterias(state),
             this.prepareSort(state),this.defaultMax,
-            params?.currentOffset ? Integer.parseInt(params.currentOffset) : 0)
+            params.currentOffset ? Integer.parseInt(params.currentOffset) : 0)
         
-        for(Individual human : found) {
+        for(Individual human : individuals) {
             def entry = [
                 'id' : human.id,
-                'state' : human.state,
+                'state' : human.homeFolder?.state,
+                'status' : human.homeFolder?.enabled,
                 'lastName' : human.lastName,
                 'firstName' : human.firstName,
-                'homeFolderId' : human?.homeFolder?.id,
+                'homeFolderId' : human.homeFolder?.id,
                 'streetName' : human.adress.streetName,
                 'streetNumber' : human.adress.streetNumber,
                 'postalCode': human.adress.postalCode,
                 'city' : human.adress.city,
-                'bornOn': human instanceof Child ? human.birthDate : null,
-                'bornIn': human instanceof Child ? human.birthCity : null
-                
+                'birthDate': human instanceof Child ? human.birthDate : null,
+                'birthCity': human instanceof Child ? human.birthCity : null
             ]
             if(!result.contains(entry)) result.add(entry)
         }
@@ -150,11 +148,14 @@ class HomeFolderController {
         Set<Critere> criterias = new LinkedHashSet<Critere>()
         
         for(String key : state.keySet()){
-            if(mapper.keySet().contains(key) && state?."$key") {
+            if(mapper.keySet().contains(key) && state."$key") {
                 Critere criteria = new Critere()
                 criteria.setAttribut(key)
                 criteria.setComparatif(mapper[key].toString())
-                criteria.setValue(state[key])
+                if (key.equals('homeFolderId'))
+                    criteria.setValue(LongUtils.stringToLong(state[key]))
+                else
+                    criteria.setValue(state[key])
                 criterias.add(criteria)
             }
         }

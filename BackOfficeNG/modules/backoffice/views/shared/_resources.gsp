@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'list.css')}" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'panel.css')}" />
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'tabview.css')}" />
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'button.css')}" />
   
   <!--[if IE 6]>
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/hacks',file:'ie6.css')}" />

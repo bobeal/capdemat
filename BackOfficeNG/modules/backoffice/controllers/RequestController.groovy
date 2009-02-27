@@ -1,4 +1,4 @@
-import java.util.Hashtable;
+import java.util.Hashtable
 
 import fr.cg95.cvq.business.authority.Agent
 import fr.cg95.cvq.business.request.Request
@@ -46,7 +46,8 @@ class RequestController {
      */
     def initSearch = {
         render(view:'search', 
-                model:['mode':'simple', 'inSearch':false, 'sortBy':defaultSortBy, 'filters':[:]].plus(initSearchReferential()))
+            model:['mode':'simple', 'inSearch':false, 'sortBy':defaultSortBy,
+                   'filters':[:]].plus(initSearchReferential()))
     }
     
     /**
@@ -80,13 +81,13 @@ class RequestController {
                 critere.attribut = key
                 critere.comparatif = Critere.EQUALS
                 if (longKeys.contains(key)) {
-                    critere.value = Long.valueOf(value)
+                    critere.value = LongUtils.stringToLong(value)
                 } else if (dateKeys.contains(key)) {
                     critere.value = DateUtils.stringToDate(value)
                     if (key == 'creationDateFrom') {
                         critere.attribut = 'creationDate'
                         critere.comparatif = Critere.GTE
-                    } else { 
+                    } else {
                         critere.attribut = 'creationDate'
                         critere.comparatif = Critere.LTE
                     }

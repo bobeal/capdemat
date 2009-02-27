@@ -45,8 +45,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
       
       new YAHOO.widget.Button('submitSearch',{type:'submit'});
       yue.on('searchForm','submit',zcbh.Search.doSearch);
-      //yue.on('submitSearch','click',zcbh.Search.doSearch);
     };
+
     return {
       /**
        * @description Page state descriptor
@@ -100,10 +100,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
        * @description Produce home folder search
        */
       doSearch : function(e) {
-        if(FIC_checkForm(yud.get('searchForm'),yud.get('errorContainer'))) {
-          zcbh.Search.saveState();
-          if(yue.getTarget(e).nodeName != 'form') yud.get('searchForm').submit();
-        } else yue.stopEvent(e);
+        zcbh.Search.saveState();
+        if(yue.getTarget(e).nodeName != 'form') yud.get('searchForm').submit();
       }
     }
   }();

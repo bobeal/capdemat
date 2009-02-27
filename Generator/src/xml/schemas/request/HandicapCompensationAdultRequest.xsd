@@ -1,0 +1,4865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/hcar"
+  xmlns:hcar="http://www.cg95.fr/cvq/schema/hcar"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="HandicapCompensationAdultRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de compensation du handicap (Adulte)
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Handicap Compensation request (Adult)
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Compensation du handicap (Adulte)
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Handicap Compensation request (Adult)
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="social" />
+        <common>
+          <namespace name="social" />
+          <steps>
+            <step index="0" name="subject">
+              <conditions>
+                <condition name="isMadam" />
+                <condition name="isLegalAccessPresence" />
+                <condition name="isOtherLegalAccessRepresentative" />
+                <condition name="isFamilyDependents" />
+              </conditions>
+            </step>
+            <step index="1" name="dwelling">
+              <conditions>
+                <condition name="isNotPlaceOfResidence" />
+                <condition name="isInEstablishmentReception" />
+                <condition name="isInSocialReception" />
+              </conditions>
+            </step>
+            
+            <step index="2" name="socialSecurityAndPaymentAgency">
+              <conditions>
+                <condition name="isSocialSecurityMemberShip" />
+                <condition name="isPaymentAgencyBeneficiary" />
+              </conditions>
+            </step>
+            <step index="3" name="occupationnalAndSchoolStatus">
+              <conditions>
+                <condition name="isHighSchool" />
+                <condition name="isAssistanceUnderDisability" />
+                <condition name="isEmployed" />
+                <condition name="isUnemployed" />
+                <condition name="isRegisteredAsUnemployed" />
+                <condition name="isIndemnified" />
+                <condition name="isElectiveFunction" />
+              </conditions>
+            </step>
+            <step index="4" name="folders">
+              <conditions>
+                <condition name="isMDPH" />
+                <condition name="isCOTOREP" />
+                <condition name="isCDES" />
+                <condition name="isOtherFolders" />
+              </conditions>
+            </step>
+            <step index="5" name="benefits">
+              <conditions>
+                <condition name="isDisabilityRecognition" />
+                <condition name="isProfessionalOrientation" />
+                <condition name="isEducationOfDisabledChildren" />
+                <condition name="isDisabilityPension" />
+                <condition name="isWorkAccidentAnnuity" />
+                <condition name="isSupportedByAnInstitution" />
+                <condition name="isOtherBenefits" />
+              </conditions>
+            </step>
+            <step index="6" name="aid">
+              <conditions>
+                <condition name="isFamilyAssistance" />
+                <condition name="isHomeIntervenant" />
+                <condition name="isOtherHomeIntervant" />
+                <condition name="isCareServices" />
+                <condition name="isCareServiceEmployer" />
+                <condition name="isHousing" />
+                <condition name="isTechnicalAssistance" />
+                <condition name="isCustomCar" />
+                <condition name="isAnimalAid" />
+                <condition name="isSpecializedTransport" />
+                <condition name="isProfessionals" />
+                <condition name="isSocialServiceSupport" />
+              </conditions>
+            </step>
+            <step index="7" name="health">
+              <conditions>
+                <condition name="isFollowedByDoctor" />
+                <condition name="isFollowedByProfessional" />
+                <condition name="isFollowedByHospital" />
+              </conditions>
+            </step>
+            <step index="8" name="project">
+              <conditions>
+                <condition name="isProfessionalOrientationRequest" />
+                <condition name="isOtherRequest" />
+              </conditions>
+            </step>
+            
+            <step index="9" ref="document" />
+            <step index="10" ref="validation" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+            
+          <xs:sequence>
+            <xs:element name="HcarSubject" type="hcar:HcarSubjectType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant le sujet de la demande
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Sujet
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LegalAccess" type="hcar:HcarLegalAccessType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant la protection juridique du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Protection juridique du sujet
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Family" type="hcar:HcarFamilyType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant la situation de famille du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Situation de famille
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="FamilyDependents" type="hcar:HcarFamilyDependentType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les enfants et personnes à charge du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Enfants et personnes à charge
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                    <conditions>
+                      <condition name="isFamilyDependents" type="filled" required="true" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="Dwelling" type="hcar:HcarDwellingType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant l'habitation du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Habitation
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="dwelling" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="SocialSecurity" type="hcar:HcarSocialSecurityType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant la Sécurité Sociale du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Sécurité Sociale
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="socialSecurityAndPaymentAgency" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="PaymentAgency" type="hcar:HcarPaymentAgencyType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant l'organisme payeur du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Organisme payeur
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="socialSecurityAndPaymentAgency" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Studies" type="hcar:HcarStudiesType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant les études secondaires et supérieures du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Etudes
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="occupationnalAndSchoolStatus" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Formation" type="hcar:HcarFormationType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant la formation du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Formation
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="occupationnalAndSchoolStatus" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ProfessionalStatus" type="hcar:HcarProfessionalStatusType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant la situation professionnelle du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Situation professionnelle
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="occupationnalAndSchoolStatus" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Folders" type="hcar:HcarFoldersType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant les dossiers du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Dossiers
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="folders" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="OtherFolders" type="hcar:HcarOtherFolderType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant les autres dossiers du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Autres dossiers
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="folders" />
+                    <conditions>
+                      <condition name="isOtherFolders" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Benefits" type="hcar:HcarBenefitsType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant les prestations perçues par le sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prestations
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="benefits" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="OtherBenefits" type="hcar:HcarOtherBenefitType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant les autres prestations perçues par le sujet
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Autres prestations
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="benefits" />
+                    <conditions>
+                      <condition name="isOtherBenefits" type="filled" resuired="true" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="FamilyAssistance" type="hcar:HcarFamilyAssistanceType" minOccurs="0" >
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant l'aide d'un membre de la famille du sujet
+                 </xs:documentation>
+                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                   Membre de la famille
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="FamilyAssistanceMembers" type="hcar:HcarFamilyAssistanceMemberType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les membres de la famille du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Membre de la famille
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                    <conditions>
+                      <condition name="isFamilyAssistance" type="filled" required="true" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="HomeIntervention" type="hcar:HcarHomeInterventionType" minOccurs="0" >
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les interventions au domicile du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Intervention à domicile
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="HomeIntervenants" type="hcar:HcarHomeIntervenantType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les intervenants au domicile du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Intervenants à domicile
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                    <conditions>
+                      <condition name="isHomeIntervenant" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Care" type="hcar:HcarCareType" minOccurs="0" >
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les soins perçus par le sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Soins
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="CareServices" type="hcar:HcarCareServiceType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les soins du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Profesionnel/Service de soins
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                    <conditions>
+                      <condition name="isCareServices" type="filled" required="true" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Facilities" type="hcar:HcarFacilitiesType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les aménagements du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Aménagements
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ProfessionalSupport" type="hcar:HcarProfessionalSupportType" >
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les évaluation et accompagnement par professionnels du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Professionnels
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Professionals" type="hcar:HcarProfessionalType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les professionels
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Professionels
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                    <conditions>
+                      <condition name="isProfessionals" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="SocialService" type="hcar:HcarSocialServiceType" >
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les services sociaux
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Service social ou association
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="aid" />
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AdditionalFee" type="hcar:HcarAdditionalFeeType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant frais supplémentaires liés au handicap du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Frais supplémentaires liés au handicap
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="benefits" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Health" type="hcar:HcarHealthType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant la santé du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Santé
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="health" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ProjectRequests" type="hcar:HcarProjectRequestsType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les demandes du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Demandes
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="project" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ProjectWish" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les souhaits du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Souhaits
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="project" />
+                  </common>
+                  <fo>
+                    <textarea rows="10" />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="600" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+
+            <xs:element name="ProjectNeeds" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les besoins du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Besoins
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="project" />
+                  </common>
+                  <fo>
+                    <textarea rows="10" />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="600" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+
+            <xs:element name="ProjectComments" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant les observations complémentaires du sujet
+                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Observations
+                 </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="project" />
+                  </common>
+                  <fo>
+                    <textarea rows="10" />
+                  </fo>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="600" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="HcarSubjectType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations conçernant le sujet de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Sujet
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="SubjectTitle" type="cvq:TitleType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Civilité du sujet
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Civilité
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isMadam" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+     
+      <xs:element name="SubjectMaidenName" type="cvq:LastNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom marital du sujet
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom marital
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isMadam" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="SubjectBirthDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de naissance du sujet
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date de naissance
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="SubjectBirthCity" type="cvq:CityType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Ville de naissance du sujet
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Ville de naissance
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="SubjectBirthCountry">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Pays de naissance du sujet
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Pays de naissance
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarLegalAccessType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations conçernant la protection juridique du sujet
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Protection juridique du sujet
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="LegalAccessPresence" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Présence de protection juridique
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Présence de protection juridique
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isLegalAccessPresence" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <!-- Move HcarLegalAccessKindType in CVQCommonElements -->
+      <xs:element name="LegalAccessKind" type="hcar:HcarLegalAccessKindType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Mesure de protection juridique
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Mesure de protection juridique
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isLegalAccessPresence" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="LegalAccessRepresentativeKind" type="hcar:HcarLegalAccessRepresentativeKindType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nature du représentant
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nature du représentant
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isLegalAccessPresence" type="filled" required="true" />
+                <condition name="isOtherLegalAccessRepresentative" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="LegalAccessRepresentativeKindDetail" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isOtherLegalAccessRepresentative" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="80" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="LegalAccessRepresentativeName" type="cvq:LastNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom du tuteur
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom tuteur
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isLegalAccessPresence" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="LegalAccessRepresentativeFirstName" type="cvq:FirstNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénoms du tuteur
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénoms tuteur
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isLegalAccessPresence" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="HcarLegalAccessKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Mesure de protection juridique
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Mesure de protection juridique
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="SafeguardingJustice" value="Sauvegarde de justice" />
+        <enum key="Guardianship" value="Tutelle" />
+        <enum key="Curatorship" value="Curatelle" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="safeguardingJustice" />
+      <xs:enumeration value="guardianship" />
+      <xs:enumeration value="curatorship" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="HcarLegalAccessRepresentativeKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Nature du représentant
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Nature du représentant
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="FamilyMember" value="Membre de la famille" />
+        <enum key="Agency" value="Organisme" />
+        <enum key="Other" value="Autre" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FamilyMember" />
+      <xs:enumeration value="Agency" />
+      <xs:enumeration value="Other" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="HcarFamilyType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Situation de famille du sujet
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Situation de famille
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="FamilyStatus" type="cvq:FamilyStatusType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Situation de famille sujet
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Situation de famille
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FamilyFamilyDependents" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Enfants et personnes à charges du sujet
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Enfants et personnes à charges
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isFamilyDependents" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarFamilyDependentType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Personne à charge du sujet
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Personne à charge
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="FamilyDependentLastName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de la personne à charge
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FamilyDependentFirstName" type="cvq:FirstNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénom de la personne à charge
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénom
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FamilyDependentBirthDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de naissance de la personne à charge
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date de naissance
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="FamilyDependentActualSituation" type="hcar:HcarFamilyDependentActualSituationType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Situation actuelle de la personne à charge
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Situation actuelle
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="HcarFamilyDependentActualSituationType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Situation actuelle de la personne à charge
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Situation actuelle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Schooling" value="Scolarité" />
+        <enum key="Learning" value="Apprentissage" />
+        <enum key="MedicoSocial" value="Etablissement de soins ou médico-social" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Schooling" />
+      <xs:enumeration value="Learning" />
+      <xs:enumeration value="MedicoSocial" />
+    </xs:restriction>
+  </xs:simpleType>
+
+   <xs:complexType name="HcarDwellingType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Habitation
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Habitation
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="DwellingKind" type="hcar:HcarDwellingKindType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nature de l'habitation
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nature de l'habitation
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isNotPlaceOfResidence" type="trigger" />
+              </conditions>
+            </common>
+            <fo>
+              <select/>
+            </fo>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="DwellingPrecision" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isNotPlaceOfResidence" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo>
+              <textarea rows="2" />
+            </fo>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="120" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="DwellingEstablishmentReception" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            La personne concernée par la demande est-elle accueillie dans un établissement social, médico-social ou sanitaire ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Accueil en établissement
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isInEstablishmentReception" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="DwellingReceptionType" type="hcar:HcarDwellingReceptionKindType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Type d'accueil établissement
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Type d'accueil établissement
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isInEstablishmentReception" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="DwellingReceptionNaming" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Dénomination de l'établissement
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Dénomination établissement
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isInEstablishmentReception" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="80" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="DwellingReceptionAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse de l'établissement
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse établissement
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isInEstablishmentReception" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="DwellingSocialReception" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Accueil en établissement social
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Accueil social
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isInSocialReception" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="DwellingSocialReceptionNaming" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Dénomination de l'accueil social
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Dénomination
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isInSocialReception" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="80" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="DwellingSocialReceptionAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse l'accueil social
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="dwelling" />
+              <conditions>
+                <condition name="isInSocialReception" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="HcarDwellingKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Nature de l'habitation
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Nature de l'habitation
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="PlaceOfResidence" value="Domicile" />
+        <enum key="ThirdPartyDomicile" value="Domicile d'un tiers (famille, amis ...)" />
+        <enum key="Other" value="Autre" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PlaceOfResidence" />
+      <xs:enumeration value="ThirdPartyPlaceOfResidence" />
+      <xs:enumeration value="Other" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="HcarDwellingReceptionKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type d'accueil
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type d'accueil
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Internship" value="Internat" />
+        <enum key="Clerkship" value="Externat" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Internship" />
+      <xs:enumeration value="Clerkship" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="HcarSocialSecurityType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Sécurité Sociale
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Sécurité Sociale
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="SocialSecurityMemberShipKind" type="hcar:HcarSocialSecurityMemberShipKindType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nature de l'affiliation à la sécurité social
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nature de l'affiliation
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="socialSecurityAndPaymentAgency" />
+              <conditions>
+                <condition name="isSocialSecurityMemberShip" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="SocialSecurityNumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Numéro de sécurité sociale
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Numéro de sécurité sociale
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="socialSecurityAndPaymentAgency" />
+              <conditions>
+                <condition name="isSocialSecurityMemberShip" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="13" />
+            <xs:pattern value="[0-9]{13}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="SocialSecurityAgencyName" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de l'organisme de sécurité social
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de l'organisme sécu
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="socialSecurityAndPaymentAgency" />
+              <conditions>
+                <condition name="isSocialSecurityMemberShip" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="SocialSecurityAgencyAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse de l'organisme de sécurité social
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse organisme sécu
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="socialSecurityAndPaymentAgency" />
+              <conditions>
+                <condition name="isSocialSecurityMemberShip" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="HcarSocialSecurityMemberShipKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Nature de l'affiliation
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Nature de l'affiliation
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Insured" value="Assuré" />
+        <enum key="Claimant" value="Ayant droit" />
+        <enum key="NoMemberShip" value="Aucune affiliation à un organisme" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Insured" />
+      <xs:enumeration value="Claimant" />
+      <xs:enumeration value="NoMemberShip" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="HcarPaymentAgencyType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Organisme payeur
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Organisme payeur
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="PaymentAgencyBeneficiary" type="hcar:HcarPaymentAgencyBeneficiaryType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Allocataire
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Allocataire
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="socialSecurityAndPaymentAgency" />
+              <conditions>
+                <condition name="isPaymentAgencyBeneficiary" type="trigger" />
+              </conditions>
+            </common>
+            <fo>
+              <select/>
+            </fo>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="PaymentAgencyBeneficiaryNumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Numéro d'allocataire
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Numéro d'allocataire
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="socialSecurityAndPaymentAgency" />
+              <conditions>
+                <condition name="isPaymentAgencyBeneficiary" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="PaymentAgencyName" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de l'organisme payeur de la sécu
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de l'organisme payeur sécu
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="socialSecurityAndPaymentAgency" />
+              <conditions>
+                <condition name="isPaymentAgencyBeneficiary" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="PaymentAgencyAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse de l'organisme payeur de la sécu
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="socialSecurityAndPaymentAgency" />
+              <conditions>
+                <condition name="isPaymentAgencyBeneficiary" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="HcarPaymentAgencyBeneficiaryType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Allocataire
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Allocataire
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="CAF" value="Allocataire de la CAF" />
+        <enum key="MSA" value="Allocataire de la MSA" />
+        <enum key="Other" value="Autre organisme" />
+        <enum key="NoMemberShip" value="Aucune affiliation à un organisme" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CAF" />
+      <xs:enumeration value="MSA" />
+      <xs:enumeration value="Other" />
+      <xs:enumeration value="NoMemberShip" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="HcarStudiesType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Etudes
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Etudes
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="StudiesHighSchool" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Suivez-vous actuellement des études secondaires ou supérieures ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Etudes secondaires ou supérieures
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isHighSchool" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="StudiesHighSchoolGrade" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Classe ou formation préparée
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Classe ou formation préparée
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isHighSchool" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="StudiesHighSchoolName" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de l'établissement fréquenté
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de l'établissement fréquenté
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isHighSchool" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="StudiesHighSchoolAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isHighSchool" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="StudiesAssistanceUnderDisability" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Bénéficiez-vous d'une aide au titre de votre handicap au sein de l'établissement d'enseignement ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide au titre du handicap
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isHighSchool" type="filled" required="true" />
+                <condition name="isAssistanceUnderDisability" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="StudiesAssistanceUnderDisabilityDetails" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isAssistanceUnderDisability" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarFormationType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Formation
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Formation
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="FormationStudiesLevel" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Niveau d'études
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Niveau d'études
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FormationDiploma" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Diplômes obtenus
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Diplômes obtenus
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+            </common>
+            <fo>
+              <textarea rows="2" />
+            </fo>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="120" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FormationPreviousFormation" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Formations déjà suivies
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Formations déjà suivies
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+            </common>
+            <fo>
+              <textarea rows="3" />
+            </fo>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="180" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FormationCurrentFormation" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Formations en cours
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Formations en cours
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+            </common>
+            <fo>
+              <textarea rows="2" />
+            </fo>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="120" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarProfessionalStatusType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Situation professionelle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Situation professionelle
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="ProfessionalStatusKind" type="hcar:HcarProfessionalStatusKindType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Situation professionnelle
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Situation professionnelle
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isEmployed" type="trigger" />
+                <condition name="isUnemployed" type="trigger" />
+              </conditions>
+            </common>
+            <fo>
+              <select/>
+            </fo>
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Depuis le
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Depuis le
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusEnvironment" type="hcar:HcarProfessionalStatusEnvironmentType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Milieu
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Milieu
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isEmployed" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusProfession" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Profession
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Profession
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isEmployed" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusEmployerName" type="cvq:LastNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de l'employeur
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de l'employeur
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isEmployed" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isEmployed" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusRegisterAsUnemployed" type="xs:boolean" minOccurs="0" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Inscrit à l'ANPE
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Inscrit à l'ANPE
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isUnemployed" type="filled" required="true" />
+                <condition name="isRegisteredAsUnemployed" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusRegisterAsUnemployedDate" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Depuis le
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Depuis le
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isRegisteredAsUnemployed" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusIndemnified" type="xs:boolean" minOccurs="0" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Indemnisé par l'ASSEDIC
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Indemnisé par l'ASSEDIC
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isUnemployed" type="filled" required="true" />
+                <condition name="isIndemnified" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusIndemnifiedDate" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Depuis le
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Depuis le
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isIndemnified" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusElectiveFunction" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Exercez-vous une fonction élective ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Fonction élective
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isElectiveFunction" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalStatusElectiveFunctionDetails" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="occupationnalAndSchoolStatus" />
+              <conditions>
+                <condition name="isElectiveFunction" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="HcarProfessionalStatusKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Situation professionnelle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Situation professionnelle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Employee" value="Occupe un emploi" />
+        <enum key="Unemployed" value="Chômeur" />
+        <enum key="Jobless" value="Sans activité d'ordre professionnelle" />
+        <enum key="Student" value="Etudiant" />
+        <enum key="Retired" value="Retraité" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Employee" />
+      <xs:enumeration value="Unemployed" />
+      <xs:enumeration value="Jobless" />
+      <xs:enumeration value="Student" />
+      <xs:enumeration value="Retired" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="HcarProfessionalStatusEnvironmentType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Milieu
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Milieu
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Ordinary" value="Ordinaire" />
+        <enum key="Adapted" value="Adapté" />
+        <enum key="Protected" value="Protégé" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ordinary" />
+      <xs:enumeration value="Adapted" />
+      <xs:enumeration value="Protected" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="HcarFoldersType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Dossiers
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Dossiers
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="FoldersMdph" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Dossier MDPH
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Dossier MDPH
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isMDPH" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FoldersMdphNumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Numéro dossier MDPH
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Numéro dossier MDPH
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isMDPH" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FoldersMdphDepartment" type="cvq:DepartmentCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Département
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Département
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isMDPH" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FoldersCotorep" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Dossier COTOREP
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Dossier COTOREP
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isCOTOREP" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FoldersCotorepNumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Numéro
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Numéro
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isCOTOREP" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FoldersCotorepDepartment" type="cvq:DepartmentCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Département
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Département
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isCOTOREP" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FoldersCdes" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Dossier CDES
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Dossier CDES
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isCDES" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FoldersCdesNumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Numéro
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Numéro
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isCDES" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FoldersCdesDepartment" type="cvq:DepartmentCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Département
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Département
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isCDES" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FoldersOtherFolders" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Autres dossiers
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Autres dossiers
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+              <conditions>
+                <condition name="isOtherFolders" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:complexType name="HcarOtherFolderType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Autres dossiers auprès d'organismes
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Autres dossiers auprès d'organismes
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="OtherFolderName">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de l'organisme
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de l'organisme
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="OtherFolderNumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Numéro
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Numéro
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="folders" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="OtherFolderDepartment" type="cvq:DepartmentCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Département
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Département
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="folders" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarBenefitsType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Prestations
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Prestations
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="BenefitsDisabilityRecognition" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Reconnaissance de votre handicap
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Reconnaissance de votre handicap
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isDisabilityRecognition" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsDisabilityRatio" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Taux
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Taux
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isDisabilityRecognition" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="3" />
+            <xs:pattern value="[0-9]{3}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="BenefitsDisabilityCard" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Carte d'invalidité
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Carte d'invalidité
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsPainfulStandingCard" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Carte station debout pénible
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Carte station debout pénible
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsParkingCard" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Carte de stationnement
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Carte de stationnement
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsDisabledWorkerRecognition" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Reconnaissance comme travailleur handicapé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Reconnaissance comme travailleur handicapé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsProfessionalOrientation" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Orientation professionnelle
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Orientation professionnelle
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isProfessionalOrientation" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsProfessionalOrientationDetails" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isProfessionalOrientation" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+              <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="BenefitsDisabledAdultAllocation" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Allocation d'adulte handicapé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Allocation d'adulte handicapé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsIncreaseForIndependentLiving" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Complément de ressources - Majoration pour vie autonome
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Complément de ressources - Majoration pour vie autonome
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsEducationAllocationOfDisabledChildren" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Allocation d'éducation de l'enfant handicapé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Allocation d'éducation de l'enfant handicapé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsEducationOfDisabledChildren" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Complément d'allocation d'éducation de l'enfant handicapé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Complément d'allocation d'éducation de l'enfant handicapé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isEducationOfDisabledChildren" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsEducationOfDisabledChildrenDetails" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isEducationOfDisabledChildren" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+              <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="BenefitsSupplementForSingleParents" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Majoration pour parent isolé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Majoration pour parent isolé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsThirdPersonCompensatoryAllowance" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Allocation compensatrice tierce personne
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Allocation compensatrice tierce personne
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsThirdPartyCompensatoryAllowance" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Allocation compensatrice tierce personne
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Allocation compensatrice tierce personne
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsCompensatoryAllowanceForExpenses" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Allocation compensatrice pour frais professionnels
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Allocation compensatrice pour frais professionnels
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsDisabilityCompensation" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prestation de compensation du handicap
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prestation de compensation du handicap
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsDisabilityPension" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Pension d'invalidité
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Pension d'invalidité
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isDisabilityPension" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsDisabilityPensionCategory" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Catégorie
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Catégorie
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isDisabilityPension" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="BenefitsWorkAccidentAnnuity" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Rente accident du travail
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Rente accident du travail
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isWorkAccidentAnnuity" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsWorkAccidentAnnuityRatio" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Taux
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Taux
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isWorkAccidentAnnuity" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="3" />
+            <xs:pattern value="[0-9]{3}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="BenefitsSocialWelfare" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Revenu minimum d'insertion (RMI)
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Revenu minimum d'insertion (RMI)
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsUnemploymentBenefits" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Indemnités de chômage
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Indemnités de chômage
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsDailyAllowances" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Indemnités journalières
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Indemnités journalières
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsThirdPartySupplement" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Majoration tierce personne (d'un régime d'assurance maladie)
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Majoration tierce personne (d'un régime d'assurance maladie)
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsSupportedByAnInstitution" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prise en charge dans un établissement ou service spécialisé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prise en charge dans un établissement ou service spécialisé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isSupportedByAnInstitution" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="BenefitsSupportedByAnInstitutionDetails" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isSupportedByAnInstitution" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="BenefitsOtherBenefits" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Autres prestations
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Autres prestations
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+              <conditions>
+                <condition name="isOtherBenefits" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarOtherBenefitType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Autre prestation
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Autre prestation
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="OtherBenefitName" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de la prestation
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de la prestation
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarFamilyAssistanceType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Aide membre de la famille
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Aide membre de la famille
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="IsFamilyAssistance" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aide membre de la famille
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide membre de la famille
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isFamilyAssistance" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarFamilyAssistanceMemberType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Aide d'un ou plusieurs membres de votre famille
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Aide membre de famille
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="FamilyAssistanceMemberRelationship" >
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Lien de parenté
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Lien de parenté
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="aid" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      
+      <xs:element name="FamilyAssistanceMemberLastName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="aid" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FamilyAssistanceMemberFirstName" type="cvq:FirstNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénoms
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénoms
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="aid" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarHomeInterventionType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Intervention à domicile
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Intervenant à domicile
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="HomeInterventionHomeIntervenant" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Intervenant à domicile
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Intervenant à domicile
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isHomeIntervenant" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarHomeIntervenantType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Intervenant à domicile
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Intervenant(s) à domicile
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="HomeIntervenantKind" type="hcar:HcarHomeIntervenantKindType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Statut de l'intervenant
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Statut de l'intervenant
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isOtherHomeIntervant" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="HomeIntervenantDetails" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isOtherHomeIntervant" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="HcarHomeIntervenantKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Statut de l'intervenant
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Statut de l'intervenant
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Carer" value="Auxiliaire de vie" />
+        <enum key="HomeHelp" value="Aide ménagère" />
+        <enum key="Other" value="Autre" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Carer" />
+      <xs:enumeration value="HomeHelp" />
+      <xs:enumeration value="Other" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="HcarCareType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Profesionnel/Service de soins
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Profesionnel/Service de soins
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="CareCareServices" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Profesionnel/Service de soins
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Profesionnel/Service de soins
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isCareServices" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarCareServiceType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Professionel/Service de soins
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Professionel/Service de soins
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      
+      <xs:element name="CareServiceKind" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            (Aide soignant, infirmière, …)
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Statut de l'intervenant
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="CareServiceCareServiceEmployer" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Employeur direct
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Employeur direct
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isCareServiceEmployer" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="CareServiceProviderName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom du prestataire
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom du prestataire
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isCareServiceEmployer" type="unfilled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="CareServiceProviderAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isCareServiceEmployer" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+ <xs:complexType name="HcarFacilitiesType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Aménagements
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Aménagements
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="FacilitiesHousing" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aménagement de logement
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aménagement de logement
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isHousing" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FacilitiesHousingDetails" >
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isHousing" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FacilitiesTechnicalAssistance" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aide technique
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide technique
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isTechnicalAssistance" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FacilitiesTechnicalAssistanceDetails" >
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isTechnicalAssistance" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FacilitiesCustomCar" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aménagement de véhicule
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aménagement de véhicule
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isCustomCar" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FacilitiesCustomCarDetails">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isCustomCar" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FacilitiesAnimalAid" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aide animalière
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide animalière
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isAnimalAid" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FacilitiesAnimalAidDetails">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isAnimalAid" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="FacilitiesSpecializedTransport" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Transport spécialisé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Transport spécialisé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isSpecializedTransport" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="FacilitiesSpecializedTransportDetails">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isSpecializedTransport" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarProfessionalSupportType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Accompagnement professionnels
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Professionnels
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="ProfessionalSupportProfessionals" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Accompagnement professionnels
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Accompagnement professionnels
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isProfessionals" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalSupportDealsWithSameProfessional" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Demande traitée par même professionnels
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Demande traitée par même professionnels
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isProfessionals" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarProfessionalType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Professionnel
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Professionnel
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="ProfessionalLastName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="aid" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalFirstName" type="cvq:FirstNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénoms
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénoms
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="aid" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalAddress" type="cvq:AddressType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="aid" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+    <xs:complexType name="HcarSocialServiceType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Service social ou association
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Service social ou association
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="ProfessionalSupportSocialServiceSupport" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Suivi par un service social ou une association
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Suivi par un service social ou une association
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isSocialServiceSupport" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProfessionalSupportSocialServiceName" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom du service social ou de l'association
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom service social assoc
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isSocialServiceSupport" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="ProfessionalSupportSocialServiceAddress" type="cvq:AddressType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse du service social ou de l'association
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Adresse service social assoc
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="aid" />
+              <conditions>
+                <condition name="isSocialServiceSupport" type="filled" required="true" />
+              </conditions>  
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarAdditionalFeeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Frais supplémentaires liés au handicap
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Frais supplémentaires liés au handicap
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="AdditionalFeeKind">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nature des frais
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nature des frais
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="AdditionalFeeCost">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Coût
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Coût
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="6" />
+            <xs:pattern value="[0-9]{6}" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element name="AdditionalFeePeriodicity">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Périodicité
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Périodicité
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="benefits" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HcarHealthType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Santé
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Santé
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="HealthFollowedByDoctor" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Etes vous suivi par un médecin généraliste et/ou spécialiste ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Suivi médecin
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="health" />
+              <conditions>
+                <condition name="isFollowedByDoctor" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="HealthDoctorLastName" type="cvq:LastNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom médecin
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom médecin
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="health" />
+              <conditions>
+                <condition name="isFollowedByDoctor" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="HealthDoctorFirstName" type="cvq:FirstNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénom médecin
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénom médecin
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="health" />
+              <conditions>
+                <condition name="isFollowedByDoctor" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="HealthFollowedByProfessional" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Etes vous suivi par un professionnel ou un service de santé ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Suivi professionnel ou service de santé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="health" />
+              <conditions>
+                <condition name="isFollowedByProfessional" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="HealthProfessionalLastName" type="cvq:LastNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom suivi professionnel
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom suivi professionnel
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="health" />
+              <conditions>
+                <condition name="isFollowedByProfessional" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="HealthProfessionalFirstName" type="cvq:FirstNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénom suivi professionnel
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénom suivi professionnel
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="health" />
+              <conditions>
+                <condition name="isFollowedByProfessional" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="HealthFollowedByHospital" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Etes vous suivi par un établissement hospitalier ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Suivi établissement hospitalier
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="health" />
+              <conditions>
+                <condition name="isFollowedByHospital" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="HealthHospitalName" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom établissement hospitalier
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom établissement hospitalier
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="health" />
+              <conditions>
+                <condition name="isFollowedByHospital" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+ <xs:complexType name="HcarProjectRequestsType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demandes
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Demandes
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <xs:element name="ProjectRequestsHandicapRecognition" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Reconnaissance de ma situation de handicap
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Reconnaissance de ma situation de handicap
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsDisabilityCard" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Carte d'invalidité
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Carte d'invalidité
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsDisabledPriorityCard" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Carte priorité pour personne handicapée
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Carte priorité pour personne handicapée
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsEuropeanParkingCard" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Carte européenne de stationnement
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Carte européenne de stationnement
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsDisabledAdultAllowance" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Allocation adulte handicapé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Allocation adulte handicapé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsIncreaseForIndependentLiving" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Complément de ressources - Majoration pour vie autonome
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Complément de ressources - Majoration pour vie autonome
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsEducationAllocationOfDisabledChildren" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Allocation d'éducation de l'enfant handicapé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Allocation d'éducation de l'enfant handicapé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsACTPRenewal" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Renouvellement de l'ACTP
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Renouvellement de l'ACTP
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsThirdPartyHelp" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aide d'une tièrce personne dans la vie quotidienne
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide d'une tièrce personne dans la vie quotidienne
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsFreePensionMembership" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Affiliation gratuite à l'assurance vieillesse
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Affiliation gratuite à l'assurance vieillesse
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsTechnicalHelp" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aide technique, matérielle ou d'un équipement particulier
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide technique, matérielle ou d'un équipement particulier
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsHousingFacilities" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aménagement du logement
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aménagement du logement
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsCustomCar" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aménagement du véhicule
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aménagement du véhicule
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsAssistance" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aide animalière
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide animalière
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsTransportCostAllocation" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aide pour faire face aux surcoûts de transport
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide pour faire face aux surcoûts de transport
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsDisabilityCostAllocation" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Aide pour faire face à des dépenses spécifiques ou exeptionnelles dues à mon handicap
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Aide pour faire face à des dépenses spécifiques ou exeptionnelles dues à mon handicap
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsDisabledWorkerRecognition" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Reconnaissance de la qualité de travailleur handicapé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Reconnaissance de la qualité de travailleur handicapé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsProfessionalOrientation" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Orientation professionnelle
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Orientation professionnelle
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+              <conditions>
+                <condition name="isProfessionalOrientationRequest" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsOrdinaryWorking" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Milieu ordinnaire de travail
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Milieu ordinnaire de travail
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+              <conditions>
+                <condition name="isProfessionalOrientationRequest" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsShelteredWork" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Milieu protégé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Milieu protégé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+              <conditions>
+                <condition name="isProfessionalOrientationRequest" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsVocationalTraining" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Formation professionnelle
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Formation professionnelle
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+              <conditions>
+                <condition name="isProfessionalOrientationRequest" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsInstitutionSupport" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prise en ccarge par un établissement ou service spécialisé
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prise en charge par un établissement ou service spécialisé
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsOther" type="xs:boolean" default="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Autre
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Autre
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+              <conditions>
+                <condition name="isOtherRequest" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ProjectRequestsOtherDetails" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Préciser
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Préciser
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="project" />
+              <conditions>
+                <condition name="isOtherRequest" type="filled" required="true" />
+              </conditions>
+            </common>
+            <fo />
+            <bo />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="60" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+ </xs:schema>

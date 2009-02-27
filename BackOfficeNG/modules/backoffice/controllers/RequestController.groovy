@@ -29,7 +29,8 @@ class RequestController {
     def defaultAction = 'initSearch'
     
     // keys supported in advanced search screen : match with keys defined in Request.java
-    def supportedKeys = ['requesterLastName', 'subjectLastName', 'id', 'homeFolderId', 'creationDateFrom', 'creationDateTo']
+    def supportedKeys = ['requesterLastName', 'subjectLastName', 'id', 'homeFolderId',
+                         'creationDateFrom', 'creationDateTo']
     def longKeys = ['id', 'homeFolderId']
     def dateKeys = ['creationDateFrom', 'creationDateTo']
     def defaultSortBy = 'creationDate'
@@ -90,6 +91,7 @@ class RequestController {
                         critere.comparatif = Critere.LTE
                     }
                 } else {
+                    critere.comparatif = Critere.STARTSWITH
                     critere.value = value
                 }
                 criteria.add(critere)

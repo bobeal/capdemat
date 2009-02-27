@@ -108,10 +108,15 @@
     <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
   </xb:namespace>
 
-  <!-- Handicap Allowance Request -->
-  <xb:namespace uri="http://www.cg95.fr/cvq/schema/har">
+  <!-- Handicap Compensation Adult Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/hcar">
     <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
   </xb:namespace>
+  
+  <!-- Handicap Compensation Child Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/hccr">
+    <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
+  </xb:namespace>  
 
     <!-- Military Census Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/mcr">

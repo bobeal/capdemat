@@ -38,7 +38,8 @@ import fr.cg95.cvq.service.request.school.RecreationActivityRegistrationRequestS
 import fr.cg95.cvq.service.request.school.SchoolCanteenRegistrationRequestServiceTest;
 import fr.cg95.cvq.service.request.school.SchoolRegistrationRequestServiceTest;
 import fr.cg95.cvq.service.request.social.DomesticHelpRequestServiceTest;
-import fr.cg95.cvq.service.request.social.HandicapAllowanceRequestServiceTest;
+import fr.cg95.cvq.service.request.social.HandicapCompensationAdultRequestServiceTest;
+import fr.cg95.cvq.service.request.social.HandicapCompensationChildRequestServiceTest;
 import fr.cg95.cvq.service.request.social.RemoteSupportRequestServiceTest;
 import fr.cg95.cvq.service.request.urbanism.AlignmentCertificateRequestServiceTest;
 import fr.cg95.cvq.service.request.urbanism.SewerConnectionRequestServiceTest;
@@ -115,7 +116,8 @@ public class CapdematTestSuite extends TestSuite {
         // service.social package
         testSuite.addTestSuite(DomesticHelpRequestServiceTest.class);
         // test fails (unsaved transient instance)
-//        testSuite.addTestSuite(HandicapAllowanceRequestServiceTest.class);
+        testSuite.addTestSuite(HandicapCompensationAdultRequestServiceTest.class);
+        testSuite.addTestSuite(HandicapCompensationChildRequestServiceTest.class);
         testSuite.addTestSuite(RemoteSupportRequestServiceTest.class);
         
         // service.urbanism package

@@ -26,19 +26,22 @@
       <xs:appinfo>
         <model namespace="social" />
         <common>
-          <namespace name="social"/>
+          <namespace name="social" />
           <steps>
-            <step index="0" name="subject"/>
-            <step index="1" name="contact"/>
-            <step index="2" ref="document"/>
-            <step index="3" ref="validation"/>
+            <step index="0" name="subject">
+              <conditions>
+                <condition name="isEmergency" />
+                <condition name="isCoupleRequest" />
+              </conditions>
+            </step>
+            <step index="1" name="contact">
+              <conditions>
+               <condition name="isOtherContact" />
+              </conditions>                
+            </step>
+            <step index="2" ref="document" />
+            <step index="3" ref="validation" />
           </steps>
-          <conditions>
-            <condition name="isEmergency"/>
-            <condition name="isFlat"/>
-            <condition name="isCoupleRequest"/>
-            <condition name="isOtherContact"/>
-          </conditions>
         </common>
       </xs:appinfo>
     </xs:annotation>
@@ -47,169 +50,154 @@
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
 
-            <xs:element name="RsrRequestKind" type="rsr:RsrRequestKindType" default="Individual">
+            <xs:element name="RsrSubject" type="rsr:RsrSubjectType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Type de la demande
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Type de la demande
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="subject"/>
-                    <conditions>
-                      <condition name="isCoupleRequest" type="trigger"/>
-                    </conditions>
-                  </common>
-                  <fo>
-                    <radio/>
-                  </fo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="RsrEmergency" type="rsr:RsrEmergencyType">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Urgence (Obligatoire)
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Urgence (Obligatoire)
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="subject"/>
-                  </common>
-                  <fo>
-                    <label/>
-                  </fo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="RsrRequester" type="rsr:RsrRequesterType">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Demandeur
+                  Informations conçernant le demandeur
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Demandeur
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject"/>
+                    <step name="subject" />
                   </common>
                   <fo>
-                    <label/>
+                    <label />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="RsrSpouse" type="rsr:RsrSpouseType">
+            <xs:element name="RequestInformation" type="rsr:RsrRequestInformationType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Conjoint
+                  Objet de la demande
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Objet de la demande
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Spouse" type="rsr:RsrSpouseType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant le conjoint du demandeur
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Conjoint
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject"/>
+                    <step name="subject" />
                     <conditions>
-                      <condition name="isCoupleRequest" type="filled" required="true"/>
+                      <condition name="isCoupleRequest" type="filled" required="true" />
                     </conditions>
                   </common>
                   <fo>
-                    <label/>
+                    <label />
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-
-            <xs:element name="RsrContactKind" type="rsr:RsrContactKindType">
+            
+            <xs:element name="ContactKind" type="rsr:RsrContactKindType" default="Requester">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant la personne à contacter pour prendre rendez-vous pour l'installation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Personne à contacter pour prendre rendez-vous pour l'installation
                 </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Type contact
-                </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="contact"/>
+                    <step name="contact" />
                     <conditions>
-                      <condition name="isOtherContact" type="trigger"/>
+                      <condition name="isOtherContact" type="trigger" />
                     </conditions>
                   </common>
                   <fo>
-                    <radio/>
+                    <radio />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="RsrFirstContact" type="rsr:RsrContactType">
+            <xs:element name="FirstContact" type="rsr:RsrContactType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Premier contact
+                  Informations conçernant le premier contact
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Premier contact
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="contact"/>
+                    <step name="contact" />
                     <conditions>
-                      <condition name="isOtherContact" type="filled" required="true"/>
+                      <condition name="isOtherContact" type="filled" required="true" />
                     </conditions>
                   </common>
                   <fo>
-                    <label/>
+                    <label />
                   </fo>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="RsrSecondContact" type="rsr:RsrSecondContactType">
+            <xs:element name="SecondContact" type="rsr:RsrSecondContactType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Second contact
+                  Informations conçernant le second contact
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Second contact
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="contact"/>
+                    <step name="contact" />
                     <conditions>
-                      <condition name="isOtherContact" type="filled"/>
+                      <condition name="isOtherContact" type="filled" />
                     </conditions>
                   </common>
                   <fo>
-                    <label/>
+                    <label />
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="RsrTrustee" type="rsr:RsrTrusteeType">
+            <xs:element name="Trustee" type="rsr:RsrTrusteeType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Coordonnées de la personne dépositaire de vos clés
+                  Informations conçernant les coordonnées de la personne dépositaire des clés du demandeur
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Dépositaire des clés (Optionnel - Fortement recommandé)
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="contact"/>
+                    <step name="contact" />
                   </common>
                   <fo>
-                    <label/>
+                    <label />
                   </fo>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -220,37 +208,41 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:simpleType name="RsrRequestKindType">
+  <xs:complexType name="RsrRequestInformationType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Type de la demande
+        Objet de la demande
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Type de la demande
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Individual" value="Individuelle"/>
-        <enum key="Couple" value="Couple"/>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Individual"/>
-      <xs:enumeration value="Couple"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:complexType name="RsrEmergencyType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Urgence
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Urgence
+        Objet de la demande
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
 
-      <xs:element name="RsrIsEmergency" type="xs:boolean" default="false">
+      <xs:element name="RequestInformationRequestKind" type="rsr:RsrRequestInformationRequestKindType" default="Individual">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Le type de la demande
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Type de la demande
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isCoupleRequest" type="trigger" />
+              </conditions>
+            </common>
+            <fo>
+              <radio />
+            </fo>
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="RequestInformationEmergency" type="xs:boolean" default="false">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Demande nécessitant une intervention urgente
@@ -260,17 +252,18 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
               <conditions>
-                <condition name="isEmergency" type="trigger"/>
+                <condition name="isEmergency" type="trigger" />
               </conditions>
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrEmergencyMotive" type="xs:string" minOccurs="0">
+      <xs:element name="RequestInformationEmergencyMotive" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Motif de l'urgence
@@ -280,243 +273,115 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
               <conditions>
-                <condition name="isEmergency" type="filled" required="true"/>
+                <condition name="isEmergency" type="filled" required="true" />
               </conditions>
             </common>
             <fo>
-              <textarea rows="3"/>
+              <textarea rows="3" />
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="180" />
+          </xs:restriction>
+        </xs:simpleType>
       </xs:element>
 
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="RsrRequesterType">
+  <xs:simpleType name="RsrRequestInformationRequestKindType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demandeur
+        Type de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Individual" value="Individuelle" />
+        <enum key="Couple" value="Couple" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Individual" />
+      <xs:enumeration value="Couple" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="RsrSubjectType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations conçernant le demandeur
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Demandeur
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-
-      <xs:element name="RsrRequesterName" type="cvq:LastNameType">
+		  <!-- Must be readonly -->
+      <xs:element name="SubjectTitle" type="cvq:TitleType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom
+            Civilité
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom
+            Civilité
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrRequesterFirstName" type="cvq:FirstNameType">
+      <xs:element name="SubjectBirthDate" type="xs:date">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Prénom
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="subject"/>
-            </common>
-            <fo/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrSecondRequesterFirstName" type="cvq:FirstNameType" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            2d prénom
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            2d prénom
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="subject"/>
-            </common>
-            <fo/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrRequesterGender" type="cvq:SexType">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Sexe
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Sexe
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="subject"/>
-            </common>
-            <fo>
-              <radio/>
-            </fo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrRequesterBirthDate" type="xs:date">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Date naissance
+            Date naissance du demandeur
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Date naissance
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrRequesterMaritalStatus" type="rsr:RsrMaritalStatusType">
+      <xs:element name="SubjectResideWith" type="rsr:RsrSubjectResideWithType" default="Alone">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Résidez-vous
+            Résidence du demandeur
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Résidez-vous
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
             <fo>
-              <radio/>
+              <radio />
             </fo>
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrRequesterAddress" type="cvq:AddressType">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Adresse
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Adresse
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="subject"/>
-            </common>
-            <fo>
-            	<label/>
-            </fo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrRequesterResidenceKind" type="rsr:RsrResidenceKindType">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Type résidence
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Type résidence
-          </xs:documentation>
-          <xs:appinfo>
-            <common>
-              <step name="subject"/>
-              <conditions>
-                <condition name="isFlat" type="trigger"/>
-              </conditions>
-            </common>
-            <fo>
-              <radio/>
-            </fo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrRequesterFlatNumber" type="xs:positiveInteger" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            N° appartement
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            N° appartement
-          </xs:documentation>
-          <xs:appinfo>
-            <common>
-              <step name="subject"/>
-              <conditions>
-                <condition name="isFlat" type="filled"/>
-              </conditions>
-            </common>
-            <fo/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrRequesterFloor" type="xs:positiveInteger" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Etage
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Etage
-          </xs:documentation>
-          <xs:appinfo>
-            <common>
-              <step name="subject"/>
-              <conditions>
-                <condition name="isFlat" type="filled"/>
-              </conditions>
-            </common>
-            <fo/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrRequesterPersonalPhone" type="cvq:PhoneType">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Téléphone personnel
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Téléphone personnel
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="subject"/>
-            </common>
-            <fo/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrRequesterIsTaxable" type="xs:boolean" default="false">
+      <xs:element name="SubjectIsTaxable" type="xs:boolean" default="false">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Quelle est votre situation au regard de l'impôt sur le revenu ?
@@ -526,14 +391,15 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrRequesterIsAPABeneficiary" type="xs:boolean" default="false">
+      <xs:element name="SubjectIsAPABeneficiary" type="xs:boolean" default="false">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Etes-vous bénéficiaire de l'APA ?
@@ -543,27 +409,29 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrRequesterIsDisabledPerson" type="xs:boolean" default="false">
+      <xs:element name="SubjectIsDisabledPerson" type="xs:boolean" default="false">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Etes-vous titulaire d'une Carte d'Invalidité ? 
-(Si oui, n'oubliez pas de joindre une copie de la carte d'invalidité)
+            (Si oui, n'oubliez pas de joindre une copie de la carte d'invalidité)
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Personne handicapée
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -571,162 +439,128 @@
     </xs:sequence>
   </xs:complexType>
   
-  <xs:simpleType name="RsrMaritalStatusType">
+  <xs:simpleType name="RsrSubjectResideWithType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Situation de famille
+        Situation de famille du demandeur
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Situation de famille
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Alone" value="Seul(e)"/>
-        <enum key="Couple" value="Couple"/>
-        <enum key="Family" value="Chez un membre de votre famille"/>
+        <enum key="Alone" value="Seul(e)" />
+        <enum key="Couple" value="Couple" />
+        <enum key="Family" value="Chez un membre de votre famille" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:enumeration value="Alone"/>
-      <xs:enumeration value="Couple"/>
-      <xs:enumeration value="Family"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="RsrResidenceKindType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Type de résidence
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Type de résidence
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="flat" value="Appartement"/>
-        <enum key="house" value="Pavillon"/>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="flat"/>
-      <xs:enumeration value="house"/>
+      <xs:enumeration value="Alone" />
+      <xs:enumeration value="Couple" />
+      <xs:enumeration value="Family" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:complexType name="RsrSpouseType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Conjoint
+        Informations conçernant le conjoint
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Conjoint
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-
-      <xs:element name="RsrSpouseName" type="cvq:LastNameType">
+      <!-- A selectionner dans la liste des adultes du foyer -->
+      <xs:element name="SpouseLastName" type="cvq:LastNameType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom
+            Nom du conjoint
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Nom
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrSpouseFirstName" type="cvq:FirstNameType">
+      <xs:element name="SpouseFirstName" type="cvq:FirstNameType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom
+            Prénom du conjoint
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Prénom
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-
-      <xs:element name="RsrSecondSpouseFirstName" type="cvq:FirstNameType" minOccurs="0">
+		  <!-- Must be readonly -->
+      <xs:element name="SpouseTitle" type="cvq:TitleType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            2d prénom
+            Civilité
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            2d prénom
+            Civilité
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrSpouseGender" type="cvq:SexType">
+      <xs:element name="SpouseBirthDate" type="xs:date">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Sexe
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Sexe
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users"/>
-            <common>
-              <step name="subject"/>
-            </common>
-            <fo>
-              <radio/>
-            </fo>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-
-      <xs:element name="RsrSpouseBirthDate" type="xs:date">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Date naissance
+            Date naissance du conjoint
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Date naissance
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrSpouseIsDisabledPerson" type="xs:boolean" default="false">
+      <xs:element name="SpouseIsDisabledPerson" type="xs:boolean" default="false">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Etes-vous titulaire d'une Carte d'Invalidité ? 
-(Si oui, n'oubliez pas de joindre une copie de la carte d'invalidité)
+            (Si oui, n'oubliez pas de joindre une copie de la carte d'invalidité)
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Personne handicapée
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject"/>
+              <step name="subject" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -743,20 +577,20 @@
         Type contact
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="requester" value="Demandeur"/>
-        <enum key="other" value="Autre"/>
+        <enum key="Requester" value="Demandeur" />
+        <enum key="Other" value="Autre" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:enumeration value="requester"/>
-      <xs:enumeration value="other"/>
+      <xs:enumeration value="Requester" />
+      <xs:enumeration value="Other" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:complexType name="RsrContactType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Contact
+        Informations conçernant le premier contact
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Contact
@@ -764,56 +598,59 @@
     </xs:annotation>
     <xs:sequence>
 
-      <xs:element name="RsrContactName" type="cvq:LastNameType">
+      <xs:element name="ContactLastName" type="cvq:LastNameType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom de la personne
+            Nom du premier contact
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Nom
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrContactFirstName" type="cvq:FirstNameType">
+      <xs:element name="ContactFirstName" type="cvq:FirstNameType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom de la personne
+            Prénom du premier contact
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Prénom
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrContactPhone" type="cvq:PhoneType">
+      <xs:element name="ContactPhone" type="cvq:PhoneType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            N° de téléphone de la personne
+            N° de téléphone du premier contact
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             N° Téléphone
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -824,7 +661,7 @@
   <xs:complexType name="RsrSecondContactType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Second contact
+        Informations conçernant le second contact
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Second contact
@@ -832,56 +669,59 @@
     </xs:annotation>
     <xs:sequence>
 
-      <xs:element name="RsrSecondContactName" type="cvq:LastNameType" minOccurs="0">
+      <xs:element name="SecondContactLastName" type="cvq:LastNameType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom de la personne
+            Nom du second contact
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Nom
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrSecondContactFirstName" type="cvq:FirstNameType" minOccurs="0">
+      <xs:element name="SecondContactFirstName" type="cvq:FirstNameType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Prénom de la personne
+            Prénom du second contact
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Prénom
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrSecondContactPhone" type="cvq:PhoneType" minOccurs="0">
+      <xs:element name="SecondContactPhone" type="cvq:PhoneType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            N° de téléphone de la personne
+            N° de téléphone du second contact
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             N° Téléphone
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -893,8 +733,8 @@
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Coordonnées de la personne dépositaire de vos clés
-Note : GTS refuse l'installation s'il n'y a pas de dépositaire des clés.
-Le dépositaire des clés doit résider à moins de 15 minutes du lieu d’habitation du demandeur.
+        Note : GTS refuse l'installation s'il n'y a pas de dépositaire des clés.
+        Le dépositaire des clés doit résider à moins de 15 minutes du lieu d’habitation du demandeur.
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Dépositaire des clés (Optionnel - Fortement recommendé)
@@ -902,56 +742,59 @@ Le dépositaire des clés doit résider à moins de 15 minutes du lieu d’habit
     </xs:annotation>
     <xs:sequence>
 
-      <xs:element name="RsrTrusteeName" type="cvq:LastNameType">
+      <xs:element name="TrusteeLastName" type="cvq:LastNameType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom du dépositaire
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Nom
           </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom Dépositaire
-          </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrTrusteeFirstName" type="cvq:FirstNameType">
+      <xs:element name="TrusteeFirstName" type="cvq:FirstNameType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénom du dépositaire
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Prénom
           </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Prénom Dépositaire
-          </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="RsrTrusteePhone" type="cvq:PhoneType">
+      <xs:element name="TrusteePhone" type="cvq:PhoneType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            N° de téléphone
+            N° de téléphone du dépositaire
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            N° Téléphone Dépositaire
+            N° Téléphone
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
-              <step name="contact"/>
+              <step name="contact" />
             </common>
-            <fo/>
+            <fo />
+            <bo />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

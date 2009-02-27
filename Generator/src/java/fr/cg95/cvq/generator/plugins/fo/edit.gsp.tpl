@@ -74,8 +74,12 @@
                  <option value="\${moc.key}">\${moc.label}</option>
                </g:each>
              </select>
-  <% } %>
+    <% requestFo.stepBundles.eachWithIndex { stepBundle, index -> %>
+            <g:render template="/frontofficeRequestType/${requestFo.camelCaseName + '/'}${step.name}${index}" />
+    <% } %>
+  <% } else { %>
             <g:render template="/frontofficeRequestType/${step.name != 'document' ? requestFo.camelCaseName + '/' : ''}${step.name}" />         
+  <% } %>
            </div>
            <div class="error" id="stepForm-${step.camelCaseName}-error"> </div>
            <!-- Input submit-->

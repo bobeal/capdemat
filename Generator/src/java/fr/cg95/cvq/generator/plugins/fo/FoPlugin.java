@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -76,7 +77,14 @@ public class FoPlugin implements IPluginGenerator {
             
             // _validation.gsp template
             template = templateEngine.createTemplate(new File(validationTemplate));
-            template.make(bindingMap).writeTo(new FileWriter(output + "_validation.gsp" ));
+            bindingMap = new HashMap<String, Object>();
+            bindingMap.put("requestFo", requestFo);
+            int bundleIndex = 0;
+            List<List<Step>> test = requestFo.getStepBundles();
+            for (List<Step> stepBundle : requestFo.getStepBundles()) {
+                bindingMap.put("stepBundle", stepBundle);
+                template.make(bindingMap).writeTo(new FileWriter(output + "_validation"+ bundleIndex++ +".gsp" ));
+            }
             logger.warn("endRequest() - validation.gsp.tpl OK");
             
             // _<step>.gsp templates

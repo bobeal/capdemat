@@ -6,7 +6,16 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
+    <g:set var="requestTypeInfo">
+      {"label": "${requestTypeLabel}"
+        ,"steps": [  "subject-required",  "dwelling-required",  "socialSecurityAndPaymentAgency-required",  "occupationnalAndSchoolStatus-required",  "folders-required",  "benefits-required",  "aid-required",  "health-required",  "project-required",  "document",  "validation"  ]
+      }
+    </g:set>
+    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
     <g:render template="/frontofficeRequestType/draftPanel" />
+    <g:render template="/frontofficeRequestType/cancelPanel" />
+    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
+    
     <h2 class="request-creation"> <g:message code="hcar.label" /></h2>
     <p><g:message code="hcar.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="hcar.duration.value" /></strong></p>
@@ -22,13 +31,6 @@
       <p class="message-confirmation">${flash.confirmationMessage}</p>
     </g:if>
 
-<g:set var="requestTypeInfo">
-  {"label": "${requestTypeLabel}"
-    ,"steps": [  "subject-required",  "dwelling-required",  "socialSecurityAndPaymentAgency-required",  "occupationnalAndSchoolStatus-required",  "folders-required",  "benefits-required",  "aid-required",  "health-required",  "project-required",  "document",  "validation"  ]
-  }
-</g:set>
-<g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
-
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
 
@@ -40,7 +42,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.subject.label" />
+            <g:message code="hcar.step.subject.label" /> *
           </strong>
             
           </em></a>
@@ -54,7 +56,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.dwelling.label" />
+            <g:message code="hcar.step.dwelling.label" /> *
           </strong>
             
           </em></a>
@@ -68,7 +70,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.socialSecurityAndPaymentAgency.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.socialSecurityAndPaymentAgency.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.socialSecurityAndPaymentAgency.label" />
+            <g:message code="hcar.step.socialSecurityAndPaymentAgency.label" /> *
           </strong>
             
           </em></a>
@@ -82,7 +84,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.occupationnalAndSchoolStatus.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.occupationnalAndSchoolStatus.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.occupationnalAndSchoolStatus.label" />
+            <g:message code="hcar.step.occupationnalAndSchoolStatus.label" /> *
           </strong>
             
           </em></a>
@@ -96,7 +98,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.folders.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.folders.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.folders.label" />
+            <g:message code="hcar.step.folders.label" /> *
           </strong>
             
           </em></a>
@@ -110,7 +112,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.benefits.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.benefits.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.benefits.label" />
+            <g:message code="hcar.step.benefits.label" /> *
           </strong>
             
           </em></a>
@@ -124,7 +126,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.aid.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.aid.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.aid.label" />
+            <g:message code="hcar.step.aid.label" /> *
           </strong>
             
           </em></a>
@@ -138,7 +140,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.health.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.health.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.health.label" />
+            <g:message code="hcar.step.health.label" /> *
           </strong>
             
           </em></a>
@@ -152,7 +154,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.project.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.project.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hcar.step.project.label" />
+            <g:message code="hcar.step.project.label" /> *
           </strong>
             
           </em></a>
@@ -178,7 +180,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="request.step.validation.label" />
+            <g:message code="request.step.validation.label" /> *
           </strong>
             
           </em></a>
@@ -202,6 +204,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/subject" />         
+  
            </div>
            <div class="error" id="stepForm-subject-error"> </div>
            <!-- Input submit-->
@@ -239,6 +242,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/dwelling" />         
+  
            </div>
            <div class="error" id="stepForm-dwelling-error"> </div>
            <!-- Input submit-->
@@ -278,6 +282,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/socialSecurityAndPaymentAgency" />         
+  
            </div>
            <div class="error" id="stepForm-socialSecurityAndPaymentAgency-error"> </div>
            <!-- Input submit-->
@@ -317,6 +322,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/occupationnalAndSchoolStatus" />         
+  
            </div>
            <div class="error" id="stepForm-occupationnalAndSchoolStatus-error"> </div>
            <!-- Input submit-->
@@ -356,6 +362,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/folders" />         
+  
            </div>
            <div class="error" id="stepForm-folders-error"> </div>
            <!-- Input submit-->
@@ -395,6 +402,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/benefits" />         
+  
            </div>
            <div class="error" id="stepForm-benefits-error"> </div>
            <!-- Input submit-->
@@ -434,6 +442,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/aid" />         
+  
            </div>
            <div class="error" id="stepForm-aid-error"> </div>
            <!-- Input submit-->
@@ -473,6 +482,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/health" />         
+  
            </div>
            <div class="error" id="stepForm-health-error"> </div>
            <!-- Input submit-->
@@ -512,6 +522,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/project" />         
+  
            </div>
            <div class="error" id="stepForm-project-error"> </div>
            <!-- Input submit-->
@@ -549,6 +560,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/document" />         
+  
            </div>
            <div class="error" id="stepForm-document-error"> </div>
            <!-- Input submit-->
@@ -590,8 +602,12 @@
                  <option value="${moc.key}">${moc.label}</option>
                </g:each>
              </select>
+    
+            <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/validation0" />
+    
+            <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/validation1" />
+    
   
-            <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/validation" />         
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->

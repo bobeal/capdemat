@@ -8,7 +8,7 @@
     <legend><g:message code="hccr.property.folders.label" /></legend> 
       
     
-      <label class="required"><g:message code="hccr.property.foldersMdph.label" /> <span><g:message code="hccr.property.foldersMdph.help" /></span></label>
+      <label class="required"><g:message code="hccr.property.foldersMdph.label" /> * <span><g:message code="hccr.property.foldersMdph.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -20,19 +20,19 @@
             </ul>
             
     
-      <label class="condition-isMDPH-filled"><g:message code="hccr.property.foldersMdphNumber.label" /> <span><g:message code="hccr.property.foldersMdphNumber.help" /></span></label>
+      <label class="condition-isMDPH-filled"><g:message code="hccr.property.foldersMdphNumber.label" />  <span><g:message code="hccr.property.foldersMdphNumber.help" /></span></label>
       
             <input type="text" name="foldersMdphNumber" value="${rqt.foldersMdphNumber}" 
-                    class="condition-isMDPH-filled " title="<g:message code="hccr.property.foldersMdphNumber.validationError" />">
+                    class="condition-isMDPH-filled " title="<g:message code="hccr.property.foldersMdphNumber.validationError" />" />
             
     
-      <label class="condition-isMDPH-filled"><g:message code="hccr.property.foldersMdphDepartment.label" /> <span><g:message code="hccr.property.foldersMdphDepartment.help" /></span></label>
+      <label class="condition-isMDPH-filled"><g:message code="hccr.property.foldersMdphDepartment.label" />  <span><g:message code="hccr.property.foldersMdphDepartment.help" /></span></label>
       
             <input type="text" name="foldersMdphDepartment" value="${rqt.foldersMdphDepartment}" 
-                    class="condition-isMDPH-filled validate-departmentCode" title="<g:message code="hccr.property.foldersMdphDepartment.validationError" />">
+                    class="condition-isMDPH-filled validate-departmentCode" title="<g:message code="hccr.property.foldersMdphDepartment.validationError" />" />
             
     
-      <label class="required"><g:message code="hccr.property.foldersCotorep.label" /> <span><g:message code="hccr.property.foldersCotorep.help" /></span></label>
+      <label class="required"><g:message code="hccr.property.foldersCotorep.label" /> * <span><g:message code="hccr.property.foldersCotorep.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -44,19 +44,19 @@
             </ul>
             
     
-      <label class="condition-isCOTOREP-filled"><g:message code="hccr.property.foldersCotorepNumber.label" /> <span><g:message code="hccr.property.foldersCotorepNumber.help" /></span></label>
+      <label class="condition-isCOTOREP-filled"><g:message code="hccr.property.foldersCotorepNumber.label" />  <span><g:message code="hccr.property.foldersCotorepNumber.help" /></span></label>
       
             <input type="text" name="foldersCotorepNumber" value="${rqt.foldersCotorepNumber}" 
-                    class="condition-isCOTOREP-filled " title="<g:message code="hccr.property.foldersCotorepNumber.validationError" />">
+                    class="condition-isCOTOREP-filled " title="<g:message code="hccr.property.foldersCotorepNumber.validationError" />" />
             
     
-      <label class="condition-isCOTOREP-filled"><g:message code="hccr.property.foldersCotorepDepartment.label" /> <span><g:message code="hccr.property.foldersCotorepDepartment.help" /></span></label>
+      <label class="condition-isCOTOREP-filled"><g:message code="hccr.property.foldersCotorepDepartment.label" />  <span><g:message code="hccr.property.foldersCotorepDepartment.help" /></span></label>
       
             <input type="text" name="foldersCotorepDepartment" value="${rqt.foldersCotorepDepartment}" 
-                    class="condition-isCOTOREP-filled validate-departmentCode" title="<g:message code="hccr.property.foldersCotorepDepartment.validationError" />">
+                    class="condition-isCOTOREP-filled validate-departmentCode" title="<g:message code="hccr.property.foldersCotorepDepartment.validationError" />" />
             
     
-      <label class="required"><g:message code="hccr.property.foldersCdes.label" /> <span><g:message code="hccr.property.foldersCdes.help" /></span></label>
+      <label class="required"><g:message code="hccr.property.foldersCdes.label" /> * <span><g:message code="hccr.property.foldersCdes.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -68,19 +68,19 @@
             </ul>
             
     
-      <label class="condition-isCDES-filled"><g:message code="hccr.property.foldersCdesNumber.label" /> <span><g:message code="hccr.property.foldersCdesNumber.help" /></span></label>
+      <label class="condition-isCDES-filled"><g:message code="hccr.property.foldersCdesNumber.label" />  <span><g:message code="hccr.property.foldersCdesNumber.help" /></span></label>
       
             <input type="text" name="foldersCdesNumber" value="${rqt.foldersCdesNumber}" 
-                    class="condition-isCDES-filled " title="<g:message code="hccr.property.foldersCdesNumber.validationError" />">
+                    class="condition-isCDES-filled " title="<g:message code="hccr.property.foldersCdesNumber.validationError" />" />
             
     
-      <label class="condition-isCDES-filled"><g:message code="hccr.property.foldersCdesDepartment.label" /> <span><g:message code="hccr.property.foldersCdesDepartment.help" /></span></label>
+      <label class="condition-isCDES-filled"><g:message code="hccr.property.foldersCdesDepartment.label" />  <span><g:message code="hccr.property.foldersCdesDepartment.help" /></span></label>
       
             <input type="text" name="foldersCdesDepartment" value="${rqt.foldersCdesDepartment}" 
-                    class="condition-isCDES-filled validate-departmentCode" title="<g:message code="hccr.property.foldersCdesDepartment.validationError" />">
+                    class="condition-isCDES-filled validate-departmentCode" title="<g:message code="hccr.property.foldersCdesDepartment.validationError" />" />
             
     
-      <label class="required"><g:message code="hccr.property.foldersOtherFolders.label" /> <span><g:message code="hccr.property.foldersOtherFolders.help" /></span></label>
+      <label class="required"><g:message code="hccr.property.foldersOtherFolders.label" /> * <span><g:message code="hccr.property.foldersOtherFolders.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -102,22 +102,22 @@
       <g:set var="listIndex" value="${editList?.name == 'otherFolders' ? editList?.index : ( rqt.otherFolders ? rqt.otherFolders.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isOtherFolders-filled">
     
-        <label class="required"><g:message code="hccr.property.otherFolderName.label" /> <span><g:message code="hccr.property.otherFolderName.help" /></span></label>
+        <label class="required"><g:message code="hccr.property.otherFolderName.label" /> * <span><g:message code="hccr.property.otherFolderName.help" /></span></label>
         
             <input type="text" name="otherFolders[${listIndex}].otherFolderName" value="${editList?.otherFolders?.otherFolderName}" 
-                    class="required " title="<g:message code="hccr.property.otherFolderName.validationError" />">
+                    class="required " title="<g:message code="hccr.property.otherFolderName.validationError" />" />
             
     
-        <label class=""><g:message code="hccr.property.otherFolderNumber.label" /> <span><g:message code="hccr.property.otherFolderNumber.help" /></span></label>
+        <label class=""><g:message code="hccr.property.otherFolderNumber.label" />  <span><g:message code="hccr.property.otherFolderNumber.help" /></span></label>
         
             <input type="text" name="otherFolders[${listIndex}].otherFolderNumber" value="${editList?.otherFolders?.otherFolderNumber}" 
-                    class=" " title="<g:message code="hccr.property.otherFolderNumber.validationError" />">
+                    class=" " title="<g:message code="hccr.property.otherFolderNumber.validationError" />" />
             
     
-        <label class=""><g:message code="hccr.property.otherFolderDepartment.label" /> <span><g:message code="hccr.property.otherFolderDepartment.help" /></span></label>
+        <label class=""><g:message code="hccr.property.otherFolderDepartment.label" />  <span><g:message code="hccr.property.otherFolderDepartment.help" /></span></label>
         
             <input type="text" name="otherFolders[${listIndex}].otherFolderDepartment" value="${editList?.otherFolders?.otherFolderDepartment}" 
-                    class=" validate-departmentCode" title="<g:message code="hccr.property.otherFolderDepartment.validationError" />">
+                    class=" validate-departmentCode" title="<g:message code="hccr.property.otherFolderDepartment.validationError" />" />
             
     
         <g:if test="${editList?.name == 'otherFolders'}">

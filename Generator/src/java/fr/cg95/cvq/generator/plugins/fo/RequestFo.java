@@ -20,6 +20,9 @@ public class RequestFo {
     private String acronym;
     private List<Step> steps;
     private List<ElementFo> elements;
+    
+    // Useful to divide steps into smaller group to bypass (grails view limit size)
+    private List<List<Step>> stepBundles;
 
     public RequestFo(String name, String targetNamespace) {
         this.name =  StringUtils.uncapitalize(name);
@@ -42,6 +45,12 @@ public class RequestFo {
         return steps;
     }
     
+    public List<List<Step>> getStepBundles() {
+        if (stepBundles == null)
+            setStepBundles();
+        return stepBundles;
+    }
+
     public void setSteps(List<Step> steps) {
         this.steps = new ArrayList<Step>(steps);
         for (Step step : this.steps)
@@ -61,7 +70,7 @@ public class RequestFo {
     
     public List<ElementFo> getElementsByStep(Step step) {
         List<ElementFo> stepElements = new ArrayList<ElementFo>();
-        for (ElementFo element : elements) {
+        for (ElementFo element : elements) { 
             if (element.getStep().getName().equals(step.getName()))
                 stepElements.add(element);
         }
@@ -110,6 +119,39 @@ public class RequestFo {
                     afters.add(after);
             }
         }
+    }
+    
+    private int getStepWeight(Step step) {
+        int weight = 0;
+        for (ElementFo element : elements) { 
+            if (element.getStep().getName().equals(step.getName())) {
+                weight++;
+                if (element.getElements() != null)
+                    weight += element.getElements().size();
+            }   
+        }
+        return weight ;
+    }
+    
+    // TODO - Evaluate the best max bundleWeight
+    private void setStepBundles() {
+        int bundleWeight = 0;
+        List<Step> stepBundle = new ArrayList<Step>();
+        stepBundles = new ArrayList<List<Step>>();
+        
+        for (Step step : this.steps) {
+            bundleWeight += getStepWeight(step);
+            if (bundleWeight < 150)
+                stepBundle.add(step);
+            else {
+                stepBundles.add(stepBundle);
+                stepBundle = new ArrayList<Step>();
+                bundleWeight = getStepWeight(step);
+                stepBundle.add(step);
+            }
+        }
+        if (stepBundle.size() > 0)
+            stepBundles.add(stepBundle);
     }
     
 }

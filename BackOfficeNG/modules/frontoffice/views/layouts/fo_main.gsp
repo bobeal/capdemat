@@ -13,15 +13,18 @@
      <!-- header -->
      <div id="hd">
        <h1>
-         <img src="${createLink(controller:'localAuthorityResource',action:'logoFo')}" alt="Logo Collectivité" />
+         <img src="${createLink(controller:'localAuthorityResource',action:'logoFo')}"
+              alt="Logo Collectivité" />
          <span>Vos démarches - ${session.currentSiteDisplayTitle}</span>
        </h1>
        <map id="hd-menu">
         <g:if test="${!isLogin}">
-        <a href="${createLink(controller:'frontofficeHome',action:'logout')}">se déconnecter</a>
+          <a href="${createLink(controller:'frontofficeHome',action:'logout')}">se déconnecter</a>
         </g:if>
-        <a href="#">aide</a>
-        <a href="#">f.a.q</a> 
+        <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'helpFo')}"
+           target="blank">aide</a>
+        <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'faqFo')}"
+           target="blank">f.a.q</a>
        </map>
      </div>
      <g:if test="${isRequestCreation}">
@@ -90,14 +93,17 @@
    <!-- footer -->
    <div id="ft">
      <a href="http://www.capwebct.fr/">
-       <img src="${createLinkTo(dir:'images',file:'logo_capwebct_small.gif')}" alt="CapWebCT" 
-       style="float:left; margin: 0 0 1em;" />
+       <img src="${createLinkTo(dir:'images',file:'logo_capwebct_small.gif')}"
+            alt="CapWebCT"
+            style="float:left; margin: 0 0 1em;" />
      </a>
      <a href="http://www.prai-idf.fr/public/rubrique.tpl?id=8364&titre=8364">
-       <img src="${createLinkTo(dir:'images',file:'logoUE.png')}" alt="Projet cofinancé par l’Union Européenne (FEDER)" 
-       style="float:left; margin: 0 0 1em;" />
+       <img src="${createLinkTo(dir:'images',file:'logoUE.png')}"
+            alt="Projet cofinancé par l’Union Européenne (FEDER)"
+            style="float:left; margin: 0 0 1em;" />
      </a>
-     <a href="#">Mentions légales</a>
+     <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'legal')}"
+        target="blank">Mentions légales</a>
    </div>
    
    <!-- hack to avoid seeing zct.notifier div -->

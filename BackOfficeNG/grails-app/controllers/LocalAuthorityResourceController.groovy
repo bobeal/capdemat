@@ -9,27 +9,41 @@ class LocalAuthorityResourceController {
 
     def cssFo = {
         File cssFile = 
-            localAuthorityRegistry.getLocalAuthorityResource(session.currentSiteName,
-                    ILocalAuthorityRegistry.CSS_ASSETS_RESOURCE_TYPE,
-                    session.currentSiteName + ".css", false)
+            localAuthorityRegistry.getLocalAuthorityResource(
+                session.currentSiteName,
+                ILocalAuthorityRegistry.CSS_ASSETS_RESOURCE_TYPE,
+                session.currentSiteName + ".css", false)
         renderResponse(cssFile, 'text/css')
     }
-    
+
     def logoFo = {
         File logoFile = 
-            localAuthorityRegistry.getLocalAuthorityResource(session.currentSiteName,
-                    ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE,
-                    "logoFo.png", false)
+            localAuthorityRegistry.getLocalAuthorityResource(
+                session.currentSiteName,
+                ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE,
+                "logoFo.png", false)
         renderResponse(logoFile, 'image/png')
     }
 
     def image = {
         File logoFile = 
-            localAuthorityRegistry.getCurrentLocalAuthorityResource(ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE,
+            localAuthorityRegistry.getLocalAuthorityResource(
+                session.currentSiteName,
+                ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE,
                 params.id + ".jpg", false)
         renderResponse(logoFile, 'image/jpeg')
     }
     
+    def pdf = {
+        File pdfFile =
+            localAuthorityRegistry.getLocalAuthorityResource(
+                session.currentSiteName,
+                ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE,
+                params.id + ".pdf", false)
+        if (pdfFile.exists())
+            renderResponse(pdfFile, 'application/pdf')
+    }
+
     def renderResponse(file, contentType) {
         byte[] data = file.readBytes()
         response.contentType = contentType

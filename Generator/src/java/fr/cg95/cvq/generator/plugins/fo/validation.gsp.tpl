@@ -51,8 +51,10 @@
 <% def displayedSubject = false %>
 <% requestFo.steps.each { step -> %>
   <% if (step.name == 'document') { %>
-  <h3><g:message code="request.step.document.label" /></h3>
-  <!-- TODO : Render document summary template -->
+  <g:if test="\${!documentTypes.isEmpty()}">
+    <h3><g:message code="request.step.document.label" /></h3>
+    <!-- TODO : Render document summary template -->
+  </g:if>
   <% } else if (step.name != 'validation') { %>
   <h3><g:message code="${requestFo.acronym}.step.${step.name}.label" /></h3>
   <% } %>

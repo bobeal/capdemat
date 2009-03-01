@@ -390,7 +390,7 @@ public interface IRequestService {
         throws CvqException;
     
     /**
-     * Get a list of documents types allowed for a given request type.
+     * Get the list of documents types allowed for the given request type.
      */
     Set<DocumentType> getAllowedDocuments(final Long requestTypeId)
         throws CvqException;

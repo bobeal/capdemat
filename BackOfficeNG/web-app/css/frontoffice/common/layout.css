@@ -16,7 +16,7 @@ html { background: #cccccc; }
 #hd { margin: 0 0 1.5em 0; overflow: auto; }
 
 #hd h1 {
-  width: 250px;
+/*  width: 250px;*/
   float: left;
   margin: .3em 0 0 0;
   font-size: 3em;

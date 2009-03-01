@@ -21,19 +21,25 @@
     <p><g:message code="request.duration.label" /><strong> : <g:message code="${requestFo.acronym}.duration.value" /></strong></p>
     <p>
       <g:message code="request.requiredDocuments.header" /> :
-      <g:each in="\${documentTypes}" var="documentType" status="index">
-        <strong>
-          <g:message code="\${documentType.value.i18nKey}"/><g:if test="\${index < documentTypes.size() - 1}">,</g:if>
-        </strong>
-      </g:each>
+      <g:if test="\${!documentTypes.isEmpty()}">
+        <g:each in="\${documentTypes}" var="documentType" status="index">
+          <strong>\${documentType.value.name}<g:if test="\${index < documentTypes.size() - 1}">,</g:if></strong>
+        </g:each>
+      </g:if>
+      <g:else>
+        <g:message code="message.none" />
+      </g:else>
     </p>
     <g:if test="\${flash.confirmationMessage}">
-      <p class="message-confirmation">\${flash.confirmationMessage}</p>
+      <div class="request-information">\${flash.confirmationMessage}</div>
     </g:if>
 
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
 <% requestFo.steps.eachWithIndex { step, i -> %>
+  <% if (step.name == 'document') { %>
+        <g:if test="\${!documentTypes.isEmpty()}">
+  <% } %>
   <% if (i == 0) { %>
         <li class="\${['${step.name}', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   <% } else {%>  
@@ -44,18 +50,24 @@
           <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
     <% if (step.name == 'validation' || step.required) { %>
           <strong>
-            <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" /> *
+            <g:message code="${['validation'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" /> *
           </strong>
     <% } else {%>
-          <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
+          <g:message code="${['document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
     <% } %>        
           </em></a>
         </li>    
+  <% if (step.name == 'document') { %>
+        </g:if>
+  <% } %>
 <% } %>
 		 </ul>
 		 
      <div class="yui-content">
 <% requestFo.steps.each { step -> %>
+  <% if (step.name == 'document') { %>
+        <g:if test="\${!documentTypes.isEmpty()}">
+  <% } %>
        <div id="${step.name}">
          <form method="POST" ${step.name == 'document' ? 'enctype=\"multipart/form-data\"' : ''} id="stepForm-${step.camelCaseName}" action="<g:createLink action="step" />">
            <h3>
@@ -69,7 +81,10 @@
            </h3>
            <div>
   <% if (step.name == 'validation') { %>
-             <select name="meansOfContact">
+             <label for="meansOfContact" class="required">
+               <g:message code="request.meansOfContact.chooseMessage"/> *
+             </label>
+             <select name="meansOfContact" class="required">
                <g:each in="\${meansOfContact}" var="moc">
                  <option value="\${moc.key}">\${moc.label}</option>
                </g:each>
@@ -82,9 +97,15 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="\${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="\${uuidString}" />
   <% if (step.name == 'validation') { %>
+           <div id="useAcceptance">
+             <input type="checkbox" name="useAcceptance" class="required" />
+             <a href="\${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+               <g:message code="request.step.validation.useAcceptance"/>
+             </a>
+           </div>
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.send')}" \${!isRequestCreatable ? 'disabled=\"disabled\"': ''}/>
            <g:if test="\${!isRequestCreatable}">
-           <span><g:message code="request.step.validation.requiredSteps"/></span>
+             <div><g:message code="request.step.validation.requiredSteps"/></div>
            </g:if>
   <% } else if (step.name != 'document') { %>
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />
@@ -105,6 +126,9 @@
          </div>
          </g:if>
        </div>  
+  <% if (step.name == 'document') { %>
+        </g:if>
+  <% } %>
 <% } %>        
  	    </div><!-- end yui-content -->
     </div><!-- end requestTabView -->

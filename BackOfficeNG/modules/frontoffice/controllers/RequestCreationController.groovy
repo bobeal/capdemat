@@ -256,7 +256,8 @@ class RequestCreationController {
             cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
             cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
-            
+
+            // FIXME BOR : what does it do ???
             if(!session[uuidString].cRequest.draft && !session[uuidString].draftVisible)
                 session[uuidString].draftVisible = false
         }

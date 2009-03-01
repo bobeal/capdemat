@@ -74,7 +74,7 @@
     <dl>
       <% if (step.name == 'subject' && !displayedSubject) { %>
       <dt><g:message code="request.property.subjectName" /></dt>
-      <dd>\${subjects.get(request.subjectId)}</dd>
+      <dd>\${subjects.get(rqt.subjectId)}</dd>
           <% displayedSubject = true %>
       <% } %>
       <% element.elements.each { subElement -> %>

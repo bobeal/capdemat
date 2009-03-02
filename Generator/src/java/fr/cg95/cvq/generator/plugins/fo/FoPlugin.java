@@ -35,6 +35,7 @@ public class FoPlugin implements IPluginGenerator {
     private String editTemplate;
     private String stepTemplate;
     private String validationTemplate;
+    private String summaryTemplate;
     
     private RequestFo requestFo;
     private ElementStack elementFoStack;
@@ -47,6 +48,7 @@ public class FoPlugin implements IPluginGenerator {
             editTemplate = childAttributesMap.getNamedItem("edittemplate").getNodeValue();
             stepTemplate = childAttributesMap.getNamedItem("steptemplate").getNodeValue();
             validationTemplate = childAttributesMap.getNamedItem("validationtemplate").getNodeValue();
+            summaryTemplate = childAttributesMap.getNamedItem("summarytemplate").getNodeValue();
         } catch (NullPointerException npe) {
             throw new RuntimeException ("Check fo-plugin.xml <properties outputdir=\"\" edittemplate=\"\" steptemplate=\"\" summarytemplate=\"\"/> configuration tag");
         }
@@ -74,6 +76,11 @@ public class FoPlugin implements IPluginGenerator {
             bindingMap.put("requestFo", requestFo);
             template.make(bindingMap).writeTo(new FileWriter(output + "edit.gsp" ));
             logger.warn("endRequest() - edit.gsp.tpl OK");
+            
+            // _summary.gsp template 
+            template = templateEngine.createTemplate(new File(summaryTemplate));
+            template.make(bindingMap).writeTo(new FileWriter(output + "_summary.gsp" ));
+            logger.warn("endRequest() - summaryTemplate.gsp.tpl OK");
             
             // _validation.gsp template
             template = templateEngine.createTemplate(new File(validationTemplate));

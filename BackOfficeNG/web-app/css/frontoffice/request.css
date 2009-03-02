@@ -184,6 +184,12 @@ h2.request-creation {
 
 #requestTabView dl dd p { padding: 0.1em; }
 
+/* exit request creation screen
+--------------------------------------------------------------*/
+.requestExit       { overflow: auto; }
+.requestExit .link { float: right; }
+.requestExit .info { font-size: 1.5em; }
+
 /* help
 --------------------------------------------------------------*/
 

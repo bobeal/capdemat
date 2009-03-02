@@ -101,7 +101,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
        */
       doSearch : function(e) {
         zcbh.Search.saveState();
-        if(yue.getTarget(e).nodeName != 'form') yud.get('searchForm').submit();
+        if(!e || yue.getTarget(e).nodeName != 'form') yud.get('searchForm').submit();
       }
     }
   }();

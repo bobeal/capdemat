@@ -25,19 +25,20 @@ class RequestCreationController {
     def defaultAction = 'edit'
     
     def draft = {
-        def requestService
-
+        
+        def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+        
         flash.fromDraft = true
         
         if(request.post) {
-            requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+//            requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             def cRequest = session[params.uuidString].cRequest
             requestService.prepareDraft(cRequest)
             requestService.processDraft(cRequest)
             flash.cRequest = cRequest
             flash.confirmationMessage = message(code:'message.savedAsDraft')
         } else if (request.get) {
-            requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
+//            requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
         }
         redirect(controller:controllerName, params:['label':requestService.label])

@@ -21,7 +21,9 @@ class RequestCreationController {
     IIndividualService individualService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
+    
     def documentAdaptorService
+    def translationService
     
     def defaultAction = 'edit'
     
@@ -248,6 +250,10 @@ class RequestCreationController {
                 if (currentStep == "validation") {
                     if (!cRequest.draft) requestService.create(cRequest)
                     else requestService.finalizeDraft(cRequest)
+                    
+                    session.removeAttribute(uuidString)
+                    redirect(action:'exit', params:['id':cRequest.id, 'label':requestTypeInfo.label])
+                    return
                 }
             }        
             session[uuidString].cRequest = cRequest
@@ -306,6 +312,16 @@ class RequestCreationController {
         } catch (CvqException ce) {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         }
+    }
+    
+    def exit = {
+        def requestService = requestServiceRegistry.getRequestService(params.label)
+        def cRequest = requestService.getById(Long.parseLong(params.id))
+        render( view: "frontofficeRequestType/exit",
+                model:
+                    ['requestTypeLabel': translationService.getEncodedRequestTypeLabelTranslation(cRequest.requestType.label),
+                     'rqt': cRequest
+                    ])
     }
     
     

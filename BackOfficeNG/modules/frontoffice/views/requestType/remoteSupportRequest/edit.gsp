@@ -122,6 +122,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/remoteSupportRequest/subject" />         
+  
            </div>
            <div class="error" id="stepForm-subject-error"> </div>
            <!-- Input submit-->
@@ -161,6 +162,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/remoteSupportRequest/contact" />         
+  
            </div>
            <div class="error" id="stepForm-contact-error"> </div>
            <!-- Input submit-->
@@ -202,6 +204,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/document" />         
+  
            </div>
            <div class="error" id="stepForm-document-error"> </div>
            <!-- Input submit-->
@@ -250,8 +253,10 @@
                  <option value="${moc.key}">${moc.label}</option>
                </g:each>
              </select>
+    
+            <g:render template="/frontofficeRequestType/remoteSupportRequest/validation0" />
+    
   
-            <g:render template="/frontofficeRequestType/remoteSupportRequest/validation" />         
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->
@@ -259,7 +264,8 @@
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <div id="useAcceptance">
-             <input type="checkbox" name="useAcceptance" class="required" />
+             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
+                    title="${message(code:'request.error.useAcceptanceRequired')}" />
              <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
                <g:message code="request.step.validation.useAcceptance"/>
              </a>

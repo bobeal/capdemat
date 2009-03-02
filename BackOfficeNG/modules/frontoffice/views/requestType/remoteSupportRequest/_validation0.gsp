@@ -120,6 +120,7 @@
   
   
     
+      <dl>
       <dt><g:message code="rsr.property.contactKind.label" /></dt>
       
           <dd>
@@ -128,6 +129,7 @@
             </g:if>
           </dd>
           
+      </dl>
     
   
     

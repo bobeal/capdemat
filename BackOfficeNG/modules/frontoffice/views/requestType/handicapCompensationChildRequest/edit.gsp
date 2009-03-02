@@ -21,19 +21,23 @@
     <p><g:message code="request.duration.label" /><strong> : <g:message code="hccr.duration.value" /></strong></p>
     <p>
       <g:message code="request.requiredDocuments.header" /> :
-      <g:each in="${documentTypes}" var="documentType" status="index">
-        <strong>
-          <g:message code="${documentType.value.i18nKey}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
-        </strong>
-      </g:each>
+      <g:if test="${!documentTypes.isEmpty()}">
+        <g:each in="${documentTypes}" var="documentType" status="index">
+          <strong>${documentType.value.name}<g:if test="${index < documentTypes.size() - 1}">,</g:if></strong>
+        </g:each>
+      </g:if>
+      <g:else>
+        <g:message code="message.none" />
+      </g:else>
     </p>
     <g:if test="${flash.confirmationMessage}">
-      <p class="message-confirmation">${flash.confirmationMessage}</p>
+      <div class="request-information">${flash.confirmationMessage}</div>
     </g:if>
 
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
 
+  
   
         <li class="${['subject', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
@@ -47,7 +51,9 @@
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'dwelling' ? 'selected' : ''}">
   
@@ -61,7 +67,9 @@
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'socialSecurityAndPaymentAgency' ? 'selected' : ''}">
   
@@ -75,7 +83,9 @@
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'occupationnalAndSchoolStatus' ? 'selected' : ''}">
   
@@ -89,7 +99,9 @@
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'folders' ? 'selected' : ''}">
   
@@ -103,7 +115,9 @@
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'benefits' ? 'selected' : ''}">
   
@@ -117,7 +131,9 @@
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'aid' ? 'selected' : ''}">
   
@@ -131,7 +147,9 @@
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'health' ? 'selected' : ''}">
   
@@ -145,7 +163,9 @@
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'project' ? 'selected' : ''}">
   
@@ -159,7 +179,11 @@
             
           </em></a>
         </li>    
+  
 
+  
+        <g:if test="${!documentTypes.isEmpty()}">
+  
     
         <li class="${currentStep == 'document' ? 'selected' : ''}">
   
@@ -171,7 +195,11 @@
             
           </em></a>
         </li>    
+  
+        </g:if>
+  
 
+  
     
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
@@ -185,11 +213,13 @@
             
           </em></a>
         </li>    
+  
 
 		 </ul>
 		 
      <div class="yui-content">
 
+  
        <div id="subject">
          <form method="POST"  id="stepForm-subject" action="<g:createLink action="step" />">
            <h3>
@@ -227,7 +257,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="dwelling">
          <form method="POST"  id="stepForm-dwelling" action="<g:createLink action="step" />">
            <h3>
@@ -267,7 +299,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="socialSecurityAndPaymentAgency">
          <form method="POST"  id="stepForm-socialSecurityAndPaymentAgency" action="<g:createLink action="step" />">
            <h3>
@@ -307,7 +341,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="occupationnalAndSchoolStatus">
          <form method="POST"  id="stepForm-occupationnalAndSchoolStatus" action="<g:createLink action="step" />">
            <h3>
@@ -347,7 +383,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="folders">
          <form method="POST"  id="stepForm-folders" action="<g:createLink action="step" />">
            <h3>
@@ -387,7 +425,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="benefits">
          <form method="POST"  id="stepForm-benefits" action="<g:createLink action="step" />">
            <h3>
@@ -427,7 +467,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="aid">
          <form method="POST"  id="stepForm-aid" action="<g:createLink action="step" />">
            <h3>
@@ -467,7 +509,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="health">
          <form method="POST"  id="stepForm-health" action="<g:createLink action="step" />">
            <h3>
@@ -507,7 +551,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="project">
          <form method="POST"  id="stepForm-project" action="<g:createLink action="step" />">
            <h3>
@@ -547,7 +593,11 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
+        <g:if test="${!documentTypes.isEmpty()}">
+  
        <div id="document">
          <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
            <h3>
@@ -583,7 +633,11 @@
          </div>
          </g:if>
        </div>  
+  
+        </g:if>
+  
 
+  
        <div id="validation">
          <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
            <h3>
@@ -597,7 +651,10 @@
            </h3>
            <div>
   
-             <select name="meansOfContact">
+             <label for="meansOfContact" class="required">
+               <g:message code="request.meansOfContact.chooseMessage"/> *
+             </label>
+             <select name="meansOfContact" class="required">
                <g:each in="${meansOfContact}" var="moc">
                  <option value="${moc.key}">${moc.label}</option>
                </g:each>
@@ -614,9 +671,16 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
+           <div id="useAcceptance">
+             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
+                    title="${message(code:'request.error.useAcceptanceRequired')}" />
+             <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+               <g:message code="request.step.validation.useAcceptance"/>
+             </a>
+           </div>
            <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
            <g:if test="${!isRequestCreatable}">
-           <span><g:message code="request.step.validation.requiredSteps"/></span>
+             <div><g:message code="request.step.validation.requiredSteps"/></div>
            </g:if>
   
          </form>
@@ -633,6 +697,7 @@
          </div>
          </g:if>
        </div>  
+  
         
  	    </div><!-- end yui-content -->
     </div><!-- end requestTabView -->

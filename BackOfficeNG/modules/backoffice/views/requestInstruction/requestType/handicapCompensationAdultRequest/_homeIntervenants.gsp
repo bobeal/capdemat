@@ -11,12 +11,12 @@
   </div>
   <dl class="condition-isHomeIntervenant-filled">
     
-      <dt class="required condition-isOtherHomeIntervant-trigger"><g:message code="hcar.property.homeIntervenantKind.label" /> : </dt>
+      <dt class="required condition-isOtherHomeIntervant-trigger"><g:message code="hcar.property.homeIntervenantKind.label" /> * : </dt>
       <dd id="homeIntervenants[${listSize - 1 - index}].homeIntervenantKind" class="action-editField validate-capdematEnum required-true i18n-hcar.property.homeIntervenantKind javatype-fr.cg95.cvq.business.request.social.HcarHomeIntervenantKindType" >
         <g:capdematEnumToField var="${it?.homeIntervenantKind}" i18nKeyPrefix="hcar.property.homeIntervenantKind" />
       </dd>
     
-      <dt class="required condition-isOtherHomeIntervant-filled"><g:message code="hcar.property.homeIntervenantDetails.label" /> : </dt>
+      <dt class="required condition-isOtherHomeIntervant-filled"><g:message code="hcar.property.homeIntervenantDetails.label" /> * : </dt>
       <dd id="homeIntervenants[${listSize - 1 - index}].homeIntervenantDetails" class="action-editField validate- required-true i18n-hcar.property.homeIntervenantDetails" >
         <span>${it?.homeIntervenantDetails}</span>
       </dd>

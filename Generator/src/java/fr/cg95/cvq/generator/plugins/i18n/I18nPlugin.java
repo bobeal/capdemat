@@ -36,7 +36,7 @@ public class I18nPlugin implements IPluginGenerator {
     private RequestI18n requestI18n;
     private List<ElementI18n> elementI18ns = new ArrayList<ElementI18n>();
     
-   private ElementStack elementI18nStack;
+    private ElementStack elementI18nStack;
     
     public void initialize(Node configurationNode) {
         logger.debug("initialize()");
@@ -57,6 +57,7 @@ public class I18nPlugin implements IPluginGenerator {
         depth = 0;
         requestI18n = new RequestI18n(targetNamespace);
         elementI18nStack = new ElementStack();
+        elementI18ns.clear();
     }
     
     public void endRequest(String requestName) {

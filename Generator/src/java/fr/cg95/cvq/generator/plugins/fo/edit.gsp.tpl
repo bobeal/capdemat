@@ -102,7 +102,8 @@
            <input type="hidden" name="uuidString" value="\${uuidString}" />
   <% if (step.name == 'validation') { %>
            <div id="useAcceptance">
-             <input type="checkbox" name="useAcceptance" class="required" />
+             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
+                    title="\${message(code:'request.error.useAcceptanceRequired')}" />
              <a href="\${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
                <g:message code="request.step.validation.useAcceptance"/>
              </a>

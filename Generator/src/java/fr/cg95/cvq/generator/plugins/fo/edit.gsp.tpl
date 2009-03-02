@@ -108,12 +108,12 @@
                <g:message code="request.step.validation.useAcceptance"/>
              </a>
            </div>
-           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.send')}" \${!isRequestCreatable ? 'disabled=\"disabled\"': ''}/>
+           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.send')}" \${!isRequestCreatable ? 'disabled=\"disabled\"': ''}/>
            <g:if test="\${!isRequestCreatable}">
              <div><g:message code="request.step.validation.requiredSteps"/></div>
            </g:if>
   <% } else if (step.name != 'document') { %>
-           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" value="\${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.save')}" />
   <% } %>
          </form>
          <div class="navTab">

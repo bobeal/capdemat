@@ -241,7 +241,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-subject" name="submit-step-subject" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -281,7 +281,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -323,7 +323,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-socialSecurityAndPaymentAgency" name="submit-step-socialSecurityAndPaymentAgency" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-socialSecurityAndPaymentAgency" name="submit-step-socialSecurityAndPaymentAgency" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -365,7 +365,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-occupationnalAndSchoolStatus" name="submit-step-occupationnalAndSchoolStatus" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-occupationnalAndSchoolStatus" name="submit-step-occupationnalAndSchoolStatus" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -407,7 +407,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-folders" name="submit-step-folders" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-folders" name="submit-step-folders" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -449,7 +449,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-benefits" name="submit-step-benefits" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-benefits" name="submit-step-benefits" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -491,7 +491,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-aid" name="submit-step-aid" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-aid" name="submit-step-aid" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -533,7 +533,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-health" name="submit-step-health" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-health" name="submit-step-health" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -575,7 +575,7 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-project" name="submit-step-project" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-project" name="submit-step-project" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -678,7 +678,7 @@
                <g:message code="request.step.validation.useAcceptance"/>
              </a>
            </div>
-           <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
+           <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
            <g:if test="${!isRequestCreatable}">
              <div><g:message code="request.step.validation.requiredSteps"/></div>
            </g:if>

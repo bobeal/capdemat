@@ -1,9 +1,19 @@
 <h2>Nouvelles</h2>
 
 <p><strong>2 Mars 2009</strong></p>
-<span style="text-decoration:underline;">Back Office</span>
+<span style="text-decoration:underline;">Front Office</span>
 <ul>
   <li>Ecran de résumé d'une demande en cours ou terminée</li>
+  <li>Gestion du contexte de création d'une demande (désactivation autres onglets, confirmation avant de quitter)</li>
+</ul>
+<span style="text-decoration:underline;">Front Office & Back Office</span>
+<ul>
+  <li>TS Compensation du handicap</li>
+  <li>TS Téléassistance</li>
+  <li>Etape de gestion des pièces justificatives</li>
+  <li>Page de présentation des services disponibles</li>
+  <li>Branchement des fichiers d'aides et de mentions légales</li>
+  <li>Diverses corrections et améliorations de présentation</li>
 </ul>
 
 <p><strong>20 Février 2009</strong></p>

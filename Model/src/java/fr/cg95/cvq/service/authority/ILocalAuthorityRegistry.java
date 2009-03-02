@@ -19,7 +19,7 @@ import fr.cg95.cvq.exception.CvqException;
 public interface ILocalAuthorityRegistry {
 
     String SERVICE_NAME = "localAuthorityRegistry";
-
+    
     String XSL_RESOURCE_TYPE = "xsl";
     String LOCAL_REFERENTIAL_RESOURCE_TYPE = "local_referential";
     String EXTERNAL_REFERENTIAL_RESOURCE_TYPE = "external_referential";
@@ -28,6 +28,8 @@ public interface ILocalAuthorityRegistry {
     String CSS_ASSETS_RESOURCE_TYPE = "css";
     String IMAGE_ASSETS_RESOURCE_TYPE = "img";
     String TXT_ASSETS_RESOURCE_TYPE = "txt";
+    String PDF_ASSETS_RESOURCE_TYPE = "pdf";
+    
     String HTML_RESOURCE_TYPE = "html";
     String MAIL_TEMPLATES_TYPE = "html/templates/mails";
     
@@ -111,6 +113,7 @@ public interface ILocalAuthorityRegistry {
     
     /**
      * Generate a list of deployed local authorities in directory {@link #getAssetsBase()}.
+     *
      * Filename is specified in the configuration of this service.
      * This method is called by a Quartz scheduled job and the generated list can be used
      * for various tasks, like databases dumps.
@@ -120,19 +123,20 @@ public interface ILocalAuthorityRegistry {
     String getReferentialBase();
     String getAssetsBase();
     
-    void saveLocalAuthorityResource(String resourceType, String filename, byte[] data) throws CvqException;
-    void renameLocalAuthorityResource(String resourceType, String filename, String newFilename) throws CvqException;
+    void saveLocalAuthorityResource(String resourceType, String filename, byte[] data)
+        throws CvqException;
+    void renameLocalAuthorityResource(String resourceType, String filename, String newFilename)
+        throws CvqException;
     void removeLocalAuthorityResource(String resourceType, String filename);
     
     List<File> getLocalResourceContent(String resourceType) throws CvqException;
     List<File> getLocalResourceContent(String resourceType, String pattern) throws CvqException;
 
     /**
-     * Updates local authority draft settings
+     * Updates local authority draft settings.
      * 
-     * @param liveDuration draft duration
+     * @param liveDuration the duration the draft will be kept in DB
      * @param notificationBeforeDelete notification before draft removal
-     * @throws CvqException base exception
      */
     void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
         throws CvqException;

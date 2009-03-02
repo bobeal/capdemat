@@ -29,7 +29,7 @@ class DocumentController {
         def result = [:], prevPage, nextPage
         Document document = documentService.getById(Long.valueOf(params.id))
         
-        result.page = params?.pn ? Integer.parseInt(params.pn) : 1
+        result.page = params.pn ? Integer.parseInt(params.pn) : 1
         result.actions = this.getActions(document)
         
         def pages = getOrderedDocumentPages(document)
@@ -47,7 +47,7 @@ class DocumentController {
             "state": document.state,
             "depositType": document.depositType,
             "depositOrigin": document.depositOrigin,
-            'depositor' : this.instructionService.getActionPosterDetails(document.depositId),
+            'depositor' : instructionService.getActionPosterDetails(document.depositId),
             "creationDate" : document.creationDate,
             "validationDate": document.validationDate,
             "endValidityDate": document.endValidityDate,
@@ -164,7 +164,7 @@ class DocumentController {
         individuals = individuals.sort {it.fullName}
         individuals.add([
             id:currentEcitizen.homeFolder.id,
-            fullName:message(code:'property.commonDocuments')
+            fullName:message(code:'document.property.commonDocuments')
         ])
         return individuals
     }

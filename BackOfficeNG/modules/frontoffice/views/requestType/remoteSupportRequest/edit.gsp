@@ -6,32 +6,38 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
   </head>  
   <body>
+    <g:set var="requestTypeInfo">
+      {"label": "${requestTypeLabel}"
+        ,"steps": [  "subject-required",  "contact-required",  "document",  "validation"  ]
+      }
+    </g:set>
+    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
     <g:render template="/frontofficeRequestType/draftPanel" />
+    <g:render template="/frontofficeRequestType/cancelPanel" />
+    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
+    
     <h2 class="request-creation"> <g:message code="rsr.label" /></h2>
     <p><g:message code="rsr.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="rsr.duration.value" /></strong></p>
     <p>
       <g:message code="request.requiredDocuments.header" /> :
-      <g:each in="${documentTypes}" var="documentType" status="index">
-        <strong>
-          <g:message code="${documentType.value.i18nKey}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
-        </strong>
-      </g:each>
+      <g:if test="${!documentTypes.isEmpty()}">
+        <g:each in="${documentTypes}" var="documentType" status="index">
+          <strong>${documentType.value.name}<g:if test="${index < documentTypes.size() - 1}">,</g:if></strong>
+        </g:each>
+      </g:if>
+      <g:else>
+        <g:message code="message.none" />
+      </g:else>
     </p>
     <g:if test="${flash.confirmationMessage}">
-      <p class="message-confirmation">${flash.confirmationMessage}</p>
+      <div class="request-information">${flash.confirmationMessage}</div>
     </g:if>
-
-<g:set var="requestTypeInfo">
-  {"label": "${requestTypeLabel}"
-    ,"steps": [  "subject-required",  "contact-required",  "document",  "validation"  ]
-  }
-</g:set>
-<g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
 
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
 
+  
   
         <li class="${['subject', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
@@ -40,12 +46,14 @@
           <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="rsr.step.subject.label" />
+            <g:message code="rsr.step.subject.label" /> *
           </strong>
             
           </em></a>
         </li>    
+  
 
+  
     
         <li class="${currentStep == 'contact' ? 'selected' : ''}">
   
@@ -54,12 +62,16 @@
           <span class="tag-state ${stepStates!= null ? stepStates.contact.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.contact.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="rsr.step.contact.label" />
+            <g:message code="rsr.step.contact.label" /> *
           </strong>
             
           </em></a>
         </li>    
+  
 
+  
+        <g:if test="${!documentTypes.isEmpty()}">
+  
     
         <li class="${currentStep == 'document' ? 'selected' : ''}">
   
@@ -71,7 +83,11 @@
             
           </em></a>
         </li>    
+  
+        </g:if>
+  
 
+  
     
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
@@ -80,16 +96,18 @@
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="request.step.validation.label" />
+            <g:message code="request.step.validation.label" /> *
           </strong>
             
           </em></a>
         </li>    
+  
 
 		 </ul>
 		 
      <div class="yui-content">
 
+  
        <div id="subject">
          <form method="POST"  id="stepForm-subject" action="<g:createLink action="step" />">
            <h3>
@@ -104,13 +122,14 @@
            <div>
   
             <g:render template="/frontofficeRequestType/remoteSupportRequest/subject" />         
+  
            </div>
            <div class="error" id="stepForm-subject-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-subject" name="submit-step-subject" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -126,7 +145,9 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
        <div id="contact">
          <form method="POST"  id="stepForm-contact" action="<g:createLink action="step" />">
            <h3>
@@ -141,13 +162,14 @@
            <div>
   
             <g:render template="/frontofficeRequestType/remoteSupportRequest/contact" />         
+  
            </div>
            <div class="error" id="stepForm-contact-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-contact" name="submit-step-contact" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-contact" name="submit-step-contact" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -165,7 +187,11 @@
          </div>
          </g:if>
        </div>  
+  
 
+  
+        <g:if test="${!documentTypes.isEmpty()}">
+  
        <div id="document">
          <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
            <h3>
@@ -178,6 +204,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/document" />         
+  
            </div>
            <div class="error" id="stepForm-document-error"> </div>
            <!-- Input submit-->
@@ -200,7 +227,11 @@
          </div>
          </g:if>
        </div>  
+  
+        </g:if>
+  
 
+  
        <div id="validation">
          <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
            <h3>
@@ -214,22 +245,33 @@
            </h3>
            <div>
   
-             <select name="meansOfContact">
+             <label for="meansOfContact" class="required">
+               <g:message code="request.meansOfContact.chooseMessage"/> *
+             </label>
+             <select name="meansOfContact" class="required">
                <g:each in="${meansOfContact}" var="moc">
                  <option value="${moc.key}">${moc.label}</option>
                </g:each>
              </select>
+    
+            <g:render template="/frontofficeRequestType/remoteSupportRequest/validation0" />
+    
   
-            <g:render template="/frontofficeRequestType/remoteSupportRequest/validation" />         
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
+           <div id="useAcceptance">
+             <input type="checkbox" name="useAcceptance" class="required" />
+             <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+               <g:message code="request.step.validation.useAcceptance"/>
+             </a>
+           </div>
+           <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
            <g:if test="${!isRequestCreatable}">
-           <span><g:message code="request.step.validation.requiredSteps"/></span>
+             <div><g:message code="request.step.validation.requiredSteps"/></div>
            </g:if>
   
          </form>
@@ -246,6 +288,7 @@
          </div>
          </g:if>
        </div>  
+  
         
  	    </div><!-- end yui-content -->
     </div><!-- end requestTabView -->

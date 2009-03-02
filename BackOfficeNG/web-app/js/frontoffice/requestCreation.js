@@ -1,6 +1,5 @@
 (function() {
   var zcf = zenexity.capdemat.fong;
-  var zcc = zenexity.capdemat.common;
   var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
   var yue = YAHOO.util.Event;
@@ -44,8 +43,10 @@
       init : function() {
           zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
           
-          zcf.RequestCreation .clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
-          yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
+          zcf.RequestCreation .clickEvent =
+              new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
+          yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch,
+              zcf.RequestCreation.clickEvent, true);
       },
       
       getHandler : function(e) {

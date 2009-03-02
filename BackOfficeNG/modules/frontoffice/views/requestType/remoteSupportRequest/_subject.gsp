@@ -7,7 +7,7 @@
     <fieldset class="required">
     <legend><g:message code="rsr.property.rsrSubject.label" /></legend> 
       
-    <label><g:message code="request.property.subjectName" /></label>
+    <label class="required"><g:message code="request.property.subjectName" /> *</label>
     <select name="subjectId" class="required validate-not-first" title="<g:message code="request.subject.validationError" /> ">
       <option value=""><g:message code="message.select.defaultOption" /></option>
       <g:each in="${subjects}">
@@ -16,7 +16,7 @@
     </select>
       
     
-      <label class="required"><g:message code="rsr.property.subjectTitle.label" /> <span><g:message code="rsr.property.subjectTitle.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.subjectTitle.label" /> * <span><g:message code="rsr.property.subjectTitle.help" /></span></label>
       
             <select name="subjectTitle" class="required validate-not-first" title="<g:message code="rsr.property.subjectTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -26,13 +26,13 @@
             </select>
             
     
-      <label class="required"><g:message code="rsr.property.subjectBirthDate.label" /> <span><g:message code="rsr.property.subjectBirthDate.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.subjectBirthDate.label" /> * <span><g:message code="rsr.property.subjectBirthDate.help" /></span></label>
       
             <input type="text" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
-                   class="required validate-date" title="<g:message code="rsr.property.subjectBirthDate.validationError" />">
+                   class="required validate-date" title="<g:message code="rsr.property.subjectBirthDate.validationError" />" />
             
     
-      <label class="required"><g:message code="rsr.property.subjectResideWith.label" /> <span><g:message code="rsr.property.subjectResideWith.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.subjectResideWith.label" /> * <span><g:message code="rsr.property.subjectResideWith.help" /></span></label>
       
             <ul class="required">
               <g:each in="${['Alone','Couple','Family']}">
@@ -44,7 +44,7 @@
             </ul>
             
     
-      <label class="required"><g:message code="rsr.property.subjectIsTaxable.label" /> <span><g:message code="rsr.property.subjectIsTaxable.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.subjectIsTaxable.label" /> * <span><g:message code="rsr.property.subjectIsTaxable.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -56,7 +56,7 @@
             </ul>
             
     
-      <label class="required"><g:message code="rsr.property.subjectIsAPABeneficiary.label" /> <span><g:message code="rsr.property.subjectIsAPABeneficiary.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.subjectIsAPABeneficiary.label" /> * <span><g:message code="rsr.property.subjectIsAPABeneficiary.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -68,7 +68,7 @@
             </ul>
             
     
-      <label class="required"><g:message code="rsr.property.subjectIsDisabledPerson.label" /> <span><g:message code="rsr.property.subjectIsDisabledPerson.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.subjectIsDisabledPerson.label" /> * <span><g:message code="rsr.property.subjectIsDisabledPerson.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -88,7 +88,7 @@
     <legend><g:message code="rsr.property.requestInformation.label" /></legend> 
       
     
-      <label class="required"><g:message code="rsr.property.requestInformationRequestKind.label" /> <span><g:message code="rsr.property.requestInformationRequestKind.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.requestInformationRequestKind.label" /> * <span><g:message code="rsr.property.requestInformationRequestKind.help" /></span></label>
       
             <ul class="required">
               <g:each in="${['Individual','Couple']}">
@@ -100,7 +100,7 @@
             </ul>
             
     
-      <label class="required"><g:message code="rsr.property.requestInformationEmergency.label" /> <span><g:message code="rsr.property.requestInformationEmergency.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.requestInformationEmergency.label" /> * <span><g:message code="rsr.property.requestInformationEmergency.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -112,10 +112,9 @@
             </ul>
             
     
-      <label class="required condition-isEmergency-filled"><g:message code="rsr.property.requestInformationEmergencyMotive.label" /> <span><g:message code="rsr.property.requestInformationEmergencyMotive.help" /></span></label>
+      <label class="required condition-isEmergency-filled"><g:message code="rsr.property.requestInformationEmergencyMotive.label" /> * <span><g:message code="rsr.property.requestInformationEmergencyMotive.help" /></span></label>
       
-            <input type="text" name="requestInformationEmergencyMotive" value="${rqt.requestInformationEmergencyMotive}" 
-                    class="required condition-isEmergency-filled validate-textarea" title="<g:message code="rsr.property.requestInformationEmergencyMotive.validationError" />">
+            <textarea name="requestInformationEmergencyMotive" class="required condition-isEmergency-filled validate-textarea" title="<g:message code="rsr.property.requestInformationEmergencyMotive.validationError" />" rows="3">${rqt.requestInformationEmergencyMotive}</textarea>
             
     
     </fieldset>
@@ -126,19 +125,19 @@
     <legend><g:message code="rsr.property.spouse.label" /></legend> 
       
     
-      <label class="required"><g:message code="rsr.property.spouseLastName.label" /> <span><g:message code="rsr.property.spouseLastName.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.spouseLastName.label" /> * <span><g:message code="rsr.property.spouseLastName.help" /></span></label>
       
             <input type="text" name="spouseLastName" value="${rqt.spouseLastName}" 
-                    class="required validate-lastName" title="<g:message code="rsr.property.spouseLastName.validationError" />">
+                    class="required validate-lastName" title="<g:message code="rsr.property.spouseLastName.validationError" />" />
             
     
-      <label class="required"><g:message code="rsr.property.spouseFirstName.label" /> <span><g:message code="rsr.property.spouseFirstName.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.spouseFirstName.label" /> * <span><g:message code="rsr.property.spouseFirstName.help" /></span></label>
       
             <input type="text" name="spouseFirstName" value="${rqt.spouseFirstName}" 
-                    class="required validate-firstName" title="<g:message code="rsr.property.spouseFirstName.validationError" />">
+                    class="required validate-firstName" title="<g:message code="rsr.property.spouseFirstName.validationError" />" />
             
     
-      <label class="required"><g:message code="rsr.property.spouseTitle.label" /> <span><g:message code="rsr.property.spouseTitle.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.spouseTitle.label" /> * <span><g:message code="rsr.property.spouseTitle.help" /></span></label>
       
             <select name="spouseTitle" class="required validate-not-first" title="<g:message code="rsr.property.spouseTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -148,13 +147,13 @@
             </select>
             
     
-      <label class="required"><g:message code="rsr.property.spouseBirthDate.label" /> <span><g:message code="rsr.property.spouseBirthDate.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.spouseBirthDate.label" /> * <span><g:message code="rsr.property.spouseBirthDate.help" /></span></label>
       
             <input type="text" name="spouseBirthDate" value="${formatDate(formatName:'format.date',date:rqt.spouseBirthDate)}" 
-                   class="required validate-date" title="<g:message code="rsr.property.spouseBirthDate.validationError" />">
+                   class="required validate-date" title="<g:message code="rsr.property.spouseBirthDate.validationError" />" />
             
     
-      <label class="required"><g:message code="rsr.property.spouseIsDisabledPerson.label" /> <span><g:message code="rsr.property.spouseIsDisabledPerson.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.spouseIsDisabledPerson.label" /> * <span><g:message code="rsr.property.spouseIsDisabledPerson.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">

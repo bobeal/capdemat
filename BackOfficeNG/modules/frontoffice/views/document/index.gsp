@@ -27,50 +27,37 @@
 
       <div id="narrow" class="yui-b">
 
-        <div id="requestSubject" class="requestBox">
+        <div class="requestBox">
           <h3>
             <g:message code="header.filterBy" />
           </h3>
           <div class="body">
-            <label for="dtf">
+            <label for="df">
               <g:message code="property.type" /> :
             </label>
             
-            <g:select
-              id="df"
-              name="df"
-              optionKey="id"
-              optionValue="name"
-              from="${types}"
-              value="${state?.df}"
-              noSelection="['':' ']"
-              valueMessagePrefix="document.type"
-              />
+            <g:select id="df" name="df"
+              optionKey="id" optionValue="name"
+              from="${types}" value="${state?.df}"
+              noSelection="['':message(code:'search.filter.defaultValue')]"
+              valueMessagePrefix="document.type" />
 
             <label for="nf">
               <g:message code="property.individual" /> :
             </label>
 
-            <g:select
-              id="nf"
-              optionKey="id"
-              optionValue="fullName"
-              name="nf"
-              from="${individuals}"
-              value="${state?.nf}"
-              noSelection="['':' ']"/>
+            <g:select id="nf" name="nf"
+              optionKey="id" optionValue="fullName"
+              from="${individuals}" value="${state?.nf}"
+              noSelection="['':message(code:'search.filter.defaultValue')]" />
 
             <label for="sf">
               <g:message code="property.state" /> :
             </label>
-            <g:select
-              id="sf"
-              name="sf"
-              from="${states}"
-              value="${state?.sf}"
-              noSelection="['':' ']"
-              valueMessagePrefix="document.state"
-              />
+            <g:select id="sf" name="sf"
+              from="${states}" value="${state?.sf}"
+              noSelection="['':message(code:'search.filter.defaultValue')]"
+              valueMessagePrefix="document.state" />
 
             <input type="submit" value="${message(code:'action.filter')}"/>
           </div>

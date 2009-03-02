@@ -3,6 +3,7 @@ import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
@@ -11,7 +12,6 @@ import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.exception.CvqException
 
 import grails.converters.JSON
-import fr.cg95.cvq.service.request.IRequestService
 
 class RequestCreationController {
     
@@ -25,17 +25,20 @@ class RequestCreationController {
     def defaultAction = 'edit'
     
     def draft = {
+        
         def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
         
         flash.fromDraft = true
         
         if(request.post) {
+//            requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             def cRequest = session[params.uuidString].cRequest
             requestService.prepareDraft(cRequest)
             requestService.processDraft(cRequest)
             flash.cRequest = cRequest
             flash.confirmationMessage = message(code:'message.savedAsDraft')
         } else if (request.get) {
+//            requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
         }
         redirect(controller:controllerName, params:['label':requestService.label])
@@ -254,7 +257,8 @@ class RequestCreationController {
             cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
             cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
-            
+
+            // FIXME BOR : what does it do ???
             if(!session[uuidString].cRequest.draft && !session[uuidString].draftVisible)
                 session[uuidString].draftVisible = false
         }
@@ -315,7 +319,7 @@ class RequestCreationController {
             subjects[subjectId] = subject.lastName + ' ' + subject.firstName
         }
         
-        if(cRequest.draft && cRequest?.subjectId && !subjects.containsKey(cRequest.subjectId))
+        if(cRequest.draft && cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
             subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
             
         return subjects
@@ -325,8 +329,7 @@ class RequestCreationController {
         def result = []
         def meansOfContact = meansOfContactService.getCurrentEcitizenEnabledMeansOfContact()
         meansOfContact.each {
-            result.add([
-                        key:it.type,
+            result.add([key:it.type,
                         label: message(code:'request.meansOfContact.' + StringUtils.pascalToCamelCase(it.type.toString()))])
         }
         return result.sort {it.label}
@@ -352,35 +355,41 @@ class RequestCreationController {
         def documentTypes = requestService.getAllowedDocuments(requestType.getId())
         
         def result = [:]
+        def documentTypeList = []
         documentTypes.each {
-            def requestDocType = [:]
-            requestDocType.i18nKey = CapdematUtils.adaptDocumentTypeName(it.name)
-            requestDocType.associated = getAssociatedDocuments(requestService, cRequest, it, newDocuments)
-            requestDocType.provided = getProvidedNotAssociatedDocuments(it , requestDocType.associated)
-            result[it.id] = requestDocType
+            def associatedDocuments = getAssociatedDocuments(requestService, cRequest, it, newDocuments)
+            def docType = ['id':it.id,
+                           'name':message(code:CapdematUtils.adaptDocumentTypeName(it.name)),
+                           'associated':associatedDocuments,
+                           'provided':getProvidedNotAssociatedDocuments(it , associatedDocuments)]
+            documentTypeList.add(docType)
         }
+        documentTypeList = documentTypeList.sort { it.name }
+        documentTypeList.each { result[it.id] = it }
         return result
     }
     
     def  getAssociatedDocuments(requestService, cRequest, docType, newDocuments) {
+        // TODO : add a docType parameter to service's method
         def requestDocuments = requestService.getAssociatedDocuments(cRequest)
         def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
         def docTypeDocuments = documents.findAll{ it.documentType.id == docType.id }
         
         def result = []
         docTypeDocuments.each {
-            def doc = [:]
-            doc.id = it.id
-            doc.endValidityDate = it.endValidityDate
-            doc.ecitizenNote = it.ecitizenNote
-            doc.isNew = newDocuments.contains(it.id) ? true : false
+            def doc = ['id':it.id,
+                       'endValidityDate':it.endValidityDate,
+                       'ecitizenNote':it.ecitizenNote,
+                       'isNew':newDocuments.contains(it.id) ? true : false]
             result.add(doc)
         }
         return result
     }
     
     def  getProvidedNotAssociatedDocuments(docType, associateds) {
-        def provideds = documentService.getProvidedDocuments(docType, SecurityContext.currentEcitizen.homeFolder.id, null)
+        // TODO : also use subject id
+        def provideds =
+            documentService.getProvidedDocuments(docType, SecurityContext.currentEcitizen.homeFolder.id, null)
         def associatedIds = associateds.collect{ it.id }
         return provideds.findAll{ !associatedIds.contains(it.id) }
     }
@@ -398,11 +407,8 @@ class RequestCreationController {
     }
     
     def getDocumentType(id) {
-        def result = [:]
         def docType = documentTypeService.getDocumentTypeById(id)
-        result.id = docType.id
-        result.i18nKey = CapdematUtils.adaptDocumentTypeName(docType.name)
-        return (result)
+        return ['id':docType.id, 'i18nKey':CapdematUtils.adaptDocumentTypeName(docType.name)]
     }
     
     

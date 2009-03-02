@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -34,6 +35,7 @@ public class FoPlugin implements IPluginGenerator {
     private String editTemplate;
     private String stepTemplate;
     private String validationTemplate;
+    private String summaryTemplate;
     
     private RequestFo requestFo;
     private ElementStack elementFoStack;
@@ -46,6 +48,7 @@ public class FoPlugin implements IPluginGenerator {
             editTemplate = childAttributesMap.getNamedItem("edittemplate").getNodeValue();
             stepTemplate = childAttributesMap.getNamedItem("steptemplate").getNodeValue();
             validationTemplate = childAttributesMap.getNamedItem("validationtemplate").getNodeValue();
+            summaryTemplate = childAttributesMap.getNamedItem("summarytemplate").getNodeValue();
         } catch (NullPointerException npe) {
             throw new RuntimeException ("Check fo-plugin.xml <properties outputdir=\"\" edittemplate=\"\" steptemplate=\"\" summarytemplate=\"\"/> configuration tag");
         }
@@ -74,9 +77,21 @@ public class FoPlugin implements IPluginGenerator {
             template.make(bindingMap).writeTo(new FileWriter(output + "edit.gsp" ));
             logger.warn("endRequest() - edit.gsp.tpl OK");
             
+            // _summary.gsp template 
+            template = templateEngine.createTemplate(new File(summaryTemplate));
+            template.make(bindingMap).writeTo(new FileWriter(output + "_summary.gsp" ));
+            logger.warn("endRequest() - summaryTemplate.gsp.tpl OK");
+            
             // _validation.gsp template
             template = templateEngine.createTemplate(new File(validationTemplate));
-            template.make(bindingMap).writeTo(new FileWriter(output + "_validation.gsp" ));
+            bindingMap = new HashMap<String, Object>();
+            bindingMap.put("requestFo", requestFo);
+            int bundleIndex = 0;
+            List<List<Step>> test = requestFo.getStepBundles();
+            for (List<Step> stepBundle : requestFo.getStepBundles()) {
+                bindingMap.put("stepBundle", stepBundle);
+                template.make(bindingMap).writeTo(new FileWriter(output + "_validation"+ bundleIndex++ +".gsp" ));
+            }
             logger.warn("endRequest() - validation.gsp.tpl OK");
             
             // _<step>.gsp templates

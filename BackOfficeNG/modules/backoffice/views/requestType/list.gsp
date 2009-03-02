@@ -50,7 +50,7 @@
             <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
             <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
             <select id="categoryIdFilter">
-              <option value=""></option>
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
               <g:each in="${allCategories}" var="category">
                 <option value="${category.id}" ${filters['categoryIdFilter'] == category.id.toString() ? 'selected' : ''}>
                   ${category.name}
@@ -59,7 +59,7 @@
             </select>
             <label for="stateFilter"><g:message code="property.state" /> :</label>
             <select id="stateFilter">
-              <option value=""></option>
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
               <option value="true" ${filters['stateFilter'] == 'true' ? 'selected' : ''}>
                 <g:message code="property.active" />
               </option>

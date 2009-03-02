@@ -18,6 +18,7 @@
       edittemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/edit.gsp.tpl"
       steptemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/step.gsp.tpl"
       validationtemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/validation.gsp.tpl"
+      summarytemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/summary.gsp.tpl"
     />
   </configuration>
   

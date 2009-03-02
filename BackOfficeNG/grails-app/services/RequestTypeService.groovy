@@ -9,8 +9,7 @@ public class RequestTypeService {
     
     IRequestService defaultRequestService
     IRequestServiceRegistry requestServiceRegistry
-    
-    
+
     public Map getDisplayGroups(Boolean loggedContext, HomeFolder homeFolder) {
         def result = [:]
         

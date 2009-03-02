@@ -16,7 +16,7 @@ html { background: #cccccc; }
 #hd { margin: 0 0 1.5em 0; overflow: auto; }
 
 #hd h1 {
-  width: 250px;
+/*  width: 250px;*/
   float: left;
   margin: .3em 0 0 0;
   font-size: 3em;
@@ -60,10 +60,10 @@ html { background: #cccccc; }
   background: #c690bb;
 }
 #main-menu a:hover,
-#main-menu a.disable 
 #main-menu a.current     { border-color: #4c3848; background: #4c3848 ; }
 #main-menu a:first-child { margin-left: 0; }
 
+#main-menu a.disable     { border-color: #ddd; background: #ddd; }
 #main-menu a.current     { position: relative; top: 6px; border-bottom: 0; }
 
 #main-menu a span {

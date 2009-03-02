@@ -27,7 +27,7 @@
     
       <div id="narrow" class="yui-b">
       
-        <div id="requestSubject" class="requestBox">
+        <div class="requestBox">
           <h3>
             <g:message code="header.filterBy" />
           </h3>
@@ -35,37 +35,26 @@
             <label for="subjectFilter">
               <g:message code="request.property.subject" /> :
             </label>
-            <g:select 
-              optionKey="id"
-              optionValue="firstName"
-              id="subjectFilter"
-              name="subjectFilter" 
-              from="${individuals}" 
-              value="${state.subjectFilter}"
-              noSelection="['':' ']"/>
+            <g:select id="subjectFilter" name="subjectFilter"
+              optionKey="id" optionValue="firstName"
+              from="${individuals}" value="${state.subjectFilter}"
+              noSelection="['':message(code:'search.filter.defaultValue')]"/>
               
             <label for="stateFilter">
               <g:message code="property.requestState" /> :
             </label>
-            <g:select 
-              id="stateFilter"
-              name="stateFilter" 
+            <g:select id="stateFilter" name="stateFilter"
               from="${requestStates}" 
-              valueMessagePrefix="request.state"
-              value="${state.stateFilter}"
-              noSelection="['':' ']"/>
+              valueMessagePrefix="request.state" value="${state.stateFilter}"
+              noSelection="['':message(code:'search.filter.defaultValue')]" />
               
             <label for="typeFilter">
               <g:message code="property.requestType" /> :
             </label>
-            <g:select 
-              optionKey="id"
-              optionValue="label"
-              id="typeFilter"
-              name="typeFilter" 
-              from="${allRequestTypes}"
-              value="${state.typeFilter}"
-              noSelection="['':' ']"/>
+            <g:select id="typeFilter" name="typeFilter"
+              optionKey="id" optionValue="label"
+              from="${allRequestTypes}" value="${state.typeFilter}"
+              noSelection="['':message(code:'search.filter.defaultValue')]" />
               
             <input type="submit" value="${message(code:'action.filter')}"/>
           </div>
@@ -76,4 +65,3 @@
     </form>
   </body>
 </html>
-

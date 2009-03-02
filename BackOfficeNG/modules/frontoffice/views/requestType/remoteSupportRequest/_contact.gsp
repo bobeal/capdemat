@@ -4,7 +4,7 @@
 
 
   
-    <label class="required"><g:message code="rsr.property.contactKind.label" /> <span><g:message code="rsr.property.contactKind.help" /></span></label>
+    <label class="required"><g:message code="rsr.property.contactKind.label" /> *  <span><g:message code="rsr.property.contactKind.help" /></span></label>
     
             <ul class="required">
               <g:each in="${['Requester','Other']}">
@@ -22,22 +22,22 @@
     <legend><g:message code="rsr.property.firstContact.label" /></legend> 
       
     
-      <label class="required"><g:message code="rsr.property.contactLastName.label" /> <span><g:message code="rsr.property.contactLastName.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.contactLastName.label" /> * <span><g:message code="rsr.property.contactLastName.help" /></span></label>
       
             <input type="text" name="contactLastName" value="${rqt.contactLastName}" 
-                    class="required validate-lastName" title="<g:message code="rsr.property.contactLastName.validationError" />">
+                    class="required validate-lastName" title="<g:message code="rsr.property.contactLastName.validationError" />" />
             
     
-      <label class="required"><g:message code="rsr.property.contactFirstName.label" /> <span><g:message code="rsr.property.contactFirstName.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.contactFirstName.label" /> * <span><g:message code="rsr.property.contactFirstName.help" /></span></label>
       
             <input type="text" name="contactFirstName" value="${rqt.contactFirstName}" 
-                    class="required validate-firstName" title="<g:message code="rsr.property.contactFirstName.validationError" />">
+                    class="required validate-firstName" title="<g:message code="rsr.property.contactFirstName.validationError" />" />
             
     
-      <label class="required"><g:message code="rsr.property.contactPhone.label" /> <span><g:message code="rsr.property.contactPhone.help" /></span></label>
+      <label class="required"><g:message code="rsr.property.contactPhone.label" /> * <span><g:message code="rsr.property.contactPhone.help" /></span></label>
       
             <input type="text" name="contactPhone" value="${rqt.contactPhone}" 
-                    class="required validate-phone" title="<g:message code="rsr.property.contactPhone.validationError" />">
+                    class="required validate-phone" title="<g:message code="rsr.property.contactPhone.validationError" />" />
             
     
     </fieldset>
@@ -48,22 +48,22 @@
     <legend><g:message code="rsr.property.secondContact.label" /></legend> 
       
     
-      <label class=""><g:message code="rsr.property.secondContactLastName.label" /> <span><g:message code="rsr.property.secondContactLastName.help" /></span></label>
+      <label class=""><g:message code="rsr.property.secondContactLastName.label" />  <span><g:message code="rsr.property.secondContactLastName.help" /></span></label>
       
             <input type="text" name="secondContactLastName" value="${rqt.secondContactLastName}" 
-                    class=" validate-lastName" title="<g:message code="rsr.property.secondContactLastName.validationError" />">
+                    class=" validate-lastName" title="<g:message code="rsr.property.secondContactLastName.validationError" />" />
             
     
-      <label class=""><g:message code="rsr.property.secondContactFirstName.label" /> <span><g:message code="rsr.property.secondContactFirstName.help" /></span></label>
+      <label class=""><g:message code="rsr.property.secondContactFirstName.label" />  <span><g:message code="rsr.property.secondContactFirstName.help" /></span></label>
       
             <input type="text" name="secondContactFirstName" value="${rqt.secondContactFirstName}" 
-                    class=" validate-firstName" title="<g:message code="rsr.property.secondContactFirstName.validationError" />">
+                    class=" validate-firstName" title="<g:message code="rsr.property.secondContactFirstName.validationError" />" />
             
     
-      <label class=""><g:message code="rsr.property.secondContactPhone.label" /> <span><g:message code="rsr.property.secondContactPhone.help" /></span></label>
+      <label class=""><g:message code="rsr.property.secondContactPhone.label" />  <span><g:message code="rsr.property.secondContactPhone.help" /></span></label>
       
             <input type="text" name="secondContactPhone" value="${rqt.secondContactPhone}" 
-                    class=" validate-phone" title="<g:message code="rsr.property.secondContactPhone.validationError" />">
+                    class=" validate-phone" title="<g:message code="rsr.property.secondContactPhone.validationError" />" />
             
     
     </fieldset>
@@ -74,22 +74,22 @@
     <legend><g:message code="rsr.property.trustee.label" /></legend> 
       
     
-      <label class=""><g:message code="rsr.property.trusteeLastName.label" /> <span><g:message code="rsr.property.trusteeLastName.help" /></span></label>
+      <label class=""><g:message code="rsr.property.trusteeLastName.label" />  <span><g:message code="rsr.property.trusteeLastName.help" /></span></label>
       
             <input type="text" name="trusteeLastName" value="${rqt.trusteeLastName}" 
-                    class=" validate-lastName" title="<g:message code="rsr.property.trusteeLastName.validationError" />">
+                    class=" validate-lastName" title="<g:message code="rsr.property.trusteeLastName.validationError" />" />
             
     
-      <label class=""><g:message code="rsr.property.trusteeFirstName.label" /> <span><g:message code="rsr.property.trusteeFirstName.help" /></span></label>
+      <label class=""><g:message code="rsr.property.trusteeFirstName.label" />  <span><g:message code="rsr.property.trusteeFirstName.help" /></span></label>
       
             <input type="text" name="trusteeFirstName" value="${rqt.trusteeFirstName}" 
-                    class=" validate-firstName" title="<g:message code="rsr.property.trusteeFirstName.validationError" />">
+                    class=" validate-firstName" title="<g:message code="rsr.property.trusteeFirstName.validationError" />" />
             
     
-      <label class=""><g:message code="rsr.property.trusteePhone.label" /> <span><g:message code="rsr.property.trusteePhone.help" /></span></label>
+      <label class=""><g:message code="rsr.property.trusteePhone.label" />  <span><g:message code="rsr.property.trusteePhone.help" /></span></label>
       
             <input type="text" name="trusteePhone" value="${rqt.trusteePhone}" 
-                    class=" validate-phone" title="<g:message code="rsr.property.trusteePhone.validationError" />">
+                    class=" validate-phone" title="<g:message code="rsr.property.trusteePhone.validationError" />" />
             
     
     </fieldset>

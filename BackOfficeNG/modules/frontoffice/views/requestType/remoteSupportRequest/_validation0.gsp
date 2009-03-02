@@ -11,7 +11,7 @@
     <dl>
       
       <dt><g:message code="request.property.subjectName" /></dt>
-      <dd>${subjects.get(request.subjectId)}</dd>
+      <dd>${subjects.get(rqt.subjectId)}</dd>
           
       
       
@@ -120,6 +120,7 @@
   
   
     
+      <dl>
       <dt><g:message code="rsr.property.contactKind.label" /></dt>
       
           <dd>
@@ -128,6 +129,7 @@
             </g:if>
           </dd>
           
+      </dl>
     
   
     
@@ -183,8 +185,10 @@
   
 
   
-  <h3><g:message code="request.step.document.label" /></h3>
-  <!-- TODO : Render document summary template -->
+  <g:if test="${!documentTypes.isEmpty()}">
+    <h3><g:message code="request.step.document.label" /></h3>
+    <!-- TODO : Render document summary template -->
+  </g:if>
   
   
 

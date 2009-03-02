@@ -122,13 +122,14 @@
            <div>
   
             <g:render template="/frontofficeRequestType/remoteSupportRequest/subject" />         
+  
            </div>
            <div class="error" id="stepForm-subject-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-subject" name="submit-step-subject" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -161,13 +162,14 @@
            <div>
   
             <g:render template="/frontofficeRequestType/remoteSupportRequest/contact" />         
+  
            </div>
            <div class="error" id="stepForm-contact-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-contact" name="submit-step-contact" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-contact" name="submit-step-contact" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -202,6 +204,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/document" />         
+  
            </div>
            <div class="error" id="stepForm-document-error"> </div>
            <!-- Input submit-->
@@ -250,8 +253,10 @@
                  <option value="${moc.key}">${moc.label}</option>
                </g:each>
              </select>
+    
+            <g:render template="/frontofficeRequestType/remoteSupportRequest/validation0" />
+    
   
-            <g:render template="/frontofficeRequestType/remoteSupportRequest/validation" />         
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->
@@ -264,7 +269,7 @@
                <g:message code="request.step.validation.useAcceptance"/>
              </a>
            </div>
-           <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
+           <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
            <g:if test="${!isRequestCreatable}">
              <div><g:message code="request.step.validation.requiredSteps"/></div>
            </g:if>

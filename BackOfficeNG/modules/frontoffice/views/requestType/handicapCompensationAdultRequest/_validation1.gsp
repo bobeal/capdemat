@@ -440,8 +440,10 @@
   
 
   
-  <h3><g:message code="request.step.document.label" /></h3>
-  <!-- TODO : Render document summary template -->
+  <g:if test="${!documentTypes.isEmpty()}">
+    <h3><g:message code="request.step.document.label" /></h3>
+    <!-- TODO : Render document summary template -->
+  </g:if>
   
   
 

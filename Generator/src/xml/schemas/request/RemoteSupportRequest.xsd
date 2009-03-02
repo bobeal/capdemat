@@ -279,7 +279,7 @@
               </conditions>
             </common>
             <fo>
-              <!-- <textarea rows="3" /> -->
+              <textarea rows="3" />
             </fo>
             <bo />
           </xs:appinfo>

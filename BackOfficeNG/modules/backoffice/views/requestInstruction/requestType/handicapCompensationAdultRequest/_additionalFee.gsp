@@ -11,17 +11,17 @@
   </div>
   <dl class="">
     
-      <dt class="required"><g:message code="hcar.property.additionalFeeKind.label" /> : </dt>
+      <dt class="required"><g:message code="hcar.property.additionalFeeKind.label" /> * : </dt>
       <dd id="additionalFee[${listSize - 1 - index}].additionalFeeKind" class="action-editField validate- required-true i18n-hcar.property.additionalFeeKind" >
         <span>${it?.additionalFeeKind}</span>
       </dd>
     
-      <dt class="required"><g:message code="hcar.property.additionalFeeCost.label" /> : </dt>
+      <dt class="required"><g:message code="hcar.property.additionalFeeCost.label" /> * : </dt>
       <dd id="additionalFee[${listSize - 1 - index}].additionalFeeCost" class="action-editField validate- required-true i18n-hcar.property.additionalFeeCost" >
         <span>${it?.additionalFeeCost}</span>
       </dd>
     
-      <dt class="required"><g:message code="hcar.property.additionalFeePeriodicity.label" /> : </dt>
+      <dt class="required"><g:message code="hcar.property.additionalFeePeriodicity.label" /> * : </dt>
       <dd id="additionalFee[${listSize - 1 - index}].additionalFeePeriodicity" class="action-editField validate- required-true i18n-hcar.property.additionalFeePeriodicity" >
         <span>${it?.additionalFeePeriodicity}</span>
       </dd>

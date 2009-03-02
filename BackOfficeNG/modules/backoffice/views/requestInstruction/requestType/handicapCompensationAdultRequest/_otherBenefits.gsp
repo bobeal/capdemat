@@ -11,7 +11,7 @@
   </div>
   <dl class="condition-isOtherBenefits-filled">
     
-      <dt class="required"><g:message code="hcar.property.otherBenefitName.label" /> : </dt>
+      <dt class="required"><g:message code="hcar.property.otherBenefitName.label" /> * : </dt>
       <dd id="otherBenefits[${listSize - 1 - index}].otherBenefitName" class="action-editField validate- required-true i18n-hcar.property.otherBenefitName" >
         <span>${it?.otherBenefitName}</span>
       </dd>

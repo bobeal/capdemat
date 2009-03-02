@@ -26,8 +26,9 @@ class RequestCreationController {
     def defaultAction = 'edit'
     
     def draft = {
+        
         def requestService
-
+        
         flash.fromDraft = true
         
         if(request.post) {

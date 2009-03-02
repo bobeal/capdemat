@@ -5,6 +5,7 @@
 <ul>
   <li>Ecran de résumé d'une demande en cours ou terminée</li>
   <li>Gestion du contexte de création d'une demande (désactivation autres onglets, confirmation avant de quitter)</li>
+  <li>Page d'accueil des services dynamique et contextuelle</li>
 </ul>
 <span style="text-decoration:underline;">Front Office & Back Office</span>
 <ul>

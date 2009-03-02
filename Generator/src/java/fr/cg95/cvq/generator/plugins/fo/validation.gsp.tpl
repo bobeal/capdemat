@@ -49,7 +49,7 @@
 %>
 
 <% def displayedSubject = false %>
-<% requestFo.steps.each { step -> %>
+<% stepBundle.each { step -> %>
   <% if (step.name == 'document') { %>
   <g:if test="\${!documentTypes.isEmpty()}">
     <h3><g:message code="request.step.document.label" /></h3>
@@ -83,8 +83,10 @@
       <% } %>
     </dl>
     <% } else { %>
+      <dl>
       <dt><g:message code="${element.i18nPrefixCode}.label" /></dt>
       <% displayWidget(element, "rqt") %>
+      </dl>
     <% } %>
   <% } %>
 <% } %>

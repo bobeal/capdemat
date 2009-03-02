@@ -7,7 +7,7 @@
     <fieldset class="required">
     <legend><g:message code="hcar.property.hcarSubject.label" /></legend> 
       
-    <label><g:message code="request.property.subjectName" /></label>
+    <label class="required"><g:message code="request.property.subjectName" /> *</label>
     <select name="subjectId" class="required validate-not-first" title="<g:message code="request.subject.validationError" /> ">
       <option value=""><g:message code="message.select.defaultOption" /></option>
       <g:each in="${subjects}">
@@ -16,7 +16,7 @@
     </select>
       
     
-      <label class="required"><g:message code="hcar.property.subjectTitle.label" /> <span><g:message code="hcar.property.subjectTitle.help" /></span></label>
+      <label class="required"><g:message code="hcar.property.subjectTitle.label" /> * <span><g:message code="hcar.property.subjectTitle.help" /></span></label>
       
             <select name="subjectTitle" class="required condition-isMadam-trigger validate-not-first" title="<g:message code="hcar.property.subjectTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -26,28 +26,28 @@
             </select>
             
     
-      <label class="required condition-isMadam-filled"><g:message code="hcar.property.subjectMaidenName.label" /> <span><g:message code="hcar.property.subjectMaidenName.help" /></span></label>
+      <label class="required condition-isMadam-filled"><g:message code="hcar.property.subjectMaidenName.label" /> * <span><g:message code="hcar.property.subjectMaidenName.help" /></span></label>
       
             <input type="text" name="subjectMaidenName" value="${rqt.subjectMaidenName}" 
-                    class="required condition-isMadam-filled validate-lastName" title="<g:message code="hcar.property.subjectMaidenName.validationError" />">
+                    class="required condition-isMadam-filled validate-lastName" title="<g:message code="hcar.property.subjectMaidenName.validationError" />" />
             
     
-      <label class="required"><g:message code="hcar.property.subjectBirthDate.label" /> <span><g:message code="hcar.property.subjectBirthDate.help" /></span></label>
+      <label class="required"><g:message code="hcar.property.subjectBirthDate.label" /> * <span><g:message code="hcar.property.subjectBirthDate.help" /></span></label>
       
             <input type="text" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
-                   class="required validate-date" title="<g:message code="hcar.property.subjectBirthDate.validationError" />">
+                   class="required validate-date" title="<g:message code="hcar.property.subjectBirthDate.validationError" />" />
             
     
-      <label class="required"><g:message code="hcar.property.subjectBirthCity.label" /> <span><g:message code="hcar.property.subjectBirthCity.help" /></span></label>
+      <label class="required"><g:message code="hcar.property.subjectBirthCity.label" /> * <span><g:message code="hcar.property.subjectBirthCity.help" /></span></label>
       
             <input type="text" name="subjectBirthCity" value="${rqt.subjectBirthCity}" 
-                    class="required validate-city" title="<g:message code="hcar.property.subjectBirthCity.validationError" />">
+                    class="required validate-city" title="<g:message code="hcar.property.subjectBirthCity.validationError" />" />
             
     
-      <label class="required"><g:message code="hcar.property.subjectBirthCountry.label" /> <span><g:message code="hcar.property.subjectBirthCountry.help" /></span></label>
+      <label class="required"><g:message code="hcar.property.subjectBirthCountry.label" /> * <span><g:message code="hcar.property.subjectBirthCountry.help" /></span></label>
       
             <input type="text" name="subjectBirthCountry" value="${rqt.subjectBirthCountry}" 
-                    class="required " title="<g:message code="hcar.property.subjectBirthCountry.validationError" />">
+                    class="required " title="<g:message code="hcar.property.subjectBirthCountry.validationError" />" />
             
     
     </fieldset>
@@ -58,7 +58,7 @@
     <legend><g:message code="hcar.property.legalAccess.label" /></legend> 
       
     
-      <label class="required"><g:message code="hcar.property.legalAccessPresence.label" /> <span><g:message code="hcar.property.legalAccessPresence.help" /></span></label>
+      <label class="required"><g:message code="hcar.property.legalAccessPresence.label" /> * <span><g:message code="hcar.property.legalAccessPresence.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -70,7 +70,7 @@
             </ul>
             
     
-      <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessKind.label" /> <span><g:message code="hcar.property.legalAccessKind.help" /></span></label>
+      <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessKind.label" /> * <span><g:message code="hcar.property.legalAccessKind.help" /></span></label>
       
             <select name="legalAccessKind" class="required condition-isLegalAccessPresence-filled validate-not-first" title="<g:message code="hcar.property.legalAccessKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -80,7 +80,7 @@
             </select>
             
     
-      <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeKind.label" /> <span><g:message code="hcar.property.legalAccessRepresentativeKind.help" /></span></label>
+      <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeKind.label" /> * <span><g:message code="hcar.property.legalAccessRepresentativeKind.help" /></span></label>
       
             <select name="legalAccessRepresentativeKind" class="required condition-isLegalAccessPresence-filled condition-isOtherLegalAccessRepresentative-trigger validate-not-first" title="<g:message code="hcar.property.legalAccessRepresentativeKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -90,22 +90,22 @@
             </select>
             
     
-      <label class="required condition-isOtherLegalAccessRepresentative-filled"><g:message code="hcar.property.legalAccessRepresentativeKindDetail.label" /> <span><g:message code="hcar.property.legalAccessRepresentativeKindDetail.help" /></span></label>
+      <label class="required condition-isOtherLegalAccessRepresentative-filled"><g:message code="hcar.property.legalAccessRepresentativeKindDetail.label" /> * <span><g:message code="hcar.property.legalAccessRepresentativeKindDetail.help" /></span></label>
       
             <input type="text" name="legalAccessRepresentativeKindDetail" value="${rqt.legalAccessRepresentativeKindDetail}" 
-                    class="required condition-isOtherLegalAccessRepresentative-filled " title="<g:message code="hcar.property.legalAccessRepresentativeKindDetail.validationError" />">
+                    class="required condition-isOtherLegalAccessRepresentative-filled " title="<g:message code="hcar.property.legalAccessRepresentativeKindDetail.validationError" />" />
             
     
-      <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeName.label" /> <span><g:message code="hcar.property.legalAccessRepresentativeName.help" /></span></label>
+      <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeName.label" /> * <span><g:message code="hcar.property.legalAccessRepresentativeName.help" /></span></label>
       
             <input type="text" name="legalAccessRepresentativeName" value="${rqt.legalAccessRepresentativeName}" 
-                    class="required condition-isLegalAccessPresence-filled validate-lastName" title="<g:message code="hcar.property.legalAccessRepresentativeName.validationError" />">
+                    class="required condition-isLegalAccessPresence-filled validate-lastName" title="<g:message code="hcar.property.legalAccessRepresentativeName.validationError" />" />
             
     
-      <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeFirstName.label" /> <span><g:message code="hcar.property.legalAccessRepresentativeFirstName.help" /></span></label>
+      <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeFirstName.label" /> * <span><g:message code="hcar.property.legalAccessRepresentativeFirstName.help" /></span></label>
       
             <input type="text" name="legalAccessRepresentativeFirstName" value="${rqt.legalAccessRepresentativeFirstName}" 
-                    class="required condition-isLegalAccessPresence-filled validate-firstName" title="<g:message code="hcar.property.legalAccessRepresentativeFirstName.validationError" />">
+                    class="required condition-isLegalAccessPresence-filled validate-firstName" title="<g:message code="hcar.property.legalAccessRepresentativeFirstName.validationError" />" />
             
     
     </fieldset>
@@ -116,7 +116,7 @@
     <legend><g:message code="hcar.property.family.label" /></legend> 
       
     
-      <label class="required"><g:message code="hcar.property.familyStatus.label" /> <span><g:message code="hcar.property.familyStatus.help" /></span></label>
+      <label class="required"><g:message code="hcar.property.familyStatus.label" /> * <span><g:message code="hcar.property.familyStatus.help" /></span></label>
       
             <select name="familyStatus" class="required validate-not-first" title="<g:message code="hcar.property.familyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -126,7 +126,7 @@
             </select>
             
     
-      <label class="required"><g:message code="hcar.property.familyFamilyDependents.label" /> <span><g:message code="hcar.property.familyFamilyDependents.help" /></span></label>
+      <label class="required"><g:message code="hcar.property.familyFamilyDependents.label" /> * <span><g:message code="hcar.property.familyFamilyDependents.help" /></span></label>
       
             <ul class="required">
               <g:each in="${[true,false]}">
@@ -148,25 +148,25 @@
       <g:set var="listIndex" value="${editList?.name == 'familyDependents' ? editList?.index : ( rqt.familyDependents ? rqt.familyDependents.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isFamilyDependents-filled">
     
-        <label class="required"><g:message code="hcar.property.familyDependentLastName.label" /> <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
+        <label class="required"><g:message code="hcar.property.familyDependentLastName.label" /> * <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
         
             <input type="text" name="familyDependents[${listIndex}].familyDependentLastName" value="${editList?.familyDependents?.familyDependentLastName}" 
-                    class="required validate-lastName" title="<g:message code="hcar.property.familyDependentLastName.validationError" />">
+                    class="required validate-lastName" title="<g:message code="hcar.property.familyDependentLastName.validationError" />" />
             
     
-        <label class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
+        <label class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> * <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
         
             <input type="text" name="familyDependents[${listIndex}].familyDependentFirstName" value="${editList?.familyDependents?.familyDependentFirstName}" 
-                    class="required validate-firstName" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />">
+                    class="required validate-firstName" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />" />
             
     
-        <label class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
+        <label class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> * <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
         
             <input type="text" name="familyDependents[${listIndex}].familyDependentBirthDate" value="${formatDate(formatName:'format.date',date:editList?.familyDependents?.familyDependentBirthDate)}" 
-                   class="required validate-date" title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />">
+                   class="required validate-date" title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
             
     
-        <label class="required"><g:message code="hcar.property.familyDependentActualSituation.label" /> <span><g:message code="hcar.property.familyDependentActualSituation.help" /></span></label>
+        <label class="required"><g:message code="hcar.property.familyDependentActualSituation.label" /> * <span><g:message code="hcar.property.familyDependentActualSituation.help" /></span></label>
         
             <select name="familyDependents[${listIndex}].familyDependentActualSituation" class="required validate-not-first" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>

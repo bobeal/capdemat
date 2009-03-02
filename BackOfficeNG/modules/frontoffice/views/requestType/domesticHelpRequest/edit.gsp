@@ -180,6 +180,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/subject" />         
+  
            </div>
            <div class="error" id="stepForm-subject-error"> </div>
            <!-- Input submit-->
@@ -217,6 +218,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/familyReferent" />         
+  
            </div>
            <div class="error" id="stepForm-familyReferent-error"> </div>
            <!-- Input submit-->
@@ -256,6 +258,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/spouse" />         
+  
            </div>
            <div class="error" id="stepForm-spouse-error"> </div>
            <!-- Input submit-->
@@ -297,6 +300,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/dwelling" />         
+  
            </div>
            <div class="error" id="stepForm-dwelling-error"> </div>
            <!-- Input submit-->
@@ -338,6 +342,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/resources" />         
+  
            </div>
            <div class="error" id="stepForm-resources-error"> </div>
            <!-- Input submit-->
@@ -377,6 +382,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/taxes" />         
+  
            </div>
            <div class="error" id="stepForm-taxes-error"> </div>
            <!-- Input submit-->
@@ -418,6 +424,7 @@
            <div>
   
             <g:render template="/frontofficeRequestType/document" />         
+  
            </div>
            <div class="error" id="stepForm-document-error"> </div>
            <!-- Input submit-->
@@ -466,8 +473,10 @@
                  <option value="${moc.key}">${moc.label}</option>
                </g:each>
              </select>
+    
+            <g:render template="/frontofficeRequestType/domesticHelpRequest/validation0" />
+    
   
-            <g:render template="/frontofficeRequestType/domesticHelpRequest/validation" />         
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->

@@ -27,7 +27,7 @@ class RequestCreationController {
     
     def draft = {
         
-        def requestService
+        def requestService = null
         
         flash.fromDraft = true
         
@@ -42,7 +42,8 @@ class RequestCreationController {
             requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
         }
-        redirect(controller:controllerName, params:['label':requestService.label])
+        redirect(controller:controllerName, params:[
+            'label':requestService.label,'currentTabIndex': params?.currentTabIndex])
         return false
     }
     
@@ -115,7 +116,7 @@ class RequestCreationController {
             requestTypeInfo.steps.each {
                 def nameToken = it.tokenize('-')
                 def value = ['state': 'uncomplete',
-                             'required': nameToken.size() == 2 ? true : false,
+                             'required': nameToken.size() == 2,
                              'cssClass': 'tag-uncomplete',
                              'i18nKey': 'request.step.state.uncomplete'
                              ]

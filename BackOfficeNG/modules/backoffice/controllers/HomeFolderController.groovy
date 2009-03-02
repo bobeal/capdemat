@@ -115,20 +115,20 @@ class HomeFolderController {
             this.prepareSort(state),this.defaultMax,
             params.currentOffset ? Integer.parseInt(params.currentOffset) : 0)
         
-        for(Individual human : individuals) {
+        for(Individual indv : individuals) {
             def entry = [
-                'id' : human.id,
-                'state' : human.homeFolder?.state,
-                'status' : human.homeFolder?.enabled,
-                'lastName' : human.lastName,
-                'firstName' : human.firstName,
-                'homeFolderId' : human.homeFolder?.id,
-                'streetName' : human.adress.streetName,
-                'streetNumber' : human.adress.streetNumber,
-                'postalCode': human.adress.postalCode,
-                'city' : human.adress.city,
-                'birthDate': human instanceof Child ? human.birthDate : null,
-                'birthCity': human instanceof Child ? human.birthCity : null
+                'id' : indv.id,
+                'state' : indv.homeFolder?.state,
+                'status' : indv.homeFolder?.enabled,
+                'lastName' : indv.lastName,
+                'firstName' : indv.firstName,
+                'homeFolderId' : indv.homeFolder?.id,
+                'streetName' : indv.adress.streetName,
+                'streetNumber' : indv.adress.streetNumber,
+                'postalCode': indv.adress.postalCode,
+                'city' : indv.adress.city,
+                'birthDate': indv instanceof Child ? indv.birthDate : null,
+                'birthCity': indv instanceof Child ? indv.birthCity : null
             ]
             if(!result.contains(entry)) result.add(entry)
         }

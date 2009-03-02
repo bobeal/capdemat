@@ -22,43 +22,60 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     if(el.constructor == 'String') el = yus.query('#requestTabView [name=' + el + ']')[0];
     if(/radio|checkbox/i.test(el.type)) return el.type;
     else if(zct.nodeName(el,'select')) return 'select';
-    else if(zct.nodeName(el,'input')) return 'input';
+    else if(/text/i.test(el.type) || zct.nodeName(el,'textarea')) return 'text';
     else return undefined;
   };
+  zcfi.getByName = function(nm,tag,root) {
+    var _r = root || yud.get('#requestTabView');
+    return yud.getElementsBy(function(n){return n.name == nm;},tag,_r);
+  };
+  
   zcfi.radio = {
     getValue : function(nm) {
-      var r = zct.grep(yus.query('#requestTabView input[name=' + nm + ']'), function(n) {return !!n.checked;});
+      var r = zct.grep(zcfi.getByName(nm,'input'), function(n) {return !!n.checked;});
       if (r.length > 0) return zct.val(r[0]);
     },
     setValue : function(nm, val) {
-      var list = yus.query('#requestTabView input[name=' + nm + ']');
-      zct.each(list, function() {
+      zct.each(zcfi.getByName(nm,'input'), function() {
         this.checked = undefined;
         if (this.value == val) this.checked = 'checked';
       });
     },
     empty : function(nm) {
-      var list = yus.query('#requestTabView input[name=' + nm + ']');
-      zct.each(list, function(){this.checked = undefined;});
+      zct.each(zcfi.getByName(nm,'input'), function(){this.checked = undefined;});
+    },
+    isModified : function() {
+      //Not implemented yet
+      return false;
     }
-  };
+  }; 
   
-  zct.each(['select','input'],function(){
+  zct.each(['select','text'],function(){
     zcfi[this+''] = {};
     zcfi[this+''].getValue = function(nm) {
-      var el = yus.query('#requestTabView [name=' + nm + ']')[0];
+      var el = zcfi.getByName(nm)[0];
       return zct.val(el);
     };
     zcfi[this+''].setValue = function(nm,val) {
-      var el = yus.query('#requestTabView [name=' + nm + ']')[0];
+      var el = zcfi.getByName(nm)[0];
       return zct.val(el,val);
     };
     zcfi[this+''].empty = function(nm) {
-      var el = yus.query('#requestTabView [name=' + nm + ']')[0];
+      var el = zcfi.getByName(nm)[0];
       if(el.selectedIndex) el.selectedIndex = 0; 
       else zct.val(el,'');
     };
   });
+  
+  zcfi.select.isModified = function(nm) {
+    var el = zcfi.getByName(nm,'select')[0];
+    return el.selectedIndex != 0;
+  };
+  
+  zcfi.text.isModified = function(nm) {
+    var el = zcfi.getByName(nm)[0];
+    return yl.trim(zct.val(el)||'').length > 0;
+  };
   
   zcf.Condition = function() {
     
@@ -140,6 +157,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         body : 'Vous risquez de perdre les données entrées'
       };
       zcf.Condition.confirmDialog = new zct.ConfirmationDialog(content,zcf.Condition.confirmRetain);
+      zcf.Condition.confirmDialog.cfg.setProperty("draggable",true); 
     };
     var initElements = function() {
       zcf.Condition.triggered = {};
@@ -217,7 +235,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         zct.doAjaxFormSubmitCall('conditionsForm',[],function(o){
           var json = ylj.parse(o.responseText), t = yue.getTarget(e||{target:undefined});
           zct.each(json,function(i,el){
-            if(!el.test && !!confirm && !yud.hasClass(zcf.Condition.filleds[i][0],'unactive')) {
+            if(!el.test && !!confirm && zcf.Condition.checkChanges(i)
+               && !yud.hasClass(zcf.Condition.filleds[i][0],'unactive')) {
               zcf.Condition.confirmDialog.triggerIndex = i;
               zcf.Condition.confirmDialog.triggerTarget = yue.getTarget(e);
               zcf.Condition.confirmDialog.show(e);
@@ -289,6 +308,36 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
           zcf.Condition.unfilledDescendants.push(getDescendants(
                   yud.getElementsByClassName(condition, null, 'requestTabView')));
       },
+      /**
+       * @description Checks if filled elements were modified
+       * 
+       * @param i {Number} Current trigger index
+       */
+      checkChanges : function(i) {
+        var result = false, _t = zcfi.getType, _l = {};
+        var list = zct.merge(zcf.Condition.filleds[i],zcf.Condition.filledDescendants[i]);
+        
+        zct.each(list, function() {
+          var that = this, type = _t(this);
+//          if(type && zcfi[type].isModified(this.name)) yud.addClass(this,'data-loss-risk'); //_l[this.name] = this;
+          
+          if(type) result = result || zcfi[type].isModified(this.name);
+          else if(zct.nodeName(this,'fieldset') && (this.childNodes||[]).length > 0) {
+            zct.each(yus.query('[name]',that),function(){
+//              if(_t(this) && zcfi[_t(this)].isModified(this.name)) yud.addClass(this,'data-loss-risk');
+              if(_t(this) && this.name) result = result || zcfi[_t(this)].isModified(this.name);
+            });
+          }
+        });
+        return result;
+      },
+      /**
+       * @description Process event triggers and related html elements
+       * 
+       * @param list {Array} Related elements list
+       * @param state {Boolean} Current state
+       * @param init {Boolean} Initialization indicator
+       */
       process : function(list,state,init) {
         var key1 = (state+'').toUpperCase();
         var map1 = {'TRUE': 'add','FALSE': 'remove'};

@@ -530,6 +530,19 @@
       return true;
     }
   };
+
+  /**
+   * @description Gets an element by its name
+   * 
+   * @param {String} name Node name attribute 
+   * @param {String} tag Node tag name (optional)
+   * @param {HTMLElement} root Root element (optional)
+   * 
+   * @author vba@zenexity.fr
+   */
+  zct.getElementsByName = function(name,tag,root) {
+    return yud.getElementsBy(function(n){return n.name == name;},tag,root);
+  };
   
   /**
    * @description Toggles css class for specified DOM element
@@ -543,7 +556,7 @@
   zct.toggleClass = function(node,className) {
     if(YAHOO.util.Dom.hasClass(node,className)) YAHOO.util.Dom.removeClass(node,className);
     else YAHOO.util.Dom.addClass(node,className);
-  }
+  };
   
   /**
    * @description Fade in passed element by adjusting its opacity and firing an optional callback after completion
@@ -788,7 +801,7 @@
        **/
       displayModelError : function(message,cn) {},
       confirmHandler : function() {}
-    }
+    };
   }();
   
   zct.each(['UnexpectedError','ModelError'],function(i,name){
@@ -848,7 +861,7 @@
    * @method limitArea 
    * @namespace zenexity.capdemat.tools
    * @param targetId {String} target id
-   * @param limit {Integer} limitation
+   * @param limit {Number} limitation
    * @param infodiv {String} information container id
    * 
    * @author vba@zenexity.fr
@@ -880,7 +893,7 @@
   zct.Event = function(context,rule) {
     this.context = context;
     this.rule = rule;
-  }
+  };
   
   /**
    * @description Dispatchs provided event.
@@ -893,7 +906,7 @@
   zct.Event.prototype.dispatch = function(e) {
     var method = zct.tryToCall(this.rule,this.context,e);
     zct.tryToCall(this.context[method],this.context,e);
-  }
+  };
   
   YAHOO.util.Event.onDOMReady(function(){
     zct.Notifier.init();

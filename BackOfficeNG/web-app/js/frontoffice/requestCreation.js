@@ -3,6 +3,7 @@
   var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
   var yue = YAHOO.util.Event;
+  var yus = YAHOO.util.Selector;
   var yu = YAHOO.util;
   var yw = YAHOO.widget;
   
@@ -41,12 +42,17 @@
       requestFormTabView : undefined,
       
       init : function() {
-          zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
-          
-          zcf.RequestCreation .clickEvent =
-              new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
-          yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch,
-              zcf.RequestCreation.clickEvent, true);
+        zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
+        
+        zcf.RequestCreation .clickEvent =
+            new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
+        yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch,
+            zcf.RequestCreation.clickEvent, true);
+        
+        yue.on('draftForm','submit',zcf.RequestCreation.submitDraft);
+        
+        var index = zct.getElementsByName('currentTabIndex','input',yud.get('draftForm'))[0].value;
+        if (!!index) zcf.RequestCreation.requestFormTabView.set('activeIndex',index);
       },
       
       getHandler : function(e) {
@@ -63,6 +69,13 @@
       submitCollectionAdd : function(e) { validateAndSubmit(e, true); },
       
       submitCollectionModify : function(e) { validateAndSubmit(e, true); },
+      
+      submitDraft : function(e) {
+        yue.stopEvent(e);
+        var hd = zct.getElementsByName('currentTabIndex','input',yud.get('draftForm'))[0];
+        hd.value = zcf.RequestCreation.requestFormTabView.get('activeIndex');
+        yue.getTarget(e).submit();
+      },
       
       prevTab : function(e) {
           yue.preventDefault(e);

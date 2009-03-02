@@ -4,16 +4,20 @@
     <g:each var="record" in="${records}">
       <li>
         <p class="first-line">
-          <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="actor.state" />
-          <a href="${createLink(action:'details',id:record.homeFolderId)}">
-            ${record.firstName} 
-            <span class="${state?.orderBy == 'lastName' ? 'current-sort' : ''}">${record.lastName}</span>
-            <span class="${state?.orderBy == 'id' ? 'current-sort' : ''}">(${record.id})</span> -
-            ${message(code:'property.homeFolderId')}: 
+          <g:if test="${record.homeFolderId}">
+            <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="actor.state" />
+            <a href="${createLink(action:'details',id:record.homeFolderId)}">
+          </g:if>
+          ${record.firstName} 
+          <span class="${state?.orderBy == 'lastName' ? 'current-sort' : ''}">${record.lastName}</span>
+          <span class="${state?.orderBy == 'id' ? 'current-sort' : ''}">(${record.id})</span>
+          <g:if test="${record.homeFolderId}">
+            - ${message(code:'property.homeFolderId')}: 
             <span class="${state?.orderBy == 'homeFolder.id' ? 'current-sort' : ''}">
               ${record.homeFolderId}
             </span>
-          </a>
+            </a>
+          </g:if>
         </p>
         <p class="second-line">
           ${record.streetNumber} ${record.streetName}

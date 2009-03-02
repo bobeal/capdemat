@@ -102,7 +102,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
       doSearch : function(e) {
         if(FIC_checkForm(yud.get('searchForm'),yud.get('errorContainer'))) {
           zcbh.Search.saveState();
-          if(yue.getTarget(e).nodeName != 'form') yud.get('searchForm').submit();
+          
+          if(!e || yue.getTarget(e).nodeName != 'form') yud.get('searchForm').submit();
         } else yue.stopEvent(e);
       }
     }

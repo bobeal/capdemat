@@ -422,7 +422,7 @@
    * @param f {Function*} function object to be called
    * @param c {Object*} context in which function is called
    * @param params {Array | Object*} parameters to be supplied to function call
-   * @returns{Object | Undefined} function execution result if this one had place
+   * @returns {Object | Undefined} function execution result if this one had place
    * 
    * @author vba@zenexity.fr
    */
@@ -473,8 +473,23 @@
       });
     }
     else {
-      return false
+      return false;
     }
+  };
+
+  /**
+   * @description Checks if an element appears in passed list
+   * @method isIn
+   * @param o {Object} Entry element
+   * @param list {Array} Search scope
+   * @returns {Boolean} evaluation resutl
+   * @author vba@zenexity.fr
+   */
+  zct.isIn = function(o,list) {
+    var result = false;
+    zct.each(list,function(){ result = result || o+''.toUpperCase() == this.toUpperCase(); });
+    //if(list.constructor != Array || list.length == 0) result = false;
+    return result;
   };
 
   /**
@@ -780,8 +795,8 @@
     zct.Notifier[['display',name].join('')] = function(message) {
       zct.Notifier.confirmationDialog.setBody(message);
       zct.Notifier.confirmationDialog.show();
-    }
-  }) 
+    };
+  }); 
   
   /**
    * @description Confirmation dialog class, extends base functionality of YUI SimpleDialog.
@@ -790,23 +805,21 @@
    * @author vba@zenexity.fr
    */
   zct.ConfirmationDialog = function(content,confirmHandler) {
-    this.Id = YAHOO.util.Dom.generateId();
-    this.Label = {
-      first:  content.button1 || 'Ok',
-      second: content.button2 || 'Annuler'
-    };
+    this.id = YAHOO.util.Dom.generateId();
     this.showTarget = undefined;
+    this.showEv = undefined;
     
     zct.ConfirmationDialog.superclass.constructor.call(this,
-    this.Id,
-    { width: "20em",
+    this.id,{ 
+      width: "20em",
       effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.25},
       modal:true, visible:false, draggable:false, fixedcenter:true,
       icon:YAHOO.widget.SimpleDialog.ICON_WARN ,
       buttons:[{ text:'  Ok  ',isDefault:true, handler:function(e){
-        zct.tryToCall(confirmHandler,this);this.hide();}}]
-      }
-    );
+        zct.tryToCall(confirmHandler,this,e);
+        this.hide();
+      }}]
+    });
     this.setHeader(content.head || 'Warning');
     this.setBody(content.body || 'Confirm ?');
     var el = yus.query("div.yui-skin-sam")[0] || document.body;
@@ -824,6 +837,7 @@
    **/
   zct.ConfirmationDialog.prototype.show = function(e) {
     zct.ConfirmationDialog.superclass.show.call(this);
+    this.showEv = e;
     if(!!e) this.showTarget = YAHOO.util.Event.getTarget(e);
     else this.showTarget = undefined;
   };

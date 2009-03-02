@@ -25,7 +25,7 @@ class RequestCreationController {
     def defaultAction = 'edit'
     
     def draft = {
-        def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
+        def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
         
         flash.fromDraft = true
         

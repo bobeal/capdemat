@@ -12,6 +12,7 @@ class RequestController {
 
     def requestAdaptorService
     def translationService
+    def documentAdaptorService
 
     IRequestServiceRegistry requestServiceRegistry
     IRequestService defaultRequestService
@@ -61,6 +62,7 @@ class RequestController {
         subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
         return ['rqt': request, 'requestTypeLabel':requestTypeLabel,
                 'subjects': subjects,
+                'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, []),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)]
     }
 

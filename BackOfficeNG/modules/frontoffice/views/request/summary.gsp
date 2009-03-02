@@ -12,7 +12,7 @@
       <h2><g:message code="request.header.summary"
                      args="${[requestTypeLabel,rqt.id]}"/></h2>
       <div id="requestTabView" class="requestSummary">
-        <g:render template="/frontofficeRequestType/${validationTemplateDirectory}/validation"
+        <g:render template="/frontofficeRequestType/${validationTemplateDirectory}/summary"
                   model="['rqt':rqt]" />
       </div>
     </div>

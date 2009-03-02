@@ -21,6 +21,7 @@ class RequestCreationController {
     IIndividualService individualService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
+    def documentAdaptorService
     
     def defaultAction = 'edit'
     
@@ -66,7 +67,7 @@ class RequestCreationController {
         session[uuidString].cRequest = cRequest
         session[uuidString].newDocuments = newDocuments
         session[uuidString].draftVisible = (cRequest.draft && !flash.fromDraft)
-
+        
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
         render(view: viewPath, model: [
             'isRequestCreation': true,
@@ -80,7 +81,7 @@ class RequestCreationController {
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
             'uuidString': uuidString,
             'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
-            'documentTypes': getDocumentTypes(requestService, cRequest, newDocuments),
+            'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, newDocuments),
             'isDocumentEditMode': false
         ])
     }
@@ -141,14 +142,14 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'documentAdd') {
                 def docParam = targetAsMap(submitAction[3])
-                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true
             }
             else if (submitAction[1] == 'documentEdit') {
                 def docParam = targetAsMap(submitAction[3])
-                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true
-                document = getDocument(Long.valueOf(docParam.id))
+                document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
             else if (submitAction[1] == 'documentSave') {
                 def docParam = targetAsMap(submitAction[3])
@@ -179,7 +180,7 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'documentAddPage') {
                 def docParam = targetAsMap(submitAction[3])
-                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true;
                 
                 def newDocBinary = new DocumentBinary()
@@ -194,23 +195,23 @@ class RequestCreationController {
                 }
                 newDocBinary.data = request.getFile('documentData-0').bytes
                 documentService.addPage(Long.valueOf(docParam.id), newDocBinary)
-                document = getDocument(Long.valueOf(docParam.id))
+                document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
             else if (submitAction[1] == 'documentModifyPage') {
                 def docParam = targetAsMap(submitAction[3])
-                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true
                 def newDocBinary = documentService.getPage(Long.valueOf(docParam.id), Integer.valueOf(docParam.dataPageNumber))
                 newDocBinary.data = request.getFile('documentData-' + docParam.dataPageNumber).bytes
                 documentService.modifyPage(Long.valueOf(docParam.id), newDocBinary)
-                document = getDocument(Long.valueOf(docParam.id))
+                document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
             else if (submitAction[1] == 'documentDeletePage') {
                 def docParam = targetAsMap(submitAction[3])
-                documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
+                documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true
                 documentService.deletePage(Long.valueOf(docParam.id), Integer.valueOf(docParam.dataPageNumber))
-                document = getDocument(Long.valueOf(docParam.id))
+                document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
             // removal of a collection element
             else if (submitAction[1] == 'collectionDelete') {
@@ -277,7 +278,7 @@ class RequestCreationController {
                      'uuidString': uuidString,
                      'editList': editList,
                      'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
-                     'documentTypes': getDocumentTypes(requestService, cRequest, newDocuments),
+                     'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, newDocuments),
                      'isDocumentEditMode': isDocumentEditMode,
                      'documentType': documentType,
                      'document': document
@@ -343,71 +344,6 @@ class RequestCreationController {
         }
         if (steps.size() == 0) return true;
         else return false;
-    }
-    
-    
-    /* Documents
-     * ------------------------------------------------------------------------------------------- */
-
-    def getDocumentTypes(requestService, cRequest, newDocuments) {
-        def requestType = requestService.getRequestTypeByLabel(requestService.getLabel())
-        def documentTypes = requestService.getAllowedDocuments(requestType.getId())
-        
-        def result = [:]
-        def documentTypeList = []
-        documentTypes.each {
-            def associatedDocuments = getAssociatedDocuments(requestService, cRequest, it, newDocuments)
-            def docType = ['id':it.id,
-                           'name':message(code:CapdematUtils.adaptDocumentTypeName(it.name)),
-                           'associated':associatedDocuments,
-                           'provided':getProvidedNotAssociatedDocuments(it , associatedDocuments)]
-            documentTypeList.add(docType)
-        }
-        documentTypeList = documentTypeList.sort { it.name }
-        documentTypeList.each { result[it.id] = it }
-        return result
-    }
-    
-    def  getAssociatedDocuments(requestService, cRequest, docType, newDocuments) {
-        // TODO : add a docType parameter to service's method
-        def requestDocuments = requestService.getAssociatedDocuments(cRequest)
-        def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
-        def docTypeDocuments = documents.findAll{ it.documentType.id == docType.id }
-        
-        def result = []
-        docTypeDocuments.each {
-            def doc = ['id':it.id,
-                       'endValidityDate':it.endValidityDate,
-                       'ecitizenNote':it.ecitizenNote,
-                       'isNew':newDocuments.contains(it.id) ? true : false]
-            result.add(doc)
-        }
-        return result
-    }
-    
-    def  getProvidedNotAssociatedDocuments(docType, associateds) {
-        // TODO : also use subject id
-        def provideds =
-            documentService.getProvidedDocuments(docType, SecurityContext.currentEcitizen.homeFolder.id, null)
-        def associatedIds = associateds.collect{ it.id }
-        return provideds.findAll{ !associatedIds.contains(it.id) }
-    }
-    
-    def getDocument(id) {
-        def doc = documentService.getById(id)
-        def result = [:]
-        result.id = doc.id
-        result.ecitizenNote = doc.ecitizenNote
-        result.datas = []
-        doc.datas.each {
-            result.datas.add(['id': it.id, 'pageNumber':it.pageNumber])
-        }
-        return result 
-    }
-    
-    def getDocumentType(id) {
-        def docType = documentTypeService.getDocumentTypeById(id)
-        return ['id':docType.id, 'i18nKey':CapdematUtils.adaptDocumentTypeName(docType.name)]
     }
     
     

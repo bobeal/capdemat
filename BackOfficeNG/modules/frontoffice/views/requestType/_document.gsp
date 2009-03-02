@@ -27,7 +27,7 @@
 <g:else>  
   <g:each in="${documentTypes}" var="documentType">
   <fieldset>
-    <legend>${documentType.value.name}</legend>
+    <legend>${message(code:documentType.value.name)}</legend>
     
     <label>Documents joints</label>
     <div class="document-fieldset">

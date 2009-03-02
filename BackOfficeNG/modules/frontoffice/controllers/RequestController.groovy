@@ -59,8 +59,10 @@ class RequestController {
             translationService.getEncodedRequestTypeLabelTranslation(request.requestType.label)
         def subjects = [:]
         subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
+        // TODO : plug documents management
         return ['rqt': request, 'requestTypeLabel':requestTypeLabel,
                 'subjects': subjects,
+                'documentTypes': [:],
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)]
     }
 

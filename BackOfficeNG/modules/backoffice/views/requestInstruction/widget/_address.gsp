@@ -13,7 +13,7 @@
     <label>
       <g:message code="address.property.streetNumber" />
        - 
-      <g:message code="address.property.streetName" />
+      <strong><g:message code="address.property.streetName" /> * </strong>
     </label>
     <input name="${propertyNameTp}.streetNumber" type="text" maxlength="5" 
         value="${propertyValue.streetNumber}" class="line1" />
@@ -27,9 +27,9 @@
         value="${propertyValue.placeNameOrService}" />
     
     <label>
-      <g:message code="address.property.postalCode" />
+      <strong><g:message code="address.property.postalCode" /> * </strong>
        - 
-      <g:message code="address.property.city" />
+      <strong><g:message code="address.property.city" /> * </strong>
     </label>
     <input name="${propertyNameTp}.postalCode" type="text" maxlength="5"
         value="${propertyValue.postalCode}" class="line1" />

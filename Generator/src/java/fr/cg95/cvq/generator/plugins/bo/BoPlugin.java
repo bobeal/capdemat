@@ -79,7 +79,7 @@ public class BoPlugin implements IPluginGenerator {
             template.make(bindingMap).writeTo(new FileWriter(output + "_edit.gsp"));
             logger.warn("endRequest() - edit.gsp.tpl OK");
             
-            // _validation.gsp template
+            // _steps.gsp template
             template = templateEngine.createTemplate(new File(stepsTemplate));
             int bundleIndex = 0;
             if (requestBo.getStepBundles().size() > 1 ) {

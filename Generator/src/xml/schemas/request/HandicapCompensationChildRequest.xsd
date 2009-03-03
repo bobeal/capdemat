@@ -751,7 +751,9 @@
                   <fo>
                     <textarea rows="10" />
                   </fo>
-                  <bo column="2" />
+                  <bo column="2">
+                    <textarea rows="10" />
+                  </bo>
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -776,7 +778,9 @@
                   <fo>
                     <textarea rows="10" />
                   </fo>
-                  <bo column="2" />
+                  <bo column="2">
+                    <textarea rows="10" />
+                  </bo>
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -801,7 +805,9 @@
                   <fo>
                     <textarea rows="10" />
                   </fo>
-                  <bo column="2" />
+                  <bo column="2">
+                    <textarea rows="10" />
+                  </bo>
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -1582,7 +1588,9 @@
             <fo>
               <textarea rows="2" />
             </fo>
-            <bo />
+            <bo>
+              <textarea rows="2" />
+            </bo>
           </xs:appinfo>
         </xs:annotation>
         <xs:simpleType>
@@ -2695,7 +2703,9 @@
             <fo>
               <textarea rows="2" />
             </fo>
-            <bo />
+            <bo>
+              <textarea rows="2" />
+            </bo>
           </xs:appinfo>
         </xs:annotation>
         <xs:simpleType>
@@ -2720,7 +2730,9 @@
             <fo>
               <textarea rows="3" />
             </fo>
-            <bo />
+            <bo>
+              <textarea rows="3" />
+            </bo>
           </xs:appinfo>
         </xs:annotation>
         <xs:simpleType>
@@ -2745,7 +2757,9 @@
             <fo>
               <textarea rows="2" />
             </fo>
-            <bo />
+            <bo>
+              <textarea rows="2" />
+            </bo>
           </xs:appinfo>
         </xs:annotation>
         <xs:simpleType>

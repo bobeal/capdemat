@@ -281,7 +281,9 @@
             <fo>
               <textarea rows="3" />
             </fo>
-            <bo />
+            <bo>
+              <textarea rows="3" />
+            </bo>
           </xs:appinfo>
         </xs:annotation>
         <xs:simpleType>

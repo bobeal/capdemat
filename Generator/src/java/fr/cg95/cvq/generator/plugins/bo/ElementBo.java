@@ -102,6 +102,8 @@ public class ElementBo {
     }
 
     public String getHtmlClass() {
+        if (htmlClass == null)
+            setHtmlClass();
         return htmlClass;
     }
     
@@ -122,12 +124,14 @@ public class ElementBo {
 
     public void setWidget(String type) {
         if (widget != null) {
+            // TODO - how to process element without xmlschema 'type' attribute
+            if (type == null)
+                return;
             if (widget.equals("textarea") && !(type.equals("string") || type.equals("token")))
                 throw new RuntimeException("setWidget() - <textarea /> can be only used for types {string, token}");
             return;
         }
         this.widget = StringUtils.uncapitalize(StringUtils.removeEnd(type, "Type"));
-        setHtmlClass();
     }
     
     public int getRows() {

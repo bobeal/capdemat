@@ -23,6 +23,9 @@ public class RequestBo {
     private List<Step> steps;
     private List<ElementBo> elements;
 
+    // Useful to divide steps into smaller group to bypass (grails view limit size)
+    private List<List<Step>> stepBundles;
+    
     public RequestBo(String name, String targetNamespace) {
         this.name =  StringUtils.uncapitalize(name);
         this.acronym = StringUtils.substringAfterLast(targetNamespace, "/");
@@ -46,6 +49,12 @@ public class RequestBo {
             if (it.next().getName() == null)
                 it.remove();
         }
+    }
+    
+    public List<List<Step>> getStepBundles() {
+        if (stepBundles == null)
+            setStepBundles();
+        return stepBundles;
     }
     
     public List<ElementBo> getElements() {
@@ -119,6 +128,39 @@ public class RequestBo {
                     afters.add(after);
             }
         }
+    }
+    
+    private int getStepWeight(Step step) {
+        int weight = 0;
+        for (ElementBo element : elements) { 
+            if (element.getStep().getName().equals(step.getName())) {
+                weight++;
+                if (element.getElements() != null)
+                    weight += element.getElements().size();
+            }   
+        }
+        return weight ;
+    }
+    
+    // TODO - Evaluate the best max bundleWeight
+    private void setStepBundles() {
+        int bundleWeight = 0;
+        List<Step> stepBundle = new ArrayList<Step>();
+        stepBundles = new ArrayList<List<Step>>();
+        
+        for (Step step : this.steps) {
+            bundleWeight += getStepWeight(step);
+            if (bundleWeight < 100)
+                stepBundle.add(step);
+            else {
+                stepBundles.add(stepBundle);
+                stepBundle = new ArrayList<Step>();
+                bundleWeight = getStepWeight(step);
+                stepBundle.add(step);
+            }
+        }
+        if (stepBundle.size() > 0)
+            stepBundles.add(stepBundle);
     }
     
 }

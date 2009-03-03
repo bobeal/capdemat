@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.RequestCommon;
+import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.plugins.bo.ElementBo.ElementTypeClass;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
@@ -32,6 +34,7 @@ public class BoPlugin implements IPluginGenerator {
     
     private String outputDir;
     private String editTemplate;
+    private String stepsTemplate;
     private String collectionTemplate;
     
     private RequestBo requestBo;
@@ -45,6 +48,7 @@ public class BoPlugin implements IPluginGenerator {
             NamedNodeMap childAttributesMap = configurationNode.getFirstChild().getAttributes();
             outputDir = childAttributesMap.getNamedItem("outputdir").getNodeValue();
             editTemplate = childAttributesMap.getNamedItem("edittemplate").getNodeValue();
+            stepsTemplate = childAttributesMap.getNamedItem("stepstemplate").getNodeValue();
             collectionTemplate = childAttributesMap.getNamedItem("collectiontemplate").getNodeValue();
         } catch (NullPointerException npe) {
             throw new RuntimeException ("Check bo-plugin.xml <properties outputdir=\"\" groovytemplate=\"\"/> configuration tag");
@@ -74,6 +78,17 @@ public class BoPlugin implements IPluginGenerator {
             bindingMap.put("requestBo", requestBo);
             template.make(bindingMap).writeTo(new FileWriter(output + "_edit.gsp"));
             logger.warn("endRequest() - edit.gsp.tpl OK");
+            
+            // _validation.gsp template
+            template = templateEngine.createTemplate(new File(stepsTemplate));
+            int bundleIndex = 0;
+            if (requestBo.getStepBundles().size() > 1 ) {
+                for (List<Step> stepBundle : requestBo.getStepBundles()) {
+                    bindingMap.put("stepBundle", stepBundle);
+                    template.make(bindingMap).writeTo(new FileWriter(output + "_steps"+ bundleIndex++ +".gsp" ));
+                }
+            }
+            logger.warn("endRequest() - steps.gsp.tpl OK");
             
             // .../<requestType.name>_<collection>.gsp templates
             template = templateEngine.createTemplate(new File(collectionTemplate));

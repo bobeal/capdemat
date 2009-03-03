@@ -87,7 +87,6 @@ public class FoPlugin implements IPluginGenerator {
             bindingMap = new HashMap<String, Object>();
             bindingMap.put("requestFo", requestFo);
             int bundleIndex = 0;
-            List<List<Step>> test = requestFo.getStepBundles();
             for (List<Step> stepBundle : requestFo.getStepBundles()) {
                 bindingMap.put("stepBundle", stepBundle);
                 template.make(bindingMap).writeTo(new FileWriter(output + "_validation"+ bundleIndex++ +".gsp" ));

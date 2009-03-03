@@ -283,8 +283,9 @@ function FIC_checkField(c,e) {
 			return (elem.indexOf('validate-') != -1);
 	})[0];
 	
-	valid = !(zenexity.capdemat.tools.tryToCall(capdematTest[validateClass], capdematTest, t));
-	
+	if (t.length > 0) {
+	  valid = !(zenexity.capdemat.tools.tryToCall(capdematTest[validateClass], capdematTest, t));
+	}
 	
 	//search for required
 	if (c.indexOf(' required ') != -1 && t.length == 0) {

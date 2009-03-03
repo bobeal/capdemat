@@ -231,6 +231,7 @@
              <span><g:message code="hcar.step.subject.desc" /></span>
              <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/subject" />         
@@ -271,6 +272,7 @@
              <span><g:message code="hcar.step.dwelling.desc" /></span>
              <span class="error"><g:message code="${stepStates?.dwelling?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/dwelling" />         
@@ -313,6 +315,7 @@
              <span><g:message code="hcar.step.socialSecurityAndPaymentAgency.desc" /></span>
              <span class="error"><g:message code="${stepStates?.socialSecurityAndPaymentAgency?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/socialSecurityAndPaymentAgency" />         
@@ -355,6 +358,7 @@
              <span><g:message code="hcar.step.occupationnalAndSchoolStatus.desc" /></span>
              <span class="error"><g:message code="${stepStates?.occupationnalAndSchoolStatus?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/occupationnalAndSchoolStatus" />         
@@ -397,6 +401,7 @@
              <span><g:message code="hcar.step.folders.desc" /></span>
              <span class="error"><g:message code="${stepStates?.folders?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/folders" />         
@@ -439,6 +444,7 @@
              <span><g:message code="hcar.step.benefits.desc" /></span>
              <span class="error"><g:message code="${stepStates?.benefits?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/benefits" />         
@@ -481,6 +487,7 @@
              <span><g:message code="hcar.step.aid.desc" /></span>
              <span class="error"><g:message code="${stepStates?.aid?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/aid" />         
@@ -523,6 +530,7 @@
              <span><g:message code="hcar.step.health.desc" /></span>
              <span class="error"><g:message code="${stepStates?.health?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/health" />         
@@ -565,6 +573,7 @@
              <span><g:message code="hcar.step.project.desc" /></span>
              <span class="error"><g:message code="${stepStates?.project?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/project" />         
@@ -607,6 +616,7 @@
              <span><g:message code="request.step.document.desc" /></span>
              <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/document" />         
@@ -649,6 +659,7 @@
              <span><g:message code="request.step.validation.desc" /></span>
              <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
              <label for="meansOfContact" class="required">

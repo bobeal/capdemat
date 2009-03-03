@@ -443,7 +443,7 @@
   <g:if test="${!documentTypes.isEmpty()}">
     <h3><g:message code="request.step.document.label" /></h3>
     <g:each in="${documentTypes}" var="documentType">
-      <h4>${documentType.value.name}</h4>
+      <h4>${message(code:documentType.value.name)}</h4>
       <g:if test="${documentType.value.associated}">
       <dl class="document-linked">
         <g:each in="${documentType.value.associated}" var="document">

@@ -79,6 +79,7 @@
              <span><g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.desc" /></span>
              <span class="error"><g:message code="\${stepStates?.${step.name}?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   <% if (step.name == 'validation') { %>
              <label for="meansOfContact" class="required">

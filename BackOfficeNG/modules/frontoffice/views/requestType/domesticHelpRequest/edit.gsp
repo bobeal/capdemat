@@ -177,6 +177,7 @@
              <span><g:message code="dhr.step.subject.desc" /></span>
              <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/subject" />         
@@ -215,6 +216,7 @@
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
              <span class="error"><g:message code="${stepStates?.familyReferent?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/familyReferent" />         
@@ -255,6 +257,7 @@
              <span><g:message code="dhr.step.spouse.desc" /></span>
              <span class="error"><g:message code="${stepStates?.spouse?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/spouse" />         
@@ -297,6 +300,7 @@
              <span><g:message code="dhr.step.dwelling.desc" /></span>
              <span class="error"><g:message code="${stepStates?.dwelling?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/dwelling" />         
@@ -339,6 +343,7 @@
              <span><g:message code="dhr.step.resources.desc" /></span>
              <span class="error"><g:message code="${stepStates?.resources?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/resources" />         
@@ -379,6 +384,7 @@
              <span><g:message code="dhr.step.taxes.desc" /></span>
              <span class="error"><g:message code="${stepStates?.taxes?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/domesticHelpRequest/taxes" />         
@@ -421,6 +427,7 @@
              <span><g:message code="request.step.document.desc" /></span>
              <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/document" />         
@@ -463,6 +470,7 @@
              <span><g:message code="request.step.validation.desc" /></span>
              <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
              <label for="meansOfContact" class="required">

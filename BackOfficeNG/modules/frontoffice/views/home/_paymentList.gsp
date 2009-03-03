@@ -12,9 +12,9 @@
               </g:if>
               <g:message code="payment.searchResult.amount" /> 
               <span><g:formatNumber number="${record.amount / 100}" formatName="format.currency"/></span>
-              - <g:message code="payment.searchResult.paidBy" />  
+              - <g:message code="payment.searchResult.paidBy" />
               <span>${record.paymentMode}</span>
-              <g:message code="payment.searchResult.initializationDate" /> 
+              - <g:message code="payment.searchResult.initializationDate" /> 
               <g:formatDate date="${record.initializationDate}" formatName="format.fullDate"/>
             </p>
         </li>

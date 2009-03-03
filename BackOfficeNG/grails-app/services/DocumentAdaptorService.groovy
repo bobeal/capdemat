@@ -8,7 +8,9 @@ import fr.cg95.cvq.service.document.IDocumentTypeService
 
 
 public class DocumentAdaptorService {
-    
+
+    def messageSource
+
     IRequestService defaultRequestService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
@@ -22,7 +24,7 @@ public class DocumentAdaptorService {
         documentTypes.each {
             def associatedDocuments = getAssociatedDocuments(requestService, cRequest, it, newDocuments)
             def docType = ['id':it.id,
-                           'name':CapdematUtils.adaptDocumentTypeName(it.name),
+                           'name':messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
                            'associated':associatedDocuments,
                            'provided':getProvidedNotAssociatedDocuments(it , associatedDocuments)]
             documentTypeList.add(docType)

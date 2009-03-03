@@ -45,7 +45,7 @@ class RequestCreationController {
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
         }
         redirect(controller:controllerName, params:[
-            'label':requestService.label,'currentTabIndex': params?.currentTabIndex])
+            'label':requestService.label,'currentTabIndex': params.currentTabIndex])
         return false
     }
     
@@ -93,12 +93,13 @@ class RequestCreationController {
     def step = {
         if (params.requestTypeInfo == null || params.uuidString == null || session[params.uuidString] == null)
             redirect(uri: '/frontoffice/requestType')
-            
+
         def uuidString = params.uuidString
         def requestTypeInfo = JSON.parse(params.requestTypeInfo)
         
         def submitAction = (params.keySet().find { it.startsWith('submit-') }).tokenize('-')
         def currentStep = submitAction[2]
+        // FIXME BOR : maybe find a clearer name ? editedCollectionElement ?
         def editList
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
@@ -114,8 +115,7 @@ class RequestCreationController {
         
         def askConfirmCancel = false
         
-        if (cRequest.stepStates.size() == 0) {
-            session[uuidString].stepStates = [:]
+        if (cRequest.stepStates.isEmpty()) {
             requestTypeInfo.steps.each {
                 def nameToken = it.tokenize('-')
                 def value = ['state': 'uncomplete',
@@ -128,8 +128,6 @@ class RequestCreationController {
         }
         
         try {
-//            if (submitAction[1] != 'discardCancelRequest')
-//                session[uuidString].draftVisible = true
             
             if (submitAction[1] == 'cancelRequest') {
 //                session[uuidString].draftVisibleBackUp = session[uuidString].draftVisible
@@ -250,7 +248,7 @@ class RequestCreationController {
                     cRequest.stepStates.get(currentStep).errorMsg = ''
                 }
                 
-                if (currentStep == "validation") {
+                if (currentStep == 'validation') {
                     if (!cRequest.draft) requestService.create(cRequest)
                     else requestService.finalizeDraft(cRequest)
                     
@@ -267,10 +265,6 @@ class RequestCreationController {
             cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
             cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
-
-            // FIXME BOR : what does it do ???
-//            if(!session[uuidString].cRequest.draft && !session[uuidString].draftVisible)
-//                session[uuidString].draftVisible = false
         }
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",

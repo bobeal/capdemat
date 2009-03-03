@@ -187,7 +187,8 @@ h2.request-creation {
 /* exit request creation screen
 --------------------------------------------------------------*/
 .requestExit       { overflow: auto; }
-.requestExit .link { float: right; }
+.requestExit .link { padding: 0.75em; }
+.requestExit .link li { margin: 0; padding: .2em .5em; list-style-type: none; }
 .requestExit .info { font-size: 1.5em; }
 
 /* help
@@ -204,6 +205,13 @@ h2.request-creation {
   font-size: 1.6em;
   font-weight: normal;
   border-bottom: 1px solid #C690BB;
+}
+
+/* notices
+--------------------------------------------------------------*/
+#requestTabView .required-fields-notice {
+  text-align: right;
+  margin-top: -0.5em;margin-bottom:0.3em;
 }
 
 /* condition

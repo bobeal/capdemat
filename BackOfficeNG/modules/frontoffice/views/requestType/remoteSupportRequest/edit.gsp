@@ -119,6 +119,7 @@
              <span><g:message code="rsr.step.subject.desc" /></span>
              <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/remoteSupportRequest/subject" />         
@@ -159,6 +160,7 @@
              <span><g:message code="rsr.step.contact.desc" /></span>
              <span class="error"><g:message code="${stepStates?.contact?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/remoteSupportRequest/contact" />         
@@ -201,6 +203,7 @@
              <span><g:message code="request.step.document.desc" /></span>
              <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
             <g:render template="/frontofficeRequestType/document" />         
@@ -243,6 +246,7 @@
              <span><g:message code="request.step.validation.desc" /></span>
              <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
              <label for="meansOfContact" class="required">

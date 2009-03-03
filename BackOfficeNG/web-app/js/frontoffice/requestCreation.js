@@ -44,7 +44,7 @@
       init : function() {
         zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
         
-        zcf.RequestCreation .clickEvent =
+        zcf.RequestCreation.clickEvent =
             new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
         yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch,
             zcf.RequestCreation.clickEvent, true);
@@ -74,7 +74,7 @@
         yue.stopEvent(e);
         var hd = zct.getElementsByName('currentTabIndex','input',yud.get('draftForm'))[0];
         hd.value = zcf.RequestCreation.requestFormTabView.get('activeIndex');
-        yue.getTarget(e).submit();
+        yud.get('draftForm').submit();
       },
       
       prevTab : function(e) {

@@ -70,7 +70,7 @@ class RequestCreationController {
         session[uuidString] = [:]
         session[uuidString].cRequest = cRequest
         session[uuidString].newDocuments = newDocuments
-        session[uuidString].draftVisible = (cRequest.draft && !flash.fromDraft)
+        session[uuidString].draftVisible = false //(cRequest.draft && !flash.fromDraft)
         
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
         render(view: viewPath, model: [
@@ -105,6 +105,7 @@ class RequestCreationController {
         def cRequest = session[uuidString].cRequest
         
         def isDocumentEditMode = false
+        session[uuidString].draftVisible = false
         def documentType = [:]
         def document = [:]
         // manage document create with current request (those can be deleted)
@@ -127,12 +128,12 @@ class RequestCreationController {
         }
         
         try {
-            if (submitAction[1] != 'discardCancelRequest')
-                session[uuidString].draftVisible = true
+//            if (submitAction[1] != 'discardCancelRequest')
+//                session[uuidString].draftVisible = true
             
             if (submitAction[1] == 'cancelRequest') {
-                session[uuidString].draftVisibleBackUp = session[uuidString].draftVisible
-                session[uuidString].draftVisible = false
+//                session[uuidString].draftVisibleBackUp = session[uuidString].draftVisible
+//                session[uuidString].draftVisible = false
                 askConfirmCancel = true
             }
             else if (submitAction[1] == 'confirmCancelRequest') {
@@ -141,7 +142,7 @@ class RequestCreationController {
                 return
             }
             else if (submitAction[1] == 'discardCancelRequest') {
-                session[uuidString].draftVisible = session[uuidString].draftVisibleBackUp
+//                session[uuidString].draftVisible = session[uuidString].draftVisibleBackUp
                 askConfirmCancel = false
             }
             else if (submitAction[1] == 'documentAdd') {
@@ -240,7 +241,8 @@ class RequestCreationController {
                 bind(cRequest)
                 // clean empty collections elements
                 DataBindingUtils.cleanBind(cRequest, params)
-                
+                session[uuidString].draftVisible = true
+                                                                    
                 if (submitAction[1] == 'step') {
                     cRequest.stepStates.get(currentStep).state = 'complete'
                     cRequest.stepStates.get(currentStep).cssClass = 'tag-complete'
@@ -267,8 +269,8 @@ class RequestCreationController {
             cRequest.stepStates.get(currentStep).errorMsg = ce.message
 
             // FIXME BOR : what does it do ???
-            if(!session[uuidString].cRequest.draft && !session[uuidString].draftVisible)
-                session[uuidString].draftVisible = false
+//            if(!session[uuidString].cRequest.draft && !session[uuidString].draftVisible)
+//                session[uuidString].draftVisible = false
         }
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",

@@ -223,7 +223,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       run : function(e) {
         if(e) {
           var target = yue.getTarget(e);
-          if(/submit/i.test(target.type)) return true;
+          if(/submit|file/i.test(target.type)||!zct.isIn(target.nodeName,['select','input'])) return true;
           if( !zct.isIn(target.nodeName,['select','input','textarea'])) return yue.stopEvent(e);
           if(/radio|checkbox/i.test(target.type) && e.type == 'change') return yue.stopEvent(e);
           if(!/radio|checkbox/i.test(target.type) && e.type == 'click') return yue.stopEvent(e);

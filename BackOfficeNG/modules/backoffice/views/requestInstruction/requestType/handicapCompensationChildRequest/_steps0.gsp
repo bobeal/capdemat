@@ -214,7 +214,7 @@
               </dd>
             
               <dt class="required condition-isNotPlaceOfResidence-filled"><g:message code="hccr.property.dwellingPrecision.label" /> * : </dt>
-              <dd id="dwellingPrecision" class="action-editField validate- required-true i18n-hccr.property.dwellingPrecision" >
+              <dd id="dwellingPrecision" class="action-editField validate-textarea required-true i18n-hccr.property.dwellingPrecision rows-2" >
                 <span>${request?.dwellingPrecision}</span>
               </dd>
             
@@ -501,17 +501,17 @@
               </dd>
             
               <dt class=""><g:message code="hccr.property.formationDiploma.label" />  : </dt>
-              <dd id="formationDiploma" class="action-editField validate- i18n-hccr.property.formationDiploma" >
+              <dd id="formationDiploma" class="action-editField validate-textarea i18n-hccr.property.formationDiploma rows-2" >
                 <span>${request?.formationDiploma}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.formationPreviousFormation.label" />  : </dt>
-              <dd id="formationPreviousFormation" class="action-editField validate- i18n-hccr.property.formationPreviousFormation" >
+              <dd id="formationPreviousFormation" class="action-editField validate-textarea i18n-hccr.property.formationPreviousFormation rows-3" >
                 <span>${request?.formationPreviousFormation}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.formationCurrentFormation.label" />  : </dt>
-              <dd id="formationCurrentFormation" class="action-editField validate- i18n-hccr.property.formationCurrentFormation" >
+              <dd id="formationCurrentFormation" class="action-editField validate-textarea i18n-hccr.property.formationCurrentFormation rows-2" >
                 <span>${request?.formationCurrentFormation}</span>
               </dd>
             

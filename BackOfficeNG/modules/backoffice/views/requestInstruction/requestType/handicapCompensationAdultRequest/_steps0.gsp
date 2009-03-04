@@ -140,7 +140,7 @@
               </dd>
             
               <dt class="required condition-isNotPlaceOfResidence-filled"><g:message code="hcar.property.dwellingPrecision.label" /> * : </dt>
-              <dd id="dwellingPrecision" class="action-editField validate- required-true i18n-hcar.property.dwellingPrecision" >
+              <dd id="dwellingPrecision" class="action-editField validate-textarea required-true i18n-hcar.property.dwellingPrecision rows-2" >
                 <span>${request?.dwellingPrecision}</span>
               </dd>
             
@@ -335,17 +335,17 @@
               </dd>
             
               <dt class=""><g:message code="hcar.property.formationDiploma.label" />  : </dt>
-              <dd id="formationDiploma" class="action-editField validate- i18n-hcar.property.formationDiploma" >
+              <dd id="formationDiploma" class="action-editField validate-textarea i18n-hcar.property.formationDiploma rows-2" >
                 <span>${request?.formationDiploma}</span>
               </dd>
             
               <dt class=""><g:message code="hcar.property.formationPreviousFormation.label" />  : </dt>
-              <dd id="formationPreviousFormation" class="action-editField validate- i18n-hcar.property.formationPreviousFormation" >
+              <dd id="formationPreviousFormation" class="action-editField validate-textarea i18n-hcar.property.formationPreviousFormation rows-3" >
                 <span>${request?.formationPreviousFormation}</span>
               </dd>
             
               <dt class=""><g:message code="hcar.property.formationCurrentFormation.label" />  : </dt>
-              <dd id="formationCurrentFormation" class="action-editField validate- i18n-hcar.property.formationCurrentFormation" >
+              <dd id="formationCurrentFormation" class="action-editField validate-textarea i18n-hcar.property.formationCurrentFormation rows-2" >
                 <span>${request?.formationCurrentFormation}</span>
               </dd>
             

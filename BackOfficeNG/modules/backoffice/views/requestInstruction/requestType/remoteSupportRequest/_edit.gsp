@@ -79,7 +79,7 @@
                     </dd>
                   
                     <dt class="required condition-isEmergency-filled"><g:message code="rsr.property.requestInformationEmergencyMotive.label" /> * : </dt>
-                    <dd id="requestInformationEmergencyMotive" class="action-editField validate- required-true i18n-rsr.property.requestInformationEmergencyMotive" >
+                    <dd id="requestInformationEmergencyMotive" class="action-editField validate-textarea required-true i18n-rsr.property.requestInformationEmergencyMotive rows-3" >
                       <span>${request?.requestInformationEmergencyMotive}</span>
                     </dd>
                   

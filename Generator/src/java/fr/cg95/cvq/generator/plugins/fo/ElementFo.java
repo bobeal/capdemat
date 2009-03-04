@@ -123,6 +123,8 @@ public class ElementFo {
     // TODO - refactor 'htmlClass' and 'conditionClass' members in respectively 'labelClass' 'formFieldClass'
     // TODO - add jsRegExp validation feature
     public String getHtmlClass() {
+        if (htmlClass == null)
+            setHtmlClass();
         return htmlClass;
     }
     
@@ -155,7 +157,6 @@ public class ElementFo {
             return;
         }
         this.widget = StringUtils.uncapitalize(StringUtils.removeEnd(type, "Type"));
-        setHtmlClass();
     }
     
     public String getTypeClass() {

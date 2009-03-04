@@ -221,7 +221,7 @@
           
           <dl>
             <dt class=""><g:message code="hccr.property.projectWish.label" />  : </dt>
-            <dd id="projectWish" class="action-editField validate- i18n-hccr.property.projectWish" >
+            <dd id="projectWish" class="action-editField validate-textarea i18n-hccr.property.projectWish rows-10" >
               <span>${request?.projectWish}</span>
             </dd>
           </dl>
@@ -230,7 +230,7 @@
           
           <dl>
             <dt class=""><g:message code="hccr.property.projectNeeds.label" />  : </dt>
-            <dd id="projectNeeds" class="action-editField validate- i18n-hccr.property.projectNeeds" >
+            <dd id="projectNeeds" class="action-editField validate-textarea i18n-hccr.property.projectNeeds rows-10" >
               <span>${request?.projectNeeds}</span>
             </dd>
           </dl>
@@ -239,7 +239,7 @@
           
           <dl>
             <dt class=""><g:message code="hccr.property.projectComments.label" />  : </dt>
-            <dd id="projectComments" class="action-editField validate- i18n-hccr.property.projectComments" >
+            <dd id="projectComments" class="action-editField validate-textarea i18n-hccr.property.projectComments rows-10" >
               <span>${request?.projectComments}</span>
             </dd>
           </dl>

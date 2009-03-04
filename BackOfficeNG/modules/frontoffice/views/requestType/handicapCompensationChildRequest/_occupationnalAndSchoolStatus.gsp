@@ -272,17 +272,17 @@
     
       <label class=""><g:message code="hccr.property.formationDiploma.label" />  <span><g:message code="hccr.property.formationDiploma.help" /></span></label>
       
-            <textarea name="formationDiploma" class="required validate-textarea" title="<g:message code="hccr.property.formationDiploma.validationError" />" rows="2">${rqt.formationDiploma}</textarea>
+            <textarea name="formationDiploma" class=" validate-textarea" title="<g:message code="hccr.property.formationDiploma.validationError" />" rows="2">${rqt.formationDiploma}</textarea>
             
     
       <label class=""><g:message code="hccr.property.formationPreviousFormation.label" />  <span><g:message code="hccr.property.formationPreviousFormation.help" /></span></label>
       
-            <textarea name="formationPreviousFormation" class="required validate-textarea" title="<g:message code="hccr.property.formationPreviousFormation.validationError" />" rows="3">${rqt.formationPreviousFormation}</textarea>
+            <textarea name="formationPreviousFormation" class=" validate-textarea" title="<g:message code="hccr.property.formationPreviousFormation.validationError" />" rows="3">${rqt.formationPreviousFormation}</textarea>
             
     
       <label class=""><g:message code="hccr.property.formationCurrentFormation.label" />  <span><g:message code="hccr.property.formationCurrentFormation.help" /></span></label>
       
-            <textarea name="formationCurrentFormation" class="required validate-textarea" title="<g:message code="hccr.property.formationCurrentFormation.validationError" />" rows="2">${rqt.formationCurrentFormation}</textarea>
+            <textarea name="formationCurrentFormation" class=" validate-textarea" title="<g:message code="hccr.property.formationCurrentFormation.validationError" />" rows="2">${rqt.formationCurrentFormation}</textarea>
             
     
     </fieldset>

@@ -1,6 +1,7 @@
 zenexity.capdemat.bong.document = function() {
+  var zcbr = zenexity.capdemat.bong.request;
   var zcb = zenexity.capdemat.bong;
-  var zcc = zenexity.capdemat.common;
+  var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
   var yuel = YAHOO.util.Element;
@@ -83,34 +84,33 @@ zenexity.capdemat.bong.document = function() {
     }
   }
   
-  yue.addListener(
-      "requestDocument",
-      "click", 
-      function (e) {
-        var targetEl = yue.getTarget(e);
-        
-        if (yud.hasClass(targetEl, "cancelDocumentStateChange")) {
-          switchDocumentStates(targetEl);
-        }
-        else if (yud.hasClass(targetEl, "submitDocumentStateChange")) {
-          if (FIC_checkForm(e, yud.get("documentStateFormErrors")))
-            submitModifyDocumentForm("documentStateForm"); 
-        }
-        else if (targetEl.className === "documentLink") {
-          yue.preventDefault(e);
-          getRequestDocument(targetEl);
-        }
-        else if (targetEl.id === "submitModifyDocumentForm") {
-          if (FIC_checkForm(e, yud.get("modifyDocumentFormErrors")))
-            submitModifyDocumentForm("modifyDocumentForm"); 
-        }
-        else if (targetEl.id === "documentState") {
-          switchDocumentStates(targetEl);
-        }
-        else if (targetEl.parentNode.id === "documentState") {
-          switchDocumentStates(targetEl.parentNode);
-        }
-      });
+  var requestDocumentHandler = function (e) {
+    var targetEl = yue.getTarget(e);
+    
+    if (yud.hasClass(targetEl, "cancelDocumentStateChange")) {
+      switchDocumentStates(targetEl);
+    }
+    else if (yud.hasClass(targetEl, "submitDocumentStateChange")) {
+      if (FIC_checkForm(e, yud.get("documentStateFormErrors")))
+        submitModifyDocumentForm("documentStateForm"); 
+    }
+    else if (targetEl.className === "documentLink") {
+      yue.preventDefault(e);
+      getRequestDocument(targetEl);
+    }
+    else if (targetEl.id === "submitModifyDocumentForm") {
+      if (FIC_checkForm(e, yud.get("modifyDocumentFormErrors")))
+        submitModifyDocumentForm("modifyDocumentForm"); 
+    }
+    else if (targetEl.id === "documentState") {
+      switchDocumentStates(targetEl);
+    }
+    else if (targetEl.parentNode.id === "documentState") {
+      switchDocumentStates(targetEl.parentNode);
+    }
+  };
+  requestDocumentHandler = zca.condition(requestDocumentHandler,zcbr.Permission.validateAgent);
+  yue.on("requestDocument","click",requestDocumentHandler);
   
   
   zcb.documentStateUpdateEvent = new YAHOO.util.CustomEvent('documentStateUpdateEvent');
@@ -139,11 +139,14 @@ zenexity.capdemat.bong.document = function() {
             yud.get(args[0]).endValidityDate.value;
       }
   );
-
-      
+  
   return {
+    init: function() {
+      getRequestDocument = zca.condition(getRequestDocument,zcbr.Permission.validateState);
+    },
     getRequestDocument: function(targetEl) { getRequestDocument(targetEl); }
   };
   
 }();
 
+YAHOO.util.Event.onDOMReady(zenexity.capdemat.bong.document.init);

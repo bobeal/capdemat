@@ -11,13 +11,15 @@
   window.zenexity = {
     capdemat: {
       tools: {},
-      common: {}
+      common: {},
+      aspect : {}
     }
   };
 
   var userAgent = navigator.userAgent.toLowerCase();
   //var s = YAHOO.util.Selector;
   var zct = zenexity.capdemat.tools;
+  var zca = zenexity.capdemat.aspect;
   var yus = YAHOO.util.Selector;
   var yue = YAHOO.util.Event;
   var yuc = YAHOO.util.Connect;
@@ -907,6 +909,39 @@
     var method = zct.tryToCall(this.rule,this.context,e);
     zct.tryToCall(this.context[method],this.context,e);
   };
+
+  /**
+   * @description Modify initial function to enable advice function call before
+   * @namespace zenexity.capdemat.aspect
+   * 
+   * @param func {Function} Initial function
+   * @param advice {Function} Advice function
+   * @param context {Object} Context of function calling (optional)
+   * @return {Function} Result function
+   */
+  zca.before = function(func,advice,context) {
+    var oldfunc = func;
+    func = function(){advice.apply(context||this,arguments);oldfunc.apply(context||this,arguments);};
+    return func;
+  };
+  
+  /**
+   * @description Modify initial function to enable an evaluation of advice function before, if advice returns true initial function will be executed  
+   * @namespace zenexity.capdemat.aspect
+   * 
+   * @param func {Function} Initial function
+   * @param advice {Function} Advice function
+   * @param context {Object} Context of function calling (optional)
+   * @return {Function} Result function
+   */
+  zca.condition = function(func,advice,context) {
+    var oldfunc = func;
+    func = function(){
+       if (advice.apply(context||this,arguments)) oldfunc.apply(context||this,arguments);
+    };
+    return func;
+  };
+  
   
   YAHOO.util.Event.onDOMReady(function(){
     zct.Notifier.init();

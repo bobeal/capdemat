@@ -32,6 +32,8 @@ import java.io.File;
 import java.io.InputStream
 
 import grails.converters.JSON
+import fr.cg95.cvq.business.authority.Agent
+import fr.cg95.cvq.service.authority.ICategoryService
 
 class RequestInstructionController {
 
@@ -45,6 +47,7 @@ class RequestInstructionController {
     IRequestServiceRegistry requestServiceRegistry
     IMailService mailService
     ILocalAuthorityRegistry localAuthorityRegistry
+    ICategoryService categoryService
 
     def translationService
     def instructionService
@@ -56,7 +59,7 @@ class RequestInstructionController {
     }
 
     def edit = {
-
+        Agent agent = agentService.getByLogin(session.currentUser);
         def request = defaultRequestService.getById(Long.valueOf(params.id))
         def requester = individualService.getById(request.requesterId)
         def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
@@ -105,12 +108,18 @@ class RequestInstructionController {
                         [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
             }
         }
+        def editableStates = []
+        for(RequestState state : defaultRequestService.getEditableStates()) 
+            editableStates.add(state.toString())
 
         [ "request": request,
+          "requestTypeLabel" : request.requestType.label,
           "requester": requester,
           "adults" : adults,
           "children" : children,
           "childrenLegalResponsibles" : clr,
+          "editableStates" : (editableStates as JSON).toString(),
+          "agentCanWrite" : categoryService.hasWriteProfileOnCategory(agent,request.requestType.category.id),
           "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
           "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
           "requestLabel": requestLabel,
@@ -229,15 +238,25 @@ class RequestInstructionController {
     }
 
     def condition = {
+        
+        def result = []
+        
         if (params.requestTypeLabel == null)
-            render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
-            
-        def triggers = JSON.parse(params.triggers)
-        def requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
-        render ([test: requestService.isConditionFilled(triggers)
-                ,status:"ok"
-                ,success_msg:message(code:"message.conditionTested")
-                ] as JSON)
+            render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
+        
+        try {
+            IRequestService service = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+            for(Map entry : (JSON.parse(params.conditionsContainer) as List)) {
+                result.add([
+                    success_msg: message(code:'message.conditionTested'),
+                    test: service.isConditionFilled(entry),
+                    status: 'ok'
+                ])
+            }
+            render(result as JSON)
+        } catch (CvqException ce) {
+            render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
+        }
     }
 
     /* request state workflow managment

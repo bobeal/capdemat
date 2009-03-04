@@ -4,7 +4,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 
   var zcbr = zenexity.capdemat.bong.request;
   var zcb = zenexity.capdemat.bong;
-  var zcc = zenexity.capdemat.common;
+  var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
   var yuel = YAHOO.util.Element;
@@ -14,6 +14,29 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   var yl = YAHOO.lang;
   var yw = YAHOO.widget;
   var yu = YAHOO.util;
+  
+  zcbr.Permission = {
+    validate : function(e) {
+      return zcbr.Permission.validateAgent(e) 
+        && zcbr.Permission.validateState(e);
+    },
+    validateAgent : function(e) {
+      yue.stopEvent(e);
+      return zcb['agentCanWrite'] == 'true';
+    },
+    validateState : function(e) {
+      yue.stopEvent(e);
+      var el = yud.get('requestState');
+      var style = /tag-(\w+)/i.exec(el.className);
+      var state = (style||['',''])[1], result = true;
+      result = result && zct.inArray(state,zcbr.Permission.getPermittedStates()) >= 0;
+      
+      return result;      
+    },
+    getPermittedStates: function() {
+      return zct.map(zcb['editableStates'],function(n){return n.toLowerCase();});
+    }
+  };
 
   zcbr.Instruction = function() {
 
@@ -118,27 +141,24 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         zcb.instructionStatePanel.hide();
     }
 
-    yue.addListener(
-        'narrow',
-        'click',
-        function (e) {
-          var targetEl = yue.getTarget(e);
-
-          if (yud.hasClass(targetEl, 'cancelStateChange')) {
-            zcb.instructionStatePanel.hide();
-          }
-          else if (yud.hasClass(targetEl, 'submitStateChange')) {
-            if (FIC_checkForm(e, yud.get('changeStateFormErrors')))
-              submitChangeStateForm(targetEl, 'changeStateForm');
-          }
-          else if (yud.hasClass(targetEl, 'documentLink')) {
-            yue.preventDefault(e);
-            zenexity.capdemat.bong.document.getRequestDocument(targetEl);
-          }
-          else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink')) {
-            switchStatePanel(targetEl);
-          }
-        });
+    var narrowHandler = function (e) {
+      var targetEl = yue.getTarget(e);
+      
+      if (yud.hasClass(targetEl, 'cancelStateChange')) {zcb.instructionStatePanel.hide();}
+      else if (yud.hasClass(targetEl, 'submitStateChange')) {
+        if (FIC_checkForm(e, yud.get('changeStateFormErrors')))
+          submitChangeStateForm(targetEl, 'changeStateForm');
+      }
+      else if (yud.hasClass(targetEl, 'documentLink')) {
+        yue.preventDefault(e);
+        zcb.document.getRequestDocument(targetEl);
+      }
+      else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink')) {
+        switchStatePanel(targetEl);
+      }
+    };
+    narrowHandler = zca.condition(narrowHandler,zcbr.Permission.validateAgent);
+    yue.on('narrow','click',narrowHandler);
 
     /*
      * request data inline edition managment
@@ -189,17 +209,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       
        // FIXME - poor solution to manage condition chaining
       zcb.Condition.reInit();
-    }
+    };
     
     return { 
       inlineEditEvent : undefined,
       
       init : function() { 
-          init();
-          zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
-          yue.on('requestData','click', 
-              zcbr.Instruction.inlineEditEvent.dispatch, zcbr.Instruction.inlineEditEvent, true
-          );
+        init();
+        zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
+        yue.on('requestData','click',zcbr.Instruction.inlineEditEvent.dispatch,zcbr.Instruction.inlineEditEvent,true);
+        zcbr.Instruction.editField = zca.condition(zcbr.Instruction.editField,zcbr.Permission.validate);
       },
       
       // TODO - refactor dispatch policy

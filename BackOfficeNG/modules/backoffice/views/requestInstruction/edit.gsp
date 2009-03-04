@@ -7,7 +7,10 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'document.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'condition.js')}"></script>
     <script type="text/javascript">
-        zenexity.capdemat.bong.requestId = '${request.id}';
+      zenexity.capdemat.bong.requestId = '${request.id}';
+      zenexity.capdemat.bong.editableStates = ${editableStates} ; 
+      zenexity.capdemat.bong.agentCanWrite = '${agentCanWrite}';
+      
     </script>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" ></link>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
@@ -121,7 +124,10 @@
         </div>
         <div class="ft"></div>
       </div>
-
+      <form action="${createLink(action:'condition')}" method="post" id="conditionsForm">
+        <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
+        <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+      </form>
     </div>
   </body>
 </html>

@@ -818,4 +818,6 @@ public interface IRequestService {
     boolean isConditionFilled (Map<String, String> triggers);
 
     List<DisplayGroup> getAllDisplayGroups();
+
+    List<RequestState> getEditableStates();
 }

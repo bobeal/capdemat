@@ -1778,6 +1778,12 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         return requestWorkflowService.getStatesBefore(rs);
     }
 
+    public List<RequestState> getEditableStates() {
+        List<RequestState> result = new ArrayList<RequestState>();
+        result.add(RequestState.PENDING);
+        return result;
+    }
+    
     protected void addActionTrace(final String label, final String note, final Date date,
             final RequestState resultingState, final Request request, final byte[] pdfData)
         throws CvqException {

@@ -85,4 +85,6 @@ public interface ICategoryService {
     
     Category getById(final Long id)
         throws CvqException, CvqObjectNotFoundException;
+
+    boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) throws CvqException;
 }

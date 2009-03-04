@@ -136,23 +136,21 @@
       },
       
       test : function() {
-          zct.each(zcb.Condition.triggers, function(i) {
-            zct.doAjaxCall(
-                '/condition/?requestTypeLabel=' + getRequestTypeLabel() + '&triggers='+ ylj.stringify(this),
-                null,
-                function(o) {
-                  var json = ylj.parse(o.responseText);
-                  if (json.test) {
-                    zcb.Condition.active(zcb.Condition.filleds[i]);
-                    zcb.Condition.unactive(zcb.Condition.unfilleds[i]);
-                    zcb.Condition.unactive(zcb.Condition.unfilledDescendants[i]);
-                  } else {
-                    zcb.Condition.unactive(zcb.Condition.filleds[i]);
-                    zcb.Condition.unactive(zcb.Condition.filledDescendants[i]);
-                    zcb.Condition.active(zcb.Condition.unfilleds[i]);
-                  }
-                });
-           });
+        zct.val(yud.get('conditionsContainer'),ylj.stringify(zcb.Condition.triggers)||[]);
+        zct.doAjaxFormSubmitCall('conditionsForm',[],function(o){
+          var json = ylj.parse(o.responseText);
+          zct.each(json,function(i){
+            if (this.test) {
+              zcb.Condition.active(zcb.Condition.filleds[i]);
+              zcb.Condition.unactive(zcb.Condition.unfilleds[i]);
+              zcb.Condition.unactive(zcb.Condition.unfilledDescendants[i]);
+            } else {
+              zcb.Condition.unactive(zcb.Condition.filleds[i]);
+              zcb.Condition.unactive(zcb.Condition.filledDescendants[i]);
+              zcb.Condition.active(zcb.Condition.unfilleds[i]);
+            }
+          });
+        });
       },
       
       setAll : function() {

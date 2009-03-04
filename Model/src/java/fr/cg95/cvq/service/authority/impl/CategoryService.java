@@ -217,6 +217,18 @@ public class CategoryService implements ICategoryService {
         
         return false;
     }
+    
+    public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) throws CvqException {
+        Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
+        for (CategoryRoles categoryRole : agentCategoryRoles) {
+            if (categoryRole.getCategory().getId().equals(categoryId)
+                && (categoryRole.getProfile().equals(CategoryProfile.MANAGER)
+                || categoryRole.getProfile().equals(CategoryProfile.READ_WRITE )))
+                    return true;
+        }
+        
+        return false;        
+    }
 
     public Category addRequestType(Long categoryId, Long requestTypeId) throws CvqException {
 

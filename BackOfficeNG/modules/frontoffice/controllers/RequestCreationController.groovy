@@ -1,6 +1,7 @@
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
+import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestService
@@ -130,8 +131,6 @@ class RequestCreationController {
         try {
             
             if (submitAction[1] == 'cancelRequest') {
-//                session[uuidString].draftVisibleBackUp = session[uuidString].draftVisible
-//                session[uuidString].draftVisible = false
                 askConfirmCancel = true
             }
             else if (submitAction[1] == 'confirmCancelRequest') {
@@ -140,7 +139,6 @@ class RequestCreationController {
                 return
             }
             else if (submitAction[1] == 'discardCancelRequest') {
-//                session[uuidString].draftVisible = session[uuidString].draftVisibleBackUp
                 askConfirmCancel = false
             }
             else if (submitAction[1] == 'documentAdd') {
@@ -249,6 +247,10 @@ class RequestCreationController {
                 }
                 
                 if (currentStep == 'validation') {
+                    // bind the selected means of contact into request
+                    MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
+                    cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
+                    
                     if (!cRequest.draft) requestService.create(cRequest)
                     else requestService.finalizeDraft(cRequest)
                     

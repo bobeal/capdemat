@@ -1780,7 +1780,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     public List<RequestState> getEditableStates() {
         List<RequestState> result = new ArrayList<RequestState>();
+        
         result.add(RequestState.PENDING);
+        result.add(RequestState.COMPLETE);
+        result.add(RequestState.UNCOMPLETE);
+        
         return result;
     }
     

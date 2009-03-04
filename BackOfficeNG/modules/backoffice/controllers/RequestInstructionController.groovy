@@ -34,6 +34,7 @@ import java.io.InputStream
 import grails.converters.JSON
 import fr.cg95.cvq.business.authority.Agent
 import fr.cg95.cvq.service.authority.ICategoryService
+import fr.cg95.cvq.security.SecurityContext
 
 class RequestInstructionController {
 
@@ -59,7 +60,7 @@ class RequestInstructionController {
     }
 
     def edit = {
-        Agent agent = agentService.getByLogin(session.currentUser);
+        Agent agent = SecurityContext.getCurrentAgent();
         def request = defaultRequestService.getById(Long.valueOf(params.id))
         def requester = individualService.getById(request.requesterId)
         def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)

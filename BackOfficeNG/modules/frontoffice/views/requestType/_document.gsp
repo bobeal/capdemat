@@ -6,13 +6,13 @@
     <input type="text" name="ecitizenNote" value="${document.ecitizenNote}"/>
     
     <g:each var="data" in="${document.datas}" >
-      <label>Page ${data.pageNumber}</label>
-      <input type="file" name="documentData-${data.pageNumber}"/>
+      <label>Page ${data.pageNumber + 1}</label>
+      <input type="file" name="documentData-${data.pageNumber + 1}"/>
       <input type="submit" value="modifier"
              name="submit-documentModifyPage-document-documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" />
       <input type="submit" value="supprimer"
              name="submit-documentDeletePage-document-documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" />
-      <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">aperçu</a>
+      <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?pn=${data.pageNumber}" target="blank">aperçu</a>
     </g:each>
 
     <label>Nouvelle Page</label>

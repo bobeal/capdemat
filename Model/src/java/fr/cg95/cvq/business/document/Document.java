@@ -3,6 +3,7 @@ package fr.cg95.cvq.business.document;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -38,7 +39,7 @@ public class Document implements Serializable {
     private DocumentType documentType;
     private Boolean certified;
     
-    private Set<DocumentBinary> datas;
+    private List<DocumentBinary> datas;
     private Set<DocumentAction> actions;
 
     /** default constructor */
@@ -216,22 +217,24 @@ public class Document implements Serializable {
 	public void setCertified(Boolean certified) {
 		this.certified = certified;
 	}
-
+    
     /**
-     * @hibernate.set
-     *  lazy="true"
+     * @hibernate.list
+     *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
-     *  order-by="page_number asc"
      * @hibernate.key
      *  column="document_id"
+     * @hibernate.list-index
+     *  column="document_binary_index"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.document.DocumentBinary"
      */
-    public Set<DocumentBinary> getDatas() {
+    public List<DocumentBinary> getDatas() {
         return this.datas;
     }
 
-    public void setDatas(Set<DocumentBinary> datas) {
+    public void setDatas(List<DocumentBinary> datas) {
         this.datas = datas;
     }
 

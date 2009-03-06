@@ -22,12 +22,12 @@
               </dd>
             
               <dt class="required condition-isFollowedByDoctor-filled"><g:message code="hccr.property.healthDoctorLastName.label" /> * : </dt>
-              <dd id="healthDoctorLastName" class="action-editField validate-lastName required-true i18n-hccr.property.healthDoctorLastName" >
+              <dd id="healthDoctorLastName" class="action-editField validate-lastName required-true i18n-hccr.property.healthDoctorLastName maxLength-38" >
                 <span>${request?.healthDoctorLastName}</span>
               </dd>
             
               <dt class="required condition-isFollowedByDoctor-filled"><g:message code="hccr.property.healthDoctorFirstName.label" /> * : </dt>
-              <dd id="healthDoctorFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.healthDoctorFirstName" >
+              <dd id="healthDoctorFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.healthDoctorFirstName maxLength-38" >
                 <span>${request?.healthDoctorFirstName}</span>
               </dd>
             
@@ -37,12 +37,12 @@
               </dd>
             
               <dt class="required condition-isFollowedByProfessional-filled"><g:message code="hccr.property.healthProfessionalLastName.label" /> * : </dt>
-              <dd id="healthProfessionalLastName" class="action-editField validate-lastName required-true i18n-hccr.property.healthProfessionalLastName" >
+              <dd id="healthProfessionalLastName" class="action-editField validate-lastName required-true i18n-hccr.property.healthProfessionalLastName maxLength-38" >
                 <span>${request?.healthProfessionalLastName}</span>
               </dd>
             
               <dt class="required condition-isFollowedByProfessional-filled"><g:message code="hccr.property.healthProfessionalFirstName.label" /> * : </dt>
-              <dd id="healthProfessionalFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.healthProfessionalFirstName" >
+              <dd id="healthProfessionalFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.healthProfessionalFirstName maxLength-38" >
                 <span>${request?.healthProfessionalFirstName}</span>
               </dd>
             
@@ -52,7 +52,7 @@
               </dd>
             
               <dt class="required condition-isFollowedByHospital-filled"><g:message code="hccr.property.healthHospitalName.label" /> * : </dt>
-              <dd id="healthHospitalName" class="action-editField validate- required-true i18n-hccr.property.healthHospitalName" >
+              <dd id="healthHospitalName" class="action-editField validate- required-true i18n-hccr.property.healthHospitalName maxLength-60" >
                 <span>${request?.healthHospitalName}</span>
               </dd>
             
@@ -205,7 +205,7 @@
               </dd>
             
               <dt class="required condition-isOtherRequest-filled"><g:message code="hccr.property.projectRequestsOtherDetails.label" /> * : </dt>
-              <dd id="projectRequestsOtherDetails" class="action-editField validate- required-true i18n-hccr.property.projectRequestsOtherDetails" >
+              <dd id="projectRequestsOtherDetails" class="action-editField validate- required-true i18n-hccr.property.projectRequestsOtherDetails maxLength-60" >
                 <span>${request?.projectRequestsOtherDetails}</span>
               </dd>
             
@@ -221,7 +221,7 @@
           
           <dl>
             <dt class=""><g:message code="hccr.property.projectWish.label" />  : </dt>
-            <dd id="projectWish" class="action-editField validate-textarea i18n-hccr.property.projectWish rows-10" >
+            <dd id="projectWish" class="action-editField validate-textarea i18n-hccr.property.projectWish rows-10 maxLength-600" >
               <span>${request?.projectWish}</span>
             </dd>
           </dl>
@@ -230,7 +230,7 @@
           
           <dl>
             <dt class=""><g:message code="hccr.property.projectNeeds.label" />  : </dt>
-            <dd id="projectNeeds" class="action-editField validate-textarea i18n-hccr.property.projectNeeds rows-10" >
+            <dd id="projectNeeds" class="action-editField validate-textarea i18n-hccr.property.projectNeeds rows-10 maxLength-600" >
               <span>${request?.projectNeeds}</span>
             </dd>
           </dl>
@@ -239,7 +239,7 @@
           
           <dl>
             <dt class=""><g:message code="hccr.property.projectComments.label" />  : </dt>
-            <dd id="projectComments" class="action-editField validate-textarea i18n-hccr.property.projectComments rows-10" >
+            <dd id="projectComments" class="action-editField validate-textarea i18n-hccr.property.projectComments rows-10 maxLength-600" >
               <span>${request?.projectComments}</span>
             </dd>
           </dl>

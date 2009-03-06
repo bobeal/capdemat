@@ -31,7 +31,7 @@
       <label class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" />  <span><g:message code="dhr.property.dhrCurrentDwellingPhone.help" /></span></label>
       
             <input type="text" name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone}" 
-                    class=" validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />" />
+                    class=" validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />"  maxLength="10"/>
             
     
       <label class="required"><g:message code="dhr.property.dhrCurrentDwellingKind.label" /> * <span><g:message code="dhr.property.dhrCurrentDwellingKind.help" /></span></label>
@@ -65,7 +65,7 @@
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /> * <span><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.help" /></span></label>
       
             <input type="text" name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom}" 
-                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />" />
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />"  />
             
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> * <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
@@ -141,7 +141,7 @@
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> * <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
         
             <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment}" 
-                    class="required validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />" />
+                    class="required validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />"  />
             
     
         <g:if test="${editList?.name == 'dhrPreviousDwelling'}">

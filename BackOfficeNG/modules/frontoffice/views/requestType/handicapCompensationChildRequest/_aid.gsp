@@ -33,19 +33,19 @@
         <label class="required"><g:message code="hccr.property.familyAssistanceMemberRelationship.label" /> * <span><g:message code="hccr.property.familyAssistanceMemberRelationship.help" /></span></label>
         
             <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberRelationship" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberRelationship}" 
-                    class="required " title="<g:message code="hccr.property.familyAssistanceMemberRelationship.validationError" />" />
+                    class="required " title="<g:message code="hccr.property.familyAssistanceMemberRelationship.validationError" />"  maxLength="60"/>
             
     
         <label class="required"><g:message code="hccr.property.familyAssistanceMemberLastName.label" /> * <span><g:message code="hccr.property.familyAssistanceMemberLastName.help" /></span></label>
         
             <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberLastName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberLastName}" 
-                    class="required validate-lastName" title="<g:message code="hccr.property.familyAssistanceMemberLastName.validationError" />" />
+                    class="required validate-lastName" title="<g:message code="hccr.property.familyAssistanceMemberLastName.validationError" />"  maxLength="38"/>
             
     
         <label class="required"><g:message code="hccr.property.familyAssistanceMemberFirstName.label" /> * <span><g:message code="hccr.property.familyAssistanceMemberFirstName.help" /></span></label>
         
             <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberFirstName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberFirstName}" 
-                    class="required validate-firstName" title="<g:message code="hccr.property.familyAssistanceMemberFirstName.validationError" />" />
+                    class="required validate-firstName" title="<g:message code="hccr.property.familyAssistanceMemberFirstName.validationError" />"  maxLength="38"/>
             
     
         <g:if test="${editList?.name == 'familyAssistanceMembers'}">
@@ -117,7 +117,7 @@
         <label class="required condition-isOtherHomeIntervant-filled"><g:message code="hccr.property.homeIntervenantDetails.label" /> * <span><g:message code="hccr.property.homeIntervenantDetails.help" /></span></label>
         
             <input type="text" name="homeIntervenants[${listIndex}].homeIntervenantDetails" value="${editList?.homeIntervenants?.homeIntervenantDetails}" 
-                    class="required condition-isOtherHomeIntervant-filled " title="<g:message code="hccr.property.homeIntervenantDetails.validationError" />" />
+                    class="required condition-isOtherHomeIntervant-filled " title="<g:message code="hccr.property.homeIntervenantDetails.validationError" />"  maxLength="60"/>
             
     
         <g:if test="${editList?.name == 'homeIntervenants'}">
@@ -182,7 +182,7 @@
         <label class="required"><g:message code="hccr.property.careServiceKind.label" /> * <span><g:message code="hccr.property.careServiceKind.help" /></span></label>
         
             <input type="text" name="careServices[${listIndex}].careServiceKind" value="${editList?.careServices?.careServiceKind}" 
-                    class="required validate-string" title="<g:message code="hccr.property.careServiceKind.validationError" />" />
+                    class="required validate-string" title="<g:message code="hccr.property.careServiceKind.validationError" />"  />
             
     
         <label class="required"><g:message code="hccr.property.careServiceCareServiceEmployer.label" /> * <span><g:message code="hccr.property.careServiceCareServiceEmployer.help" /></span></label>
@@ -200,7 +200,7 @@
         <label class="required condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderName.label" /> * <span><g:message code="hccr.property.careServiceProviderName.help" /></span></label>
         
             <input type="text" name="careServices[${listIndex}].careServiceProviderName" value="${editList?.careServices?.careServiceProviderName}" 
-                    class="required condition-isCareServiceEmployer-unfilled validate-lastName" title="<g:message code="hccr.property.careServiceProviderName.validationError" />" />
+                    class="required condition-isCareServiceEmployer-unfilled validate-lastName" title="<g:message code="hccr.property.careServiceProviderName.validationError" />"  maxLength="38"/>
             
     
         <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderAddress.label" />  <span><g:message code="hccr.property.careServiceProviderAddress.help" /></span></label>
@@ -286,7 +286,7 @@
       <label class="required condition-isHousing-filled"><g:message code="hccr.property.facilitiesHousingDetails.label" /> * <span><g:message code="hccr.property.facilitiesHousingDetails.help" /></span></label>
       
             <input type="text" name="facilitiesHousingDetails" value="${rqt.facilitiesHousingDetails}" 
-                    class="required condition-isHousing-filled " title="<g:message code="hccr.property.facilitiesHousingDetails.validationError" />" />
+                    class="required condition-isHousing-filled " title="<g:message code="hccr.property.facilitiesHousingDetails.validationError" />"  maxLength="60"/>
             
     
       <label class="required"><g:message code="hccr.property.facilitiesTechnicalAssistance.label" /> * <span><g:message code="hccr.property.facilitiesTechnicalAssistance.help" /></span></label>
@@ -304,7 +304,7 @@
       <label class="required condition-isTechnicalAssistance-filled"><g:message code="hccr.property.facilitiesTechnicalAssistanceDetails.label" /> * <span><g:message code="hccr.property.facilitiesTechnicalAssistanceDetails.help" /></span></label>
       
             <input type="text" name="facilitiesTechnicalAssistanceDetails" value="${rqt.facilitiesTechnicalAssistanceDetails}" 
-                    class="required condition-isTechnicalAssistance-filled " title="<g:message code="hccr.property.facilitiesTechnicalAssistanceDetails.validationError" />" />
+                    class="required condition-isTechnicalAssistance-filled " title="<g:message code="hccr.property.facilitiesTechnicalAssistanceDetails.validationError" />"  maxLength="60"/>
             
     
       <label class="required"><g:message code="hccr.property.facilitiesCustomCar.label" /> * <span><g:message code="hccr.property.facilitiesCustomCar.help" /></span></label>
@@ -322,7 +322,7 @@
       <label class="required condition-isCustomCar-filled"><g:message code="hccr.property.facilitiesCustomCarDetails.label" /> * <span><g:message code="hccr.property.facilitiesCustomCarDetails.help" /></span></label>
       
             <input type="text" name="facilitiesCustomCarDetails" value="${rqt.facilitiesCustomCarDetails}" 
-                    class="required condition-isCustomCar-filled " title="<g:message code="hccr.property.facilitiesCustomCarDetails.validationError" />" />
+                    class="required condition-isCustomCar-filled " title="<g:message code="hccr.property.facilitiesCustomCarDetails.validationError" />"  maxLength="60"/>
             
     
       <label class="required"><g:message code="hccr.property.facilitiesAnimalAid.label" /> * <span><g:message code="hccr.property.facilitiesAnimalAid.help" /></span></label>
@@ -340,7 +340,7 @@
       <label class="required condition-isAnimalAid-filled"><g:message code="hccr.property.facilitiesAnimalAidDetails.label" /> * <span><g:message code="hccr.property.facilitiesAnimalAidDetails.help" /></span></label>
       
             <input type="text" name="facilitiesAnimalAidDetails" value="${rqt.facilitiesAnimalAidDetails}" 
-                    class="required condition-isAnimalAid-filled " title="<g:message code="hccr.property.facilitiesAnimalAidDetails.validationError" />" />
+                    class="required condition-isAnimalAid-filled " title="<g:message code="hccr.property.facilitiesAnimalAidDetails.validationError" />"  maxLength="60"/>
             
     
       <label class="required"><g:message code="hccr.property.facilitiesSpecializedTransport.label" /> * <span><g:message code="hccr.property.facilitiesSpecializedTransport.help" /></span></label>
@@ -358,7 +358,7 @@
       <label class="required condition-isSpecializedTransport-filled"><g:message code="hccr.property.facilitiesSpecializedTransportDetails.label" /> * <span><g:message code="hccr.property.facilitiesSpecializedTransportDetails.help" /></span></label>
       
             <input type="text" name="facilitiesSpecializedTransportDetails" value="${rqt.facilitiesSpecializedTransportDetails}" 
-                    class="required condition-isSpecializedTransport-filled " title="<g:message code="hccr.property.facilitiesSpecializedTransportDetails.validationError" />" />
+                    class="required condition-isSpecializedTransport-filled " title="<g:message code="hccr.property.facilitiesSpecializedTransportDetails.validationError" />"  maxLength="60"/>
             
     
     </fieldset>
@@ -406,13 +406,13 @@
         <label class="required"><g:message code="hccr.property.professionalLastName.label" /> * <span><g:message code="hccr.property.professionalLastName.help" /></span></label>
         
             <input type="text" name="professionals[${listIndex}].professionalLastName" value="${editList?.professionals?.professionalLastName}" 
-                    class="required validate-lastName" title="<g:message code="hccr.property.professionalLastName.validationError" />" />
+                    class="required validate-lastName" title="<g:message code="hccr.property.professionalLastName.validationError" />"  maxLength="38"/>
             
     
         <label class="required"><g:message code="hccr.property.professionalFirstName.label" /> * <span><g:message code="hccr.property.professionalFirstName.help" /></span></label>
         
             <input type="text" name="professionals[${listIndex}].professionalFirstName" value="${editList?.professionals?.professionalFirstName}" 
-                    class="required validate-firstName" title="<g:message code="hccr.property.professionalFirstName.validationError" />" />
+                    class="required validate-firstName" title="<g:message code="hccr.property.professionalFirstName.validationError" />"  maxLength="38"/>
             
     
         <label class="required"><g:message code="hccr.property.professionalAddress.label" /> * <span><g:message code="hccr.property.professionalAddress.help" /></span></label>
@@ -495,7 +495,7 @@
       <label class="required condition-isSocialServiceSupport-filled"><g:message code="hccr.property.socialServiceName.label" /> * <span><g:message code="hccr.property.socialServiceName.help" /></span></label>
       
             <input type="text" name="socialServiceName" value="${rqt.socialServiceName}" 
-                    class="required condition-isSocialServiceSupport-filled " title="<g:message code="hccr.property.socialServiceName.validationError" />" />
+                    class="required condition-isSocialServiceSupport-filled " title="<g:message code="hccr.property.socialServiceName.validationError" />"  maxLength="60"/>
             
     
       <label class="required condition-isSocialServiceSupport-filled"><g:message code="hccr.property.socialServiceAddress.label" /> * <span><g:message code="hccr.property.socialServiceAddress.help" /></span></label>

@@ -17,7 +17,7 @@
       </dd>
     
       <dt class="required condition-isOtherHomeIntervant-filled"><g:message code="hccr.property.homeIntervenantDetails.label" /> * : </dt>
-      <dd id="homeIntervenants[${listSize - 1 - index}].homeIntervenantDetails" class="action-editField validate- required-true i18n-hccr.property.homeIntervenantDetails" >
+      <dd id="homeIntervenants[${listSize - 1 - index}].homeIntervenantDetails" class="action-editField validate- required-true i18n-hccr.property.homeIntervenantDetails maxLength-60" >
         <span>${it?.homeIntervenantDetails}</span>
       </dd>
     

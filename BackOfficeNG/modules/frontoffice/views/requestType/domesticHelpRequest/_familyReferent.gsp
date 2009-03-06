@@ -23,13 +23,13 @@
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> * <span><g:message code="dhr.property.dhrReferentName.help" /></span></label>
       
             <input type="text" name="dhrReferentName" value="${rqt.dhrReferentName}" 
-                    class="required condition-haveFamilyReferent-filled validate-lastName" title="<g:message code="dhr.property.dhrReferentName.validationError" />" />
+                    class="required condition-haveFamilyReferent-filled validate-lastName" title="<g:message code="dhr.property.dhrReferentName.validationError" />"  maxLength="38"/>
             
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentFirstName.label" /> * <span><g:message code="dhr.property.dhrReferentFirstName.help" /></span></label>
       
             <input type="text" name="dhrReferentFirstName" value="${rqt.dhrReferentFirstName}" 
-                    class="required condition-haveFamilyReferent-filled validate-firstName" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />" />
+                    class="required condition-haveFamilyReferent-filled validate-firstName" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />"  maxLength="38"/>
             
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentAddress.label" /> * <span><g:message code="dhr.property.dhrReferentAddress.help" /></span></label>

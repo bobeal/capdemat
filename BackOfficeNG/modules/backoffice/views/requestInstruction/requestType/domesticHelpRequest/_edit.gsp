@@ -58,7 +58,7 @@
                     </dd>
                   
                     <dt class="required condition-isNonEuropean-trigger"><g:message code="dhr.property.dhrRequesterNationality.label" /> * : </dt>
-                    <dd id="dhrRequesterNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterNationality javatype-fr.cg95.cvq.business.users.NationalityType" >
+                    <dd id="dhrRequesterNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrRequesterNationality javatype-fr.cg95.cvq.business.users.NationalityType maxLength-32" >
                       <g:capdematEnumToField var="${request?.dhrRequesterNationality}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" />
                     </dd>
                   
@@ -118,7 +118,7 @@
                     </dd>
                   
                     <dt class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianName.label" /> * : </dt>
-                    <dd id="dhrGuardianName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrGuardianName" >
+                    <dd id="dhrGuardianName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrGuardianName maxLength-38" >
                       <span>${request?.dhrGuardianName}</span>
                     </dd>
                   
@@ -160,12 +160,12 @@
                     </dd>
                   
                     <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> * : </dt>
-                    <dd id="dhrReferentName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrReferentName" >
+                    <dd id="dhrReferentName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrReferentName maxLength-38" >
                       <span>${request?.dhrReferentName}</span>
                     </dd>
                   
                     <dt class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentFirstName.label" /> * : </dt>
-                    <dd id="dhrReferentFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrReferentFirstName" >
+                    <dd id="dhrReferentFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrReferentFirstName maxLength-38" >
                       <span>${request?.dhrReferentFirstName}</span>
                     </dd>
                   
@@ -223,17 +223,17 @@
                     </dd>
                   
                     <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseName.label" /> * : </dt>
-                    <dd id="dhrSpouseName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrSpouseName" >
+                    <dd id="dhrSpouseName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrSpouseName maxLength-38" >
                       <span>${request?.dhrSpouseName}</span>
                     </dd>
                   
                     <dt class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseFirstName.label" /> * : </dt>
-                    <dd id="dhrSpouseFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrSpouseFirstName" >
+                    <dd id="dhrSpouseFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrSpouseFirstName maxLength-38" >
                       <span>${request?.dhrSpouseFirstName}</span>
                     </dd>
                   
                     <dt class="required condition-isSpouseMadam-filled"><g:message code="dhr.property.dhrSpouseMaidenName.label" /> * : </dt>
-                    <dd id="dhrSpouseMaidenName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrSpouseMaidenName" >
+                    <dd id="dhrSpouseMaidenName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrSpouseMaidenName maxLength-38" >
                       <span>${request?.dhrSpouseMaidenName}</span>
                     </dd>
                   
@@ -248,7 +248,7 @@
                     </dd>
                   
                     <dt class="required condition-isCoupleRequest-filled condition-isSpouseNonEuropean-trigger"><g:message code="dhr.property.dhrSpouseNationality.label" /> * : </dt>
-                    <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.users.NationalityType" >
+                    <dd id="dhrSpouseNationality" class="action-editField validate-capdematEnum required-true i18n-dhr.property.dhrSpouseNationality javatype-fr.cg95.cvq.business.users.NationalityType maxLength-32" >
                       <g:capdematEnumToField var="${request?.dhrSpouseNationality}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" />
                     </dd>
                   
@@ -380,7 +380,7 @@
                     </dd>
                   
                     <dt class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" />  : </dt>
-                    <dd id="dhrCurrentDwellingPhone" class="action-editField validate-phone i18n-dhr.property.dhrCurrentDwellingPhone" >
+                    <dd id="dhrCurrentDwellingPhone" class="action-editField validate-phone i18n-dhr.property.dhrCurrentDwellingPhone maxLength-10" >
                       <span>${request?.dhrCurrentDwellingPhone}</span>
                     </dd>
                   

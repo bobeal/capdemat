@@ -132,7 +132,7 @@
               </dd>
             
               <dt class="required condition-isOtherRequest-filled"><g:message code="hcar.property.projectRequestsOtherDetails.label" /> * : </dt>
-              <dd id="projectRequestsOtherDetails" class="action-editField validate- required-true i18n-hcar.property.projectRequestsOtherDetails" >
+              <dd id="projectRequestsOtherDetails" class="action-editField validate- required-true i18n-hcar.property.projectRequestsOtherDetails maxLength-60" >
                 <span>${request?.projectRequestsOtherDetails}</span>
               </dd>
             
@@ -148,7 +148,7 @@
           
           <dl>
             <dt class=""><g:message code="hcar.property.projectWish.label" />  : </dt>
-            <dd id="projectWish" class="action-editField validate-textarea i18n-hcar.property.projectWish rows-10" >
+            <dd id="projectWish" class="action-editField validate-textarea i18n-hcar.property.projectWish rows-10 maxLength-600" >
               <span>${request?.projectWish}</span>
             </dd>
           </dl>
@@ -157,7 +157,7 @@
           
           <dl>
             <dt class=""><g:message code="hcar.property.projectNeeds.label" />  : </dt>
-            <dd id="projectNeeds" class="action-editField validate-textarea i18n-hcar.property.projectNeeds rows-10" >
+            <dd id="projectNeeds" class="action-editField validate-textarea i18n-hcar.property.projectNeeds rows-10 maxLength-600" >
               <span>${request?.projectNeeds}</span>
             </dd>
           </dl>
@@ -166,7 +166,7 @@
           
           <dl>
             <dt class=""><g:message code="hcar.property.projectComments.label" />  : </dt>
-            <dd id="projectComments" class="action-editField validate-textarea i18n-hcar.property.projectComments rows-10" >
+            <dd id="projectComments" class="action-editField validate-textarea i18n-hcar.property.projectComments rows-10 maxLength-600" >
               <span>${request?.projectComments}</span>
             </dd>
           </dl>

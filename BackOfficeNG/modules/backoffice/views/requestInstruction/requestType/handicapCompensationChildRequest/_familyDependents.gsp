@@ -12,12 +12,12 @@
   <dl class="required condition-isReferentFamilyDependents-filled">
     
       <dt class="required"><g:message code="hccr.property.referentFamilyDependentLastName.label" /> * : </dt>
-      <dd id="familyDependents[${listSize - 1 - index}].referentFamilyDependentLastName" class="action-editField validate-lastName required-true i18n-hccr.property.referentFamilyDependentLastName" >
+      <dd id="familyDependents[${listSize - 1 - index}].referentFamilyDependentLastName" class="action-editField validate-lastName required-true i18n-hccr.property.referentFamilyDependentLastName maxLength-38" >
         <span>${it?.referentFamilyDependentLastName}</span>
       </dd>
     
       <dt class="required"><g:message code="hccr.property.referentFamilyDependentFirstName.label" /> * : </dt>
-      <dd id="familyDependents[${listSize - 1 - index}].referentFamilyDependentFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.referentFamilyDependentFirstName" >
+      <dd id="familyDependents[${listSize - 1 - index}].referentFamilyDependentFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.referentFamilyDependentFirstName maxLength-38" >
         <span>${it?.referentFamilyDependentFirstName}</span>
       </dd>
     

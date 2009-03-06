@@ -22,12 +22,12 @@
               </dd>
             
               <dt class="condition-isMDPH-filled"><g:message code="hccr.property.foldersMdphNumber.label" />  : </dt>
-              <dd id="foldersMdphNumber" class="action-editField validate- i18n-hccr.property.foldersMdphNumber" >
+              <dd id="foldersMdphNumber" class="action-editField validate- i18n-hccr.property.foldersMdphNumber maxLength-30" >
                 <span>${request?.foldersMdphNumber}</span>
               </dd>
             
               <dt class="condition-isMDPH-filled"><g:message code="hccr.property.foldersMdphDepartment.label" />  : </dt>
-              <dd id="foldersMdphDepartment" class="action-editField validate-departmentCode i18n-hccr.property.foldersMdphDepartment" >
+              <dd id="foldersMdphDepartment" class="action-editField validate-departmentCode i18n-hccr.property.foldersMdphDepartment maxLength-2" >
                 <span>${request?.foldersMdphDepartment}</span>
               </dd>
             
@@ -37,12 +37,12 @@
               </dd>
             
               <dt class="condition-isCOTOREP-filled"><g:message code="hccr.property.foldersCotorepNumber.label" />  : </dt>
-              <dd id="foldersCotorepNumber" class="action-editField validate- i18n-hccr.property.foldersCotorepNumber" >
+              <dd id="foldersCotorepNumber" class="action-editField validate- i18n-hccr.property.foldersCotorepNumber maxLength-30" >
                 <span>${request?.foldersCotorepNumber}</span>
               </dd>
             
               <dt class="condition-isCOTOREP-filled"><g:message code="hccr.property.foldersCotorepDepartment.label" />  : </dt>
-              <dd id="foldersCotorepDepartment" class="action-editField validate-departmentCode i18n-hccr.property.foldersCotorepDepartment" >
+              <dd id="foldersCotorepDepartment" class="action-editField validate-departmentCode i18n-hccr.property.foldersCotorepDepartment maxLength-2" >
                 <span>${request?.foldersCotorepDepartment}</span>
               </dd>
             
@@ -52,12 +52,12 @@
               </dd>
             
               <dt class="condition-isCDES-filled"><g:message code="hccr.property.foldersCdesNumber.label" />  : </dt>
-              <dd id="foldersCdesNumber" class="action-editField validate- i18n-hccr.property.foldersCdesNumber" >
+              <dd id="foldersCdesNumber" class="action-editField validate- i18n-hccr.property.foldersCdesNumber maxLength-30" >
                 <span>${request?.foldersCdesNumber}</span>
               </dd>
             
               <dt class="condition-isCDES-filled"><g:message code="hccr.property.foldersCdesDepartment.label" />  : </dt>
-              <dd id="foldersCdesDepartment" class="action-editField validate-departmentCode i18n-hccr.property.foldersCdesDepartment" >
+              <dd id="foldersCdesDepartment" class="action-editField validate-departmentCode i18n-hccr.property.foldersCdesDepartment maxLength-2" >
                 <span>${request?.foldersCdesDepartment}</span>
               </dd>
             
@@ -117,7 +117,7 @@
               </dd>
             
               <dt class="required condition-isDisabilityRecognition-filled"><g:message code="hccr.property.benefitsDisabilityRatio.label" /> * : </dt>
-              <dd id="benefitsDisabilityRatio" class="action-editField validate- required-true i18n-hccr.property.benefitsDisabilityRatio" >
+              <dd id="benefitsDisabilityRatio" class="action-editField validate- required-true i18n-hccr.property.benefitsDisabilityRatio maxLength-3" >
                 <span>${request?.benefitsDisabilityRatio}</span>
               </dd>
             
@@ -147,7 +147,7 @@
               </dd>
             
               <dt class="required condition-isProfessionalOrientation-filled"><g:message code="hccr.property.benefitsProfessionalOrientationDetails.label" /> * : </dt>
-              <dd id="benefitsProfessionalOrientationDetails" class="action-editField validate- required-true i18n-hccr.property.benefitsProfessionalOrientationDetails" >
+              <dd id="benefitsProfessionalOrientationDetails" class="action-editField validate- required-true i18n-hccr.property.benefitsProfessionalOrientationDetails maxLength-60" >
                 <span>${request?.benefitsProfessionalOrientationDetails}</span>
               </dd>
             
@@ -172,7 +172,7 @@
               </dd>
             
               <dt class="required condition-isEducationOfDisabledChildren-filled"><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.label" /> * : </dt>
-              <dd id="benefitsEducationOfDisabledChildrenDetails" class="action-editField validate- required-true i18n-hccr.property.benefitsEducationOfDisabledChildrenDetails" >
+              <dd id="benefitsEducationOfDisabledChildrenDetails" class="action-editField validate- required-true i18n-hccr.property.benefitsEducationOfDisabledChildrenDetails maxLength-60" >
                 <span>${request?.benefitsEducationOfDisabledChildrenDetails}</span>
               </dd>
             
@@ -207,7 +207,7 @@
               </dd>
             
               <dt class="required condition-isDisabilityPension-filled"><g:message code="hccr.property.benefitsDisabilityPensionCategory.label" /> * : </dt>
-              <dd id="benefitsDisabilityPensionCategory" class="action-editField validate- required-true i18n-hccr.property.benefitsDisabilityPensionCategory" >
+              <dd id="benefitsDisabilityPensionCategory" class="action-editField validate- required-true i18n-hccr.property.benefitsDisabilityPensionCategory maxLength-60" >
                 <span>${request?.benefitsDisabilityPensionCategory}</span>
               </dd>
             
@@ -217,7 +217,7 @@
               </dd>
             
               <dt class="required condition-isWorkAccidentAnnuity-filled"><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.label" /> * : </dt>
-              <dd id="benefitsWorkAccidentAnnuityRatio" class="action-editField validate- required-true i18n-hccr.property.benefitsWorkAccidentAnnuityRatio" >
+              <dd id="benefitsWorkAccidentAnnuityRatio" class="action-editField validate- required-true i18n-hccr.property.benefitsWorkAccidentAnnuityRatio maxLength-3" >
                 <span>${request?.benefitsWorkAccidentAnnuityRatio}</span>
               </dd>
             
@@ -247,7 +247,7 @@
               </dd>
             
               <dt class="required condition-isSupportedByAnInstitution-filled"><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.label" /> * : </dt>
-              <dd id="benefitsSupportedByAnInstitutionDetails" class="action-editField validate- required-true i18n-hccr.property.benefitsSupportedByAnInstitutionDetails" >
+              <dd id="benefitsSupportedByAnInstitutionDetails" class="action-editField validate- required-true i18n-hccr.property.benefitsSupportedByAnInstitutionDetails maxLength-60" >
                 <span>${request?.benefitsSupportedByAnInstitutionDetails}</span>
               </dd>
             
@@ -361,7 +361,7 @@
               </dd>
             
               <dt class="required condition-isHousing-filled"><g:message code="hccr.property.facilitiesHousingDetails.label" /> * : </dt>
-              <dd id="facilitiesHousingDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesHousingDetails" >
+              <dd id="facilitiesHousingDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesHousingDetails maxLength-60" >
                 <span>${request?.facilitiesHousingDetails}</span>
               </dd>
             
@@ -371,7 +371,7 @@
               </dd>
             
               <dt class="required condition-isTechnicalAssistance-filled"><g:message code="hccr.property.facilitiesTechnicalAssistanceDetails.label" /> * : </dt>
-              <dd id="facilitiesTechnicalAssistanceDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesTechnicalAssistanceDetails" >
+              <dd id="facilitiesTechnicalAssistanceDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesTechnicalAssistanceDetails maxLength-60" >
                 <span>${request?.facilitiesTechnicalAssistanceDetails}</span>
               </dd>
             
@@ -381,7 +381,7 @@
               </dd>
             
               <dt class="required condition-isCustomCar-filled"><g:message code="hccr.property.facilitiesCustomCarDetails.label" /> * : </dt>
-              <dd id="facilitiesCustomCarDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesCustomCarDetails" >
+              <dd id="facilitiesCustomCarDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesCustomCarDetails maxLength-60" >
                 <span>${request?.facilitiesCustomCarDetails}</span>
               </dd>
             
@@ -391,7 +391,7 @@
               </dd>
             
               <dt class="required condition-isAnimalAid-filled"><g:message code="hccr.property.facilitiesAnimalAidDetails.label" /> * : </dt>
-              <dd id="facilitiesAnimalAidDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesAnimalAidDetails" >
+              <dd id="facilitiesAnimalAidDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesAnimalAidDetails maxLength-60" >
                 <span>${request?.facilitiesAnimalAidDetails}</span>
               </dd>
             
@@ -401,7 +401,7 @@
               </dd>
             
               <dt class="required condition-isSpecializedTransport-filled"><g:message code="hccr.property.facilitiesSpecializedTransportDetails.label" /> * : </dt>
-              <dd id="facilitiesSpecializedTransportDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesSpecializedTransportDetails" >
+              <dd id="facilitiesSpecializedTransportDetails" class="action-editField validate- required-true i18n-hccr.property.facilitiesSpecializedTransportDetails maxLength-60" >
                 <span>${request?.facilitiesSpecializedTransportDetails}</span>
               </dd>
             
@@ -441,7 +441,7 @@
               </dd>
             
               <dt class="required condition-isSocialServiceSupport-filled"><g:message code="hccr.property.socialServiceName.label" /> * : </dt>
-              <dd id="socialServiceName" class="action-editField validate- required-true i18n-hccr.property.socialServiceName" >
+              <dd id="socialServiceName" class="action-editField validate- required-true i18n-hccr.property.socialServiceName maxLength-60" >
                 <span>${request?.socialServiceName}</span>
               </dd>
             

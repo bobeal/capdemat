@@ -5,6 +5,8 @@
       class="${propertyType != '' ? 'validate-' + propertyType : ''} ${required}" 
       title="<g:message code="${i18nKeyPrefix}.validationError" />"
       ${regex != '' ? ' regex="' + regex + '"' : ''}
+      ${minLength != null ? ' minlength="' + minLength + '"' : ''}
+      ${maxLength != null ? ' maxlength="' + maxLength + '"' : ''}
   />
   
   <input name="requestId" type="hidden" value="${requestId}" />

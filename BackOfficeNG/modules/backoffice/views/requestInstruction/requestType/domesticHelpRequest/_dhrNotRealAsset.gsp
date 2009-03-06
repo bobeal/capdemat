@@ -27,12 +27,12 @@
       </dd>
     
       <dt class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /> * : </dt>
-      <dd id="dhrNotRealAsset[${listSize - 1 - index}].dhrNotRealAssetBeneficiaryName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrNotRealAssetBeneficiaryName" >
+      <dd id="dhrNotRealAsset[${listSize - 1 - index}].dhrNotRealAssetBeneficiaryName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrNotRealAssetBeneficiaryName maxLength-38" >
         <span>${it?.dhrNotRealAssetBeneficiaryName}</span>
       </dd>
     
       <dt class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.label" /> * : </dt>
-      <dd id="dhrNotRealAsset[${listSize - 1 - index}].dhrNotRealAssetBeneficiaryFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrNotRealAssetBeneficiaryFirstName" >
+      <dd id="dhrNotRealAsset[${listSize - 1 - index}].dhrNotRealAssetBeneficiaryFirstName" class="action-editField validate-firstName required-true i18n-dhr.property.dhrNotRealAssetBeneficiaryFirstName maxLength-38" >
         <span>${it?.dhrNotRealAssetBeneficiaryFirstName}</span>
       </dd>
     
@@ -52,7 +52,7 @@
       </dd>
     
       <dt class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /> * : </dt>
-      <dd id="dhrNotRealAsset[${listSize - 1 - index}].dhrNotRealAssetNotaryName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrNotRealAssetNotaryName" >
+      <dd id="dhrNotRealAsset[${listSize - 1 - index}].dhrNotRealAssetNotaryName" class="action-editField validate-lastName required-true i18n-dhr.property.dhrNotRealAssetNotaryName maxLength-38" >
         <span>${it?.dhrNotRealAssetNotaryName}</span>
       </dd>
     

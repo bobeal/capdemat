@@ -12,17 +12,17 @@
   <dl class="required condition-isFamilyAssistance-filled">
     
       <dt class="required"><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /> * : </dt>
-      <dd id="familyAssistanceMembers[${listSize - 1 - index}].familyAssistanceMemberRelationship" class="action-editField validate- required-true i18n-hcar.property.familyAssistanceMemberRelationship" >
+      <dd id="familyAssistanceMembers[${listSize - 1 - index}].familyAssistanceMemberRelationship" class="action-editField validate- required-true i18n-hcar.property.familyAssistanceMemberRelationship maxLength-60" >
         <span>${it?.familyAssistanceMemberRelationship}</span>
       </dd>
     
       <dt class="required"><g:message code="hcar.property.familyAssistanceMemberLastName.label" /> * : </dt>
-      <dd id="familyAssistanceMembers[${listSize - 1 - index}].familyAssistanceMemberLastName" class="action-editField validate-lastName required-true i18n-hcar.property.familyAssistanceMemberLastName" >
+      <dd id="familyAssistanceMembers[${listSize - 1 - index}].familyAssistanceMemberLastName" class="action-editField validate-lastName required-true i18n-hcar.property.familyAssistanceMemberLastName maxLength-38" >
         <span>${it?.familyAssistanceMemberLastName}</span>
       </dd>
     
       <dt class="required"><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /> * : </dt>
-      <dd id="familyAssistanceMembers[${listSize - 1 - index}].familyAssistanceMemberFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.familyAssistanceMemberFirstName" >
+      <dd id="familyAssistanceMembers[${listSize - 1 - index}].familyAssistanceMemberFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.familyAssistanceMemberFirstName maxLength-38" >
         <span>${it?.familyAssistanceMemberFirstName}</span>
       </dd>
     

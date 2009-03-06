@@ -42,7 +42,7 @@
   <dl class="${element.conditionsClass}">
     <% for (subElement in element.elements) { %>
       <dt class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> ${subElement.mandatory ? '*' : ''} : </dt>
-      <dd id="${element.javaFieldName}[\${listSize - 1 - index}].${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>
+      <dd id="${element.javaFieldName}[\${listSize - 1 - index}].${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp}>
         <% displayWidget(subElement, 'it') %>
       </dd>
     <% } %>

@@ -181,6 +181,8 @@ class RequestInstructionController {
         }
         else {
             propertyValue = params.propertyValue
+            model["minLength"] = propertyTypes.minLength
+            model["maxLength"] = propertyTypes.maxLength
             model["i18nKeyPrefix"] = propertyTypes.i18n
             model["regex"] = params.propertyRegex
             if (params.propertyRegex != "")

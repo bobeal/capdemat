@@ -32,16 +32,16 @@
     <ul class="yui-nav">
       <g:each var="page" in="${document.pages}" status="i">
         <li class="${i == 0 ? 'selected' : ''}">
-          <a href="#page${page.pageNumber}">
-          <em><g:message code="property.page" /> ${page.pageNumber}</em></a>
+          <a href="#page${page.pageNumber + 1}">
+          <em><g:message code="property.page" /> ${page.pageNumber + 1}</em></a>
         </li>
       </g:each>
     </ul>
     
     <div class="yui-content"> 
       <g:each var="page" in="${document.pages}">
-        <div id="page${page.pageNumber}">
-          <img src="<g:createLink action="documentPage" params="[documentId: document.id, pageNumber: page.pageNumber]" />"/>
+        <div id="page${page.pageNumber + 1}">
+          <img src="${g.createLink(action:'documentPage')}/${document.id}/?pageNumber=${page.pageNumber}"/>
         </div>
       </g:each>
     </div>

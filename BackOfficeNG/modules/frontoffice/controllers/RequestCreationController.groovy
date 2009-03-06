@@ -200,18 +200,26 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'documentModifyPage') {
                 def docParam = targetAsMap(submitAction[3])
+                def doc = documentService.getById(Long.valueOf(docParam.id))
                 documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
+                def newDocBinary = doc.datas.get(Integer.parseInt(docParam.dataPageNumber))
+                
                 isDocumentEditMode = true
-                def newDocBinary = documentService.getPage(Long.valueOf(docParam.id), Integer.valueOf(docParam.dataPageNumber))
-                newDocBinary.data = request.getFile('documentData-' + docParam.dataPageNumber).bytes
-                documentService.modifyPage(Long.valueOf(docParam.id), newDocBinary)
+                println docParam.dataPageNumber
+                newDocBinary.data = request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes
+                doc.datas[Integer.parseInt(docParam.dataPageNumber)] = newDocBinary;
+                documentService.modify(doc); 
+                //documentService.modifyPage(Long.valueOf(docParam.id), newDocBinary)
                 document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
             else if (submitAction[1] == 'documentDeletePage') {
                 def docParam = targetAsMap(submitAction[3])
+                def pageNumber = Integer.valueOf(docParam.dataPageNumber)
+                def doc = documentService.getById(Long.valueOf(docParam.id))
+                doc.datas.remove(pageNumber)
+                
                 documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true
-                documentService.deletePage(Long.valueOf(docParam.id), Integer.valueOf(docParam.dataPageNumber))
                 document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
             // removal of a collection element

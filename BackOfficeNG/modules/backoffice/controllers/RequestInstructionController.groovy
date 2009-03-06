@@ -1,40 +1,29 @@
-import fr.cg95.cvq.service.authority.IAgentService
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
-import fr.cg95.cvq.service.request.*
-import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.service.users.IIndividualService
-import fr.cg95.cvq.service.document.IDocumentService
-
+import fr.cg95.cvq.business.authority.Agent
 import fr.cg95.cvq.business.document.DocumentState
-
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestNoteType
-import fr.cg95.cvq.business.request.RequestFormType
-import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.MeansOfContactEnum
-
-import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.business.users.Individual
+import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestFormType
+import fr.cg95.cvq.business.request.RequestNoteType
+import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
-import fr.cg95.cvq.business.users.Child
+import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.RoleType
-
-import fr.cg95.cvq.exception.*
-import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.service.authority.ICategoryService
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.document.IDocumentService
+import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.mail.IMailService
-
+import grails.converters.JSON
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
-
-import java.util.Date
-import java.io.File;
-import java.io.InputStream
-
-import grails.converters.JSON
-import fr.cg95.cvq.business.authority.Agent
-import fr.cg95.cvq.service.authority.ICategoryService
-import fr.cg95.cvq.security.SecurityContext
 
 class RequestInstructionController {
 
@@ -52,6 +41,7 @@ class RequestInstructionController {
 
     def translationService
     def instructionService
+    def documentAdaptorService
     def pdfService
     def defaultAction = "edit"
 
@@ -336,31 +326,30 @@ class RequestInstructionController {
                   "resultingState": CapdematUtils.adaptCapdematEnum(it.resultingState, "document.state")
                 ])
         }
-
-        render( template:"requestDocument",
-                model: [ "document":
-                            [ "id": document.id,
-                              "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
-                              "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
-                              "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
-                              "depositOrigin": CapdematUtils.adaptCapdematEnum(document.depositOrigin, "document.depositOrigin"),
-                              "endValidityDate": document.endValidityDate,
-                              "ecitizenNote": document.ecitizenNote,
-                              "agentNote": document.agentNote,
-                              "actions": actions,
-                              "pageNumber": documentService.getPagesNumber(document.id),
-                              "pages": documentService.getAllPages(document.id)
-                            ]
-                       ])
+        
+        render( template:"requestDocument", model: [
+            "document": [
+                "id": document.id,
+                "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
+                "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
+                "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
+                "depositOrigin": CapdematUtils.adaptCapdematEnum(document.depositOrigin, "document.depositOrigin"),
+                "endValidityDate": document.endValidityDate,
+                "ecitizenNote": document.ecitizenNote,
+                "agentNote": document.agentNote,
+                "actions": actions,
+                "pageNumber": documentService.getPagesNumber(document.id),
+                "pages": documentAdaptorService.getDocument(document.id).datas    
+            ]
+        ])
     }
 
-    // render document data as PNG image
     def documentPage = {
-        def documentBinary = documentService.getPage(
-            Long.valueOf(params.documentId), Integer.valueOf(params.pageNumber))
+        def document = documentService.getById(Long.valueOf(params.id))
+        def page = document.datas[Integer.valueOf(params.pageNumber)]
 
         response.contentType = "image/png"
-        response.outputStream << documentBinary.data
+        response.outputStream << page.data
     }
 
 

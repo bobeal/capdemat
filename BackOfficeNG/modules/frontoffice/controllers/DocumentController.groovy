@@ -9,6 +9,7 @@ import fr.cg95.cvq.service.document.IDocumentTypeService
 
 import java.util.Hashtable
 import grails.converters.JSON
+import fr.cg95.cvq.business.document.DocumentBinary
 
 class DocumentController {
     
@@ -26,19 +27,15 @@ class DocumentController {
     }
 
     def details = {
-        def result = [:], prevPage, nextPage
+        def result = [:], prevPage = null, nextPage = null, index = 0
         Document document = documentService.getById(Long.valueOf(params.id))
         
-        result.page = params.pn ? Integer.parseInt(params.pn) : 1
-        result.actions = this.getActions(document)
+        result.page = params.pn ? Integer.parseInt(params.pn) : 0
+        result.actions = this.getActions(document)        
         
-        def pages = getOrderedDocumentPages(document)
-        pages.eachWithIndex{item, index ->
-            if(result.page == item) {
-                if((index-1) > -1) prevPage = pages.get(index - 1)
-                if((index+1) < pages.size()) nextPage = pages.get(index + 1)
-            }
-        } 
+        def pages =  document.datas
+        prevPage = result.page > 0 ? result.page - 1 : null
+        nextPage = result.page < (pages.size() - 1) ? result.page + 1 : null
         
         result.doc = [ 
             "id": document.id,
@@ -81,10 +78,8 @@ class DocumentController {
     }
     
     def binary = {
-        def binary = documentService.getPage(
-            Long.valueOf(params.id), 
-            Integer.valueOf(params.pn)
-        )
+        Document document = documentService.getById(Long.valueOf(params.id))
+        DocumentBinary binary = document.datas.get(params.pn ? Integer.valueOf(params.pn) : 0)
         
         response.contentType = "image/png"
         response.outputStream << binary.data
@@ -169,7 +164,7 @@ class DocumentController {
         return individuals
     }
 
-    def protected getOrderedDocumentPages = { document ->
+    protected List getOrderedDocumentPages(document) {
         def result = []
         documentService.getAllPages(document.id).each{result.add(it.pageNumber)}
         return result.sort()

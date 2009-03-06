@@ -203,9 +203,9 @@ public class DocumentService implements IDocumentService {
 
         Document document = getById(documentId);
         if (document.getDatas() == null) {
-            Set<DocumentBinary> datasSet = new HashSet<DocumentBinary>();
-            datasSet.add(documentBinary);
-            document.setDatas(datasSet);
+            List<DocumentBinary> dataList = new ArrayList<DocumentBinary>();
+            dataList.add(documentBinary);
+            document.setDatas(dataList);
         } else {
             document.getDatas().add(documentBinary);
         }

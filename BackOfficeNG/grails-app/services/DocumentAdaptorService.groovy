@@ -5,6 +5,7 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
+import fr.cg95.cvq.business.document.DocumentBinary
 
 
 public class DocumentAdaptorService {
@@ -61,12 +62,14 @@ public class DocumentAdaptorService {
     
     public getDocument(Long id) {
         def doc = documentService.getById(id)
-        def result = [:]
+        def result = [:], pageNumber = 0
         result.id = doc.id
         result.ecitizenNote = doc.ecitizenNote
         result.datas = []
-        doc.datas.each {
-            result.datas.add(['id': it.id, 'pageNumber':it.pageNumber])
+        
+        for(DocumentBinary page : doc.datas) {
+            result.datas.add(['id': page.id, 'pageNumber': pageNumber])
+            pageNumber ++
         }
         return result 
     }

@@ -261,44 +261,5 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         }
         return sb;
     }
-    
-    protected void buildSort(Map<String,String>sortParams, StringBuffer sb) {
-        String query = "";
-        if(sortParams == null) return;
-        for(String key : sortParams.keySet()) {
-            query += String.format(" %1$s %2$s ,",key,
-                sortParams.get(key)!=null ? sortParams.get(key) : "asc");
-        }
-        if(query.length()>0) { 
-            query = "order by "+query;
-            sb.append(query.substring(0,query.length()-2));
-        }
-        
-        //return sb;
-    }
-    
-    protected <T extends List> T execute(String hql, List<Type> typeList, List<Object> valueList, 
-                                         Integer max, Integer offset) {
-        Type[] types = typeList.toArray(new Type[typeList.size()]);
-        Object[] values = valueList.toArray(new Object[valueList.size()]);
-        
-        Query query = HibernateUtil.getSession().createQuery(hql);
-        if(max != null) {
-            query.setMaxResults(max);
-            query.setFirstResult(offset != null ? offset : 0);
-        }
-        
-        //noinspection unchecked
-        return (T) query.setParameters(values, types).list();
-    }
-    
-    protected <T extends Number> T execute(String hql, List<Type> typeList, List<Object> valueList) {
-        Type[] types = typeList.toArray(new Type[typeList.size()]);
-        Object[] values = valueList.toArray(new Object[valueList.size()]);
-        
-        Query query = HibernateUtil.getSession().createQuery(hql).setParameters(values, types);
-        
-        //noinspection unchecked
-        return (T)query.iterate().next();
-    }
+
 }

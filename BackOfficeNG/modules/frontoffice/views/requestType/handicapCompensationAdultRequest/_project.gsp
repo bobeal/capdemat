@@ -287,7 +287,7 @@
       <label class="required condition-isOtherRequest-filled"><g:message code="hcar.property.projectRequestsOtherDetails.label" /> * <span><g:message code="hcar.property.projectRequestsOtherDetails.help" /></span></label>
       
             <input type="text" name="projectRequestsOtherDetails" value="${rqt.projectRequestsOtherDetails}" 
-                    class="required condition-isOtherRequest-filled " title="<g:message code="hcar.property.projectRequestsOtherDetails.validationError" />" />
+                    class="required condition-isOtherRequest-filled " title="<g:message code="hcar.property.projectRequestsOtherDetails.validationError" />"  maxLength="60"/>
             
     
     </fieldset>
@@ -296,21 +296,21 @@
   
     <label class=""><g:message code="hcar.property.projectWish.label" />   <span><g:message code="hcar.property.projectWish.help" /></span></label>
     
-            <textarea name="projectWish" class=" validate-textarea" title="<g:message code="hcar.property.projectWish.validationError" />" rows="10">${rqt.projectWish}</textarea>
+            <textarea name="projectWish" class=" validate-textarea" title="<g:message code="hcar.property.projectWish.validationError" />" rows="10" maxLength="600">${rqt.projectWish}</textarea>
             
   
 
   
     <label class=""><g:message code="hcar.property.projectNeeds.label" />   <span><g:message code="hcar.property.projectNeeds.help" /></span></label>
     
-            <textarea name="projectNeeds" class=" validate-textarea" title="<g:message code="hcar.property.projectNeeds.validationError" />" rows="10">${rqt.projectNeeds}</textarea>
+            <textarea name="projectNeeds" class=" validate-textarea" title="<g:message code="hcar.property.projectNeeds.validationError" />" rows="10" maxLength="600">${rqt.projectNeeds}</textarea>
             
   
 
   
     <label class=""><g:message code="hcar.property.projectComments.label" />   <span><g:message code="hcar.property.projectComments.help" /></span></label>
     
-            <textarea name="projectComments" class=" validate-textarea" title="<g:message code="hcar.property.projectComments.validationError" />" rows="10">${rqt.projectComments}</textarea>
+            <textarea name="projectComments" class=" validate-textarea" title="<g:message code="hcar.property.projectComments.validationError" />" rows="10" maxLength="600">${rqt.projectComments}</textarea>
             
   
 

@@ -22,12 +22,12 @@
               </dd>
             
               <dt class="required"><g:message code="hccr.property.subjectBirthCity.label" /> * : </dt>
-              <dd id="subjectBirthCity" class="action-editField validate-city required-true i18n-hccr.property.subjectBirthCity" >
+              <dd id="subjectBirthCity" class="action-editField validate-city required-true i18n-hccr.property.subjectBirthCity maxLength-32" >
                 <span>${request?.subjectBirthCity}</span>
               </dd>
             
               <dt class="required"><g:message code="hccr.property.subjectBirthCountry.label" /> * : </dt>
-              <dd id="subjectBirthCountry" class="action-editField validate- required-true i18n-hccr.property.subjectBirthCountry" >
+              <dd id="subjectBirthCountry" class="action-editField validate- required-true i18n-hccr.property.subjectBirthCountry maxLength-50" >
                 <span>${request?.subjectBirthCountry}</span>
               </dd>
             
@@ -50,17 +50,17 @@
           <dl class="required condition-isLessThan18-filled">
             
               <dt class=""><g:message code="hccr.property.fatherLastName.label" />  : </dt>
-              <dd id="fatherLastName" class="action-editField validate-lastName i18n-hccr.property.fatherLastName" >
+              <dd id="fatherLastName" class="action-editField validate-lastName i18n-hccr.property.fatherLastName maxLength-38" >
                 <span>${request?.fatherLastName}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.fatherFirstName.label" />  : </dt>
-              <dd id="fatherFirstName" class="action-editField validate-firstName i18n-hccr.property.fatherFirstName" >
+              <dd id="fatherFirstName" class="action-editField validate-firstName i18n-hccr.property.fatherFirstName maxLength-38" >
                 <span>${request?.fatherFirstName}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.fatherJob.label" />  : </dt>
-              <dd id="fatherJob" class="action-editField validate- i18n-hccr.property.fatherJob" >
+              <dd id="fatherJob" class="action-editField validate- i18n-hccr.property.fatherJob maxLength-60" >
                 <span>${request?.fatherJob}</span>
               </dd>
             
@@ -82,17 +82,17 @@
           <dl class="required condition-isLessThan18-filled">
             
               <dt class=""><g:message code="hccr.property.motherLastName.label" />  : </dt>
-              <dd id="motherLastName" class="action-editField validate-lastName i18n-hccr.property.motherLastName" >
+              <dd id="motherLastName" class="action-editField validate-lastName i18n-hccr.property.motherLastName maxLength-38" >
                 <span>${request?.motherLastName}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.motherFirstName.label" />  : </dt>
-              <dd id="motherFirstName" class="action-editField validate-firstName i18n-hccr.property.motherFirstName" >
+              <dd id="motherFirstName" class="action-editField validate-firstName i18n-hccr.property.motherFirstName maxLength-38" >
                 <span>${request?.motherFirstName}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.motherJob.label" />  : </dt>
-              <dd id="motherJob" class="action-editField validate- i18n-hccr.property.motherJob" >
+              <dd id="motherJob" class="action-editField validate- i18n-hccr.property.motherJob maxLength-60" >
                 <span>${request?.motherJob}</span>
               </dd>
             
@@ -114,12 +114,12 @@
           <dl class="required condition-isLessThan18-filled">
             
               <dt class=""><g:message code="hccr.property.aseReferentLastName.label" />  : </dt>
-              <dd id="aseReferentLastName" class="action-editField validate-lastName i18n-hccr.property.aseReferentLastName" >
+              <dd id="aseReferentLastName" class="action-editField validate-lastName i18n-hccr.property.aseReferentLastName maxLength-38" >
                 <span>${request?.aseReferentLastName}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.aseReferentDepartment.label" />  : </dt>
-              <dd id="aseReferentDepartment" class="action-editField validate-departmentCode i18n-hccr.property.aseReferentDepartment" >
+              <dd id="aseReferentDepartment" class="action-editField validate-departmentCode i18n-hccr.property.aseReferentDepartment maxLength-2" >
                 <span>${request?.aseReferentDepartment}</span>
               </dd>
             
@@ -131,12 +131,12 @@
           <dl class="required">
             
               <dt class="required"><g:message code="hccr.property.referentLastName.label" /> * : </dt>
-              <dd id="referentLastName" class="action-editField validate-lastName required-true i18n-hccr.property.referentLastName" >
+              <dd id="referentLastName" class="action-editField validate-lastName required-true i18n-hccr.property.referentLastName maxLength-38" >
                 <span>${request?.referentLastName}</span>
               </dd>
             
               <dt class="required"><g:message code="hccr.property.referentFirstName.label" /> * : </dt>
-              <dd id="referentFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.referentFirstName" >
+              <dd id="referentFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.referentFirstName maxLength-38" >
                 <span>${request?.referentFirstName}</span>
               </dd>
             
@@ -146,7 +146,7 @@
               </dd>
             
               <dt class="required condition-isReferentMadam-filled"><g:message code="hccr.property.referentMaidenName.label" /> * : </dt>
-              <dd id="referentMaidenName" class="action-editField validate-lastName required-true i18n-hccr.property.referentMaidenName" >
+              <dd id="referentMaidenName" class="action-editField validate-lastName required-true i18n-hccr.property.referentMaidenName maxLength-38" >
                 <span>${request?.referentMaidenName}</span>
               </dd>
             
@@ -156,12 +156,12 @@
               </dd>
             
               <dt class="required"><g:message code="hccr.property.referentBirthCity.label" /> * : </dt>
-              <dd id="referentBirthCity" class="action-editField validate-city required-true i18n-hccr.property.referentBirthCity" >
+              <dd id="referentBirthCity" class="action-editField validate-city required-true i18n-hccr.property.referentBirthCity maxLength-32" >
                 <span>${request?.referentBirthCity}</span>
               </dd>
             
               <dt class="required"><g:message code="hccr.property.referentBirthCountry.label" /> * : </dt>
-              <dd id="referentBirthCountry" class="action-editField validate- required-true i18n-hccr.property.referentBirthCountry" >
+              <dd id="referentBirthCountry" class="action-editField validate- required-true i18n-hccr.property.referentBirthCountry maxLength-50" >
                 <span>${request?.referentBirthCountry}</span>
               </dd>
             
@@ -179,7 +179,7 @@
           
         
           
-          <div id="widget-familyDependents">
+          <div id="widget-familyDependents" class="required condition-isReferentFamilyDependents-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/familyDependents" model="['request':request]" />
           </div>
           
@@ -214,7 +214,7 @@
               </dd>
             
               <dt class="required condition-isNotPlaceOfResidence-filled"><g:message code="hccr.property.dwellingPrecision.label" /> * : </dt>
-              <dd id="dwellingPrecision" class="action-editField validate-textarea required-true i18n-hccr.property.dwellingPrecision rows-2" >
+              <dd id="dwellingPrecision" class="action-editField validate-textarea required-true i18n-hccr.property.dwellingPrecision rows-2 maxLength-120" >
                 <span>${request?.dwellingPrecision}</span>
               </dd>
             
@@ -229,7 +229,7 @@
               </dd>
             
               <dt class="required condition-isInEstablishmentReception-filled"><g:message code="hccr.property.dwellingReceptionNaming.label" /> * : </dt>
-              <dd id="dwellingReceptionNaming" class="action-editField validate- required-true i18n-hccr.property.dwellingReceptionNaming" >
+              <dd id="dwellingReceptionNaming" class="action-editField validate- required-true i18n-hccr.property.dwellingReceptionNaming maxLength-80" >
                 <span>${request?.dwellingReceptionNaming}</span>
               </dd>
             
@@ -244,7 +244,7 @@
               </dd>
             
               <dt class="required condition-isInSocialReception-filled"><g:message code="hccr.property.dwellingSocialReceptionNaming.label" /> * : </dt>
-              <dd id="dwellingSocialReceptionNaming" class="action-editField validate- required-true i18n-hccr.property.dwellingSocialReceptionNaming" >
+              <dd id="dwellingSocialReceptionNaming" class="action-editField validate- required-true i18n-hccr.property.dwellingSocialReceptionNaming maxLength-80" >
                 <span>${request?.dwellingSocialReceptionNaming}</span>
               </dd>
             
@@ -297,7 +297,7 @@
               </dd>
             
               <dt class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hccr.property.socialSecurityAgencyName.label" /> * : </dt>
-              <dd id="socialSecurityAgencyName" class="action-editField validate- required-true i18n-hccr.property.socialSecurityAgencyName" >
+              <dd id="socialSecurityAgencyName" class="action-editField validate- required-true i18n-hccr.property.socialSecurityAgencyName maxLength-50" >
                 <span>${request?.socialSecurityAgencyName}</span>
               </dd>
             
@@ -325,12 +325,12 @@
               </dd>
             
               <dt class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hccr.property.paymentAgencyBeneficiaryNumber.label" /> * : </dt>
-              <dd id="paymentAgencyBeneficiaryNumber" class="action-editField validate- required-true i18n-hccr.property.paymentAgencyBeneficiaryNumber" >
+              <dd id="paymentAgencyBeneficiaryNumber" class="action-editField validate- required-true i18n-hccr.property.paymentAgencyBeneficiaryNumber maxLength-20" >
                 <span>${request?.paymentAgencyBeneficiaryNumber}</span>
               </dd>
             
               <dt class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hccr.property.paymentAgencyName.label" /> * : </dt>
-              <dd id="paymentAgencyName" class="action-editField validate- required-true i18n-hccr.property.paymentAgencyName" >
+              <dd id="paymentAgencyName" class="action-editField validate- required-true i18n-hccr.property.paymentAgencyName maxLength-50" >
                 <span>${request?.paymentAgencyName}</span>
               </dd>
             
@@ -372,7 +372,7 @@
               </dd>
             
               <dt class="required condition-isSchoolingEnrolment-filled"><g:message code="hccr.property.schoolingSchoolName.label" /> * : </dt>
-              <dd id="schoolingSchoolName" class="action-editField validate- required-true i18n-hccr.property.schoolingSchoolName" >
+              <dd id="schoolingSchoolName" class="action-editField validate- required-true i18n-hccr.property.schoolingSchoolName maxLength-80" >
                 <span>${request?.schoolingSchoolName}</span>
               </dd>
             
@@ -387,7 +387,7 @@
               </dd>
             
               <dt class="required condition-isSentToSchool-filled"><g:message code="hccr.property.schoolingAttendedGrade.label" /> * : </dt>
-              <dd id="schoolingAttendedGrade" class="action-editField validate-capdematEnum required-true i18n-hccr.property.schoolingAttendedGrade javatype-fr.cg95.cvq.business.users.SectionType" >
+              <dd id="schoolingAttendedGrade" class="action-editField validate-capdematEnum required-true i18n-hccr.property.schoolingAttendedGrade javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" >
                 <g:capdematEnumToField var="${request?.schoolingAttendedGrade}" i18nKeyPrefix="hccr.property.schoolingAttendedGrade" />
               </dd>
             
@@ -397,7 +397,7 @@
               </dd>
             
               <dt class="required condition-isSpecializedGrade-filled"><g:message code="hccr.property.schoolingSpecializedGradeDetails.label" /> * : </dt>
-              <dd id="schoolingSpecializedGradeDetails" class="action-editField validate- required-true i18n-hccr.property.schoolingSpecializedGradeDetails" >
+              <dd id="schoolingSpecializedGradeDetails" class="action-editField validate- required-true i18n-hccr.property.schoolingSpecializedGradeDetails maxLength-30" >
                 <span>${request?.schoolingSpecializedGradeDetails}</span>
               </dd>
             
@@ -427,12 +427,12 @@
               </dd>
             
               <dt class="required condition-isAccompaniedHomeSchooling-filled"><g:message code="hccr.property.schoolingHomeSchoolingAccompanistLastName.label" /> * : </dt>
-              <dd id="schoolingHomeSchoolingAccompanistLastName" class="action-editField validate-lastName required-true i18n-hccr.property.schoolingHomeSchoolingAccompanistLastName" >
+              <dd id="schoolingHomeSchoolingAccompanistLastName" class="action-editField validate-lastName required-true i18n-hccr.property.schoolingHomeSchoolingAccompanistLastName maxLength-38" >
                 <span>${request?.schoolingHomeSchoolingAccompanistLastName}</span>
               </dd>
             
               <dt class="required condition-isAccompaniedHomeSchooling-filled"><g:message code="hccr.property.schoolingHomeSchoolingAccompanistFirstName.label" /> * : </dt>
-              <dd id="schoolingHomeSchoolingAccompanistFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.schoolingHomeSchoolingAccompanistFirstName" >
+              <dd id="schoolingHomeSchoolingAccompanistFirstName" class="action-editField validate-firstName required-true i18n-hccr.property.schoolingHomeSchoolingAccompanistFirstName maxLength-38" >
                 <span>${request?.schoolingHomeSchoolingAccompanistFirstName}</span>
               </dd>
             
@@ -447,7 +447,7 @@
               </dd>
             
               <dt class="required condition-isExtraCurricular-filled"><g:message code="hccr.property.schoolingExtraCurricularDetails.label" /> * : </dt>
-              <dd id="schoolingExtraCurricularDetails" class="action-editField validate- required-true i18n-hccr.property.schoolingExtraCurricularDetails" >
+              <dd id="schoolingExtraCurricularDetails" class="action-editField validate- required-true i18n-hccr.property.schoolingExtraCurricularDetails maxLength-50" >
                 <span>${request?.schoolingExtraCurricularDetails}</span>
               </dd>
             
@@ -464,12 +464,12 @@
               </dd>
             
               <dt class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesHighSchoolGrade.label" /> * : </dt>
-              <dd id="studiesHighSchoolGrade" class="action-editField validate- required-true i18n-hccr.property.studiesHighSchoolGrade" >
+              <dd id="studiesHighSchoolGrade" class="action-editField validate- required-true i18n-hccr.property.studiesHighSchoolGrade maxLength-60" >
                 <span>${request?.studiesHighSchoolGrade}</span>
               </dd>
             
               <dt class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesHighSchoolName.label" /> * : </dt>
-              <dd id="studiesHighSchoolName" class="action-editField validate- required-true i18n-hccr.property.studiesHighSchoolName" >
+              <dd id="studiesHighSchoolName" class="action-editField validate- required-true i18n-hccr.property.studiesHighSchoolName maxLength-60" >
                 <span>${request?.studiesHighSchoolName}</span>
               </dd>
             
@@ -484,7 +484,7 @@
               </dd>
             
               <dt class="required condition-isAssistanceUnderDisability-filled"><g:message code="hccr.property.studiesAssistanceUnderDisabilityDetails.label" /> * : </dt>
-              <dd id="studiesAssistanceUnderDisabilityDetails" class="action-editField validate- required-true i18n-hccr.property.studiesAssistanceUnderDisabilityDetails" >
+              <dd id="studiesAssistanceUnderDisabilityDetails" class="action-editField validate- required-true i18n-hccr.property.studiesAssistanceUnderDisabilityDetails maxLength-60" >
                 <span>${request?.studiesAssistanceUnderDisabilityDetails}</span>
               </dd>
             
@@ -496,22 +496,22 @@
           <dl class="required">
             
               <dt class=""><g:message code="hccr.property.formationStudiesLevel.label" />  : </dt>
-              <dd id="formationStudiesLevel" class="action-editField validate- i18n-hccr.property.formationStudiesLevel" >
+              <dd id="formationStudiesLevel" class="action-editField validate- i18n-hccr.property.formationStudiesLevel maxLength-30" >
                 <span>${request?.formationStudiesLevel}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.formationDiploma.label" />  : </dt>
-              <dd id="formationDiploma" class="action-editField validate-textarea i18n-hccr.property.formationDiploma rows-2" >
+              <dd id="formationDiploma" class="action-editField validate-textarea i18n-hccr.property.formationDiploma rows-2 maxLength-120" >
                 <span>${request?.formationDiploma}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.formationPreviousFormation.label" />  : </dt>
-              <dd id="formationPreviousFormation" class="action-editField validate-textarea i18n-hccr.property.formationPreviousFormation rows-3" >
+              <dd id="formationPreviousFormation" class="action-editField validate-textarea i18n-hccr.property.formationPreviousFormation rows-3 maxLength-180" >
                 <span>${request?.formationPreviousFormation}</span>
               </dd>
             
               <dt class=""><g:message code="hccr.property.formationCurrentFormation.label" />  : </dt>
-              <dd id="formationCurrentFormation" class="action-editField validate-textarea i18n-hccr.property.formationCurrentFormation rows-2" >
+              <dd id="formationCurrentFormation" class="action-editField validate-textarea i18n-hccr.property.formationCurrentFormation rows-2 maxLength-120" >
                 <span>${request?.formationCurrentFormation}</span>
               </dd>
             
@@ -544,12 +544,12 @@
               </dd>
             
               <dt class="required condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusProfession.label" /> * : </dt>
-              <dd id="professionalStatusProfession" class="action-editField validate- required-true i18n-hccr.property.professionalStatusProfession" >
+              <dd id="professionalStatusProfession" class="action-editField validate- required-true i18n-hccr.property.professionalStatusProfession maxLength-60" >
                 <span>${request?.professionalStatusProfession}</span>
               </dd>
             
               <dt class="required condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusEmployerName.label" /> * : </dt>
-              <dd id="professionalStatusEmployerName" class="action-editField validate-lastName required-true i18n-hccr.property.professionalStatusEmployerName" >
+              <dd id="professionalStatusEmployerName" class="action-editField validate-lastName required-true i18n-hccr.property.professionalStatusEmployerName maxLength-38" >
                 <span>${request?.professionalStatusEmployerName}</span>
               </dd>
             
@@ -584,7 +584,7 @@
               </dd>
             
               <dt class="required condition-isElectiveFunction-filled"><g:message code="hccr.property.professionalStatusElectiveFunctionDetails.label" /> * : </dt>
-              <dd id="professionalStatusElectiveFunctionDetails" class="action-editField validate- required-true i18n-hccr.property.professionalStatusElectiveFunctionDetails" >
+              <dd id="professionalStatusElectiveFunctionDetails" class="action-editField validate- required-true i18n-hccr.property.professionalStatusElectiveFunctionDetails maxLength-60" >
                 <span>${request?.professionalStatusElectiveFunctionDetails}</span>
               </dd>
             

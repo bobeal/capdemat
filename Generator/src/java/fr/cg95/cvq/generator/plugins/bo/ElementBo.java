@@ -24,6 +24,9 @@ public class ElementBo {
     private boolean mandatory = true;
     private String jsRegexp;
     
+    private int minLength;
+    private int maxLength;
+    
     private String i18nPrefixCode;
     private String htmlClass;
     private String widget;
@@ -94,11 +97,22 @@ public class ElementBo {
     }
 
     public String getJsRegexp() {
-        return jsRegexp;
+        String s = "";
+        if (jsRegexp != null)
+            s += "regex=\"" + jsRegexp + "\""; 
+        return s;
     }
 
     public void setJsRegexp(String jsRegexp) {
         this.jsRegexp = jsRegexp;
+    }
+
+    public void setMinLength(int minLength) {
+        this.minLength = minLength;
+    }
+
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
     }
 
     public String getHtmlClass() {
@@ -114,7 +128,9 @@ public class ElementBo {
             ,(mandatory ? " required-true" : "")
             , " " , "i18n-" +i18nPrefixCode
             ,(widget != null && widget.equals("capdematEnum") ? " " + "javatype-" + getQualifiedType() : "" )
-            ,(widget != null && widget.equals("textarea") ? " rows-" + String.valueOf(rows) : "" )
+            ,(widget != null && widget.equals("textarea") ? " rows-" + rows : "" )
+            ,(minLength > 0 ? " minLength-" + minLength : "")
+            ,(maxLength > 0 ? " maxLength-" + maxLength : "")
         });
     }
 
@@ -132,10 +148,6 @@ public class ElementBo {
             return;
         }
         this.widget = StringUtils.uncapitalize(StringUtils.removeEnd(type, "Type"));
-    }
-    
-    public int getRows() {
-        return rows;
     }
 
     public void setRows(String rows) {

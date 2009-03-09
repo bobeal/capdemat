@@ -130,6 +130,8 @@ public class BoPlugin implements IPluginGenerator {
         logger.debug("startElementProperties()");
         ElementBo elementBo = elementBoStack.peek(depth);
         elementBo.setType(elementProp.getXmlSchemaType());
+        elementBo.setMinLength(elementProp.getMinLength());
+        elementBo.setMaxLength(elementProp.getMaxLength());
         
         // TODO - define a more robust namespace mapping policy
         if (elementProp.isReferentialType())

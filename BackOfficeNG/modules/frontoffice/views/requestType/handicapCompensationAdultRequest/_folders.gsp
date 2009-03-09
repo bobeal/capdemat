@@ -23,13 +23,13 @@
       <label class="condition-isMDPH-filled"><g:message code="hcar.property.foldersMdphNumber.label" />  <span><g:message code="hcar.property.foldersMdphNumber.help" /></span></label>
       
             <input type="text" name="foldersMdphNumber" value="${rqt.foldersMdphNumber}" 
-                    class="condition-isMDPH-filled " title="<g:message code="hcar.property.foldersMdphNumber.validationError" />" />
+                    class="condition-isMDPH-filled " title="<g:message code="hcar.property.foldersMdphNumber.validationError" />"  maxLength="30"/>
             
     
       <label class="condition-isMDPH-filled"><g:message code="hcar.property.foldersMdphDepartment.label" />  <span><g:message code="hcar.property.foldersMdphDepartment.help" /></span></label>
       
             <input type="text" name="foldersMdphDepartment" value="${rqt.foldersMdphDepartment}" 
-                    class="condition-isMDPH-filled validate-departmentCode" title="<g:message code="hcar.property.foldersMdphDepartment.validationError" />" />
+                    class="condition-isMDPH-filled validate-departmentCode" title="<g:message code="hcar.property.foldersMdphDepartment.validationError" />"  maxLength="2"/>
             
     
       <label class="required"><g:message code="hcar.property.foldersCotorep.label" /> * <span><g:message code="hcar.property.foldersCotorep.help" /></span></label>
@@ -47,13 +47,13 @@
       <label class="condition-isCOTOREP-filled"><g:message code="hcar.property.foldersCotorepNumber.label" />  <span><g:message code="hcar.property.foldersCotorepNumber.help" /></span></label>
       
             <input type="text" name="foldersCotorepNumber" value="${rqt.foldersCotorepNumber}" 
-                    class="condition-isCOTOREP-filled " title="<g:message code="hcar.property.foldersCotorepNumber.validationError" />" />
+                    class="condition-isCOTOREP-filled " title="<g:message code="hcar.property.foldersCotorepNumber.validationError" />"  maxLength="30"/>
             
     
       <label class="condition-isCOTOREP-filled"><g:message code="hcar.property.foldersCotorepDepartment.label" />  <span><g:message code="hcar.property.foldersCotorepDepartment.help" /></span></label>
       
             <input type="text" name="foldersCotorepDepartment" value="${rqt.foldersCotorepDepartment}" 
-                    class="condition-isCOTOREP-filled validate-departmentCode" title="<g:message code="hcar.property.foldersCotorepDepartment.validationError" />" />
+                    class="condition-isCOTOREP-filled validate-departmentCode" title="<g:message code="hcar.property.foldersCotorepDepartment.validationError" />"  maxLength="2"/>
             
     
       <label class="required"><g:message code="hcar.property.foldersCdes.label" /> * <span><g:message code="hcar.property.foldersCdes.help" /></span></label>
@@ -71,13 +71,13 @@
       <label class="condition-isCDES-filled"><g:message code="hcar.property.foldersCdesNumber.label" />  <span><g:message code="hcar.property.foldersCdesNumber.help" /></span></label>
       
             <input type="text" name="foldersCdesNumber" value="${rqt.foldersCdesNumber}" 
-                    class="condition-isCDES-filled " title="<g:message code="hcar.property.foldersCdesNumber.validationError" />" />
+                    class="condition-isCDES-filled " title="<g:message code="hcar.property.foldersCdesNumber.validationError" />"  maxLength="30"/>
             
     
       <label class="condition-isCDES-filled"><g:message code="hcar.property.foldersCdesDepartment.label" />  <span><g:message code="hcar.property.foldersCdesDepartment.help" /></span></label>
       
             <input type="text" name="foldersCdesDepartment" value="${rqt.foldersCdesDepartment}" 
-                    class="condition-isCDES-filled validate-departmentCode" title="<g:message code="hcar.property.foldersCdesDepartment.validationError" />" />
+                    class="condition-isCDES-filled validate-departmentCode" title="<g:message code="hcar.property.foldersCdesDepartment.validationError" />"  maxLength="2"/>
             
     
       <label class="required"><g:message code="hcar.property.foldersOtherFolders.label" /> * <span><g:message code="hcar.property.foldersOtherFolders.help" /></span></label>
@@ -105,19 +105,19 @@
         <label class="required"><g:message code="hcar.property.otherFolderName.label" /> * <span><g:message code="hcar.property.otherFolderName.help" /></span></label>
         
             <input type="text" name="otherFolders[${listIndex}].otherFolderName" value="${editList?.otherFolders?.otherFolderName}" 
-                    class="required " title="<g:message code="hcar.property.otherFolderName.validationError" />" />
+                    class="required " title="<g:message code="hcar.property.otherFolderName.validationError" />"  maxLength="60"/>
             
     
         <label class=""><g:message code="hcar.property.otherFolderNumber.label" />  <span><g:message code="hcar.property.otherFolderNumber.help" /></span></label>
         
             <input type="text" name="otherFolders[${listIndex}].otherFolderNumber" value="${editList?.otherFolders?.otherFolderNumber}" 
-                    class=" " title="<g:message code="hcar.property.otherFolderNumber.validationError" />" />
+                    class=" " title="<g:message code="hcar.property.otherFolderNumber.validationError" />"  maxLength="30"/>
             
     
         <label class=""><g:message code="hcar.property.otherFolderDepartment.label" />  <span><g:message code="hcar.property.otherFolderDepartment.help" /></span></label>
         
             <input type="text" name="otherFolders[${listIndex}].otherFolderDepartment" value="${editList?.otherFolders?.otherFolderDepartment}" 
-                    class=" validate-departmentCode" title="<g:message code="hcar.property.otherFolderDepartment.validationError" />" />
+                    class=" validate-departmentCode" title="<g:message code="hcar.property.otherFolderDepartment.validationError" />"  maxLength="2"/>
             
     
         <g:if test="${editList?.name == 'otherFolders'}">

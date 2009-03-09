@@ -53,7 +53,7 @@
             """
             ,'textarea' :
             """
-            <textarea name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" rows="${element?.rows}">\${${valuePrefix}.${element.javaFieldName}}</textarea>
+            <textarea name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.rows} ${element.lengthLimits}>\${${valuePrefix}.${element.javaFieldName}}</textarea>
             """
          ,'date' :
             """
@@ -63,7 +63,7 @@
          ,'text' :
             """
             <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
-                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />"${element.jsRegexp != null ? ' regex="' + element.jsRegexp + '"' : ''} />
+                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits}/>
             """
       ]
       

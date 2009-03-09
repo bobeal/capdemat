@@ -172,9 +172,20 @@
   padding: 0 0 .5em .5em;
   border-left: 1px dashed #aaaaaa;
 }
+#requestInformation dl dd .tag-state { display: inline; float: none; }
+#requestInformation div div div dl dd ul    { margin: 0; }
+#requestInformation div div div dl dd ul li { padding: .3em 0 0 0; border: 0; list-style: disc inside none; }
 
 #requestInformation .tag-state { float: right; }
 #requestInformation .comment   { font-size: 1.4em; font-weight: normal; }
+
+#requestInformation .homFolderInfo { 
+  margin: 10px; padding: 1em;
+  line-height: 2em; 
+  border: 1px dashed #C1CFE2; border-left: 0; border-right: 0;
+  background: #fff;
+}
+#requestInformation .homFolderInfo .tag-state { display: inline; float: none; }
 
 /* request instruction worflow panel
 -------------------------------------------------------------- */

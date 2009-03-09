@@ -22,7 +22,7 @@
       </dd>
     
       <dt class="required condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderName.label" /> * : </dt>
-      <dd id="careServices[${listSize - 1 - index}].careServiceProviderName" class="action-editField validate-lastName required-true i18n-hccr.property.careServiceProviderName" >
+      <dd id="careServices[${listSize - 1 - index}].careServiceProviderName" class="action-editField validate-lastName required-true i18n-hccr.property.careServiceProviderName maxLength-38" >
         <span>${it?.careServiceProviderName}</span>
       </dd>
     

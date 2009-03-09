@@ -135,6 +135,8 @@ public class FoPlugin implements IPluginGenerator {
         logger.debug("startElementProperties()");
         ElementFo elementFo = elementFoStack.peek(depth);
         elementFo.setType(elementProp.getXmlSchemaType());
+        elementFo.setMinLength(elementProp.getMinLength());
+        elementFo.setMaxLength(elementProp.getMaxLength());
         
         // TODO - define a more robust namespace mapping policy
         if (elementProp.isReferentialType())

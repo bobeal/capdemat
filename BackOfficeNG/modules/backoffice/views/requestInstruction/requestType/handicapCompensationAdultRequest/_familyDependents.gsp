@@ -12,12 +12,12 @@
   <dl class="required condition-isFamilyDependents-filled">
     
       <dt class="required"><g:message code="hcar.property.familyDependentLastName.label" /> * : </dt>
-      <dd id="familyDependents[${listSize - 1 - index}].familyDependentLastName" class="action-editField validate-lastName required-true i18n-hcar.property.familyDependentLastName" >
+      <dd id="familyDependents[${listSize - 1 - index}].familyDependentLastName" class="action-editField validate-lastName required-true i18n-hcar.property.familyDependentLastName maxLength-38" >
         <span>${it?.familyDependentLastName}</span>
       </dd>
     
       <dt class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> * : </dt>
-      <dd id="familyDependents[${listSize - 1 - index}].familyDependentFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.familyDependentFirstName" >
+      <dd id="familyDependents[${listSize - 1 - index}].familyDependentFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.familyDependentFirstName maxLength-38" >
         <span>${it?.familyDependentFirstName}</span>
       </dd>
     

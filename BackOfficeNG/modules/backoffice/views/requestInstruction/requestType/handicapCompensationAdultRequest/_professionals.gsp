@@ -12,12 +12,12 @@
   <dl class="condition-isProfessionals-filled">
     
       <dt class="required"><g:message code="hcar.property.professionalLastName.label" /> * : </dt>
-      <dd id="professionals[${listSize - 1 - index}].professionalLastName" class="action-editField validate-lastName required-true i18n-hcar.property.professionalLastName" >
+      <dd id="professionals[${listSize - 1 - index}].professionalLastName" class="action-editField validate-lastName required-true i18n-hcar.property.professionalLastName maxLength-38" >
         <span>${it?.professionalLastName}</span>
       </dd>
     
       <dt class="required"><g:message code="hcar.property.professionalFirstName.label" /> * : </dt>
-      <dd id="professionals[${listSize - 1 - index}].professionalFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.professionalFirstName" >
+      <dd id="professionals[${listSize - 1 - index}].professionalFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.professionalFirstName maxLength-38" >
         <span>${it?.professionalFirstName}</span>
       </dd>
     

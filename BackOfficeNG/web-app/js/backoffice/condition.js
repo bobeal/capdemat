@@ -61,7 +61,7 @@
             yud.replaceClass(this, notActionClass, actionClass);
         });
       }
-      else if (listenerEl.tagName === 'dt'.toUpperCase() && action === yud.hasClass(listenerEl, 'not-action-editField')) {
+      else if (action === yud.hasClass(listenerEl, 'not-action-editField')) {
           var listenerDdEl = yud.getNextSibling(listenerEl);
           zct.toggleClass(listenerEl,'not-action-editField');
           if (yud.hasClass(listenerDdEl, notActionClass))

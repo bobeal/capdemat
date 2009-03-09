@@ -12,7 +12,7 @@
   <dl class="">
     
       <dt class="required"><g:message code="hcar.property.additionalFeeKind.label" /> * : </dt>
-      <dd id="additionalFee[${listSize - 1 - index}].additionalFeeKind" class="action-editField validate- required-true i18n-hcar.property.additionalFeeKind" >
+      <dd id="additionalFee[${listSize - 1 - index}].additionalFeeKind" class="action-editField validate- required-true i18n-hcar.property.additionalFeeKind maxLength-30" >
         <span>${it?.additionalFeeKind}</span>
       </dd>
     
@@ -22,7 +22,7 @@
       </dd>
     
       <dt class="required"><g:message code="hcar.property.additionalFeePeriodicity.label" /> * : </dt>
-      <dd id="additionalFee[${listSize - 1 - index}].additionalFeePeriodicity" class="action-editField validate- required-true i18n-hcar.property.additionalFeePeriodicity" >
+      <dd id="additionalFee[${listSize - 1 - index}].additionalFeePeriodicity" class="action-editField validate- required-true i18n-hcar.property.additionalFeePeriodicity maxLength-30" >
         <span>${it?.additionalFeePeriodicity}</span>
       </dd>
     

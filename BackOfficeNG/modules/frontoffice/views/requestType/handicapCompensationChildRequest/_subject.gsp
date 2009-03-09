@@ -25,13 +25,13 @@
       <label class="required"><g:message code="hccr.property.subjectBirthCity.label" /> * <span><g:message code="hccr.property.subjectBirthCity.help" /></span></label>
       
             <input type="text" name="subjectBirthCity" value="${rqt.subjectBirthCity}" 
-                    class="required validate-city" title="<g:message code="hccr.property.subjectBirthCity.validationError" />" />
+                    class="required validate-city" title="<g:message code="hccr.property.subjectBirthCity.validationError" />"  maxLength="32"/>
             
     
       <label class="required"><g:message code="hccr.property.subjectBirthCountry.label" /> * <span><g:message code="hccr.property.subjectBirthCountry.help" /></span></label>
       
             <input type="text" name="subjectBirthCountry" value="${rqt.subjectBirthCountry}" 
-                    class="required " title="<g:message code="hccr.property.subjectBirthCountry.validationError" />" />
+                    class="required " title="<g:message code="hccr.property.subjectBirthCountry.validationError" />"  maxLength="50"/>
             
     
       <label class="required condition-isLessThan18-filled"><g:message code="hccr.property.subjectParentalAuthorityHolder.label" /> * <span><g:message code="hccr.property.subjectParentalAuthorityHolder.help" /></span></label>
@@ -55,19 +55,19 @@
       <label class=""><g:message code="hccr.property.fatherLastName.label" />  <span><g:message code="hccr.property.fatherLastName.help" /></span></label>
       
             <input type="text" name="fatherLastName" value="${rqt.fatherLastName}" 
-                    class=" validate-lastName" title="<g:message code="hccr.property.fatherLastName.validationError" />" />
+                    class=" validate-lastName" title="<g:message code="hccr.property.fatherLastName.validationError" />"  maxLength="38"/>
             
     
       <label class=""><g:message code="hccr.property.fatherFirstName.label" />  <span><g:message code="hccr.property.fatherFirstName.help" /></span></label>
       
             <input type="text" name="fatherFirstName" value="${rqt.fatherFirstName}" 
-                    class=" validate-firstName" title="<g:message code="hccr.property.fatherFirstName.validationError" />" />
+                    class=" validate-firstName" title="<g:message code="hccr.property.fatherFirstName.validationError" />"  maxLength="38"/>
             
     
       <label class=""><g:message code="hccr.property.fatherJob.label" />  <span><g:message code="hccr.property.fatherJob.help" /></span></label>
       
             <input type="text" name="fatherJob" value="${rqt.fatherJob}" 
-                    class=" " title="<g:message code="hccr.property.fatherJob.validationError" />" />
+                    class=" " title="<g:message code="hccr.property.fatherJob.validationError" />"  maxLength="60"/>
             
     
       <label class=""><g:message code="hccr.property.fatherActivityReduction.label" />  <span><g:message code="hccr.property.fatherActivityReduction.help" /></span></label>
@@ -85,7 +85,7 @@
       <label class="condition-isFatherActivityReduction-filled"><g:message code="hccr.property.fatherActivityReductionRatio.label" />  <span><g:message code="hccr.property.fatherActivityReductionRatio.help" /></span></label>
       
             <input type="text" name="fatherActivityReductionRatio" value="${rqt.fatherActivityReductionRatio}" 
-                    class="condition-isFatherActivityReduction-filled validate-positiveInteger" title="<g:message code="hccr.property.fatherActivityReductionRatio.validationError" />" />
+                    class="condition-isFatherActivityReduction-filled validate-positiveInteger" title="<g:message code="hccr.property.fatherActivityReductionRatio.validationError" />"  />
             
     
     </fieldset>
@@ -99,19 +99,19 @@
       <label class=""><g:message code="hccr.property.motherLastName.label" />  <span><g:message code="hccr.property.motherLastName.help" /></span></label>
       
             <input type="text" name="motherLastName" value="${rqt.motherLastName}" 
-                    class=" validate-lastName" title="<g:message code="hccr.property.motherLastName.validationError" />" />
+                    class=" validate-lastName" title="<g:message code="hccr.property.motherLastName.validationError" />"  maxLength="38"/>
             
     
       <label class=""><g:message code="hccr.property.motherFirstName.label" />  <span><g:message code="hccr.property.motherFirstName.help" /></span></label>
       
             <input type="text" name="motherFirstName" value="${rqt.motherFirstName}" 
-                    class=" validate-firstName" title="<g:message code="hccr.property.motherFirstName.validationError" />" />
+                    class=" validate-firstName" title="<g:message code="hccr.property.motherFirstName.validationError" />"  maxLength="38"/>
             
     
       <label class=""><g:message code="hccr.property.motherJob.label" />  <span><g:message code="hccr.property.motherJob.help" /></span></label>
       
             <input type="text" name="motherJob" value="${rqt.motherJob}" 
-                    class=" " title="<g:message code="hccr.property.motherJob.validationError" />" />
+                    class=" " title="<g:message code="hccr.property.motherJob.validationError" />"  maxLength="60"/>
             
     
       <label class=""><g:message code="hccr.property.motherActivityReduction.label" />  <span><g:message code="hccr.property.motherActivityReduction.help" /></span></label>
@@ -129,7 +129,7 @@
       <label class="condition-isMotherActivityReduction-filled"><g:message code="hccr.property.motherActivityReductionRatio.label" />  <span><g:message code="hccr.property.motherActivityReductionRatio.help" /></span></label>
       
             <input type="text" name="motherActivityReductionRatio" value="${rqt.motherActivityReductionRatio}" 
-                    class="condition-isMotherActivityReduction-filled validate-positiveInteger" title="<g:message code="hccr.property.motherActivityReductionRatio.validationError" />" />
+                    class="condition-isMotherActivityReduction-filled validate-positiveInteger" title="<g:message code="hccr.property.motherActivityReductionRatio.validationError" />"  />
             
     
     </fieldset>
@@ -143,13 +143,13 @@
       <label class=""><g:message code="hccr.property.aseReferentLastName.label" />  <span><g:message code="hccr.property.aseReferentLastName.help" /></span></label>
       
             <input type="text" name="aseReferentLastName" value="${rqt.aseReferentLastName}" 
-                    class=" validate-lastName" title="<g:message code="hccr.property.aseReferentLastName.validationError" />" />
+                    class=" validate-lastName" title="<g:message code="hccr.property.aseReferentLastName.validationError" />"  maxLength="38"/>
             
     
       <label class=""><g:message code="hccr.property.aseReferentDepartment.label" />  <span><g:message code="hccr.property.aseReferentDepartment.help" /></span></label>
       
             <input type="text" name="aseReferentDepartment" value="${rqt.aseReferentDepartment}" 
-                    class=" validate-departmentCode" title="<g:message code="hccr.property.aseReferentDepartment.validationError" />" />
+                    class=" validate-departmentCode" title="<g:message code="hccr.property.aseReferentDepartment.validationError" />"  maxLength="2"/>
             
     
     </fieldset>
@@ -163,13 +163,13 @@
       <label class="required"><g:message code="hccr.property.referentLastName.label" /> * <span><g:message code="hccr.property.referentLastName.help" /></span></label>
       
             <input type="text" name="referentLastName" value="${rqt.referentLastName}" 
-                    class="required validate-lastName" title="<g:message code="hccr.property.referentLastName.validationError" />" />
+                    class="required validate-lastName" title="<g:message code="hccr.property.referentLastName.validationError" />"  maxLength="38"/>
             
     
       <label class="required"><g:message code="hccr.property.referentFirstName.label" /> * <span><g:message code="hccr.property.referentFirstName.help" /></span></label>
       
             <input type="text" name="referentFirstName" value="${rqt.referentFirstName}" 
-                    class="required validate-firstName" title="<g:message code="hccr.property.referentFirstName.validationError" />" />
+                    class="required validate-firstName" title="<g:message code="hccr.property.referentFirstName.validationError" />"  maxLength="38"/>
             
     
       <label class="required"><g:message code="hccr.property.referentTitle.label" /> * <span><g:message code="hccr.property.referentTitle.help" /></span></label>
@@ -185,7 +185,7 @@
       <label class="required condition-isReferentMadam-filled"><g:message code="hccr.property.referentMaidenName.label" /> * <span><g:message code="hccr.property.referentMaidenName.help" /></span></label>
       
             <input type="text" name="referentMaidenName" value="${rqt.referentMaidenName}" 
-                    class="required condition-isReferentMadam-filled validate-lastName" title="<g:message code="hccr.property.referentMaidenName.validationError" />" />
+                    class="required condition-isReferentMadam-filled validate-lastName" title="<g:message code="hccr.property.referentMaidenName.validationError" />"  maxLength="38"/>
             
     
       <label class="required"><g:message code="hccr.property.referentBirthDate.label" /> * <span><g:message code="hccr.property.referentBirthDate.help" /></span></label>
@@ -197,13 +197,13 @@
       <label class="required"><g:message code="hccr.property.referentBirthCity.label" /> * <span><g:message code="hccr.property.referentBirthCity.help" /></span></label>
       
             <input type="text" name="referentBirthCity" value="${rqt.referentBirthCity}" 
-                    class="required validate-city" title="<g:message code="hccr.property.referentBirthCity.validationError" />" />
+                    class="required validate-city" title="<g:message code="hccr.property.referentBirthCity.validationError" />"  maxLength="32"/>
             
     
       <label class="required"><g:message code="hccr.property.referentBirthCountry.label" /> * <span><g:message code="hccr.property.referentBirthCountry.help" /></span></label>
       
             <input type="text" name="referentBirthCountry" value="${rqt.referentBirthCountry}" 
-                    class="required " title="<g:message code="hccr.property.referentBirthCountry.validationError" />" />
+                    class="required " title="<g:message code="hccr.property.referentBirthCountry.validationError" />"  maxLength="50"/>
             
     
       <label class="required"><g:message code="hccr.property.referentFamilyStatus.label" /> * <span><g:message code="hccr.property.referentFamilyStatus.help" /></span></label>
@@ -241,13 +241,13 @@
         <label class="required"><g:message code="hccr.property.referentFamilyDependentLastName.label" /> * <span><g:message code="hccr.property.referentFamilyDependentLastName.help" /></span></label>
         
             <input type="text" name="familyDependents[${listIndex}].referentFamilyDependentLastName" value="${editList?.familyDependents?.referentFamilyDependentLastName}" 
-                    class="required validate-lastName" title="<g:message code="hccr.property.referentFamilyDependentLastName.validationError" />" />
+                    class="required validate-lastName" title="<g:message code="hccr.property.referentFamilyDependentLastName.validationError" />"  maxLength="38"/>
             
     
         <label class="required"><g:message code="hccr.property.referentFamilyDependentFirstName.label" /> * <span><g:message code="hccr.property.referentFamilyDependentFirstName.help" /></span></label>
         
             <input type="text" name="familyDependents[${listIndex}].referentFamilyDependentFirstName" value="${editList?.familyDependents?.referentFamilyDependentFirstName}" 
-                    class="required validate-firstName" title="<g:message code="hccr.property.referentFamilyDependentFirstName.validationError" />" />
+                    class="required validate-firstName" title="<g:message code="hccr.property.referentFamilyDependentFirstName.validationError" />"  maxLength="38"/>
             
     
         <label class="required"><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /> * <span><g:message code="hccr.property.referentFamilyDependentBirthDate.help" /></span></label>

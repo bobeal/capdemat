@@ -28,7 +28,7 @@
               </dd>
             
               <dt class="required condition-isDisabilityRecognition-filled"><g:message code="hcar.property.benefitsDisabilityRatio.label" /> * : </dt>
-              <dd id="benefitsDisabilityRatio" class="action-editField validate- required-true i18n-hcar.property.benefitsDisabilityRatio" >
+              <dd id="benefitsDisabilityRatio" class="action-editField validate- required-true i18n-hcar.property.benefitsDisabilityRatio maxLength-3" >
                 <span>${request?.benefitsDisabilityRatio}</span>
               </dd>
             
@@ -58,7 +58,7 @@
               </dd>
             
               <dt class="required condition-isProfessionalOrientation-filled"><g:message code="hcar.property.benefitsProfessionalOrientationDetails.label" /> * : </dt>
-              <dd id="benefitsProfessionalOrientationDetails" class="action-editField validate- required-true i18n-hcar.property.benefitsProfessionalOrientationDetails" >
+              <dd id="benefitsProfessionalOrientationDetails" class="action-editField validate- required-true i18n-hcar.property.benefitsProfessionalOrientationDetails maxLength-60" >
                 <span>${request?.benefitsProfessionalOrientationDetails}</span>
               </dd>
             
@@ -83,7 +83,7 @@
               </dd>
             
               <dt class="required condition-isEducationOfDisabledChildren-filled"><g:message code="hcar.property.benefitsEducationOfDisabledChildrenDetails.label" /> * : </dt>
-              <dd id="benefitsEducationOfDisabledChildrenDetails" class="action-editField validate- required-true i18n-hcar.property.benefitsEducationOfDisabledChildrenDetails" >
+              <dd id="benefitsEducationOfDisabledChildrenDetails" class="action-editField validate- required-true i18n-hcar.property.benefitsEducationOfDisabledChildrenDetails maxLength-60" >
                 <span>${request?.benefitsEducationOfDisabledChildrenDetails}</span>
               </dd>
             
@@ -118,7 +118,7 @@
               </dd>
             
               <dt class="required condition-isDisabilityPension-filled"><g:message code="hcar.property.benefitsDisabilityPensionCategory.label" /> * : </dt>
-              <dd id="benefitsDisabilityPensionCategory" class="action-editField validate- required-true i18n-hcar.property.benefitsDisabilityPensionCategory" >
+              <dd id="benefitsDisabilityPensionCategory" class="action-editField validate- required-true i18n-hcar.property.benefitsDisabilityPensionCategory maxLength-60" >
                 <span>${request?.benefitsDisabilityPensionCategory}</span>
               </dd>
             
@@ -128,7 +128,7 @@
               </dd>
             
               <dt class="required condition-isWorkAccidentAnnuity-filled"><g:message code="hcar.property.benefitsWorkAccidentAnnuityRatio.label" /> * : </dt>
-              <dd id="benefitsWorkAccidentAnnuityRatio" class="action-editField validate- required-true i18n-hcar.property.benefitsWorkAccidentAnnuityRatio" >
+              <dd id="benefitsWorkAccidentAnnuityRatio" class="action-editField validate- required-true i18n-hcar.property.benefitsWorkAccidentAnnuityRatio maxLength-3" >
                 <span>${request?.benefitsWorkAccidentAnnuityRatio}</span>
               </dd>
             
@@ -158,7 +158,7 @@
               </dd>
             
               <dt class="required condition-isSupportedByAnInstitution-filled"><g:message code="hcar.property.benefitsSupportedByAnInstitutionDetails.label" /> * : </dt>
-              <dd id="benefitsSupportedByAnInstitutionDetails" class="action-editField validate- required-true i18n-hcar.property.benefitsSupportedByAnInstitutionDetails" >
+              <dd id="benefitsSupportedByAnInstitutionDetails" class="action-editField validate- required-true i18n-hcar.property.benefitsSupportedByAnInstitutionDetails maxLength-60" >
                 <span>${request?.benefitsSupportedByAnInstitutionDetails}</span>
               </dd>
             
@@ -171,13 +171,13 @@
           
         
           
-          <div id="widget-otherBenefits">
+          <div id="widget-otherBenefits" class="condition-isOtherBenefits-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/otherBenefits" model="['request':request]" />
           </div>
           
         
           
-          <div id="widget-additionalFee">
+          <div id="widget-additionalFee" class="">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/additionalFee" model="['request':request]" />
           </div>
           
@@ -221,7 +221,7 @@
           
         
           
-          <div id="widget-familyAssistanceMembers">
+          <div id="widget-familyAssistanceMembers" class="required condition-isFamilyAssistance-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/familyAssistanceMembers" model="['request':request]" />
           </div>
           
@@ -239,7 +239,7 @@
           
         
           
-          <div id="widget-homeIntervenants">
+          <div id="widget-homeIntervenants" class="condition-isHomeIntervenant-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/homeIntervenants" model="['request':request]" />
           </div>
           
@@ -257,7 +257,7 @@
           
         
           
-          <div id="widget-careServices">
+          <div id="widget-careServices" class="required condition-isCareServices-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/careServices" model="['request':request]" />
           </div>
           
@@ -272,7 +272,7 @@
               </dd>
             
               <dt class="required condition-isHousing-filled"><g:message code="hcar.property.facilitiesHousingDetails.label" /> * : </dt>
-              <dd id="facilitiesHousingDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesHousingDetails" >
+              <dd id="facilitiesHousingDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesHousingDetails maxLength-60" >
                 <span>${request?.facilitiesHousingDetails}</span>
               </dd>
             
@@ -282,7 +282,7 @@
               </dd>
             
               <dt class="required condition-isTechnicalAssistance-filled"><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.label" /> * : </dt>
-              <dd id="facilitiesTechnicalAssistanceDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesTechnicalAssistanceDetails" >
+              <dd id="facilitiesTechnicalAssistanceDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesTechnicalAssistanceDetails maxLength-60" >
                 <span>${request?.facilitiesTechnicalAssistanceDetails}</span>
               </dd>
             
@@ -292,7 +292,7 @@
               </dd>
             
               <dt class="required condition-isCustomCar-filled"><g:message code="hcar.property.facilitiesCustomCarDetails.label" /> * : </dt>
-              <dd id="facilitiesCustomCarDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesCustomCarDetails" >
+              <dd id="facilitiesCustomCarDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesCustomCarDetails maxLength-60" >
                 <span>${request?.facilitiesCustomCarDetails}</span>
               </dd>
             
@@ -302,7 +302,7 @@
               </dd>
             
               <dt class="required condition-isAnimalAid-filled"><g:message code="hcar.property.facilitiesAnimalAidDetails.label" /> * : </dt>
-              <dd id="facilitiesAnimalAidDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesAnimalAidDetails" >
+              <dd id="facilitiesAnimalAidDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesAnimalAidDetails maxLength-60" >
                 <span>${request?.facilitiesAnimalAidDetails}</span>
               </dd>
             
@@ -312,7 +312,7 @@
               </dd>
             
               <dt class="required condition-isSpecializedTransport-filled"><g:message code="hcar.property.facilitiesSpecializedTransportDetails.label" /> * : </dt>
-              <dd id="facilitiesSpecializedTransportDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesSpecializedTransportDetails" >
+              <dd id="facilitiesSpecializedTransportDetails" class="action-editField validate- required-true i18n-hcar.property.facilitiesSpecializedTransportDetails maxLength-60" >
                 <span>${request?.facilitiesSpecializedTransportDetails}</span>
               </dd>
             
@@ -337,7 +337,7 @@
           
         
           
-          <div id="widget-professionals">
+          <div id="widget-professionals" class="condition-isProfessionals-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/professionals" model="['request':request]" />
           </div>
           
@@ -352,7 +352,7 @@
               </dd>
             
               <dt class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceName.label" /> * : </dt>
-              <dd id="professionalSupportSocialServiceName" class="action-editField validate- required-true i18n-hcar.property.professionalSupportSocialServiceName" >
+              <dd id="professionalSupportSocialServiceName" class="action-editField validate- required-true i18n-hcar.property.professionalSupportSocialServiceName maxLength-60" >
                 <span>${request?.professionalSupportSocialServiceName}</span>
               </dd>
             
@@ -394,12 +394,12 @@
               </dd>
             
               <dt class="required condition-isFollowedByDoctor-filled"><g:message code="hcar.property.healthDoctorLastName.label" /> * : </dt>
-              <dd id="healthDoctorLastName" class="action-editField validate-lastName required-true i18n-hcar.property.healthDoctorLastName" >
+              <dd id="healthDoctorLastName" class="action-editField validate-lastName required-true i18n-hcar.property.healthDoctorLastName maxLength-38" >
                 <span>${request?.healthDoctorLastName}</span>
               </dd>
             
               <dt class="required condition-isFollowedByDoctor-filled"><g:message code="hcar.property.healthDoctorFirstName.label" /> * : </dt>
-              <dd id="healthDoctorFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.healthDoctorFirstName" >
+              <dd id="healthDoctorFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.healthDoctorFirstName maxLength-38" >
                 <span>${request?.healthDoctorFirstName}</span>
               </dd>
             
@@ -409,12 +409,12 @@
               </dd>
             
               <dt class="required condition-isFollowedByProfessional-filled"><g:message code="hcar.property.healthProfessionalLastName.label" /> * : </dt>
-              <dd id="healthProfessionalLastName" class="action-editField validate-lastName required-true i18n-hcar.property.healthProfessionalLastName" >
+              <dd id="healthProfessionalLastName" class="action-editField validate-lastName required-true i18n-hcar.property.healthProfessionalLastName maxLength-38" >
                 <span>${request?.healthProfessionalLastName}</span>
               </dd>
             
               <dt class="required condition-isFollowedByProfessional-filled"><g:message code="hcar.property.healthProfessionalFirstName.label" /> * : </dt>
-              <dd id="healthProfessionalFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.healthProfessionalFirstName" >
+              <dd id="healthProfessionalFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.healthProfessionalFirstName maxLength-38" >
                 <span>${request?.healthProfessionalFirstName}</span>
               </dd>
             
@@ -424,7 +424,7 @@
               </dd>
             
               <dt class="required condition-isFollowedByHospital-filled"><g:message code="hcar.property.healthHospitalName.label" /> * : </dt>
-              <dd id="healthHospitalName" class="action-editField validate- required-true i18n-hcar.property.healthHospitalName" >
+              <dd id="healthHospitalName" class="action-editField validate- required-true i18n-hcar.property.healthHospitalName maxLength-60" >
                 <span>${request?.healthHospitalName}</span>
               </dd>
             

@@ -23,7 +23,7 @@
       <label class="required condition-isDisabilityRecognition-filled"><g:message code="hccr.property.benefitsDisabilityRatio.label" /> * <span><g:message code="hccr.property.benefitsDisabilityRatio.help" /></span></label>
       
             <input type="text" name="benefitsDisabilityRatio" value="${rqt.benefitsDisabilityRatio}" 
-                    class="required condition-isDisabilityRecognition-filled " title="<g:message code="hccr.property.benefitsDisabilityRatio.validationError" />" />
+                    class="required condition-isDisabilityRecognition-filled " title="<g:message code="hccr.property.benefitsDisabilityRatio.validationError" />"  maxLength="3"/>
             
     
       <label class="required"><g:message code="hccr.property.benefitsDisabilityCard.label" /> * <span><g:message code="hccr.property.benefitsDisabilityCard.help" /></span></label>
@@ -89,7 +89,7 @@
       <label class="required condition-isProfessionalOrientation-filled"><g:message code="hccr.property.benefitsProfessionalOrientationDetails.label" /> * <span><g:message code="hccr.property.benefitsProfessionalOrientationDetails.help" /></span></label>
       
             <input type="text" name="benefitsProfessionalOrientationDetails" value="${rqt.benefitsProfessionalOrientationDetails}" 
-                    class="required condition-isProfessionalOrientation-filled " title="<g:message code="hccr.property.benefitsProfessionalOrientationDetails.validationError" />" />
+                    class="required condition-isProfessionalOrientation-filled " title="<g:message code="hccr.property.benefitsProfessionalOrientationDetails.validationError" />"  maxLength="60"/>
             
     
       <label class="required"><g:message code="hccr.property.benefitsDisabledAdultAllocation.label" /> * <span><g:message code="hccr.property.benefitsDisabledAdultAllocation.help" /></span></label>
@@ -143,7 +143,7 @@
       <label class="required condition-isEducationOfDisabledChildren-filled"><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.label" /> * <span><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.help" /></span></label>
       
             <input type="text" name="benefitsEducationOfDisabledChildrenDetails" value="${rqt.benefitsEducationOfDisabledChildrenDetails}" 
-                    class="required condition-isEducationOfDisabledChildren-filled " title="<g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.validationError" />" />
+                    class="required condition-isEducationOfDisabledChildren-filled " title="<g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.validationError" />"  maxLength="60"/>
             
     
       <label class="required"><g:message code="hccr.property.benefitsSupplementForSingleParents.label" /> * <span><g:message code="hccr.property.benefitsSupplementForSingleParents.help" /></span></label>
@@ -221,7 +221,7 @@
       <label class="required condition-isDisabilityPension-filled"><g:message code="hccr.property.benefitsDisabilityPensionCategory.label" /> * <span><g:message code="hccr.property.benefitsDisabilityPensionCategory.help" /></span></label>
       
             <input type="text" name="benefitsDisabilityPensionCategory" value="${rqt.benefitsDisabilityPensionCategory}" 
-                    class="required condition-isDisabilityPension-filled " title="<g:message code="hccr.property.benefitsDisabilityPensionCategory.validationError" />" />
+                    class="required condition-isDisabilityPension-filled " title="<g:message code="hccr.property.benefitsDisabilityPensionCategory.validationError" />"  maxLength="60"/>
             
     
       <label class="required"><g:message code="hccr.property.benefitsWorkAccidentAnnuity.label" /> * <span><g:message code="hccr.property.benefitsWorkAccidentAnnuity.help" /></span></label>
@@ -239,7 +239,7 @@
       <label class="required condition-isWorkAccidentAnnuity-filled"><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.label" /> * <span><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.help" /></span></label>
       
             <input type="text" name="benefitsWorkAccidentAnnuityRatio" value="${rqt.benefitsWorkAccidentAnnuityRatio}" 
-                    class="required condition-isWorkAccidentAnnuity-filled " title="<g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.validationError" />" />
+                    class="required condition-isWorkAccidentAnnuity-filled " title="<g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.validationError" />"  maxLength="3"/>
             
     
       <label class="required"><g:message code="hccr.property.benefitsSocialWelfare.label" /> * <span><g:message code="hccr.property.benefitsSocialWelfare.help" /></span></label>
@@ -305,7 +305,7 @@
       <label class="required condition-isSupportedByAnInstitution-filled"><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.label" /> * <span><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.help" /></span></label>
       
             <input type="text" name="benefitsSupportedByAnInstitutionDetails" value="${rqt.benefitsSupportedByAnInstitutionDetails}" 
-                    class="required condition-isSupportedByAnInstitution-filled " title="<g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.validationError" />" />
+                    class="required condition-isSupportedByAnInstitution-filled " title="<g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.validationError" />"  maxLength="60"/>
             
     
       <label class="required"><g:message code="hccr.property.benefitsOtherBenefits.label" /> * <span><g:message code="hccr.property.benefitsOtherBenefits.help" /></span></label>
@@ -333,7 +333,7 @@
         <label class="required"><g:message code="hccr.property.otherBenefitName.label" /> * <span><g:message code="hccr.property.otherBenefitName.help" /></span></label>
         
             <input type="text" name="otherBenefits[${listIndex}].otherBenefitName" value="${editList?.otherBenefits?.otherBenefitName}" 
-                    class="required " title="<g:message code="hccr.property.otherBenefitName.validationError" />" />
+                    class="required " title="<g:message code="hccr.property.otherBenefitName.validationError" />"  maxLength="60"/>
             
     
         <g:if test="${editList?.name == 'otherBenefits'}">
@@ -369,19 +369,19 @@
         <label class="required"><g:message code="hccr.property.additionalFeeKind.label" /> * <span><g:message code="hccr.property.additionalFeeKind.help" /></span></label>
         
             <input type="text" name="additionalFee[${listIndex}].additionalFeeKind" value="${editList?.additionalFee?.additionalFeeKind}" 
-                    class="required " title="<g:message code="hccr.property.additionalFeeKind.validationError" />" />
+                    class="required " title="<g:message code="hccr.property.additionalFeeKind.validationError" />"  maxLength="30"/>
             
     
         <label class="required"><g:message code="hccr.property.additionalFeeCost.label" /> * <span><g:message code="hccr.property.additionalFeeCost.help" /></span></label>
         
             <input type="text" name="additionalFee[${listIndex}].additionalFeeCost" value="${editList?.additionalFee?.additionalFeeCost}" 
-                    class="required " title="<g:message code="hccr.property.additionalFeeCost.validationError" />" />
+                    class="required " title="<g:message code="hccr.property.additionalFeeCost.validationError" />"  />
             
     
         <label class="required"><g:message code="hccr.property.additionalFeePeriodicity.label" /> * <span><g:message code="hccr.property.additionalFeePeriodicity.help" /></span></label>
         
             <input type="text" name="additionalFee[${listIndex}].additionalFeePeriodicity" value="${editList?.additionalFee?.additionalFeePeriodicity}" 
-                    class="required " title="<g:message code="hccr.property.additionalFeePeriodicity.validationError" />" />
+                    class="required " title="<g:message code="hccr.property.additionalFeePeriodicity.validationError" />"  maxLength="30"/>
             
     
         <g:if test="${editList?.name == 'additionalFee'}">

@@ -20,7 +20,7 @@
     
       <label class="required condition-isNotPlaceOfResidence-filled"><g:message code="hccr.property.dwellingPrecision.label" /> * <span><g:message code="hccr.property.dwellingPrecision.help" /></span></label>
       
-            <textarea name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled validate-textarea" title="<g:message code="hccr.property.dwellingPrecision.validationError" />" rows="2">${rqt.dwellingPrecision}</textarea>
+            <textarea name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled validate-textarea" title="<g:message code="hccr.property.dwellingPrecision.validationError" />" rows="2" maxLength="120">${rqt.dwellingPrecision}</textarea>
             
     
       <label class="required"><g:message code="hccr.property.dwellingEstablishmentReception.label" /> * <span><g:message code="hccr.property.dwellingEstablishmentReception.help" /></span></label>
@@ -48,7 +48,7 @@
       <label class="required condition-isInEstablishmentReception-filled"><g:message code="hccr.property.dwellingReceptionNaming.label" /> * <span><g:message code="hccr.property.dwellingReceptionNaming.help" /></span></label>
       
             <input type="text" name="dwellingReceptionNaming" value="${rqt.dwellingReceptionNaming}" 
-                    class="required condition-isInEstablishmentReception-filled " title="<g:message code="hccr.property.dwellingReceptionNaming.validationError" />" />
+                    class="required condition-isInEstablishmentReception-filled " title="<g:message code="hccr.property.dwellingReceptionNaming.validationError" />"  maxLength="80"/>
             
     
       <label class="required condition-isInEstablishmentReception-filled"><g:message code="hccr.property.dwellingReceptionAddress.label" /> * <span><g:message code="hccr.property.dwellingReceptionAddress.help" /></span></label>
@@ -86,7 +86,7 @@
       <label class="required condition-isInSocialReception-filled"><g:message code="hccr.property.dwellingSocialReceptionNaming.label" /> * <span><g:message code="hccr.property.dwellingSocialReceptionNaming.help" /></span></label>
       
             <input type="text" name="dwellingSocialReceptionNaming" value="${rqt.dwellingSocialReceptionNaming}" 
-                    class="required condition-isInSocialReception-filled " title="<g:message code="hccr.property.dwellingSocialReceptionNaming.validationError" />" />
+                    class="required condition-isInSocialReception-filled " title="<g:message code="hccr.property.dwellingSocialReceptionNaming.validationError" />"  maxLength="80"/>
             
     
       <label class="required condition-isInSocialReception-filled"><g:message code="hccr.property.dwellingSocialReceptionAddress.label" /> * <span><g:message code="hccr.property.dwellingSocialReceptionAddress.help" /></span></label>

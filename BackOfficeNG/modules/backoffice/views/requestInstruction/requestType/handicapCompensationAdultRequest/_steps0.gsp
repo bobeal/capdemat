@@ -22,7 +22,7 @@
               </dd>
             
               <dt class="required condition-isMadam-filled"><g:message code="hcar.property.subjectMaidenName.label" /> * : </dt>
-              <dd id="subjectMaidenName" class="action-editField validate-lastName required-true i18n-hcar.property.subjectMaidenName" >
+              <dd id="subjectMaidenName" class="action-editField validate-lastName required-true i18n-hcar.property.subjectMaidenName maxLength-38" >
                 <span>${request?.subjectMaidenName}</span>
               </dd>
             
@@ -32,12 +32,12 @@
               </dd>
             
               <dt class="required"><g:message code="hcar.property.subjectBirthCity.label" /> * : </dt>
-              <dd id="subjectBirthCity" class="action-editField validate-city required-true i18n-hcar.property.subjectBirthCity" >
+              <dd id="subjectBirthCity" class="action-editField validate-city required-true i18n-hcar.property.subjectBirthCity maxLength-32" >
                 <span>${request?.subjectBirthCity}</span>
               </dd>
             
               <dt class="required"><g:message code="hcar.property.subjectBirthCountry.label" /> * : </dt>
-              <dd id="subjectBirthCountry" class="action-editField validate- required-true i18n-hcar.property.subjectBirthCountry" >
+              <dd id="subjectBirthCountry" class="action-editField validate- required-true i18n-hcar.property.subjectBirthCountry maxLength-50" >
                 <span>${request?.subjectBirthCountry}</span>
               </dd>
             
@@ -64,17 +64,17 @@
               </dd>
             
               <dt class="required condition-isOtherLegalAccessRepresentative-filled"><g:message code="hcar.property.legalAccessRepresentativeKindDetail.label" /> * : </dt>
-              <dd id="legalAccessRepresentativeKindDetail" class="action-editField validate- required-true i18n-hcar.property.legalAccessRepresentativeKindDetail" >
+              <dd id="legalAccessRepresentativeKindDetail" class="action-editField validate- required-true i18n-hcar.property.legalAccessRepresentativeKindDetail maxLength-80" >
                 <span>${request?.legalAccessRepresentativeKindDetail}</span>
               </dd>
             
               <dt class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeName.label" /> * : </dt>
-              <dd id="legalAccessRepresentativeName" class="action-editField validate-lastName required-true i18n-hcar.property.legalAccessRepresentativeName" >
+              <dd id="legalAccessRepresentativeName" class="action-editField validate-lastName required-true i18n-hcar.property.legalAccessRepresentativeName maxLength-38" >
                 <span>${request?.legalAccessRepresentativeName}</span>
               </dd>
             
               <dt class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeFirstName.label" /> * : </dt>
-              <dd id="legalAccessRepresentativeFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.legalAccessRepresentativeFirstName" >
+              <dd id="legalAccessRepresentativeFirstName" class="action-editField validate-firstName required-true i18n-hcar.property.legalAccessRepresentativeFirstName maxLength-38" >
                 <span>${request?.legalAccessRepresentativeFirstName}</span>
               </dd>
             
@@ -105,7 +105,7 @@
           
         
           
-          <div id="widget-familyDependents">
+          <div id="widget-familyDependents" class="required condition-isFamilyDependents-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/familyDependents" model="['request':request]" />
           </div>
           
@@ -140,7 +140,7 @@
               </dd>
             
               <dt class="required condition-isNotPlaceOfResidence-filled"><g:message code="hcar.property.dwellingPrecision.label" /> * : </dt>
-              <dd id="dwellingPrecision" class="action-editField validate-textarea required-true i18n-hcar.property.dwellingPrecision rows-2" >
+              <dd id="dwellingPrecision" class="action-editField validate-textarea required-true i18n-hcar.property.dwellingPrecision rows-2 maxLength-120" >
                 <span>${request?.dwellingPrecision}</span>
               </dd>
             
@@ -155,7 +155,7 @@
               </dd>
             
               <dt class="required condition-isInEstablishmentReception-filled"><g:message code="hcar.property.dwellingReceptionNaming.label" /> * : </dt>
-              <dd id="dwellingReceptionNaming" class="action-editField validate- required-true i18n-hcar.property.dwellingReceptionNaming" >
+              <dd id="dwellingReceptionNaming" class="action-editField validate- required-true i18n-hcar.property.dwellingReceptionNaming maxLength-80" >
                 <span>${request?.dwellingReceptionNaming}</span>
               </dd>
             
@@ -170,7 +170,7 @@
               </dd>
             
               <dt class="required condition-isInSocialReception-filled"><g:message code="hcar.property.dwellingSocialReceptionNaming.label" /> * : </dt>
-              <dd id="dwellingSocialReceptionNaming" class="action-editField validate- required-true i18n-hcar.property.dwellingSocialReceptionNaming" >
+              <dd id="dwellingSocialReceptionNaming" class="action-editField validate- required-true i18n-hcar.property.dwellingSocialReceptionNaming maxLength-80" >
                 <span>${request?.dwellingSocialReceptionNaming}</span>
               </dd>
             
@@ -223,7 +223,7 @@
               </dd>
             
               <dt class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hcar.property.socialSecurityAgencyName.label" /> * : </dt>
-              <dd id="socialSecurityAgencyName" class="action-editField validate- required-true i18n-hcar.property.socialSecurityAgencyName" >
+              <dd id="socialSecurityAgencyName" class="action-editField validate- required-true i18n-hcar.property.socialSecurityAgencyName maxLength-50" >
                 <span>${request?.socialSecurityAgencyName}</span>
               </dd>
             
@@ -251,12 +251,12 @@
               </dd>
             
               <dt class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hcar.property.paymentAgencyBeneficiaryNumber.label" /> * : </dt>
-              <dd id="paymentAgencyBeneficiaryNumber" class="action-editField validate- required-true i18n-hcar.property.paymentAgencyBeneficiaryNumber" >
+              <dd id="paymentAgencyBeneficiaryNumber" class="action-editField validate- required-true i18n-hcar.property.paymentAgencyBeneficiaryNumber maxLength-20" >
                 <span>${request?.paymentAgencyBeneficiaryNumber}</span>
               </dd>
             
               <dt class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hcar.property.paymentAgencyName.label" /> * : </dt>
-              <dd id="paymentAgencyName" class="action-editField validate- required-true i18n-hcar.property.paymentAgencyName" >
+              <dd id="paymentAgencyName" class="action-editField validate- required-true i18n-hcar.property.paymentAgencyName maxLength-50" >
                 <span>${request?.paymentAgencyName}</span>
               </dd>
             
@@ -298,12 +298,12 @@
               </dd>
             
               <dt class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolGrade.label" /> * : </dt>
-              <dd id="studiesHighSchoolGrade" class="action-editField validate- required-true i18n-hcar.property.studiesHighSchoolGrade" >
+              <dd id="studiesHighSchoolGrade" class="action-editField validate- required-true i18n-hcar.property.studiesHighSchoolGrade maxLength-60" >
                 <span>${request?.studiesHighSchoolGrade}</span>
               </dd>
             
               <dt class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolName.label" /> * : </dt>
-              <dd id="studiesHighSchoolName" class="action-editField validate- required-true i18n-hcar.property.studiesHighSchoolName" >
+              <dd id="studiesHighSchoolName" class="action-editField validate- required-true i18n-hcar.property.studiesHighSchoolName maxLength-60" >
                 <span>${request?.studiesHighSchoolName}</span>
               </dd>
             
@@ -318,7 +318,7 @@
               </dd>
             
               <dt class="required condition-isAssistanceUnderDisability-filled"><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.label" /> * : </dt>
-              <dd id="studiesAssistanceUnderDisabilityDetails" class="action-editField validate- required-true i18n-hcar.property.studiesAssistanceUnderDisabilityDetails" >
+              <dd id="studiesAssistanceUnderDisabilityDetails" class="action-editField validate- required-true i18n-hcar.property.studiesAssistanceUnderDisabilityDetails maxLength-60" >
                 <span>${request?.studiesAssistanceUnderDisabilityDetails}</span>
               </dd>
             
@@ -330,22 +330,22 @@
           <dl class="required">
             
               <dt class=""><g:message code="hcar.property.formationStudiesLevel.label" />  : </dt>
-              <dd id="formationStudiesLevel" class="action-editField validate- i18n-hcar.property.formationStudiesLevel" >
+              <dd id="formationStudiesLevel" class="action-editField validate- i18n-hcar.property.formationStudiesLevel maxLength-30" >
                 <span>${request?.formationStudiesLevel}</span>
               </dd>
             
               <dt class=""><g:message code="hcar.property.formationDiploma.label" />  : </dt>
-              <dd id="formationDiploma" class="action-editField validate-textarea i18n-hcar.property.formationDiploma rows-2" >
+              <dd id="formationDiploma" class="action-editField validate-textarea i18n-hcar.property.formationDiploma rows-2 maxLength-120" >
                 <span>${request?.formationDiploma}</span>
               </dd>
             
               <dt class=""><g:message code="hcar.property.formationPreviousFormation.label" />  : </dt>
-              <dd id="formationPreviousFormation" class="action-editField validate-textarea i18n-hcar.property.formationPreviousFormation rows-3" >
+              <dd id="formationPreviousFormation" class="action-editField validate-textarea i18n-hcar.property.formationPreviousFormation rows-3 maxLength-180" >
                 <span>${request?.formationPreviousFormation}</span>
               </dd>
             
               <dt class=""><g:message code="hcar.property.formationCurrentFormation.label" />  : </dt>
-              <dd id="formationCurrentFormation" class="action-editField validate-textarea i18n-hcar.property.formationCurrentFormation rows-2" >
+              <dd id="formationCurrentFormation" class="action-editField validate-textarea i18n-hcar.property.formationCurrentFormation rows-2 maxLength-120" >
                 <span>${request?.formationCurrentFormation}</span>
               </dd>
             
@@ -378,12 +378,12 @@
               </dd>
             
               <dt class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusProfession.label" /> * : </dt>
-              <dd id="professionalStatusProfession" class="action-editField validate- required-true i18n-hcar.property.professionalStatusProfession" >
+              <dd id="professionalStatusProfession" class="action-editField validate- required-true i18n-hcar.property.professionalStatusProfession maxLength-60" >
                 <span>${request?.professionalStatusProfession}</span>
               </dd>
             
               <dt class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEmployerName.label" /> * : </dt>
-              <dd id="professionalStatusEmployerName" class="action-editField validate-lastName required-true i18n-hcar.property.professionalStatusEmployerName" >
+              <dd id="professionalStatusEmployerName" class="action-editField validate-lastName required-true i18n-hcar.property.professionalStatusEmployerName maxLength-38" >
                 <span>${request?.professionalStatusEmployerName}</span>
               </dd>
             
@@ -418,7 +418,7 @@
               </dd>
             
               <dt class="required condition-isElectiveFunction-filled"><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.label" /> * : </dt>
-              <dd id="professionalStatusElectiveFunctionDetails" class="action-editField validate- required-true i18n-hcar.property.professionalStatusElectiveFunctionDetails" >
+              <dd id="professionalStatusElectiveFunctionDetails" class="action-editField validate- required-true i18n-hcar.property.professionalStatusElectiveFunctionDetails maxLength-60" >
                 <span>${request?.professionalStatusElectiveFunctionDetails}</span>
               </dd>
             
@@ -455,12 +455,12 @@
               </dd>
             
               <dt class="condition-isMDPH-filled"><g:message code="hcar.property.foldersMdphNumber.label" />  : </dt>
-              <dd id="foldersMdphNumber" class="action-editField validate- i18n-hcar.property.foldersMdphNumber" >
+              <dd id="foldersMdphNumber" class="action-editField validate- i18n-hcar.property.foldersMdphNumber maxLength-30" >
                 <span>${request?.foldersMdphNumber}</span>
               </dd>
             
               <dt class="condition-isMDPH-filled"><g:message code="hcar.property.foldersMdphDepartment.label" />  : </dt>
-              <dd id="foldersMdphDepartment" class="action-editField validate-departmentCode i18n-hcar.property.foldersMdphDepartment" >
+              <dd id="foldersMdphDepartment" class="action-editField validate-departmentCode i18n-hcar.property.foldersMdphDepartment maxLength-2" >
                 <span>${request?.foldersMdphDepartment}</span>
               </dd>
             
@@ -470,12 +470,12 @@
               </dd>
             
               <dt class="condition-isCOTOREP-filled"><g:message code="hcar.property.foldersCotorepNumber.label" />  : </dt>
-              <dd id="foldersCotorepNumber" class="action-editField validate- i18n-hcar.property.foldersCotorepNumber" >
+              <dd id="foldersCotorepNumber" class="action-editField validate- i18n-hcar.property.foldersCotorepNumber maxLength-30" >
                 <span>${request?.foldersCotorepNumber}</span>
               </dd>
             
               <dt class="condition-isCOTOREP-filled"><g:message code="hcar.property.foldersCotorepDepartment.label" />  : </dt>
-              <dd id="foldersCotorepDepartment" class="action-editField validate-departmentCode i18n-hcar.property.foldersCotorepDepartment" >
+              <dd id="foldersCotorepDepartment" class="action-editField validate-departmentCode i18n-hcar.property.foldersCotorepDepartment maxLength-2" >
                 <span>${request?.foldersCotorepDepartment}</span>
               </dd>
             
@@ -485,12 +485,12 @@
               </dd>
             
               <dt class="condition-isCDES-filled"><g:message code="hcar.property.foldersCdesNumber.label" />  : </dt>
-              <dd id="foldersCdesNumber" class="action-editField validate- i18n-hcar.property.foldersCdesNumber" >
+              <dd id="foldersCdesNumber" class="action-editField validate- i18n-hcar.property.foldersCdesNumber maxLength-30" >
                 <span>${request?.foldersCdesNumber}</span>
               </dd>
             
               <dt class="condition-isCDES-filled"><g:message code="hcar.property.foldersCdesDepartment.label" />  : </dt>
-              <dd id="foldersCdesDepartment" class="action-editField validate-departmentCode i18n-hcar.property.foldersCdesDepartment" >
+              <dd id="foldersCdesDepartment" class="action-editField validate-departmentCode i18n-hcar.property.foldersCdesDepartment maxLength-2" >
                 <span>${request?.foldersCdesDepartment}</span>
               </dd>
             
@@ -503,7 +503,7 @@
           
         
           
-          <div id="widget-otherFolders">
+          <div id="widget-otherFolders" class="condition-isOtherFolders-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/otherFolders" model="['request':request]" />
           </div>
           

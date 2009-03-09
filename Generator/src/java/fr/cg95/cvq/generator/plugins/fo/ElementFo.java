@@ -24,6 +24,9 @@ public class ElementFo {
     private boolean mandatory = true;
     private String jsRegexp;
     
+    private Integer minLength;
+    private Integer maxLength;
+    
     private String i18nPrefixCode;
     private String htmlClass;
     private String widget;
@@ -113,11 +116,31 @@ public class ElementFo {
     }
 
     public String getJsRegexp() {
-        return jsRegexp;
+        String s = "";
+        if (jsRegexp != null)
+            s += "regex=\"" + jsRegexp + "\""; 
+        return s;
     }
 
     public void setJsRegexp(String jsRegexp) {
         this.jsRegexp = jsRegexp;
+    }
+
+    public void setMinLength(int minLength) {
+        this.minLength = minLength;
+    }
+
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+    }
+    
+    public String getLengthLimits() {
+        String limits = "";
+        if (maxLength != 0)
+            limits += "maxLength=\"" + maxLength + "\""; 
+        if (minLength != 0)
+            limits += " minLength=\"" + minLength + "\""; 
+        return limits;
     }
 
     // TODO - refactor 'htmlClass' and 'conditionClass' members in respectively 'labelClass' 'formFieldClass'
@@ -212,17 +235,20 @@ public class ElementFo {
         this.modifier = modifier;
     }
 
-    public int getRows() {
-        return rows;
+    public String getRows() {
+        String s = "";
+        if (rows > 0)
+            s += "rows=\"" + rows + "\""; 
+        return s;
     }
 
     public void setRows(String rows) {
         if (rows == null)
             return;
         try {
-            this.rows= Integer.valueOf(rows).intValue();
+            this.rows = Integer.valueOf(rows).intValue();
         } catch (NumberFormatException nfe) {
-            throw new RuntimeException("setRowsn() - rows {"+ rows +"} is not an integer in " + name + "element.");
+            throw new RuntimeException("setRows() - rows {"+ rows +"} is not an integer in element : " + name);
         }
     }
 

@@ -8,6 +8,8 @@ class HomeFolderController {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     
+    def homeFolderAdaptorService
+    
     Adult currentEcitizen
 
     def beforeInterceptor = {
@@ -29,7 +31,7 @@ class HomeFolderController {
                 'birthCountry' : adult.birthCountry,
                 'birthPostalCode' : adult.birthPostalCode,
                 'birthCity' : adult.birthCity,
-                'ownerRoles' : prepareOwnerRoles(adult)
+                'ownerRoles' : homeFolderAdaptorService.prepareOwnerRoles(adult)
             ])
         }
         homeFolderService.getChildren(homeFolderId).each{ child ->
@@ -41,7 +43,7 @@ class HomeFolderController {
                 'birthCountry' : child.birthCountry,
                 'birthPostalCode' : child.birthPostalCode,
                 'birthCity' : child.birthCity,
-                'childSubjectRoles' : prepareChildSubjectRoles(child)
+                'childSubjectRoles' : homeFolderAdaptorService.prepareChildSubjectRoles(child)
             ])
         }
         
@@ -60,44 +62,12 @@ class HomeFolderController {
         def individual = individualService.getById(Long.valueOf(params.id))
         if (individual instanceof Child) {
             return ['individual':individual, 'isChild':true, 
-                    'roles':prepareChildSubjectRoles(individual)]
+                    'roles':homeFolderAdaptorService.prepareChildSubjectRoles(individual)]
         } else {
             return ['individual':individual, 'isChild':false, 
-                    'ownerRoles':prepareOwnerRoles(individual),
-                    'subjectRoles':prepareAdultSubjectRoles(individual)]
+                    'ownerRoles':homeFolderAdaptorService.prepareOwnerRoles(individual),
+                    'subjectRoles':homeFolderAdaptorService.prepareAdultSubjectRoles(individual)]
         }
     }
     
-    def protected prepareChildSubjectRoles = { child ->
-        def childSubjectRoles = []
-        homeFolderService.getBySubjectRoles(child.id,
-                [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]).each { individual ->
-            childSubjectRoles.add(['fullName': "${individual.firstName} ${individual.lastName}",
-                    'roles': individual.getIndividualRoles(child.id)])
-        }
-        return childSubjectRoles
-    }
-    
-    def protected prepareAdultSubjectRoles = { adult ->
-        def adultSubjectRoles = []
-        homeFolderService.getBySubjectRole(adult.id, RoleType.TUTOR).each { individual ->
-            adultSubjectRoles.add(['fullName': "${individual.firstName} ${individual.lastName}",
-                'roles': individual.getIndividualRoles(adult.id)])
-        }
-        return adultSubjectRoles
-    }
-
-    def protected prepareOwnerRoles = { individual ->
-        def ownerRoles = ['homeFolder':[],'individual':[]]
-        individual.individualRoles.each { individualRole ->
-            if (individualRole.individualId) {
-                def subject = individualService.getById(individualRole.individualId)
-                ownerRoles.individual.add(['role':individualRole.role, 
-                                           'subjectName':subject.firstName + " " + subject.lastName])
-            } else {
-                ownerRoles.homeFolder.add(['role':individualRole.role])                
-            }
-        }
-        return ownerRoles
-    }
 }

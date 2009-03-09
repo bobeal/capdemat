@@ -114,7 +114,7 @@
     
       <label class="required condition-isEmergency-filled"><g:message code="rsr.property.requestInformationEmergencyMotive.label" /> * <span><g:message code="rsr.property.requestInformationEmergencyMotive.help" /></span></label>
       
-            <textarea name="requestInformationEmergencyMotive" class="required condition-isEmergency-filled validate-textarea" title="<g:message code="rsr.property.requestInformationEmergencyMotive.validationError" />" rows="3">${rqt.requestInformationEmergencyMotive}</textarea>
+            <textarea name="requestInformationEmergencyMotive" class="required condition-isEmergency-filled validate-textarea" title="<g:message code="rsr.property.requestInformationEmergencyMotive.validationError" />" rows="3" maxLength="180">${rqt.requestInformationEmergencyMotive}</textarea>
             
     
     </fieldset>
@@ -128,13 +128,13 @@
       <label class="required"><g:message code="rsr.property.spouseLastName.label" /> * <span><g:message code="rsr.property.spouseLastName.help" /></span></label>
       
             <input type="text" name="spouseLastName" value="${rqt.spouseLastName}" 
-                    class="required validate-lastName" title="<g:message code="rsr.property.spouseLastName.validationError" />" />
+                    class="required validate-lastName" title="<g:message code="rsr.property.spouseLastName.validationError" />"  maxLength="38"/>
             
     
       <label class="required"><g:message code="rsr.property.spouseFirstName.label" /> * <span><g:message code="rsr.property.spouseFirstName.help" /></span></label>
       
             <input type="text" name="spouseFirstName" value="${rqt.spouseFirstName}" 
-                    class="required validate-firstName" title="<g:message code="rsr.property.spouseFirstName.validationError" />" />
+                    class="required validate-firstName" title="<g:message code="rsr.property.spouseFirstName.validationError" />"  maxLength="38"/>
             
     
       <label class="required"><g:message code="rsr.property.spouseTitle.label" /> * <span><g:message code="rsr.property.spouseTitle.help" /></span></label>

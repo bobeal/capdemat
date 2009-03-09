@@ -292,12 +292,18 @@ function FIC_checkField(c,e) {
 		//required found, and not filled in
 		valid = false;
 	}
-	//check length
-	if (c.indexOf(' required ') != -1){
+	if (t.length > 0) {
 		//check for minlength.
 		var m = e.getAttribute('minlength');
 		if (m && Math.abs(m) > 0){
 			if (e.value.length < Math.abs(m)){
+				valid = false;
+			}
+		}
+		// check for maxlength (usefull, just for <textarea>. This tag has no maxlength attribute in HTML 4.01 ).
+	  m = e.getAttribute('maxlength');
+		if (m && Math.abs(m) > 0){
+			if (e.value.length > Math.abs(m)){
 				valid = false;
 			}
 		}

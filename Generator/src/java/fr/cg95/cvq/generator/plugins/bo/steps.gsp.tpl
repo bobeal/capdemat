@@ -47,7 +47,7 @@
           <% if (element.typeClass == "SIMPLE") { %>
           <dl>
             <dt class="${element.conditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''} : </dt>
-            <dd id="${element.javaFieldName}" class="${element.htmlClass}" ${element.jsRegexp != null ? 'regex="' + element.jsRegexp + '"' : ''}>
+            <dd id="${element.javaFieldName}" class="${element.htmlClass}" ${element.jsRegexp}>
               <% displayWidget(element, 'request') %>
             </dd>
           </dl>
@@ -56,13 +56,13 @@
           <dl class="${element.conditionsClass}">
             <% for (subElement in element.elements) { %>
               <dt class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> ${subElement.mandatory ? '*' : ''} : </dt>
-              <dd id="${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp != null ? 'regex="' + subElement.jsRegexp + '"' : ''}>
+              <dd id="${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp}>
                 <% displayWidget(subElement, 'request') %>
               </dd>
             <% } %>
           </dl>
           <% } else if (element.typeClass == "COLLECTION") { %>
-          <div id="widget-${element.javaFieldName}">
+          <div id="widget-${element.javaFieldName}" class="${element.conditionsClass}">
             <g:render template="/backofficeRequestInstruction/requestType/${requestBo.name}/${element.javaFieldName}" model="['request':request]" />
           </div>
           <% } %>

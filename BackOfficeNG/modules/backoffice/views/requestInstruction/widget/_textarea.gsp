@@ -3,6 +3,8 @@
   
   <textarea id="${propertyName}_Field" name="${propertyNameTp}" rows="${rows}" class="${required}" 
       title="<g:message code="${i18nKeyPrefix}.validationError" />"
+      ${minLength != null ? ' minlength="' + minLength + '"' : ''}
+      ${maxLength != null ? ' maxlength="' + maxLength + '"' : ''}
   >${propertyValue}</textarea>
   
   <input name="requestId" type="hidden" value="${requestId}" />

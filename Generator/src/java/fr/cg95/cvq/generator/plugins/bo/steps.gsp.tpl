@@ -62,7 +62,7 @@
             <% } %>
           </dl>
           <% } else if (element.typeClass == "COLLECTION") { %>
-          <div id="widget-${element.javaFieldName}">
+          <div id="widget-${element.javaFieldName}" class="${element.conditionsClass}">
             <g:render template="/backofficeRequestInstruction/requestType/${requestBo.name}/${element.javaFieldName}" model="['request':request]" />
           </div>
           <% } %>

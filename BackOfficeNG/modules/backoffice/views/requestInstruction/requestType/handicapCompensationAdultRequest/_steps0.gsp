@@ -105,7 +105,7 @@
           
         
           
-          <div id="widget-familyDependents">
+          <div id="widget-familyDependents" class="required condition-isFamilyDependents-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/familyDependents" model="['request':request]" />
           </div>
           
@@ -503,7 +503,7 @@
           
         
           
-          <div id="widget-otherFolders">
+          <div id="widget-otherFolders" class="condition-isOtherFolders-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationAdultRequest/otherFolders" model="['request':request]" />
           </div>
           

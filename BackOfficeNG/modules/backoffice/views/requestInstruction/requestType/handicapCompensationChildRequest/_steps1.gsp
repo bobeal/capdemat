@@ -70,7 +70,7 @@
           
         
           
-          <div id="widget-otherFolders">
+          <div id="widget-otherFolders" class="condition-isOtherFolders-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/otherFolders" model="['request':request]" />
           </div>
           
@@ -260,13 +260,13 @@
           
         
           
-          <div id="widget-otherBenefits">
+          <div id="widget-otherBenefits" class="condition-isOtherBenefits-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/otherBenefits" model="['request':request]" />
           </div>
           
         
           
-          <div id="widget-additionalFee">
+          <div id="widget-additionalFee" class="">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/additionalFee" model="['request':request]" />
           </div>
           
@@ -310,7 +310,7 @@
           
         
           
-          <div id="widget-familyAssistanceMembers">
+          <div id="widget-familyAssistanceMembers" class="required condition-isFamilyAssistance-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/familyAssistanceMembers" model="['request':request]" />
           </div>
           
@@ -328,7 +328,7 @@
           
         
           
-          <div id="widget-homeIntervenants">
+          <div id="widget-homeIntervenants" class="condition-isHomeIntervenant-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/homeIntervenants" model="['request':request]" />
           </div>
           
@@ -346,7 +346,7 @@
           
         
           
-          <div id="widget-careServices">
+          <div id="widget-careServices" class="required condition-isCareServices-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/careServices" model="['request':request]" />
           </div>
           
@@ -426,7 +426,7 @@
           
         
           
-          <div id="widget-professionals">
+          <div id="widget-professionals" class="condition-isProfessionals-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/professionals" model="['request':request]" />
           </div>
           

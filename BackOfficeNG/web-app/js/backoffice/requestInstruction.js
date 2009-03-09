@@ -18,7 +18,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   zcbr.Permission = {
     validate : function(e) {
       return zcbr.Permission.validateAgent(e) 
-        && zcbr.Permission.validateState(e);
+        && zcbr.Permission.validateState(e)
+        && zcbr.Permission.isActive(e);
     },
     validateAgent : function(e) {
       yue.stopEvent(e);
@@ -35,6 +36,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     },
     getPermittedStates: function() {
       return zct.map(zcb['editableStates'],function(n){return n.toLowerCase();});
+    },
+    isActive: function(e) {
+      return !yud.getAncestorByClassName(yue.getTarget(e), 'not-action-editField');
     }
   };
 
@@ -218,7 +222,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         init();
         zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
         yue.on('requestData','click',zcbr.Instruction.inlineEditEvent.dispatch,zcbr.Instruction.inlineEditEvent,true);
+        
         zcbr.Instruction.editField = zca.condition(zcbr.Instruction.editField,zcbr.Permission.validate);
+        zcbr.Instruction.addListItem = zca.condition(zcbr.Instruction.addListItem,zcbr.Permission.validate);
+        zcbr.Instruction.deleteListItem = zca.condition(zcbr.Instruction.deleteListItem,zcbr.Permission.validate);
       },
       
       // TODO - refactor dispatch policy

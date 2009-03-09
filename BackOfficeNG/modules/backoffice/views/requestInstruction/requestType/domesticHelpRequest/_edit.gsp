@@ -419,7 +419,7 @@
             <div class="yui-u">
               
                 
-                <div id="widget-dhrPreviousDwelling">
+                <div id="widget-dhrPreviousDwelling" class="required">
                   <g:render template="/backofficeRequestInstruction/requestType/domesticHelpRequest/dhrPreviousDwelling" model="['request':request]" />
                 </div>
                 
@@ -488,13 +488,13 @@
             <div class="yui-u">
               
                 
-                <div id="widget-dhrRealAsset">
+                <div id="widget-dhrRealAsset" class="required">
                   <g:render template="/backofficeRequestInstruction/requestType/domesticHelpRequest/dhrRealAsset" model="['request':request]" />
                 </div>
                 
               
                 
-                <div id="widget-dhrNotRealAsset">
+                <div id="widget-dhrNotRealAsset" class="required">
                   <g:render template="/backofficeRequestInstruction/requestType/domesticHelpRequest/dhrNotRealAsset" model="['request':request]" />
                 </div>
                 

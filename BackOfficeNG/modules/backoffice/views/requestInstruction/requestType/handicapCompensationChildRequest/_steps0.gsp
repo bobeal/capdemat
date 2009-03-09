@@ -179,7 +179,7 @@
           
         
           
-          <div id="widget-familyDependents">
+          <div id="widget-familyDependents" class="required condition-isReferentFamilyDependents-filled">
             <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/familyDependents" model="['request':request]" />
           </div>
           

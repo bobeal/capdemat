@@ -42,6 +42,7 @@ class RequestInstructionController {
     def translationService
     def instructionService
     def documentAdaptorService
+    def homeFolderAdaptorService
     def pdfService
     def defaultAction = "edit"
 
@@ -389,8 +390,50 @@ class RequestInstructionController {
     		render(template:'help')
     }
     
+    // FIXME : copy-paste from frontOfficeHomeFolderController. mutualize
     def homeFolder = {
-    		render(template:'homeFolderData')
+        def result = ['adults':[], 'children': [], homeFolder: []]
+        def cRequest = defaultRequestService.getById(Long.valueOf(params.id))
+        def homeFolder = homeFolderService.getById(cRequest.homeFolderId)
+        homeFolderService.getAdults(homeFolder.id).each { adult ->
+            result.adults.add([
+                'id' : adult.id,
+                'title' : message('code':"homeFolder.adult.title.${adult.title.toString().toLowerCase()}"),
+                'fullName' : "${adult.firstName} ${adult.lastName}",
+                'email' : adult.email,
+                'homePhone' : adult.homePhone,
+                'mobilePhone' : adult.mobilePhone,
+                'birthDate' : adult.birthDate,
+                'birthCountry' : adult.birthCountry,
+                'birthPostalCode' : adult.birthPostalCode,
+                'birthCity' : adult.birthCity,
+                'ownerRoles' : homeFolderAdaptorService.prepareOwnerRoles(adult)
+            ])
+        }
+        homeFolderService.getChildren(homeFolder.id).each{ child ->
+            result.children.add([
+                'id' : child.id,
+                'sex' : child.sex,
+                'fullName' : "${child.firstName} ${child.lastName}",
+                'birthDate' : child.birthDate,
+                'birthCountry' : child.birthCountry,
+                'birthPostalCode' : child.birthPostalCode,
+                'birthCity' : child.birthCity,
+                'childSubjectRoles' : homeFolderAdaptorService.prepareChildSubjectRoles(child)
+            ])
+        }
+        
+        result.info = [
+            'id' : homeFolder.id,
+            'boundToRequest': homeFolder.boundToRequest,
+            'state' : homeFolder.state,
+            'enabled' : homeFolder.enabled,
+            'addressDetails' :   "${homeFolder.adress.streetNumber} "+
+                                 "${homeFolder.adress.streetName} " +
+                                 "${homeFolder.adress.postalCode} " +
+                                 "${homeFolder.adress.city}"
+        ]
+    		render(template:'homeFolderData', model:['homeFolder':result])
     }
 
     def homeFolderRequests = {

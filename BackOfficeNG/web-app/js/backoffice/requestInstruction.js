@@ -551,7 +551,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               label: 'Commentaires', dataSrc: zenexity.capdemat.baseUrl + '/requestNotes/' + zcb.requestId
               }));
           infoTabView.addTab( new yw.Tab({
-              label: 'Compte', dataSrc: zenexity.capdemat.baseUrl + '/homeFolder',
+              label: 'Compte', dataSrc: zenexity.capdemat.baseUrl + '/homeFolder/' + zcb.requestId,
               cacheData: true }));
           infoTabView.addTab( new yw.Tab({
               label: 'Demandes', dataSrc: zenexity.capdemat.baseUrl + '/homeFolderRequests/' + zcb.requestId,

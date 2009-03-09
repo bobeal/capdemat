@@ -21,9 +21,7 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.exception.CvqBadPageNumberException;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
@@ -80,7 +78,6 @@ public class DocumentServiceTest extends ServiceTestCase {
 
         // add binary data
         DocumentBinary docBin = new DocumentBinary();
-        docBin.setPageNumber(new Integer(1));
         File file = getResourceFile("health_notebook.jpg");
         byte[] data = new byte[(int) file.length()];
         FileInputStream fis = new FileInputStream(file);
@@ -93,25 +90,13 @@ public class DocumentServiceTest extends ServiceTestCase {
         docBin.setData(data);
         iDocumentService.addPage(docId, docBin);
 
-        // and a third one with a bad page number
-        docBin = new DocumentBinary();
-        docBin.setPageNumber(new Integer(2));
-        docBin.setData(data);
-        try {
-            iDocumentService.addPage(docId, docBin);
-            fail("Should have thrown a bad page exception");
-        } catch (CvqBadPageNumberException cbpne) {
-            // cool :-)
-        }
 
         // check the document and its two binary have been successfully added ...
         // ... to the home folder
         List<Document> documentsList = iDocumentService.getHomeFolderDocuments(homeFolderId, -1);
         assertEquals("Bad number of associated documents on home folder", 1, documentsList.size());
         Set<DocumentBinary> docBinarySet = iDocumentService.getAllPages(docId);
-        assertEquals("Bad number of associated data on document", 2, docBinarySet.size());
-        Integer pagesNumber = iDocumentService.getPagesNumber(docId);
-        assertEquals("Bad number of associated pages on document", 2, pagesNumber.intValue());
+        assertEquals("Bad number of associated data on document", 2, doc.getDatas().size());
 
         // ... and to the individual
         documentsList = iDocumentService.getIndividualDocuments(anIndividual.getId());
@@ -133,18 +118,10 @@ public class DocumentServiceTest extends ServiceTestCase {
         iDocumentService.modifyPage(docId, docBin1);
 
         // remove a page
-        iDocumentService.deletePage(docId, new Integer(2));
-        docBinarySet = iDocumentService.getAllPages(doc.getId());
-        assertEquals("Bad number of associated data on document", 1, docBinarySet.size());
-        docBin1 = iDocumentService.getPage(docId, new Integer(1));
+        doc.getDatas().remove(1);
+        assertEquals("Bad number of associated data on document", 1, doc.getDatas().size());
+        docBin1 = doc.getDatas().get(0) ;
         assertNotNull("Could find page", docBin1);
-
-        try {
-            docBin1 = iDocumentService.getPage(docId, new Integer(2));
-            fail("Should have thrown an exception");
-        } catch (CvqObjectNotFoundException confe) {
-            // this is good
-        }
 
         // try to retrieve the list of identity pieces for home folder
         DocumentType docType =

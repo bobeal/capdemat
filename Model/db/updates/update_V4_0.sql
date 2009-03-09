@@ -202,7 +202,7 @@ ALTER TABLE individual ADD constraint "home_folder_index_key" unique (home_folde
   *           DOCUMENT BINARY             *
   *                                       *
 **********************************************/  
-
+ALTER TABLE document_binary DROP COLUMN page_number;
 ALTER TABLE document_binary ADD COLUMN document_binary_index int4;
 select init_hibernate_list_index('document_binary', 'document_id', 'id', 'document_binary_index');
 ALTER TABLE document_binary ADD CONSTRAINT "document_binary_index_key" UNIQUE (document_id, document_binary_index);

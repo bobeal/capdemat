@@ -18,7 +18,6 @@ public class DocumentBinary implements Serializable {
 
 	/** identifier field */
     private Long id;
-    private Integer pageNumber;
     private byte[] data;
 
     /** default constructor */
@@ -36,18 +35,6 @@ public class DocumentBinary implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * @hibernate.property
-     *  column="page_number"
-     */
-    public Integer getPageNumber() {
-        return this.pageNumber;
-    }
-
-    public void setPageNumber(Integer pageNumber) {
-        this.pageNumber = pageNumber;
     }
 
     /**

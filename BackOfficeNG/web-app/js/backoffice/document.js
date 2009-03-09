@@ -4,13 +4,10 @@ zenexity.capdemat.bong.document = function() {
   var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
-  var yuel = YAHOO.util.Element;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
   var ylj = YAHOO.lang.JSON;
   var ywtv = YAHOO.widget.TabView;
-  var ywt = YAHOO.widget.Tab;
-  var ywp = YAHOO.widget.Panel;
   var yl = YAHOO.lang;
   
   /*
@@ -109,7 +106,7 @@ zenexity.capdemat.bong.document = function() {
       switchDocumentStates(targetEl.parentNode);
     }
   };
-  requestDocumentHandler = zca.condition(requestDocumentHandler,zcbr.Permission.validateAgent);
+//  requestDocumentHandler = zca.condition(requestDocumentHandler,zcbr.Permission.validateState);
   yue.on("requestDocument","click",requestDocumentHandler);
   
   
@@ -142,7 +139,8 @@ zenexity.capdemat.bong.document = function() {
   
   return {
     init: function() {
-      getRequestDocument = zca.condition(getRequestDocument,zcbr.Permission.validateState);
+//      getRequestDocument = zca.condition(getRequestDocument,zcbr.Permission.validateState);
+      switchDocumentStates = zca.condition(switchDocumentStates,zcbr.Permission.validateAgent);
     },
     getRequestDocument: function(targetEl) { getRequestDocument(targetEl); }
   };

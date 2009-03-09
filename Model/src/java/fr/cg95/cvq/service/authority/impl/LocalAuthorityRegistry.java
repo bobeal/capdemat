@@ -365,7 +365,8 @@ public class LocalAuthorityRegistry
             configurationBeansMap.put(lacb.getName().toLowerCase(), lacb);
 
             if (performDbUpdates.booleanValue()) {
-                callback(lacb.getName(), this, "instantiateLocalAuthority", null);
+                callback(lacb.getName(), this, "instantiateLocalAuthority", 
+                    new Object[]{lacb.getName()});
                 
                 String externalReferentialDirBase = assetsBase + lacb.getName() + "/"
                     + EXTERNAL_REFERENTIAL_RESOURCE_TYPE;
@@ -402,10 +403,10 @@ public class LocalAuthorityRegistry
         generateLocalAuthoritiesList();
     }
 
-    protected void instantiateLocalAuthority() 
+    protected void instantiateLocalAuthority(String localAuthorityName) 
         throws CvqConfigurationException {
 
-        String localAuthorityName = SecurityContext.getCurrentSite().getName();
+        //String localAuthorityName = SecurityContext.getCurrentSite().getName();
         LocalAuthorityConfigurationBean lacb =
             (LocalAuthorityConfigurationBean) configurationBeansMap.get(localAuthorityName);
         

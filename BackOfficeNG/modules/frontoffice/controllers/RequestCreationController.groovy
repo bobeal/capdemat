@@ -152,13 +152,20 @@ class RequestCreationController {
                 isDocumentEditMode = true
                 document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
-            else if (submitAction[1] == 'documentSave') {
-                def docParam = targetAsMap(submitAction[3])
+           else if (submitAction[1] == 'documentSave') {
+                def docParam = targetAsMap(submitAction[3]), index = 0, doc = null
                 isDocumentEditMode = false
-                if (docParam.id != null) {
-                    def doc = documentService.getById(Long.valueOf(docParam.id))
-                    doc.ecitizenNote = params.ecitizenNote
+                if (docParam.id != null) doc = documentService.getById(Long.valueOf(docParam.id))
+                
+                for(DocumentBinary page: (doc?.datas ? doc.datas : [])) {
+                    if(request.getFile('documentData-' + (index + 1)).bytes.size() > 0)
+                        this.modifyDocumentPage("documentTypeId:_id:${doc.id}_dataPageNumber:${index}")
                 }
+                
+                if(request.getFile('documentData-0').bytes.size() > 0)
+                    this.addDocumentPage("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}",
+                        requestService,uuidString)
+                
             }
             else if (submitAction[1] == 'documentDelete') {
                 def docParam = targetAsMap(submitAction[3])
@@ -180,37 +187,12 @@ class RequestCreationController {
                 isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentAddPage') {
-                def docParam = targetAsMap(submitAction[3])
-                documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
-                isDocumentEditMode = true;
-                
-                def newDocBinary = new DocumentBinary()
-                if (docParam.id == null) {
-                    def newDoc = new Document()
-                    newDoc.homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
-                    newDoc.ecitizenNote = params.ecitizenNote
-                    newDoc.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(docParam.documentTypeId))
-                    docParam.id = documentService.create(newDoc)
-                    requestService.addDocument(cRequest, Long.valueOf(docParam.id))
-                    newDocuments.add(docParam.id)
-                }
-                newDocBinary.data = request.getFile('documentData-0').bytes
-                documentService.addPage(Long.valueOf(docParam.id), newDocBinary)
-                document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
+                isDocumentEditMode = true
+                document = this.addDocumentPage(submitAction[3],requestService,uuidString)
             }
             else if (submitAction[1] == 'documentModifyPage') {
-                def docParam = targetAsMap(submitAction[3])
-                def doc = documentService.getById(Long.valueOf(docParam.id))
-                documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
-                def newDocBinary = doc.datas.get(Integer.parseInt(docParam.dataPageNumber))
-                
                 isDocumentEditMode = true
-                println docParam.dataPageNumber
-                newDocBinary.data = request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes
-                doc.datas[Integer.parseInt(docParam.dataPageNumber)] = newDocBinary;
-                documentService.modify(doc); 
-                //documentService.modifyPage(Long.valueOf(docParam.id), newDocBinary)
-                document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
+                document = modifyDocumentPage(submitAction[3])
             }
             else if (submitAction[1] == 'documentDeletePage') {
                 def docParam = targetAsMap(submitAction[3])
@@ -218,7 +200,7 @@ class RequestCreationController {
                 def doc = documentService.getById(Long.valueOf(docParam.id))
                 doc.datas.remove(pageNumber)
                 
-                documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
+                documentType = documentAdaptorService.getDocumentType(Long.valueOf(doc.documentType.id))
                 isDocumentEditMode = true
                 document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
@@ -382,6 +364,42 @@ class RequestCreationController {
             result[property[0]] = property[1]
         }
         return result
+    }
+    
+    protected Map addDocumentPage(String submitAction, IRequestService requestService, String uuidString) {
+        def docParam = targetAsMap(submitAction)
+        def cRequest = session[uuidString].cRequest
+        def newDocuments = session[uuidString].newDocuments
+        
+        def newDocBinary = new DocumentBinary()
+        if (docParam.id == null) {
+            def newDoc = new Document()
+            newDoc.homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
+            newDoc.ecitizenNote = params.ecitizenNote
+            newDoc.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(docParam.documentTypeId))
+            
+            docParam.id = documentService.create(newDoc)
+            requestService.addDocument(cRequest, Long.valueOf(docParam.id))
+            newDocuments.add(docParam.id)
+        }
+        newDocBinary.data = request.getFile('documentData-0').bytes
+        documentService.addPage(Long.valueOf(docParam.id), newDocBinary)
+        return documentAdaptorService.getDocument(Long.valueOf(docParam.id))
+    }
+    
+    protected Map modifyDocumentPage(String submitAction) {
+        def docParam = targetAsMap(submitAction)
+        def doc = documentService.getById(Long.valueOf(docParam.id))
+        def newDocBinary = doc.datas.get(Integer.parseInt(docParam.dataPageNumber))
+        
+        newDocBinary.data = request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes
+        doc.datas[Integer.parseInt(docParam.dataPageNumber)] = newDocBinary;
+        documentService.modify(doc); 
+        
+        println submitAction[3]
+        println request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes.size()
+        
+        return documentAdaptorService.getDocument(Long.valueOf(docParam.id))
     }
     
 }

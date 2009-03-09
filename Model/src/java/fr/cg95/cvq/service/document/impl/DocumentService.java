@@ -18,7 +18,6 @@ import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.document.IDocumentBinaryDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
-import fr.cg95.cvq.exception.CvqBadPageNumberException;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -188,18 +187,9 @@ public class DocumentService implements IDocumentService {
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void addPage(final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException, CvqObjectNotFoundException, CvqBadPageNumberException {
+        throws CvqException, CvqObjectNotFoundException {
 
         checkDocumentDigitalizationIsEnabled();
-        
-        Integer pageNumber = documentBinary.getPageNumber();
-        if (pageNumber != null && documentBinaryDAO.hasPage(documentId, pageNumber)) {
-            logger.debug("Document " + documentId + " already has a page " + pageNumber);
-            throw new CvqBadPageNumberException("Document " + documentId + " already has a page " + pageNumber);
-        } else if (pageNumber == null) {
-            pageNumber = (Integer)documentBinaryDAO.getNextPageNumber(documentId).intValue();
-            documentBinary.setPageNumber(pageNumber);
-        }
 
         Document document = getById(documentId);
         if (document.getDatas() == null) {
@@ -215,26 +205,10 @@ public class DocumentService implements IDocumentService {
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void modifyPage(final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException, CvqBadPageNumberException {
+        throws CvqException {
 
         checkDocumentDigitalizationIsEnabled();
         
-        // a piece of page management, to be c'ted if really necessary
-        // (but is it ??)
-        Integer newPageNumber = documentBinary.getPageNumber();
-        if (newPageNumber == null) {
-            newPageNumber = (Integer)documentBinaryDAO.getNextPageNumber(documentId).intValue();
-            documentBinary.setPageNumber(newPageNumber);
-        } else {
-            // if page number has changed, check it does not conflict with an existing one
-            // FIXME : do not retrieve the whole object !
-            Integer oldPageNumber = documentBinaryDAO.getPage(documentBinary.getId());
-            if (!oldPageNumber.equals(newPageNumber)
-                && documentBinaryDAO.hasPage(documentId, newPageNumber)) {
-                logger.debug("Document " + documentId + " already has a page " + newPageNumber);
-                throw new CvqBadPageNumberException("Document " + documentId + " already has a page " + newPageNumber);
-            }
-        }
         documentBinaryDAO.update(documentBinary);
 
         logger.debug("Modified document binary with id : " + documentBinary.getId());
@@ -280,13 +254,6 @@ public class DocumentService implements IDocumentService {
             throw new CvqObjectNotFoundException("Could not find page " + pageId + " of document " + documentId);
 
         return docBin;
-    }
-
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public Integer getPagesNumber(final Long documentId) 
-        throws CvqException {
-
-        return documentBinaryDAO.getPagesNumber(documentId).intValue();
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)

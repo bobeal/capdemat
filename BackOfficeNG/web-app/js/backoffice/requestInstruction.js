@@ -157,7 +157,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         switchStatePanel(targetEl);
       }
     };
-    narrowHandler = zca.condition(narrowHandler,zcbr.Permission.validateAgent);
+//    narrowHandler = zca.condition(narrowHandler,zcbr.Permission.validateState);
     yue.on('narrow','click',narrowHandler);
 
     /*
@@ -219,6 +219,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
         yue.on('requestData','click',zcbr.Instruction.inlineEditEvent.dispatch,zcbr.Instruction.inlineEditEvent,true);
         zcbr.Instruction.editField = zca.condition(zcbr.Instruction.editField,zcbr.Permission.validate);
+        
+//        zcb.document.getRequestDocument = zca.condition(zcb.document.getRequestDocument,zcbr.Permission.validateState);
+        switchStatePanel = zca.condition(switchStatePanel,zcbr.Permission.validateAgent);
       },
       
       // TODO - refactor dispatch policy

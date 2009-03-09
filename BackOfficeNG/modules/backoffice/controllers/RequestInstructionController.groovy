@@ -66,7 +66,7 @@ class RequestInstructionController {
                     [ "id": document.id,
                       "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
                       "endValidityDate" : document.endValidityDate,
-                      "pageNumber": documentService.getPagesNumber(document.id),
+                      "pageNumber": document.datas.size(),
                       "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
                     ]
             )
@@ -338,7 +338,7 @@ class RequestInstructionController {
                 "ecitizenNote": document.ecitizenNote,
                 "agentNote": document.agentNote,
                 "actions": actions,
-                "pageNumber": documentService.getPagesNumber(document.id),
+                "pageNumber": document.datas.size(),
                 "pages": documentAdaptorService.getDocument(document.id).datas    
             ]
         ])

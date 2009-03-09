@@ -291,7 +291,6 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         // add binary data
         DocumentBinary docBin = new DocumentBinary();
-        docBin.setPageNumber(new Integer(1));
         File file = getResourceFile("family_notebook.jpg");
         byte[] data = new byte[(int) file.length()];
         FileInputStream fis = new FileInputStream(file);

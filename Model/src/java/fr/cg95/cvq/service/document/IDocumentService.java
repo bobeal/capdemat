@@ -9,7 +9,6 @@ import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
-import fr.cg95.cvq.exception.CvqBadPageNumberException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -72,18 +71,15 @@ public interface IDocumentService {
      *
      * If no page is specified, add document binary at the last page
      *
-     * @throws CvqBadPageNumberException if a page is specified for the
-     *         binary but page already exists
      */
     void addPage(@IsDocument final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException, CvqObjectNotFoundException,
-               CvqBadPageNumberException;
+        throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Modify a page of an existing document.
      */
     void modifyPage(@IsDocument final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException, CvqBadPageNumberException;
+        throws CvqException;
 
     /**
      * Remove a page from an existing document.
@@ -95,12 +91,6 @@ public interface IDocumentService {
      * Get a specific page of an existing document.
      */
     DocumentBinary getPage(@IsDocument final Long documentId, final Integer pageId)
-        throws CvqException, CvqObjectNotFoundException;
-
-    /**
-     * Get a the number of pages associated to an existing document.
-     */
-    Integer getPagesNumber(@IsDocument final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
 
     /**

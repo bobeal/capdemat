@@ -15,6 +15,10 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.HandicapCompensationChildRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.request.condition.DateChecker;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
+import fr.cg95.cvq.service.request.condition.EqualityListChecker;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.social.IHandicapCompensationChildRequestService;
 import fr.cg95.cvq.util.DateUtils;
@@ -110,76 +114,6 @@ public class HandicapCompensationChildRequestService extends RequestService
                 return false;
         }
         return test;
-    }
-    
-    /**
-     * Implements IConditionChecker to describe custom business condition policy
-     * Custom business implementation might be enclosed as inner class of related request service
-     * TODO - move to service.request.condition package
-     */
-    interface IConditionChecker {
-        boolean test(String value);
-    }
-    
-    /**
-     * Check if condition triggered value is equal to mark value
-     * TODO - move to service.request.condition package
-     */
-    class EqualityChecker implements IConditionChecker {
-        private String mark;
-        
-        public EqualityChecker(String mark) {
-            this.mark = mark;
-        }
-        
-        public boolean test(String value) {
-            return mark.equals(value);
-        }
-    }
-    
-    /**
-     * Check if condition triggered value is equal to one mark value of a list
-     * TODO - move to service.request.condition package
-     */
-    class EqualityListChecker implements IConditionChecker {
-        private List<String> marks;
-        
-        public EqualityListChecker(List<String> marks) {
-            this.marks = marks;
-        }
-        
-        public boolean test(String value) {
-            for (String mark : marks)
-                if (mark.equals(value)) return true;
-            return false;
-        }
-        
-    }
-    
-    /**
-     * Check if condition triggered date value is after or before a reference date
-     * TODO - move to service.request.condition package
-     */
-    class DateChecker implements IConditionChecker {
-        private Date date;
-        private String comparator;
-        
-        public DateChecker(String comparator, Date date) {
-            this.comparator = comparator;
-            this.date = date;
-        }
-        
-        public boolean test(String value) {
-            try {
-                if (comparator.equals("<"))
-                    return DateUtils.parseDate(value).after(date);
-                else if (comparator.equals(">"))
-                    return DateUtils.parseDate(value).before(date);
-            } catch (ParseException pe) {
-                return false;
-            }
-            return false;
-        }
     }
            
 }

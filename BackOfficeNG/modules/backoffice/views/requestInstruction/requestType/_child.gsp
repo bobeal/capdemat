@@ -5,43 +5,43 @@
   <div class="yui-u first">
     <dl>
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
-      <dd id="homeFolder.individual[${child.id}].lastName" class="action-editField validate-lastname required-true i18n-homeFolder.individual.property.lastName">
+      <dd id="individuals[${index}].lastName" class="action-editField validate-lastname required-true i18n-homeFolder.individual.property.lastName">
         <span>${child.lastName}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.firstName" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].firstName" class="action-editField validate-firstname required-true i18n-homeFolder.individual.property.firstName">
+      <dd id="individuals[${index}].firstName" class="action-editField validate-firstname required-true i18n-homeFolder.individual.property.firstName">
         <span>${child.firstName}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.firstName2" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].firstName2" class="action-editField validate-firstname i18n-homeFolder.individual.property.firstName2">
+      <dd id="individuals[${index}].firstName2" class="action-editField validate-firstname i18n-homeFolder.individual.property.firstName2">
         <span>${child.firstName2}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.firstName3" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].firstName3" class="action-editField validate-firstname i18n-homeFolder.individual.property.firstName3">
+      <dd id="individuals[${index}].firstName3" class="action-editField validate-firstname i18n-homeFolder.individual.property.firstName3">
         <span>${child.firstName3}</span>
       </dd>
     </dl>
     <dl>
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].birthDate" class="action-editField validate-date i18n-homeFolder.individual.property.birthDate">
+      <dd id="individuals[${index}].birthDate" class="action-editField validate-date i18n-homeFolder.individual.property.birthDate">
         <span><g:formatDate formatName="format.date" date="${child.birthDate}"/></span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthPostalCode" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].birthPostalCode" class="${action}-editField validate-postalcode i18n-homeFolder.individual.property.birthPostalCode">
+      <dd id="individuals[${index}].birthPostalCode" class="${action}-editField validate-postalcode i18n-homeFolder.individual.property.birthPostalCode">
         <span>${child.birthPostalCode}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].birthCity" class="action-editField validate-city i18n-homeFolder.individual.property.birthCity">
+      <dd id="individuals[${index}].birthCity" class="action-editField validate-city i18n-homeFolder.individual.property.birthCity">
         <span>${child.birthCity}</span>
       </dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCountry" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].birthCountry" class="action-editField validate-string i18n-homeFolder.individual.property.birthCountry">
+      <dd id="individuals[${index}].birthCountry" class="action-editField validate-string i18n-homeFolder.individual.property.birthCountry">
         <span>${child.birthCountry}</span>
       </dd>
     </dl>
@@ -50,7 +50,7 @@
   <div class="yui-u">
     <dl>
       <dt><g:message code="homeFolder.individual.property.address" /> : </dt>
-      <dd id="homeFolder.individual[${child.id}].adress" class="action-editField validate-address required-true">
+      <dd id="individuals[${index}].adress" class="action-editField validate-address required-true">
         <div>
           <p class="additionalDeliveryInformation">${child.adress.additionalDeliveryInformation}</p>
           <p class="additionalGeographicalInformation">${child.adress.additionalGeographicalInformation}</p>

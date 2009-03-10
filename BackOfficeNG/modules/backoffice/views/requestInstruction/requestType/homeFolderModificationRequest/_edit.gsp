@@ -10,8 +10,8 @@
       <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.adults" /></span></h2>
     
       <!-- start of individual -->
-      <g:each var="adult" in="${adults}">
-        <g:render template="/backofficeRequestInstruction/requestType/adult" model="['adult': adult, 'action':'action']" />
+      <g:each status="index" var="adult" in="${adults}">
+        <g:render template="/backofficeRequestInstruction/requestType/adult" model="['adult':adult.data, 'index':adult.index, 'action':'action']" />
       </g:each>
       <!-- end of individual -->
       
@@ -22,9 +22,9 @@
       <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.children" /></span></h2>
     
       <!-- start of individual -->
-      <g:each var="child" in="${children}">
+      <g:each status="index" var="child" in="${children}">
         <g:render template="/backofficeRequestInstruction/requestType/child" 
-            model="['child': child, 'childLegalResponsibles': childrenLegalResponsibles[child.id]]" />
+            model="['child':child.data, 'index':child.index, 'childLegalResponsibles':childrenLegalResponsibles[child.data.id]]" />
       </g:each>
       <!-- end of individual -->
       

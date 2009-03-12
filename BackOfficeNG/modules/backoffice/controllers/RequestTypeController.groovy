@@ -61,7 +61,8 @@ class RequestTypeController {
     def baseConfigurationItems = [
         "forms":["requestType.configuration.forms", true],
         "alerts":["requestType.configuration.alerts", true],
-        "documents":["requestType.configuration.documentType", true]
+        "documents":["requestType.configuration.documentType", true],
+        "localReferential":["requestType.configuration.localReferential", true]
     ]
     
     def configure = {
@@ -288,6 +289,18 @@ class RequestTypeController {
             render message(code:'message.templateDoesNotExist')
         }
     }
+    
+    /* Local referential related action
+     * ------------------------------------------------------------------------------------------ */
+    def localReferential = {
+        render(template:"localReferential", model:['aaa':'aaa'])
+    }
+    
+    def localReferentialEntry = {
+       def entry = ['id': params.entryId]
+       render(template:"localReferentialEntryFrom", model:['entry':entry])
+    }
+    
 }
 
 

@@ -36,13 +36,37 @@
 .overviewConfigurationList li div     { margin: 0 1em; line-height: 1.5em; }
 
 /* creation cancel link*/
-.createConfigurationItem   { margin: 0 2em;text-align: right; }
+.createConfigurationItem   { margin: 0 2em; text-align: right; }
 .createConfigurationItem a {
   padding: 0 21px 0 0; font-size: 1.3em;
   background: transparent url(../../images/icons/create.png) no-repeat right 4px;
 }
 .createConfigurationItem a:hover       { background-color: #0000ff; }
 #cancelCreateCategory a:hover { background: transparent; }
+
+
+/* editable tree
+-------------------------------------------------------------- */
+.editableTree { padding: 0 5%; font-size: 1.25em;}
+
+.editableTree li { 
+  padding: .5em 0;
+  overflow: auto; /* hack for tag alignment */
+}
+
+.editableTree li ul li.last { padding: .5em 0 0 0; }
+.editableTree li ul         { margin: .5em 0 0 5em; clear: both; font-size: .95em;/*border-top: 1px dashed #FFD053;*/}
+
+.editableTree li a                 { width: 16px; height: 16px; float: left; margin: 0 .3em; cursor: pointer; }
+.editableTree li a span            { display: none; }
+.editableTree li a.associate       { background-image: url(../../images/icons/associate.png); }
+.editableTree li a.unassociate     { background-image: url(../../images/icons/unassociate.png); }
+.editableTree li a.editItem        { background-image: url(../../images/icons/edit.png); }
+.editableTree li a.createSubItem   { background-image: url(../../images/icons/create.png); }
+.editableTree li a.currentEditItem { cursor: default; }
+.editableTree li a:hover           { background-color: transparent;}
+.editableTree li strong            { float: left; font-weight: normal !important; }
+
 
 /* editable list
 -------------------------------------------------------------- */
@@ -69,11 +93,12 @@
 .editableList li a.associate       { background-image: url(../../images/icons/associate.png); }
 .editableList li a.unassociate     { background-image: url(../../images/icons/unassociate.png); }
 .editableList li a.editItem        { background-image: url(../../images/icons/edit.png); }
+.editableList li a.createSubItem   { background-image: url(../../images/icons/create.png); }
 .editableList li a.currentEditItem { cursor: default; }
 .editableList li a:hover           { background-color: transparent;}
 
 .editableList li span.agentName     { width: 35%; float: left; }
-.editableList li span.categoryName { margin: 0 1em; font-size: 0.9em; }
+.editableList li span.categoryName  { margin: 0 1em; font-size: 0.9em; }
 .editableList li strong             { font-weight: normal !important; }
 
 /* editable list display switcher */

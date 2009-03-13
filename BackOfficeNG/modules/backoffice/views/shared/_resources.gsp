@@ -58,6 +58,7 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/selector',file:'selector-beta-min.js')}"></script>
 
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'tools.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'aspect.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'common.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'validation.js')}"></script>
   
@@ -65,6 +66,7 @@
     zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
     zenexity.capdemat.bong.currentMenu = "${session['currentMenu']}";
     zenexity.capdemat.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';
+    zenexity.capdemat.contextPath = '${request.contextPath}';
   </script>
   
   

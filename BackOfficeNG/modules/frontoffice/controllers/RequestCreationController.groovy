@@ -92,8 +92,10 @@ class RequestCreationController {
     }
     
     def step = {
-        if (params.requestTypeInfo == null || params.uuidString == null || session[params.uuidString] == null)
+        if (params.requestTypeInfo == null || params.uuidString == null || session[params.uuidString] == null) {
             redirect(uri: '/frontoffice/requestType')
+            return false
+        }
 
         def uuidString = params.uuidString
         def requestTypeInfo = JSON.parse(params.requestTypeInfo)

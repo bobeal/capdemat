@@ -89,14 +89,20 @@ class RequestInstructionController {
         }
         
         // just for VoCardRequest and HomeFolderModificationRequest
-        def adults = null, children = null
+        def adults = []
+        def children = []
         def clr = [:]
         if (request instanceof  fr.cg95.cvq.business.request.ecitizen.VoCardRequest
             || request instanceof fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest) {
-            adults = homeFolderService.getAdults(request.homeFolderId)
-            children = homeFolderService.getChildren(request.homeFolderId)
+            def individuals = homeFolderService.getIndividuals(request.homeFolderId)
+            individuals.eachWithIndex { individual, index ->
+                def item = ['data':individual, 'index':index]
+                if (individual.class.simpleName == "Adult") adults.add(item)
+                else if (individual.class.simpleName == "Child") children.add(item)
+            }
             children.each {
-                clr.put(it.id, homeFolderService.getBySubjectRoles(it.id,
+                def child = it.data
+                clr.put(child.id, homeFolderService.getBySubjectRoles(child.id,
                         [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
             }
         }
@@ -137,15 +143,7 @@ class RequestInstructionController {
         def propertyType = propertyTypes.validate
         def widget = widgetMap[propertyType] ? widgetMap[propertyType] : "string"
 
-        // big hacks allow list datading for all request different from VoCard and HomeFolder
-        // Will be remove with homefolder refactoring
-        // here inline edition will pass until 10 element per list
-        def individualId = params.propertyName.tokenize("[]").size() > 1 ? Integer.valueOf(params.propertyName.tokenize("[]")[1]).intValue() : 0 
-        
         def model = ["requestId": Long.valueOf(params.id),
-                     "individualId": params.propertyName.tokenize("[]")[1],
-                     // the "simple" property name, with de-referencement
-                     "propertyNameTp": individualId > 10 ? propertyNameTokens[propertyNameTokens.size() -1] : params.propertyName,
                      // the "fully qualifier" property name
                      "propertyName": params.propertyName,
                      "propertyType": propertyType,
@@ -189,26 +187,22 @@ class RequestInstructionController {
     }
 
     def modify = {
-        if (params.requestId == null || params.individualId == null )
-             return
+        if (params.requestId == null)
+             return false
         def request = defaultRequestService.getById(Long.valueOf(params.requestId))
         if (["VO Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
-            def individual = individualService.getById(Long.valueOf(params.individualId))
-            bind(individual)
+            def homeFolder = homeFolderService.getById(request.homeFolderId)
+            DataBindingUtils.initBind(homeFolder, params)
+            bind(homeFolder)
         } else {
             DataBindingUtils.initBind(request, params)
             bind(request)
         }
-//        log.debug("Binder custum editor PersistentStringEnum = " +
-//                getBinder(request)
-//                    .propertyEditorRegistry
-//                    .findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
-
+//        log.debug("Binder custum editor PersistentStringEnum = " + getBinder(request).propertyEditorRegistry.findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
     def modifyList = {
-        println 'modifyList START'
         if (params.requestId == null || params.listAction == null )
              return
         
@@ -320,7 +314,7 @@ class RequestInstructionController {
     		render(template:'help')
     }
     
-    // FIXME : copy-paste from frontOfficeHomeFolderController. mutualize
+    // FIXME : copy-paste from frontOfficeHomeFolderController. mutualize if possible
     def homeFolder = {
         def result = ['adults':[], 'children': [], homeFolder: []]
         def cRequest = defaultRequestService.getById(Long.valueOf(params.id))

@@ -13,6 +13,7 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeForms.js')}"></script>
     
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeDocuments.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeLocalReferential.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeConfigure.js')}"></script>
     
     <script type="text/javascript">
@@ -63,6 +64,7 @@
             </div>
             <div id="documentList"></div>
           </div>
+          <div id="requestTypeLocalReferential" style="display:none"></div>
         </div>
         <form method="post" id="editorForm" action="${createLink(action:'mailTemplate')}" class="editor-form">
           <div id="editPanel">

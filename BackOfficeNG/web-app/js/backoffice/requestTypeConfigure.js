@@ -106,7 +106,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zcbrp.Documents.init();
       },
       dispalyAlerts : function(e) {},
-      displaySeasons: function(e) {}
+      displaySeasons: function(e) {},
+      displayLocalReferential : function(e) {
+        zct.style(yu.Dom.get('requestTypeLocalReferential'),{display:'block'});
+        zcbrp.LocalReferential.init();
+      }
     }
   }();
 

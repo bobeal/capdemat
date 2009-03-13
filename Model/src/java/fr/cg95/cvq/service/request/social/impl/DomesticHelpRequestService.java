@@ -10,6 +10,8 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService;
 
@@ -124,30 +126,5 @@ public class DomesticHelpRequestService extends RequestService implements
             else
                 return false;
         return test;
-    }
-    
-    /**
-     * Implements IConditionChecker to describe custom business condition policy
-     * Custom business implementation might be enclosed as inner class of related request service
-     * TODO - move to service.request.conditon package
-     */
-    interface IConditionChecker {
-        boolean test(String value);
-    }
-    
-    /**
-     * Check if condition triggered value is equal to mark value
-     * TODO - move to service.request.conditon package
-     */
-    class EqualityChecker implements IConditionChecker {
-        private String mark;
-        
-        public EqualityChecker(String mark) {
-            this.mark = mark;
-        }
-        
-        public boolean test(String value) {
-            return mark.equals(value);
-        }
     }
 }

@@ -58,6 +58,26 @@
                 <message lang="fr"/>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        	<entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+                    <entry key="Monday_1">
+                      <label lang="fr">Lundi 1</label>
+                      <message lang="fr"/>
+        	<entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+                    <entry key="Monday_1_1">
+                      <label lang="fr">Lundi 1 1</label>
+                      <message lang="fr"/>
+                    </entry> 
+                    <entry key="Monday_1_2">
+                      <label lang="fr">Lundi 1 2</label>
+                      <message lang="fr"/>
+                    </entry>
+                </entries>
+                    </entry> 
+                    <entry key="Monday_2">
+                      <label lang="fr">Lundi 2</label>
+                      <message lang="fr"/>
+                    </entry>
+                </entries>
             </entry>
             <entry key="Tuesday">
                 <label lang="fr">Mardi</label>

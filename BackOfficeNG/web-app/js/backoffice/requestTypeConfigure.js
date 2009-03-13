@@ -110,7 +110,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       displayLocalReferential : function(e) {
         zct.style(yu.Dom.get('requestTypeLocalReferential'),{display:'block'});
         zcbrp.LocalReferential.init();
-      },
+      }
     }
   }();
 

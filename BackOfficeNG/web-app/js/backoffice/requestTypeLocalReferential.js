@@ -12,7 +12,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
   var zcbrp = zenexity.capdemat.bong.requesttype;
-  
+  var zca = zenexity.capdemat.aspect; 
+    
   var yl = YAHOO.lang;
   var yu = YAHOO.util;
   var yud = YAHOO.util.Dom;
@@ -20,6 +21,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var yus = YAHOO.util.Selector;
   var ylj = YAHOO.lang.JSON;
   
+  zcbrp.accessRule = {
+    notCurrent: function(e) {
+      return !yud.hasClass(yud.get(yue.getTarget(e)), 'current');
+    }
+  };
   
   zcbrp.LocalReferential = function() {
     return {
@@ -31,6 +37,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zct.doAjaxCall(['/localReferential/',(zcbrp.currentId||0)].join(''),[],function(o){
           zct.html(yud.get('requestTypeLocalReferential'),o.responseText);
         });
+        
+        zcbrp.LocalReferential.collapseTree = zca.condition(zcbrp.LocalReferential.collapseTree, zcbrp.accessRule.notCurrent);
+        zcbrp.LocalReferential.expandTree = zca.condition(zcbrp.LocalReferential.expandTree, zcbrp.accessRule.notCurrent);
       },
       
       prepareEvent : function(e) {
@@ -53,11 +62,29 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var entryId = target.id.split('_')[1];
         var entryFormContainerEl = yud.get('formContainer_' + entryId);
         zct.style(entryFormContainerEl, {display:'none'});
+      },
+      
+      collapseTree : function(e) {
+        var target = (yue.getTarget(e)||e);
+        var dataName = target.id.split('_')[1];
+        zct.each(yus.query('ul', yud.get('entryTree_' + dataName)), function(){
+          zct.style(this, {display:'none'});
+        });
+        zct.toggleClass(yud.get('expandTree_' + dataName), 'current');
+        zct.toggleClass(yud.get('collapseTree_' + dataName), 'current');
+      },
+      
+      expandTree : function(e) {
+        var target = (yue.getTarget(e)||e);
+        var dataName = target.id.split('_')[1];
+        zct.each(yus.query('ul', yud.get('entryTree_' + dataName)), function(){
+          zct.style(this, {display:'block'});
+        });
+        zct.toggleClass(yud.get('expandTree_' + dataName), 'current');
+        zct.toggleClass(yud.get('collapseTree_' + dataName), 'current');
       }
     }
   }();
-  
-  yue.onDOMReady(zcbrp.LocalReferential.init);
   
 }());
 

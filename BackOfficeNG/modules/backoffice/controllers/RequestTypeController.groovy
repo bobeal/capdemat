@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ICategoryService
+import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestService
 import org.springframework.web.context.request.RequestContextHolder
@@ -19,6 +20,7 @@ class RequestTypeController {
     IRequestService defaultRequestService
     IDocumentTypeService documentTypeService
     ICategoryService categoryService
+    ILocalReferentialService localReferentialService
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
     
     def translationService
@@ -293,7 +295,21 @@ class RequestTypeController {
     /* Local referential related action
      * ------------------------------------------------------------------------------------------ */
     def localReferential = {
-        render(template:"localReferential", model:['aaa':'aaa'])
+        def rt = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
+        def lrDatas = localReferentialService.getLocalReferentialDataByRequestType(rt.label)
+        lrDatas.each { lrt ->
+            println lrt.request + ':' + lrt.dataName 
+            lrt.entries.each { lre -> 
+                println '  ' + lre.key + ':' + lre.labelsMap.fr
+                lre.entries.each { lree -> 
+                    println '    ' + lree.key + ':' + lree.labelsMap.fr
+                    lree.entries.each { lreee -> 
+                        println '      ' + lreee.key + ':' + lreee.labelsMap.fr
+                    }
+                }
+            }
+        }
+        render(template:"localReferential", model:['lrDatas':lrDatas])
     }
     
     def localReferentialEntry = {
@@ -302,5 +318,4 @@ class RequestTypeController {
     }
     
 }
-
 

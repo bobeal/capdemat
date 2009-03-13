@@ -8,3 +8,4 @@
   <input type="button" id="deleteEntry_${entry.id}" class="first-button" value="modifier"/>
   <input type="button" id="deleteEntry_${entry.id}" class="form-button" value="annuler"/>
 </form>
+

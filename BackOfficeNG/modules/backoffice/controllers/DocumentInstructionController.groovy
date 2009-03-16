@@ -10,6 +10,7 @@ import fr.cg95.cvq.business.document.DepositOrigin
 import fr.cg95.cvq.business.document.DepositType
 import fr.cg95.cvq.business.document.DocumentType
 import fr.cg95.cvq.business.request.RequestDocument
+import fr.cg95.cvq.business.document.DocumentAction
 
 class DocumentInstructionController {
     
@@ -41,14 +42,14 @@ class DocumentInstructionController {
         }
 
         def actions = []
-        document.actions.each {
+        for(DocumentAction action : document.actions) {
             actions.add([
-                "id": it.id,
-                "note": it.note,
-                "date": it.date,
-                "label": it.label,
-                "agentName": instructionService.getActionPosterDetails(it.agentId),
-                "resultingState": CapdematUtils.adaptCapdematEnum(it.resultingState, "document.state")
+                "id": action.id,
+                "note": action.note,
+                "date": action.date,
+                "label": action.label, 
+                "agentName": instructionService.getActionPosterDetails(action.agentId),
+                "resultingState": CapdematUtils.adaptCapdematEnum(action.resultingState, "document.state")
             ])
         }
         
@@ -57,8 +58,9 @@ class DocumentInstructionController {
             "document": [
                 "id": document.id,
                 "actions": actions,
-                "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
+                "editable": documentService.getEditableStates().contains(document.state),
                 "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
+                "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
                 "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
                 "depositOrigin": CapdematUtils.adaptCapdematEnum(document.depositOrigin, "document.depositOrigin"),
                 "endValidityDate": document.endValidityDate,
@@ -97,6 +99,7 @@ class DocumentInstructionController {
             result.documentId = params?.documentId ? '' : document.id
             result.message = message(code:"message.addDone")
             result.pageNumber = document.datas.size() - 1
+            documentService.addActionTrace(documentService.PAGE_ADD_ACTION,document.state,document)
         } else {
             result.status = 'warning'
             result.message = message(code:"message.fileTypeIsNotSupported")
@@ -109,6 +112,7 @@ class DocumentInstructionController {
     def deletePage = {
         def document = documentService.getById(Long.valueOf(params.documentId))
         document.datas.remove(Integer.valueOf(params.pageNumber))
+        documentService.addActionTrace(documentService.PAGE_DELETE_ACTION,document.state,document)
         render ([status:"success", message:message(code:"message.deleteDone")] as JSON)
     }
     
@@ -121,6 +125,11 @@ class DocumentInstructionController {
             documentService.modify(document)
             result.message = message(code:"message.updateDone")
             result.status = 'success'
+            if(document.state.equals(DocumentState.OUTDATED)) {
+                document.state = DocumentState.PENDING
+                documentService.addActionTrace(documentService.STATE_CHANGE_ACTION,DocumentState.PENDING,document) 
+            }
+            documentService.addActionTrace(documentService.PAGE_EDIT_ACTION,document.state,document)
         } else {
             result.status = 'warning'
             result.message = message(code:"message.fileTypeIsNotSupported")
@@ -140,24 +149,20 @@ class DocumentInstructionController {
         response.outputStream << page.data
     }
 
-    def documentStates = {
-        def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
+    def states = {
+        def result = [:]
+        def document = documentService.getById(Long.valueOf(params.id));
 
-        def transitionStates =
-            documentService.getPossibleTransitions(DocumentState.forString(stateAsString))
-
-        def states = []
-        transitionStates.each {
-            states.add(CapdematUtils.adaptCapdematEnum(it, "document.state"))
-        }
-
-        render(template: "documentStates",
-            model: [
-                "endValidityDate": DateUtils.systemStringToDate(params.endValidityDate),
-                "states": states,
-                "stateType": "documentType",
-                "documentId": params.id
-            ])
+        def states = documentService.getPossibleTransitions(DocumentState.forString(document.state.toString()))
+        
+        result.states = []
+        for(String s : states) result.states.add(CapdematUtils.adaptCapdematEnum(s, "document.state"))
+        
+        result.endValidityDate = document.endValidityDate
+        result.stateType = document.documentType.name
+        result.documentId = document.id
+        
+        return result;
     }
 
     def modifyDocument = {
@@ -167,7 +172,7 @@ class DocumentInstructionController {
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
-    def documentList = {
+    def documentsList = {
         
         def documents = [], types = [], result = [:]
         Request request = defaultRequestService.getById(Long.valueOf(params.rid))
@@ -195,6 +200,16 @@ class DocumentInstructionController {
         }
         
         result.documents = documents
+        result.requestId = params.rid
+        result.shortMode = params?.shortMode
+
         return result
+    }
+    
+    def changeState = {
+        def document = documentService.getById(Long.valueOf(params.documentId))
+        bind(document)
+        documentService.modify(document)
+        render ([status:"success", message:message(code:"message.updateDone")] as JSON)
     }
 }

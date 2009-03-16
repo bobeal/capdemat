@@ -107,8 +107,7 @@ class RequestInstructionController {
             }
         }
         def editableStates = []
-        for(RequestState state : defaultRequestService.getEditableStates()) 
-            editableStates.add(state.toString())
+        for(RequestState state : defaultRequestService.getEditableStates()) editableStates.add(state.toString())
 
         return ([
             "request": request,

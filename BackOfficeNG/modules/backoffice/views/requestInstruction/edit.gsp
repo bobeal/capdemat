@@ -49,7 +49,7 @@
           <!-- Request attached document -->
           <h2><g:message code="requestType.configuration.documents" /></h2>
           <div class="box-raduis">
-            <ul class="document-list">
+            <ul class="document-list" id="partialDocumentList">
             <g:each var="document" status="i" in="${documentList}">
               <g:if test="${document.id != 0}">
                 <li>
@@ -124,7 +124,17 @@
         <div class="hd"><g:message code="request.header.changeState" /></div>
         <div class="bd">
         </div>
-        <div class="ft"></div>
+        <div class="ft"> </div>
+      </div>
+      <div id="documentStateOverlay" class="state-overlay">
+        <div class="hd"> </div>
+        <div class="bd"> </div>
+      </div>
+      <div id="documentCalendarTip">
+        <div class="hd"> </div>
+        <div class="bd">
+          <div id="documentCalendar"> </div>
+        </div>
       </div>
       <form action="${createLink(action:'condition')}" method="post" id="conditionsForm">
         <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />

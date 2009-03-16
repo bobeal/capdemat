@@ -1,6 +1,6 @@
   <h1>
-    <span style="${document.id ? '' : 'display:none'}" id="documentState" 
-      class="${document.state.cssClass} documentState_${document.id}">
+    <span style="${document.id ? '' : 'display:none'}" id="toggleStateOverlay_${document.id}" 
+      class="${document.state.cssClass} document-state">
       <span><g:message code="${document.state.i18nKey}" /></span>
       <span class="invisible">${document.endValidityDate}</span>
     </span>
@@ -20,10 +20,8 @@
         <g:formatDate formatName="format.date" date="${document.endValidityDate}"/>
       </strong>
     </span>
-    
-    <div id="documentTransitionStates"></div>
   </h1>
-  <div id="documentMessage" style="display: none;"><!--message--></div>
+  <div id="documentMessage" style="display: none;"> </div>
   <!-- datas bloc-->
   <div id="requestDocumentData" class="yellow-yui-tabview">
   
@@ -34,28 +32,32 @@
           <em><g:message code="property.page" /> ${page.pageNumber + 1}</em></a>
         </li>
       </g:each>
-      <li class="${!document.id ? 'selected' : ''}">
-        <a class="add-link" href="#documentEditPanel"><em><g:message code="action.add" /></em></a>
-      </li>
+      <g:if test="${document.editable}">
+        <li class="${!document.id ? 'selected' : ''}">
+          <a class="add-link" href="#documentEditPanel"><em><g:message code="action.add" /></em></a>
+        </li>
+      </g:if>
     </ul>
     
     <div class="yui-content"> 
       <g:each var="page" in="${document.pages}">
         <g:render template="page" model="${[pageNumber:page.pageNumber,document:document]}"/>
       </g:each>
-      <div id="pageAddPanel">
-        <div class="error" style="display:none"><g:message code="document.message.pageFileCantBeEmpty"/></div>
-        <form id="pageAddForm" action="${g.createLink(action:'addPage')}">
-          <input type="file" name="pageFile" class="required" />
-          <input type="button" name="pageModif" value="${message(code:'action.add')}" />
-          <span class="routine-indicator" style="display:none">
-            <g:message code="action.loading" /> ...
-          </span>
-          <input type="hidden" name="requestId" value="${params.rid}" />
-          <input type="hidden" name="documentId" value="${document.id}" />
-          <input type="hidden" name="documentTypeId" value="${params.dtid}" />
-        </form>
-      </div>
+      <g:if test="${document.editable}">
+        <div id="pageAddPanel">
+          <div class="error" style="display:none"><g:message code="document.message.pageFileCantBeEmpty"/></div>
+          <form id="pageAddForm" action="${g.createLink(action:'addPage')}">
+            <input type="file" name="pageFile" class="required" />
+            <input type="button" name="pageModif" value="${message(code:'action.add')}" />
+            <span class="routine-indicator" style="display:none">
+              <g:message code="action.loading" /> ...
+            </span>
+            <input type="hidden" name="requestId" value="${params.rid}" />
+            <input type="hidden" name="documentId" value="${document.id}" />
+            <input type="hidden" name="documentTypeId" value="${params.dtid}" />
+          </form>
+        </div>
+      </g:if>
     </div>
     
   </div>

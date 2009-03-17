@@ -383,6 +383,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="isOfRegistrationKind" value="true"/>
   </bean>
 
+  <bean id="studyGrantRequestService"
+    class="fr.cg95.cvq.service.request.school.impl.StudyGrantRequestService"
+    parent="requestService">
+    <!-- Service specific -->
+    <property name="label" value="Study Grant Request"/>
+    <property name="supportUnregisteredCreation" value="false"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
+    <property name="isOfRegistrationKind" value="true"/>
+  </bean>
+
   <bean id="personalDetailsRequestService" 
     class="fr.cg95.cvq.service.request.civil.impl.PersonalDetailsRequestService" 
     parent="requestService">

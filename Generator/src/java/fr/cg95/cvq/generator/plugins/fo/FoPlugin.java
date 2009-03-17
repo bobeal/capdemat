@@ -142,7 +142,7 @@ public class FoPlugin implements IPluginGenerator {
         if (elementProp.isReferentialType())
             elementFo.setModelNamespace(IPluginGenerator.MODEL_BASE_TARGET_NS + ".users");
         
-        if (elementProp.isSimpleType())
+        if (elementProp.isSimpleType() || elementProp.getXmlSchemaType().equals("AddressType"))
             elementFo.setTypeClass(ElementFo.ElementTypeClass.SIMPLE);
         else if (elementProp.isComplexType())
             elementFo.setTypeClass(ElementFo.ElementTypeClass.COMPLEX);

@@ -28,6 +28,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   };
   
   zcbrp.LocalReferential = function() {
+    
+    var toggleEntries = function(dataName, displayPolicy) {
+      zct.each(yus.query('ul', yud.get('lrtEntries_' + dataName)), function(){
+        zct.style(this, {display:displayPolicy});
+      });
+      zct.toggleClass(yud.get('expandEntries_' + dataName), 'current');
+      zct.toggleClass(yud.get('collapseEntries_' + dataName), 'current');
+    }
+      
     return {
       event: undefined,
       
@@ -38,8 +47,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           zct.html(yud.get('requestTypeLocalReferential'),o.responseText);
         });
         
-        zcbrp.LocalReferential.collapseTree = zca.condition(zcbrp.LocalReferential.collapseTree, zcbrp.accessRule.notCurrent);
-        zcbrp.LocalReferential.expandTree = zca.condition(zcbrp.LocalReferential.expandTree, zcbrp.accessRule.notCurrent);
+        zcbrp.LocalReferential.collapseEntries = zca.condition(zcbrp.LocalReferential.collapseEntries, zcbrp.accessRule.notCurrent);
+        zcbrp.LocalReferential.expandEntries = zca.condition(zcbrp.LocalReferential.expandEntries, zcbrp.accessRule.notCurrent);
       },
       
       prepareEvent : function(e) {
@@ -49,39 +58,94 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       
       editEntry : function(e) {
         var target = (yue.getTarget(e)||e);
-        var entryId = target.id.split('_')[1];
-        zct.doAjaxCall(['/localReferentialEntry/','?entryId=',entryId].join(''),[],function(o){
-          var entryFormContainerEl = yud.get('formContainer_' + entryId);
+        var entryKey = target.id.split('_')[1];
+        var parentEntryKey = yud.getAncestorByTagName(target, 'ul').id.split('_')[1];
+        var dataName = yud.getAncestorByClassName(target, 'editableTree').id.split('_')[1];
+        zct.doAjaxCall(['/localReferentialEntry/','?dataName=',dataName,'&entryKey=',entryKey,
+                        '&parentEntryKey=',parentEntryKey].join(''),[],function(o){
+          var entryFormContainerEl = yud.get('formContainer_' + entryKey);
           zct.style(entryFormContainerEl, {display:'block'});
           zct.html(entryFormContainerEl,o.responseText);
         });
       },
       
-      deleteEntry : function(e) {
+      saveEntry : function(e) {
+        var target = (yue.getTarget(e)||e);
+        var entryFormEl = yud.getAncestorByTagName(target, 'form');
+        zct.doAjaxFormSubmitCall(entryFormEl.id, null, function(o) {
+          var response = ylj.parse(o.responseText);
+          if (!response.isNew) {
+            zct.html(yud.getFirstChild(yud.getAncestorByTagName(target, 'li')), response.entryLabel);
+            zct.style(yud.getAncestorByTagName(entryFormEl, 'div'), {display:'none'});
+          } else {
+            zcbrp.LocalReferential.refreshEntries(e);
+            zct.style(yud.getAncestorByTagName(entryFormEl, 'div'), {display:'none'});
+          }
+        });
+      },
+      
+      addEntry : function(e) {
+        var target = (yue.getTarget(e)||e);
+        var dataName = target.id.split('_')[1];
+        zct.doAjaxCall(['/localReferentialEntry/','?dataName=',dataName,
+                        '&parentEntryKey=',dataName,'&isNew'].join(''),[],function(o){
+          var entryFormContainerEl = yud.get('formContainer_' + dataName);
+          zct.style(entryFormContainerEl, {display:'block'});
+          zct.html(entryFormContainerEl,o.responseText);
+        });
+      },
+      
+      addSubEntry : function(e) {
+        var target = (yue.getTarget(e)||e);
+        var parentEntryKey = target.id.split('_')[1];
+        var dataName = yud.getAncestorByClassName(target, 'editableTree').id.split('_')[1];
+        zct.doAjaxCall(['/localReferentialEntry/','?dataName=',dataName,
+                        '&parentEntryKey=',parentEntryKey, '&isNew'].join(''),[],function(o){
+          var entryFormContainerEl = yud.get('formContainer_' + parentEntryKey);
+          zct.style(entryFormContainerEl, {display:'block'});
+          zct.html(entryFormContainerEl,o.responseText);
+        });
+      },
+      
+      removeEntry : function(e) {
+        var target = (yue.getTarget(e)||e);
+        var entryKey = target.id.split('_')[1];
+        var parentEntryKey = yud.getAncestorByTagName(target, 'ul').id.split('_')[1];
+        var dataName = yud.getAncestorByClassName(target, 'editableTree').id.split('_')[1];
+        zct.doAjaxCall(['/removeLocalReferentialEntry/','?dataName=',dataName,'&entryKey=',entryKey,
+                        '&parentEntryKey=',parentEntryKey].join(''),[],function(o){
+          var response = ylj.parse(o.responseText);
+          if (response.status === 'ok')
+            zcbrp.LocalReferential.refreshEntries(e);
+        });
+      },
+      
+      refreshEntries : function(e) {
+        var target = (yue.getTarget(e)||e);
+        var dataName = yud.getAncestorByClassName(target, 'mainbox').id.split('_')[1];
+        zct.doAjaxCall(['/localReferentialData/','?dataName=',dataName].join(''),[],function(o){
+          zct.html(yud.get('lrtEntriesContainer_' + dataName),o.responseText);
+        });
+        
+        if (yud.hasClass(yud.get('collapseEntries_' + dataName), 'current'))
+            toggleEntries(dataName,'none');
+      },
+      
+      discardEntry : function(e) {
         var target = (yue.getTarget(e)||e);
         var entryId = target.id.split('_')[1];
         var entryFormContainerEl = yud.get('formContainer_' + entryId);
         zct.style(entryFormContainerEl, {display:'none'});
       },
       
-      collapseTree : function(e) {
-        var target = (yue.getTarget(e)||e);
-        var dataName = target.id.split('_')[1];
-        zct.each(yus.query('ul', yud.get('entryTree_' + dataName)), function(){
-          zct.style(this, {display:'none'});
-        });
-        zct.toggleClass(yud.get('expandTree_' + dataName), 'current');
-        zct.toggleClass(yud.get('collapseTree_' + dataName), 'current');
+      collapseEntries : function(e) {
+        var target = (yue.getTarget(e)||e); 
+        toggleEntries(target.id.split('_')[1],'none'); 
       },
       
-      expandTree : function(e) {
-        var target = (yue.getTarget(e)||e);
-        var dataName = target.id.split('_')[1];
-        zct.each(yus.query('ul', yud.get('entryTree_' + dataName)), function(){
-          zct.style(this, {display:'block'});
-        });
-        zct.toggleClass(yud.get('expandTree_' + dataName), 'current');
-        zct.toggleClass(yud.get('collapseTree_' + dataName), 'current');
+      expandEntries : function(e) { 
+        var target = (yue.getTarget(e)||e); 
+        toggleEntries(target.id.split('_')[1], 'block'); 
       }
     }
   }();

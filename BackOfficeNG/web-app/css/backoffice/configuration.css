@@ -67,6 +67,7 @@
 .editableTree li a:hover           { background-color: transparent;}
 .editableTree li strong            { float: left; font-weight: normal !important; }
 
+.newItem { font-size: 1.25em; }
 
 /* editable list
 -------------------------------------------------------------- */

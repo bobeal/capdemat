@@ -1,9 +1,9 @@
 import java.io.File;
-
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
+import fr.cg95.cvq.business.authority.LocalReferentialEntry
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.authority.ILocalReferentialService
@@ -297,24 +297,64 @@ class RequestTypeController {
     def localReferential = {
         def rt = defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
         def lrDatas = localReferentialService.getLocalReferentialDataByRequestType(rt.label)
-        lrDatas.each { lrt ->
-            println lrt.request + ':' + lrt.dataName 
-            lrt.entries.each { lre -> 
-                println '  ' + lre.key + ':' + lre.labelsMap.fr
-                lre.entries.each { lree -> 
-                    println '    ' + lree.key + ':' + lree.labelsMap.fr
-                    lree.entries.each { lreee -> 
-                        println '      ' + lreee.key + ':' + lreee.labelsMap.fr
-                    }
-                }
-            }
-        }
         render(template:"localReferential", model:['lrDatas':lrDatas])
     }
     
+    def localReferentialData = {
+        def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+        render(template:"localReferentialEntries", 
+               model:['lrEntries': lrData.entries, 'depth':0, 'parentEntry':lrData.dataName])
+    }
+    
     def localReferentialEntry = {
-       def entry = ['id': params.entryId]
-       render(template:"localReferentialEntryFrom", model:['entry':entry])
+       def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+       def lre          
+       if (params.isNew != null) {
+          lre = new LocalReferentialEntry()
+          lre.key = params.parentEntryKey
+       } else 
+          lre = lrData.getEntryByKey(params.entryKey)
+       
+       render(template:"localReferentialEntryFrom", 
+              model:['entry':lre,
+                     'parentEntryKey':params.parentEntryKey,
+                     'dataName':params.dataName,
+                     'isNewSubEntry':params.isNew != null ? true : false])
+    }
+    
+    def saveLocalReferentialEntry = {
+        def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+        def isNew = false
+        def lre
+        if (params.'entry.key' == params.parentEntryKey) {
+            lre = new LocalReferentialEntry()
+            lre.addLangage('fr')
+            bind(lre)
+            lre.key = null
+            lrData.addEntry(lre, 
+                params.parentEntryKey != params.dataName ? lrData.getEntryByKey(params.parentEntryKey) : null )
+            isNew = true
+        } else {
+            lre = lrData.getEntryByKey(params.'entry.key')
+            bind(lre)
+        }
+        localReferentialService.setLocalReferentialData(lrData)
+        
+        render (['isNew': isNew,
+                'entryLabel': lre.labelsMap.fr,
+                'success_msg':message(code:"message.updateDone"),
+                'status':"ok"] as JSON)
+    }
+    
+    def removeLocalReferentialEntry = {
+         def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+         def lre = lrData.getEntryByKey(params.entryKey)
+         lrData.removeEntry(lre, 
+                params.parentEntryKey != params.dataName ? lrData.getEntryByKey(params.parentEntryKey) : null )
+         localReferentialService.setLocalReferentialData(lrData)
+         render (['entryLabel': lre.labelsMap.fr,
+                'success_msg':message(code:"message.updateDone"),
+                'status':"ok"] as JSON)
     }
     
 }

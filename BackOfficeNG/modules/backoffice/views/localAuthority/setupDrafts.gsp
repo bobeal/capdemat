@@ -1,7 +1,8 @@
 <html>
   <head>
     <title><g:message code="localAuthority.header.configuration" /></title>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthority.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityDrafts.js')}"></script>
+    %{--<script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityContacts.js')}"></script>--}%
     <meta name="layout" content="main" />
     <g:if test="${entity.posted}">
       <script type="text/javascript">
@@ -52,13 +53,6 @@
         
       </div>
     </div>
-
-    <div id="narrow" class="yui-b">
-      <div class="nobox">
-        <h3>Explications et aide ...</h3>
-        <div class="body"></div>
-      </div>
-    </div>    
-
+    <g:render template="subMenus"/>
   </body>
 </html>

@@ -63,14 +63,14 @@ class RequestInstructionController {
         requestDocuments.each {
             def document = documentService.getById(it.documentId)
             providedDocumentTypes.add(document.documentType.id)
-            documentList.add(
-                    [ "id": document.id,
-                      "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
-                      "endValidityDate" : document.endValidityDate,
-                      "pageNumber": document.datas.size(),
-                      "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
-                    ]
-            )
+            documentList.add([
+                "id": document.id,
+                "documentTypeId" : document.documentType.id,
+                "name": message(code: CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
+                "endValidityDate": document.endValidityDate,
+                "pageNumber": document.datas.size(),
+                "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
+            ])
         }
 
         // manage allowed and associated documents to a request
@@ -80,11 +80,12 @@ class RequestInstructionController {
             if (providedDocumentTypes.contains(documentTypeIt.id))
                 isDocumentProvided = true
             if (!isDocumentProvided)
-                documentList.add(
-                    [ "id": 0,
-                      "name": message(code:CapdematUtils.adaptDocumentTypeName(documentTypeIt.name)),
-                      "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
-                    ])
+                documentList.add([
+                    "id": 0,
+                    "documentTypeId" : documentTypeIt.id,
+                    "name": message(code: CapdematUtils.adaptDocumentTypeName(documentTypeIt.name)),
+                    "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
+                ])
         }
         
         // just for VoCardRequest and HomeFolderModificationRequest
@@ -106,23 +107,23 @@ class RequestInstructionController {
             }
         }
         def editableStates = []
-        for(RequestState state : defaultRequestService.getEditableStates()) 
-            editableStates.add(state.toString())
+        for(RequestState state : defaultRequestService.getEditableStates()) editableStates.add(state.toString())
 
-        [ "request": request,
-          "requestTypeLabel" : request.requestType.label,
-          "requester": requester,
-          "adults" : adults,
-          "children" : children,
-          "childrenLegalResponsibles" : clr,
-          "editableStates" : (editableStates as JSON).toString(),
-          "agentCanWrite" : categoryService.hasWriteProfileOnCategory(agent,request.requestType.category.id),
-          "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
-          "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
-          "requestLabel": requestLabel,
-          "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
-          "documentList": documentList
-        ]
+        return ([
+            "request": request,
+            "requestTypeLabel": request.requestType.label,
+            "requester": requester,
+            "adults": adults,
+            "children": children,
+            "childrenLegalResponsibles": clr,
+            "editableStates": (editableStates as JSON).toString(),
+            "agentCanWrite": categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id),
+            "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+            "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
+            "requestLabel": requestLabel,
+            "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
+            "documentList": documentList
+        ])
     }
 
 
@@ -302,77 +303,6 @@ class RequestInstructionController {
                         null)
                break
         }
-        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-    }
-
-    /* Document managment
-    * --------------------------------------------------------------------- */
-
-    def document = {
-        def document = documentService.getById(Long.valueOf(params.id))
-
-        def actions = []
-        document.actions.each {
-            actions.add(
-                [ "id": it.id,
-                  "agentName": instructionService.getActionPosterDetails(it.agentId),
-                  "label": it.label,
-                  "note": it.note,
-                  "date": it.date,
-                  "resultingState": CapdematUtils.adaptCapdematEnum(it.resultingState, "document.state")
-                ])
-        }
-        
-        render( template:"requestDocument", model: [
-            "document": [
-                "id": document.id,
-                "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
-                "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
-                "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
-                "depositOrigin": CapdematUtils.adaptCapdematEnum(document.depositOrigin, "document.depositOrigin"),
-                "endValidityDate": document.endValidityDate,
-                "ecitizenNote": document.ecitizenNote,
-                "agentNote": document.agentNote,
-                "actions": actions,
-                "pageNumber": document.datas.size(),
-                "pages": documentAdaptorService.getDocument(document.id).datas    
-            ]
-        ])
-    }
-
-    def documentPage = {
-        def document = documentService.getById(Long.valueOf(params.id))
-        def page = document.datas[Integer.valueOf(params.pageNumber)]
-
-        response.contentType = "image/png"
-        response.outputStream << page.data
-    }
-
-
-    def documentStates = {
-        def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
-
-        def transitionStates =
-            documentService.getPossibleTransitions(DocumentState.forString(stateAsString))
-
-        def states = []
-        transitionStates.each {
-            states.add(CapdematUtils.adaptCapdematEnum(it, "document.state"))
-        }
-
-        render( template: "requestDocumentStates",
-                model: [
-                    "endValidityDate": DateUtils.systemStringToDate(params.endValidityDate),
-                    "states": states,
-                    "stateType": "documentType",
-                    "documentId": params.id
-                ])
-    }
-
-    def modifyDocument = {
-        def document = documentService.getById(Long.valueOf(params.documentId))
-        bind(document)
-        documentService.modify(document)
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 

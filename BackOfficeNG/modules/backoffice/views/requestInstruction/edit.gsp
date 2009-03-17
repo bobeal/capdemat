@@ -4,7 +4,8 @@
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestInstruction.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'document.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'documentInstruction.js')}"></script>
+    %{--<script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'document.js')}"></script>--}%
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'condition.js')}"></script>
     <script type="text/javascript">
       zenexity.capdemat.bong.requestId = '${request.id}';
@@ -48,12 +49,13 @@
           <!-- Request attached document -->
           <h2><g:message code="requestType.configuration.documents" /></h2>
           <div class="box-raduis">
-            <ul>
+            <ul class="document-list" id="partialDocumentList">
             <g:each var="document" status="i" in="${documentList}">
               <g:if test="${document.id != 0}">
                 <li>
-                  <a class="documentLink" href="/document/${document.id}">${document.name}</a>
-                   - ${document.pageNumber} <g:message code="property.pages"/>
+                  <a class="documentLink" id="displayDocPanel_${document.id}" 
+                    href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}">
+                    ${document.name}</a> - ${document.pageNumber} <g:message code="property.pages"/>
                    <g:if test="${document.endValidityDate}">
                     (<g:message code="document.property.endValidityDate"/> : 
                       <g:formatDate formatName="format.date" date="${document.endValidityDate}" />)
@@ -103,11 +105,12 @@
       <div class="nobox taskstate">
         <h3><g:message code="request.requester.property.evidences" /></h3>
         <div class="body">
-          <ul>
+          <ul class="document-list" id="fullDocumentList">
           <g:each var="document" in="${documentList}">
             <li>
-              <a class="${document.state.cssClass} documentState_${document.id} documentLink"
-                  href="/document/${document.id}">
+              <a class="${document.state.cssClass} documentState_${document.id} ${document?.id?'':'not-supplied'} documentLink" 
+                id="${!agentCanWrite && document.id == 0 ? 'doNothing' : 'displayDocPanel_'+document.id}_${UUID.randomUUID().toString().substring(0,4)}"
+                href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${request.id}">
                 <g:message code="${document.state.i18nKey}" />
               </a>
               ${document.name}
@@ -122,7 +125,17 @@
         <div class="hd"><g:message code="request.header.changeState" /></div>
         <div class="bd">
         </div>
-        <div class="ft"></div>
+        <div class="ft"> </div>
+      </div>
+      <div id="documentStateOverlay" class="state-overlay">
+        <div class="hd"> </div>
+        <div class="bd"> </div>
+      </div>
+      <div id="documentCalendarTip">
+        <div class="hd"> </div>
+        <div class="bd">
+          <div id="documentCalendar"> </div>
+        </div>
       </div>
       <form action="${createLink(action:'condition')}" method="post" id="conditionsForm">
         <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />

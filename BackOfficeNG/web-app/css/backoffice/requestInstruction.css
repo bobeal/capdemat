@@ -247,4 +247,14 @@
 #ecitizenContactPanel .bd form input[type="button"]   { font-size: 1.4em; }
 #ecitizenContactPanel .bd form input[type="checkbox"] { margin: 6px 0 0 1%; }
 
+.add-link em {
+  background:transparent url(../../images/icons/create.png) no-repeat scroll right 4px;
+  padding-right:21px !important;
+  /*font-size: 1.1em !important;*/
+}
 
+.button-panel {
+  float:right;
+  margin-right: 1em;
+  overflow:auto;
+}

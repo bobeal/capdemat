@@ -26,6 +26,9 @@ public interface IDocumentService {
 
     String CREATION_ACTION = "CREATION_ACTION";
     String STATE_CHANGE_ACTION = "STATE_CHANGE_ACTION";
+    String PAGE_ADD_ACTION = "PAGE_ADD_ACTION";
+    String PAGE_EDIT_ACTION = "PAGE_EDIT_ACTION";
+    String PAGE_DELETE_ACTION = "PAGE_DELETE_ACTION";
     
     /**
      * Add a document to the system.
@@ -209,4 +212,10 @@ public interface IDocumentService {
     
     Integer searchCount(Hashtable<String,Object> searchParams);
     Integer searchCount();
+
+    List<DocumentState> getEditableStates();
+
+    void addActionTrace(String label, DocumentState resultingState,
+            Document document)
+        throws CvqException;
 }

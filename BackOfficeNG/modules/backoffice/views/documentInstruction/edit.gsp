@@ -1,13 +1,11 @@
   <h1>
-    <span id="documentState" class="${document.state.cssClass} documentState_${document.id}">
+    <span style="${document.id ? '' : 'display:none'}" id="toggleStateOverlay_${document.id}" 
+      class="${document.state.cssClass} document-state">
       <span><g:message code="${document.state.i18nKey}" /></span>
       <span class="invisible">${document.endValidityDate}</span>
     </span>
-    
-
     <g:message code="document.header.document" /> : ${document.name} 
-    (${document.id})
-    
+      (${document.id ? document.id : message(code:'header.newDocument')})
     <span id="documentDepositType" class="${document.depositType.cssClass}">
       <g:message code="${document.depositType.i18nKey}" />
     </span>
@@ -22,34 +20,51 @@
         <g:formatDate formatName="format.date" date="${document.endValidityDate}"/>
       </strong>
     </span>
-    
-    <div id="documentTransitionStates"></div>
   </h1>
-  
+  <div id="documentMessage" style="display: none;"> </div>
   <!-- datas bloc-->
   <div id="requestDocumentData" class="yellow-yui-tabview">
   
     <ul class="yui-nav">
       <g:each var="page" in="${document.pages}" status="i">
         <li class="${i == 0 ? 'selected' : ''}">
-          <a href="#page${page.pageNumber + 1}">
+          <a href="#page${page.pageNumber}">
           <em><g:message code="property.page" /> ${page.pageNumber + 1}</em></a>
         </li>
       </g:each>
+      <g:if test="${document.editable}">
+        <li class="${!document.id ? 'selected' : ''}">
+          <a class="add-link" href="#documentEditPanel"><em><g:message code="action.add" /></em></a>
+        </li>
+      </g:if>
     </ul>
     
     <div class="yui-content"> 
       <g:each var="page" in="${document.pages}">
-        <div id="page${page.pageNumber + 1}">
-          <img src="${g.createLink(action:'documentPage')}/${document.id}/?pageNumber=${page.pageNumber}"/>
-        </div>
+        <g:render template="page" model="${[pageNumber:page.pageNumber,document:document]}"/>
       </g:each>
+      <g:if test="${document.editable}">
+        <div id="pageAddPanel">
+          <div class="error" style="display:none"><g:message code="document.message.pageFileCantBeEmpty"/></div>
+          <form id="pageAddForm" action="${g.createLink(action:'addPage')}">
+            <input type="file" name="pageFile" class="required" />
+            <input type="button" name="pageModif" value="${message(code:'action.add')}" />
+            <span class="routine-indicator" style="display:none">
+              <g:message code="action.loading" /> ...
+            </span>
+            <input type="hidden" name="requestId" value="${params.rid}" />
+            <input type="hidden" name="documentId" value="${document.id}" />
+            <input type="hidden" name="documentTypeId" value="${params.dtid}" />
+          </form>
+        </div>
+      </g:if>
     </div>
     
   </div>
 
   <!-- editable field bloc -->
-
+  
+<g:if test="${document.id}">
   <!-- document action bloc -->
   <div id="documentMetaData" class="blue-yui-tabview">
     <ul class="yui-nav">
@@ -57,25 +72,24 @@
       <li><a href="#page1"><em><g:message code="document.header.information" /></em></a></li>
     </ul>
     <div class="yui-content">
-        
+      
       <!-- Page 1 -->
       <div id="page1">
-        <h2><g:message code="document.header.actionHistory" /></h2>
+        <h2><g:message code="document.header.actionHistory"/></h2>
         <ul>
           <g:each var="action" in="${document.actions}">
             <li>
               <span class="${action.resultingState.cssClass}">
-                <g:message code="${action.resultingState.i18nKey}" />
+                <g:message code="${action.resultingState.i18nKey}"/>
               </span>
-              
+
               <strong>${action.label}</strong>
               - <strong><g:formatDate formatName="format.date" date="${action.date}"/></strong>
               - <strong>${action.agentName}</strong>
             </li>
           </g:each>
-        </ul> 
+        </ul>
       </div>
-      
        <!-- Page 2 -->
       <div id="page2">
         <h2><g:message code="document.header.information" /></h2>
@@ -101,7 +115,4 @@
         
     </div>
   </div>
-
-  
-  
-            
+</g:if>

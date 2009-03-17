@@ -11,8 +11,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
 
   var zc = zenexity.capdemat;
   var zcb = zenexity.capdemat.bong;
+  var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
   var zcbd = zenexity.capdemat.bong.document;
+  var zcbr = zenexity.capdemat.bong.request;
   
   var yw = YAHOO.widget;
   var yud = YAHOO.util.Dom;
@@ -51,7 +53,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       var event = new zct.Event(_me,_me.extractHandler);
       yue.on(clicks,'click',event.dispatch,event,true);
       
-      _me.calendar.selectEvent.subscribe(_me.selectCalendar, _me.calendar, true);
+      _me.calendar.selectEvent.subscribe(_me.selectCalendar,_me.calendar,true);
+      _me.panel.hideEvent.subscribe(_me.cancelDocumentState,_me.panel,true);
     };
     return {
       /**
@@ -80,10 +83,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
         _me.listUrl = [zc['contextPath'],'/backoffice/documentInstruction/documentsList?rid=',zcb['requestId']].join('');
         initWidgets();
         initEvents();
+        
+        zca.advise('toggleStateOverlay',new zca.Advice('beforeSuccess',zcbr.Permission.validateAgent),_me);
       },
       extractHandler : function(e) {
         var target = yue.getTarget(e);
-        if(zct.nodeName(target,'img')||!target.id) target = target.parentNode;
+        if(zct.nodeName(target,'img')||(!target.id && !target.name)) target = target.parentNode;
         if(target.name) return ['proceed',zct.capitalize(target.name)].join('');
         else return (target.id||'').split('_')[0];
       },
@@ -132,6 +137,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
         
         yud.get('endValidityDate').value = [day,'/', month,'/',year].join('');
       },
+      doNothing : function(e) {yue.stopEvent(e);},
       confirmDeletePage : function(e) { _me.confirmDialog.show(e);},
       notify : function(json) {zct.Notifier.processMessage(json.status,json.message,'documentMessage');},
       deletePage : function(e,se) {
@@ -172,7 +178,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       },
       cancelDocumentState: function(){
         _me.overlay.hide();
-        _me.calendar.hide();
+        _me.tip.hide();
       },
       changeDocumentState : function() {
         zct.doAjaxFormSubmitCall('documentStateForm',[],function(o){
@@ -187,7 +193,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       },
       toggleStateOverlay: function(e) {
         if(_me.overlay.cfg.getProperty('visible')) {
-          _me.overlay.hide();
+          _me.cancelDocumentState();
           return false;
         }
         
@@ -196,7 +202,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
         var url = [zc['contextPath'],'/backoffice/documentInstruction/states/',id].join('');
         var css= zct.grep(target.className.split(' '),function(n){return /tag-.*/.test(n);})[0];
         
-        //if(!yud.hasClass(yud.get('documentStateOverlay'),css.replace('tag-','overlay-')))
+        zct.removeClass('documentStateOverlay',/overlay-.*/);
         yud.addClass(yud.get('documentStateOverlay'),css.replace('tag-','overlay-'));
         
         zct.doAjaxCall(url,[],function(o){

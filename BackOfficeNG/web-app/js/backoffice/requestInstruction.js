@@ -225,12 +225,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
         yue.on('requestData','click',zcbr.Instruction.inlineEditEvent.dispatch,zcbr.Instruction.inlineEditEvent,true);
         
-        zcbr.Instruction.editField = zca.condition(zcbr.Instruction.editField,zcbr.Permission.validate);
-        
-//        zcb.document.getRequestDocument = zca.condition(zcb.document.getRequestDocument,zcbr.Permission.validateState);
-        switchStatePanel = zca.condition(switchStatePanel,zcbr.Permission.validateAgent);
-        zcbr.Instruction.addListItem = zca.condition(zcbr.Instruction.addListItem,zcbr.Permission.validate);
-        zcbr.Instruction.deleteListItem = zca.condition(zcbr.Instruction.deleteListItem,zcbr.Permission.validate);
+        switchStatePanel = zca.advise(switchStatePanel,new zca.Advice('beforeSuccess',zcbr.Permission.validateAgent));
+        zca.advise(['addListItem','deleteListItem','editField'],
+          new zca.Advice('beforeSuccess',zcbr.Permission.validate),zcbr.Instruction);
       },
       
       // TODO - refactor dispatch policy

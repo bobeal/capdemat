@@ -3,8 +3,8 @@
     <title><g:message code="request.header.requestTreatment" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'documentInstruction.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestInstruction.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'documentInstruction.js')}"></script>
     %{--<script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'document.js')}"></script>--}%
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'condition.js')}"></script>
     <script type="text/javascript">
@@ -108,7 +108,8 @@
           <ul class="document-list" id="fullDocumentList">
           <g:each var="document" in="${documentList}">
             <li>
-              <a class="${document.state.cssClass} documentState_${document.id} ${document?.id?'':'not-supplied'} documentLink" id="displayDocPanel_${document.id}" 
+              <a class="${document.state.cssClass} documentState_${document.id} ${document?.id?'':'not-supplied'} documentLink" 
+                id="${!agentCanWrite && document.id == 0 ? 'doNothing' : 'displayDocPanel_'+document.id}_${UUID.randomUUID().toString().substring(0,4)}"
                 href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${request.id}">
                 <g:message code="${document.state.i18nKey}" />
               </a>

@@ -569,6 +569,33 @@
     if(YAHOO.util.Dom.hasClass(node,className)) YAHOO.util.Dom.removeClass(node,className);
     else YAHOO.util.Dom.addClass(node,className);
   };
+
+  /**
+   * @description Removes a class name from a given element or collection of elements.
+   * @namespace zenexity.capdemat.tools
+   * @method removeClass
+   * @param el {HTMLElement|String|Array} The element or collection to remove the class from
+   * @param old {String|Array|RegExp} The class name to remove from the class attribute
+   * @return A pass/fail boolean 
+   */
+  zct.removeClass = function(el,old) {
+    if(yl.isString(el)) el = yud.get(el);
+    if(!yl.isArray(el) && el.className == undefined) return false;
+    el = zct.makeArray(el);
+    
+    zct.each(el,function(){
+      var res = [], element = this;
+      zct.each(element.className.split(' '),function(){
+        var that = this+'';
+        if(old instanceof RegExp && !old.test(that)) res.push(that);
+        else if (yl.isString(old) && old.toLowerCase() != (that).toLowerCase()) res.push(that);
+        else if (yl.isArray(old) && zct.inArray(that,old) < 0) res.push(that);
+      });
+      
+      element.className = res.join(' ');
+    });
+    return true;
+  };
   
   /**
    * @description Fade in passed element by adjusting its opacity and firing an optional callback after completion

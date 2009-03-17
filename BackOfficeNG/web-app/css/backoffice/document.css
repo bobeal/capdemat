@@ -99,18 +99,18 @@
 
 .overlay-invalid, .overlay-expired, .overlay-rejected, .overlay-refused, 
   .overlay-outdated, .overlay-disable {
-  border-color:#AA2020 !important;
+  border-color:#CC2020 !important;
 }
 
 .overlay-clrfather, .overlay-active, .overlay-checked, .overlay-read_only {
-  border-color:#2020AA !important;
+  border-color:#2020CC !important;
 }
 
 .overlay-pending, .overlay-initialized, .overlay-uncomplete {
-  border-color:#FFAA20 !important;
+  border-color:#FFCC20 !important;
 }
 
 .overlay-clrtutor, .overlay-tutor, .overlay-valid, .overlay-validated, .overlay-complete, 
   .overlay-notified, .overlay-enable {
-  border-color:#20AA20  !important;
+  border-color:#20CC20  !important;
 }

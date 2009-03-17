@@ -11,6 +11,9 @@ import fr.cg95.cvq.business.document.DepositType
 import fr.cg95.cvq.business.document.DocumentType
 import fr.cg95.cvq.business.request.RequestDocument
 import fr.cg95.cvq.business.document.DocumentAction
+import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.business.authority.Agent
+import fr.cg95.cvq.service.authority.ICategoryService
 
 class DocumentInstructionController {
     
@@ -20,14 +23,16 @@ class DocumentInstructionController {
     def instructionService
     def documentAdaptorService
     
-    IDocumentService documentService;
-    IDocumentTypeService documentTypeService;
-    IRequestService defaultRequestService;
+    IDocumentService documentService
+    IDocumentTypeService documentTypeService
+    IRequestService defaultRequestService
+    ICategoryService categoryService
 
     
     def edit = {
         def document = [actions:[],documentType:[:]]
-        //Request request = defaultRequestService.getById(Long.valueOf(params.rid))
+        Request request = defaultRequestService.getById(Long.valueOf(params.rid))
+        Agent agent = SecurityContext.currentAgent;
         
         if(!params?.id || Integer.valueOf(params.id) == 0) {
             def documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.dtid))
@@ -52,13 +57,14 @@ class DocumentInstructionController {
                 "resultingState": CapdematUtils.adaptCapdematEnum(action.resultingState, "document.state")
             ])
         }
+        def agentCanWrite = categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
         
         return ([
             "uuid" : UUID.randomUUID().toString(),
             "document": [
                 "id": document.id,
                 "actions": actions,
-                "editable": documentService.getEditableStates().contains(document.state),
+                "editable": documentService.getEditableStates().contains(document.state) && agentCanWrite,
                 "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
                 "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
                 "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
@@ -174,7 +180,7 @@ class DocumentInstructionController {
     
     def documentsList = {
         
-        def documents = [], types = [], result = [:]
+        def documents = [], types = [], result = [:], agent = SecurityContext.currentAgent
         Request request = defaultRequestService.getById(Long.valueOf(params.rid))
         Set docs = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.rid))
 
@@ -199,6 +205,7 @@ class DocumentInstructionController {
             ])
         }
         
+        result.agentCanWrite = categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
         result.documents = documents
         result.requestId = params.rid
         result.shortMode = params?.shortMode

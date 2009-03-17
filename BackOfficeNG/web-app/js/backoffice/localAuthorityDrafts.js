@@ -4,22 +4,22 @@
  * @author vba@zenexity.fr
  */
 
-zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
+zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
 
 (function(){
 
 //  var zct = zenexity.capdemat.tools;
 //  var zcc = zenexity.capdemat.common;
-  var zcb = zenexity.capdemat.bong;
+  var zcbl = zenexity.capdemat.bong.localauthority;
   
   var yu = YAHOO.util;
   var yue = YAHOO.util.Event;
   
-  zcb.LocalAuthority = function() {
+  zcbl.Drafts = function() {
     return {
       init : function() {
         (new YAHOO.widget.Button("save"));
-        yue.on(yu.Dom.get('save'),'click',zcb.LocalAuthority.save);
+        yue.on(yu.Dom.get('save'),'click',zcbl.Drafts.save);
       },
       save : function() {
         var form = yu.Dom.get('setupDraftsForm');
@@ -30,5 +30,5 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
     };
   }();
   
-  yue.onDOMReady(zcb.LocalAuthority.init);
+  yue.onDOMReady(zcbl.Drafts.init);
 }());

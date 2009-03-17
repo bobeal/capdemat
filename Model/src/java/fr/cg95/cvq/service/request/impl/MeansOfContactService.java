@@ -12,6 +12,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.dao.request.IMeansOfContactDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
@@ -35,6 +36,10 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
     private IMailService mailService;
     private ISmsService smsService;
 
+    public MeansOfContact getById(Long id) throws CvqObjectNotFoundException {
+        return (MeansOfContact) meansOfContactDAO.findById(MeansOfContact.class, id);
+    }
+    
     /* BE CAREFUL :
      *  - MeansOfContact removing not yet implement ...
      *  - EMAIL MeansOfContact is enabled by default

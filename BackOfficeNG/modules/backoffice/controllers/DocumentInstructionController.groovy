@@ -170,13 +170,6 @@ class DocumentInstructionController {
         
         return result;
     }
-
-    def modifyDocument = {
-        def document = documentService.getById(Long.valueOf(params.documentId))
-        bind(document)
-        documentService.modify(document)
-        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-    }
     
     def documentsList = {
         

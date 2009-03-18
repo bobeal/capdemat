@@ -99,6 +99,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       return triggerEls;
     }
     
+    var isMultipleTrigger = function (triggerEl) {
+      var triggerArray = triggerEl.className.match(/condition-(\w+)-trigger/ig);
+      if (triggerArray.length > 1) return true;
+      else return false;
+    }
+    
     var getTriggerValue = function (triggerEl) {
       if (zct.nodeName(triggerEl,'select') || yud.hasClass(triggerEl, 'validate-one-required'))
         return triggerEl.value.split('_')[1] || "";
@@ -268,18 +274,23 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       setAll : function() {
         var named = yus.query('#requestTabView [name]');
         zct.each (named, function() {
-          var trigger = /condition-(\w+)-trigger/i.exec(this.className);
-          if (trigger) zcf.Condition.addTriggers(trigger[1], getTriggerEls(trigger[0]));
+          zct.each (this.className.split(' '), function() {
+            var trigger = /condition-(\w+)-trigger/i.exec(this);
+            if (trigger) zcf.Condition.addTriggers(trigger[1], getTriggerEls(trigger[0]));
+          });
         });
       },
       set : function(e) {
         var targetEl = yue.getTarget(e);
-        var trigger = /condition-(\w+)-trigger/i.exec(targetEl.className);
-        
-        if (trigger) {
-          zcf.Condition.addTriggers(trigger[1], getTriggerEls(trigger[0]));
-          return true;
-        } else return false;
+        var hasTrigger = false
+        zct.each (targetEl.className.split(' '), function() {
+          var trigger = /condition-(\w+)-trigger/i.exec(this);
+          if (trigger) {
+            zcf.Condition.addTriggers(trigger[1], getTriggerEls(trigger[0]));
+            hasTrigger = true;
+          }
+        });
+        return hasTrigger;
       },
       
       /*
@@ -290,7 +301,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
           if (!yl.isUndefined(triggerEls) && triggerEls.length > 0) {
             var jsonTrigger = {};
             zct.each (triggerEls, function() {
-              jsonTrigger[this.name] = getTriggerValue(this);
+              jsonTrigger[this.name] = (isMultipleTrigger(this) ? conditionName + '=' : '') + getTriggerValue(this);
             });
             zcf.Condition.triggers.push(jsonTrigger);
             zcf.Condition.addFilleds(['condition', conditionName, 'filled'].join('-'));

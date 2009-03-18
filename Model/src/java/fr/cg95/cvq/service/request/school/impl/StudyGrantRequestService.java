@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.school.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,6 +9,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
+import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
@@ -17,7 +19,7 @@ import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
  *
  */
 public class StudyGrantRequestService extends RequestService implements IStudyGrantRequestService {
-
+    
     public final Map<String,IConditionChecker> filledConditions = new HashMap<String,IConditionChecker>();
 
     public boolean accept(Request request) {
@@ -36,7 +38,7 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
         filledConditions.put("hasParentsAddress", new EqualityChecker("true"));
         filledConditions.put("hasOtherHelp", new EqualityChecker("true"));
         filledConditions.put("isInLastYear", new EqualityChecker("false"));
-        filledConditions.put("currentStudies", new EqualityChecker("sandwichCourses"));
+        filledConditions.put("currentStudies", new EqualityListChecker(Arrays.asList("isInAbroadInternship=abroadInternship", "isInSandwichCourses=sandwichCourses", "isInOtherStudies=otherStudies")));
         filledConditions.put("futureSchoolIsAbroad", new EqualityChecker("true"));
     }
 

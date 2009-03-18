@@ -20,6 +20,10 @@
        zcb.Condition.unfilledDescendants = [];
     }
     
+    var getTriggerEls = function (triggerClassName) {
+      return yud.getElementsByClassName(triggerClassName, null, 'requestData');
+    }
+    
     var currentTriggerValue = function (ddEl) {
       var formEl = yud.getLastChild(ddEl);
       if (yud.hasClass(ddEl,'validate-capdematEnum'))
@@ -32,6 +36,12 @@
         return value || '';
       }
       return formEl[ddEl.id].value || '';
+    }
+    
+    var isMultipleTrigger = function (triggerEl) {
+      var triggerArray = triggerEl.className.match(/condition-(\w+)-trigger/ig);
+      if (triggerArray.length > 1) return true;
+      else return false;
     }
     
     var triggerValue = function (ddEl) {
@@ -131,8 +141,7 @@
       
       run : function(e) {
           reset();
-          zcb.Condition.set(e);
-          zcb.Condition.test();
+          if (zcb.Condition.set(e)) zcb.Condition.test();
       },
       
       test : function() {
@@ -154,32 +163,26 @@
       },
       
       setAll : function() {
-          var conditionTriggers = {};
-          zct.each (yus.query('dt', 'requestData'), function() {
-            var trigger = /condition-(\w+)-trigger/i.exec(this.className);
-            if (!yl.isNull(trigger))
-              conditionTriggers[trigger[0]] = trigger[0]; 
+        zct.each (yus.query('dt', 'requestData'), function() {
+          zct.each (this.className.split(' '), function() {
+            var trigger = /condition-(\w+)-trigger/i.exec(this);
+            if (trigger) zcb.Condition.addTriggers(trigger[1], getTriggerEls(trigger[0]));
           });
-          
-          zct.each (conditionTriggers, function() {
-            zcb.Condition.addTriggers(
-                this.split('-')[1],
-                yud.getElementsByClassName([this], null, 'requestData'), 
-                null);
-          });
+        });
       },
       
       set : function(e) {
-          var targetEl = yue.getTarget(e);
-          var currentDdEl = yud.getAncestorByTagName(targetEl, 'dd');
-          var trigger = /condition-(\w+)-trigger/i
-              .exec(yud.getPreviousSibling(currentDdEl).className);
-          if (!yl.isNull(trigger)) {
-            zcb.Condition.addTriggers(
-                trigger[1],
-                yud.getElementsByClassName(trigger[0], null, 'requestData'),
-                currentDdEl);
+        var targetEl = yue.getTarget(e);  
+        var currentDdEl = yud.getAncestorByTagName(targetEl, 'dd');
+        var hasTrigger = false
+        zct.each (yud.getPreviousSibling(currentDdEl).className.split(' '), function() {
+          var trigger = /condition-(\w+)-trigger/i.exec(this);
+          if (trigger) {
+            zcb.Condition.addTriggers(trigger[1], getTriggerEls(trigger[0]), currentDdEl);
+            hasTrigger = true;
           }
+        });
+        return hasTrigger;
       },
       
       addTriggers : function (conditionName, triggerDtEls, currentDdEl) {
@@ -193,7 +196,7 @@
               else 
                 value = triggerValue(ddEl);
               
-              jsonTrigger[ddEl.id] = value;
+              jsonTrigger[ddEl.id] = (isMultipleTrigger(this) ? conditionName + '=' : '') + value;
             });
             zcb.Condition.triggers.push(jsonTrigger);
             zcb.Condition.addFilleds(['condition', conditionName, 'filled'].join('-'));

@@ -137,7 +137,7 @@ public class BoPlugin implements IPluginGenerator {
         if (elementProp.isReferentialType())
             elementBo.setModelNamespace(IPluginGenerator.MODEL_BASE_TARGET_NS + ".users");
         
-        if (elementProp.isSimpleType())
+        if (elementProp.isSimpleType() || elementProp.getXmlSchemaType().equals("AddressType"))
             elementBo.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
         else if (elementProp.isComplexType())
             elementBo.setTypeClass(ElementBo.ElementTypeClass.COMPLEX);

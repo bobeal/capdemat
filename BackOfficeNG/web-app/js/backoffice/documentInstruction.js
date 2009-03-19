@@ -33,7 +33,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       zcbd.Instruction.panel.render();
       zcbd.Instruction.confirmDialog = new zct.ConfirmationDialog({
         head : 'Attention',
-        body : 'Voullez vous supprimer la page courrante ?'
+        body : 'Voulez-vous supprimer la page courante ?'
       },zcbd.Instruction.deletePage);
       
       zcbd.Instruction.overlay = new yw.Overlay('documentStateOverlay',{visible:false});

@@ -2,7 +2,6 @@
   <head>
     <meta name="layout" content="fo_main" />
   </head>
-  
   <body>
     <form action="${createLink(action:'index')}" method="post" id="mainForm">
       
@@ -21,19 +20,9 @@
             <g:render template="invoices" />
           </div>
         </div> 
-      </div> <!-- end of yui-main -->
-    
-      <div id="narrow" class="yui-b">
-        <div id="requestSubject" class="requestBox">
-          <h3>
-            <g:message code="payment.header.basket" />
-          </h3>
-          <div class="body">
-            
-          </div>
-        </div>
-      </div>
-      
+      </div> 
+      <!-- end of yui-main -->
+      <g:render template="cart"/>
       <div id="narrow" class="yui-b">
         <div id="requestSubject" class="requestBox">
           <h3>

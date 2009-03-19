@@ -3,18 +3,22 @@
     <g:each var="record" in="${invoices}">
       <li>
         <p>
-          ${record.label} 
-          ${record?.amount ? 'de '+record.amount / 100+' €':''}
-          ${record?.subjectName ? 'pour '+record.subjectName:''}
-          - réf ${record.reference} 
+          <g:if test="${record.hasDetails}">
+            <a href="${createLink(controller:'frontofficePayment')}/details/invoice/${record.reference}">
+              ${record.label} - réf ${record.reference}
+            </a>
+          </g:if>
+          <g:else>
+            ${record.label} - réf ${record.reference}
+          </g:else>
         </p>
-        <g:if test="${!record.noDetails}">
-          <p>
-            Quantité : ${record.quantity} (${record.unitPrice / 100} € / piece)
-            crée le ${formatDate(date:record.issueDate,formatName:'format.date')}
-            expire le ${formatDate(date:record.expirationDate,formatName:'format.date')}
-          </p>
-        </g:if>
+        <p>
+          ${record?.amount ? 'de '+record.amount / 100+' €':''}
+        </p>
+        <p>
+          crée le <g:formatDate date="${record.issueDate}" formatName="format.date"/>
+          expire le <g:formatDate date="${record.expirationDate}" formatName="format.date"/>
+        </p>
       </li>
     </g:each>
   </ul>

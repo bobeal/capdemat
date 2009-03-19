@@ -3,11 +3,13 @@
     <g:each var="record" in="${ticketingContracts}">
       <li>
         <p>
-          ${record.label} pour ${record.subjectName} - réf ${record.reference} 
+          ${record.label} pour ${record.subjectName} - réf ${record.reference}
         </p>
         <p>
           ${record.oldQuantity} ticket(s) (${record.unitPrice / 100} € / piece)
-          crée le ${formatDate(date:record.creationDate,formatName:'format.date')}
+        </p>
+        <p>
+          crée le <g:formatDate date="${record.creationDate}" formatName="format.date"/>
         </p>
       </li>
     </g:each>

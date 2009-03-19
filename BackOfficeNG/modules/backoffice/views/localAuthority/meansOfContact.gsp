@@ -35,25 +35,8 @@
     </div>
   
     <div id="narrow" class="yui-b">
-      <div class="nobox">
-        <h3><g:message code="localAuthority.header.subMenu" /></h3>
-        <div class="body">
-          <ul class="second-level-menu" id="secondMenu">
-            <li>
-              <span class="second-level-menu-item">
-                <a id="displayDrafts" href="${createLink(action:'setupDrafts')}" target="_self">
-                  <g:message code="localAuthority.header.drafts"/>
-                </a>
-              </span>
-            </li>
-            <li>
-              <span class="second-level-menu-item">
-                <g:message code="localAuthority.header.meansOfContact"/>
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <menu:subMenu id="secondMenu" i18nPrefix="localAuthority.header" 
+        data="${['drafts','meansOfContact']}" />
     </div>
 
   </body>

@@ -11,6 +11,7 @@
   <li>Configuration du référentiel local d'un téléservice</li>
   <li>Configuration des moyens de contact</li>
   <li>Statistiques par qualité de service</li>
+  <li>Possibilité pour l'agent de modifier et d'ajouter des PJ</li>
 </ul>
 
 <p><strong>2 Mars 2009</strong></p>

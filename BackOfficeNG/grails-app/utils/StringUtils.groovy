@@ -47,15 +47,4 @@ public class StringUtils {
         result[0] = result[0]."to${cs}Case"()
         return result.join('')
     }
-    
-    
-    public static initMetaHelpers() {
-        String.metaClass.unCapitalize = {
-            return delegate[0].toLowerCase() + delegate[1..<(delegate.length())]
-        }
-        
-        String.metaClass.capitalize = {
-         return delegate[0].toUpperCase() + delegate[1..<(delegate.length())]
-        }
-    }
 }

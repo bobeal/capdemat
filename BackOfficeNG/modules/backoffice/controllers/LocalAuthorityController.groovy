@@ -11,13 +11,13 @@ class LocalAuthorityController {
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
 
-    def defaultAction = "setupDrafts"
+    def defaultAction = "drafts"
 
     def beforeInterceptor = { 
         session["currentMenu"] = "localAuthority"
     }
 
-    def setupDrafts = {
+    def drafts = {
         def entity = [:]
         
         if (request.get) {

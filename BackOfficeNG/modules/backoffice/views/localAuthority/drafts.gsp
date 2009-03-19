@@ -26,7 +26,7 @@
         <div class="mainbox mainbox-yellow">
           <h2><g:message code="localAuthority.header.setupDrafts" /></h2>
         
-          <form method="post" id="setupDraftsForm" action="${createLink(action:'setupDrafts')}">
+          <form method="post" id="setupDraftsForm" action="${createLink(action:'drafts')}">
             <div class="error" id="setupDraftsFormErrors"></div>
             
             <label for="draftLiveDuration" class="required">
@@ -55,25 +55,8 @@
     </div>
   
     <div id="narrow" class="yui-b">
-      <div class="nobox">
-        <h3><g:message code="localAuthority.header.subMenu" /></h3>
-        <div class="body">
-          <ul class="second-level-menu" id="secondMenu">
-            <li>
-              <span class="second-level-menu-item">
-                <g:message code="localAuthority.header.drafts"/>
-              </span>
-            </li>
-            <li>
-              <span class="second-level-menu-item">
-                <a id="displayMeansOfContact" href="${createLink(action:'meansOfContact')}" target="_self">
-                  <g:message code="localAuthority.header.meansOfContact"/>
-                </a>
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <menu:subMenu id="secondMenu" i18nPrefix="localAuthority.header" 
+        data="${['drafts','meansOfContact']}" />
     </div>
     
   </body>

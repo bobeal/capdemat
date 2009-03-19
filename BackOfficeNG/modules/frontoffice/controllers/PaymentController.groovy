@@ -51,6 +51,40 @@ class PaymentController {
         
         return result
     }
+    
+    def details = {
+        def result = [items:[]]
+        def list = params?.type == 'invoice' ? session.invoices : session.depositAccounts
+        def item = list.find {it.externalItemId == params.reference}
+        if(!item) {
+            redirect(controller:'frontofficePayment')
+            return false
+        }
+        
+        if(params.type == "invoice") {
+            for(ExternalInvoiceItemDetail detail : item.invoiceDetails) {
+                def entry = [:]
+                entry.label = detail.label
+                entry.subjectName = detail.subjectName+' '+detail.subjectSurname
+                entry.unitPrice = detail.unitPrice
+                entry.quantity = detail.quantity
+                entry.value = detail.value
+                result.items.add(entry)
+            }
+        } else if(params.type == "deposit") {
+            for(ExternalDepositAccountItemDetail detail : item.accountDetails) {
+                def entry = [:]
+                entry.date = detail.date
+                entry.holderName = detail.holderName+' '+detail.holderSurname
+                entry.value = detail.value
+                entry.paymentType = detail.paymentType
+                entry.paymentId = detail.paymentId
+                entry.bankReference = detail.bankReference
+                result.items.add(entry)
+            }
+        }
+        return result
+    }
 
     protected Map getPaymentsHistory() {
         def result = [:]
@@ -83,82 +117,55 @@ class PaymentController {
                 oldQuantity: item.oldQuantity,
                 creationDate : item.creationDate
             ])
-//            println result[result.size()-1]
         }
         return result.sort{it.label}
     }
     
     protected List getDepositAccounts() {
+        session.depositAccounts = []
         def result = []
         def accounts = homeFolderService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS)
         
         for(ExternalDepositAccountItem item : accounts) {
-            if(item?.accountDetails) {
-                for(ExternalDepositAccountItemDetail detail : item.accountDetails) {
-                    def entry = this.buildDepositAccountEntry(item)
-                    entry.date = detail.date
-                    entry.holderName = detail.holderName+' '+detail.holderSurname
-                    entry.value = detail.value
-                    entry.paymentType = detail.paymentType
-                    entry.paymentId = detail.paymentId
-                    entry.bankReference = detail.bankReference
-                    result.add(entry)
-                }
-            } else {
-                def entry = this.buildDepositAccountEntry(item)
-                entry.noDetails = true
-                result.add(entry)
-            }
+            homeFolderService.loadExternalDepositAccountDetails(item) 
+            session.depositAccounts.add(item)
+            
+            def entry = [:]
+            entry.id = item.id
+            entry.label = item.label
+            entry.amount = item.amount
+            entry.reference = item.externalItemId
+            entry.oldValue = item.oldValue
+            entry.oldValueDate = item.oldValueDate
+            entry.hasDetails = item?.accountDetails
+            result.add(entry)
         }
         
         return result
     }
     
     protected List getInvoices() {
+        session.invoices = []
         def result = []
-        def invoces = homeFolderService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_INVOICES)
+        def invoices = homeFolderService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_INVOICES)
         
-        for(ExternalInvoiceItem item : invoces) {
-            if(!item.isPaid() && item.invoiceDetails) {
-                for(ExternalInvoiceItemDetail detail : item.invoiceDetails) {
-                    def entry = this.buildInvoiceEntry(item)
-                    entry.labelDetail = detail.label
-                    entry.subjectName = detail.subjectName+' '+detail.subjectSurname
-                    entry.unitPrice = detail.unitPrice
-                    entry.quantity = detail.quantity
-                    entry.value = detail.value
-                    result.add(entry)
-                }
-            } else if(!item.isPaid()) {
-                def entry = this.buildInvoiceEntry(item)
-                entry.noDetails = true
+        for(ExternalInvoiceItem item : invoices) {
+            if(!item.isPaid()) {
+                homeFolderService.loadExternalInvoiceDetails(item)
+                session.invoices.add(item)
+                
+                def entry = [:]
+                entry.id = item.id
+                entry.amount = item.amount
+                entry.label = item.label
+                entry.reference = item.externalItemId
+                entry.issueDate = item.issueDate
+                entry.expirationDate = item.expirationDate
+                entry.hasDetails = item?.invoiceDetails
                 result.add(entry)
             }
         }
+        println result
         return result
-    }
-    
-    protected Map buildDepositAccountEntry(ExternalDepositAccountItem item) {
-        def entry = [:]
-        entry.id = item.id
-        entry.label = item.label
-        entry.amount = item.amount
-        entry.reference = item.externalItemId
-        entry.oldValue = item.oldValue
-        entry.oldValueDate = item.oldValueDate
-        return entry
-    }
-    
-    protected Map buildInvoiceEntry(ExternalInvoiceItem item) {
-        def entry = [:]
-        
-        entry.id = item.id
-        entry.amount = item.amount
-        entry.label = item.label
-        entry.reference = item.externalItemId
-        entry.issueDate = item.issueDate
-        entry.expirationDate = item.expirationDate
-        
-        return entry
     }
 }

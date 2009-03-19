@@ -4,6 +4,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.business.request.MeansOfContact
 import grails.converters.JSON
+import org.apache.commons.lang.StringUtils
 
 class LocalAuthorityController {
     
@@ -14,7 +15,6 @@ class LocalAuthorityController {
 
     def beforeInterceptor = { 
         session["currentMenu"] = "localAuthority"
-        StringUtils.initMetaHelpers()
     }
 
     def setupDrafts = {
@@ -37,23 +37,23 @@ class LocalAuthorityController {
     }
     
     def meansOfContact = {
-        def result = [means:[]]
-        for(MeansOfContact mean : meansOfContactService.availableMeansOfContact) {
-            result.means.add(
-                'id': mean.id,
-                'enabled' : mean.enabled,
-                'name' : mean.type.toString().unCapitalize(),
-                'status' : mean.enabled ? 'associated' : 'unassociated',
-                'verb' : !mean.enabled ? 'associate' : 'unassociate'
+        def result = [moCs:[]]
+        for(MeansOfContact moc : meansOfContactService.availableMeansOfContact) {
+            result.moCs.add(
+                'id': moc.id,
+                'enabled' : moc.enabled,
+                'name' : StringUtils.uncapitalize(moc.type.toString()),
+                'status' : moc.enabled ? 'associated' : 'unassociated',
+                'verb' : !moc.enabled ? 'associate' : 'unassociate'
             )
         }
         return result
     }
     
-    def processMean = {
-        def mean = meansOfContactService.getById(Long.valueOf(params.meanId))
-        if(params.verb == 'associate') meansOfContactService.enableMeansOfContact(mean)
-        else if(params.verb == 'unassociate') meansOfContactService.disableMeansOfContact(mean)
+    def processMoC = {
+        def moc = meansOfContactService.getById(Long.valueOf(params.meanId))
+        if(params.verb == 'associate') meansOfContactService.enableMeansOfContact(moc)
+        else if(params.verb == 'unassociate') meansOfContactService.disableMeansOfContact(moc)
         render ([status:"success", message:message(code:"message.updateDone")] as JSON)
     }
 }

@@ -53,6 +53,28 @@
         
       </div>
     </div>
-    <g:render template="subMenus"/>
+  
+    <div id="narrow" class="yui-b">
+      <div class="nobox">
+        <h3><g:message code="localAuthority.header.subMenu" /></h3>
+        <div class="body">
+          <ul class="second-level-menu" id="secondMenu">
+            <li>
+              <span class="second-level-menu-item">
+                <g:message code="localAuthority.header.drafts"/>
+              </span>
+            </li>
+            <li>
+              <span class="second-level-menu-item">
+                <a id="displayMeansOfContact" href="${createLink(action:'meansOfContact')}" target="_self">
+                  <g:message code="localAuthority.header.meansOfContact"/>
+                </a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
   </body>
 </html>

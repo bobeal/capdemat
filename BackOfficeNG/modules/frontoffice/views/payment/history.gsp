@@ -8,25 +8,14 @@
       
       <div id="yui-main"> 
         <div id="main" class="yui-b">
-          <div class="list-box">
-            <h2><g:message code="payment.header.ticketingContracts" /></h2>
-            <g:render template="ticketingContracts" />
-          </div>
-          <div class="list-box">
-            <h2><g:message code="payment.header.depositAccounts" /></h2>
-            <g:render template="depositAccounts" />
-          </div>
-          <div class="list-box">
-            <h2><g:message code="payment.header.invoices" /></h2>
-            <g:render template="invoices" />
-          </div>
+          <g:render template="paymentList" />
         </div> 
       </div> <!-- end of yui-main -->
     
       <div id="narrow" class="yui-b">
         <div id="requestSubject" class="requestBox">
           <h3>
-            <g:message code="payment.header.basket" />
+            <g:message code="header.filterBy" />
           </h3>
           <div class="body">
             
@@ -40,13 +29,14 @@
             <g:message code="header.display" />
           </h3>
           <div class="body">
-            <a class="top-link" href="${createLink(action:'history')}">
-              <g:message code="payment.header.paymentsHistory" />
+            <a class="top-link" href="${createLink(action:'index')}">
+              <g:message code="payment.header.accountAndBasketStatus" />
             </a>
           </div>
         </div>
       </div>
       <!-- end of narrow -->
+      
       <g:hiddenField name="ps" value="${pageState}" />
     </form>
   </body>

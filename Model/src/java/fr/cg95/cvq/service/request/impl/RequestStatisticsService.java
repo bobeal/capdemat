@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
+import fr.cg95.cvq.business.authority.Category;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,21 +13,19 @@ import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryProfile;
-import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.permission.CvqPermissionException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ICategoryService;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
+import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -42,40 +41,11 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     private ICategoryService categoryService;
     private IRequestTypeDAO requestTypeDAO;
     
-    /**
-     * TODO ACMF
-     */
-    private void checkAgentRights() throws CvqException {
-        Agent agent = SecurityContext.getCurrentAgent();
-        Set<CategoryRoles> agentCategoriesRoles = agent.getCategoriesRoles();
-        for (CategoryRoles categoryRole : agentCategoriesRoles) {
-            if (categoryRole.getProfile().equals(CategoryProfile.MANAGER))
-                return;
-        }
-        
-        throw new CvqPermissionException("Statistics", PrivilegeDescriptor.MANAGE);
-    }
-    
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @RequestFilter(privilege=ContextPrivilege.MANAGE)
     public Long getCount(final Set<Critere> criteriaSet)
         throws CvqException {
         
-        checkAgentRights();
-
-        // TODO REFACTORING mutualize with similar function in RequestService
-        Critere crit = new Critere();
-        List<Category> agentCategories = 
-            categoryService.getAgentManagedCategories(SecurityContext.getCurrentAgent());
-        StringBuffer sb = new StringBuffer();
-        for (Category category : agentCategories) {
-            if (sb.length() > 0)
-                sb.append(",");
-            sb.append("'").append(category.getId()).append("'");
-        }
-        crit.setAttribut("belongsToCategory");
-        crit.setComparatif(Critere.EQUALS);
-        crit.setValue(sb.toString());
-        criteriaSet.add(crit);
-
         return requestDAO.count(criteriaSet);
     }
 
@@ -109,8 +79,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         String[] resultingState = getStatesFromLifecycle(lifecycle);        
         List<Date> searchDates = getNextSearchEndDate(timescale, null);
         
-//        Date now = new Date();
-        Date now = getShiftedDemoDate();
+        Date now = new Date();
+//        Date now = getShiftedDemoDate();
 
         if (requestTypeId == null && categoryId == null) {
             List<RequestType> requestTypes = requestTypeDAO.listAll();
@@ -124,32 +94,112 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         return results;
     }
 
-    public Map<String, Long> getQualityStats(final Timescale timescale, final Long requestTypeId, 
-            final Long categoryId) {
+//    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+//    public Map<String, Long> getQualityStats(final Timescale timescale, final Long requestTypeId,
+//            final Long categoryId) {
+//
+//        Map<String, Long> results = new HashMap<String, Long>();
+//
+//        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+//        if (!lacb.getInstructionAlertsEnabled())
+//            return null;
+//
+//        List<Date> searchDates = getNextSearchEndDate(timescale, null);
+//
+//        Date now = new Date();
+////        Date now = getShiftedDemoDate();
+//
+//        Long count = requestDAO.countByQuality(searchDates.get(0), now,
+//                lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, categoryId);
+//        results.put(QUALITY_TYPE_OK, count);
+//        // (startDate, endDate, resultingStates, qualityType, requestTypeLabel, categoriesNames)
+//        count = requestDAO.countByQuality(searchDates.get(0), now,
+//                lacb.getInstructionDoneStates(), QUALITY_TYPE_ORANGE, requestTypeId, categoryId);
+//        results.put(QUALITY_TYPE_ORANGE, count);
+//
+//        count = requestDAO.countByQuality(searchDates.get(0), now,
+//                lacb.getInstructionDoneStates(), QUALITY_TYPE_RED, requestTypeId, categoryId);
+//        results.put(QUALITY_TYPE_RED, count);
+//
+//        return results;
+//    }
 
-        Map<String, Long> results = new HashMap<String, Long>();
-        
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    public Map<String, Long> getQualityStats(final Date startDate, final Date endDate,
+        final Long requestTypeId, final Long categoryId) {
+
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         if (!lacb.getInstructionAlertsEnabled())
             return null;
-        
-        List<Date> searchDates = getNextSearchEndDate(timescale, null);
-            
-//        Date now = new Date();
-        Date now = getShiftedDemoDate();
-        
-        Long count = requestDAO.countByQuality(searchDates.get(0), now, 
-                lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, categoryId);
+
+        StringBuffer sb = new StringBuffer();
+        if (categoryId == null) {
+            List<Category> agentCategories = categoryService.getManaged();
+            for (Category category : agentCategories) {
+                if (sb.length() > 0) {
+                    sb.append(",");
+                }
+                sb.append("'").append(category.getId()).append("'");
+            }
+        } else {
+            sb.append("'").append(categoryId).append("'");
+        }
+
+        Map<String, Long> results = new HashMap<String, Long>();
+
+        Long count = requestDAO.countByQuality(startDate, endDate,
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, sb.toString());
         results.put(QUALITY_TYPE_OK, count);
-        // (startDate, endDate, resultingStates, qualityType, requestTypeLabel, categoriesNames)
-        count = requestDAO.countByQuality(searchDates.get(0), now, 
-                lacb.getInstructionDoneStates(), QUALITY_TYPE_ORANGE, requestTypeId, categoryId);
+
+        count = requestDAO.countByQuality(startDate, endDate,
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_ORANGE, requestTypeId, sb.toString());
         results.put(QUALITY_TYPE_ORANGE, count);
-        
-        count = requestDAO.countByQuality(searchDates.get(0), now, 
-                lacb.getInstructionDoneStates(), QUALITY_TYPE_RED, requestTypeId, categoryId);
+
+        count = requestDAO.countByQuality(startDate, endDate,
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_RED, requestTypeId, sb.toString());
         results.put(QUALITY_TYPE_RED, count);
-        
+
+        return results;
+    }
+
+    public Map<Long, Map<String, Long>> getQualityStatsByType(final Date startDate, 
+        final Date endDate, final Long requestTypeId, final Long categoryId)
+        throws CvqException {
+
+        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+        if (!lacb.getInstructionAlertsEnabled())
+            return null;
+
+        List<Long> requestTypes = new ArrayList<Long>();
+        if (requestTypeId != null) {
+            requestTypes.add(requestTypeId);
+        } else if (categoryId != null) {
+            Category category = categoryService.getById(categoryId);
+            for (RequestType requestType : category.getRequestTypes()) {
+                requestTypes.add(requestType.getId());
+            }
+        } else {
+            List<Category> agentCategories = categoryService.getManaged();
+            for (Category category : agentCategories) {
+                for (RequestType requestType : category.getRequestTypes()) {
+                    requestTypes.add(requestType.getId());
+                }
+            }
+        }
+
+        Map<Long, Map<String, Long>> results = new HashMap<Long, Map<String,Long>>();
+        for (String qualityType : new String[] {QUALITY_TYPE_OK, QUALITY_TYPE_ORANGE,
+                QUALITY_TYPE_RED}) {
+            Map<Long, Long> resultsByQuality =
+                requestDAO.countByQualityAndType(startDate, endDate, lacb.getInstructionDoneStates(),
+                    qualityType, requestTypes);
+            for (Long rtId : resultsByQuality.keySet()) {
+                if (results.get(rtId) == null)
+                    results.put(rtId, new HashMap<String, Long>());
+                results.get(rtId).put(qualityType, resultsByQuality.get(rtId));
+            }
+        }
+
         return results;
     }
 
@@ -165,8 +215,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         
         Calendar calendar = new GregorianCalendar();
         if (startDate == null) {
-//            startDate = new Date();
-            startDate = getShiftedDemoDate();
+            startDate = new Date();
+//            startDate = getShiftedDemoDate();
             calendar.setTime(startDate);
             calendar.set(Calendar.HOUR_OF_DAY, 0);
             calendar.set(Calendar.MINUTE, 0);
@@ -182,8 +232,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         
         List<Date> results = new ArrayList<Date>();
         results.add(calendar.getTime());
-//        Date now = new Date();
-        Date now = getShiftedDemoDate();
+        Date now = new Date();
+//        Date now = getShiftedDemoDate();
         if (timescale.equals(Timescale.MONTH) || timescale.equals(Timescale.WEEK)) {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             if (calendar.getTime().after(now))
@@ -202,7 +252,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     }
     
     /**
-     * TODO DEMO HACKS
+     * Use this method if you need fake dates for demo purposes.
      */
     private Date getShiftedDemoDate() {
         Date date = new Date();

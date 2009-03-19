@@ -29,15 +29,6 @@
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/hacks',file:'ie7.css')}" />
   <![endif]-->
 
-  <!-- 
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo',file:'yahoo-min.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo-dom-event',file:'yahoo-dom-event.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/dragdrop',file:'dragdrop-min.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/element',file:'element-beta-min.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/event',file:'event-min.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/connection',file:'connection-min.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/animation',file:'animation-min.js')}"></script>
-  -->
   <!-- Utilities --> 
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/utilities',file:'utilities.js')}"></script>
   <!-- Button -->

@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
+import fr.cg95.cvq.business.authority.CategoryProfile;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,7 +26,6 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.w3c.dom.Node;
 
-import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.DataState;
@@ -74,7 +74,7 @@ import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
-import fr.cg95.cvq.service.request.annotation.IsRequest;
+import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
@@ -144,61 +144,20 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             beanFactory.getBeansOfType(IExternalService.class, false, false).values().iterator().next();
     }
 
-    private Critere getCurrentUserFilter() throws CvqException {
-
-        Critere crit = new Critere();
-        if (SecurityContext.isBackOfficeContext()) {
-            Agent agent = SecurityContext.getCurrentAgent();
-            Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
-            if (agentCategoryRoles == null || agentCategoryRoles.isEmpty())
-                return null;
-            StringBuffer sb = new StringBuffer();
-            for (CategoryRoles categoryRoles : agentCategoryRoles) {
-                if (sb.length() > 0)
-                    sb.append(",");
-                sb.append("'")
-                    .append(categoryRoles.getCategory().getId())
-                    .append("'");
-            }
-            crit.setAttribut("belongsToCategory");
-            crit.setComparatif(Critere.EQUALS);
-            crit.setValue(sb.toString());
-        } else if (SecurityContext.isFrontOfficeContext()) {
-            Adult adult = SecurityContext.getCurrentEcitizen();
-            crit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
-            crit.setComparatif(Critere.EQUALS);
-            crit.setValue(adult.getHomeFolder().getId());
-        } else {
-            return null;
-        }
-
-        return crit;
-    }
-
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT, privilege=ContextPrivilege.NONE)
+    @RequestFilter(privilege=ContextPrivilege.READ)
     public List<Request> get(Set<Critere> criteriaSet, final String sort, final String dir,
             final int recordsReturned, final int startIndex)
         throws CvqException {
-
-        if (criteriaSet == null)
-            criteriaSet = new HashSet<Critere>();
-        Critere userFilterCritere = getCurrentUserFilter();
-        if (userFilterCritere != null)
-            criteriaSet.add(userFilterCritere);
 
         return requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT, privilege=ContextPrivilege.NONE)
+    @RequestFilter(privilege=ContextPrivilege.READ)
     public Long getCount(Set<Critere> criteriaSet) throws CvqException {
-
-        if (criteriaSet == null)
-            criteriaSet = new HashSet<Critere>();
-        Critere userFilterCritere = getCurrentUserFilter();
-        if (userFilterCritere != null)
-            criteriaSet.add(userFilterCritere);
 
         return requestDAO.count(criteriaSet);
     }
@@ -466,6 +425,23 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         List<RequestType> results = new ArrayList<RequestType>();
         for (CategoryRoles categoryRole : authorizedCategories) {
             results.addAll(categoryRole.getCategory().getRequestTypes());
+        }
+
+        return results;
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    public List<RequestType> getManagedRequestTypes()
+        throws CvqException {
+
+        // else filters categories it is authorized to see
+        CategoryRoles[] authorizedCategories =
+            SecurityContext.getCurrentCredentialBean().getCategoryRoles();
+        List<RequestType> results = new ArrayList<RequestType>();
+        for (CategoryRoles categoryRole : authorizedCategories) {
+            if (categoryRole.getProfile().equals(CategoryProfile.MANAGER))
+                results.addAll(categoryRole.getCategory().getRequestTypes());
         }
 
         return results;
@@ -1866,9 +1842,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         for (RequestForm requestForm : requestFormList) {
             if (!requestForm.getId().equals(requestFormId)) {
                 if (requestForm.getLabel().equals(label))
-                    throw new CvqModelException("label already used","requestForm.message.labelAlreadyUsed");
+                    throw new CvqModelException("label already used",
+                        "requestForm.message.labelAlreadyUsed");
                 if (requestForm.getShortLabel().equals(shortLabel))
-                    throw new CvqModelException("short label already used","requestForm.message.shortLabelAlreadyUsed");
+                    throw new CvqModelException("short label already used",
+                        "requestForm.message.shortLabelAlreadyUsed");
             }
         }
     }
@@ -1894,7 +1872,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType == null)
-            throw new CvqModelException("request type is invalid","requestForm.message.requestTypeIsInvalid");
+            throw new CvqModelException("request type is invalid",
+                "requestForm.message.requestTypeIsInvalid");
 
         checkRequestFormLabelUniqueness(requestForm.getLabel(), requestForm.getShortLabel(),
                 requestForm.getType(), requestTypeId,

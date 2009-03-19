@@ -11,12 +11,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 (function() {
   
   var zct = zenexity.capdemat.tools;
-  var zcc = zenexity.capdemat.common;
-  var zcbrt = zenexity.capdemat.bong.request.templates;
-  var zcbet = zenexity.capdemat.bong.editor.toolbars;
   var zcbrp = zenexity.capdemat.bong.requesttype;
   
-  var yl = YAHOO.lang;
   var yu = YAHOO.util;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
@@ -43,7 +39,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         return (yue.getTarget(e).id||'').split('_')[0];
       },
       saveRequestTypeAlerts: function(e) {
-        var target = yue.getTarget(e);
         var form = yu.Dom.get('requestTypeAlertsForm');
         var error = yu.Dom.get('dialogRequestTypeAlertsFormError');
         
@@ -91,6 +86,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zct.siblings(el,function(n){zct.style(n,{'display':'none'})});
         zct.tryToCall(zcbrp.Conf[['display',method].join('')],zcbrp.Conf);
       },
+      /* FIXME BOR : is this still used ? */
       switchView : function(containerId) {
         var el = yu.Dom.get(containerId);
         var method = zct.capitalize(containerId.split('-')[2]);

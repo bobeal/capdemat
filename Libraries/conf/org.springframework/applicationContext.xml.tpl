@@ -154,6 +154,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestTypeDAO" ref="requestTypeDAO" />
   </bean>
 
+  <bean id="requestFilterAspect"
+    class="fr.cg95.cvq.service.request.aspect.RequestFilterAspect">
+    <property name="categoryService" ref="categoryService" />
+  </bean>
+
   <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"
     abstract="true" init-method="init">
     <property name="requestDAO">

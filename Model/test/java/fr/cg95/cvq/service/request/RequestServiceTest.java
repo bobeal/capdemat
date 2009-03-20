@@ -235,10 +235,11 @@ public class RequestServiceTest extends ServiceTestCase {
             iRequestService.modifyRequestTypeForm(requestType.getId(), f);
             fail("RequestForm data can't be duplicated");
         } catch (CvqModelException cvqme) {
-            Assert.assertEquals("requestForm.label_already_used", cvqme.getMessage());
+            Assert.assertEquals("requestForm.message.labelAlreadyUsed", cvqme.getI18nKey());
         } finally {
             iRequestService.removeRequestTypeForm(requestType.getId(), tmpForm.getId());
-            forms = iRequestService.getRequestTypeForms(requestType.getId(),RequestFormType.REQUEST_MAIL_TEMPLATE);
+            forms = iRequestService.getRequestTypeForms(requestType.getId(),
+                RequestFormType.REQUEST_MAIL_TEMPLATE);
             Assert.assertEquals(0, forms.size());
         }
     }

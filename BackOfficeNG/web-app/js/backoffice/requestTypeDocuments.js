@@ -10,10 +10,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 
 (function(){
   var zct = zenexity.capdemat.tools;
-  var zcc = zenexity.capdemat.common;
   var zcbrp = zenexity.capdemat.bong.requesttype;
   
-  var yl = YAHOO.lang;
   var yu = YAHOO.util;
   var yud = yu.Dom;
   var yue = yu.Event;
@@ -35,8 +33,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         return ['associate','unassociate'];
       },
       prepareEvent : function(e) {
-        var target = yue.getTarget(e);
-        return target.id.split('_')[0];
+        return yue.getTarget(e).id.split('_')[0];
       },
       adaptFilterPanel : function(e) {
         var target = (yue.getTarget(e)||e);

@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-  <request>LibraryRegistrationRequest</request>
-  <data name="Subscription">
-    <label lang="fr">Formule d'abonnement</label>
-    <entries supportMultiple="true" supportQuota="false" supportPriority="false"
-      supportPrecision="false">
-      <entry key="Individual">
-	<label lang="fr">Abonnement individuel</label>
-      </entry>
-      <entry key="Familial">
-	<label lang="fr">Abonnement familial</label>
-      </entry>
-    </entries>
-  </data>
+    <request>LibraryRegistrationRequest</request>
+    <data name="Subscription">
+        <label lang="fr">Formule d'abonnement</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+            <entry key="Individual">
+                <label lang="fr">Abonnement individuel</label>
+                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                    <entry key="Individual-Section-enfant">
+                        <label lang="fr">Section enfant</label>
+                        <message lang="fr"/>
+                    </entry>
+                    <entry key="Individual-Section-adulte">
+                        <label lang="fr">Section adulte</label>
+                        <message lang="fr"/>
+                    </entry>
+                </entries>
+            </entry>
+            <entry key="Familial">
+                <label lang="fr">Abonnement familial</label>
+            </entry>
+        </entries>
+    </data>
 </LocalReferential>

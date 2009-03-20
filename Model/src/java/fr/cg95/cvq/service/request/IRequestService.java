@@ -342,6 +342,12 @@ public interface IRequestService {
         throws CvqException;
 
     /**
+     * Get a list of requests types whose current agent is manager of.
+     */
+    List<RequestType> getManagedRequestTypes()
+        throws CvqException;
+
+    /**
      * Get a request type by id.
      */
     RequestType getRequestTypeById(final Long requestTypeId)

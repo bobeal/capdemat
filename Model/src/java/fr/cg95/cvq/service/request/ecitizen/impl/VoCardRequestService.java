@@ -1,6 +1,9 @@
 package fr.cg95.cvq.service.request.ecitizen.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -14,9 +17,10 @@ import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
-
 
 /**
  * Implementation of the account creation request service.
@@ -45,9 +49,7 @@ public final class VoCardRequestService
             final Address address) throws CvqException {
 
         HomeFolder homeFolder = homeFolderService.create(adults, children, address);
-
         dcvo.setHomeFolderId(homeFolder.getId());
-
         // by default, set the home folder responsible as requester
         Adult homeFolderResponsible = null;
         for (Adult adult : adults) {
@@ -80,5 +82,26 @@ public final class VoCardRequestService
 
     public Request getSkeletonRequest() throws CvqException {
         return new VoCardRequest();
+    }
+    
+    public final Map<String,IConditionChecker> filledConditions =
+        new HashMap<String,IConditionChecker>();
+    private void initFilledConditions() {
+        filledConditions.put("title", new EqualityChecker("Madam"));
+    }
+    
+    /**
+     * TODO - move to abstract RequestService
+     */
+    public boolean isConditionFilled (Map<String, String> triggers) {
+        initFilledConditions();
+        boolean test = true;
+        for (Entry<String, String> trigger : triggers.entrySet())
+            if (filledConditions.get(trigger.getKey()) != null 
+                && filledConditions.get(trigger.getKey()).test(trigger.getValue()))
+                test = test && true;
+            else
+                return false;
+        return test;
     }
 }

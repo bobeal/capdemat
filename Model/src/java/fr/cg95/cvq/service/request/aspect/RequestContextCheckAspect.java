@@ -83,8 +83,8 @@ public class RequestContextCheckAspect implements Ordered {
                             request = (Request) requestDAO.findById(Request.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
-                                    "unknown resource type : " + argument);
+                                    joinPoint.getSignature().getName(), context.type(),
+                                    context.privilege(), "unknown resource type : " + argument);
                         }
                     } else if (argument instanceof Request) {
                         request = (Request) argument;
@@ -105,7 +105,13 @@ public class RequestContextCheckAspect implements Ordered {
                     } else if (argument instanceof RequestType) {
                         requestType = (RequestType) argument;
                     }
-                    
+
+                    if (requestType == null) {
+                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                            "no request type specified");
+                    }
+
                     CategoryRoles[] categoryRoles = 
                         SecurityContext.getCurrentCredentialBean().getCategoryRoles();
                     for (CategoryRoles categoryRole : categoryRoles) {
@@ -141,15 +147,28 @@ public class RequestContextCheckAspect implements Ordered {
             i++;
         }
 
-        if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId, context.privilege()))
+        if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId,
+            context.privilege()))
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                     joinPoint.getSignature().getName(), context.type(), context.privilege(), 
                     "access denied on home folder " + homeFolderId);
         
         if (SecurityContext.isBackOfficeContext()) {
-            // TODO ACMF
-            // for agents, check they have the right privilege for the current request's associated category
-            
+            // TODO ACMF : to be completed
+
+            if (context.privilege().equals(ContextPrivilege.MANAGE)) {
+                CategoryRoles[] categoryRoles =
+                    SecurityContext.getCurrentCredentialBean().getCategoryRoles();
+                if (categoryRoles != null) {
+                    for (CategoryRoles categoryRole : categoryRoles) {
+                        if (categoryRole.getProfile().equals(CategoryProfile.MANAGER))
+                            return;
+                    }
+                }
+                throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                    joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                    "access denied on home folder " + homeFolderId);
+            }
         }
     }
     

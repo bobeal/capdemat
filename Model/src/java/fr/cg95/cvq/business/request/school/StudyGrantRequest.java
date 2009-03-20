@@ -58,12 +58,13 @@ public class StudyGrantRequest extends Request implements Serializable {
         StudyGrantRequestDocument studyGrantRequestDoc = StudyGrantRequestDocument.Factory.newInstance();
         StudyGrantRequestDocument.StudyGrantRequest studyGrantRequest = studyGrantRequestDoc.addNewStudyGrantRequest();
         super.fillCommonXmlInfo(studyGrantRequest);
+        CurrentStudiesInformationsType currentStudiesInformationsTypeCurrentStudiesInformations = studyGrantRequest.addNewCurrentStudiesInformations();
         if (this.currentStudies != null)
-            studyGrantRequest.setCurrentStudies(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(this.currentStudies.toString()));
+            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudies(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(this.currentStudies.toString()));
         date = this.abroadInternshipEndDate;
         if (date != null) {
             calendar.setTime(date);
-            studyGrantRequest.setAbroadInternshipEndDate(calendar);
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipEndDate(calendar);
         }
         if (this.taxHouseholdAddress != null)
             studyGrantRequest.setTaxHouseholdAddress(Address.modelToXml(this.taxHouseholdAddress));
@@ -71,13 +72,14 @@ public class StudyGrantRequest extends Request implements Serializable {
         date = this.abroadInternshipStartDate;
         if (date != null) {
             calendar.setTime(date);
-            studyGrantRequest.setAbroadInternshipStartDate(calendar);
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipStartDate(calendar);
         }
         studyGrantRequest.setBankName(this.bankName);
         studyGrantRequest.setTaxHouseholdFirstName(this.taxHouseholdFirstName);
         studyGrantRequest.setFutureSchoolName(this.futureSchoolName);
-        studyGrantRequest.setSandwichCoursesLabel(this.sandwichCoursesLabel);
-        studyGrantRequest.setLastYearType(this.lastYearType);
+        currentStudiesInformationsTypeCurrentStudiesInformations.setSandwichCoursesLabel(this.sandwichCoursesLabel);
+        ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
+        aLevelsInformationsTypeALevelsInformations.setLastYearType(this.lastYearType);
         studyGrantRequest.setBankCode(this.bankCode);
         SubjectInformationsType subjectInformationsTypeSubjetInformations = studyGrantRequest.addNewSubjetInformations();
         date = this.subjectBirthDate;
@@ -106,14 +108,14 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setDistance(fr.cg95.cvq.xml.request.school.DistanceType.Enum.forString(this.distance.toString()));
         subjectInformationsTypeSubjetInformations.setSubjectMobilePhone(this.subjectMobilePhone);
         if (this.isInLastYear != null)
-            studyGrantRequest.setIsInLastYear(this.isInLastYear.booleanValue());
+            aLevelsInformationsTypeALevelsInformations.setIsInLastYear(this.isInLastYear.booleanValue());
         studyGrantRequest.setAbroadInternshipSchoolName(this.abroadInternshipSchoolName);
         studyGrantRequest.setOtherHelpInformations(this.otherHelpInformations);
         studyGrantRequest.setAccountKey(this.accountKey);
-        studyGrantRequest.setOtherStudiesLabel(this.otherStudiesLabel);
+        currentStudiesInformationsTypeCurrentStudiesInformations.setOtherStudiesLabel(this.otherStudiesLabel);
         subjectInformationsTypeSubjetInformations.setSubjectBirthPlace(this.subjectBirthPlace);
         studyGrantRequest.setFutureDiplomaLevel(this.futureDiplomaLevel);
-        studyGrantRequest.setLastYearDate(this.lastYearDate);
+        aLevelsInformationsTypeALevelsInformations.setLastYearDate(this.lastYearDate);
         if (this.taxHouseholdIncome != null)
             studyGrantRequest.setTaxHouseholdIncome(this.taxHouseholdIncome.doubleValue());
         if (this.hasOtherHelp != null)
@@ -139,26 +141,26 @@ public class StudyGrantRequest extends Request implements Serializable {
         List list = new ArrayList();
         StudyGrantRequest studyGrantRequest = new StudyGrantRequest();
         studyGrantRequest.fillCommonModelInfo(studyGrantRequest,studyGrantRequestXml);
-        if (studyGrantRequestXml.getCurrentStudies() != null)
-            studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.forString(studyGrantRequestXml.getCurrentStudies().toString()));
+        if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudies() != null)
+            studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudies().toString()));
         else
             studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
-        calendar = studyGrantRequestXml.getAbroadInternshipEndDate();
+        calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipEndDate();
         if (calendar != null) {
             studyGrantRequest.setAbroadInternshipEndDate(calendar.getTime());
         }
         if (studyGrantRequestXml.getTaxHouseholdAddress() != null)
             studyGrantRequest.setTaxHouseholdAddress(Address.xmlToModel(studyGrantRequestXml.getTaxHouseholdAddress()));
         studyGrantRequest.setFutureSchoolPhone(studyGrantRequestXml.getFutureSchoolPhone());
-        calendar = studyGrantRequestXml.getAbroadInternshipStartDate();
+        calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipStartDate();
         if (calendar != null) {
             studyGrantRequest.setAbroadInternshipStartDate(calendar.getTime());
         }
         studyGrantRequest.setBankName(studyGrantRequestXml.getBankName());
         studyGrantRequest.setTaxHouseholdFirstName(studyGrantRequestXml.getTaxHouseholdFirstName());
         studyGrantRequest.setFutureSchoolName(studyGrantRequestXml.getFutureSchoolName());
-        studyGrantRequest.setSandwichCoursesLabel(studyGrantRequestXml.getSandwichCoursesLabel());
-        studyGrantRequest.setLastYearType(studyGrantRequestXml.getLastYearType());
+        studyGrantRequest.setSandwichCoursesLabel(studyGrantRequestXml.getCurrentStudiesInformations().getSandwichCoursesLabel());
+        studyGrantRequest.setLastYearType(studyGrantRequestXml.getALevelsInformations().getLastYearType());
         studyGrantRequest.setBankCode(studyGrantRequestXml.getBankCode());
         calendar = studyGrantRequestXml.getSubjetInformations().getSubjectBirthDate();
         if (calendar != null) {
@@ -185,14 +187,14 @@ public class StudyGrantRequest extends Request implements Serializable {
         else
             studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
         studyGrantRequest.setSubjectMobilePhone(studyGrantRequestXml.getSubjetInformations().getSubjectMobilePhone());
-        studyGrantRequest.setIsInLastYear(Boolean.valueOf(studyGrantRequestXml.getIsInLastYear()));
+        studyGrantRequest.setIsInLastYear(Boolean.valueOf(studyGrantRequestXml.getALevelsInformations().getIsInLastYear()));
         studyGrantRequest.setAbroadInternshipSchoolName(studyGrantRequestXml.getAbroadInternshipSchoolName());
         studyGrantRequest.setOtherHelpInformations(studyGrantRequestXml.getOtherHelpInformations());
         studyGrantRequest.setAccountKey(studyGrantRequestXml.getAccountKey());
-        studyGrantRequest.setOtherStudiesLabel(studyGrantRequestXml.getOtherStudiesLabel());
+        studyGrantRequest.setOtherStudiesLabel(studyGrantRequestXml.getCurrentStudiesInformations().getOtherStudiesLabel());
         studyGrantRequest.setSubjectBirthPlace(studyGrantRequestXml.getSubjetInformations().getSubjectBirthPlace());
         studyGrantRequest.setFutureDiplomaLevel(studyGrantRequestXml.getFutureDiplomaLevel());
-        studyGrantRequest.setLastYearDate(studyGrantRequestXml.getLastYearDate());
+        studyGrantRequest.setLastYearDate(studyGrantRequestXml.getALevelsInformations().getLastYearDate());
         studyGrantRequest.setTaxHouseholdIncome(new Double(studyGrantRequestXml.getTaxHouseholdIncome()));
         studyGrantRequest.setHasOtherHelp(Boolean.valueOf(studyGrantRequestXml.getHasOtherHelp()));
         studyGrantRequest.setFutureDiplomaName(studyGrantRequestXml.getFutureDiplomaName());
@@ -241,6 +243,7 @@ public class StudyGrantRequest extends Request implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="tax_household_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
@@ -365,6 +368,7 @@ public class StudyGrantRequest extends Request implements Serializable {
     /**
      * @hibernate.property
      *  column="bank_code"
+     *  length="5"
      */
     public final String getBankCode() {
         return this.bankCode;
@@ -410,6 +414,7 @@ public class StudyGrantRequest extends Request implements Serializable {
     /**
      * @hibernate.property
      *  column="counter_code"
+     *  length="5"
      */
     public final String getCounterCode() {
         return this.counterCode;
@@ -469,6 +474,7 @@ public class StudyGrantRequest extends Request implements Serializable {
 
     /**
      * @hibernate.many-to-one
+     *  cascade="all"
      *  column="future_school_address_id"
      *  class="fr.cg95.cvq.business.users.Address"
      */
@@ -563,6 +569,7 @@ public class StudyGrantRequest extends Request implements Serializable {
     /**
      * @hibernate.property
      *  column="account_number"
+     *  length="11"
      */
     public final String getAccountNumber() {
         return this.accountNumber;
@@ -654,6 +661,7 @@ public class StudyGrantRequest extends Request implements Serializable {
     /**
      * @hibernate.property
      *  column="account_key"
+     *  length="2"
      */
     public final String getAccountKey() {
         return this.accountKey;
@@ -714,6 +722,7 @@ public class StudyGrantRequest extends Request implements Serializable {
     /**
      * @hibernate.property
      *  column="last_year_date"
+     *  length="4"
      */
     public final String getLastYearDate() {
         return this.lastYearDate;

@@ -38,10 +38,11 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
     protected StudyGrantRequest fillMeARequest() throws CvqException {
 
         StudyGrantRequest request = new StudyGrantRequest();
-            request.setCurrentStudies(CurrentStudiesType.LICENCE1);
+            request.setCurrentStudies(CurrentStudiesType.MASTER);
                 request.setAbroadInternshipEndDate(new Date());
-                    	    request.setTaxHouseholdAddress(address);
-                          if ("FutureSchoolPhone".length() > 10)
+                            Address TaxHouseholdAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setTaxHouseholdAddress(TaxHouseholdAddress);
+    	                  if ("FutureSchoolPhone".length() > 10)
         request.setFutureSchoolPhone("FutureSchoolPhone".substring(0, 10));
       else
         request.setFutureSchoolPhone("FutureSchoolPhone");
@@ -54,15 +55,22 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
                     request.setFutureSchoolName("FutureSchoolName");
                     request.setSandwichCoursesLabel("SandwichCoursesLabel");
                     request.setLastYearType("LastYearType");
-                    request.setBankCode("BankCode");
+                  if ("BankCode".length() > 5)
+        request.setBankCode("BankCode".substring(0, 5));
+      else
+        request.setBankCode("BankCode");
                 request.setSubjectBirthDate(new Date());
             request.setFutureSchoolIsAbroad(Boolean.valueOf(true));
-                request.setCounterCode("CounterCode");
+              if ("CounterCode".length() > 5)
+        request.setCounterCode("CounterCode".substring(0, 5));
+      else
+        request.setCounterCode("CounterCode");
                 request.setHasCROUSHelp(Boolean.valueOf(true));
                 request.setSubjectEmail("SubjectEmail");
                 request.setHasParentsAddress(Boolean.valueOf(true));
-                    	    request.setFutureSchoolAddress(address);
-                          request.setAbroadInternshipSchoolCountry(CountryType.UNKNOWN);
+                            Address FutureSchoolAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setFutureSchoolAddress(FutureSchoolAddress);
+    	                  request.setAbroadInternshipSchoolCountry(CountryType.UNKNOWN);
                     request.setAbroadInternshipSchoolAddress("AbroadInternshipSchoolAddress");
                   if ("TaxHouseholdPhone".length() > 10)
         request.setTaxHouseholdPhone("TaxHouseholdPhone".substring(0, 10));
@@ -73,7 +81,10 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
         request.setTaxHouseholdLastName("TaxHouseholdLastName".substring(0, 38));
       else
         request.setTaxHouseholdLastName("TaxHouseholdLastName");
-                    request.setAccountNumber("AccountNumber");
+                  if ("AccountNumber".length() > 11)
+        request.setAccountNumber("AccountNumber".substring(0, 11));
+      else
+        request.setAccountNumber("AccountNumber");
                   request.setDistance(DistanceType.LESS_THAN30KM);
                   if ("SubjectMobilePhone".length() > 10)
         request.setSubjectMobilePhone("SubjectMobilePhone".substring(0, 10));
@@ -82,11 +93,17 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
                 request.setIsInLastYear(Boolean.valueOf(true));
                 request.setAbroadInternshipSchoolName("AbroadInternshipSchoolName");
                     request.setOtherHelpInformations("OtherHelpInformations");
-                    request.setAccountKey("AccountKey");
+                  if ("AccountKey".length() > 2)
+        request.setAccountKey("AccountKey".substring(0, 2));
+      else
+        request.setAccountKey("AccountKey");
                     request.setOtherStudiesLabel("OtherStudiesLabel");
                     request.setSubjectBirthPlace("SubjectBirthPlace");
                     request.setFutureDiplomaLevel("FutureDiplomaLevel");
-                    request.setLastYearDate("LastYearDate");
+                  if ("LastYearDate".length() > 4)
+        request.setLastYearDate("LastYearDate".substring(0, 4));
+      else
+        request.setLastYearDate("LastYearDate");
                   request.setHasOtherHelp(Boolean.valueOf(true));
                 request.setFutureDiplomaName("FutureDiplomaName");
                                 Address SubjectAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");

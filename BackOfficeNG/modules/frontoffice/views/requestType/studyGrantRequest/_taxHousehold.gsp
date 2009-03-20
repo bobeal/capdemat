@@ -53,7 +53,7 @@
     <label class="required"><g:message code="sgr.property.taxHouseholdIncome.label" /> *  <span><g:message code="sgr.property.taxHouseholdIncome.help" /></span></label>
     
             <input type="text" name="taxHouseholdIncome" value="${rqt.taxHouseholdIncome}" 
-                    class="required validate-double" title="<g:message code="sgr.property.taxHouseholdIncome.validationError" />"  />
+                    class="required validate-regex" title="<g:message code="sgr.property.taxHouseholdIncome.validationError" />" regex="^\d+(?:\.\d{1,2})?$" />
             
   
 

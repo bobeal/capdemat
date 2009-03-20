@@ -141,71 +141,55 @@
   
   
     
-      <dl>
-      <dt><g:message code="sgr.property.isInLastYear.label" /></dt>
+    <h4><g:message code="sgr.property.aLevelsInformations.label" /></h4>
+    <dl>
       
+      
+      <dt><g:message code="sgr.property.isInLastYear.label" /></dt>
+        
           <dd><g:message code="message.${rqt.isInLastYear ? 'yes' : 'no'}" /></dd>
           
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.lastYearDate.label" /></dt>
-      <dd>${rqt.lastYearDate}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.lastYearType.label" /></dt>
-      <dd>${rqt.lastYearType}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.currentStudies.label" /></dt>
       
+      <dt><g:message code="sgr.property.lastYearDate.label" /></dt>
+        <dd>${rqt.lastYearDate}</dd>
+      
+      <dt><g:message code="sgr.property.lastYearType.label" /></dt>
+        <dd>${rqt.lastYearType}</dd>
+      
+    </dl>
+    
+  
+    
+    <h4><g:message code="sgr.property.currentStudiesInformations.label" /></h4>
+    <dl>
+      
+      
+      <dt><g:message code="sgr.property.currentStudies.label" /></dt>
+        
           <dd>
             <g:if test="${rqt.currentStudies}">
               <g:capdematEnumToField var="${rqt.currentStudies}" i18nKeyPrefix="sgr.property.currentStudies" />
             </g:if>
           </dd>
           
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.sandwichCoursesLabel.label" /></dt>
-      <dd>${rqt.sandwichCoursesLabel}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.abroadInternshipStartDate.label" /></dt>
       
+      <dt><g:message code="sgr.property.sandwichCoursesLabel.label" /></dt>
+        <dd>${rqt.sandwichCoursesLabel}</dd>
+      
+      <dt><g:message code="sgr.property.abroadInternshipStartDate.label" /></dt>
+        
           <dd><g:formatDate formatName="format.date" date="${rqt.abroadInternshipStartDate}"/></dd>
           
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.abroadInternshipEndDate.label" /></dt>
       
+      <dt><g:message code="sgr.property.abroadInternshipEndDate.label" /></dt>
+        
           <dd><g:formatDate formatName="format.date" date="${rqt.abroadInternshipEndDate}"/></dd>
           
-      </dl>
-    
-  
-    
-      <dl>
+      
       <dt><g:message code="sgr.property.otherStudiesLabel.label" /></dt>
-      <dd>${rqt.otherStudiesLabel}</dd>
-      </dl>
+        <dd>${rqt.otherStudiesLabel}</dd>
+      
+    </dl>
     
   
 
@@ -300,10 +284,65 @@
   <h3><g:message code="sgr.step.calculationElements.label" /></h3>
   
   
+    
+      <dl>
+      <dt><g:message code="sgr.property.distance.label" /></dt>
+      
+          <dd>
+            <g:if test="${rqt.distance}">
+              <g:capdematEnumToField var="${rqt.distance}" i18nKeyPrefix="sgr.property.distance" />
+            </g:if>
+          </dd>
+          
+      </dl>
+    
+  
 
   
   <h3><g:message code="sgr.step.bankReference.label" /></h3>
   
+  
+    
+      <dl>
+      <dt><g:message code="sgr.property.bankName.label" /></dt>
+      <dd>${rqt.bankName}</dd>
+      </dl>
+    
+  
+    
+      <dl>
+      <dt><g:message code="sgr.property.bankCode.label" /></dt>
+      <dd>${rqt.bankCode}</dd>
+      </dl>
+    
+  
+    
+      <dl>
+      <dt><g:message code="sgr.property.bankAgency.label" /></dt>
+      <dd>${rqt.bankAgency}</dd>
+      </dl>
+    
+  
+    
+      <dl>
+      <dt><g:message code="sgr.property.counterCode.label" /></dt>
+      <dd>${rqt.counterCode}</dd>
+      </dl>
+    
+  
+    
+      <dl>
+      <dt><g:message code="sgr.property.accountNumber.label" /></dt>
+      <dd>${rqt.accountNumber}</dd>
+      </dl>
+    
+  
+    
+      <dl>
+      <dt><g:message code="sgr.property.accountKey.label" /></dt>
+      <dd>${rqt.accountKey}</dd>
+      </dl>
+    
   
 
   

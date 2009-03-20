@@ -10,16 +10,16 @@
   <xs:element name="StudyGrantRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande de bourse
+        Dossier de demande de bourse
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Study grant request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Bourse
+        Demande de bourse
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Study grant
+        Study grant request
       </xs:documentation>
       <xs:appinfo>
         <model namespace="school" />
@@ -39,15 +39,15 @@
             </step>
             <step index="3" name="currentStudies">
               <conditions>
-                <condition name="notInLastYear"/>
-                <condition name="isInSandwichCourses"/>
-                <condition name="isInAbroadInternship"/>
-                <condition name="isInOtherStudies"/>
+                <condition name="notInLastYear" />
+                <condition name="isInSandwichCourses" />
+                <condition name="isInAbroadInternship" />
+                <condition name="isInOtherStudies" />
               </conditions>
             </step>
             <step index="4" name="futureSchool">
               <conditions>
-                <condition name="willDoAbroadInternship"/>
+                <condition name="willDoAbroadInternship" />
               </conditions>
             </step>
             <step index="5" name="calculationElements" />
@@ -55,6 +55,23 @@
             <step index="7" ref="validation" />
           </steps>
         </common>
+        <xslfo>
+          <blocks-def>
+            <block id="0" column="2" label="Sujet" />
+            <block id="1" column="2" label="Foyer fiscal" />
+            <block id="2" column="2" label="Autres aides" />
+            <block id="3" column="2" label="Études en cours" />
+            <block id="4" column="2" label="Précisions" displayCondition="//sgr:CurrentStudies/text() = 'sandwichCourses'" />
+            <block id="5" column="2" label="Précisions" displayCondition="//sgr:CurrentStudies/text() = 'abroadInternship'" />
+            <block id="6" column="2" label="Précisions" displayCondition="//sgr:CurrentStudies/text() = 'otherStudies'" />
+            <block id="7" column="2" label="Études futures" />
+            <block id="8" column="2" label="Éléments de calcul" />
+            <block id="9" column="2" label="Coordonnées bancaires" />
+          </blocks-def>
+          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
+            <complexTemplate />
+          </element>
+        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -64,18 +81,27 @@
             <xs:element name="SubjetInformations" type="sgr:SubjectInformationsType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Informations conçernant le demandeur
+                  Informations concernant le demandeur
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Information about requester
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Demandeur
+                  Informations concernant le demandeur
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Information about requester
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
                     <step name="subject" />
                   </common>
-                  <fo>
-                    <label />
-                  </fo>
+                  <xslfo>
+                    <element blockId="0" line="1" column="0">
+                      <localComplexElement />
+                    </element>
+                  </xslfo>
+                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -95,12 +121,17 @@
                   Last name
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users"/>
+                  <model namespace="users" />
                   <common>
                     <step name="taxHousehold" />
                   </common>
+                  <xslfo>
+                    <element blockId="1" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -119,12 +150,17 @@
                   First name
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users"/>
+                  <model namespace="users" />
                   <common>
                     <step name="taxHousehold" />
                   </common>
+                  <xslfo>
+                    <element blockId="1" line="0" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -143,12 +179,17 @@
                   Address
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users"/>
+                  <model namespace="users" isTiedToRequest="true" />
                   <common>
                     <step name="taxHousehold" />
                   </common>
+                  <xslfo>
+                    <element blockId="1" line="1" column="0">
+                      <complexTemplate />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -167,36 +208,47 @@
                   Phone
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users"/>
+                  <model namespace="users" />
                   <common>
                     <step name="taxHousehold" />
                   </common>
+                  <xslfo>
+                    <element blockId="1" line="2" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
             <xs:element name="TaxHouseholdIncome" type="xs:double">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Revenu brut global indiqué sur l’Avis d’imposition 2006 (à joindre au dossier)
+                  Revenu brut global indiqué sur l’avis d’imposition pour l'année précédente (à joindre au dossier)
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  I am in ze bilouk
+                  Global gross income as stated on previous year income tax declaration (attach a copy)
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Revenu
+                  Revenu brut global indiqué sur l’avis d’imposition pour l'année précédente (à joindre au dossier)
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Income
+                  Global gross income as stated on previous year income tax declaration (attach a copy)
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users"/>
+                  <model namespace="users" />
                   <common>
                     <step name="taxHousehold" />
+                    <validation jsregexp="^\d+(?:\.\d{1,2})?$" />
                   </common>
+                  <xslfo>
+                    <element blockId="1" line="3" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -218,24 +270,29 @@
                   <common>
                     <step name="otherHelps" />
                   </common>
+                  <xslfo>
+                    <element blockId="2" line="0" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
             <xs:element name="HasOtherHelp" type="xs:boolean" default="false">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Autres (Conseil Régional, Établissement ...)
+                  Autres (Conseil Régional, Établissement...)
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Others (bilouk)
+                  Others (Regional Council, School...)
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Autres
+                  Autres (Conseil Régional, Établissement ...)
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Others
+                  Others (Regional Council, School...)
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -244,8 +301,13 @@
                       <condition name="otherHelpObtained" type="trigger" />
                     </conditions>
                   </common>
+                  <xslfo>
+                    <element blockId="2" line="1" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -270,234 +332,76 @@
                       <condition name="otherHelpObtained" type="filled" required="true" />
                     </conditions>
                   </common>
+                  <xslfo>
+                    <element blockId="2" line="2" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="IsInLastYear" type="xs:boolean" default="false">
+            <xs:element name="ALevelsInformations" type="sgr:ALevelsInformationsType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Actuellement en Terminale
+                  Baccalauréat
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Currently in last year
+                  A Levels
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Terminale
+                  Baccalauréat
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Last year
+                  A Levels
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
                     <step name="currentStudies" />
-                    <conditions>
-                      <condition name="notInLastYear" type="trigger" />
-                    </conditions>
                   </common>
+                  <xslfo>
+                    <element blockId="3" line="0" column="0">
+                      <localComplexElement />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="LastYearDate" type="xs:string" minOccurs="0">
+            <xs:element name="CurrentStudiesInformations" type="sgr:CurrentStudiesInformationsType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Année d'obtention du baccalauréat
+                  Études supérieures
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  A Levels obtaining year
+                  Higher education
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Année du bac
+                  Études supérieures
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  A Levels year
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="currentStudies" />
-                    <conditions>
-                      <condition name="notInLastYear" type="filled" required="true"/>
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="LastYearType" type="xs:string" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Type de baccalauréat
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  A Levels type
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Type de bac
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  A Levels type
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="currentStudies" />
-                    <conditions>
-                      <condition name="notInLastYear" type="filled" required="true"/>
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="CurrentStudies" type="sgr:CurrentStudiesType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Études en cours
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Current studies
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Études en cours
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Current studies
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="currentStudies" />
-                    <conditions>
-                      <condition name="notInLastYear" type="filled" required="true"/>
-                      <condition name="isInAbroadInternship" type="trigger" />
-                      <condition name="isInSandwichCourses" type="trigger" />
-                      <condition name="isInOtherStudies" type="trigger" />
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="SandwichCoursesLabel" type="xs:string" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Études en alternance
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Sandwich courses
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Études en alternance
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Sandwich courses
+                  Higher education
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
                     <step name="currentStudies" />
                     <conditions>
                       <condition name="notInLastYear" type="filled" required="true" />
-                      <condition name="isInAbroadInternship" type="unfilled" required="false" />
-                      <condition name="isInSandwichCourses" type="filled" required="true" />
-                      <condition name="isInOtherStudies" type="unfilled" required="false" />
                     </conditions>
                   </common>
+                  <xslfo>
+                    <element blockId="3" line="1" column="0">
+                      <localComplexElement />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="AbroadInternshipStartDate" type="xs:date" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Date de début
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Start date
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Début
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Start
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="currentStudies" />
-                    <conditions>
-                      <condition name="notInLastYear" type="filled" required="true" />
-                      <condition name="isInAbroadInternship" type="filled" required="true" />
-                      <condition name="isInSandwichCourses" type="unfilled" required="false" />
-                      <condition name="isInOtherStudies" type="unfilled" required="false" />
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="AbroadInternshipEndDate" type="xs:date" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Date de fin
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  End date
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Fin
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  End
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="currentStudies" />
-                    <conditions>
-                      <condition name="notInLastYear" type="filled" required="true" />
-                      <condition name="isInAbroadInternship" type="filled" required="true" />
-                      <condition name="isInSandwichCourses" type="unfilled" required="false" />
-                      <condition name="isInOtherStudies" type="unfilled" required="false" />
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="OtherStudiesLabel" type="xs:string" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Précisez
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Precise
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Précisez
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Precise
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="currentStudies" />
-                    <conditions>
-                      <condition name="notInLastYear" type="filled" required="true" />
-                      <condition name="isInAbroadInternship" type="unfilled" required="false" />
-                      <condition name="isInSandwichCourses" type="unfilled" required="false" />
-                      <condition name="isInOtherStudies" type="filled" required="true" />
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
+            <!--  -->
             <xs:element name="FutureSchoolName" type="xs:string">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -507,17 +411,22 @@
                   School name
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom
+                  Nom de l'établissement
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Name
+                  School name
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
                     <step name="futureSchool" />
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -530,18 +439,23 @@
                   School address
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Adresse
+                  Adresse de l'établissement
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Address
+                  School address
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users"/>
+                  <model namespace="users" isTiedToRequest="true" />
                   <common>
                     <step name="futureSchool" />
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="1" column="0">
+                      <complexTemplate />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -554,18 +468,23 @@
                   School phone
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Téléphone
+                  Téléphone de l'établissement
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Phone
+                  School phone
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users"/>
+                  <model namespace="users" />
                   <common>
                     <step name="futureSchool" />
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="2" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -578,40 +497,50 @@
                   Prepared diploma
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Diplôme
+                  Diplôme préparé
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Diploma
+                  Prepared diploma
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
                     <step name="futureSchool" />
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="3" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
             <xs:element name="FutureDiplomaLevel" type="xs:string">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Niveau (1, 2)
+                  Niveau (1ère, 2ème année)
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Year (1, 2)
+                  Year (1st, 2nd)
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Niveau
+                  Niveau (1ère, 2ème année)
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Year
+                  Year (1st, 2nd)
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
                     <step name="futureSchool" />
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="3" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -624,10 +553,10 @@
                   Abroad internship
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Étranger
+                  Stage à l'étranger
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Abroad
+                  Abroad internship
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -636,8 +565,13 @@
                       <condition name="willDoAbroadInternship" type="trigger" />
                     </conditions>
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="4" column="0">
+                      <yesnoCheckbox />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -650,10 +584,10 @@
                   Reception school name
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Établissement
+                  Nom de l'établissement d'accueil
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  School
+                  Reception school name
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -662,24 +596,29 @@
                       <condition name="willDoAbroadInternship" type="filled" required="true" />
                     </conditions>
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="5" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
             <xs:element name="AbroadInternshipSchoolAddress" type="xs:string" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Adresse de l'établissement d'accueil
+                  Adresse complète
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Reception school address
+                  Complete address
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Adresse
+                  Adresse complète
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Address
+                  Complete address
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -688,18 +627,23 @@
                       <condition name="willDoAbroadInternship" type="filled" required="true" />
                     </conditions>
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="6" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
             <xs:element name="AbroadInternshipSchoolCountry" type="cvq:CountryType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Pays de l'établissement d'accueil
+                  Pays
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Reception school country
+                  Country
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Pays
@@ -708,26 +652,243 @@
                   Country
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users"/>
+                  <model namespace="users" />
                   <common>
                     <step name="futureSchool" />
                     <conditions>
                       <condition name="willDoAbroadInternship" type="filled" required="true" />
                     </conditions>
                   </common>
+                  <xslfo>
+                    <element blockId="7" line="7" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                   <fo />
-                  <bo />
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
             <xs:element name="Distance" type="sgr:DistanceType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Lieu d'études situé à
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Distance between home and school
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Lieu d'études situé à
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Distance between home and school
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="calculationElements" />
+                  </common>
+                  <xslfo>
+                    <element blockId="8" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
             </xs:element>
-            <xs:element name="BankName" type="xs:string" />
-            <xs:element name="BankCode" type="xs:string" />
-            <xs:element name="BankAgency" type="xs:string" />
-            <xs:element name="CounterCode" type="xs:string" />
-            <xs:element name="AccountNumber" type="xs:string" />
-            <xs:element name="AccountKey" type="xs:string" />
+            <xs:element name="BankName" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Banque
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Bank
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Banque
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Bank
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                  </common>
+                  <xslfo>
+                    <element blockId="9" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="BankCode">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Code banque
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Bank code
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Code banque
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Bank code
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <validation jsregexp="^\d{1,5}$" />
+                  </common>
+                  <xslfo>
+                    <element blockId="9" line="0" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="5" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+            <xs:element name="BankAgency" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Agence
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Agency
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Agence
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Agency
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                  </common>
+                  <xslfo>
+                    <element blockId="9" line="1" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="CounterCode">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Code guichet
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Couter code
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Code guichet
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Counter code
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <validation jsregexp="^\d{1,5}$" />
+                  </common>
+                  <xslfo>
+                    <element blockId="9" line="1" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="5" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+            <xs:element name="AccountNumber">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Numéro de compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account number
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Numéro de compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account number
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <validation jsregexp="^[a-zA-Z0-9]{1,11}$" />
+                  </common>
+                  <xslfo>
+                    <element blockId="9" line="2" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="11" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+            <xs:element name="AccountKey">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Clé RIB
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account key
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Clé RIB
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account key
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <validation jsregexp="^(?:O[1-9])|(?:[1-8]\d)|(?:9[0-7])$" />
+                  </common>
+                  <xslfo>
+                    <element blockId="9" line="2" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="2" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
           </xs:sequence>
         </xs:extension>
       </xs:complexContent>
@@ -736,9 +897,14 @@
   <xs:simpleType name="DistanceType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="lessThan30km" value="moins de 30 km du domicile"/>
-        <enum key="between30and250km" value="entre 30 et 250 km du domicile"/>
-        <enum key="moreThan250kmAndAbroad" value="plus de 250 km du domicile et à l’international"/>
+        <enum key="lessThan30km" value="Moins de 30 km du domicile" />
+        <enum key="between30and250km" value="Entre 30 et 250 km du domicile" />
+        <enum key="moreThan250kmAndAbroad" value="Plus de 250 km du domicile et à l’international" />
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="lessThan30km" value="Less than 30 km from home" />
+        <enum key="between30and250km" value="Between 30 and 250 km from home" />
+        <enum key="moreThan250kmAndAbroad" value="More than 250 km from home and abroad" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
@@ -750,10 +916,36 @@
   <xs:simpleType name="CurrentStudiesType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="licence1" value="Licence 1"/>
-        <enum key="licence2" value="Licence 2"/>
-        <enum key="licence3" value="Licence 3"/>
-        <enum key="sandwichCourses" value="Études en alternance"/>
+        <enum key="licence1" value="Licence 1" />
+        <enum key="licence2" value="Licence 2" />
+        <enum key="licence3" value="Licence 3" />
+        <enum key="licencePro" value="Licence Pro" />
+        <enum key="master" value="Master" />
+        <enum key="master1" value="Master 1" />
+        <enum key="master2" value="Master 2" />
+        <enum key="bts1" value="BTS 1" />
+        <enum key="bts2" value="BTS 2" />
+        <enum key="dut1" value="DUT 1" />
+        <enum key="dut2" value="DUT 2" />
+        <enum key="sandwichCourses" value="Études en alternance" />
+        <enum key="abroadInternship" value="Stage conventionné à l'étranger" />
+        <enum key="otherStudies" value="Autre" />
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="licence1" value="Licence 1" />
+        <enum key="licence2" value="Licence 2" />
+        <enum key="licence3" value="Licence 3" />
+        <enum key="licencePro" value="Licence Pro" />
+        <enum key="master" value="Master" />
+        <enum key="master1" value="Master 1" />
+        <enum key="master2" value="Master 2" />
+        <enum key="bts1" value="BTS 1" />
+        <enum key="bts2" value="BTS 2" />
+        <enum key="dut1" value="DUT 1" />
+        <enum key="dut2" value="DUT 2" />
+        <enum key="sandwichCourses" value="Sandwich courses" />
+        <enum key="abroadInternship" value="Abroad official internship" />
+        <enum key="otherStudies" value="Other" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
@@ -773,14 +965,13 @@
       <xs:enumeration value="otherStudies"></xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
-  
   <xs:complexType name="SubjectInformationsType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Informations sur le sujet
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Sujet
+        Informations sur le sujet
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -799,12 +990,17 @@
             Phone
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
               <step name="subject" />
             </common>
+            <xslfo>
+              <element blockId="0" line="1" column="0">
+                <string />
+              </element>
+            </xslfo>
             <fo />
-            <bo />
+            <bo column="1" />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -823,12 +1019,17 @@
             Mobile phone
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
               <step name="subject" />
             </common>
+            <xslfo>
+              <element blockId="0" line="1" column="1">
+                <string />
+              </element>
+            </xslfo>
             <fo />
-            <bo />
+            <bo column="1" />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -847,12 +1048,17 @@
             Email
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"/>
+            <model namespace="users" />
             <common>
               <step name="subject" />
             </common>
+            <xslfo>
+              <element blockId="0" line="2" column="0">
+                <string />
+              </element>
+            </xslfo>
             <fo />
-            <bo />
+            <bo column="1" />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -874,8 +1080,13 @@
             <common>
               <step name="subject" />
             </common>
+            <xslfo>
+              <element blockId="0" line="3" column="0">
+                <string />
+              </element>
+            </xslfo>
             <fo />
-            <bo />
+            <bo column="1" />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -897,8 +1108,13 @@
             <common>
               <step name="subject" />
             </common>
+            <xslfo>
+              <element blockId="0" line="3" column="1">
+                <string />
+              </element>
+            </xslfo>
             <fo />
-            <bo />
+            <bo column="1" />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -908,13 +1124,13 @@
             Réside au foyer familial
           </xs:documentation>
           <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Lives with parents bilouke
+            Lives in parents household
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Foyer familial
+            Réside au foyer familial
           </xs:documentation>
           <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Parents bilouke
+            Lives in parents household
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -923,8 +1139,13 @@
                 <condition name="livesWithParents" type="trigger" />
               </conditions>
             </common>
+            <xslfo>
+              <element blockId="0" line="4" column="0">
+                <yesnoCheckbox />
+              </element>
+            </xslfo>
             <fo />
-            <bo />
+            <bo column="2" />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -943,19 +1164,315 @@
             Address
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="users"  isTiedToRequest="true" />
+            <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="subject" />
               <conditions>
                 <condition name="livesWithParents" type="unfilled" required="true" />
               </conditions>
             </common>
+            <xslfo>
+              <element blockId="0" line="5" column="0">
+                <complexTemplate />
+              </element>
+            </xslfo>
             <fo />
-            <bo />
+            <bo column="2" />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-  
+  <xs:complexType name="ALevelsInformationsType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Baccalauréat
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        A Levels
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Baccalauréat
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        A Levels
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="IsInLastYear" type="xs:boolean" default="false">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Actuellement en Terminale
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Currently in last year
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Actuellement en Terminale
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Currently in last year
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="currentStudies" />
+              <conditions>
+                <condition name="notInLastYear" type="trigger" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="3" line="0" column="0">
+                <yesnoCheckbox />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LastYearDate" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Année d'obtention du baccalauréat
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            A Levels obtaining year
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Année d'obtention du baccalauréat
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            A Levels obtaining year
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="currentStudies" />
+              <validation jsregexp="^\d{2,4}$" />
+              <conditions>
+                <condition name="notInLastYear" type="filled" required="true" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="3" line="1" column="0">
+                <string />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="4" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="LastYearType" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Type de baccalauréat
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            A Levels type
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Type de baccalauréat
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            A Levels type
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="currentStudies" />
+              <conditions>
+                <condition name="notInLastYear" type="filled" required="true" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="3" line="1" column="1">
+                <string />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CurrentStudiesInformationsType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Études en cours
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Current studies
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Études en cours
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Current studies
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="CurrentStudies" type="sgr:CurrentStudiesType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Études en cours
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Current studies
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Études en cours
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Current studies
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="currentStudies" />
+              <conditions>
+                <condition name="isInAbroadInternship" type="trigger" />
+                <condition name="isInSandwichCourses" type="trigger" />
+                <condition name="isInOtherStudies" type="trigger" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="3" line="2" column="0">
+                <string />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SandwichCoursesLabel" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Études en alternance
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Sandwich courses
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Études en alternance
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Sandwich courses
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="currentStudies" />
+              <conditions>
+                <condition name="isInSandwichCourses" type="filled" required="true" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="4" line="0" column="0">
+                <string />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="2" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AbroadInternshipStartDate" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de début
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Start date
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date de début
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Start date
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="currentStudies" />
+              <conditions>
+                <condition name="isInAbroadInternship" type="filled" required="true" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="5" line="0" column="0">
+                <string />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="2" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AbroadInternshipEndDate" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de fin
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            End date
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date de fin
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            End date
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="currentStudies" />
+              <conditions>
+                <condition name="isInAbroadInternship" type="filled" required="true" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="5" line="1" column="0">
+                <string />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="2" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="OtherStudiesLabel" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Précisez
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Specify
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Précisez
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Specify
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="currentStudies" />
+              <conditions>
+                <condition name="isInOtherStudies" type="filled" required="true" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="6" line="0" column="0">
+                <string />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="2" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>

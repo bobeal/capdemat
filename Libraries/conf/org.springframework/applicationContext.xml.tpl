@@ -391,6 +391,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="supportUnregisteredCreation" value="false"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="isOfRegistrationKind" value="true"/>
+    <property name="xslFoFilename" value="studyGrantRequest.xsl"/>
   </bean>
 
   <bean id="personalDetailsRequestService" 

@@ -70,6 +70,9 @@ sgr.property.hasOtherHelp.validationError =
 sgr.property.otherHelpInformations.help =
 sgr.property.otherHelpInformations.validationError =
 
+sgr.property.aLevelsInformations.help =
+sgr.property.aLevelsInformations.validationError =
+
 sgr.property.isInLastYear.help =
 sgr.property.isInLastYear.validationError =
 
@@ -78,6 +81,9 @@ sgr.property.lastYearDate.validationError =
 
 sgr.property.lastYearType.help =
 sgr.property.lastYearType.validationError =
+
+sgr.property.currentStudiesInformations.help =
+sgr.property.currentStudiesInformations.validationError =
 
 sgr.property.currentStudies.help =
 sgr.property.currentStudies.validationError =
@@ -120,4 +126,25 @@ sgr.property.abroadInternshipSchoolAddress.validationError =
 
 sgr.property.abroadInternshipSchoolCountry.help =
 sgr.property.abroadInternshipSchoolCountry.validationError =
+
+sgr.property.distance.help =
+sgr.property.distance.validationError =
+
+sgr.property.bankName.help =
+sgr.property.bankName.validationError =
+
+sgr.property.bankCode.help =
+sgr.property.bankCode.validationError =
+
+sgr.property.bankAgency.help =
+sgr.property.bankAgency.validationError =
+
+sgr.property.counterCode.help =
+sgr.property.counterCode.validationError =
+
+sgr.property.accountNumber.help =
+sgr.property.accountNumber.validationError =
+
+sgr.property.accountKey.help =
+sgr.property.accountKey.validationError =
 

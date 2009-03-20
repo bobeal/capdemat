@@ -1,7 +1,7 @@
 <form id="entryForm_${entry?.key}" method="post" action="${createLink(action:'saveLocalReferentialEntry')}" class="editable-list-form">
   <div class="error" id="entryForm_${entry?.key}_Errors"></div>
   <g:if test="${isNewSubEntry}">
-    <strong>${message(code:'localReferential.label.NewEntry')}</strong>
+    <strong>${message(code:'localReferential.label.newEntry')}</strong>
   </g:if>
   <label for="label">label : </label>
   <input type="text" name="labelsMap['fr']" value="${entry?.labelsMap?.fr}" />

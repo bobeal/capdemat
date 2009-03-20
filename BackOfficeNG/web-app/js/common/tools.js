@@ -939,7 +939,7 @@
    * @param e {Object} provided event
    * 
    * @author vba@zenexity.fr
-  **/
+   */
   zct.Event.prototype.dispatch = function(e) {
     var method = zct.tryToCall(this.rule,this.context,e);
     zct.tryToCall(this.context[method],this.context,e);

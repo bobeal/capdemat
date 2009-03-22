@@ -38,7 +38,7 @@ public class RequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
-        List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
         assertTrue(requestTypesSet.size() >= 2);
 
         // add a new requirement for the first request type found
@@ -94,10 +94,10 @@ public class RequestServiceTest extends ServiceTestCase {
 
         // requestType by category
         Category category = iCategoryService.getAll().get(0);
-        iRequestService.getRequestsTypes(category.getId(), null);
-        int requestTypeNumber = iRequestService.getAllRequestTypes().size();
+        iRequestTypeService.getRequestTypes(category.getId(), null);
+        int requestTypeNumber = iRequestTypeService.getAllRequestTypes().size();
         int requestTypeInCategory = 
-            iRequestService.getRequestsTypes(category.getId(), null).size();
+            iRequestTypeService.getRequestTypes(category.getId(), null).size();
         Assert.assertEquals(requestTypeNumber, requestTypeInCategory);
 
         SecurityContext.resetCurrentSite();

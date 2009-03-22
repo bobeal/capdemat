@@ -14,10 +14,12 @@ import fr.cg95.cvq.service.request.urbanism.ISewerConnectionRequestService;
 public final class SewerConnectionRequestService
     extends RequestService implements ISewerConnectionRequestService {
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof SewerConnectionRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new SewerConnectionRequest();
     }

@@ -22,6 +22,7 @@ import fr.cg95.cvq.service.request.social.IRemoteSupportRequestService;
 public class RemoteSupportRequestService extends RequestService 
     implements IRemoteSupportRequestService {
     
+    @Override
     public Long create(final Request request) throws CvqException, CvqObjectNotFoundException {
 
         RemoteSupportRequest rsr = (RemoteSupportRequest) request;
@@ -30,10 +31,12 @@ public class RemoteSupportRequestService extends RequestService
         return finalizeAndPersist(rsr);
     }
     
+    @Override
     public boolean accept(Request request) {
         return request instanceof RemoteSupportRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new RemoteSupportRequest();
     }
@@ -48,6 +51,7 @@ public class RemoteSupportRequestService extends RequestService
     /**
      * TODO - move to abstract RequestService
      */
+    @Override
     public boolean isConditionFilled (Map<String, String> triggers) {
         initFilledConditions();
         boolean test = true;

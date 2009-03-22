@@ -12,6 +12,7 @@ import fr.cg95.cvq.service.request.localpolice.IHolidaySecurityRequestService;
 public class HolidaySecurityRequestService extends RequestService 
     implements IHolidaySecurityRequestService {
 
+    @Override
     public Long create(Request request)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -27,10 +28,12 @@ public class HolidaySecurityRequestService extends RequestService
         return finalizeAndPersist(request);
     }
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof HolidaySecurityRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new HolidaySecurityRequest();
     }

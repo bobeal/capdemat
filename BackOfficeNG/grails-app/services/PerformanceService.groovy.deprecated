@@ -13,6 +13,7 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.dao.request.IRequestDAO
 import fr.cg95.cvq.exception.CvqObjectNotFoundException
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
@@ -33,6 +34,7 @@ public class PerformanceService {
     
     IMusicSchoolRegistrationRequestService musicSchoolRegistrationRequestService
     IVoCardRequestService voCardRequestService
+    IRequestTypeService requestTypeService
     IHomeFolderService homeFolderService
     IIndividualService individualService 
     IRequestDAO requestDAO
@@ -148,7 +150,7 @@ public class PerformanceService {
 
         Category category = new Category();
         category.setName("General");
-        List<RequestType> requestTypesSet = musicSchoolRegistrationRequestService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = requestTypeService.getAllRequestTypes();
         for (RequestType requestType : requestTypesSet) {
             requestType.setCategory(category);
             genericDAO.update(requestType);

@@ -33,6 +33,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
     private ISchoolRegistrationRequestService schoolRegistrationRequestService;
     private RequestType requestType;
     
+    @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
         ConfigurableApplicationContext cac = getContext(getConfigLocations());
@@ -140,9 +141,10 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        schoolRegistrationRequestService.complete(requestId);
-        schoolRegistrationRequestService.validate(requestId);
-        schoolRegistrationRequestService.notify(requestId, "Bon pour inscription");
+        iRequestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
+        iRequestWorkflowService.updateRequestState(requestId, RequestState.NOTIFIED,
+            "Bon pour inscription");
 
         /* Must not change requestState (season's effect isn't started) */
         requestSeasonsJob.launchJob();

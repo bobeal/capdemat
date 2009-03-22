@@ -44,6 +44,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -68,6 +69,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     protected IMailService mailService;
     protected IRequestService requestService;
+    protected IRequestWorkflowService requestWorkflowService;
     protected IDocumentService documentService;
     protected IPaymentService paymentService;
     protected IExternalService externalService;
@@ -81,7 +83,10 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
                 this.requestService = beans.get(beanName);
                 break;
             }
-        }        
+        }
+
+        this.requestWorkflowService = (IRequestWorkflowService)
+            beanFactory.getBeansOfType(IRequestWorkflowService.class, false, false).values().iterator().next();
     }
     
     @Override
@@ -708,7 +713,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         
         updateHomeFolderState(homeFolder, ActorState.ARCHIVED);
         
-        requestService.archiveHomeFolderRequests(homeFolder.getId());
+        requestWorkflowService.archiveHomeFolderRequests(homeFolder.getId());
     }
 
     public void notifyPaymentByMail(Payment payment) throws CvqException {
@@ -764,10 +769,6 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 		this.individualService = individualService;
 	}
 
-    public void setRequestService(final IRequestService requestService) {
-        this.requestService = requestService;
-    }
-    
     public final void setHomeFolderDAO(final IHomeFolderDAO homeFolderDAO) {
         this.homeFolderDAO = homeFolderDAO;
     }

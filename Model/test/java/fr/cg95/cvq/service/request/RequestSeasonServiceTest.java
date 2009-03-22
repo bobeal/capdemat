@@ -37,7 +37,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
         // find the first request type with registrations/seasons notions
-        List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
         requestType = null;
         for (RequestType tempRequestType : requestTypesSet) {
             IRequestService service = 

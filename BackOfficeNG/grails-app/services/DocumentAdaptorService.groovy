@@ -3,6 +3,7 @@ import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentType
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.business.document.DocumentBinary
@@ -12,13 +13,13 @@ public class DocumentAdaptorService {
 
     def messageSource
 
-    IRequestService defaultRequestService
+    IRequestTypeService requestTypeService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     
     public getDocumentTypes(IRequestService requestService, Request cRequest, List newDocuments) {
-        def requestType = requestService.getRequestTypeByLabel(requestService.getLabel())
-        def documentTypes = requestService.getAllowedDocuments(requestType.getId())
+        def requestType = requestTypeService.getRequestTypeByLabel(requestService.getLabel())
+        def documentTypes = requestTypeService.getAllowedDocuments(requestType.getId())
         
         def result = [:]
         def documentTypeList = []

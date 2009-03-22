@@ -14,10 +14,12 @@ import fr.cg95.cvq.service.request.leisure.music.IMusicSchoolRegistrationRequest
 public final class MusicSchoolRegistrationRequestService
     extends RequestService implements IMusicSchoolRegistrationRequestService {
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof MusicSchoolRegistrationRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new MusicSchoolRegistrationRequest();
     }

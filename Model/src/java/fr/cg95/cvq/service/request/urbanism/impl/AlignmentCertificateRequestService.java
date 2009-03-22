@@ -14,10 +14,12 @@ import fr.cg95.cvq.service.request.urbanism.IAlignmentCertificateRequestService;
 public final class AlignmentCertificateRequestService
     extends RequestService implements IAlignmentCertificateRequestService {
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof AlignmentCertificateRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new AlignmentCertificateRequest();
     }

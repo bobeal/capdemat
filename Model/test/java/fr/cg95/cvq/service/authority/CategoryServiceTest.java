@@ -77,7 +77,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
         int requestTypesNb = requestTypesSet.size();
 
         List categoriesList = iCategoryService.getAll();

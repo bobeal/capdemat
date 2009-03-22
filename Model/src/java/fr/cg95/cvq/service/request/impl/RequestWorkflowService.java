@@ -10,16 +10,36 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestStep;
+import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
+import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.service.request.IRequestNotificationService;
 import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestServiceRegistry;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.users.ICertificateService;
+import fr.cg95.cvq.service.users.IHomeFolderService;
+
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 
 /**
  * This services handles workflow tasks for requests. Workflow-related calls to
@@ -32,17 +52,43 @@ import fr.cg95.cvq.service.users.ICertificateService;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class RequestWorkflowService {
+public class RequestWorkflowService implements IRequestWorkflowService, BeanFactoryAware {
 
     private static Logger logger = Logger.getLogger(RequestWorkflowService.class);
     
     private ICertificateService certificateService;
+    private IDocumentService documentService;
+    private IHomeFolderService homeFolderService;
+    private IExternalService externalService;
+    private IRequestServiceRegistry requestServiceRegistry;
+
+    private IRequestActionService requestActionService;
+    private IRequestNotificationService requestNotificationService;
 
     private IRequestDAO requestDAO;
-    
+
+    private ListableBeanFactory beanFactory;
+
+    public void init() {
+        this.homeFolderService = (IHomeFolderService)
+            beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void updateRequestDataState(final Long id, final DataState rs)
+        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+
+        Request request = (Request) requestDAO.findById(Request.class, id);
+        if (rs.equals(DataState.VALID))
+            validData(request);
+        else if (rs.equals(DataState.INVALID))
+            invalidData(request);
+    }
+
     // TODO : must we trace as request action 
-    public void validData(Request request)
-            throws CvqException, CvqInvalidTransitionException {
+    private void validData(Request request)
+        throws CvqException, CvqInvalidTransitionException {
     
         // if no state change asked, just return silently
         if (request.getDataState().equals(DataState.VALID))
@@ -55,7 +101,7 @@ public class RequestWorkflowService {
     }
     
     // TODO : must we trace as request action 
-    public void invalidData(Request request)
+    private void invalidData(Request request)
             throws CvqException, CvqInvalidTransitionException {
     
         // if no state change asked, just return silently
@@ -67,8 +113,37 @@ public class RequestWorkflowService {
         else
             throw new CvqInvalidTransitionException();
     }
-    
-    public void complete(Request request)
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void updateRequestState(final Long id, final RequestState rs, final String motive)
+            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+
+        Request request = (Request) requestDAO.findById(Request.class, id);
+
+        if (rs.equals(RequestState.COMPLETE))
+            complete(request);
+        else if (rs.equals(RequestState.UNCOMPLETE))
+            specify(request, motive);
+        else if (rs.equals(RequestState.REJECTED))
+            reject(request, motive);
+        else if (rs.equals(RequestState.CANCELLED))
+            cancel(request);
+        else if (rs.equals(RequestState.VALIDATED))
+            validate(request);
+        else if (rs.equals(RequestState.NOTIFIED))
+            notify(request, motive);
+        else if (rs.equals(RequestState.ACTIVE))
+            activate(request);
+        else if (rs.equals(RequestState.EXPIRED))
+            expire(request);
+        else if (rs.equals(RequestState.CLOSED))
+            close(request);
+        else if (rs.equals(RequestState.ARCHIVED))
+            archive(request);
+    }
+
+    private void complete(Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -82,14 +157,15 @@ public class RequestWorkflowService {
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
-            addActionTrace(IRequestService.STATE_CHANGE_ACTION, null, date, 
-                    RequestState.COMPLETE, request, null);
+            requestActionService.addWorfklowAction(request.getId(), null, date,
+                RequestState.COMPLETE, null);
+
         } else {
             throw new CvqInvalidTransitionException();
         }
     }
     
-    public void specify(final Request request, final String motive)
+    private void specify(final Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException {
 
         if (request.getState().equals(RequestState.UNCOMPLETE))
@@ -102,14 +178,75 @@ public class RequestWorkflowService {
             Date date = new Date();
             updateLastModificationInformation(request, date);
             
-            addActionTrace(IRequestService.STATE_CHANGE_ACTION, motive, date, 
-                    RequestState.UNCOMPLETE, request, null);
+            requestActionService.addWorfklowAction(request.getId(), motive, date,
+                RequestState.UNCOMPLETE, null);
         } else {
             throw new CvqInvalidTransitionException();
         }
     }
 
-    public void validate(Request request, boolean generateCertificate, String fopConfig)
+    protected void validateAssociatedDocuments(final Set<RequestDocument> documentSet)
+        throws CvqException {
+
+        if (documentSet == null)
+            return;
+
+        for (RequestDocument requestDocument : documentSet) {
+            documentService.validate(requestDocument.getDocumentId(),
+                    new Date(), "Automatic validation");
+        }
+    }
+
+    /**
+	 * Do the real work of validating a request.
+     *
+     * <ul>
+     *   <li>change request's state and step</li>
+     *   <li>generate a PDF certificate is asked for</li>
+     *   <li>validate home folder if created along the request</li>
+	 *   <li>validate associated documents</li>
+     *   <li>notify associated external services</li>
+     *   <li>send notification email to e-citizen if notification enabled for this request</li>
+     * </ul>
+	 *
+	 * @param request the request to be validated
+	 * @param generateCertificate
+	 *            whether or not we want the request's certificate to be
+	 *            generated (some requests have to add extra information in the
+	 *            certificate and so they call directly the
+	 *            {@link ICertificateService})
+	 */
+    protected void validate(final Request request)
+        throws CvqException, CvqInvalidTransitionException, CvqModelException,
+            CvqObjectNotFoundException {
+
+        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
+        requestService.onRequestValidated(request);
+
+        validateXmlData(request.modelToXml());
+
+        logger.debug("validate() Gonna generate a pdf of the request");
+        byte[] pdfData = certificateService.generateRequestCertificate(request);
+
+        validate(request, pdfData);
+
+        validateAssociatedDocuments(request.getDocuments());
+
+        // those two request types are special ones
+        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest)
+            homeFolderService.validate(request.getHomeFolderId());
+        else
+            homeFolderService.onRequestValidated(request.getHomeFolderId(), request.getId());
+
+		// send request data to interested external services
+        // TODO DECOUPLING
+		externalService.sendRequest(request);
+
+        // TODO DECOUPLING
+        requestNotificationService.notifyRequestValidation(request.getId(), pdfData);
+    }
+
+    public void validate(Request request, byte[] pdfData)
         throws CvqException, CvqInvalidTransitionException {
         
         // if no state change asked, just return silently
@@ -126,18 +263,23 @@ public class RequestWorkflowService {
         request.setValidationDate(date);
         updateLastModificationInformation(request, date);
        
-        if (generateCertificate) {
-            logger.debug("validate() Gonna generate a pdf of the request");
-            byte[] pdfData = certificateService.generateRequestCertificate(request, fopConfig);
-            addActionTrace(IRequestService.STATE_CHANGE_ACTION, null, date, 
-                    RequestState.VALIDATED, request, pdfData);
-        } else {
-            addActionTrace(IRequestService.STATE_CHANGE_ACTION, null, date, 
-                    RequestState.VALIDATED, request, null);
-        }
+        requestActionService.addWorfklowAction(request.getId(), null, date,
+            RequestState.VALIDATED, pdfData);
     }
     
-    public void notify(Request request, final String motive)
+    protected void validateXmlData(XmlObject xmlObject) {
+        ArrayList<Object> validationErrors = new ArrayList<Object>();
+        XmlOptions options = new XmlOptions();
+        options.setErrorListener(validationErrors);
+        boolean isValid = xmlObject.validate(options);
+        if (!isValid) {
+            for (Object error : validationErrors) {
+                logger.info("validateXmlData() Error : " + error);
+            }
+        }
+    }
+
+    private void notify(Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -151,11 +293,11 @@ public class RequestWorkflowService {
         Date date = new Date();
         updateLastModificationInformation(request, date);
 
-        addActionTrace(IRequestService.STATE_CHANGE_ACTION, motive, date, 
-                RequestState.NOTIFIED, request, null);
-    }   
+        requestActionService.addWorfklowAction(request.getId(), motive, date,
+            RequestState.NOTIFIED, null);
+    }
 
-    public void activate(final Request request)
+    private void activate(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -169,11 +311,11 @@ public class RequestWorkflowService {
         Date date = new Date();
         updateLastModificationInformation(request, date);
 
-        addActionTrace(IRequestService.STATE_CHANGE_ACTION, null, date, 
-                RequestState.ACTIVE, request, null);
+        requestActionService.addWorfklowAction(request.getId(), null, date,
+            RequestState.ACTIVE, null);
     }
     
-    public void expire(final Request request)
+    private void expire(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -187,12 +329,15 @@ public class RequestWorkflowService {
         Date date = new Date();
         updateLastModificationInformation(request, date);
 
-        addActionTrace(IRequestService.STATE_CHANGE_ACTION, null, date, 
-                RequestState.EXPIRED, request, null);
+        requestActionService.addWorfklowAction(request.getId(), null, date,
+            RequestState.EXPIRED, null);
     }
     
-    public void cancel(final Request request)
+    private void cancel(final Request request)
         throws CvqException, CvqInvalidTransitionException {
+
+        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
+        requestService.onRequestCancelled(request);
 
         // if no state change asked, just return silently
         if (request.getState().equals(RequestState.CANCELLED))
@@ -205,15 +350,27 @@ public class RequestWorkflowService {
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
-            addActionTrace(IRequestService.STATE_CHANGE_ACTION, null, date, 
-                    RequestState.CANCELLED, request, null);
+            requestActionService.addWorfklowAction(request.getId(), null, date,
+                RequestState.CANCELLED, null);
         } else {
             throw new CvqInvalidTransitionException();
         }
+
+        if (request instanceof VoCardRequest)
+            // invalidate home folder is creation request is cancelled
+            homeFolderService.invalidate(request.getHomeFolderId());
+        else if (request instanceof HomeFolderModificationRequest)
+            // home folder was supposed to be valid before modification request
+            homeFolderService.validate(request.getHomeFolderId());
+        else
+            homeFolderService.onRequestCancelled(request.getHomeFolderId(), request.getId());
     }
 
-    public void reject(final Request request, final String motive)
+    private void reject(final Request request, final String motive)
         throws CvqException, CvqInvalidTransitionException {
+
+        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
+        requestService.onRequestRejected(request);
 
         // if no state change asked, just return silently
         if (request.getState().equals(RequestState.REJECTED))
@@ -226,14 +383,23 @@ public class RequestWorkflowService {
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
-            addActionTrace(IRequestService.STATE_CHANGE_ACTION, motive, date, 
-                    RequestState.REJECTED, request, null);
+            requestActionService.addWorfklowAction(request.getId(), motive, date,
+                RequestState.REJECTED, null);
         } else {
             throw new CvqInvalidTransitionException();
         }
+
+        if (request instanceof VoCardRequest)
+            // invalidate home folder is creation request is cancelled
+            homeFolderService.invalidate(request.getHomeFolderId());
+        else if (request instanceof HomeFolderModificationRequest)
+            // home folder was supposed to be valid before modification request
+            homeFolderService.validate(request.getHomeFolderId());
+        else
+            homeFolderService.onRequestRejected(request.getHomeFolderId(), request.getId());
     }
     
-    public void close(Request request)
+    private void close(Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -245,14 +411,14 @@ public class RequestWorkflowService {
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
-            addActionTrace(IRequestService.STATE_CHANGE_ACTION, null, date, 
-                    RequestState.CLOSED, request, null);
+            requestActionService.addWorfklowAction(request.getId(), null, date,
+                RequestState.CLOSED, null);
         } else {
             throw new CvqInvalidTransitionException();
         }
     }
 
-    public void archive(final Request request)
+    private void archive(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -268,12 +434,47 @@ public class RequestWorkflowService {
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
-            addActionTrace(IRequestService.STATE_CHANGE_ACTION, null, date, 
-                    RequestState.ARCHIVED, request, null);
+            requestActionService.addWorfklowAction(request.getId(), null, date,
+                RequestState.ARCHIVED, null);
         } else {
             throw new CvqInvalidTransitionException();
         }
+
+        homeFolderService.onRequestArchived(request.getHomeFolderId(), request.getId());
     }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void archiveHomeFolderRequests(Long homeFolderId)
+        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+
+        List<Request> requests = requestDAO.listByHomeFolder(homeFolderId);
+        if (requests == null || requests.isEmpty()) {
+            logger.debug("archiveHomeFolderRequests() no requests associated to home folder "
+                    + homeFolderId);
+            return;
+        }
+
+        // duplicated to avoid state checks
+        for (Request request : requests) {
+            request.setState(RequestState.ARCHIVED);
+            Date date = new Date();
+            updateLastModificationInformation(request, date);
+            requestActionService.addWorfklowAction(request.getId(), null, date,
+                RequestState.ARCHIVED, null);
+        }
+    }
+
+    public DataState[] getPossibleTransitions(DataState ds) {
+        List<DataState> dataStateList = new ArrayList<DataState>();
+
+        if (ds.equals(DataState.PENDING)) {
+            dataStateList.add(DataState.VALID);
+            dataStateList.add(DataState.INVALID);
+        }
+        return (DataState[]) dataStateList.toArray(new DataState[0]);
+    }
+
 
     public RequestState[] getPossibleTransitions(RequestState rs) {
 
@@ -386,7 +587,17 @@ public class RequestWorkflowService {
             new RequestState[] { RequestState.REJECTED, RequestState.CANCELLED };
         return excludedStates;
     }
-    
+
+    public List<RequestState> getEditableStates() {
+        List<RequestState> result = new ArrayList<RequestState>();
+
+        result.add(RequestState.PENDING);
+        result.add(RequestState.COMPLETE);
+        result.add(RequestState.UNCOMPLETE);
+
+        return result;
+    }
+
     private void updateLastModificationInformation(Request request, final Date date)
         throws CvqException {
 
@@ -402,44 +613,35 @@ public class RequestWorkflowService {
         requestDAO.update(request);
     }
 
-    private void addActionTrace(final String label, final String note, final Date date,
-            final RequestState resultingState, final Request request, final byte[] pdfData)
-        throws CvqException {
-
-        // retrieve user or agent id according to context
-        Long userId = null;
-        if (request instanceof VoCardRequest) {
-            VoCardRequest vocr = (VoCardRequest) request;
-            // there can't be a logged in user at VO card request creation time
-            userId = vocr.getRequesterId();
-        } else {
-            userId = SecurityContext.getCurrentUserId();
-        }
-
-        RequestAction requestAction = new RequestAction();
-        requestAction.setAgentId(userId);
-        requestAction.setLabel(label);
-        requestAction.setNote(note);
-        requestAction.setDate(date);
-        requestAction.setResultingState(resultingState);
-        requestAction.setFile(pdfData);
-
-        if (request.getActions() == null) {
-            Set<RequestAction> actionsSet = new HashSet<RequestAction>();
-            actionsSet.add(requestAction);
-            request.setActions(actionsSet);
-        } else {
-            request.getActions().add(requestAction);
-        }
-        
-        requestDAO.update(request);
-    }
-
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
     }
 
     public void setCertificateService(ICertificateService certificateService) {
         this.certificateService = certificateService;
+    }
+
+    public void setDocumentService(IDocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setHomeFolderService(IHomeFolderService homeFolderService) {
+        this.homeFolderService = homeFolderService;
+    }
+
+    public void setExternalService(IExternalService externalService) {
+        this.externalService = externalService;
+    }
+
+    public void setRequestActionService(IRequestActionService requestActionService) {
+        this.requestActionService = requestActionService;
+    }
+
+    public void setRequestNotificationService(IRequestNotificationService requestNotificationService) {
+        this.requestNotificationService = requestNotificationService;
+    }
+
+    public void setBeanFactory(BeanFactory arg0) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) arg0;
     }
 }

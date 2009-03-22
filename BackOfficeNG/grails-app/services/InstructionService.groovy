@@ -5,10 +5,8 @@ class InstructionService {
     
     IAgentService agentService
     IIndividualService individualService
-
     
-    
-    def getActionPosterDetails = { posterId ->
+    def getActionPosterDetails(posterId) {
     
         if (posterId == null || posterId.equals(""))
             return ''

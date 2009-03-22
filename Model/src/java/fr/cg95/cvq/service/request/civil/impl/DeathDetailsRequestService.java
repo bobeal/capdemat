@@ -14,10 +14,12 @@ import fr.cg95.cvq.service.request.impl.RequestService;
 public final class DeathDetailsRequestService extends RequestService 
     implements IDeathDetailsRequestService {
     
+    @Override
 	public boolean accept(Request request) {
 		return request instanceof DeathDetailsRequest;
 	}
 
+    @Override
 	public Request getSkeletonRequest() throws CvqException {
         return new DeathDetailsRequest();
     }

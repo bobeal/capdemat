@@ -28,8 +28,8 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
         Long requestTypeId = request.getRequestType().getId();
         Long categoryId = request.getRequestType().getCategory().getId();
 
-        iRequestService.complete(request.getId());
-        iRequestService.cancel(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);

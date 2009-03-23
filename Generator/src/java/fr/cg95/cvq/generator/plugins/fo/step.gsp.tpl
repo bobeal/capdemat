@@ -55,6 +55,11 @@
             """
             <textarea name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.rows} ${element.lengthLimits}>\${${valuePrefix}.${element.javaFieldName}}</textarea>
             """
+            ,'localReferentialData':
+            """
+            <g:set var="${element.javaFieldName}Index" value="\${0}" scope="flash" />
+            <g:render template="/frontofficeRequestType/localReferentialEntries" model="['javaName':'${element.javaFieldName}', 'htmlClass':'required validate-not-first', 'lrEntries': localReferentialTypes.${element.javaFieldName}.entries]" />
+            """
          ,'date' :
             """
             <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${formatDate(formatName:'format.date',date:${valuePrefix}.${element.javaFieldName})}" 
@@ -107,6 +112,10 @@
                 </dd>
               </g:if>
               """
+           ,'localReferentialData':
+            """
+            <!-- TODO - local referential Data-->
+            """
           ,'date' :
               """<dd><g:formatDate formatName="format.date" date="\${${valuePrefix}.${element.javaFieldName}}"/></dd>"""
           ,'text' : 

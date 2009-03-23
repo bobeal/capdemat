@@ -142,14 +142,18 @@ public class FoPlugin implements IPluginGenerator {
         if (elementProp.isReferentialType())
             elementFo.setModelNamespace(IPluginGenerator.MODEL_BASE_TARGET_NS + ".users");
         
-        if (elementProp.isSimpleType())
+        if (elementProp.isSimpleType() || elementProp.getXmlSchemaType().equals("AddressType"))
             elementFo.setTypeClass(ElementFo.ElementTypeClass.SIMPLE);
         else if (elementProp.isComplexType())
             elementFo.setTypeClass(ElementFo.ElementTypeClass.COMPLEX);
         
-        if (elementProp.getMaxOccurs() == null
+        if (elementProp.getMaxOccurs() == null 
                 || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
             elementFo.setTypeClass(ElementFo.ElementTypeClass.COLLECTION);
+        
+        // TODO - refactor typClass managment
+        if (elementProp.getXmlSchemaType() != null &&  elementProp.getXmlSchemaType().equals("LocalReferentialDataType"))
+            elementFo.setTypeClass(ElementFo.ElementTypeClass.SIMPLE);
         
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)
             elementFo.setMandatory(false);

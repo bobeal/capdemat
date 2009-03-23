@@ -641,6 +641,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         this.requestNotificationService = requestNotificationService;
     }
 
+    public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
+        this.requestServiceRegistry = requestServiceRegistry;
+    }
+
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
         this.beanFactory = (ListableBeanFactory) arg0;
     }

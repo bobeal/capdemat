@@ -252,8 +252,7 @@ public class HomeFolderModificationRequestService
         logger.debug("modify() Gonna generate a pdf of the request");
         byte[] pdfData =
             certificateService.generateRequestCertificate(hfmr);
-            requestActionService.addWorfklowAction(hfmr.getId(), null, new Date(),
-                RequestState.PENDING, pdfData);
+        requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData);
 
         super.notifyRequestCreation(hfmr, pdfData);
         

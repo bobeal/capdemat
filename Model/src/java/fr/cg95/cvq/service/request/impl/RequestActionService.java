@@ -67,15 +67,17 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
+    public void addCreationAction(Long requestId, Date date, byte[] pdfData) throws CvqException {
+        addActionTrace(CREATION_ACTION, null, date, RequestState.PENDING, requestId, pdfData);
+    }
+
+    @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void addWorfklowAction(final Long requestId, final String note, final Date date,
             final RequestState resultingState, final byte[] pdfData)
         throws CvqException {
 
-        if (resultingState.equals(RequestState.PENDING))
-            addActionTrace(CREATION_ACTION, note, date, resultingState, requestId, pdfData);
-        else
-            addActionTrace(STATE_CHANGE_ACTION, note, date, resultingState, requestId, pdfData);
+        addActionTrace(STATE_CHANGE_ACTION, note, date, resultingState, requestId, pdfData);
     }
 
     private void addActionTrace(final String label, final String note, final Date date,

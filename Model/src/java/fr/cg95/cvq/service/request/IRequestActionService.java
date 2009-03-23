@@ -42,6 +42,14 @@ public interface IRequestActionService {
         throws CvqException;
 
     /**
+     * Add a creation action for the given request.
+     *
+     * Separated from other workflow actions because of authorizations concerns.
+     */
+    void addCreationAction(final Long requestId, final Date date, final byte[] pdfData)
+        throws CvqException;
+
+    /**
      * Add a workflow action for the given request.
      */
     void addWorfklowAction(@IsRequest final Long requestId, final String note, final Date date,

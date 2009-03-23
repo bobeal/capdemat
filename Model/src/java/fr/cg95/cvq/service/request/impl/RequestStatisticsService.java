@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.dao.request.IRequestDAO;
+import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -37,36 +37,36 @@ public class RequestStatisticsService implements IRequestStatisticsService {
 
     private static Logger logger = Logger.getLogger(RequestStatisticsService.class);
     
-    private IRequestDAO requestDAO;
+    private IRequestStatisticsDAO requestStatisticsDAO;
     private ICategoryService categoryService;
     private IRequestTypeDAO requestTypeDAO;
     
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
-    @RequestFilter(privilege=ContextPrivilege.MANAGE)
-    public Long getCount(final Set<Critere> criteriaSet)
-        throws CvqException {
-        
-        return requestDAO.count(criteriaSet);
-    }
+//    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+//    @RequestFilter(privilege=ContextPrivilege.MANAGE)
+//    public Long getCount(final Set<Critere> criteriaSet)
+//        throws CvqException {
+//
+//        return requestStatisticsDAO.count(criteriaSet);
+//    }
 
     public Map<Date, Long> getDetailedStats(final Timescale timescale, final Lifecycle lifecycle, 
             final Long requestTypeId, final Long categoryId) {
 
         Map<Date, Long> results = new TreeMap<Date, Long>();
 
-        String[] resultingState = getStatesFromLifecycle(lifecycle);
-     
-        List<Date> searchDates = getNextSearchEndDate(timescale, null);
-        while (searchDates != null) {
-            logger.debug("getDetailedStats() searching between " + searchDates.get(0)
-                    + " and " + searchDates.get(1));
-            Long count = requestDAO.countByResultingState(resultingState, searchDates.get(0), 
-                    searchDates.get(1), requestTypeId, categoryId);
-            logger.debug("getDetailedStats() adding " + count
-                    + " to date " + searchDates.get(0));            
-            results.put(searchDates.get(0), count);
-            searchDates = getNextSearchEndDate(timescale, searchDates.get(1));
-        }
+//        String[] resultingState = getStatesFromLifecycle(lifecycle);
+//
+//        List<Date> searchDates = getNextSearchEndDate(timescale, null);
+//        while (searchDates != null) {
+//            logger.debug("getDetailedStats() searching between " + searchDates.get(0)
+//                    + " and " + searchDates.get(1));
+//            Long count = requestStatisticsDAO.countByResultingState(resultingState, searchDates.get(0),
+//                    searchDates.get(1), requestTypeId, categoryId);
+//            logger.debug("getDetailedStats() adding " + count
+//                    + " to date " + searchDates.get(0));
+//            results.put(searchDates.get(0), count);
+//            searchDates = getNextSearchEndDate(timescale, searchDates.get(1));
+//        }
         
         return results;
     }
@@ -76,53 +76,66 @@ public class RequestStatisticsService implements IRequestStatisticsService {
 
         Map<RequestType, Long> results = new HashMap<RequestType, Long>();
 
-        String[] resultingState = getStatesFromLifecycle(lifecycle);        
-        List<Date> searchDates = getNextSearchEndDate(timescale, null);
-        
-        Date now = new Date();
-//        Date now = getShiftedDemoDate();
-
-        if (requestTypeId == null && categoryId == null) {
-            List<RequestType> requestTypes = requestTypeDAO.listAll();
-            for (RequestType requestType : requestTypes) {
-                Long count = requestDAO.countByResultingState(resultingState, searchDates.get(0), 
-                        now, requestType.getId(), null);
-                results.put(requestType, count);                
-            }
-        }
-        
-        return results;
-    }
-
-//    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
-//    public Map<String, Long> getQualityStats(final Timescale timescale, final Long requestTypeId,
-//            final Long categoryId) {
-//
-//        Map<String, Long> results = new HashMap<String, Long>();
-//
-//        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-//        if (!lacb.getInstructionAlertsEnabled())
-//            return null;
-//
+//        String[] resultingState = getStatesFromLifecycle(lifecycle);
 //        List<Date> searchDates = getNextSearchEndDate(timescale, null);
 //
 //        Date now = new Date();
 ////        Date now = getShiftedDemoDate();
 //
-//        Long count = requestDAO.countByQuality(searchDates.get(0), now,
-//                lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, categoryId);
-//        results.put(QUALITY_TYPE_OK, count);
-//        // (startDate, endDate, resultingStates, qualityType, requestTypeLabel, categoriesNames)
-//        count = requestDAO.countByQuality(searchDates.get(0), now,
-//                lacb.getInstructionDoneStates(), QUALITY_TYPE_ORANGE, requestTypeId, categoryId);
-//        results.put(QUALITY_TYPE_ORANGE, count);
-//
-//        count = requestDAO.countByQuality(searchDates.get(0), now,
-//                lacb.getInstructionDoneStates(), QUALITY_TYPE_RED, requestTypeId, categoryId);
-//        results.put(QUALITY_TYPE_RED, count);
-//
-//        return results;
-//    }
+//        if (requestTypeId == null && categoryId == null) {
+//            List<RequestType> requestTypes = requestTypeDAO.listAll();
+//            for (RequestType requestType : requestTypes) {
+//                Long count = requestStatisticsDAO.countByResultingState(resultingState, searchDates.get(0),
+//                        now, requestType.getId(), null);
+//                results.put(requestType, count);
+//            }
+//        }
+        
+        return results;
+    }
+
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    public Map<String, Long> getQualityStats(final Timescale timescale, final Long requestTypeId,
+            final Long categoryId) {
+
+
+        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+        if (!lacb.getInstructionAlertsEnabled())
+            return null;
+
+        StringBuffer sb = new StringBuffer();
+        if (categoryId == null) {
+            List<Category> agentCategories = categoryService.getManaged();
+            for (Category category : agentCategories) {
+                if (sb.length() > 0) {
+                    sb.append(",");
+                }
+                sb.append("'").append(category.getId()).append("'");
+            }
+        } else {
+            sb.append("'").append(categoryId).append("'");
+        }
+
+        List<Date> searchDates = getNextSearchEndDate(timescale, null);
+
+        Date now = new Date();
+//        Date now = getShiftedDemoDate();
+
+        Map<String, Long> results = new HashMap<String, Long>();
+        Long count = requestStatisticsDAO.countByQuality(searchDates.get(0), now,
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, sb.toString());
+        results.put(QUALITY_TYPE_OK, count);
+        // (startDate, endDate, resultingStates, qualityType, requestTypeLabel, categoriesNames)
+        count = requestStatisticsDAO.countByQuality(searchDates.get(0), now,
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_ORANGE, requestTypeId, sb.toString());
+        results.put(QUALITY_TYPE_ORANGE, count);
+
+        count = requestStatisticsDAO.countByQuality(searchDates.get(0), now,
+                lacb.getInstructionDoneStates(), QUALITY_TYPE_RED, requestTypeId, sb.toString());
+        results.put(QUALITY_TYPE_RED, count);
+
+        return results;
+    }
 
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public Map<String, Long> getQualityStats(final Date startDate, final Date endDate,
@@ -147,15 +160,15 @@ public class RequestStatisticsService implements IRequestStatisticsService {
 
         Map<String, Long> results = new HashMap<String, Long>();
 
-        Long count = requestDAO.countByQuality(startDate, endDate,
+        Long count = requestStatisticsDAO.countByQuality(startDate, endDate,
                 lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, sb.toString());
         results.put(QUALITY_TYPE_OK, count);
 
-        count = requestDAO.countByQuality(startDate, endDate,
+        count = requestStatisticsDAO.countByQuality(startDate, endDate,
                 lacb.getInstructionDoneStates(), QUALITY_TYPE_ORANGE, requestTypeId, sb.toString());
         results.put(QUALITY_TYPE_ORANGE, count);
 
-        count = requestDAO.countByQuality(startDate, endDate,
+        count = requestStatisticsDAO.countByQuality(startDate, endDate,
                 lacb.getInstructionDoneStates(), QUALITY_TYPE_RED, requestTypeId, sb.toString());
         results.put(QUALITY_TYPE_RED, count);
 
@@ -191,7 +204,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         for (String qualityType : new String[] {QUALITY_TYPE_OK, QUALITY_TYPE_ORANGE,
                 QUALITY_TYPE_RED}) {
             Map<Long, Long> resultsByQuality =
-                requestDAO.countByQualityAndType(startDate, endDate, lacb.getInstructionDoneStates(),
+                requestStatisticsDAO.countByQualityAndType(startDate, endDate, lacb.getInstructionDoneStates(),
                     qualityType, requestTypes);
             for (Long rtId : resultsByQuality.keySet()) {
                 if (results.get(rtId) == null)
@@ -203,10 +216,43 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         return results;
     }
 
+    public Map<RequestState, Long> getStateStats(Date startDate, Date endDate, Long requestTypeId,
+        Long categoryId) {
+
+        StringBuffer sb = new StringBuffer();
+        if (categoryId == null) {
+            List<Category> agentCategories = categoryService.getManaged();
+            for (Category category : agentCategories) {
+                if (sb.length() > 0) {
+                    sb.append(",");
+                }
+                sb.append("'").append(category.getId()).append("'");
+            }
+        } else {
+            sb.append("'").append(categoryId).append("'");
+        }
+
+        return requestStatisticsDAO.countByResultingState(startDate, endDate,
+            requestTypeId, sb.toString());
+    }
+
+    /**
+     * Use this method if you need fake dates for demo purposes.
+     */
+    private Date getShiftedDemoDate() {
+        Date date = new Date();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR, -3);
+
+        return calendar.getTime();
+    }
+
     /**
      * Compute the next search period according to a timescale and start date.
      * 
      * @return a list containing a start and end date or null if no more dates
+     * @deprecated was used for a PoC, deprecated till eventual resurrection
      */
     private List<Date> getNextSearchEndDate(final Timescale timescale, Date startDate) {
         
@@ -252,17 +298,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     }
     
     /**
-     * Use this method if you need fake dates for demo purposes.
+     * @deprecated was used for a PoC, deprecated till eventual resurrection
      */
-    private Date getShiftedDemoDate() {
-        Date date = new Date();
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        calendar.add(Calendar.YEAR, -3);
-        
-        return calendar.getTime();
-    }
-    
     private String[] getStatesFromLifecycle(final Lifecycle lifecycle) {
         String[] resultingState = null;
         if (lifecycle.equals(Lifecycle.CREATED)) {
@@ -278,8 +315,8 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         return resultingState;
     }
     
-    public void setRequestDAO(IRequestDAO requestDAO) {
-        this.requestDAO = requestDAO;
+    public void setRequestStatisticsDAO(IRequestStatisticsDAO requestStatisticsDAO) {
+        this.requestStatisticsDAO = requestStatisticsDAO;
     }
 
     public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {

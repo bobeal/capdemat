@@ -808,8 +808,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             logger.debug("create() Gonna generate a pdf of the request");
             byte[] pdfData =
                 certificateService.generateRequestCertificate(request);
-            requestActionService.addWorfklowAction(requestId, null, new Date(),
-                RequestState.PENDING, pdfData);
+            requestActionService.addCreationAction(requestId, new Date(), pdfData);
     
             // TODO DECOUPLING
             notifyRequestCreation(request, pdfData);

@@ -35,6 +35,12 @@
             </dd>
           </g:if>
           """
+      ,'localReferentialData':
+          """
+          <dd>
+          <g:render template="/frontofficeRequestType/localReferentialDatas" model="['javaName':'${element.javaFieldName}', 'lrEntries': localReferentialTypes.${element.javaFieldName}.entries]" />
+          </dd>
+          """
       ,'date' :
           """
           <dd><g:formatDate formatName="format.date" date="\${${wrapper}.${element.javaFieldName}}"/></dd>

@@ -30,7 +30,14 @@ public final class FakePaymentProviderService implements IPaymentProviderService
             payment.setCvqReference(cvqReference);
             
             String domainName = payment.getPaymentSpecificData().get("domainName");
-            String callbackUrl = "https://" + domainName + ((String) paymentServiceBean.getProperty("callbackUrl"));
+            String scheme = payment.getPaymentSpecificData().get("scheme");
+            String port = payment.getPaymentSpecificData().get("port");
+            
+            if(port == null) port = "80";
+            if(scheme == null) scheme = "https";
+            
+            String callbackUrl = scheme + "://" + domainName + ":" + port +
+                ((String) paymentServiceBean.getProperty("callbackUrl"));
 
             StringBuffer urlBuffer = new StringBuffer().append(paymentUrl)
                 .append("?cvqReference=").append(cvqReference)

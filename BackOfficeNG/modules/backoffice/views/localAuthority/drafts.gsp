@@ -27,13 +27,13 @@
           <h2><g:message code="localAuthority.header.setupDrafts" /></h2>
         
           <form method="post" id="setupDraftsForm" action="${createLink(action:'drafts')}">
-            <div class="error" id="setupDraftsFormErrors"></div>
+            <div class="error" id="setupDraftsFormErrors"> </div>
             
             <label for="draftLiveDuration" class="required">
               <g:message code="localAuthority.property.draftLiveDuration" /> * :
               <!-- <span> (<g:message code="property.days" />) </span> -->
             </label>
-            <input type="text" class="required validate-positiveinteger" name="draftLiveDuration" value="${entity.draftLiveDuration}" 
+            <input type="text" name="draftLiveDuration" value="${entity.draftLiveDuration}" 
               class="required validate-positiveinteger" />
           
             <br/>
@@ -41,7 +41,7 @@
               <g:message code="localAuthority.property.draftNotificationBeforeDelete" /> * :
               <!-- <span> (<g:message code="property.days" />) </span> -->
             </label>
-            <input type="text" class="required validate-positiveinteger" name="draftNotificationBeforeDelete" 
+            <input type="text" name="draftNotificationBeforeDelete" 
               value="${entity.draftNotificationBeforeDelete}" 
               class="required validate-positiveinteger" />
               

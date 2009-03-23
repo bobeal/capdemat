@@ -5,7 +5,6 @@
         <p>
           <span style="float:right">
             <form id="invoceForm_${record.reference}" method="post" action="${createLink(action:'addToCart')}">
-              %{--<input type="submit" name="addToCart" value="${message(code:'action.addToCart')}" />--}%
               <button type="submit" title="${message(code:'action.addToCart')}" ${record.isInCart ?'disabled="disabled"':''} >
                 <img src="${createLinkTo(dir:'images/icons',file:'cart.png')}" 
                   alt="${message(code:'action.addToCart')}" />

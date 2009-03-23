@@ -376,7 +376,7 @@
    * @method style
    * @namespace zenexity.capdemat.tools
    * @param el {String | HTMLElement | Array} Accepts a string to use as an ID, an actual DOM reference, or an Array of IDs and/or HTMLElements.
-   * @param styles {Array} JSON object that describes styles to set
+   * @param styles {Object} JSON object that describes styles to set
    * @author vba@zenexity.fr
    **/
   zct.style = function(el, styles){
@@ -384,15 +384,13 @@
     
     if (yl.isString(styles) || yl.isArray(styles)) {
       var l = zct.makeArray(styles), r ={};
-      zct.each(l,function() {
-        r[this+''] = yud.getStyle(el,this+'');
-      });
+      zct.each(l,function() {r[this+''] = yud.getStyle(el,this+'');});
       return r;
     }
     else if(!!styles && !zct.isFunction(styles)) {
       zct.each(styles, function(key){
-        var value = this.toString();
-        yud.setStyle(el, key.toString(), value);
+        var value = this+'';
+        yud.setStyle(el, key+'', value);
       });
     } else {
       throw 'Possibility to get all styles of an element(s) is not yet implemented !';

@@ -3,10 +3,18 @@
     <g:each var="record" in="${ticketingContracts}">
       <li>
         <p>
-          <span class="payment-form" style="float:right">
-            <form id="invoceForm_${record.reference}" method="post" action="${createLink(action:'addToCart')}">
-              <input type="text" name="quantity" size="4" value="${record?.minBuy ? record.minBuy : 1}"
-                class="payment-textbox" /> ticket(s) 
+          <span id="${record.type}_${record.reference}" class="payment-form" style="float:right">
+            <form id="invoceForm_${record.reference}" method="post" 
+              action="${createLink(action:'addToCart')}" class="list-form">
+              <div class="error" 
+                style="display:${unvalid?.id == record.reference && unvalid.type == record.type ? 'block' : 'none'}">
+                ${errorMessage}
+              </div>
+              <input type="text" name="quantity" size="4" 
+                value="${unvalid?.id == record.reference && unvalid.type == record.type ? unvalid.value : record.minBuy}"
+                class="payment-textbox validate-mandatory validate-number 
+                ${unvalid?.id == record.reference && unvalid.type == record.type ? 'validation-failed' : ''}" />
+              ticket(s) 
               <button type="submit" title="${message(code:'action.addToCart')}">
                 <img src="${createLinkTo(dir:'images/icons',file:'cart.png')}" 
                   alt="${message(code:'action.addToCart')}" />

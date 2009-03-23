@@ -43,10 +43,8 @@
             </li>
           </g:each>
         </ul>
+        <a href="${paymentUrl}" target="_self">${message(code:'action.accessToPayment')}</a>
       </div>
-      <p>
-        <a href="${paymentUrl}" target="_self">GO</a>
-      </p>
     </div>
   </div>
   <!-- end of yui-main -->

@@ -13,7 +13,7 @@
           </g:each>
         </ul>
         <a href="${createLink(action:'cartDetails')}" target="_self">
-          <g:message code="action.accessToPayment"/>
+          <g:message code="action.finishShopping"/>
         </a>
       </g:if>
       <g:else>

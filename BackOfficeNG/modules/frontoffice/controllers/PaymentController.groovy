@@ -22,30 +22,40 @@ class PaymentController {
     Adult ecitizen
     
     def maxRows = 10
+    def errorMessage = ''
     def state = null
     
     def beforeInterceptor = {
+        this.errorMessage = message(code:'message.unvalidFormat')
         this.ecitizen = SecurityContext.getCurrentEcitizen();
         if (params.ps) state = JSON.parse(params.ps)
         
-        if(actionName == 'addToCart' || actionName == 'removeCartItem') {
-            if(this.authorisedTypes.find{it == params.type} == null)
+        if(['addToCart','removeCartItem'].contains(actionName)) {
+            if(!authorisedTypes.contains(params.type))
                 throw new Exception("NotAuthorizedPaymentType")
+        } 
+        
+        if(actionName == 'status' && !paymentStatuses.contains(params.status)) {
+            redirect(action:'index')
         }
     }
     
-    def authorisedTypes = ['invoices','depositAccounts','ticketingContracts']
-    def afterInterceptor = [action:this.&invokeAfter, only:['index','history']]
-    
-    def invokeAfter(result) {
-        if (state) result.pageState = (new JSON(state)).toString()
+    def afterInterceptor = { result ->
+        if(['index','history'].contains(actionName.toString())) {
+            if (state) result.pageState = (new JSON(state)).toString()
+            result.errorMessage = flash?.unvalid?.message ? flash.unvalid.message : this.errorMessage
+        }
     }
+    
+    def paymentStatuses = ['OK','CANCELLED','REFUSED']
+    def authorisedTypes = ['invoices','depositAccounts','ticketingContracts']
     
     def index = {
         def result = [:]
         result.invoices = this.invoices
         result.depositAccounts = this.depositAccounts
         result.ticketingContracts = this.ticketingContracts
+        result.unvalid = flash.unvalid
         
         return result
     }
@@ -60,26 +70,41 @@ class PaymentController {
         return result
     }
     
+    def status = {
+        session.payment = null
+    }
+    
     def addToCart = {
         PurchaseItem item = (PurchaseItem)session[params.type].find {it.externalItemId.equals(params.externalItemId)}
         
-        if(item instanceof ExternalTicketingContractItem) {
-            item.quantity = Integer.valueOf(params.quantity)
-        } else if (item instanceof ExternalDepositAccountItem) {
-            String key = params.amount.replace(',','.')
-            BigDecimal value = new BigDecimal(key)
-            value = value.multiply(BigDecimal.valueOf(100L))
-            item.amount = value.toDouble()
+        if(validate(item)) {
+            if(item instanceof ExternalTicketingContractItem) {
+                item.quantity = Integer.valueOf(params.quantity)
+            } else if (item instanceof ExternalDepositAccountItem) {
+                String key = params.amount.replace(',','.')
+                BigDecimal value = new BigDecimal(key)
+                value = value.multiply(BigDecimal.valueOf(100L))
+                item.amount = value.toDouble()
+            }
+            
+            if(!session.payment || !(session.payment instanceof Payment)) {
+                session.payment = paymentService.createPaymentContainer(item,PaymentMode.INTERNET)
+            } else { 
+                paymentService.addPurchaseItemToPayment(session.payment,item)
+            }
+            
+            redirect(action:'index')
+            return false
+            
+        } else {
+            flash.unvalid = [:]
+            flash.unvalid.id = params.externalItemId
+            flash.unvalid.value = item instanceof ExternalDepositAccountItem ? params.amount : params.quantity
+            flash.unvalid.type = params.type
+            
+            redirect(url:createLink(action:'index')+"/#${params.type}_${params.externalItemId}")
+            return false
         }
-        
-        if(!session.payment || !(session.payment instanceof Payment)) {
-            session.payment = paymentService.createPaymentContainer(item,PaymentMode.INTERNET)
-        } else { 
-            paymentService.addPurchaseItemToPayment(session.payment,item)
-        }
-        
-        redirect(action:'index')
-        return false
     }
     
     def removeCartItem = {
@@ -107,6 +132,10 @@ class PaymentController {
         
         for(PurchaseItem item : session.payment.purchaseItems) 
             result.items.add(this.buildPurchaseItemMap(item))
+        
+        ((Payment)session.payment).addPaymentSpecificData('scheme',request.scheme)
+        ((Payment)session.payment).addPaymentSpecificData('domainName',request.serverName)
+        ((Payment)session.payment).addPaymentSpecificData('port',request.serverPort.toString())
         
         result.paymentUrl = paymentService.initPayment((Payment)session.payment).toString()
         return result
@@ -205,6 +234,8 @@ class PaymentController {
             return (this.buildInvoiceMap((ExternalInvoiceItem)item))
         else if(item instanceof ExternalTicketingContractItem)
             return (this.buildTicketMap((ExternalTicketingContractItem)item))
+        
+        return null
     }
     
     protected Map buildDepositMap(ExternalDepositAccountItem item) {
@@ -254,5 +285,35 @@ class PaymentController {
         }
         entry.type = 'invoices' 
         return entry;
+    }
+    
+    protected Boolean validate(PurchaseItem item) {
+        try {
+            if(item instanceof ExternalTicketingContractItem)
+                return validateQuantity(params.quantity,((ExternalTicketingContractItem)item).minBuy,
+                    ((ExternalTicketingContractItem)item).maxBuy)
+            else if(item instanceof ExternalDepositAccountItem)
+                return validateMoney(params.amount.replace(',','.'),1)
+            else
+                return true
+        } catch (Exception e) {
+            return false
+        }
+    }
+    
+    protected Boolean validateMoney(String val, Number min) {
+        def factor = val != '', dec = new BigDecimal(val)
+        factor = (val =~ /\d+(\.\d{1,2})?/).matches() && factor
+        factor = dec >= min && factor
+        
+        return factor
+    }
+    
+    protected Boolean validateQuantity(String val, Number min, Number max) {
+        def factor = val != '', dec = new BigDecimal(val)
+        factor = (val =~ /\d+/).matches() && factor 
+        factor = dec >= min && dec <= max && factor
+        
+        return factor
     }
 }

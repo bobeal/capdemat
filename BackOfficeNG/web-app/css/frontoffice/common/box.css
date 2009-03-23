@@ -160,11 +160,17 @@
 }
 
 /*TODO - merge with confirm-box*/
-.confirmation-box {
+.confirmation-box, .error-box, .success-box {
   margin: 0 0 1em;  padding: 1em;
   border: 3px solid #f55;
   color: #f55; background: #fee;
   text-align: center;
   clear: both;
 }
-.confirmation-box p { margin: 0 0 .5em; font-size: 1.3em; }
+.confirmation-box p, , .error-box p, .success-box p { margin: 0 0 .5em; font-size: 1.3em; }
+
+.success-box {
+  border-color : #20CC20;
+  color : #20CC20;
+  background-color : #ECFDEC;
+}

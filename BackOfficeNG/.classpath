@@ -82,8 +82,10 @@
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-spring-1.0.2.jar"/>
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-test-1.0.2.jar"/>
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-web-1.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/CapDemat-Model-PAPH.jar" sourcepath="/CapDemat/Model/src/java" />
+	<classpathentry kind="lib" path="lib/CapDemat-Model-PAPH.jar" sourcepath="/CapDemat/Model/src/java"/>
 	<classpathentry kind="lib" path="lib/CapDemat-RequestSchemas-PAPH.jar"/>
 	<classpathentry kind="lib" path="lib/core-renderer.jar"/>
+	<classpathentry kind="lib" path="lib/c3p0-0.9.1-pre10.jar"/>
+	<classpathentry kind="lib" path="plugins/jcaptcha-1.0/lib/jcaptcha-all-1.0-RC6.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

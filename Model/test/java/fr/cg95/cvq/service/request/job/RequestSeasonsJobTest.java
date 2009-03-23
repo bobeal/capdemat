@@ -89,11 +89,11 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         requestType = 
-            iRequestService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel());
+            iRequestTypeService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel());
         
         /* Create a season */
         RequestSeason season = BusinessObjectsFactory.gimmeRequestSeason("Saison 0235", 0, 2, 3, 5);
-        iRequestService.addRequestTypeSeason(requestType.getId(), season);
+        iRequestTypeService.addRequestTypeSeason(requestType.getId(), season);
         continueWithNewTransaction();
         
         /* Make season registration start */

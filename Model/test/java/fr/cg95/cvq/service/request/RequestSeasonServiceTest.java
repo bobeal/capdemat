@@ -61,19 +61,19 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         Set<RequestSeason> requestSeasons = 
-            iRequestService.getRequestTypeSeasons(requestType.getId());
+            iRequestTypeService.getRequestTypeSeasons(requestType.getId());
         Set<String> uuids = new HashSet<String>();
         for (RequestSeason rs : requestSeasons) {
             uuids.add(rs.getUuid());
         }
         for (String uuid : uuids) {
-            iRequestService.removeRequestTypeSeason(requestType.getId(), uuid);            
+            iRequestTypeService.removeRequestTypeSeason(requestType.getId(), uuid);            
         }
         
         continueWithNewTransaction();
         
         // test all seasons have been succesfully removed
-        requestType = iRequestService.getRequestTypeById(requestType.getId());
+        requestType = iRequestTypeService.getRequestTypeById(requestType.getId());
         assertEquals(0, requestType.getSeasons().size());
         
         super.onTearDown();
@@ -84,9 +84,9 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         // Create
         RequestSeason season1 =
             BusinessObjectsFactory.gimmeRequestSeason("saison 0123", 0, 1, 2, 3);
-        iRequestService.addRequestTypeSeason(requestType.getId(), season1);
+        iRequestTypeService.addRequestTypeSeason(requestType.getId(), season1);
         season1 = BusinessObjectsFactory.gimmeRequestSeason("saison 4567", 4, 5, 6, 7);
-        iRequestService.addRequestTypeSeason(requestType.getId(), season1);
+        iRequestTypeService.addRequestTypeSeason(requestType.getId(), season1);
         
         continueWithNewTransaction();
         
@@ -97,19 +97,19 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
             BusinessObjectsFactory.gimmeRequestSeason("saison 5678", 5, 6, 7, 8);
         season2.setUuid(season1.getUuid());
   
-        iRequestService.modifyRequestTypeSeason(requestType.getId(), season2);
+        iRequestTypeService.modifyRequestTypeSeason(requestType.getId(), season2);
 
         continueWithNewTransaction();
 
         assertEquals(2, requestType.getSeasons().size());
         
         // Remove
-        iRequestService.removeRequestTypeSeason(requestType.getId(), season2.getUuid());
+        iRequestTypeService.removeRequestTypeSeason(requestType.getId(), season2.getUuid());
 
         continueWithNewTransaction();
 
         Set<RequestSeason> requestTypeSeasons =
-            iRequestService.getRequestTypeSeasons(requestType.getId());
+            iRequestTypeService.getRequestTypeSeasons(requestType.getId());
         assertEquals(1, requestTypeSeasons.size());
         assertFalse(requestTypeSeasons.contains(season2));
     }
@@ -155,7 +155,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
     
     private void checkCreateSeasonError(RequestSeason season, String errorMessage) throws CvqException {
         try {
-            iRequestService.addRequestTypeSeason(requestType.getId(), season);
+            iRequestTypeService.addRequestTypeSeason(requestType.getId(), season);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
             assertEquals(errorMessage, cme.getMessage());
@@ -164,7 +164,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
     
     private void checkModifySeasonError(RequestSeason season, String errorMessage) throws CvqException {
         try {
-            iRequestService.modifyRequestTypeSeason(requestType.getId(), season);
+            iRequestTypeService.modifyRequestTypeSeason(requestType.getId(), season);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
             assertEquals(errorMessage, cme.getMessage());
@@ -175,7 +175,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         // Create
         RequestSeason season =
             BusinessObjectsFactory.gimmeRequestSeason("saison 0235", 0, 2, 3, 5);
-        iRequestService.addRequestTypeSeason(requestType.getId(), season);
+        iRequestTypeService.addRequestTypeSeason(requestType.getId(), season);
 
         RequestSeason badSeason;
         
@@ -252,11 +252,11 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         requestType = 
-            iRequestService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel());
+            iRequestTypeService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel());
         
         /* Create a season */
         RequestSeason season = BusinessObjectsFactory.gimmeRequestSeason("Saison 0235", 0, 2, 3, 5);
-        iRequestService.addRequestTypeSeason(requestType.getId(), season);
+        iRequestTypeService.addRequestTypeSeason(requestType.getId(), season);
         
         continueWithNewTransaction();
         

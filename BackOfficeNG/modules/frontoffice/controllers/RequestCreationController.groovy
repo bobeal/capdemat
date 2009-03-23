@@ -8,6 +8,7 @@ import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.exception.CvqException
@@ -22,7 +23,7 @@ class RequestCreationController {
     IIndividualService individualService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
-    
+    ILocalReferentialService localReferentialService    
     def documentAdaptorService
     def translationService
     
@@ -80,6 +81,7 @@ class RequestCreationController {
             'draftVisible': session[uuidString].draftVisible,
             'subjects': getAuthorizedSubjects(requestService, cRequest),
             'meansOfContact': getMeansOfContact(meansOfContactService),
+            'localReferentialTypes': getLocalReferentialTypes(localReferentialService, params.label),
             'currentStep': 'subject',
             'requestTypeLabel': params.label,
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
@@ -269,6 +271,7 @@ class RequestCreationController {
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
                      'meansOfContact': getMeansOfContact(meansOfContactService),
+                     'localReferentialTypes': getLocalReferentialTypes(localReferentialService,requestTypeInfo.label),
                      'currentStep': currentStep,
                      'requestTypeLabel': requestTypeInfo.label,
                      'stepStates': cRequest.stepStates,
@@ -352,6 +355,16 @@ class RequestCreationController {
         }
         if (steps.size() == 0) return true;
         else return false;
+    }
+    
+    def getLocalReferentialTypes(localReferentialService, requestTypeLabel) {
+        def result = [:]
+        try {
+                localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each{
+                    result.put(StringUtils.firstCase(it.dataName,'Lower'), it)
+                }
+        } catch (CvqException ce) { /* No localReferentialData found ! */ }
+        return result
     }
     
     

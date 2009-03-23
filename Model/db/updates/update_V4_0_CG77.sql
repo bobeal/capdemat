@@ -75,3 +75,8 @@ alter table study_grant_request
   add constraint FK7D2F0A766A43CE96 
   foreign key (tax_household_address_id) 
   references address;
+  
+UPDATE request_type SET
+display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'school' LIMIT 1)  
+WHERE label = 'Study Grant';
+

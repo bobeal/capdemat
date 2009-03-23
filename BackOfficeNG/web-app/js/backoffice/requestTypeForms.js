@@ -26,7 +26,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       //Are you sure that you want to perform this action ?
       var content = {
         head:'Attention !',
-        body: 'Confirmez la suppression ?'
+        body: 'Confirmez-vous la suppression du courrier type ?'
       }
       zcbrp.Forms.confirmationDialog = new zct.ConfirmationDialog(
         content,zcbrp.Forms.deleteForm);

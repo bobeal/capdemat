@@ -1,7 +1,7 @@
 <html>
   <head>
     <title><g:message code="localAuthority.header.configuration" /></title>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityContacts.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityMoC.js')}"></script>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
     <meta name="layout" content="main" />
   </head>
@@ -16,16 +16,16 @@
         <div class="mainbox mainbox-yellow">
           <h2><g:message code="localAuthority.header.meansOfContactConfiguration" /></h2>
           <ul id="meansOfContactList" class="editableList">
-            <g:each in="${means}" var="${mean}">
+            <g:each in="${moCs}" var="${moC}">
               <li>
-                <a id="processMean_${mean.id}" class="${mean.verb}">
-                  <span>${mean.verb}</span>
+                <a id="processMoC_${moC.id}" class="${moC.verb}">
+                  <span>${moC.verb}</span>
                 </a>
-                <span><g:message code="request.meansOfContact.${mean.name}"/></span>
+                <span><g:message code="request.meansOfContact.${moC.name}"/></span>
               </li>
             </g:each>
           </ul>
-          <form id="meanOfContactsForm" action="${createLink(action:'processMean')}">
+          <form id="meanOfContactsForm" action="${createLink(action:'processMoC')}">
             <input type="hidden" name="meanId" value="" />
             <input type="hidden" name="verb" value="" />
           </form>
@@ -33,7 +33,11 @@
         
       </div>
     </div>
-    <g:render template="subMenus"/>
+  
+    <div id="narrow" class="yui-b">
+      <menu:subMenu id="secondMenu" i18nPrefix="localAuthority.header" 
+        data="${['drafts','meansOfContact']}" />
+    </div>
 
   </body>
 </html>

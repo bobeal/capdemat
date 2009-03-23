@@ -59,13 +59,17 @@ class SessionFilters {
             before = {
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
-                    if (!session.currentUser) {
-                        if (actionName != 'login') {
-                            redirect(controller: 'frontofficeHome', action: 'login')
-                            return false
-                        }
+                    if (controllerName == 'frontofficeVOCardRequestCreation') {
+                        log.debug "Don't redirect to login for account creation"
                     } else {
-                        SecurityContext.setCurrentEcitizen(session.currentUser)
+                        if (!session.currentUser) {
+                            if (actionName != 'login') {
+                                redirect(controller: 'frontofficeHome', action: 'login')
+                                return false
+                            }
+                        } else {
+                            SecurityContext.setCurrentEcitizen(session.currentUser)
+                        }
                     }
                 } catch (CvqObjectNotFoundException ce) {
                     session.currentUser = null

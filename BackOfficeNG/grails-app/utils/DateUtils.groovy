@@ -11,6 +11,8 @@ public class DateUtils {
             return sdf.parse(date)
         } catch (ParseException pe) {
             return null
+        } catch (Exception e) {
+            return null
         }
     }
     

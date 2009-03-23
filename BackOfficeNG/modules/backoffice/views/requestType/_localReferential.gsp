@@ -1,7 +1,7 @@
 <g:each var="lrData" in="${lrDatas}">
   <div id="lrtDataName_${lrData.dataName}" class="mainbox mainbox-yellow">
     <h2>${lrData.labelsMap.fr}</h2>
-    <form id="dataWidget_${lrData.dataName}"action="/BackOfficeNG/backoffice/category/requestTypes" method="post" style="padding-top: 0;">
+    <form id="dataWidget_${lrData.dataName}" action="#" method="post" style="padding-top: 0;">
       <select name="widget">
         <option value="" selected="selected">menu déroulant (choix unique)</option>
         <option value="">liste/arbre de case à cocher (choix multiple)</option>

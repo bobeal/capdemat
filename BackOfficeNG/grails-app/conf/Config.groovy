@@ -117,3 +117,49 @@ grails.debug.session = true
 grails.debug.requestAttributes = true
 grails.debug.model = true
 
+//jcaptcha Plugin
+import java.awt.Font
+import java.awt.Color
+
+import com.octo.captcha.service.multitype.GenericManageableCaptchaService
+import com.octo.captcha.engine.GenericCaptchaEngine
+import com.octo.captcha.image.gimpy.GimpyFactory
+import com.octo.captcha.component.word.wordgenerator.RandomWordGenerator
+import com.octo.captcha.component.image.wordtoimage.ComposedWordToImage
+import com.octo.captcha.component.image.fontgenerator.RandomFontGenerator
+import com.octo.captcha.component.image.backgroundgenerator.GradientBackgroundGenerator
+import com.octo.captcha.component.image.color.SingleColorGenerator
+import com.octo.captcha.component.image.textpaster.NonLinearTextPaster
+
+jcaptchas {
+	image = new GenericManageableCaptchaService(
+		new GenericCaptchaEngine(
+			new GimpyFactory(
+				new RandomWordGenerator(
+					"abcdefghijklmnopqrstuvwxyz1234567890"
+				),
+				new ComposedWordToImage(
+					new RandomFontGenerator(
+						20, // min font size
+						30, // max font size
+						[new Font("Arial", 0, 10)] as Font[]
+					),
+					new GradientBackgroundGenerator(
+						140, // width
+						35, // height
+						new SingleColorGenerator(Color.white),
+						new SingleColorGenerator(Color.lightGray)
+					),
+					new NonLinearTextPaster(
+						6, // minimal length of text
+						6, // maximal length of text
+						Color.black
+					)
+				)
+			)
+		),
+		180, // minGuarantedStorageDelayInSeconds
+		180000 // maxCaptchaStoreSize
+	)
+}
+

@@ -1,6 +1,6 @@
-import java.io.File;
 import fr.cg95.cvq.business.request.Request
-import fr.cg95.cvq.business.request.RequestFormType;
+import fr.cg95.cvq.business.request.RequestFormType
+import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.business.authority.LocalReferentialEntry
@@ -9,11 +9,14 @@ import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestServiceRegistry
+
 import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 
+import java.io.File
+
 import grails.converters.JSON
-import fr.cg95.cvq.business.request.RequestType
 
 class RequestTypeController {
 
@@ -21,6 +24,8 @@ class RequestTypeController {
     IDocumentTypeService documentTypeService
     ICategoryService categoryService
     ILocalReferentialService localReferentialService
+    IRequestServiceRegistry requestServiceRegistry
+
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
     
     def translationService
@@ -63,8 +68,7 @@ class RequestTypeController {
     def baseConfigurationItems = [
         "forms":["requestType.configuration.forms", true],
         "alerts":["requestType.configuration.alerts", true],
-        "documents":["requestType.configuration.documentType", true],
-        "localReferential":["requestType.configuration.localReferential", true]
+        "documents":["requestType.configuration.documentType", true]
     ]
     
     def configure = {
@@ -72,18 +76,16 @@ class RequestTypeController {
         	defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
         def requestTypeLabel =
             translationService.getEncodedRequestTypeLabelTranslation(requestType.label)
+        def requestService = requestServiceRegistry.getRequestService(requestType.label)
+        if (requestService.getLocalReferentialFilename() != null)
+            baseConfigurationItems["localReferential"] =
+                ["requestType.configuration.localReferential", true]
 
         return ["requestType":requestType, "requestTypeLabel":requestTypeLabel,
                 "baseConfigurationItems":baseConfigurationItems,
                 "requestTypes":requestAdaptorService.translateAndSortRequestTypes()]
     }
 
-    def loadGeneralArea = {
-        def requestType = 
-             defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        render(template:"general",model:['requestType':requestType])
-    }
-    
     def loadAlertsArea = {
         def requestType = 
             defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
@@ -94,31 +96,6 @@ class RequestTypeController {
                       'instructionDefaultAlertDelay':lacb.getInstructionDefaultAlertDelay()])
     }
 
-    def loadConfigurationSubmenu = {
-        def requestType = 
-            defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        if (params.submenu == "general") {
-            def lacb = SecurityContext.getCurrentConfigurationBean()
-            render(template:"general", 
-                    model:['requestType':requestType,
-                           'instructionDefaultMaxDelay':lacb.getInstructionDefaultMaxDelay(),
-                           'instructionDefaultAlertDelay':lacb.getInstructionDefaultAlertDelay()])
-        } else if (params.submenu == "documents"){
-            render(template:"documents")
-        }
-    }
-    
-    def saveGeneral = {
-        def requestType = 
-            defaultRequestService.getRequestTypeById(Long.valueOf(params.id))
-        if (params.active)
-            requestType.setActive(true)
-        else
-            requestType.setActive(false)
-        defaultRequestService.modifyRequestType(requestType)
-        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-    }
-    
     def saveAlerts = {
         def requestType = defaultRequestService.getRequestTypeById(Long.valueOf(params.requestTypeId))
         if (params.instructionMaxDelay != '') {
@@ -132,26 +109,6 @@ class RequestTypeController {
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
         
-    // called asynchronously
-    // return a JSON array of all the request types
-    def loadAllRequestTypes = {
-        def allRequestTypes = defaultRequestService.getAllRequestTypes()
-        render('builder': 'json') {
-            // name has to be different from any object in the scope
-            'result' {
-                allRequestTypes.each {
-                    // name 'myRequestType' has no importance as it won't be in the response
-                    myRequestType(
-                        'id':it.id,
-                        'label':translationService.getEncodedRequestTypeLabelTranslation(it.label),
-                        'category':it.category?.name,
-                        'active':it.active
-                    )
-                }
-            }
-        }
-    }
-
     def documentList = {
         def list = []
         def reqs = []
@@ -183,31 +140,23 @@ class RequestTypeController {
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
-    // retrives request form list using passed request type id
-    def formList = {
-        def id = Long.valueOf(params.id)
-        def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
-        def forms = defaultRequestService.getRequestTypeForms(id, mailType)
-        render(template:"formList",model:["requestForms":forms])
-    }
-    
     def state = {
         if(request.get) {
             def result = [:]
-            
+
             RequestType requestType =
                 defaultRequestService.getRequestTypeById(Long.parseLong(params.id))
             result.active = requestType.active
             result.requestTypeId = params.id
             result.state = requestType.active ? 'active':'inactive'
-            
+
             return result
         } else {
             RequestType requestType =
                 defaultRequestService.getRequestTypeById(Long.parseLong(params.requestTypeId))
             requestType.active = params.requestState == 'active'
-            this.defaultRequestService.modifyRequestType(requestType) 
-            
+            this.defaultRequestService.modifyRequestType(requestType)
+
             render ([
                 'label': message(code: "property.${requestType.active ? 'active' : 'inactive'}"),
                 'state': requestType.active ? 'enable' : 'disable',
@@ -215,6 +164,14 @@ class RequestTypeController {
                 'status':"ok"
             ] as JSON)
         }
+    }
+
+    // retrieves request form list using passed request type id
+    def formList = {
+        def id = Long.valueOf(params.id)
+        def mailType = RequestFormType.REQUEST_MAIL_TEMPLATE
+        def forms = defaultRequestService.getRequestTypeForms(id, mailType)
+        render(template:"formList",model:["requestForms":forms])
     }
     
     def form = {
@@ -358,4 +315,3 @@ class RequestTypeController {
     }
     
 }
-

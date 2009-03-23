@@ -1,5 +1,5 @@
 /**
- * @description This file contains LocalAuthority client class
+ * @description This file contains Drafts client-side module
  * 
  * @author vba@zenexity.fr
  */

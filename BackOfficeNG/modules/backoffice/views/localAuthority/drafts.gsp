@@ -26,7 +26,7 @@
         <div class="mainbox mainbox-yellow">
           <h2><g:message code="localAuthority.header.setupDrafts" /></h2>
         
-          <form method="post" id="setupDraftsForm" action="${createLink(action:'setupDrafts')}">
+          <form method="post" id="setupDraftsForm" action="${createLink(action:'drafts')}">
             <div class="error" id="setupDraftsFormErrors"></div>
             
             <label for="draftLiveDuration" class="required">
@@ -53,6 +53,11 @@
         
       </div>
     </div>
-    <g:render template="subMenus"/>
+  
+    <div id="narrow" class="yui-b">
+      <menu:subMenu id="secondMenu" i18nPrefix="localAuthority.header" 
+        data="${['drafts','meansOfContact']}" />
+    </div>
+    
   </body>
 </html>

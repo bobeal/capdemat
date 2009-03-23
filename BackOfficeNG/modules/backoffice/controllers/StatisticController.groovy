@@ -1,7 +1,8 @@
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
-import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.util.Critere
+
+import grails.converters.JSON
 
 import GoogleChartBuilder
 
@@ -10,16 +11,16 @@ import java.text.SimpleDateFormat
 class StatisticController {
     
     IRequestStatisticsService requestStatisticsService
-    IRequestService defaultRequestService
 	ICategoryService categoryService
     
+    def requestAdaptorService
     def translationService
 
     def beforeInterceptor = {
-            session["currentMenu"] = "statistics"
+        session['currentMenu'] = 'statistics'
     }
 
-	def defaultAction = "view"
+	def defaultAction = 'dashboard'
 
 	def timescales = [
 		"Semaine" : IRequestStatisticsService.Timescale.WEEK ,
@@ -27,33 +28,58 @@ class StatisticController {
 		"Année" : IRequestStatisticsService.Timescale.YEAR
 	]
     
-    def view = {
-            // TEMP : move to a better place
-            def allRequestTypes = defaultRequestService.getAllRequestTypes()
-            def requestTypes = [:]
-            allRequestTypes.each {
-                def requestTypeId = it.id.toString()
-                def label = translationService.getEncodedRequestTypeLabelTranslation(it.label)
-            	requestTypes[requestTypeId] = label
-            }
+    def statisticTypes = ['state','requestType','quality','dashboard']
+
+    def dashboard = {
             
-    		// deal with search parameters
-    		def timescale = params.timescale ? timescales[params.timescale] : IRequestStatisticsService.Timescale.MONTH
+        // deal with search parameters
+        def timescale = params.timescale ? timescales[params.timescale] : IRequestStatisticsService.Timescale.MONTH
     		
-            ["detailedCreatedUrl":
-                detailedStatsUrl(timescale, IRequestStatisticsService.Lifecycle.CREATED,
-                        params.requestTypeId, params.categoryId), 
-             "summarizedCreatedUrl":summarizedStatsUrl(IRequestStatisticsService.Lifecycle.CREATED),
-             "detailedTreatedUrl":
-                 detailedStatsUrl(timescale, IRequestStatisticsService.Lifecycle.TREATED,
-                         params.requestTypeId, params.categoryId),
-             "summarizedTreatedUrl":summarizedStatsUrl(IRequestStatisticsService.Lifecycle.TREATED),
-             "qualityUrl":qualityStatsUrl(),
-             "categories":categoryService.getAll(),
-             "timescales":timescales,
-             "requestTypes":requestTypes]
+        ['detailedCreatedUrl':
+            detailedStatsUrl(timescale, IRequestStatisticsService.Lifecycle.CREATED,
+                params.requestTypeId, params.categoryId),
+         'summarizedCreatedUrl':summarizedStatsUrl(IRequestStatisticsService.Lifecycle.CREATED),
+         'detailedTreatedUrl':
+            detailedStatsUrl(timescale, IRequestStatisticsService.Lifecycle.TREATED,
+                params.requestTypeId, params.categoryId),
+         'summarizedTreatedUrl':summarizedStatsUrl(IRequestStatisticsService.Lifecycle.TREATED),
+         'qualityUrl':summarizedQualityStatsUrl(null,null,null,null),
+         'currentStatisticType':'dashboard'].plus(initStatisticsReferential())
     }
-    
+
+    def quality = {
+        def state = [:]
+        if (params.pageState) state = JSON.parse(params.pageState)
+
+        def categoryId = LongUtils.stringToLong(state['categoryId'])
+        def requestTypeId = LongUtils.stringToLong(state['requestTypeId'])
+        def startDate = DateUtils.stringToDate(state['startDate'])
+        def endDate = DateUtils.stringToDate(state['endDate'])
+
+        def detailedQualityStats = 
+            requestStatisticsService.getQualityStatsByType(startDate, endDate, requestTypeId, categoryId)
+        def detailedQualityData = []
+        // populate results according to authorized request types and selected filters
+        requestAdaptorService.translateAndSortRequestTypes(true).each {
+            if ((requestTypeId == null || requestTypeId == it.id)
+                && (categoryId == null || categoryId == it.categoryId)) {
+                def qualityStatsForRt = detailedQualityStats[it.id]
+                detailedQualityData.add([
+                    'requestType':it.label,
+                    'green':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_OK),
+                    'orange':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_ORANGE),
+                    'red':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_RED)
+                ])
+            }
+        }
+        render(view:'index',
+               model:['summarizedQualityUrl':summarizedQualityStatsUrl(startDate, endDate, requestTypeId, categoryId),
+                      'detailedQualityData':detailedQualityData,
+                      'pageState' : (new JSON(state)).toString().encodeAsHTML(),
+                      'state': state,
+                      'currentStatisticType':'quality'].plus(initStatisticsReferential()))
+    }
+
     def detailedStatsUrl(timescale, lifecycle, requestTypeId, categoryId) {
         def labels = []
         def maxY = 1
@@ -133,12 +159,12 @@ class StatisticController {
       	return url
     }
 
-    def qualityStatsUrl() {
+    def summarizedQualityStatsUrl(startDate, endDate, requestTypeId, categoryId) {
         def textLabels = []
         def cdData = []
         def cdColors = []
-        def results = requestStatisticsService.getQualityStats(IRequestStatisticsService.Timescale.MONTH,
-                null, null)
+        def results = 
+            requestStatisticsService.getQualityStats(startDate, endDate, requestTypeId, categoryId)
         results.each { k,v ->
 			if (v.intValue() > 0) {
 			    if (k == "qualityTypeOk")
@@ -148,8 +174,9 @@ class StatisticController {
         		else if (k == "qualityTypeRed")
         		    cdColors.add('ed2024')
             	cdData.add(v.intValue())
+                textLabels.add(v.intValue())
 			}
-        }            
+        }
         
         def chart = new GoogleChartBuilder()
         def url = chart.pieChart {
@@ -163,8 +190,18 @@ class StatisticController {
             colors {
                 cdColors.each { color(it) }
             }
+			labels {
+			    textLabels.each { label(it) }
+			}
         }            
         
       	return url
+    }
+
+    def initStatisticsReferential() {
+        return ['allCategories':categoryService.getManaged().sort { it.name },
+                'timescales':timescales,
+                'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes(true),
+                'statisticTypes':statisticTypes]
     }
 }

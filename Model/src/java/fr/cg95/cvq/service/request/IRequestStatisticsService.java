@@ -6,6 +6,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.util.Critere;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,9 +64,26 @@ public interface IRequestStatisticsService {
      * @return a map of quality indicator and counts
      * @see {@link #QUALITY_TYPE_OK}, {@link #QUALITY_TYPE_ORANGE}, {@link #QUALITY_TYPE_RED}
     */
-    Map<String, Long> getQualityStats(final Timescale timescale, final Long requestTypeId,
-            final Long categoryId);
+//    Map<String, Long> getQualityStats(final Timescale timescale, final Long requestTypeId,
+//            final Long categoryId);
     
+    /**
+     * Get quality of service statistics about requests.
+     *
+     * @param startDate interval start date
+     * @param endDate interval end date
+     * @param requestTypeId to restrict statistics to a specific request type
+     * @param categoryName to restrict statistics to a specific category
+     *
+     * @return a map of quality indicator and counts
+     * @see {@link #QUALITY_TYPE_OK}, {@link #QUALITY_TYPE_ORANGE}, {@link #QUALITY_TYPE_RED}
+    */
+    Map<String, Long> getQualityStats(final Date startDate, final Date endDate,
+        final Long requestTypeId, final Long categoryId);
+
+    Map<Long, Map<String, Long>> getQualityStatsByType(final Date startDate, final Date endDate,
+        final Long requestTypeId, final Long categoryId) throws CvqException;
+
     /**
      * Get only a count of requests according to a set of criteria.
      * 

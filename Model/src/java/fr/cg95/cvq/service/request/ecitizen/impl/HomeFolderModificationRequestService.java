@@ -34,7 +34,6 @@ import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -51,7 +50,8 @@ public class HomeFolderModificationRequestService
 
     protected IHistoryEntryDAO historyEntryDAO;
     protected HistoryInterceptor historyInterceptor;
-    
+
+    @Override
     public HomeFolderModificationRequest create(final Long homeFolderId, final Long requesterId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -63,7 +63,7 @@ public class HomeFolderModificationRequestService
         HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
         hfmr.setHomeFolderId(homeFolderId);
         hfmr.setRequesterId(requesterId);
-        hfmr.setRequestType(getRequestTypeByLabel(getLabel()));
+        hfmr.setRequestType(requestTypeService.getRequestTypeByLabel(getLabel()));
         performBusinessChecks(hfmr);
 
         setAdministrativeInformation(hfmr);
@@ -103,6 +103,7 @@ public class HomeFolderModificationRequestService
                     + "possible for validated home folders");
     }
     
+    @Override
     public Map<Long, Set<RequestSeason>> getAuthorizedSubjects(final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -119,7 +120,8 @@ public class HomeFolderModificationRequestService
         result.put(homeFolder.getId(), new HashSet<RequestSeason>());
         return result;
     }
-    
+
+    @Override
     public CreationBean modify(final HomeFolderModificationRequest hfmr,
             final List<Adult> newAdults, final List<Child> newChildren, final Address adress)
         throws CvqException {
@@ -249,9 +251,8 @@ public class HomeFolderModificationRequestService
         // TODO REFACTORING : branch into common treatments
         logger.debug("modify() Gonna generate a pdf of the request");
         byte[] pdfData =
-            certificateService.generateRequestCertificate(hfmr, this.fopConfig);
-        addActionTrace(IRequestService.CREATION_ACTION, null, new Date(), 
-                RequestState.PENDING, hfmr, pdfData);
+            certificateService.generateRequestCertificate(hfmr);
+        requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData);
 
         super.notifyRequestCreation(hfmr, pdfData);
         
@@ -261,6 +262,7 @@ public class HomeFolderModificationRequestService
         return cb;
     }
 
+    @Override
     public Set<HistoryEntry> getHistoryEntries(final Long hfmrId)
         throws CvqException {
 
@@ -268,17 +270,17 @@ public class HomeFolderModificationRequestService
         return new LinkedHashSet<HistoryEntry>(historyEntriesList);
     }
 
-    public void validate(final Long id)
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+    @Override
+    public void onRequestValidated(final Request request)
+        throws CvqException {
 
-        HomeFolderModificationRequest request =
-            (HomeFolderModificationRequest) getById(id);
+        HomeFolderModificationRequest hfmr = (HomeFolderModificationRequest) request;
 
         // navigate through all the history entries and persist previous changes
         // (ie clear history entries and delete removed elements from home folder)
         //////////////////////////////////////////////////////////////////////////
 
-        Set<HistoryEntry> historiesSet = getHistoryEntries(id);
+        Set<HistoryEntry> historiesSet = getHistoryEntries(hfmr.getId());
         Set<Object> objectsToUpdate = new HashSet<Object>();
         Set<Object> objectsToRemove = new HashSet<Object>();
 
@@ -290,7 +292,8 @@ public class HomeFolderModificationRequestService
                 if (!he.getProperty().equals("homeFolder")) {
                     logger.debug("validate() simple field value change (" + he.getProperty() + ")");
                     Object object = 
-                        genericDAO.findById(getClassFromHistoryEntry(he.getClazz()), he.getObjectId());
+                        genericDAO.findById(getClassFromHistoryEntry(he.getClazz()),
+                            he.getObjectId());
                     if (!objectsToRemove.contains(object))
                         objectsToUpdate.add(object);
                 }
@@ -325,8 +328,10 @@ public class HomeFolderModificationRequestService
 
                         String oldValue = he.getOldValue();
                         String oldHomeFolderId =
-                            oldValue.substring(oldValue.indexOf("id=") + 3, oldValue.lastIndexOf(']'));
-                        homeFolderService.removeRolesOnSubject(Long.valueOf(oldHomeFolderId), individual.getId());
+                            oldValue.substring(oldValue.indexOf("id=") + 3,
+                            oldValue.lastIndexOf(']'));
+                        homeFolderService.removeRolesOnSubject(Long.valueOf(oldHomeFolderId),
+                            individual.getId());
 
                         // update requests whose individual is the subject
                         List<Request> requestsAsSubject = getBySubjectId(individual.getId());
@@ -358,14 +363,8 @@ public class HomeFolderModificationRequestService
 
         updateObjects(objectsToUpdate, objectsToRemove);
 
-        int deletedEntries = historyEntryDAO.deleteEntries(request.getId());
+        int deletedEntries = historyEntryDAO.deleteEntries(hfmr.getId());
         logger.debug("validate() deleted " + deletedEntries + " history entries");
-        
-        homeFolderService.validate(request.getHomeFolderId());
-        
-        // validate after persisting changes to the home folder
-        // (for the pdf certificate to be up-to-date)
-        super.validate(request, true);
     }
 
     /**
@@ -429,7 +428,8 @@ public class HomeFolderModificationRequestService
             final Object oldPropertyValue)
         throws CvqException {
 
-        Object object = genericDAO.findById(getClassFromHistoryEntry(he.getClazz()), he.getObjectId());
+        Object object = genericDAO.findById(getClassFromHistoryEntry(he.getClazz()),
+            he.getObjectId());
         Method meth = null;
         String methodName = propertyToMethodName(he.getProperty(), "set");
 
@@ -559,7 +559,8 @@ public class HomeFolderModificationRequestService
                    
                    if (!oldIndividualRoles.isEmpty()) {
                        logger.debug("restoreOriginalHomeFolder() restoring roles (" 
-                               + oldIndividualRoles.size() + ") for individual " + individual.getId());
+                               + oldIndividualRoles.size() + ") for individual "
+                               + individual.getId());
                        individual.setIndividualRoles(oldIndividualRoles);
                        
                        if (!objectsToRemove.contains(individual))
@@ -590,7 +591,8 @@ public class HomeFolderModificationRequestService
                         if (individual.getIndividualRoles().remove(individualRole)) {
                             logger.debug("restoreOriginalHomeFolder() removed role "
                                     + individualRole.getRole() + " from "
-                                    + individual.getId() + " on " + individualRole.getIndividualId());
+                                    + individual.getId() + " on "
+                                    + individualRole.getIndividualId());
                             break;
                         }
                     }
@@ -611,34 +613,22 @@ public class HomeFolderModificationRequestService
         historyEntryDAO.deleteEntries(request.getId());
     }
 
-    public void cancel(final Long id)
+    @Override
+    public void onRequestCancelled(final Request request)
         throws CvqException, CvqInvalidTransitionException,
                CvqObjectNotFoundException {
-
-        HomeFolderModificationRequest request =
-            (HomeFolderModificationRequest) getById(id);
-        super.cancel(request);
 
         // modification request has been cancelled, restore original home folder state
-        restoreOriginalHomeFolder(request);
-        
-        // home folder was supposed to be valid before modification request
-        homeFolderService.validate(request.getHomeFolderId());
+        restoreOriginalHomeFolder((HomeFolderModificationRequest) request);
     }
 
-    public void reject(final Long id, final String motive)
+    @Override
+    public void onRequestRejected(final Request request)
         throws CvqException, CvqInvalidTransitionException,
                CvqObjectNotFoundException {
 
-        HomeFolderModificationRequest request =
-            (HomeFolderModificationRequest) getById(id);
-        super.reject(request, motive);
-
         // modification request has been rejected, restore original home folder state
-        restoreOriginalHomeFolder(request);
-
-        // home folder was supposed to be valid before modification request
-        homeFolderService.validate(request.getHomeFolderId());
+        restoreOriginalHomeFolder((HomeFolderModificationRequest) request);
     }
 
     private boolean containsIndividual(final List<? extends Individual> setToSearchIn, 
@@ -657,10 +647,12 @@ public class HomeFolderModificationRequestService
         return false;
     }
     
+    @Override
     public boolean accept(Request request) {
         return request instanceof HomeFolderModificationRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new HomeFolderModificationRequest();
     }

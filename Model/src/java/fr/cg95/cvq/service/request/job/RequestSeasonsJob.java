@@ -13,7 +13,8 @@ import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 
 /**
  * A job that do automatic states changes for requests tied to seasons.
@@ -25,7 +26,9 @@ public class RequestSeasonsJob {
     private static Logger logger = Logger.getLogger(RequestSeasonsJob.class);
     
     private ILocalAuthorityRegistry localAuthorityRegistry;
-    private IRequestService requestService;
+    private IRequestWorkflowService requestWorkflowService;
+    private IRequestTypeService requestTypeService;
+    
     private IRequestDAO requestDAO;
     
     public void launchJob() {
@@ -35,7 +38,7 @@ public class RequestSeasonsJob {
     public void checkRequestsSeasons()
         throws CvqException {
     
-        List<RequestType> requestTypes = requestService.getAllRequestTypes();
+        List<RequestType> requestTypes = requestTypeService.getAllRequestTypes();
         for (RequestType requestType : requestTypes) {
             if (requestType.getSeasons() == null || requestType.getSeasons().isEmpty()) {
                 logger.debug("checkRequestsSeasons() no seasons defined for request type " 
@@ -56,14 +59,16 @@ public class RequestSeasonsJob {
                         requestDAO.listByStateAndSeason(RequestState.NOTIFIED, 
                                 requestSeason.getUuid());
                     for (Request request : requests) {
-                        requestService.activate(request);
+                        requestWorkflowService.updateRequestState(request.getId(),
+                            RequestState.ACTIVE, null);
                     }
                 } else if (requestSeason.getEffectEnd().before(now)) {
                     List<Request> requests = 
                         requestDAO.listByStateAndSeason(RequestState.ACTIVE, 
                                 requestSeason.getUuid());
                     for (Request request : requests) {
-                        requestService.expire(request);
+                        requestWorkflowService.updateRequestState(request.getId(),
+                            RequestState.EXPIRED, null);
                     }
                 }
             }
@@ -78,7 +83,11 @@ public class RequestSeasonsJob {
         this.requestDAO = requestDAO;
     }
 
-    public void setRequestService(IRequestService requestService) {
-        this.requestService = requestService;
+    public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
+        this.requestWorkflowService = requestWorkflowService;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
     }
 }

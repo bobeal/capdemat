@@ -96,8 +96,8 @@ public class AlignmentCertificateRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iAlignmentCertificateRequestService.complete(request.getId());
-        iAlignmentCertificateRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

@@ -9,10 +9,12 @@ import fr.cg95.cvq.service.request.impl.RequestService;
 public class BulkyWasteCollectionRequestService extends RequestService 
     implements IBulkyWasteCollectionRequestService {
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof BulkyWasteCollectionRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new BulkyWasteCollectionRequest();
     }

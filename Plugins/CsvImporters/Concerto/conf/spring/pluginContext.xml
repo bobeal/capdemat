@@ -7,6 +7,9 @@
     class="fr.capwebct.capdemat.plugins.csvimporters.concerto.service.ConcertoCsvImportService"
     init-method="init">
     <property name="label" value="Concerto"></property>
+    <property name="requestWorkflowService">
+      <ref bean="requestWorkflowService" />
+    </property>
     <property name="voCardRequestService">
       <ref bean="voCardRequestService" />
     </property>

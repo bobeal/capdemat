@@ -41,6 +41,7 @@ public final class PlaceReservationRequestService
 
     private IPlaceReservationService placeReservationService;
     
+    @Override
     public Long create(Request request, Adult requester, Individual subject) 
         throws CvqException, CvqObjectNotFoundException {
 
@@ -52,6 +53,7 @@ public final class PlaceReservationRequestService
         return finalizeAndPersist(prr, homeFolder);
     }
 
+    @Override
     public Long create(Request request) throws CvqException {
 
         performBusinessChecks(request, null, null);
@@ -76,6 +78,7 @@ public final class PlaceReservationRequestService
         }
     }
     
+    @Override
     public Map<String, Integer> getAuthorizedNumberOfPlaces(final String subscriberNumber) 
         throws CvqException, CvqObjectNotFoundException {
 
@@ -95,6 +98,7 @@ public final class PlaceReservationRequestService
         }
     }
 
+    @Override
     public boolean isValidSubscriberNumber(final String subscriberNumber) throws CvqException {
 
         String subscriberLine = getSubscriberLine(subscriberNumber);
@@ -144,6 +148,7 @@ public final class PlaceReservationRequestService
         return null;
     }
     
+    @Override
     public Set<String> checkPlaceReservationData(final List<PlaceReservationData> placeReservationDatas, 
             final String subscriberNumber) 
         throws CvqException {
@@ -209,6 +214,7 @@ public final class PlaceReservationRequestService
             return null;
     }
 
+    @Override
     public void onPaymentValidated(Request request, String paymentReference)
         throws CvqException {
         
@@ -219,10 +225,13 @@ public final class PlaceReservationRequestService
             (PlaceReservationRequest) request;
         placeReservationRequest.setPaymentReference(paymentReference);
         if (placeReservationRequest.getState().equals(RequestState.PENDING))
-            placeReservationRequest.setState(RequestState.COMPLETE);
-        validate(request);
+            requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        // TODO use a standard request action
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED,
+            "request.message.paymentValidated");
     }
     
+    @Override
     public void onPaymentCancelled(Request request)
         throws CvqException {
         
@@ -233,9 +242,12 @@ public final class PlaceReservationRequestService
         }
 
         cancelReservations((PlaceReservationRequest) request);
-        cancel(request);
+        // TODO use a standard request action
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.CANCELLED,
+            "request.message.paymentCancelled");
     }
     
+    @Override
     public void onPaymentRefused(Request request)
         throws CvqException {
 
@@ -247,7 +259,8 @@ public final class PlaceReservationRequestService
         
         cancelReservations((PlaceReservationRequest) request);
         // TODO use a standard request action
-        reject(request, "PAYMENT_REFUSED");
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.CANCELLED,
+            "request.message.paymentRefused");
     }
 
     private void cancelReservations(PlaceReservationRequest placeReservationRequest) 
@@ -275,10 +288,12 @@ public final class PlaceReservationRequestService
         }
     }
     
+    @Override
     public boolean accept(Request request) {
         return (request instanceof PlaceReservationRequest);
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new PlaceReservationRequest();
     }

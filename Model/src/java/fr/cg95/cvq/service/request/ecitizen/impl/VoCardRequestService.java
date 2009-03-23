@@ -45,6 +45,7 @@ public final class VoCardRequestService
      * </li>
      *
      */
+    @Override
     public void create(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
             final Address address) throws CvqException {
 
@@ -76,10 +77,12 @@ public final class VoCardRequestService
         logger.debug("create() Created request object with id : " + requestId);
     }
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof VoCardRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new VoCardRequest();
     }
@@ -93,6 +96,7 @@ public final class VoCardRequestService
     /**
      * TODO - move to abstract RequestService
      */
+    @Override
     public boolean isConditionFilled (Map<String, String> triggers) {
         initFilledConditions();
         boolean test = true;

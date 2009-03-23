@@ -14,10 +14,12 @@ import fr.cg95.cvq.service.request.impl.RequestService;
 public final class BirthDetailsRequestService 
     extends RequestService implements IBirthDetailsRequestService {
     
+    @Override
     public boolean accept(Request request) {
         return request instanceof BirthDetailsRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new BirthDetailsRequest();
     }

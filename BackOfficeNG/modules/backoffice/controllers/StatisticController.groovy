@@ -20,7 +20,7 @@ class StatisticController {
         session['currentMenu'] = 'statistics'
     }
 
-	def defaultAction = 'dashboard'
+	def defaultAction = 'quality'
 
 	def timescales = [
 		"Semaine" : IRequestStatisticsService.Timescale.WEEK ,
@@ -78,6 +78,18 @@ class StatisticController {
                       'pageState' : (new JSON(state)).toString().encodeAsHTML(),
                       'state': state,
                       'currentStatisticType':'quality'].plus(initStatisticsReferential()))
+    }
+
+    def state = {
+        def state = [:]
+        if (params.pageState) state = JSON.parse(params.pageState)
+
+        def categoryId = LongUtils.stringToLong(state['categoryId'])
+        def requestTypeId = LongUtils.stringToLong(state['requestTypeId'])
+        def startDate = DateUtils.stringToDate(state['startDate'])
+        def endDate = DateUtils.stringToDate(state['endDate'])
+
+
     }
 
     def detailedStatsUrl(timescale, lifecycle, requestTypeId, categoryId) {
@@ -203,5 +215,17 @@ class StatisticController {
                 'timescales':timescales,
                 'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes(true),
                 'statisticTypes':statisticTypes]
+    }
+
+    def parsePageParameters(params) {
+        if (!params.pageState)
+            return [:]
+
+        def state = JSON.parse(params.pageState)
+
+        return ['categoryId':LongUtils.stringToLong(state['categoryId']),
+                'requestTypeId':LongUtils.stringToLong(state['requestTypeId']),
+                'startDate':DateUtils.stringToDate(state['startDate']),
+                'endDate':DateUtils.stringToDate(state['endDate'])]
     }
 }

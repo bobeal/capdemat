@@ -5,9 +5,7 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 
@@ -22,13 +20,9 @@ public final class PerischoolActivityRegistrationRequestService
     private static Logger logger =
         Logger.getLogger(PerischoolActivityRegistrationRequestService.class);
 
-    public void validate(final Request request) 
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
-    
-        if (!(request instanceof PerischoolActivityRegistrationRequest)) { 
-            super.validate(request);
-            return;
-        }
+    @Override
+    public void onRequestValidated(final Request request)
+        throws CvqModelException {
     
         PerischoolActivityRegistrationRequest parr = (PerischoolActivityRegistrationRequest) request;
     
@@ -37,19 +31,20 @@ public final class PerischoolActivityRegistrationRequestService
             logger.error("validate() registration has not been associated to a school !");
             throw new CvqModelException("request.perischool_activity_registration.school_required");
         }
-    
-        super.validate(parr, true); 
     }
 
-   public boolean accept(final Request request) {
+    @Override
+    public boolean accept(final Request request) {
         return request instanceof PerischoolActivityRegistrationRequest;
     }
 
+    @Override
     public String getConsumptionsField()
         throws CvqException {
         return "PerischoolActivity";
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new PerischoolActivityRegistrationRequest();
     }

@@ -1,8 +1,9 @@
 import grails.converters.JSON
-import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.service.document.IDocumentTypeService
+import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.document.DocumentState
@@ -26,6 +27,7 @@ class DocumentInstructionController {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     IRequestService defaultRequestService
+    IRequestTypeService requestTypeService
     ICategoryService categoryService
 
     
@@ -57,7 +59,8 @@ class DocumentInstructionController {
                 "resultingState": CapdematUtils.adaptCapdematEnum(action.resultingState, "document.state")
             ])
         }
-        def agentCanWrite = categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
+        def agentCanWrite =
+            categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
         
         return ([
             "uuid" : UUID.randomUUID().toString(),
@@ -133,7 +136,8 @@ class DocumentInstructionController {
             result.status = 'success'
             if(document.state.equals(DocumentState.OUTDATED)) {
                 document.state = DocumentState.PENDING
-                documentService.addActionTrace(documentService.STATE_CHANGE_ACTION,DocumentState.PENDING,document) 
+                documentService.addActionTrace(documentService.STATE_CHANGE_ACTION,
+                    DocumentState.PENDING,document)
             }
             documentService.addActionTrace(documentService.PAGE_EDIT_ACTION,document.state,document)
         } else {
@@ -190,7 +194,7 @@ class DocumentInstructionController {
             ])
         }
         
-        for(DocumentType t : defaultRequestService.getAllowedDocuments(request.requestType.id)) {
+        for(DocumentType t : requestTypeService.getAllowedDocuments(request.requestType.id)) {
             if (!types.contains(t.id)) documents.add([
                 "id": 0,"documentTypeId": t.id,
                 "name": message(code: CapdematUtils.adaptDocumentTypeName(t.name)),

@@ -39,14 +39,14 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
 
         SchoolRegistrationRequest request = new SchoolRegistrationRequest();
               request.setCurrentSchoolAddress("CurrentSchoolAddress");
+                    request.setCurrentSchoolName("CurrentSchoolName");
+                  request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
                    request.setSchool((School) schoolService.getAll().iterator().next());
                 request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-                request.setCurrentSchoolName("CurrentSchoolName");
-                  if ("UrgencyPhone".length() > 10)
+              if ("UrgencyPhone".length() > 10)
         request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
       else
         request.setUrgencyPhone("UrgencyPhone");
-                  request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
                   request.setSection(SectionType.BEFORE_FIRST_SECTION);
       
         // Means Of Contact
@@ -94,8 +94,8 @@ public class SchoolRegistrationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iSchoolRegistrationRequestService.complete(request.getId());
-        iSchoolRegistrationRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

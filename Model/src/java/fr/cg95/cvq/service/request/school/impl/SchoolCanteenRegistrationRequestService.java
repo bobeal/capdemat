@@ -6,7 +6,6 @@ import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -22,6 +21,7 @@ public final class SchoolCanteenRegistrationRequestService
 
     private static Logger logger = Logger.getLogger(SchoolCanteenRegistrationRequestService.class);
 
+    @Override
     public Long create(final Request request)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -37,13 +37,9 @@ public final class SchoolCanteenRegistrationRequestService
         return finalizeAndPersist(scrr);
     }
 
-    public void validate(final Request request) 
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
-        
-        if (!(request instanceof SchoolCanteenRegistrationRequest)) { 
-            super.validate(request);
-            return;
-        }
+    @Override
+    public void onRequestValidated(final Request request)
+        throws CvqModelException {
         
         SchoolCanteenRegistrationRequest scrr = (SchoolCanteenRegistrationRequest) request;
         
@@ -52,14 +48,14 @@ public final class SchoolCanteenRegistrationRequestService
             logger.error("validate() registration has not been associated to a school !");
             throw new CvqModelException("request.school_canteen_registration.school_required");
         }
-        
-        super.validate(scrr, true); 
     }
-    
+
+    @Override
     public boolean accept(final Request request) {
         return request instanceof SchoolCanteenRegistrationRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new SchoolCanteenRegistrationRequest();
     }

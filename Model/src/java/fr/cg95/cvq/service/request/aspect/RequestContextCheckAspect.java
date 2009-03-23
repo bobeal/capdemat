@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.aspect;
 
+import fr.cg95.cvq.business.authority.Category;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -15,6 +16,7 @@ import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.dao.authority.ICategoryDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -28,6 +30,7 @@ import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
+import fr.cg95.cvq.service.request.annotation.IsCategory;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 
@@ -38,6 +41,7 @@ public class RequestContextCheckAspect implements Ordered {
     
     private IRequestDAO requestDAO;
     private IRequestTypeDAO requestTypeDAO;
+    private ICategoryDAO categoryDAO;
     
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.request..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
@@ -90,9 +94,13 @@ public class RequestContextCheckAspect implements Ordered {
                         request = (Request) argument;
                     }
                     homeFolderId = request.getHomeFolderId();
-//                    requesterId = request.getRequesterId();
                     individualId = request.getSubjectId();
                 } else if (parameterAnnotation.annotationType().equals(IsRequestType.class)) {
+
+                    // no restrictions on request type services opened to e-citizens
+                    if (SecurityContext.isFrontOfficeContext())
+                        return;
+
                     RequestType requestType = null;
                     if (argument instanceof Long) {
                         try {
@@ -142,7 +150,51 @@ public class RequestContextCheckAspect implements Ordered {
                             joinPoint.getSignature().getName(), context.type(), context.privilege(),
                             "request type " + requestType.getLabel());
                     
-                } 
+                } else if (parameterAnnotation.annotationType().equals(IsCategory.class)) {
+                    Category categoryToCheck = null;
+                    if (argument instanceof Long) {
+                        try {
+                            categoryToCheck = (Category) categoryDAO.findById(Category.class, (Long) argument);
+                        } catch (CvqObjectNotFoundException confe) {
+                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                                    joinPoint.getSignature().getName(), context.type(),
+                                    context.privilege(), "unknown resource type : " + argument);
+                        }
+                    } else if (argument instanceof Category) {
+                        categoryToCheck = (Category) argument;
+                    }
+
+                    if (categoryToCheck == null) {
+                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                            "no category specified");
+                    }
+
+                    CategoryRoles[] categoryRoles =
+                        SecurityContext.getCurrentCredentialBean().getCategoryRoles();
+                    for (CategoryRoles categoryRole : categoryRoles) {
+                        Category category = categoryRole.getCategory();
+                        if (categoryToCheck.getId().equals(category.getId())) {
+                            // we found the category we are interested in
+                            if (context.privilege().equals(ContextPrivilege.READ)
+                                || (context.privilege().equals(ContextPrivilege.WRITE)
+                                    && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
+                                        || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
+                                || (context.privilege().equals(ContextPrivilege.MANAGE)
+                                    && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
+                                // that's ok, let's return
+                                return;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+
+                    // if we are here, that means agent is not authorized
+                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                            "category " + categoryToCheck.getName());
+                }
             }
             i++;
         }
@@ -151,7 +203,8 @@ public class RequestContextCheckAspect implements Ordered {
             context.privilege()))
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                     joinPoint.getSignature().getName(), context.type(), context.privilege(), 
-                    "access denied on home folder " + homeFolderId);
+                    "access denied on home folder " + homeFolderId +
+                    " / individual " + individualId);
         
         if (SecurityContext.isBackOfficeContext()) {
             // TODO ACMF : to be completed
@@ -183,5 +236,9 @@ public class RequestContextCheckAspect implements Ordered {
 
     public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
         this.requestTypeDAO = requestTypeDAO;
+    }
+
+    public void setCategoryDAO(ICategoryDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
     }
 }

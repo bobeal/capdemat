@@ -12,7 +12,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.RequestUtils;
 import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -26,7 +26,7 @@ public class RequestCreationNotificationJob {
 
     private static Logger logger = Logger.getLogger(RequestCreationNotificationJob.class);
 
-    private IRequestService requestService;
+    private IRequestActionService requestActionService;
     private ILocalizationService localizationService;
     private IMailService mailService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
@@ -49,7 +49,7 @@ public class RequestCreationNotificationJob {
         }
 
         List<Request> requestsToNotify = 
-            requestDAO.listByNotMatchingActionLabel(IRequestService.REQUEST_CREATION_NOTIFICATION);
+            requestDAO.listByNotMatchingActionLabel(IRequestActionService.REQUEST_CREATION_NOTIFICATION);
         logger.debug("notifyLocalAuthRequestsCreation() got "
                 + requestsToNotify.size() + " requests to notify");
         Map<Category, List<Request>> requestsByService =
@@ -83,8 +83,8 @@ public class RequestCreationNotificationJob {
                 if (alertSent) {
                     // email alert successfully sent, update request accordingly
                     for (Request request : requestList) {
-                        requestService.addSystemAction(request.getId(), 
-                                IRequestService.REQUEST_CREATION_NOTIFICATION);
+                        requestActionService.addSystemAction(request.getId(),
+                                IRequestActionService.REQUEST_CREATION_NOTIFICATION);
                     }
                 }
             } else {
@@ -106,8 +106,8 @@ public class RequestCreationNotificationJob {
         this.requestDAO = requestDAO;
     }
 
-    public void setRequestService(IRequestService requestService) {
-        this.requestService = requestService;
+    public void setRequestActionService(IRequestActionService requestActionService) {
+        this.requestActionService = requestActionService;
     }
 
     public void setLocalAuthorityRegistry(

@@ -11,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SectionType;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
@@ -41,6 +42,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
     protected ISchoolRegistrationRequestService iSchoolRegistrationRequestService;
 
+    @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
         ConfigurableApplicationContext cac = getContext(getConfigLocations());
@@ -63,6 +65,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
     /**
      * Overrided to run invariant tests.
      */
+    @Override
     protected void onTearDown() 
         throws Exception {
 
@@ -99,8 +102,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         // be an agent to perform request state changes
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iRequestService.complete(requestId);
-        iRequestService.validate(requestId);
+        iRequestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
@@ -200,8 +203,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.complete(hfmr.getId());
-        iHomeFolderModificationRequestService.validate(hfmr.getId());
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
 
@@ -231,7 +234,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.cancel(hfmr.getId());
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         
@@ -283,8 +286,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.complete(hfmr.getId());
-        iHomeFolderModificationRequestService.validate(hfmr.getId());
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         
@@ -326,7 +329,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-            iHomeFolderModificationRequestService.cancel(hfmr.getId());
+            iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
             continueWithNewTransaction();
 
@@ -406,8 +409,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-            iHomeFolderModificationRequestService.complete(hfmr.getId());
-            iHomeFolderModificationRequestService.validate(hfmr.getId());
+            iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+            iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
             continueWithNewTransaction();
 
@@ -447,7 +450,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.cancel(hfmr.getId());
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         
@@ -512,8 +515,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.complete(hfmr.getId());
-        iHomeFolderModificationRequestService.validate(hfmr.getId());
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         
@@ -551,7 +554,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.cancel(hfmr.getId());
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         
@@ -595,8 +598,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-            iHomeFolderModificationRequestService.complete(hfmr.getId());
-            iHomeFolderModificationRequestService.validate(hfmr.getId());
+            iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+            iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
             continueWithNewTransaction();
 
@@ -625,7 +628,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.cancel(hfmr.getId());
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         
@@ -662,8 +665,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
             
-            iRequestService.complete(requestId);
-            iRequestService.validate(requestId);
+            iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+            iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
             continueWithNewTransaction();
             
@@ -706,8 +709,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-            iSchoolRegistrationRequestService.complete(srrId);
-            iSchoolRegistrationRequestService.validate(srrId);
+            iRequestWorkflowService.updateRequestState(srrId, RequestState.COMPLETE, null);
+            iRequestWorkflowService.updateRequestState(srrId, RequestState.VALIDATED, null);
 
             continueWithNewTransaction();
 
@@ -748,7 +751,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-            iHomeFolderModificationRequestService.cancel(hfmr.getId());
+            iRequestWorkflowService.updateRequestState(srrId, RequestState.CANCELLED, null);
             iSchoolRegistrationRequestService.delete(srrId);
 
             continueWithNewTransaction();

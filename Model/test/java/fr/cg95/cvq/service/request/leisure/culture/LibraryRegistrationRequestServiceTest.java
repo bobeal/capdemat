@@ -40,8 +40,8 @@ public class LibraryRegistrationRequestServiceTest extends ServiceTestCase {
         LibraryRegistrationRequest request = new LibraryRegistrationRequest();
               request.setRegistrationNumber("RegistrationNumber");
                 request.setParentalAuthorization(Boolean.valueOf(true));
-                    request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-    
+                      request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+  
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);
@@ -87,8 +87,8 @@ public class LibraryRegistrationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iLibraryRegistrationRequestService.complete(request.getId());
-        iLibraryRegistrationRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

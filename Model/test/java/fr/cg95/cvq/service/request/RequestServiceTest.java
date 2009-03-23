@@ -38,7 +38,7 @@ public class RequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
-        List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
         assertTrue(requestTypesSet.size() >= 2);
 
         // add a new requirement for the first request type found
@@ -47,12 +47,12 @@ public class RequestServiceTest extends ServiceTestCase {
         int initialRequirementsSize = rt.getRequirements().size();
         
         List<DocumentType> allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
-        iRequestService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(0).getId());
-        iRequestService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(1).getId());
+        iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(0).getId());
+        iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(1).getId());
 
         continueWithNewTransaction();
 
-        rt = iRequestService.getRequestTypeById(rt.getId());
+        rt = iRequestTypeService.getRequestTypeById(rt.getId());
         Assert.assertEquals(rt.getRequirements().size(), initialRequirementsSize + 2);
 
         // validate "order by" behavior
@@ -79,11 +79,11 @@ public class RequestServiceTest extends ServiceTestCase {
             rt.setActive(Boolean.valueOf(true));
         }
 
-        iRequestService.modifyRequestType(rt);
+        iRequestTypeService.modifyRequestType(rt);
 
         continueWithNewTransaction();
 
-        rt = iRequestService.getRequestTypeById(rt.getId());
+        rt = iRequestTypeService.getRequestTypeById(rt.getId());
         if (shouldBeActive)
             Assert.assertTrue(rt.getActive().booleanValue());
         else
@@ -94,10 +94,10 @@ public class RequestServiceTest extends ServiceTestCase {
 
         // requestType by category
         Category category = iCategoryService.getAll().get(0);
-        iRequestService.getRequestsTypes(category.getId(), null);
-        int requestTypeNumber = iRequestService.getAllRequestTypes().size();
+        iRequestTypeService.getRequestTypes(category.getId(), null);
+        int requestTypeNumber = iRequestTypeService.getAllRequestTypes().size();
         int requestTypeInCategory = 
-            iRequestService.getRequestsTypes(category.getId(), null).size();
+            iRequestTypeService.getRequestTypes(category.getId(), null).size();
         Assert.assertEquals(requestTypeNumber, requestTypeInCategory);
 
         SecurityContext.resetCurrentSite();
@@ -198,13 +198,13 @@ public class RequestServiceTest extends ServiceTestCase {
         requestForm.setTemplateName("template.html");
         requestForm.setType(RequestFormType.REQUEST_MAIL_TEMPLATE);
         requestForm.setPersonalizedData("MyData".getBytes());
-        Long id = iRequestService.modifyRequestTypeForm(requestType.getId(), requestForm);
+        Long id = iRequestTypeService.modifyRequestTypeForm(requestType.getId(), requestForm);
 
-        List<RequestForm> forms = iRequestService.getRequestTypeForms(
+        List<RequestForm> forms = iRequestTypeService.getRequestTypeForms(
                 requestType.getId(), RequestFormType.REQUEST_MAIL_TEMPLATE);
         Assert.assertEquals(1, forms.size());
 
-        RequestForm tmpForm = iRequestService.getRequestFormById(id);
+        RequestForm tmpForm = iRequestTypeService.getRequestFormById(id);
         Assert.assertEquals(tmpForm.getLabel(),requestForm.getLabel());
         Assert.assertEquals(tmpForm.getShortLabel(),requestForm.getShortLabel());
         Assert.assertEquals(tmpForm.getTemplateName(),requestForm.getTemplateName());
@@ -216,10 +216,10 @@ public class RequestServiceTest extends ServiceTestCase {
         tmpForm.setPersonalizedData("new data".getBytes());
         tmpForm.setTemplateName("tmp.html");
 
-        Long sameId = iRequestService.modifyRequestTypeForm(requestType.getId(), tmpForm);
+        Long sameId = iRequestTypeService.modifyRequestTypeForm(requestType.getId(), tmpForm);
         Assert.assertEquals(sameId,id);
 
-        tmpForm = iRequestService.getRequestFormById(sameId);
+        tmpForm = iRequestTypeService.getRequestFormById(sameId);
         Assert.assertEquals(tmpForm.getLabel(),"new label");
         Assert.assertEquals(tmpForm.getShortLabel(),"new short label");
         Assert.assertEquals(tmpForm.getTemplateName(),"tmp.html");
@@ -232,13 +232,13 @@ public class RequestServiceTest extends ServiceTestCase {
             f.setShortLabel("new short label");
             f.setPersonalizedData("new data".getBytes());
             f.setTemplateName("tmp.html");
-            iRequestService.modifyRequestTypeForm(requestType.getId(), f);
+            iRequestTypeService.modifyRequestTypeForm(requestType.getId(), f);
             fail("RequestForm data can't be duplicated");
         } catch (CvqModelException cvqme) {
             Assert.assertEquals("requestForm.message.labelAlreadyUsed", cvqme.getI18nKey());
         } finally {
-            iRequestService.removeRequestTypeForm(requestType.getId(), tmpForm.getId());
-            forms = iRequestService.getRequestTypeForms(requestType.getId(),
+            iRequestTypeService.removeRequestTypeForm(requestType.getId(), tmpForm.getId());
+            forms = iRequestTypeService.getRequestTypeForms(requestType.getId(),
                 RequestFormType.REQUEST_MAIL_TEMPLATE);
             Assert.assertEquals(0, forms.size());
         }

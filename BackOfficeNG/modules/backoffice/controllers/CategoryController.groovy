@@ -2,7 +2,7 @@ import fr.cg95.cvq.business.authority.Category
 import fr.cg95.cvq.business.authority.CategoryProfile
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.authority.IAgentService
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
 
 import grails.converters.JSON
 
@@ -10,7 +10,7 @@ class CategoryController {
     
     ICategoryService categoryService
     IAgentService agentService
-    IRequestService defaultRequestService
+    IRequestTypeService requestTypeService
     
     def translationService
     def defaultAction = "list"
@@ -79,7 +79,7 @@ class CategoryController {
         def requestTypes = []
         
         if ((request.post && params.scope == null) || params.scope == 'All') {
-            defaultRequestService.getAllRequestTypes().each{ 
+            requestTypeService.getAllRequestTypes().each{
                 requestTypes.add(CapdematUtils.adaptRequestType(translationService,it)) 
             }
         } else if (params.scope == 'Category') {

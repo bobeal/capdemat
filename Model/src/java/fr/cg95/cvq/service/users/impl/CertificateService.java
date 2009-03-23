@@ -46,11 +46,13 @@ public class CertificateService implements ICertificateService {
 
     private static Logger logger = Logger.getLogger(CertificateService.class);
 
+    private String fopConfig;
+
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     protected ILocalizationService localizationService;
     protected IRequestFormDAO requestFormDAO;
     
-    public byte[] generateRequestCertificate(Request request, String fopConfig)
+    public byte[] generateRequestCertificate(Request request)
         throws CvqException {
 
         // DEBUG
@@ -61,10 +63,10 @@ public class CertificateService implements ICertificateService {
             throw new CvqException("Unable to translate request to XML");
         else
             return generateRequestCertificate(request.modelToXml().getDomNode(),
-                    fopConfig, request.getRequestType());
+                    request.getRequestType());
     }
 
-    public byte[] generateRequestCertificate(Node node, String fopConfig, File xslFoFile)
+    public byte[] generateRequestCertificate(Node node, File xslFoFile)
         throws CvqException {
 
         if (xslFoFile == null) {
@@ -72,23 +74,10 @@ public class CertificateService implements ICertificateService {
             return null;
         }
 
-        return convertXmlSource2PDF(gimmeFopConfigFile(fopConfig), new DOMSource(node), xslFoFile);
+        return convertXmlSource2PDF(new DOMSource(node), xslFoFile);
     }
 
-
-    public byte[] generateRequestCertificate(Node node, File fopConfigFile, File xslFoFile) 
-        throws CvqException {
-        
-        return convertXmlSource2PDF(fopConfigFile, new DOMSource(node), xslFoFile);
-    }
-
-    public byte[] generateRequestCertificate(Node node, File xslFoFile) 
-        throws CvqException {
-    
-        return convertXmlSource2PDF(null, new DOMSource(node), xslFoFile);
-    }
-
-    public byte[] generateRequestCertificate(Node node, String fopConfig, String xslFoFileName)
+    public byte[] generateRequestCertificate(Node node, String xslFoFileName)
         throws CvqException {
 
         if (xslFoFileName == null) {
@@ -105,10 +94,10 @@ public class CertificateService implements ICertificateService {
             return null;
         }
 
-        return convertXmlSource2PDF(gimmeFopConfigFile(fopConfig), new DOMSource(node), xslFoFile);
+        return convertXmlSource2PDF(new DOMSource(node), xslFoFile);
     }
 
-    public byte[] generateRequestCertificate(Node node, String fopConfig, RequestType requestType)
+    public byte[] generateRequestCertificate(Node node, RequestType requestType)
         throws CvqException {
 
         RequestForm requestForm = 
@@ -131,11 +120,10 @@ public class CertificateService implements ICertificateService {
             return null;
         }
 
-        return convertXmlSource2PDF(gimmeFopConfigFile(fopConfig), new DOMSource(node), 
-                requestXslFoFile);
+        return convertXmlSource2PDF(new DOMSource(node), requestXslFoFile);
     }
 
-    public byte[] generateEmptyRequestCertificate(String fopConfig, RequestType requestType) 
+    public byte[] generateEmptyRequestCertificate(RequestType requestType) 
         throws CvqException {
         
 //        ElectoralRollRegistrationRequest request = ElectoralRollRegistrationRequest.getEmpty();
@@ -158,7 +146,7 @@ public class CertificateService implements ICertificateService {
             return null;
         }
         
-        return convertXmlSource2PDF(null, new DOMSource(node), xslFoFile);
+        return convertXmlSource2PDF(new DOMSource(node), xslFoFile);
     }
     
     /**
@@ -172,7 +160,7 @@ public class CertificateService implements ICertificateService {
      *
      * @throws CvqException
      */
-    private byte[] convertXmlSource2PDF(File config, Source xmlSource, File xslFoFile)
+    private byte[] convertXmlSource2PDF(Source xmlSource, File xslFoFile)
         throws CvqException {
 
         // First, transform XML to FO
@@ -302,5 +290,9 @@ public class CertificateService implements ICertificateService {
 
     public void setRequestFormDAO(IRequestFormDAO requestFormDAO) {
         this.requestFormDAO = requestFormDAO;
+    }
+
+    public void setFopConfig(String fopConfig) {
+        this.fopConfig = fopConfig;
     }
 }

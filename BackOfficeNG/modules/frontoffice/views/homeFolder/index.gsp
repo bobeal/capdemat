@@ -5,11 +5,13 @@
   </head>
   
   <body>
+    <g:if test="${flash.successMessage}"><div class="success-box"><p>${flash.successMessage}</p></div></g:if>
     <div class="main-box">
       <h2><g:message code="homeFolder.header.generalInformations"/></h2>
       <p style="float:right;">
         <span style="display:block;text-align:right;"><a href="#">Modifier mon compte</a></span>
-        <a href="#">Modifier mon mot de passe ou ma question/réponse</a>            
+        <span style="display:block;text-align:right;"><a href="${createLink(action:'editPassword')}">Modifier mon mot de passe</a></span>
+        <a href="${createLink(action:'editQuestion')}">Modifier ma question/réponse</a>
       </p>
       <p>
         <g:message code="property.active"/> :

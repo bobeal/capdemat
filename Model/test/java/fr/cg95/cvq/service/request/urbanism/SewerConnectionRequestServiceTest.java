@@ -38,19 +38,19 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
     protected SewerConnectionRequest fillMeARequest() throws CvqException {
 
         SewerConnectionRequest request = new SewerConnectionRequest();
-          request.setMoreThanTwoYears(Boolean.valueOf(true));
-                request.setTransportationRoute("TransportationRoute");
-                    request.setLocality("Locality");
-                  if ("OwnerLastName".length() > 38)
+            if ("OwnerLastName".length() > 38)
         request.setOwnerLastName("OwnerLastName".substring(0, 38));
       else
         request.setOwnerLastName("OwnerLastName");
-                request.setNumber(BigInteger.valueOf(1));
-                request.setOwnerFirstNames("OwnerFirstNames");
+                    request.setOwnerFirstNames("OwnerFirstNames");
                                 Address OwnerAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
             request.setOwnerAddress(OwnerAddress);
     	                  request.setRequesterQuality(ScrRequesterQualityType.OWNER);
-                    request.setSection("Section");
+                request.setMoreThanTwoYears(Boolean.valueOf(true));
+                request.setTransportationRoute("TransportationRoute");
+                    request.setLocality("Locality");
+                request.setNumber(BigInteger.valueOf(1));
+                request.setSection("Section");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
@@ -97,8 +97,8 @@ public class SewerConnectionRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iSewerConnectionRequestService.complete(request.getId());
-        iSewerConnectionRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.social.impl;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -28,6 +27,7 @@ public class HandicapCompensationAdultRequestService extends RequestService
     
     static Logger logger = Logger.getLogger(HandicapCompensationAdultRequestService.class);
     
+    @Override
     public Long create(final Request request) throws CvqException, 
             CvqObjectNotFoundException {
 
@@ -37,10 +37,12 @@ public class HandicapCompensationAdultRequestService extends RequestService
         return finalizeAndPersist(hcar);
     }
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof HandicapCompensationAdultRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new HandicapCompensationAdultRequest();
     }
@@ -97,6 +99,7 @@ public class HandicapCompensationAdultRequestService extends RequestService
     /**
      * TODO - move to abstract RequestService
      */
+    @Override
     public boolean isConditionFilled (Map<String, String> triggers) {
         initFilledConditions();
         boolean test = true;

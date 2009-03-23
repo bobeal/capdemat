@@ -12,18 +12,18 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.service.request.IRequestServiceRegistry
 
 class HomeController {
 
     def requestAdaptorService
     def instructionService
-    def requestTypeService
+    def requestTypeAdaptorService
     
     IRequestService defaultRequestService
+    IRequestActionService requestActionService
     ILocalAuthorityRegistry localAuthorityRegistry
-    IRequestServiceRegistry requestServiceRegistry
     IPaymentService paymentService
     IDocumentService documentService
     IAuthenticationService authenticationService
@@ -51,8 +51,8 @@ class HomeController {
         result.dashBoard.drafts =
             requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
         result.dashBoard.drafts.records.each {
-            if (defaultRequestService.hasAction(it.id,
-                IRequestService.DRAFT_DELETE_NOTIFICATION)) {
+            if (requestActionService.hasAction(it.id,
+                IRequestActionService.DRAFT_DELETE_NOTIFICATION)) {
                 it.displayDraftWarning = true
                 it.draftExpirationDate = it.creationDate +
                     SecurityContext.currentSite.draftLiveDuration
@@ -80,7 +80,7 @@ class HomeController {
         return [
             'isLogin': true,
             'error': message(code:error),
-            'groups': requestTypeService.getDisplayGroups(false,null)
+            'groups': requestTypeAdaptorService.getDisplayGroups(false,null)
         ]
     }
     

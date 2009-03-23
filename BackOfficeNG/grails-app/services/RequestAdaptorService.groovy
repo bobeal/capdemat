@@ -1,15 +1,15 @@
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
 
 class RequestAdaptorService {
 
-    IRequestService defaultRequestService
+    IRequestTypeService requestTypeService
 
     def instructionService
     def translationService
     
     public translateAndSortRequestTypes(onlyManaged = false) {
         def allRequestTypes =
-            onlyManaged ? defaultRequestService.getManagedRequestTypes() : defaultRequestService.getAllRequestTypes()
+            onlyManaged ? requestTypeService.getManagedRequestTypes() : requestTypeService.getAllRequestTypes()
         def allRequestTypesTranslated =  []
         allRequestTypes.each {
             allRequestTypesTranslated.add([
@@ -23,7 +23,7 @@ class RequestAdaptorService {
 
     /* currently unused, remove it later if still not used */
     public translateRequestType(requestTypeId) {
-        def requestType = defaultRequestService.getRequestTypeById(requestTypeId)
+        def requestType = requestTypeService.getRequestTypeById(requestTypeId)
         return translationService.getEncodedRequestTypeLabelTranslation(requestType.label).decodeHTML()
     }
 

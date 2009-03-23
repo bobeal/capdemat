@@ -17,6 +17,9 @@ public interface IAuthenticationService {
     /** category name used by Spring's application context */
     String SERVICE_NAME = "authenticationService";
 
+    /** default minimal password length for all account types **/
+    int passwordMinLength = 8;
+
     /**
      * Authenticate an user by login/password.
      *

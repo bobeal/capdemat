@@ -10,6 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -20,7 +21,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.request.job.RequestXmlGenerationJob;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class RequestXmlGenerationJobTest extends ServiceTestCase {
@@ -135,11 +135,14 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
     protected void validateRequest() throws CvqInvalidTransitionException, CvqException {
         SecurityContext.setCurrentSite(localAuthorityName,SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        requestService.complete(creationBean.getRequestId());
-        requestService.validate(creationBean.getRequestId());
+        iRequestWorkflowService.updateRequestState(creationBean.getRequestId(),
+            RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(creationBean.getRequestId(),
+            RequestState.VALIDATED, null);
         this.continueWithNewTransaction();
     }
     
+    @Override
     protected void onTearDown() throws Exception {
         this.externalService.deleteTraces("MyName");
         this.eraseTestFiles();

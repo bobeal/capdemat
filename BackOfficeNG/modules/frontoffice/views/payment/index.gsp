@@ -22,9 +22,11 @@
     </div>
   </div>
   <!-- end of yui-main -->
+
   <g:render template="cart"/>
+
   <div id="narrow" class="yui-b">
-    <div id="requestSubject" class="requestBox">
+    <div class="requestBox">
       <h3>
         <g:message code="header.display"/>
       </h3>

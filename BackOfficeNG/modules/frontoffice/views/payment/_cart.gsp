@@ -1,5 +1,5 @@
 <div id="narrow" class="yui-b">
-  <div id="requestSubject" class="requestBox">
+  <div class="requestBox">
     <h3>
       <g:message code="payment.header.cart" />
     </h3>
@@ -8,13 +8,16 @@
         <ul class="cart-list">
           <g:each in="${session.payment.purchaseItems}" var="${record}">
             <li>
-              ${record.label} de ${record.amount / 100} €
+              ${record.label} - ${record.amount / 100} €
             </li>
           </g:each>
         </ul>
+        <p style="text-align:right;font-weight:bold;margin-top:0.5em;">Total : ${session.payment.amount / 100} €</p>
+        <p>
         <a href="${createLink(action:'cartDetails')}" target="_self">
           <g:message code="action.finishShopping"/>
         </a>
+        </p>
       </g:if>
       <g:else>
         <g:message code="message.cartIsEmpty" />

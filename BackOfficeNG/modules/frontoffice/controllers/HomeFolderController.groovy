@@ -3,6 +3,7 @@ import fr.cg95.cvq.business.users.*
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqBadPasswordException
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 
@@ -11,6 +12,7 @@ class HomeFolderController {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     IAuthenticationService authenticationService
+    IRequestService defaultRequestService
 
     def homeFolderAdaptorService
     
@@ -94,6 +96,49 @@ class HomeFolderController {
             }
             flash.successMessage = message("code":"homeFolder.adult.property.password.changeSuccess")
             redirect(controller : "frontofficeHomeFolder")
+        }
+    }
+
+    def resetPassword = {
+        if (request.get) {
+            render(view : "answerLogin", model : [])
+            return false
+        } else if (request.post) {
+            def adult = individualService.getByLogin(params.login)
+            if (adult == null) {
+                flash.errorMessage = message("code":"entered.login.invalid")
+                render(view : "answerLogin", model : [])
+                return false
+            }
+            if (adult.answer == params.answer) {
+                def password = authenticationService.generatePassword()
+                authenticationService.resetAdultPassword(adult, password)
+                def category = defaultRequestService.getRequestTypeByLabel("VO Card Request").category
+                def categoryEmail = null
+                if (category != null) {
+                    categoryEmail = category.primaryEmail
+                }
+                def notificationType = homeFolderService.notifyPasswordReset(adult, password, categoryEmail)
+                switch (notificationType) {
+                    case IHomeFolderService.PasswordResetNotificationType.INLINE :
+                        flash.successMessage = message("code" : "password.reset.success.no.email", "args" : [password])
+                        break
+                    case IHomeFolderService.PasswordResetNotificationType.ADULT_EMAIL :
+                        flash.successMessage = message("code" : "password.reset.success.adult.email", "args" : [adult.email])
+                        break
+                    case IHomeFolderService.PasswordResetNotificationType.CATEGORY_EMAIL :
+                        flash.successMessage = message("code" : "password.reset.success.category.email")
+                        break
+                }
+                redirect(controller : "frontofficeHome", action : "login")
+                return false
+            } else {
+                if (!params.comesFromLoginStep) {
+                    flash.errorMessage = message("code":"answer.invalid")
+                }
+                render(view : "answerQuestion", model : ["question" : adult.question, "login" : params.login])
+                return false
+            }
         }
     }
 

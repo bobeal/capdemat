@@ -3,15 +3,16 @@
    <ul>
      <g:each var="record" in="${items}">
        <li>
-         <p> Lebele : ${record.label}</p>
-         <p> Subject:  ${record.subjectName}</p>
-         <g:if test="${record?.unitPrice}">
-          <p> Prix à l'unité:  ${record.unitPrice / 100} €</p>
-         </g:if>
-         <p> Quantité:  ${record.quantity}</p>
-         <g:if test="${record?.value}">
-          <p> Valeur:  ${record.value / 100} €</p>
-         </g:if>
+         <p>${record.label} pour ${record.subjectName}</p>
+         <p>
+           Quantité : ${record.quantity}
+           <g:if test="${record.unitPrice}">
+             (prix unitaire : ${record.unitPrice / 100} €)
+           </g:if>
+           <g:if test="${record.value}">
+             - Valeur : ${record.value / 100} €
+           </g:if>
+         </p>
        </li>
      </g:each>
    </ul>
@@ -21,14 +22,17 @@
    <ul>
      <g:each var="record" in="${items}">
        <li>
-         <p> ID : ${record.paymentId}</p>
-         <p> Type : ${record.paymentType}</p>
-         <p> Réf banque : ${record.bankReference}</p>
-         <p> Holder:  ${record.holderName}</p>
-         <p> Date:  <g:formatDate date="${record.date}" formatName="format.date"/></p>
-         <g:if test="${record?.value}">
-          <p> Valeur:  ${record.value / 100} €</p>
+         <g:if test="${record.paymentId}">
+           <p>
+             Paiement ${record.paymentId} de ${record.value / 100} € fait par ${record.paymentType}
+           </p>
+           <p>
+             Effectué le <g:formatDate date="${record.date}" formatName="format.date"/> par ${record.holderName}
+           </p>
          </g:if>
+         <g:else>
+           <p>Débit de ${record.value / 100} €</p>
+         </g:else>
        </li>
      </g:each>
    </ul>

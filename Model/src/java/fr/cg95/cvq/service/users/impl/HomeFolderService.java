@@ -757,7 +757,27 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 			mailService.send(null, mailSendTo, null, mailSubject, mailBody);
 		}
 	}
-    
+
+    public PasswordResetNotificationType notifyPasswordReset(Adult adult, String password, String categoryAddress)
+        throws CvqException {
+        String to = null;
+        String body = null;
+        PasswordResetNotificationType notificationType = PasswordResetNotificationType.INLINE;
+        if (adult.getEmail() != null && !adult.getEmail().trim().isEmpty()) {
+            to = adult.getEmail();
+            body = "Veuillez trouver ci-dessous votre nouveau mot de passe :\n\t" + password + "\n\nBien cordialement.";
+            notificationType = PasswordResetNotificationType.ADULT_EMAIL;
+        } else if (categoryAddress != null) {
+            to = categoryAddress;
+            body = "Le mot de passe ci-dessous a été attribué à " + adult.getTitle() + " " + adult.getLastName() + " " + adult.getFirstName() + " (" + adult.getLogin() + ") :\n\t" + password;
+            notificationType = PasswordResetNotificationType.CATEGORY_EMAIL;
+        }
+        if (notificationType != PasswordResetNotificationType.INLINE) {
+            mailService.send(categoryAddress, to, null, "[" + SecurityContext.getCurrentConfigurationBean().getDisplayTitle() + "] " + "Votre nouveau mot de passe pour vos démarches en ligne", body);
+        }
+        return notificationType;
+    }
+
 	public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }

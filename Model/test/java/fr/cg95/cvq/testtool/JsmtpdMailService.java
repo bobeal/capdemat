@@ -21,4 +21,9 @@ public class JsmtpdMailService {
     public void setPort(int port) {
         this.port = port;
     }
+
+    public SmtpServer getServer() {
+        return server;
+    }
+
 }

@@ -61,6 +61,8 @@ class SessionFilters {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                     if (controllerName == 'frontofficeVOCardRequestCreation') {
                         log.debug "Don't redirect to login for account creation"
+                    } else if (controllerName == 'frontofficeHomeFolder' && actionName == 'resetPassword') {
+                        log.debug "Don't redirect to login for password reset"
                     } else {
                         if (!session.currentUser) {
                             if (actionName != 'login') {

@@ -13,6 +13,8 @@ import grails.converters.JSON
 import fr.cg95.cvq.business.users.payment.PurchaseItem
 import fr.cg95.cvq.business.users.payment.PaymentMode
 import fr.cg95.cvq.business.users.payment.Payment
+import fr.cg95.cvq.business.users.payment.PaymentState
+import org.apache.commons.lang.StringUtils
 
 class PaymentController {
 
@@ -23,12 +25,14 @@ class PaymentController {
     
     def maxRows = 10
     def errorMessage = ''
-    def state = null
+    def state = [:]
     
     def beforeInterceptor = {
         this.errorMessage = message(code:'message.unvalidFormat')
         this.ecitizen = SecurityContext.getCurrentEcitizen();
+        
         if (params.ps) state = JSON.parse(params.ps)
+        if (params.st != null) state.st = params.st;
         
         if(['addToCart','removeCartItem'].contains(actionName)) {
             if(!authorisedTypes.contains(params.type))
@@ -42,7 +46,9 @@ class PaymentController {
     
     def afterInterceptor = { result ->
         if(['index','history'].contains(actionName.toString())) {
-            if (state) result.pageState = (new JSON(state)).toString()
+            result.state = state
+            result.pageState = (new JSON(state)).toString()
+            
             result.errorMessage = flash?.unvalid?.message ? flash.unvalid.message : this.errorMessage
         }
     }
@@ -63,6 +69,7 @@ class PaymentController {
     def history = {
         def result = [:]
         
+        result.paymentStates = PaymentState.allPaymentStates.collect{it.toString().toLowerCase()}
         result.payments = this.paymentsHistory
         result.state = state
         result.maxRows = maxRows
@@ -176,12 +183,13 @@ class PaymentController {
     }
 
     protected Map getPaymentsHistory() {
-        def result = [:]
+        def result = [:] 
+        def paymentState = state.st ? PaymentState.forString(StringUtils.capitalize(state.st)) : null
         def offset = params.offset ? Integer.valueOf(params.offset) : 0
-        result.all = paymentService.extendedGet(null, null, null, null, null, null, null, null,
-            this.ecitizen.homeFolder.id, null, 'initializationDate', 'desc', maxRows, offset)
-        result.count = paymentService.getPaymentCount(null, null, null, null, null, null, null,
-            null, this.ecitizen.homeFolder.id, null)
+        result.all = paymentService.extendedGet(null, null, null, null, paymentState, null, null, 
+            null, this.ecitizen.homeFolder.id, null, 'initializationDate', 'desc', maxRows, offset)
+        result.count = paymentService.getPaymentCount(null, null, null, null, paymentState, 
+            null, null, null, this.ecitizen.homeFolder.id, null)
 
         return result
     }

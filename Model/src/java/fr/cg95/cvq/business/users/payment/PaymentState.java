@@ -23,6 +23,16 @@ public class PaymentState extends PersistentStringEnum {
 
     public PaymentState() {}
     
-    public static final PaymentState[] allPaymentStates = 
-        { INITIALIZED, VALIDATED, REFUSED, CANCELLED };
+    public static final PaymentState[] allPaymentStates = { INITIALIZED, VALIDATED, REFUSED, CANCELLED };
+    
+    public static PaymentState forString(String enumAsString) {
+        if (enumAsString == null || enumAsString.equals("")) return INITIALIZED;
+        
+        if (enumAsString.equals(INITIALIZED.toString()))  return INITIALIZED;
+        else if (enumAsString.equals(VALIDATED.toString())) return VALIDATED;
+        else if (enumAsString.equals(CANCELLED.toString())) return CANCELLED;
+        else if (enumAsString.equals(REFUSED.toString())) return REFUSED;
+        
+        return INITIALIZED;
+    }
 }

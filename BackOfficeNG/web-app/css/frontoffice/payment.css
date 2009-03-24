@@ -10,3 +10,16 @@
   border:1px dashed #FF3333;
   background-color:#FFCCCC;
 }
+
+#narrow {
+  clear:right !important;
+}
+
+.list-box {
+  min-height:10em ! important;
+}
+
+a.bottom-link {
+  padding: 3em;
+  font-size: 1.5em;
+}

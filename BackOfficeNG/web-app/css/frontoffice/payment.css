@@ -1,9 +1,6 @@
 .list-box div.error { 
   color: red; 
   font-style: italic;
-  /*text-align: center; */
-  /*margin: 1em;*/
-  /*padding: 1em;*/
 }
 
 .validation-failed { /* for textboxes, textareas, passwords */
@@ -19,7 +16,31 @@
   min-height:10em ! important;
 }
 
-a.bottom-link {
-  padding: 3em;
-  font-size: 1.5em;
+.list-box ul li {
+  overflow: auto!important;
+}
+
+.cart-list div.header {
+  font-weight: bold;
+  margin-top: 1em;
+  font-size: 1.1em;
+}
+
+.action-list p {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.action-list .body {
+  overflow: auto !important;
+}
+
+.action-list .button-panel {
+  float:right;
+}
+
+.action-list input {
+  font-weight: bold;
+  font-size: 1.1em;
 }

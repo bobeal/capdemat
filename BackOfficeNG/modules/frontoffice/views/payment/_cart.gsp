@@ -6,11 +6,24 @@
     <div class="body">
       <g:if test="${session.payment}">
         <ul class="cart-list">
-          <g:each in="${session.payment.purchaseItems}" var="${record}">
-            <li>
-              ${record.label} - ${record.amount / 100} €
-            </li>
-          </g:each>
+          <g:if test="${cart.ticketingContracts}">
+            <div class="header"><g:message code="payment.header.ticketingContracts"/>:</div>
+            <g:each in="${cart.ticketingContracts}" var="${record}">
+              <li>${record.label} - ${record.amount / 100} € </li>
+            </g:each>
+          </g:if>
+          <g:if test="${cart.depositAccounts}">
+            <div class="header"><g:message code="payment.header.depositAccounts"/>:</div>
+            <g:each in="${cart.depositAccounts}" var="${record}">
+              <li>${record.label} - ${record.amount / 100} € </li>
+            </g:each>
+          </g:if>
+          <g:if test="${cart.invoices}">
+            <div class="header"><g:message code="payment.header.invoices"/>:</div>
+            <g:each in="${cart.invoices}" var="${record}">
+              <li>${record.label} - ${record.amount / 100} € </li>
+            </g:each>
+          </g:if>
         </ul>
         <p style="text-align:right;font-weight:bold;margin-top:0.5em;">Total : ${session.payment.amount / 100} €</p>
         <p>

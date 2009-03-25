@@ -1,16 +1,18 @@
 <g:set var="currentLrDatas" value="${rqt[javaName].collect{it.name}}" />
-<g:if test="${localReferentialTypes[javaName].entriesSupportMultiple}">
-  <ul>
+<g:if test="${lrTypes[javaName].entriesSupportMultiple}">
+  <ul ${depth==0 ? 'class="dataTree"' : ''}>
   <g:each status="i" var="entry" in="${lrEntries}">
-    <li>
     <g:if test="${entry.entries}">
-      <strong>${entry.labelsMap.fr} :</strong>
-      <g:render template="/frontofficeRequestType/localReferentialDatas" model="['javaName':javaName, 'lrEntries': entry.entries]" />
+      <li>
+      <em>${entry.labelsMap.fr} :</em>
+      <g:render template="/frontofficeRequestType/localReferentialDatas" model="['javaName':javaName, 'lrEntries': entry.entries, 'depth':++depth]" />
+      </li>
     </g:if>
     <g:else>
-      ${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr + (i < lrEntries.size() - 1 ? ', ' : '') : ''}
+       <li>
+      ${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr : ''}
+      </li>
     </g:else>
-    </li>
   </g:each>
   </ul>
 </g:if>

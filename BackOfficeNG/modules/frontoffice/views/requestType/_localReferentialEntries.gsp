@@ -1,20 +1,23 @@
 <g:set var="currentLrDatas" value="${rqt[javaName].collect{it.name}}" />
-<g:if test="${localReferentialTypes[javaName].entriesSupportMultiple}">
-  <ul>
+<g:if test="${lrTypes[javaName].entriesSupportMultiple}">
+  <ul ${depth==0 ? 'class="dataTree"' : ''}>
   <g:each var="entry" in="${lrEntries}">
-    <li>
-      <g:if test="${entry.entries}">
-        <strong>${entry.labelsMap.fr}</strong>
-        <g:render template="/frontofficeRequestType/localReferentialEntries" model="['javaName':javaName, 'htmlClass':htmlClass, 'lrEntries': entry.entries]" />
-      </g:if>
-      <g:else>
+    <g:if test="${entry.entries}">
+      <li>
+      <em>${entry.labelsMap.fr} :</em>
+      <g:render template="/frontofficeRequestType/localReferentialEntries" 
+                model="['javaName':javaName, 'htmlClass':htmlClass, 'lrEntries': entry.entries, 'depth':++depth]" />
+      </li>
+    </g:if>
+    <g:else>
+      <li>
       <input type="hidden" name="_${javaName}[${flash[javaName+'Index']}].name" value="" />
       <input type="checkbox" name="${javaName}[${flash[javaName+'Index']++}].name" value="${entry.key}" 
           class="${htmlClass}" title="${message(code:'request.'+ javaName +'.validationError')}"
           ${currentLrDatas?.contains(entry.key) ? 'checked="checked"': ''} />
       <span>${entry.labelsMap.fr}</span>
-      </g:else>
-    </li>
+      </li>
+    </g:else>
   </g:each>
   </ul>
 </g:if>

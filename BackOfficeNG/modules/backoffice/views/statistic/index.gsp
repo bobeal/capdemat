@@ -55,13 +55,15 @@
               </g:each>
             </select>
 
-            <label for="requestTypeId"><g:message code="property.requestType" /> : </label>
-            <select name="requestTypeId" style="width:100%;" class="persistent filter">
-              <option value=""><g:message code="search.filter.defaultValue"/></option>
-              <g:each in="${allRequestTypes}" var="requestType">
-                <option value="${requestType.id}" ${state.requestTypeId == requestType.id.toString() ? 'selected="selected"' : ''}>${requestType.label}</option>
-              </g:each>
-            </select>
+            <g:if test="${currentStatisticType != 'type'}">
+              <label for="requestTypeId"><g:message code="property.requestType" /> : </label>
+              <select name="requestTypeId" style="width:100%;" class="persistent filter">
+                <option value=""><g:message code="search.filter.defaultValue"/></option>
+                <g:each in="${allRequestTypes}" var="requestType">
+                  <option value="${requestType.id}" ${state.requestTypeId == requestType.id.toString() ? 'selected="selected"' : ''}>${requestType.label}</option>
+                </g:each>
+              </select>
+            </g:if>
 
             <label for="startDate"><g:message code="statistics.filter.period" /> :</label>
             <input type="text" id="startDate" name="startDate" size="10" value="${state.startDate}"

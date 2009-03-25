@@ -6,7 +6,7 @@
   </head>
   
   <body>
-  
+    <g:if test="${flash.successMessage}"><div class="success-box"><p>${flash.successMessage}</p></div></g:if>
       <div class="yui-g login-box"> 
         <div class="yui-u first">
           <h2>Connexion</h2>
@@ -20,7 +20,7 @@
             <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" />
             <input type="submit" value="${message(code:'action.login')}" />
-            <a href="">Mot de passe oublié ?</a>
+            <a href="${createLink(controller : 'frontofficeHomeFolder', action:'resetPassword')}">Mot de passe oublié ?</a>
           </form>
         </div> 
         <div class="yui-u">

@@ -25,5 +25,4 @@
           </tr>
       </g:each>
   </table>
-  <img src="${detailedQualityUrl}" />
 </div>

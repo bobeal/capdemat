@@ -1,6 +1,8 @@
 <html>
   <head>
     <meta name="layout" content="fo_main"/>
+    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'payment.css')}" />
+    <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice', file:'payment.js')}"></script>
   </head>
   <body>
   <div id="yui-main">
@@ -20,9 +22,11 @@
     </div>
   </div>
   <!-- end of yui-main -->
+
   <g:render template="cart"/>
+
   <div id="narrow" class="yui-b">
-    <div id="requestSubject" class="requestBox">
+    <div class="requestBox">
       <h3>
         <g:message code="header.display"/>
       </h3>
@@ -34,7 +38,6 @@
     </div>
   </div>
   <!-- end of narrow -->
-  <g:hiddenField name="ps" value="${pageState}"/>
   </body>
 </html>
 

@@ -1,14 +1,18 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
-import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.hibernate.Hibernate;
@@ -136,48 +140,117 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         return result;
     }
 
-    public Map<RequestState, Long> countByResultingState(final Date startDate, final Date endDate,
-        final Long requestTypeId, final String categoryFilter) {
+    public Long countByResultingState(final String resultingState,
+            final Date startDate, final Date endDate,
+            final Long requestTypeId, final String categoryFilter) {
+
+        StringBuffer tables = new StringBuffer();
+        StringBuffer subquery = new StringBuffer();
+        StringBuffer where = new StringBuffer();
+
+        tables.append("select count(*) from request, request_action,");
+
+        subquery.append("(select request_id, max(date) as date from request_action")
+            .append(" where resulting_state <> '' group by request_id) last_entries");
+
+        where.append(" where request.id=request_action.request_id")
+            .append(" and request_action.request_id=last_entries.request_id")
+            .append(" and request_action.date=last_entries.date");
+
+        if (startDate != null) {
+            where.append(" and request_action.date > '")
+                .append(parseDate(startDate) + "'");
+        }
+        if (endDate != null) {
+            where.append(" and request_action.date < '")
+                .append(parseDate(endDate) + "'");
+        }
+
+        if (categoryFilter != null && !categoryFilter.isEmpty()) {
+            tables.append(" request_type, category,");
+            where.append(" and request.request_type_id = request_type.id ")
+                .append("and request_type.category_id = category.id")
+                .append(" and category.id in (").append(categoryFilter).append(")");
+        }
+
+        if (resultingState != null && !resultingState.equals("")) {
+            where.append(" and request_action.resulting_state = '").append(resultingState).append("'");
+        }
+
+        if (requestTypeId != null) {
+            if (tables.indexOf("request_type") == -1) {
+                tables.append(" request_type,");
+            }
+            where.append(" and request.request_type_id = '").append(requestTypeId).append("'");
+        }
+
+        try {
+            ResultSet result = HibernateUtil.getSession().connection()
+                .createStatement().executeQuery(tables.append(subquery).append(where).toString());
+            if (result.next()) {
+                return new Long(result.getInt(1));
+            } else {
+                return new Long(0);
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+            e.printStackTrace();
+            return new Long(0);
+        }
+    }
+
+    private String parseDate(Date date) {
+        if (date == null)
+            return "";
+        // create a date formatter
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
+
+        return df.format(date);
+    }
+
+    public Map<Long, Long> countByType(final Date startDate, final Date endDate,
+        final List<Long> requestTypeIds) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select request.requestType.id, count(*) from Request as request")
+            .append(" where 1 = 1 ");
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
-        StringBuffer sb = new StringBuffer();
-
-        sb.append("select resultingState, date from RequestAction requestAction");
-//            .append(" where request.requestType.category.id in ( " + categoryFilter + ")");
-
-        sb.append(" where 1 = 1 ");
         if (startDate != null) {
-            sb.append(" and requestAction.date > ?");
+            sb.append(" and request.creationDate > ? ");
             objectList.add(startDate);
             typeList.add(Hibernate.TIMESTAMP);
         }
+
         if (endDate != null) {
-            sb.append(" and requestAction.date < ?");
+            sb.append(" and request.creationDate < ? ");
             objectList.add(endDate);
             typeList.add(Hibernate.TIMESTAMP);
         }
-        sb.append(" and requestAction.resultingState is not null");
 
-//        if (requestTypeId != null) {
-//            sb.append(" and request.requestType.id = '").append(requestTypeId).append("'");
-//        }
+        if (requestTypeIds != null && !requestTypeIds.isEmpty()) {
+            sb.append(" and request.requestType.id in (");
+            for (Long requestTypeId : requestTypeIds) {
+                sb.append("'").append(requestTypeId).append("',");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            sb.append(")");
+        }
 
-        sb.append(" group by resultingState");
-
+        sb.append(" group by request.requestType.id");
+        
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-
-        List<Object[]> tempResult = HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list();
-        Map<RequestState,Long> result = new HashMap<RequestState, Long>();
+        List<Object[]> tempResult =
+            HibernateUtil.getSession().createQuery(sb.toString())
+                .setParameters(objectTab, typeTab).list();
+        Map<Long,Long> result = new HashMap<Long, Long>();
         for (Object[] object : tempResult) {
-            System.err.println(object[0] + " / " + object[1] + " / ");
-            result.put((RequestState) object[1], (Long) object[0]);
+            result.put((Long) object[0], (Long) object[1]);
         }
+
         return result;
     }
-
 }

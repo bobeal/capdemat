@@ -90,9 +90,18 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
         Assert.assertEquals(Long.valueOf(0), stateStats.get(RequestState.PENDING));
 
 
+        // By type
+        Map<Long, Long> typeStats =
+            iRequestStatisticsService.getTypeStats(startDate.getTime(), endDate.getTime(),
+            requestTypeId, null);
+        Assert.assertEquals(1, typeStats.size());
+        Assert.assertEquals(Long.valueOf(1), typeStats.get(0));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
 //        countFetch = iRequestStatisticsService.getCountByResultingState(
 //                RequestState.CANCELLED.toString(), startDate.getTime(), endDate.getTime(),
 //                requestTypeLabel, categoryName);

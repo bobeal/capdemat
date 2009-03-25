@@ -20,9 +20,9 @@
   overflow: auto!important;
 }
 
-.cart-list div.header {
+div.cart-list-header {
   font-weight: bold;
-  margin-top: 1em;
+  margin-top: 0.5em;
   font-size: 1.1em;
 }
 

@@ -3,7 +3,7 @@ import fr.cg95.cvq.business.users.*
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqBadPasswordException
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 
@@ -12,7 +12,7 @@ class HomeFolderController {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     IAuthenticationService authenticationService
-    IRequestService defaultRequestService
+    IRequestTypeService requestTypeService
 
     def homeFolderAdaptorService
     
@@ -113,7 +113,7 @@ class HomeFolderController {
             if (adult.answer == params.answer) {
                 def password = authenticationService.generatePassword()
                 authenticationService.resetAdultPassword(adult, password)
-                def category = defaultRequestService.getRequestTypeByLabel("VO Card Request").category
+                def category = requestTypeService.getRequestTypeByLabel("VO Card Request").category
                 def categoryEmail = null
                 if (category != null) {
                     categoryEmail = category.primaryEmail

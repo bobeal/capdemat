@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.payment.ExternalAccountItem
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem
@@ -9,14 +10,14 @@ import fr.cg95.cvq.business.users.payment.PurchaseItem
 import fr.cg95.cvq.business.users.payment.PaymentMode
 import fr.cg95.cvq.business.users.payment.Payment
 import fr.cg95.cvq.business.users.payment.PaymentState
-import org.apache.commons.lang.StringUtils
 import fr.cg95.cvq.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 
+import org.apache.commons.lang.StringUtils
+
 import grails.converters.JSON
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem
 
 class PaymentController {
 
@@ -59,7 +60,7 @@ class PaymentController {
         result.invalid = flash.invalid
         
         result.cart = [invoices:[],depositAccounts:[],ticketingContracts:[]]
-        for(PurchaseItem item: session.payment.purchaseItems) {
+        for(PurchaseItem item: session.payment?.purchaseItems) {
             if(item instanceof ExternalInvoiceItem) 
                 result.cart.invoices.add(item)
             else if(item instanceof ExternalDepositAccountItem)

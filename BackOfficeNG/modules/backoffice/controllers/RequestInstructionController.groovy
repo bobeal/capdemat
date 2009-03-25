@@ -14,6 +14,7 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestService
@@ -45,6 +46,7 @@ class RequestInstructionController {
     IMailService mailService
     ILocalAuthorityRegistry localAuthorityRegistry
     ICategoryService categoryService
+    ILocalReferentialService localReferentialService 
 
     def translationService
     def instructionService
@@ -116,10 +118,14 @@ class RequestInstructionController {
         def editableStates = []
         for(RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
-
+        
+        def localReferentialTypes = getLocalReferentialTypes(localReferentialService, request.requestType.label)
+        localReferentialTypes.each { lazyInit(request, it.key) }
+        
         return ([
             "request": request,
             "requestTypeLabel": request.requestType.label,
+            "lrTypes": localReferentialTypes,
             "requester": requester,
             "adults": adults,
             "children": children,
@@ -133,23 +139,44 @@ class RequestInstructionController {
             "documentList": documentList
         ])
     }
-
+    
+    // TODO - Mutualize with FrontOffice
+    def getLocalReferentialTypes(localReferentialService, requestTypeLabel) {
+        def result = [:]
+        try {
+            localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each{
+                result.put(StringUtils.firstCase(it.dataName,'Lower'), it)
+            }
+        } catch (CvqException ce) { /* No localReferentialData found ! */ }
+        return result
+    }
+    
+    // FIXME - Modify lazy initialization policy in JavaBean ?
+    def lazyInit(request, listName) { 
+        if (request[listName] == null || request[listName].size() == 0) return false
+        request[listName].get(0)
+    }
+    
+    def localReferentialData = {
+        def rqt = defaultRequestService.getById(Long.valueOf(params.requestId))
+        def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
+        render( template: '/backofficeRequestInstruction/widget/localReferentialDataStatic',
+                model: ['rqt':rqt,
+                        'javaName':params.javaName, 
+                        'lrEntries':lrTypes[params.javaName]?.entries,
+                        'isMultiple':lrTypes[params.javaName]?.entriesSupportMultiple,
+                        'depth':0 ])
+    }
 
     /* request data inline edition managment
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum",
-            boolean:"boolean", textarea:"textarea"]
-        
-        // tp implementation
-        def propertyNameTokens = params.propertyName.tokenize(".")
+        def widgets = ['date','address','capdematEnum','boolean','textarea','localReferentialData']
         
         def propertyTypes = JSON.parse(params.propertyType)
-        
-        // one of the widgetMap keys
         def propertyType = propertyTypes.validate
-        def widget = widgetMap[propertyType] ? widgetMap[propertyType] : "string"
+        def widget = widgets.contains(propertyType) ?  propertyType : "string"
 
         def model = ["requestId": Long.valueOf(params.id),
                      // the "fully qualifier" property name
@@ -178,23 +205,26 @@ class RequestInstructionController {
             // will contain the fully qualified class name of the "CapDemat enum" class
             model["propertyValueType"] = propertyTypes.javatype
         }
+        else if (propertyType == "localReferentialData") {
+            def rqt = defaultRequestService.getById(Long.valueOf(params.id))
+            def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
+            model['lrType'] = lrTypes[params.propertyName]
+            model['lrDatas'] = rqt[params.propertyName].collect { it.name }
+            flash[params.propertyName + 'Index'] = 0
+        }
         else {
             propertyValue = params.propertyValue
             model["minLength"] = propertyTypes.minLength
             model["maxLength"] = propertyTypes.maxLength
             model["i18nKeyPrefix"] = propertyTypes.i18n
             model["regex"] = params.propertyRegex
-            if (params.propertyRegex != "")
-                model["propertyType"] = "regex"
-            
-            if (propertyType == "textarea")
-              model["rows"] = propertyTypes.rows
+            if (params.propertyRegex != "") model["propertyType"] = "regex"
+            if (propertyType == "textarea") model["rows"] = propertyTypes.rows
         }
         model["propertyValue"] = propertyValue
-
         render( template: "/backofficeRequestInstruction/widget/" + widget, model:model)
     }
-
+    
     def modify = {
         if (params.requestId == null)
              return false

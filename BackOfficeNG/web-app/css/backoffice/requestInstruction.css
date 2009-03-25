@@ -109,6 +109,14 @@
 
 #requestData .listItemSkeleton { display: none; }
 
+/* editable tree
+-------------------------------------------------------------- */
+#requestData .dataTree { }
+#requestData .dataTree li       { width: 100%; display: block; }
+#requestData .dataTree li ul    { margin: 0 0 0 1em !important; font-size: .95em; }
+#requestData .dataTree li ul li { width: 90%; padding: .2em 0 0 .4em; }
+#requestData .dataTree li em    { font-style: italic; font-weight: bold;}
+
 /* request attached document
 -------------------------------------------------------------- */
 #requestDocument {

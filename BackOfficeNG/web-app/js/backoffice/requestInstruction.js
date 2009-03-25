@@ -203,6 +203,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         propertyWrapperEl.innerHTML = yl.trim(yud.getNextSibling(checkedEl).innerHTML);
         propertyWrapperEl.className = 'value-' + checkedEl.value; 
       }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-localReferentialData')) {
+        zct.doAjaxCall(['/localReferentialData/',
+            '?requestId=', zenexity.capdemat.bong.requestId,
+            '&javaName=', formEl.id.replace('_Form','')].join(''), [], function(o){
+          zct.html(propertyWrapperEl,o.responseText);
+        });
+      }
       else if (isSubmit) {
         var elName = formEl.id.replace('_Form', '') + '_Field';
         propertyValue = yud.get(elName).value;

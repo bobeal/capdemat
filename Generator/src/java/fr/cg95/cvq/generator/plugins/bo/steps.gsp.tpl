@@ -19,6 +19,13 @@
           ].join()
       ,'boolean' :
           "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
+      ,'localReferentialData' :
+          """
+           <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
+                     model="['javaName':'${element.javaFieldName}', 'lrEntries': lrTypes.${element.javaFieldName}?.entries, 
+                             'rqt':request, 'isMultiple':lrTypes.${element.javaFieldName}?.entriesSupportMultiple, 'depth':0]" />
+ 
+          """
       ,'text' :
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
     ]

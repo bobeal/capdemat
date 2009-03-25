@@ -21,22 +21,38 @@
                 </span>
               </p>
               <g:if test="${record.type == 'invoices'}">
-                <p>${record.label} - réf ${record.externalItemId}</p>
-                <p>${record?.amount ? 'pour '+record.amount / 100 + ' €':''}</p>
                 <p>
-                  crée le <g:formatDate date="${record.issueDate}" formatName="format.date"/>
-                  expire le <g:formatDate date="${record.expirationDate}" formatName="format.date"/>
+                  <g:message code="payment.header.invoice"/>
+                  ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
+                  (<g:message code="message.ref"/> ${record.externalItemId})
+                </p>
+                <p>
+                  <g:message code="payment.header.issueAt"/>
+                  <g:formatDate date="${record.issueDate}" formatName="format.date"/> - 
+                  <g:message code="payment.header.expireAt"/>
+                  <g:formatDate date="${record.expirationDate}" formatName="format.date"/>
                 </p>
               </g:if>
               <g:elseif test="${record.type == 'depositAccounts'}">
-                <p>${record.label} - réf ${record.externalItemId}</p>
-                <p>${record?.amount ? 'pour '+record.amount / 100+' €':''}</p>
-                <p>fait le <g:formatDate date="${record.oldValueDate}" formatName="format.date"/></p>
+                <p>
+                  <g:message code="payment.header.account"/> ${record.label} 
+                  (<g:message code="message.ref"/> ${record.externalItemId})
+                </p>
+                <p>
+                  <g:message code="payment.header.depositOf"/>
+                  ${record.amount ? record.amount / 100 + ' €':''}
+                </p>
               </g:elseif>
               <g:elseif test="${record.type == 'ticketingContracts'}">
-                <p>${record.label} pour ${record.subjectName} - réf ${record.externalItemId}</p>
-                <p>${record.quantity} ticket(s) (${record.unitPrice / 100} € / piece) pour ${record.amount / 100} €</p>
-                <p>crée le <g:formatDate date="${record.creationDate}" formatName="format.date"/></p>
+                <p>
+                  <g:message code="payment.header.account"/> 
+                  ${record.label} <g:message code="message.of"/> ${record.subjectName} 
+                  (<g:message code="message.ref"/> ${record.externalItemId})
+                </p>
+                <p>
+                  <g:message code="payment.header.purchaseOfTickets" 
+                    args="${[record.quantity,record.unitPrice / 100,record.amount / 100]}" />
+                </p>
               </g:elseif>
             </li>
           </g:each>

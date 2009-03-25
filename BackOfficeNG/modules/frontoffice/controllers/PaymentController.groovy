@@ -57,16 +57,7 @@ class PaymentController {
         result.depositAccounts = this.depositAccounts
         result.ticketingContracts = this.ticketingContracts
         result.invalid = flash.invalid
-        
-        result.cart = [invoices:[],depositAccounts:[],ticketingContracts:[]]
-        for(PurchaseItem item: session.payment.purchaseItems) {
-            if(item instanceof ExternalInvoiceItem) 
-                result.cart.invoices.add(item)
-            else if(item instanceof ExternalDepositAccountItem)
-                result.cart.depositAccounts.add(item)
-            else if(item instanceof ExternalTicketingContractItem)
-                result.cart.ticketingContracts.add(item)
-        }
+        result.cart = this.buildCart()
         
         return result
     }
@@ -159,7 +150,7 @@ class PaymentController {
     }
     
     def details = {
-        def result = [items:[]]
+        def result = [items:[],cart:[]]
         def list = params?.type == 'invoice' ? session.invoices : session.depositAccounts
         def item = list.find {it.externalItemId == params.externalItemId}
         if(!item) {
@@ -189,6 +180,8 @@ class PaymentController {
                 result.items.add(entry)
             }
         }
+        
+        result['cart'] = this.buildCart()
         return result
     }
     
@@ -259,6 +252,21 @@ class PaymentController {
             return (this.buildTicketMap((ExternalTicketingContractItem)item))
         
         return null
+    }
+    
+    protected Map buildCart() {
+        def cart = [invoices:[],depositAccounts:[],ticketingContracts:[]]
+        if(session?.payment?.purchaseItems) {
+            for(PurchaseItem item: session?.payment?.purchaseItems) {
+                if(item instanceof ExternalInvoiceItem) 
+                    cart.invoices.add(item)
+                else if(item instanceof ExternalDepositAccountItem)
+                    cart.depositAccounts.add(item)
+                else if(item instanceof ExternalTicketingContractItem)
+                    cart.ticketingContracts.add(item)
+            }
+        }
+        return cart
     }
     
     protected Map buildDepositMap(ExternalDepositAccountItem item) {

@@ -6,13 +6,13 @@
           <g:if test="${record.hasDetails}">
             <a href="${createLink(controller:'frontofficePayment')}/details/invoice/${record.externalItemId}">
               <g:message code="payment.header.invoice"/> 
-              ${record.label} ${record.amount ? 'de '+record.amount / 100 + ' €':''}
+              ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
               (<g:message code="message.ref"/> ${record.externalItemId})
             </a>
           </g:if>
           <g:else>
             <g:message code="payment.header.invoice"/>
-            ${record.label} ${record.amount ? 'de '+record.amount / 100 + ' €':''}
+            ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
             (<g:message code="message.ref"/> ${record.externalItemId})
           </g:else>
         </p>
@@ -20,6 +20,7 @@
           <span style="float:right">
             <form id="invoceForm_${record.externalItemId}" method="post" action="${createLink(action:'addToCart')}">
               <input type="submit" title="${message(code:'action.addToCart')}" 
+                ${record.isInCart ?'disabled="disabled"':''}
                 value="${message(code:'action.addToCart')}" />
               <input type="hidden" name="externalItemId" value="${record.externalItemId}"/>
               <input type="hidden" name="type" value="${record.type}"/>

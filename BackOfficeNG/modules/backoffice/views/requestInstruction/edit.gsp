@@ -54,7 +54,7 @@
               <g:if test="${document.id != 0}">
                 <li>
                   <a class="documentLink" id="displayDocPanel_${document.id}" 
-                    href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}">
+                    href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${request.id}">
                     ${document.name}</a> - ${document.pageNumber} <g:message code="property.pages"/>
                    <g:if test="${document.endValidityDate}">
                     (<g:message code="document.property.endValidityDate"/> : 

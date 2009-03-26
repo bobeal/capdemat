@@ -1,5 +1,6 @@
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestFormType
+import fr.cg95.cvq.business.request.RequestSeason
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
@@ -81,7 +82,9 @@ class RequestTypeController {
         if (requestService.getLocalReferentialFilename() != null)
             baseConfigurationItems["localReferential"] =
                 ["requestType.configuration.localReferential", true]
-
+        if (requestService.isOfRegistrationKind()) {
+            baseConfigurationItems["seasons"] = ["requestType.configuration.seasons", true]
+        }
         return ["requestType":requestType, "requestTypeLabel":requestTypeLabel,
                 "baseConfigurationItems":baseConfigurationItems,
                 "requestTypes":requestAdaptorService.translateAndSortRequestTypes()]
@@ -109,7 +112,40 @@ class RequestTypeController {
 
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
-        
+
+    def loadSeasonsArea = {
+        render(template : "listSeasons", model : ["seasons" : requestTypeService.getRequestTypeById(Long.valueOf(params.id)).seasons, "requestTypeId" : params.id])
+    }
+
+    def editSeason = {
+        def season
+        if (params.requestTypeId && params.uuid) {
+            season = requestTypeService.getRequestTypeSeason(Long.valueOf(params.requestTypeId), params.uuid)
+        }
+        if (request.get) {
+            render(template : "editSeason", model : ["season" : season, "requestTypeId" : params.requestTypeId])
+            return false
+        } else if (request.post) {
+            def codeString
+            if (params.uuid == null || params.uuid.trim().isEmpty()) {
+                season = new RequestSeason()
+                bind(season)
+                requestTypeService.addRequestTypeSeason(Long.valueOf(params.requestTypeId), season)
+                codeString = "message.creationDone"
+            } else {
+                bind(season)
+                requestTypeService.modifyRequestTypeSeason(Long.valueOf(params.requestTypeId), season)
+                codeString = "message.updateDone"
+            }
+            render([status:"ok", success_msg:message(code : codeString)] as JSON)
+            return false
+        } else if (request.getMethod().toLowerCase() == "delete") {
+            requestTypeService.removeRequestTypeSeason(Long.valueOf(params.requestTypeId), params.uuid)
+            render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
+            return false
+        }
+    }
+
     def documentList = {
         def list = []
         def reqs = []

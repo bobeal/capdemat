@@ -160,6 +160,9 @@ public interface IRequestTypeService {
     Set<RequestSeason> getRequestTypeSeasons(@IsRequestType Long requestTypeId)
         throws CvqException;
 
+    RequestSeason getRequestTypeSeason(@IsRequestType Long requestTypeId, String seasonUUID)
+        throws CvqException;
+
     Set<RequestSeason> getOpenSeasons(@IsRequestType RequestType requestType);
 
     //////////////////////////////////////////////////////////

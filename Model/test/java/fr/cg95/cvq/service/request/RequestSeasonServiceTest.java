@@ -92,6 +92,11 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         
         assertEquals(2, requestType.getSeasons().size());
         
+        // Get
+        RequestSeason season3 = iRequestTypeService.getRequestTypeSeason(requestType.getId(), season1.getUuid());
+        continueWithNewTransaction();
+        assertEquals(season3.getLabel(), season1.getLabel());
+
         // Modify
         RequestSeason season2 = 
             BusinessObjectsFactory.gimmeRequestSeason("saison 5678", 5, 6, 7, 8);

@@ -61,22 +61,8 @@
     </div>
   </div>
   <!-- end of yui-main -->
+  <g:render template="cart"/>
   <div id="narrow" class="yui-b">
-    <div class="requestBox action-list">
-      <h3>
-        <g:message code="payment.property.payment" />
-      </h3>
-      <div class="body">
-        <p>Total items: ${session.payment?.purchaseItems?.size()}</p> 
-        <p>Total cout : ${session.payment?.amount / 100} € </p>
-        <div class="button-panel">
-          <form action="${createLink(action:'pay')}" method="post">
-            <input type="submit" value="${message(code:'action.pay')}" />
-            <input type="hidden" name="callbackUrl" value="${paymentUrl}" />
-          </form>
-        </div>
-      </div>
-    </div>
     <div class="requestBox">
       <h3>
         <g:message code="header.display" />

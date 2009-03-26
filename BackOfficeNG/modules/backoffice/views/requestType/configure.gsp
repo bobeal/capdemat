@@ -3,11 +3,11 @@
     <title><g:message code="requestType.header.configuration" /> "${requestTypeLabel}"</title>
     <meta name="layout" content="main" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common',file:'form.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/yui/editor',file:'simpleeditor.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/yui/editor',file:'simpleeditor-beta.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'defaultToolbar.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'templateManager.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeForms.js')}"></script>
@@ -15,6 +15,7 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeDocuments.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeLocalReferential.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeConfigure.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestTypeSeasons.js')}"></script>
     
     <script type="text/javascript">
       zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');

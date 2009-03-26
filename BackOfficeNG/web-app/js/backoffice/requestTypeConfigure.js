@@ -90,7 +90,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zcbrp.Documents.init();
       },
       displayAlerts : function(e) {},
-      displaySeasons: function(e) {},
+      displaySeasons: function(e) {
+        zcbrp.Seasons.init();
+      },
       displayLocalReferential : function(e) {
         zcbrp.LocalReferential.init();
       }
@@ -100,7 +102,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   /**
    * Build default "display area" functions.
    */
-  zct.each(['Alerts','Seasons'],function(i,name){
+  zct.each(['Alerts'],function(i,name){
     zcbrp.Conf[['display',name].join('')] = function(e) {
       var url = ['/load',name,'Area/',zcbrp.currentId].join('');
       zct.doAjaxCall(url,'',function(o){

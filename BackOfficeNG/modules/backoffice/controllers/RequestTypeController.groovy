@@ -118,21 +118,18 @@ class RequestTypeController {
 
     def editSeason = {
         def season
-        if (params.requestTypeId && params.uuid) {
-            season = requestTypeService.getRequestTypeSeason(Long.valueOf(params.requestTypeId), params.uuid)
-        }
         if (request.get) {
+            season = requestTypeService.getRequestTypeSeason(Long.valueOf(params.requestTypeId), params.uuid)
             render(template : "editSeason", model : ["season" : season, "requestTypeId" : params.requestTypeId])
             return false
         } else if (request.post) {
             def codeString
+            season = new RequestSeason()
+            bind(season)
             if (params.uuid == null || params.uuid.trim().isEmpty()) {
-                season = new RequestSeason()
-                bind(season)
                 requestTypeService.addRequestTypeSeason(Long.valueOf(params.requestTypeId), season)
                 codeString = "message.creationDone"
             } else {
-                bind(season)
                 requestTypeService.modifyRequestTypeSeason(Long.valueOf(params.requestTypeId), season)
                 codeString = "message.updateDone"
             }

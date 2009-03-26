@@ -91,7 +91,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       displayAlerts : function(e) {},
       displaySeasons: function(e) {
-        zcbrp.Seasons.init();
+        zcbrp.Seasons.loadSeasons();
       },
       displayLocalReferential : function(e) {
         zcbrp.LocalReferential.init();

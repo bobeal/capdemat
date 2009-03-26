@@ -14,6 +14,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var zcb = zenexity.capdemat.bong;
   var zcbrt = zenexity.capdemat.bong.requesttype;
 
+  var ycc = YAHOO.capdematBo.calendar;
   var yl = YAHOO.lang;
   var yu = YAHOO.util;
   var yud = yu.Dom;
@@ -23,25 +24,19 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 
   zcbrt.Seasons = function() {
     var content = {head : 'Attention !', body : 'Confirmez-vous la suppression ?'};
-    var loadSeasons = function() {
-      zct.doAjaxCall('/loadSeasonsArea/' + zcbrt.currentId,'',function(o){
-        yud.get('requestTypeSeasons').innerHTML = o.responseText;
-      });
-    };
     var createCalendars = function(uuid) {
-      YAHOO.capdematBo.calendar.init(null, null, {id : 'registrationStart_' + uuid, label : 'registrationStart_' + uuid});
-      YAHOO.capdematBo.calendar.init(null, null, {id : 'registrationEnd_' + uuid, label : 'registrationEnd_' + uuid});
-      YAHOO.capdematBo.calendar.init(null, null, {id : 'validationAuthorizationStart_' + uuid, label : 'validationAuthorizationStart_' + uuid});
-      YAHOO.capdematBo.calendar.init(null, null, {id : 'effectStart_' + uuid, label : 'effectStart_' + uuid});
-      YAHOO.capdematBo.calendar.init(null, null, {id : 'effectEnd_' + uuid, label : 'effectEnd_' + uuid});
+      ycc.init(null, null, {id : 'registrationStart_' + uuid, label : 'registrationStart_' + uuid});
+      ycc.init(null, null, {id : 'registrationEnd_' + uuid, label : 'registrationEnd_' + uuid});
+      ycc.init(null, null, {id : 'validationAuthorizationStart_' + uuid, label : 'validationAuthorizationStart_' + uuid});
+      ycc.init(null, null, {id : 'effectStart_' + uuid, label : 'effectStart_' + uuid});
+      ycc.init(null, null, {id : 'effectEnd_' + uuid, label : 'effectEnd_' + uuid});
     };
     return {
       clickEv : undefined,
       init : function() {
-        YAHOO.capdematBo.calendar.cal = {};
+        ycc.cal = {};
         zcbrt.Seasons.clickEv = new zct.Event(zcbrt.Seasons,zcbrt.Seasons.processClick);
         yue.on(yud.get('requestTypeSeasons'),'click',zcbrt.Seasons.clickEv.dispatch,zcbrt.Seasons.clickEv,true);
-        loadSeasons();
       },
       /**
       * @description The name of the method to call is the first part of the clicked item's ID, except for new season creation
@@ -53,13 +48,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         }
         return (target.id||'_').split('_')[0];
       },
+      loadSeasons : function() {
+        zct.doAjaxCall('/loadSeasonsArea/' + zcbrt.currentId,'',function(o){
+          yud.get('requestTypeSeasons').innerHTML = o.responseText;
+        });
+      },
       /**
       * @description Get a blank edit season form to create a new season
       */
       loadNewSeasonForm : function() {
         zct.doAjaxCall('/editSeason?requestTypeId=' + zcbrt.currentId,[],function(o){
-          var cont = yud.get('newSeasonFormContainer');
-          cont.innerHTML = o.responseText;
+          yud.get('newSeasonFormContainer').innerHTML = o.responseText;
           createCalendars("");
         });
       },
@@ -69,8 +68,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       editSeason: function(e) {
         var uuid = (yue.getTarget(e).id||'_').split('_')[1];
         zct.doAjaxCall('/editSeason?requestTypeId=' + zcbrt.currentId + '&uuid=' + uuid,[],function(o){
-          var cont = yud.get('seasonEditionContainer_' + uuid);
-          cont.innerHTML = o.responseText;
+          yud.get('seasonEditionContainer_' + uuid).innerHTML = o.responseText;
           createCalendars(uuid);
         });
       },
@@ -85,10 +83,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var validform = FIC_checkForm(form, cont);
         if (validform) {
           zct.doAjaxFormSubmitCall('seasonForm_' + uuid,[],function(o){
-            loadSeasons();
-            var json = YAHOO.lang.JSON.parse(o.responseText);
-            zct.Notifier.processMessage('success',json.success_msg);
-            });
+            zcbrt.Seasons.loadSeasons();
+            zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
+          });
         }
       },
       /**
@@ -105,14 +102,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var uuid = (yue.getTarget(e).id||'_').split('_')[1];
         new zct.ConfirmationDialog(content, function(){
           zct.doAjaxDeleteCall('/editSeason', 'requestTypeId=' + zcbrt.currentId + '&uuid=' + uuid, function(o){
-            var li = new yu.Element(yue.getTarget(e).parentNode);
-            var ul = new yu.Element(yue.getTarget(e).parentNode.parentNode);
-            var json = YAHOO.lang.JSON.parse(o.responseText);
-            zct.Notifier.processMessage('success',json.success_msg);
-            loadSeasons();
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg);
+            zcbrt.Seasons.loadSeasons();
           })
         }).show(e);
       }
     }
   }();
+  YAHOO.util.Event.onDOMReady(zcbrt.Seasons.init);
 }());

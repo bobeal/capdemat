@@ -37,12 +37,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       zct.toggleClass(yud.get('collapseEntries_' + dataName), 'current');
     }
     
-    var initLocalreferential = function() {
-      zct.doAjaxCall(['/localReferential/',(zcbrp.currentId||0)].join(''),[],function(o){
-        zct.html(yud.get('requestTypeLocalReferential'),o.responseText);
-      });
-    }
-    
     return {
       clickEvent: undefined,
       changeEvent: undefined,
@@ -65,7 +59,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zcbrp.LocalReferential.changeEvent = new zct.Event(zcbrp.LocalReferential, zcbrp.LocalReferential.prepareEvent);
         yue.on(yud.get('requestTypeLocalReferential'),'change',zcbrp.LocalReferential.changeEvent.dispatch,zcbrp.LocalReferential.changeEvent,true);
         
-        initLocalreferential();
+        zcbrp.LocalReferential.initLocalreferential();
         
         zcbrp.LocalReferential.collapseEntries = zca.condition(zcbrp.LocalReferential.collapseEntries, zcbrp.accessRule.notCurrent);
         zcbrp.LocalReferential.expandEntries = zca.condition(zcbrp.LocalReferential.expandEntries, zcbrp.accessRule.notCurrent);
@@ -74,6 +68,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       prepareEvent : function(e) {
         var target = yue.getTarget(e);
         return target.id.split('_')[0];
+      },
+      
+      initLocalreferential : function() {
+        zct.doAjaxCall(['/localReferential/',(zcbrp.currentId||0)].join(''),[],function(o){
+          zct.html(yud.get('requestTypeLocalReferential'),o.responseText);
+        });
       },
       
       editEntry : function(e) {
@@ -90,7 +90,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       
       confirmSaveWidget : function(e) {
-        if (e.type === 'click') return false;
+        if (e.type === 'click') return ;
         zcbrp.LocalReferential.confirmSaveWidgetDialog.show(e); 
       },
       saveWidget : function(e, se) {
@@ -98,7 +98,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zct.doAjaxFormSubmitCall(target.form.id, null, function(o) {
           var response = ylj.parse(o.responseText);
           if (response.status === 'ok') {
-            initLocalreferential();
+            zcbrp.LocalReferential.initLocalreferential();
           }
         });
       },
@@ -106,13 +106,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       saveEntry : function(e) {
         var target = (yue.getTarget(e)||e);
         var entryFormEl = yud.getAncestorByTagName(target, 'form');
+        if (!FIC_checkForm(e, yud.get(entryFormEl.id + "_Errors")))
+          return;
         zct.doAjaxFormSubmitCall(entryFormEl.id, null, function(o) {
           var response = ylj.parse(o.responseText);
           if (!response.isNew) {
             zct.html(yud.getFirstChild(yud.getAncestorByTagName(target, 'li')), response.entryLabel);
             zct.style(yud.getAncestorByTagName(entryFormEl, 'div'), {display:'none'});
           } else {
-            zcbrp.LocalReferential.refreshEntries(e);
+            zcbrp.LocalReferential.refreshEntries(entryFormEl.dataName.value);
             zct.style(yud.getAncestorByTagName(entryFormEl, 'div'), {display:'none'});
           }
         });
@@ -151,17 +153,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
                         '&parentEntryKey=',parentEntryKey].join(''),[],function(o){
           var response = ylj.parse(o.responseText);
           if (response.status === 'ok')
-            zcbrp.LocalReferential.refreshEntries(se);
+            zcbrp.LocalReferential.refreshEntries(dataName);
         });
       },
       
-      refreshEntries : function(e) {
-        var target = (yue.getTarget(e)||e);
-        var dataName = yud.getAncestorByClassName(target, 'mainbox').id.split('_')[1];
-        zct.doAjaxCall(['/localReferentialData/','?dataName=',dataName].join(''),[],function(o){
+      refreshEntries : function(dataName) {
+        zct.doAjaxCall(['/localReferentialType/','?dataName=',dataName].join(''),[],function(o){
           zct.html(yud.get('lrtEntriesContainer_' + dataName),o.responseText);
         });
-        
         if (yud.hasClass(yud.get('collapseEntries_' + dataName), 'current'))
             toggleEntries(dataName,'none');
       },

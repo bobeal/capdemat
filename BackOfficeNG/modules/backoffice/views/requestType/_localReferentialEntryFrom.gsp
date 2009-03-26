@@ -1,11 +1,11 @@
 <form id="entryForm_${entry?.key}" method="post" action="${createLink(action:'saveLocalReferentialEntry')}" class="editable-list-form">
   <div class="error" id="entryForm_${entry?.key}_Errors"></div>
   <g:if test="${isNewSubEntry}">
-    <strong>${message(code:'localReferential.label.newEntry')}</strong>
+    <h3>${message(code:'localReferential.label.newEntry')}</h3>
   </g:if>
-  <label for="label">label : </label>
+  <label for="label">${message(code:'localReferential.label.label')} : </label>
   <input type="text" name="labelsMap['fr']" value="${entry?.labelsMap?.fr}" />
-  <label for="message">message : </label>
+  <label for="message">${message(code:'localReferential.label.message')} : </label>
   <input type="text" name="messagesMap['fr']" value="${entry?.messagesMap?.fr}" />
   
   <input type="hidden" name="entry.key" value="${entry?.key}" />

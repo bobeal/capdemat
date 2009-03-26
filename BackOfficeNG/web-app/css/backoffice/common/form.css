@@ -97,8 +97,10 @@ form.editable-list-form {
   overflow : auto;
 }
 
+/* TODO check it is useless
 form.editable-list-form a       { width: auto; height: auto; float: none !important; cursor: pointer; }
 form.editable-list-form a:hover { background: #00f !important; }
+*/
 form.editable-list-form .error  { margin: 0; }
 
 form.editable-list-form label   { width: 30%; margin: .7em 0 .7em; font-size: 0.9em; clear: both; }
@@ -118,7 +120,9 @@ form.editable-list-form fieldset {
 }
 form.editable-list-form fieldset legend { font-size: 1.2em; color: #FFA000; }
 
+/* TODO check it is useless
 form.editable-list-form a { width: auto; height: auto; float: none; margin: 0; }
+*/
 
 form.editable-list-form p.same-line                    { clear: both; margin: .5em 0; overflow: auto; }
 form.editable-list-form p.same-line input              { width: 25%;  margin: .5em 0; }

@@ -245,7 +245,7 @@ public class RequestTypeService implements IRequestTypeService {
         if (requestSeason.getEffectEnd() == null)
             throw new CvqModelException("request.season.effect_end_required");
 
-        if (requestSeason.getUuid() == null)
+        if (requestSeason.getUuid() == null || requestSeason.getUuid().isEmpty())
             requestSeason.setUuid(UUID.randomUUID().toString());
 
         // check registrationt start
@@ -349,6 +349,18 @@ public class RequestTypeService implements IRequestTypeService {
         requestType.setSeasons(seasons);
 
         requestTypeDAO.update(requestType);
+    }
+
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public RequestSeason getRequestTypeSeason(Long requestTypeId, String uuid)
+        throws CvqException {
+
+        for (RequestSeason season : getRequestTypeById(requestTypeId).getSeasons()) {
+            if (season.getUuid().equalsIgnoreCase(uuid)) {
+                return season;
+            }
+        }
+        return null;
     }
 
     @Override

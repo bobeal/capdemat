@@ -1,5 +1,6 @@
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestFormType
+import fr.cg95.cvq.business.request.RequestSeason
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
@@ -80,7 +81,9 @@ class RequestTypeController {
         if (requestService.getLocalReferentialFilename() != null)
             baseConfigurationItems["localReferential"] =
                 ["requestType.configuration.localReferential", true]
-
+        if (requestService.isOfRegistrationKind()) {
+            baseConfigurationItems["seasons"] = ["requestType.configuration.seasons", true]
+        }
         return ["requestType":requestType, "requestTypeLabel":requestTypeLabel,
                 "baseConfigurationItems":baseConfigurationItems,
                 "requestTypes":requestAdaptorService.translateAndSortRequestTypes()]
@@ -108,7 +111,40 @@ class RequestTypeController {
 
         render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
-        
+
+    def loadSeasonsArea = {
+        render(template : "listSeasons", model : ["seasons" : requestTypeService.getRequestTypeById(Long.valueOf(params.id)).seasons, "requestTypeId" : params.id])
+    }
+
+    def editSeason = {
+        def season
+        if (params.requestTypeId && params.uuid) {
+            season = requestTypeService.getRequestTypeSeason(Long.valueOf(params.requestTypeId), params.uuid)
+        }
+        if (request.get) {
+            render(template : "editSeason", model : ["season" : season, "requestTypeId" : params.requestTypeId])
+            return false
+        } else if (request.post) {
+            def codeString
+            if (params.uuid == null || params.uuid.trim().isEmpty()) {
+                season = new RequestSeason()
+                bind(season)
+                requestTypeService.addRequestTypeSeason(Long.valueOf(params.requestTypeId), season)
+                codeString = "message.creationDone"
+            } else {
+                bind(season)
+                requestTypeService.modifyRequestTypeSeason(Long.valueOf(params.requestTypeId), season)
+                codeString = "message.updateDone"
+            }
+            render([status:"ok", success_msg:message(code : codeString)] as JSON)
+            return false
+        } else if (request.getMethod().toLowerCase() == "delete") {
+            requestTypeService.removeRequestTypeSeason(Long.valueOf(params.requestTypeId), params.uuid)
+            render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
+            return false
+        }
+    }
+
     def documentList = {
         def list = []
         def reqs = []
@@ -253,24 +289,33 @@ class RequestTypeController {
      * ------------------------------------------------------------------------------------------ */
     def localReferential = {
         def rt = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
-        def lrDatas = localReferentialService.getLocalReferentialDataByRequestType(rt.label)
-        render(template:"localReferential", model:['lrDatas':lrDatas])
+        def lrTypes = localReferentialService.getLocalReferentialDataByRequestType(rt.label)
+        render(template:"localReferential", model:['lrTypes':lrTypes])
     }
     
     def localReferentialData = {
-        def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+        def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
         render(template:"localReferentialEntries", 
-               model:['lrEntries': lrData.entries, 'depth':0, 'parentEntry':lrData.dataName])
+               model:['lrEntries': lrType.entries, 'depth':0, 'parentEntry':lrType.dataName])
     }
     
+    def localReferentialWidget = {
+        def lrType = localReferentialService.getLocalReferentialDataByName(params.lrtDataName)
+        bind(lrType)
+        localReferentialService.setLocalReferentialData(lrType)
+        render (['success_msg':message(code:"message.updateDone"),
+                'status':"ok"] as JSON)
+    }
+    
+    
     def localReferentialEntry = {
-       def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+       def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
        def lre          
        if (params.isNew != null) {
           lre = new LocalReferentialEntry()
           lre.key = params.parentEntryKey
        } else 
-          lre = lrData.getEntryByKey(params.entryKey)
+          lre = lrType.getEntryByKey(params.entryKey)
        
        render(template:"localReferentialEntryFrom", 
               model:['entry':lre,
@@ -280,7 +325,7 @@ class RequestTypeController {
     }
     
     def saveLocalReferentialEntry = {
-        def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+        def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
         def isNew = false
         def lre
         if (params.'entry.key' == params.parentEntryKey) {
@@ -288,14 +333,14 @@ class RequestTypeController {
             lre.addLangage('fr')
             bind(lre)
             lre.key = null
-            lrData.addEntry(lre, 
-                params.parentEntryKey != params.dataName ? lrData.getEntryByKey(params.parentEntryKey) : null )
+            lrType.addEntry(lre, 
+                params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
             isNew = true
         } else {
-            lre = lrData.getEntryByKey(params.'entry.key')
+            lre = lrType.getEntryByKey(params.'entry.key')
             bind(lre)
         }
-        localReferentialService.setLocalReferentialData(lrData)
+        localReferentialService.setLocalReferentialData(lrType)
         
         render (['isNew': isNew,
                 'entryLabel': lre.labelsMap.fr,
@@ -304,11 +349,11 @@ class RequestTypeController {
     }
     
     def removeLocalReferentialEntry = {
-         def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
-         def lre = lrData.getEntryByKey(params.entryKey)
-         lrData.removeEntry(lre, 
-                params.parentEntryKey != params.dataName ? lrData.getEntryByKey(params.parentEntryKey) : null )
-         localReferentialService.setLocalReferentialData(lrData)
+         def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
+         def lre = lrType.getEntryByKey(params.entryKey)
+         lrType.removeEntry(lre, 
+                params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
+         localReferentialService.setLocalReferentialData(lrType)
          render (['entryLabel': lre.labelsMap.fr,
                 'success_msg':message(code:"message.updateDone"),
                 'status':"ok"] as JSON)

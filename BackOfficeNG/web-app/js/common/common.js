@@ -98,7 +98,8 @@
       zenexity.capdemat.bong.currentMenu + 'MenuItem',
       'selected-menu-entry');
   };
-
+  
+  // TODO - deprecated see (zct.ConfirmationDialog)
   zcc.deleteConfirmationDialog = function(divId,handleConfirmDelete,body) {
     zcc.deleteConfirmationDialog.superclass.constructor.call(this,
       divId || YAHOO.util.Dom.generateId() ,
@@ -116,7 +117,8 @@
     this.setBody(body);
     this.render("bd");
   };
-
+  
+  // TODO - deprecated see (zct.ConfirmationDialog)
   zcc.errorMessageDialog = function(divId,handleSendErrorLog,body) {
     zcc.errorMessageDialog.superclass.constructor.call(this,
       divId || YAHOO.util.Dom.generateId() ,

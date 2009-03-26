@@ -9,11 +9,10 @@ import fr.cg95.cvq.util.web.filter.CASFilter
 import javax.servlet.ServletException
 
 import org.hibernate.SessionFactory
-import java.lang.management.ManagementFactory
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 class SessionFilters {
-
+    
     def filters = {
         
         openSessionInView(controller: '(frontoffice*|backoffice*)', action: '*') {
@@ -54,31 +53,29 @@ class SessionFilters {
                 SecurityContext.resetCurrentSite();
             }
         }
-
+        
         setupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
+                def securityService = applicationContext.getBean("securityService")
+                def point = securityService.defineAccessPoint(session.frontContext,controllerName,actionName)
+                
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
-                    if (controllerName == 'frontofficeVOCardRequestCreation') {
-                        log.debug "Don't redirect to login for account creation"
-                    } else if (controllerName == 'frontofficeHomeFolder' && actionName == 'resetPassword') {
-                        log.debug "Don't redirect to login for password reset"
-                    } else {
-                        if (!session.currentUser) {
-                            if (actionName != 'login') {
-                                redirect(controller: 'frontofficeHome', action: 'login')
-                                return false
-                            }
-                        } else {
-                            SecurityContext.setCurrentEcitizen(session.currentUser)
-                        }
+                    
+                    if((point.controller == controllerName && point.action != actionName) || 
+                        (point.controller != controllerName)) {
+                        if(point.action) redirect(controller: point.controller, action: point.action)
+                        else redirect(controller: point.controller)
+                        return false
+                    } else if (session.currentEcitizen) { 
+                        SecurityContext.setCurrentEcitizen(session.currentEcitizen)
                     }
                 } catch (CvqObjectNotFoundException ce) {
-                    session.currentUser = null
+                    session.currentEcitizen = null
                     redirect(controller: 'frontofficeHome', action: 'login')
                     return false
                 } catch (CvqException ce) {
-                    if (session.currentUser) session.currentUser = null
+                    if (session.currentEcitizen) session.currentEcitizen = null
                     ce.printStackTrace()
                     throw new ServletException()
                 }

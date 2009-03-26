@@ -14,6 +14,8 @@ import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.security.annotation.ContextType
 
 class HomeController {
 
@@ -24,6 +26,7 @@ class HomeController {
     IRequestService defaultRequestService
     IRequestActionService requestActionService
     ILocalAuthorityRegistry localAuthorityRegistry
+    IHomeFolderService homeFolderService
     IPaymentService paymentService
     IDocumentService documentService
     IAuthenticationService authenticationService
@@ -72,9 +75,15 @@ class HomeController {
             catch (CvqAuthenticationFailedException e) {error='error.authenticationFailed'}
             catch (CvqDisabledAccountException e) {error='error.disabledAccount'}
             
-            if(result && result instanceof HomeFolder) { 
-                session.currentUser = params.login
+            if(result && result instanceof HomeFolder) {
+                session.currentEcitizen = params.login
+                session.frontContext = ContextType.ECITIZEN
+                
+                SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
+                SecurityContext.setCurrentEcitizen(session.currentEcitizen)
+                
                 redirect(controller:'frontofficeHome')
+                return false
             }
         }
         return [
@@ -85,8 +94,23 @@ class HomeController {
     }
     
     def logout = {
-        session.currentUser = null
+        session.frontContext = null
+        session.currentEcitizen = null
         redirect(controller:'frontofficeHome')
+    }
+    
+    def loginAgent = {
+        if(session.currentUser) {
+            session.currentEcitizen = params.login
+            SecurityContext.setCurrentEcitizen(params.login)
+            session.frontContext = ContextType.AGENT
+            
+            redirect(controller:'frontofficeRequestType')
+            return false            
+        } else {
+            redirect(controller:'frontofficeHome')
+            return false
+        }
     }
     
     def protected preparePayments(payments) {

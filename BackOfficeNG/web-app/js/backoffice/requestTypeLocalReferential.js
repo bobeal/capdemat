@@ -36,16 +36,36 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       zct.toggleClass(yud.get('expandEntries_' + dataName), 'current');
       zct.toggleClass(yud.get('collapseEntries_' + dataName), 'current');
     }
-      
+    
+    var initLocalreferential = function() {
+      zct.doAjaxCall(['/localReferential/',(zcbrp.currentId||0)].join(''),[],function(o){
+        zct.html(yud.get('requestTypeLocalReferential'),o.responseText);
+      });
+    }
+    
     return {
-      event: undefined,
+      clickEvent: undefined,
+      changeEvent: undefined,
       
       init: function() {
-        zcbrp.LocalReferential.event = new zct.Event(zcbrp.LocalReferential, zcbrp.LocalReferential.prepareEvent);
-        yue.on(yud.get('requestTypeLocalReferential'),'click',zcbrp.LocalReferential.event.dispatch,zcbrp.LocalReferential.event,true);
-        zct.doAjaxCall(['/localReferential/',(zcbrp.currentId||0)].join(''),[],function(o){
-          zct.html(yud.get('requestTypeLocalReferential'),o.responseText);
-        });
+        zcbrp.LocalReferential.confirmRemoveEntryDialog = new zct.ConfirmationDialog(
+          { head : 'Attention',
+            body : 'Voulez-vous supprimer cette entrée et tous ces descendants ?' },
+          zcbrp.LocalReferential.removeEntry);
+        
+        zcbrp.LocalReferential.confirmSaveWidgetDialog = new zct.ConfirmationDialog(
+          { head : 'Attention',
+            body : 'La modification du widget entraine la suppression de vos données !' },
+          zcbrp.LocalReferential.saveWidget);
+        
+        // click event
+        zcbrp.LocalReferential.clickEvent = new zct.Event(zcbrp.LocalReferential, zcbrp.LocalReferential.prepareEvent);
+        yue.on(yud.get('requestTypeLocalReferential'),'click',zcbrp.LocalReferential.clickEvent.dispatch,zcbrp.LocalReferential.clickEvent,true);
+        // change event
+        zcbrp.LocalReferential.changeEvent = new zct.Event(zcbrp.LocalReferential, zcbrp.LocalReferential.prepareEvent);
+        yue.on(yud.get('requestTypeLocalReferential'),'change',zcbrp.LocalReferential.changeEvent.dispatch,zcbrp.LocalReferential.changeEvent,true);
+        
+        initLocalreferential();
         
         zcbrp.LocalReferential.collapseEntries = zca.condition(zcbrp.LocalReferential.collapseEntries, zcbrp.accessRule.notCurrent);
         zcbrp.LocalReferential.expandEntries = zca.condition(zcbrp.LocalReferential.expandEntries, zcbrp.accessRule.notCurrent);
@@ -66,6 +86,20 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           var entryFormContainerEl = yud.get('formContainer_' + entryKey);
           zct.style(entryFormContainerEl, {display:'block'});
           zct.html(entryFormContainerEl,o.responseText);
+        });
+      },
+      
+      confirmSaveWidget : function(e) {
+        if (e.type === 'click') return false;
+        zcbrp.LocalReferential.confirmSaveWidgetDialog.show(e); 
+      },
+      saveWidget : function(e, se) {
+        var target = (yue.getTarget(se)||se);
+        zct.doAjaxFormSubmitCall(target.form.id, null, function(o) {
+          var response = ylj.parse(o.responseText);
+          if (response.status === 'ok') {
+            initLocalreferential();
+          }
         });
       },
       
@@ -107,8 +141,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         });
       },
       
-      removeEntry : function(e) {
-        var target = (yue.getTarget(e)||e);
+      confirmRemoveEntry : function(e) { zcbrp.LocalReferential.confirmRemoveEntryDialog.show(e); },
+      removeEntry : function(e, se) {
+        var target = (yue.getTarget(se)||se);
         var entryKey = target.id.split('_')[1];
         var parentEntryKey = yud.getAncestorByTagName(target, 'ul').id.split('_')[1];
         var dataName = yud.getAncestorByClassName(target, 'editableTree').id.split('_')[1];
@@ -116,7 +151,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
                         '&parentEntryKey=',parentEntryKey].join(''),[],function(o){
           var response = ylj.parse(o.responseText);
           if (response.status === 'ok')
-            zcbrp.LocalReferential.refreshEntries(e);
+            zcbrp.LocalReferential.refreshEntries(se);
         });
       },
       

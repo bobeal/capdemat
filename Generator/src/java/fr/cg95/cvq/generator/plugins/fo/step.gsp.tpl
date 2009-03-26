@@ -58,7 +58,9 @@
             ,'localReferentialData':
             """
             <g:set var="${element.javaFieldName}Index" value="\${0}" scope="flash" />
-            <g:render template="/frontofficeRequestType/localReferentialEntries" model="['javaName':'${element.javaFieldName}', 'htmlClass':'required validate-not-first', 'lrEntries': localReferentialTypes.${element.javaFieldName}.entries]" />
+            <g:render template="/frontofficeRequestType/localReferentialEntries" 
+                      model="['javaName':'${element.javaFieldName}', 'htmlClass':'${element.htmlClass}', 
+                              'lrEntries': lrTypes.${element.javaFieldName}.entries, 'depth':0]" />
             """
          ,'date' :
             """

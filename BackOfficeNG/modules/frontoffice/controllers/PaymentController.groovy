@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.payment.ExternalAccountItem
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem
@@ -8,10 +9,13 @@ import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.payment.PurchaseItem
 import fr.cg95.cvq.business.users.payment.PaymentMode
 import fr.cg95.cvq.business.users.payment.Payment
+import fr.cg95.cvq.business.users.payment.PaymentState
 import fr.cg95.cvq.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
+
+import org.apache.commons.lang.StringUtils
 
 import grails.converters.JSON
 
@@ -24,30 +28,27 @@ class PaymentController {
     
     def maxRows = 10
     def errorMessage = ''
-    def state = null
-    
-    def paymentStatuses = ['OK','CANCELLED','REFUSED']
-    def authorisedTypes = ['invoices','depositAccounts','ticketingContracts']
+    def state = [:]
 
     def beforeInterceptor = {
-        this.errorMessage = message(code:'message.unvalidFormat')
+        this.errorMessage = message(code:'message.invalidFormat')
         this.ecitizen = SecurityContext.getCurrentEcitizen();
+        
         if (params.ps) state = JSON.parse(params.ps)
+        if (params.st != null) state.st = params.st;
         
         if(['addToCart','removeCartItem'].contains(actionName)) {
-            if(!authorisedTypes.contains(params.type))
+            if(!['invoices','depositAccounts','ticketingContracts'].contains(params.type))
                 throw new Exception("NotAuthorizedPaymentType")
-        } 
-        
-        if(actionName == 'status' && !paymentStatuses.contains(params.status)) {
-            redirect(action:'index')
         }
     }
     
     def afterInterceptor = { result ->
         if(['index','history'].contains(actionName.toString())) {
-            if (state) result.pageState = (new JSON(state)).toString()
-            result.errorMessage = flash.unvalid?.message ? flash.unvalid.message : this.errorMessage
+            result.state = state
+            result.pageState = (new JSON(state)).toString()
+            
+            result.errorMessage = flash?.invalid?.message ? flash.invalid.message : this.errorMessage
         }
     }
     
@@ -56,14 +57,16 @@ class PaymentController {
         result.invoices = this.invoices
         result.depositAccounts = this.depositAccounts
         result.ticketingContracts = this.ticketingContracts
-        result.unvalid = flash.unvalid
+        result.invalid = flash.invalid
         
+        result.cart = this.buildCart()
         return result
     }
     
     def history = {
         def result = [:]
         
+        result.paymentStates = PaymentState.allPaymentStates.collect{it.toString().toLowerCase()}
         result.payments = this.paymentsHistory
         result.state = state
         result.maxRows = maxRows
@@ -76,8 +79,8 @@ class PaymentController {
     }
     
     def addToCart = {
-        PurchaseItem item = 
-            (PurchaseItem) session[params.type].find {it.externalItemId.equals(params.externalItemId)}
+        ExternalAccountItem item = 
+            (ExternalAccountItem) session[params.type].find {it.externalItemId.equals(params.externalItemId)}
         
         if(validate(item)) {
             if(item instanceof ExternalTicketingContractItem) {
@@ -92,6 +95,10 @@ class PaymentController {
             if(!session.payment || !(session.payment instanceof Payment)) {
                 session.payment = paymentService.createPaymentContainer(item,PaymentMode.INTERNET)
             } else { 
+                def olditem = session.payment.purchaseItems.find{
+                    item.externalItemId.equals(it.externalItemId) && item.class.equals(it.class)
+                }
+                if(olditem) paymentService.removePurchaseItemFromPayment(session.payment,olditem)
                 paymentService.addPurchaseItemToPayment(session.payment,item)
             }
             
@@ -99,10 +106,10 @@ class PaymentController {
             return false
             
         } else {
-            flash.unvalid = [:]
-            flash.unvalid.id = params.externalItemId
-            flash.unvalid.value = item instanceof ExternalDepositAccountItem ? params.amount : params.quantity
-            flash.unvalid.type = params.type
+            flash.invalid = [:]
+            flash.invalid.id = params.externalItemId
+            flash.invalid.value = item instanceof ExternalDepositAccountItem ? params.amount : params.quantity
+            flash.invalid.type = params.type
             
             redirect(url:createLink(action:'index')+"/#${params.type}_${params.externalItemId}")
             return false
@@ -144,9 +151,9 @@ class PaymentController {
     }
     
     def details = {
-        def result = [items:[]]
+        def result = [items:[],cart:[]]
         def list = params?.type == 'invoice' ? session.invoices : session.depositAccounts
-        def item = list.find {it.externalItemId == params.reference}
+        def item = list.find {it.externalItemId == params.externalItemId}
         if(!item) {
             redirect(controller:'frontofficePayment')
             return false
@@ -174,16 +181,24 @@ class PaymentController {
                 result.items.add(entry)
             }
         }
+        
+        result['cart'] = this.buildCart()
         return result
+    }
+    
+    def pay = {
+        redirect(url:params.callbackUrl)
+        return false
     }
 
     protected Map getPaymentsHistory() {
-        def result = [:]
+        def result = [:] 
+        def paymentState = state.st ? PaymentState.forString(StringUtils.capitalize(state.st)) : null
         def offset = params.offset ? Integer.valueOf(params.offset) : 0
-        result.all = paymentService.extendedGet(null, null, null, null, null, null, null, null,
-            this.ecitizen.homeFolder.id, null, 'initializationDate', 'desc', maxRows, offset)
-        result.count = paymentService.getPaymentCount(null, null, null, null, null, null, null,
-            null, this.ecitizen.homeFolder.id, null)
+        result.all = paymentService.extendedGet(null, null, null, null, paymentState, null, null, 
+            null, this.ecitizen.homeFolder.id, null, 'initializationDate', 'desc', maxRows, offset)
+        result.count = paymentService.getPaymentCount(null, null, null, null, paymentState, 
+            null, null, null, this.ecitizen.homeFolder.id, null)
 
         return result
     }
@@ -197,7 +212,7 @@ class PaymentController {
             session.ticketingContracts.add(item)
             result.add(this.buildTicketMap(item))
         }
-        return result.sort{it.reference}
+        return result.sort{it.externalItemId}
     }
     
     protected List getDepositAccounts() {
@@ -211,7 +226,7 @@ class PaymentController {
             result.add(this.buildDepositMap(item))
         }
         
-        return result.sort{it.reference}
+        return result.sort{it.externalItemId}
     }
     
     protected List getInvoices() {
@@ -226,7 +241,7 @@ class PaymentController {
                 result.add(this.buildInvoiceMap(item))
             }
         }
-        return result.sort{it.reference}
+        return result.sort{it.externalItemId}
     }
     
     protected Map buildPurchaseItemMap(PurchaseItem item) {
@@ -240,12 +255,27 @@ class PaymentController {
         return null
     }
     
+    protected Map buildCart() {
+        def cart = [invoices:[],depositAccounts:[],ticketingContracts:[]]
+        if(session?.payment?.purchaseItems) {
+            for(PurchaseItem item: session?.payment?.purchaseItems) {
+                if(item instanceof ExternalInvoiceItem) 
+                    cart.invoices.add(item)
+                else if(item instanceof ExternalDepositAccountItem)
+                    cart.depositAccounts.add(item)
+                else if(item instanceof ExternalTicketingContractItem)
+                    cart.ticketingContracts.add(item)
+            }
+        }
+        return cart
+    }
+    
     protected Map buildDepositMap(ExternalDepositAccountItem item) {
         def entry = [:]
         entry.id = item.id
         entry.label = item.label
         entry.amount = item.amount
-        entry.reference = item.externalItemId
+        entry.externalItemId = item.externalItemId
         entry.oldValue = item.oldValue
         entry.oldValueDate = item.oldValueDate
         entry.hasDetails = item.accountDetails
@@ -259,7 +289,7 @@ class PaymentController {
             id : item.id,
             label: item.label,
             amount: item.amount, 
-            reference: item.externalItemId,
+            externalItemId: item.externalItemId,
             subjectId : item.subjectId,
             subjectName : "${individual.firstName} ${individual.lastName}",
             unitPrice : item.unitPrice,
@@ -278,12 +308,12 @@ class PaymentController {
         entry.id = item.id
         entry.amount = item.amount
         entry.label = item.label
-        entry.reference = item.externalItemId
+        entry.externalItemId = item.externalItemId
         entry.issueDate = item.issueDate
         entry.expirationDate = item.expirationDate
         entry.hasDetails = item.invoiceDetails
         entry.isInCart = session.payment?.purchaseItems?.find {
-            it.externalItemId.equals(entry.reference) && it instanceof ExternalInvoiceItem 
+            it.externalItemId.equals(entry.externalItemId) && it instanceof ExternalInvoiceItem 
         }
         entry.type = 'invoices' 
         return entry;

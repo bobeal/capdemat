@@ -1,6 +1,5 @@
 package fr.cg95.cvq.dao.request;
 
-import fr.cg95.cvq.business.request.RequestState;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,10 @@ public interface IRequestStatisticsDAO {
         final List<String> resultingStates, final String qualityType,
         final List<Long> requestTypesId);
 
-    Map<RequestState, Long> countByResultingState(final Date startDate, final Date endDate,
+    Long countByResultingState(final String resultingState,
+        final Date startDate, final Date endDate,
         final Long requestTypeId, final String categoryFilter);
+
+    Map<Long, Long> countByType(final Date startDate, final Date endDate,
+        final List<Long> requestTypeIds);
 }

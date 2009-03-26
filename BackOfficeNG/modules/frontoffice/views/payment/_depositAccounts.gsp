@@ -4,37 +4,37 @@
       <li>
         <p>
           <g:if test="${record.hasDetails}">
-            <a href="${createLink(controller:'frontofficePayment')}/details/deposit/${record.reference}">
-              Compte ${record.label} (réf ${record.reference})
+            <a href="${createLink(controller:'frontofficePayment')}/details/deposit/${record.externalItemId}">
+              <g:message code="payment.header.account"/> ${record.label} 
+              (<g:message code="message.ref"/> ${record.externalItemId})
             </a>
           </g:if>
-          <g:else>Compte ${record.label} (réf ${record.reference})</g:else>
+          <g:else>
+            <g:message code="payment.header.account"/> ${record.label} 
+            (<g:message code="message.ref"/> ${record.externalItemId})
+          </g:else>
         </p>
         <p>
-          <span id="${record.type}_${record.reference}" class="payment-form" style="float:right">
-            <form id="invoceForm_${record.reference}" method="post"
+          <span id="${record.type}_${record.externalItemId}" class="payment-form" style="float:right">
+            <form id="invoceForm_${record.externalItemId}" method="post"
               action="${createLink(action:'addToCart')}" class="list-form">
               <div class="error"
-                style="display:${unvalid?.id == record.reference && unvalid.type == record.type ? 'block' : 'none'}">
+                style="display:${invalid?.id == record.externalItemId && invalid.type == record.type ? 'block' : 'none'}">
                 ${errorMessage}
               </div>
               <input type="text" name="amount" size="4"
-                value="${unvalid?.id == record.reference && unvalid.type == record.type ? unvalid.value : 1}"
+                value="${invalid?.id == record.externalItemId && invalid.type == record.type ? invalid.value : ''}"
                 class="payment-textbox validate-mandatory validate-money
-                ${unvalid?.id == record.reference && unvalid.type == record.type ? 'validation-failed' : ''}" />
+                ${invalid?.id == record.externalItemId && invalid.type == record.type ? 'validation-failed' : ''}" />
               €
-              <button type="submit" title="${message(code:'action.addToCart')}">
-                <!--
-                <img src="${createLinkTo(dir:'images/icons',file:'cart.png')}"
-                  alt="${message(code:'action.addToCart')}" />
-                -->
-                Ajouter au panier
-              </button>
-              <input type="hidden" name="externalItemId" value="${record.reference}"/>
-              <input type="hidden" name="type" value="depositAccounts"/>
+              <input type="submit" title="${message(code:'action.addToCart')}" 
+                value="${message(code:'action.addToCart')}" />
+              <input type="hidden" name="externalItemId" value="${record.externalItemId}"/>
+              <input type="hidden" name="type" value="${record.type}"/>
             </form>
           </span>
-          Statut au <g:formatDate date="${record.oldValueDate}" formatName="format.date"/> :
+          <g:message code="payment.header.statusAt"/> 
+          <g:formatDate date="${record.oldValueDate}" formatName="format.date"/> :
           <g:if test="${record.amount < 0}">
             <span style="color:red;">${record.amount / 100 + ' €'}</span>
           </g:if>

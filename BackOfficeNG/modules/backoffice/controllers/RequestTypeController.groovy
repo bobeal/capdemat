@@ -289,24 +289,33 @@ class RequestTypeController {
      * ------------------------------------------------------------------------------------------ */
     def localReferential = {
         def rt = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
-        def lrDatas = localReferentialService.getLocalReferentialDataByRequestType(rt.label)
-        render(template:"localReferential", model:['lrDatas':lrDatas])
+        def lrTypes = localReferentialService.getLocalReferentialDataByRequestType(rt.label)
+        render(template:"localReferential", model:['lrTypes':lrTypes])
     }
     
     def localReferentialData = {
-        def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+        def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
         render(template:"localReferentialEntries", 
-               model:['lrEntries': lrData.entries, 'depth':0, 'parentEntry':lrData.dataName])
+               model:['lrEntries': lrType.entries, 'depth':0, 'parentEntry':lrType.dataName])
     }
     
+    def localReferentialWidget = {
+        def lrType = localReferentialService.getLocalReferentialDataByName(params.lrtDataName)
+        bind(lrType)
+        localReferentialService.setLocalReferentialData(lrType)
+        render (['success_msg':message(code:"message.updateDone"),
+                'status':"ok"] as JSON)
+    }
+    
+    
     def localReferentialEntry = {
-       def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+       def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
        def lre          
        if (params.isNew != null) {
           lre = new LocalReferentialEntry()
           lre.key = params.parentEntryKey
        } else 
-          lre = lrData.getEntryByKey(params.entryKey)
+          lre = lrType.getEntryByKey(params.entryKey)
        
        render(template:"localReferentialEntryFrom", 
               model:['entry':lre,
@@ -316,7 +325,7 @@ class RequestTypeController {
     }
     
     def saveLocalReferentialEntry = {
-        def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
+        def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
         def isNew = false
         def lre
         if (params.'entry.key' == params.parentEntryKey) {
@@ -324,14 +333,14 @@ class RequestTypeController {
             lre.addLangage('fr')
             bind(lre)
             lre.key = null
-            lrData.addEntry(lre, 
-                params.parentEntryKey != params.dataName ? lrData.getEntryByKey(params.parentEntryKey) : null )
+            lrType.addEntry(lre, 
+                params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
             isNew = true
         } else {
-            lre = lrData.getEntryByKey(params.'entry.key')
+            lre = lrType.getEntryByKey(params.'entry.key')
             bind(lre)
         }
-        localReferentialService.setLocalReferentialData(lrData)
+        localReferentialService.setLocalReferentialData(lrType)
         
         render (['isNew': isNew,
                 'entryLabel': lre.labelsMap.fr,
@@ -340,11 +349,11 @@ class RequestTypeController {
     }
     
     def removeLocalReferentialEntry = {
-         def lrData = localReferentialService.getLocalReferentialDataByName(params.dataName)
-         def lre = lrData.getEntryByKey(params.entryKey)
-         lrData.removeEntry(lre, 
-                params.parentEntryKey != params.dataName ? lrData.getEntryByKey(params.parentEntryKey) : null )
-         localReferentialService.setLocalReferentialData(lrData)
+         def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
+         def lre = lrType.getEntryByKey(params.entryKey)
+         lrType.removeEntry(lre, 
+                params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
+         localReferentialService.setLocalReferentialData(lrType)
          render (['entryLabel': lre.labelsMap.fr,
                 'success_msg':message(code:"message.updateDone"),
                 'status':"ok"] as JSON)

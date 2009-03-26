@@ -1,6 +1,7 @@
 <html>
   <head>
     <meta name="layout" content="fo_main" />
+    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'payment.css')}" />
   </head>
   <body>
     <form action="${createLink(action:'index')}" method="post" id="mainForm">

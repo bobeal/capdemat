@@ -4,32 +4,32 @@
       <li>
         <p>
           <g:if test="${record.hasDetails}">
-            <a href="${createLink(controller:'frontofficePayment')}/details/invoice/${record.reference}">
-              Facture ${record.label} ${record.amount ? 'de '+record.amount / 100 + ' €':''}
-              (réf ${record.reference})
+            <a href="${createLink(controller:'frontofficePayment')}/details/invoice/${record.externalItemId}">
+              <g:message code="payment.header.invoice"/> 
+              ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
+              (<g:message code="message.ref"/> ${record.externalItemId})
             </a>
           </g:if>
           <g:else>
-            Facture ${record.label} ${record.amount ? 'de '+record.amount / 100 + ' €':''}
-            (réf ${record.reference})
+            <g:message code="payment.header.invoice"/>
+            ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
+            (<g:message code="message.ref"/> ${record.externalItemId})
           </g:else>
         </p>
         <p>
           <span style="float:right">
-            <form id="invoceForm_${record.reference}" method="post" action="${createLink(action:'addToCart')}">
-              <button type="submit" title="${message(code:'action.addToCart')}" ${record.isInCart ?'disabled="disabled"':''} >
-                <!--
-                <img src="${createLinkTo(dir:'images/icons',file:'cart.png')}"
-                  alt="${message(code:'action.addToCart')}" />
-                -->
-                Ajouter au panier
-              </button
-              <input type="hidden" name="externalItemId" value="${record.reference}"/>
-              <input type="hidden" name="type" value="invoices"/>
+            <form id="invoceForm_${record.externalItemId}" method="post" action="${createLink(action:'addToCart')}">
+              <input type="submit" title="${message(code:'action.addToCart')}" 
+                ${record.isInCart ?'disabled="disabled"':''}
+                value="${message(code:'action.addToCart')}" />
+              <input type="hidden" name="externalItemId" value="${record.externalItemId}"/>
+              <input type="hidden" name="type" value="${record.type}"/>
             </form>
           </span>
-          Emise le <g:formatDate date="${record.issueDate}" formatName="format.date"/> - 
-          Expire le <g:formatDate date="${record.expirationDate}" formatName="format.date"/>
+          <g:message code="payment.header.issueAt"/>
+          <g:formatDate date="${record.issueDate}" formatName="format.date"/> - 
+          <g:message code="payment.header.expireAt"/>
+          <g:formatDate date="${record.expirationDate}" formatName="format.date"/>
         </p>
       </li>
     </g:each>

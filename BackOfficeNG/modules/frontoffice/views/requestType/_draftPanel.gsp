@@ -6,7 +6,7 @@
   <input type="hidden" name="uuidString" value="${uuidString}" />
   <input type="hidden" name="currentTabIndex" value="${params?.currentTabIndex}" />
   <input type="submit" value="${message(code:'action.saveDraft')}"
-         id="submitDraft" name="submitDraft" ${session.currentUser && draftVisible ? '' : 'disabled=\"disabled\"'}/>
+         id="submitDraft" name="submitDraft" ${session.currentEcitizen && draftVisible ? '' : 'disabled=\"disabled\"'}/>
 </form>
 <form action="${module.createLink(controller:'RequestCreationController',action:'condition')}" 
   method="post" id="conditionsForm">

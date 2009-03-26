@@ -50,6 +50,15 @@ class PaymentController {
             
             result.errorMessage = flash?.invalid?.message ? flash.invalid.message : this.errorMessage
         }
+        
+        if(['index','cartDetails'].contains(actionName) && session.payment) {
+            result.paymentUrl = paymentService.initPayment((Payment)session.payment).toString()
+        }
+        
+        if(['index','details','cartDetails'].contains(actionName)) { 
+            result.cart = this.buildCart()
+            result.actionName = actionName
+        }
     }
     
     def index = {
@@ -59,7 +68,6 @@ class PaymentController {
         result.ticketingContracts = this.ticketingContracts
         result.invalid = flash.invalid
         
-        result.cart = this.buildCart()
         return result
     }
     
@@ -146,7 +154,6 @@ class PaymentController {
         ((Payment)session.payment).addPaymentSpecificData('domainName',request.serverName)
         ((Payment)session.payment).addPaymentSpecificData('port',request.serverPort.toString())
         
-        result.paymentUrl = paymentService.initPayment((Payment)session.payment).toString()
         return result
     }
     
@@ -182,7 +189,6 @@ class PaymentController {
             }
         }
         
-        result['cart'] = this.buildCart()
         return result
     }
     

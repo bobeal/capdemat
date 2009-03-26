@@ -27,7 +27,7 @@ div.cart-list-header {
 }
 
 .action-list p {
-  font-size: 1.1em;
+  /*font-size: 1.1em;*/
   font-weight: bold;
   margin-bottom: 1em;
 }
@@ -43,4 +43,19 @@ div.cart-list-header {
 .action-list input {
   font-weight: bold;
   font-size: 1.1em;
+}
+
+.total-block {
+  text-align:right;
+  margin-top:0.5em;
+}
+
+.total-block span {
+  font-size: 1.4em;
+  font-weight:bold;
+}
+
+.total-block a {
+  /*font-size: 1em !important;*/
+  font-weight:normal !important;
 }

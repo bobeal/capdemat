@@ -5,7 +5,6 @@
   </head>
   <body>
     <form action="${createLink(action:'index')}" method="post" id="mainForm">
-      
       <div id="yui-main"> 
         <div id="main" class="yui-b">
           <div class="list-box">
@@ -27,7 +26,6 @@
           </div>
         </div>
       </div>
-      
     </form>
   </body>
 </html>

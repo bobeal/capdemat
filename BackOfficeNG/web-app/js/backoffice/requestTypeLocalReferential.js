@@ -42,6 +42,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       changeEvent: undefined,
       
       init: function() {
+        zcbrp.LocalReferential.initLocalreferential();
+        if (zcbrp.LocalReferential.clickEvent != undefined) return;
+        
         zcbrp.LocalReferential.confirmRemoveEntryDialog = new zct.ConfirmationDialog(
           { head : 'Attention',
             body : 'Voulez-vous supprimer cette entrée et tous ces descendants ?' },
@@ -58,8 +61,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         // change event
         zcbrp.LocalReferential.changeEvent = new zct.Event(zcbrp.LocalReferential, zcbrp.LocalReferential.prepareEvent);
         yue.on(yud.get('requestTypeLocalReferential'),'change',zcbrp.LocalReferential.changeEvent.dispatch,zcbrp.LocalReferential.changeEvent,true);
-        
-        zcbrp.LocalReferential.initLocalreferential();
         
         zcbrp.LocalReferential.collapseEntries = zca.condition(zcbrp.LocalReferential.collapseEntries, zcbrp.accessRule.notCurrent);
         zcbrp.LocalReferential.expandEntries = zca.condition(zcbrp.LocalReferential.expandEntries, zcbrp.accessRule.notCurrent);

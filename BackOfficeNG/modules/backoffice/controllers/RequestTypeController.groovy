@@ -16,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 
 import java.io.File
+import java.util.Collections
 
 import grails.converters.JSON
 
@@ -293,15 +294,17 @@ class RequestTypeController {
         render(template:"localReferential", model:['lrTypes':lrTypes])
     }
     
-    def localReferentialData = {
+    def localReferentialType = {
         def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
         render(template:"localReferentialEntries", 
-               model:['lrEntries': lrType.entries, 'depth':0, 'parentEntry':lrType.dataName])
+               model:['lrEntries': lrType.entries, , 'parentEntry':lrType.dataName,
+                       'isMultiple':lrType.entriesSupportMultiple, 'depth':0])
     }
     
     def localReferentialWidget = {
         def lrType = localReferentialService.getLocalReferentialDataByName(params.lrtDataName)
         bind(lrType)
+         lrType.entries = Collections.emptySet();
         localReferentialService.setLocalReferentialData(lrType)
         render (['success_msg':message(code:"message.updateDone"),
                 'status':"ok"] as JSON)

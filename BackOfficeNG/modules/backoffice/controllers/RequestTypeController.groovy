@@ -187,16 +187,26 @@ class RequestTypeController {
             return result
         } else {
             RequestType requestType =
-                requestTypeService.getRequestTypeById(Long.parseLong(params.requestTypeId))
-            requestType.active = params.requestState == 'active'
-            requestTypeService.modifyRequestType(requestType)
-
-            render ([
-                'label': message(code: "property.${requestType.active ? 'active' : 'inactive'}"),
-                'state': requestType.active ? 'enable' : 'disable',
-                'success_msg':message(code:"message.updateDone"),
-                'status':"ok"
-            ] as JSON)
+                requestTypeService.getRequestTypeById(Long.parseLong(params.requestTypeId))            
+            if(!localReferentialService.isLocalReferentialConfigure(requestType.label)
+               && !requestType.active) {
+                render ([
+                  'label': message(code: "property.${requestType.active ? 'active' : 'inactive'}"),
+                  'state': requestType.active ? 'enable' : 'disable',
+                  'message':message(code:"localReferential.error.isNotConfigure"),
+                  'status':"warning"
+                ] as JSON)
+            }
+            else {
+                requestType.active = params.requestState == 'active'
+                requestTypeService.modifyRequestType(requestType)
+                render ([
+                    'label': message(code: "property.${requestType.active ? 'active' : 'inactive'}"),
+                    'state': requestType.active ? 'enable' : 'disable',
+                    'message':message(code:"message.updateDone"),
+                    'status':"success"
+                ] as JSON)
+            }
         }
     }
 
@@ -301,10 +311,9 @@ class RequestTypeController {
     def localReferentialWidget = {
         def lrType = localReferentialService.getLocalReferentialDataByName(params.lrtDataName)
         bind(lrType)
-         lrType.entries = Collections.emptySet();
+        lrType.entries = Collections.emptySet();
         localReferentialService.setLocalReferentialData(lrType)
-        render (['success_msg':message(code:"message.updateDone"),
-                'status':"ok"] as JSON)
+        render (['status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
     
     
@@ -341,22 +350,18 @@ class RequestTypeController {
             bind(lre)
         }
         localReferentialService.setLocalReferentialData(lrType)
-        
-        render (['isNew': isNew,
-                'entryLabel': lre.labelsMap.fr,
-                'success_msg':message(code:"message.updateDone"),
-                'status':"ok"] as JSON)
+        render (['isNew': isNew, 'entryLabel': lre.labelsMap.fr,
+                 'status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
     
     def removeLocalReferentialEntry = {
-         def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
-         def lre = lrType.getEntryByKey(params.entryKey)
-         lrType.removeEntry(lre, 
-                params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
-         localReferentialService.setLocalReferentialData(lrType)
-         render (['entryLabel': lre.labelsMap.fr,
-                'success_msg':message(code:"message.updateDone"),
-                'status':"ok"] as JSON)
+        def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
+        def lre = lrType.getEntryByKey(params.entryKey)
+        lrType.removeEntry(lre, 
+              params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
+        localReferentialService.setLocalReferentialData(lrType)
+        render (['entryLabel': lre.labelsMap.fr,
+                  'status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
     
 }

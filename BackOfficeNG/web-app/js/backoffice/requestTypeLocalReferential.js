@@ -91,14 +91,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       
       confirmSaveWidget : function(e) {
-        if (e.type === 'click') return ;
-        zcbrp.LocalReferential.confirmSaveWidgetDialog.show(e); 
+        if (e.type === 'change') zcbrp.LocalReferential.confirmSaveWidgetDialog.show(e); 
       },
       saveWidget : function(e, se) {
         var target = (yue.getTarget(se)||se);
         zct.doAjaxFormSubmitCall(target.form.id, null, function(o) {
           var response = ylj.parse(o.responseText);
-          if (response.status === 'ok') {
+          if (response.status === 'success') {
             zcbrp.LocalReferential.initLocalreferential();
           }
         });
@@ -153,7 +152,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zct.doAjaxCall(['/removeLocalReferentialEntry/','?dataName=',dataName,'&entryKey=',entryKey,
                         '&parentEntryKey=',parentEntryKey].join(''),[],function(o){
           var response = ylj.parse(o.responseText);
-          if (response.status === 'ok')
+          if (response.status === 'success')
             zcbrp.LocalReferential.refreshEntries(dataName);
         });
       },

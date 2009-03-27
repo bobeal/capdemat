@@ -64,7 +64,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
               var json = ylj.parse(o.responseText);
               var span = yud.get('requestState');
               
-              zct.Notifier.processMessage('success',json.success_msg);
+              zct.Notifier.processMessage(json.status,json.message);
               yud.removeClass(span,'tag-enable');
               yud.removeClass(span,'tag-disable');
               yud.addClass(span,['tag-',json.state].join(''));

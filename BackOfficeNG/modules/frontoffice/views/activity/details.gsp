@@ -7,9 +7,9 @@
   <body>
   <div id="yui-main">
     <div id="main" class="yui-b">
-      <g:render template="individuals" />
+      <g:render template="individualDetails" />
     </div>
-  </div>
+  </div> 
   <!-- end of yui-main -->
   
   <div id="narrow" class="yui-b">
@@ -42,8 +42,20 @@
       </div>
     </div>
   </div>
+  
+  <div id="narrow" class="yui-b">
+    <div class="requestBox">
+      <h3>
+        <g:message code="header.display" />
+      </h3>
+      <div class="body">
+        <a class="top-link" href="${createLink(action:'index')}">
+          <g:message code="activity.header.mainPanel" />
+        </a>
+      </div>
+    </div>
+  </div>
   <!-- end of narrow -->
   
   </body>
 </html>
-

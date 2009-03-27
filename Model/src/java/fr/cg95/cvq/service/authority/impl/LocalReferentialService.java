@@ -691,6 +691,15 @@ public class LocalReferentialService
         return resultSet;
     }
 
+    public boolean isLocalReferentialConfigure(final String requestTypeLabel) throws CvqException {
+        Set<LocalReferentialType> lrTypes = getLocalReferentialDataByRequestType(requestTypeLabel);
+        boolean isConfigure = true;
+        for (LocalReferentialType lrType : lrTypes)
+            if (lrType.getEntries() == null || lrType.getEntries().isEmpty())
+                isConfigure = false;
+        return isConfigure;
+    }
+    
     public void setLocalReferentialData(LocalReferentialType newLrt)
         throws CvqException {
 

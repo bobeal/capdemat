@@ -23,14 +23,22 @@ public interface IRequestStatisticsService {
      * @param startDate interval start date
      * @param endDate interval end date
      * @param requestTypeId to restrict statistics to a specific request type
-     * @param categoryName to restrict statistics to a specific category
+     * @param categoryId to restrict statistics to a specific category
      *
      * @return a map of quality indicator and counts
      * @see {@link #QUALITY_TYPE_OK}, {@link #QUALITY_TYPE_ORANGE}, {@link #QUALITY_TYPE_RED}
-    */
+     */
     Map<String, Long> getQualityStats(final Date startDate, final Date endDate,
         final Long requestTypeId, final Long categoryId);
 
+    /**
+     * The same as {@link #getQualityStats} but with results grouped by request type id.
+     *
+     * @param startDate interval start date
+     * @param endDate interval end date
+     * @param requestTypeId to restrict statistics to a specific request type
+     * @param categoryId to restrict statistics to a specific category
+     */
     Map<Long, Map<String, Long>> getQualityStatsByType(final Date startDate, final Date endDate,
         final Long requestTypeId, final Long categoryId) throws CvqException;
 
@@ -38,5 +46,8 @@ public interface IRequestStatisticsService {
         final Long requestTypeId, final Long categoryId);
 
     Map<Long, Long> getTypeStats(final Date startDate, final Date endDate,
+        final Long requestTypeId, final Long categoryId);
+
+    Map<Date, Long> getTypeStatsByPeriod(final Date startDate, final Date endDate,
         final Long requestTypeId, final Long categoryId);
 }

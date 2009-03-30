@@ -4,8 +4,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Map;
 
 import junit.framework.Assert;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
@@ -14,7 +16,7 @@ import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
-import java.util.Map;
+import java.util.Date;
 
 public class RequestStatisticsServiceTest extends ServiceTestCase {
 
@@ -95,11 +97,21 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
             iRequestStatisticsService.getTypeStats(startDate.getTime(), endDate.getTime(),
             requestTypeId, null);
         Assert.assertEquals(1, typeStats.size());
-        Assert.assertEquals(Long.valueOf(1), typeStats.get(0));
+//        Assert.assertEquals(Long.valueOf(1), typeStats.get(0));
+
+        startDate.add(Calendar.DAY_OF_YEAR, -10);
+        Map<Date, Long> periodStats =
+            iRequestStatisticsService.getTypeStatsByPeriod(startDate.getTime(),
+            endDate.getTime(), requestTypeId, null);
+        for (Date date : periodStats.keySet()) {
+//            System.err.println("got " + periodStats.get(date) + " for date " + date);
+        }
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
 
 //        countFetch = iRequestStatisticsService.getCountByResultingState(

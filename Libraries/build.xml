@@ -99,6 +99,7 @@
 			<fileset dir="${postgresql.jdbc.lib.dir}" />
 			<fileset dir="${quartz.lib.dir}" />
 			<fileset dir="${saxon.lib.dir}" />
+            <fileset dir="${joda.lib.dir}" />
 		</copy>
 	</target>
 

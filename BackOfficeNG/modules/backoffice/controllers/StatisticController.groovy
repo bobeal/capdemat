@@ -87,89 +87,57 @@ class StatisticController {
 
         render(view:'index',
                model:['typeUrl':typeStatsUrl(startDate, endDate, requestTypeId, categoryId),
+                      'periodUrl':periodStatsUrl(startDate, endDate, requestTypeId, categoryId),
                       'pageState' : (new JSON(state)).toString().encodeAsHTML(),
                       'state': state,
                       'currentStatisticType':'type'].plus(initStatisticsReferential()))
     }
 
-//    def detailedStatsUrl(timescale, lifecycle, requestTypeId, categoryId) {
-//        def labels = []
-//        def maxY = 1
-//        def cdData = []
-//        def titleRow = lifecycle == IRequestStatisticsService.Lifecycle.CREATED ? "Nombre de téléservices créés par jour" : "Nombre de téléservices traités par jour"
-//        def monthViewDateFormatter = new SimpleDateFormat("dd/MM")
-//        def results =
-//            requestStatisticsService.getDetailedStats(timescale, lifecycle, requestTypeId, categoryId)
-//        results.eachWithIndex { k,v,index ->
+    def periodStatsUrl(startDate, endDate, requestTypeId, categoryId) {
+        def labels = []
+        def maxY = 1
+        def cdData = []
+//        def titleRow = message(code:'statistics.header.typeByPeriod')
+        def monthViewDateFormatter = new SimpleDateFormat("dd/MM")
+        def results =
+            requestStatisticsService.getTypeStatsByPeriod(startDate, endDate, requestTypeId, categoryId)
+        results.eachWithIndex { date,count,index ->
 //            if (index % 3 == 0)
 //            	labels.add(monthViewDateFormatter.format(k))
 //            else
-//                labels.add('')
-//            cdData.add(v.intValue())
-//            if (v.intValue() > maxY)
-//                maxY = v.intValue()
-//        }
-//        def transformedCdData = cdData.collect {  k ->
-//               k = ((k * 100) / maxY).floatValue();
-//        }
-//
-//        def chart = new GoogleChartBuilder()
-//        def url = chart.barChart(['vertical','grouped']) {
-//            size(w:400,h:200)
-//            /*
-//            title() {
-//                row(titleRow)
-//                row("(total : ${cdData.sum()})")
-//            }
-//            */
-//            barSize(witdth:4, space:2)
-//            data(encoding:'text') {
-//        		dataSet(transformedCdData)
-//            }
-//            if (maxY < 10)
-//                axis(bottom:labels,left:(0..maxY).toList())
-//            else
-//                axis(bottom:labels,left:(0..maxY).step((maxY/10).intValue()).toList())
-//            colors {
-//                color('84c984')
-//            }
-//        }
-//
-//      	return url
-//    }
-//
-//    def summarizedStatsUrl(lifecycle) {
-//        def textLabels = []
-//        def cdData = []
-//        def results = requestStatisticsService.getSummarizedStats(IRequestStatisticsService.Timescale.MONTH,
-//                lifecycle, null, null)
-//        results.each { k,v ->
-//			if (v.intValue() > 0) {
-//			    def label = new StringBuffer().append(translationService.getEncodedRequestTypeLabelTranslation(k.label))
-//			    	.append(" (").append(v).append(")")
-//        		textLabels.add(label.toString())
-//            	cdData.add(v.intValue())
-//			}
-//        }
-//
-//        def chart = new GoogleChartBuilder()
-//        def url = chart.pieChart {
-//            size(w:700,h:200)
-//            /*
-//            title() {
-//                row('Total : ${cdData.sum()}')
-//            }
-//            */
-//            data(encoding:'text') {
-//        		dataSet(cdData)
-//            }
-//			labels {
-//			    textLabels.each { label(it) }
-//			}
-//        }
-//
-//      	return url
-//    }
+                labels.add(monthViewDateFormatter.format(date))
+            cdData.add(count.intValue())
+            if (count.intValue() > maxY)
+                maxY = count.intValue()
+        }
+        def transformedCdData = cdData.collect {  k ->
+               k = ((k * 100) / maxY).floatValue();
+        }
+
+        def chart = new GoogleChartBuilder()
+        def url = chart.barChart(['vertical','grouped']) {
+            size(w:700,h:400)
+            /*
+            title() {
+                row(titleRow)
+                row("(total : ${cdData.sum()})")
+            }
+            */
+            barSize(width:5, space:20, spaceGroups:20)
+            data(encoding:'text') {
+        		dataSet(transformedCdData)
+            }
+            if (maxY < 10)
+                axis(bottom:labels,left:(0..maxY).toList())
+            else
+                axis(bottom:labels,left:(0..maxY).step((maxY/10).intValue()).toList())
+            colors {
+                color('84c984')
+            }
+        }
+
+      	return url
+    }
 
     def stateStatsUrl(startDate, endDate, requestTypeId, categoryId) {
         def textLabels = []
@@ -258,9 +226,11 @@ class StatisticController {
         def chart = new GoogleChartBuilder()
         def url = chart.pieChart {
             size(w:600,h:200)
+            /*
             title() {
                 row('Qualité de service')
             }
+            */
             data(encoding:'text') {
         		dataSet(cdData)        
             }
@@ -277,7 +247,6 @@ class StatisticController {
 
     def initStatisticsReferential() {
         return ['allCategories':categoryService.getManaged().sort { it.name },
-                'timescales':timescales,
                 'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes(true),
                 'statisticTypes':statisticTypes]
     }

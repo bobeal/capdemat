@@ -253,4 +253,43 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
 
         return result;
     }
+
+    public Long countByPeriod(Date startDate, Date endDate, List<Long> requestTypeIds) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select count(*) from Request as request")
+            .append(" where 1 = 1 ");
+
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        if (startDate != null) {
+            sb.append(" and request.creationDate > ? ");
+            objectList.add(startDate);
+            typeList.add(Hibernate.TIMESTAMP);
+        }
+
+        if (endDate != null) {
+            sb.append(" and request.creationDate < ? ");
+            objectList.add(endDate);
+            typeList.add(Hibernate.TIMESTAMP);
+        }
+
+        if (requestTypeIds != null && !requestTypeIds.isEmpty()) {
+            sb.append(" and request.requestType.id in (");
+            for (Long requestTypeId : requestTypeIds) {
+                sb.append("'").append(requestTypeId).append("',");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            sb.append(")");
+        }
+
+        Type[] typeTab = typeList.toArray(new Type[0]);
+        Object[] objectTab = objectList.toArray(new Object[0]);
+
+        List<Long> tempResult =
+            HibernateUtil.getSession().createQuery(sb.toString())
+                .setParameters(objectTab, typeTab).list();
+        return tempResult.get(0);
+    }
 }

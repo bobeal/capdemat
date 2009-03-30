@@ -3,7 +3,7 @@
     <h3>${message(code:'localReferential.label.newEntry')}</h3>
   </g:if>
   <div class="error" id="entryForm_${entry?.key}_Errors"></div>
-  <label for="label">${message(code:'localReferential.label.label')} : </label>
+  <label for="label" class="required">${message(code:'localReferential.label.label')} * : </label>
   <input type="text" name="labelsMap['fr']" value="${entry?.labelsMap?.fr}" class="required" title="${message(code:'localReferential.error.labelisRequired')}" />
   <label for="message">${message(code:'localReferential.label.message')} : </label>
   <input type="text" name="messagesMap['fr']" value="${entry?.messagesMap?.fr}" />

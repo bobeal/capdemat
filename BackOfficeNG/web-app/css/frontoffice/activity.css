@@ -32,3 +32,61 @@
 #narrow {
   clear:right !important;
 }
+
+table.activity-calendar {
+  margin: 2em;
+  font-size: 1.2em;
+}
+
+table.activity-calendar th {
+  width: 5.8em;
+  padding-bottom: 1em;
+}
+
+table.activity-calendar td {
+  padding-bottom: 0.7em;
+  vertical-align:top;
+  font-size:1.4em;
+}
+
+table.activity-calendar td span.value {
+  display:block;
+}
+
+table.activity-calendar td span.indicator {
+  float:left;
+  height:1em;
+  margin:0.1em 0.1em 0 0;
+  width:1em;
+}
+
+.list-box ul.activity-list li {
+  border:none;
+}
+
+.list-box ul.activity-list span.indicator {
+  display:block;
+  float:left;
+  margin-right:1em;
+  width:1em;
+}
+
+span.marked-item-0 {
+  background-color : orange;
+}
+
+span.marked-item-1 {
+  background-color : blue;
+}
+
+span.marked-item-2 {
+  background-color : red;
+}
+
+span.marked-item-3 {
+  background-color : darkgreen;
+}
+
+span.marked-item-4 {
+  background-color : yellowgreen;
+}

@@ -7,15 +7,28 @@
   <body>
   <div id="yui-main">
     <div id="main" class="yui-b">
-      <g:render template="individualDetails" />
+      <div class="list-box">
+        <h2>
+          <g:translateRequestTypeLabel label="${label}"/> <g:message code="message.for" /> ${individual} : 
+        </h2>
+        <ul class="activity-list">
+          <g:each in="${datas.keySet()}" status="i" var="activity">
+            <li>
+              <span class="indicator marked-item-${i}">&nbsp</span> ${activity} : ${datas.get(activity).size()}
+            </li>
+          </g:each>
+        </ul>
+        <g:activityCalendar month="${params.month}" year="${params.year}" data="${datas}"/>
+      </div>
     </div>
   </div> 
   <!-- end of yui-main -->
   
+   %{--
   <div id="narrow" class="yui-b">
     <div id="requestSubject" class="requestBox date-filters">
       <h3>
-        <g:message code="header.filterBy" />
+       <g:message code="header.filterBy" />
       </h3>
       <div class="body">
         <form action="${createLink(action:'index')}" method="post">
@@ -42,6 +55,7 @@
       </div>
     </div>
   </div>
+  --}%
   
   <div id="narrow" class="yui-b">
     <div class="requestBox">

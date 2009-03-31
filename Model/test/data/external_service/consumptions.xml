@@ -61,8 +61,5 @@
   event-label2="GMA" event-label3="Gard Matin et Soir" event-label4="MorningAndEveningNursery"/>
   <event event-id="17281665" event-date="2009-03-21T07:43:19" event-label="BambiSmart"
   event-label2="GMA" event-label3="Gard Matin et Soir" event-label4="MorningAndEveningNursery"/>
-  
-  <event event-id="17281665" event-date="2009-03-22T07:43:19" event-label="BambiSmart"
-  event-label2="GMA" event-label3="Taverne" event-label4="Taverne"/>
 </events>
 

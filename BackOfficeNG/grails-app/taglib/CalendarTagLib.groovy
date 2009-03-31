@@ -72,7 +72,7 @@ $table
     
     protected String buildCell(String value, Map<String,Date> data) {
         def c = new GregorianCalendar();
-        def result =  '\t\t<td><span class="value">' + value + '</span>'
+        def result =  '\t\t<td><span class="value">' + value + '</span><div class="container">'
         calendar.set(Calendar.DAY_OF_MONTH,Integer.valueOf(value))
         
         for(String key: data.keySet()) {
@@ -87,7 +87,7 @@ $table
             }
         }
         
-        return result + "</td>\n";
+        return result + "</div></td>\n";
     }
     
 }

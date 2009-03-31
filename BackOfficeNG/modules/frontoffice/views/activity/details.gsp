@@ -11,52 +11,11 @@
         <h2>
           <g:translateRequestTypeLabel label="${label}"/> <g:message code="message.for" /> ${individual} : 
         </h2>
-        <ul class="activity-list">
-          <g:each in="${datas.keySet()}" status="i" var="activity">
-            <li>
-              <span class="indicator marked-item-${i}">&nbsp</span> ${activity} : ${datas.get(activity).size()}
-            </li>
-          </g:each>
-        </ul>
         <g:activityCalendar month="${params.month}" year="${params.year}" data="${datas}"/>
       </div>
     </div>
   </div> 
   <!-- end of yui-main -->
-  
-   %{--
-  <div id="narrow" class="yui-b">
-    <div id="requestSubject" class="requestBox date-filters">
-      <h3>
-       <g:message code="header.filterBy" />
-      </h3>
-      <div class="body">
-        <form action="${createLink(action:'index')}" method="post">
-          <label for="mf" class="title"><g:message code="property.date" /> :</label>
-          <select name="mf" class="month-filter">
-            <g:each in="${(1 .. 12)}">
-              <option value="${it}" ${it.equals((params.mf ? Integer.valueOf(params.mf) : month)) ? 'selected="selected"':''}>
-                ${it}
-              </option>
-            </g:each>
-          </select>
-          <select name="yf" class="year-filter">
-            <g:each in="${(2004 .. (year - 1))}">
-              <option value="${it}" ${it.toString() == params.yf ? 'selected="selected"':''}>
-                ${it}
-              </option> 
-            </g:each>
-            <option value="${year}" ${!params.yf || year.toString() == params.yf ? 'selected="selected"':''}>
-              ${year}
-            </option>
-          </select>
-          <input type="submit" class="action-button" value="${message(code:'action.filter')}"/>
-        </form>
-      </div>
-    </div>
-  </div>
-  --}%
-  
   <div id="narrow" class="yui-b">
     <div class="requestBox">
       <h3>
@@ -66,6 +25,22 @@
         <a class="top-link" href="${createLink(action:'index')}">
           <g:message code="activity.header.mainPanel" />
         </a>
+      </div>
+    </div>
+  </div>
+  <div id="narrow" class="yui-b">
+    <div class="requestBox">
+      <h3>
+        <g:message code="header.legend" />
+      </h3>
+      <div class="body">
+        <ul class="activity-list">
+          <g:each in="${datas.keySet()}" status="i" var="activity">
+            <li>
+              <span class="indicator marked-item-${i}">&nbsp</span> ${activity} : ${datas.get(activity).size()}
+            </li>
+          </g:each>
+        </ul>
       </div>
     </div>
   </div>

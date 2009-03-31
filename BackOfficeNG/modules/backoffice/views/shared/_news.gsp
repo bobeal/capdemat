@@ -1,5 +1,23 @@
 <h2>Nouvelles</h2>
 
+<p><strong>31 Mars 2009</strong></p>
+<span style="text-decoration:underline;">Front Office</span>
+<ul>
+  <li>Finalisation des onglets Activités et Paiements (à quelques nommages près)</li>
+  <li>Fonction mot de passe oublié</li>
+  <li>Fonctions changement du mot de passe et de la question / réponse</li>
+</ul>
+<span style="text-decoration:underline;">Back Office</span>
+<ul>
+  <li>Finalisation de la configuration du référentiel local d'un téléservice</li>
+  <li>Statistiques par état et type de téléservice (en version alpha pour la répartition dans le temps)</li>
+  <li>Configuration des saisons</li>
+</ul>
+<span style="text-decoration:underline;">Front Office & Back Office</span>
+<ul>
+  <li>Finalisation des widgets FO et BO de référentiel local</li>
+</ul>
+
 <p><strong>20 Mars 2009</strong></p>
 <span style="text-decoration:underline;">Front Office</span>
 <ul>

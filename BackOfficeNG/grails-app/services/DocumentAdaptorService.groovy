@@ -55,10 +55,12 @@ public class DocumentAdaptorService {
     
     public  List getProvidedNotAssociatedDocuments(DocumentType docType, List associateds) {
         // TODO : also use subject id
-        def provideds =
-            documentService.getProvidedDocuments(docType, SecurityContext.currentEcitizen.homeFolder.id, null)
-        def associatedIds = associateds.collect{ it.id }
-        return provideds.findAll{ !associatedIds.contains(it.id) }
+        if (SecurityContext.currentEcitizen) {
+            def provideds =
+                documentService.getProvidedDocuments(docType, SecurityContext.currentEcitizen.homeFolder.id, null)
+            def associatedIds = associateds.collect{ it.id }
+            return provideds.findAll{ !associatedIds.contains(it.id) }
+        } else return []
     }
     
     public getDocument(Long id) {

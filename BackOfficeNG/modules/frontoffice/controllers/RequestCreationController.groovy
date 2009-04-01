@@ -3,12 +3,14 @@ import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
@@ -26,6 +28,8 @@ class RequestCreationController {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     ILocalReferentialService localReferentialService    
+    IHomeFolderService homeFolderService
+    
     def documentAdaptorService
     def translationService
     
@@ -67,8 +71,11 @@ class RequestCreationController {
         if (flash.cRequest) cRequest = flash.cRequest 
         else cRequest = requestService.getSkeletonRequest()
         
-        def requester = SecurityContext.currentEcitizen != null ? 
-            SecurityContext.currentEcitizen : Adult()
+        def requester = SecurityContext.currentEcitizen
+        if (requester == null) {
+            requester = new Adult()
+            homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
+        }
         
         def newDocuments = []
         
@@ -88,7 +95,7 @@ class RequestCreationController {
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'draftVisible': session[uuidString].draftVisible,
             'subjects': getAuthorizedSubjects(requestService, cRequest),
-            'meansOfContact': getMeansOfContact(meansOfContactService),
+            'meansOfContact': getMeansOfContact(meansOfContactService, requester),
             'lrTypes': getLocalReferentialTypes(localReferentialService, params.label),
             'currentStep': 'subject',
             'requestTypeLabel': params.label,
@@ -102,7 +109,6 @@ class RequestCreationController {
     }
     
     def step = {
-    params.each { println it }
         if (params.requestTypeInfo == null || params.uuidString == null || session[params.uuidString] == null) {
             redirect(uri: '/frontoffice/requestType')
             return false
@@ -258,7 +264,8 @@ class RequestCreationController {
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
                     
-                    if (!cRequest.draft) requestService.create(cRequest)
+                    if (SecurityContext.currentEcitizen == null) requestService.create(cRequest, requester, null)
+                    else if (!cRequest.draft) requestService.create(cRequest)
                     else requestService.finalizeDraft(cRequest)
                     
                     session.removeAttribute(uuidString)
@@ -271,6 +278,7 @@ class RequestCreationController {
             session[uuidString].newDocuments = newDocuments
         
         } catch (CvqException ce) {
+            ce.printStackTrace()
             cRequest.stepStates.get(currentStep).state = 'invalid'
             cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
             cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
@@ -283,10 +291,10 @@ class RequestCreationController {
                      'askConfirmCancel': askConfirmCancel, 
                      'rqt': cRequest,
                      'requester': requester,
-                     'hasHomeFolder': SecurityContext.currentEcitizen ? false : true,
+                     'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
-                     'meansOfContact': getMeansOfContact(meansOfContactService),
+                     'meansOfContact': getMeansOfContact(meansOfContactService, requester),
                      'lrTypes': getLocalReferentialTypes(localReferentialService,requestTypeInfo.label),
                      'currentStep': currentStep,
                      'requestTypeLabel': requestTypeInfo.label,
@@ -340,22 +348,22 @@ class RequestCreationController {
     
     def getAuthorizedSubjects(requestService, cRequest) {
         def subjects = [:]
-        def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
-        authorizedSubjects.each { subjectId, seasonsSet ->
-            def subject = individualService.getById(subjectId)
-            subjects[subjectId] = subject.lastName + ' ' + subject.firstName
-        }
-        
-        if(cRequest.draft && cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
-            subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
+        if (SecurityContext.currentEcitizen != null) {
+            def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
+            authorizedSubjects.each { subjectId, seasonsSet ->
+                def subject = individualService.getById(subjectId)
+                subjects[subjectId] = subject.lastName + ' ' + subject.firstName
+            }
             
+            if(cRequest.draft && cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
+                subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
+        }
         return subjects
     }
     
-    def getMeansOfContact(meansOfContactService) {
+    def getMeansOfContact(meansOfContactService, requester) {
         def result = []
-        def meansOfContact = meansOfContactService.getCurrentEcitizenEnabledMeansOfContact()
-        meansOfContact.each {
+        meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
             result.add([key:it.type,
                         label: message(code:'request.meansOfContact.' + StringUtils.pascalToCamelCase(it.type.toString()))])
         }
@@ -434,10 +442,6 @@ class RequestCreationController {
         newDocBinary.data = request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes
         doc.datas[Integer.parseInt(docParam.dataPageNumber)] = newDocBinary;
         documentService.modify(doc); 
-        
-        println submitAction[3]
-        println request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes.size()
-        
         return documentAdaptorService.getDocument(Long.valueOf(docParam.id))
     }
     

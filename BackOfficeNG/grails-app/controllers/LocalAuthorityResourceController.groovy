@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestTypeService
 
@@ -9,41 +10,21 @@ class LocalAuthorityResourceController {
     ILocalAuthorityRegistry localAuthorityRegistry
     IRequestTypeService requestTypeService
 
-    def cssFo = {
-        File cssFile = 
-            localAuthorityRegistry.getLocalAuthorityResource(
-                session.currentSiteName,
-                ILocalAuthorityRegistry.CSS_ASSETS_RESOURCE_TYPE,
-                session.currentSiteName + ".css", false)
-        renderResponse(cssFile, 'text/css')
-    }
+    def localAuthorityResourceAdaptorService
 
-    def logoFo = {
-        File logoFile = 
-            localAuthorityRegistry.getLocalAuthorityResource(
-                session.currentSiteName,
-                ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE,
-                "logoFo.png", false)
-        renderResponse(logoFile, 'image/png')
-    }
+    def defaultAction = "resource"
 
-    def image = {
-        File logoFile = 
-            localAuthorityRegistry.getLocalAuthorityResource(
-                session.currentSiteName,
-                ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE,
-                params.id + ".jpg", false)
-        renderResponse(logoFile, 'image/jpeg')
-    }
-    
-    def pdf = {
-        File pdfFile =
-            localAuthorityRegistry.getLocalAuthorityResource(
-                session.currentSiteName,
-                ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE,
-                params.id + ".pdf", false)
-        if (pdfFile.exists())
-            renderResponse(pdfFile, 'application/pdf')
+    def resource = {
+        def localAuthorityResource = localAuthorityResourceAdaptorService.getLocalAuthorityResources()[params.id]
+        if (localAuthorityResource != null) {
+            File resource = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                params.id,
+                params.version != null ? LocalAuthorityResource.Version.valueOf(params.version) : LocalAuthorityResource.Version.CURRENT,
+                false)
+            if (resource != null) {
+                renderResponse(resource, localAuthorityResource.contentType)
+            }
+        }
     }
 
     def rule = {

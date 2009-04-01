@@ -2,7 +2,7 @@
 <div id="userInfo">
   ${session.currentUser} 
   - <a href="${createLinkTo(dir:'',file:'casLogout.gsp')}"><g:message code="action.logout" /></a>
-  - <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'helpBo')}"
+  - <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'helpBO')}"
        target="blank"><g:message code="header.help" /></a>
 </div>
 <div id="menu">

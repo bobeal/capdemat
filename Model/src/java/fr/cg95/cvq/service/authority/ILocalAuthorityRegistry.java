@@ -8,6 +8,8 @@ import java.util.Set;
 import org.springframework.core.io.Resource;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 
@@ -61,6 +63,7 @@ public interface ILocalAuthorityRegistry {
      * @param fallbackToDefault whether or not we fall back to default directory if resource is not
      *        in current local authority's directory
      */
+    @Deprecated
     File getCurrentLocalAuthorityResource(final String resourceType, final String filename, 
             final boolean fallbackToDefault);
 
@@ -68,9 +71,17 @@ public interface ILocalAuthorityRegistry {
      * Same as {@link #getCurrentLocalAuthorityResource(String, String, boolean)} but
      * with file content returned in a string.
      */
+    @Deprecated
     String getBufferedCurrentLocalAuthorityResource(final String resourceType, 
             final String filename, final boolean fallbackToDefault);
-    
+
+    /**
+     * Same as {@link #getLocalAuthorityResourceFile(String, boolean)} but
+     * with file content returned in a string.
+     */
+    String getBufferedLocalAuthorityResource(String id, boolean fallbackToDefault)
+        throws CvqException;
+
     /**
      * Get the helps data for the given request as a Map<v=stepName,k=helpDataAsString>.
      */
@@ -83,8 +94,22 @@ public interface ILocalAuthorityRegistry {
      *
      * @see #getCurrentLocalAuthorityResource
      */
+    @Deprecated
     File getLocalAuthorityResource(final String localAuthorityName, final String resourceType,
             final String filename, final boolean fallbackToDefault);
+
+    /**
+     * Same as {@link #getLocalAuthorityResourceFile(String, LocalAuthorityResource.Version, boolean)}
+     * for current version.
+     */
+    File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
+        throws CvqException;
+
+    /**
+     * Get the file for this local authority resource id and version in the current local authority assets.
+     */
+    File getLocalAuthorityResourceFile(String id, LocalAuthorityResource.Version version, boolean fallbackToDefault)
+        throws CvqException;
 
     File getRequestXmlResource(Long id);
     
@@ -124,13 +149,54 @@ public interface ILocalAuthorityRegistry {
     
     String getReferentialBase();
     String getAssetsBase();
-    
+    @Deprecated
     void saveLocalAuthorityResource(String resourceType, String filename, byte[] data)
         throws CvqException;
+
+    /**
+     * Save the data as the current version of this local authority resource in current local authority assets.
+     */
+    void saveLocalAuthorityResource(String id, byte[] data)
+        throws CvqException;
+
+    @Deprecated
     void renameLocalAuthorityResource(String resourceType, String filename, String newFilename)
         throws CvqException;
-    void removeLocalAuthorityResource(String resourceType, String filename);
+
+    /**
+     * Move the file for this local authority resource from oldVersion to newVersion in current local authority assets.
+     */
+    void renameLocalAuthorityResource(String id, Version oldVersion, Version newVersion)
+        throws CvqException;
     
+    /**
+     * Save the data as the current version of this local authority resource in current local authority assets,
+     * and backup former current version as old version if it exists.
+     */
+    void replaceLocalAuthorityResource(String id, byte[] data)
+        throws CvqException;
+
+    /**
+     * Switch current version and old version of this local authority resource in current local authority assets.
+     */
+    void rollbackLocalAuthorityResource(String id)
+        throws CvqException;
+
+    /**
+     * Checks if this local authority resource has a file for this version in current local authority assets.
+     */
+    boolean hasLocalAuthorityResource(String id, Version version)
+        throws CvqException;
+
+    @Deprecated
+    void removeLocalAuthorityResource(String resourceType, String filename);
+
+    /**
+     * Deletes all versions of this local authority resource in current local authority assets.
+     */
+    void removeLocalAuthorityResource(String id)
+        throws CvqException;
+
     List<File> getLocalResourceContent(String resourceType) throws CvqException;
     List<File> getLocalResourceContent(String resourceType, String pattern) throws CvqException;
 

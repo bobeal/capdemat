@@ -342,6 +342,9 @@ function FIC_checkField(c,e) {
 		valid = false;
 	} else if (c.indexOf(' validate-date-au ') != -1 && !t.match(/^(\d{1}|\d{2})\/(\d{1}|\d{2})\/(\d{4})$/)) {
 		valid = false;
+		if (c.indexOf(' required ') == -1 && t.length == 0) {
+            valid = true;
+        }
 	} else if (c.indexOf(' validate-currency-dollar ') != -1 && !t.match(/^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/)) {
 		valid = false;
 	} else if (c.indexOf(' validate-regex ') != -1) {

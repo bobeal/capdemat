@@ -7,3 +7,7 @@
   <img src="${typeUrl}" />
 </div>
 
+<div class="mainbox mainbox-stat">
+  <h2><g:message code="statistics.header.type.byPeriod" /></h2>
+  <img src="${periodUrl}" />
+</div>

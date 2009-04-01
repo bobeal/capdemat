@@ -23,6 +23,9 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ICategoryService;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
+import java.util.TreeMap;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 /**
  * This class provides statistics about requests.
@@ -151,6 +154,90 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     public Map<Long, Long> getTypeStats(Date startDate, Date endDate, Long requestTypeId,
         Long categoryId) {
 
+        return requestStatisticsDAO.countByType(startDate, endDate,
+            getRequestTypeIdsFromParameters(requestTypeId, categoryId));
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    public Map<Date, Long> getTypeStatsByPeriod(final Date startDate, final Date endDate,
+        final Long requestTypeId, final Long categoryId) {
+
+        Map<Date, Long> result = new TreeMap<Date, Long>();
+
+        DateTime startDateTime = new DateTime(startDate);
+        DateTime endDateTime = new DateTime(endDate);
+
+        if (!startDateTime.isBefore(endDateTime)) {
+            logger.warn("getTypeStatsByPeriod() start search date is after end search date");
+            return result;
+        }
+
+        Days intervalDays = Days.daysBetween(startDateTime, endDateTime);
+        DateTime startSearchTime = new DateTime(startDateTime);
+        int daysInterval = 0;
+        if (intervalDays.getDays() <= 180) {
+            if (intervalDays.getDays() <= 14)
+                // if less than two weeks, display day by day statistics
+                daysInterval = 1;
+            else if (intervalDays.getDays() <= 60)
+                // if between two weeks and two months, display ? statistics
+                daysInterval = 2;
+            else
+                // if between two and six months, display weekly statistics
+                daysInterval = 7;
+
+            DateTime endSearchTime = new DateTime(startDateTime).plusDays(daysInterval);
+            do {
+                logger.debug("searching between " + startSearchTime.toString()
+                    + " and " + endSearchTime.toString());
+                Long count =
+                    requestStatisticsDAO.countByPeriod(startSearchTime.toDate(),
+                        endSearchTime.toDate(),
+                        getRequestTypeIdsFromParameters(requestTypeId, categoryId));
+                logger.debug("got " + count + " results");
+                result.put(startSearchTime.toDate(), count);
+                startSearchTime = startSearchTime.plusDays(daysInterval);
+                endSearchTime = endSearchTime.plusDays(daysInterval);
+            } while (startSearchTime.isBefore(endDateTime));
+        } else if (intervalDays.getDays() <= 730) {
+            // if between six months and two years, display monthly statistics
+            DateTime endSearchTime = new DateTime(startDateTime).plusMonths(1);
+            do {
+                logger.debug("searching between " + startSearchTime.toString()
+                    + " and " + endSearchTime.toString());
+                Long count =
+                    requestStatisticsDAO.countByPeriod(startSearchTime.toDate(),
+                        endSearchTime.toDate(),
+                        getRequestTypeIdsFromParameters(requestTypeId, categoryId));
+                logger.debug("got " + count + " results");
+                result.put(startSearchTime.toDate(), count);
+                startSearchTime = startSearchTime.plusMonths(1);
+                endSearchTime = endSearchTime.plusMonths(1);
+            } while (startSearchTime.isBefore(endDateTime));
+        } else {
+            // if more than two years, display yearly statistics
+            DateTime endSearchTime = new DateTime(startDateTime).plusYears(1);
+            do {
+                logger.debug("searching between " + startSearchTime.toString()
+                    + " and " + endSearchTime.toString());
+                Long count =
+                    requestStatisticsDAO.countByPeriod(startSearchTime.toDate(),
+                        endSearchTime.toDate(),
+                        getRequestTypeIdsFromParameters(requestTypeId, categoryId));
+                logger.debug("got " + count + " results");
+                result.put(startSearchTime.toDate(), count);
+                startSearchTime = startSearchTime.plusYears(1);
+                endSearchTime = endSearchTime.plusYears(1);
+            } while (startSearchTime.isBefore(endDateTime));
+        }
+
+        return result;
+    }
+
+    private List<Long> getRequestTypeIdsFromParameters(final Long requestTypeId,
+        final Long categoryId) {
+
         List<Long> requestTypeIds = new ArrayList<Long>();
         if (requestTypeId != null) {
             requestTypeIds.add(requestTypeId);
@@ -172,9 +259,9 @@ public class RequestStatisticsService implements IRequestStatisticsService {
             }
         }
 
-        return requestStatisticsDAO.countByType(startDate, endDate, requestTypeIds);
+        return requestTypeIds;
     }
-
+    
     /**
      * Use this method if you need fake dates for demo purposes.
      */

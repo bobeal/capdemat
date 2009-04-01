@@ -24,4 +24,7 @@ public interface IRequestStatisticsDAO {
 
     Map<Long, Long> countByType(final Date startDate, final Date endDate,
         final List<Long> requestTypeIds);
+
+    Long countByPeriod(final Date startDate, final Date endDate,
+        final List<Long> requestTypeIds);
 }

@@ -27,7 +27,10 @@ class ActivityController {
             return false
         }
         
-        result.individual = params.id.decodeURL()
+        result.individual = params.name.decodeURL()
+        result.label = params.label.decodeURL()
+        result.datas = session.activities.get(result.individual.toString()).get(result.label.toString())
+        
         return result
     }
     
@@ -62,7 +65,7 @@ class ActivityController {
             
             def map = defaultRequestService.getConsumptionsByRequest(r.id,from,to)
             if(map && map.keySet().size() > 0) {
-                for(Date date : map.keySet()) {
+                for(Date date : map.keySet()) { 
                     def label = r.requestType.label
                     
                     if(!result[name][label]) result[name][label] = [:]

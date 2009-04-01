@@ -58,7 +58,7 @@
             ,'localReferentialData':
             """
             <g:set var="${element.javaFieldName}Index" value="\${0}" scope="flash" />
-            <g:render template="/frontofficeRequestType/localReferentialEntries" 
+            <g:render template="/frontofficeRequestType/widget/localReferentialData" 
                       model="['javaName':'${element.javaFieldName}', 'htmlClass':'${element.htmlClass}', 
                               'lrEntries': lrTypes.${element.javaFieldName}.entries, 'depth':0]" />
             """
@@ -72,12 +72,27 @@
             <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
                     class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits}/>
             """
+         ,'subject' :
+            """
+            <select name="subjectId" class="required validate-not-first" title="<g:message code="${element.i18nPrefixCode}.validationError" /> ">
+              <option value=""><g:message code="message.select.defaultOption" /></option>
+              <g:each in="\${subjects}">
+                <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected=\"selected\"': ''}>\${it.value}</option>
+              </g:each>
+            </select>
+            """
+         ,'requester' :
+            """
+              <g:render template="/frontofficeRequestType/widget/requester" model="['requester':requester, 'hasHomeFolder':hasHomeFolder]" />
+            """
+         ,'label' :
+            """<label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
       ]
       
-      if (widgets[element.widget] != null)
-          print widgets[element.widget]
-      else
-          print widgets['text']
+      def output = (element.widget != 'requester' ?  widgets['label'] : '')
+      if (widgets[element.widget] != null) output += widgets[element.widget]
+      else output += widgets['text']
+      println output
   }
   
   
@@ -116,7 +131,7 @@
               """
            ,'localReferentialData':
             """
-            <!-- TODO - local referential Data-->
+            <!-- TODO - local referential Data (local referential Data in collection are notimplemented in model plugin) -->
             """
           ,'date' :
               """<dd><g:formatDate formatName="format.date" date="\${${valuePrefix}.${element.javaFieldName}}"/></dd>"""
@@ -129,20 +144,15 @@
       else
           print staticWidgets['text']
   }
-  
 %>
 
-
-<% def displayedSubject = false %>
 <% elementList.each { element -> %>
   <% if (element.typeClass == "COLLECTION") { %>
     <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
     <div class="collection-fieldset ${element.listenerConditionsClass} validation-scope">
-      <!--<h4><g:message code="${element.i18nPrefixCode}.label" /></h4>-->
       <g:set var="listIndex" value="\${editList?.name == '${element.javaFieldName}' ? editList?.index : ( rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ${element.conditionsClass}">
     <% element.elements.each { subElement -> %>
-        <label class="${subElement.listenerConditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> ${subElement.mandatory ? '*' : ''} <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
         <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
     <% } %>
         <g:if test="\${editList?.name == '${element.javaFieldName}'}">
@@ -154,7 +164,6 @@
       </fieldset>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="${element.i18nPrefixCode}.label" /></legend> -->
         <dl>
     <% element.elements.each { subElement -> %>
         <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
@@ -168,23 +177,12 @@
     </div>
   <% } else if (element.typeClass == "COMPLEX") { %>
     <fieldset class="${element.listenerConditionsClass}">
-    <legend><g:message code="${element.i18nPrefixCode}.label" /></legend> 
-      <% if (step.name == 'subject' && !displayedSubject) { %>
-    <label class="required"><g:message code="request.property.subjectName" /> *</label>
-    <select name="subjectId" class="required validate-not-first" title="<g:message code="request.subject.validationError" /> ">
-      <option value=""><g:message code="message.select.defaultOption" /></option>
-      <g:each in="\${subjects}">
-        <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected=\"selected\"': ''}>\${it.value}</option>
-      </g:each>
-    </select>
-      <% displayedSubject = true } %>
+    <legend><g:message code="${element.i18nPrefixCode}.label" /></legend>
     <% element.elements.each { subElement -> %>
-      <label class="${subElement.listenerConditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> ${subElement.mandatory ? '*' : ''} <span><g:message code="${subElement.i18nPrefixCode}.help" /></span></label>
       <% displayWidget(subElement, 'rqt', '') %>
     <% } %>
     </fieldset>
   <% } else { %>
-    <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
     <% displayWidget(element, 'rqt', '') %>
   <% } %>
 <% } %>

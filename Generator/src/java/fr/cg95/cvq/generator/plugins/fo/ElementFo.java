@@ -24,8 +24,8 @@ public class ElementFo {
     private boolean mandatory = true;
     private String jsRegexp;
     
-    private Integer minLength;
-    private Integer maxLength;
+    private Integer minLength = 0;
+    private Integer maxLength = 0;
     
     private String i18nPrefixCode;
     private String htmlClass;

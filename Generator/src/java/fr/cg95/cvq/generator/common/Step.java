@@ -16,6 +16,7 @@ public class Step {
     private boolean required = true;
     
     private List<Condition> conditions = new ArrayList<Condition>();
+    private List<Widget> widgets = new ArrayList<Widget>();
     
     public Step (String index, String name, String ref, String requiredString) {
         try { 
@@ -91,5 +92,18 @@ public class Step {
         
         conditions.add(condition);
     }
+
+    public List<Widget> getWidgets() {
+        return widgets;
+    }
     
+    public void addWidget(Widget widget) {
+        if (index != 0)
+            throw new RuntimeException("addWidget - Widget can only be added in step with index 0");
+        for (Widget w : widgets)
+            if (w.getName().equals(widget.getName()))
+                throw new RuntimeException("addWidget() - Widget {"+ widget.getName() +"} " 
+                        + "is already associated with Step {"+ name +"}");
+        widgets.add(widget);
+    }
 }

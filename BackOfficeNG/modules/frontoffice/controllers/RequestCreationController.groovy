@@ -2,6 +2,7 @@ import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.request.MeansOfContactEnum
+import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestService
@@ -14,6 +15,7 @@ import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.exception.CvqException
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class RequestCreationController {
     
@@ -65,12 +67,16 @@ class RequestCreationController {
         if (flash.cRequest) cRequest = flash.cRequest 
         else cRequest = requestService.getSkeletonRequest()
         
+        def requester = SecurityContext.currentEcitizen != null ? 
+            SecurityContext.currentEcitizen : Adult()
+        
         def newDocuments = []
         
         def uuidString = UUID.randomUUID().toString()
         
         session[uuidString] = [:]
         session[uuidString].cRequest = cRequest
+        session[uuidString].requester = requester
         session[uuidString].newDocuments = newDocuments
         session[uuidString].draftVisible = false //(cRequest.draft && !flash.fromDraft)
         
@@ -78,6 +84,8 @@ class RequestCreationController {
         render(view: viewPath, model: [
             'isRequestCreation': true,
             'rqt': cRequest,
+            'requester': requester,
+            'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'draftVisible': session[uuidString].draftVisible,
             'subjects': getAuthorizedSubjects(requestService, cRequest),
             'meansOfContact': getMeansOfContact(meansOfContactService),
@@ -94,6 +102,7 @@ class RequestCreationController {
     }
     
     def step = {
+    params.each { println it }
         if (params.requestTypeInfo == null || params.uuidString == null || session[params.uuidString] == null) {
             redirect(uri: '/frontoffice/requestType')
             return false
@@ -109,6 +118,8 @@ class RequestCreationController {
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuidString].cRequest
+        def requester = SecurityContext.currentEcitizen != null ? 
+            SecurityContext.currentEcitizen : session[uuidString].requester
         
         def isDocumentEditMode = false
         session[uuidString].draftVisible = false
@@ -227,6 +238,8 @@ class RequestCreationController {
             }
             // standard save action
             else {
+                bindRequester(requester, params)
+                
                 DataBindingUtils.initBind(cRequest, params)
                 bind(cRequest)
                 // clean empty collections elements
@@ -254,6 +267,7 @@ class RequestCreationController {
                 }
             }        
             session[uuidString].cRequest = cRequest
+            session[uuidString].requester = requester
             session[uuidString].newDocuments = newDocuments
         
         } catch (CvqException ce) {
@@ -268,6 +282,8 @@ class RequestCreationController {
                     ['isRequestCreation': true,
                      'askConfirmCancel': askConfirmCancel, 
                      'rqt': cRequest,
+                     'requester': requester,
+                     'hasHomeFolder': SecurityContext.currentEcitizen ? false : true,
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
                      'meansOfContact': getMeansOfContact(meansOfContactService),
@@ -367,6 +383,14 @@ class RequestCreationController {
         return result
     }
     
+    def bindRequester(requester, params) {
+        params.each { param ->
+            if (param.value.getClass() == GrailsParameterMap.class && param.value != '_requester') {
+                DataBindingUtils.initBind(requester, param.value)
+                bindParam (requester, param.value)
+            }
+        }
+    }
     
     /* Utils
      * ------------------------------------------------------------------------------------------- */

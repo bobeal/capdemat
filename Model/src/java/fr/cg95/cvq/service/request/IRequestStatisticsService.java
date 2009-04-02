@@ -17,6 +17,10 @@ public interface IRequestStatisticsService {
     String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     String QUALITY_TYPE_RED = "qualityTypeRed";
 
+    enum TypeStatsIntervalType {
+        HOUR, DAY, TWO_DAYS, WEEK, MONTH, YEAR
+    }
+    
     /**
      * Get quality of service statistics about requests.
      *
@@ -50,4 +54,6 @@ public interface IRequestStatisticsService {
 
     Map<Date, Long> getTypeStatsByPeriod(final Date startDate, final Date endDate,
         final Long requestTypeId, final Long categoryId);
+
+    TypeStatsIntervalType getTypeStatsIntervalType(final Date startDate, final Date endDate);
 }

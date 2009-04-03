@@ -41,7 +41,8 @@
         </div>
 
         <!-- request data template selection by request type -->
-        <g:render template="/backofficeRequestInstruction/requestType/${requestTypeTemplate}/edit" model="['request':request]" />
+        <g:render template="/backofficeRequestInstruction/requestType/${requestTypeTemplate}/edit" 
+                  model="['request':request, 'requester':requester]" />
 
 
         <!-- request intruction document -->

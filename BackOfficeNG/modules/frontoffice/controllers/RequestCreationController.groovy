@@ -393,7 +393,7 @@ class RequestCreationController {
     
     def bindRequester(requester, params) {
         params.each { param ->
-            if (param.value.getClass() == GrailsParameterMap.class && param.value != '_requester') {
+            if (param.value.getClass() == GrailsParameterMap.class && param.key == '_requester') {
                 DataBindingUtils.initBind(requester, param.value)
                 bindParam (requester, param.value)
             }

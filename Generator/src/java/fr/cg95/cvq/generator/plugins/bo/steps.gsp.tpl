@@ -28,12 +28,23 @@
           """
       ,'text' :
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
+      ,'subject' :
+          """<dt class="required"><g:message code="request.property.subject.label" /> : </dt>
+              <dd><span>\${request?.subjectFirstName} \${request?.subjectLastName}</span></dd>
+          """
+      ,'requester' :
+          """<g:render template="/backofficeRequestInstruction/requestType/requester" model="['requester':requester]" />"""
     ]
     
-    if (widgets[element.widget] != null)
-      print widgets[element.widget]
-    else
-      print widgets['text']
+    
+    def output = ['requester','subject'].contains(element.widget) ? 
+            widgets[element.widget] : 
+          ["<dt class=\"${element.conditionsClass}\"><g:message code=\"${element.i18nPrefixCode}.label\" /> ${element.mandatory ? '*' : ''} : </dt>"
+          ,"<dd id=\"${element.javaFieldName}\" class=\"${element.htmlClass}\" ${element.jsRegexp}>"
+          ,(widgets[element.widget] != null ? widgets[element.widget]: widgets['text'])
+          ,"</dd>"].join()
+          
+    print output
   } 
 %>
 
@@ -53,19 +64,13 @@
         <% for (element in requestBo.getElementsByStep(step, column)) { %>
           <% if (element.typeClass == "SIMPLE") { %>
           <dl>
-            <dt class="${element.conditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''} : </dt>
-            <dd id="${element.javaFieldName}" class="${element.htmlClass}" ${element.jsRegexp}>
-              <% displayWidget(element, 'request') %>
-            </dd>
+            <% displayWidget(element, 'request') %>
           </dl>
           <% } else if (element.typeClass == "COMPLEX") { %>
           <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
           <dl class="${element.conditionsClass}">
             <% for (subElement in element.elements) { %>
-              <dt class="${subElement.conditionsClass}"><g:message code="${subElement.i18nPrefixCode}.label" /> ${subElement.mandatory ? '*' : ''} : </dt>
-              <dd id="${subElement.javaFieldName}" class="${subElement.htmlClass}" ${subElement.jsRegexp}>
                 <% displayWidget(subElement, 'request') %>
-              </dd>
             <% } %>
           </dl>
           <% } else if (element.typeClass == "COLLECTION") { %>

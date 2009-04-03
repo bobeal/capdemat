@@ -1,15 +1,11 @@
 
 
 
-
-
   
     <fieldset class="required">
-    <legend><g:message code="hccr.property.benefits.label" /></legend> 
-      
+    <legend><g:message code="hccr.property.benefits.label" /></legend>
     
-      <label class="required"><g:message code="hccr.property.benefitsDisabilityRecognition.label" /> * <span><g:message code="hccr.property.benefitsDisabilityRecognition.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsDisabilityRecognition.label" /> *  <span><g:message code="hccr.property.benefitsDisabilityRecognition.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -19,15 +15,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isDisabilityRecognition-filled"><g:message code="hccr.property.benefitsDisabilityRatio.label" /> * <span><g:message code="hccr.property.benefitsDisabilityRatio.help" /></span></label>
-      
+      <label class="required condition-isDisabilityRecognition-filled"><g:message code="hccr.property.benefitsDisabilityRatio.label" /> *  <span><g:message code="hccr.property.benefitsDisabilityRatio.help" /></span></label>
             <input type="text" name="benefitsDisabilityRatio" value="${rqt.benefitsDisabilityRatio}" 
                     class="required condition-isDisabilityRecognition-filled " title="<g:message code="hccr.property.benefitsDisabilityRatio.validationError" />"  maxLength="3"/>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsDisabilityCard.label" /> * <span><g:message code="hccr.property.benefitsDisabilityCard.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsDisabilityCard.label" /> *  <span><g:message code="hccr.property.benefitsDisabilityCard.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -37,9 +33,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsPainfulStandingCard.label" /> * <span><g:message code="hccr.property.benefitsPainfulStandingCard.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsPainfulStandingCard.label" /> *  <span><g:message code="hccr.property.benefitsPainfulStandingCard.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -49,9 +45,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsParkingCard.label" /> * <span><g:message code="hccr.property.benefitsParkingCard.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsParkingCard.label" /> *  <span><g:message code="hccr.property.benefitsParkingCard.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -61,9 +57,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsDisabledWorkerRecognition.label" /> * <span><g:message code="hccr.property.benefitsDisabledWorkerRecognition.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsDisabledWorkerRecognition.label" /> *  <span><g:message code="hccr.property.benefitsDisabledWorkerRecognition.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -73,9 +69,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsProfessionalOrientation.label" /> * <span><g:message code="hccr.property.benefitsProfessionalOrientation.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsProfessionalOrientation.label" /> *  <span><g:message code="hccr.property.benefitsProfessionalOrientation.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -85,15 +81,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isProfessionalOrientation-filled"><g:message code="hccr.property.benefitsProfessionalOrientationDetails.label" /> * <span><g:message code="hccr.property.benefitsProfessionalOrientationDetails.help" /></span></label>
-      
+      <label class="required condition-isProfessionalOrientation-filled"><g:message code="hccr.property.benefitsProfessionalOrientationDetails.label" /> *  <span><g:message code="hccr.property.benefitsProfessionalOrientationDetails.help" /></span></label>
             <input type="text" name="benefitsProfessionalOrientationDetails" value="${rqt.benefitsProfessionalOrientationDetails}" 
                     class="required condition-isProfessionalOrientation-filled " title="<g:message code="hccr.property.benefitsProfessionalOrientationDetails.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsDisabledAdultAllocation.label" /> * <span><g:message code="hccr.property.benefitsDisabledAdultAllocation.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsDisabledAdultAllocation.label" /> *  <span><g:message code="hccr.property.benefitsDisabledAdultAllocation.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -103,9 +99,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsIncreaseForIndependentLiving.label" /> * <span><g:message code="hccr.property.benefitsIncreaseForIndependentLiving.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsIncreaseForIndependentLiving.label" /> *  <span><g:message code="hccr.property.benefitsIncreaseForIndependentLiving.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -115,9 +111,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsEducationAllocationOfDisabledChildren.label" /> * <span><g:message code="hccr.property.benefitsEducationAllocationOfDisabledChildren.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsEducationAllocationOfDisabledChildren.label" /> *  <span><g:message code="hccr.property.benefitsEducationAllocationOfDisabledChildren.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -127,9 +123,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsEducationOfDisabledChildren.label" /> * <span><g:message code="hccr.property.benefitsEducationOfDisabledChildren.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsEducationOfDisabledChildren.label" /> *  <span><g:message code="hccr.property.benefitsEducationOfDisabledChildren.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -139,15 +135,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isEducationOfDisabledChildren-filled"><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.label" /> * <span><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.help" /></span></label>
-      
+      <label class="required condition-isEducationOfDisabledChildren-filled"><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.label" /> *  <span><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.help" /></span></label>
             <input type="text" name="benefitsEducationOfDisabledChildrenDetails" value="${rqt.benefitsEducationOfDisabledChildrenDetails}" 
                     class="required condition-isEducationOfDisabledChildren-filled " title="<g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsSupplementForSingleParents.label" /> * <span><g:message code="hccr.property.benefitsSupplementForSingleParents.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsSupplementForSingleParents.label" /> *  <span><g:message code="hccr.property.benefitsSupplementForSingleParents.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -157,9 +153,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsThirdPersonCompensatoryAllowance.label" /> * <span><g:message code="hccr.property.benefitsThirdPersonCompensatoryAllowance.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsThirdPersonCompensatoryAllowance.label" /> *  <span><g:message code="hccr.property.benefitsThirdPersonCompensatoryAllowance.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -169,9 +165,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsThirdPartyCompensatoryAllowance.label" /> * <span><g:message code="hccr.property.benefitsThirdPartyCompensatoryAllowance.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsThirdPartyCompensatoryAllowance.label" /> *  <span><g:message code="hccr.property.benefitsThirdPartyCompensatoryAllowance.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -181,9 +177,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsCompensatoryAllowanceForExpenses.label" /> * <span><g:message code="hccr.property.benefitsCompensatoryAllowanceForExpenses.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsCompensatoryAllowanceForExpenses.label" /> *  <span><g:message code="hccr.property.benefitsCompensatoryAllowanceForExpenses.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -193,9 +189,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsDisabilityCompensation.label" /> * <span><g:message code="hccr.property.benefitsDisabilityCompensation.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsDisabilityCompensation.label" /> *  <span><g:message code="hccr.property.benefitsDisabilityCompensation.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -205,9 +201,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsDisabilityPension.label" /> * <span><g:message code="hccr.property.benefitsDisabilityPension.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsDisabilityPension.label" /> *  <span><g:message code="hccr.property.benefitsDisabilityPension.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -217,15 +213,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isDisabilityPension-filled"><g:message code="hccr.property.benefitsDisabilityPensionCategory.label" /> * <span><g:message code="hccr.property.benefitsDisabilityPensionCategory.help" /></span></label>
-      
+      <label class="required condition-isDisabilityPension-filled"><g:message code="hccr.property.benefitsDisabilityPensionCategory.label" /> *  <span><g:message code="hccr.property.benefitsDisabilityPensionCategory.help" /></span></label>
             <input type="text" name="benefitsDisabilityPensionCategory" value="${rqt.benefitsDisabilityPensionCategory}" 
                     class="required condition-isDisabilityPension-filled " title="<g:message code="hccr.property.benefitsDisabilityPensionCategory.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsWorkAccidentAnnuity.label" /> * <span><g:message code="hccr.property.benefitsWorkAccidentAnnuity.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsWorkAccidentAnnuity.label" /> *  <span><g:message code="hccr.property.benefitsWorkAccidentAnnuity.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -235,15 +231,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isWorkAccidentAnnuity-filled"><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.label" /> * <span><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.help" /></span></label>
-      
+      <label class="required condition-isWorkAccidentAnnuity-filled"><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.label" /> *  <span><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.help" /></span></label>
             <input type="text" name="benefitsWorkAccidentAnnuityRatio" value="${rqt.benefitsWorkAccidentAnnuityRatio}" 
                     class="required condition-isWorkAccidentAnnuity-filled " title="<g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.validationError" />"  maxLength="3"/>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsSocialWelfare.label" /> * <span><g:message code="hccr.property.benefitsSocialWelfare.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsSocialWelfare.label" /> *  <span><g:message code="hccr.property.benefitsSocialWelfare.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -253,9 +249,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsUnemploymentBenefits.label" /> * <span><g:message code="hccr.property.benefitsUnemploymentBenefits.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsUnemploymentBenefits.label" /> *  <span><g:message code="hccr.property.benefitsUnemploymentBenefits.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -265,9 +261,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsDailyAllowances.label" /> * <span><g:message code="hccr.property.benefitsDailyAllowances.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsDailyAllowances.label" /> *  <span><g:message code="hccr.property.benefitsDailyAllowances.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -277,9 +273,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsThirdPartySupplement.label" /> * <span><g:message code="hccr.property.benefitsThirdPartySupplement.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsThirdPartySupplement.label" /> *  <span><g:message code="hccr.property.benefitsThirdPartySupplement.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -289,9 +285,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsSupportedByAnInstitution.label" /> * <span><g:message code="hccr.property.benefitsSupportedByAnInstitution.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsSupportedByAnInstitution.label" /> *  <span><g:message code="hccr.property.benefitsSupportedByAnInstitution.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -301,15 +297,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isSupportedByAnInstitution-filled"><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.label" /> * <span><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.help" /></span></label>
-      
+      <label class="required condition-isSupportedByAnInstitution-filled"><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.label" /> *  <span><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.help" /></span></label>
             <input type="text" name="benefitsSupportedByAnInstitutionDetails" value="${rqt.benefitsSupportedByAnInstitutionDetails}" 
                     class="required condition-isSupportedByAnInstitution-filled " title="<g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required"><g:message code="hccr.property.benefitsOtherBenefits.label" /> * <span><g:message code="hccr.property.benefitsOtherBenefits.help" /></span></label>
-      
+      <label class="required"><g:message code="hccr.property.benefitsOtherBenefits.label" /> *  <span><g:message code="hccr.property.benefitsOtherBenefits.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -319,6 +315,7 @@
               </g:each>
             </ul>
             
+
     
     </fieldset>
   
@@ -326,15 +323,14 @@
   
     <label class="condition-isOtherBenefits-filled"><g:message code="hccr.property.otherBenefits.label" /> <span><g:message code="hccr.property.otherBenefits.help" /></span></label>
     <div class="collection-fieldset condition-isOtherBenefits-filled validation-scope">
-      <!--<h4><g:message code="hccr.property.otherBenefits.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'otherBenefits' ? editList?.index : ( rqt.otherBenefits ? rqt.otherBenefits.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isOtherBenefits-filled">
     
-        <label class="required"><g:message code="hccr.property.otherBenefitName.label" /> * <span><g:message code="hccr.property.otherBenefitName.help" /></span></label>
-        
+        <label class="required"><g:message code="hccr.property.otherBenefitName.label" /> *  <span><g:message code="hccr.property.otherBenefitName.help" /></span></label>
             <input type="text" name="otherBenefits[${listIndex}].otherBenefitName" value="${editList?.otherBenefits?.otherBenefitName}" 
                     class="required " title="<g:message code="hccr.property.otherBenefitName.validationError" />"  maxLength="60"/>
             
+
     
         <g:if test="${editList?.name == 'otherBenefits'}">
           <input type="submit" id="submit-collectionModify-benefits-otherBenefits[${listIndex}]" name="submit-collectionModify-benefits-otherBenefits[${listIndex}]" value="${message(code:'action.save')}" />
@@ -345,7 +341,6 @@
       </fieldset>
     <g:each var="it" in="${rqt.otherBenefits}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="hccr.property.otherBenefits.label" /></legend> -->
         <dl>
     
         <dt><g:message code="hccr.property.otherBenefitName.label" /></dt>
@@ -362,27 +357,26 @@
   
     <label class=""><g:message code="hccr.property.additionalFee.label" /> <span><g:message code="hccr.property.additionalFee.help" /></span></label>
     <div class="collection-fieldset  validation-scope">
-      <!--<h4><g:message code="hccr.property.additionalFee.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'additionalFee' ? editList?.index : ( rqt.additionalFee ? rqt.additionalFee.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ">
     
-        <label class="required"><g:message code="hccr.property.additionalFeeKind.label" /> * <span><g:message code="hccr.property.additionalFeeKind.help" /></span></label>
-        
+        <label class="required"><g:message code="hccr.property.additionalFeeKind.label" /> *  <span><g:message code="hccr.property.additionalFeeKind.help" /></span></label>
             <input type="text" name="additionalFee[${listIndex}].additionalFeeKind" value="${editList?.additionalFee?.additionalFeeKind}" 
                     class="required " title="<g:message code="hccr.property.additionalFeeKind.validationError" />"  maxLength="30"/>
             
+
     
-        <label class="required"><g:message code="hccr.property.additionalFeeCost.label" /> * <span><g:message code="hccr.property.additionalFeeCost.help" /></span></label>
-        
+        <label class="required"><g:message code="hccr.property.additionalFeeCost.label" /> *  <span><g:message code="hccr.property.additionalFeeCost.help" /></span></label>
             <input type="text" name="additionalFee[${listIndex}].additionalFeeCost" value="${editList?.additionalFee?.additionalFeeCost}" 
                     class="required " title="<g:message code="hccr.property.additionalFeeCost.validationError" />"  />
             
+
     
-        <label class="required"><g:message code="hccr.property.additionalFeePeriodicity.label" /> * <span><g:message code="hccr.property.additionalFeePeriodicity.help" /></span></label>
-        
+        <label class="required"><g:message code="hccr.property.additionalFeePeriodicity.label" /> *  <span><g:message code="hccr.property.additionalFeePeriodicity.help" /></span></label>
             <input type="text" name="additionalFee[${listIndex}].additionalFeePeriodicity" value="${editList?.additionalFee?.additionalFeePeriodicity}" 
                     class="required " title="<g:message code="hccr.property.additionalFeePeriodicity.validationError" />"  maxLength="30"/>
             
+
     
         <g:if test="${editList?.name == 'additionalFee'}">
           <input type="submit" id="submit-collectionModify-benefits-additionalFee[${listIndex}]" name="submit-collectionModify-benefits-additionalFee[${listIndex}]" value="${message(code:'action.save')}" />
@@ -393,7 +387,6 @@
       </fieldset>
     <g:each var="it" in="${rqt.additionalFee}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="hccr.property.additionalFee.label" /></legend> -->
         <dl>
     
         <dt><g:message code="hccr.property.additionalFeeKind.label" /></dt>

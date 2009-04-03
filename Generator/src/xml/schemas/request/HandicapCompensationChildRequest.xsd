@@ -29,6 +29,9 @@
           <namespace name="social" />
           <steps>
             <step index="0" name="subject">
+              <widgets>
+                <subject into="HccrSubject" />
+              </widgets>
               <conditions>
                 <condition name="isLessThan18" />
                 <condition name="isFatherActivityReduction" />

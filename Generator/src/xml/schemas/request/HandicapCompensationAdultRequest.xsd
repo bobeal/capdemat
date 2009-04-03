@@ -29,6 +29,9 @@
           <namespace name="social" />
           <steps>
             <step index="0" name="subject">
+              <widgets>
+                <subject into="HcarSubject" />
+              </widgets>
               <conditions>
                 <condition name="isMadam" />
                 <condition name="isLegalAccessPresence" />

@@ -29,6 +29,9 @@
           <namespace name="social" />
           <steps>
             <step index="0" name="subject">
+              <widgets>
+                <subject into="DhrRequester" />
+              </widgets>
               <conditions>
                 <condition name="isMadam" />
                 <condition name="isNonEuropean" />

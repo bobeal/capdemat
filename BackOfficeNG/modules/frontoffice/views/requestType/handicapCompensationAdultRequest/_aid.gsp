@@ -1,15 +1,11 @@
 
 
 
-
-
   
     <fieldset class="">
-    <legend><g:message code="hcar.property.familyAssistance.label" /></legend> 
-      
+    <legend><g:message code="hcar.property.familyAssistance.label" /></legend>
     
-      <label class="required"><g:message code="hcar.property.isFamilyAssistance.label" /> * <span><g:message code="hcar.property.isFamilyAssistance.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.isFamilyAssistance.label" /> *  <span><g:message code="hcar.property.isFamilyAssistance.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -19,6 +15,7 @@
               </g:each>
             </ul>
             
+
     
     </fieldset>
   
@@ -26,27 +23,26 @@
   
     <label class="required condition-isFamilyAssistance-filled"><g:message code="hcar.property.familyAssistanceMembers.label" /> <span><g:message code="hcar.property.familyAssistanceMembers.help" /></span></label>
     <div class="collection-fieldset required condition-isFamilyAssistance-filled validation-scope">
-      <!--<h4><g:message code="hcar.property.familyAssistanceMembers.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'familyAssistanceMembers' ? editList?.index : ( rqt.familyAssistanceMembers ? rqt.familyAssistanceMembers.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isFamilyAssistance-filled">
     
-        <label class="required"><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /> * <span><g:message code="hcar.property.familyAssistanceMemberRelationship.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberRelationship.help" /></span></label>
             <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberRelationship" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberRelationship}" 
                     class="required " title="<g:message code="hcar.property.familyAssistanceMemberRelationship.validationError" />"  maxLength="60"/>
             
+
     
-        <label class="required"><g:message code="hcar.property.familyAssistanceMemberLastName.label" /> * <span><g:message code="hcar.property.familyAssistanceMemberLastName.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.familyAssistanceMemberLastName.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberLastName.help" /></span></label>
             <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberLastName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberLastName}" 
                     class="required validate-lastName" title="<g:message code="hcar.property.familyAssistanceMemberLastName.validationError" />"  maxLength="38"/>
             
+
     
-        <label class="required"><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /> * <span><g:message code="hcar.property.familyAssistanceMemberFirstName.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberFirstName.help" /></span></label>
             <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberFirstName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberFirstName}" 
                     class="required validate-firstName" title="<g:message code="hcar.property.familyAssistanceMemberFirstName.validationError" />"  maxLength="38"/>
             
+
     
         <g:if test="${editList?.name == 'familyAssistanceMembers'}">
           <input type="submit" id="submit-collectionModify-aid-familyAssistanceMembers[${listIndex}]" name="submit-collectionModify-aid-familyAssistanceMembers[${listIndex}]" value="${message(code:'action.save')}" />
@@ -57,7 +53,6 @@
       </fieldset>
     <g:each var="it" in="${rqt.familyAssistanceMembers}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="hcar.property.familyAssistanceMembers.label" /></legend> -->
         <dl>
     
         <dt><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /></dt>
@@ -79,11 +74,9 @@
 
   
     <fieldset class="">
-    <legend><g:message code="hcar.property.homeIntervention.label" /></legend> 
-      
+    <legend><g:message code="hcar.property.homeIntervention.label" /></legend>
     
-      <label class="required"><g:message code="hcar.property.homeInterventionHomeIntervenant.label" /> * <span><g:message code="hcar.property.homeInterventionHomeIntervenant.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.homeInterventionHomeIntervenant.label" /> *  <span><g:message code="hcar.property.homeInterventionHomeIntervenant.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -93,6 +86,7 @@
               </g:each>
             </ul>
             
+
     
     </fieldset>
   
@@ -100,12 +94,10 @@
   
     <label class="condition-isHomeIntervenant-filled"><g:message code="hcar.property.homeIntervenants.label" /> <span><g:message code="hcar.property.homeIntervenants.help" /></span></label>
     <div class="collection-fieldset condition-isHomeIntervenant-filled validation-scope">
-      <!--<h4><g:message code="hcar.property.homeIntervenants.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'homeIntervenants' ? editList?.index : ( rqt.homeIntervenants ? rqt.homeIntervenants.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isHomeIntervenant-filled">
     
-        <label class="required"><g:message code="hcar.property.homeIntervenantKind.label" /> * <span><g:message code="hcar.property.homeIntervenantKind.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.homeIntervenantKind.label" /> *  <span><g:message code="hcar.property.homeIntervenantKind.help" /></span></label>
             <select name="homeIntervenants[${listIndex}].homeIntervenantKind" class="required condition-isOtherHomeIntervant-trigger validate-not-first" title="<g:message code="hcar.property.homeIntervenantKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Carer','HomeHelp','Other']}">
@@ -113,12 +105,13 @@
               </g:each>
             </select>
             
+
     
-        <label class="required condition-isOtherHomeIntervant-filled"><g:message code="hcar.property.homeIntervenantDetails.label" /> * <span><g:message code="hcar.property.homeIntervenantDetails.help" /></span></label>
-        
+        <label class="required condition-isOtherHomeIntervant-filled"><g:message code="hcar.property.homeIntervenantDetails.label" /> *  <span><g:message code="hcar.property.homeIntervenantDetails.help" /></span></label>
             <input type="text" name="homeIntervenants[${listIndex}].homeIntervenantDetails" value="${editList?.homeIntervenants?.homeIntervenantDetails}" 
                     class="required condition-isOtherHomeIntervant-filled " title="<g:message code="hcar.property.homeIntervenantDetails.validationError" />"  maxLength="60"/>
             
+
     
         <g:if test="${editList?.name == 'homeIntervenants'}">
           <input type="submit" id="submit-collectionModify-aid-homeIntervenants[${listIndex}]" name="submit-collectionModify-aid-homeIntervenants[${listIndex}]" value="${message(code:'action.save')}" />
@@ -129,7 +122,6 @@
       </fieldset>
     <g:each var="it" in="${rqt.homeIntervenants}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="hcar.property.homeIntervenants.label" /></legend> -->
         <dl>
     
         <dt><g:message code="hcar.property.homeIntervenantKind.label" /></dt>
@@ -154,11 +146,9 @@
 
   
     <fieldset class="">
-    <legend><g:message code="hcar.property.care.label" /></legend> 
-      
+    <legend><g:message code="hcar.property.care.label" /></legend>
     
-      <label class="required"><g:message code="hcar.property.careCareServices.label" /> * <span><g:message code="hcar.property.careCareServices.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.careCareServices.label" /> *  <span><g:message code="hcar.property.careCareServices.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -168,6 +158,7 @@
               </g:each>
             </ul>
             
+
     
     </fieldset>
   
@@ -175,18 +166,16 @@
   
     <label class="required condition-isCareServices-filled"><g:message code="hcar.property.careServices.label" /> <span><g:message code="hcar.property.careServices.help" /></span></label>
     <div class="collection-fieldset required condition-isCareServices-filled validation-scope">
-      <!--<h4><g:message code="hcar.property.careServices.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'careServices' ? editList?.index : ( rqt.careServices ? rqt.careServices.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isCareServices-filled">
     
-        <label class="required"><g:message code="hcar.property.careServiceKind.label" /> * <span><g:message code="hcar.property.careServiceKind.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.careServiceKind.label" /> *  <span><g:message code="hcar.property.careServiceKind.help" /></span></label>
             <input type="text" name="careServices[${listIndex}].careServiceKind" value="${editList?.careServices?.careServiceKind}" 
                     class="required validate-string" title="<g:message code="hcar.property.careServiceKind.validationError" />"  />
             
+
     
-        <label class="required"><g:message code="hcar.property.careServiceCareServiceEmployer.label" /> * <span><g:message code="hcar.property.careServiceCareServiceEmployer.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.careServiceCareServiceEmployer.label" /> *  <span><g:message code="hcar.property.careServiceCareServiceEmployer.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -196,15 +185,15 @@
               </g:each>
             </ul>
             
+
     
-        <label class="required condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderName.label" /> * <span><g:message code="hcar.property.careServiceProviderName.help" /></span></label>
-        
+        <label class="required condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderName.label" /> *  <span><g:message code="hcar.property.careServiceProviderName.help" /></span></label>
             <input type="text" name="careServices[${listIndex}].careServiceProviderName" value="${editList?.careServices?.careServiceProviderName}" 
                     class="required condition-isCareServiceEmployer-unfilled validate-lastName" title="<g:message code="hcar.property.careServiceProviderName.validationError" />"  maxLength="38"/>
             
+
     
-        <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderAddress.label" />  <span><g:message code="hcar.property.careServiceProviderAddress.help" /></span></label>
-        
+        <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderAddress.label" />   <span><g:message code="hcar.property.careServiceProviderAddress.help" /></span></label>
             <div class="address-fieldset condition-isCareServiceEmployer-unfilled">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.additionalDeliveryInformation}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.additionalDeliveryInformation"/>  
@@ -222,6 +211,7 @@
             <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.countryName}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.countryName"/>
             </div>
             
+
     
         <g:if test="${editList?.name == 'careServices'}">
           <input type="submit" id="submit-collectionModify-aid-careServices[${listIndex}]" name="submit-collectionModify-aid-careServices[${listIndex}]" value="${message(code:'action.save')}" />
@@ -232,7 +222,6 @@
       </fieldset>
     <g:each var="it" in="${rqt.careServices}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="hcar.property.careServices.label" /></legend> -->
         <dl>
     
         <dt><g:message code="hcar.property.careServiceKind.label" /></dt>
@@ -268,11 +257,9 @@
 
   
     <fieldset class="required">
-    <legend><g:message code="hcar.property.facilities.label" /></legend> 
-      
+    <legend><g:message code="hcar.property.facilities.label" /></legend>
     
-      <label class="required"><g:message code="hcar.property.facilitiesHousing.label" /> * <span><g:message code="hcar.property.facilitiesHousing.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.facilitiesHousing.label" /> *  <span><g:message code="hcar.property.facilitiesHousing.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -282,15 +269,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isHousing-filled"><g:message code="hcar.property.facilitiesHousingDetails.label" /> * <span><g:message code="hcar.property.facilitiesHousingDetails.help" /></span></label>
-      
+      <label class="required condition-isHousing-filled"><g:message code="hcar.property.facilitiesHousingDetails.label" /> *  <span><g:message code="hcar.property.facilitiesHousingDetails.help" /></span></label>
             <input type="text" name="facilitiesHousingDetails" value="${rqt.facilitiesHousingDetails}" 
                     class="required condition-isHousing-filled " title="<g:message code="hcar.property.facilitiesHousingDetails.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required"><g:message code="hcar.property.facilitiesTechnicalAssistance.label" /> * <span><g:message code="hcar.property.facilitiesTechnicalAssistance.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.facilitiesTechnicalAssistance.label" /> *  <span><g:message code="hcar.property.facilitiesTechnicalAssistance.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -300,15 +287,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isTechnicalAssistance-filled"><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.label" /> * <span><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.help" /></span></label>
-      
+      <label class="required condition-isTechnicalAssistance-filled"><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.label" /> *  <span><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.help" /></span></label>
             <input type="text" name="facilitiesTechnicalAssistanceDetails" value="${rqt.facilitiesTechnicalAssistanceDetails}" 
                     class="required condition-isTechnicalAssistance-filled " title="<g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required"><g:message code="hcar.property.facilitiesCustomCar.label" /> * <span><g:message code="hcar.property.facilitiesCustomCar.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.facilitiesCustomCar.label" /> *  <span><g:message code="hcar.property.facilitiesCustomCar.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -318,15 +305,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isCustomCar-filled"><g:message code="hcar.property.facilitiesCustomCarDetails.label" /> * <span><g:message code="hcar.property.facilitiesCustomCarDetails.help" /></span></label>
-      
+      <label class="required condition-isCustomCar-filled"><g:message code="hcar.property.facilitiesCustomCarDetails.label" /> *  <span><g:message code="hcar.property.facilitiesCustomCarDetails.help" /></span></label>
             <input type="text" name="facilitiesCustomCarDetails" value="${rqt.facilitiesCustomCarDetails}" 
                     class="required condition-isCustomCar-filled " title="<g:message code="hcar.property.facilitiesCustomCarDetails.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required"><g:message code="hcar.property.facilitiesAnimalAid.label" /> * <span><g:message code="hcar.property.facilitiesAnimalAid.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.facilitiesAnimalAid.label" /> *  <span><g:message code="hcar.property.facilitiesAnimalAid.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -336,15 +323,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isAnimalAid-filled"><g:message code="hcar.property.facilitiesAnimalAidDetails.label" /> * <span><g:message code="hcar.property.facilitiesAnimalAidDetails.help" /></span></label>
-      
+      <label class="required condition-isAnimalAid-filled"><g:message code="hcar.property.facilitiesAnimalAidDetails.label" /> *  <span><g:message code="hcar.property.facilitiesAnimalAidDetails.help" /></span></label>
             <input type="text" name="facilitiesAnimalAidDetails" value="${rqt.facilitiesAnimalAidDetails}" 
                     class="required condition-isAnimalAid-filled " title="<g:message code="hcar.property.facilitiesAnimalAidDetails.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required"><g:message code="hcar.property.facilitiesSpecializedTransport.label" /> * <span><g:message code="hcar.property.facilitiesSpecializedTransport.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.facilitiesSpecializedTransport.label" /> *  <span><g:message code="hcar.property.facilitiesSpecializedTransport.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -354,23 +341,22 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isSpecializedTransport-filled"><g:message code="hcar.property.facilitiesSpecializedTransportDetails.label" /> * <span><g:message code="hcar.property.facilitiesSpecializedTransportDetails.help" /></span></label>
-      
+      <label class="required condition-isSpecializedTransport-filled"><g:message code="hcar.property.facilitiesSpecializedTransportDetails.label" /> *  <span><g:message code="hcar.property.facilitiesSpecializedTransportDetails.help" /></span></label>
             <input type="text" name="facilitiesSpecializedTransportDetails" value="${rqt.facilitiesSpecializedTransportDetails}" 
                     class="required condition-isSpecializedTransport-filled " title="<g:message code="hcar.property.facilitiesSpecializedTransportDetails.validationError" />"  maxLength="60"/>
             
+
     
     </fieldset>
   
 
   
     <fieldset class="required">
-    <legend><g:message code="hcar.property.professionalSupport.label" /></legend> 
-      
+    <legend><g:message code="hcar.property.professionalSupport.label" /></legend>
     
-      <label class="required"><g:message code="hcar.property.professionalSupportProfessionals.label" /> * <span><g:message code="hcar.property.professionalSupportProfessionals.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.professionalSupportProfessionals.label" /> *  <span><g:message code="hcar.property.professionalSupportProfessionals.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -380,9 +366,9 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isProfessionals-filled"><g:message code="hcar.property.professionalSupportDealsWithSameProfessional.label" /> * <span><g:message code="hcar.property.professionalSupportDealsWithSameProfessional.help" /></span></label>
-      
+      <label class="required condition-isProfessionals-filled"><g:message code="hcar.property.professionalSupportDealsWithSameProfessional.label" /> *  <span><g:message code="hcar.property.professionalSupportDealsWithSameProfessional.help" /></span></label>
             <ul class="required condition-isProfessionals-filled">
               <g:each in="${[true,false]}">
               <li>
@@ -392,6 +378,7 @@
               </g:each>
             </ul>
             
+
     
     </fieldset>
   
@@ -399,24 +386,22 @@
   
     <label class="condition-isProfessionals-filled"><g:message code="hcar.property.professionals.label" /> <span><g:message code="hcar.property.professionals.help" /></span></label>
     <div class="collection-fieldset condition-isProfessionals-filled validation-scope">
-      <!--<h4><g:message code="hcar.property.professionals.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'professionals' ? editList?.index : ( rqt.professionals ? rqt.professionals.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isProfessionals-filled">
     
-        <label class="required"><g:message code="hcar.property.professionalLastName.label" /> * <span><g:message code="hcar.property.professionalLastName.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.professionalLastName.label" /> *  <span><g:message code="hcar.property.professionalLastName.help" /></span></label>
             <input type="text" name="professionals[${listIndex}].professionalLastName" value="${editList?.professionals?.professionalLastName}" 
                     class="required validate-lastName" title="<g:message code="hcar.property.professionalLastName.validationError" />"  maxLength="38"/>
             
+
     
-        <label class="required"><g:message code="hcar.property.professionalFirstName.label" /> * <span><g:message code="hcar.property.professionalFirstName.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.professionalFirstName.label" /> *  <span><g:message code="hcar.property.professionalFirstName.help" /></span></label>
             <input type="text" name="professionals[${listIndex}].professionalFirstName" value="${editList?.professionals?.professionalFirstName}" 
                     class="required validate-firstName" title="<g:message code="hcar.property.professionalFirstName.validationError" />"  maxLength="38"/>
             
+
     
-        <label class="required"><g:message code="hcar.property.professionalAddress.label" /> * <span><g:message code="hcar.property.professionalAddress.help" /></span></label>
-        
+        <label class="required"><g:message code="hcar.property.professionalAddress.label" /> *  <span><g:message code="hcar.property.professionalAddress.help" /></span></label>
             <div class="address-fieldset required">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${editList?.professionals?.professionalAddress?.additionalDeliveryInformation}" maxlength="38" name="professionals[${listIndex}].professionalAddress.additionalDeliveryInformation"/>  
@@ -434,6 +419,7 @@
             <input type="text" value="${editList?.professionals?.professionalAddress?.countryName}" maxlength="38" name="professionals[${listIndex}].professionalAddress.countryName"/>
             </div>
             
+
     
         <g:if test="${editList?.name == 'professionals'}">
           <input type="submit" id="submit-collectionModify-aid-professionals[${listIndex}]" name="submit-collectionModify-aid-professionals[${listIndex}]" value="${message(code:'action.save')}" />
@@ -444,7 +430,6 @@
       </fieldset>
     <g:each var="it" in="${rqt.professionals}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="hcar.property.professionals.label" /></legend> -->
         <dl>
     
         <dt><g:message code="hcar.property.professionalLastName.label" /></dt>
@@ -477,11 +462,9 @@
 
   
     <fieldset class="required">
-    <legend><g:message code="hcar.property.socialService.label" /></legend> 
-      
+    <legend><g:message code="hcar.property.socialService.label" /></legend>
     
-      <label class="required"><g:message code="hcar.property.professionalSupportSocialServiceSupport.label" /> * <span><g:message code="hcar.property.professionalSupportSocialServiceSupport.help" /></span></label>
-      
+      <label class="required"><g:message code="hcar.property.professionalSupportSocialServiceSupport.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceSupport.help" /></span></label>
             <ul class="required">
               <g:each in="${[true,false]}">
               <li>
@@ -491,15 +474,15 @@
               </g:each>
             </ul>
             
+
     
-      <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceName.label" /> * <span><g:message code="hcar.property.professionalSupportSocialServiceName.help" /></span></label>
-      
+      <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceName.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceName.help" /></span></label>
             <input type="text" name="professionalSupportSocialServiceName" value="${rqt.professionalSupportSocialServiceName}" 
                     class="required condition-isSocialServiceSupport-filled " title="<g:message code="hcar.property.professionalSupportSocialServiceName.validationError" />"  maxLength="60"/>
             
+
     
-      <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceAddress.label" /> * <span><g:message code="hcar.property.professionalSupportSocialServiceAddress.help" /></span></label>
-      
+      <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceAddress.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceAddress.help" /></span></label>
             <div class="address-fieldset required condition-isSocialServiceSupport-filled">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.additionalDeliveryInformation}" maxlength="38" name="professionalSupportSocialServiceAddress.additionalDeliveryInformation"/>  
@@ -517,6 +500,7 @@
             <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.countryName}" maxlength="38" name="professionalSupportSocialServiceAddress.countryName"/>
             </div>
             
+
     
     </fieldset>
   

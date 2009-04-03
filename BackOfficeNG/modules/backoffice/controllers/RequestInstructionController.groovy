@@ -29,6 +29,8 @@ import grails.converters.JSON
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
 
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+
 class RequestInstructionController {
 
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
@@ -62,8 +64,9 @@ class RequestInstructionController {
     def edit = {
         Agent agent = SecurityContext.getCurrentAgent();
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        def requester = individualService.getById(request.requesterId)
         def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
+        
+        def requester = individualService.getById(request.requesterId)     
 
         def documentList = []
         def providedDocumentTypes = []
@@ -126,9 +129,10 @@ class RequestInstructionController {
             "request": request,
             "requestTypeLabel": request.requestType.label,
             "lrTypes": localReferentialTypes,
-            "requester": requester,
             "adults": adults,
             "children": children,
+            "requester": requester,
+            'hasHomeFolder': !homeFolderService.getById(request.homeFolderId).boundToRequest,
             "childrenLegalResponsibles": clr,
             "editableStates": (editableStates as JSON).toString(),
             "agentCanWrite": categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id),
@@ -233,12 +237,24 @@ class RequestInstructionController {
             def homeFolder = homeFolderService.getById(request.homeFolderId)
             DataBindingUtils.initBind(homeFolder, params)
             bind(homeFolder)
+        } else if (params.keySet().contains('_requester')) {
+            def requester = individualService.getById(request.requesterId)
+            bindRequester(requester, params)
         } else {
             DataBindingUtils.initBind(request, params)
             bind(request)
         }
 //        log.debug("Binder custum editor PersistentStringEnum = " + getBinder(request).propertyEditorRegistry.findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+    }
+    
+    def bindRequester(requester, params) {
+        params.each { param ->
+            if (param.value.getClass() == GrailsParameterMap.class && param.key == '_requester') {
+                DataBindingUtils.initBind(requester, param.value)
+                bindParam (requester, param.value)
+            }
+        }
     }
     
     def modifyList = {

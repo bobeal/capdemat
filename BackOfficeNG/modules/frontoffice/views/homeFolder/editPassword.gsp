@@ -16,7 +16,10 @@
           <span class="legend"><g:message code="homeFolder.adult.property.newPassword.legend" args="${[passwordMinLength]}"/></span>
           <label class="required" for="newPasswordConfirmation"><g:message code="homeFolder.adult.property.newPasswordConfirmation"/> * :</label>
           <input type="password" name="newPasswordConfirmation" value="" minlength="${passwordMinLength}"  class="required" />
-          <input type="submit" value="${message(code:'action.save')}" />
+          <p class="same-line">
+            <input type="submit" value="${message(code:'action.save')}" />
+            <input type="submit" name="cancel" value="${message(code:'action.cancel')}" />
+          </p>
         </form>
       </div>
     </div>

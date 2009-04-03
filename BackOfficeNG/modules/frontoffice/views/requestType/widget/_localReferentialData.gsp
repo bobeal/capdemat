@@ -5,7 +5,7 @@
     <g:if test="${entry.entries}">
       <li>
       <em>${entry.labelsMap.fr} :</em>
-      <g:render template="/frontofficeRequestType/localReferentialEntries" 
+      <g:render template="/frontofficeRequestType/widget/localReferentialData" 
                 model="['javaName':javaName, 'htmlClass':htmlClass, 'lrEntries': entry.entries, 'depth':++depth]" />
       </li>
     </g:if>

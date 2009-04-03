@@ -19,8 +19,8 @@
   </a>
   <div id="registrationEnd_${season?.uuid}CalContainer" class="yui-cal yui-calcontainer"></div>
 
-  <label class="required" for="validationAuthorizationStart"><g:message code="requestSeason.property.validationAuthorizationStart"/> * :</label>
-  <input type="text" id="validationAuthorizationStart_${season?.uuid}" name="validationAuthorizationStart" class="required validate-date-au" value="<g:formatDate formatName='format.date' date='${season?.validationAuthorizationStart}'/>" />
+  <label for="validationAuthorizationStart"><g:message code="requestSeason.property.validationAuthorizationStart"/> :</label>
+  <input type="text" id="validationAuthorizationStart_${season?.uuid}" name="validationAuthorizationStart" class="validate-date-au" value="<g:formatDate formatName='format.date' date='${season?.validationAuthorizationStart}'/>" />
   <a class="calendarLink" onclick="showCalendar('validationAuthorizationStart_${season?.uuid}Show', 'validationAuthorizationStart_${season?.uuid}');">
     <img id="validationAuthorizationStart_${season?.uuid}Show" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
   </a>
@@ -44,7 +44,7 @@
   <input type="hidden" name="uuid" class="required" value="${season?.uuid}" />
   <p class="same-line">
     <input id="saveSeason_${season?.uuid}" name="save" type="button"
-      class="submitEditItem form-button" value="${message(code:'action.save')}" /> 
+      class="submitEditItem form-button first-button" value="${message(code:'action.save')}" />
     <input id="cancelEditSeason_${season?.uuid}" name="cancel" type="button"
       class="cancelEditItem form-button" value="${message(code:'action.close')}" />
   </p>

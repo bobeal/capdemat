@@ -21,7 +21,10 @@
           </select>
           <label class="required"><g:message code="homeFolder.adult.property.answer" /> * :</label>
           <input type="text" name="answer" value="${answer}" class="required" />
-          <input type="submit" value="${message(code:'action.save')}" />
+          <p class="same-line">
+            <input type="submit" value="${message(code:'action.save')}" />
+            <input type="submit" name="cancel" value="${message(code:'action.cancel')}" />
+          </p>
         </form>
       </div>
     </div>

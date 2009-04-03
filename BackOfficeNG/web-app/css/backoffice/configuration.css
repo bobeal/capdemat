@@ -100,7 +100,7 @@
 .editableList li a.currentEditItem { cursor: default; }
 .editableList li a:hover           { background-color: transparent;}
 
-.editableList li span.agentName     { width: 35%; float: left; }
+.editableList li span.itemName     { width: 35%; float: left; }
 .editableList li span.categoryName  { margin: 0 1em; font-size: 0.9em; }
 .editableList li strong             { font-weight: normal !important; }
 
@@ -144,7 +144,30 @@ form.editable-list-form ul li .tag-read_only  { color: #2020cc; }
 form.editable-list-form ul li .tag-read_write { color: #ec7000; }
 form.editable-list-form ul li .tag-manager    { color: #aa00ff; }
 
-  
+
+/* table display
+   display definition list with appearance of a table
+-------------------------------------------------------------- */
+.tableDisplay {
+  margin-top: 2em;
+  overflow: auto; /* hack end of definition */
+}
+
+.tableDisplay dt {
+  width: 50%;
+  float: left;
+  padding: .3em;
+  font-weight: bold;
+  text-align: right;
+}
+
+.tableDisplay dd {
+  float: left;
+  width: 45%;
+  padding: .3em;
+  text-align: left;
+}
+
 /* second level menu styles
    TODO - refactor this !
 -------------------------------------------------------------- */

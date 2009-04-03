@@ -4,6 +4,7 @@ import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.HomeFolder
+import fr.cg95.cvq.business.users.payment.Payment
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqDisabledAccountException
 import fr.cg95.cvq.exception.CvqUnknownUserException
@@ -170,12 +171,19 @@ class HomeController {
     }
     
     def protected getTopFivePayments() {
+        
+        Set criteriaSet = new HashSet<Critere>();
+        Critere critere = new Critere();
+        
+        critere.comparatif = Critere.EQUALS;
+        critere.attribut = Payment.SEARCH_BY_HOME_FOLDER_ID;
+        critere.value = currentEcitizen.homeFolder.id
+        criteriaSet.add(critere)
+
         return [
-            'all' : paymentService.extendedGet(null, null, null, null, null, null, null, null, 
-                this.currentEcitizen.homeFolder.id, null, 'initializationDate', 'desc', 
+            'all' : paymentService.get(criteriaSet, 'initializationDate', 'desc', 
                 resultsPerList, 0),
-            'count' : paymentService.getPaymentCount(null, null, null, null, null, null, null, 
-                null, this.currentEcitizen.homeFolder.id, null),
+            'count' : paymentService.getCount(criteriaSet),
             'records' : []
         ]
         

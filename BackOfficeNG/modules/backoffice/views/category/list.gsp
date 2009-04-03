@@ -59,14 +59,14 @@
       <div class="nobox">
         <h3><g:message code="category.header.overview" /></h3>
         <div class="body">
-          <p style="margin-bottom:0.5em;">
+          <p>
             Cette page présente les catégories actuellement définies et les téléservices 
             qui leur sont rattachés.
           </p>
-          <p style="margin-bottom:0.5em;">
+          <p>
             Les téléservices marqués en <span style="color:red;">rouge</span> sont inactifs.
           </p>
-          <p style="margin-bottom:0.5em;">
+          <p>
             En cliquant sur une catégorie, vous pouvez voir et modifier le détail de sa
             configuration.
           </p>

@@ -14,8 +14,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 
-import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -69,7 +67,7 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         }
     }
     
-	public Map<String, String> getAllBrokers(PaymentMode paymentMode) throws CvqException {
+    public Map<String, String> getAllBrokers() throws CvqException {
         
         Map<IPaymentProviderService, PaymentServiceBean> paymentProviders = 
             SecurityContext.getCurrentConfigurationBean().getPaymentServices();
@@ -77,15 +75,14 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
             return null;
         Map<String, String> brokers = new HashMap<String, String>();
         for (IPaymentProviderService paymentProviderService : paymentProviders.keySet()) {
-            if (paymentProviderService.getPaymentMode().equals(paymentMode)) {
                 PaymentServiceBean psb = paymentProviders.get(paymentProviderService);
                 brokers.put(psb.getBroker(), psb.getFriendlyLabel());
-            }
         }
 
         return brokers;
     }
-
+	
+    
     public final Payment createPaymentContainer(PurchaseItem purchaseItem, PaymentMode paymentMode) 
         throws CvqModelException, CvqInvalidBrokerException, CvqException {
 
@@ -222,7 +219,6 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         return paymentStatus;
     }
     
-
     public PaymentResultStatus getStateFromParameters(Map<String, String> parameters) 
         throws CvqException {
 
@@ -265,39 +261,25 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         return (Payment) paymentDAO.findById(Payment.class, id);
     }
 
-    public List<Payment> get(final Date from, final Date to, final String dateType, 
-            final PaymentState paymentState, final String cvqReference, final String bankReference,
-            final String broker, final Long homeFolderId, final String lastName) {
-       
-        if (dateType == null || dateType.equals(DATE_TYPE_COMMIT)) {
-            return paymentDAO.search(null, null, from, to, paymentState, cvqReference, 
-                    bankReference, broker, homeFolderId, lastName, null, null, -1, 0);
-        } else {
-            return paymentDAO.search(from, to, null, null, paymentState, cvqReference, 
-                    bankReference, broker, homeFolderId, lastName, null, null, -1, 0);
-        }
+    public List<Payment> get(Set<Critere> criteriaSet, final String sort, final String dir,
+            final int recordsReturned, final int startIndex)
+            throws CvqException {
+
+        if (criteriaSet == null)
+            criteriaSet = new HashSet<Critere>();
+
+        return paymentDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex);
+    }    
+    
+    public Long getCount(Set<Critere> criteriaSet)
+            throws CvqException {
+
+        if (criteriaSet == null)
+            criteriaSet = new HashSet<Critere>();
+
+        return paymentDAO.count(criteriaSet);
     }
-
-    public List<Payment> extendedGet(Date initDateFrom, Date initDateTo, Date commitDateFrom,
-            Date commitDateTo, PaymentState paymentState, String cvqReference,
-            String bankReference, String broker, Long homeFolderId, String requesterLastName,
-            String sort, String dir, int recordsReturned, int startIndex) {
-        
-        return paymentDAO.search(initDateFrom, initDateTo, commitDateFrom,commitDateTo, 
-                paymentState, cvqReference, bankReference, broker, homeFolderId, requesterLastName,
-                sort, dir, recordsReturned, startIndex);
-    }
-
-    public long getPaymentCount(Date initDateFrom, Date initDateTo, Date commitDateFrom,
-            Date commitDateTo, PaymentState paymentState, String cvqReference,
-            String bankReference, String broker, Long homeFolderId,
-            String requesterLastName) throws CvqException {
-
-        return paymentDAO.count(initDateFrom, initDateTo, commitDateFrom, commitDateTo,
-                paymentState, cvqReference, bankReference, broker, homeFolderId, 
-                requesterLastName);
-    }
-
+    
     public void delete(Long id) throws CvqException, CvqObjectNotFoundException {
         Payment payment = (Payment) paymentDAO.findById(Payment.class, id);
         delete(payment);
@@ -403,55 +385,6 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         }
 
         return null;
-    }
-   
-    public List<Payment> get(Set<Critere> criteriaSet, final String sort, final String dir,
-            final int recordsReturned, final int startIndex, final PaymentMode paymentMode)
-            throws CvqException {
-
-        if (criteriaSet == null)
-            criteriaSet = new HashSet<Critere>();
-        Critere userFilterCritere = getCurrentUserFilter();
-        if (userFilterCritere != null)
-            criteriaSet.add(userFilterCritere);
-
-        return paymentDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, paymentMode);
-    }
-
-    public Long getCount(Set<Critere> criteriaSet, final PaymentMode paymentMode)
-            throws CvqException {
-
-        if (criteriaSet == null)
-            criteriaSet = new HashSet<Critere>();
-        Critere userFilterCritere = getCurrentUserFilter();
-        if (userFilterCritere != null)
-            criteriaSet.add(userFilterCritere);
-
-        return paymentDAO.count(criteriaSet, paymentMode);
-    }
-    
-    private Critere getCurrentUserFilter() throws CvqException {
-
-        Critere crit = new Critere();
-        if (SecurityContext.isBackOfficeContext()) {
-            Agent agent = SecurityContext.getCurrentAgent();
-            Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
-            if (agentCategoryRoles == null || agentCategoryRoles.isEmpty())
-                return null;
-            StringBuffer sb = new StringBuffer();
-            for (CategoryRoles categoryRoles : agentCategoryRoles) {
-                if (sb.length() > 0)
-                    sb.append(",");
-                sb.append("'").append(categoryRoles.getCategory().getId()).append("'");
-            }
-            crit.setAttribut("belongsToCategory");
-            crit.setComparatif(Critere.EQUALS);
-            crit.setValue(sb.toString());
-        } else {
-            return null;
-        }
-
-        return crit;
     }
 
     public final void setPaymentDAO(IPaymentDAO paymentDAO) {

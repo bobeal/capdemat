@@ -1,4 +1,4 @@
-<li>
+<li class="request">
   <p class="first-line">
     <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
     <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">${record.label}

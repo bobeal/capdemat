@@ -115,10 +115,3 @@
     </dd>
   </dl>
 </g:each>
-
-<h3>Suivi de la demande</h3>
-<div class="required captcha">
-  <label class="required">Saisissez le code de controle de l'image.</label>
-  <jcaptcha:jpeg name="image" class="image"/>
-  <input type="text" class="required response" value="" name="response"/>
-</div>

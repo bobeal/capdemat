@@ -16,10 +16,10 @@
     <div class="yui-g">
   
       <div class="yui-u first">
-        <label for="requesterLastName"><g:message code="payment.property.requesterLastName" /> :</label>
+        <label for="requesterLastName"><g:message code="property.userLastName" /> :</label>
         <input type="text" id="requesterLastName" name="requesterLastName" size="40" value="${params?.requesterLastName}"/>
       
-        <label for="homeFolderId"><g:message code="payment.property.homeFolderId" /> :</label>
+        <label for="homeFolderId"><g:message code="property.homeFolderId" /> :</label>
         <input type="text" id="homeFolderId" name="homeFolderId" size="40" value="${params?.homeFolderId}"/>
        
         <label for="cvqReference"><g:message code="payment.property.cvqReference" /> :</label>

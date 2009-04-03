@@ -2,15 +2,16 @@ package fr.cg95.cvq.payment;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -29,6 +30,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.util.Critere;
 
 public class PaymentServiceTest extends ServiceTestCase {
 
@@ -56,7 +58,7 @@ public class PaymentServiceTest extends ServiceTestCase {
 
     private Payment gimmePayment(final Long requestId) throws CvqException {
         
-        Map<String, String> brokers = iPaymentService.getAllBrokers(PaymentMode.INTERNET);
+        Map<String, String> brokers = iPaymentService.getAllBrokers();
         Assert.assertNotNull(brokers);
         Assert.assertFalse(brokers.isEmpty());
         String broker = null;
@@ -167,10 +169,10 @@ public class PaymentServiceTest extends ServiceTestCase {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        // create a vo card request (to create home folder and associates)
         CreationBean cb = gimmeAnHomeFolder();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        Request request = iRequestService.getById(cb.getRequestId());
+        Adult requester = iIndividualService.getAdultById(request.getRequesterId());
 
         Payment payment = gimmePayment(cb.getRequestId());
         
@@ -184,42 +186,62 @@ public class PaymentServiceTest extends ServiceTestCase {
         iPaymentService.commitPayment(parameters);
         
         commitTransaction();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
-        List<Payment> payments = 
-            iPaymentService.get(null, null, null, PaymentState.VALIDATED, 
-                    null, null, null, null, null);
-        Assert.assertEquals(1, payments.size());
-        payments = iPaymentService.get(null, null, null, PaymentState.REFUSED, 
-                null, null, null, null, null);
-        Assert.assertEquals(0, payments.size());
-        payments = iPaymentService.get(null, null, null, PaymentState.VALIDATED, 
-                null, null, null, homeFolder.getId(), null);
-        Assert.assertEquals(1, payments.size());
-        payments = iPaymentService.get(null, null, null, PaymentState.VALIDATED, 
-                null, null, null, Long.valueOf("1"), null);
-        Assert.assertEquals(0, payments.size());
-        payments = iPaymentService.get(null, null, null, PaymentState.VALIDATED, 
-                payment.getCvqReference(), null, null, homeFolder.getId(), null);
-        Assert.assertEquals(1, payments.size());
-        payments = iPaymentService.get(null, null, null, PaymentState.VALIDATED, 
-                payment.getCvqReference(), null, payment.getBroker(), homeFolder.getId(), null);
-        Assert.assertEquals(1, payments.size());
-        payments = iPaymentService.get(null, null, null, PaymentState.VALIDATED, 
-                null, null, null, null,  SecurityContext.getCurrentEcitizen().getLastName());
-        Assert.assertEquals(1, payments.size());
+        Set <Critere> criteria = new HashSet<Critere>();
+        
+        Critere crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_HOME_FOLDER_ID);
+        crit.setComparatif(Critere.EQUALS);
+        crit.setValue(request.getHomeFolderId());
+        criteria.add(crit);
+        
+        crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_REQUESTER_LASTNAME);
+        crit.setComparatif(Critere.STARTSWITH);
+        crit.setValue(requester.getLastName());
+        criteria.add(crit);
+        
+        crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_CVQ_REFERENCE);
+        crit.setComparatif(Critere.EQUALS);
+        crit.setValue(payment.getCvqReference());
+        criteria.add(crit);
+        
+        crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_BANK_REFERENCE);
+        crit.setComparatif(Critere.EQUALS);
+        crit.setValue(payment.getBankReference());
+        criteria.add(crit);
        
-        Calendar from = Calendar.getInstance();
-        from.add(Calendar.MINUTE, -1);
-        Calendar to = Calendar.getInstance();
-        to.add(Calendar.MINUTE, 1);
-        payments = iPaymentService.get(from.getTime(), to.getTime(), 
-                IPaymentService.DATE_TYPE_INITIALIZATION, null, null, null, null, null, null);
-        Assert.assertEquals(1, payments.size());
-        payments = iPaymentService.get(from.getTime(), to.getTime(), null,
-                null,null, null, null, null, null);
-        Assert.assertEquals(1, payments.size());
-        payments = iPaymentService.get(null, null, null, null,null, 
-                payments.get(0).getBankReference(), null, null, null);
+        crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_INITIALIZATION_DATE);
+        crit.setComparatif(Critere.GTE);
+        crit.setValue(payment.getInitializationDate());
+        criteria.add(crit);
+        
+        crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_INITIALIZATION_DATE);
+        crit.setComparatif(Critere.LTE);
+        crit.setValue(payment.getInitializationDate());
+        criteria.add(crit);
+        
+        crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_PAYMENT_STATE);
+        crit.setComparatif(Critere.EQUALS);
+        crit.setValue(payment.getState().toString());
+        criteria.add(crit);
+        
+        crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_BROKER);
+        crit.setComparatif(Critere.EQUALS);
+        crit.setValue(payment.getBroker());
+        criteria.add(crit);
+
+        List<Payment> payments = iPaymentService.get(criteria, null, null, -1, 0);
+
         Assert.assertEquals(1, payments.size());
         
         continueWithNewTransaction();

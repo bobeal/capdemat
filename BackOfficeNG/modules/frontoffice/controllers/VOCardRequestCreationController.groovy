@@ -11,6 +11,7 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -29,6 +30,7 @@ class VOCardRequestCreationController {
     IIndividualService individualService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
+    IRequestTypeService requestTypeService
     IVoCardRequestService voCardRequestService
     IHomeFolderService homeFolderService
 
@@ -114,6 +116,8 @@ class VOCardRequestCreationController {
         def currentChild = session[uuidString].currentChild
 
         def isChildLegalResponsibleEdit = false
+        
+        def askConfirmCancel = false
 
         if (cRequest.stepStates.size() == 0) {
             session[uuidString].stepStates = [:]
@@ -129,8 +133,19 @@ class VOCardRequestCreationController {
         }
 
         try {
+            if (submitAction[1] == 'cancelRequest') {
+                askConfirmCancel = true
+            }
+            else if (submitAction[1] == 'confirmCancelRequest') {
+                session.removeAttribute(uuidString)
+                redirect(uri: '/frontoffice/requestType')
+                return
+            }
+            else if (submitAction[1] == 'discardCancelRequest') {
+                askConfirmCancel = false
+            }            
             // documents
-            if (submitAction[1] == 'documentAdd') {
+            else if (submitAction[1] == 'documentAdd') {
                 def docParam = targetAsMap(submitAction[3])
                 documentType = getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true;
@@ -366,6 +381,7 @@ class VOCardRequestCreationController {
         render( view: viewPath,
                 model:
                     [ 'rqt': cRequest,
+                      'askConfirmCancel': askConfirmCancel,
                       'meansOfContact': getMeansOfContact(meansOfContactService, account, adults),
                       'currentStep': currentStep,
                       'requestTypeLabel': requestTypeInfo.label,
@@ -417,40 +433,20 @@ class VOCardRequestCreationController {
 
     def getMeansOfContact(meansOfContactService, account, adults) {
         def result = []
-        def meansOfContact = meansOfContactService.getEnabledMeansOfContact()
+        def meansOfContact
+        if (account.homeFolderResponsible != null) {
+            def index = Integer.valueOf(account.homeFolderResponsible.tokenize("[]")[1])
+            meansOfContact = meansOfContactService.getAdultEnabledMeansOfContact(adults[index])
+        } else
+            meansOfContact = meansOfContactService.getEnabledMeansOfContact()
+        
         meansOfContact.each {
             result.add([
                         key:it.type,
                         label: message(code:'request.meansOfContact.' + StringUtils.pascalToCamelCase(it.type.toString()))])
         }
-        result = result.minus(getNotAvailablesMeansOfContant(result, account, adults))
 
         return result.sort {it.label}
-    }
-
-    def getNotAvailablesMeansOfContant(meansOfContact, account, adults) {
-        def notAvailaiblesMeansOfContact = []
-        if (account.homeFolderResponsible != null) {
-            def index = Integer.valueOf(account.homeFolderResponsible.tokenize("[]")[1])
-            def homeFolderResponsible = adults[index]
-            if (homeFolderResponsible != null){
-                meansOfContact.each{
-                    if ((it.key.equals(MeansOfContactEnum.HOME_PHONE) &&
-                            (homeFolderResponsible.homePhone == null || homeFolderResponsible.homePhone == ""))
-                        || (it.key.equals(MeansOfContactEnum.OFFICE_PHONE)
-                            && (homeFolderResponsible.officePhone == null || homeFolderResponsible.officePhone == ""))
-                        || (it.key.equals(MeansOfContactEnum.MOBILE_PHONE)
-                            && (homeFolderResponsible.mobilePhone == null || homeFolderResponsible.mobilePhone == ""))
-                        || (it.key.equals(MeansOfContactEnum.SMS)
-                            && (homeFolderResponsible.mobilePhone == null || homeFolderResponsible.mobilePhone == ""))) {
-                        
-                        notAvailaiblesMeansOfContact.add([key: it.key,
-                                                         label: it.label])
-                    }     
-                } 
-            }               
-        }
-        return notAvailaiblesMeansOfContact;
     }
 
     // TODO - refactor. Maybe move to Request class ...
@@ -630,8 +626,8 @@ class VOCardRequestCreationController {
      * ------------------------------------------------------------------------------------------- */
 
     def getDocumentTypes(requestService, cRequest) {
-        def requestType = requestService.getRequestTypeByLabel(requestService.getLabel())
-        def documentTypes = requestService.getAllowedDocuments(requestType.getId())
+        def requestType = requestTypeService.getRequestTypeByLabel(requestService.getLabel())
+        def documentTypes = requestTypeService.getAllowedDocuments(requestType.getId())
 
         def result = [:]
         documentTypes.each {

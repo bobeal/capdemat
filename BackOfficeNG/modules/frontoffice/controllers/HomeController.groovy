@@ -35,7 +35,7 @@ class HomeController {
     Adult currentEcitizen
 
     def resultsPerList = 5
-    def defaultAction = "index" 
+    def defaultAction = 'index'
     
     def beforeInterceptor = {
         this.currentEcitizen = SecurityContext.getCurrentEcitizen()
@@ -72,9 +72,9 @@ class HomeController {
         def error = '', result = null
         if(request.post) {
             try { result = authenticationService.authenticate(params.login,params.password) } 
-            catch (CvqUnknownUserException e) {error='error.unknownUser'}
-            catch (CvqAuthenticationFailedException e) {error='error.authenticationFailed'}
-            catch (CvqDisabledAccountException e) {error='error.disabledAccount'}
+            catch (CvqUnknownUserException e) {error='account.error.unknownUser'}
+            catch (CvqAuthenticationFailedException e) {error='account.error.authenticationFailed'}
+            catch (CvqDisabledAccountException e) {error='account.error.disabledAccount'}
             
             if(result && result instanceof HomeFolder) {
                 session.currentEcitizen = params.login

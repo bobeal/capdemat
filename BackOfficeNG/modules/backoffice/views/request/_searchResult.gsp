@@ -17,7 +17,7 @@
   </p>
 
   <p class="second-line">
-    <g:message code="request.searchResult.oldCreationDate" /> 
+    <g:message code="request.searchResult.creationDateLabel" />
     <span class="${sortBy == 'creationDate' ? 'current-sort' : ''}">
       <g:formatDate formatName="format.date" date="${record.creationDate}" /></span> - 
     <g:if test="${record.lastModificationDate}">

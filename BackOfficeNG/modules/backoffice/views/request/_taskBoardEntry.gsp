@@ -9,7 +9,7 @@
   <g:if test="${record.subjectLastName}">
     <g:message code="layout.for" /> ${record.subjectLastName} ${record.subjectFirstName}
   </g:if>
-  - <g:message code="request.searchResult.oldCreationDate" />
+  - <g:message code="request.searchResult.creationDateLabel" />
   <strong>
     <g:formatDate formatName="format.fullDate" date="${record.creationDate}"/>
   </strong>

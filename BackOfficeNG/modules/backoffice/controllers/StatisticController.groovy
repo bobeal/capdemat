@@ -195,7 +195,7 @@ class StatisticController {
         def url = chart.pieChart {
             size(w:700,h:300)
             title() {
-                row("Total : ${cdData.sum()}")
+                row("Total : ${cdData.isEmpty() ? 0 : cdData.sum()}")
             }
             data(encoding:'text') {
         		dataSet(cdData)

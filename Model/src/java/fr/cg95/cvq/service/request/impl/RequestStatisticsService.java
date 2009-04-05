@@ -47,13 +47,15 @@ public class RequestStatisticsService implements IRequestStatisticsService {
             return null;
 
         List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);
+        DateTime[] intervalDates = computeDateIntervals(startDate, endDate);
 
         Map<String, Long> results = new HashMap<String, Long>();
 
         for (String qualityType : new String[] {QUALITY_TYPE_OK, QUALITY_TYPE_ORANGE,
                 QUALITY_TYPE_RED}) {
-            Long count = requestStatisticsDAO.countByQuality(startDate, endDate,
-                lacb.getInstructionDoneStates(), qualityType, requestTypes);
+            Long count = requestStatisticsDAO.countByQuality(intervalDates[0].toDate(),
+                intervalDates[1].toDate(), lacb.getInstructionDoneStates(),
+                qualityType, requestTypes);
             results.put(qualityType, count);
         }
 
@@ -71,13 +73,15 @@ public class RequestStatisticsService implements IRequestStatisticsService {
             return null;
 
         List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);
+        DateTime[] intervalDates = computeDateIntervals(startDate, endDate);
 
         Map<Long, Map<String, Long>> results = new HashMap<Long, Map<String,Long>>();
         for (String qualityType : new String[] {QUALITY_TYPE_OK, QUALITY_TYPE_ORANGE,
                 QUALITY_TYPE_RED}) {
             Map<Long, Long> resultsByQuality =
-                requestStatisticsDAO.countByQualityAndType(startDate, endDate, 
-                    lacb.getInstructionDoneStates(), qualityType, requestTypes);
+                requestStatisticsDAO.countByQualityAndType(intervalDates[0].toDate(), 
+                    intervalDates[1].toDate(), lacb.getInstructionDoneStates(),
+                    qualityType, requestTypes);
             for (Long rtId : resultsByQuality.keySet()) {
                 if (results.get(rtId) == null)
                     results.put(rtId, new HashMap<String, Long>());
@@ -94,12 +98,13 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         Long categoryId) {
 
         List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);
+        DateTime[] intervalDates = computeDateIntervals(startDate, endDate);
 
         Map<RequestState, Long> result = new HashMap<RequestState, Long>();
         for (RequestState requestState : RequestState.allRequestStates)
             result.put(requestState,
                 requestStatisticsDAO.countByResultingState(requestState.toString(),
-                    startDate, endDate, requestTypes));
+                    intervalDates[0].toDate(), intervalDates[1].toDate(), requestTypes));
 
         return result;
     }
@@ -109,7 +114,9 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     public Map<Long, Long> getTypeStats(Date startDate, Date endDate, Long requestTypeId,
         Long categoryId) {
 
-        return requestStatisticsDAO.countByType(startDate, endDate,
+        DateTime[] intervalDates = computeDateIntervals(startDate, endDate);
+
+        return requestStatisticsDAO.countByType(intervalDates[0].toDate(), intervalDates[1].toDate(),
             getRequestTypeIdsFromParameters(requestTypeId, categoryId));
     }
 
@@ -120,29 +127,26 @@ public class RequestStatisticsService implements IRequestStatisticsService {
 
         Map<Date, Long> result = new TreeMap<Date, Long>();
 
-        DateTime startDateTime = new DateTime(startDate).withTime(0, 0, 0, 0);
-        DateTime endDateTime = new DateTime(endDate).withTime(23, 59, 59, 999);
+        DateTime[] intervalDates = computeDateIntervals(startDate, endDate);
 
-        if (!startDateTime.isBefore(endDateTime)) {
+        if (!intervalDates[0].isBefore(intervalDates[1])) {
             logger.warn("getTypeStatsByPeriod() start search date is after end search date");
             return result;
         }
 
-        TypeStatsIntervalType typeStatsIntervalType = getTypeStatsIntervalType(startDate, endDate);
-        DateTime startSearchTime = new DateTime(startDateTime);
-        DateTime endSearchTime = getNextSearchDateTime(startDateTime, typeStatsIntervalType);
+        TypeStatsIntervalType typeStatsIntervalType = 
+            getTypeStatsIntervalType(intervalDates[0].toDate(), intervalDates[1].toDate());
+        DateTime startSearchTime = new DateTime(intervalDates[0]);
+        DateTime endSearchTime = getNextSearchDateTime(intervalDates[0], typeStatsIntervalType);
         do {
-            logger.debug("searching between " + startSearchTime.toString()
-                + " and " + endSearchTime.toString());
             Long count =
                 requestStatisticsDAO.countByPeriod(startSearchTime.toDate(),
                     endSearchTime.toDate(),
                     getRequestTypeIdsFromParameters(requestTypeId, categoryId));
-            logger.debug("got " + count + " results");
             result.put(startSearchTime.toDate(), count);
             startSearchTime = getNextSearchDateTime(startSearchTime, typeStatsIntervalType);
             endSearchTime = getNextSearchDateTime(endSearchTime, typeStatsIntervalType);
-        } while (startSearchTime.isBefore(endDateTime));
+        } while (startSearchTime.isBefore(intervalDates[1]));
 
         return result;
     }
@@ -150,10 +154,9 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     @Override
     public TypeStatsIntervalType getTypeStatsIntervalType(Date startDate, Date endDate) {
 
-        DateTime startDateTime = new DateTime(startDate).withTime(0, 0, 0, 0);
-        DateTime endDateTime = new DateTime(endDate).withTime(23, 59, 59, 999);
+        DateTime[] intervalDates = computeDateIntervals(startDate, endDate);
 
-        Days intervalDays = Days.daysBetween(startDateTime, endDateTime);
+        Days intervalDays = Days.daysBetween(intervalDates[0], intervalDates[1]);
         if (intervalDays.getDays() == 0)
             // if one day, display hourly statistics
             return TypeStatsIntervalType.HOUR;
@@ -212,7 +215,24 @@ public class RequestStatisticsService implements IRequestStatisticsService {
 
         return requestTypeIds;
     }
-    
+
+    private DateTime[] computeDateIntervals(final Date startDate, final Date endDate) {
+
+        DateTime startDateTime = null;
+        DateTime endDateTime = null;
+
+        if (startDate != null) {
+            startDateTime = new DateTime(startDate).withTime(0, 0, 0, 0);
+        } else {
+            Date oldestRequestDate = requestStatisticsDAO.getOldestRequest();
+            startDateTime = new DateTime(oldestRequestDate).withTime(0, 0, 0, 0);
+        }
+
+        endDateTime = new DateTime(endDate).withTime(23, 59, 59, 999);
+
+        return new DateTime[] {startDateTime, endDateTime};
+    }
+
     public void setRequestStatisticsDAO(IRequestStatisticsDAO requestStatisticsDAO) {
         this.requestStatisticsDAO = requestStatisticsDAO;
     }

@@ -27,4 +27,6 @@ public interface IRequestStatisticsDAO {
 
     Long countByPeriod(final Date startDate, final Date endDate,
         final List<Long> requestTypeIds);
+
+    Date getOldestRequest();
 }

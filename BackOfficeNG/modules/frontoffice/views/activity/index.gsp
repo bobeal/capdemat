@@ -14,7 +14,7 @@
   <!-- end of yui-main -->
   
   <div id="narrow" class="yui-b">
-    <div id="requestSubject" class="requestBox date-filters">
+    <div class="requestBox">
       <h3>
         <g:message code="header.filterBy" />
       </h3>
@@ -38,7 +38,7 @@
               ${year}
             </option>
           </select>
-          <input type="submit" class="action-button" value="${message(code:'action.filter')}"/>
+          <input type="submit" value="${message(code:'action.filter')}"/>
         </form>
       </div>
     </div>

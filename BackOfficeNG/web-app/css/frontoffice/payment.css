@@ -13,11 +13,11 @@
 }
 
 .list-box {
-  min-height:10em ! important;
+  min-height:10em !important;
 }
 
 .list-box ul li {
-  overflow: auto!important;
+  overflow: auto !important;
 }
 
 div.cart-list-header {
@@ -38,11 +38,6 @@ div.cart-list-header {
 
 .action-list .button-panel {
   float:right;
-}
-
-.action-list input {
-  font-weight: bold;
-  font-size: 1.1em;
 }
 
 .total-block {

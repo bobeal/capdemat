@@ -120,9 +120,9 @@ h2.request-creation { margin: 0 !important; font-size: 2em !important; }
 
 .yui-skin-fong .yui-navset .yui-nav a,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
-  color: #FFFFFF ;
-  background-color: #FF812B;
-  border-color: #FF812B;
+  color: #FFFFFF !important;
+  background-color: #FF812B !important;
+  border-color: #FF812B !important;
 }
 
 .yui-skin-fong .yui-navset .yui-nav .selected a,
@@ -157,22 +157,6 @@ h2.request-creation { margin: 0 !important; font-size: 2em !important; }
   border-top-color: #FF812B !important;
 }
 
-/*#requestTabView button[type="button"] {*/
-/*  border-color: #804016 !important;*/
-/*  border-left-color: #FF812B !important;*/
-/*  border-top-color: #FF812B !important;*/
-/*  background-color: #FF812B !important;*/
-/*  color: #FFFFFF !important;*/
-/*}*/
-
-
-/*#requestTabView button[type="button"]:hover{*/
-/*  border-color: #FF812B !important;*/
-/*  border-left-color: #804016 !important;*/
-/*  border-top-color: #804016 !important;*/
-/*  color: #333 !important;*/
-/*}*/
-
 #requestTabView .nextTab, #requestTabView .prevTab { 
   color: #FF812B !important; 
 }
@@ -189,5 +173,24 @@ h2.request-creation { margin: 0 !important; font-size: 2em !important; }
 #requestTabView dl dt,
 #requestTabView dl dd {
   border-top-color: #FF812B !important;
+}
+
+/* activities detailed consumptions
+--------------------------------------------------------------*/
+
+table.activity-calendar {
+  border-left-color: #FF812B !important;
+  border-top-color: #FF812B !important;
+}
+
+table.activity-calendar th {
+  border-right-color: #FF812B !important;
+  border-bottom-color: #FF812B !important;
+  background: #eee !important;
+}
+
+table.activity-calendar td {
+  border-right-color: #FF812B !important;
+  border-bottom-color: #FF812B !important;
 }
 

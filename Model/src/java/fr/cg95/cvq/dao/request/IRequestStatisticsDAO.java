@@ -11,8 +11,8 @@ import java.util.Map;
 public interface IRequestStatisticsDAO {
 
     Long countByQuality(final Date startDate, final Date endDate,
-        final List<String> resultingStates, final String qualityType, final Long requestTypeId,
-        final String categoryFilter);
+        final List<String> resultingStates, final String qualityType, 
+        final List<Long> requestTypesId);
 
     Map<Long,Long> countByQualityAndType(final Date startDate, final Date endDate,
         final List<String> resultingStates, final String qualityType,
@@ -20,7 +20,7 @@ public interface IRequestStatisticsDAO {
 
     Long countByResultingState(final String resultingState,
         final Date startDate, final Date endDate,
-        final Long requestTypeId, final String categoryFilter);
+        final List<Long> requestTypesId);
 
     Map<Long, Long> countByType(final Date startDate, final Date endDate,
         final List<Long> requestTypeIds);

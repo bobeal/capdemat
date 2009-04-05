@@ -17,6 +17,13 @@ public interface IRequestStatisticsService {
     String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     String QUALITY_TYPE_RED = "qualityTypeRed";
 
+    /**
+     * Supported intervals for request types stats display by period.
+     *
+     * They are automatically computed from start and end dates.
+     *
+     * @see #getTypeStatsIntervalType(java.util.Date, java.util.Date) 
+     */
     enum TypeStatsIntervalType {
         HOUR, DAY, TWO_DAYS, WEEK, MONTH, YEAR
     }

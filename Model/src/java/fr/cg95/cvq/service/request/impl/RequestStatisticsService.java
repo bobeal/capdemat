@@ -16,7 +16,6 @@ import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
-import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
@@ -37,7 +36,6 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     
     private IRequestStatisticsDAO requestStatisticsDAO;
     private ICategoryService categoryService;
-    private IRequestTypeDAO requestTypeDAO;
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
@@ -48,33 +46,16 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         if (!lacb.getInstructionAlertsEnabled())
             return null;
 
-        // TODO migrate to only use request type ids
-        StringBuffer sb = new StringBuffer();
-        if (categoryId == null) {
-            List<Category> agentCategories = categoryService.getManaged();
-            for (Category category : agentCategories) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                sb.append("'").append(category.getId()).append("'");
-            }
-        } else {
-            sb.append("'").append(categoryId).append("'");
-        }
+        List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);
 
         Map<String, Long> results = new HashMap<String, Long>();
 
-        Long count = requestStatisticsDAO.countByQuality(startDate, endDate,
-                lacb.getInstructionDoneStates(), QUALITY_TYPE_OK, requestTypeId, sb.toString());
-        results.put(QUALITY_TYPE_OK, count);
-
-        count = requestStatisticsDAO.countByQuality(startDate, endDate,
-                lacb.getInstructionDoneStates(), QUALITY_TYPE_ORANGE, requestTypeId, sb.toString());
-        results.put(QUALITY_TYPE_ORANGE, count);
-
-        count = requestStatisticsDAO.countByQuality(startDate, endDate,
-                lacb.getInstructionDoneStates(), QUALITY_TYPE_RED, requestTypeId, sb.toString());
-        results.put(QUALITY_TYPE_RED, count);
+        for (String qualityType : new String[] {QUALITY_TYPE_OK, QUALITY_TYPE_ORANGE,
+                QUALITY_TYPE_RED}) {
+            Long count = requestStatisticsDAO.countByQuality(startDate, endDate,
+                lacb.getInstructionDoneStates(), qualityType, requestTypes);
+            results.put(qualityType, count);
+        }
 
         return results;
     }
@@ -112,25 +93,13 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     public Map<RequestState, Long> getStateStats(Date startDate, Date endDate, Long requestTypeId,
         Long categoryId) {
 
-        // TODO migrate to only use request type ids
-        StringBuffer sb = new StringBuffer();
-        if (categoryId == null) {
-            List<Category> agentCategories = categoryService.getManaged();
-            for (Category category : agentCategories) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                sb.append("'").append(category.getId()).append("'");
-            }
-        } else {
-            sb.append("'").append(categoryId).append("'");
-        }
+        List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);
 
         Map<RequestState, Long> result = new HashMap<RequestState, Long>();
         for (RequestState requestState : RequestState.allRequestStates)
             result.put(requestState,
                 requestStatisticsDAO.countByResultingState(requestState.toString(),
-                    startDate, endDate, requestTypeId, sb.toString()));
+                    startDate, endDate, requestTypes));
 
         return result;
     }
@@ -178,6 +147,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         return result;
     }
 
+    @Override
     public TypeStatsIntervalType getTypeStatsIntervalType(Date startDate, Date endDate) {
 
         DateTime startDateTime = new DateTime(startDate).withTime(0, 0, 0, 0);
@@ -245,10 +215,6 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     
     public void setRequestStatisticsDAO(IRequestStatisticsDAO requestStatisticsDAO) {
         this.requestStatisticsDAO = requestStatisticsDAO;
-    }
-
-    public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
-        this.requestTypeDAO = requestTypeDAO;
     }
 
     public void setCategoryService(ICategoryService categoryService) {

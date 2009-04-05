@@ -24,15 +24,15 @@ import org.hibernate.type.Type;
 public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisticsDAO {
 
     public Long countByQuality(final Date startDate, final Date endDate,
-            final List<String> resultingStates, final String qualityType, final Long requestTypeId,
-            final String categoryFilter) {
+            final List<String> resultingStates, final String qualityType, 
+            final List<Long> requestTypesId) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer();
         sb.append("select distinct(request.id) from Request request join request.actions action")
-            .append(" where request.requestType.category.id in ( " + categoryFilter + ")");
+            .append(" where 1 = 1 ");
 
         if (startDate != null) {
             sb.append(" and action.date > ?");
@@ -45,8 +45,14 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
             typeList.add(Hibernate.TIMESTAMP);
         }
 
-        if (requestTypeId != null)
-            sb.append(" and request.requestType.id = '").append(requestTypeId).append("'");
+        sb.append(" and request.requestType.id in ( ");
+        for (int i = 0; i < requestTypesId.size(); i++) {
+            sb.append("'").append(requestTypesId.get(i)).append("'");
+            if (i != requestTypesId.size() - 1)
+                sb.append(",");
+        }
+        sb.substring(sb.length() - 1);
+        sb.append(" )");
 
         sb.append(" and action.resultingState in (");
         for (int i = 0; i < resultingStates.size(); i++) {
@@ -142,7 +148,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
 
     public Long countByResultingState(final String resultingState,
             final Date startDate, final Date endDate,
-            final Long requestTypeId, final String categoryFilter) {
+            final List<Long> requestTypesId) {
 
         StringBuffer tables = new StringBuffer();
         StringBuffer subquery = new StringBuffer();
@@ -166,22 +172,22 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
                 .append(parseDate(endDate) + "'");
         }
 
-        if (categoryFilter != null && !categoryFilter.isEmpty()) {
-            tables.append(" request_type, category,");
-            where.append(" and request.request_type_id = request_type.id ")
-                .append("and request_type.category_id = category.id")
-                .append(" and category.id in (").append(categoryFilter).append(")");
-        }
-
         if (resultingState != null && !resultingState.equals("")) {
             where.append(" and request_action.resulting_state = '").append(resultingState).append("'");
         }
 
-        if (requestTypeId != null) {
+        if (requestTypesId != null) {
             if (tables.indexOf("request_type") == -1) {
                 tables.append(" request_type,");
             }
-            where.append(" and request.request_type_id = '").append(requestTypeId).append("'");
+            where.append(" and request.request_type_id in (");
+            for (int i = 0; i < requestTypesId.size(); i++) {
+                where.append("'").append(requestTypesId.get(i)).append("'");
+                if (i != requestTypesId.size() - 1)
+                    where.append(",");
+            }
+            where.substring(where.length() - 1);
+            where.append(" )");
         }
 
         try {

@@ -13,22 +13,14 @@
 
     <div id="yui-main">
       <div class="yui-b">
-
-        <form method="POST" id="filterForm" style="display:none;"
-              action="${createLink(action:currentStatisticType)}">
-          <input type="hidden" id="pageState" name="pageState" value="${pageState}" />
-        </form>
-
         <g:render template="${currentStatisticType}" />
-
       </div>
-
     </div>
 
     <div id="narrow" class="yui-b">
 
       <div class="nobox">
-        <h3><g:message code="statistics.header.viewOthers" /></h3>
+        <h3><g:message code="header.display" /></h3>
         <div class="body">
           <ul>
             <g:each in="${statisticTypes}" var="type">
@@ -46,7 +38,9 @@
       <div class="nobox">
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
-          <form action="#">
+          <form id="filterForm" action="${createLink(action:currentStatisticType)}">
+            <input type="hidden" id="pageState" name="pageState" value="${pageState}" />
+            
             <label for="categoryId"><g:message code="property.category" /> :</label>
             <select name="categoryId" class="persistent filter">
               <option value=""><g:message code="search.filter.defaultValue"/></option>
@@ -55,15 +49,13 @@
               </g:each>
             </select>
 
-            <g:if test="${currentStatisticType != 'type'}">
-              <label for="requestTypeId"><g:message code="property.requestType" /> : </label>
-              <select name="requestTypeId" style="width:100%;" class="persistent filter">
-                <option value=""><g:message code="search.filter.defaultValue"/></option>
-                <g:each in="${allRequestTypes}" var="requestType">
-                  <option value="${requestType.id}" ${state.requestTypeId == requestType.id.toString() ? 'selected="selected"' : ''}>${requestType.label}</option>
-                </g:each>
-              </select>
-            </g:if>
+            <label for="requestTypeId"><g:message code="property.requestType" /> : </label>
+            <select name="requestTypeId" style="width:100%;" class="persistent filter">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${allRequestTypes}" var="requestType">
+                <option value="${requestType.id}" ${state.requestTypeId == requestType.id.toString() ? 'selected="selected"' : ''}>${requestType.label}</option>
+              </g:each>
+            </select>
 
             <label for="startDate"><g:message code="statistics.filter.period" /> :</label>
             <input type="text" id="startDate" name="startDate" size="10" value="${state.startDate}"
@@ -80,6 +72,10 @@
                    src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
             </a>
             <div id="endDateCalContainer" class="yui-cal"></div>
+
+            <p>
+              <input type="button" id="filterDisplay" value="${message(code:'action.filter')}" />
+            </p>
 
           </form>
         </div>

@@ -230,11 +230,6 @@ class StatisticController {
         def chart = new GoogleChartBuilder()
         def url = chart.pieChart {
             size(w:600,h:200)
-            /*
-            title() {
-                row('Qualité de service')
-            }
-            */
             data(encoding:'text') {
         		dataSet(cdData)        
             }

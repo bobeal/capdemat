@@ -95,6 +95,26 @@ h2,
 .data-detail h3     { color: #FF812B !important; }
 .data-detail .yui-g { border-color: #FF812B !important; }
 
+/* forms styles (other than request creation ones)
+--------------------------------------------------------------*/
+
+form fieldset {
+  border-left-color: #FF812B !important;
+}
+
+legend {
+  color: #FF812B !important;
+}
+
+form input[type="text"],
+form input[type="password"],
+form select,
+form textarea {
+  border-top-color: #FF812B !important;
+}
+
+/* request creation specific styles
+--------------------------------------------------------------*/
 
 h2.request-creation { margin: 0 !important; font-size: 2em !important; }
 

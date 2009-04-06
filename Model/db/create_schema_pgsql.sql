@@ -1568,7 +1568,9 @@
     create table local_authority (
         id int8 not null,
         name varchar(32) not null,
+        display_title varchar(100) not null,
         postal_code varchar(5) not null,
+        server_names bytea,
         draft_live_duration int4 not null,
         draft_notification_before_delete int4 not null,
         primary key (id)

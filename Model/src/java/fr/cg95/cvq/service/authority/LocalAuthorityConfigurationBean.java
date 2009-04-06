@@ -29,8 +29,6 @@ public final class LocalAuthorityConfigurationBean {
     private static Logger logger = Logger.getLogger(LocalAuthorityConfigurationBean.class);
 
     private String name;
-    private String postalCode;
-    private List<String> urls;
 
     /**
      * Whether an email alert is sent to notify of requests whose instruction is in late, 
@@ -53,7 +51,6 @@ public final class LocalAuthorityConfigurationBean {
     private Integer instructionDefaultAlertDelay;
     private List<String> instructionDoneStates;
     
-    private String displayTitle;
     private List foAccountTabs;
     
     /**
@@ -179,23 +176,8 @@ public final class LocalAuthorityConfigurationBean {
         Map data = (Map) paymentNotifications.get(paymentNotificationKey);
         return (String) data.get(dataKey);
     }
-    
-    /**
-     * Return whether the given URL is mapped to this local authority
-     */
-    public boolean supportUrl(String url) {
-        if (this.urls.contains(url))
-            return true;
-
-        return false;
-    }
 
     public void init() throws CvqConfigurationException {
-
-        if (urls == null) {
-            logger.error("init() No url mapped to site " + name);
-            throw new CvqConfigurationException("No url mapped to site " + name);
-        }
 
         // FIXME : this should be done by the payment service
         if (paymentServices != null && paymentServices.size() > 0) {
@@ -272,14 +254,6 @@ public final class LocalAuthorityConfigurationBean {
 
     public String getName() {
         return this.name;
-    }
-
-    public void setUrls(final List<String> urls) {
-        this.urls = urls;
-    }
-
-    public List<String> getUrls() {
-        return this.urls;
     }
 
     public void setSessionFactory(final SessionFactory sessionFactory) {
@@ -391,21 +365,5 @@ public final class LocalAuthorityConfigurationBean {
 
     public void setFoAccountTabs(final List displayProperties) {
         this.foAccountTabs = displayProperties;
-    }
-
-    public String getDisplayTitle() {
-        return displayTitle;
-    }
-
-    public void setDisplayTitle(final String displayTitle) {
-        this.displayTitle = displayTitle;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 }

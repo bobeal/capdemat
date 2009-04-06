@@ -6,15 +6,6 @@
   <bean id="configurationBean_dummy"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="dummy" />
-    <property name="postalCode" value="95999"/>
-    <property name="displayTitle">
-      <value>Ville de Dummy sur Mer</value>
-    </property>
-    <property name="urls">
-      <list>
-        <value>localhost</value>
-      </list>
-    </property>
     <property name="requestsCreationNotificationEnabled" value="true" />
     <property name="instructionAlertsEnabled" value="true" />
     <property name="instructionAlertsDetailed" value="true" />

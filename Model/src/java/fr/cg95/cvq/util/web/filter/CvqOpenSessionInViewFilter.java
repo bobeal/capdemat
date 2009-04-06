@@ -15,6 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -64,8 +65,11 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
                 WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
             ILocalAuthorityRegistry localAuthRegistry = 
                 (ILocalAuthorityRegistry) wac.getBean("localAuthorityRegistry");
-            LocalAuthorityConfigurationBean lacb = 
-                localAuthRegistry.getLocalAuthorityBeanByUrl(request.getServerName());
+            LocalAuthority la = localAuthRegistry.getLocalAuthorityByServerName(request.getServerName());
+            if (la == null)
+                throw new ServletException("No local authority found !");
+            LocalAuthorityConfigurationBean lacb =
+                localAuthRegistry.getLocalAuthorityBeanByName(la.getName());
             if (lacb == null)
                 throw new ServletException("No local authority found !");
             SessionFactory sessionFactory = lacb.getSessionFactory();

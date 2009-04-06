@@ -109,12 +109,34 @@ class LocalAuthorityController {
         }
     }
 
+    def identity = {
+        if (request.get) {
+            def serverNames = SecurityContext.getCurrentSite().serverNames.join("\n")
+            return ["subMenuEntries" : subMenuEntries,
+                    "postalCode" : SecurityContext.getCurrentSite().postalCode,
+                    "displayTitle" : SecurityContext.getCurrentSite().displayTitle,
+                    "serverNames" : serverNames]
+        } else if (request.post) {
+            bind(SecurityContext.getCurrentSite())
+            def serverNames = []
+            params.serverNames.split(["\n"]).each{
+                it = it.trim()
+                if (!it.isEmpty()) {
+                    serverNames.add(it)
+                }
+            }
+            localAuthorityRegistry.setLocalAuthorityServerNames(serverNames)
+            render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
+            return false
+        }
+    }
+
     def rollback = {
         localAuthorityRegistry.rollbackLocalAuthorityResource(params.id)
         render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
         return false
     }
 
-    def subMenuEntries = ["drafts", "meansOfContact", "aspect", "pdf"]
+    def subMenuEntries = ["drafts", "meansOfContact", "aspect", "pdf", "identity"]
 
 }

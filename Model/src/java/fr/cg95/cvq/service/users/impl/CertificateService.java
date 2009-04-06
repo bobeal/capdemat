@@ -178,7 +178,7 @@ public class CertificateService implements ICertificateService {
                         localAuthorityRegistry.getAssetsBase()
                         + SecurityContext.getCurrentConfigurationBean().getName().toLowerCase());
                 transformer.setParameter("friendlyLocalAuthorityName",
-                        SecurityContext.getCurrentConfigurationBean().getDisplayTitle());
+                        SecurityContext.getCurrentSite().getDisplayTitle());
                 transformer.setParameter("localizationService", localizationService);
                 
                 File logoFile = 

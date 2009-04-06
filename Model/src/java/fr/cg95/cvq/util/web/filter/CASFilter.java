@@ -32,6 +32,7 @@ import edu.yale.its.tp.cas.client.CASReceipt;
 import edu.yale.its.tp.cas.client.ProxyTicketValidator;
 import edu.yale.its.tp.cas.client.Util;
 import edu.yale.its.tp.cas.client.filter.CASFilterRequestWrapper;
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 
@@ -360,8 +361,11 @@ public class CASFilter implements Filter {
             WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
         ILocalAuthorityRegistry localAuthRegistry = 
             (ILocalAuthorityRegistry) wac.getBean("localAuthorityRegistry");
-        LocalAuthorityConfigurationBean lacb = 
-            localAuthRegistry.getLocalAuthorityBeanByUrl(request.getServerName());
+        LocalAuthority la = localAuthRegistry.getLocalAuthorityByServerName(request.getServerName());
+        if (la == null)
+            throw new ServletException("No local authority found !");
+        LocalAuthorityConfigurationBean lacb =
+            localAuthRegistry.getLocalAuthorityBeanByName(la.getName());
         if (lacb == null)
             throw new ServletException("No local authority found !");
 

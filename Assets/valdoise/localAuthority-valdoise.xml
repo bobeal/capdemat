@@ -7,9 +7,9 @@
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean"
     init-method="init">
     <property name="name" value="valdoise"/>
-    <property name="postalCode" value="95999"/>
-    <property name="displayTitle" value="Conseil Général du Val d'Oise"/>
-    <property name="urls">
+    <!-- <property name="postalCode" value="95999"/> -->
+    <!-- <property name="displayTitle" value="Conseil Général du Val d'Oise"/> -->
+    <!-- <property name="urls">
       <list>
         <value>10.0.0.46</value>
         <value>localhost</value>
@@ -17,7 +17,7 @@
         <value>127.0.0.1</value>
         <value>vosdemarches.valdoise.fr</value>
       </list>
-    </property>
+    </property> -->
     <property name="foAccountTabs">
       <list>
         <value>welcome</value>

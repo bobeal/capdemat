@@ -1,6 +1,7 @@
 package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -22,13 +23,23 @@ public class LocalAuthority implements Serializable {
 
     private String name;
     private String postalCode;
+    private String displayTitle;
     private Integer draftLiveDuration = 20;
     private Integer draftNotificationBeforeDelete = 7;
+    /** using an explicit ArrayList instead of List interface to allow Hibernate to instantiate it */
+    private TreeSet<String> serverNames;
 
     /** full constructor */
-    public LocalAuthority(String name, String postalCode) {
+    public LocalAuthority(String name, String postalCode, String displayTitle) {
         this.name = name;
         this.postalCode = postalCode;
+        this.displayTitle = displayTitle;
+        this.serverNames = new TreeSet<String>();
+    }
+
+    /** old full constructor */
+    public LocalAuthority(String name, String postalCode) {
+        this(name, postalCode, null);
     }
 
     /** default constructor */
@@ -83,6 +94,20 @@ public class LocalAuthority implements Serializable {
 
     /**
      * @hibernate.property
+     *  column="display_title"
+     *  not-null="true"
+     *  length="100"
+     */
+    public String getDisplayTitle() {
+        return this.displayTitle;
+    }
+
+    public void setDisplayTitle(String displayTitle) {
+        this.displayTitle = displayTitle;
+    }
+
+    /**
+     * @hibernate.property
      *  column="postal_code"
      *  not-null="true"
      *  length="5"
@@ -93,6 +118,18 @@ public class LocalAuthority implements Serializable {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="server_names"
+     */
+    public TreeSet<String> getServerNames() {
+        return serverNames;
+    }
+
+    public void setServerNames(TreeSet<String> serverNames) {
+        this.serverNames = serverNames;
     }
 
     public String toString() {

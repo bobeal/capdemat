@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.core.io.Resource;
 
@@ -12,6 +13,7 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.permission.CvqPermissionException;
 
 /**
  * Registry for registered local authorities.
@@ -35,12 +37,52 @@ public interface ILocalAuthorityRegistry {
     String HTML_RESOURCE_TYPE = "html";
     String MAIL_TEMPLATES_TYPE = "html/templates/mails";
     
-    LocalAuthorityConfigurationBean getLocalAuthorityBeanByUrl(final String url);
     LocalAuthorityConfigurationBean getLocalAuthorityBeanByName(final String name);
     LocalAuthorityConfigurationBean getLocalAuthorityBean(final LocalAuthority localAuthority);
 
     LocalAuthority getLocalAuthorityByName(final String name);
-    
+
+    /**
+     * Retrieve the local authority which has registered this server name
+     * or null if none have registered it
+     */
+    LocalAuthority getLocalAuthorityByServerName(final String serverName);
+
+    /**
+     * Add the server name to the ones the current local authority listens to,
+     * and register it in the mapping
+     */
+    void addLocalAuthorityServerName(final String serverName)
+        throws CvqPermissionException;
+
+    /**
+     * Register this serverName for current local authority in the mapping
+     */
+    void registerLocalAuthorityServerName(final String serverName);
+
+    /**
+     * Remove and unregister this serverName for current local authority
+     */
+    void removeLocalAuthorityServerName(final String serverName)
+        throws CvqPermissionException;
+
+    /**
+     * Unregister this serverName for current local authority in the mapping
+     */
+    void unregisterLocalAuthorityServerName(final String serverName);
+
+    /**
+     * Return true if the server name isn't used or if it is used by current local authority
+     */
+    boolean isAvailableLocalAuthorityServerName(final String serverName);
+
+    /**
+     * Replace existing serverNames with these new ones for current local authority,
+     * and update mapping
+     */
+    void setLocalAuthorityServerNames(final TreeSet<String> serverNames)
+        throws CvqException ;
+
     Set<String> getAllLocalAuthoritiesNames();
 
     /**

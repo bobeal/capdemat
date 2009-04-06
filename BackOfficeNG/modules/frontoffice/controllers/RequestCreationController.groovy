@@ -1,20 +1,19 @@
-import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.request.MeansOfContactEnum
+import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
+import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.document.IDocumentService
+import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.service.authority.ILocalReferentialService
-import fr.cg95.cvq.service.document.IDocumentService
-import fr.cg95.cvq.service.document.IDocumentTypeService
-import fr.cg95.cvq.exception.CvqException
 
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
@@ -27,10 +26,10 @@ class RequestCreationController {
     IIndividualService individualService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
-    ILocalReferentialService localReferentialService    
     IHomeFolderService homeFolderService
     
     def documentAdaptorService
+    def requestTypeAdaptorService
     def translationService
     
     def defaultAction = 'edit'
@@ -96,8 +95,8 @@ class RequestCreationController {
             'draftVisible': session[uuidString].draftVisible,
             'subjects': getAuthorizedSubjects(requestService, cRequest),
             'meansOfContact': getMeansOfContact(meansOfContactService, requester),
-            'lrTypes': getLocalReferentialTypes(localReferentialService, params.label),
-            'currentStep': 'subject',
+            'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(params.label),
+            'currentStep': 'firstStep',
             'requestTypeLabel': params.label,
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
@@ -295,7 +294,7 @@ class RequestCreationController {
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
                      'meansOfContact': getMeansOfContact(meansOfContactService, requester),
-                     'lrTypes': getLocalReferentialTypes(localReferentialService,requestTypeInfo.label),
+                     'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeInfo.label),
                      'currentStep': currentStep,
                      'requestTypeLabel': requestTypeInfo.label,
                      'stepStates': cRequest.stepStates,
@@ -381,16 +380,6 @@ class RequestCreationController {
         else return false;
     }
     
-    def getLocalReferentialTypes(localReferentialService, requestTypeLabel) {
-        def result = [:]
-        try {
-                localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each{
-                    result.put(StringUtils.firstCase(it.dataName,'Lower'), it)
-                }
-        } catch (CvqException ce) { /* No localReferentialData found ! */ }
-        return result
-    }
-    
     def bindRequester(requester, params) {
         params.each { param ->
             if (param.value.getClass() == GrailsParameterMap.class && param.key == '_requester') {
@@ -446,4 +435,3 @@ class RequestCreationController {
     }
     
 }
-

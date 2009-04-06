@@ -1,6 +1,6 @@
 package fr.cg95.cvq.service.request.school.impl;
 
-import fr.cg95.cvq.business.authority.SectionType;
+import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;

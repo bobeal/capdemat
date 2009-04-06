@@ -104,6 +104,7 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="music_school_registration_request_activity"
      * @hibernate.key

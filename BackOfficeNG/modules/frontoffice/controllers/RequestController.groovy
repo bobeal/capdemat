@@ -13,6 +13,7 @@ class RequestController {
     def requestAdaptorService
     def translationService
     def documentAdaptorService
+    def requestTypeAdaptorService
 
     IRequestServiceRegistry requestServiceRegistry
     IRequestService defaultRequestService
@@ -60,10 +61,13 @@ class RequestController {
             translationService.getEncodedRequestTypeLabelTranslation(request.requestType.label)
         def subjects = [:]
         subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
-        return ['rqt': request, 'requestTypeLabel':requestTypeLabel,
+        return ['rqt': request,
+                'requestTypeLabel':requestTypeLabel,
                 'subjects': subjects,
+                'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(request.requestType.label),
                 'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, []),
-                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)]
+                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)
+        ]
     }
 
     protected filterRequests(state,params) {

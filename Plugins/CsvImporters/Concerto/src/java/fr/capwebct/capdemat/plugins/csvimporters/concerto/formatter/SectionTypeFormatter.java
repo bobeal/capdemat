@@ -1,6 +1,6 @@
 package fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter;
 
-import fr.cg95.cvq.business.authority.SectionType;
+import fr.cg95.cvq.business.users.SectionType;
 import net.sf.anupam.csv.formatters.CSVFieldFormatter;
 
 /**

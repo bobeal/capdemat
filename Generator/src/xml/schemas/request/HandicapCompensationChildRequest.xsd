@@ -2181,7 +2181,7 @@
             Classe fréquentée
           </xs:documentation>
           <xs:appinfo>
-            <model namespace="authority" />
+            <model namespace="users" />
             <common>
               <step name="occupationnalAndSchoolStatus"/>
               <conditions>

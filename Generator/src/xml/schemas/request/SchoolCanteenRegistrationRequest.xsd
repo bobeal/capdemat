@@ -20,32 +20,19 @@
         School canteen registration</xs:documentation>
       <xs:appinfo>
         <model namespace="school" />
-        <fo namespace="schoolcanteen">
-          <display field="Subject.Child.LastName" stage="inscription" page="*" line="1"
-            mode="static" />
-          <display field="Subject.Child.FirstName" stage="inscription" page="*" line="2"
-            mode="static" />
-          <display field="Subject.Child.BirthDate" stage="inscription" page="*" line="3"
-            label="Né(e) le" mode="static" />
-          <display mode="labelonly" type="stagetitle" label="Inscription" stage="validation"
-            page="summary" line="0" />
-          <display field="Subject.Child.LastName" stage="validation" page="summary" line="1"
-            mode="static" />
-          <display field="Subject.Child.FirstName" stage="validation" page="summary" line="2"
-            mode="static" />
-          <display field="Subject.Child.BirthDate" stage="validation" page="summary" line="3"
-            label="Né(e) le" mode="static" />
-        </fo>
-        <bo namespace="school">
-          <display field="Subject.Child.LastName" page="displaycanteen" line="11" mode="static" />
-          <display field="Subject.Child.FirstName" page="displaycanteen" line="12" mode="static" />
-          <display field="Subject.Child.LastName" page="checkcanteen" line="1" mode="static" />
-          <display field="Subject.Child.FirstName" page="checkcanteen" line="2" mode="static" />
-          <display field="Subject.Child.BirthDate" page="checkcanteen" line="3" mode="static" />
-          <display field="Subject.Child.LastName" page="printcanteen" line="1" mode="static" />
-          <display field="Subject.Child.FirstName" page="printcanteen" line="2" mode="static" />
-          <display field="Subject.Child.BirthDate" page="printcanteen" line="3" mode="static" />
-        </bo>
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="registration">
+              <widgets>
+                <subject />
+              </widgets>
+            </step>
+            <step index="1" name="rules" />
+            <step index="2" ref="document" />
+            <step index="3" ref="validation" />
+          </steps>
+        </common>
         <xslfo>
           <blocks-def>
             <block id="0" label="Enfant*" column="2" />
@@ -77,23 +64,15 @@
           <xs:sequence>
             <xs:element name="UrgencyPhone" type="cvq:PhoneType">
               <xs:annotation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Téléphone en cas d'urgence
-		    </xs:documentation>
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" stage="inscription" page="canteen" pageno="1/2" line="3"
-                      mode="title" label="Téléphone en cas d'urgence" help="ex: 0102030405" />
-                    <display field="" stage="inscription" page="display" line="3" mode="static"
-                      label="Téléphone en cas d'urgence" />
-                    <display field="" stage="validation" page="summary" line="6" mode="static"
-                      label="Téléphone en cas d'urgence" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaycanteen" line="22"
-                      label="Téléphone en cas d'urgence" />
-                  </bo>
+                  <common>
+                    <step name="registration" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="2" column="0" columnSpan="1">
                       <string />
@@ -102,7 +81,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="School" type="cvq:SchoolType" minOccurs="0" maxOccurs="1">
+            <xs:element name="School" type="cvq:SchoolType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   L'école dans laquelle est inscrit l'enfant</xs:documentation>
@@ -110,11 +89,10 @@
                   The school in which the child is registered</xs:documentation>
                 <xs:appinfo>
                   <model namespace="authority" />
-                  <bo>
-                    <display field="Name" page="displaycanteen" line="31" mode="static" />
-                    <display field="Name" type="schools" page="checkcanteen" line="4" mode="input" />
-                    <display field="Name" page="printcanteen" line="4" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="registration" />
+                  </common>
+                  <bo column="2" />
                   <xslfo>
                     <element blockId="0" line="0" column="0">
                       <string selectXPath="cvq:Name" />
@@ -126,12 +104,11 @@
             <xs:element name="Section" type="cvq:SectionType" default="Unknown">
               <xs:annotation>
                 <xs:appinfo>
-                  <model namespace="authority" />
-                  <bo>
-                    <display field="" page="displaycanteen" line="32" mode="static" />
-                    <display field="" page="checkcanteen" line="5" mode="input" />
-                    <display field="" page="printcanteen" line="5" mode="static" />
-                  </bo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="registration" />
+                  </common>
+                  <bo column="2" />
                   <xslfo>
                     <element blockId="0" line="0" column="1">
                       <string referential="true" />
@@ -144,26 +121,17 @@
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Informations relatives au régime alimentaire de l'enfant
-		</xs:documentation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Régime alimentaire
-		</xs:documentation>
+		        </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
-                  <fo repository="FoodDiet">
-                    <display field="" type="yesnolist" stage="inscription" page="permission"
-                      pageno="2/2" line="1" />
-                    <display field="" type="yesnolist" stage="inscription" page="display"
-                      line="5" mode="static" />
-                    <display field="" type="yesnolist" stage="validation" page="summary"
-                      line="8" mode="static" />
-                  </fo>
-                  <bo repository="FoodDiet">
-                    <display field="" page="displaycanteen" line="52" />
-                    <display field="" page="checkcanteen" line="8" mode="static" />
-                    <display field="" page="printcanteen" line="8" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="registration" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="1" line="0" column="0" usePrefixLabel="false">
                       <localReferential />
@@ -177,26 +145,18 @@
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Informations relatives aux jours de présence de l'enfant au restaurant scolaire
-		</xs:documentation>
+		        </xs:documentation>
                 <xs:documentation xml:lang="fr"
                   source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Jours de présence
-		</xs:documentation>
+		        </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
-                  <fo repository="CanteenAttendingDays">
-                    <display field="" type="checklist[1]" stage="inscription" page="canteen"
-                      line="4" />
-                    <display field="" type="checklist[1]" stage="inscription" page="display"
-                      line="4" mode="static" />
-                    <display field="" type="checklist[1]" stage="validation" page="summary"
-                      line="7" mode="static" />
-                  </fo>
-                  <bo repository="CanteenAttendingDays">
-                    <display field="" page="displaycanteen" line="41" />
-                    <display field="" page="checkcanteen" line="6" mode="static" />
-                    <display field="" page="printcanteen" line="6" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="registration" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="2" line="0" column="0" usePrefixLabel="false">
                       <localReferential />
@@ -207,52 +167,37 @@
             </xs:element>
             <xs:element name="FoodAllergy" type="xs:boolean" default="false">
               <xs:annotation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Allergie</xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Allergie
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" type="yesno" stage="inscription" page="permission"
-                      line="6" mode="inline" />
-                    <display field="" type="yesno" stage="inscription" page="display" line="10"
-                      mode="static" />
-                    <display field="" type="yesno" stage="validation" page="summary" line="13"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" type="yesno" page="displaycanteen" line="51" />
-                    <display field="" type="yesno" page="checkcanteen" line="7" mode="static" />
-                    <display field="" type="yesno" page="printcanteen" line="7" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="registration" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="4" line="0" column="0" columnSpan="2"
-                      prefixLabel="Votre enfant pr&#233;sente-t-il une allergie alimentaire ?"
-                      footNotice="Si oui, un certificat m&#233;dical est obligatoire et il est
-		      imp&#233;ratif de contacter le service Restaurants Scolaires.">
+                      prefixLabel="Votre enfant présente-t-il une allergie alimentaire ?"
+                      footNotice="Si oui, un certificat médical est obligatoire et il est
+		              impératif de contacter le service Restaurants Scolaires.">
                       <yesnoCheckbox />
                     </element>
                   </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="DoctorName" type="xs:string" minOccurs="0" default="">
+            <xs:element name="DoctorName" type="xs:string" minOccurs="0">
               <xs:annotation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Nom du médecin traitant
-		</xs:documentation>
+		        </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display mode="labelonly" label="Médecin traitant" stage="inscription"
-                      page="permission" line="7" />
-                    <display field="" label="Nom" stage="inscription" page="permission"
-                      line="8" />
-                    <display field="" stage="inscription" page="display" line="11" mode="static" />
-                    <display field="" stage="validation" page="summary" line="14" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaycanteen" line="61" />
-                  </bo>
+                  <common>
+                    <step name="registration" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="4" line="1" column="0">
                       <string />
@@ -263,16 +208,15 @@
             </xs:element>
             <xs:element name="DoctorPhone" type="cvq:PhoneType" minOccurs="0">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Téléphone du médecin traitant
+		        </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" stage="inscription" page="permission" line="9"
-                      help="ex: 0102030405" />
-                    <display field="" stage="inscription" page="display" line="12" mode="static" />
-                    <display field="" stage="validation" page="summary" line="15" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaycanteen" line="62" />
-                  </bo>
+                  <common>
+                    <step name="registration" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="4" line="1" column="1">
                       <string />
@@ -281,56 +225,53 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="HospitalizationPermission" type="cvq:AcceptanceType"
-              default="false">
+            <xs:element name="HospitalizationPermission" type="cvq:AcceptanceType" default="false">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Autorisation d'hospitalisation de l'enfant
+		        </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display type="yesno" stage="rules" page="authorisation" line="2"
-                      label="J'autorise l'hospitalisation de mon enfant" />
-                    <display type="yesno" stage="validation" page="summary" line="18"
-                      label="J'autorise l'hospitalisation de mon enfant" mode="static" />
-                  </fo>
-                  <bo>
-                    <display type="yesno" page="displaycanteen" line="42"
-                      label="Autorisation d'hospitalisation" />
-                  </bo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="7" line="0" column="0">
                       <signature>
                         <acceptMessage index="0">En inscrivant mon enfant (ci-dessus d&#233;sign&#233;) en Restaurant Scolaire, j'autorise les responsables &#224;  prendre toutes les mesures pour le faire soigner, hospitaliser, op&#233;rer si n&#233;cessaire.</acceptMessage>
-			<acceptMessage index="1">JE CERTIFIE que tous les renseignements port&#233;s sur la pr&#233;sente fiche sont exacts, je m'engage &#224;  signaler sans retard tous les changements qui interviendraient.</acceptMessage>
-			<rejectMessage index="0">Vous n'avez pas accept&#233; l'autorisation d'hospitalisation</rejectMessage>
-		      </signature>
-		    </element>
-		  </xslfo>
-		</xs:appinfo>
-	      </xs:annotation>
-	    </xs:element>
-	    <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType" default="false">
-	      <xs:annotation>
-		<xs:appinfo>
-		  <fo>
-		    <display type="yesno" stage="rules" page="authorisation" line="1" label="J'accepte et je m'engage à respecter le règlement"/>
-		    <display mode="labelonly" type="stagetitle" label="Rules" stage="validation" page="summary" line="16"/>
-		    <display type="yesno" stage="validation" page="summary" line="17" label="J'accepte et je m'engage à respecter le règlement" mode="static"/>
-		  </fo>
-		  <bo>
-		    <display type="yesno" page="displaycanteen" line="72" label="Acceptation du règlement intérieur"/>
-		  </bo>
-		  <xslfo>
-		    <element blockId="8" line="0" column="0">
-		      <signature>
-			<acceptMessage index="0">J'ai pris parfaite connaissance du r&#232;glement int&#233;rieur de la restauration scolaire qui accompagne cette fiche.</acceptMessage>
-			<rejectMessage index="0">Vous n'avez pas accept&#233; le r&#233;glement int&#233;rieur</rejectMessage>
-		      </signature>
-		    </element>
-		  </xslfo>
-		</xs:appinfo>
-	      </xs:annotation>
-	    </xs:element>
-	  </xs:sequence>
-	</xs:extension>
+			            <acceptMessage index="1">JE CERTIFIE que tous les renseignements port&#233;s sur la pr&#233;sente fiche sont exacts, je m'engage &#224;  signaler sans retard tous les changements qui interviendraient.</acceptMessage>
+			            <rejectMessage index="0">Vous n'avez pas accept&#233; l'autorisation d'hospitalisation</rejectMessage>
+		              </signature>
+		            </element>
+		          </xslfo>
+		        </xs:appinfo>
+	          </xs:annotation>
+	        </xs:element>
+	        <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType" default="false">
+	          <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Acceptation du règlement intérieur
+		        </xs:documentation>
+		        <xs:appinfo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="8" line="0" column="0">
+                      <signature>
+                        <acceptMessage index="0">J'ai pris parfaite connaissance du r&#232;glement int&#233;rieur de la restauration scolaire qui accompagne cette fiche.</acceptMessage>
+                        <rejectMessage index="0">Vous n'avez pas accept&#233; le r&#233;glement int&#233;rieur</rejectMessage>
+                      </signature>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>

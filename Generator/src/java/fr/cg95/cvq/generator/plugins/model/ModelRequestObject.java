@@ -820,6 +820,7 @@ public class ModelRequestObject {
                     // a one-to-many
                     currentSb.append("     * @hibernate.list\n");
                     currentSb.append("     *  inverse=\"false\"\n");
+                    currentSb.append("     *  lazy=\"false\"\n");
                     if (eltModelProperties.isTiedToRequest())
                         currentSb.append("     *  cascade=\"all\"\n");
                     currentSb.append("     *  table=\"" + getSQLName(requestName) + "_" + getSQLName(elementName) + "\"\n");
@@ -943,7 +944,7 @@ public class ModelRequestObject {
         writeBusinessObjectFile(className, sb.toString().getBytes());
     }
 
-    public void generateLocalComplexTypeHeader(ComplexType complexType) {
+    private void generateLocalComplexTypeHeader(ComplexType complexType) {
 
         // print general information (package, imports and class declaration)
         currentSb.append("package fr.cg95.cvq.business.request." + requestNamespaceLastParticle + ";");

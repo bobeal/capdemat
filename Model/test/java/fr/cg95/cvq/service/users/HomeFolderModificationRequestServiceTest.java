@@ -10,7 +10,7 @@ import junit.framework.Assert;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.School;
-import fr.cg95.cvq.business.authority.SectionType;
+import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;

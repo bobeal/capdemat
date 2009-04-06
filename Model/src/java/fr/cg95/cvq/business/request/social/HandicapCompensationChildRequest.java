@@ -561,9 +561,9 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequest.setReferentFamilyDependents(Boolean.valueOf(handicapCompensationChildRequestXml.getReferent().getReferentFamilyDependents()));
         handicapCompensationChildRequest.setIsFamilyAssistance(Boolean.valueOf(handicapCompensationChildRequestXml.getFamilyAssistance().getIsFamilyAssistance()));
         if (handicapCompensationChildRequestXml.getSchooling().getSchoolingAttendedGrade() != null)
-            handicapCompensationChildRequest.setSchoolingAttendedGrade(fr.cg95.cvq.business.authority.SectionType.forString(handicapCompensationChildRequestXml.getSchooling().getSchoolingAttendedGrade().toString()));
+            handicapCompensationChildRequest.setSchoolingAttendedGrade(fr.cg95.cvq.business.users.SectionType.forString(handicapCompensationChildRequestXml.getSchooling().getSchoolingAttendedGrade().toString()));
         else
-            handicapCompensationChildRequest.setSchoolingAttendedGrade(fr.cg95.cvq.business.authority.SectionType.getDefaultSectionType());
+            handicapCompensationChildRequest.setSchoolingAttendedGrade(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
         List<fr.cg95.cvq.business.request.social.HccrFamilyDependent> familyDependentsList = new ArrayList<fr.cg95.cvq.business.request.social.HccrFamilyDependent> ();
         if ( handicapCompensationChildRequestXml.sizeOfFamilyDependentsArray() > 0) {
             for (int i = 0; i < handicapCompensationChildRequestXml.getFamilyDependentsArray().length; i++) {
@@ -908,9 +908,9 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         return this.isFamilyAssistance;
     }
 
-    private fr.cg95.cvq.business.authority.SectionType schoolingAttendedGrade;
+    private fr.cg95.cvq.business.users.SectionType schoolingAttendedGrade;
 
-    public final void setSchoolingAttendedGrade(final fr.cg95.cvq.business.authority.SectionType schoolingAttendedGrade) {
+    public final void setSchoolingAttendedGrade(final fr.cg95.cvq.business.users.SectionType schoolingAttendedGrade) {
         this.schoolingAttendedGrade = schoolingAttendedGrade;
     }
 
@@ -920,7 +920,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
      *  column="schooling_attended_grade"
      *  length="32"
      */
-    public final fr.cg95.cvq.business.authority.SectionType getSchoolingAttendedGrade() {
+    public final fr.cg95.cvq.business.users.SectionType getSchoolingAttendedGrade() {
         return this.schoolingAttendedGrade;
     }
 

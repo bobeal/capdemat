@@ -126,7 +126,7 @@
             <xs:element name="Section" type="cvq:SectionType" default="Unknown">
               <xs:annotation>
                 <xs:appinfo>
-                  <model namespace="authority" />
+                  <model namespace="users" />
                   <bo>
                     <display field="" page="checkperischool" line="5" mode="input" />
                     <display field="" page="printperischool" line="5" mode="static" />

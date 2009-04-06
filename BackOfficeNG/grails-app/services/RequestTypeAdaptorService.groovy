@@ -1,15 +1,18 @@
-import fr.cg95.cvq.service.request.IRequestService
-import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.request.DisplayGroup
 import fr.cg95.cvq.business.request.RequestType
+import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.service.authority.ILocalReferentialService
+import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
+import fr.cg95.cvq.service.request.IRequestServiceRegistry
 
 
 public class RequestTypeAdaptorService {
     
     IRequestTypeService requestTypeService
     IRequestServiceRegistry requestServiceRegistry
+    ILocalReferentialService localReferentialService
 
     public Map getDisplayGroups(Boolean loggedContext, HomeFolder homeFolder) {
         def result = [:]
@@ -45,7 +48,19 @@ public class RequestTypeAdaptorService {
         
         return result
     }
-    
+
+    public Map getLocalReferentialTypes(requestTypeLabel) {
+        def result = [:]
+        try {
+            localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each {
+                result.put(StringUtils.firstCase(it.dataName,'Lower'), it)
+            }
+        } catch (CvqException ce) { /* No localReferentialData found ! */ }
+
+        return result
+    }
+
+
     protected Boolean eval(Boolean exp, String message, List coll) {
         if(!exp) coll.add(message)
         return exp

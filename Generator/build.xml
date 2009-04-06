@@ -80,10 +80,12 @@
 
   <target name="XMLBean" description="XMLBean Code Generation">
 
-    <taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpathref="classpath.compile">
+    <taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean"
+      classpathref="classpath.compile">
     </taskdef>
 
-    <xmlbean destfile="${build.archives.dir}/${application.name}-RequestSchemas-${application.version}.jar" classpathref="classpath.compile">
+    <xmlbean destfile="${build.archives.dir}/${application.name}-RequestSchemas-${application.version}.jar"
+      classpathref="classpath.compile">
       <fileset refid="generated-requests" />
       <!-- add XSD of non completely generated requests -->
       <fileset dir="${src.xml.schema.dir}/request">
@@ -100,7 +102,8 @@
   </target>
 
   <target name="compile" depends="init, XMLBean">
-    <javac optimize="on" debug="on" verbose="off" srcdir="${src.java.dir}" includes="fr/cg95/cvq/generator/**" deprecation="on" destdir="${build.classes.dir}">
+    <javac optimize="on" debug="on" verbose="off" srcdir="${src.java.dir}"
+      includes="fr/cg95/cvq/generator/**" deprecation="on" destdir="${build.classes.dir}">
       <classpath>
         <path refid="classpath.compile" />
         <fileset dir="${build.archives.dir}">
@@ -122,7 +125,8 @@
   </target>
 
   <target name="deploy" depends="dist">
-    <copy todir="${deploy.model.dir}" file="${build.archives.dir}/${application.name}-RequestSchemas-${application.version}.jar" />
+    <copy todir="${deploy.model.dir}"
+      file="${build.archives.dir}/${application.name}-RequestSchemas-${application.version}.jar" />
   </target>
 
   <!-- depends on dist could be enough but we have to call deploy to test the generated data so ... -->
@@ -133,29 +137,19 @@
     </taskdef>
 
     <generator>
-      <!--
-      <fileset refid="generated-requests" />
-      -->
-    <fileset id="generated-requests" dir="${src.xml.schema.dir}/request">
-      <!-- include name="BirthDetailsRequestNG.xsd" / -->
-      <include name="HandicapCompensationAdultRequest.xsd" />
-      <include name="HandicapCompensationChildRequest.xsd" />
-      <include name="DomesticHelpRequest.xsd" />
-      <include name="RemoteSupportRequest.xsd" />        
-    </fileset>
+      <!-- <fileset refid="generated-requests" /> -->
+      <fileset id="generated-requests" dir="${src.xml.schema.dir}/request">
+        <include name="SchoolCanteenRegistrationRequest.xsd" />
+      </fileset>
       <plugins>
         <fileset dir="${src.xml.plugins.dir}"> 
-          <include name="bo_plugin.xml" />
-          <include name="fong_plugin.xml" />
-          <!--
-          <include name="fong_plugin.xml" />
-          <include name="bo_plugin.xml" />
-          <include name="model_plugin.xml" />
           <include name="i18n_plugin.xml" />
-          -->
           <!--
-          <include name="xslfo_plugin.xml" />
           <include name="model_plugin.xml" />
+          <include name="bo_plugin.xml" />
+          <include name="fong_plugin.xml" />
+          <include name="i18n_plugin.xml" />
+          <include name="xslfo_plugin.xml" />
           <include name="enumeration_plugin.xml" />
           -->
         </fileset>
@@ -178,8 +172,10 @@
 
   </target>
 
-  <target name="xmlinstance-test" depends="XMLBean, dist" description="Test validation of an XML file against its schema">
-    <java classname="fr.cg95.cvq.generator.tool.XmlValidator" classpathref="classpath.generator" fork="true">
+  <target name="xmlinstance-test" depends="XMLBean, dist"
+    description="Test validation of an XML file against its schema">
+    <java classname="fr.cg95.cvq.generator.tool.XmlValidator" classpathref="classpath.generator"
+      fork="true">
       <arg line="msrr.xml" />
       <arg line="src/xml/schemas/request/MusicSchoolRegistrationRequest.xsd" />
     </java>
@@ -203,9 +199,12 @@
     <delete dir="${basedir}/${doc.javadoc.dir}" />
   </target>
 
-  <target name="apidoc" description="Builds the project's code documentation HTML pages" depends="init, XMLBean">
+  <target name="apidoc" description="Builds the project's code documentation HTML pages"
+    depends="init, XMLBean">
 
-    <javadoc destdir="${basedir}/${doc.javadoc.dir}" author="true" version="true" private="true" use="true" windowtitle="CapDémat Generator and XML Schemas API" classpathref="classpath.compile" additionalparam="${javadoc.proxy.params}">
+    <javadoc destdir="${basedir}/${doc.javadoc.dir}" author="true" version="true" private="true" 
+      use="true" windowtitle="CapDémat Generator and XML Schemas API"
+      classpathref="classpath.compile" additionalparam="${javadoc.proxy.params}">
 
       <!-- The links the generated code doc should use -->
       <link href="http://java.sun.com/j2se/1.5.0/docs/api/" />

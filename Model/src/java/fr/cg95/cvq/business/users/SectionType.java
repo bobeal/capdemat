@@ -1,4 +1,4 @@
-package fr.cg95.cvq.business.authority;
+package fr.cg95.cvq.business.users;
 
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 

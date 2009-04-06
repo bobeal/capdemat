@@ -43,6 +43,13 @@ public interface ILocalReferentialService {
         throws CvqException;
 
     /**
+     * Test localreferential configuration for a requestType
+     * <br />Return false if at least one localReferentialType has null or empty entries. 
+     * <br />Otherwise return true.
+     */
+    public boolean isLocalReferentialConfigure(final String requestTypeLabel) throws CvqException;
+    
+    /**
      * Set local referential data.
      */
     void setLocalReferentialData(final LocalReferentialType localReferentialType)

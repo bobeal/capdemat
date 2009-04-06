@@ -470,7 +470,7 @@ public class DocumentService implements IDocumentService {
         return (DocumentState[]) documentStateList.toArray(new DocumentState[0]);
     }
 
-    protected void addActionTrace(final String label, final DocumentState resultingState,
+    public void addActionTrace(final String label, final DocumentState resultingState,
             final Document document)
         throws CvqException {
 
@@ -491,6 +491,15 @@ public class DocumentService implements IDocumentService {
         documentDAO.update(document);
     }
 
+    public List<DocumentState> getEditableStates() {
+        List<DocumentState> result = new ArrayList<DocumentState>();
+        
+        result.add(DocumentState.PENDING);
+        result.add(DocumentState.OUTDATED);
+        
+        return result;
+    }
+    
     public void setDocumentDAO(final IDocumentDAO documentDAO) {
         this.documentDAO = documentDAO;
     }

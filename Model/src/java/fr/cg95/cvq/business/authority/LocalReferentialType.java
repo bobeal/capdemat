@@ -1,10 +1,12 @@
 package fr.cg95.cvq.business.authority;
 
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
+import fr.cg95.cvq.exception.CvqLocalReferentialException;
 
 /**
  * Define a type of local referential data, eg food diet for a school canteen registration request.
@@ -26,12 +28,19 @@ public class LocalReferentialType {
     /**
      * Map of labels keyed by their two-letters language code
      */
-    private Map labelsMap;
+    private Map<String,String> labelsMap;
 
     /**
      * Set of {@link LocalReferentialEntry}
      */
-    private Set entries;
+    private Set<LocalReferentialEntry> entries;
+    
+    /**
+     * Map of all entries indexed by their key
+     *  - usefull to ensure key uniqueness in entries tree
+     *  - usefull to ease fetching of a particular entry in the tree
+     */
+    private Map<String,LocalReferentialEntry> keyEntriesMap ;
 
     private boolean entriesSupportPriority;
     private boolean entriesSupportPrecision;
@@ -44,30 +53,52 @@ public class LocalReferentialType {
     public final void setDataName(String dataName) {
         this.dataName = dataName;
     }
-    public final Set getEntries() {
+    public final Set<LocalReferentialEntry> getEntries() {
         return entries;
     }
-    public final void setEntries(Set entries) {
+    public final void setEntries(Set<LocalReferentialEntry> entries) {
         this.entries = entries;
     }
 
-    public final void addEntry(final LocalReferentialEntry lre) {
-        if (entries == null)
-            entries = new LinkedHashSet();
-        entries.add(lre);
-    }
-
-    public LocalReferentialEntry getEntryByKey(final String key) {
-        if (entries == null)
-            return null;
-        Iterator it = entries.iterator();
-        while (it.hasNext()) {
-            LocalReferentialEntry lre = (LocalReferentialEntry) it.next();
-            if (lre.getKey().equals(key))
-                return lre;
+    public final void addEntry(final LocalReferentialEntry lre , final LocalReferentialEntry parentLre) 
+            throws CvqLocalReferentialException {
+        if (lre.getKey() == null)
+            lre.setKey(generateEntryKey(lre, parentLre));
+        putkeyEntry(lre);
+        if (parentLre != null)
+            parentLre.addEntry(lre);
+        else {
+            if (entries == null)
+                entries = new LinkedHashSet<LocalReferentialEntry>();
+            entries.add(lre);
         }
-
-        return null;
+    }
+    
+    public final void removeEntry(final LocalReferentialEntry lre , final LocalReferentialEntry parentLre) {
+        removeKeyEntries(lre.getEntries());
+        keyEntriesMap.remove(lre.getKey());
+        if (parentLre != null)
+            parentLre.removeEntry(lre);
+        else {
+            if (entries == null)
+                return;
+            entries.remove(lre);
+        }
+    }
+    
+    private void removeKeyEntries(Set<LocalReferentialEntry> entries) {
+        if (entries != null) {
+            for (LocalReferentialEntry lre : entries) {
+                removeKeyEntries(lre.getEntries());
+                keyEntriesMap.remove(lre.getKey());
+            }
+        }
+    }
+    
+    public LocalReferentialEntry getEntryByKey(final String key) {
+        if (keyEntriesMap == null)
+            return null;
+        return keyEntriesMap.get(key);
     }
 
     public final boolean getEntriesSupportPrecision() {
@@ -97,17 +128,17 @@ public class LocalReferentialType {
         this.entriesSupportMultiple = entriesSupportMultiple;
     }
 
-    public final Map getLabelsMap() {
+    public final Map<String,String> getLabelsMap() {
         return labelsMap;
     }
 
-    public final void setLabelsMap(Map labelsMap) {
+    public final void setLabelsMap(Map<String,String> labelsMap) {
         this.labelsMap = labelsMap;
     }
 
     public final void addLabel(final String lang, final String value) {
         if (labelsMap == null)
-            labelsMap = new LinkedHashMap();
+            labelsMap = new LinkedHashMap<String,String>();
         labelsMap.put(lang, value);
     }
 
@@ -117,5 +148,20 @@ public class LocalReferentialType {
 
     public final void setRequest(String request) {
         this.request = request;
+    }
+    
+    private void putkeyEntry(LocalReferentialEntry lre) throws CvqLocalReferentialException {
+        if (keyEntriesMap == null)
+            keyEntriesMap = new HashMap<String, LocalReferentialEntry>();
+        
+        if (keyEntriesMap.containsKey(lre.getKey()))
+            throw new CvqLocalReferentialException("entry [key= " + lre.getKey() + "] already exists","localReferential.error.entryAlreadyExists");
+        keyEntriesMap.put(lre.getKey(), lre);
+    }
+    
+    // TODO - How to manage i18n and key generation policy
+    private String generateEntryKey(LocalReferentialEntry lre, LocalReferentialEntry parentLre) {
+        String suffixKey = lre.getLabelsMap().get("fr").replaceAll("[^\\w\\.]", "-").replace('_', '-');
+        return (parentLre != null ? parentLre.getKey() + "-" : "") + suffixKey;
     }
 }

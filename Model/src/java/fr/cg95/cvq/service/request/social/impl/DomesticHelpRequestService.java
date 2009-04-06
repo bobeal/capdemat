@@ -25,6 +25,7 @@ public class DomesticHelpRequestService extends RequestService implements
 
     static Logger logger = Logger.getLogger(DomesticHelpRequestService.class);
 
+    @Override
     public Long create(final Request request) throws CvqException,
             CvqObjectNotFoundException {
 
@@ -36,6 +37,7 @@ public class DomesticHelpRequestService extends RequestService implements
         return finalizeAndPersist(dhr);
     }
 
+    @Override
     public void modify(Request request) throws CvqException {
 
         processTotals((DomesticHelpRequest) request);
@@ -88,10 +90,12 @@ public class DomesticHelpRequestService extends RequestService implements
 //        dhr.setTaxesTotal(BigInteger.valueOf(taxesTotal));
     } 
     
+    @Override
     public boolean accept(Request request) {
         return request instanceof DomesticHelpRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new DomesticHelpRequest();
     }
@@ -116,6 +120,7 @@ public class DomesticHelpRequestService extends RequestService implements
     /**
      * TODO - move to abstract RequestService
      */
+    @Override
     public boolean isConditionFilled (Map<String, String> triggers) {
         initFilledConditions();
         boolean test = true;

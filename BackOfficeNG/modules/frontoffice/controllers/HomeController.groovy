@@ -12,18 +12,21 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.security.annotation.ContextType
 
 class HomeController {
 
     def requestAdaptorService
     def instructionService
-    def requestTypeService
+    def requestTypeAdaptorService
     
     IRequestService defaultRequestService
+    IRequestActionService requestActionService
     ILocalAuthorityRegistry localAuthorityRegistry
-    IRequestServiceRegistry requestServiceRegistry
+    IHomeFolderService homeFolderService
     IPaymentService paymentService
     IDocumentService documentService
     IAuthenticationService authenticationService
@@ -51,8 +54,8 @@ class HomeController {
         result.dashBoard.drafts =
             requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
         result.dashBoard.drafts.records.each {
-            if (defaultRequestService.hasAction(it.id,
-                IRequestService.DRAFT_DELETE_NOTIFICATION)) {
+            if (requestActionService.hasAction(it.id,
+                IRequestActionService.DRAFT_DELETE_NOTIFICATION)) {
                 it.displayDraftWarning = true
                 it.draftExpirationDate = it.creationDate +
                     SecurityContext.currentSite.draftLiveDuration
@@ -72,21 +75,42 @@ class HomeController {
             catch (CvqAuthenticationFailedException e) {error='error.authenticationFailed'}
             catch (CvqDisabledAccountException e) {error='error.disabledAccount'}
             
-            if(result && result instanceof HomeFolder) { 
-                session.currentUser = params.login
+            if(result && result instanceof HomeFolder) {
+                session.currentEcitizen = params.login
+                session.frontContext = ContextType.ECITIZEN
+                
+                SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
+                SecurityContext.setCurrentEcitizen(session.currentEcitizen)
+                
                 redirect(controller:'frontofficeHome')
+                return false
             }
         }
         return [
             'isLogin': true,
             'error': message(code:error),
-            'groups': requestTypeService.getDisplayGroups(false,null)
+            'groups': requestTypeAdaptorService.getDisplayGroups(false,null)
         ]
     }
     
     def logout = {
-        session.currentUser = null
+        session.frontContext = null
+        session.currentEcitizen = null
         redirect(controller:'frontofficeHome')
+    }
+    
+    def loginAgent = {
+        if(session.currentUser) {
+            session.currentEcitizen = params.login
+            SecurityContext.setCurrentEcitizen(params.login)
+            session.frontContext = ContextType.AGENT
+            
+            redirect(controller:'frontofficeRequestType')
+            return false            
+        } else {
+            redirect(controller:'frontofficeHome')
+            return false
+        }
     }
     
     def protected preparePayments(payments) {

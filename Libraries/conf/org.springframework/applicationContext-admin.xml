@@ -10,6 +10,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ************** LDAP Synchronizer Job Configuration ****************  -->
   <!-- *******************************************************************  -->
 
+  <!--
   <bean id="ldapSynchronizerJob"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
     <property name="targetObject" ref="ldapService" />
@@ -17,22 +18,19 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="concurrent" value="false" />
   </bean>
 
-  <!-- testing purposes only -->
-  <!-- 
-    <bean id="ldapSynchronizerTestTrigger" 
-      class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+  <bean id="ldapSynchronizerTestTrigger" 
+    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
     <property name="jobDetail" ref="ldapSynchronizerJob"/>
     <property name="startDelay" value="5000"/>
     <property name="repeatInterval" value="600000"/>
-    </bean>
-  -->
+  </bean>
 
-  <!-- production settings -->
   <bean id="ldapSynchronizerTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="ldapSynchronizerJob" />
     <property name="cronExpression" value="0 0 6 * * ?" />
   </bean>
+  -->
 
   <!-- *******************************************************************  -->
   <!-- ***** Requests Instruction Duration Checker Job Configuration *****  -->
@@ -41,11 +39,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="requestInstructionDurationCheckerJob" 
     class="fr.cg95.cvq.service.request.job.RequestInstructionDurationCheckerJob">
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
-    <property name="requestService"><ref bean="defaultRequestService"/></property>
+    <property name="requestActionService"><ref bean="requestActionService"/></property>
+    <property name="requestWorkflowService"><ref bean="requestWorkflowService"/></property>
     <property name="mailService"><ref bean="mailService"/></property>
     <property name="localizationService"><ref bean="localizationService"/></property>
     <property name="requestDAO"><ref bean="requestDAO"/></property>
-    <property name="requestActionDAO"><ref bean="requestActionDAO"/></property>
   </bean>
 
   <bean id="requestInstructionDurationCheckerJobInvoker"
@@ -79,7 +77,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="requestCreationNotificationJob" 
     class="fr.cg95.cvq.service.request.job.RequestCreationNotificationJob">
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
-    <property name="requestService"><ref bean="defaultRequestService"/></property>
+    <property name="requestActionService"><ref bean="requestActionService"/></property>
     <property name="mailService"><ref bean="mailService"/></property>
     <property name="localizationService"><ref bean="localizationService"/></property>
     <property name="requestDAO"><ref bean="requestDAO"/></property>
@@ -113,6 +111,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ********** Requests Workflow Navigator Job Configuration **********  -->
   <!-- *******************************************************************  -->
 
+  <!--
   <bean id="requestWorkflowNavigatorJob" 
     class="fr.cg95.cvq.service.request.job.RequestWorkflowNavigatorJob">
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
@@ -141,6 +140,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="repeatCount" value="0" />
     <property name="repeatInterval" value="600000"/>
   </bean>
+  -->
 
   <!-- *******************************************************************  -->
   <!-- ***************** Requests Seasons Job Configuration **************  -->
@@ -149,7 +149,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="requestSeasonsJob" 
     class="fr.cg95.cvq.service.request.job.RequestSeasonsJob">
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
-    <property name="requestService"><ref bean="defaultRequestService"/></property>
+    <property name="requestTypeService"><ref bean="requestTypeService"/></property>
+    <property name="requestWorkflowService"><ref bean="requestWorkflowService"/></property>
     <property name="requestDAO"><ref bean="requestDAO"/></property>
   </bean>
 
@@ -184,7 +185,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="draftManagementJob"
     class="fr.cg95.cvq.service.request.job.DraftManagementJob">
-    <property name="requestService" ref="defaultRequestService" />
+    <property name="requestActionService" ref="requestActionService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="localizationService" ref="localizationService" />
     <property name="requestDAO" ref="requestDAO"/>

@@ -21,7 +21,6 @@ import fr.cg95.cvq.util.Critere;
  * Service dedicated to the management and monitoring of payments.
  *
  * @author bor@zenexity.fr
- * @author maxence.veyret@bull.net
  */
 public interface IPaymentService {
 

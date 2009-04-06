@@ -18,6 +18,7 @@ import fr.cg95.cvq.service.request.leisure.ISmsNotificationRequestService;
 public class SmsNotificationRequestService extends RequestService 
     implements ISmsNotificationRequestService {
 
+    @Override
     public Long create(Request request)
         throws CvqException, CvqObjectNotFoundException {
         
@@ -38,6 +39,7 @@ public class SmsNotificationRequestService extends RequestService
 
     // Call just after the 'sendRequest' (externalService) method.
     // Manage the binding between the request's subject and the CleverSms's contact.
+    @Override
     public void onExternalServiceSendRequest(Request request, String sendRequestResult)
         throws CvqException {
         
@@ -51,10 +53,12 @@ public class SmsNotificationRequestService extends RequestService
         super.modify(snr);
     }
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof SmsNotificationRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new SmsNotificationRequest();
     }

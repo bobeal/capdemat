@@ -14,9 +14,13 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
+import fr.cg95.cvq.service.request.IRequestWorkflowService
+import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
@@ -25,10 +29,16 @@ import grails.converters.JSON
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
 
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+
 class RequestInstructionController {
 
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
+
     IRequestService defaultRequestService
+    IRequestActionService requestActionService
+    IRequestTypeService requestTypeService
+    IRequestWorkflowService requestWorkflowService
     IHomeFolderService homeFolderService
     IIndividualService individualService
     IDocumentService documentService
@@ -38,6 +48,7 @@ class RequestInstructionController {
     IMailService mailService
     ILocalAuthorityRegistry localAuthorityRegistry
     ICategoryService categoryService
+    ILocalReferentialService localReferentialService 
 
     def translationService
     def instructionService
@@ -53,8 +64,9 @@ class RequestInstructionController {
     def edit = {
         Agent agent = SecurityContext.getCurrentAgent();
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        def requester = individualService.getById(request.requesterId)
         def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
+        
+        def requester = individualService.getById(request.requesterId)     
 
         def documentList = []
         def providedDocumentTypes = []
@@ -63,28 +75,29 @@ class RequestInstructionController {
         requestDocuments.each {
             def document = documentService.getById(it.documentId)
             providedDocumentTypes.add(document.documentType.id)
-            documentList.add(
-                    [ "id": document.id,
-                      "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
-                      "endValidityDate" : document.endValidityDate,
-                      "pageNumber": document.datas.size(),
-                      "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
-                    ]
-            )
+            documentList.add([
+                "id": document.id,
+                "documentTypeId" : document.documentType.id,
+                "name": message(code: CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
+                "endValidityDate": document.endValidityDate,
+                "pageNumber": document.datas.size(),
+                "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
+            ])
         }
 
         // manage allowed and associated documents to a request
         def isDocumentProvided
-        defaultRequestService.getAllowedDocuments(request.requestType.id).each { documentTypeIt ->
+        requestTypeService.getAllowedDocuments(request.requestType.id).each { documentTypeIt ->
             isDocumentProvided = false
             if (providedDocumentTypes.contains(documentTypeIt.id))
                 isDocumentProvided = true
             if (!isDocumentProvided)
-                documentList.add(
-                    [ "id": 0,
-                      "name": message(code:CapdematUtils.adaptDocumentTypeName(documentTypeIt.name)),
-                      "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
-                    ])
+                documentList.add([
+                    "id": 0,
+                    "documentTypeId" : documentTypeIt.id,
+                    "name": message(code: CapdematUtils.adaptDocumentTypeName(documentTypeIt.name)),
+                    "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
+                ])
         }
         
         // just for VoCardRequest and HomeFolderModificationRequest
@@ -106,40 +119,68 @@ class RequestInstructionController {
             }
         }
         def editableStates = []
-        for(RequestState state : defaultRequestService.getEditableStates()) 
+        for(RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
-
-        [ "request": request,
-          "requestTypeLabel" : request.requestType.label,
-          "requester": requester,
-          "adults" : adults,
-          "children" : children,
-          "childrenLegalResponsibles" : clr,
-          "editableStates" : (editableStates as JSON).toString(),
-          "agentCanWrite" : categoryService.hasWriteProfileOnCategory(agent,request.requestType.category.id),
-          "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
-          "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
-          "requestLabel": requestLabel,
-          "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
-          "documentList": documentList
-        ]
+        
+        def localReferentialTypes = getLocalReferentialTypes(localReferentialService, request.requestType.label)
+        localReferentialTypes.each { lazyInit(request, it.key) }
+        
+        return ([
+            "request": request,
+            "requestTypeLabel": request.requestType.label,
+            "lrTypes": localReferentialTypes,
+            "adults": adults,
+            "children": children,
+            "requester": requester,
+            'hasHomeFolder': !homeFolderService.getById(request.homeFolderId).boundToRequest,
+            "childrenLegalResponsibles": clr,
+            "editableStates": (editableStates as JSON).toString(),
+            "agentCanWrite": categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id),
+            "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+            "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
+            "requestLabel": requestLabel,
+            "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
+            "documentList": documentList
+        ])
     }
-
+    
+    // TODO - Mutualize with FrontOffice
+    def getLocalReferentialTypes(localReferentialService, requestTypeLabel) {
+        def result = [:]
+        try {
+            localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each{
+                result.put(StringUtils.firstCase(it.dataName,'Lower'), it)
+            }
+        } catch (CvqException ce) { /* No localReferentialData found ! */ }
+        return result
+    }
+    
+    // FIXME - Modify lazy initialization policy in JavaBean ?
+    def lazyInit(request, listName) { 
+        if (request[listName] == null || request[listName].size() == 0) return false
+        request[listName].get(0)
+    }
+    
+    def localReferentialData = {
+        def rqt = defaultRequestService.getById(Long.valueOf(params.requestId))
+        def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
+        render( template: '/backofficeRequestInstruction/widget/localReferentialDataStatic',
+                model: ['rqt':rqt,
+                        'javaName':params.javaName, 
+                        'lrEntries':lrTypes[params.javaName]?.entries,
+                        'isMultiple':lrTypes[params.javaName]?.entriesSupportMultiple,
+                        'depth':0 ])
+    }
 
     /* request data inline edition managment
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgetMap = [ date:"date", address:"address", capdematEnum:"capdematEnum", boolean:"boolean", textarea:"textarea"]
-        
-        // tp implementation
-        def propertyNameTokens = params.propertyName.tokenize(".")
+        def widgets = ['date','address','capdematEnum','boolean','textarea','localReferentialData']
         
         def propertyTypes = JSON.parse(params.propertyType)
-        
-        // one of the widgetMap keys
         def propertyType = propertyTypes.validate
-        def widget = widgetMap[propertyType] ? widgetMap[propertyType] : "string"
+        def widget = widgets.contains(propertyType) ?  propertyType : "string"
 
         def model = ["requestId": Long.valueOf(params.id),
                      // the "fully qualifier" property name
@@ -163,9 +204,17 @@ class RequestInstructionController {
             if (propertyValueTokens.size() == 1)
                 propertyValueTokens = ['',propertyValueTokens[0]]
                 
-            propertyValue = [ "enumString": propertyValueTokens[0], "i18nKeyPrefix": propertyValueTokens[1] ]
+            propertyValue = [ "enumString": propertyValueTokens[0],
+                              "i18nKeyPrefix": propertyValueTokens[1] ]
             // will contain the fully qualified class name of the "CapDemat enum" class
             model["propertyValueType"] = propertyTypes.javatype
+        }
+        else if (propertyType == "localReferentialData") {
+            def rqt = defaultRequestService.getById(Long.valueOf(params.id))
+            def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
+            model['lrType'] = lrTypes[params.propertyName]
+            model['lrDatas'] = rqt[params.propertyName].collect { it.name }
+            flash[params.propertyName + 'Index'] = 0
         }
         else {
             propertyValue = params.propertyValue
@@ -173,17 +222,13 @@ class RequestInstructionController {
             model["maxLength"] = propertyTypes.maxLength
             model["i18nKeyPrefix"] = propertyTypes.i18n
             model["regex"] = params.propertyRegex
-            if (params.propertyRegex != "")
-                model["propertyType"] = "regex"
-            
-            if (propertyType == "textarea")
-              model["rows"] = propertyTypes.rows
+            if (params.propertyRegex != "") model["propertyType"] = "regex"
+            if (propertyType == "textarea") model["rows"] = propertyTypes.rows
         }
         model["propertyValue"] = propertyValue
-
         render( template: "/backofficeRequestInstruction/widget/" + widget, model:model)
     }
-
+    
     def modify = {
         if (params.requestId == null)
              return false
@@ -192,12 +237,24 @@ class RequestInstructionController {
             def homeFolder = homeFolderService.getById(request.homeFolderId)
             DataBindingUtils.initBind(homeFolder, params)
             bind(homeFolder)
+        } else if (params.keySet().contains('_requester')) {
+            def requester = individualService.getById(request.requesterId)
+            bindRequester(requester, params)
         } else {
             DataBindingUtils.initBind(request, params)
             bind(request)
         }
 //        log.debug("Binder custum editor PersistentStringEnum = " + getBinder(request).propertyEditorRegistry.findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+    }
+    
+    def bindRequester(requester, params) {
+        params.each { param ->
+            if (param.value.getClass() == GrailsParameterMap.class && param.key == '_requester') {
+                DataBindingUtils.initBind(requester, param.value)
+                bindParam (requester, param.value)
+            }
+        }
     }
     
     def modifyList = {
@@ -208,7 +265,8 @@ class RequestInstructionController {
         def actionTokens = params.listAction.tokenize('_')
 
         def listElemTokens = actionTokens[1].tokenize('[]')
-        def getterMethod = cRequest.class.getMethod('get' + StringUtils.firstCase(listElemTokens[0], 'Upper'))
+        def getterMethod =
+            cRequest.class.getMethod('get' + StringUtils.firstCase(listElemTokens[0], 'Upper'))
         
         if (actionTokens[0] == 'delete') {                   
             getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listElemTokens[1]).intValue())
@@ -258,7 +316,7 @@ class RequestInstructionController {
         switch (stateType) {
             case "requestDataState":
                 transitionStates =
-                    defaultRequestService.getPossibleTransitions(DataState.forString(stateAsString))
+                    requestWorkflowService.getPossibleTransitions(DataState.forString(stateAsString))
                 stateTypeI18nKey = "request.dataState"
                 break
             case "documentState":
@@ -268,7 +326,7 @@ class RequestInstructionController {
                 break
             case "requestState":
                 transitionStates =
-                    defaultRequestService.getPossibleTransitions(RequestState.forString(stateAsString))
+                    requestWorkflowService.getPossibleTransitions(RequestState.forString(stateAsString))
                  stateTypeI18nKey = "request.state"
                  break
         }
@@ -286,7 +344,7 @@ class RequestInstructionController {
 
         switch (params.stateType) {
             case "requestDataState":
-                defaultRequestService.updateRequestDataState(
+                requestWorkflowService.updateRequestDataState(
                         Long.valueOf(params.id), DataState.forString(params.newState))
                 break
             case "documentState":
@@ -296,83 +354,12 @@ class RequestInstructionController {
                         null, null)
                 break
             case "requestState":
-                defaultRequestService.updateRequestState(
+                requestWorkflowService.updateRequestState(
                         Long.valueOf(params.id),
                         RequestState.forString(params.newState),
                         null)
                break
         }
-        render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-    }
-
-    /* Document managment
-    * --------------------------------------------------------------------- */
-
-    def document = {
-        def document = documentService.getById(Long.valueOf(params.id))
-
-        def actions = []
-        document.actions.each {
-            actions.add(
-                [ "id": it.id,
-                  "agentName": instructionService.getActionPosterDetails(it.agentId),
-                  "label": it.label,
-                  "note": it.note,
-                  "date": it.date,
-                  "resultingState": CapdematUtils.adaptCapdematEnum(it.resultingState, "document.state")
-                ])
-        }
-        
-        render( template:"requestDocument", model: [
-            "document": [
-                "id": document.id,
-                "name": message(code:CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
-                "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state"),
-                "depositType": CapdematUtils.adaptCapdematEnum(document.depositType, "document.depositType"),
-                "depositOrigin": CapdematUtils.adaptCapdematEnum(document.depositOrigin, "document.depositOrigin"),
-                "endValidityDate": document.endValidityDate,
-                "ecitizenNote": document.ecitizenNote,
-                "agentNote": document.agentNote,
-                "actions": actions,
-                "pageNumber": document.datas.size(),
-                "pages": documentAdaptorService.getDocument(document.id).datas    
-            ]
-        ])
-    }
-
-    def documentPage = {
-        def document = documentService.getById(Long.valueOf(params.id))
-        def page = document.datas[Integer.valueOf(params.pageNumber)]
-
-        response.contentType = "image/png"
-        response.outputStream << page.data
-    }
-
-
-    def documentStates = {
-        def stateAsString = StringUtils.toPascalCase(params.stateCssClass.replace("tag-", ""))
-
-        def transitionStates =
-            documentService.getPossibleTransitions(DocumentState.forString(stateAsString))
-
-        def states = []
-        transitionStates.each {
-            states.add(CapdematUtils.adaptCapdematEnum(it, "document.state"))
-        }
-
-        render( template: "requestDocumentStates",
-                model: [
-                    "endValidityDate": DateUtils.systemStringToDate(params.endValidityDate),
-                    "states": states,
-                    "stateType": "documentType",
-                    "documentId": params.id
-                ])
-    }
-
-    def modifyDocument = {
-        def document = documentService.getById(Long.valueOf(params.documentId))
-        bind(document)
-        documentService.modify(document)
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
@@ -460,12 +447,12 @@ class RequestInstructionController {
     }
 
     def requestActions = {
-        def requestActions = defaultRequestService.getActions(Long.valueOf(params.id))
+        def requestActions = requestActionService.getActions(Long.valueOf(params.id))
         def requestActionList = []
         requestActions.each {
             def user = instructionService.getActionPosterDetails(it.agentId)
             def resultingState = null
-            if (it.label.equals(IRequestService.STATE_CHANGE_ACTION)) {
+            if (it.label.equals(IRequestActionService.STATE_CHANGE_ACTION)) {
                 resultingState = "request.state." + StringUtils.pascalToCamelCase(it.resultingState.toString())
             }
             def requestAction = [
@@ -524,9 +511,10 @@ class RequestInstructionController {
 
         def requestForms = []
         //requestForms.add(["id":-1,"shortLabel":"...","type":""])
-        defaultRequestService.getRequestTypeForms(request.requestType.id, RequestFormType.REQUEST_MAIL_TEMPLATE).each {
+        requestTypeService.getRequestTypeForms(request.requestType.id,
+            RequestFormType.REQUEST_MAIL_TEMPLATE).each {
             String data = ''
-            if(it?.personalizedData) data = new String(it?.personalizedData)
+            if(it.personalizedData) data = new String(it.personalizedData)
 
             requestForms.add(
                 [ "id": it.id,
@@ -551,7 +539,7 @@ class RequestInstructionController {
             model:[
                    "requesterMeansOfContacts": requesterMeansOfContacts,
                     "requestForms": requestForms,
-                    "traceLabel" :  IRequestService.REQUEST_CONTACT_CITIZEN,
+                    "traceLabel" :  IRequestActionService.REQUEST_CONTACT_CITIZEN,
                     "defaultContactRecipient": defaultContactRecipient,
                     "requester": requester,
                     "request": [
@@ -567,14 +555,14 @@ class RequestInstructionController {
     }
 
     def trace = {
-        this.defaultRequestService.addAction(Long.valueOf(params.requestId), 
+        requestActionService.addAction(Long.valueOf(params.requestId),
                 params.traceLabel, params.message)
         render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)
     }
 
     def sendEmail = {
         def request = defaultRequestService.getById(Long.valueOf(params?.requestId))
-        def form = defaultRequestService.getRequestFormById(Long.valueOf(params?.requestForms))
+        def form = requestTypeService.getRequestFormById(Long.valueOf(params?.requestForms))
         
         String template = this.prepareTemplate(
             params?.requestId,
@@ -616,8 +604,8 @@ class RequestInstructionController {
     private prepareTemplate = {requestId,formId,message,type ->
         
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
-        def form = this.defaultRequestService.getRequestFormById(Long.valueOf(formId))
-        Request request = this.defaultRequestService.getById(Long.valueOf(requestId))
+        def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
+        Request request = defaultRequestService.getById(Long.valueOf(requestId))
             
         Adult requester = individualService.getById(request.requesterId)
         def address = requester.getHomeFolder().getAdress()
@@ -629,7 +617,7 @@ class RequestInstructionController {
         def forms = []
         forms.add(form)
     
-        File templateFile = defaultRequestService.getTemplateByName(form.getTemplateName())
+        File templateFile = requestTypeService.getTemplateByName(form.getTemplateName())
         if (templateFile.exists()) {
 
         	// FIXME BOR : is there a better way to do this ?

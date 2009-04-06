@@ -99,7 +99,6 @@ public class LocalReferentialData implements Serializable {
     /**
      * @hibernate.property
      *  column="name"
-     *  not-null="true"
      */
     public String getName() {
         return this.name;
@@ -207,6 +206,8 @@ public class LocalReferentialData implements Serializable {
     public int hashCode() {
         if (id != null)
             return 42 * id.hashCode();
-        return 42 * name.hashCode();
+        else if (name != null)
+            return 42 * name.hashCode();
+        return 0;
     }
 }

@@ -12,13 +12,13 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.RequestUtils;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.localization.ILocalizationService;
@@ -35,12 +35,13 @@ public class RequestInstructionDurationCheckerJob {
     private static Logger logger = Logger.getLogger(RequestInstructionDurationCheckerJob.class);
 
     private ILocalAuthorityRegistry localAuthorityRegistry;
-    private IRequestService requestService;
+    private IRequestActionService requestActionService;
+    private IRequestWorkflowService requestWorkflowService;
+
     private ILocalizationService localizationService;
     private IMailService mailService;
     
     private IRequestDAO requestDAO;
-    private IRequestActionDAO requestActionDAO;
     
     public void launchJob() throws CvqException {
         localAuthorityRegistry.browseAndCallback(this, 
@@ -69,7 +70,7 @@ public class RequestInstructionDurationCheckerJob {
         Set<RequestState> statesToLookFor = new HashSet<RequestState>();
         for (String state : instructionDoneStates) {
             RequestState requestState = RequestState.forString(state);
-            statesToLookFor.addAll(requestService.getStatesBefore(requestState));
+            statesToLookFor.addAll(requestWorkflowService.getStatesBefore(requestState));
         }
     
         // retrieve all requests currently in instruction
@@ -109,8 +110,8 @@ public class RequestInstructionDurationCheckerJob {
                             request.setOrangeAlert(Boolean.FALSE);
                             requestDAO.update(request);
                         }
-                        if (!requestActionDAO.hasAction(request.getId(), 
-                                IRequestService.REQUEST_RED_ALERT_NOTIFICATION)) {
+                        if (!requestActionService.hasAction(request.getId(),
+                                IRequestActionService.REQUEST_RED_ALERT_NOTIFICATION)) {
                             logger.debug("checkLocalAuthRequestsInstructionDuration() "
                                     + "scheduling red alert notification for request"
                                     + request.getId());
@@ -126,8 +127,8 @@ public class RequestInstructionDurationCheckerJob {
                             request.setOrangeAlert(Boolean.TRUE);
                             requestDAO.update(request);
                         }
-                        if (!requestActionDAO.hasAction(request.getId(), 
-                                IRequestService.REQUEST_ORANGE_ALERT_NOTIFICATION)) {
+                        if (!requestActionService.hasAction(request.getId(),
+                                IRequestActionService.REQUEST_ORANGE_ALERT_NOTIFICATION)) {
                             logger.debug("checkLocalAuthRequestsInstructionDuration() "
                                     + "scheduling orange alert notification for request"
                                     + request.getId());
@@ -186,14 +187,14 @@ public class RequestInstructionDurationCheckerJob {
                     // email alert successfully sent, update requests accordingly
                     if (orangeRequests.size() > 0) {
                         for (Request request : orangeRequests) {
-                            requestService.addSystemAction(request.getId(), 
-                                    IRequestService.REQUEST_ORANGE_ALERT_NOTIFICATION); 
+                            requestActionService.addSystemAction(request.getId(),
+                                    IRequestActionService.REQUEST_ORANGE_ALERT_NOTIFICATION);
                         }
                     }
                     if (redRequests.size() > 0) {
                         for (Request request : redRequests) {
-                            requestService.addSystemAction(request.getId(), 
-                                    IRequestService.REQUEST_RED_ALERT_NOTIFICATION);
+                            requestActionService.addSystemAction(request.getId(),
+                                    IRequestActionService.REQUEST_RED_ALERT_NOTIFICATION);
                         }
                     }
                 }
@@ -213,16 +214,15 @@ public class RequestInstructionDurationCheckerJob {
         this.mailService = mailService;
     }
 
-    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
-        this.requestActionDAO = requestActionDAO;
-    }
-
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
     }
 
-    public void setRequestService(IRequestService requestService) {
-        this.requestService = requestService;
+    public void setRequestActionService(IRequestActionService requestActionService) {
+        this.requestActionService = requestActionService;
     }
 
+    public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
+        this.requestWorkflowService = requestWorkflowService;
+    }
 }

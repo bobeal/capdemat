@@ -5,14 +5,15 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
-import fr.cg95.cvq.security.SecurityContext;
+
 import org.apache.log4j.Logger;
 
 import java.util.Calendar;
@@ -36,7 +37,7 @@ public class DraftManagementJob {
     private static Logger logger = Logger.getLogger(DraftManagementJob.class);
 
     private IRequestDAO requestDAO;
-    private IRequestService requestService;
+    private IRequestActionService requestActionService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IMailService mailService;
     private IIndividualService individualService;
@@ -56,7 +57,7 @@ public class DraftManagementJob {
         Set<Critere> criterias = this.prepareQueryParams(authority.getDraftLiveDuration());
         List<Request> requests = this.requestDAO.search(criterias,null,null,0,0);
         for (Request r : requests) 
-            this.requestService.delete(r.getId());
+            requestDAO.delete(r.getId());
     }
     
     public Integer sendNotifications() throws CvqException {
@@ -66,7 +67,7 @@ public class DraftManagementJob {
             authority.getDraftLiveDuration() - authority.getDraftNotificationBeforeDelete();
         
         List<Request> requests = this.requestDAO.listDraftedByNotificationAndDate(
-            IRequestService.DRAFT_DELETE_NOTIFICATION,
+            IRequestActionService.DRAFT_DELETE_NOTIFICATION,
             DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit));
         
         for (Request r : requests) {
@@ -88,8 +89,8 @@ public class DraftManagementJob {
                 logger.error("sendNotifications() "+e.getMessage());
             } finally {
                 if (sent)
-                    requestService.addSystemAction(r.getId(),
-                        IRequestService.DRAFT_DELETE_NOTIFICATION);
+                    requestActionService.addSystemAction(r.getId(),
+                        IRequestActionService.DRAFT_DELETE_NOTIFICATION);
             }
         }
         return counter;
@@ -134,8 +135,8 @@ public class DraftManagementJob {
         return criterias;
     }
 
-    public void setRequestService(IRequestService requestService) {
-        this.requestService = requestService;
+    public void setRequestActionService(IRequestActionService requestActionService) {
+        this.requestActionService = requestActionService;
     }
     
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

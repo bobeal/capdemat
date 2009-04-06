@@ -17,8 +17,7 @@
         Perischool Activity Registration
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Inscription aux activités
-        périscolaires
+        Inscription aux activités périscolaires
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Perischool Activity Registration

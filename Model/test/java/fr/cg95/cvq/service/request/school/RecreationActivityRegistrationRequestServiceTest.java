@@ -38,16 +38,16 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
     protected RecreationActivityRegistrationRequest fillMeARequest() throws CvqException {
 
         RecreationActivityRegistrationRequest request = new RecreationActivityRegistrationRequest();
-          request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
-               request.setRecreationCenter(recreationCenterService.getAll().get(0));
-                request.setHospitalizationPermission(Boolean.valueOf(true));
-            request.setClassTripPermission(Boolean.valueOf(true));
+             request.setRecreationCenter(recreationCenterService.getAll().get(0));
+                request.setClassTripPermission(Boolean.valueOf(true));
+                    request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
+            request.setHospitalizationPermission(Boolean.valueOf(true));
                     request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
               if ("UrgencyPhone".length() > 10)
         request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
       else
         request.setUrgencyPhone("UrgencyPhone");
-              
+      
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);
@@ -93,8 +93,8 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iRecreationActivityRegistrationRequestService.complete(request.getId());
-        iRecreationActivityRegistrationRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

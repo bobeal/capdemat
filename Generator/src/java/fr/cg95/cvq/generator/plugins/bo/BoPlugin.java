@@ -145,6 +145,9 @@ public class BoPlugin implements IPluginGenerator {
         if (elementProp.getMaxOccurs() == null
                 || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
             elementBo.setTypeClass(ElementBo.ElementTypeClass.COLLECTION);
+        // TODO - refactor typClass managment
+        if (elementProp.getXmlSchemaType() != null && elementProp.getXmlSchemaType().equals("LocalReferentialDataType"))
+            elementBo.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
         
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)
             elementBo.setMandatory(false);

@@ -1,42 +1,39 @@
 
 
 
-
-
   
     <fieldset class="required">
-    <legend><g:message code="dhr.property.dhrRequesterIncomes.label" /></legend> 
-      
+    <legend><g:message code="dhr.property.dhrRequesterIncomes.label" /></legend>
     
-      <label class=""><g:message code="dhr.property.pensions.label" />  <span><g:message code="dhr.property.pensions.help" /></span></label>
-      
+      <label class=""><g:message code="dhr.property.pensions.label" />   <span><g:message code="dhr.property.pensions.help" /></span></label>
             <input type="text" name="pensions" value="${rqt.pensions}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.pensions.validationError" />"  />
             
+
     
-      <label class=""><g:message code="dhr.property.dhrAllowances.label" />  <span><g:message code="dhr.property.dhrAllowances.help" /></span></label>
-      
+      <label class=""><g:message code="dhr.property.dhrAllowances.label" />   <span><g:message code="dhr.property.dhrAllowances.help" /></span></label>
             <input type="text" name="dhrAllowances" value="${rqt.dhrAllowances}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrAllowances.validationError" />"  />
             
+
     
-      <label class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" />  <span><g:message code="dhr.property.dhrFurnitureInvestmentIncome.help" /></span></label>
-      
+      <label class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" />   <span><g:message code="dhr.property.dhrFurnitureInvestmentIncome.help" /></span></label>
             <input type="text" name="dhrFurnitureInvestmentIncome" value="${rqt.dhrFurnitureInvestmentIncome}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrFurnitureInvestmentIncome.validationError" />"  />
             
+
     
-      <label class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" />  <span><g:message code="dhr.property.dhrRealEstateInvestmentIncome.help" /></span></label>
-      
+      <label class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" />   <span><g:message code="dhr.property.dhrRealEstateInvestmentIncome.help" /></span></label>
             <input type="text" name="dhrRealEstateInvestmentIncome" value="${rqt.dhrRealEstateInvestmentIncome}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrRealEstateInvestmentIncome.validationError" />"  />
             
+
     
-      <label class=""><g:message code="dhr.property.dhrNetIncome.label" />  <span><g:message code="dhr.property.dhrNetIncome.help" /></span></label>
-      
+      <label class=""><g:message code="dhr.property.dhrNetIncome.label" />   <span><g:message code="dhr.property.dhrNetIncome.help" /></span></label>
             <input type="text" name="dhrNetIncome" value="${rqt.dhrNetIncome}" 
                     class=" validate-positiveInteger" title="<g:message code="dhr.property.dhrNetIncome.validationError" />"  />
             
+
     
     </fieldset>
   
@@ -44,12 +41,10 @@
   
     <label class="required"><g:message code="dhr.property.dhrRealAsset.label" /> <span><g:message code="dhr.property.dhrRealAsset.help" /></span></label>
     <div class="collection-fieldset required validation-scope">
-      <!--<h4><g:message code="dhr.property.dhrRealAsset.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'dhrRealAsset' ? editList?.index : ( rqt.dhrRealAsset ? rqt.dhrRealAsset.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
     
-        <label class="required"><g:message code="dhr.property.dhrRealAssetAddress.label" /> * <span><g:message code="dhr.property.dhrRealAssetAddress.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrRealAssetAddress.label" /> *  <span><g:message code="dhr.property.dhrRealAssetAddress.help" /></span></label>
             <div class="address-fieldset required">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${editList?.dhrRealAsset?.dhrRealAssetAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrRealAsset[${listIndex}].dhrRealAssetAddress.additionalDeliveryInformation"/>  
@@ -67,18 +62,19 @@
             <input type="text" value="${editList?.dhrRealAsset?.dhrRealAssetAddress?.countryName}" maxlength="38" name="dhrRealAsset[${listIndex}].dhrRealAssetAddress.countryName"/>
             </div>
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrRealAssetValue.label" /> * <span><g:message code="dhr.property.dhrRealAssetValue.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrRealAssetValue.label" /> *  <span><g:message code="dhr.property.dhrRealAssetValue.help" /></span></label>
             <input type="text" name="dhrRealAsset[${listIndex}].dhrRealAssetValue" value="${editList?.dhrRealAsset?.dhrRealAssetValue}" 
                     class="required validate-positiveInteger" title="<g:message code="dhr.property.dhrRealAssetValue.validationError" />"  />
             
+
     
-        <label class="required"><g:message code="dhr.property.realAssetNetFloorArea.label" /> * <span><g:message code="dhr.property.realAssetNetFloorArea.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.realAssetNetFloorArea.label" /> *  <span><g:message code="dhr.property.realAssetNetFloorArea.help" /></span></label>
             <input type="text" name="dhrRealAsset[${listIndex}].realAssetNetFloorArea" value="${editList?.dhrRealAsset?.realAssetNetFloorArea}" 
                     class="required validate-positiveInteger" title="<g:message code="dhr.property.realAssetNetFloorArea.validationError" />"  />
             
+
     
         <g:if test="${editList?.name == 'dhrRealAsset'}">
           <input type="submit" id="submit-collectionModify-resources-dhrRealAsset[${listIndex}]" name="submit-collectionModify-resources-dhrRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
@@ -89,7 +85,6 @@
       </fieldset>
     <g:each var="it" in="${rqt.dhrRealAsset}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="dhr.property.dhrRealAsset.label" /></legend> -->
         <dl>
     
         <dt><g:message code="dhr.property.dhrRealAssetAddress.label" /></dt>
@@ -123,12 +118,10 @@
   
     <label class="required"><g:message code="dhr.property.dhrNotRealAsset.label" /> <span><g:message code="dhr.property.dhrNotRealAsset.help" /></span></label>
     <div class="collection-fieldset required validation-scope">
-      <!--<h4><g:message code="dhr.property.dhrNotRealAsset.label" /></h4>-->
       <g:set var="listIndex" value="${editList?.name == 'dhrNotRealAsset' ? editList?.index : ( rqt.dhrNotRealAsset ? rqt.dhrNotRealAsset.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetType.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetType.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetType.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetType.help" /></span></label>
             <ul class="required">
               <g:each in="${['Share','Gift','Sale']}">
               <li>
@@ -138,9 +131,9 @@
               </g:each>
             </ul>
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetKind.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetKind.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetKind.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetKind.help" /></span></label>
             <ul class="required">
               <g:each in="${['RealEstate','Other']}">
               <li>
@@ -150,9 +143,9 @@
               </g:each>
             </ul>
             
+
     
-        <label class="required condition-isRealEstate-filled"><g:message code="dhr.property.dhrNotRealAssetAddress.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetAddress.help" /></span></label>
-        
+        <label class="required condition-isRealEstate-filled"><g:message code="dhr.property.dhrNotRealAssetAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetAddress.help" /></span></label>
             <div class="address-fieldset required condition-isRealEstate-filled">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetAddress.additionalDeliveryInformation"/>  
@@ -170,21 +163,21 @@
             <input type="text" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetAddress?.countryName}" maxlength="38" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetAddress.countryName"/>
             </div>
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.help" /></span></label>
             <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryName}" 
                     class="required validate-lastName" title="<g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.validationError" />"  maxLength="38"/>
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.help" /></span></label>
             <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryFirstName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryFirstName}" 
                     class="required validate-firstName" title="<g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.validationError" />"  maxLength="38"/>
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.help" /></span></label>
             <div class="address-fieldset required">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation"/>  
@@ -202,27 +195,27 @@
             <input type="text" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryAddress?.countryName}" maxlength="38" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryAddress.countryName"/>
             </div>
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetValue.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetValue.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetValue.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetValue.help" /></span></label>
             <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetValue" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetValue}" 
                     class="required validate-positiveInteger" title="<g:message code="dhr.property.dhrNotRealAssetValue.validationError" />"  />
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetDate.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetDate.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetDate.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetDate.help" /></span></label>
             <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetDate" value="${formatDate(formatName:'format.date',date:editList?.dhrNotRealAsset?.dhrNotRealAssetDate)}" 
                    class="required validate-date" title="<g:message code="dhr.property.dhrNotRealAssetDate.validationError" />" />
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetNotaryName.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetNotaryName.help" /></span></label>
             <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetNotaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetNotaryName}" 
                     class="required validate-lastName" title="<g:message code="dhr.property.dhrNotRealAssetNotaryName.validationError" />"  maxLength="38"/>
             
+
     
-        <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" /> * <span><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.help" /></span></label>
-        
+        <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.help" /></span></label>
             <div class="address-fieldset required">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetNotaryAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetNotaryAddress.additionalDeliveryInformation"/>  
@@ -240,6 +233,7 @@
             <input type="text" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetNotaryAddress?.countryName}" maxlength="38" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetNotaryAddress.countryName"/>
             </div>
             
+
     
         <g:if test="${editList?.name == 'dhrNotRealAsset'}">
           <input type="submit" id="submit-collectionModify-resources-dhrNotRealAsset[${listIndex}]" name="submit-collectionModify-resources-dhrNotRealAsset[${listIndex}]" value="${message(code:'action.save')}" />
@@ -250,7 +244,6 @@
       </fieldset>
     <g:each var="it" in="${rqt.dhrNotRealAsset}" status="index">
       <fieldset class="collection-fieldset-edit">
-        <!-- <legend><g:message code="dhr.property.dhrNotRealAsset.label" /></legend> -->
         <dl>
     
         <dt><g:message code="dhr.property.dhrNotRealAssetType.label" /></dt>

@@ -39,8 +39,8 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
 
         SmsNotificationRequest request = new SmsNotificationRequest();
               request.setCleverSmsContactId("CleverSmsContactId");
-                request.setSubscription(Boolean.valueOf(true));
-          
+                        request.setSubscription(Boolean.valueOf(true));
+  
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);
@@ -86,8 +86,8 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iSmsNotificationRequestService.complete(request.getId());
-        iSmsNotificationRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

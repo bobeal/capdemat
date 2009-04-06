@@ -64,7 +64,7 @@ public class LocalReferentialServiceTest extends ServiceTestCase {
         LocalReferentialEntry lre = new LocalReferentialEntry();
         lre.setKey("ANewEntry");
         lre.addLabel("fr", "Une nouvelle entrée");
-        lrt.addEntry(lre);
+        lrt.addEntry(lre,null);
         lrt.setEntriesSupportMultiple(true);
         lrt.setEntriesSupportPriority(true);
         LocalReferentialEntry subLre = new LocalReferentialEntry();

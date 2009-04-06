@@ -339,8 +339,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iVoCardRequestService.complete(dcvoFromDb.getId());
-        RequestState[] rs = iVoCardRequestService.getPossibleTransitions(RequestState.COMPLETE);
+        iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.COMPLETE, null);
+        RequestState[] rs = iRequestWorkflowService.getPossibleTransitions(RequestState.COMPLETE);
         assertEquals(rs.length, 3);
 
         crit = new Critere();
@@ -378,9 +378,10 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         iVoCardRequestService.addNote(dcvoFromDb.getId(),
                 RequestNoteType.DELIVERY_EXTERNAL, noteMsg);
 
-        iRequestService.validate(dcvoFromDb.getId());
-        iRequestService.notify(dcvoFromDb.getId(), "Close me baby");
-        iRequestService.close(dcvoFromDb.getId());
+        iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.VALIDATED, null);
+        iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.NOTIFIED,
+            "Close me baby");
+        iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.CLOSED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -397,7 +398,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         fos.write(generatedCertificate);
         // END DEBUG
 
-        List<RequestAction> actionsSet = iVoCardRequestService.getActions(dcvoFromDb.getId());
+        List<RequestAction> actionsSet = iRequestActionService.getActions(dcvoFromDb.getId());
         assertEquals(actionsSet.size(), 5);
 
         // close current session and re-open a new one

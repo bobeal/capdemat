@@ -27,11 +27,11 @@
   font-size: 1.8em;
   font-weight: normal;
   border-bottom: 1px dashed #000000;
-  overflow: auto;
+  overflow: hidden;
 }
 
-#requestDocumentPanel .bd h1 #documentState        { float: right;  margin: 0; cursor: pointer; font-size: .8em; }
-#requestDocumentPanel .bd h1 #documentState:hover  { color: #000000; border-color: #000000; }
+.document-state        { float: right;  margin: 0; cursor: pointer; font-size: .8em; }
+.document-state:hover  { color: #000000; border-color: #000000; }
 #requestDocumentPanel .bd h1 #documentEndValidityDate,
 #requestDocumentPanel .bd h1 #documentDepositType,
 #requestDocumentPanel .bd h1 #documentOrigin       { float: left;  margin: 0 .5em 0 0; font-size: .6em }
@@ -65,14 +65,14 @@
   background: #efefef;
 }
 
-#documentTransitionStates #endValidityDateCalContainer { font-size: .7em; }
+.state-overlay #endValidityDateCalContainer { font-size: .7em; }
 
-#documentTransitionStates form  { margin: 0; padding: .5em; font-size: .8em;}
-#documentTransitionStates form input { width: auto; font-size: .9em; }
-#documentTransitionStates form input.submitDocumentStateChange,
-#documentTransitionStates form input.cancelDocumentStateChange { font-size: .8em; }
-#documentTransitionStates form .error,
-#documentTransitionStates form label  { 
+.state-overlay form  { margin: 0; padding: .5em; font-size: .8em;}
+.state-overlay form input { width: auto; font-size: .9em; }
+.state-overlay form input.submitDocumentStateChange,
+.state-overlay form input.cancelDocumentStateChange { font-size: .8em; }
+.state-overlay form .error,
+.state-overlay form label  { 
   width: auto; 
   display: block; float: none; 
   margin: 0;
@@ -80,7 +80,37 @@
   font-size: .8em; font-style: italic;
 }
 
-#documentTransitionStates ul    { margin: .2em 0 .5em .5em; text-align: left }
-#documentTransitionStates ul li { padding: .1em 0; }
+.state-overlay ul    { margin: .2em 0 .5em .5em; text-align: left }
+.state-overlay ul li { padding: .1em 0; }
 
+.state-overlay {
+  -moz-border-radius-bottomleft:0.5em;
+  -moz-border-radius-bottomright:0.5em;
+  -moz-border-radius-topleft:0.5em;
+  -moz-border-radius-topright:0.5em;
+  /*background:#EFEFEF none repeat scroll 0 0;*/
+  background: #efefef;
+  border:5px solid #DDDDDD;
+  font-size:1.8em;
+  padding:0.1em 1em 0.3em;
+  text-align:center;
+  width:170px;
+}
 
+.overlay-invalid, .overlay-expired, .overlay-rejected, .overlay-refused, 
+  .overlay-outdated, .overlay-disable {
+  border-color:#CC2020 !important;
+}
+
+.overlay-clrfather, .overlay-active, .overlay-checked, .overlay-read_only {
+  border-color:#2020CC !important;
+}
+
+.overlay-pending, .overlay-initialized, .overlay-uncomplete {
+  border-color:#FFCC20 !important;
+}
+
+.overlay-clrtutor, .overlay-tutor, .overlay-valid, .overlay-validated, .overlay-complete, 
+  .overlay-notified, .overlay-enable {
+  border-color:#20CC20  !important;
+}

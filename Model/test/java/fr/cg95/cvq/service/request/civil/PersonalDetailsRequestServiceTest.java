@@ -41,33 +41,16 @@ public class PersonalDetailsRequestServiceTest extends ServiceTestCase {
               request.setDeathFirstNames("DeathFirstNames");
                   request.setFormat(CertificateFormatType.FULL_COPY);
                 request.setCopies(BigInteger.valueOf(1));
-              if ("BirthPostalCode".length() > 2)
-        request.setBirthPostalCode("BirthPostalCode".substring(0, 2));
-      else
-        request.setBirthPostalCode("BirthPostalCode");
-                  if ("BirthCity".length() > 32)
+              if ("BirthCity".length() > 32)
         request.setBirthCity("BirthCity".substring(0, 32));
       else
         request.setBirthCity("BirthCity");
-                request.setMarriageDate(new Date());
-              if ("MarriageHusbandLastName".length() > 38)
+                  if ("MarriageHusbandLastName".length() > 38)
         request.setMarriageHusbandLastName("MarriageHusbandLastName".substring(0, 38));
       else
         request.setMarriageHusbandLastName("MarriageHusbandLastName");
                     request.setMarriageWifeFirstNames("MarriageWifeFirstNames");
-                request.setDeathDate(new Date());
-            request.setBirthDate(new Date());
-                request.setRequesterQualityPrecision("RequesterQualityPrecision");
-                  if ("DeathPostalCode".length() > 2)
-        request.setDeathPostalCode("DeathPostalCode".substring(0, 2));
-      else
-        request.setDeathPostalCode("DeathPostalCode");
-                  if ("FatherLastName".length() > 38)
-        request.setFatherLastName("FatherLastName".substring(0, 38));
-      else
-        request.setFatherLastName("FatherLastName");
-                  request.setRelationship(RelationshipType.HUSBAND);
-                    request.setMotherFirstNames("MotherFirstNames");
+                    request.setRequesterQualityPrecision("RequesterQualityPrecision");
                     request.setFatherFirstNames("FatherFirstNames");
                   if ("MarriagePostalCode".length() > 2)
         request.setMarriagePostalCode("MarriagePostalCode".substring(0, 2));
@@ -102,6 +85,23 @@ public class PersonalDetailsRequestServiceTest extends ServiceTestCase {
         request.setBirthLastName("BirthLastName".substring(0, 38));
       else
         request.setBirthLastName("BirthLastName");
+                  if ("BirthPostalCode".length() > 2)
+        request.setBirthPostalCode("BirthPostalCode".substring(0, 2));
+      else
+        request.setBirthPostalCode("BirthPostalCode");
+                request.setMarriageDate(new Date());
+            request.setDeathDate(new Date());
+            request.setBirthDate(new Date());
+              if ("DeathPostalCode".length() > 2)
+        request.setDeathPostalCode("DeathPostalCode".substring(0, 2));
+      else
+        request.setDeathPostalCode("DeathPostalCode");
+                  if ("FatherLastName".length() > 38)
+        request.setFatherLastName("FatherLastName".substring(0, 38));
+      else
+        request.setFatherLastName("FatherLastName");
+                  request.setRelationship(RelationshipType.HUSBAND);
+                    request.setMotherFirstNames("MotherFirstNames");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
@@ -148,8 +148,8 @@ public class PersonalDetailsRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iPersonalDetailsRequestService.complete(request.getId());
-        iPersonalDetailsRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

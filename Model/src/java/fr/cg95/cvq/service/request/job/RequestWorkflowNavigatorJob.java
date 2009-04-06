@@ -28,6 +28,7 @@ import fr.cg95.cvq.service.request.IRequestServiceRegistry;
  * </ul>
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
+ * @deprecated must be migrated and enhanced
  */
 public class RequestWorkflowNavigatorJob {
 
@@ -55,49 +56,49 @@ public class RequestWorkflowNavigatorJob {
      * For a given local authority, change state of requests whose type and current state match
      * those provided to the specified end state. 
      */
-    public void doRequestWorkflowChange(String requestTypeLabel, String startState,
-        String endState) throws Exception {
-         
-        logger.debug("doRequestWorkflowChange() starting job for local authority " 
-                + SecurityContext.getCurrentSite().getName());
-        logger.debug("doRequestWorkflowChange() from state " + startState + " to "
-                + endState);
-        RequestState requestState = RequestState.forString(startState);
-        Set<RequestState> requestStateSet = new HashSet<RequestState>();
-        requestStateSet.add(requestState);
-        
-        RequestState requestEndState = RequestState.forString(endState);
-        List<Request> requestList =
-            requestDAO.listByStatesAndType(requestStateSet, requestTypeLabel);
-        logger.debug("doRequestWorkflowChange() got " + requestList.size()
-            + " matching request(s)");
-        for (Request request : requestList) {
-            IRequestService dynamicRequestService = 
-                requestServiceRegistry.getRequestService(request);
-            logger.debug("doRequestWorkflowChange() using service " + dynamicRequestService);
-            while (!request.getState().equals(requestEndState)) {
-                try {
-                    if (request.getState().equals(RequestState.PENDING))
-                        dynamicRequestService.complete(request);
-                    else if (request.getState().equals(RequestState.COMPLETE))
-                        dynamicRequestService.validate(request);
-                    else if (request.getState().equals(RequestState.VALIDATED))
-                        dynamicRequestService.notify(request.getId(), "Automatic notification");
-                    else if (request.getState().equals(RequestState.NOTIFIED))
-                        dynamicRequestService.close(request.getId());
-                    else if (request.getState().equals(RequestState.CLOSED))
-                        dynamicRequestService.archive(request);
-                } catch (CvqInvalidTransitionException cite) {
-                    // this is unlikely to happen
-                } catch (CvqException ce) {
-                    logger.error("doRequestWorkflowChange() Unexpected error : " + ce);
-                    ce.printStackTrace();
-                    throw new Exception("Error while changing state of request " 
-                            + request.getId());
-                }
-            }
-        }
-    }
+//    public void doRequestWorkflowChange(String requestTypeLabel, String startState,
+//        String endState) throws Exception {
+//
+//        logger.debug("doRequestWorkflowChange() starting job for local authority "
+//                + SecurityContext.getCurrentSite().getName());
+//        logger.debug("doRequestWorkflowChange() from state " + startState + " to "
+//                + endState);
+//        RequestState requestState = RequestState.forString(startState);
+//        Set<RequestState> requestStateSet = new HashSet<RequestState>();
+//        requestStateSet.add(requestState);
+//
+//        RequestState requestEndState = RequestState.forString(endState);
+//        List<Request> requestList =
+//            requestDAO.listByStatesAndType(requestStateSet, requestTypeLabel);
+//        logger.debug("doRequestWorkflowChange() got " + requestList.size()
+//            + " matching request(s)");
+//        for (Request request : requestList) {
+//            IRequestService dynamicRequestService =
+//                requestServiceRegistry.getRequestService(request);
+//            logger.debug("doRequestWorkflowChange() using service " + dynamicRequestService);
+//            while (!request.getState().equals(requestEndState)) {
+//                try {
+//                    if (request.getState().equals(RequestState.PENDING))
+//                        dynamicRequestService.complete(request);
+//                    else if (request.getState().equals(RequestState.COMPLETE))
+//                        dynamicRequestService.validate(request);
+//                    else if (request.getState().equals(RequestState.VALIDATED))
+//                        dynamicRequestService.notify(request.getId(), "Automatic notification");
+//                    else if (request.getState().equals(RequestState.NOTIFIED))
+//                        dynamicRequestService.close(request.getId());
+//                    else if (request.getState().equals(RequestState.CLOSED))
+//                        dynamicRequestService.archive(request);
+//                } catch (CvqInvalidTransitionException cite) {
+//                    // this is unlikely to happen
+//                } catch (CvqException ce) {
+//                    logger.error("doRequestWorkflowChange() Unexpected error : " + ce);
+//                    ce.printStackTrace();
+//                    throw new Exception("Error while changing state of request "
+//                            + request.getId());
+//                }
+//            }
+//        }
+//    }
 
     public void setLocalAuthorityRegistry(
             ILocalAuthorityRegistry localAuthorityRegistry) {

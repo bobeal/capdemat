@@ -36,7 +36,7 @@ public class LocalReferentialEntry {
     private boolean entriesSupportPrecision;
     private boolean entriesSupportMultiple;
 
-    public final Set getEntries() {
+    public final Set<LocalReferentialEntry> getEntries() {
         return entries;
     }
 
@@ -48,6 +48,12 @@ public class LocalReferentialEntry {
         if (entries == null)
             entries = new LinkedHashSet<LocalReferentialEntry>();
         entries.add(lre);
+    }
+    
+    public final void removeEntry(final LocalReferentialEntry lre) {
+        if (entries == null)
+            return;
+        entries.remove(lre);
     }
 
     public final boolean getEntriesSupportPrecision() {
@@ -81,7 +87,7 @@ public class LocalReferentialEntry {
         this.key = key;
     }
 
-    public final Map getLabelsMap() {
+    public final Map<String,String> getLabelsMap() {
         return labelsMap;
     }
 
@@ -91,7 +97,7 @@ public class LocalReferentialEntry {
         labelsMap.put(lang, value);
     }
 
-    public final Map getMessagesMap() {
+    public final Map<String,String> getMessagesMap() {
         return messagesMap;
     }
 
@@ -109,5 +115,10 @@ public class LocalReferentialEntry {
         if (precisionsMap == null)
             precisionsMap = new LinkedHashMap<String, Map>();
         precisionsMap.put(key, labelsMap);
+    }
+    
+    public final void addLangage(String lang) {
+        addLabel(lang, "");
+        addMessage(lang, "");
     }
 }

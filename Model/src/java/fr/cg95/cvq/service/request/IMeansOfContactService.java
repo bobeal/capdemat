@@ -7,6 +7,7 @@ import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
  * IMeansOfContactService provides methods that :
@@ -104,4 +105,6 @@ public interface IMeansOfContactService {
      * </ul>
      */
     void notifyRequesterBySms(String to, String body) throws CvqException;
+
+    MeansOfContact getById(Long id) throws CvqObjectNotFoundException;
 }

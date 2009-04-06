@@ -67,7 +67,6 @@
 	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/fop.jar" sourcepath="/home/bor/java/fop-0.20.5/src"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-oro-2.0.8/jakarta-oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-struts-1.1/struts.jar"/>
-	<classpathentry kind="lib" path="/home/rdj/zen-workspace/lab-zenexity/capdemat/Libraries/javax.servlet/servlet-api.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-core.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-dom.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/saxpath.jar"/>
@@ -129,6 +128,8 @@
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/slf4j-log4j12-1.0.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.sun/saaj-impl.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.aspectj/aspectjrt-1.6.jar"/>
-	<classpathentry kind="lib" path="/home/rdj/zen-workspace/lab-zenexity/capdemat/Libraries/groovy/groovy-all-1.5.4.jar"/>
+	<classpathentry kind="lib" path="Libraries/javax.servlet/servlet-api.jar"/>
+	<classpathentry kind="lib" path="Libraries/groovy/groovy-all-1.5.4.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.joda/joda-time-1.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

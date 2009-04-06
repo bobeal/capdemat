@@ -12,6 +12,7 @@ import fr.cg95.cvq.service.request.military.IMilitaryCensusRequestService;
 public class MilitaryCensusRequestService extends RequestService 
         implements IMilitaryCensusRequestService {
 
+    @Override
     public Long create(Request request)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -35,10 +36,12 @@ public class MilitaryCensusRequestService extends RequestService
         return finalizeAndPersist(request);
     }
 
+    @Override
     public boolean accept(Request request) {
         return (request instanceof MilitaryCensusRequest);
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new MilitaryCensusRequest();
     }

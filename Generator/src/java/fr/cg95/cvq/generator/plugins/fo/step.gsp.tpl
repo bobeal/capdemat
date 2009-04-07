@@ -51,15 +51,15 @@
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.countryName}" maxlength="38" name="${namePrefix}${element.javaFieldName}.countryName"/>
             </div>
             """
-            ,'textarea' :
+         ,'textarea' :
             """
             <textarea name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.rows} ${element.lengthLimits}>\${${valuePrefix}.${element.javaFieldName}}</textarea>
             """
-            ,'localReferentialData':
+         ,'localReferentialData':
             """
             <g:set var="${element.javaFieldName}Index" value="\${0}" scope="flash" />
             <g:render template="/frontofficeRequestType/widget/localReferentialData" 
-                      model="['javaName':'${element.javaFieldName}', 'htmlClass':'${element.htmlClass}', 
+                      model="['javaName':'${element.javaFieldName}', 'i18nPrefixCode':'${element.i18nPrefixCode}', 'htmlClass':'${element.htmlClass.replace('validate-localReferentialData','')}', 
                               'lrEntries': lrTypes.${element.javaFieldName}.entries, 'depth':0]" />
             """
          ,'date' :

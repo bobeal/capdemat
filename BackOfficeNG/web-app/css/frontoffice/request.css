@@ -272,21 +272,11 @@ h2.request-creation {
 /* javascript validation
 --------------------------------------------------------------*/
 
+.validation-failed,
+.validation-failed-sel,
+.validation-failed-cr { border:1px dashed #FF3333; background-color:#FFCCCC; }
 
-.validation-failed { /* for textboxes, textareas, passwords */
-  border:1px dashed #FF3333;
-  background-color:#FFCCCC;
-}
-
-.validation-failed-sel { /* for selects */
-  border:1px dashed #FF3333;
-  background-color:#FFCCCC;
-}
-
-.validation-passed { /* for textboxes, textareas, passwords */
-  border:1px solid #66CC66;
-  background-color:#fcfcfc;
-}
+.validation-passed    { border:1px solid #66CC66; background-color:#fcfcfc; }
 
 .error { 
   color: red; 

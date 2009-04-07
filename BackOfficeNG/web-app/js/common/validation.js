@@ -88,17 +88,14 @@ function FIC_checkForm(e, el, includeScope) {
 				} else if(t == 'radio' || t == 'checkbox'){
 					// radio or checkbox
 					var valid = FIC_checkRadCbx(cname,f_in[i],f_in);
+					valid = FIC_checkLocalReferentialDataTree(cname,f_in[i],f_in, valid);
 					cext = '-cr';
 				} else {
 					var valid = true;
 				}
 				
-				if (valid) {
-					removeClassName(f_in[i],'validation-failed'+cext);
-					addClassName(f_in[i],'validation-passed'+cext);
-				} else {
-					removeClassName(f_in[i],'validation-passed'+cext);
-					addClassName(f_in[i],'validation-failed'+cext);
+				FIC_toggleValidationClass (f_in[i], valid, 'validation-passed'+cext, 'validation-failed'+cext);
+			  if (!valid) {
 					//try to get title
 					if (f_in[i].getAttribute('title')){
 						errs[errs.length] = f_in[i].getAttribute('title');
@@ -378,6 +375,41 @@ function FIC_checkRadCbx(c,e,f){
 		}
 	}
 	return valid;
+}
+
+function FIC_checkLocalReferentialDataTree(c,e,f, valid){
+	//search for required
+	if (c.indexOf(' validate-localreferentialdata ') != -1) {
+		//required found
+		//check if other checkboxes or radios have been selected.
+		valid = false;
+		for (var i=0;i<f.length;i++){
+			if(f[i].name.split('[')[0].toLowerCase() == e.name.split('[')[0].toLowerCase() && f[i].checked){
+				valid = true;
+				break;
+			}
+		}
+	}
+	return valid;
+}
+
+function FIC_toggleValidationClass(inputEl, isValid, passedClassName, failedClassName) {
+  if (!(/validate-(\w+)/i.exec(inputEl.className)))
+    return;
+  
+  var type = inputEl.type.toLowerCase();
+  var el;
+  
+  if (type == 'radio' || type == 'checkbox') el = YAHOO.util.Dom.getAncestorByTagName(inputEl,'ul');
+  el = !el ? inputEl : el;
+  
+  if (isValid) {
+	  removeClassName(el, failedClassName);
+	  addClassName(el, passedClassName);
+  } else {
+	  removeClassName(el, passedClassName);
+	  addClassName(el, failedClassName);
+	}
 }
 
 //==================================================================================================================

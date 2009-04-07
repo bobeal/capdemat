@@ -1,19 +1,7 @@
 form {
-  padding:  0 1.5em 1.5em 1.5em;
+  padding: 1.5em;
   border: 1px solid #ffffff;
   background: #fff;
-}
-
-form fieldset {
-  margin: 0 0 .5em 0; padding: 1em 0 0 1em;
-  border-left: 3px solid #A0D158;
-}
-
-legend {
-  margin-top: .5em !important;
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #7fa646;
 }
 
 form label {

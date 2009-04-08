@@ -14,10 +14,12 @@ import fr.cg95.cvq.service.request.leisure.culture.ILibraryRegistrationRequestSe
 public final class LibraryRegistrationRequestService extends RequestService 
     implements ILibraryRegistrationRequestService {
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof LibraryRegistrationRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new LibraryRegistrationRequest();
     }

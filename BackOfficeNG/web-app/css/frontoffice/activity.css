@@ -1,0 +1,120 @@
+
+.requestBox .body select.year-filter {
+  width: 5em ;
+  display: inline;
+}
+
+.requestBox .body select.month-filter {
+  width : 3.5em;
+  display: inline;
+}
+
+.requestBox .body label.title {
+  display:block;
+  padding-bottom: 0.7em;
+}
+
+.requestBox .body input.action-button {
+  display:block;
+}
+
+.list-box h3 {
+  font-size: 1.4em;
+  margin:0;
+  padding: 0.6em 0.6em;
+}
+
+.list-box ul li {
+  /*border-bottom : none;*/
+}
+
+.details-panel {
+  text-align : right;
+  clear:both;
+  padding-top:0.5em;
+  /*padding: 0.6em 1em 0.6em;*/
+}
+
+#narrow {
+  clear:right !important;
+}
+
+table.activity-calendar {
+  margin: 2em;
+  font-size: 1.2em;
+  border-left: dashed 1px #FF812B;
+  border-top: dashed 1px #FF812B;
+}
+
+table.activity-calendar th {
+  width: 5.8em;
+  padding-bottom: 1em;
+  text-align: center;
+  border-right: dashed 1px #FF812B;
+  border-bottom: dashed 1px #FF812B;
+  vertical-align: middle;
+  padding-top:0.7em;
+  background: #eee;
+}
+
+table.activity-calendar td {
+  padding-bottom: 0.7em;
+  vertical-align:top;
+  font-size:1.4em;
+  text-align: center;
+  border-right: dashed 1px #FF812B;
+  border-bottom: dashed 1px #FF812B;
+}
+
+table.activity-calendar td span.value {
+  display:block;
+}
+
+table.activity-calendar td span.indicator {
+  float:left;
+  height:1em;
+  margin:0.1em 0.1em 0 0;
+  width:1em;
+}
+
+table.activity-calendar td div.container {
+  margin-left:0.5em;
+}
+
+.body ul.activity-list li {
+  border:none;
+}
+
+.body ul.activity-list span.indicator {
+  display:block;
+  float:left;
+  margin-right:1em;
+  width:1.2em;
+}
+
+span.marked-item-0 {
+  background-color : orange;
+}
+
+span.marked-item-1 {
+  background-color : blue;
+}
+
+span.marked-item-2 {
+  background-color : red;
+}
+
+span.marked-item-3 {
+  background-color : darkgreen;
+}
+
+span.marked-item-4 {
+  background-color : yellowgreen;
+}
+
+
+/*Attempt 1 */
+
+.data-detail dl dd {
+  width:12.7em !important;
+}

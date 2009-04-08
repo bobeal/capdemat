@@ -63,6 +63,7 @@ h2.request-creation {
 #requestTabView form div label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
 
 #requestTabView form div input[type="text"],
+#requestTabView form div input[type="password"],
 #requestTabView form div select,
 #requestTabView form div textarea {
   width: 80%;
@@ -78,22 +79,28 @@ h2.request-creation {
 
 #requestTabView form input.submit-step { display: block; margin: 1em auto; font-size: 1.2em; }
 
+/* tree
+-------------------------------------------------------------- */
+#requestTabView form ul.dataTree        { width: 78%; padding: 1%; border: 1px dashed #A0D158; }
+#requestTabView form .dataTree li       { width: 100%; display: block; }
+#requestTabView form .dataTree li ul    { margin: .5em 0 0 1em !important; }
+#requestTabView form .dataTree li ul li { width: 90%; padding: .2em 0 0 .4em; }
+#requestTabView form .dataTree li em    { font-size: 1.1em; font-style: italic; font-weight: bold; }
+
+/* list
+-------------------------------------------------------------- */
 #requestTabView form ul { width: 80%; margin: .2em 0 .5em 0; }
 #requestTabView form li { padding: .2em 0; list-style-type: none; display: inline; }
 
 #requestTabView form  li label,
 #requestTabView form  li input[type="checkbox"],
-#requestTabView form  li input[type="radio"] {
-  display: inline;
-}
+#requestTabView form  li input[type="radio"] {  display: inline; }
 
 #requestTabView form li input[type="checkbox"],
-#requestTabView form li input[type="radio"] {
-  margin-left: 1em;
-}
+#requestTabView form li input[type="radio"]  { margin-left: 1em; }
+
 
 #requestTabView .yui-button { margin-left: 40%; }
-
 
 #requestTabView form div fieldset {
   margin: 0 0 .5em 0; padding: 1em 0 0 1em;
@@ -183,6 +190,38 @@ h2.request-creation {
 #requestTabView dl dd { width: 25.5em; font-size: 1.15em; }
 
 #requestTabView dl dd p { padding: 0.1em; }
+#requestTabView dl dd li { display:block; }
+
+/* captcha
+--------------------------------------------------------------*/
+#requestTabView .captcha { margin: 0; padding: .1em; }
+#requestTabView .captcha .image { display: inline; width: 20%; }
+#requestTabView .captcha input[type="text"].response { display: inline; width: 60%; vertical-align:  middle; }
+
+/* creation-success
+--------------------------------------------------------------*/
+#requestTabView .creation-success { background: white none repeat scroll 0 50%; margin: 1em; padding: 1em; }
+#requestTabView .creation-success dl dt { clear:both; min-height:1.5em; text-align: right; width: 30em; }
+#requestTabView .creation-success dl dd { font-size: 1.15em; width: 29em; }
+
+/* legalResponsiblesList
+--------------------------------------------------------------*/
+#requestTabView .legalResponsiblesList fieldset legend { border:medium hidden; }
+#requestTabView .legalResponsiblesList ul { background: #EEEEEE none repeat scroll 0 0; border-top: 1px dashed #FF812B;}
+#requestTabView .legalResponsiblesList ul li .name {
+  float: left;
+  margin-left: 5px;
+  font-size: 1.1em;
+  padding-top: 5px;
+}
+#requestTabView .legalResponsiblesList ul li .check { float: right; padding-top: 3px; margin-right: 5px }
+#requestTabView .legalResponsiblesList ul li .action {
+  float: right;
+  font-size: 0.8em;
+  font-weight: bold;
+  padding-top: 3px;
+}
+#requestTabView .legalResponsiblesList ul li .endLine { border-top: 1px dashed #FF812B; clear: both; }
 
 /* exit request creation screen
 --------------------------------------------------------------*/

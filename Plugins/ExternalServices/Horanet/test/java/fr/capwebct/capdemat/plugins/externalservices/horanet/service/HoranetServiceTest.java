@@ -19,6 +19,7 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
@@ -97,8 +98,8 @@ public class HoranetServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iVoCardRequestService.complete(requestId);
-        iVoCardRequestService.validate(requestId);
+        iRequestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -130,8 +131,8 @@ public class HoranetServiceTest extends ServiceTestCase {
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
 		SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-		srrService.complete(srrRequest);
-		srrService.validate(srrRequest);
+        iRequestWorkflowService.updateRequestState(srrRequest.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(srrRequest.getId(), RequestState.VALIDATED, null);
 
         // create and validate a school canteen registration request and check 
         // that data is correctly sent
@@ -164,10 +165,8 @@ public class HoranetServiceTest extends ServiceTestCase {
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
 		SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-		scrrService.complete(scrrRequest);
-//		logger.debug("gonna send request : ");
-//		logger.debug(scrrRequest.modelToXmlString());
-		scrrService.validate(scrrRequest);
+        iRequestWorkflowService.updateRequestState(scrrRequest.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(scrrRequest.getId(), RequestState.VALIDATED, null);
 
         // create and validate a perischool activity registration request and check 
         // that data is correctly sent
@@ -197,10 +196,8 @@ public class HoranetServiceTest extends ServiceTestCase {
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
 		SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-		parrService.complete(parrRequest);
-//		logger.debug("gonna send request : ");
-//		logger.debug(scrrRequest.modelToXmlString());
-		parrService.validate(parrRequest);
+        iRequestWorkflowService.updateRequestState(parrRequest.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(parrRequest.getId(), RequestState.VALIDATED, null);
 
 		continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -333,8 +330,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.complete(hfmr);
-        iHomeFolderModificationRequestService.validate(hfmr);
-
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 	}
 }

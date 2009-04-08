@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.common.Step;
+import fr.cg95.cvq.generator.common.Widget;
 import fr.cg95.cvq.generator.plugins.bo.ElementBo.ElementTypeClass;
 
 /**
@@ -25,6 +26,9 @@ public class RequestBo {
 
     // Useful to divide steps into smaller group to bypass (grails view limit size)
     private List<List<Step>> stepBundles;
+    
+    // Useful to cache step elements
+    private Map<String, List<ElementBo>> stepElementsCache = new HashMap<String, List<ElementBo>>();
     
     public RequestBo(String name, String targetNamespace) {
         this.name =  StringUtils.uncapitalize(name);
@@ -77,6 +81,10 @@ public class RequestBo {
     }
     
     public List<ElementBo> getElementsByStep(Step step, int column) {
+        String stepColumnKey = step.getName() + "_" + column;
+        if (stepElementsCache.containsKey(stepColumnKey))
+            return stepElementsCache.get(stepColumnKey);
+        
         List<ElementBo> stepElements = new ArrayList<ElementBo>();
         for (ElementBo element : elements) {
             if (element.getStep().getName().equals(step.getName())
@@ -84,7 +92,12 @@ public class RequestBo {
                 stepElements.add(element);
         }
         testAfterAttribute(stepElements);
-        return sortByAfterAttribute(stepElements);
+        if (column == 1)
+            stepElementsCache.put(stepColumnKey, addwidgetAsElement(step, sortByAfterAttribute(stepElements)));
+        else
+            stepElementsCache.put(stepColumnKey,sortByAfterAttribute(stepElements));
+            
+        return stepElementsCache.get(stepColumnKey);
     }
     
     private List<ElementBo> sortByAfterAttribute(List<ElementBo> elements) {
@@ -128,6 +141,31 @@ public class RequestBo {
                     afters.add(after);
             }
         }
+    }
+    
+    private List<ElementBo> addwidgetAsElement(Step step, List<ElementBo> elements) {
+        if (step.getIndex() != 0 || step.getWidgets().isEmpty())
+            return elements;
+        for (Widget w : step.getWidgets()) {
+            ElementBo wElement = new ElementBo(w.getName(), "request");
+            wElement.setDisplay(true);
+            wElement.setWidget(w.getName());
+            wElement.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
+            if (w.getInto() == null)
+                elements.add(0, wElement);
+            else {
+                ElementBo firstElement = elements.get(0);
+                if (!firstElement.getTypeClass().equals(ElementBo.ElementTypeClass.COMPLEX.toString()))
+                    throw new RuntimeException("addwidgetAsElement() - Widget {"+ w.getName() +"} " +
+                            "[into] attribute can not reference {"+ w.getInto() +"}." +
+                            " It isn't the first element of step {"+ step.getName() +"}");
+                if (!firstElement.getName().equals(w.getInto()))
+                    throw new RuntimeException("addwidgetAsElement() - Widget {"+ w.getName() +"} " +
+                            "[into] attribute do not reference the first and complex element of step {"+ step.getName() +"}");
+                firstElement.getElements().add(0,wElement);
+            }
+        }
+        return elements;
     }
     
     private int getStepWeight(Step step) {

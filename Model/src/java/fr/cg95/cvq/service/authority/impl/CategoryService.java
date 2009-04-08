@@ -85,10 +85,11 @@ public class CategoryService implements ICategoryService {
         return results;
     }
 
-    public List<Category> getAgentManagedCategories(Agent agent) throws CvqException {
+    public List<Category> getManaged() {
         List<Category> results = new ArrayList<Category>();
-        
-        Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
+
+        CategoryRoles[] agentCategoryRoles =
+            SecurityContext.getCurrentCredentialBean().getCategoryRoles();
         for (CategoryRoles categoryRole : agentCategoryRoles) {
             if (categoryRole.getProfile().equals(CategoryProfile.MANAGER))
                 results.add(categoryRole.getCategory());

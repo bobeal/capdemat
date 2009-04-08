@@ -9,10 +9,12 @@ import fr.cg95.cvq.service.request.technical.ITechnicalInterventionRequestServic
 public class TechnicalInterventionRequestService extends RequestService 
     implements ITechnicalInterventionRequestService {
 
+    @Override
     public boolean accept(Request request) {
         return request instanceof TechnicalInterventionRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new TechnicalInterventionRequest();
     }

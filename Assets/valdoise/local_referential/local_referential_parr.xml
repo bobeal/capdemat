@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-  <request>PerischoolActivityRegistrationRequest</request>
-  <data name="PerischoolActivity">
-    <label lang="fr">Activités péri-scolaires</label>
-    <label lang="en">Perischool Activity</label>
-    <entries supportMultiple="true" supportQuota="false" supportPriority="false"
-      supportPrecision="false">
-      <entry key="EveningNursery">
-	<label lang="fr">Garderie du soir</label>
-      </entry>
-      <entry key="MorningNursery">
-	<label lang="fr">Garderie du matin</label>
-      </entry>
-      <entry key="MorningAndEveningNursery">
-	<label lang="fr">Garderie soir et matin</label>
-      </entry>
-    </entries>
-  </data>
+    <request>PerischoolActivityRegistrationRequest</request>
+    <data name="PerischoolActivity">
+        <label lang="fr">Activités péri-scolaires</label>
+        <label lang="en">Perischool Activity</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+            <entry key="EveningNursery">
+                <label lang="fr">Garderie du soir</label>
+            </entry>
+            <entry key="MorningNursery">
+                <label lang="fr">Garderie du matin</label>
+            </entry>
+            <entry key="MorningAndEveningNursery">
+                <label lang="fr">Garderie soir et matin</label>
+            </entry>
+            <entry key="Rouler-des-joints">
+                <label lang="fr">Rouler des joints</label>
+                <message lang="fr"/>
+                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                    <entry key="Rouler-des-joints-En-c-ne">
+                        <label lang="fr">En cône</label>
+                        <message lang="fr"/>
+                    </entry>
+                    <entry key="Rouler-des-joints-En-long">
+                        <label lang="fr">En long</label>
+                        <message lang="fr"/>
+                    </entry>
+                    <entry key="Rouler-des-joints-Des-b-lougas">
+                        <label lang="fr">Des bélougas</label>
+                        <message lang="fr"/>
+                    </entry>
+                </entries>
+            </entry>
+        </entries>
+    </data>
 </LocalReferential>

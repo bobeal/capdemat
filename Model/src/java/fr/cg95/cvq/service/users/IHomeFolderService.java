@@ -30,6 +30,16 @@ public interface IHomeFolderService {
     /** service name used by Spring's application context. */
     String SERVICE_NAME = "homeFolderService";
 
+    /** the notification type to use when a password is reset via secret question/answer */
+    public static enum PasswordResetNotificationType {
+        /** the adult has an email address it will be sent to*/
+        ADULT_EMAIL,
+        /** the adult has no email address but the VO Card Request category has one */
+        CATEGORY_EMAIL,
+        /** none have an address, the password will be output in the success message */
+        INLINE;
+    }
+
     /**
      * Create a fresh new home folder containing only the given adult.
      * 
@@ -255,4 +265,14 @@ public interface IHomeFolderService {
      */
     void notifyPaymentByMail(Payment payment)
     	throws CvqException;
+
+    /**
+     * Send the new password by email to the home folder's responsible,
+     * or to the category address if the responsible has no email address,
+     * or does nothing if none have an address.
+     *
+     * @return the notification type used to send the new password
+     */
+    PasswordResetNotificationType notifyPasswordReset(Adult adult, String password, String categoryAddress)
+        throws CvqException;
 }

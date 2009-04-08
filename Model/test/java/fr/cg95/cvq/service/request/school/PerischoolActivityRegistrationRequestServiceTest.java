@@ -38,10 +38,10 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
     protected PerischoolActivityRegistrationRequest fillMeARequest() throws CvqException {
 
         PerischoolActivityRegistrationRequest request = new PerischoolActivityRegistrationRequest();
-          request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
+          request.setClassTripPermission(Boolean.valueOf(true));
+            request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
                request.setSchool((School) schoolService.getAll().iterator().next());
                 request.setHospitalizationPermission(Boolean.valueOf(true));
-            request.setClassTripPermission(Boolean.valueOf(true));
                     request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
               if ("UrgencyPhone".length() > 10)
         request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
@@ -94,8 +94,8 @@ public class PerischoolActivityRegistrationRequestServiceTest extends ServiceTes
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iPerischoolActivityRegistrationRequestService.complete(request.getId());
-        iPerischoolActivityRegistrationRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

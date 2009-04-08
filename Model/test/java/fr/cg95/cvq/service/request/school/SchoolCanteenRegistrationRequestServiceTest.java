@@ -38,19 +38,19 @@ public class SchoolCanteenRegistrationRequestServiceTest extends ServiceTestCase
     protected SchoolCanteenRegistrationRequest fillMeARequest() throws CvqException {
 
         SchoolCanteenRegistrationRequest request = new SchoolCanteenRegistrationRequest();
-                     request.setSchool((School) schoolService.getAll().iterator().next());
-                        request.setHospitalizationPermission(Boolean.valueOf(true));
-            request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-            request.setFoodAllergy(Boolean.valueOf(true));
+                  request.setFoodAllergy(Boolean.valueOf(true));
               if ("DoctorPhone".length() > 10)
         request.setDoctorPhone("DoctorPhone".substring(0, 10));
       else
         request.setDoctorPhone("DoctorPhone");
-                  if ("UrgencyPhone".length() > 10)
+                    request.setDoctorName("DoctorName");
+                           request.setSchool((School) schoolService.getAll().iterator().next());
+                request.setHospitalizationPermission(Boolean.valueOf(true));
+            request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+              if ("UrgencyPhone".length() > 10)
         request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
       else
         request.setUrgencyPhone("UrgencyPhone");
-                    request.setDoctorName("DoctorName");
                   request.setSection(SectionType.BEFORE_FIRST_SECTION);
       
         // Means Of Contact
@@ -98,8 +98,8 @@ public class SchoolCanteenRegistrationRequestServiceTest extends ServiceTestCase
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iSchoolCanteenRegistrationRequestService.complete(request.getId());
-        iSchoolCanteenRegistrationRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

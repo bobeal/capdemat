@@ -1589,7 +1589,7 @@
 
     create table local_referential_data (
         id int8 not null,
-        name varchar(255) not null,
+        name varchar(255),
         priority int4,
         additional_information_label varchar(255),
         additional_information_value varchar(255),

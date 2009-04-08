@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import fr.capwebct.capdemat.plugins.csvimporters.concerto.business.ConcertoLine;
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.authority.School;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
@@ -30,6 +31,7 @@ import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.importer.ICsvImportProviderService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
@@ -57,6 +59,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
     private IAuthenticationService authenticationService;
     private IMailService mailService;
     private ISchoolService schoolService;
+    private IRequestWorkflowService requestWorkflowService;
     
     public void init() {
     	logger.debug("init() loading mapping and formatter configuration data");
@@ -270,8 +273,10 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 // create school registrations
                 for (SchoolRegistrationRequest srr : cdto.getChildrenSchoolRegistrations()) {
                     schoolRegistrationRequestService.create(srr);
-                    schoolRegistrationRequestService.complete(srr);
-                    schoolRegistrationRequestService.validate(srr);
+                    requestWorkflowService.updateRequestState(srr.getId(),
+                        RequestState.COMPLETE, null);
+                    requestWorkflowService.updateRequestState(srr.getId(),
+                        RequestState.VALIDATED, null);
                     logger.debug("importData() created school registration request : " + srr.getId());
                 }
                 
@@ -504,6 +509,10 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
 
     public final void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
+    }
+
+    public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
+        this.requestWorkflowService = requestWorkflowService;
     }
 
     public final void setSchoolCanteenRegistrationRequestService(

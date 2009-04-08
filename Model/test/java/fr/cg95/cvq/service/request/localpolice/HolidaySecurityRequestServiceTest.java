@@ -42,12 +42,15 @@ public class HolidaySecurityRequestServiceTest extends ServiceTestCase {
         request.setOtherContactLastName("OtherContactLastName".substring(0, 38));
       else
         request.setOtherContactLastName("OtherContactLastName");
-                  if ("OtherContactFirstName".length() > 38)
+                request.setAbsenceEndDate(new Date());
+            request.setAlarm(Boolean.valueOf(true));
+                            Address OtherContactAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setOtherContactAddress(OtherContactAddress);
+    	                  if ("OtherContactFirstName".length() > 38)
         request.setOtherContactFirstName("OtherContactFirstName".substring(0, 38));
       else
         request.setOtherContactFirstName("OtherContactFirstName");
                 request.setLight(Boolean.valueOf(true));
-            request.setAbsenceEndDate(new Date());
               if ("OtherContactPhone".length() > 10)
         request.setOtherContactPhone("OtherContactPhone".substring(0, 10));
       else
@@ -57,10 +60,7 @@ public class HolidaySecurityRequestServiceTest extends ServiceTestCase {
         request.setAlertPhone("AlertPhone".substring(0, 10));
       else
         request.setAlertPhone("AlertPhone");
-                request.setAlarm(Boolean.valueOf(true));
-                            Address OtherContactAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
-            request.setOtherContactAddress(OtherContactAddress);
-    	                request.setAbsenceStartDate(new Date());
+                request.setAbsenceStartDate(new Date());
   
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
@@ -107,8 +107,8 @@ public class HolidaySecurityRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iHolidaySecurityRequestService.complete(request.getId());
-        iHolidaySecurityRequestService.validate(request.getId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

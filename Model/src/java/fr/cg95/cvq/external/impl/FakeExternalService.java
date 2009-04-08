@@ -123,7 +123,7 @@ public class FakeExternalService implements IExternalProviderService {
                 Node event = (Node) eventNodes.get(i);
                 NamedNodeMap attributes = event.getAttributes();
                 Node dateNode = attributes.getNamedItem("event-date");
-                Node labelNode = attributes.getNamedItem("event-label4");
+                Node labelNode = attributes.getNamedItem("event-label3");
                 Date eventDate = simpleDateFormat.parse(dateNode.getNodeValue());
                 logger.debug("adding label " + labelNode.getNodeValue() 
                         + " with date " + eventDate);

@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.common.Step;
+import fr.cg95.cvq.generator.common.Widget;
 
 /**
  * @author rdj@zenexity.fr
@@ -23,6 +24,9 @@ public class RequestFo {
     
     // Useful to divide steps into smaller group to bypass (grails view limit size)
     private List<List<Step>> stepBundles;
+    
+    // Useful to cache step elements
+    private Map<String, List<ElementFo>> stepElementsCache = new HashMap<String, List<ElementFo>>();
 
     public RequestFo(String name, String targetNamespace) {
         this.name =  StringUtils.uncapitalize(name);
@@ -69,13 +73,18 @@ public class RequestFo {
     }
     
     public List<ElementFo> getElementsByStep(Step step) {
+        if (stepElementsCache.containsKey(step.getName()))
+            return stepElementsCache.get(step.getName());
+        
         List<ElementFo> stepElements = new ArrayList<ElementFo>();
-        for (ElementFo element : elements) { 
+        for (ElementFo element : elements) {
             if (element.getStep().getName().equals(step.getName()))
                 stepElements.add(element);
         }
         testAfterAttribute(stepElements);
-        return sortByAfterAttribute(stepElements);
+        stepElementsCache.put(step.getName(),
+                addwidgetAsElement(step, sortByAfterAttribute(stepElements)));
+        return stepElementsCache.get(step.getName());
     }
     
     private List<ElementFo> sortByAfterAttribute(List<ElementFo> elements) {
@@ -119,6 +128,30 @@ public class RequestFo {
                     afters.add(after);
             }
         }
+    }
+    
+    private List<ElementFo> addwidgetAsElement(Step step, List<ElementFo> elements) {
+        if (step.getIndex() != 0 || step.getWidgets().isEmpty())
+            return elements;
+        for (Widget w : step.getWidgets()) {
+            ElementFo wElement = new ElementFo(w.getName(), "request");
+            wElement.setDisplay(true);
+            wElement.setWidget(w.getName());
+            wElement.setTypeClass(ElementFo.ElementTypeClass.SIMPLE);
+            if (w.getInto() == null)
+                elements.add(0, wElement);
+            else {
+                ElementFo firstElement = elements.get(0);
+                if (!firstElement.getTypeClass().equals(ElementFo.ElementTypeClass.COMPLEX.toString()))
+                    throw new RuntimeException("addwidgetAsElement() - Widget {"+ w.getName() +"} " +
+                            "[into] attribute do not reference the first complex element of step {"+ step.getName() +"}");
+                if (!firstElement.getName().equals(w.getInto()))
+                    throw new RuntimeException("addwidgetAsElement() - Widget {"+ w.getName() +"} " +
+                    		"[into] attribute do not reference the first complex element of step {"+ step.getName() +"}");
+                firstElement.getElements().add(0,wElement);
+            }
+        }
+        return elements;
     }
     
     private int getStepWeight(Step step) {

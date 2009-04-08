@@ -48,13 +48,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <bean id="fakeSmsService" class="fr.cg95.cvq.util.sms.impl.FakeSmsService" />
   
-  <bean id="certificateService" 
-    class="fr.cg95.cvq.service.users.impl.CertificateService">
+  <bean id="certificateService" class="fr.cg95.cvq.service.users.impl.CertificateService">
     <property name="localAuthorityRegistry">
       <ref bean="localAuthorityRegistry"/>
     </property>
     <property name="localizationService" ref="localizationService" />
     <property name="requestFormDAO" ref="requestFormDAO" />
+    <!-- must be put somewhere on the using application's classpath -->
+    <property name="fopConfig">
+      <value>fop-config.xml</value>
+    </property>
   </bean>
 
   <bean id="localizationService" 
@@ -152,61 +155,28 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     class="fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect">
     <property name="requestDAO" ref="requestDAO" />  
     <property name="requestTypeDAO" ref="requestTypeDAO" />
+    <property name="categoryDAO" ref="categoryDAO" />
+  </bean>
+
+  <bean id="requestFilterAspect"
+    class="fr.cg95.cvq.service.request.aspect.RequestFilterAspect">
+    <property name="categoryService" ref="categoryService" />
   </bean>
 
   <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"
     abstract="true" init-method="init">
-    <property name="requestDAO">
-      <ref local="requestDAO"/>
-    </property>
-    <property name="requestTypeDAO">
-      <ref local="requestTypeDAO"/>
-    </property>
-    <property name="genericDAO">
-      <ref local="genericDAO"/>
-    </property>
-    <property name="individualService" ref="individualService"/>
-    <property name="requestActionDAO">
-      <ref local="requestActionDAO"/>
-    </property>
-    <property name="requestNoteDAO">
-      <ref local="requestNoteDAO"/>
-    </property>
-    <property name="requestFormDAO">
-      <ref local="requestFormDAO"/>
-    </property>
-    <property name="documentService" ref="documentService"/>
-    <property name="documentTypeService" ref="documentTypeService"/>
-    <!-- 
-    <property name="homeFolderService">
-      <ref local="homeFolderService"/>
-    </property>
-    -->
-    <property name="certificateService">
-      <ref local="certificateService"/>
-    </property>
-    <property name="mailService">
-	  <ref local="mailService"/>
-    </property>
-    <property name="categoryService" ref="categoryService" />
-    <property name="localizationService" ref="localizationService"/>
-    <property name="requestServiceRegistry">
-      <ref local="requestServiceRegistry"/>
-    </property>
-    <property name="localAuthorityRegistry">
-      <ref bean="localAuthorityRegistry"/>
-    </property>
-    <!-- <property name="externalService" ref="externalService"/> -->
-    <property name="requestWorkflowService">
-      <bean class="fr.cg95.cvq.service.request.impl.RequestWorkflowService">
-        <property name="requestDAO" ref="requestDAO" />
-        <property name="certificateService" ref="certificateService" />
-      </bean>
-    </property>
-    <!-- must be put somewhere on the using application's classpath -->
-    <property name="fopConfig">
-      <value>fop-config.xml</value>
-    </property>
+    <property name="requestDAO" ref="requestDAO" />
+    <property name="requestNoteDAO" ref="requestNoteDAO"/>
+    <property name="requestFormDAO" ref="requestFormDAO"/>
+    <property name="genericDAO" ref="genericDAO" />
+    <property name="requestActionService" ref="requestActionService" />
+    <property name="individualService" ref="individualService" />
+    <property name="documentTypeService" ref="documentTypeService" />
+    <property name="certificateService" ref="certificateService" />
+    <property name="mailService" ref="mailService" />
+    <property name="requestServiceRegistry" ref="requestServiceRegistry" />
+    <property name="requestTypeService" ref="requestTypeService" />
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
   </bean>
   
   <bean id="defaultRequestService" class="fr.cg95.cvq.service.request.impl.DefaultRequestService" 
@@ -221,8 +191,43 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="performDbUpdates" value="@perform_db_updates@"/>
   </bean>
 
-  <bean id="requestStatisticsService" class="fr.cg95.cvq.service.request.impl.RequestStatisticsService">
+  <bean id="requestWorkflowService" class="fr.cg95.cvq.service.request.impl.RequestWorkflowService"
+    init-method="init">
+    <property name="requestDAO" ref="requestDAO" />
+    <property name="requestActionService" ref="requestActionService" />
+    <property name="requestServiceRegistry" ref="requestServiceRegistry" />
+    <property name="certificateService" ref="certificateService" />
+    <property name="documentService" ref="documentService" />
+    <!--
+    <property name="homeFolderService" ref="homeFolderService" />
+    -->
+    <property name="externalService" ref="externalService"/>
+  </bean>
+
+  <bean id="requestTypeService" class="fr.cg95.cvq.service.request.impl.RequestTypeService">
+    <property name="requestTypeDAO" ref="requestTypeDAO"/>
+    <property name="requestFormDAO" ref="requestFormDAO"/>
+    <property name="requestServiceRegistry" ref="requestServiceRegistry" />
+    <property name="documentTypeService" ref="documentTypeService" />
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+  </bean>
+
+  <bean id="requestActionService" class="fr.cg95.cvq.service.request.impl.RequestActionService">
     <property name="requestDAO" ref="requestDAO"/>
+    <property name="requestActionDAO" ref="requestActionDAO"/>
+  </bean>
+
+  <bean id="requestNotificationService"
+    class="fr.cg95.cvq.service.request.impl.RequestNotificationService">
+    <property name="requestDAO" ref="requestDAO" />
+    <property name="mailService" ref="mailService" />
+    <property name="individualService" ref="individualService"/>
+    <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
+    <property name="localizationService" ref="localizationService"/>
+  </bean>
+
+  <bean id="requestStatisticsService" class="fr.cg95.cvq.service.request.impl.RequestStatisticsService">
+    <property name="requestStatisticsDAO" ref="requestStatisticsDAO"/>
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="categoryService" ref="categoryService" />
   </bean>
@@ -264,6 +269,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <!-- 
     <property name="requestService">
       <ref local="defaultRequestService"/>
+    </property>
+    <property name="requestWorkflowService">
+      <ref local="requestWorkflowService"/>
     </property>
     -->
     <property name="paymentService">
@@ -598,6 +606,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>	
 
   <bean id="requestDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestDAO" parent="genericDAO"/>
+
+  <bean id="requestStatisticsDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestStatisticsDAO" parent="genericDAO"/>
 
   <bean id="requestTypeDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestTypeDAO" parent="genericDAO"/>
 

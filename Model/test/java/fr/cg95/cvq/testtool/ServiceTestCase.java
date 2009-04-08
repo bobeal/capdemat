@@ -47,9 +47,12 @@ import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
+import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.users.ICardService;
@@ -81,6 +84,7 @@ public class ServiceTestCase
     protected Long voCardRequestId;
     protected Map<Long, Long> homeFolderVoCardRequestIds = new HashMap<Long, Long>();
 
+    // users related services
     protected static IIndividualService iIndividualService;
     protected static IHomeFolderService iHomeFolderService;
     protected static IAuthenticationService iAuthenticationService;
@@ -88,24 +92,28 @@ public class ServiceTestCase
     protected static IDocumentTypeService iDocumentTypeService;
     protected static ICardService iCardService;
     protected static ICertificateService iCertificateService;
-    protected static IPaymentService iPaymentService;
 
+    // authority related services
     protected static ICategoryService iCategoryService;
     protected static ISchoolService schoolService;
     protected static IRecreationCenterService recreationCenterService;
     protected static IAgentService iAgentService;
     protected static ILocalReferentialService localReferentialService;
     protected static IPlaceReservationService placeReservationService;
-    
+
+    // requests related services
     protected static IRequestServiceRegistry iRequestServiceRegistry;
     protected static IRequestService iRequestService;
+    protected static IRequestActionService iRequestActionService;
+    protected static IRequestTypeService iRequestTypeService;
+    protected static IRequestWorkflowService iRequestWorkflowService;
     protected static IHomeFolderModificationRequestService iHomeFolderModificationRequestService;
     protected static IRequestStatisticsService iRequestStatisticsService;
     protected static IVoCardRequestService iVoCardRequestService;
-    
-    protected static IPaymentProviderService iFakePaymentProviderService;
-    
     protected static IMeansOfContactService iMeansOfContactService;
+    
+    protected static IPaymentService iPaymentService;
+    protected static IPaymentProviderService iFakePaymentProviderService;
 
     protected static IMailService iMailService;
     
@@ -113,6 +121,7 @@ public class ServiceTestCase
     
     private static Boolean isInitialized = Boolean.FALSE;
 
+    @Override
     protected String[] getConfigLocations() {
         return new String[] { "/applicationContext.xml",
                               "/applicationContext-deployment.xml",
@@ -122,6 +131,7 @@ public class ServiceTestCase
                               "classpath:/localAuthority-dummy.xml"};
     }
 
+    @Override
     protected void onSetUp() throws Exception {
         ConfigurableApplicationContext cac = getContext(getConfigLocations());
         
@@ -176,7 +186,7 @@ public class ServiceTestCase
 
                 Category category = new Category();
                 category.setName("General");
-                List<RequestType> requestTypesSet = iRequestService.getAllRequestTypes();
+                List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
                 for (RequestType requestType : requestTypesSet) {
                     requestType.setCategory(category);
                     genericDAO.update(requestType);
@@ -266,6 +276,7 @@ public class ServiceTestCase
         HibernateUtil.beginTransaction();
     }
     
+    @Override
     protected void onTearDown() throws Exception {
 
         try {
@@ -309,7 +320,12 @@ public class ServiceTestCase
         ConfigurableApplicationContext cac = getContext(getConfigLocations());
         return cac.getBean(beanName);
     }
-    
+
+    protected <T> T getApplicationBean(String beanName) {
+        //noinspection unchecked
+        return (T)this.getApplicationContext().getBean(beanName);
+    }
+
     public void setAuthenticationService(IAuthenticationService authenticationService) {
         iAuthenticationService = authenticationService;
     }
@@ -373,6 +389,19 @@ public class ServiceTestCase
     public void setRequestStatisticsService(IRequestStatisticsService requestStatisticsService) {
         iRequestStatisticsService = requestStatisticsService;
     }
+
+    public void setRequestActionService(IRequestActionService requestActionService) {
+        iRequestActionService = requestActionService;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        iRequestTypeService = requestTypeService;
+    }
+
+    public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
+        iRequestWorkflowService = requestWorkflowService;
+    }
+
 
     public void setVoCardRequestService(IVoCardRequestService voCardRequestService) {
         iVoCardRequestService = voCardRequestService;
@@ -464,10 +493,5 @@ public class ServiceTestCase
             SecurityContext.setCurrentAgent(currentAgent);
         
         return cb;
-    }
-
-    protected <T> T getApplicationBean(String beanName) {
-        //noinspection unchecked
-        return (T)this.getApplicationContext().getBean(beanName);
     }
 }

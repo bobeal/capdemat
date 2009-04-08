@@ -247,14 +247,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 typeList.add(Hibernate.STRING);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_RESULTING_STATE)) {
-                if (!joinedWithRequestAction)
-                    sb.append(" and request.id = requestAction.request");
-                
-                sb.append(" and requestAction.resultingState ")
+                sb.append(" and action.resultingState ")
                     .append(searchCrit.getComparatif()).append(" ?");
 
                 if (!joinedWithRequestAction)
-                    sbSelect.append(", RequestAction as requestAction");
+                    sbSelect.append(" join request.actions action");
                 
                 joinedWithRequestAction = true;
                 objectList.add(searchCrit.getValue());
@@ -277,14 +274,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 typeList.add(Hibernate.LONG);
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_MODIFICATION_DATE)) {
-                if (!joinedWithRequestAction)
-                    sb.append(" and request.id = requestAction.request");
-
-                sb.append(" and requestAction.date ")
+                sb.append(" and action.date ")
                     .append(searchCrit.getComparatif()).append(" ? ");
 
                 if (!joinedWithRequestAction)
-                    sbSelect.append(", RequestAction as requestAction");
+                    sbSelect.append(" join request.actions action");
 
                 joinedWithRequestAction = true;
                 objectList.add(searchCrit.getDateValue());
@@ -320,114 +314,6 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
     public Long count(final Set<Critere> criteria) {
         return searchCount(criteria).longValue();
-    }
-
-    public Long countByQuality(final Date startDate, final Date endDate,
-            final List<String> resultingStates, final String qualityType, final Long requestTypeId,
-            final Long categoryId) {
-
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("select distinct(request.id) from Request request join request.actions action")
-        .append(" where 1 = 1");
-
-        if (startDate != null) {
-            sb.append(" and action.date > ?");
-            objectList.add(startDate);
-            typeList.add(Hibernate.TIMESTAMP);
-        }
-        if (endDate != null) {
-            sb.append(" and action.date < ?");
-            objectList.add(endDate);
-            typeList.add(Hibernate.TIMESTAMP);
-        }
-
-        if (categoryId != null) {
-            sb.append(" and request.requestType.category.id = '").append(categoryId)
-                .append("'");
-        }
-
-        sb.append(" and action.resultingState in (");
-        for (int i = 0; i < resultingStates.size(); i++) {
-            sb.append("'").append(resultingStates.get(i)).append("'");
-            if (i != resultingStates.size() - 1)
-                sb.append(",");
-        }
-        sb.append(")");
-
-        if (qualityType.equals("qualityTypeOk")) {
-            sb.append(" and request.orangeAlert = false")
-                .append(" and request.redAlert = false");
-        } else if (qualityType.equals("qualityTypeOrange")) {
-            sb.append(" and request.orangeAlert = true")
-                .append(" and request.redAlert = false");
-        } else if (qualityType.equals("qualityTypeRed")) {
-            sb.append(" and request.orangeAlert = false")
-                .append(" and request.redAlert = true");
-        }
-
-        if (requestTypeId != null) {
-            sb.append(" and request.requestType.id = '").append(requestTypeId).append("'");
-        }
-
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-        
-        return Long.valueOf(HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list().size());
-    }
-
-    public Long countByResultingState(final String[] resultingState, final Date startDate, final Date endDate,
-            final Long requestTypeId, final Long categoryId) {
-
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        StringBuffer sb = new StringBuffer();
-
-        sb.append("select distinct(request.id) from Request request join request.actions action")
-            .append(" where 1 = 1");
-
-        if (startDate != null) {
-            sb.append(" and action.date > ?");
-            objectList.add(startDate);
-            typeList.add(Hibernate.TIMESTAMP);
-        }
-        if (endDate != null) {
-            sb.append(" and action.date < ?");
-            objectList.add(endDate);
-            typeList.add(Hibernate.TIMESTAMP);
-        }
-
-        if (categoryId != null) {
-            sb.append(" and request.requestType.category.id = '").append(categoryId)
-                .append("'");
-        }
-
-        if (resultingState != null && resultingState.length > 0) {
-            sb.append(" and (");
-            for (int i = 0; i < resultingState.length; i++) {
-                String state = resultingState[i];
-                sb.append(" action.resultingState = '").append(state).append("'");
-                if (i < (resultingState.length - 1))
-                    sb.append(" or ");
-            }
-            sb.append(")");
-        }
-        
-        if (requestTypeId != null) {
-            sb.append(" and request.requestType.id = '").append(requestTypeId).append("'");
-        }
-
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-
-        return Long.valueOf(HibernateUtil.getSession()
-                .createQuery(sb.toString())
-                .setParameters(objectTab, typeTab).list().size());
     }
 
     public List<Request> listByRequester(final Long requesterId) {

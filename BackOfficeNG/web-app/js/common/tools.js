@@ -25,6 +25,7 @@
   var yuc = YAHOO.util.Connect;
   var yud = YAHOO.util.Dom;
   var yu = YAHOO.util;
+  var yl = YAHOO.lang;
   
   zct.browser = {
     version: (userAgent.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [])[1],
@@ -104,9 +105,10 @@
    **/
   zct.grep = function(elems, callback, inv){
     var ret = [];
-    for (var i = 0, length = elems.length; i < length; i++)
+    for (var i = 0, length = elems.length; i < length; i++) {
       if (!inv != !callback(elems[i], i))
         ret.push(elems[i]);
+    }
     return ret;
   };
   
@@ -374,18 +376,24 @@
    * @method style
    * @namespace zenexity.capdemat.tools
    * @param el {String | HTMLElement | Array} Accepts a string to use as an ID, an actual DOM reference, or an Array of IDs and/or HTMLElements.
-   * @param styles {Array} JSON object that describes styles to set
+   * @param styles {Object} JSON object that describes styles to set
    * @author vba@zenexity.fr
    **/
   zct.style = function(el, styles){
-    if (typeof styles != 'undefined') {
-      zct.each(styles, function(key){
-        var value = this.toString();
-        YAHOO.util.Dom.setStyle(el, key.toString(), value);
-      });
+    if(yl.isString(el) || yl.isArray(el)) el = yud.get(el);
+    
+    if (yl.isString(styles) || yl.isArray(styles)) {
+      var l = zct.makeArray(styles), r ={};
+      zct.each(l,function() {r[this+''] = yud.getStyle(el,this+'');});
+      return r;
     }
-    else {
-      YAHOO.util.Dom.getStyle(el);
+    else if(!!styles && !zct.isFunction(styles)) {
+      zct.each(styles, function(key){
+        var value = this+'';
+        yud.setStyle(el, key+'', value);
+      });
+    } else {
+      throw 'Possibility to get all styles of an element(s) is not yet implemented !';
     }
   };
 
@@ -559,6 +567,33 @@
     if(YAHOO.util.Dom.hasClass(node,className)) YAHOO.util.Dom.removeClass(node,className);
     else YAHOO.util.Dom.addClass(node,className);
   };
+
+  /**
+   * @description Removes a class name from a given element or collection of elements.
+   * @namespace zenexity.capdemat.tools
+   * @method removeClass
+   * @param el {HTMLElement|String|Array} The element or collection to remove the class from
+   * @param old {String|Array|RegExp} The class name to remove from the class attribute
+   * @return A pass/fail boolean 
+   */
+  zct.removeClass = function(el,old) {
+    if(yl.isString(el)) el = yud.get(el);
+    if(!yl.isArray(el) && el.className == undefined) return false;
+    el = zct.makeArray(el);
+    
+    zct.each(el,function(){
+      var res = [], element = this;
+      zct.each(element.className.split(' '),function(){
+        var that = this+'';
+        if(old instanceof RegExp && !old.test(that)) res.push(that);
+        else if (yl.isString(old) && old.toLowerCase() != (that).toLowerCase()) res.push(that);
+        else if (yl.isArray(old) && zct.inArray(that,old) < 0) res.push(that);
+      });
+      
+      element.className = res.join(' ');
+    });
+    return true;
+  };
   
   /**
    * @description Fade in passed element by adjusting its opacity and firing an optional callback after completion
@@ -669,14 +704,10 @@
   zct.doAjaxFormSubmitCall = function(formId,args,callback,upload) {
     var formElement = new YAHOO.util.Element(formId);
     // to retrieve form values
-    if (upload)
-      YAHOO.util.Connect.setForm(document.getElementById(formId), true);
-    else
-      YAHOO.util.Connect.setForm(document.getElementById(formId));
-    var handlers = {
-      failure: zct.handleUnexpectedError
-    };
-    if (zct.isFunction(callback)) handlers.success = callback;
+    YAHOO.util.Connect.setForm(document.getElementById(formId), !!upload);
+    
+    var handlers = {failure: zct.handleUnexpectedError};
+    if (zct.isFunction(callback)) handlers[!!upload?'upload':'success'] = callback;
     if (args) handlers.argument = args;
     var url = formElement.get('action');
 
@@ -766,6 +797,17 @@
         var method = ['display',zct.capitalize(type)].join('');
         zct.tryToCall(zct.Notifier[method],zct.Notifier,message,cn);
       },
+      animateMessage : function(message,cn,color) {
+        var el = new yu.Element(yud.get(zct.Notifier.getMessageZone(cn)));
+        el.replaceClass('invisible','success-top');
+        zct.style(el.get('element'),{'background-color':color||'#20aa20',display:'block'});
+        zct.text(el.get('element'),message);
+        zct.fadeIn(el.get('element'),0.01,function(e,n){
+          zct.fadeNone(el.get('element'),3,function(e,n){
+            zct.fadeOut(el.get('element'),3);
+          });
+        });
+      },
       /**
        * @description Displays success notification message
        * @method displaySuccess
@@ -774,17 +816,8 @@
        * 
        * @author vba@zenexity.fr
        **/
-      displaySuccess : function(message,cn) {
-        var el = new yu.Element(yud.get(zct.Notifier.getMessageZone(cn)));
-        el.replaceClass('invisible','success-top');
-        zct.style(el.get('element'),{'background-color':'#20aa20',display:'block'});
-        zct.text(el.get('element'),message);
-        zct.fadeIn(el.get('element'),0.01,function(e,n){
-          zct.fadeNone(el.get('element'),3,function(e,n){
-            zct.fadeOut(el.get('element'),3);
-          });
-        });
-      },
+      displaySuccess : function(message,cn) { zct.Notifier.animateMessage(message,cn);},
+      displayWarning : function(message,cn) { zct.Notifier.animateMessage(message,cn,'orange');},
       /**
        * @description Displays unexpected error message, injected dynamically.
        * @method displayUnexpectedError
@@ -831,7 +864,7 @@
       modal:true, visible:false, draggable:false, fixedcenter:true,
       icon:YAHOO.widget.SimpleDialog.ICON_WARN ,
       buttons:[{ text:'  Ok  ',isDefault:true, handler:function(e){
-        zct.tryToCall(confirmHandler,this,e);
+        zct.tryToCall(confirmHandler,this,e,this.showEv);
         this.hide();
       }}]
     });
@@ -904,7 +937,7 @@
    * @param e {Object} provided event
    * 
    * @author vba@zenexity.fr
-  **/
+   */
   zct.Event.prototype.dispatch = function(e) {
     var method = zct.tryToCall(this.rule,this.context,e);
     zct.tryToCall(this.context[method],this.context,e);

@@ -26,29 +26,9 @@ public interface ICertificateService {
      * @param request The request for which we want a certificate
      * @param fopConfig An optional FOP configuration file
      */
-    byte[] generateRequestCertificate(Request request, String fopConfig)
+    byte[] generateRequestCertificate(Request request)
         throws CvqException;
 
-    /**
-     * Generate a certificate for the given XML node using the given XSL-FO stylesheet file.
-     *
-     * @param node The XML node for which we want a certificate
-     * @param fopConfig An optional FOP configuration filename
-     * @param xslFoFile An XSL-FO stylesheet file
-     */
-    byte[] generateRequestCertificate(Node node, String fopConfig, File xslFoFile)
-        throws CvqException;
-
-    /**
-     * Generate a certificate for the given XML node using the given XSL-FO stylesheet file.
-     *
-     * @param node The XML node for which we want a certificate
-     * @param fopConfigFile An optional FOP configuration file
-     * @param xslFoFile An XSL-FO stylesheet file
-     */
-    byte[] generateRequestCertificate(Node node, File fopConfigFile, File xslFoFile)
-        throws CvqException;
-    
     /**
      * Generate a certificate for the given XML node using the given XSL-FO stylesheet file.
      *
@@ -66,7 +46,7 @@ public interface ICertificateService {
      * @param fopConfig An optional FOP configuration file
      * @param xslFoFileName An XSL-FO stylesheet filename
      */
-    byte[] generateRequestCertificate(Node node, String fopConfig, String xslFoFileName)
+    byte[] generateRequestCertificate(Node node, String xslFoFileName)
         throws CvqException;
 
     /**
@@ -77,10 +57,10 @@ public interface ICertificateService {
      * @param fopConfig An optional FOP configuration file
      * @param requestType The type of the request corresponding to the XML node
      */
-    byte[] generateRequestCertificate(Node node, String fopConfig, RequestType requestType)
+    byte[] generateRequestCertificate(Node node, RequestType requestType)
         throws CvqException;
     
-    byte[] generateEmptyRequestCertificate(String fopConfig, RequestType requestType)
+    byte[] generateEmptyRequestCertificate(RequestType requestType)
         throws CvqException;
     
     /**

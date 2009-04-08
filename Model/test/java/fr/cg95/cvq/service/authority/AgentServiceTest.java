@@ -15,6 +15,7 @@ import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
@@ -112,7 +113,7 @@ public class AgentServiceTest extends ServiceTestCase {
         Assert.assertEquals(rn.getAgentId(), agent.getId());
 
         // test search by last intervening agent
-        iRequestService.complete(cb.getRequestId());
+        iRequestWorkflowService.updateRequestState(cb.getRequestId(), RequestState.COMPLETE, null);
         Agent currentAgent = SecurityContext.getCurrentAgent();
 
         Critere crit = new Critere();

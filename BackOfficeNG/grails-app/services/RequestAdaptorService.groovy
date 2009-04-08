@@ -1,22 +1,30 @@
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
 
 class RequestAdaptorService {
 
-    IRequestService defaultRequestService
+    IRequestTypeService requestTypeService
 
     def instructionService
     def translationService
     
-    public translateAndSortRequestTypes() {
-        def allRequestTypes = defaultRequestService.getAllRequestTypes()
+    public translateAndSortRequestTypes(onlyManaged = false) {
+        def allRequestTypes =
+            onlyManaged ? requestTypeService.getManagedRequestTypes() : requestTypeService.getAllRequestTypes()
         def allRequestTypesTranslated =  []
         allRequestTypes.each {
             allRequestTypesTranslated.add([
                 id:it.id,
-                label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML()
+                label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML(),
+                categoryId:it.category?.id
             ])
         }
         return allRequestTypesTranslated.sort{it.label}
+    }
+
+    /* currently unused, remove it later if still not used */
+    public translateRequestType(requestTypeId) {
+        def requestType = requestTypeService.getRequestTypeById(requestTypeId)
+        return translationService.getEncodedRequestTypeLabelTranslation(requestType.label).decodeHTML()
     }
 
     public prepareRecord(request) {

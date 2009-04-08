@@ -21,7 +21,7 @@
       </g:each>
     </ul>
     <p class="see-all">
-      <a href="${createLink(controller:'frontofficePayment')}" id="showAllPayments">
+      <a href="${createLink(controller:'frontofficePayment',action:'history')}" id="showAllPayments">
         <g:message code="action.seeAll" />
       </a>
     </p>

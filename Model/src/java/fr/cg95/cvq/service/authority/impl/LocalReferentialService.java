@@ -370,7 +370,7 @@ public class LocalReferentialService
     }
 
     private void parseXmlEntries(LocalReferentialEntryType lretXml, LocalReferentialType lrt,
-                                 LocalReferentialEntry lre) {
+                                 LocalReferentialEntry lre) throws CvqLocalReferentialException {
 
         logger.debug("parseXmlEntries()");
 
@@ -421,22 +421,19 @@ public class LocalReferentialService
                 tempLre.setEntriesSupportPrecision(innerLretXml.getSupportPrecision());
                 tempLre.setEntriesSupportMultiple(innerLretXml.getSupportMultiple());
 
-                parseXmlEntries(innerLretXml, null, tempLre);
+                parseXmlEntries(innerLretXml, lrt, tempLre);
             }
-
-            if (lrt != null)
-                lrt.addEntry(tempLre);
-            else
-                lre.addEntry(tempLre);
+            lrt.addEntry(tempLre, lre);
         }
     }
 
     /**
      * Transform a local referential data type from an XML Beans object
      * to a Model object
+     * @throws CvqLocalReferentialException 
      */
     private LocalReferentialType xmlToModel(final String requestLabel,
-                                            final Data refData) {
+                                            final Data refData) throws CvqLocalReferentialException {
 
         logger.debug("xmlToModel()");
 
@@ -694,6 +691,15 @@ public class LocalReferentialService
         return resultSet;
     }
 
+    public boolean isLocalReferentialConfigure(final String requestTypeLabel) throws CvqException {
+        Set<LocalReferentialType> lrTypes = getLocalReferentialDataByRequestType(requestTypeLabel);
+        boolean isConfigure = true;
+        for (LocalReferentialType lrType : lrTypes)
+            if (lrType.getEntries() == null || lrType.getEntries().isEmpty())
+                isConfigure = false;
+        return isConfigure;
+    }
+    
     public void setLocalReferentialData(LocalReferentialType newLrt)
         throws CvqException {
 

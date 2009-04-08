@@ -109,6 +109,14 @@
 
 #requestData .listItemSkeleton { display: none; }
 
+/* editable tree
+-------------------------------------------------------------- */
+#requestData .dataTree { }
+#requestData .dataTree li       { width: 100%; display: block; }
+#requestData .dataTree li ul    { margin: 0 0 0 1em !important; font-size: .95em; }
+#requestData .dataTree li ul li { width: 90%; padding: .2em 0 0 .4em; }
+#requestData .dataTree li em    { font-style: italic; font-weight: bold;}
+
 /* request attached document
 -------------------------------------------------------------- */
 #requestDocument {
@@ -247,4 +255,14 @@
 #ecitizenContactPanel .bd form input[type="button"]   { font-size: 1.4em; }
 #ecitizenContactPanel .bd form input[type="checkbox"] { margin: 6px 0 0 1%; }
 
+.add-link em {
+  background:transparent url(../../images/icons/create.png) no-repeat scroll right 4px;
+  padding-right:21px !important;
+  /*font-size: 1.1em !important;*/
+}
 
+.button-panel {
+  float:right;
+  margin-right: 1em;
+  overflow:auto;
+}

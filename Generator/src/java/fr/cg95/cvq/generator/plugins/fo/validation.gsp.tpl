@@ -24,31 +24,47 @@
           """
       ,'address' :
           """
+          <dd>
           <g:if test="\${${wrapper}.${element.javaFieldName}}">
-            <dd>
               <p>\${${wrapper}.${element.javaFieldName}?.additionalDeliveryInformation}</p>
               <p>\${${wrapper}.${element.javaFieldName}?.additionalGeographicalInformation}</p>
               <p>\${${wrapper}.${element.javaFieldName}?.streetNumber} \${${wrapper}.${element.javaFieldName}?.streetName}</p>
               <p>\${${wrapper}.${element.javaFieldName}?.placeNameOrService}</p>
               <p>\${${wrapper}.${element.javaFieldName}?.postalCode} \${${wrapper}.${element.javaFieldName}?.city}</p>
               <p>\${${wrapper}.${element.javaFieldName}?.countryName}</p>
-            </dd>
           </g:if>
+          </dd>
+          """
+      ,'localReferentialData' :
+          """
+          <dd>
+          <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
+                    model="['javaName':'${element.javaFieldName}', 'lrEntries': lrTypes.${element.javaFieldName}.entries, 'depth':0]" />
+          </dd>
           """
       ,'date' :
           """
           <dd><g:formatDate formatName="format.date" date="\${${wrapper}.${element.javaFieldName}}"/></dd>
           """
+      ,'text' :
+          """<dd>\${${wrapper}.${element.javaFieldName}}</dd>"""
+      ,'subject' :
+          """<dd>\${subjects.get(rqt.subjectId)}</dd>"""
+      ,'requester' :
+          """
+          <g:render template="/frontofficeRequestType/widget/requesterSummary" model="['requester':requester]" />
+          """
+      ,'label' :
+          """<dt><g:message code="${element.i18nPrefixCode}.label" /></dt>"""
     ]
     
-    if (widgets[element.widget] != null)
-      print widgets[element.widget]
-    else
-      print """<dd>\${${wrapper}.${element.javaFieldName}}</dd>"""
+    def output = (element.widget != 'requester' ?  widgets['label'] : '')
+    if (widgets[element.widget] != null) output += widgets[element.widget]
+    else output += widgets['text']
+    println output
   }
 %>
 
-<% def displayedSubject = false %>
 <% stepBundle.each { step -> %>
   <% if (step.name == 'document') { %>
   <g:if test="\${!documentTypes.isEmpty()}">
@@ -83,7 +99,6 @@
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
     <dl>
       <% element.elements.each { subElement -> %>
-      <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
         <% displayWidget(subElement, "it") %>
       <% } %>
     </dl>
@@ -91,19 +106,12 @@
     <% } else if (element.typeClass == "COMPLEX") { %>
     <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
     <dl>
-      <% if (step.name == 'subject' && !displayedSubject) { %>
-      <dt><g:message code="request.property.subjectName" /></dt>
-      <dd>\${subjects.get(rqt.subjectId)}</dd>
-          <% displayedSubject = true %>
-      <% } %>
       <% element.elements.each { subElement -> %>
-      <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
         <% displayWidget(subElement, "rqt") %>
       <% } %>
     </dl>
     <% } else { %>
       <dl>
-      <dt><g:message code="${element.i18nPrefixCode}.label" /></dt>
       <% displayWidget(element, "rqt") %>
       </dl>
     <% } %>

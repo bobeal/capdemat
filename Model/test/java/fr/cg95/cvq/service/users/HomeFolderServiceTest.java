@@ -1,11 +1,18 @@
 package fr.cg95.cvq.service.users;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import org.jsmtpd.domain.Email;
+import org.jsmtpd.utils.junit.SmtpServer;
 
 import junit.framework.Assert;
 import fr.cg95.cvq.business.request.Request;
@@ -20,6 +27,8 @@ import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqUnknownUserException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.users.IHomeFolderService.PasswordResetNotificationType;
+import fr.cg95.cvq.testtool.JsmtpdMailService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 
@@ -329,4 +338,68 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         
         return iIndividualService.get(criteriaSet, null, false);
     }
+
+    public void testNotifyPasswordReset()
+        throws CvqException {
+        Adult adult = iHomeFolderService.getHomeFolderResponsible(gimmeAnHomeFolder().getHomeFolderId());
+        adult.setEmail(null);
+        Email email = null;
+        SmtpServer server = null;
+        try {
+            server = ((JsmtpdMailService)getBean("jsmtpdMailService")).getServer();
+        } catch (Exception e) {
+            fail("couldn't get jsmtpdMailService bean");
+        }
+
+        server.getQueue().clear();
+        PasswordResetNotificationType notificationType = iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
+        Assert.assertEquals(PasswordResetNotificationType.INLINE, notificationType);
+        email = server.getMessage(1000);
+        Assert.assertEquals(null, email);
+
+        server.getQueue().clear();
+        notificationType = iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
+        Assert.assertEquals(PasswordResetNotificationType.CATEGORY_EMAIL, notificationType);
+        email = server.getMessage(1000);
+        Assert.assertEquals(email.getRecipients().size(), 1);
+        Assert.assertEquals(email.getRecipients().get(0).toString(), "example@example.com");
+        try {
+            Assert.assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
+        } catch (MessagingException e) {
+            fail("could not instantiate a MimeMessage from email");
+        } catch (IOException e) {
+            fail("could not open email datastream");
+        }
+
+        adult.setEmail("example2@example.com");
+
+        server.getQueue().clear();
+        notificationType = iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
+        Assert.assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
+        email = server.getMessage(1000);
+        Assert.assertEquals(email.getRecipients().size(), 1);
+        Assert.assertEquals(email.getRecipients().get(0).toString(), adult.getEmail());
+        try {
+            Assert.assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
+        } catch (MessagingException e) {
+            fail("could not instantiate a MimeMessage from email");
+        } catch (IOException e) {
+            fail("could not open email datastream");
+        }
+
+        server.getQueue().clear();
+        notificationType = iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
+        Assert.assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
+        email = server.getMessage(1000);
+        Assert.assertEquals(email.getRecipients().size(), 1);
+        Assert.assertEquals(email.getRecipients().get(0).toString(), adult.getEmail());
+        try {
+            Assert.assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
+        } catch (MessagingException e) {
+            fail("could not instantiate a MimeMessage from email");
+        } catch (IOException e) {
+            fail("could not open email datastream");
+        }
+    }
+
 }

@@ -75,6 +75,17 @@ public class ApplicationDocumentation {
         else
             return null;
     }
+    
+    public static Node[] getChildrenNodes(Node node) {
+        ArrayList<Node> childrenList = new ArrayList<Node>();
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node childNode = nodeList.item(i);
+            if (childNode.getNodeType() == childNode.ELEMENT_NODE)
+                childrenList.add(childNode);
+        }
+        return (Node[]) childrenList.toArray(new Node[0]);
+    }
 
     public static String getNodeAttributeValue(Node node, String attribute) {
         NamedNodeMap attributesMap = node.getAttributes();

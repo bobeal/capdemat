@@ -2,6 +2,7 @@ package fr.cg95.cvq.generator.common;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
@@ -55,6 +56,14 @@ public class CommonPlugin implements IPluginGenerator {
                             ApplicationDocumentation.getChildrenNodes(conditionsNodes[0], "condition"))
                             requestCommon.addConditionToStep(step, new Condition(
                                     ApplicationDocumentation.getNodeAttributeValue(conditionNode, "name"), null, null));
+                    
+                    
+                    Node[] widgetNodes = ApplicationDocumentation.getChildrenNodes(node, "widgets");
+                    if (widgetNodes != null)
+                        for (Node widgetNode :
+                            ApplicationDocumentation.getChildrenNodes(widgetNodes[0]))
+                            step.addWidget(new Widget(widgetNode.getLocalName()
+                                    ,ApplicationDocumentation.getNodeAttributeValue(widgetNode, "into")));
                 }
             }
             appDoc.setRequestCommon(requestCommon);

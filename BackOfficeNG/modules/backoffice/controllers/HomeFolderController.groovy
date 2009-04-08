@@ -11,6 +11,7 @@ import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.payment.IPaymentService
 import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.users.payment.Payment
+import fr.cg95.cvq.business.users.Adult
 
 class HomeFolderController {
 
@@ -50,12 +51,14 @@ class HomeFolderController {
     
     def details = {
         def result = [responsibles:[:],adults:[],children:[]]
-        HomeFolder folder = this.homeFolderService.getById(Long.parseLong(params.id))
+        HomeFolder homeFolder = this.homeFolderService.getById(Long.parseLong(params.id))
+        Adult adult = homeFolderService.getHomeFolderResponsible(homeFolder.id)
         
         result.adults = this.homeFolderService.getAdults(Long.parseLong(params.id))
         result.children = this.homeFolderService.getChildren(Long.parseLong(params.id))
-        result.homeFolderState = folder.state.toString().toLowerCase()
-        result.homeFolderStatus = folder.enabled ? 'enable' : 'disable'
+        result.homeFolderState = homeFolder.state.toString().toLowerCase()
+        result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
+        result.responsableLogin = adult.login
         
         for(Child child : result.children)
             result.responsibles.put(child.id, homeFolderService.getBySubjectRoles(child.id,

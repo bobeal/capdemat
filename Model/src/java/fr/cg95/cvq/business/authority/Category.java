@@ -1,5 +1,6 @@
 package fr.cg95.cvq.business.authority;
 
+import fr.cg95.cvq.business.request.RequestType;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -110,14 +111,15 @@ public class Category implements Serializable {
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.RequestType"
      */
-    public Set getRequestTypes() {
+    public Set<RequestType> getRequestTypes() {
         return this.requestTypes;
     }
 
-    public void setRequestTypes(Set requestTypes) {
+    public void setRequestTypes(Set<RequestType> requestTypes) {
         this.requestTypes = requestTypes;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

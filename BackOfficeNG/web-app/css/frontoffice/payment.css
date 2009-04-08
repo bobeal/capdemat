@@ -1,0 +1,61 @@
+.list-box div.error { 
+  color: red; 
+  font-style: italic;
+}
+
+.validation-failed { /* for textboxes, textareas, passwords */
+  border:1px dashed #FF3333;
+  background-color:#FFCCCC;
+}
+
+#narrow {
+  clear:right !important;
+}
+
+.list-box {
+  min-height:10em ! important;
+}
+
+.list-box ul li {
+  overflow: auto!important;
+}
+
+div.cart-list-header {
+  font-weight: bold;
+  margin-top: 0.5em;
+  font-size: 1.1em;
+}
+
+.action-list p {
+  /*font-size: 1.1em;*/
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.action-list .body {
+  overflow: auto !important;
+}
+
+.action-list .button-panel {
+  float:right;
+}
+
+.action-list input {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.total-block {
+  text-align:right;
+  margin-top:0.5em;
+}
+
+.total-block span {
+  font-size: 1.4em;
+  font-weight:bold;
+}
+
+.total-block a {
+  /*font-size: 1em !important;*/
+  font-weight:normal !important;
+}

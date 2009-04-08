@@ -71,11 +71,14 @@ public class BirthDetailsRequest extends Request implements Serializable {
         if (this.requesterQuality != null)
             birthDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.BirthRequesterQualityType.Enum.forString(this.requesterQuality.toString()));
         birthDetailsRequest.setBirthCity(this.birthCity);
-        birthDetailsRequest.setFatherLastName(this.fatherLastName);
-        birthDetailsRequest.setMotherFirstNames(this.motherFirstNames);
-        birthDetailsRequest.setFatherFirstNames(this.fatherFirstNames);
-        birthDetailsRequest.setMotherMaidenName(this.motherMaidenName);
+        FatherInformationType fatherInformationTypeFatherInformation = birthDetailsRequest.addNewFatherInformation();
+        fatherInformationTypeFatherInformation.setFatherLastName(this.fatherLastName);
+        birthDetailsRequest.setBirthMarriageName(this.birthMarriageName);
+        fatherInformationTypeFatherInformation.setFatherFirstNames(this.fatherFirstNames);
+        MotherInformationType motherInformationTypeMotherInformation = birthDetailsRequest.addNewMotherInformation();
+        motherInformationTypeMotherInformation.setMotherFirstNames(this.motherFirstNames);
         birthDetailsRequest.setBirthLastName(this.birthLastName);
+        motherInformationTypeMotherInformation.setMotherMaidenName(this.motherMaidenName);
         return birthDetailsRequestDoc;
     }
 
@@ -115,11 +118,12 @@ public class BirthDetailsRequest extends Request implements Serializable {
         else
             birthDetailsRequest.setRequesterQuality(fr.cg95.cvq.business.request.civil.BirthRequesterQualityType.getDefaultBirthRequesterQualityType());
         birthDetailsRequest.setBirthCity(birthDetailsRequestXml.getBirthCity());
-        birthDetailsRequest.setFatherLastName(birthDetailsRequestXml.getFatherLastName());
-        birthDetailsRequest.setMotherFirstNames(birthDetailsRequestXml.getMotherFirstNames());
-        birthDetailsRequest.setFatherFirstNames(birthDetailsRequestXml.getFatherFirstNames());
-        birthDetailsRequest.setMotherMaidenName(birthDetailsRequestXml.getMotherMaidenName());
+        birthDetailsRequest.setFatherLastName(birthDetailsRequestXml.getFatherInformation().getFatherLastName());
+        birthDetailsRequest.setBirthMarriageName(birthDetailsRequestXml.getBirthMarriageName());
+        birthDetailsRequest.setFatherFirstNames(birthDetailsRequestXml.getFatherInformation().getFatherFirstNames());
+        birthDetailsRequest.setMotherFirstNames(birthDetailsRequestXml.getMotherInformation().getMotherFirstNames());
         birthDetailsRequest.setBirthLastName(birthDetailsRequestXml.getBirthLastName());
+        birthDetailsRequest.setMotherMaidenName(birthDetailsRequestXml.getMotherInformation().getMotherMaidenName());
         return birthDetailsRequest;
     }
 
@@ -292,19 +296,20 @@ public class BirthDetailsRequest extends Request implements Serializable {
         return this.fatherLastName;
     }
 
-    private String motherFirstNames;
+    private String birthMarriageName;
 
-    public final void setMotherFirstNames(final String motherFirstNames) {
-        this.motherFirstNames = motherFirstNames;
+    public final void setBirthMarriageName(final String birthMarriageName) {
+        this.birthMarriageName = birthMarriageName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="mother_first_names"
+     *  column="birth_marriage_name"
+     *  length="38"
      */
-    public final String getMotherFirstNames() {
-        return this.motherFirstNames;
+    public final String getBirthMarriageName() {
+        return this.birthMarriageName;
     }
 
     private String fatherFirstNames;
@@ -322,20 +327,19 @@ public class BirthDetailsRequest extends Request implements Serializable {
         return this.fatherFirstNames;
     }
 
-    private String motherMaidenName;
+    private String motherFirstNames;
 
-    public final void setMotherMaidenName(final String motherMaidenName) {
-        this.motherMaidenName = motherMaidenName;
+    public final void setMotherFirstNames(final String motherFirstNames) {
+        this.motherFirstNames = motherFirstNames;
     }
 
 
     /**
      * @hibernate.property
-     *  column="mother_maiden_name"
-     *  length="38"
+     *  column="mother_first_names"
      */
-    public final String getMotherMaidenName() {
-        return this.motherMaidenName;
+    public final String getMotherFirstNames() {
+        return this.motherFirstNames;
     }
 
     private String birthLastName;
@@ -352,6 +356,22 @@ public class BirthDetailsRequest extends Request implements Serializable {
      */
     public final String getBirthLastName() {
         return this.birthLastName;
+    }
+
+    private String motherMaidenName;
+
+    public final void setMotherMaidenName(final String motherMaidenName) {
+        this.motherMaidenName = motherMaidenName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="mother_maiden_name"
+     *  length="38"
+     */
+    public final String getMotherMaidenName() {
+        return this.motherMaidenName;
     }
 
 }

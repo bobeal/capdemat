@@ -59,6 +59,11 @@ public interface IRequestWorkflowService {
      */
     List<RequestState> getEditableStates();
 
+    /**
+     * Get the list of states for which instruction is done.
+     */
+    List<RequestState> getInstructionDoneStates();
+
     RequestState[] getStatesExcludedForRequestsCloning();
 
     RequestState[] getStatesExcludedForRunningRequests();

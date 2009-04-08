@@ -29,13 +29,6 @@
         <value>caddy</value>
       </list>
     </property>
-    <property name="instructionDoneStates">
-      <list>
-        <value>Rejected</value>
-        <value>Cancelled</value>
-        <value>Notified</value>
-      </list>
-    </property>
     <property name="sessionFactory">
       <ref bean="sessionFactory_valdoise" />
     </property>

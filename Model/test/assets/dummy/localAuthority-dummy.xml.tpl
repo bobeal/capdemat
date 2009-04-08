@@ -6,13 +6,6 @@
   <bean id="configurationBean_dummy"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="dummy" />
-    <property name="instructionDoneStates">
-      <list>
-        <value>Rejected</value>
-        <value>Cancelled</value>
-        <value>Notified</value>
-      </list>
-    </property>
     <!--<property name="documentDigitalizationEnabled"><value>true</value></property>-->
     <property name="sessionFactory">
       <ref bean="sessionFactory_dummy" />

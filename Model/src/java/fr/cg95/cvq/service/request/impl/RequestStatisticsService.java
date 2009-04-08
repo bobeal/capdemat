@@ -23,8 +23,8 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ICategoryService;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 
 /**
  * This class provides statistics about requests.
@@ -37,6 +37,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     
     private IRequestStatisticsDAO requestStatisticsDAO;
     private ICategoryService categoryService;
+    private IRequestWorkflowService requestWorkflowService;
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
@@ -44,7 +45,6 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         final Long requestTypeId, final Long categoryId) {
 
         LocalAuthority la = SecurityContext.getCurrentSite();
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         if (!la.isInstructionAlertsEnabled())
             return null;
 
@@ -56,7 +56,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         for (String qualityType : new String[] {QUALITY_TYPE_OK, QUALITY_TYPE_ORANGE,
                 QUALITY_TYPE_RED}) {
             Long count = requestStatisticsDAO.countByQuality(intervalDates[0].toDate(),
-                intervalDates[1].toDate(), lacb.getInstructionDoneStates(),
+                intervalDates[1].toDate(), requestWorkflowService.getInstructionDoneStates(),
                 qualityType, requestTypes);
             results.put(qualityType, count);
         }
@@ -71,7 +71,6 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         throws CvqException {
 
         LocalAuthority la = SecurityContext.getCurrentSite();
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         if (!la.isInstructionAlertsEnabled())
             return null;
 
@@ -83,7 +82,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
                 QUALITY_TYPE_RED}) {
             Map<Long, Long> resultsByQuality =
                 requestStatisticsDAO.countByQualityAndType(intervalDates[0].toDate(), 
-                    intervalDates[1].toDate(), lacb.getInstructionDoneStates(),
+                    intervalDates[1].toDate(), requestWorkflowService.getInstructionDoneStates(),
                     qualityType, requestTypes);
             for (Long rtId : resultsByQuality.keySet()) {
                 if (results.get(rtId) == null)
@@ -242,5 +241,9 @@ public class RequestStatisticsService implements IRequestStatisticsService {
 
     public void setCategoryService(ICategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
+        this.requestWorkflowService = requestWorkflowService;
     }
 }

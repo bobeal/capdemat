@@ -65,15 +65,14 @@ public class RequestInstructionDurationCheckerJob {
         }
 
         Date now = new Date();
-        List<String> instructionDoneStates = lacb.getInstructionDoneStates();
+        List<RequestState> instructionDoneStates = requestWorkflowService.getInstructionDoneStates();
         Integer localAuthLevelAlertDelay = la.getInstructionDefaultAlertDelay();
         Integer localAuthLevelMaxDelay = la.getInstructionDefaultMaxDelay();
     
         // calculate the list of states that are "before" retrieved states
         Set<RequestState> statesToLookFor = new HashSet<RequestState>();
-        for (String state : instructionDoneStates) {
-            RequestState requestState = RequestState.forString(state);
-            statesToLookFor.addAll(requestWorkflowService.getStatesBefore(requestState));
+        for (RequestState state : instructionDoneStates) {
+            statesToLookFor.addAll(requestWorkflowService.getStatesBefore(state));
         }
     
         // retrieve all requests currently in instruction

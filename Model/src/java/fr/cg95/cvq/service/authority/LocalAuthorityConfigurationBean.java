@@ -29,8 +29,6 @@ public final class LocalAuthorityConfigurationBean {
     private static Logger logger = Logger.getLogger(LocalAuthorityConfigurationBean.class);
 
     private String name;
-
-    private List<String> instructionDoneStates;
     
     private List foAccountTabs;
     
@@ -271,14 +269,6 @@ public final class LocalAuthorityConfigurationBean {
 		this.paymentNotifications = paymentNotifications;
 	}
 	
-
-	public void setInstructionDoneStates(List<String> instructionDoneStates) {
-		this.instructionDoneStates = instructionDoneStates;
-	}
-
-	public List<String> getInstructionDoneStates() {
-		return instructionDoneStates;
-	}
 
     public List getFoAccountTabs() {
         return foAccountTabs;

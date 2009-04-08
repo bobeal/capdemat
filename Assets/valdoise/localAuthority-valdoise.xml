@@ -29,11 +29,6 @@
         <value>caddy</value>
       </list>
     </property>
-    <property name="requestsCreationNotificationEnabled" value="false" />
-    <property name="instructionAlertsEnabled" value="true" />
-    <property name="instructionAlertsDetailed" value="true" />
-    <property name="instructionDefaultMaxDelay" value="10" />
-    <property name="instructionDefaultAlertDelay" value="3" />
     <property name="instructionDoneStates">
       <list>
         <value>Rejected</value>
@@ -41,7 +36,6 @@
         <value>Notified</value>
       </list>
     </property>
-    <property name="documentDigitalizationEnabled" value="true" />
     <property name="sessionFactory">
       <ref bean="sessionFactory_valdoise" />
     </property>

@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
@@ -52,10 +53,11 @@ public class RequestInstructionDurationCheckerJob {
     public void checkLocalAuthRequestsInstructionDuration()
         throws CvqException {
 
+        LocalAuthority la = SecurityContext.getCurrentSite();
         // get the list of states for which we consider instruction to be done
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         logger.info("checkLocalAuthRequestsInstructionDuration() dealing with " + lacb.getName());
-        if (!lacb.getInstructionAlertsEnabled().booleanValue()) {
+        if (!la.isInstructionAlertsEnabled()) {
             logger.info("checkLocalAuthRequestsInstructionDuration() " 
                     + "requests instruction alerts are disabled for "
                     + SecurityContext.getCurrentSite().getName() + ", returning");
@@ -64,8 +66,8 @@ public class RequestInstructionDurationCheckerJob {
 
         Date now = new Date();
         List<String> instructionDoneStates = lacb.getInstructionDoneStates();
-        Integer localAuthLevelAlertDelay = lacb.getInstructionDefaultAlertDelay();
-        Integer localAuthLevelMaxDelay = lacb.getInstructionDefaultMaxDelay();
+        Integer localAuthLevelAlertDelay = la.getInstructionDefaultAlertDelay();
+        Integer localAuthLevelMaxDelay = la.getInstructionDefaultMaxDelay();
     
         // calculate the list of states that are "before" retrieved states
         Set<RequestState> statesToLookFor = new HashSet<RequestState>();
@@ -146,7 +148,7 @@ public class RequestInstructionDurationCheckerJob {
                     .append("\tAlertes oranges : ").append(orangeRequests.size()).append("\n")
                     .append("\tAlertes rouges : ").append(redRequests.size()).append("\n");
 
-                if (lacb.getInstructionAlertsDetailed()) {
+                if (la.isInstructionAlertsDetailed()) {
                     if (!orangeRequests.isEmpty()) {
                         body.append("\n").append("Détail des alertes oranges :\n");
                         for (Request request : orangeRequests) {

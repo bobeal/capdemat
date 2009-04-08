@@ -13,6 +13,7 @@ import org.joda.time.Days;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
@@ -42,8 +43,9 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     public Map<String, Long> getQualityStats(final Date startDate, final Date endDate,
         final Long requestTypeId, final Long categoryId) {
 
+        LocalAuthority la = SecurityContext.getCurrentSite();
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        if (!lacb.getInstructionAlertsEnabled())
+        if (!la.isInstructionAlertsEnabled())
             return null;
 
         List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);
@@ -68,8 +70,9 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         final Date endDate, final Long requestTypeId, final Long categoryId)
         throws CvqException {
 
+        LocalAuthority la = SecurityContext.getCurrentSite();
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        if (!lacb.getInstructionAlertsEnabled())
+        if (!la.isInstructionAlertsEnabled())
             return null;
 
         List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);

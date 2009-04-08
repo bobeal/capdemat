@@ -30,33 +30,10 @@ public final class LocalAuthorityConfigurationBean {
 
     private String name;
 
-    /**
-     * Whether an email alert is sent to notify of requests whose instruction is in late, 
-     * defaults to false.
-     */
-    private Boolean instructionAlertsEnabled;
-    
-    /**
-     * Whether, if instruction alerts are enabled, the email sent displays a detailed resume of 
-     * requests to instruct, defaults to false.
-     */
-    private Boolean instructionAlertsDetailed;
-    
-    /**
-     * Whether an email alert is sent to notify of newly created requests, defaults to false.
-     */
-    private Boolean requestsCreationNotificationEnabled;
-    
-    private Integer instructionDefaultMaxDelay;
-    private Integer instructionDefaultAlertDelay;
     private List<String> instructionDoneStates;
     
     private List foAccountTabs;
     
-    /**
-     * Whether document digitalization is enabled for this local authority, defaults to true.
-     */
-    private Boolean documentDigitalizationEnabled;
     
     private SessionFactory sessionFactory;
     
@@ -194,15 +171,6 @@ public final class LocalAuthorityConfigurationBean {
                 service.checkConfiguration(externalProviderServices.get(service));
             }
         }
-
-        if (documentDigitalizationEnabled == null)
-            documentDigitalizationEnabled = Boolean.TRUE;
-        if (instructionAlertsEnabled == null)
-            instructionAlertsEnabled = Boolean.FALSE;
-        if (instructionAlertsDetailed == null)
-            instructionAlertsDetailed = Boolean.FALSE;
-        if (requestsCreationNotificationEnabled == null)
-            requestsCreationNotificationEnabled = Boolean.FALSE;
     }
     
     /**
@@ -303,60 +271,13 @@ public final class LocalAuthorityConfigurationBean {
 		this.paymentNotifications = paymentNotifications;
 	}
 	
-    public Boolean isDocumentDigitalizationEnabled() {
-        return this.documentDigitalizationEnabled;
-    }
-
-    public void setDocumentDigitalizationEnabled(final String documentDigitalizationEnabled) {
-        this.documentDigitalizationEnabled = Boolean.valueOf(documentDigitalizationEnabled);
-    }
-
-	public void setInstructionDefaultAlertDelay(Integer instructionDefaultAlertDelay) {
-		this.instructionDefaultAlertDelay = instructionDefaultAlertDelay;
-	}
-
-	public void setInstructionDefaultMaxDelay(Integer instructionDefaultMaxDelay) {
-		this.instructionDefaultMaxDelay = instructionDefaultMaxDelay;
-	}
 
 	public void setInstructionDoneStates(List<String> instructionDoneStates) {
 		this.instructionDoneStates = instructionDoneStates;
 	}
 
-	public Integer getInstructionDefaultAlertDelay() {
-		return instructionDefaultAlertDelay;
-	}
-
-	public Integer getInstructionDefaultMaxDelay() {
-		return instructionDefaultMaxDelay;
-	}
-
 	public List<String> getInstructionDoneStates() {
 		return instructionDoneStates;
-	}
-
-	public Boolean getInstructionAlertsEnabled() {
-		return instructionAlertsEnabled;
-	}
-
-	public void setInstructionAlertsEnabled(Boolean instructionAlertsEnabled) {
-		this.instructionAlertsEnabled = instructionAlertsEnabled;
-	}
-
-	public Boolean getRequestsCreationNotificationEnabled() {
-		return requestsCreationNotificationEnabled;
-	}
-
-	public void setRequestsCreationNotificationEnabled(Boolean requestsCreationNotificationEnabled) {
-		this.requestsCreationNotificationEnabled = requestsCreationNotificationEnabled;
-	}
-
-	public Boolean getInstructionAlertsDetailed() {
-		return instructionAlertsDetailed;
-	}
-
-	public void setInstructionAlertsDetailed(Boolean instructionAlertsDetailed) {
-		this.instructionAlertsDetailed = instructionAlertsDetailed;
 	}
 
     public List getFoAccountTabs() {

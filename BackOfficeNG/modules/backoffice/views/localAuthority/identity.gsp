@@ -32,18 +32,6 @@
             </div>
           </form>
         </div>
-        <!-- <div id="serverNamesBox" class="mainbox mainbox-yellow">
-          <h2><g:message code="localAuthority.header.setup.identity" /></h2>
-          <form method="post" id="identityForm" action="${createLink(action : 'identity')}">
-            <div class="error" id="identityFormErrors"></div>
-            <label for="postalCode">
-              <g:message code="address.property.postalCode" /> :
-            </label>
-            <input type="text" class="required validate-number" minlength="5" maxlength="5" name="postalCode" value="${postalCode}" />
-            <input type="text" class="required validate-alphanum" maxlength="100" name="displayTitle" value="${displayTitle}" />
-            <input id="save" type="button" value="${message(code:'action.save')}" />
-          </form>
-        </div> -->
       </div>
     </div>
     <div id="narrow" class="yui-b">

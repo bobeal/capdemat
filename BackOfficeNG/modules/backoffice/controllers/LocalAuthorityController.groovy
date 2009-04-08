@@ -118,7 +118,7 @@ class LocalAuthorityController {
                     "serverNames" : serverNames]
         } else if (request.post) {
             bind(SecurityContext.getCurrentSite())
-            def serverNames = []
+            def serverNames = new TreeSet()
             params.serverNames.split(["\n"]).each{
                 it = it.trim()
                 if (!it.isEmpty()) {
@@ -131,12 +131,28 @@ class LocalAuthorityController {
         }
     }
 
+    def platformConfiguration = {
+        if (request.get) {
+            return ["subMenuEntries" : subMenuEntries,
+                    "requestsCreationNotificationEnabled" : SecurityContext.getCurrentSite().requestsCreationNotificationEnabled,
+                    "documentDigitalizationEnabled" : SecurityContext.getCurrentSite().documentDigitalizationEnabled,
+                    "instructionAlertsEnabled" : SecurityContext.getCurrentSite().instructionAlertsEnabled,
+                    "instructionAlertsDetailed" : SecurityContext.getCurrentSite().instructionAlertsDetailed,
+                    "instructionDefaultMaxDelay" : SecurityContext.getCurrentSite().instructionDefaultMaxDelay,
+                    "instructionDefaultAlertDelay" : SecurityContext.getCurrentSite().instructionDefaultAlertDelay]
+        } else if (request.post) {
+            bind(SecurityContext.getCurrentSite())
+            render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
+            return false
+        }
+    }
+
     def rollback = {
         localAuthorityRegistry.rollbackLocalAuthorityResource(params.id)
         render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
         return false
     }
 
-    def subMenuEntries = ["drafts", "meansOfContact", "aspect", "pdf", "identity"]
+    def subMenuEntries = ["drafts", "meansOfContact", "aspect", "pdf", "identity", "platformConfiguration"]
 
 }

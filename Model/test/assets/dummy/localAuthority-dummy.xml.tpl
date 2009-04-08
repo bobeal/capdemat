@@ -6,11 +6,6 @@
   <bean id="configurationBean_dummy"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="dummy" />
-    <property name="requestsCreationNotificationEnabled" value="true" />
-    <property name="instructionAlertsEnabled" value="true" />
-    <property name="instructionAlertsDetailed" value="true" />
-    <property name="instructionDefaultMaxDelay" value="10" />
-    <property name="instructionDefaultAlertDelay" value="3" />
     <property name="instructionDoneStates">
       <list>
         <value>Rejected</value>

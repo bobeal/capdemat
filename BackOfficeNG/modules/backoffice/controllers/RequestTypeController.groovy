@@ -93,11 +93,11 @@ class RequestTypeController {
     def loadAlertsArea = {
         def requestType = 
             requestTypeService.getRequestTypeById(Long.valueOf(params.id))
-        def lacb = SecurityContext.getCurrentConfigurationBean()
+        def la = SecurityContext.getCurrentSite()
         render(template:"alerts",
                model:['requestType':requestType,
-                      'instructionDefaultMaxDelay':lacb.getInstructionDefaultMaxDelay(),
-                      'instructionDefaultAlertDelay':lacb.getInstructionDefaultAlertDelay()])
+                      'instructionDefaultMaxDelay':la.instructionDefaultMaxDelay,
+                      'instructionDefaultAlertDelay':la.instructionDefaultAlertDelay])
     }
 
     def saveAlerts = {

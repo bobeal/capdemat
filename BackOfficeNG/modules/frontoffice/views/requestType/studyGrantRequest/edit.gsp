@@ -8,7 +8,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "subject-required",  "taxHousehold-required",  "otherHelps-required",  "currentStudies-required",  "futureSchool-required",  "calculationElements-required",  "bankReference-required",  "validation"  ]
+        ,"steps": [  "subject-required",  "taxHousehold-required",  "otherHelps-required",  "currentStudies-required",  "calculationElements-required",  "bankReference-required",  "validation"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
@@ -103,26 +103,10 @@
 
   
     
-        <li class="${currentStep == 'futureSchool' ? 'selected' : ''}">
-  
-          <a href="#futureSchool"><em>
-          <span class="tag-no_right">5</span>
-          <span class="tag-state ${stepStates!= null ? stepStates.futureSchool.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.futureSchool.i18nKey : 'request.step.state.uncomplete'}" /></span>
-    
-          <strong>
-            <g:message code="sgr.step.futureSchool.label" /> *
-          </strong>
-            
-          </em></a>
-        </li>    
-  
-
-  
-    
         <li class="${currentStep == 'calculationElements' ? 'selected' : ''}">
   
           <a href="#calculationElements"><em>
-          <span class="tag-no_right">6</span>
+          <span class="tag-no_right">5</span>
           <span class="tag-state ${stepStates!= null ? stepStates.calculationElements.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.calculationElements.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -138,7 +122,7 @@
         <li class="${currentStep == 'bankReference' ? 'selected' : ''}">
   
           <a href="#bankReference"><em>
-          <span class="tag-no_right">7</span>
+          <span class="tag-no_right">6</span>
           <span class="tag-state ${stepStates!= null ? stepStates.bankReference.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.bankReference.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -154,7 +138,7 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
           <a href="#validation"><em>
-          <span class="tag-no_right">8</span>
+          <span class="tag-no_right">7</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -327,56 +311,13 @@
            <a id="prev-tab" href="#otherHelps"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#futureSchool"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#calculationElements"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.currentStudies != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
            ${helps.currentStudies}
-         </div>
-         </g:if>
-       </div>  
-  
-
-  
-       <div id="futureSchool">
-         <form method="POST"  id="stepForm-futureSchool" action="<g:createLink action="step" />">
-           <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.futureSchool.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.futureSchool.i18nKey : 'request.step.state.uncomplete'}" /></span>
-  
-             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
-  
-             <g:message code="sgr.step.futureSchool.label" />
-             <span><g:message code="sgr.step.futureSchool.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.futureSchool?.errorMsg}" /></span>
-           </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
-           <div>
-  
-            <g:render template="/frontofficeRequestType/studyGrantRequest/futureSchool" />         
-  
-           </div>
-           <div class="error" id="stepForm-futureSchool-error"> </div>
-           <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
-           <input type="hidden" name="uuidString" value="${uuidString}" />
-  
-           <input type="submit" id="submit-step-futureSchool" name="submit-step-futureSchool" class="submit-step" value="${message(code:'action.save')}" />
-  
-         </form>
-         <div class="navTab">
-  
-           <a id="prev-tab" href="#currentStudies"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab" href="#calculationElements"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
-         <g:if test="${helps.futureSchool != null}">       
-         <div class="requestHelp">
-           <h3><g:message code="header.help"/></h3>
-           ${helps.futureSchool}
          </div>
          </g:if>
        </div>  
@@ -410,7 +351,7 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#futureSchool"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#currentStudies"><g:message code="request.step.navigation.previous"/></a>
   
   
            <a id="next-tab" href="#bankReference"><g:message code="request.step.navigation.next"/></a>

@@ -35,11 +35,8 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
     }
 
     private void initFilledConditions() {
-        filledConditions.put("hasParentsAddress", new EqualityChecker("true"));
-        filledConditions.put("hasOtherHelp", new EqualityChecker("true"));
-        filledConditions.put("isInLastYear", new EqualityChecker("false"));
-        filledConditions.put("currentStudies", new EqualityListChecker(Arrays.asList("isInAbroadInternship=abroadInternship", "isInSandwichCourses=sandwichCourses", "isInOtherStudies=otherStudies")));
-        filledConditions.put("futureSchoolIsAbroad", new EqualityChecker("true"));
+        filledConditions.put("abroadInternship", new EqualityChecker("true"));
+        filledConditions.put("currentStudies", new EqualityListChecker(Arrays.asList("otherStudies")));
     }
 
     /**

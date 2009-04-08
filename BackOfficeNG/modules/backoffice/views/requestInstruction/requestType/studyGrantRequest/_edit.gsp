@@ -20,15 +20,11 @@
     </li>
   
     <li>
-      <a href="#page4"><em><g:message code="sgr.step.futureSchool.label" /></em></a>
+      <a href="#page4"><em><g:message code="sgr.step.calculationElements.label" /></em></a>
     </li>
   
     <li>
-      <a href="#page5"><em><g:message code="sgr.step.calculationElements.label" /></em></a>
-    </li>
-  
-    <li>
-      <a href="#page6"><em><g:message code="sgr.step.bankReference.label" /></em></a>
+      <a href="#page5"><em><g:message code="sgr.step.bankReference.label" /></em></a>
     </li>
   
   </ul>
@@ -51,39 +47,29 @@
                 <h3><g:message code="sgr.property.subjetInformations.label" /></h3>
                 <dl class="required">
                   
-                    <dt class="required"><g:message code="sgr.property.subjectPhone.label" /> * : </dt>
-                    <dd id="subjectPhone" class="action-editField validate-phone required-true i18n-sgr.property.subjectPhone maxLength-10" >
+                    <dt class="required"><g:message code="sgr.property.subjectAddress.label" /> * : </dt>
+                    <dd id="subjectAddress" class="action-editField validate-address required-true i18n-sgr.property.subjectAddress" >
+                      <div><p class="additionalDeliveryInformation">${request?.subjectAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.subjectAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.subjectAddress?.streetNumber}</span> <span class="streetName">${request?.subjectAddress?.streetName}</span><p class="placeNameOrService">${request?.subjectAddress?.placeNameOrService}</p><span class="postalCode">${request?.subjectAddress?.postalCode}</span> <span class="city">${request?.subjectAddress?.city}</span><p class="countryName">${request?.subjectAddress?.countryName}</p></div>
+                    </dd>
+                  
+                    <dt class=""><g:message code="sgr.property.subjectPhone.label" />  : </dt>
+                    <dd id="subjectPhone" class="action-editField validate-phone i18n-sgr.property.subjectPhone maxLength-10" >
                       <span>${request?.subjectPhone}</span>
                     </dd>
                   
-                    <dt class="required"><g:message code="sgr.property.subjectMobilePhone.label" /> * : </dt>
-                    <dd id="subjectMobilePhone" class="action-editField validate-phone required-true i18n-sgr.property.subjectMobilePhone maxLength-10" >
+                    <dt class=""><g:message code="sgr.property.subjectMobilePhone.label" />  : </dt>
+                    <dd id="subjectMobilePhone" class="action-editField validate-phone i18n-sgr.property.subjectMobilePhone maxLength-10" >
                       <span>${request?.subjectMobilePhone}</span>
                     </dd>
                   
-                    <dt class="required"><g:message code="sgr.property.subjectEmail.label" /> * : </dt>
-                    <dd id="subjectEmail" class="action-editField validate-email required-true i18n-sgr.property.subjectEmail" >
+                    <dt class=""><g:message code="sgr.property.subjectEmail.label" />  : </dt>
+                    <dd id="subjectEmail" class="action-editField validate-email i18n-sgr.property.subjectEmail" >
                       <span>${request?.subjectEmail}</span>
                     </dd>
                   
                     <dt class="required"><g:message code="sgr.property.subjectBirthDate.label" /> * : </dt>
                     <dd id="subjectBirthDate" class="action-editField validate-date required-true i18n-sgr.property.subjectBirthDate" >
                       <span><g:formatDate formatName="format.date" date="${request?.subjectBirthDate}"/></span>
-                    </dd>
-                  
-                    <dt class="required"><g:message code="sgr.property.subjectBirthPlace.label" /> * : </dt>
-                    <dd id="subjectBirthPlace" class="action-editField validate-string required-true i18n-sgr.property.subjectBirthPlace" >
-                      <span>${request?.subjectBirthPlace}</span>
-                    </dd>
-                  
-                    <dt class="required condition-livesWithParents-trigger"><g:message code="sgr.property.hasParentsAddress.label" /> * : </dt>
-                    <dd id="hasParentsAddress" class="action-editField validate-boolean required-true i18n-sgr.property.hasParentsAddress" >
-                      <span class="value-${request?.hasParentsAddress}"><g:message code="message.${request?.hasParentsAddress ? 'yes' : 'no'}" /></span>
-                    </dd>
-                  
-                    <dt class="required condition-livesWithParents-unfilled"><g:message code="sgr.property.subjectAddress.label" /> * : </dt>
-                    <dd id="subjectAddress" class="action-editField validate-address required-true i18n-sgr.property.subjectAddress" >
-                      <div><p class="additionalDeliveryInformation">${request?.subjectAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.subjectAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.subjectAddress?.streetNumber}</span> <span class="streetName">${request?.subjectAddress?.streetName}</span><p class="placeNameOrService">${request?.subjectAddress?.placeNameOrService}</p><span class="postalCode">${request?.subjectAddress?.postalCode}</span> <span class="city">${request?.subjectAddress?.city}</span><p class="countryName">${request?.subjectAddress?.countryName}</p></div>
                     </dd>
                   
                 </dl>
@@ -135,9 +121,18 @@
               
                 
                 <dl>
-                  <dt class="required"><g:message code="sgr.property.taxHouseholdPhone.label" /> * : </dt>
-                  <dd id="taxHouseholdPhone" class="action-editField validate-phone required-true i18n-sgr.property.taxHouseholdPhone maxLength-10" >
-                    <span>${request?.taxHouseholdPhone}</span>
+                  <dt class="required"><g:message code="sgr.property.taxHouseholdPostalCode.label" /> * : </dt>
+                  <dd id="taxHouseholdPostalCode" class="action-editField validate-postalCode required-true i18n-sgr.property.taxHouseholdPostalCode maxLength-5" >
+                    <span>${request?.taxHouseholdPostalCode}</span>
+                  </dd>
+                </dl>
+                
+              
+                
+                <dl>
+                  <dt class="required"><g:message code="sgr.property.taxHouseholdCity.label" /> * : </dt>
+                  <dd id="taxHouseholdCity" class="action-editField validate-city required-true i18n-sgr.property.taxHouseholdCity maxLength-32" >
+                    <span>${request?.taxHouseholdCity}</span>
                   </dd>
                 </dl>
                 
@@ -156,15 +151,6 @@
             
             <!-- column start -->
             <div class="yui-u">
-              
-                
-                <dl>
-                  <dt class="required"><g:message code="sgr.property.taxHouseholdAddress.label" /> * : </dt>
-                  <dd id="taxHouseholdAddress" class="action-editField validate-address required-true i18n-sgr.property.taxHouseholdAddress" >
-                    <div><p class="additionalDeliveryInformation">${request?.taxHouseholdAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.taxHouseholdAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.taxHouseholdAddress?.streetNumber}</span> <span class="streetName">${request?.taxHouseholdAddress?.streetName}</span><p class="placeNameOrService">${request?.taxHouseholdAddress?.placeNameOrService}</p><span class="postalCode">${request?.taxHouseholdAddress?.postalCode}</span> <span class="city">${request?.taxHouseholdAddress?.city}</span><p class="countryName">${request?.taxHouseholdAddress?.countryName}</p></div>
-                  </dd>
-                </dl>
-                
               
             </div>
             <!-- column end -->
@@ -195,6 +181,24 @@
                 </dl>
                 
               
+                
+                <dl>
+                  <dt class="required"><g:message code="sgr.property.hasRegionalCouncilHelp.label" /> * : </dt>
+                  <dd id="hasRegionalCouncilHelp" class="action-editField validate-boolean required-true i18n-sgr.property.hasRegionalCouncilHelp" >
+                    <span class="value-${request?.hasRegionalCouncilHelp}"><g:message code="message.${request?.hasRegionalCouncilHelp ? 'yes' : 'no'}" /></span>
+                  </dd>
+                </dl>
+                
+              
+                
+                <dl>
+                  <dt class="required"><g:message code="sgr.property.hasEuropeHelp.label" /> * : </dt>
+                  <dd id="hasEuropeHelp" class="action-editField validate-boolean required-true i18n-sgr.property.hasEuropeHelp" >
+                    <span class="value-${request?.hasEuropeHelp}"><g:message code="message.${request?.hasEuropeHelp ? 'yes' : 'no'}" /></span>
+                  </dd>
+                </dl>
+                
+              
             </div>
             <!-- column end -->
             
@@ -203,18 +207,9 @@
               
                 
                 <dl>
-                  <dt class="required condition-otherHelpObtained-trigger"><g:message code="sgr.property.hasOtherHelp.label" /> * : </dt>
+                  <dt class="required"><g:message code="sgr.property.hasOtherHelp.label" /> * : </dt>
                   <dd id="hasOtherHelp" class="action-editField validate-boolean required-true i18n-sgr.property.hasOtherHelp" >
                     <span class="value-${request?.hasOtherHelp}"><g:message code="message.${request?.hasOtherHelp ? 'yes' : 'no'}" /></span>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required condition-otherHelpObtained-filled"><g:message code="sgr.property.otherHelpInformations.label" /> * : </dt>
-                  <dd id="otherHelpInformations" class="action-editField validate-string required-true i18n-sgr.property.otherHelpInformations" >
-                    <span>${request?.otherHelpInformations}</span>
                   </dd>
                 </dl>
                 
@@ -243,19 +238,41 @@
                 <h3><g:message code="sgr.property.aLevelsInformations.label" /></h3>
                 <dl class="required">
                   
-                    <dt class="required condition-notInLastYear-trigger"><g:message code="sgr.property.isInLastYear.label" /> * : </dt>
-                    <dd id="isInLastYear" class="action-editField validate-boolean required-true i18n-sgr.property.isInLastYear" >
-                      <span class="value-${request?.isInLastYear}"><g:message code="message.${request?.isInLastYear ? 'yes' : 'no'}" /></span>
+                    <dt class="required"><g:message code="sgr.property.aLevelsDate.label" /> * : </dt>
+                    <dd id="aLevelsDate" class="action-editField validate-regex required-true i18n-sgr.property.aLevelsDate maxLength-4" regex="^\d{2,4}$">
+                      <span>${request?.aLevelsDate}</span>
                     </dd>
                   
-                    <dt class="required condition-notInLastYear-filled"><g:message code="sgr.property.lastYearDate.label" /> * : </dt>
-                    <dd id="lastYearDate" class="action-editField validate-regex required-true i18n-sgr.property.lastYearDate maxLength-4" regex="^\d{2,4}$">
-                      <span>${request?.lastYearDate}</span>
+                    <dt class="required"><g:message code="sgr.property.aLevels.label" /> * : </dt>
+                    <dd id="aLevels" class="action-editField validate-capdematEnum required-true i18n-sgr.property.aLevels javatype-fr.cg95.cvq.business.request.school.ALevelsType" >
+                      <g:capdematEnumToField var="${request?.aLevels}" i18nKeyPrefix="sgr.property.aLevels" />
                     </dd>
                   
-                    <dt class="required condition-notInLastYear-filled"><g:message code="sgr.property.lastYearType.label" /> * : </dt>
-                    <dd id="lastYearType" class="action-editField validate-string required-true i18n-sgr.property.lastYearType" >
-                      <span>${request?.lastYearType}</span>
+                </dl>
+                
+              
+                
+                <h3><g:message code="sgr.property.currentSchool.label" /></h3>
+                <dl class="required">
+                  
+                    <dt class="required"><g:message code="sgr.property.currentSchoolName.label" /> * : </dt>
+                    <dd id="currentSchoolName" class="action-editField validate-string required-true i18n-sgr.property.currentSchoolName" >
+                      <span>${request?.currentSchoolName}</span>
+                    </dd>
+                  
+                    <dt class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> * : </dt>
+                    <dd id="currentSchoolPostalCode" class="action-editField validate-postalCode required-true i18n-sgr.property.currentSchoolPostalCode maxLength-5" >
+                      <span>${request?.currentSchoolPostalCode}</span>
+                    </dd>
+                  
+                    <dt class="required"><g:message code="sgr.property.currentSchoolCity.label" /> * : </dt>
+                    <dd id="currentSchoolCity" class="action-editField validate-city required-true i18n-sgr.property.currentSchoolCity maxLength-32" >
+                      <span>${request?.currentSchoolCity}</span>
+                    </dd>
+                  
+                    <dt class="required"><g:message code="sgr.property.currentSchoolCountry.label" /> * : </dt>
+                    <dd id="currentSchoolCountry" class="action-editField validate-capdematEnum required-true i18n-sgr.property.currentSchoolCountry javatype-fr.cg95.cvq.business.users.CountryType" >
+                      <g:capdematEnumToField var="${request?.currentSchoolCountry}" i18nKeyPrefix="sgr.property.currentSchoolCountry" />
                     </dd>
                   
                 </dl>
@@ -269,31 +286,51 @@
               
                 
                 <h3><g:message code="sgr.property.currentStudiesInformations.label" /></h3>
-                <dl class="required condition-notInLastYear-filled">
+                <dl class="">
                   
-                    <dt class="required condition-isInAbroadInternship-trigger condition-isInSandwichCourses-trigger condition-isInOtherStudies-trigger"><g:message code="sgr.property.currentStudies.label" /> * : </dt>
+                    <dt class="required condition-isInOtherStudies-trigger"><g:message code="sgr.property.currentStudies.label" /> * : </dt>
                     <dd id="currentStudies" class="action-editField validate-capdematEnum required-true i18n-sgr.property.currentStudies javatype-fr.cg95.cvq.business.request.school.CurrentStudiesType" >
                       <g:capdematEnumToField var="${request?.currentStudies}" i18nKeyPrefix="sgr.property.currentStudies" />
-                    </dd>
-                  
-                    <dt class="required condition-isInSandwichCourses-filled"><g:message code="sgr.property.sandwichCoursesLabel.label" /> * : </dt>
-                    <dd id="sandwichCoursesLabel" class="action-editField validate-string required-true i18n-sgr.property.sandwichCoursesLabel" >
-                      <span>${request?.sandwichCoursesLabel}</span>
-                    </dd>
-                  
-                    <dt class="required condition-isInAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipStartDate.label" /> * : </dt>
-                    <dd id="abroadInternshipStartDate" class="action-editField validate-date required-true i18n-sgr.property.abroadInternshipStartDate" >
-                      <span><g:formatDate formatName="format.date" date="${request?.abroadInternshipStartDate}"/></span>
-                    </dd>
-                  
-                    <dt class="required condition-isInAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipEndDate.label" /> * : </dt>
-                    <dd id="abroadInternshipEndDate" class="action-editField validate-date required-true i18n-sgr.property.abroadInternshipEndDate" >
-                      <span><g:formatDate formatName="format.date" date="${request?.abroadInternshipEndDate}"/></span>
                     </dd>
                   
                     <dt class="required condition-isInOtherStudies-filled"><g:message code="sgr.property.otherStudiesLabel.label" /> * : </dt>
                     <dd id="otherStudiesLabel" class="action-editField validate-string required-true i18n-sgr.property.otherStudiesLabel" >
                       <span>${request?.otherStudiesLabel}</span>
+                    </dd>
+                  
+                    <dt class="required"><g:message code="sgr.property.currentStudiesLevel.label" /> * : </dt>
+                    <dd id="currentStudiesLevel" class="action-editField validate-capdematEnum required-true i18n-sgr.property.currentStudiesLevel javatype-fr.cg95.cvq.business.request.school.CurrentStudiesLevelType" >
+                      <g:capdematEnumToField var="${request?.currentStudiesLevel}" i18nKeyPrefix="sgr.property.currentStudiesLevel" />
+                    </dd>
+                  
+                    <dt class="required"><g:message code="sgr.property.sandwichCourses.label" /> * : </dt>
+                    <dd id="sandwichCourses" class="action-editField validate-boolean required-true i18n-sgr.property.sandwichCourses" >
+                      <span class="value-${request?.sandwichCourses}"><g:message code="message.${request?.sandwichCourses ? 'yes' : 'no'}" /></span>
+                    </dd>
+                  
+                    <dt class="required condition-makesAbroadInternship-trigger"><g:message code="sgr.property.abroadInternship.label" /> * : </dt>
+                    <dd id="abroadInternship" class="action-editField validate-boolean required-true i18n-sgr.property.abroadInternship" >
+                      <span class="value-${request?.abroadInternship}"><g:message code="message.${request?.abroadInternship ? 'yes' : 'no'}" /></span>
+                    </dd>
+                  
+                    <dt class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipStartDate.label" /> * : </dt>
+                    <dd id="abroadInternshipStartDate" class="action-editField validate-date required-true i18n-sgr.property.abroadInternshipStartDate" >
+                      <span><g:formatDate formatName="format.date" date="${request?.abroadInternshipStartDate}"/></span>
+                    </dd>
+                  
+                    <dt class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipEndDate.label" /> * : </dt>
+                    <dd id="abroadInternshipEndDate" class="action-editField validate-date required-true i18n-sgr.property.abroadInternshipEndDate" >
+                      <span><g:formatDate formatName="format.date" date="${request?.abroadInternshipEndDate}"/></span>
+                    </dd>
+                  
+                    <dt class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipSchoolName.label" /> * : </dt>
+                    <dd id="abroadInternshipSchoolName" class="action-editField validate-string required-true i18n-sgr.property.abroadInternshipSchoolName" >
+                      <span>${request?.abroadInternshipSchoolName}</span>
+                    </dd>
+                  
+                    <dt class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipSchoolCountry.label" /> * : </dt>
+                    <dd id="abroadInternshipSchoolCountry" class="action-editField validate-capdematEnum required-true i18n-sgr.property.abroadInternshipSchoolCountry javatype-fr.cg95.cvq.business.users.CountryType" >
+                      <g:capdematEnumToField var="${request?.abroadInternshipSchoolCountry}" i18nKeyPrefix="sgr.property.abroadInternshipSchoolCountry" />
                     </dd>
                   
                 </dl>
@@ -310,113 +347,6 @@
       
       <!-- step start -->
       <div id="page4">
-        <h2><g:message code="property.form" />
-          <span><g:message code="sgr.step.futureSchool.label" /></span>
-        </h2>
-          
-          <div class="yui-g">
-            
-            <!-- column start -->
-            <div class="yui-u first">
-              
-                
-                <dl>
-                  <dt class="required"><g:message code="sgr.property.futureSchoolName.label" /> * : </dt>
-                  <dd id="futureSchoolName" class="action-editField validate-string required-true i18n-sgr.property.futureSchoolName" >
-                    <span>${request?.futureSchoolName}</span>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required"><g:message code="sgr.property.futureSchoolAddress.label" /> * : </dt>
-                  <dd id="futureSchoolAddress" class="action-editField validate-address required-true i18n-sgr.property.futureSchoolAddress" >
-                    <div><p class="additionalDeliveryInformation">${request?.futureSchoolAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.futureSchoolAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.futureSchoolAddress?.streetNumber}</span> <span class="streetName">${request?.futureSchoolAddress?.streetName}</span><p class="placeNameOrService">${request?.futureSchoolAddress?.placeNameOrService}</p><span class="postalCode">${request?.futureSchoolAddress?.postalCode}</span> <span class="city">${request?.futureSchoolAddress?.city}</span><p class="countryName">${request?.futureSchoolAddress?.countryName}</p></div>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required"><g:message code="sgr.property.futureSchoolPhone.label" /> * : </dt>
-                  <dd id="futureSchoolPhone" class="action-editField validate-phone required-true i18n-sgr.property.futureSchoolPhone maxLength-10" >
-                    <span>${request?.futureSchoolPhone}</span>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required"><g:message code="sgr.property.futureDiplomaName.label" /> * : </dt>
-                  <dd id="futureDiplomaName" class="action-editField validate-string required-true i18n-sgr.property.futureDiplomaName" >
-                    <span>${request?.futureDiplomaName}</span>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required"><g:message code="sgr.property.futureDiplomaLevel.label" /> * : </dt>
-                  <dd id="futureDiplomaLevel" class="action-editField validate-string required-true i18n-sgr.property.futureDiplomaLevel" >
-                    <span>${request?.futureDiplomaLevel}</span>
-                  </dd>
-                </dl>
-                
-              
-            </div>
-            <!-- column end -->
-            
-            <!-- column start -->
-            <div class="yui-u">
-              
-                
-                <dl>
-                  <dt class="required condition-willDoAbroadInternship-trigger"><g:message code="sgr.property.futureSchoolIsAbroad.label" /> * : </dt>
-                  <dd id="futureSchoolIsAbroad" class="action-editField validate-boolean required-true i18n-sgr.property.futureSchoolIsAbroad" >
-                    <span class="value-${request?.futureSchoolIsAbroad}"><g:message code="message.${request?.futureSchoolIsAbroad ? 'yes' : 'no'}" /></span>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required condition-willDoAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipSchoolName.label" /> * : </dt>
-                  <dd id="abroadInternshipSchoolName" class="action-editField validate-string required-true i18n-sgr.property.abroadInternshipSchoolName" >
-                    <span>${request?.abroadInternshipSchoolName}</span>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required condition-willDoAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipSchoolAddress.label" /> * : </dt>
-                  <dd id="abroadInternshipSchoolAddress" class="action-editField validate-string required-true i18n-sgr.property.abroadInternshipSchoolAddress" >
-                    <span>${request?.abroadInternshipSchoolAddress}</span>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required condition-willDoAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipSchoolCountry.label" /> * : </dt>
-                  <dd id="abroadInternshipSchoolCountry" class="action-editField validate-capdematEnum required-true i18n-sgr.property.abroadInternshipSchoolCountry javatype-fr.cg95.cvq.business.users.CountryType" >
-                    <g:capdematEnumToField var="${request?.abroadInternshipSchoolCountry}" i18nKeyPrefix="sgr.property.abroadInternshipSchoolCountry" />
-                  </dd>
-                </dl>
-                
-              
-            </div>
-            <!-- column end -->
-            
-          </div>
-          <!-- data step  end -->
-          
-      </div>
-      <!-- step end -->
-      
-      <!-- step start -->
-      <div id="page5">
         <h2><g:message code="property.form" />
           <span><g:message code="sgr.step.calculationElements.label" /></span>
         </h2>
@@ -451,7 +381,7 @@
       <!-- step end -->
       
       <!-- step start -->
-      <div id="page6">
+      <div id="page5">
         <h2><g:message code="property.form" />
           <span><g:message code="sgr.step.bankReference.label" /></span>
         </h2>
@@ -460,24 +390,6 @@
             
             <!-- column start -->
             <div class="yui-u first">
-              
-                
-                <dl>
-                  <dt class="required"><g:message code="sgr.property.bankName.label" /> * : </dt>
-                  <dd id="bankName" class="action-editField validate-string required-true i18n-sgr.property.bankName" >
-                    <span>${request?.bankName}</span>
-                  </dd>
-                </dl>
-                
-              
-                
-                <dl>
-                  <dt class="required"><g:message code="sgr.property.bankAgency.label" /> * : </dt>
-                  <dd id="bankAgency" class="action-editField validate-string required-true i18n-sgr.property.bankAgency" >
-                    <span>${request?.bankAgency}</span>
-                  </dd>
-                </dl>
-                
               
                 
                 <dl>

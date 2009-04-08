@@ -32,10 +32,11 @@ public class StudyGrantRequest extends Request implements Serializable {
 
     public StudyGrantRequest() {
         super();
-        futureSchoolIsAbroad = Boolean.valueOf(false);
+        hasEuropeHelp = Boolean.valueOf(false);
         hasCROUSHelp = Boolean.valueOf(false);
-        hasParentsAddress = Boolean.valueOf(true);
-        isInLastYear = Boolean.valueOf(false);
+        sandwichCourses = Boolean.valueOf(false);
+        abroadInternship = Boolean.valueOf(false);
+        hasRegionalCouncilHelp = Boolean.valueOf(false);
         hasOtherHelp = Boolean.valueOf(false);
     }
 
@@ -59,27 +60,28 @@ public class StudyGrantRequest extends Request implements Serializable {
         StudyGrantRequestDocument.StudyGrantRequest studyGrantRequest = studyGrantRequestDoc.addNewStudyGrantRequest();
         super.fillCommonXmlInfo(studyGrantRequest);
         CurrentStudiesInformationsType currentStudiesInformationsTypeCurrentStudiesInformations = studyGrantRequest.addNewCurrentStudiesInformations();
-        if (this.currentStudies != null)
-            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudies(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(this.currentStudies.toString()));
         date = this.abroadInternshipEndDate;
         if (date != null) {
             calendar.setTime(date);
             currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipEndDate(calendar);
         }
-        if (this.taxHouseholdAddress != null)
-            studyGrantRequest.setTaxHouseholdAddress(Address.modelToXml(this.taxHouseholdAddress));
-        studyGrantRequest.setFutureSchoolPhone(this.futureSchoolPhone);
+        if (this.hasEuropeHelp != null)
+            studyGrantRequest.setHasEuropeHelp(this.hasEuropeHelp.booleanValue());
+        if (this.currentStudies != null)
+            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudies(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(this.currentStudies.toString()));
+        ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
+        if (this.aLevels != null)
+            aLevelsInformationsTypeALevelsInformations.setALevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(this.aLevels.toString()));
+        if (this.currentStudiesLevel != null)
+            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.CurrentStudiesLevelType.Enum.forString(this.currentStudiesLevel.toString()));
+        CurrentSchoolType currentSchoolTypeCurrentSchool = studyGrantRequest.addNewCurrentSchool();
+        currentSchoolTypeCurrentSchool.setCurrentSchoolPostalCode(this.currentSchoolPostalCode);
         date = this.abroadInternshipStartDate;
         if (date != null) {
             calendar.setTime(date);
             currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipStartDate(calendar);
         }
-        studyGrantRequest.setBankName(this.bankName);
         studyGrantRequest.setTaxHouseholdFirstName(this.taxHouseholdFirstName);
-        studyGrantRequest.setFutureSchoolName(this.futureSchoolName);
-        currentStudiesInformationsTypeCurrentStudiesInformations.setSandwichCoursesLabel(this.sandwichCoursesLabel);
-        ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
-        aLevelsInformationsTypeALevelsInformations.setLastYearType(this.lastYearType);
         studyGrantRequest.setBankCode(this.bankCode);
         SubjectInformationsType subjectInformationsTypeSubjetInformations = studyGrantRequest.addNewSubjetInformations();
         date = this.subjectBirthDate;
@@ -87,42 +89,39 @@ public class StudyGrantRequest extends Request implements Serializable {
             calendar.setTime(date);
             subjectInformationsTypeSubjetInformations.setSubjectBirthDate(calendar);
         }
-        if (this.futureSchoolIsAbroad != null)
-            studyGrantRequest.setFutureSchoolIsAbroad(this.futureSchoolIsAbroad.booleanValue());
         studyGrantRequest.setCounterCode(this.counterCode);
+        currentSchoolTypeCurrentSchool.setCurrentSchoolCity(this.currentSchoolCity);
         if (this.hasCROUSHelp != null)
             studyGrantRequest.setHasCROUSHelp(this.hasCROUSHelp.booleanValue());
         subjectInformationsTypeSubjetInformations.setSubjectEmail(this.subjectEmail);
-        if (this.hasParentsAddress != null)
-            subjectInformationsTypeSubjetInformations.setHasParentsAddress(this.hasParentsAddress.booleanValue());
-        if (this.futureSchoolAddress != null)
-            studyGrantRequest.setFutureSchoolAddress(Address.modelToXml(this.futureSchoolAddress));
+        currentSchoolTypeCurrentSchool.setCurrentSchoolName(this.currentSchoolName);
+        if (this.sandwichCourses != null)
+            currentStudiesInformationsTypeCurrentStudiesInformations.setSandwichCourses(this.sandwichCourses.booleanValue());
         if (this.abroadInternshipSchoolCountry != null)
-            studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(this.abroadInternshipSchoolCountry.toString()));
-        studyGrantRequest.setAbroadInternshipSchoolAddress(this.abroadInternshipSchoolAddress);
-        studyGrantRequest.setTaxHouseholdPhone(this.taxHouseholdPhone);
-        studyGrantRequest.setBankAgency(this.bankAgency);
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(this.abroadInternshipSchoolCountry.toString()));
+        studyGrantRequest.setTaxHouseholdCity(this.taxHouseholdCity);
+        if (this.abroadInternship != null)
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternship(this.abroadInternship.booleanValue());
         studyGrantRequest.setTaxHouseholdLastName(this.taxHouseholdLastName);
         studyGrantRequest.setAccountNumber(this.accountNumber);
         if (this.distance != null)
             studyGrantRequest.setDistance(fr.cg95.cvq.xml.request.school.DistanceType.Enum.forString(this.distance.toString()));
+        studyGrantRequest.setTaxHouseholdPostalCode(this.taxHouseholdPostalCode);
         subjectInformationsTypeSubjetInformations.setSubjectMobilePhone(this.subjectMobilePhone);
-        if (this.isInLastYear != null)
-            aLevelsInformationsTypeALevelsInformations.setIsInLastYear(this.isInLastYear.booleanValue());
-        studyGrantRequest.setAbroadInternshipSchoolName(this.abroadInternshipSchoolName);
-        studyGrantRequest.setOtherHelpInformations(this.otherHelpInformations);
+        currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolName(this.abroadInternshipSchoolName);
         studyGrantRequest.setAccountKey(this.accountKey);
         currentStudiesInformationsTypeCurrentStudiesInformations.setOtherStudiesLabel(this.otherStudiesLabel);
-        subjectInformationsTypeSubjetInformations.setSubjectBirthPlace(this.subjectBirthPlace);
-        studyGrantRequest.setFutureDiplomaLevel(this.futureDiplomaLevel);
-        aLevelsInformationsTypeALevelsInformations.setLastYearDate(this.lastYearDate);
+        aLevelsInformationsTypeALevelsInformations.setALevelsDate(this.aLevelsDate);
+        if (this.hasRegionalCouncilHelp != null)
+            studyGrantRequest.setHasRegionalCouncilHelp(this.hasRegionalCouncilHelp.booleanValue());
         if (this.taxHouseholdIncome != null)
             studyGrantRequest.setTaxHouseholdIncome(this.taxHouseholdIncome.doubleValue());
         if (this.hasOtherHelp != null)
             studyGrantRequest.setHasOtherHelp(this.hasOtherHelp.booleanValue());
-        studyGrantRequest.setFutureDiplomaName(this.futureDiplomaName);
         if (this.subjectAddress != null)
             subjectInformationsTypeSubjetInformations.setSubjectAddress(Address.modelToXml(this.subjectAddress));
+        if (this.currentSchoolCountry != null)
+            currentSchoolTypeCurrentSchool.setCurrentSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(this.currentSchoolCountry.toString()));
         subjectInformationsTypeSubjetInformations.setSubjectPhone(this.subjectPhone);
         return studyGrantRequestDoc;
     }
@@ -141,82 +140,69 @@ public class StudyGrantRequest extends Request implements Serializable {
         List list = new ArrayList();
         StudyGrantRequest studyGrantRequest = new StudyGrantRequest();
         studyGrantRequest.fillCommonModelInfo(studyGrantRequest,studyGrantRequestXml);
-        if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudies() != null)
-            studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudies().toString()));
-        else
-            studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
         calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipEndDate();
         if (calendar != null) {
             studyGrantRequest.setAbroadInternshipEndDate(calendar.getTime());
         }
-        if (studyGrantRequestXml.getTaxHouseholdAddress() != null)
-            studyGrantRequest.setTaxHouseholdAddress(Address.xmlToModel(studyGrantRequestXml.getTaxHouseholdAddress()));
-        studyGrantRequest.setFutureSchoolPhone(studyGrantRequestXml.getFutureSchoolPhone());
+        studyGrantRequest.setHasEuropeHelp(Boolean.valueOf(studyGrantRequestXml.getHasEuropeHelp()));
+        if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudies() != null)
+            studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudies().toString()));
+        else
+            studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
+        if (studyGrantRequestXml.getALevelsInformations().getALevels() != null)
+            studyGrantRequest.setALevels(fr.cg95.cvq.business.request.school.ALevelsType.forString(studyGrantRequestXml.getALevelsInformations().getALevels().toString()));
+        else
+            studyGrantRequest.setALevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
+        if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel() != null)
+            studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel().toString()));
+        else
+            studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.getDefaultCurrentStudiesLevelType());
+        studyGrantRequest.setCurrentSchoolPostalCode(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolPostalCode());
         calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipStartDate();
         if (calendar != null) {
             studyGrantRequest.setAbroadInternshipStartDate(calendar.getTime());
         }
-        studyGrantRequest.setBankName(studyGrantRequestXml.getBankName());
         studyGrantRequest.setTaxHouseholdFirstName(studyGrantRequestXml.getTaxHouseholdFirstName());
-        studyGrantRequest.setFutureSchoolName(studyGrantRequestXml.getFutureSchoolName());
-        studyGrantRequest.setSandwichCoursesLabel(studyGrantRequestXml.getCurrentStudiesInformations().getSandwichCoursesLabel());
-        studyGrantRequest.setLastYearType(studyGrantRequestXml.getALevelsInformations().getLastYearType());
         studyGrantRequest.setBankCode(studyGrantRequestXml.getBankCode());
         calendar = studyGrantRequestXml.getSubjetInformations().getSubjectBirthDate();
         if (calendar != null) {
             studyGrantRequest.setSubjectBirthDate(calendar.getTime());
         }
-        studyGrantRequest.setFutureSchoolIsAbroad(Boolean.valueOf(studyGrantRequestXml.getFutureSchoolIsAbroad()));
         studyGrantRequest.setCounterCode(studyGrantRequestXml.getCounterCode());
+        studyGrantRequest.setCurrentSchoolCity(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCity());
         studyGrantRequest.setHasCROUSHelp(Boolean.valueOf(studyGrantRequestXml.getHasCROUSHelp()));
         studyGrantRequest.setSubjectEmail(studyGrantRequestXml.getSubjetInformations().getSubjectEmail());
-        studyGrantRequest.setHasParentsAddress(Boolean.valueOf(studyGrantRequestXml.getSubjetInformations().getHasParentsAddress()));
-        if (studyGrantRequestXml.getFutureSchoolAddress() != null)
-            studyGrantRequest.setFutureSchoolAddress(Address.xmlToModel(studyGrantRequestXml.getFutureSchoolAddress()));
-        if (studyGrantRequestXml.getAbroadInternshipSchoolCountry() != null)
-            studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getAbroadInternshipSchoolCountry().toString()));
+        studyGrantRequest.setCurrentSchoolName(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolName());
+        studyGrantRequest.setSandwichCourses(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getSandwichCourses()));
+        if (studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry() != null)
+            studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry().toString()));
         else
             studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
-        studyGrantRequest.setAbroadInternshipSchoolAddress(studyGrantRequestXml.getAbroadInternshipSchoolAddress());
-        studyGrantRequest.setTaxHouseholdPhone(studyGrantRequestXml.getTaxHouseholdPhone());
-        studyGrantRequest.setBankAgency(studyGrantRequestXml.getBankAgency());
+        studyGrantRequest.setTaxHouseholdCity(studyGrantRequestXml.getTaxHouseholdCity());
+        studyGrantRequest.setAbroadInternship(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternship()));
         studyGrantRequest.setTaxHouseholdLastName(studyGrantRequestXml.getTaxHouseholdLastName());
         studyGrantRequest.setAccountNumber(studyGrantRequestXml.getAccountNumber());
         if (studyGrantRequestXml.getDistance() != null)
             studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.forString(studyGrantRequestXml.getDistance().toString()));
         else
             studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
+        studyGrantRequest.setTaxHouseholdPostalCode(studyGrantRequestXml.getTaxHouseholdPostalCode());
         studyGrantRequest.setSubjectMobilePhone(studyGrantRequestXml.getSubjetInformations().getSubjectMobilePhone());
-        studyGrantRequest.setIsInLastYear(Boolean.valueOf(studyGrantRequestXml.getALevelsInformations().getIsInLastYear()));
-        studyGrantRequest.setAbroadInternshipSchoolName(studyGrantRequestXml.getAbroadInternshipSchoolName());
-        studyGrantRequest.setOtherHelpInformations(studyGrantRequestXml.getOtherHelpInformations());
+        studyGrantRequest.setAbroadInternshipSchoolName(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
         studyGrantRequest.setAccountKey(studyGrantRequestXml.getAccountKey());
         studyGrantRequest.setOtherStudiesLabel(studyGrantRequestXml.getCurrentStudiesInformations().getOtherStudiesLabel());
-        studyGrantRequest.setSubjectBirthPlace(studyGrantRequestXml.getSubjetInformations().getSubjectBirthPlace());
-        studyGrantRequest.setFutureDiplomaLevel(studyGrantRequestXml.getFutureDiplomaLevel());
-        studyGrantRequest.setLastYearDate(studyGrantRequestXml.getALevelsInformations().getLastYearDate());
+        studyGrantRequest.setALevelsDate(studyGrantRequestXml.getALevelsInformations().getALevelsDate());
+        studyGrantRequest.setHasRegionalCouncilHelp(Boolean.valueOf(studyGrantRequestXml.getHasRegionalCouncilHelp()));
         studyGrantRequest.setTaxHouseholdIncome(new Double(studyGrantRequestXml.getTaxHouseholdIncome()));
         studyGrantRequest.setHasOtherHelp(Boolean.valueOf(studyGrantRequestXml.getHasOtherHelp()));
-        studyGrantRequest.setFutureDiplomaName(studyGrantRequestXml.getFutureDiplomaName());
         if (studyGrantRequestXml.getSubjetInformations().getSubjectAddress() != null)
             studyGrantRequest.setSubjectAddress(Address.xmlToModel(studyGrantRequestXml.getSubjetInformations().getSubjectAddress()));
+        if (studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry() != null)
+            studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry().toString()));
+        else
+            studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
         studyGrantRequest.setSubjectPhone(studyGrantRequestXml.getSubjetInformations().getSubjectPhone());
         return studyGrantRequest;
-    }
-
-    private fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudies;
-
-    public final void setCurrentStudies(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudies) {
-        this.currentStudies = currentStudies;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="current_studies"
-     */
-    public final fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudies() {
-        return this.currentStudies;
     }
 
     private java.util.Date abroadInternshipEndDate;
@@ -234,37 +220,80 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.abroadInternshipEndDate;
     }
 
-    private fr.cg95.cvq.business.users.Address taxHouseholdAddress;
+    private Boolean hasEuropeHelp;
 
-    public final void setTaxHouseholdAddress(final fr.cg95.cvq.business.users.Address taxHouseholdAddress) {
-        this.taxHouseholdAddress = taxHouseholdAddress;
-    }
-
-
-    /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="tax_household_address_id"
-     *  class="fr.cg95.cvq.business.users.Address"
-     */
-    public final fr.cg95.cvq.business.users.Address getTaxHouseholdAddress() {
-        return this.taxHouseholdAddress;
-    }
-
-    private String futureSchoolPhone;
-
-    public final void setFutureSchoolPhone(final String futureSchoolPhone) {
-        this.futureSchoolPhone = futureSchoolPhone;
+    public final void setHasEuropeHelp(final Boolean hasEuropeHelp) {
+        this.hasEuropeHelp = hasEuropeHelp;
     }
 
 
     /**
      * @hibernate.property
-     *  column="future_school_phone"
-     *  length="10"
+     *  column="has_europe_help"
      */
-    public final String getFutureSchoolPhone() {
-        return this.futureSchoolPhone;
+    public final Boolean getHasEuropeHelp() {
+        return this.hasEuropeHelp;
+    }
+
+    private fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudies;
+
+    public final void setCurrentStudies(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudies) {
+        this.currentStudies = currentStudies;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="current_studies"
+     */
+    public final fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudies() {
+        return this.currentStudies;
+    }
+
+    private fr.cg95.cvq.business.request.school.ALevelsType aLevels;
+
+    public final void setALevels(final fr.cg95.cvq.business.request.school.ALevelsType aLevels) {
+        this.aLevels = aLevels;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="a_levels"
+     */
+    public final fr.cg95.cvq.business.request.school.ALevelsType getALevels() {
+        return this.aLevels;
+    }
+
+    private fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel;
+
+    public final void setCurrentStudiesLevel(final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel) {
+        this.currentStudiesLevel = currentStudiesLevel;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="current_studies_level"
+     */
+    public final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType getCurrentStudiesLevel() {
+        return this.currentStudiesLevel;
+    }
+
+    private String currentSchoolPostalCode;
+
+    public final void setCurrentSchoolPostalCode(final String currentSchoolPostalCode) {
+        this.currentSchoolPostalCode = currentSchoolPostalCode;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="current_school_postal_code"
+     *  length="5"
+     */
+    public final String getCurrentSchoolPostalCode() {
+        return this.currentSchoolPostalCode;
     }
 
     private java.util.Date abroadInternshipStartDate;
@@ -282,21 +311,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.abroadInternshipStartDate;
     }
 
-    private String bankName;
-
-    public final void setBankName(final String bankName) {
-        this.bankName = bankName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="bank_name"
-     */
-    public final String getBankName() {
-        return this.bankName;
-    }
-
     private String taxHouseholdFirstName;
 
     public final void setTaxHouseholdFirstName(final String taxHouseholdFirstName) {
@@ -311,51 +325,6 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final String getTaxHouseholdFirstName() {
         return this.taxHouseholdFirstName;
-    }
-
-    private String futureSchoolName;
-
-    public final void setFutureSchoolName(final String futureSchoolName) {
-        this.futureSchoolName = futureSchoolName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="future_school_name"
-     */
-    public final String getFutureSchoolName() {
-        return this.futureSchoolName;
-    }
-
-    private String sandwichCoursesLabel;
-
-    public final void setSandwichCoursesLabel(final String sandwichCoursesLabel) {
-        this.sandwichCoursesLabel = sandwichCoursesLabel;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="sandwich_courses_label"
-     */
-    public final String getSandwichCoursesLabel() {
-        return this.sandwichCoursesLabel;
-    }
-
-    private String lastYearType;
-
-    public final void setLastYearType(final String lastYearType) {
-        this.lastYearType = lastYearType;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="last_year_type"
-     */
-    public final String getLastYearType() {
-        return this.lastYearType;
     }
 
     private String bankCode;
@@ -389,21 +358,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.subjectBirthDate;
     }
 
-    private Boolean futureSchoolIsAbroad;
-
-    public final void setFutureSchoolIsAbroad(final Boolean futureSchoolIsAbroad) {
-        this.futureSchoolIsAbroad = futureSchoolIsAbroad;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="future_school_is_abroad"
-     */
-    public final Boolean getFutureSchoolIsAbroad() {
-        return this.futureSchoolIsAbroad;
-    }
-
     private String counterCode;
 
     public final void setCounterCode(final String counterCode) {
@@ -418,6 +372,22 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final String getCounterCode() {
         return this.counterCode;
+    }
+
+    private String currentSchoolCity;
+
+    public final void setCurrentSchoolCity(final String currentSchoolCity) {
+        this.currentSchoolCity = currentSchoolCity;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="current_school_city"
+     *  length="32"
+     */
+    public final String getCurrentSchoolCity() {
+        return this.currentSchoolCity;
     }
 
     private Boolean hasCROUSHelp;
@@ -450,36 +420,34 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.subjectEmail;
     }
 
-    private Boolean hasParentsAddress;
+    private String currentSchoolName;
 
-    public final void setHasParentsAddress(final Boolean hasParentsAddress) {
-        this.hasParentsAddress = hasParentsAddress;
+    public final void setCurrentSchoolName(final String currentSchoolName) {
+        this.currentSchoolName = currentSchoolName;
     }
 
 
     /**
      * @hibernate.property
-     *  column="has_parents_address"
+     *  column="current_school_name"
      */
-    public final Boolean getHasParentsAddress() {
-        return this.hasParentsAddress;
+    public final String getCurrentSchoolName() {
+        return this.currentSchoolName;
     }
 
-    private fr.cg95.cvq.business.users.Address futureSchoolAddress;
+    private Boolean sandwichCourses;
 
-    public final void setFutureSchoolAddress(final fr.cg95.cvq.business.users.Address futureSchoolAddress) {
-        this.futureSchoolAddress = futureSchoolAddress;
+    public final void setSandwichCourses(final Boolean sandwichCourses) {
+        this.sandwichCourses = sandwichCourses;
     }
 
 
     /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="future_school_address_id"
-     *  class="fr.cg95.cvq.business.users.Address"
+     * @hibernate.property
+     *  column="sandwich_courses"
      */
-    public final fr.cg95.cvq.business.users.Address getFutureSchoolAddress() {
-        return this.futureSchoolAddress;
+    public final Boolean getSandwichCourses() {
+        return this.sandwichCourses;
     }
 
     private fr.cg95.cvq.business.users.CountryType abroadInternshipSchoolCountry;
@@ -497,50 +465,35 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.abroadInternshipSchoolCountry;
     }
 
-    private String abroadInternshipSchoolAddress;
+    private String taxHouseholdCity;
 
-    public final void setAbroadInternshipSchoolAddress(final String abroadInternshipSchoolAddress) {
-        this.abroadInternshipSchoolAddress = abroadInternshipSchoolAddress;
+    public final void setTaxHouseholdCity(final String taxHouseholdCity) {
+        this.taxHouseholdCity = taxHouseholdCity;
     }
 
 
     /**
      * @hibernate.property
-     *  column="abroad_internship_school_address"
+     *  column="tax_household_city"
+     *  length="32"
      */
-    public final String getAbroadInternshipSchoolAddress() {
-        return this.abroadInternshipSchoolAddress;
+    public final String getTaxHouseholdCity() {
+        return this.taxHouseholdCity;
     }
 
-    private String taxHouseholdPhone;
+    private Boolean abroadInternship;
 
-    public final void setTaxHouseholdPhone(final String taxHouseholdPhone) {
-        this.taxHouseholdPhone = taxHouseholdPhone;
+    public final void setAbroadInternship(final Boolean abroadInternship) {
+        this.abroadInternship = abroadInternship;
     }
 
 
     /**
      * @hibernate.property
-     *  column="tax_household_phone"
-     *  length="10"
+     *  column="abroad_internship"
      */
-    public final String getTaxHouseholdPhone() {
-        return this.taxHouseholdPhone;
-    }
-
-    private String bankAgency;
-
-    public final void setBankAgency(final String bankAgency) {
-        this.bankAgency = bankAgency;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="bank_agency"
-     */
-    public final String getBankAgency() {
-        return this.bankAgency;
+    public final Boolean getAbroadInternship() {
+        return this.abroadInternship;
     }
 
     private String taxHouseholdLastName;
@@ -590,6 +543,22 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.distance;
     }
 
+    private String taxHouseholdPostalCode;
+
+    public final void setTaxHouseholdPostalCode(final String taxHouseholdPostalCode) {
+        this.taxHouseholdPostalCode = taxHouseholdPostalCode;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="tax_household_postal_code"
+     *  length="5"
+     */
+    public final String getTaxHouseholdPostalCode() {
+        return this.taxHouseholdPostalCode;
+    }
+
     private String subjectMobilePhone;
 
     public final void setSubjectMobilePhone(final String subjectMobilePhone) {
@@ -606,21 +575,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.subjectMobilePhone;
     }
 
-    private Boolean isInLastYear;
-
-    public final void setIsInLastYear(final Boolean isInLastYear) {
-        this.isInLastYear = isInLastYear;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="is_in_last_year"
-     */
-    public final Boolean getIsInLastYear() {
-        return this.isInLastYear;
-    }
-
     private String abroadInternshipSchoolName;
 
     public final void setAbroadInternshipSchoolName(final String abroadInternshipSchoolName) {
@@ -634,21 +588,6 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final String getAbroadInternshipSchoolName() {
         return this.abroadInternshipSchoolName;
-    }
-
-    private String otherHelpInformations;
-
-    public final void setOtherHelpInformations(final String otherHelpInformations) {
-        this.otherHelpInformations = otherHelpInformations;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="other_help_informations"
-     */
-    public final String getOtherHelpInformations() {
-        return this.otherHelpInformations;
     }
 
     private String accountKey;
@@ -682,50 +621,35 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.otherStudiesLabel;
     }
 
-    private String subjectBirthPlace;
+    private String aLevelsDate;
 
-    public final void setSubjectBirthPlace(final String subjectBirthPlace) {
-        this.subjectBirthPlace = subjectBirthPlace;
+    public final void setALevelsDate(final String aLevelsDate) {
+        this.aLevelsDate = aLevelsDate;
     }
 
 
     /**
      * @hibernate.property
-     *  column="subject_birth_place"
-     */
-    public final String getSubjectBirthPlace() {
-        return this.subjectBirthPlace;
-    }
-
-    private String futureDiplomaLevel;
-
-    public final void setFutureDiplomaLevel(final String futureDiplomaLevel) {
-        this.futureDiplomaLevel = futureDiplomaLevel;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="future_diploma_level"
-     */
-    public final String getFutureDiplomaLevel() {
-        return this.futureDiplomaLevel;
-    }
-
-    private String lastYearDate;
-
-    public final void setLastYearDate(final String lastYearDate) {
-        this.lastYearDate = lastYearDate;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="last_year_date"
+     *  column="a_levels_date"
      *  length="4"
      */
-    public final String getLastYearDate() {
-        return this.lastYearDate;
+    public final String getALevelsDate() {
+        return this.aLevelsDate;
+    }
+
+    private Boolean hasRegionalCouncilHelp;
+
+    public final void setHasRegionalCouncilHelp(final Boolean hasRegionalCouncilHelp) {
+        this.hasRegionalCouncilHelp = hasRegionalCouncilHelp;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="has_regional_council_help"
+     */
+    public final Boolean getHasRegionalCouncilHelp() {
+        return this.hasRegionalCouncilHelp;
     }
 
     private Double taxHouseholdIncome;
@@ -758,21 +682,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.hasOtherHelp;
     }
 
-    private String futureDiplomaName;
-
-    public final void setFutureDiplomaName(final String futureDiplomaName) {
-        this.futureDiplomaName = futureDiplomaName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="future_diploma_name"
-     */
-    public final String getFutureDiplomaName() {
-        return this.futureDiplomaName;
-    }
-
     private fr.cg95.cvq.business.users.Address subjectAddress;
 
     public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
@@ -788,6 +697,21 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
         return this.subjectAddress;
+    }
+
+    private fr.cg95.cvq.business.users.CountryType currentSchoolCountry;
+
+    public final void setCurrentSchoolCountry(final fr.cg95.cvq.business.users.CountryType currentSchoolCountry) {
+        this.currentSchoolCountry = currentSchoolCountry;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="current_school_country"
+     */
+    public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
+        return this.currentSchoolCountry;
     }
 
     private String subjectPhone;

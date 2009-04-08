@@ -12,9 +12,6 @@ sgr.step.otherHelps.desc =
 sgr.step.currentStudies.label =
 sgr.step.currentStudies.desc =
 
-sgr.step.futureSchool.label =
-sgr.step.futureSchool.desc =
-
 sgr.step.calculationElements.label =
 sgr.step.calculationElements.desc =
 
@@ -24,6 +21,9 @@ sgr.step.bankReference.desc =
 
 sgr.property.subjetInformations.help =
 sgr.property.subjetInformations.validationError =
+
+sgr.property.subjectAddress.help =
+sgr.property.subjectAddress.validationError =
 
 sgr.property.subjectPhone.help =
 sgr.property.subjectPhone.validationError =
@@ -37,26 +37,17 @@ sgr.property.subjectEmail.validationError =
 sgr.property.subjectBirthDate.help =
 sgr.property.subjectBirthDate.validationError =
 
-sgr.property.subjectBirthPlace.help =
-sgr.property.subjectBirthPlace.validationError =
-
-sgr.property.hasParentsAddress.help =
-sgr.property.hasParentsAddress.validationError =
-
-sgr.property.subjectAddress.help =
-sgr.property.subjectAddress.validationError =
-
 sgr.property.taxHouseholdLastName.help =
 sgr.property.taxHouseholdLastName.validationError =
 
 sgr.property.taxHouseholdFirstName.help =
 sgr.property.taxHouseholdFirstName.validationError =
 
-sgr.property.taxHouseholdAddress.help =
-sgr.property.taxHouseholdAddress.validationError =
+sgr.property.taxHouseholdPostalCode.help =
+sgr.property.taxHouseholdPostalCode.validationError =
 
-sgr.property.taxHouseholdPhone.help =
-sgr.property.taxHouseholdPhone.validationError =
+sgr.property.taxHouseholdCity.help =
+sgr.property.taxHouseholdCity.validationError =
 
 sgr.property.taxHouseholdIncome.help =
 sgr.property.taxHouseholdIncome.validationError =
@@ -64,23 +55,38 @@ sgr.property.taxHouseholdIncome.validationError =
 sgr.property.hasCROUSHelp.help =
 sgr.property.hasCROUSHelp.validationError =
 
+sgr.property.hasRegionalCouncilHelp.help =
+sgr.property.hasRegionalCouncilHelp.validationError =
+
+sgr.property.hasEuropeHelp.help =
+sgr.property.hasEuropeHelp.validationError =
+
 sgr.property.hasOtherHelp.help =
 sgr.property.hasOtherHelp.validationError =
-
-sgr.property.otherHelpInformations.help =
-sgr.property.otherHelpInformations.validationError =
 
 sgr.property.aLevelsInformations.help =
 sgr.property.aLevelsInformations.validationError =
 
-sgr.property.isInLastYear.help =
-sgr.property.isInLastYear.validationError =
+sgr.property.aLevelsDate.help =
+sgr.property.aLevelsDate.validationError =
 
-sgr.property.lastYearDate.help =
-sgr.property.lastYearDate.validationError =
+sgr.property.aLevels.help =
+sgr.property.aLevels.validationError =
 
-sgr.property.lastYearType.help =
-sgr.property.lastYearType.validationError =
+sgr.property.currentSchool.help =
+sgr.property.currentSchool.validationError =
+
+sgr.property.currentSchoolName.help =
+sgr.property.currentSchoolName.validationError =
+
+sgr.property.currentSchoolPostalCode.help =
+sgr.property.currentSchoolPostalCode.validationError =
+
+sgr.property.currentSchoolCity.help =
+sgr.property.currentSchoolCity.validationError =
+
+sgr.property.currentSchoolCountry.help =
+sgr.property.currentSchoolCountry.validationError =
 
 sgr.property.currentStudiesInformations.help =
 sgr.property.currentStudiesInformations.validationError =
@@ -88,8 +94,17 @@ sgr.property.currentStudiesInformations.validationError =
 sgr.property.currentStudies.help =
 sgr.property.currentStudies.validationError =
 
-sgr.property.sandwichCoursesLabel.help =
-sgr.property.sandwichCoursesLabel.validationError =
+sgr.property.otherStudiesLabel.help =
+sgr.property.otherStudiesLabel.validationError =
+
+sgr.property.currentStudiesLevel.help =
+sgr.property.currentStudiesLevel.validationError =
+
+sgr.property.sandwichCourses.help =
+sgr.property.sandwichCourses.validationError =
+
+sgr.property.abroadInternship.help =
+sgr.property.abroadInternship.validationError =
 
 sgr.property.abroadInternshipStartDate.help =
 sgr.property.abroadInternshipStartDate.validationError =
@@ -97,32 +112,8 @@ sgr.property.abroadInternshipStartDate.validationError =
 sgr.property.abroadInternshipEndDate.help =
 sgr.property.abroadInternshipEndDate.validationError =
 
-sgr.property.otherStudiesLabel.help =
-sgr.property.otherStudiesLabel.validationError =
-
-sgr.property.futureSchoolName.help =
-sgr.property.futureSchoolName.validationError =
-
-sgr.property.futureSchoolAddress.help =
-sgr.property.futureSchoolAddress.validationError =
-
-sgr.property.futureSchoolPhone.help =
-sgr.property.futureSchoolPhone.validationError =
-
-sgr.property.futureDiplomaName.help =
-sgr.property.futureDiplomaName.validationError =
-
-sgr.property.futureDiplomaLevel.help =
-sgr.property.futureDiplomaLevel.validationError =
-
-sgr.property.futureSchoolIsAbroad.help =
-sgr.property.futureSchoolIsAbroad.validationError =
-
 sgr.property.abroadInternshipSchoolName.help =
 sgr.property.abroadInternshipSchoolName.validationError =
-
-sgr.property.abroadInternshipSchoolAddress.help =
-sgr.property.abroadInternshipSchoolAddress.validationError =
 
 sgr.property.abroadInternshipSchoolCountry.help =
 sgr.property.abroadInternshipSchoolCountry.validationError =
@@ -130,14 +121,8 @@ sgr.property.abroadInternshipSchoolCountry.validationError =
 sgr.property.distance.help =
 sgr.property.distance.validationError =
 
-sgr.property.bankName.help =
-sgr.property.bankName.validationError =
-
 sgr.property.bankCode.help =
 sgr.property.bankCode.validationError =
-
-sgr.property.bankAgency.help =
-sgr.property.bankAgency.validationError =
 
 sgr.property.counterCode.help =
 sgr.property.counterCode.validationError =

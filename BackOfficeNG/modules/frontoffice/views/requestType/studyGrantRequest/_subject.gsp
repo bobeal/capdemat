@@ -16,51 +16,9 @@
     </select>
       
     
-      <label class="required"><g:message code="sgr.property.subjectPhone.label" /> * <span><g:message code="sgr.property.subjectPhone.help" /></span></label>
+      <label class="required"><g:message code="sgr.property.subjectAddress.label" /> * <span><g:message code="sgr.property.subjectAddress.help" /></span></label>
       
-            <input type="text" name="subjectPhone" value="${rqt.subjectPhone}" 
-                    class="required validate-phone" title="<g:message code="sgr.property.subjectPhone.validationError" />"  maxLength="10"/>
-            
-    
-      <label class="required"><g:message code="sgr.property.subjectMobilePhone.label" /> * <span><g:message code="sgr.property.subjectMobilePhone.help" /></span></label>
-      
-            <input type="text" name="subjectMobilePhone" value="${rqt.subjectMobilePhone}" 
-                    class="required validate-phone" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxLength="10"/>
-            
-    
-      <label class="required"><g:message code="sgr.property.subjectEmail.label" /> * <span><g:message code="sgr.property.subjectEmail.help" /></span></label>
-      
-            <input type="text" name="subjectEmail" value="${rqt.subjectEmail}" 
-                    class="required validate-email" title="<g:message code="sgr.property.subjectEmail.validationError" />"  />
-            
-    
-      <label class="required"><g:message code="sgr.property.subjectBirthDate.label" /> * <span><g:message code="sgr.property.subjectBirthDate.help" /></span></label>
-      
-            <input type="text" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
-                   class="required validate-date" title="<g:message code="sgr.property.subjectBirthDate.validationError" />" />
-            
-    
-      <label class="required"><g:message code="sgr.property.subjectBirthPlace.label" /> * <span><g:message code="sgr.property.subjectBirthPlace.help" /></span></label>
-      
-            <input type="text" name="subjectBirthPlace" value="${rqt.subjectBirthPlace}" 
-                    class="required validate-string" title="<g:message code="sgr.property.subjectBirthPlace.validationError" />"  />
-            
-    
-      <label class="required"><g:message code="sgr.property.hasParentsAddress.label" /> * <span><g:message code="sgr.property.hasParentsAddress.help" /></span></label>
-      
-            <ul class="required">
-              <g:each in="${[true,false]}">
-              <li>
-                <input type="radio" class="required condition-livesWithParents-trigger validate-boolean" title="" value="${it}" name="hasParentsAddress" ${it == rqt.hasParentsAddress ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
-              </li>
-              </g:each>
-            </ul>
-            
-    
-      <label class="required condition-livesWithParents-unfilled"><g:message code="sgr.property.subjectAddress.label" /> * <span><g:message code="sgr.property.subjectAddress.help" /></span></label>
-      
-            <div class="address-fieldset required condition-livesWithParents-unfilled">
+            <div class="address-fieldset required">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.subjectAddress?.additionalDeliveryInformation}" maxlength="38" name="subjectAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -76,6 +34,30 @@
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.subjectAddress?.countryName}" maxlength="38" name="subjectAddress.countryName"/>
             </div>
+            
+    
+      <label class=""><g:message code="sgr.property.subjectPhone.label" />  <span><g:message code="sgr.property.subjectPhone.help" /></span></label>
+      
+            <input type="text" name="subjectPhone" value="${rqt.subjectPhone}" 
+                    class=" validate-phone" title="<g:message code="sgr.property.subjectPhone.validationError" />"  maxLength="10"/>
+            
+    
+      <label class=""><g:message code="sgr.property.subjectMobilePhone.label" />  <span><g:message code="sgr.property.subjectMobilePhone.help" /></span></label>
+      
+            <input type="text" name="subjectMobilePhone" value="${rqt.subjectMobilePhone}" 
+                    class=" validate-phone" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxLength="10"/>
+            
+    
+      <label class=""><g:message code="sgr.property.subjectEmail.label" />  <span><g:message code="sgr.property.subjectEmail.help" /></span></label>
+      
+            <input type="text" name="subjectEmail" value="${rqt.subjectEmail}" 
+                    class=" validate-email" title="<g:message code="sgr.property.subjectEmail.validationError" />"  />
+            
+    
+      <label class="required"><g:message code="sgr.property.subjectBirthDate.label" /> * <span><g:message code="sgr.property.subjectBirthDate.help" /></span></label>
+      
+            <input type="text" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
+                   class="required validate-date" title="<g:message code="sgr.property.subjectBirthDate.validationError" />" />
             
     
     </fieldset>

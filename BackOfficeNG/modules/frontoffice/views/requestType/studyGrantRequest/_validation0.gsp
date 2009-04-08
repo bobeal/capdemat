@@ -15,28 +15,6 @@
           
       
       
-      <dt><g:message code="sgr.property.subjectPhone.label" /></dt>
-        <dd>${rqt.subjectPhone}</dd>
-      
-      <dt><g:message code="sgr.property.subjectMobilePhone.label" /></dt>
-        <dd>${rqt.subjectMobilePhone}</dd>
-      
-      <dt><g:message code="sgr.property.subjectEmail.label" /></dt>
-        <dd>${rqt.subjectEmail}</dd>
-      
-      <dt><g:message code="sgr.property.subjectBirthDate.label" /></dt>
-        
-          <dd><g:formatDate formatName="format.date" date="${rqt.subjectBirthDate}"/></dd>
-          
-      
-      <dt><g:message code="sgr.property.subjectBirthPlace.label" /></dt>
-        <dd>${rqt.subjectBirthPlace}</dd>
-      
-      <dt><g:message code="sgr.property.hasParentsAddress.label" /></dt>
-        
-          <dd><g:message code="message.${rqt.hasParentsAddress ? 'yes' : 'no'}" /></dd>
-          
-      
       <dt><g:message code="sgr.property.subjectAddress.label" /></dt>
         
           <g:if test="${rqt.subjectAddress}">
@@ -49,6 +27,20 @@
               <p>${rqt.subjectAddress?.countryName}</p>
             </dd>
           </g:if>
+          
+      
+      <dt><g:message code="sgr.property.subjectPhone.label" /></dt>
+        <dd>${rqt.subjectPhone}</dd>
+      
+      <dt><g:message code="sgr.property.subjectMobilePhone.label" /></dt>
+        <dd>${rqt.subjectMobilePhone}</dd>
+      
+      <dt><g:message code="sgr.property.subjectEmail.label" /></dt>
+        <dd>${rqt.subjectEmail}</dd>
+      
+      <dt><g:message code="sgr.property.subjectBirthDate.label" /></dt>
+        
+          <dd><g:formatDate formatName="format.date" date="${rqt.subjectBirthDate}"/></dd>
           
       
     </dl>
@@ -75,26 +67,15 @@
   
     
       <dl>
-      <dt><g:message code="sgr.property.taxHouseholdAddress.label" /></dt>
-      
-          <g:if test="${rqt.taxHouseholdAddress}">
-            <dd>
-              <p>${rqt.taxHouseholdAddress?.additionalDeliveryInformation}</p>
-              <p>${rqt.taxHouseholdAddress?.additionalGeographicalInformation}</p>
-              <p>${rqt.taxHouseholdAddress?.streetNumber} ${rqt.taxHouseholdAddress?.streetName}</p>
-              <p>${rqt.taxHouseholdAddress?.placeNameOrService}</p>
-              <p>${rqt.taxHouseholdAddress?.postalCode} ${rqt.taxHouseholdAddress?.city}</p>
-              <p>${rqt.taxHouseholdAddress?.countryName}</p>
-            </dd>
-          </g:if>
-          
+      <dt><g:message code="sgr.property.taxHouseholdPostalCode.label" /></dt>
+      <dd>${rqt.taxHouseholdPostalCode}</dd>
       </dl>
     
   
     
       <dl>
-      <dt><g:message code="sgr.property.taxHouseholdPhone.label" /></dt>
-      <dd>${rqt.taxHouseholdPhone}</dd>
+      <dt><g:message code="sgr.property.taxHouseholdCity.label" /></dt>
+      <dd>${rqt.taxHouseholdCity}</dd>
       </dl>
     
   
@@ -121,17 +102,28 @@
   
     
       <dl>
-      <dt><g:message code="sgr.property.hasOtherHelp.label" /></dt>
+      <dt><g:message code="sgr.property.hasRegionalCouncilHelp.label" /></dt>
       
-          <dd><g:message code="message.${rqt.hasOtherHelp ? 'yes' : 'no'}" /></dd>
+          <dd><g:message code="message.${rqt.hasRegionalCouncilHelp ? 'yes' : 'no'}" /></dd>
           
       </dl>
     
   
     
       <dl>
-      <dt><g:message code="sgr.property.otherHelpInformations.label" /></dt>
-      <dd>${rqt.otherHelpInformations}</dd>
+      <dt><g:message code="sgr.property.hasEuropeHelp.label" /></dt>
+      
+          <dd><g:message code="message.${rqt.hasEuropeHelp ? 'yes' : 'no'}" /></dd>
+          
+      </dl>
+    
+  
+    
+      <dl>
+      <dt><g:message code="sgr.property.hasOtherHelp.label" /></dt>
+      
+          <dd><g:message code="message.${rqt.hasOtherHelp ? 'yes' : 'no'}" /></dd>
+          
       </dl>
     
   
@@ -145,16 +137,43 @@
     <dl>
       
       
-      <dt><g:message code="sgr.property.isInLastYear.label" /></dt>
+      <dt><g:message code="sgr.property.aLevelsDate.label" /></dt>
+        <dd>${rqt.aLevelsDate}</dd>
+      
+      <dt><g:message code="sgr.property.aLevels.label" /></dt>
         
-          <dd><g:message code="message.${rqt.isInLastYear ? 'yes' : 'no'}" /></dd>
+          <dd>
+            <g:if test="${rqt.aLevels}">
+              <g:capdematEnumToField var="${rqt.aLevels}" i18nKeyPrefix="sgr.property.aLevels" />
+            </g:if>
+          </dd>
           
       
-      <dt><g:message code="sgr.property.lastYearDate.label" /></dt>
-        <dd>${rqt.lastYearDate}</dd>
+    </dl>
+    
+  
+    
+    <h4><g:message code="sgr.property.currentSchool.label" /></h4>
+    <dl>
       
-      <dt><g:message code="sgr.property.lastYearType.label" /></dt>
-        <dd>${rqt.lastYearType}</dd>
+      
+      <dt><g:message code="sgr.property.currentSchoolName.label" /></dt>
+        <dd>${rqt.currentSchoolName}</dd>
+      
+      <dt><g:message code="sgr.property.currentSchoolPostalCode.label" /></dt>
+        <dd>${rqt.currentSchoolPostalCode}</dd>
+      
+      <dt><g:message code="sgr.property.currentSchoolCity.label" /></dt>
+        <dd>${rqt.currentSchoolCity}</dd>
+      
+      <dt><g:message code="sgr.property.currentSchoolCountry.label" /></dt>
+        
+          <dd>
+            <g:if test="${rqt.currentSchoolCountry}">
+              <g:capdematEnumToField var="${rqt.currentSchoolCountry}" i18nKeyPrefix="sgr.property.currentSchoolCountry" />
+            </g:if>
+          </dd>
+          
       
     </dl>
     
@@ -173,8 +192,27 @@
           </dd>
           
       
-      <dt><g:message code="sgr.property.sandwichCoursesLabel.label" /></dt>
-        <dd>${rqt.sandwichCoursesLabel}</dd>
+      <dt><g:message code="sgr.property.otherStudiesLabel.label" /></dt>
+        <dd>${rqt.otherStudiesLabel}</dd>
+      
+      <dt><g:message code="sgr.property.currentStudiesLevel.label" /></dt>
+        
+          <dd>
+            <g:if test="${rqt.currentStudiesLevel}">
+              <g:capdematEnumToField var="${rqt.currentStudiesLevel}" i18nKeyPrefix="sgr.property.currentStudiesLevel" />
+            </g:if>
+          </dd>
+          
+      
+      <dt><g:message code="sgr.property.sandwichCourses.label" /></dt>
+        
+          <dd><g:message code="message.${rqt.sandwichCourses ? 'yes' : 'no'}" /></dd>
+          
+      
+      <dt><g:message code="sgr.property.abroadInternship.label" /></dt>
+        
+          <dd><g:message code="message.${rqt.abroadInternship ? 'yes' : 'no'}" /></dd>
+          
       
       <dt><g:message code="sgr.property.abroadInternshipStartDate.label" /></dt>
         
@@ -186,97 +224,19 @@
           <dd><g:formatDate formatName="format.date" date="${rqt.abroadInternshipEndDate}"/></dd>
           
       
-      <dt><g:message code="sgr.property.otherStudiesLabel.label" /></dt>
-        <dd>${rqt.otherStudiesLabel}</dd>
-      
-    </dl>
-    
-  
-
-  
-  <h3><g:message code="sgr.step.futureSchool.label" /></h3>
-  
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.futureSchoolName.label" /></dt>
-      <dd>${rqt.futureSchoolName}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.futureSchoolAddress.label" /></dt>
-      
-          <g:if test="${rqt.futureSchoolAddress}">
-            <dd>
-              <p>${rqt.futureSchoolAddress?.additionalDeliveryInformation}</p>
-              <p>${rqt.futureSchoolAddress?.additionalGeographicalInformation}</p>
-              <p>${rqt.futureSchoolAddress?.streetNumber} ${rqt.futureSchoolAddress?.streetName}</p>
-              <p>${rqt.futureSchoolAddress?.placeNameOrService}</p>
-              <p>${rqt.futureSchoolAddress?.postalCode} ${rqt.futureSchoolAddress?.city}</p>
-              <p>${rqt.futureSchoolAddress?.countryName}</p>
-            </dd>
-          </g:if>
-          
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.futureSchoolPhone.label" /></dt>
-      <dd>${rqt.futureSchoolPhone}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.futureDiplomaName.label" /></dt>
-      <dd>${rqt.futureDiplomaName}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.futureDiplomaLevel.label" /></dt>
-      <dd>${rqt.futureDiplomaLevel}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.futureSchoolIsAbroad.label" /></dt>
-      
-          <dd><g:message code="message.${rqt.futureSchoolIsAbroad ? 'yes' : 'no'}" /></dd>
-          
-      </dl>
-    
-  
-    
-      <dl>
       <dt><g:message code="sgr.property.abroadInternshipSchoolName.label" /></dt>
-      <dd>${rqt.abroadInternshipSchoolName}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.abroadInternshipSchoolAddress.label" /></dt>
-      <dd>${rqt.abroadInternshipSchoolAddress}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.abroadInternshipSchoolCountry.label" /></dt>
+        <dd>${rqt.abroadInternshipSchoolName}</dd>
       
+      <dt><g:message code="sgr.property.abroadInternshipSchoolCountry.label" /></dt>
+        
           <dd>
             <g:if test="${rqt.abroadInternshipSchoolCountry}">
               <g:capdematEnumToField var="${rqt.abroadInternshipSchoolCountry}" i18nKeyPrefix="sgr.property.abroadInternshipSchoolCountry" />
             </g:if>
           </dd>
           
-      </dl>
+      
+    </dl>
     
   
 
@@ -304,22 +264,8 @@
   
     
       <dl>
-      <dt><g:message code="sgr.property.bankName.label" /></dt>
-      <dd>${rqt.bankName}</dd>
-      </dl>
-    
-  
-    
-      <dl>
       <dt><g:message code="sgr.property.bankCode.label" /></dt>
       <dd>${rqt.bankCode}</dd>
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="sgr.property.bankAgency.label" /></dt>
-      <dd>${rqt.bankAgency}</dd>
       </dl>
     
   

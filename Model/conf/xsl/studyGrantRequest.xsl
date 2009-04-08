@@ -42,7 +42,7 @@
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
-                <fo:block xsl:use-attribute-sets="request.section.header">Sujet</fo:block>
+                <fo:block xsl:use-attribute-sets="request.section.header">État civil de l'étudiant</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -54,7 +54,8 @@
                   <xsl:variable name="withTotal" select="'false'" />
 
     <xsl:for-each select="//sgr:SubjetInformations">
-                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                                                        <xsl:apply-templates select="./sgr:SubjectAddress"/>
+                                                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
   <fo:table-column column-width="proportional-column-width(200)" />
   <fo:table-column column-width="proportional-column-width(100)" />
@@ -162,75 +163,7 @@
     </fo:table-row>
   </fo:table-body>
 </fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Lieu de naissance
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./sgr:SubjectBirthPlace and ./sgr:SubjectBirthPlace != ''">
-                  <xsl:value-of select="./sgr:SubjectBirthPlace" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
-                                                                            
-    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-    <fo:table-column column-width="proportional-column-width(2 * 1)" />
-    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-    <fo:table-column column-width="30pt" />
-    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-    <fo:table-column column-width="30pt" />
-    <fo:table-column column-width="proportional-column-width(4)" />
-
-    <fo:table-body>
-      <fo:table-row>
-        <fo:table-cell>
-          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-  Réside au foyer familial
-          </fo:block>
-        </fo:table-cell>
-        <fo:table-cell>
-          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-           <xsl:if test="./sgr:HasParentsAddress = &quot;true&quot;">X</xsl:if>
-           <xsl:if test="./sgr:HasParentsAddress = &quot;false&quot;">&#160;</xsl:if>
-         </fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-           <xsl:if test="./sgr:HasParentsAddress = &quot;false&quot;">X</xsl:if>
-           <xsl:if test="./sgr:HasParentsAddress = &quot;true&quot;">&#160;</xsl:if>
-         </fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block>&#160;</fo:block>
-       </fo:table-cell>
-     </fo:table-row>
-   </fo:table-body>
-</fo:table>
-                                                                <xsl:apply-templates select="./sgr:SubjectAddress"/>
-                      <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
         <fo:block>
           <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
           <fo:leader leader-pattern="space" />
@@ -243,7 +176,7 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Foyer fiscal</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Foyer fiscal de référence</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -295,26 +228,23 @@
 
     
           
-                    	    <xsl:apply-templates select="//sgr:TaxHouseholdAddress"/>
-      
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
                         <fo:table-column column-width="proportional-column-width(100)" />
           <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
+                                <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(100)" />
+                    	      <fo:table-body>
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Téléphone*
+		      Code postal*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//sgr:TaxHouseholdPhone and //sgr:TaxHouseholdPhone != ''">
-                                    <xsl:value-of select="//sgr:TaxHouseholdPhone" />
+                        <xsl:when test="//sgr:TaxHouseholdPostalCode and //sgr:TaxHouseholdPostalCode != ''">
+                                    <xsl:value-of select="//sgr:TaxHouseholdPostalCode" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -322,10 +252,24 @@
                       </xsl:choose>
         		    </fo:block>
 		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
+      	                        		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Ville*
+		    </fo:block>
 		  </fo:table-cell>
-      		</fo:table-row>
+		  <fo:table-cell>
+        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+                                      <xsl:choose>
+                        <xsl:when test="//sgr:TaxHouseholdCity and //sgr:TaxHouseholdCity != ''">
+                                    <xsl:value-of select="//sgr:TaxHouseholdCity" />
+                                  </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>&#160;</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+        		    </fo:block>
+		  </fo:table-cell>
+            		</fo:table-row>
 	      </fo:table-body>
 	    </fo:table>
 
@@ -367,7 +311,7 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Autres aides</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Autres aides obtenues</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -426,7 +370,91 @@
 		<fo:table-row>
 		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Autres (Conseil Régional, Établissement ...)*
+		      Conseil Régional*
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//sgr:HasRegionalCouncilHelp = &quot;true&quot;">X</xsl:if>
+		      <xsl:if test="//sgr:HasRegionalCouncilHelp = &quot;false&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//sgr:HasRegionalCouncilHelp = &quot;false&quot;">X</xsl:if>
+		      <xsl:if test="//sgr:HasRegionalCouncilHelp = &quot;true&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+      		  <fo:table-cell>
+		    <fo:block>&#160;</fo:block>
+		  </fo:table-cell>
+      		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
+
+    
+          
+                                
+      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+      	      <fo:table-column column-width="proportional-column-width(4)" />
+      	      <fo:table-body>
+		<fo:table-row>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Europe*
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//sgr:HasEuropeHelp = &quot;true&quot;">X</xsl:if>
+		      <xsl:if test="//sgr:HasEuropeHelp = &quot;false&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//sgr:HasEuropeHelp = &quot;false&quot;">X</xsl:if>
+		      <xsl:if test="//sgr:HasEuropeHelp = &quot;true&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+      		  <fo:table-cell>
+		    <fo:block>&#160;</fo:block>
+		  </fo:table-cell>
+      		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
+
+    
+          
+                                
+      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+      	      <fo:table-column column-width="proportional-column-width(4)" />
+      	      <fo:table-body>
+		<fo:table-row>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Autres (Établissement ...)*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -455,44 +483,12 @@
 	    </fo:table>
 
     
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      À préciser
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:OtherHelpInformations and //sgr:OtherHelpInformations != ''">
-                                    <xsl:value-of select="//sgr:OtherHelpInformations" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
       
               <fo:block>
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Études en cours</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Établissement scolaire d'inscription</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -500,47 +496,7 @@
                   <xsl:variable name="withTotal" select="'false'" />
 
     <xsl:for-each select="//sgr:ALevelsInformations">
-                                                                    
-    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-    <fo:table-column column-width="proportional-column-width(2 * 1)" />
-    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-    <fo:table-column column-width="30pt" />
-    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-    <fo:table-column column-width="30pt" />
-    <fo:table-column column-width="proportional-column-width(4)" />
-
-    <fo:table-body>
-      <fo:table-row>
-        <fo:table-cell>
-          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-  Actuellement en Terminale
-          </fo:block>
-        </fo:table-cell>
-        <fo:table-cell>
-          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-           <xsl:if test="./sgr:IsInLastYear = &quot;true&quot;">X</xsl:if>
-           <xsl:if test="./sgr:IsInLastYear = &quot;false&quot;">&#160;</xsl:if>
-         </fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-           <xsl:if test="./sgr:IsInLastYear = &quot;false&quot;">X</xsl:if>
-           <xsl:if test="./sgr:IsInLastYear = &quot;true&quot;">&#160;</xsl:if>
-         </fo:block>
-       </fo:table-cell>
-       <fo:table-cell>
-         <fo:block>&#160;</fo:block>
-       </fo:table-cell>
-     </fo:table-row>
-   </fo:table-body>
-</fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
   <fo:table-column column-width="proportional-column-width(200)" />
   <fo:table-column column-width="proportional-column-width(100)" />
@@ -555,8 +511,8 @@
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./sgr:LastYearDate and ./sgr:LastYearDate != ''">
-                  <xsl:value-of select="./sgr:LastYearDate" />
+            <xsl:when test="./sgr:ALevelsDate and ./sgr:ALevelsDate != ''">
+                  <xsl:value-of select="./sgr:ALevelsDate" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -582,8 +538,128 @@
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./sgr:LastYearType and ./sgr:LastYearType != ''">
-                  <xsl:value-of select="./sgr:LastYearType" />
+            <xsl:when test="./sgr:ALevels and ./sgr:ALevels != ''">
+                  <xsl:value-of select="./sgr:ALevels" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
+    
+          
+                  <xsl:variable name="withTotal" select="'false'" />
+
+    <xsl:for-each select="//sgr:CurrentSchool">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom de l'établissement
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./sgr:CurrentSchoolName and ./sgr:CurrentSchoolName != ''">
+                  <xsl:value-of select="./sgr:CurrentSchoolName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Code postal
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./sgr:CurrentSchoolPostalCode and ./sgr:CurrentSchoolPostalCode != ''">
+                  <xsl:value-of select="./sgr:CurrentSchoolPostalCode" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Ville
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./sgr:CurrentSchoolCity and ./sgr:CurrentSchoolCity != ''">
+                  <xsl:value-of select="./sgr:CurrentSchoolCity" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Pays
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./sgr:CurrentSchoolCountry and ./sgr:CurrentSchoolCountry != ''">
+                  <xsl:value-of select="./sgr:CurrentSchoolCountry" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -615,7 +691,7 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Études en cours
+	Diplôme préparé
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
@@ -641,17 +717,7 @@
       </xsl:if>
     </xsl:for-each>
     
-      
-              <fo:block>
-              <fo:leader leader-pattern="space" />
-            </fo:block>
-  
-                <xsl:if test="//sgr:CurrentStudies/text() = 'sandwichCourses'">
-                <fo:block xsl:use-attribute-sets="request.section.header">Précisions</fo:block>
-	    <fo:block>
-	      <fo:leader leader-pattern="space" />
-	    </fo:block>
-        
+          
                               <fo:table xsl:use-attribute-sets="request.field.inline.table">
                         <fo:table-column column-width="proportional-column-width(100)" />
           <fo:table-column column-width="proportional-column-width(100)" />
@@ -660,57 +726,14 @@
 		<fo:table-row>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Études en alternance
+		      Niveau
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//sgr:SandwichCoursesLabel and //sgr:SandwichCoursesLabel != ''">
-                                    <xsl:value-of select="//sgr:SandwichCoursesLabel" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-      
-              <fo:block>
-              <fo:leader leader-pattern="space" />
-            </fo:block>
-  
-              </xsl:if>
-                <xsl:if test="//sgr:CurrentStudies/text() = 'abroadInternship'">
-                <fo:block xsl:use-attribute-sets="request.section.header">Précisions</fo:block>
-	    <fo:block>
-	      <fo:leader leader-pattern="space" />
-	    </fo:block>
-        
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Date de début
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:AbroadInternshipStartDate and //sgr:AbroadInternshipStartDate != ''">
-                                    <xsl:value-of select="//sgr:AbroadInternshipStartDate" />
+                        <xsl:when test="//sgr:CurrentStudiesLevel and //sgr:CurrentStudiesLevel != ''">
+                                    <xsl:value-of select="//sgr:CurrentStudiesLevel" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -735,14 +758,46 @@
 		<fo:table-row>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Date de fin
+		      Études en alternance
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//sgr:AbroadInternshipEndDate and //sgr:AbroadInternshipEndDate != ''">
-                                    <xsl:value-of select="//sgr:AbroadInternshipEndDate" />
+                        <xsl:when test="//sgr:SandwichCourses and //sgr:SandwichCourses != ''">
+                                    <xsl:value-of select="//sgr:SandwichCourses" />
+                                  </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>&#160;</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+        		    </fo:block>
+		  </fo:table-cell>
+            		  <fo:table-cell>
+		    <fo:block>&#160;</fo:block>
+		  </fo:table-cell>
+      		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
+
+    
+          
+                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                        <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(100)" />
+                    	      <fo:table-column column-width="proportional-column-width(200)" />
+      	      <fo:table-body>
+		<fo:table-row>
+      	                    		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Stage à l'étranger
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+                                      <xsl:choose>
+                        <xsl:when test="//sgr:AbroadInternship and //sgr:AbroadInternship != ''">
+                                    <xsl:value-of select="//sgr:AbroadInternship" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -763,9 +818,8 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-              </xsl:if>
                 <xsl:if test="//sgr:CurrentStudies/text() = 'otherStudies'">
-                <fo:block xsl:use-attribute-sets="request.section.header">Précisions</fo:block>
+                <fo:block xsl:use-attribute-sets="request.section.header">Précisions sur le diplôme préparé</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -807,79 +861,12 @@
             </fo:block>
   
               </xsl:if>
-                  <fo:block xsl:use-attribute-sets="request.section.header">Études futures</fo:block>
+                <xsl:if test="//sgr:AbroadInternship">
+                <fo:block xsl:use-attribute-sets="request.section.header">Renseignements sur le stage à l'étranger</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom de l'établissement*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:FutureSchoolName and //sgr:FutureSchoolName != ''">
-                                    <xsl:value-of select="//sgr:FutureSchoolName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                    	    <xsl:apply-templates select="//sgr:FutureSchoolAddress"/>
-      
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Téléphone de l'établissement*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:FutureSchoolPhone and //sgr:FutureSchoolPhone != ''">
-                                    <xsl:value-of select="//sgr:FutureSchoolPhone" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
                                     <fo:table xsl:use-attribute-sets="request.field.inline.table">
                         <fo:table-column column-width="proportional-column-width(100)" />
           <fo:table-column column-width="proportional-column-width(100)" />
@@ -887,16 +874,16 @@
           <fo:table-column column-width="proportional-column-width(100)" />
                     	      <fo:table-body>
 		<fo:table-row>
-      	                        		  <fo:table-cell>
+      	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Diplôme préparé*
+		      Date de début
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//sgr:FutureDiplomaName and //sgr:FutureDiplomaName != ''">
-                                    <xsl:value-of select="//sgr:FutureDiplomaName" />
+                        <xsl:when test="//sgr:AbroadInternshipStartDate and //sgr:AbroadInternshipStartDate != ''">
+                                    <xsl:value-of select="//sgr:AbroadInternshipStartDate" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -904,16 +891,16 @@
                       </xsl:choose>
         		    </fo:block>
 		  </fo:table-cell>
-      	                        		  <fo:table-cell>
+      	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Niveau (1ère, 2ème année)*
+		      Date de fin
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//sgr:FutureDiplomaLevel and //sgr:FutureDiplomaLevel != ''">
-                                    <xsl:value-of select="//sgr:FutureDiplomaLevel" />
+                        <xsl:when test="//sgr:AbroadInternshipEndDate and //sgr:AbroadInternshipEndDate != ''">
+                                    <xsl:value-of select="//sgr:AbroadInternshipEndDate" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -927,53 +914,12 @@
 
     
           
-                                
-      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
-	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-	      <fo:table-column column-width="30pt" />
-	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-	      <fo:table-column column-width="30pt" />
-      	      <fo:table-column column-width="proportional-column-width(4)" />
-      	      <fo:table-body>
-		<fo:table-row>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Stage à l'étranger*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//sgr:FutureSchoolIsAbroad = &quot;true&quot;">X</xsl:if>
-		      <xsl:if test="//sgr:FutureSchoolIsAbroad = &quot;false&quot;">&#160;</xsl:if>
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//sgr:FutureSchoolIsAbroad = &quot;false&quot;">X</xsl:if>
-		      <xsl:if test="//sgr:FutureSchoolIsAbroad = &quot;true&quot;">&#160;</xsl:if>
-		    </fo:block>
-		  </fo:table-cell>
-      		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
                         <fo:table-column column-width="proportional-column-width(100)" />
           <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
+                                <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(100)" />
+                    	      <fo:table-body>
 		<fo:table-row>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
@@ -992,56 +938,9 @@
                       </xsl:choose>
         		    </fo:block>
 		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Adresse complète
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:AbroadInternshipSchoolAddress and //sgr:AbroadInternshipSchoolAddress != ''">
-                                    <xsl:value-of select="//sgr:AbroadInternshipSchoolAddress" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Pays*
+		      Pays
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -1056,10 +955,7 @@
                       </xsl:choose>
         		    </fo:block>
 		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
+            		</fo:table-row>
 	      </fo:table-body>
 	    </fo:table>
 
@@ -1069,7 +965,8 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Éléments de calcul</fo:block>
+              </xsl:if>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Éléments de calcul de la bourse</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -1110,7 +1007,7 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Coordonnées bancaires</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Références bancaires de l'étudiant</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -1124,23 +1021,6 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Banque*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:BankName and //sgr:BankName != ''">
-                                    <xsl:value-of select="//sgr:BankName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
 		      Code banque*
 		    </fo:block>
 		  </fo:table-cell>
@@ -1149,36 +1029,6 @@
                                       <xsl:choose>
                         <xsl:when test="//sgr:BankCode and //sgr:BankCode != ''">
                                     <xsl:value-of select="//sgr:BankCode" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Agence*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:BankAgency and //sgr:BankAgency != ''">
-                                    <xsl:value-of select="//sgr:BankAgency" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -1281,19 +1131,9 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                                                                                      <xsl:template match="//sgr:SubjetInformations/sgr:SubjectAddress">
+                                                  <xsl:template match="//sgr:SubjetInformations/sgr:SubjectAddress">
               <xsl:call-template name="AddressType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                        <xsl:template match="//sgr:TaxHouseholdAddress">
-          <xsl:call-template name="AddressType">
-      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
-    </xsl:call-template>
-  </xsl:template>
-                                                                                                                                                                                  <xsl:template match="//sgr:FutureSchoolAddress">
-          <xsl:call-template name="AddressType">
-      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
-    </xsl:call-template>
-  </xsl:template>
-                                                                      </xsl:stylesheet>
+                                                                                                                                                                                                                                                                                                                                            </xsl:stylesheet>

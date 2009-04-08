@@ -12,9 +12,9 @@ public final class DistanceType extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
 
-    public static final DistanceType LESS_THAN30KM = new DistanceType("lessThan30km");
-    public static final DistanceType BETWEEN30AND250KM = new DistanceType("between30and250km");
-    public static final DistanceType MORE_THAN250KM_AND_ABROAD = new DistanceType("moreThan250kmAndAbroad");
+    public static final DistanceType LESS_THAN30KMS = new DistanceType("lessThan30kms");
+    public static final DistanceType BETWEEN30AND250KMS = new DistanceType("between30and250kms");
+    public static final DistanceType MORE_THAN250KMS_AND_ABROAD = new DistanceType("moreThan250kmsAndAbroad");
 
 
     /**
@@ -30,9 +30,9 @@ public final class DistanceType extends PersistentStringEnum {
 
 
     public static DistanceType[] allDistanceTypes = {
-        LESS_THAN30KM,
-        BETWEEN30AND250KM,
-        MORE_THAN250KM_AND_ABROAD
+        LESS_THAN30KMS,
+        BETWEEN30AND250KMS,
+        MORE_THAN250KMS_AND_ABROAD
     };
 
 
@@ -45,12 +45,12 @@ public final class DistanceType extends PersistentStringEnum {
         if (enumAsString == null || enumAsString.equals(""))
             return getDefaultDistanceType();
 
-        if (enumAsString.equals(LESS_THAN30KM.toString()))
-            return LESS_THAN30KM;
-        else if (enumAsString.equals(BETWEEN30AND250KM.toString()))
-            return BETWEEN30AND250KM;
-        else if (enumAsString.equals(MORE_THAN250KM_AND_ABROAD.toString()))
-            return MORE_THAN250KM_AND_ABROAD;
+        if (enumAsString.equals(LESS_THAN30KMS.toString()))
+            return LESS_THAN30KMS;
+        else if (enumAsString.equals(BETWEEN30AND250KMS.toString()))
+            return BETWEEN30AND250KMS;
+        else if (enumAsString.equals(MORE_THAN250KMS_AND_ABROAD.toString()))
+            return MORE_THAN250KMS_AND_ABROAD;
 
         return getDefaultDistanceType();
     }

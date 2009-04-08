@@ -4,26 +4,10 @@
 
 
   
-    <label class="required"><g:message code="sgr.property.bankName.label" /> *  <span><g:message code="sgr.property.bankName.help" /></span></label>
-    
-            <input type="text" name="bankName" value="${rqt.bankName}" 
-                    class="required validate-string" title="<g:message code="sgr.property.bankName.validationError" />"  />
-            
-  
-
-  
     <label class="required"><g:message code="sgr.property.bankCode.label" /> *  <span><g:message code="sgr.property.bankCode.help" /></span></label>
     
             <input type="text" name="bankCode" value="${rqt.bankCode}" 
                     class="required validate-regex" title="<g:message code="sgr.property.bankCode.validationError" />" regex="^\d{1,5}$" maxLength="5"/>
-            
-  
-
-  
-    <label class="required"><g:message code="sgr.property.bankAgency.label" /> *  <span><g:message code="sgr.property.bankAgency.help" /></span></label>
-    
-            <input type="text" name="bankAgency" value="${rqt.bankAgency}" 
-                    class="required validate-string" title="<g:message code="sgr.property.bankAgency.validationError" />"  />
             
   
 

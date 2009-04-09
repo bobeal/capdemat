@@ -158,7 +158,7 @@ strong { font-weight: bold; }
   border: 0; border-top: 3px solid #c690bb;
   font-size: 1.1em; font-weight: normal;
 }
-
+.login-box form input.hidden { display:none; }
 .login-box form input[type="submit"] {
   width: auto;
   margin-top: .5em;

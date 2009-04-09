@@ -57,8 +57,18 @@ class RequestCreationController {
     }
     
     def edit = {
-        if (params.label == null)
+        if (params.label == null) {
             redirect(uri: '/frontoffice/requestType')
+            return false
+        }
+        if (SecurityContext.currentEcitizen == null)
+          flash.isOutOfAccountRequest = true
+                
+//        if (params.isOutOfAccountRequest == null && SecurityContext.currentEcitizen == null) {
+//            flash.requestLabel = params.label
+//            redirect(uri: '/frontoffice/home/login')
+//            return false
+//        }
 
         def requestService = requestServiceRegistry.getRequestService(params.label)
         if (requestService == null) {

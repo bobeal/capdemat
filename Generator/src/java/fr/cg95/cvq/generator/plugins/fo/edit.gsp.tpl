@@ -12,6 +12,9 @@
       }
     </g:set>
     <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
+    <g:if test="\${flash.isOutOfAccountRequest}">
+      <g:render template="/frontofficeRequestType/loginPanel" />
+    </g:if>
     <g:render template="/frontofficeRequestType/draftPanel" />
     <g:render template="/frontofficeRequestType/cancelPanel" />
     <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" />

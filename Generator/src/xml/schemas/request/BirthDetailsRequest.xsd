@@ -47,6 +47,21 @@
             <step index="4" ref="validation" />
           </steps>
         </common>
+        <xslfo>
+          <blocks-def>
+            <block id="0" label="Renseignements concernant l'acte de naissance" column="3" />
+            <block id="1" label="Renseignements concernant le demandeur" column="2" />
+            <block id="2"
+              label="Qualité du demandeur (lien de parenté avec la personne dont vous demandez l'acte)" />
+            <block id="3" label="Etat civil de la personne dont vous demandez l'acte de naissance"
+              column="2" />
+            <block id="4" label="Informations de filiation de la personne dont vous demandez l'acte"
+              displayCondition="//bdr:Format/text() = 'ExtractWithRelationship' or //bdr:Format/text() = 'FullCopy'" />
+          </blocks-def>
+          <element blockId="1" line="0" column="0" link="Requester">
+            <complexTemplate />
+          </element>
+        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -67,6 +82,11 @@
                     <select />
                   </fo>
                   <bo column="1" />
+                  <xslfo>
+                    <element blockId="2" line="0" column="0" usePrefixLabel="false">
+                      <varargCheckbox displayModulo="2"/>
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -88,6 +108,12 @@
                   </common>
                   <fo />
                   <bo column="1" />
+                  <xslfo>
+                    <element blockId="2" line="1" column="0"
+                      prefixLabel="Précisez (votre lien si autre, votre qualité (art. 197-5 de l'IGREC) si avocat ou notaire)">
+                      <string valueWeight="3"/>
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -103,6 +129,11 @@
                   </common>
                   <fo />
                   <bo column="2" />
+                  <xslfo>
+                    <element blockId="3" line="0" column="0" columnSpan="2">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -141,6 +172,11 @@
                   </common>
                   <fo />
                   <bo column="2" />
+                  <xslfo>
+                    <element blockId="3" line="2" column="0" columnSpan="2">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -159,6 +195,11 @@
                   </common>
                   <fo />
                   <bo column="2" />
+                  <xslfo>
+                    <element blockId="3" line="3" column="0">
+                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -177,6 +218,11 @@
                   </common>
                   <fo />
                   <bo column="2" />
+                  <xslfo>
+                    <element blockId="3" line="4" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -195,11 +241,16 @@
                   </common>
                   <fo />
                   <bo column="2" />
+                  <xslfo>
+                    <element blockId="3" line="4" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="Format" type="bdr:BirthCertificateFormatType">
+            <xs:element name="Format" type="bdr:BirthCertificateFormatType" default="FullCopy">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
@@ -212,6 +263,11 @@
                     <radio />
                   </fo>
                   <bo column="1" />
+                  <xslfo>
+                    <element blockId="0" line="1" column="0">
+                      <varargCheckbox displayModulo="4" />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -235,6 +291,11 @@
                     <label />
                   </fo>
                   <bo column="1" />
+                  <xslfo>
+                    <element blockId="4" line="1" column="0">
+                      <localComplexElement />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -258,6 +319,11 @@
                     <label />
                   </fo>
                   <bo column="1" />
+                  <xslfo>
+                    <element blockId="4" line="3" column="0">
+                      <localComplexElement />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -276,6 +342,11 @@
                   </common>
                   <fo />
                   <bo column="2" />
+                  <xslfo>
+                    <element blockId="0" line="2" column="0" columnSpan="1" useLongDesc="true">
+                      <string restrictToChar="true" />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -290,6 +361,11 @@
                     <select />
                   </fo>
                   <bo column="2" />
+                  <xslfo>
+                    <element blockId="0" line="3" column="0">
+                      <varargCheckbox displayModulo="5" />
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -310,6 +386,11 @@
                     <textarea rows="3" />
                   </fo>
                   <bo column="2" />
+                  <xslfo>
+                    <element blockId="0" line="2" column="1" columnSpan="2" useLongDesc="true">
+                      <string valueWeight="3"/>
+                    </element>
+                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -429,6 +510,11 @@
             </common>
             <fo />
             <bo />
+            <xslfo>
+              <element blockId="4" line="1" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -443,6 +529,11 @@
             </common>
             <fo />
             <bo />
+            <xslfo>
+              <element blockId="4" line="2" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -462,6 +553,11 @@
             </common>
             <fo />
             <bo />
+            <xslfo>
+              <element blockId="4" line="3" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -476,6 +572,11 @@
             </common>
             <fo />
             <bo />
+            <xslfo>
+              <element blockId="4" line="4" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

@@ -32,6 +32,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
 
     public BirthDetailsRequest() {
         super();
+        format = fr.cg95.cvq.business.request.civil.BirthCertificateFormatType.FULL_COPY;
     }
 
 

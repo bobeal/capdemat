@@ -263,7 +263,8 @@ class RequestCreationController {
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
                     
-                    if (SecurityContext.currentEcitizen == null) requestService.create(cRequest, requester, null)
+                    if (SecurityContext.currentEcitizen == null)
+                        requestService.create(cRequest, requester, null)
                     else if (!cRequest.draft) requestService.create(cRequest)
                     else requestService.finalizeDraft(cRequest)
                     
@@ -337,7 +338,8 @@ class RequestCreationController {
         render( view: "frontofficeRequestType/exit",
                 model:
                     ['requestTypeLabel': translationService.getEncodedRequestTypeLabelTranslation(cRequest.requestType.label),
-                     'rqt': cRequest
+                     'rqt': cRequest,
+                     'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                     ])
     }
     

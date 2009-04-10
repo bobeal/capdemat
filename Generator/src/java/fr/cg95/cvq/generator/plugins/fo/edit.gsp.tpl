@@ -105,13 +105,6 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="\${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="\${uuidString}" />
   <% if (step.name == 'validation') { %>
-           <div id="useAcceptance">
-             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
-                    title="\${message(code:'request.error.useAcceptanceRequired')}" />
-             <a href="\${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
-               <g:message code="request.step.validation.useAcceptance"/>
-             </a>
-           </div>
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.send')}" \${!isRequestCreatable ? 'disabled=\"disabled\"': ''}/>
            <g:if test="\${!isRequestCreatable}">
              <div><strong><g:message code="request.step.validation.requiredSteps"/></strong></div>

@@ -31,6 +31,7 @@ class RequestCreationController {
     def documentAdaptorService
     def requestTypeAdaptorService
     def translationService
+    def jcaptchaService
     
     def defaultAction = 'edit'
     
@@ -269,6 +270,7 @@ class RequestCreationController {
                 }
                 
                 if (currentStep == 'validation') {
+                    checkCaptcha (params);
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
@@ -395,10 +397,28 @@ class RequestCreationController {
     def bindRequester(requester, params) {
         params.each { param ->
             if (param.value.getClass() == GrailsParameterMap.class && param.key == '_requester') {
+                checkRequesterPassword(param.value)
                 DataBindingUtils.initBind(requester, param.value)
                 bindParam (requester, param.value)
             }
         }
+    }
+    
+    def checkRequesterPassword (params) {
+        flash._activeHomeFolder = params._activeHomeFolder ? true : false
+        
+        if (params.password.length() < 8)
+            throw new CvqException(message(code:"request.step.validation.error.tooShortPassword"))
+        if (params.password != null && params.password != params.confirmPassword)
+            throw new CvqException(message(code:"request.step.validation.error.password"))
+    }
+    
+    def checkCaptcha (params) {
+        flash._activeHomeFolder = params._activeHomeFolder ? true : false
+        
+        if (SecurityContext.currentEcitizen == null && 
+            !jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText))
+            throw new CvqException(message(code:"request.step.validation.error.captcha"))
     }
     
     /* Utils

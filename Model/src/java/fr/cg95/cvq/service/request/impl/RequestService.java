@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
@@ -57,6 +58,8 @@ import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
@@ -83,6 +86,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     protected String label;
     protected String xslFoFilename;
     protected Boolean isOfRegistrationKind;
+    protected Map<String,IConditionChecker> filledConditions;
 
     protected IDocumentTypeService documentTypeService;
     protected IHomeFolderService homeFolderService;
@@ -120,6 +124,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             beanFactory.getBeansOfType(IExternalService.class, false, false).values().iterator().next();
         this.requestWorkflowService = (IRequestWorkflowService)
             beanFactory.getBeansOfType(IRequestWorkflowService.class, false, false).values().iterator().next();
+        
+        initFilledConditions();
     }
 
     @Override
@@ -947,10 +953,6 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         delete(request);
     }
 
-    //////////////////////////////////////////////////////////
-    // RequestForm related Methods
-    //////////////////////////////////////////////////////////
-
     public void onRequestValidated(Request request)
         throws CvqException {
     }
@@ -974,6 +976,27 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     public void onExternalServiceSendRequest(Request request, String sendRequestResult) throws CvqException {
+    }
+    
+    //////////////////////////////////////////////////////////
+    // Condition related method
+    //////////////////////////////////////////////////////////
+    
+    protected void initFilledConditions() {
+        filledConditions = new HashMap<String,IConditionChecker>();
+        filledConditions.put("_activeHomeFolder", new EqualityChecker("true"));
+    }
+    
+    public boolean isConditionFilled (Map<String, String> triggers) {
+        boolean test = true;
+        for (Entry<String, String> trigger : triggers.entrySet()) {
+            if (filledConditions.get(trigger.getKey()) != null 
+                && filledConditions.get(trigger.getKey()).test(trigger.getValue()))
+                test = test && true;
+            else
+                return false;
+        }
+        return test;
     }
 
     public String getLocalReferentialFilename() {
@@ -1091,8 +1114,4 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
         this.beanFactory = (ListableBeanFactory) arg0;
     }
-    
-    public boolean isConditionFilled (Map<String, String> triggers) {
-        return true;
-    }   
 }

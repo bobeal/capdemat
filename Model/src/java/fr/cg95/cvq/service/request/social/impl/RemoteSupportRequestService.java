@@ -41,28 +41,11 @@ public class RemoteSupportRequestService extends RequestService
         return new RemoteSupportRequest();
     }
     
-    public final Map<String,IConditionChecker> filledConditions = new HashMap<String,IConditionChecker>();
-    private void initFilledConditions() {
+    protected void initFilledConditions() {
+        super.initFilledConditions();
         filledConditions.put("requestInformationRequestKind", new EqualityChecker("Couple"));
         filledConditions.put("requestInformationEmergency", new EqualityChecker("true"));
         filledConditions.put("contactKind", new EqualityChecker("Other"));
-    }
-   
-    /**
-     * TODO - move to abstract RequestService
-     */
-    @Override
-    public boolean isConditionFilled (Map<String, String> triggers) {
-        initFilledConditions();
-        boolean test = true;
-        for (Entry<String, String> trigger : triggers.entrySet()) {
-            if (filledConditions.get(trigger.getKey()) != null 
-                && filledConditions.get(trigger.getKey()).test(trigger.getValue()))
-                test = test && true;
-            else
-                return false;
-        }
-        return test;
     }
     
 }

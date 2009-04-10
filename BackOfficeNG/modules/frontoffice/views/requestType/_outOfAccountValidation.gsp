@@ -2,7 +2,8 @@
   <ul class="required">
     <g:each in="${[true,false]}">
     <li>
-      <input type="radio" class="required validate-boolean condition-activeHomeFolder-trigger" title="" value="${it}" name="_activeHomeFolder" ${it == flash._activeHomeFolder ? 'checked="checked"': (!it ? 'checked="checked"' : '')} />
+      <input type="radio" class="required validate-boolean condition-activeHomeFolder-trigger" title="" value="${it}" 
+             name="_requester.activeHomeFolder" ${flash.activeHomeFolder == null ? (!it ? 'checked="checked"' : '') : (flash.activeHomeFolder == it ? 'checked="checked"' : '') } />
       ${message(code:'message.' + (it ? 'yes' : 'no'))}
     </li>
     </g:each>

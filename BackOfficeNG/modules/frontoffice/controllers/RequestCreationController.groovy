@@ -405,17 +405,16 @@ class RequestCreationController {
     }
     
     def checkRequesterPassword (params) {
-        flash._activeHomeFolder = params._activeHomeFolder ? true : false
-        
+        flash.activeHomeFolder = params.activeHomeFolder == 'true' ? true : false
+        if (params.password == null || params.activeHomeFolder == 'false')
+            return
         if (params.password.length() < 8)
             throw new CvqException(message(code:"request.step.validation.error.tooShortPassword"))
-        if (params.password != null && params.password != params.confirmPassword)
+        if (params.password != params.confirmPassword)
             throw new CvqException(message(code:"request.step.validation.error.password"))
     }
     
     def checkCaptcha (params) {
-        flash._activeHomeFolder = params._activeHomeFolder ? true : false
-        
         if (SecurityContext.currentEcitizen == null && 
             !jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText))
             throw new CvqException(message(code:"request.step.validation.error.captcha"))

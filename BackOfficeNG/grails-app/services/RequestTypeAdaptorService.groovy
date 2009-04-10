@@ -22,6 +22,10 @@ public class RequestTypeAdaptorService {
                 result[dg.name] = ['label':dg.label,'requests':[]]
             
             for(RequestType rt : dg.requestTypes) {
+
+            	if (!rt.active)
+            		continue
+            		
                 def messages = [], factor = true
                 IRequestService service = requestServiceRegistry.getRequestService(rt.label);
                 
@@ -31,22 +35,26 @@ public class RequestTypeAdaptorService {
                     'requestType.message.registrationClosed',messages)
                 
                 if(homeFolder && service.subjectPolicy != IRequestService.SUBJECT_POLICY_NONE) {
-                    factor = eval(factor && (service.getAuthorizedSubjects(homeFolder.id)?.size() > 0),
+                    factor = eval(factor && (!service.getAuthorizedSubjects(homeFolder.id)?.isEmpty()),
                         'requestType.message.noAuthorizedSubjects',messages)
                 }
                 
-                if(rt.active) {
-                    result[dg.name].requests.add([
-                        'label':rt.label,'enabled':
-                        factor,'message':messages.size() > 0 ? messages.get(0) : null
-                    ])
-                }
+                result[dg.name].requests.add([
+                                              'label':rt.label,
+                                              'enabled':factor,
+                                              'message':!messages.isEmpty() ? messages.get(0) : null
+                                          ])
             }
             
             result[dg.name].requests = result[dg.name].requests.sort{it -> it.label}
         }
-        
-        return result
+
+        // filter groups with no requests
+        def tempMap = result.findAll { k,v ->
+        	!v.requests.isEmpty()
+        }
+
+		return tempMap
     }
 
     public Map getLocalReferentialTypes(requestTypeLabel) {

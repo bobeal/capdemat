@@ -140,7 +140,7 @@ strong { font-weight: bold; }
 --------------------------------------------------------------*/
 
 .login-box {
-  margin: 0 0 2em; padding: 0 0 2em;
+  margin: 0 0 1em; padding: 0 0 2em;
   font-size: 1.1em; font-weight: normal;
   border-bottom: 2px solid #c690bb;
   color: #ffffff;
@@ -178,7 +178,7 @@ strong { font-weight: bold; }
 
 /* group box
 --------------------------------------------------------------*/
-.group-box { margin: 1.5em; background: #ffffff; overflow:auto;}
+.group-box { margin: 1em; background: #ffffff; overflow:auto;}
 
 .group-box h3 { 
   margin: 0 !important;
@@ -193,13 +193,6 @@ strong { font-weight: bold; }
 .group-box ul    { margin: 1em 1em 0 10em; padding: 0 0 1em; font-size: 1.2em; }
 .group-box ul li { padding: .3em 0; }
 
+.group-box img { float:left; padding:1em; }
 
-
-
-
-
-
-
-
-
-
+.group-box span.disabled-request-notice { color:gray; font-size:0.85em; font-style:italic; display:block; } 

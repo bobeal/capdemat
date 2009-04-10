@@ -2,87 +2,91 @@
 
 
   
-  <h3><g:message code="scrr.step.registration.label" /></h3>
-  
-  
     
-      <dl>
-      <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
+      <h3><g:message code="scrr.step.registration.label" /></h3>
+      
+        
+        <dl>
+          <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
 
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="scrr.property.urgencyPhone.label" /></dt><dd>${rqt.urgencyPhone}</dd>
+        </dl>
+        
+      
+        
+        <dl>
+          <dt><g:message code="scrr.property.urgencyPhone.label" /></dt><dd>${rqt.urgencyPhone}</dd>
 
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="scrr.property.foodDiet.label" /></dt>
+        </dl>
+        
+      
+        
+        <dl>
+          <dt><g:message code="scrr.property.foodDiet.label" /></dt>
           <dd>
           <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
                     model="['javaName':'foodDiet', 'lrEntries': lrTypes.foodDiet.entries, 'depth':0]" />
           </dd>
           
 
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="scrr.property.canteenAttendingDays.label" /></dt>
+        </dl>
+        
+      
+        
+        <dl>
+          <dt><g:message code="scrr.property.canteenAttendingDays.label" /></dt>
           <dd>
           <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
                     model="['javaName':'canteenAttendingDays', 'lrEntries': lrTypes.canteenAttendingDays.entries, 'depth':0]" />
           </dd>
           
 
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="scrr.property.foodAllergy.label" /></dt>
+        </dl>
+        
+      
+        
+        <dl>
+          <dt><g:message code="scrr.property.foodAllergy.label" /></dt>
           <dd><g:message code="message.${rqt.foodAllergy ? 'yes' : 'no'}" /></dd>
           
 
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="scrr.property.doctorName.label" /></dt><dd>${rqt.doctorName}</dd>
+        </dl>
+        
+      
+        
+        <dl>
+          <dt><g:message code="scrr.property.doctorName.label" /></dt><dd>${rqt.doctorName}</dd>
 
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="scrr.property.doctorPhone.label" /></dt><dd>${rqt.doctorPhone}</dd>
+        </dl>
+        
+      
+        
+        <dl>
+          <dt><g:message code="scrr.property.doctorPhone.label" /></dt><dd>${rqt.doctorPhone}</dd>
 
-      </dl>
+        </dl>
+        
+      
     
   
 
   
-  <h3><g:message code="scrr.step.rules.label" /></h3>
-  
-  
     
-      <dl>
-      <dt><g:message code="scrr.property.hospitalizationPermission.label" /></dt><dd>${rqt.hospitalizationPermission}</dd>
+      <h3><g:message code="scrr.step.rules.label" /></h3>
+      
+        
+        <dl>
+          <dt><g:message code="scrr.property.hospitalizationPermission.label" /></dt><dd>${rqt.hospitalizationPermission}</dd>
 
-      </dl>
-    
-  
-    
-      <dl>
-      <dt><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /></dt><dd>${rqt.rulesAndRegulationsAcceptance}</dd>
+        </dl>
+        
+      
+        
+        <dl>
+          <dt><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /></dt><dd>${rqt.rulesAndRegulationsAcceptance}</dd>
 
-      </dl>
+        </dl>
+        
+      
     
   
 
@@ -111,9 +115,22 @@
     </g:each>
   </g:if>
   
-  
 
   
+    
+      <h3><g:message code="request.step.validation.label" /></h3>
+      <g:if test="${!hasHomeFolder}">
+        <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+      </g:if>
+      
+      <div id="useAcceptance">
+       <input type="checkbox" name="useAcceptance" class="required validate-one-required"
+              title="${message(code:'request.error.useAcceptanceRequired')}" />
+       <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+         <g:message code="request.step.validation.useAcceptance"/>
+       </a>
+     </div>
+    
   
 
 

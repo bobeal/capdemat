@@ -175,20 +175,18 @@ class RequestTypeController {
     }
     
     def state = {
-        if(request.get) {
+        def requestType = requestTypeService.getRequestTypeById(Long.parseLong(params.id))
+        if (request.get) {
             def result = [:]
-
-            RequestType requestType =
-                requestTypeService.getRequestTypeById(Long.parseLong(params.id))
             result.active = requestType.active
             result.requestTypeId = params.id
             result.state = requestType.active ? 'active':'inactive'
-
             return result
-        } else {
-            RequestType requestType =
-                requestTypeService.getRequestTypeById(Long.parseLong(params.requestTypeId))            
-            if(!localReferentialService.isLocalReferentialConfigure(requestType.label)
+        } 
+        else if (request.post) {
+            def requestService = requestServiceRegistry.getRequestService(requestType.label)
+            if (requestService.getLocalReferentialFilename() != null
+               && !localReferentialService.isLocalReferentialConfigured(requestType.label)
                && !requestType.active) {
                 render ([
                   'label': message(code: "property.${requestType.active ? 'active' : 'inactive'}"),

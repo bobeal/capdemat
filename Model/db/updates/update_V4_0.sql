@@ -323,3 +323,5 @@ label = 'Alignment Certificate';
 -- End of statement
 ALTER TABLE display_group ALTER id SET DEFAULT NULL;
 
+-- update to Birth and Death Details request
+alter table birth_details_request add column birth_marriage_name varchar(38);

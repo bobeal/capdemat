@@ -377,18 +377,15 @@ public class ModelRequestObject {
      * @param elementsPropertiesMap properties associated to the class (request or
      *        or local complex type) being generated
      */
-    private void generateConstructor(String className, HashMap elementsPropertiesMap) {
+    private void generateConstructor(String className, 
+        HashMap<String, ElementModelProperties> elementsPropertiesMap) {
 
         currentSb.append("\n\n");
         currentSb.append("    public " + className + "() {\n");
         currentSb.append("        super();\n");
 
-        Set elementsSet = elementsPropertiesMap.keySet();
-        Iterator elementsIt = elementsSet.iterator();
-        while (elementsIt.hasNext()) {
-            String elementName = (String) elementsIt.next();
-            ElementModelProperties eltProperties =
-                (ElementModelProperties) elementsPropertiesMap.get(elementName);
+        for (String elementName : elementsPropertiesMap.keySet()) {
+            ElementModelProperties eltProperties = elementsPropertiesMap.get(elementName);
             if (eltProperties.getDefaultValue() != null) {
                 // currently only identified two cases where default values have
                 // a sense :
@@ -402,9 +399,11 @@ public class ModelRequestObject {
                         type += eltProperties.getXmlSchemaType();
                     else
                         type += elementName;
-                    currentSb.append("        " + eltProperties.getNameAsParam() + " = " + type + "." + eltProperties.getDefaultValue().toUpperCase() + ";\n");
+                    currentSb.append("        " + eltProperties.getNameAsParam() + " = "
+                        + type + "." + getEnumStaticName(eltProperties.getDefaultValue()) + ";\n");
                 } else if (xmlBeanType.indexOf("XmlBoolean") != -1) {
-                    currentSb.append("        " + eltProperties.getNameAsParam() + " = Boolean.valueOf(" + eltProperties.getDefaultValue() + ");\n");
+                    currentSb.append("        " + eltProperties.getNameAsParam()
+                        + " = Boolean.valueOf(" + eltProperties.getDefaultValue() + ");\n");
                 }
             }
         }

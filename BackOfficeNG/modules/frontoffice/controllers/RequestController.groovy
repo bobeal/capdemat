@@ -1,10 +1,11 @@
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.security.SecurityContext
 
 import grails.converters.JSON
 
@@ -15,6 +16,7 @@ class RequestController {
     def documentAdaptorService
     def requestTypeAdaptorService
 
+    IIndividualService individualService
     IRequestServiceRegistry requestServiceRegistry
     IRequestService defaultRequestService
     
@@ -59,10 +61,12 @@ class RequestController {
         def request = defaultRequestService.getById(Long.parseLong(params.id))
         def requestTypeLabel =
             translationService.getEncodedRequestTypeLabelTranslation(request.requestType.label)
+        def requester = individualService.getById(request.requesterId)
         def subjects = [:]
         subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
         return ['rqt': request,
                 'requestTypeLabel':requestTypeLabel,
+                'requester':requester,
                 'subjects': subjects,
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(request.requestType.label),
                 'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, []),

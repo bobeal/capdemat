@@ -8,29 +8,31 @@
     <div class="main-box requestExit">
       <h2>${requestTypeLabel}</h2>
       <div class="info">
-        <p>Votre demande a bien été transmise !</p>
-        <p>Le numéro de suivi de votre demande est le ${rqt.id}</p>
+        <p><g:message code="request.message.successfulCreation" /></p>
+        <p><g:message code="request.message.requestIdNotice" args="${[rqt.id]}"/></p>
       </div>
-      <div class="link">
-        Vous pouvez maintenant :
-        <ul>
-          <li>
-            <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:rqt.id)}">
-              Voir le résumé de votre demande
-            </a>
-          </li>
-          <li>
-            <a href="${createLink(controller:'frontofficeRequestType')}">
-              Saisir une nouvelle demande
-            </a>
-          </li>
-          <li>
-            <a href="${createLink(controller:'frontofficeHome')}">
-              Retourner à l'accueil
-            </a>
-          </li>
-        </ul>
-      </div>
+      <g:if test="${hasHomeFolder}">
+        <div class="link">
+          <g:message code="request.message.actionAfterCreation" /> :
+          <ul>
+            <li>
+              <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:rqt.id)}">
+                <g:message code="request.action.seeSummary" />
+              </a>
+            </li>
+            <li>
+              <a href="${createLink(controller:'frontofficeRequestType')}">
+                <g:message code="request.action.issueNewRequest" />
+              </a>
+            </li>
+            <li>
+              <a href="${createLink(controller:'frontofficeHome')}">
+                <g:message code="action.goHome" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </g:if>
     </div>
   </body>
 </html>

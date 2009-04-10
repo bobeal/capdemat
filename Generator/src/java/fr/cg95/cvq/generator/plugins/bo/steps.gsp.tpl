@@ -54,37 +54,33 @@
   <h2><g:message code="property.form" />
     <span><g:message code="${requestBo.acronym}.step.${step.name}.label" /></span>
   </h2>
-    <% if (step.name == "requester") { %>
-    <g:render template="/backofficeRequestInstruction/requestType/adult" model="['adult':requester, 'action':'no-action']" />
-    <% } else { %>
-    <div class="yui-g">
-      <% for (column in [1,2]) { %>
-      <!-- column start -->
-      <div class="yui-u${column == 1 ? ' first' : ''}">
-        <% for (element in requestBo.getElementsByStep(step, column)) { %>
-          <% if (element.typeClass == "SIMPLE") { %>
-          <dl>
-            <% displayWidget(element, 'request') %>
-          </dl>
-          <% } else if (element.typeClass == "COMPLEX") { %>
-          <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
-          <dl class="${element.conditionsClass}">
-            <% for (subElement in element.elements) { %>
-                <% displayWidget(subElement, 'request') %>
-            <% } %>
-          </dl>
-          <% } else if (element.typeClass == "COLLECTION") { %>
-          <div id="widget-${element.javaFieldName}" class="${element.conditionsClass}">
-            <g:render template="/backofficeRequestInstruction/requestType/${requestBo.name}/${element.javaFieldName}" model="['request':request]" />
-          </div>
+  <div class="yui-g">
+    <% for (column in [1,2]) { %>
+    <!-- column start -->
+    <div class="yui-u${column == 1 ? ' first' : ''}">
+      <% for (element in requestBo.getElementsByStep(step, column)) { %>
+        <% if (element.typeClass == "SIMPLE") { %>
+        <dl>
+          <% displayWidget(element, 'request') %>
+        </dl>
+        <% } else if (element.typeClass == "COMPLEX") { %>
+        <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
+        <dl class="${element.conditionsClass}">
+          <% for (subElement in element.elements) { %>
+              <% displayWidget(subElement, 'request') %>
           <% } %>
+        </dl>
+        <% } else if (element.typeClass == "COLLECTION") { %>
+        <div id="widget-${element.javaFieldName}" class="${element.conditionsClass}">
+          <g:render template="/backofficeRequestInstruction/requestType/${requestBo.name}/${element.javaFieldName}" model="['request':request]" />
+        </div>
         <% } %>
-      </div>
-      <!-- column end -->
       <% } %>
     </div>
-    <!-- data step  end -->
+    <!-- column end -->
     <% } %>
+  </div>
+  <!-- data step  end -->
 </div>
 <!-- step end -->
 <% } %>

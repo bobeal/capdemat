@@ -684,7 +684,7 @@ class RequestInstructionController {
         result.lastName = ((Individual)sub).getLastName()
 
         if(sub.getClass().getSimpleName() == 'Child')result.title = 'request.individual.kid'
-        else if(sub.getClass().getSimpleName() == 'Adult')result.title ((Adult)sub).getTitle()
+        else if(sub.getClass().getSimpleName() == 'Adult')result.title = ((Adult)sub).getTitle()
 
         return result
     }

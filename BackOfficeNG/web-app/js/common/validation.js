@@ -394,7 +394,8 @@ function FIC_checkLocalReferentialDataTree(c,e,f, valid){
 }
 
 function FIC_toggleValidationClass(inputEl, isValid, passedClassName, failedClassName) {
-  if (!(/validate-(\w+)/i.exec(inputEl.className)))
+  if (!(/validate-(\w+)/i.exec(inputEl.className)) 
+      && !YAHOO.util.Dom.hasClass(inputEl,'required'))
     return;
   
   var type = inputEl.type.toLowerCase();

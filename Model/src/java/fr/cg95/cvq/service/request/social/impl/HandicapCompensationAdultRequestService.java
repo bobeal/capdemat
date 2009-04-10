@@ -47,8 +47,8 @@ public class HandicapCompensationAdultRequestService extends RequestService
         return new HandicapCompensationAdultRequest();
     }
     
-    public final Map<String,IConditionChecker> filledConditions = new HashMap<String,IConditionChecker>();
-    private void initFilledConditions() {
+    protected void initFilledConditions() {
+        super.initFilledConditions();
         filledConditions.put("subjectTitle", new EqualityChecker("Madam"));
         filledConditions.put("legalAccessPresence", new EqualityChecker("true"));
         filledConditions.put("legalAccessRepresentativeKind", new EqualityChecker("Other"));
@@ -94,23 +94,5 @@ public class HandicapCompensationAdultRequestService extends RequestService
         filledConditions.put("healthFollowedByHospital", new EqualityChecker("true"));
         filledConditions.put("projectRequestsProfessionalOrientation", new EqualityChecker("true"));
         filledConditions.put("projectRequestsOther", new EqualityChecker("true"));
-    }
-   
-    /**
-     * TODO - move to abstract RequestService
-     */
-    @Override
-    public boolean isConditionFilled (Map<String, String> triggers) {
-        initFilledConditions();
-        boolean test = true;
-        for (Entry<String, String> trigger : triggers.entrySet()) {
-            if (filledConditions.get(trigger.getKey()) != null 
-                && filledConditions.get(trigger.getKey()).test(trigger.getValue()))
-                test = test && true;
-            else
-                return false;
-        }
-        return test;
-    }
-           
+    }        
 }

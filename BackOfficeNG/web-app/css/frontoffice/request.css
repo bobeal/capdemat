@@ -192,11 +192,13 @@ h2.request-creation {
 #requestTabView dl dd p { padding: 0.1em; }
 #requestTabView dl dd li { display:block; }
 
-/* captcha
---------------------------------------------------------------*/
-#requestTabView .captcha { margin: 0; padding: .1em; }
-#requestTabView .captcha .image { display: inline; width: 20%; }
-#requestTabView .captcha input[type="text"].response { display: inline; width: 60%; vertical-align:  middle; }
+
+#requestTabView form div .captcha       { margin : .1em 0 .5em; overflow: auto;}
+#requestTabView form div .captcha img   { float: left; border : 1px solid #A0D158}
+#requestTabView form div .captcha input { float: left; width: 54.5%; margin: 0 0 0 .5em; }
+
+#requestTabView form div #useAcceptance { margin : 2em 0 0; }
+
 
 /* creation-success
 --------------------------------------------------------------*/

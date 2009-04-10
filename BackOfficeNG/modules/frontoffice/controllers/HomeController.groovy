@@ -83,15 +83,24 @@ class HomeController {
                 SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                 SecurityContext.setCurrentEcitizen(session.currentEcitizen)
                 
-                redirect(controller:'frontofficeHome')
-                return false
+                if (params.requestTypeLabel == null) {
+                    redirect(controller:'frontofficeHome')
+                    return false
+                } else {
+                    redirect(uri:'/frontoffice/requestCreation?label=' + params.requestTypeLabel)
+                    return false
+                }
             }
         }
-        return [
-            'isLogin': true,
-            'error': message(code:error),
-            'groups': requestTypeAdaptorService.getDisplayGroups(false,null)
-        ]
+        return ['isLogin': true, 'error': message(code:error),
+                'groups': requestTypeAdaptorService.getDisplayGroups(false,null)]
+//        if (flash.requestLabel == null) {
+//            return ['isLogin': true, 'error': message(code:error),
+//                    'groups': requestTypeAdaptorService.getDisplayGroups(false,null)]
+//        } else {
+//            flash.isOutOfAccountRequest = true;
+//            return ['isLogin': true, 'error': message(code:error), 'requestLabel': flash.requestLabel ]
+//        }
     }
     
     def logout = {

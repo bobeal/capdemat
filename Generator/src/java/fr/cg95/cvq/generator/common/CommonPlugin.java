@@ -30,7 +30,7 @@ public class CommonPlugin implements IPluginGenerator {
     
     
     public void onApplicationInformation(ApplicationDocumentation appDoc) {
-        logger.warn( "onApplicationInformation() " + 
+        logger.debug( "onApplicationInformation() " + 
                 appDoc.getNodeName() + " / " + appDoc.getXmlString());
         
         if (depth < 1 ) {

@@ -25,6 +25,9 @@
             <a href="${createLink(controller : 'frontofficeHomeFolder', action:'resetPassword')}">
               <g:message code="account.message.forgottenPassword" />
             </a>
+            <g:if test="${flash.isOutOfAccountRequest}">
+              <input type="hidden" name="requestLabel" class="hidden" value="${requestLabel}" />
+            </g:if>
           </form>
         </div> 
         <div class="yui-u">
@@ -43,9 +46,25 @@
           </a>
         </div>
       </div>
+      <!%--
+      <g:if test="${!flash.isOutOfAccountRequest}">
+      --%>
+        <g:render template="/shared/services" />
+      <!%--
+      </g:if>
+      <g:else>
        
-      <g:render template="/shared/services" />
-
+        <div class="main-box requestExit">
+          <h2><g:translateRequestTypeLabel label="${requestLabel}"/></h2>
+          <p>
+            <a href="${createLink(controller:'frontofficeRequestCreation', 
+                params:['label':requestLabel,'isOutOfAccountRequest':flash.isOutOfAccountRequest])}">
+              Commencer la demande
+            </a>
+          </p>
+        </div>
+      </g:else>
+      --%>
   </body>
 </html>
 

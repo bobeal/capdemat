@@ -2,25 +2,25 @@
 
 
   
-  <h3><g:message code="dhr.step.subject.label" /></h3>
-  
-  
     
-    <h4><g:message code="dhr.property.dhrRequester.label" /></h4>
-    <dl>
+      <h3><g:message code="dhr.step.subject.label" /></h3>
       
-        <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
+        
+        <h4><g:message code="dhr.property.dhrRequester.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrRequesterBirthDate.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrRequesterBirthDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${rqt.dhrRequesterBirthDate}"/></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrRequesterBirthPlace.label" /></dt><dd>${rqt.dhrRequesterBirthPlace}</dd>
+          
+            <dt><g:message code="dhr.property.dhrRequesterBirthPlace.label" /></dt><dd>${rqt.dhrRequesterBirthPlace}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrRequesterNationality.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrRequesterNationality.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrRequesterNationality}">
               <g:capdematEnumToField var="${rqt.dhrRequesterNationality}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" />
@@ -28,25 +28,25 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrRequesterFranceArrivalDate.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrRequesterFranceArrivalDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${rqt.dhrRequesterFranceArrivalDate}"/></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrRequesterIsFrenchResident.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrRequesterIsFrenchResident.label" /></dt>
           <dd><g:message code="message.${rqt.dhrRequesterIsFrenchResident ? 'yes' : 'no'}" /></dd>
           
 
+          
+        </dl>
+        
       
-    </dl>
-    
-  
-    
-    <h4><g:message code="dhr.property.dhrRequesterPensionPlan.label" /></h4>
-    <dl>
-      
-        <dt><g:message code="dhr.property.dhrPrincipalPensionPlan.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrRequesterPensionPlan.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrPrincipalPensionPlan.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrPrincipalPensionPlan}">
               <g:capdematEnumToField var="${rqt.dhrPrincipalPensionPlan}" i18nKeyPrefix="dhr.property.dhrPrincipalPensionPlan" />
@@ -54,26 +54,26 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrPensionPlanDetail.label" /></dt><dd>${rqt.dhrPensionPlanDetail}</dd>
+          
+            <dt><g:message code="dhr.property.dhrPensionPlanDetail.label" /></dt><dd>${rqt.dhrPensionPlanDetail}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrComplementaryPensionPlan.label" /></dt><dd>${rqt.dhrComplementaryPensionPlan}</dd>
+          
+            <dt><g:message code="dhr.property.dhrComplementaryPensionPlan.label" /></dt><dd>${rqt.dhrComplementaryPensionPlan}</dd>
 
+          
+        </dl>
+        
       
-    </dl>
-    
-  
-    
-    <h4><g:message code="dhr.property.dhrRequesterGuardian.label" /></h4>
-    <dl>
-      
-        <dt><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrRequesterGuardian.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /></dt>
           <dd><g:message code="message.${rqt.dhrRequesterHaveGuardian ? 'yes' : 'no'}" /></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrGuardianMeasure.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrGuardianMeasure.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrGuardianMeasure}">
               <g:capdematEnumToField var="${rqt.dhrGuardianMeasure}" i18nKeyPrefix="dhr.property.dhrGuardianMeasure" />
@@ -81,11 +81,11 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrGuardianName.label" /></dt><dd>${rqt.dhrGuardianName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrGuardianName.label" /></dt><dd>${rqt.dhrGuardianName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrGuardianAddress.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrGuardianAddress.label" /></dt>
           <dd>
           <g:if test="${rqt.dhrGuardianAddress}">
               <p>${rqt.dhrGuardianAddress?.additionalDeliveryInformation}</p>
@@ -98,31 +98,33 @@
           </dd>
           
 
+          
+        </dl>
+        
       
-    </dl>
     
   
 
   
-  <h3><g:message code="dhr.step.familyReferent.label" /></h3>
-  
-  
     
-    <h4><g:message code="dhr.property.dhrFamilyReferent.label" /></h4>
-    <dl>
+      <h3><g:message code="dhr.step.familyReferent.label" /></h3>
       
-        <dt><g:message code="dhr.property.dhrHaveFamilyReferent.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrFamilyReferent.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrHaveFamilyReferent.label" /></dt>
           <dd><g:message code="message.${rqt.dhrHaveFamilyReferent ? 'yes' : 'no'}" /></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrReferentName.label" /></dt><dd>${rqt.dhrReferentName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrReferentName.label" /></dt><dd>${rqt.dhrReferentName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrReferentFirstName.label" /></dt><dd>${rqt.dhrReferentFirstName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrReferentFirstName.label" /></dt><dd>${rqt.dhrReferentFirstName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrReferentAddress.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrReferentAddress.label" /></dt>
           <dd>
           <g:if test="${rqt.dhrReferentAddress}">
               <p>${rqt.dhrReferentAddress?.additionalDeliveryInformation}</p>
@@ -135,20 +137,22 @@
           </dd>
           
 
+          
+        </dl>
+        
       
-    </dl>
     
   
 
   
-  <h3><g:message code="dhr.step.spouse.label" /></h3>
-  
-  
     
-    <h4><g:message code="dhr.property.dhrSpouse.label" /></h4>
-    <dl>
+      <h3><g:message code="dhr.step.spouse.label" /></h3>
       
-        <dt><g:message code="dhr.property.dhrRequestKind.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrSpouse.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrRequestKind.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrRequestKind}">
               <g:capdematEnumToField var="${rqt.dhrRequestKind}" i18nKeyPrefix="dhr.property.dhrRequestKind" />
@@ -156,8 +160,8 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseTitle.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrSpouseTitle.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrSpouseTitle}">
               <g:capdematEnumToField var="${rqt.dhrSpouseTitle}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" />
@@ -165,8 +169,8 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrSpouseFamilyStatus}">
               <g:capdematEnumToField var="${rqt.dhrSpouseFamilyStatus}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" />
@@ -174,25 +178,25 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseName.label" /></dt><dd>${rqt.dhrSpouseName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrSpouseName.label" /></dt><dd>${rqt.dhrSpouseName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseFirstName.label" /></dt><dd>${rqt.dhrSpouseFirstName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrSpouseFirstName.label" /></dt><dd>${rqt.dhrSpouseFirstName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseMaidenName.label" /></dt><dd>${rqt.dhrSpouseMaidenName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrSpouseMaidenName.label" /></dt><dd>${rqt.dhrSpouseMaidenName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseBirthDate.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrSpouseBirthDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${rqt.dhrSpouseBirthDate}"/></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseBirthPlace.label" /></dt><dd>${rqt.dhrSpouseBirthPlace}</dd>
+          
+            <dt><g:message code="dhr.property.dhrSpouseBirthPlace.label" /></dt><dd>${rqt.dhrSpouseBirthPlace}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseNationality.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrSpouseNationality.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrSpouseNationality}">
               <g:capdematEnumToField var="${rqt.dhrSpouseNationality}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" />
@@ -200,30 +204,30 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseFranceArrivalDate.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrSpouseFranceArrivalDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${rqt.dhrSpouseFranceArrivalDate}"/></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseIsFrenchResident.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrSpouseIsFrenchResident.label" /></dt>
           <dd><g:message code="message.${rqt.dhrSpouseIsFrenchResident ? 'yes' : 'no'}" /></dd>
           
 
+          
+        </dl>
+        
       
-    </dl>
-    
-  
-    
-    <h4><g:message code="dhr.property.dhrSpouseStatus.label" /></h4>
-    <dl>
-      
-        <dt><g:message code="dhr.property.dhrIsSpouseRetired.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrSpouseStatus.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrIsSpouseRetired.label" /></dt>
           <dd><g:message code="message.${rqt.dhrIsSpouseRetired ? 'yes' : 'no'}" /></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrSpousePrincipalPensionPlan.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrSpousePrincipalPensionPlan}">
               <g:capdematEnumToField var="${rqt.dhrSpousePrincipalPensionPlan}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" />
@@ -231,20 +235,20 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrSpousePensionPlanDetail.label" /></dt><dd>${rqt.dhrSpousePensionPlanDetail}</dd>
+          
+            <dt><g:message code="dhr.property.dhrSpousePensionPlanDetail.label" /></dt><dd>${rqt.dhrSpousePensionPlanDetail}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseComplementaryPensionPlan.label" /></dt><dd>${rqt.dhrSpouseComplementaryPensionPlan}</dd>
+          
+            <dt><g:message code="dhr.property.dhrSpouseComplementaryPensionPlan.label" /></dt><dd>${rqt.dhrSpouseComplementaryPensionPlan}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseProfession.label" /></dt><dd>${rqt.dhrSpouseProfession}</dd>
+          
+            <dt><g:message code="dhr.property.dhrSpouseProfession.label" /></dt><dd>${rqt.dhrSpouseProfession}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseEmployer.label" /></dt><dd>${rqt.dhrSpouseEmployer}</dd>
+          
+            <dt><g:message code="dhr.property.dhrSpouseEmployer.label" /></dt><dd>${rqt.dhrSpouseEmployer}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrSpouseAddress.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrSpouseAddress.label" /></dt>
           <dd>
           <g:if test="${rqt.dhrSpouseAddress}">
               <p>${rqt.dhrSpouseAddress?.additionalDeliveryInformation}</p>
@@ -257,42 +261,44 @@
           </dd>
           
 
+          
+        </dl>
+        
       
-    </dl>
+        
+        <h4><g:message code="dhr.property.dhrSpouseIncomes.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.pensions.label" /></dt><dd>${rqt.pensions}</dd>
+
+          
+            <dt><g:message code="dhr.property.dhrAllowances.label" /></dt><dd>${rqt.dhrAllowances}</dd>
+
+          
+            <dt><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /></dt><dd>${rqt.dhrFurnitureInvestmentIncome}</dd>
+
+          
+            <dt><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /></dt><dd>${rqt.dhrRealEstateInvestmentIncome}</dd>
+
+          
+            <dt><g:message code="dhr.property.dhrNetIncome.label" /></dt><dd>${rqt.dhrNetIncome}</dd>
+
+          
+        </dl>
+        
+      
     
   
-    
-    <h4><g:message code="dhr.property.dhrSpouseIncomes.label" /></h4>
-    <dl>
-      
-        <dt><g:message code="dhr.property.pensions.label" /></dt><dd>${rqt.pensions}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrAllowances.label" /></dt><dd>${rqt.dhrAllowances}</dd>
-
-      
-        <dt><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /></dt><dd>${rqt.dhrFurnitureInvestmentIncome}</dd>
-
-      
-        <dt><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /></dt><dd>${rqt.dhrRealEstateInvestmentIncome}</dd>
-
-      
-        <dt><g:message code="dhr.property.dhrNetIncome.label" /></dt><dd>${rqt.dhrNetIncome}</dd>
-
-      
-    </dl>
-    
-  
-
-  
-  <h3><g:message code="dhr.step.dwelling.label" /></h3>
-  
   
     
-    <h4><g:message code="dhr.property.dhrCurrentDwelling.label" /></h4>
-    <dl>
+      <h3><g:message code="dhr.step.dwelling.label" /></h3>
       
-        <dt><g:message code="dhr.property.dhrCurrentDwellingAddress.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrCurrentDwelling.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrCurrentDwellingAddress.label" /></dt>
           <dd>
           <g:if test="${rqt.dhrCurrentDwellingAddress}">
               <p>${rqt.dhrCurrentDwellingAddress?.additionalDeliveryInformation}</p>
@@ -305,11 +311,11 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrCurrentDwellingPhone.label" /></dt><dd>${rqt.dhrCurrentDwellingPhone}</dd>
+          
+            <dt><g:message code="dhr.property.dhrCurrentDwellingPhone.label" /></dt><dd>${rqt.dhrCurrentDwellingPhone}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrCurrentDwellingKind.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrCurrentDwellingKind.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrCurrentDwellingKind}">
               <g:capdematEnumToField var="${rqt.dhrCurrentDwellingKind}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingKind" />
@@ -317,13 +323,13 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${rqt.dhrCurrentDwellingArrivalDate}"/></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrCurrentDwellingStatus.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrCurrentDwellingStatus.label" /></dt>
           <dd>
             <g:if test="${rqt.dhrCurrentDwellingStatus}">
               <g:capdematEnumToField var="${rqt.dhrCurrentDwellingStatus}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingStatus" />
@@ -331,22 +337,22 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /></dt><dd>${rqt.dhrCurrentDwellingNumberOfRoom}</dd>
+          
+            <dt><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /></dt><dd>${rqt.dhrCurrentDwellingNumberOfRoom}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /></dt><dd>${rqt.dhrCurrentDwellingNetArea}</dd>
+          
+            <dt><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /></dt><dd>${rqt.dhrCurrentDwellingNetArea}</dd>
 
+          
+        </dl>
+        
       
-    </dl>
-    
-  
-    
-    <h4><g:message code="dhr.property.dhrPreviousDwelling.label" /></h4>
-    <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">
-    <dl>
-      
-        <dt><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrPreviousDwelling.label" /></h4>
+        <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /></dt>
           <dd>
           <g:if test="${it.dhrPreviousDwellingAddress}">
               <p>${it.dhrPreviousDwellingAddress?.additionalDeliveryInformation}</p>
@@ -359,8 +365,8 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrPreviousDwellingKind.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrPreviousDwellingKind.label" /></dt>
           <dd>
             <g:if test="${it.dhrPreviousDwellingKind}">
               <g:capdematEnumToField var="${it.dhrPreviousDwellingKind}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" />
@@ -368,8 +374,8 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /></dt>
           <dd>
             <g:if test="${it.dhrPreviousDwellingStatus}">
               <g:capdematEnumToField var="${it.dhrPreviousDwellingStatus}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingStatus" />
@@ -377,57 +383,59 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingArrivalDate}"/></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingDepartureDate}"/></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrPreviousDwellingComment.label" /></dt><dd>${it.dhrPreviousDwellingComment}</dd>
+          
+            <dt><g:message code="dhr.property.dhrPreviousDwellingComment.label" /></dt><dd>${it.dhrPreviousDwellingComment}</dd>
 
+          
+        </dl>
+        </g:each>
+        
       
-    </dl>
-    </g:each>
     
   
 
   
-  <h3><g:message code="dhr.step.resources.label" /></h3>
-  
-  
     
-    <h4><g:message code="dhr.property.dhrRequesterIncomes.label" /></h4>
-    <dl>
+      <h3><g:message code="dhr.step.resources.label" /></h3>
       
-        <dt><g:message code="dhr.property.pensions.label" /></dt><dd>${rqt.pensions}</dd>
+        
+        <h4><g:message code="dhr.property.dhrRequesterIncomes.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.pensions.label" /></dt><dd>${rqt.pensions}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrAllowances.label" /></dt><dd>${rqt.dhrAllowances}</dd>
+          
+            <dt><g:message code="dhr.property.dhrAllowances.label" /></dt><dd>${rqt.dhrAllowances}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /></dt><dd>${rqt.dhrFurnitureInvestmentIncome}</dd>
+          
+            <dt><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" /></dt><dd>${rqt.dhrFurnitureInvestmentIncome}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /></dt><dd>${rqt.dhrRealEstateInvestmentIncome}</dd>
+          
+            <dt><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" /></dt><dd>${rqt.dhrRealEstateInvestmentIncome}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrNetIncome.label" /></dt><dd>${rqt.dhrNetIncome}</dd>
+          
+            <dt><g:message code="dhr.property.dhrNetIncome.label" /></dt><dd>${rqt.dhrNetIncome}</dd>
 
+          
+        </dl>
+        
       
-    </dl>
-    
-  
-    
-    <h4><g:message code="dhr.property.dhrRealAsset.label" /></h4>
-    <g:each var="it" in="${rqt.dhrRealAsset}" status="index">
-    <dl>
-      
-        <dt><g:message code="dhr.property.dhrRealAssetAddress.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrRealAsset.label" /></h4>
+        <g:each var="it" in="${rqt.dhrRealAsset}" status="index">
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrRealAssetAddress.label" /></dt>
           <dd>
           <g:if test="${it.dhrRealAssetAddress}">
               <p>${it.dhrRealAssetAddress?.additionalDeliveryInformation}</p>
@@ -440,23 +448,23 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrRealAssetValue.label" /></dt><dd>${it.dhrRealAssetValue}</dd>
+          
+            <dt><g:message code="dhr.property.dhrRealAssetValue.label" /></dt><dd>${it.dhrRealAssetValue}</dd>
 
-      
-        <dt><g:message code="dhr.property.realAssetNetFloorArea.label" /></dt><dd>${it.realAssetNetFloorArea}</dd>
+          
+            <dt><g:message code="dhr.property.realAssetNetFloorArea.label" /></dt><dd>${it.realAssetNetFloorArea}</dd>
 
+          
+        </dl>
+        </g:each>
+        
       
-    </dl>
-    </g:each>
-    
-  
-    
-    <h4><g:message code="dhr.property.dhrNotRealAsset.label" /></h4>
-    <g:each var="it" in="${rqt.dhrNotRealAsset}" status="index">
-    <dl>
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetType.label" /></dt>
+        
+        <h4><g:message code="dhr.property.dhrNotRealAsset.label" /></h4>
+        <g:each var="it" in="${rqt.dhrNotRealAsset}" status="index">
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetType.label" /></dt>
           <dd>
             <g:if test="${it.dhrNotRealAssetType}">
               <g:capdematEnumToField var="${it.dhrNotRealAssetType}" i18nKeyPrefix="dhr.property.dhrNotRealAssetType" />
@@ -464,8 +472,8 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetKind.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetKind.label" /></dt>
           <dd>
             <g:if test="${it.dhrNotRealAssetKind}">
               <g:capdematEnumToField var="${it.dhrNotRealAssetKind}" i18nKeyPrefix="dhr.property.dhrNotRealAssetKind" />
@@ -473,8 +481,8 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetAddress.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetAddress.label" /></dt>
           <dd>
           <g:if test="${it.dhrNotRealAssetAddress}">
               <p>${it.dhrNotRealAssetAddress?.additionalDeliveryInformation}</p>
@@ -487,14 +495,14 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /></dt><dd>${it.dhrNotRealAssetBeneficiaryName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /></dt><dd>${it.dhrNotRealAssetBeneficiaryName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.label" /></dt><dd>${it.dhrNotRealAssetBeneficiaryFirstName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.label" /></dt><dd>${it.dhrNotRealAssetBeneficiaryFirstName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" /></dt>
           <dd>
           <g:if test="${it.dhrNotRealAssetBeneficiaryAddress}">
               <p>${it.dhrNotRealAssetBeneficiaryAddress?.additionalDeliveryInformation}</p>
@@ -507,19 +515,19 @@
           </dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetValue.label" /></dt><dd>${it.dhrNotRealAssetValue}</dd>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetValue.label" /></dt><dd>${it.dhrNotRealAssetValue}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetDate.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${it.dhrNotRealAssetDate}"/></dd>
           
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /></dt><dd>${it.dhrNotRealAssetNotaryName}</dd>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /></dt><dd>${it.dhrNotRealAssetNotaryName}</dd>
 
-      
-        <dt><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" /></dt>
+          
+            <dt><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" /></dt>
           <dd>
           <g:if test="${it.dhrNotRealAssetNotaryAddress}">
               <p>${it.dhrNotRealAssetNotaryAddress?.additionalDeliveryInformation}</p>
@@ -532,33 +540,37 @@
           </dd>
           
 
+          
+        </dl>
+        </g:each>
+        
       
-    </dl>
-    </g:each>
     
   
 
   
-  <h3><g:message code="dhr.step.taxes.label" /></h3>
-  
-  
     
-    <h4><g:message code="dhr.property.dhrTaxesAmount.label" /></h4>
-    <dl>
+      <h3><g:message code="dhr.step.taxes.label" /></h3>
       
-        <dt><g:message code="dhr.property.dhrIncomeTax.label" /></dt><dd>${rqt.dhrIncomeTax}</dd>
+        
+        <h4><g:message code="dhr.property.dhrTaxesAmount.label" /></h4>
+        <dl>
+          
+            <dt><g:message code="dhr.property.dhrIncomeTax.label" /></dt><dd>${rqt.dhrIncomeTax}</dd>
 
-      
-        <dt><g:message code="dhr.property.localRate.label" /></dt><dd>${rqt.localRate}</dd>
+          
+            <dt><g:message code="dhr.property.localRate.label" /></dt><dd>${rqt.localRate}</dd>
 
-      
-        <dt><g:message code="dhr.property.propertyTaxes.label" /></dt><dd>${rqt.propertyTaxes}</dd>
+          
+            <dt><g:message code="dhr.property.propertyTaxes.label" /></dt><dd>${rqt.propertyTaxes}</dd>
 
-      
-        <dt><g:message code="dhr.property.professionalTaxes.label" /></dt><dd>${rqt.professionalTaxes}</dd>
+          
+            <dt><g:message code="dhr.property.professionalTaxes.label" /></dt><dd>${rqt.professionalTaxes}</dd>
 
+          
+        </dl>
+        
       
-    </dl>
     
   
 
@@ -587,9 +599,22 @@
     </g:each>
   </g:if>
   
-  
 
   
+    
+      <h3><g:message code="request.step.validation.label" /></h3>
+      <g:if test="${!hasHomeFolder}">
+        <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+      </g:if>
+      
+      <div id="useAcceptance">
+       <input type="checkbox" name="useAcceptance" class="required validate-one-required"
+              title="${message(code:'request.error.useAcceptanceRequired')}" />
+       <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+         <g:message code="request.step.validation.useAcceptance"/>
+       </a>
+     </div>
+    
   
 
 

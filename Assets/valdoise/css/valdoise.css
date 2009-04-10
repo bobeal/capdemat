@@ -147,8 +147,9 @@ h2.request-creation { margin: 0 !important; font-size: 2em !important; }
   border-left-color: #FF812B !important;
 }
 
-#requestTabView .address-fieldset { border-color: #FF812B !important; }
-#requestTabView form ul.dataTree  { border-color: #FF812B !important; }
+#requestTabView .address-fieldset     { border-color: #FF812B !important; }
+#requestTabView form ul.dataTree      { border-color: #FF812B !important; }
+#requestTabView form div .captcha img { border-color: #FF812B !important; }
 
 #requestTabView form div input[type="text"], 
 #requestTabView form div input[type="password"],

@@ -12,6 +12,9 @@
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
+    <g:if test="${flash.isOutOfAccountRequest}">
+      <g:render template="/frontofficeRequestType/loginPanel" />
+    </g:if>
     <g:render template="/frontofficeRequestType/draftPanel" />
     <g:render template="/frontofficeRequestType/cancelPanel" />
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
@@ -682,16 +685,9 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <div id="useAcceptance">
-             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
-                    title="${message(code:'request.error.useAcceptanceRequired')}" />
-             <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
-               <g:message code="request.step.validation.useAcceptance"/>
-             </a>
-           </div>
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
            <g:if test="${!isRequestCreatable}">
-             <div><g:message code="request.step.validation.requiredSteps"/></div>
+             <div><strong><g:message code="request.step.validation.requiredSteps"/></strong></div>
            </g:if>
   
          </form>

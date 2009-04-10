@@ -691,7 +691,7 @@ public class LocalReferentialService
         return resultSet;
     }
 
-    public boolean isLocalReferentialConfigure(final String requestTypeLabel) throws CvqException {
+    public boolean isLocalReferentialConfigured(final String requestTypeLabel) throws CvqException {
         Set<LocalReferentialType> lrTypes = getLocalReferentialDataByRequestType(requestTypeLabel);
         boolean isConfigure = true;
         for (LocalReferentialType lrType : lrTypes)

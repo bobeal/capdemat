@@ -132,7 +132,7 @@ import com.octo.captcha.component.image.color.SingleColorGenerator
 import com.octo.captcha.component.image.textpaster.NonLinearTextPaster
 
 jcaptchas {
-	image = new GenericManageableCaptchaService(
+	captchaImage = new GenericManageableCaptchaService(
 		new GenericCaptchaEngine(
 			new GimpyFactory(
 				new RandomWordGenerator(
@@ -145,8 +145,8 @@ jcaptchas {
 						[new Font("Arial", 0, 10)] as Font[]
 					),
 					new GradientBackgroundGenerator(
-						140, // width
-						35, // height
+						150, // width
+						50, // height
 						new SingleColorGenerator(Color.white),
 						new SingleColorGenerator(Color.lightGray)
 					),

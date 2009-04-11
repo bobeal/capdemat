@@ -311,7 +311,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="documentDAO" ref="documentDAO"/>
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="documentBinaryDAO" ref="documentBinaryDAO"/>
-    <property name="genericDAO" ref="genericDAO"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
   </bean>
 

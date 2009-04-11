@@ -38,7 +38,7 @@ public interface IRequestActionService {
     /**
      * Return whether the given request has an action trace with the given label.
      */
-    boolean hasAction(@IsRequest final Long requestId, final String label)
+    boolean hasAction(final Long requestId, final String label)
         throws CvqException;
 
     /**

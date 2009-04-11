@@ -44,7 +44,6 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public boolean hasAction(final Long requestId, final String label)
         throws CvqException {
         return requestActionDAO.hasAction(requestId, label);

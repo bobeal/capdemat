@@ -25,10 +25,10 @@ public class Category implements Serializable {
     private String primaryEmail;
 
     /** the request types that are handled by this category */
-    private Set requestTypes;
+    private Set<RequestType> requestTypes;
 
     /** emails of contact for this category */
-    private Set emails;
+    private Set<String> emails;
     
     /** default constructor */
     public Category() {
@@ -80,17 +80,17 @@ public class Category implements Serializable {
      *  column="email"
      *  type="string"
      */
-    public Set getEmails() {
+    public Set<String> getEmails() {
         return emails;
     }
 
-    public void setEmails(Set emails) {
+    public void setEmails(Set<String> emails) {
         this.emails = emails;
     }
 
     public void addEmail(String email) {
         if (this.emails == null)
-            this.emails = new HashSet();
+            this.emails = new HashSet<String>();
         
         this.emails.add(email);
     }

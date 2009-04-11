@@ -15,10 +15,10 @@ class SessionFilters {
     
     def filters = {
         
-        openSessionInView(controller: '(frontoffice*|backoffice*)', action: '*') {
+        openSessionInView(controller: '*', action: '*') {
             before = {
                 ILocalAuthorityRegistry localAuthorityRegistry =
-                applicationContext.getBean("localAuthorityRegistry")
+                	applicationContext.getBean("localAuthorityRegistry")
                 LocalAuthorityConfigurationBean lacb =
                     localAuthorityRegistry.getLocalAuthorityBeanByUrl(request.serverName)
                 if (lacb == null)
@@ -30,13 +30,13 @@ class SessionFilters {
 
                 try {
                     SecurityContext.setCurrentSite(lacb.getName(),
-                            SecurityContext.BACK_OFFICE_CONTEXT)
+                        SecurityContext.BACK_OFFICE_CONTEXT)
                     SecurityContext.setCurrentLocale(request.getLocale())
                 } catch (CvqException ce) {
                     ce.printStackTrace()
                     throw new ServletException()
                 }
-
+                
                 session.setAttribute("currentSiteName", lacb.getName().toLowerCase())
                 session.setAttribute("currentSiteDisplayTitle", lacb.getDisplayTitle())
                 session.setAttribute("doRollback", false)

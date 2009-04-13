@@ -105,6 +105,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="compostable_waste_collection_request_compostable_waste_type"
      * @hibernate.key

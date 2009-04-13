@@ -43,6 +43,8 @@ class RequestController {
 
     /**
      * Called when first entering the search screen
+     *
+     * TODO : remove modes management since simple search has been given up
      */
     def initSearch = {
         render(view:'search', 
@@ -52,6 +54,8 @@ class RequestController {
     
     /**
      * Called asynchronously when switching from simple to advanced search mode and vice versa
+     *
+     * TODO : remove modes management since simple search has been given up
      */
     def loadSearchForm = {
         def model = ['totalRecords':params.totalRecords,
@@ -116,7 +120,8 @@ class RequestController {
         }
         
         // deal with dynamic sorts
-        def sortBy = params.sortBy ? params.sortBy : defaultSortBy 
+        def sortBy = params.sortBy ? params.sortBy : defaultSortBy
+        def sortDir = params.dir ? params.dir : 'desc'
         
         // deal with pagination settings
         def results = params.results == null ? resultsPerPage : Integer.valueOf(params.results)
@@ -124,7 +129,7 @@ class RequestController {
             (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
             
         // now, perform the search request
-        def requests = defaultRequestService.get(criteria, sortBy, params.dir, results, recordOffset)
+        def requests = defaultRequestService.get(criteria, sortBy, sortDir, results, recordOffset)
         def recordsList = []
         requests.each {
             def homeFolder = homeFolderService.getById(it.homeFolderId)             
@@ -160,7 +165,7 @@ class RequestController {
                    'mode':params.mode,
                    'recordOffset':recordOffset,
                    'sortBy':sortBy,
-                   'dir':params.dir,
+                   'dir':sortDir,
                    'inSearch':true].plus(initSearchReferential()))
     }
 

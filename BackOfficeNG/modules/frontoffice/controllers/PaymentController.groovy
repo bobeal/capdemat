@@ -14,6 +14,7 @@ import fr.cg95.cvq.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.util.Critere
 
 import org.apache.commons.lang.StringUtils
 
@@ -201,10 +202,17 @@ class PaymentController {
         def result = [:] 
         def paymentState = state.st ? PaymentState.forString(StringUtils.capitalize(state.st)) : null
         def offset = params.offset ? Integer.valueOf(params.offset) : 0
-        result.all = paymentService.extendedGet(null, null, null, null, paymentState, null, null, 
-            null, this.ecitizen.homeFolder.id, null, 'initializationDate', 'desc', maxRows, offset)
-        result.count = paymentService.getPaymentCount(null, null, null, null, paymentState, 
-            null, null, null, this.ecitizen.homeFolder.id, null)
+
+        Set criteriaSet = new HashSet<Critere>();
+        Critere critere = new Critere();
+
+        critere.comparatif = Critere.EQUALS;
+        critere.attribut = Payment.SEARCH_BY_HOME_FOLDER_ID;
+        critere.value = this.ecitizen.homeFolder.id
+        criteriaSet.add(critere)        
+
+        result.all = paymentService.get(criteriaSet, 'initializationDate', 'desc', maxRows, offset)
+        result.count = paymentService.getCount(criteriaSet)
 
         return result
     }

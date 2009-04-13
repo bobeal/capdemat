@@ -1,5 +1,24 @@
 <h2>Nouvelles</h2>
 
+<p><strong>06 avril 2009</strong></p>
+<span style="text-decoration:underline;">Front Office</span>
+<ul>
+  <li>Essais de stylisation des formulaires de changement du mot de passe et de la question / réponse</li>
+  <li>Modifications mineures de présentation des paiements</li>
+  <li>Ajout d'un bouton Annuler pour les formulaires de changement du mot de passe et de la question / réponse</li>
+</ul>
+<span style="text-decoration:underline;">Back Office</span>
+<ul>
+  <li>Module de gestion des agents</li>
+  <li>Améliorations de présentation de la liste des saisons</li>
+  <li>Finalisation des statistiques</li>
+  <li>Inversion de l'ordre de tri par défaut des résultats dans la recherche de demandes</li>
+</ul>
+<span style="text-decoration:underline;">Front Office & Back Office</span>
+<ul>
+  <li>Portage du TS d'inscription au restaurant scolaire</li>
+</ul>
+
 <p><strong>31 Mars 2009</strong></p>
 <span style="text-decoration:underline;">Front Office</span>
 <ul>

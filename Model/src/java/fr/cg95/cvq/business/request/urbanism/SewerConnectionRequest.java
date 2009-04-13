@@ -53,18 +53,18 @@ public class SewerConnectionRequest extends Request implements Serializable {
         SewerConnectionRequestDocument sewerConnectionRequestDoc = SewerConnectionRequestDocument.Factory.newInstance();
         SewerConnectionRequestDocument.SewerConnectionRequest sewerConnectionRequest = sewerConnectionRequestDoc.addNewSewerConnectionRequest();
         super.fillCommonXmlInfo(sewerConnectionRequest);
-        if (this.moreThanTwoYears != null)
-            sewerConnectionRequest.setMoreThanTwoYears(this.moreThanTwoYears.booleanValue());
-        sewerConnectionRequest.setTransportationRoute(this.transportationRoute);
-        sewerConnectionRequest.setLocality(this.locality);
         sewerConnectionRequest.setOwnerLastName(this.ownerLastName);
-        if (this.number != null)
-            sewerConnectionRequest.setNumber(new BigInteger(this.number.toString()));
         sewerConnectionRequest.setOwnerFirstNames(this.ownerFirstNames);
         if (this.ownerAddress != null)
             sewerConnectionRequest.setOwnerAddress(Address.modelToXml(this.ownerAddress));
         if (this.requesterQuality != null)
             sewerConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.ScrRequesterQualityType.Enum.forString(this.requesterQuality.toString()));
+        if (this.moreThanTwoYears != null)
+            sewerConnectionRequest.setMoreThanTwoYears(this.moreThanTwoYears.booleanValue());
+        sewerConnectionRequest.setTransportationRoute(this.transportationRoute);
+        sewerConnectionRequest.setLocality(this.locality);
+        if (this.number != null)
+            sewerConnectionRequest.setNumber(new BigInteger(this.number.toString()));
         sewerConnectionRequest.setSection(this.section);
         return sewerConnectionRequestDoc;
     }
@@ -83,11 +83,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         List list = new ArrayList();
         SewerConnectionRequest sewerConnectionRequest = new SewerConnectionRequest();
         sewerConnectionRequest.fillCommonModelInfo(sewerConnectionRequest,sewerConnectionRequestXml);
-        sewerConnectionRequest.setMoreThanTwoYears(Boolean.valueOf(sewerConnectionRequestXml.getMoreThanTwoYears()));
-        sewerConnectionRequest.setTransportationRoute(sewerConnectionRequestXml.getTransportationRoute());
-        sewerConnectionRequest.setLocality(sewerConnectionRequestXml.getLocality());
         sewerConnectionRequest.setOwnerLastName(sewerConnectionRequestXml.getOwnerLastName());
-        sewerConnectionRequest.setNumber(sewerConnectionRequestXml.getNumber());
         sewerConnectionRequest.setOwnerFirstNames(sewerConnectionRequestXml.getOwnerFirstNames());
         if (sewerConnectionRequestXml.getOwnerAddress() != null)
             sewerConnectionRequest.setOwnerAddress(Address.xmlToModel(sewerConnectionRequestXml.getOwnerAddress()));
@@ -95,53 +91,12 @@ public class SewerConnectionRequest extends Request implements Serializable {
             sewerConnectionRequest.setRequesterQuality(fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType.forString(sewerConnectionRequestXml.getRequesterQuality().toString()));
         else
             sewerConnectionRequest.setRequesterQuality(fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType.getDefaultScrRequesterQualityType());
+        sewerConnectionRequest.setMoreThanTwoYears(Boolean.valueOf(sewerConnectionRequestXml.getMoreThanTwoYears()));
+        sewerConnectionRequest.setTransportationRoute(sewerConnectionRequestXml.getTransportationRoute());
+        sewerConnectionRequest.setLocality(sewerConnectionRequestXml.getLocality());
+        sewerConnectionRequest.setNumber(sewerConnectionRequestXml.getNumber());
         sewerConnectionRequest.setSection(sewerConnectionRequestXml.getSection());
         return sewerConnectionRequest;
-    }
-
-    private Boolean moreThanTwoYears;
-
-    public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
-        this.moreThanTwoYears = moreThanTwoYears;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="more_than_two_years"
-     */
-    public final Boolean getMoreThanTwoYears() {
-        return this.moreThanTwoYears;
-    }
-
-    private String transportationRoute;
-
-    public final void setTransportationRoute(final String transportationRoute) {
-        this.transportationRoute = transportationRoute;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="transportation_route"
-     */
-    public final String getTransportationRoute() {
-        return this.transportationRoute;
-    }
-
-    private String locality;
-
-    public final void setLocality(final String locality) {
-        this.locality = locality;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="locality"
-     */
-    public final String getLocality() {
-        return this.locality;
     }
 
     private String ownerLastName;
@@ -158,22 +113,6 @@ public class SewerConnectionRequest extends Request implements Serializable {
      */
     public final String getOwnerLastName() {
         return this.ownerLastName;
-    }
-
-    private java.math.BigInteger number;
-
-    public final void setNumber(final java.math.BigInteger number) {
-        this.number = number;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="number"
-     *  type="serializable"
-     */
-    public final java.math.BigInteger getNumber() {
-        return this.number;
     }
 
     private String ownerFirstNames;
@@ -221,6 +160,67 @@ public class SewerConnectionRequest extends Request implements Serializable {
      */
     public final fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType getRequesterQuality() {
         return this.requesterQuality;
+    }
+
+    private Boolean moreThanTwoYears;
+
+    public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
+        this.moreThanTwoYears = moreThanTwoYears;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="more_than_two_years"
+     */
+    public final Boolean getMoreThanTwoYears() {
+        return this.moreThanTwoYears;
+    }
+
+    private String transportationRoute;
+
+    public final void setTransportationRoute(final String transportationRoute) {
+        this.transportationRoute = transportationRoute;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="transportation_route"
+     */
+    public final String getTransportationRoute() {
+        return this.transportationRoute;
+    }
+
+    private String locality;
+
+    public final void setLocality(final String locality) {
+        this.locality = locality;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="locality"
+     */
+    public final String getLocality() {
+        return this.locality;
+    }
+
+    private java.math.BigInteger number;
+
+    public final void setNumber(final java.math.BigInteger number) {
+        this.number = number;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="number"
+     *  type="serializable"
+     */
+    public final java.math.BigInteger getNumber() {
+        return this.number;
     }
 
     private String section;

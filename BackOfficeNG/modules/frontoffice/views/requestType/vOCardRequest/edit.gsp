@@ -7,8 +7,21 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'format.js')}"></script>
   </head>  
   <body>
-    <g:render template="/frontofficeRequestType/draftPanel" />
-    <h2 class="request-creation"> <g:message code="vcr.label" /></h2>
+    <g:set var="requestTypeInfo">
+      {"label": "${requestTypeLabel}"
+	  ,"steps": [  "adults-required", "children", "account-required", "document", "validation"  ]
+	  }
+    </g:set>
+    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
+    <form action="${module.createLink(controller:'VoCardRequestCreationController',action:'condition')}" 
+      method="post" id="conditionsForm">
+      <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
+      <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+    </form>
+	<g:render template="/frontofficeRequestType/cancelPanel" />
+    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
+    
+	<h2 class="request-creation"> <g:message code="vcr.label" /></h2>
     <p><g:message code="vcr.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="vcr.duration.value" /></strong></p>
     <p>
@@ -23,12 +36,6 @@
       <p class="message-confirmation">${flash.confirmationMessage}</p>
     </g:if>
 
-<g:set var="requestTypeInfo">
-  {"label": "${requestTypeLabel}"
-    ,"steps": [  "adults-required", "children", "account-required", "document", "validation"  ]
-  }
-</g:set>
-<g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
 
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
@@ -253,14 +260,22 @@
              <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
            </h3>
            <div>
-  
+             
              <select name="meansOfContact">
                <g:each in="${meansOfContact}" var="moc">
                  <option value="${moc.key}">${moc.label}</option>
                </g:each>
              </select>
   
-            <g:render template="/frontofficeRequestType/vOCardRequest/validation" />         
+             <g:render template="/frontofficeRequestType/vOCardRequest/summary" /> 
+
+						 <h3><g:message code="vcr.property.monitoring" /></h3>
+						 <div class="required captcha">
+  						 <label class="required"><g:message code="vcr.property.captcha" /></label>
+  						 <jcaptcha:jpeg name="image" class="image"/>
+  						 <input type="text" name="response" class="required response" value=""/>
+						 </div>
+        
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->

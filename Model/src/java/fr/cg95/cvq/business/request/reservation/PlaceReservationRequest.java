@@ -139,6 +139,7 @@ public class PlaceReservationRequest extends Request implements Serializable {
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="place_reservation_request_place_reservation"
      * @hibernate.key

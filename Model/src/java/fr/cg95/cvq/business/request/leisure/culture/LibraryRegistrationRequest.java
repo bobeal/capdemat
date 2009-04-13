@@ -131,6 +131,21 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return this.parentalAuthorization;
     }
 
+    private Short subscriptionPrice;
+
+    public final void setSubscriptionPrice(final Short subscriptionPrice) {
+        this.subscriptionPrice = subscriptionPrice;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="subscription_price"
+     */
+    public final Short getSubscriptionPrice() {
+        return this.subscriptionPrice;
+    }
+
     private List<fr.cg95.cvq.business.users.LocalReferentialData> subscription;
 
     public final void setSubscription(final List<fr.cg95.cvq.business.users.LocalReferentialData> subscription) {
@@ -141,6 +156,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="library_registration_request_subscription"
      * @hibernate.key
@@ -168,21 +184,6 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
      */
     public final Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
-    }
-
-    private Short subscriptionPrice;
-
-    public final void setSubscriptionPrice(final Short subscriptionPrice) {
-        this.subscriptionPrice = subscriptionPrice;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="subscription_price"
-     */
-    public final Short getSubscriptionPrice() {
-        return this.subscriptionPrice;
     }
 
 }

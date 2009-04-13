@@ -377,18 +377,15 @@ public class ModelRequestObject {
      * @param elementsPropertiesMap properties associated to the class (request or
      *        or local complex type) being generated
      */
-    private void generateConstructor(String className, HashMap elementsPropertiesMap) {
+    private void generateConstructor(String className, 
+        HashMap<String, ElementModelProperties> elementsPropertiesMap) {
 
         currentSb.append("\n\n");
         currentSb.append("    public " + className + "() {\n");
         currentSb.append("        super();\n");
 
-        Set elementsSet = elementsPropertiesMap.keySet();
-        Iterator elementsIt = elementsSet.iterator();
-        while (elementsIt.hasNext()) {
-            String elementName = (String) elementsIt.next();
-            ElementModelProperties eltProperties =
-                (ElementModelProperties) elementsPropertiesMap.get(elementName);
+        for (String elementName : elementsPropertiesMap.keySet()) {
+            ElementModelProperties eltProperties = elementsPropertiesMap.get(elementName);
             if (eltProperties.getDefaultValue() != null) {
                 // currently only identified two cases where default values have
                 // a sense :
@@ -402,9 +399,11 @@ public class ModelRequestObject {
                         type += eltProperties.getXmlSchemaType();
                     else
                         type += elementName;
-                    currentSb.append("        " + eltProperties.getNameAsParam() + " = " + type + "." + eltProperties.getDefaultValue().toUpperCase() + ";\n");
+                    currentSb.append("        " + eltProperties.getNameAsParam() + " = "
+                        + type + "." + getEnumStaticName(eltProperties.getDefaultValue()) + ";\n");
                 } else if (xmlBeanType.indexOf("XmlBoolean") != -1) {
-                    currentSb.append("        " + eltProperties.getNameAsParam() + " = Boolean.valueOf(" + eltProperties.getDefaultValue() + ");\n");
+                    currentSb.append("        " + eltProperties.getNameAsParam()
+                        + " = Boolean.valueOf(" + eltProperties.getDefaultValue() + ");\n");
                 }
             }
         }
@@ -820,6 +819,7 @@ public class ModelRequestObject {
                     // a one-to-many
                     currentSb.append("     * @hibernate.list\n");
                     currentSb.append("     *  inverse=\"false\"\n");
+                    currentSb.append("     *  lazy=\"false\"\n");
                     if (eltModelProperties.isTiedToRequest())
                         currentSb.append("     *  cascade=\"all\"\n");
                     currentSb.append("     *  table=\"" + getSQLName(requestName) + "_" + getSQLName(elementName) + "\"\n");
@@ -943,7 +943,7 @@ public class ModelRequestObject {
         writeBusinessObjectFile(className, sb.toString().getBytes());
     }
 
-    public void generateLocalComplexTypeHeader(ComplexType complexType) {
+    private void generateLocalComplexTypeHeader(ComplexType complexType) {
 
         // print general information (package, imports and class declaration)
         currentSb.append("package fr.cg95.cvq.business.request." + requestNamespaceLastParticle + ";");

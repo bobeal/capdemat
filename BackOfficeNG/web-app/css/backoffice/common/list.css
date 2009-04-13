@@ -32,8 +32,16 @@
 	border-bottom: 1px dashed #999999;
 }
 
-#search-results p.first-line { color: #0000ff; font-size: 1.1em; font-weight: normal; padding-bottom: 0.3em;}
+#search-results p.first-line { font-size: 1.1em; font-weight: normal; padding-bottom: 0.3em; }
 #search-results p.state      { color: #ff7400; }
 #search-results p.second-line, #search-results p.third-line  { font-size: 0.9em; }
-#search-results .tag-state { float: right; font-size: 0.8em;}
-#search-results span.current-sort { font-size: 1.2em; font-weight: bold;}
+#search-results .tag-state { float: right; font-size: 0.8em; }
+#search-results span.current-sort { font-size: 1.2em; font-weight: bold; }
+
+/* Request 
+-------------------------------------------------------------- */
+#search-results .request p.first-line { color: #0000ff; }
+
+/* Payment 
+-------------------------------------------------------------- */
+#search-results .payment span.reference { text-decoration: underline; }

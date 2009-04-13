@@ -59,31 +59,10 @@ public class PersonalDetailsRequest extends Request implements Serializable {
             personalDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.CertificateFormatType.Enum.forString(this.format.toString()));
         if (this.copies != null)
             personalDetailsRequest.setCopies(new BigInteger(this.copies.toString()));
-        personalDetailsRequest.setBirthPostalCode(this.birthPostalCode);
         personalDetailsRequest.setBirthCity(this.birthCity);
-        date = this.marriageDate;
-        if (date != null) {
-            calendar.setTime(date);
-            personalDetailsRequest.setMarriageDate(calendar);
-        }
         personalDetailsRequest.setMarriageHusbandLastName(this.marriageHusbandLastName);
         personalDetailsRequest.setMarriageWifeFirstNames(this.marriageWifeFirstNames);
-        date = this.deathDate;
-        if (date != null) {
-            calendar.setTime(date);
-            personalDetailsRequest.setDeathDate(calendar);
-        }
-        date = this.birthDate;
-        if (date != null) {
-            calendar.setTime(date);
-            personalDetailsRequest.setBirthDate(calendar);
-        }
         personalDetailsRequest.setRequesterQualityPrecision(this.requesterQualityPrecision);
-        personalDetailsRequest.setDeathPostalCode(this.deathPostalCode);
-        personalDetailsRequest.setFatherLastName(this.fatherLastName);
-        if (this.relationship != null)
-            personalDetailsRequest.setRelationship(fr.cg95.cvq.xml.request.civil.RelationshipType.Enum.forString(this.relationship.toString()));
-        personalDetailsRequest.setMotherFirstNames(this.motherFirstNames);
         personalDetailsRequest.setFatherFirstNames(this.fatherFirstNames);
         personalDetailsRequest.setMarriagePostalCode(this.marriagePostalCode);
         if (this.certificate != null)
@@ -99,6 +78,27 @@ public class PersonalDetailsRequest extends Request implements Serializable {
         personalDetailsRequest.setBirthFirstNames(this.birthFirstNames);
         personalDetailsRequest.setDeathLastName(this.deathLastName);
         personalDetailsRequest.setBirthLastName(this.birthLastName);
+        personalDetailsRequest.setBirthPostalCode(this.birthPostalCode);
+        date = this.marriageDate;
+        if (date != null) {
+            calendar.setTime(date);
+            personalDetailsRequest.setMarriageDate(calendar);
+        }
+        date = this.deathDate;
+        if (date != null) {
+            calendar.setTime(date);
+            personalDetailsRequest.setDeathDate(calendar);
+        }
+        date = this.birthDate;
+        if (date != null) {
+            calendar.setTime(date);
+            personalDetailsRequest.setBirthDate(calendar);
+        }
+        personalDetailsRequest.setDeathPostalCode(this.deathPostalCode);
+        personalDetailsRequest.setFatherLastName(this.fatherLastName);
+        if (this.relationship != null)
+            personalDetailsRequest.setRelationship(fr.cg95.cvq.xml.request.civil.RelationshipType.Enum.forString(this.relationship.toString()));
+        personalDetailsRequest.setMotherFirstNames(this.motherFirstNames);
         return personalDetailsRequestDoc;
     }
 
@@ -122,30 +122,10 @@ public class PersonalDetailsRequest extends Request implements Serializable {
         else
             personalDetailsRequest.setFormat(fr.cg95.cvq.business.request.civil.CertificateFormatType.getDefaultCertificateFormatType());
         personalDetailsRequest.setCopies(personalDetailsRequestXml.getCopies());
-        personalDetailsRequest.setBirthPostalCode(personalDetailsRequestXml.getBirthPostalCode());
         personalDetailsRequest.setBirthCity(personalDetailsRequestXml.getBirthCity());
-        calendar = personalDetailsRequestXml.getMarriageDate();
-        if (calendar != null) {
-            personalDetailsRequest.setMarriageDate(calendar.getTime());
-        }
         personalDetailsRequest.setMarriageHusbandLastName(personalDetailsRequestXml.getMarriageHusbandLastName());
         personalDetailsRequest.setMarriageWifeFirstNames(personalDetailsRequestXml.getMarriageWifeFirstNames());
-        calendar = personalDetailsRequestXml.getDeathDate();
-        if (calendar != null) {
-            personalDetailsRequest.setDeathDate(calendar.getTime());
-        }
-        calendar = personalDetailsRequestXml.getBirthDate();
-        if (calendar != null) {
-            personalDetailsRequest.setBirthDate(calendar.getTime());
-        }
         personalDetailsRequest.setRequesterQualityPrecision(personalDetailsRequestXml.getRequesterQualityPrecision());
-        personalDetailsRequest.setDeathPostalCode(personalDetailsRequestXml.getDeathPostalCode());
-        personalDetailsRequest.setFatherLastName(personalDetailsRequestXml.getFatherLastName());
-        if (personalDetailsRequestXml.getRelationship() != null)
-            personalDetailsRequest.setRelationship(fr.cg95.cvq.business.request.civil.RelationshipType.forString(personalDetailsRequestXml.getRelationship().toString()));
-        else
-            personalDetailsRequest.setRelationship(fr.cg95.cvq.business.request.civil.RelationshipType.getDefaultRelationshipType());
-        personalDetailsRequest.setMotherFirstNames(personalDetailsRequestXml.getMotherFirstNames());
         personalDetailsRequest.setFatherFirstNames(personalDetailsRequestXml.getFatherFirstNames());
         personalDetailsRequest.setMarriagePostalCode(personalDetailsRequestXml.getMarriagePostalCode());
         if (personalDetailsRequestXml.getCertificate() != null)
@@ -165,6 +145,26 @@ public class PersonalDetailsRequest extends Request implements Serializable {
         personalDetailsRequest.setBirthFirstNames(personalDetailsRequestXml.getBirthFirstNames());
         personalDetailsRequest.setDeathLastName(personalDetailsRequestXml.getDeathLastName());
         personalDetailsRequest.setBirthLastName(personalDetailsRequestXml.getBirthLastName());
+        personalDetailsRequest.setBirthPostalCode(personalDetailsRequestXml.getBirthPostalCode());
+        calendar = personalDetailsRequestXml.getMarriageDate();
+        if (calendar != null) {
+            personalDetailsRequest.setMarriageDate(calendar.getTime());
+        }
+        calendar = personalDetailsRequestXml.getDeathDate();
+        if (calendar != null) {
+            personalDetailsRequest.setDeathDate(calendar.getTime());
+        }
+        calendar = personalDetailsRequestXml.getBirthDate();
+        if (calendar != null) {
+            personalDetailsRequest.setBirthDate(calendar.getTime());
+        }
+        personalDetailsRequest.setDeathPostalCode(personalDetailsRequestXml.getDeathPostalCode());
+        personalDetailsRequest.setFatherLastName(personalDetailsRequestXml.getFatherLastName());
+        if (personalDetailsRequestXml.getRelationship() != null)
+            personalDetailsRequest.setRelationship(fr.cg95.cvq.business.request.civil.RelationshipType.forString(personalDetailsRequestXml.getRelationship().toString()));
+        else
+            personalDetailsRequest.setRelationship(fr.cg95.cvq.business.request.civil.RelationshipType.getDefaultRelationshipType());
+        personalDetailsRequest.setMotherFirstNames(personalDetailsRequestXml.getMotherFirstNames());
         return personalDetailsRequest;
     }
 
@@ -214,22 +214,6 @@ public class PersonalDetailsRequest extends Request implements Serializable {
         return this.copies;
     }
 
-    private String birthPostalCode;
-
-    public final void setBirthPostalCode(final String birthPostalCode) {
-        this.birthPostalCode = birthPostalCode;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="birth_postal_code"
-     *  length="2"
-     */
-    public final String getBirthPostalCode() {
-        return this.birthPostalCode;
-    }
-
     private String birthCity;
 
     public final void setBirthCity(final String birthCity) {
@@ -244,21 +228,6 @@ public class PersonalDetailsRequest extends Request implements Serializable {
      */
     public final String getBirthCity() {
         return this.birthCity;
-    }
-
-    private java.util.Date marriageDate;
-
-    public final void setMarriageDate(final java.util.Date marriageDate) {
-        this.marriageDate = marriageDate;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="marriage_date"
-     */
-    public final java.util.Date getMarriageDate() {
-        return this.marriageDate;
     }
 
     private String marriageHusbandLastName;
@@ -292,36 +261,6 @@ public class PersonalDetailsRequest extends Request implements Serializable {
         return this.marriageWifeFirstNames;
     }
 
-    private java.util.Date deathDate;
-
-    public final void setDeathDate(final java.util.Date deathDate) {
-        this.deathDate = deathDate;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="death_date"
-     */
-    public final java.util.Date getDeathDate() {
-        return this.deathDate;
-    }
-
-    private java.util.Date birthDate;
-
-    public final void setBirthDate(final java.util.Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="birth_date"
-     */
-    public final java.util.Date getBirthDate() {
-        return this.birthDate;
-    }
-
     private String requesterQualityPrecision;
 
     public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
@@ -335,68 +274,6 @@ public class PersonalDetailsRequest extends Request implements Serializable {
      */
     public final String getRequesterQualityPrecision() {
         return this.requesterQualityPrecision;
-    }
-
-    private String deathPostalCode;
-
-    public final void setDeathPostalCode(final String deathPostalCode) {
-        this.deathPostalCode = deathPostalCode;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="death_postal_code"
-     *  length="2"
-     */
-    public final String getDeathPostalCode() {
-        return this.deathPostalCode;
-    }
-
-    private String fatherLastName;
-
-    public final void setFatherLastName(final String fatherLastName) {
-        this.fatherLastName = fatherLastName;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="father_last_name"
-     *  length="38"
-     */
-    public final String getFatherLastName() {
-        return this.fatherLastName;
-    }
-
-    private fr.cg95.cvq.business.request.civil.RelationshipType relationship;
-
-    public final void setRelationship(final fr.cg95.cvq.business.request.civil.RelationshipType relationship) {
-        this.relationship = relationship;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="relationship"
-     */
-    public final fr.cg95.cvq.business.request.civil.RelationshipType getRelationship() {
-        return this.relationship;
-    }
-
-    private String motherFirstNames;
-
-    public final void setMotherFirstNames(final String motherFirstNames) {
-        this.motherFirstNames = motherFirstNames;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="mother_first_names"
-     */
-    public final String getMotherFirstNames() {
-        return this.motherFirstNames;
     }
 
     private String fatherFirstNames;
@@ -599,6 +476,129 @@ public class PersonalDetailsRequest extends Request implements Serializable {
      */
     public final String getBirthLastName() {
         return this.birthLastName;
+    }
+
+    private String birthPostalCode;
+
+    public final void setBirthPostalCode(final String birthPostalCode) {
+        this.birthPostalCode = birthPostalCode;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="birth_postal_code"
+     *  length="2"
+     */
+    public final String getBirthPostalCode() {
+        return this.birthPostalCode;
+    }
+
+    private java.util.Date marriageDate;
+
+    public final void setMarriageDate(final java.util.Date marriageDate) {
+        this.marriageDate = marriageDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="marriage_date"
+     */
+    public final java.util.Date getMarriageDate() {
+        return this.marriageDate;
+    }
+
+    private java.util.Date deathDate;
+
+    public final void setDeathDate(final java.util.Date deathDate) {
+        this.deathDate = deathDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="death_date"
+     */
+    public final java.util.Date getDeathDate() {
+        return this.deathDate;
+    }
+
+    private java.util.Date birthDate;
+
+    public final void setBirthDate(final java.util.Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="birth_date"
+     */
+    public final java.util.Date getBirthDate() {
+        return this.birthDate;
+    }
+
+    private String deathPostalCode;
+
+    public final void setDeathPostalCode(final String deathPostalCode) {
+        this.deathPostalCode = deathPostalCode;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="death_postal_code"
+     *  length="2"
+     */
+    public final String getDeathPostalCode() {
+        return this.deathPostalCode;
+    }
+
+    private String fatherLastName;
+
+    public final void setFatherLastName(final String fatherLastName) {
+        this.fatherLastName = fatherLastName;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="father_last_name"
+     *  length="38"
+     */
+    public final String getFatherLastName() {
+        return this.fatherLastName;
+    }
+
+    private fr.cg95.cvq.business.request.civil.RelationshipType relationship;
+
+    public final void setRelationship(final fr.cg95.cvq.business.request.civil.RelationshipType relationship) {
+        this.relationship = relationship;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="relationship"
+     */
+    public final fr.cg95.cvq.business.request.civil.RelationshipType getRelationship() {
+        return this.relationship;
+    }
+
+    private String motherFirstNames;
+
+    public final void setMotherFirstNames(final String motherFirstNames) {
+        this.motherFirstNames = motherFirstNames;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="mother_first_names"
+     */
+    public final String getMotherFirstNames() {
+        return this.motherFirstNames;
     }
 
 }

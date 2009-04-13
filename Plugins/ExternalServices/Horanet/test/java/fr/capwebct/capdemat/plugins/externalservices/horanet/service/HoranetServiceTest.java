@@ -11,7 +11,7 @@ import java.util.Set;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.School;
-import fr.cg95.cvq.business.authority.SectionType;
+import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;

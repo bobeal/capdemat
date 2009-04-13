@@ -14,7 +14,6 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.document.DocumentTypeValidity;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.document.IDocumentBinaryDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
@@ -44,7 +43,6 @@ public class DocumentService implements IDocumentService {
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
     protected IDocumentBinaryDAO documentBinaryDAO;
-    protected IGenericDAO genericDAO;
     
     public DocumentService() {
         super();
@@ -510,10 +508,6 @@ public class DocumentService implements IDocumentService {
 
     public void setDocumentTypeDAO(final IDocumentTypeDAO documentTypeDAO) {
         this.documentTypeDAO = documentTypeDAO;
-    }
-
-    public void setGenericDAO(final IGenericDAO genericDAO) {
-        this.genericDAO = genericDAO;
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

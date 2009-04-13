@@ -30,6 +30,9 @@
     <a id="paymentMenuItem" href="<g:createLink controller='backofficePayment'/>">
       <g:message code="menu.payments" />
     </a>
+    <a id="userMenuItem" href="<g:createLink controller='backofficeUser'/>">
+      <g:message code="menu.users" />
+    </a>
   </g:if>
 </div>
 

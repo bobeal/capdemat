@@ -14,7 +14,7 @@
     </g:if>
   </ul>
   <input type="hidden" value="${active ? 'active':'inactive'}" id="initRequestState" name="initState" />
-  <input type="hidden" value="${requestTypeId}" name="requestTypeId" />
+  <input type="hidden" value="${requestTypeId}" name="id" />
   <input id="saveButton" class="submitStateChange bt" type="button" value="${message(code:'action.confirm')}" />
   <input id="cancelButton" class="cancelStateChange bt" type="button" value="${message(code:'action.cancel')}" />
 </form>

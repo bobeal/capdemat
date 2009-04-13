@@ -4,6 +4,7 @@ import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.HomeFolder
+import fr.cg95.cvq.business.users.payment.Payment
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqDisabledAccountException
 import fr.cg95.cvq.exception.CvqUnknownUserException
@@ -34,7 +35,7 @@ class HomeController {
     Adult currentEcitizen
 
     def resultsPerList = 5
-    def defaultAction = "index" 
+    def defaultAction = 'index'
     
     def beforeInterceptor = {
         this.currentEcitizen = SecurityContext.getCurrentEcitizen()
@@ -71,9 +72,9 @@ class HomeController {
         def error = '', result = null
         if(request.post) {
             try { result = authenticationService.authenticate(params.login,params.password) } 
-            catch (CvqUnknownUserException e) {error='error.unknownUser'}
-            catch (CvqAuthenticationFailedException e) {error='error.authenticationFailed'}
-            catch (CvqDisabledAccountException e) {error='error.disabledAccount'}
+            catch (CvqUnknownUserException e) {error='account.error.unknownUser'}
+            catch (CvqAuthenticationFailedException e) {error='account.error.authenticationFailed'}
+            catch (CvqDisabledAccountException e) {error='account.error.disabledAccount'}
             
             if(result && result instanceof HomeFolder) {
                 session.currentEcitizen = params.login
@@ -82,15 +83,24 @@ class HomeController {
                 SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                 SecurityContext.setCurrentEcitizen(session.currentEcitizen)
                 
-                redirect(controller:'frontofficeHome')
-                return false
+                if (params.requestTypeLabel == null) {
+                    redirect(controller:'frontofficeHome')
+                    return false
+                } else {
+                    redirect(uri:'/frontoffice/requestCreation?label=' + params.requestTypeLabel)
+                    return false
+                }
             }
         }
-        return [
-            'isLogin': true,
-            'error': message(code:error),
-            'groups': requestTypeAdaptorService.getDisplayGroups(false,null)
-        ]
+        return ['isLogin': true, 'error': message(code:error),
+                'groups': requestTypeAdaptorService.getDisplayGroups(false,null)]
+//        if (flash.requestLabel == null) {
+//            return ['isLogin': true, 'error': message(code:error),
+//                    'groups': requestTypeAdaptorService.getDisplayGroups(false,null)]
+//        } else {
+//            flash.isOutOfAccountRequest = true;
+//            return ['isLogin': true, 'error': message(code:error), 'requestLabel': flash.requestLabel ]
+//        }
     }
     
     def logout = {
@@ -170,12 +180,19 @@ class HomeController {
     }
     
     def protected getTopFivePayments() {
+        
+        Set criteriaSet = new HashSet<Critere>();
+        Critere critere = new Critere();
+        
+        critere.comparatif = Critere.EQUALS;
+        critere.attribut = Payment.SEARCH_BY_HOME_FOLDER_ID;
+        critere.value = currentEcitizen.homeFolder.id
+        criteriaSet.add(critere)
+
         return [
-            'all' : paymentService.extendedGet(null, null, null, null, null, null, null, null, 
-                this.currentEcitizen.homeFolder.id, null, 'initializationDate', 'desc', 
+            'all' : paymentService.get(criteriaSet, 'initializationDate', 'desc', 
                 resultsPerList, 0),
-            'count' : paymentService.getPaymentCount(null, null, null, null, null, null, null, 
-                null, this.currentEcitizen.homeFolder.id, null),
+            'count' : paymentService.getCount(criteriaSet),
             'records' : []
         ]
         

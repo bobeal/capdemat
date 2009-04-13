@@ -3,7 +3,7 @@
   <invoiceDetail>
     <child-name>Lolita</child-name>
     <child-surname>TOULOUSE</child-surname>
-    <label>carence</label>
+    <label>Repas restauration scolaire</label>
     <unit-price>2300</unit-price>
     <quantity>2</quantity>
     <value>4600</value>
@@ -11,6 +11,7 @@
   <invoiceDetail>
     <child-name>Pierre</child-name>
     <child-surname>TOULOUSE</child-surname>
+    <label>Garderie du soir</label>
     <unit-price>450</unit-price>
     <quantity>12</quantity>
     <value>5400</value>

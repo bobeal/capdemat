@@ -104,7 +104,7 @@
 
       <!-- request document state -->
       <div class="nobox taskstate">
-        <h3><g:message code="request.requester.property.evidences" /></h3>
+        <h3><g:message code="property.documents" /></h3>
         <div class="body">
           <ul class="document-list" id="fullDocumentList">
           <g:each var="document" in="${documentList}">

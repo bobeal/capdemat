@@ -56,7 +56,7 @@ class PaymentController {
     
     def initSearchReferential() {
     	return ['allStates':PaymentState.allPaymentStates,
-    	        'allBrokers':paymentService.getAllBrokers(PaymentMode.INTERNET)]
+    	        'allBrokers':paymentService.getAllBrokers()]
     }
     
     def configure = {
@@ -139,7 +139,7 @@ class PaymentController {
         if (params.paginatorChange.equals("true"))
             recordOffset = Integer.valueOf(params.recordOffset)        
                     
-        def payments = paymentService.get(criteria, sortBy, dir, results, recordOffset, PaymentMode.INTERNET)        
+        def payments = paymentService.get(criteria, sortBy, dir, results, recordOffset)        
                       
         def recordsList = []
 
@@ -161,7 +161,7 @@ class PaymentController {
         }
         render(view:'search', model:[
                                      'recordsReturned':payments.size(),
-                                     'totalRecords':paymentService.getCount(criteria, PaymentMode.INTERNET),
+                                     'totalRecords':paymentService.getCount(criteria),
                                      'recordOffset':recordOffset,
                                      'records':recordsList,
                                      'filters':parsedFilters.filters,

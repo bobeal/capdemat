@@ -68,52 +68,67 @@
 <% stepBundle.each { step -> %>
   <% if (step.name == 'document') { %>
   <g:if test="\${!documentTypes.isEmpty()}">
-    <h3><g:message code="request.step.document.label" /></h3>
+    <h3>\${message(code:'request.step.document.label')}</h3>
     <g:each in="\${documentTypes}" var="documentType">
       <h4>\${message(code:documentType.value.name)}</h4>
       <g:if test="\${documentType.value.associated}">
       <dl class="document-linked">
         <g:each in="\${documentType.value.associated}" var="document">
         <dt>
-          <g:if test="\${document.ecitizenNote}">description : \${document.ecitizenNote}<br/></g:if>
-          <g:if test="\${document.endValidityDate}">expire le \${formatDate(date:document.endValidityDate,formatName:'format.date')}</g:if>
+          <g:if test="\${document.ecitizenNote}">\${message(code:'document.header.description')} : \${document.ecitizenNote}<br/></g:if>
+          <g:if test="\${document.endValidityDate}">\${message(code:'document.header.expireOn')} \${formatDate(date:document.endValidityDate,formatName:'format.date')}</g:if>
         </dt>
         <dd>
-          <g:if test="\${document.isNew}"><span class="tag-state tag-active">nouveau</span></g:if>
-          <a href="\${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">aperçu</a>
+          <g:if test="\${document.isNew}"><span class="tag-state tag-active">\${message(code:'document.header.new')}</span></g:if>
+          <a href="\${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">\${message(code:'document.header.preview')}</a>
         </dd>
         </g:each>
       </dl>
       </g:if>
       <g:else>
-        Aucun document joint
+        \${message(code:'document.header.noAttachments')}
       </g:else>
     </g:each>
   </g:if>
-  <% } else if (step.name != 'validation') { %>
-  <h3><g:message code="${requestFo.acronym}.step.${step.name}.label" /></h3>
-  <% } %>
-  <% requestFo.getElementsByStep(step).each { element -> %>
-    <% if (element.typeClass == "COLLECTION") { %>
-    <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
-    <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
-    <dl>
-      <% element.elements.each { subElement -> %>
-        <% displayWidget(subElement, "it") %>
-      <% } %>
-    </dl>
-    </g:each>
-    <% } else if (element.typeClass == "COMPLEX") { %>
-    <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
-    <dl>
-      <% element.elements.each { subElement -> %>
-        <% displayWidget(subElement, "rqt") %>
-      <% } %>
-    </dl>
+  <% } else { %>
+    <% if (step.name == 'validation') { %>
+      <h3><g:message code="request.step.${step.name}.label" /></h3>
+      <g:if test="\${!hasHomeFolder}">
+        <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+      </g:if>
+      
+      <div id="useAcceptance">
+       <input type="checkbox" name="useAcceptance" class="required validate-one-required"
+              title="\${message(code:'request.error.useAcceptanceRequired')}" />
+       <a href="\${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+         <g:message code="request.step.validation.useAcceptance"/>
+       </a>
+     </div>
     <% } else { %>
-      <dl>
-      <% displayWidget(element, "rqt") %>
-      </dl>
+      <h3><g:message code="${requestFo.acronym}.step.${step.name}.label" /></h3>
+      <% requestFo.getElementsByStep(step).each { element -> %>
+        <% if (element.typeClass == "COLLECTION") { %>
+        <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
+        <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
+        <dl>
+          <% element.elements.each { subElement -> %>
+            <% displayWidget(subElement, "it") %>
+          <% } %>
+        </dl>
+        </g:each>
+        <% } else if (element.typeClass == "COMPLEX") { %>
+        <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
+        <dl>
+          <% element.elements.each { subElement -> %>
+            <% displayWidget(subElement, "rqt") %>
+          <% } %>
+        </dl>
+        <% } else { %>
+        <dl>
+          <% displayWidget(element, "rqt") %>
+        </dl>
+        <% } %>
+      <% } %>
     <% } %>
   <% } %>
 <% } %>

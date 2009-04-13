@@ -5,7 +5,7 @@
        <li>
          <p>${record.label} <g:message code="message.for" /> ${record.subjectName}</p>
          <p>
-           <g:message code="payment.header.quality" /> : ${record.quantity}
+           <g:message code="payment.property.quantity" /> : ${record.quantity}
            <g:if test="${record.unitPrice}">
              (<g:message code="payment.header.unitPrice" /> : ${record.unitPrice / 100} €)
            </g:if>

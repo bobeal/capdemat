@@ -228,7 +228,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <bean id="requestStatisticsService" class="fr.cg95.cvq.service.request.impl.RequestStatisticsService">
     <property name="requestStatisticsDAO" ref="requestStatisticsDAO"/>
-    <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="categoryService" ref="categoryService" />
   </bean>
 
@@ -312,7 +311,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="documentDAO" ref="documentDAO"/>
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="documentBinaryDAO" ref="documentBinaryDAO"/>
-    <property name="genericDAO" ref="genericDAO"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
   </bean>
 

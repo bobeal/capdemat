@@ -120,6 +120,7 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="bulky_waste_collection_request_bulky_waste_type"
      * @hibernate.key

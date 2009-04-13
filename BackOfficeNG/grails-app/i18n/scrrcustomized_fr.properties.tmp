@@ -1,0 +1,39 @@
+scrr.duration.value =
+
+scrr.step.registration.label =
+scrr.step.registration.desc =
+
+scrr.step.rules.label =
+scrr.step.rules.desc =
+
+
+scrr.property.urgencyPhone.help =
+scrr.property.urgencyPhone.validationError =
+
+scrr.property.school.help =
+scrr.property.school.validationError =
+
+scrr.property.section.help =
+scrr.property.section.validationError =
+
+scrr.property.foodDiet.help =
+scrr.property.foodDiet.validationError =
+
+scrr.property.canteenAttendingDays.help =
+scrr.property.canteenAttendingDays.validationError =
+
+scrr.property.foodAllergy.help =
+scrr.property.foodAllergy.validationError =
+
+scrr.property.doctorName.help =
+scrr.property.doctorName.validationError =
+
+scrr.property.doctorPhone.help =
+scrr.property.doctorPhone.validationError =
+
+scrr.property.hospitalizationPermission.help =
+scrr.property.hospitalizationPermission.validationError =
+
+scrr.property.rulesAndRegulationsAcceptance.help =
+scrr.property.rulesAndRegulationsAcceptance.validationError =
+

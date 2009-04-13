@@ -1,7 +1,6 @@
 package fr.cg95.cvq.payment;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,7 +8,6 @@ import java.util.Set;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.business.users.payment.PaymentMode;
-import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -39,7 +37,7 @@ public interface IPaymentService {
      * 
      * @return a map of (broker, friendly label)
      */
-    Map<String, String> getAllBrokers(PaymentMode paymentMode) throws CvqException;
+    Map<String, String> getAllBrokers() throws CvqException;
     
     /**
      * Create a payment container object "based" on the given purchase item.
@@ -92,36 +90,24 @@ public interface IPaymentService {
     List<Payment> getByHomeFolder(final HomeFolder homeFolder);
     
     /**
-     * Get all payments matching the given criteria.
-     * 
-     * @param dateType to specify whether provided dates relate to initialization date or 
-     *                 commit date (see {@link #DATE_TYPE_INITIALIZATION} and
-     *                                  {@link #DATE_TYPE_COMMIT}).
-     */
-    List<Payment> get(final Date from, final Date to, final String dateType, 
-            final PaymentState paymentState, final String cvqReference, 
-            final String bankReference, final String broker, final Long homeFolderId, 
-            final String lastName);
-    
-    /**
      * Get a constrained list of payments according to a set of criteria and requirements.
      *
-     * @param sort an ordering to apply to results. 
-     * @param dir the direction of the sort (asc or desc)
-     * @param recordsReturned the number of records to return
+     * @param criteriaSet a set of {@link Critere criteria} to be applied to the search
+     * @param sort an ordering to apply to results. value is one of the SEARCH_* static
+     *        string defined in this service (null to use default sort on payments ids)
+     * @param dir the direction of the sort (asc or desc, asc by default)
+     * @param recordsReturned the number of records to return (-1 to get all results)
      * @param startIndex the start index of the records to return
      */
-    List<Payment> extendedGet(final Date initDateFrom, final Date initDateTo, 
-            final Date commitDateFrom, final Date commitDateTo, final PaymentState paymentState, 
-            final String cvqReference, final String bankReference, final String broker, 
-            final Long homeFolderId, final String requesterLastName, final String sort, 
-            final String dir, final int recordsReturned, final int startIndex);
+    List<Payment> get(Set<Critere> criteriaSet, final String sort, final String dir, 
+            final int recordsReturned, final int startIndex)
+        throws CvqException;    
     
-    long getPaymentCount(final Date initDateFrom, final Date initDateTo, final Date commitDateFrom,
-            final Date commitDateTo, final PaymentState paymentState, 
-            final String cvqReference, final String bankReference, final String broker, 
-            final Long homeFolderId, final String requesterLastName) throws CvqException;
-   
+    /**
+     * Get a count of payments matching the given criteria.
+     */
+    Long getCount(Set<Critere> criteriaSet) throws CvqException; 
+    
     /**
      * Get a payment by id.
      */
@@ -137,23 +123,4 @@ public interface IPaymentService {
      */
     void delete(final Payment payment) throws CvqException;
     
-    /**
-     * Get a constrained list of payments according to a set of criteria and requirements.
-     *
-     * @param criteriaSet a set of {@link Critere criteria} to be applied to the search
-     * @param sort an ordering to apply to results. value is one of the SEARCH_* static
-     *        string defined in this service (null to use default sort on payments ids)
-     * @param dir the direction of the sort (asc or desc, asc by default)
-     * @param recordsReturned the number of records to return (-1 to get all results)
-     * @param startIndex the start index of the records to return
-     * @param paymentMode (Internet or Card, null for all) 
-     */
-    List<Payment> get(Set<Critere> criteriaSet, final String sort, final String dir, 
-            final int recordsReturned, final int startIndex, final PaymentMode paymentMode)
-        throws CvqException;
-    
-    /**
-     * Get a count of payments matching the given criteria.
-     */
-    Long getCount(Set<Critere> criteriaSet, final PaymentMode paymentMode) throws CvqException;
 }

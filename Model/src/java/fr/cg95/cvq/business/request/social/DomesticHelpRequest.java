@@ -28,6 +28,8 @@ public class DomesticHelpRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
+
     public DomesticHelpRequest() {
         super();
         dhrIsSpouseRetired = Boolean.valueOf(false);

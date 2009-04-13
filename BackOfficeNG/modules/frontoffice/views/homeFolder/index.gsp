@@ -9,9 +9,13 @@
     <div class="main-box">
       <h2><g:message code="homeFolder.header.generalInformations"/></h2>
       <p style="float:right;">
+        <!--
         <span style="display:block;text-align:right;"><a href="#">Modifier mon compte</a></span>
-        <span style="display:block;text-align:right;"><a href="${createLink(action:'editPassword')}">Modifier mon mot de passe</a></span>
-        <a href="${createLink(action:'editQuestion')}">Modifier ma question/réponse</a>
+        -->
+        <span style="display:block;text-align:right;">
+          <a href="${createLink(action:'editPassword')}"><g:message code="account.action.editPassword"/></a>
+        </span>
+        <a href="${createLink(action:'editQuestion')}"><g:message code="account.action.editQuestion"/></a>
       </p>
       <p>
         <g:message code="property.active"/> :
@@ -27,7 +31,7 @@
         <g:capdematEnumToFlag var="${homeFolder.state}" i18nKeyPrefix="actor.state" />
       </p>
       <p>
-        <g:message code="request.requester.property.adress"/> : <strong>${homeFolder.addressDetails}</strong>
+        <g:message code="property.address"/> : <strong>${homeFolder.addressDetails}</strong>
       </p>
     </div>
     

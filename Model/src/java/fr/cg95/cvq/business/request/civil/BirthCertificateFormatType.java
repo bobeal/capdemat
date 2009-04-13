@@ -39,7 +39,7 @@ public final class BirthCertificateFormatType extends PersistentStringEnum {
 
 
     public static BirthCertificateFormatType getDefaultBirthCertificateFormatType() {
-        return null;
+        return FULL_COPY;
     }
 
 

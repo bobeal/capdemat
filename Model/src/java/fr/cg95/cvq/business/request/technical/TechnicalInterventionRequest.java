@@ -139,6 +139,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="technical_intervention_request_intervention_type"
      * @hibernate.key

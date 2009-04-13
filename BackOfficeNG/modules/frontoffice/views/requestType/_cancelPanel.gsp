@@ -7,7 +7,7 @@
       <input type="submit" name="submit-confirmCancelRequest-${currentStep}"
              value="${message(code:'action.confirm')}" />
       <input type="submit" name="submit-discardCancelRequest-${currentStep}"
-             value="${message(code:'action.discard')}" />
+             value="${message(code:'action.cancel')}" />
     </form>   
   </div>
 </g:if>

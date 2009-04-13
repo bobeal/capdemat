@@ -9,7 +9,7 @@ import junit.framework.Assert;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.School;
-import fr.cg95.cvq.business.authority.SectionType;
+import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;

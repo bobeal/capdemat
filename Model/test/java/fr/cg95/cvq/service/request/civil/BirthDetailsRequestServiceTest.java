@@ -58,16 +58,20 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
         request.setFatherLastName("FatherLastName".substring(0, 38));
       else
         request.setFatherLastName("FatherLastName");
-                    request.setMotherFirstNames("MotherFirstNames");
-                    request.setFatherFirstNames("FatherFirstNames");
-                  if ("MotherMaidenName".length() > 38)
-        request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
+                  if ("BirthMarriageName".length() > 38)
+        request.setBirthMarriageName("BirthMarriageName".substring(0, 38));
       else
-        request.setMotherMaidenName("MotherMaidenName");
+        request.setBirthMarriageName("BirthMarriageName");
+                    request.setFatherFirstNames("FatherFirstNames");
+                    request.setMotherFirstNames("MotherFirstNames");
                   if ("BirthLastName".length() > 38)
         request.setBirthLastName("BirthLastName".substring(0, 38));
       else
         request.setBirthLastName("BirthLastName");
+                  if ("MotherMaidenName".length() > 38)
+        request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
+      else
+        request.setMotherMaidenName("MotherMaidenName");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

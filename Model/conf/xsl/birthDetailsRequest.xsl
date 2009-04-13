@@ -38,7 +38,7 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Demande extrait d'acte naissance</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande d'acte de naissance</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
@@ -153,7 +153,7 @@
 
     
           
-                                        
+                                            
                   <fo:table xsl:use-attribute-sets="request.field.inline.table">
               <xsl:variable name="mod_column" select="'5'"/>
               <xsl:variable name="enum_tokens">
@@ -174,7 +174,7 @@
                       <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
                 <fo:table-cell>
 	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		    Motif
+		    Motif*
 		  </fo:block>
 	        </fo:table-cell>
       
@@ -332,7 +332,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom*
+		      Nom de naissance (de jeune fille pour les femmes mariées ou divorcées)*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -340,6 +340,34 @@
                                       <xsl:choose>
                         <xsl:when test="//bdr:BirthLastName and //bdr:BirthLastName != ''">
                                     <xsl:value-of select="//bdr:BirthLastName" />
+                                  </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>&#160;</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+        		    </fo:block>
+		  </fo:table-cell>
+            		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
+
+    
+          
+                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                        <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(300)" />
+                    	      <fo:table-body>
+		<fo:table-row>
+      	                    		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Nom marital ou d'usage
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+                                      <xsl:choose>
+                        <xsl:when test="//bdr:BirthMarriageName and //bdr:BirthMarriageName != ''">
+                                    <xsl:value-of select="//bdr:BirthMarriageName" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -467,116 +495,136 @@
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(50)" />
-          <fo:table-column column-width="proportional-column-width(150)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom du père*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//bdr:FatherLastName and //bdr:FatherLastName != ''">
-                                    <xsl:value-of select="//bdr:FatherLastName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
+                  <xsl:variable name="withTotal" select="'false'" />
 
+    <xsl:for-each select="//bdr:FatherInformation">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom du père
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./bdr:FatherLastName and ./bdr:FatherLastName != ''">
+                  <xsl:value-of select="./bdr:FatherLastName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Prénom(s) du père
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./bdr:FatherFirstNames and ./bdr:FatherFirstNames != ''">
+                  <xsl:value-of select="./bdr:FatherFirstNames" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
     
           
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(50)" />
-          <fo:table-column column-width="proportional-column-width(150)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Prénom(s) du père*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//bdr:FatherFirstNames and //bdr:FatherFirstNames != ''">
-                                    <xsl:value-of select="//bdr:FatherFirstNames" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
+                  <xsl:variable name="withTotal" select="'false'" />
 
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(50)" />
-          <fo:table-column column-width="proportional-column-width(150)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom de jeune fille de la mère*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//bdr:MotherMaidenName and //bdr:MotherMaidenName != ''">
-                                    <xsl:value-of select="//bdr:MotherMaidenName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(50)" />
-          <fo:table-column column-width="proportional-column-width(150)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Prénom(s) de la mère*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//bdr:MotherFirstNames and //bdr:MotherFirstNames != ''">
-                                    <xsl:value-of select="//bdr:MotherFirstNames" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
+    <xsl:for-each select="//bdr:MotherInformation">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom de jeune fille de la mère
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./bdr:MotherMaidenName and ./bdr:MotherMaidenName != ''">
+                  <xsl:value-of select="./bdr:MotherMaidenName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Prénom(s) de la mère
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./bdr:MotherFirstNames and ./bdr:MotherFirstNames != ''">
+                  <xsl:value-of select="./bdr:MotherFirstNames" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
     
       
               <fo:block>
@@ -605,4 +653,4 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                        </xsl:stylesheet>
+                                                                                                                                              </xsl:stylesheet>

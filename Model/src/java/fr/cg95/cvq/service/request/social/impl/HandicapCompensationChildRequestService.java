@@ -50,8 +50,8 @@ public class HandicapCompensationChildRequestService extends RequestService
         return new HandicapCompensationChildRequest();
     }
     
-    public final Map<String,IConditionChecker> filledConditions = new HashMap<String,IConditionChecker>();
-    private void initFilledConditions() {
+    protected void initFilledConditions() {
+        super.initFilledConditions();
         filledConditions.put("referentTitle", new EqualityChecker("Madam"));
         filledConditions.put("fatherActivityReduction", new EqualityChecker("true"));
         filledConditions.put("motherActivityReduction", new EqualityChecker("true"));
@@ -98,23 +98,5 @@ public class HandicapCompensationChildRequestService extends RequestService
         filledConditions.put("projectRequestsProfessionalOrientation", new EqualityChecker("true"));
         filledConditions.put("projectRequestsOther", new EqualityChecker("true"));
         filledConditions.put("subjectBirthDate", new DateChecker("<", DateUtils.getShiftedDate(Calendar.YEAR, - 18)));
-    }
-   
-    /**
-     * TODO - move to abstract RequestService
-     */
-    @Override
-    public boolean isConditionFilled (Map<String, String> triggers) {
-        initFilledConditions();
-        boolean test = true;
-        for (Entry<String, String> trigger : triggers.entrySet()) {
-            if (filledConditions.get(trigger.getKey()) != null 
-                && filledConditions.get(trigger.getKey()).test(trigger.getValue()))
-                test = test && true;
-            else
-                return false;
-        }
-        return test;
-    }
-           
+    }        
 }

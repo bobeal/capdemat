@@ -87,25 +87,8 @@ public final class VoCardRequestService
         return new VoCardRequest();
     }
     
-    public final Map<String,IConditionChecker> filledConditions =
-        new HashMap<String,IConditionChecker>();
-    private void initFilledConditions() {
+    protected void initFilledConditions() {
+        super.initFilledConditions();
         filledConditions.put("title", new EqualityChecker("Madam"));
-    }
-    
-    /**
-     * TODO - move to abstract RequestService
-     */
-    @Override
-    public boolean isConditionFilled (Map<String, String> triggers) {
-        initFilledConditions();
-        boolean test = true;
-        for (Entry<String, String> trigger : triggers.entrySet())
-            if (filledConditions.get(trigger.getKey()) != null 
-                && filledConditions.get(trigger.getKey()).test(trigger.getValue()))
-                test = test && true;
-            else
-                return false;
-        return test;
     }
 }

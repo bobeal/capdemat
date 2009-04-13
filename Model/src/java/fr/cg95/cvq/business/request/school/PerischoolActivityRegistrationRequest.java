@@ -32,11 +32,11 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
 
     public PerischoolActivityRegistrationRequest() {
         super();
+        classTripPermission = Boolean.valueOf(false);
         childPhotoExploitationPermission = Boolean.valueOf(false);
         hospitalizationPermission = Boolean.valueOf(false);
-        classTripPermission = Boolean.valueOf(false);
         rulesAndRegulationsAcceptance = Boolean.valueOf(false);
-        section = fr.cg95.cvq.business.authority.SectionType.UNKNOWN;
+        section = fr.cg95.cvq.business.users.SectionType.UNKNOWN;
     }
 
 
@@ -58,14 +58,14 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         PerischoolActivityRegistrationRequestDocument perischoolActivityRegistrationRequestDoc = PerischoolActivityRegistrationRequestDocument.Factory.newInstance();
         PerischoolActivityRegistrationRequestDocument.PerischoolActivityRegistrationRequest perischoolActivityRegistrationRequest = perischoolActivityRegistrationRequestDoc.addNewPerischoolActivityRegistrationRequest();
         super.fillCommonXmlInfo(perischoolActivityRegistrationRequest);
+        if (this.classTripPermission != null)
+            perischoolActivityRegistrationRequest.setClassTripPermission(this.classTripPermission.booleanValue());
         if (this.childPhotoExploitationPermission != null)
             perischoolActivityRegistrationRequest.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission.booleanValue());
         if (this.school != null)
             perischoolActivityRegistrationRequest.setSchool(School.modelToXml(this.school));
         if (this.hospitalizationPermission != null)
             perischoolActivityRegistrationRequest.setHospitalizationPermission(this.hospitalizationPermission.booleanValue());
-        if (this.classTripPermission != null)
-            perischoolActivityRegistrationRequest.setClassTripPermission(this.classTripPermission.booleanValue());
         int i = 0;
         if (otherIndividual != null) {
             fr.cg95.cvq.xml.request.school.OtherIndividualType[] otherIndividualTypeTab = new fr.cg95.cvq.xml.request.school.OtherIndividualType[otherIndividual.size()];
@@ -110,11 +110,11 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         List list = new ArrayList();
         PerischoolActivityRegistrationRequest perischoolActivityRegistrationRequest = new PerischoolActivityRegistrationRequest();
         perischoolActivityRegistrationRequest.fillCommonModelInfo(perischoolActivityRegistrationRequest,perischoolActivityRegistrationRequestXml);
+        perischoolActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getClassTripPermission()));
         perischoolActivityRegistrationRequest.setChildPhotoExploitationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getChildPhotoExploitationPermission()));
         if (perischoolActivityRegistrationRequestXml.getSchool() != null)
             perischoolActivityRegistrationRequest.setSchool(School.xmlToModel(perischoolActivityRegistrationRequestXml.getSchool()));
         perischoolActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getHospitalizationPermission()));
-        perischoolActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getClassTripPermission()));
         List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividualList = new ArrayList<fr.cg95.cvq.business.request.school.OtherIndividual> ();
         if ( perischoolActivityRegistrationRequestXml.sizeOfOtherIndividualArray() > 0) {
             for (int i = 0; i < perischoolActivityRegistrationRequestXml.getOtherIndividualArray().length; i++) {
@@ -132,10 +132,25 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         }
         perischoolActivityRegistrationRequest.setPerischoolActivity(perischoolActivityList);
         if (perischoolActivityRegistrationRequestXml.getSection() != null)
-            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.authority.SectionType.forString(perischoolActivityRegistrationRequestXml.getSection().toString()));
+            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.forString(perischoolActivityRegistrationRequestXml.getSection().toString()));
         else
-            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.authority.SectionType.getDefaultSectionType());
+            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
         return perischoolActivityRegistrationRequest;
+    }
+
+    private Boolean classTripPermission;
+
+    public final void setClassTripPermission(final Boolean classTripPermission) {
+        this.classTripPermission = classTripPermission;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="class_trip_permission"
+     */
+    public final Boolean getClassTripPermission() {
+        return this.classTripPermission;
     }
 
     private Boolean childPhotoExploitationPermission;
@@ -184,21 +199,6 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return this.hospitalizationPermission;
     }
 
-    private Boolean classTripPermission;
-
-    public final void setClassTripPermission(final Boolean classTripPermission) {
-        this.classTripPermission = classTripPermission;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="class_trip_permission"
-     */
-    public final Boolean getClassTripPermission() {
-        return this.classTripPermission;
-    }
-
     private List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividual;
 
     public final void setOtherIndividual(final List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividual) {
@@ -209,6 +209,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="perischool_activity_registration_request_other_individual"
      * @hibernate.key
@@ -264,6 +265,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="perischool_activity_registration_request_perischool_activity"
      * @hibernate.key
@@ -278,9 +280,9 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return this.perischoolActivity;
     }
 
-    private fr.cg95.cvq.business.authority.SectionType section;
+    private fr.cg95.cvq.business.users.SectionType section;
 
-    public final void setSection(final fr.cg95.cvq.business.authority.SectionType section) {
+    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
         this.section = section;
     }
 
@@ -290,7 +292,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
      *  column="section"
      *  length="32"
      */
-    public final fr.cg95.cvq.business.authority.SectionType getSection() {
+    public final fr.cg95.cvq.business.users.SectionType getSection() {
         return this.section;
     }
 

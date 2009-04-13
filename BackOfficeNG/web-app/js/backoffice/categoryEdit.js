@@ -57,7 +57,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
   zcb.categorySelectedEvent = new YAHOO.util.CustomEvent('categorySelectedEvent');
   zcb.categorySelectedEvent.subscribe(loadCategoryForm);
   zcb.categorySelectedEvent.subscribe(loadCategoryRequests);
-  zcb.categorySelectedEvent.subscribe(loadCategoryAgents);
+  zcb.categorySelectedEvent.subscribe(loadCategoryUsers);
   
   function loadCategoryForm(type, args) {
     zct.doAjaxCall(
@@ -81,15 +81,15 @@ zenexity.capdemat.bong.categoryEdit = function() {
         });
   }
   
-  function loadCategoryAgents(type, args) {
+  function loadCategoryUsers(type, args) {
     if (editMode === 'create')
-      yud.addClass('categoryAgentsBox', 'invisible');
+      yud.addClass('categoryUsersBox', 'invisible');
     else
     zct.doAjaxCall(
-        "/agents/?id=" + categoryId + "&scope=Category",
+        "/users/?id=" + categoryId + "&scope=Category",
         [categoryId],
         function(o) {
-        yud.get('categoryAgents').innerHTML = o.responseText;
+        yud.get('categoryUsers').innerHTML = o.responseText;
         });
   }
   

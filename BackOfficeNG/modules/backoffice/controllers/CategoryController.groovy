@@ -114,47 +114,47 @@ class CategoryController {
         render ([status:"ok",categoryName:"", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
-    /* Category agent managment
+    /* Category user managment
      * --------------------------------------------------------------------- */
     
-    def agents = {
-        def agents = []
+    def users = {
+        def users = []
         if (request.post && params.scope == null) {
-            agentService.getAll().each { agents.add(adaptAgent(it)) }
+            agentService.getAll().each { users.add(adaptUser(it)) }
         }  else if (params.scope == "All")
-            agentService.getAll().each { agents.add(adaptAgent(it)) }
+            agentService.getAll().each { users.add(adaptUser(it)) }
         else if (params.scope == "Category")
             agentService.getAuthorizedForCategory(Long.valueOf(params.id)).each {
-                agents.add(adaptAgent(it))
+                users.add(adaptUser(it))
             }
             
-        agents = agents.sort{ it.lastName != null ? it.lastName.toLowerCase() : "zzz"}
+        users = users.sort{ it.lastName != null ? it.lastName.toLowerCase() : "zzz"}
 
-        render( template: "categoryAgents", 
-                model: [ "categoryId": new Long(params.id), "agents": agents])
+        render( template: "categoryUsers", 
+                model: [ "categoryId": new Long(params.id), "users": users])
     }
     
-    def unassociateAgent = {
-        agentService.removeCategoryRole(Long.valueOf(params.agentId), Long.valueOf(params.categoryId))
+    def unassociateUser = {
+        agentService.removeCategoryRole(Long.valueOf(params.userId), Long.valueOf(params.categoryId))
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
-    def editAgent = {
+    def editUser = {
         if (request.get) {
-            def agent = agentService.getById(Long.valueOf(params.agentId));
+            def user = agentService.getById(Long.valueOf(params.userId));
             def profiles = []
             CategoryProfile.allCategoryProfiles.each { profiles.add(adaptCategoryProfile(it)) }
             
-            render( template: "categoryAgentEdit",
-                model: [categoryId: new Long(params.id), agent: adaptAgent(agent), profiles: profiles])
+            render( template: "categoryUserEdit",
+                model: [categoryId: new Long(params.id), user: adaptUser(user), profiles: profiles])
         }
         
         if (request.post) {
-            if (params.agentId == null || params.categoryId == null)
+            if (params.userId == null || params.categoryId == null)
                 render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
             
             agentService.modifyCategoryRole(
-                  Long.valueOf(params.agentId), 
+                  Long.valueOf(params.userId), 
                   Long.valueOf(params.categoryId),
                   CategoryProfile.allCategoryProfiles[Integer.valueOf(params.profileIndex)])
 
@@ -165,16 +165,16 @@ class CategoryController {
     /* Adaptions closure specific to categories
      * --------------------------------------------------------------------- */
     
-    def adaptAgent (businessAgent) {
-        def matchingCategorieRole = businessAgent.categoriesRoles.find {
+    def adaptUser (businessUser) {
+        def matchingCategorieRole = businessUser.categoriesRoles.find {
                 it.category.id == Long.valueOf(params.id)
         }
         return [
-            id: businessAgent.id,
-            active: businessAgent.active,
-            login: businessAgent.login,
-            firstName: businessAgent.firstName,
-            lastName: businessAgent.lastName,
+            id: businessUser.id,
+            active: businessUser.active,
+            login: businessUser.login,
+            firstName: businessUser.firstName,
+            lastName: businessUser.lastName,
             profile: matchingCategorieRole != null ? adaptCategoryProfile(matchingCategorieRole.profile) : null,
             notBelong: matchingCategorieRole == null ? true : false
         ]

@@ -78,13 +78,35 @@
 }
 .requestBox .body li a { display: inline; }
 
+.requestBox .body ul.legend li {
+  border:none;
+}
 
-/* Information box
----------------------------------------------------------------*/
-.information-box {
-  margin: 0 0 1em 0;  padding: 1em;
-  border: 3px solid #ffaa00;
-  background: #ffffcc;
+.requestBox .body ul.legend span.legend-label {
+  display:block;
+  float:left;
+  margin-right:1em;
+  width:1.2em;
+}
+
+.requestBox span.legend-label-0 {
+  background-color : orange;
+}
+
+.requestBox span.legend-label-1 {
+  background-color : blue;
+}
+
+.requestBox span.legend-label-2 {
+  background-color : red;
+}
+
+.requestBox span.legend-label-3 {
+  background-color : darkgreen;
+}
+
+.requestBox span.legend-label-4 {
+  background-color : yellowgreen;
 }
 
 
@@ -167,10 +189,21 @@
   text-align: center;
   clear: both;
 }
-.confirmation-box p, , .error-box p, .success-box p { margin: 0 0 .5em; font-size: 1.3em; }
+.confirmation-box p, .error-box p, .success-box p { margin: 0 0 .5em; font-size: 1.3em; }
+
+/* Success box
+---------------------------------------------------------------*/
 
 .success-box {
   border-color : #20CC20;
   color : #20CC20;
   background-color : #ECFDEC;
+}
+
+/* Information box
+---------------------------------------------------------------*/
+.information-box {
+  margin: 0 0 1em 0;  padding: 1em;
+  border: 3px solid #ffaa00;
+  background: #ffffcc;
 }

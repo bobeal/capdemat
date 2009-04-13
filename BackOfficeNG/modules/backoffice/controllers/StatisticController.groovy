@@ -87,43 +87,47 @@ class StatisticController {
 
         render(view:'index',
                model:['typeUrl':typeStatsUrl(startDate, endDate, requestTypeId, categoryId),
-                      'periodUrl':periodStatsUrl(startDate, endDate, requestTypeId, categoryId),
+                      'periodUrl':typeStatsByPeriodUrl(startDate, endDate, requestTypeId, categoryId),
                       'pageState' : (new JSON(state)).toString().encodeAsHTML(),
                       'state': state,
                       'currentStatisticType':'type'].plus(initStatisticsReferential()))
     }
 
-    def periodStatsUrl(startDate, endDate, requestTypeId, categoryId) {
+    def typeStatsByPeriodUrl(startDate, endDate, requestTypeId, categoryId) {
         def labels = []
         def maxY = 1
         def cdData = []
-//        def titleRow = message(code:'statistics.header.typeByPeriod')
-        def monthViewDateFormatter = new SimpleDateFormat("dd/MM")
         def results =
             requestStatisticsService.getTypeStatsByPeriod(startDate, endDate, requestTypeId, categoryId)
-        results.eachWithIndex { date,count,index ->
-//            if (index % 3 == 0)
-//            	labels.add(monthViewDateFormatter.format(k))
-//            else
-                labels.add(monthViewDateFormatter.format(date))
+        def typeStatsIntervalType =
+            requestStatisticsService.getTypeStatsIntervalType(startDate, endDate)
+        results.each { date,count ->
+            def format
+            if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.HOUR)
+                format = message(code:'statistics.type.hourlyDateFormat')
+            else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.DAY)
+                format = message(code:'statistics.type.dailyDateFormat')
+            else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.TWO_DAYS)
+                format = message(code:'statistics.type.bidaylyDateFormat')
+            else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.WEEK)
+                format = message(code:'statistics.type.weeklyDateFormat')
+            else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.MONTH)
+                format = message(code:'statistics.type.monthlyDateFormat')
+            else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.YEAR)
+                format = message(code:'statistics.type.yearlyDateFormat')
+            labels.add(new SimpleDateFormat(format).format(date))
             cdData.add(count.intValue())
             if (count.intValue() > maxY)
                 maxY = count.intValue()
         }
         def transformedCdData = cdData.collect {  k ->
-               k = ((k * 100) / maxY).floatValue();
+           k = ((k * 100) / maxY).floatValue()
         }
 
         def chart = new GoogleChartBuilder()
         def url = chart.barChart(['vertical','grouped']) {
             size(w:700,h:400)
-            /*
-            title() {
-                row(titleRow)
-                row("(total : ${cdData.sum()})")
-            }
-            */
-            barSize(width:5, space:20, spaceGroups:20)
+            barSize(width:'r', space:1, spaceGroups:1)
             data(encoding:'text') {
         		dataSet(transformedCdData)
             }
@@ -191,7 +195,7 @@ class StatisticController {
         def url = chart.pieChart {
             size(w:700,h:300)
             title() {
-                row("Total : ${cdData.sum()}")
+                row("Total : ${cdData.isEmpty() ? 0 : cdData.sum()}")
             }
             data(encoding:'text') {
         		dataSet(cdData)
@@ -226,11 +230,6 @@ class StatisticController {
         def chart = new GoogleChartBuilder()
         def url = chart.pieChart {
             size(w:600,h:200)
-            /*
-            title() {
-                row('Qualité de service')
-            }
-            */
             data(encoding:'text') {
         		dataSet(cdData)        
             }

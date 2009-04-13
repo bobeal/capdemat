@@ -66,8 +66,9 @@
     <select name="birthCountry">
       <option value=""><g:message code="message.select.defaultOption" /></option>
       <g:each in="${['EuropeanUnion','OutsideEuropeanUnion']}">
-        <option value="<g:message code='vcr.birthCountry.${it}' />" ${message(code:'vcr.birthCountry.' + it) == editList?.currentLegalResponsibles?.individual?.birthCountry?.toString() ? 'selected="selected"': ''}>
-          <g:message code="vcr.birthCountry.${it}" />
+        <option value="<g:message code='vcr.birthCountry.${StringUtils.pascalToCamelCase(it)}' />" 
+					${message(code:'vcr.birthCountry.' + StringUtils.pascalToCamelCase(it)) == editList?.currentLegalResponsibles?.individual?.birthCountry?.toString() ? 'selected="selected"': ''}>
+          <g:capdematEnumToField var="${it}" i18nKeyPrefix="vcr.birthCountry" />
         </option>
       </g:each>
     </select>

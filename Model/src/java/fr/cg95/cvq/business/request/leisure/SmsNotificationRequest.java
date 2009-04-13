@@ -54,8 +54,6 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequestDocument.SmsNotificationRequest smsNotificationRequest = smsNotificationRequestDoc.addNewSmsNotificationRequest();
         super.fillCommonXmlInfo(smsNotificationRequest);
         smsNotificationRequest.setCleverSmsContactId(this.cleverSmsContactId);
-        if (this.subscription != null)
-            smsNotificationRequest.setSubscription(this.subscription.booleanValue());
         int i = 0;
         if (interests != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] interestsTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[interests.size()];
@@ -67,6 +65,8 @@ public class SmsNotificationRequest extends Request implements Serializable {
             }
             smsNotificationRequest.setInterestsArray(interestsTypeTab);
         }
+        if (this.subscription != null)
+            smsNotificationRequest.setSubscription(this.subscription.booleanValue());
         return smsNotificationRequestDoc;
     }
 
@@ -85,7 +85,6 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequest smsNotificationRequest = new SmsNotificationRequest();
         smsNotificationRequest.fillCommonModelInfo(smsNotificationRequest,smsNotificationRequestXml);
         smsNotificationRequest.setCleverSmsContactId(smsNotificationRequestXml.getCleverSmsContactId());
-        smsNotificationRequest.setSubscription(Boolean.valueOf(smsNotificationRequestXml.getSubscription()));
         List<fr.cg95.cvq.business.users.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( smsNotificationRequestXml.sizeOfInterestsArray() > 0) {
             for (int i = 0; i < smsNotificationRequestXml.getInterestsArray().length; i++) {
@@ -93,6 +92,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
             }
         }
         smsNotificationRequest.setInterests(interestsList);
+        smsNotificationRequest.setSubscription(Boolean.valueOf(smsNotificationRequestXml.getSubscription()));
         return smsNotificationRequest;
     }
 
@@ -111,6 +111,31 @@ public class SmsNotificationRequest extends Request implements Serializable {
         return this.cleverSmsContactId;
     }
 
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> interests;
+
+    public final void setInterests(final List<fr.cg95.cvq.business.users.LocalReferentialData> interests) {
+        this.interests = interests;
+    }
+
+
+    /**
+     * @hibernate.list
+     *  inverse="false"
+     *  lazy="false"
+     *  cascade="all"
+     *  table="sms_notification_request_interests"
+     * @hibernate.key
+     *  column="sms_notification_request_id"
+     * @hibernate.list-index
+     *  column="interests_index"
+     * @hibernate.many-to-many
+     *  column="interests_id"
+     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     */
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getInterests() {
+        return this.interests;
+    }
+
     private Boolean subscription;
 
     public final void setSubscription(final Boolean subscription) {
@@ -124,30 +149,6 @@ public class SmsNotificationRequest extends Request implements Serializable {
      */
     public final Boolean getSubscription() {
         return this.subscription;
-    }
-
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> interests;
-
-    public final void setInterests(final List<fr.cg95.cvq.business.users.LocalReferentialData> interests) {
-        this.interests = interests;
-    }
-
-
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  cascade="all"
-     *  table="sms_notification_request_interests"
-     * @hibernate.key
-     *  column="sms_notification_request_id"
-     * @hibernate.list-index
-     *  column="interests_index"
-     * @hibernate.many-to-many
-     *  column="interests_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
-     */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getInterests() {
-        return this.interests;
     }
 
 }

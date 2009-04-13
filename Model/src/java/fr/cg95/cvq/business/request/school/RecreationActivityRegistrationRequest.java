@@ -32,9 +32,9 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
 
     public RecreationActivityRegistrationRequest() {
         super();
+        classTripPermission = Boolean.valueOf(false);
         childPhotoExploitationPermission = Boolean.valueOf(false);
         hospitalizationPermission = Boolean.valueOf(false);
-        classTripPermission = Boolean.valueOf(false);
         rulesAndRegulationsAcceptance = Boolean.valueOf(false);
     }
 
@@ -57,15 +57,26 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         RecreationActivityRegistrationRequestDocument recreationActivityRegistrationRequestDoc = RecreationActivityRegistrationRequestDocument.Factory.newInstance();
         RecreationActivityRegistrationRequestDocument.RecreationActivityRegistrationRequest recreationActivityRegistrationRequest = recreationActivityRegistrationRequestDoc.addNewRecreationActivityRegistrationRequest();
         super.fillCommonXmlInfo(recreationActivityRegistrationRequest);
-        if (this.childPhotoExploitationPermission != null)
-            recreationActivityRegistrationRequest.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission.booleanValue());
         if (this.recreationCenter != null)
             recreationActivityRegistrationRequest.setRecreationCenter(RecreationCenter.modelToXml(this.recreationCenter));
-        if (this.hospitalizationPermission != null)
-            recreationActivityRegistrationRequest.setHospitalizationPermission(this.hospitalizationPermission.booleanValue());
         if (this.classTripPermission != null)
             recreationActivityRegistrationRequest.setClassTripPermission(this.classTripPermission.booleanValue());
         int i = 0;
+        if (recreationActivity != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] recreationActivityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[recreationActivity.size()];
+            Iterator recreationActivityIt = recreationActivity.iterator();
+            while (recreationActivityIt.hasNext()) {
+                LocalReferentialData object = (LocalReferentialData) recreationActivityIt.next();
+                recreationActivityTypeTab[i] = LocalReferentialData.modelToXml(object);
+                i = i + 1;
+            }
+            recreationActivityRegistrationRequest.setRecreationActivityArray(recreationActivityTypeTab);
+        }
+        if (this.childPhotoExploitationPermission != null)
+            recreationActivityRegistrationRequest.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission.booleanValue());
+        if (this.hospitalizationPermission != null)
+            recreationActivityRegistrationRequest.setHospitalizationPermission(this.hospitalizationPermission.booleanValue());
+        i = 0;
         if (otherIndividual != null) {
             fr.cg95.cvq.xml.request.school.OtherIndividualType[] otherIndividualTypeTab = new fr.cg95.cvq.xml.request.school.OtherIndividualType[otherIndividual.size()];
             Iterator otherIndividualIt = otherIndividual.iterator();
@@ -79,17 +90,6 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         if (this.rulesAndRegulationsAcceptance != null)
             recreationActivityRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
         recreationActivityRegistrationRequest.setUrgencyPhone(this.urgencyPhone);
-        i = 0;
-        if (recreationActivity != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] recreationActivityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[recreationActivity.size()];
-            Iterator recreationActivityIt = recreationActivity.iterator();
-            while (recreationActivityIt.hasNext()) {
-                LocalReferentialData object = (LocalReferentialData) recreationActivityIt.next();
-                recreationActivityTypeTab[i] = LocalReferentialData.modelToXml(object);
-                i = i + 1;
-            }
-            recreationActivityRegistrationRequest.setRecreationActivityArray(recreationActivityTypeTab);
-        }
         return recreationActivityRegistrationRequestDoc;
     }
 
@@ -107,11 +107,18 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         List list = new ArrayList();
         RecreationActivityRegistrationRequest recreationActivityRegistrationRequest = new RecreationActivityRegistrationRequest();
         recreationActivityRegistrationRequest.fillCommonModelInfo(recreationActivityRegistrationRequest,recreationActivityRegistrationRequestXml);
-        recreationActivityRegistrationRequest.setChildPhotoExploitationPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getChildPhotoExploitationPermission()));
         if (recreationActivityRegistrationRequestXml.getRecreationCenter() != null)
             recreationActivityRegistrationRequest.setRecreationCenter(RecreationCenter.xmlToModel(recreationActivityRegistrationRequestXml.getRecreationCenter()));
-        recreationActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getHospitalizationPermission()));
         recreationActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getClassTripPermission()));
+        List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        if ( recreationActivityRegistrationRequestXml.sizeOfRecreationActivityArray() > 0) {
+            for (int i = 0; i < recreationActivityRegistrationRequestXml.getRecreationActivityArray().length; i++) {
+                recreationActivityList.add(LocalReferentialData.xmlToModel(recreationActivityRegistrationRequestXml.getRecreationActivityArray(i)));
+            }
+        }
+        recreationActivityRegistrationRequest.setRecreationActivity(recreationActivityList);
+        recreationActivityRegistrationRequest.setChildPhotoExploitationPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getChildPhotoExploitationPermission()));
+        recreationActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getHospitalizationPermission()));
         List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividualList = new ArrayList<fr.cg95.cvq.business.request.school.OtherIndividual> ();
         if ( recreationActivityRegistrationRequestXml.sizeOfOtherIndividualArray() > 0) {
             for (int i = 0; i < recreationActivityRegistrationRequestXml.getOtherIndividualArray().length; i++) {
@@ -121,29 +128,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequest.setOtherIndividual(otherIndividualList);
         recreationActivityRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(recreationActivityRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
         recreationActivityRegistrationRequest.setUrgencyPhone(recreationActivityRegistrationRequestXml.getUrgencyPhone());
-        List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
-        if ( recreationActivityRegistrationRequestXml.sizeOfRecreationActivityArray() > 0) {
-            for (int i = 0; i < recreationActivityRegistrationRequestXml.getRecreationActivityArray().length; i++) {
-                recreationActivityList.add(LocalReferentialData.xmlToModel(recreationActivityRegistrationRequestXml.getRecreationActivityArray(i)));
-            }
-        }
-        recreationActivityRegistrationRequest.setRecreationActivity(recreationActivityList);
         return recreationActivityRegistrationRequest;
-    }
-
-    private Boolean childPhotoExploitationPermission;
-
-    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
-        this.childPhotoExploitationPermission = childPhotoExploitationPermission;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="child_photo_exploitation_permission"
-     */
-    public final Boolean getChildPhotoExploitationPermission() {
-        return this.childPhotoExploitationPermission;
     }
 
     private fr.cg95.cvq.business.authority.RecreationCenter recreationCenter;
@@ -162,21 +147,6 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         return this.recreationCenter;
     }
 
-    private Boolean hospitalizationPermission;
-
-    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
-        this.hospitalizationPermission = hospitalizationPermission;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="hospitalization_permission"
-     */
-    public final Boolean getHospitalizationPermission() {
-        return this.hospitalizationPermission;
-    }
-
     private Boolean classTripPermission;
 
     public final void setClassTripPermission(final Boolean classTripPermission) {
@@ -192,6 +162,61 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         return this.classTripPermission;
     }
 
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivity;
+
+    public final void setRecreationActivity(final List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivity) {
+        this.recreationActivity = recreationActivity;
+    }
+
+
+    /**
+     * @hibernate.list
+     *  inverse="false"
+     *  lazy="false"
+     *  cascade="all"
+     *  table="recreation_activity_registration_request_recreation_activity"
+     * @hibernate.key
+     *  column="recreation_activity_registration_request_id"
+     * @hibernate.list-index
+     *  column="recreation_activity_index"
+     * @hibernate.many-to-many
+     *  column="recreation_activity_id"
+     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     */
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getRecreationActivity() {
+        return this.recreationActivity;
+    }
+
+    private Boolean childPhotoExploitationPermission;
+
+    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
+        this.childPhotoExploitationPermission = childPhotoExploitationPermission;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="child_photo_exploitation_permission"
+     */
+    public final Boolean getChildPhotoExploitationPermission() {
+        return this.childPhotoExploitationPermission;
+    }
+
+    private Boolean hospitalizationPermission;
+
+    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
+        this.hospitalizationPermission = hospitalizationPermission;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="hospitalization_permission"
+     */
+    public final Boolean getHospitalizationPermission() {
+        return this.hospitalizationPermission;
+    }
+
     private List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividual;
 
     public final void setOtherIndividual(final List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividual) {
@@ -202,6 +227,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
     /**
      * @hibernate.list
      *  inverse="false"
+     *  lazy="false"
      *  cascade="all"
      *  table="recreation_activity_registration_request_other_individual"
      * @hibernate.key
@@ -245,30 +271,6 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
      */
     public final String getUrgencyPhone() {
         return this.urgencyPhone;
-    }
-
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivity;
-
-    public final void setRecreationActivity(final List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivity) {
-        this.recreationActivity = recreationActivity;
-    }
-
-
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  cascade="all"
-     *  table="recreation_activity_registration_request_recreation_activity"
-     * @hibernate.key
-     *  column="recreation_activity_registration_request_id"
-     * @hibernate.list-index
-     *  column="recreation_activity_index"
-     * @hibernate.many-to-many
-     *  column="recreation_activity_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
-     */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getRecreationActivity() {
-        return this.recreationActivity;
     }
 
 }

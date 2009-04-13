@@ -26,7 +26,6 @@
       </div>
     </div>
 
-    
     <!-- filters and sorters -->
     <div id="narrow" class="yui-b">
     
@@ -43,11 +42,11 @@
           <form action="#" id="paymentSearchSorters">
             <ul>
               <li>
-                <label><g:message code="payment.property.requesterLastName" /></label>
+                <label><g:message code="property.userLastName" /></label>
                 <input type="radio" id="requesterLastName" ${sortBy == 'requesterLastName' ? 'checked' : ''} />
               </li>
               <li>
-                <label><g:message code="payment.property.homeFolderId" /></label>
+                <label><g:message code="property.homeFolderId" /></label>
                 <input type="radio" id="homeFolderId" ${sortBy == 'homeFolderId' ? 'checked' : ''} />
               </li>
               <li>
@@ -74,7 +73,7 @@
             </select>
 
             <label for="brokerFilter"><g:message code="payment.property.broker" /> :</label>
-            <select name="brokerFilter" id="brokerFilter" style="width:100%;">
+            <select name="brokerFilter" id="brokerFilter">
               <option value=""><g:message code="search.filter.defaultValue"/></option>
               <g:each in="${allBrokers}" var="broker">
                 <option value="${broker.key}" ${filters['brokerFilter'] == broker.key ? 'selected' : ''}>

@@ -185,7 +185,7 @@
                   Current section
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="authority" />
+                  <model namespace="users" />
                   <fo>
                     <display field="" stage="inscription" page="school" line="9"
                       label="Classe" help="Choisissez une classe" />
@@ -209,7 +209,7 @@
                   Inscription en classe
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="authority" />
+                  <model namespace="users" />
                   <fo>
                     <display field="" stage="inscription" page="school" line="4" mode="title"
                       help="Choisissez une classe" />

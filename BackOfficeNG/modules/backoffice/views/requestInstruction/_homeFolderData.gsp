@@ -6,7 +6,7 @@
     <g:else><span class="tag-invalid"><g:message code="message.no" /></span></g:else>
   </p>
   <p>${message(code:'property.state')} : <g:capdematEnumToFlag var="${homeFolder.info.state}" i18nKeyPrefix="actor.state" /></p>
-  <p>${message(code:'request.requester.property.adress')} : <strong>${homeFolder.info.addressDetails}</strong></p>
+  <p>${message(code:'property.address')} : <strong>${homeFolder.info.addressDetails}</strong></p>
   <p>        
     <a href="${createLink(controller:'backofficeHomeFolder', action:'details', id:homeFolder.info.id)}">
       ${message(code:'homeFolder.individual.action.seeDetails')}

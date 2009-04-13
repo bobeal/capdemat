@@ -25,8 +25,9 @@ import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
 
 /**
- * A job that check instruction duration for each request type. Set orange and red alerts
- * and send email alerts if instruction is delayed.
+ * A job that checks instruction duration for each request type. 
+ * 
+ * Set orange and red alerts and send email alerts if instruction is delayed.
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
@@ -105,7 +106,7 @@ public class RequestInstructionDurationCheckerJob {
                     if (workDaysSinceRequestCreation >= maxDelayToUse.intValue()) {
                         logger.debug("checkLocalAuthRequestsInstructionDuration() " 
                                 + "instruction delayed for request " + request.getId());
-                        if (request.getRedAlert() == null || !request.getRedAlert().booleanValue()) {
+                        if (request.getRedAlert() == null || !request.getRedAlert()) {
                             request.setRedAlert(Boolean.TRUE);
                             request.setOrangeAlert(Boolean.FALSE);
                             requestDAO.update(request);
@@ -122,8 +123,7 @@ public class RequestInstructionDurationCheckerJob {
                         logger.debug("checkLocalAuthRequestsInstructionDuration() "
                                 + "instruction duration reached first level alert for request " 
                                 + request.getId());
-                        if (request.getOrangeAlert() == null 
-                                || !request.getOrangeAlert().booleanValue()) {
+                        if (request.getOrangeAlert() == null || !request.getOrangeAlert()) {
                             request.setOrangeAlert(Boolean.TRUE);
                             requestDAO.update(request);
                         }
@@ -139,15 +139,15 @@ public class RequestInstructionDurationCheckerJob {
             }
 
             if (category.getPrimaryEmail() != null && !category.getPrimaryEmail().equals("")
-                    && (orangeRequests.size() > 0 || redRequests.size() > 0)) {
+                    && (!orangeRequests.isEmpty() || !redRequests.isEmpty())) {
                 StringBuffer body = new StringBuffer();
                 body.append("Bonjour,\n\n")
                     .append("Voici le récapitulatif des alertes sur les téléservices :\n")
                     .append("\tAlertes oranges : ").append(orangeRequests.size()).append("\n")
                     .append("\tAlertes rouges : ").append(redRequests.size()).append("\n");
 
-                if (lacb.getInstructionAlertsDetailed().booleanValue()) {
-                    if (orangeRequests.size() > 0) {
+                if (lacb.getInstructionAlertsDetailed()) {
+                    if (!orangeRequests.isEmpty()) {
                         body.append("\n").append("Détail des alertes oranges :\n");
                         for (Request request : orangeRequests) {
                             String requestTypeLabel = 
@@ -157,7 +157,7 @@ public class RequestInstructionDurationCheckerJob {
                                 .append("\n");
                         }
                     }
-                    if (redRequests.size() > 0) {
+                    if (!redRequests.isEmpty()) {
                         body.append("\n\n").append("Détail des alertes rouges :\n");
                         for (Request request : redRequests) {
                             String requestTypeLabel = 
@@ -173,8 +173,7 @@ public class RequestInstructionDurationCheckerJob {
                 try {
                     mailService.send(null, category.getPrimaryEmail(),
                             category.getEmails() == null ? 
-                                    null : (String[]) category.getEmails()
-                                    .toArray(new String[category.getEmails().size()]), 
+                                    null : category.getEmails().toArray(new String[category.getEmails().size()]), 
                                     "[CapDémat] Alerte traitement téléservices",
                                     body.toString());
                 } catch (CvqException e) {
@@ -185,17 +184,13 @@ public class RequestInstructionDurationCheckerJob {
 
                 if (alertSent) {
                     // email alert successfully sent, update requests accordingly
-                    if (orangeRequests.size() > 0) {
-                        for (Request request : orangeRequests) {
-                            requestActionService.addSystemAction(request.getId(),
-                                    IRequestActionService.REQUEST_ORANGE_ALERT_NOTIFICATION);
-                        }
+                    for (Request request : orangeRequests) {
+                        requestActionService.addSystemAction(request.getId(),
+                                IRequestActionService.REQUEST_ORANGE_ALERT_NOTIFICATION);
                     }
-                    if (redRequests.size() > 0) {
-                        for (Request request : redRequests) {
-                            requestActionService.addSystemAction(request.getId(),
-                                    IRequestActionService.REQUEST_RED_ALERT_NOTIFICATION);
-                        }
+                    for (Request request : redRequests) {
+                        requestActionService.addSystemAction(request.getId(),
+                                IRequestActionService.REQUEST_RED_ALERT_NOTIFICATION);
                     }
                 }
             }

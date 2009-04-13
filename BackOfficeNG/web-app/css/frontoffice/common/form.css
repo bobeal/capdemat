@@ -1,0 +1,37 @@
+form {
+  padding: 1.5em;
+  border: 1px solid #ffffff;
+  background: #fff;
+}
+
+form label {
+  display: block;
+  width: 90%;
+  font-size: 1.2em;
+  font-weight: normal;
+  font-style: normal;
+}
+
+form label.required { font-weight: bold; }
+
+form label span.help { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
+
+form input[type="text"],
+form input[type="password"],
+form select,
+form textarea {
+  width: 90%;
+  display: block;
+  margin: .1em 0 1em 0;
+  padding: .1em;
+  border: 1px solid #cdcdcd;
+  border-top-color: #7fa646;
+  font-size: 1.1em;
+  font-weight: normal;
+  color: #4e662b;
+}
+
+form p.submit-form { margin-left: 30%; }
+
+form input[type="submit"] { margin: 1em auto; }
+

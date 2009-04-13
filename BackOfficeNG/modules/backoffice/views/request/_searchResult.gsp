@@ -1,4 +1,4 @@
-<li>
+<li class="request">
   <p class="first-line">
     <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
     <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">${record.label}
@@ -17,7 +17,7 @@
   </p>
 
   <p class="second-line">
-    <g:message code="request.searchResult.oldCreationDate" /> 
+    <g:message code="request.searchResult.creationDateLabel" />
     <span class="${sortBy == 'creationDate' ? 'current-sort' : ''}">
       <g:formatDate formatName="format.date" date="${record.creationDate}" /></span> - 
     <g:if test="${record.lastModificationDate}">

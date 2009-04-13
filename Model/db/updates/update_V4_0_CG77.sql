@@ -58,3 +58,12 @@ alter table study_grant_request
 UPDATE request_type SET
   display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'school' LIMIT 1)
 WHERE label = 'Study Grant';
+
+
+-- optional cleanup instructions : old label
+DELETE FROM forms where request_type_id = (select id from request_type where label = 'Study Grant Request');
+DELETE FROM request_type where label = 'Study Grant Request';
+
+-- optional cleanup instructions : old requests
+-- DELETE FROM request_action where request_id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));
+-- DELETE FROM request where id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));

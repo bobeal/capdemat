@@ -8,10 +8,13 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "subject-required",  "taxHousehold-required",  "otherHelps-required",  "currentStudies-required",  "calculationElements-required",  "bankReference-required",  "validation"  ]
+        ,"steps": [  "subject-required",  "taxHousehold-required",  "otherHelps-required",  "currentStudies-required",  "calculationElements-required",  "bankReference-required",  "document",  "validation"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
+    <g:if test="${flash.isOutOfAccountRequest}">
+      <g:render template="/frontofficeRequestType/loginPanel" />
+    </g:if>
     <g:render template="/frontofficeRequestType/draftPanel" />
     <g:render template="/frontofficeRequestType/cancelPanel" />
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
@@ -134,11 +137,29 @@
   
 
   
+        <g:if test="${!documentTypes.isEmpty()}">
+  
+    
+        <li class="${currentStep == 'document' ? 'selected' : ''}">
+  
+          <a href="#document"><em>
+          <span class="tag-no_right">7</span>
+          <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+    
+          <g:message code="request.step.document.label" />
+            
+          </em></a>
+        </li>    
+  
+        </g:if>
+  
+
+  
     
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
           <a href="#validation"><em>
-          <span class="tag-no_right">7</span>
+          <span class="tag-no_right">8</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -397,7 +418,7 @@
            <a id="prev-tab" href="#calculationElements"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.bankReference != null}">       
@@ -407,6 +428,49 @@
          </div>
          </g:if>
        </div>  
+  
+
+  
+        <g:if test="${!documentTypes.isEmpty()}">
+  
+       <div id="document">
+         <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
+           <h3>
+             <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
+             <g:message code="request.step.document.label" />
+             <span><g:message code="request.step.document.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
+           </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
+           <div>
+  
+            <g:render template="/frontofficeRequestType/document" />         
+  
+           </div>
+           <div class="error" id="stepForm-document-error"> </div>
+           <!-- Input submit-->
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+  
+         </form>
+         <div class="navTab">
+  
+           <a id="prev-tab" href="#bankReference"><g:message code="request.step.navigation.previous"/></a>
+  
+  
+           <a id="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
+  
+         </div>
+         <g:if test="${helps.document != null}">       
+         <div class="requestHelp">
+           <h3><g:message code="header.help"/></h3>
+           ${helps.document}
+         </div>
+         </g:if>
+       </div>  
+  
+        </g:if>
   
 
   
@@ -442,22 +506,15 @@
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <div id="useAcceptance">
-             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
-                    title="${message(code:'request.error.useAcceptanceRequired')}" />
-             <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
-               <g:message code="request.step.validation.useAcceptance"/>
-             </a>
-           </div>
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
            <g:if test="${!isRequestCreatable}">
-             <div><g:message code="request.step.validation.requiredSteps"/></div>
+             <div><strong><g:message code="request.step.validation.requiredSteps"/></strong></div>
            </g:if>
   
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#bankReference"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
   
   
          </div>

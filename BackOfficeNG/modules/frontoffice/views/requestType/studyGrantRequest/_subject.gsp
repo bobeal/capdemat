@@ -1,23 +1,21 @@
 
 
 
-
-
   
     <fieldset class="required">
-    <legend><g:message code="sgr.property.subjetInformations.label" /></legend> 
-      
-    <label class="required"><g:message code="request.property.subjectName" /> *</label>
-    <select name="subjectId" class="required validate-not-first" title="<g:message code="request.subject.validationError" /> ">
-      <option value=""><g:message code="message.select.defaultOption" /></option>
-      <g:each in="${subjects}">
-        <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
-      </g:each>
-    </select>
-      
+    <legend><g:message code="sgr.property.subjectInformations.label" /></legend>
     
-      <label class="required"><g:message code="sgr.property.subjectAddress.label" /> * <span><g:message code="sgr.property.subjectAddress.help" /></span></label>
-      
+      <label class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
+            <select name="subjectId" class="required validate-not-first" title="<g:message code="request.property.subject.validationError" /> ">
+              <option value=""><g:message code="message.select.defaultOption" /></option>
+              <g:each in="${subjects}">
+                <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
+              </g:each>
+            </select>
+            
+
+    
+      <label class="required"><g:message code="sgr.property.subjectAddress.label" /> *  <span><g:message code="sgr.property.subjectAddress.help" /></span></label>
             <div class="address-fieldset required">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.subjectAddress?.additionalDeliveryInformation}" maxlength="38" name="subjectAddress.additionalDeliveryInformation"/>  
@@ -35,30 +33,31 @@
             <input type="text" value="${rqt.subjectAddress?.countryName}" maxlength="38" name="subjectAddress.countryName"/>
             </div>
             
+
     
-      <label class=""><g:message code="sgr.property.subjectPhone.label" />  <span><g:message code="sgr.property.subjectPhone.help" /></span></label>
-      
+      <label class=""><g:message code="sgr.property.subjectPhone.label" />   <span><g:message code="sgr.property.subjectPhone.help" /></span></label>
             <input type="text" name="subjectPhone" value="${rqt.subjectPhone}" 
                     class=" validate-phone" title="<g:message code="sgr.property.subjectPhone.validationError" />"  maxLength="10"/>
             
+
     
-      <label class=""><g:message code="sgr.property.subjectMobilePhone.label" />  <span><g:message code="sgr.property.subjectMobilePhone.help" /></span></label>
-      
+      <label class=""><g:message code="sgr.property.subjectMobilePhone.label" />   <span><g:message code="sgr.property.subjectMobilePhone.help" /></span></label>
             <input type="text" name="subjectMobilePhone" value="${rqt.subjectMobilePhone}" 
                     class=" validate-phone" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxLength="10"/>
             
+
     
-      <label class=""><g:message code="sgr.property.subjectEmail.label" />  <span><g:message code="sgr.property.subjectEmail.help" /></span></label>
-      
+      <label class=""><g:message code="sgr.property.subjectEmail.label" />   <span><g:message code="sgr.property.subjectEmail.help" /></span></label>
             <input type="text" name="subjectEmail" value="${rqt.subjectEmail}" 
                     class=" validate-email" title="<g:message code="sgr.property.subjectEmail.validationError" />"  />
             
+
     
-      <label class="required"><g:message code="sgr.property.subjectBirthDate.label" /> * <span><g:message code="sgr.property.subjectBirthDate.help" /></span></label>
-      
+      <label class="required"><g:message code="sgr.property.subjectBirthDate.label" /> *  <span><g:message code="sgr.property.subjectBirthDate.help" /></span></label>
             <input type="text" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
                    class="required validate-date" title="<g:message code="sgr.property.subjectBirthDate.validationError" />" />
             
+
     
     </fieldset>
   

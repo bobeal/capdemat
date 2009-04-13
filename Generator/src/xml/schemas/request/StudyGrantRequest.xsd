@@ -26,7 +26,11 @@
         <common>
           <namespace name="school" />
           <steps>
-            <step index="0" name="subject" />
+            <step index="0" name="subject">
+              <widgets>
+            	<subject into="SubjectInformations" />
+              </widgets>
+            </step>
             <step index="1" name="taxHousehold" />
             <step index="2" name="otherHelps" />
             <step index="3" name="currentStudies">
@@ -37,7 +41,8 @@
             </step>
             <step index="4" name="calculationElements" />
             <step index="5" name="bankReference" />
-            <step index="6" ref="validation" />
+            <step index="6" ref="document" />
+            <step index="7" ref="validation" />
           </steps>
         </common>
         <xslfo>
@@ -46,8 +51,10 @@
             <block id="1" column="2" label="Foyer fiscal de référence" />
             <block id="2" column="2" label="Autres aides obtenues" />
             <block id="3" column="2" label="Établissement scolaire d'inscription" />
-            <block id="4" column="2" label="Précisions sur le diplôme préparé" displayCondition="//sgr:CurrentStudies/text() = 'otherStudies'" />
-            <block id="5" column="2" label="Renseignements sur le stage à l'étranger" displayCondition="//sgr:AbroadInternship" />
+            <block id="4" column="2" label="Précisions sur le diplôme préparé" 
+            	displayCondition="//sgr:CurrentStudies/text() = 'otherStudies'" />
+            <block id="5" column="2" label="Renseignements sur le stage à l'étranger" 
+            	displayCondition="//sgr:AbroadInternship" />
             <block id="6" column="2" label="Éléments de calcul de la bourse" />
             <block id="7" column="2" label="Références bancaires de l'étudiant" />
           </blocks-def>
@@ -61,7 +68,7 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
-            <xs:element name="SubjetInformations" type="sgr:SubjectInformationsType">
+            <xs:element name="SubjectInformations" type="sgr:SubjectInformationsType">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
@@ -412,7 +419,7 @@
                     </element>
                   </xslfo>
                   <fo />
-                  <bo column="2" />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -446,7 +453,7 @@
                     </element>
                   </xslfo>
                   <fo />
-                  <bo column="2" />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -514,7 +521,7 @@
                     </element>
                   </xslfo>
                   <fo />
-                  <bo column="2" />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -640,16 +647,16 @@
   <xs:complexType name="SubjectInformationsType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Informations concernant le demandeur
+        Informations concernant l'étudiant
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Information about requester
+        Information about student
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Informations concernant le demandeur
+        Informations concernant l'étudiant
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Information about requester
+        Information about student
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

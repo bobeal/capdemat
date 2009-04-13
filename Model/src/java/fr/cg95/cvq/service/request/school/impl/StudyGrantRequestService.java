@@ -1,16 +1,12 @@
 package fr.cg95.cvq.service.request.school.impl;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 
@@ -20,8 +16,6 @@ import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
  */
 public class StudyGrantRequestService extends RequestService implements IStudyGrantRequestService {
     
-    public final Map<String,IConditionChecker> filledConditions = new HashMap<String,IConditionChecker>();
-
     public boolean accept(Request request) {
         return request instanceof StudyGrantRequest;
     }
@@ -34,25 +28,9 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
         return super.create(request);
     }
 
-    private void initFilledConditions() {
+    protected void initFilledConditions() {
+        super.initFilledConditions();
         filledConditions.put("abroadInternship", new EqualityChecker("true"));
         filledConditions.put("currentStudies", new EqualityListChecker(Arrays.asList("otherStudies")));
     }
-
-    /**
-     * TODO - move to abstract RequestService
-     */
-    public boolean isConditionFilled (Map<String, String> triggers) {
-        initFilledConditions();
-        boolean test = true;
-        for (Entry<String, String> trigger : triggers.entrySet()) {
-            if (filledConditions.get(trigger.getKey()) != null 
-                && filledConditions.get(trigger.getKey()).test(trigger.getValue()))
-                test = test && true;
-            else
-                return false;
-        }
-        return test;
-    }
-
 }

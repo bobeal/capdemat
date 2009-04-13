@@ -1,11 +1,8 @@
 
 
 
-
-
   
     <label class="required"><g:message code="sgr.property.distance.label" /> *  <span><g:message code="sgr.property.distance.help" /></span></label>
-    
             <select name="distance" class="required validate-not-first" title="<g:message code="sgr.property.distance.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['lessThan30kms','between30and250kms','moreThan250kmsAndAbroad']}">
@@ -13,5 +10,6 @@
               </g:each>
             </select>
             
+
   
 

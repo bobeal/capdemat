@@ -53,7 +53,7 @@
           
                   <xsl:variable name="withTotal" select="'false'" />
 
-    <xsl:for-each select="//sgr:SubjetInformations">
+    <xsl:for-each select="//sgr:SubjectInformations">
                                                         <xsl:apply-templates select="./sgr:SubjectAddress"/>
                                                               <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
@@ -1131,7 +1131,7 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                  <xsl:template match="//sgr:SubjetInformations/sgr:SubjectAddress">
+                                                  <xsl:template match="//sgr:SubjectInformations/sgr:SubjectAddress">
               <xsl:call-template name="AddressType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

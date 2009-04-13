@@ -1,6 +1,8 @@
-alter table local_authority add column display_title varchar(100), server_names bytea;
-update local_authority set display_title="name";
+alter table local_authority add column display_title varchar(100)
+update local_authority set display_title=name;
 alter table local_authority alter column display_title set not null;
+
+alter table local_authority add column server_names bytea;
 
 alter table local_authority add column requests_creation_notification_enabled bool;
 update local_authority set requests_creation_notification_enabled=false;

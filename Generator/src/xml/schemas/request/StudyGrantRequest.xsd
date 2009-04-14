@@ -26,7 +26,11 @@
         <common>
           <namespace name="school" />
           <steps>
-            <step index="0" name="subject" />
+            <step index="0" name="subject">
+              <widgets>
+                <subject into="SubjectInformations" />
+              </widgets>
+            </step>
             <step index="1" name="taxHousehold" />
             <step index="2" name="otherHelps" />
             <step index="3" name="currentStudies">
@@ -61,7 +65,7 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
-            <xs:element name="SubjetInformations" type="sgr:SubjectInformationsType">
+            <xs:element name="SubjectInformations" type="sgr:SubjectInformationsType">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
@@ -815,7 +819,7 @@
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ALevelsDate">
+      <xs:element name="AlevelsDate">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Année d'obtention du baccalauréat
@@ -849,7 +853,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element name="ALevels" type="sgr:ALevelsType">
+      <xs:element name="Alevels" type="sgr:ALevelsType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Type de baccalauréat

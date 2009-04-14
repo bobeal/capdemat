@@ -1,5 +1,5 @@
-<div class="login-box">
-  <h2 class="request-creation">Vous avez déjà un compte</h2>
+<div class="login-box request-login-box">
+  <h2 class="request-creation">${message(code:'account.message.useAccountToFillRequest')}</h2>
   <form id="loginForm" method="post" action="${createLink(controller : 'frontofficeHome', action:'login')}">
     <g:if test="${error}">
       <div class="login-error">${error}</div>

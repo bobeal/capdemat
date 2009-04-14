@@ -10,6 +10,7 @@
       <div class="info">
         <p><g:message code="request.message.successfulCreation" /></p>
         <p><g:message code="request.message.requestIdNotice" args="${[rqt.id]}"/></p>
+        <p><g:message code="account.message.tempLoginToFollowRequest" /> : <strong>${requester.login}</strong></p>
       </div>
       <g:if test="${hasHomeFolder}">
         <div class="link">

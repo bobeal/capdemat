@@ -43,7 +43,7 @@
 
   
     <label class="required"><g:message code="scrr.property.foodAllergy.label" /> *  <span><g:message code="scrr.property.foodAllergy.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required validate-boolean" title="" value="${it}" name="foodAllergy" ${it == rqt.foodAllergy ? 'checked="checked"': ''} />

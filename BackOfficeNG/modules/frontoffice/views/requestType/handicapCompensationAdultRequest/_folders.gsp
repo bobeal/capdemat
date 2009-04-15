@@ -6,7 +6,7 @@
     <legend><g:message code="hcar.property.folders.label" /></legend>
     
       <label class="required"><g:message code="hcar.property.foldersMdph.label" /> *  <span><g:message code="hcar.property.foldersMdph.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isMDPH-trigger validate-boolean" title="" value="${it}" name="foldersMdph" ${it == rqt.foldersMdph ? 'checked="checked"': ''} />
@@ -30,7 +30,7 @@
 
     
       <label class="required"><g:message code="hcar.property.foldersCotorep.label" /> *  <span><g:message code="hcar.property.foldersCotorep.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isCOTOREP-trigger validate-boolean" title="" value="${it}" name="foldersCotorep" ${it == rqt.foldersCotorep ? 'checked="checked"': ''} />
@@ -54,7 +54,7 @@
 
     
       <label class="required"><g:message code="hcar.property.foldersCdes.label" /> *  <span><g:message code="hcar.property.foldersCdes.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isCDES-trigger validate-boolean" title="" value="${it}" name="foldersCdes" ${it == rqt.foldersCdes ? 'checked="checked"': ''} />
@@ -78,7 +78,7 @@
 
     
       <label class="required"><g:message code="hcar.property.foldersOtherFolders.label" /> *  <span><g:message code="hcar.property.foldersOtherFolders.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isOtherFolders-trigger validate-boolean" title="" value="${it}" name="foldersOtherFolders" ${it == rqt.foldersOtherFolders ? 'checked="checked"': ''} />

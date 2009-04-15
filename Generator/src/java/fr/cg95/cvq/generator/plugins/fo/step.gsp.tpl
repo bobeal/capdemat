@@ -3,7 +3,7 @@
       def widgets = [
         'boolean' : 
             """
-            <ul class="${element.listenerConditionsClass}">
+            <ul class="yes-no ${element.listenerConditionsClass}">
               <g:each in="\${[true,false]}">
               <li>
                 <input type="radio" class="${element.htmlClass}" title="" value="\${it}" name="${namePrefix}${element.javaFieldName}" \${it == ${valuePrefix}.${element.javaFieldName} ? 'checked="checked"': ''} />

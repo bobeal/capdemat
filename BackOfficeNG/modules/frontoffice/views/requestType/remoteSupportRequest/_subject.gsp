@@ -44,7 +44,7 @@
 
     
       <label class="required"><g:message code="rsr.property.subjectIsTaxable.label" /> *  <span><g:message code="rsr.property.subjectIsTaxable.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required validate-boolean" title="" value="${it}" name="subjectIsTaxable" ${it == rqt.subjectIsTaxable ? 'checked="checked"': ''} />
@@ -56,7 +56,7 @@
 
     
       <label class="required"><g:message code="rsr.property.subjectIsAPABeneficiary.label" /> *  <span><g:message code="rsr.property.subjectIsAPABeneficiary.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required validate-boolean" title="" value="${it}" name="subjectIsAPABeneficiary" ${it == rqt.subjectIsAPABeneficiary ? 'checked="checked"': ''} />
@@ -68,7 +68,7 @@
 
     
       <label class="required"><g:message code="rsr.property.subjectIsDisabledPerson.label" /> *  <span><g:message code="rsr.property.subjectIsDisabledPerson.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required validate-boolean" title="" value="${it}" name="subjectIsDisabledPerson" ${it == rqt.subjectIsDisabledPerson ? 'checked="checked"': ''} />
@@ -99,7 +99,7 @@
 
     
       <label class="required"><g:message code="rsr.property.requestInformationEmergency.label" /> *  <span><g:message code="rsr.property.requestInformationEmergency.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isEmergency-trigger validate-boolean" title="" value="${it}" name="requestInformationEmergency" ${it == rqt.requestInformationEmergency ? 'checked="checked"': ''} />
@@ -151,7 +151,7 @@
 
     
       <label class="required"><g:message code="rsr.property.spouseIsDisabledPerson.label" /> *  <span><g:message code="rsr.property.spouseIsDisabledPerson.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required validate-boolean" title="" value="${it}" name="spouseIsDisabledPerson" ${it == rqt.spouseIsDisabledPerson ? 'checked="checked"': ''} />

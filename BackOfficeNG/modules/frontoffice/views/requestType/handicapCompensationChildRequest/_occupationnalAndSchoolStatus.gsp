@@ -6,7 +6,7 @@
     <legend><g:message code="hccr.property.schooling.label" /></legend>
     
       <label class="required"><g:message code="hccr.property.schoolingEnrolment.label" /> *  <span><g:message code="hccr.property.schoolingEnrolment.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isSchoolingEnrolment-trigger validate-boolean" title="" value="${it}" name="schoolingEnrolment" ${it == rqt.schoolingEnrolment ? 'checked="checked"': ''} />
@@ -44,7 +44,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingSendToSchool.label" /> *  <span><g:message code="hccr.property.schoolingSendToSchool.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isSentToSchool-trigger validate-boolean" title="" value="${it}" name="schoolingSendToSchool" ${it == rqt.schoolingSendToSchool ? 'checked="checked"': ''} />
@@ -66,7 +66,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingSpecializedGrade.label" /> *  <span><g:message code="hccr.property.schoolingSpecializedGrade.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isSpecializedGrade-trigger validate-boolean" title="" value="${it}" name="schoolingSpecializedGrade" ${it == rqt.schoolingSpecializedGrade ? 'checked="checked"': ''} />
@@ -100,7 +100,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingHomeSchooling.label" /> *  <span><g:message code="hccr.property.schoolingHomeSchooling.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required validate-boolean" title="" value="${it}" name="schoolingHomeSchooling" ${it == rqt.schoolingHomeSchooling ? 'checked="checked"': ''} />
@@ -112,7 +112,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingPersonalizedSchoolingPlan.label" /> *  <span><g:message code="hccr.property.schoolingPersonalizedSchoolingPlan.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required validate-boolean" title="" value="${it}" name="schoolingPersonalizedSchoolingPlan" ${it == rqt.schoolingPersonalizedSchoolingPlan ? 'checked="checked"': ''} />
@@ -166,7 +166,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingExtraCurricular.label" /> *  <span><g:message code="hccr.property.schoolingExtraCurricular.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isExtraCurricular-trigger validate-boolean" title="" value="${it}" name="schoolingExtraCurricular" ${it == rqt.schoolingExtraCurricular ? 'checked="checked"': ''} />
@@ -191,7 +191,7 @@
     <legend><g:message code="hccr.property.studies.label" /></legend>
     
       <label class="required"><g:message code="hccr.property.studiesHighSchool.label" /> *  <span><g:message code="hccr.property.studiesHighSchool.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isHighSchool-trigger validate-boolean" title="" value="${it}" name="studiesHighSchool" ${it == rqt.studiesHighSchool ? 'checked="checked"': ''} />
@@ -235,7 +235,7 @@
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesAssistanceUnderDisability.label" /> *  <span><g:message code="hccr.property.studiesAssistanceUnderDisability.help" /></span></label>
-            <ul class="required condition-isHighSchool-filled">
+            <ul class="yes-no required condition-isHighSchool-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isHighSchool-filled condition-isAssistanceUnderDisability-trigger validate-boolean" title="" value="${it}" name="studiesAssistanceUnderDisability" ${it == rqt.studiesAssistanceUnderDisability ? 'checked="checked"': ''} />
@@ -346,7 +346,7 @@
 
     
       <label class="required condition-isUnemployed-filled"><g:message code="hccr.property.professionalStatusRegisterAsUnemployed.label" /> *  <span><g:message code="hccr.property.professionalStatusRegisterAsUnemployed.help" /></span></label>
-            <ul class="required condition-isUnemployed-filled">
+            <ul class="yes-no required condition-isUnemployed-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isUnemployed-filled condition-isRegisteredAsUnemployed-trigger validate-boolean" title="" value="${it}" name="professionalStatusRegisterAsUnemployed" ${it == rqt.professionalStatusRegisterAsUnemployed ? 'checked="checked"': ''} />
@@ -364,7 +364,7 @@
 
     
       <label class="required condition-isUnemployed-filled"><g:message code="hccr.property.professionalStatusIndemnified.label" /> *  <span><g:message code="hccr.property.professionalStatusIndemnified.help" /></span></label>
-            <ul class="required condition-isUnemployed-filled">
+            <ul class="yes-no required condition-isUnemployed-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isUnemployed-filled condition-isIndemnified-trigger validate-boolean" title="" value="${it}" name="professionalStatusIndemnified" ${it == rqt.professionalStatusIndemnified ? 'checked="checked"': ''} />
@@ -382,7 +382,7 @@
 
     
       <label class="required"><g:message code="hccr.property.professionalStatusElectiveFunction.label" /> *  <span><g:message code="hccr.property.professionalStatusElectiveFunction.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isElectiveFunction-trigger validate-boolean" title="" value="${it}" name="professionalStatusElectiveFunction" ${it == rqt.professionalStatusElectiveFunction ? 'checked="checked"': ''} />

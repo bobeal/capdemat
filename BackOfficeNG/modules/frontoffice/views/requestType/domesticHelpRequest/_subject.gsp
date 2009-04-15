@@ -44,7 +44,7 @@
 
     
       <label class="required condition-isNonEuropean-filled"><g:message code="dhr.property.dhrRequesterIsFrenchResident.label" /> *  <span><g:message code="dhr.property.dhrRequesterIsFrenchResident.help" /></span></label>
-            <ul class="required condition-isNonEuropean-filled">
+            <ul class="yes-no required condition-isNonEuropean-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isNonEuropean-filled validate-boolean" title="" value="${it}" name="dhrRequesterIsFrenchResident" ${it == rqt.dhrRequesterIsFrenchResident ? 'checked="checked"': ''} />
@@ -92,7 +92,7 @@
     <legend><g:message code="dhr.property.dhrRequesterGuardian.label" /></legend>
     
       <label class="required"><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /> *  <span><g:message code="dhr.property.dhrRequesterHaveGuardian.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-haveGuardian-trigger validate-boolean" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == rqt.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />

@@ -6,7 +6,7 @@
     <legend><g:message code="hccr.property.projectRequests.label" /></legend>
     
       <label class=""><g:message code="hccr.property.projectRequestsHandicapRecognition.label" />   <span><g:message code="hccr.property.projectRequestsHandicapRecognition.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsHandicapRecognition" ${it == rqt.projectRequestsHandicapRecognition ? 'checked="checked"': ''} />
@@ -18,7 +18,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsDisabilityCard.label" />   <span><g:message code="hccr.property.projectRequestsDisabilityCard.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsDisabilityCard" ${it == rqt.projectRequestsDisabilityCard ? 'checked="checked"': ''} />
@@ -30,7 +30,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsDisabledPriorityCard.label" />   <span><g:message code="hccr.property.projectRequestsDisabledPriorityCard.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsDisabledPriorityCard" ${it == rqt.projectRequestsDisabledPriorityCard ? 'checked="checked"': ''} />
@@ -42,7 +42,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsEuropeanParkingCard.label" />   <span><g:message code="hccr.property.projectRequestsEuropeanParkingCard.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsEuropeanParkingCard" ${it == rqt.projectRequestsEuropeanParkingCard ? 'checked="checked"': ''} />
@@ -54,7 +54,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsDisabledAdultAllowance.label" />   <span><g:message code="hccr.property.projectRequestsDisabledAdultAllowance.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsDisabledAdultAllowance" ${it == rqt.projectRequestsDisabledAdultAllowance ? 'checked="checked"': ''} />
@@ -66,7 +66,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsIncreaseForIndependentLiving.label" />   <span><g:message code="hccr.property.projectRequestsIncreaseForIndependentLiving.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsIncreaseForIndependentLiving" ${it == rqt.projectRequestsIncreaseForIndependentLiving ? 'checked="checked"': ''} />
@@ -78,7 +78,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsEducationAllocationOfDisabledChildren.label" />   <span><g:message code="hccr.property.projectRequestsEducationAllocationOfDisabledChildren.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsEducationAllocationOfDisabledChildren" ${it == rqt.projectRequestsEducationAllocationOfDisabledChildren ? 'checked="checked"': ''} />
@@ -90,7 +90,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsACTPRenewal.label" />   <span><g:message code="hccr.property.projectRequestsACTPRenewal.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsACTPRenewal" ${it == rqt.projectRequestsACTPRenewal ? 'checked="checked"': ''} />
@@ -102,7 +102,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsThirdPartyHelp.label" />   <span><g:message code="hccr.property.projectRequestsThirdPartyHelp.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsThirdPartyHelp" ${it == rqt.projectRequestsThirdPartyHelp ? 'checked="checked"': ''} />
@@ -114,7 +114,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsFreePensionMembership.label" />   <span><g:message code="hccr.property.projectRequestsFreePensionMembership.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsFreePensionMembership" ${it == rqt.projectRequestsFreePensionMembership ? 'checked="checked"': ''} />
@@ -126,7 +126,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsTechnicalHelp.label" />   <span><g:message code="hccr.property.projectRequestsTechnicalHelp.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsTechnicalHelp" ${it == rqt.projectRequestsTechnicalHelp ? 'checked="checked"': ''} />
@@ -138,7 +138,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsHousingFacilities.label" />   <span><g:message code="hccr.property.projectRequestsHousingFacilities.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsHousingFacilities" ${it == rqt.projectRequestsHousingFacilities ? 'checked="checked"': ''} />
@@ -150,7 +150,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsCustomCar.label" />   <span><g:message code="hccr.property.projectRequestsCustomCar.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsCustomCar" ${it == rqt.projectRequestsCustomCar ? 'checked="checked"': ''} />
@@ -162,7 +162,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsAssistance.label" />   <span><g:message code="hccr.property.projectRequestsAssistance.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsAssistance" ${it == rqt.projectRequestsAssistance ? 'checked="checked"': ''} />
@@ -174,7 +174,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsTransportCostAllocation.label" />   <span><g:message code="hccr.property.projectRequestsTransportCostAllocation.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsTransportCostAllocation" ${it == rqt.projectRequestsTransportCostAllocation ? 'checked="checked"': ''} />
@@ -186,7 +186,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsDisabilityCostAllocation.label" />   <span><g:message code="hccr.property.projectRequestsDisabilityCostAllocation.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsDisabilityCostAllocation" ${it == rqt.projectRequestsDisabilityCostAllocation ? 'checked="checked"': ''} />
@@ -198,7 +198,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsDisabledWorkerRecognition.label" />   <span><g:message code="hccr.property.projectRequestsDisabledWorkerRecognition.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsDisabledWorkerRecognition" ${it == rqt.projectRequestsDisabledWorkerRecognition ? 'checked="checked"': ''} />
@@ -210,7 +210,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsProfessionalOrientation.label" />   <span><g:message code="hccr.property.projectRequestsProfessionalOrientation.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="condition-isProfessionalOrientationRequest-trigger validate-boolean" title="" value="${it}" name="projectRequestsProfessionalOrientation" ${it == rqt.projectRequestsProfessionalOrientation ? 'checked="checked"': ''} />
@@ -222,7 +222,7 @@
 
     
       <label class="condition-isProfessionalOrientationRequest-filled"><g:message code="hccr.property.projectRequestsOrdinaryWorking.label" />   <span><g:message code="hccr.property.projectRequestsOrdinaryWorking.help" /></span></label>
-            <ul class="condition-isProfessionalOrientationRequest-filled">
+            <ul class="yes-no condition-isProfessionalOrientationRequest-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="condition-isProfessionalOrientationRequest-filled validate-boolean" title="" value="${it}" name="projectRequestsOrdinaryWorking" ${it == rqt.projectRequestsOrdinaryWorking ? 'checked="checked"': ''} />
@@ -234,7 +234,7 @@
 
     
       <label class="condition-isProfessionalOrientationRequest-filled"><g:message code="hccr.property.projectRequestsShelteredWork.label" />   <span><g:message code="hccr.property.projectRequestsShelteredWork.help" /></span></label>
-            <ul class="condition-isProfessionalOrientationRequest-filled">
+            <ul class="yes-no condition-isProfessionalOrientationRequest-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="condition-isProfessionalOrientationRequest-filled validate-boolean" title="" value="${it}" name="projectRequestsShelteredWork" ${it == rqt.projectRequestsShelteredWork ? 'checked="checked"': ''} />
@@ -246,7 +246,7 @@
 
     
       <label class="condition-isProfessionalOrientationRequest-filled"><g:message code="hccr.property.projectRequestsVocationalTraining.label" />   <span><g:message code="hccr.property.projectRequestsVocationalTraining.help" /></span></label>
-            <ul class="condition-isProfessionalOrientationRequest-filled">
+            <ul class="yes-no condition-isProfessionalOrientationRequest-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="condition-isProfessionalOrientationRequest-filled validate-boolean" title="" value="${it}" name="projectRequestsVocationalTraining" ${it == rqt.projectRequestsVocationalTraining ? 'checked="checked"': ''} />
@@ -258,7 +258,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsInstitutionSupport.label" />   <span><g:message code="hccr.property.projectRequestsInstitutionSupport.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class=" validate-boolean" title="" value="${it}" name="projectRequestsInstitutionSupport" ${it == rqt.projectRequestsInstitutionSupport ? 'checked="checked"': ''} />
@@ -270,7 +270,7 @@
 
     
       <label class=""><g:message code="hccr.property.projectRequestsOther.label" />   <span><g:message code="hccr.property.projectRequestsOther.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="condition-isOtherRequest-trigger validate-boolean" title="" value="${it}" name="projectRequestsOther" ${it == rqt.projectRequestsOther ? 'checked="checked"': ''} />

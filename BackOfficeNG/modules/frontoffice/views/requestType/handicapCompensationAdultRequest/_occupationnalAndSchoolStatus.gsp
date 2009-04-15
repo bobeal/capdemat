@@ -6,7 +6,7 @@
     <legend><g:message code="hcar.property.studies.label" /></legend>
     
       <label class="required"><g:message code="hcar.property.studiesHighSchool.label" /> *  <span><g:message code="hcar.property.studiesHighSchool.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isHighSchool-trigger validate-boolean" title="" value="${it}" name="studiesHighSchool" ${it == rqt.studiesHighSchool ? 'checked="checked"': ''} />
@@ -50,7 +50,7 @@
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesAssistanceUnderDisability.label" /> *  <span><g:message code="hcar.property.studiesAssistanceUnderDisability.help" /></span></label>
-            <ul class="required condition-isHighSchool-filled">
+            <ul class="yes-no required condition-isHighSchool-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isHighSchool-filled condition-isAssistanceUnderDisability-trigger validate-boolean" title="" value="${it}" name="studiesAssistanceUnderDisability" ${it == rqt.studiesAssistanceUnderDisability ? 'checked="checked"': ''} />
@@ -161,7 +161,7 @@
 
     
       <label class="required condition-isUnemployed-filled"><g:message code="hcar.property.professionalStatusRegisterAsUnemployed.label" /> *  <span><g:message code="hcar.property.professionalStatusRegisterAsUnemployed.help" /></span></label>
-            <ul class="required condition-isUnemployed-filled">
+            <ul class="yes-no required condition-isUnemployed-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isUnemployed-filled condition-isRegisteredAsUnemployed-trigger validate-boolean" title="" value="${it}" name="professionalStatusRegisterAsUnemployed" ${it == rqt.professionalStatusRegisterAsUnemployed ? 'checked="checked"': ''} />
@@ -179,7 +179,7 @@
 
     
       <label class="required condition-isUnemployed-filled"><g:message code="hcar.property.professionalStatusIndemnified.label" /> *  <span><g:message code="hcar.property.professionalStatusIndemnified.help" /></span></label>
-            <ul class="required condition-isUnemployed-filled">
+            <ul class="yes-no required condition-isUnemployed-filled">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isUnemployed-filled condition-isIndemnified-trigger validate-boolean" title="" value="${it}" name="professionalStatusIndemnified" ${it == rqt.professionalStatusIndemnified ? 'checked="checked"': ''} />
@@ -197,7 +197,7 @@
 
     
       <label class="required"><g:message code="hcar.property.professionalStatusElectiveFunction.label" /> *  <span><g:message code="hcar.property.professionalStatusElectiveFunction.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isElectiveFunction-trigger validate-boolean" title="" value="${it}" name="professionalStatusElectiveFunction" ${it == rqt.professionalStatusElectiveFunction ? 'checked="checked"': ''} />

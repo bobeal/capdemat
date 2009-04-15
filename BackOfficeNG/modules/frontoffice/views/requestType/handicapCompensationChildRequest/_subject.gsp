@@ -69,7 +69,7 @@
 
     
       <label class=""><g:message code="hccr.property.fatherActivityReduction.label" />   <span><g:message code="hccr.property.fatherActivityReduction.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="condition-isFatherActivityReduction-trigger validate-boolean" title="" value="${it}" name="fatherActivityReduction" ${it == rqt.fatherActivityReduction ? 'checked="checked"': ''} />
@@ -112,7 +112,7 @@
 
     
       <label class=""><g:message code="hccr.property.motherActivityReduction.label" />   <span><g:message code="hccr.property.motherActivityReduction.help" /></span></label>
-            <ul class="">
+            <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="condition-isMotherActivityReduction-trigger validate-boolean" title="" value="${it}" name="motherActivityReduction" ${it == rqt.motherActivityReduction ? 'checked="checked"': ''} />
@@ -212,7 +212,7 @@
 
     
       <label class="required"><g:message code="hccr.property.referentFamilyDependents.label" /> *  <span><g:message code="hccr.property.referentFamilyDependents.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isReferentFamilyDependents-trigger validate-boolean" title="" value="${it}" name="referentFamilyDependents" ${it == rqt.referentFamilyDependents ? 'checked="checked"': ''} />

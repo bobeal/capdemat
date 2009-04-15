@@ -1,5 +1,7 @@
-  <label class="required">${message(code:'request.step.validation.label.activeHomeFolder')} * </label>
-  <ul class="required">
+  <p>${message(code:'request.step.validation.help.followRequest')}</p>
+  <label class="required">${message(code:'request.step.validation.label.followRequest')} * 
+  </label>
+  <ul class="yes-no required">
     <g:each in="${[true,false]}">
     <li>
       <input type="radio" class="required validate-boolean condition-activeHomeFolder-trigger" title="" value="${it}" 
@@ -8,11 +10,11 @@
     </li>
     </g:each>
   </ul>
-          
+  <p class="condition-activeHomeFolder-filled"><strong>${message(code:'request.step.validation.message.choosePassword')}</strong></p>
   <fieldset class="condition-activeHomeFolder-filled">
   <input type="hidden" name="requester" />
-  <legend>${message(code:'request.step.validation.label.choosePassword')}</legend>
-    <label class="required">${message(code:'homeFolder.adult.property.password')} *</label>
+    <legend>${message(code:'request.step.validation.label.choosePassword')}</legend>
+    <label class="required">${message(code:'homeFolder.adult.property.password')} * <span>(${message(code:'request.step.validation.help.choosePassword')})</span></label>
     <input type="password" name="_requester.password" class="required" value="" title="${message(code:'homeFolder.adult.property.password.validationError')}" />
 
     <label class="required">${message(code:'request.step.validation.label.confirmPassword')} *</label>
@@ -21,6 +23,7 @@
 
   <fieldset class="condition-activeHomeFolder-filled">
     <legend>${message(code:'request.step.validation.label.chooseReminder')}</legend>
+    <p>${message(code:'request.step.validation.help.chooseReminder')}</p>
     <label class="required">${message(code:'homeFolder.adult.property.question')} *</label>
     <select name="_requester.question" class="required validate-not-first" title="${message(code:'homeFolder.adult.property.question.validationError')}">
       <option value="">${message(code:'message.select.defaultOption')}</option>

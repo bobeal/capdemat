@@ -21,7 +21,7 @@
 
     
       <label class="required"><g:message code="hcar.property.dwellingEstablishmentReception.label" /> *  <span><g:message code="hcar.property.dwellingEstablishmentReception.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isInEstablishmentReception-trigger validate-boolean" title="" value="${it}" name="dwellingEstablishmentReception" ${it == rqt.dwellingEstablishmentReception ? 'checked="checked"': ''} />
@@ -69,7 +69,7 @@
 
     
       <label class="required"><g:message code="hcar.property.dwellingSocialReception.label" /> *  <span><g:message code="hcar.property.dwellingSocialReception.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isInSocialReception-trigger validate-boolean" title="" value="${it}" name="dwellingSocialReception" ${it == rqt.dwellingSocialReception ? 'checked="checked"': ''} />

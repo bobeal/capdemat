@@ -207,3 +207,9 @@
   border: 3px solid #ffaa00;
   background: #ffffcc;
 }
+
+.outOfAccount-login-box p          { font: normal 1.5em sans-serif; margin: 0 0 .5em; }
+.outOfAccount-login-box p.error    { padding: 0; font: bold 1.2em sans-serif; text-align: left; }
+.outOfAccount-login-box input.text { margin-right: 1em; font-size: 1.2em; border: 1px solid #ffaa00; }
+.outOfAccount-login-box label      { font-size: 1.2em; }
+

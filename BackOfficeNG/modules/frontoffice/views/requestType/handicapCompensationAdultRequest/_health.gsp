@@ -6,7 +6,7 @@
     <legend><g:message code="hcar.property.health.label" /></legend>
     
       <label class="required"><g:message code="hcar.property.healthFollowedByDoctor.label" /> *  <span><g:message code="hcar.property.healthFollowedByDoctor.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isFollowedByDoctor-trigger validate-boolean" title="" value="${it}" name="healthFollowedByDoctor" ${it == rqt.healthFollowedByDoctor ? 'checked="checked"': ''} />
@@ -30,7 +30,7 @@
 
     
       <label class="required"><g:message code="hcar.property.healthFollowedByProfessional.label" /> *  <span><g:message code="hcar.property.healthFollowedByProfessional.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isFollowedByProfessional-trigger validate-boolean" title="" value="${it}" name="healthFollowedByProfessional" ${it == rqt.healthFollowedByProfessional ? 'checked="checked"': ''} />
@@ -54,7 +54,7 @@
 
     
       <label class="required"><g:message code="hcar.property.healthFollowedByHospital.label" /> *  <span><g:message code="hcar.property.healthFollowedByHospital.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" class="required condition-isFollowedByHospital-trigger validate-boolean" title="" value="${it}" name="healthFollowedByHospital" ${it == rqt.healthFollowedByHospital ? 'checked="checked"': ''} />

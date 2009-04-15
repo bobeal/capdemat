@@ -90,44 +90,29 @@
       </g:else>
     </g:each>
   </g:if>
-  <% } else { %>
-    <% if (step.name == 'validation') { %>
-      <h3><g:message code="request.step.${step.name}.label" /></h3>
-      <g:if test="\${!hasHomeFolder}">
-        <g:render template="/frontofficeRequestType/outOfAccountValidation" />
-      </g:if>
-      
-      <div id="useAcceptance">
-       <input type="checkbox" name="useAcceptance" class="required validate-one-required"
-              title="\${message(code:'request.error.useAcceptanceRequired')}" />
-       <a href="\${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
-         <g:message code="request.step.validation.useAcceptance"/>
-       </a>
-     </div>
-    <% } else { %>
-      <h3><g:message code="${requestFo.acronym}.step.${step.name}.label" /></h3>
-      <% requestFo.getElementsByStep(step).each { element -> %>
-        <% if (element.typeClass == "COLLECTION") { %>
-        <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
-        <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
-        <dl>
-          <% element.elements.each { subElement -> %>
-            <% displayWidget(subElement, "it") %>
-          <% } %>
-        </dl>
-        </g:each>
-        <% } else if (element.typeClass == "COMPLEX") { %>
-        <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
-        <dl>
-          <% element.elements.each { subElement -> %>
-            <% displayWidget(subElement, "rqt") %>
-          <% } %>
-        </dl>
-        <% } else { %>
-        <dl>
-          <% displayWidget(element, "rqt") %>
-        </dl>
+  <% } else if (step.name != 'validation') { %>
+    <h3><g:message code="${requestFo.acronym}.step.${step.name}.label" /></h3>
+    <% requestFo.getElementsByStep(step).each { element -> %>
+      <% if (element.typeClass == "COLLECTION") { %>
+      <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
+      <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
+      <dl>
+        <% element.elements.each { subElement -> %>
+          <% displayWidget(subElement, "it") %>
         <% } %>
+      </dl>
+      </g:each>
+      <% } else if (element.typeClass == "COMPLEX") { %>
+      <h4><g:message code="${element.i18nPrefixCode}.label" /></h4>
+      <dl>
+        <% element.elements.each { subElement -> %>
+          <% displayWidget(subElement, "rqt") %>
+        <% } %>
+      </dl>
+      <% } else { %>
+      <dl>
+        <% displayWidget(element, "rqt") %>
+      </dl>
       <% } %>
     <% } %>
   <% } %>

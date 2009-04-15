@@ -347,10 +347,12 @@ class RequestCreationController {
     def exit = {
         def requestService = requestServiceRegistry.getRequestService(params.label)
         def cRequest = requestService.getById(Long.parseLong(params.id))
+        def requester = individualService.getById(cRequest.requesterId)
         render( view: "frontofficeRequestType/exit",
                 model:
                     ['requestTypeLabel': translationService.getEncodedRequestTypeLabelTranslation(cRequest.requestType.label),
                      'rqt': cRequest,
+                     'requester': requester,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                     ])
     }

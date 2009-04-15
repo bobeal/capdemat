@@ -5,17 +5,17 @@
     <fieldset class="required">
     <legend><g:message code="sgr.property.aLevelsInformations.label" /></legend>
     
-      <label class="required"><g:message code="sgr.property.aLevelsDate.label" /> *  <span><g:message code="sgr.property.aLevelsDate.help" /></span></label>
-            <input type="text" name="aLevelsDate" value="${rqt.aLevelsDate}" 
-                    class="required validate-regex" title="<g:message code="sgr.property.aLevelsDate.validationError" />" regex="^\d{2,4}$" maxLength="4"/>
+      <label class="required"><g:message code="sgr.property.alevelsDate.label" /> *  <span><g:message code="sgr.property.alevelsDate.help" /></span></label>
+            <input type="text" name="alevelsDate" value="${rqt.alevelsDate}" 
+                    class="required validate-regex" title="<g:message code="sgr.property.alevelsDate.validationError" />" regex="^\d{2,4}$" maxLength="4"/>
             
 
     
-      <label class="required"><g:message code="sgr.property.aLevels.label" /> *  <span><g:message code="sgr.property.aLevels.help" /></span></label>
-            <select name="aLevels" class="required validate-not-first" title="<g:message code="sgr.property.aLevels.validationError" />">
+      <label class="required"><g:message code="sgr.property.alevels.label" /> *  <span><g:message code="sgr.property.alevels.help" /></span></label>
+            <select name="alevels" class="required validate-not-first" title="<g:message code="sgr.property.alevels.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['es','l','s','stg','sti','stl','st2s','stav','tmd','h','p']}">
-                <option value="fr.cg95.cvq.business.request.school.ALevelsType_${it}" ${it == rqt.aLevels?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="sgr.property.aLevels" /></option>
+                <option value="fr.cg95.cvq.business.request.school.ALevelsType_${it}" ${it == rqt.alevels?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="sgr.property.alevels" /></option>
               </g:each>
             </select>
             

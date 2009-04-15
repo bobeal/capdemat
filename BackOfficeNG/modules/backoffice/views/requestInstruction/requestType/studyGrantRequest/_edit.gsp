@@ -193,9 +193,9 @@
               <h3><g:message code="sgr.property.aLevelsInformations.label" /></h3>
               <dl class="required">
                 
-                  <dt class="required"><g:message code="sgr.property.aLevelsDate.label" /> * : </dt><dd id="aLevelsDate" class="action-editField validate-regex required-true i18n-sgr.property.aLevelsDate maxLength-4" regex="^\d{2,4}$"><span>${request?.aLevelsDate}</span></dd>
+                  <dt class="required"><g:message code="sgr.property.alevelsDate.label" /> * : </dt><dd id="alevelsDate" class="action-editField validate-regex required-true i18n-sgr.property.alevelsDate maxLength-4" regex="^\d{2,4}$"><span>${request?.alevelsDate}</span></dd>
                 
-                  <dt class="required"><g:message code="sgr.property.aLevels.label" /> * : </dt><dd id="aLevels" class="action-editField validate-capdematEnum required-true i18n-sgr.property.aLevels javatype-fr.cg95.cvq.business.request.school.ALevelsType" ><g:capdematEnumToField var="${request?.aLevels}" i18nKeyPrefix="sgr.property.aLevels" /></dd>
+                  <dt class="required"><g:message code="sgr.property.alevels.label" /> * : </dt><dd id="alevels" class="action-editField validate-capdematEnum required-true i18n-sgr.property.alevels javatype-fr.cg95.cvq.business.request.school.ALevelsType" ><g:capdematEnumToField var="${request?.alevels}" i18nKeyPrefix="sgr.property.alevels" /></dd>
                 
               </dl>
               
@@ -296,18 +296,6 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sgr.property.accountNumber.label" /> * : </dt><dd id="accountNumber" class="action-editField validate-regex required-true i18n-sgr.property.accountNumber maxLength-11" regex="^[a-zA-Z0-9]{1,11}$"><span>${request?.accountNumber}</span></dd>
-              </dl>
-              
-            
-          </div>
-          <!-- column end -->
-          
-          <!-- column start -->
-          <div class="yui-u">
-            
-              
-              <dl>
                 <dt class="required"><g:message code="sgr.property.bankCode.label" /> * : </dt><dd id="bankCode" class="action-editField validate-regex required-true i18n-sgr.property.bankCode maxLength-5" regex="^\d{1,5}$"><span>${request?.bankCode}</span></dd>
               </dl>
               
@@ -320,9 +308,21 @@
             
               
               <dl>
+                <dt class="required"><g:message code="sgr.property.accountNumber.label" /> * : </dt><dd id="accountNumber" class="action-editField validate-regex required-true i18n-sgr.property.accountNumber maxLength-11" regex="^[a-zA-Z0-9]{1,11}$"><span>${request?.accountNumber}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
                 <dt class="required"><g:message code="sgr.property.accountKey.label" /> * : </dt><dd id="accountKey" class="action-editField validate-regex required-true i18n-sgr.property.accountKey maxLength-2" regex="^(?:O[1-9])|(?:[1-8]\d)|(?:9[0-7])$"><span>${request?.accountKey}</span></dd>
               </dl>
               
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
             
           </div>
           <!-- column end -->

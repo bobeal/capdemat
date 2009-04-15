@@ -139,13 +139,13 @@
         <h4><g:message code="sgr.property.aLevelsInformations.label" /></h4>
         <dl>
           
-            <dt><g:message code="sgr.property.aLevelsDate.label" /></dt><dd>${rqt.aLevelsDate}</dd>
+            <dt><g:message code="sgr.property.alevelsDate.label" /></dt><dd>${rqt.alevelsDate}</dd>
 
           
-            <dt><g:message code="sgr.property.aLevels.label" /></dt>
+            <dt><g:message code="sgr.property.alevels.label" /></dt>
           <dd>
-            <g:if test="${rqt.aLevels}">
-              <g:capdematEnumToField var="${rqt.aLevels}" i18nKeyPrefix="sgr.property.aLevels" />
+            <g:if test="${rqt.alevels}">
+              <g:capdematEnumToField var="${rqt.alevels}" i18nKeyPrefix="sgr.property.alevels" />
             </g:if>
           </dd>
           

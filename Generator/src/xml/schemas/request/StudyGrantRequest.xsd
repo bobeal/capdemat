@@ -28,7 +28,7 @@
           <steps>
             <step index="0" name="subject">
               <widgets>
-            	<subject into="SubjectInformations" />
+                <subject into="SubjectInformations" />
               </widgets>
             </step>
             <step index="1" name="taxHousehold" />
@@ -822,7 +822,7 @@
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ALevelsDate">
+      <xs:element name="AlevelsDate">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Année d'obtention du baccalauréat
@@ -856,7 +856,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element name="ALevels" type="sgr:ALevelsType">
+      <xs:element name="Alevels" type="sgr:ALevelsType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Type de baccalauréat

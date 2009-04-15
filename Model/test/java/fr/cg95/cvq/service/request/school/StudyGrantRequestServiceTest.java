@@ -41,7 +41,6 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
           request.setAbroadInternshipEndDate(new Date());
             request.setHasEuropeHelp(Boolean.valueOf(true));
               request.setCurrentStudies(CurrentStudiesType.LICENCE);
-                  request.setALevels(ALevelsType.ES);
                   request.setCurrentStudiesLevel(CurrentStudiesLevelType.FIRST_YEAR);
                   if ("CurrentSchoolPostalCode".length() > 5)
         request.setCurrentSchoolPostalCode("CurrentSchoolPostalCode".substring(0, 5));
@@ -52,6 +51,10 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
         request.setTaxHouseholdFirstName("TaxHouseholdFirstName".substring(0, 38));
       else
         request.setTaxHouseholdFirstName("TaxHouseholdFirstName");
+                  if ("AlevelsDate".length() > 4)
+        request.setAlevelsDate("AlevelsDate".substring(0, 4));
+      else
+        request.setAlevelsDate("AlevelsDate");
                   if ("BankCode".length() > 5)
         request.setBankCode("BankCode".substring(0, 5));
       else
@@ -84,6 +87,7 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
       else
         request.setAccountNumber("AccountNumber");
                   request.setDistance(DistanceType.LESS_THAN30KMS);
+                  request.setAlevels(ALevelsType.ES);
                   if ("TaxHouseholdPostalCode".length() > 5)
         request.setTaxHouseholdPostalCode("TaxHouseholdPostalCode".substring(0, 5));
       else
@@ -98,10 +102,6 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
       else
         request.setAccountKey("AccountKey");
                     request.setOtherStudiesLabel("OtherStudiesLabel");
-                  if ("ALevelsDate".length() > 4)
-        request.setALevelsDate("ALevelsDate".substring(0, 4));
-      else
-        request.setALevelsDate("ALevelsDate");
                 request.setHasRegionalCouncilHelp(Boolean.valueOf(true));
               request.setHasOtherHelp(Boolean.valueOf(true));
                             Address SubjectAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");

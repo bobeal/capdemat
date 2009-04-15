@@ -69,9 +69,6 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setHasEuropeHelp(this.hasEuropeHelp.booleanValue());
         if (this.currentStudies != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudies(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(this.currentStudies.toString()));
-        ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
-        if (this.aLevels != null)
-            aLevelsInformationsTypeALevelsInformations.setALevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(this.aLevels.toString()));
         if (this.currentStudiesLevel != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.CurrentStudiesLevelType.Enum.forString(this.currentStudiesLevel.toString()));
         CurrentSchoolType currentSchoolTypeCurrentSchool = studyGrantRequest.addNewCurrentSchool();
@@ -82,6 +79,8 @@ public class StudyGrantRequest extends Request implements Serializable {
             currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipStartDate(calendar);
         }
         studyGrantRequest.setTaxHouseholdFirstName(this.taxHouseholdFirstName);
+        ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
+        aLevelsInformationsTypeALevelsInformations.setAlevelsDate(this.alevelsDate);
         studyGrantRequest.setBankCode(this.bankCode);
         SubjectInformationsType subjectInformationsTypeSubjectInformations = studyGrantRequest.addNewSubjectInformations();
         date = this.subjectBirthDate;
@@ -106,12 +105,13 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setAccountNumber(this.accountNumber);
         if (this.distance != null)
             studyGrantRequest.setDistance(fr.cg95.cvq.xml.request.school.DistanceType.Enum.forString(this.distance.toString()));
+        if (this.alevels != null)
+            aLevelsInformationsTypeALevelsInformations.setAlevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(this.alevels.toString()));
         studyGrantRequest.setTaxHouseholdPostalCode(this.taxHouseholdPostalCode);
         subjectInformationsTypeSubjectInformations.setSubjectMobilePhone(this.subjectMobilePhone);
         currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolName(this.abroadInternshipSchoolName);
         studyGrantRequest.setAccountKey(this.accountKey);
         currentStudiesInformationsTypeCurrentStudiesInformations.setOtherStudiesLabel(this.otherStudiesLabel);
-        aLevelsInformationsTypeALevelsInformations.setALevelsDate(this.aLevelsDate);
         if (this.hasRegionalCouncilHelp != null)
             studyGrantRequest.setHasRegionalCouncilHelp(this.hasRegionalCouncilHelp.booleanValue());
         if (this.taxHouseholdIncome != null)
@@ -149,10 +149,6 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudies().toString()));
         else
             studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
-        if (studyGrantRequestXml.getALevelsInformations().getALevels() != null)
-            studyGrantRequest.setALevels(fr.cg95.cvq.business.request.school.ALevelsType.forString(studyGrantRequestXml.getALevelsInformations().getALevels().toString()));
-        else
-            studyGrantRequest.setALevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
         if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel() != null)
             studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel().toString()));
         else
@@ -163,6 +159,7 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setAbroadInternshipStartDate(calendar.getTime());
         }
         studyGrantRequest.setTaxHouseholdFirstName(studyGrantRequestXml.getTaxHouseholdFirstName());
+        studyGrantRequest.setAlevelsDate(studyGrantRequestXml.getALevelsInformations().getAlevelsDate());
         studyGrantRequest.setBankCode(studyGrantRequestXml.getBankCode());
         calendar = studyGrantRequestXml.getSubjectInformations().getSubjectBirthDate();
         if (calendar != null) {
@@ -186,12 +183,15 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.forString(studyGrantRequestXml.getDistance().toString()));
         else
             studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
+        if (studyGrantRequestXml.getALevelsInformations().getAlevels() != null)
+            studyGrantRequest.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.forString(studyGrantRequestXml.getALevelsInformations().getAlevels().toString()));
+        else
+            studyGrantRequest.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
         studyGrantRequest.setTaxHouseholdPostalCode(studyGrantRequestXml.getTaxHouseholdPostalCode());
         studyGrantRequest.setSubjectMobilePhone(studyGrantRequestXml.getSubjectInformations().getSubjectMobilePhone());
         studyGrantRequest.setAbroadInternshipSchoolName(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
         studyGrantRequest.setAccountKey(studyGrantRequestXml.getAccountKey());
         studyGrantRequest.setOtherStudiesLabel(studyGrantRequestXml.getCurrentStudiesInformations().getOtherStudiesLabel());
-        studyGrantRequest.setALevelsDate(studyGrantRequestXml.getALevelsInformations().getALevelsDate());
         studyGrantRequest.setHasRegionalCouncilHelp(Boolean.valueOf(studyGrantRequestXml.getHasRegionalCouncilHelp()));
         studyGrantRequest.setTaxHouseholdIncome(new Double(studyGrantRequestXml.getTaxHouseholdIncome()));
         studyGrantRequest.setHasOtherHelp(Boolean.valueOf(studyGrantRequestXml.getHasOtherHelp()));
@@ -248,21 +248,6 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudies() {
         return this.currentStudies;
-    }
-
-    private fr.cg95.cvq.business.request.school.ALevelsType aLevels;
-
-    public final void setALevels(final fr.cg95.cvq.business.request.school.ALevelsType aLevels) {
-        this.aLevels = aLevels;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="a_levels"
-     */
-    public final fr.cg95.cvq.business.request.school.ALevelsType getALevels() {
-        return this.aLevels;
     }
 
     private fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel;
@@ -325,6 +310,22 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final String getTaxHouseholdFirstName() {
         return this.taxHouseholdFirstName;
+    }
+
+    private String alevelsDate;
+
+    public final void setAlevelsDate(final String alevelsDate) {
+        this.alevelsDate = alevelsDate;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="alevels_date"
+     *  length="4"
+     */
+    public final String getAlevelsDate() {
+        return this.alevelsDate;
     }
 
     private String bankCode;
@@ -543,6 +544,21 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.distance;
     }
 
+    private fr.cg95.cvq.business.request.school.ALevelsType alevels;
+
+    public final void setAlevels(final fr.cg95.cvq.business.request.school.ALevelsType alevels) {
+        this.alevels = alevels;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="alevels"
+     */
+    public final fr.cg95.cvq.business.request.school.ALevelsType getAlevels() {
+        return this.alevels;
+    }
+
     private String taxHouseholdPostalCode;
 
     public final void setTaxHouseholdPostalCode(final String taxHouseholdPostalCode) {
@@ -619,22 +635,6 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final String getOtherStudiesLabel() {
         return this.otherStudiesLabel;
-    }
-
-    private String aLevelsDate;
-
-    public final void setALevelsDate(final String aLevelsDate) {
-        this.aLevelsDate = aLevelsDate;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="a_levels_date"
-     *  length="4"
-     */
-    public final String getALevelsDate() {
-        return this.aLevelsDate;
     }
 
     private Boolean hasRegionalCouncilHelp;

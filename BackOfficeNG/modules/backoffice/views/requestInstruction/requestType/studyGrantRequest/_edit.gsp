@@ -153,17 +153,17 @@
               </dl>
               
             
-              
-              <dl>
-                <dt class="required"><g:message code="sgr.property.hasEuropeHelp.label" /> * : </dt><dd id="hasEuropeHelp" class="action-editField validate-boolean required-true i18n-sgr.property.hasEuropeHelp" ><span class="value-${request?.hasEuropeHelp}"><g:message code="message.${request?.hasEuropeHelp ? 'yes' : 'no'}" /></span></dd>
-              </dl>
-              
-            
           </div>
           <!-- column end -->
           
           <!-- column start -->
           <div class="yui-u">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="sgr.property.hasEuropeHelp.label" /> * : </dt><dd id="hasEuropeHelp" class="action-editField validate-boolean required-true i18n-sgr.property.hasEuropeHelp" ><span class="value-${request?.hasEuropeHelp}"><g:message code="message.${request?.hasEuropeHelp ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
             
               
               <dl>

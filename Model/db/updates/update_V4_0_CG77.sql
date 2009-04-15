@@ -67,3 +67,6 @@ DELETE FROM request_type where label = 'Study Grant Request';
 -- optional cleanup instructions : old requests
 -- DELETE FROM request_action where request_id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));
 -- DELETE FROM request where id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));
+
+alter table study_grant_request rename column a_levels to alevels;
+alter table study_grant_request rename column a_levels_date to alevels_date;

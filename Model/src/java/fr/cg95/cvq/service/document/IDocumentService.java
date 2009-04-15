@@ -215,7 +215,6 @@ public interface IDocumentService {
 
     List<DocumentState> getEditableStates();
 
-    void addActionTrace(String label, DocumentState resultingState,
-            Document document)
+    void addActionTrace(String label, DocumentState resultingState, Document document)
         throws CvqException;
 }

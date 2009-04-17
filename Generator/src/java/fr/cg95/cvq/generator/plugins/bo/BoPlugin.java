@@ -5,8 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.control.CompilationFailedException;
@@ -30,6 +32,13 @@ public class BoPlugin implements IPluginGenerator {
     
     private static Logger logger = Logger.getLogger(BoPlugin.class);
     
+    private static Set<String> complexTypesAsSimple = new HashSet<String>();
+    static {
+        complexTypesAsSimple.add("LocalReferentialDataType");
+        complexTypesAsSimple.add("SchoolType");
+        complexTypesAsSimple.add("RecreationCenterType");
+    }
+
     private int depth;
     
     private String outputDir;
@@ -146,7 +155,7 @@ public class BoPlugin implements IPluginGenerator {
                 || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
             elementBo.setTypeClass(ElementBo.ElementTypeClass.COLLECTION);
         // TODO - refactor typClass managment
-        if (elementProp.getXmlSchemaType() != null && elementProp.getXmlSchemaType().equals("LocalReferentialDataType"))
+        if (complexTypesAsSimple.contains(elementProp.getXmlSchemaType()))
             elementBo.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
         
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)

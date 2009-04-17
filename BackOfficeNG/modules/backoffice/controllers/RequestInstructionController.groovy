@@ -15,6 +15,8 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.ILocalReferentialService
+import fr.cg95.cvq.service.authority.IRecreationCenterService
+import fr.cg95.cvq.service.authority.ISchoolService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestService
@@ -49,6 +51,8 @@ class RequestInstructionController {
     ILocalAuthorityRegistry localAuthorityRegistry
     ICategoryService categoryService
     ILocalReferentialService localReferentialService 
+    IRecreationCenterService recreationCenterService
+    ISchoolService schoolService
 
     def translationService
     def instructionService
@@ -176,7 +180,7 @@ class RequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgets = ['date','address','capdematEnum','boolean','textarea','localReferentialData']
+        def widgets = ['date','address','capdematEnum','boolean','textarea','localReferentialData','school','recreationCenter']
         
         def propertyTypes = JSON.parse(params.propertyType)
         def propertyType = propertyTypes.validate
@@ -216,6 +220,18 @@ class RequestInstructionController {
             model['lrDatas'] = rqt[params.propertyName].collect { it.name }
             flash[params.propertyName + 'Index'] = 0
         }
+        else if (propertyType == "school") {
+            model.schools = schoolService.getAll()
+            if (params.propertyValue != "null") {
+                propertyValue = Long.valueOf(params.propertyValue)
+            }
+        }
+        else if (propertyType == "recreationCenter") {
+            model.recreationCenters = recreationCenterService.getAll()
+            if (params.propertyValue != "null") {
+                propertyValue = Long.valueOf(params.propertyValue)
+            }
+        }
         else {
             propertyValue = params.propertyValue
             model["minLength"] = propertyTypes.minLength
@@ -240,6 +256,10 @@ class RequestInstructionController {
         } else if (params.keySet().contains('_requester')) {
             def requester = individualService.getById(request.requesterId)
             bindRequester(requester, params)
+        } else if (params.keySet().contains('schoolId')) {
+            request.school = schoolService.getById(Long.valueOf(params.schoolId))
+        } else if (params.keySet().contains('recreationCenterId')) {
+            request.recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
         } else {
             DataBindingUtils.initBind(request, params)
             bind(request)

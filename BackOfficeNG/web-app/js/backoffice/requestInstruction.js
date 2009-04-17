@@ -210,6 +210,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           zct.html(propertyWrapperEl,o.responseText);
         });
       }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-school')) {
+        var selectedEl = formEl.schoolId.options[formEl.schoolId.selectedIndex];
+        propertyWrapperEl.innerHTML = selectedEl.innerHTML;
+        propertyWrapperEl.className = 'value-' + selectedEl.value;
+      }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-recreationCenter')) {
+        var selectedEl = formEl.recreationCenterId.options[formEl.recreationCenterId.selectedIndex];
+        propertyWrapperEl.innerHTML = selectedEl.innerHTML;
+        propertyWrapperEl.className = 'value-' + selectedEl.value;
+      }
       else if (isSubmit) {
         var elName = formEl.id.replace('_Form', '') + '_Field';
         propertyValue = yud.get(elName).value;
@@ -279,6 +289,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           }
           else if (jsonPropertyType['validate'] ===  'boolean') {
             propertyValue = propertyWrapperEl.className.split('-')[1];
+          }
+          else if (jsonPropertyType['validate'] ===  'school') {
+            propertyValue = (propertyWrapperEl.className.split('-')[1])||null;
+          }
+          else if (jsonPropertyType['validate'] ===  'recreationCenter') {
+            propertyValue = (propertyWrapperEl.className.split('-')[1])||null;
           }
           else {
             propertyValue = propertyWrapperEl.innerHTML;

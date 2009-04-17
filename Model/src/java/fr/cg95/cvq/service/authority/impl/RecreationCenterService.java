@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.dao.authority.IRecreationCenterDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 
 /**
@@ -24,10 +25,16 @@ public final class RecreationCenterService implements IRecreationCenterService {
         super();
     }
 
+    @Deprecated
     public RecreationCenter getByName(final String recreationCenterName)
         throws CvqException {
 
         return recreationCenterDAO.findByName(recreationCenterName);
+    }
+
+    public RecreationCenter getById(final Long id)
+        throws CvqObjectNotFoundException {
+        return (RecreationCenter)recreationCenterDAO.findById(RecreationCenter.class, id);
     }
 
     public List<RecreationCenter> getAll()

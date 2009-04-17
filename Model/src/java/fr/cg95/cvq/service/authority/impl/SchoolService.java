@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.dao.authority.ISchoolDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.ISchoolService;
 
 /**
@@ -22,9 +23,15 @@ public class SchoolService implements ISchoolService {
 
     private ISchoolDAO schoolDAO;
 
+    @Deprecated
     public School getByName(final String schoolName)
         throws CvqException {
         return schoolDAO.findByName(schoolName);
+    }
+
+    public School getById(Long id)
+        throws CvqObjectNotFoundException {
+        return (School)schoolDAO.findById(School.class, id);
     }
 
     public List<School> getAll() throws CvqException {

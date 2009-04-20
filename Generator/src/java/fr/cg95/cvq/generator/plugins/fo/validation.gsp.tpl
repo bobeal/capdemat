@@ -56,6 +56,10 @@
           """
       ,'label' :
           """<dt><g:message code="${element.i18nPrefixCode}.label" /></dt>"""
+      ,'acceptance' :
+          """
+          <dd><g:message code="message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}" /></dd>
+          """
     ]
     
     def output = (element.widget != 'requester' ?  widgets['label'] : '')

@@ -1,4 +1,5 @@
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.request.IRequestTypeService
 
 /**
  * Used to access local authorities specific resources, eg images.
@@ -6,6 +7,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 class LocalAuthorityResourceController {
 	
     ILocalAuthorityRegistry localAuthorityRegistry
+    IRequestTypeService requestTypeService
 
     def cssFo = {
         File cssFile = 
@@ -42,6 +44,20 @@ class LocalAuthorityResourceController {
                 params.id + ".pdf", false)
         if (pdfFile.exists())
             renderResponse(pdfFile, 'application/pdf')
+    }
+
+    def rule = {
+        def requestType = requestTypeService.getRequestTypeByLabel(params.requestTypeLabel)
+        File pdfFile =
+            localAuthorityRegistry.getLocalAuthorityResource(
+                session.currentSiteName,
+                ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE,
+                CapdematUtils.requestTypeLabelAsDir(params.requestTypeLabel)
+                    + "/"  + params.filename + ".pdf",
+                false)
+        if (pdfFile.exists()) {
+            renderResponse(pdfFile, "application/pdf")
+        }
     }
 
     def renderResponse(file, contentType) {

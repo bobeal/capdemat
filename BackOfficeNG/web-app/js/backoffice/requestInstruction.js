@@ -198,7 +198,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             addressFields[i].innerHTML = this.value ;
         });
       }
-      else if (isSubmit && yud.hasClass(ddEl, 'validate-boolean')) {
+      else if (isSubmit && (yud.hasClass(ddEl, 'validate-boolean') || yud.hasClass(ddEl, 'validate-acceptance'))) {
         var checkedEl = yus.query("input:checked", formEl, true);
         propertyWrapperEl.innerHTML = yl.trim(yud.getNextSibling(checkedEl).innerHTML);
         propertyWrapperEl.className = 'value-' + checkedEl.value; 
@@ -287,7 +287,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           else if (jsonPropertyType['validate'] ===  'capdematEnum') {
             propertyValue = propertyWrapperEl.className;
           }
-          else if (jsonPropertyType['validate'] ===  'boolean') {
+          else if (jsonPropertyType['validate'] ===  'boolean' || jsonPropertyType['validate'] ===  'acceptance') {
             propertyValue = propertyWrapperEl.className.split('-')[1];
           }
           else if (jsonPropertyType['validate'] ===  'school') {

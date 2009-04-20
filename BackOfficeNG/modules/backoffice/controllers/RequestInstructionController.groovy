@@ -185,6 +185,9 @@ class RequestInstructionController {
         def propertyTypes = JSON.parse(params.propertyType)
         def propertyType = propertyTypes.validate
         def widget = widgets.contains(propertyType) ?  propertyType : "string"
+        if (propertyType == "acceptance") {
+            widget = "boolean"
+        }
 
         def model = ["requestId": Long.valueOf(params.id),
                      // the "fully qualifier" property name

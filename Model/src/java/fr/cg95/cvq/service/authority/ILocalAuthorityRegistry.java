@@ -75,7 +75,9 @@ public interface ILocalAuthorityRegistry {
      * Get the helps data for the given request as a Map<v=stepName,k=helpDataAsString>.
      */
     Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(final String requestLabel);
-    
+
+    List<String> getLocalAuthorityRules(String requestTypeLabel);
+
     /**
      * Get resource pointed to by filename for the given local authority.
      *

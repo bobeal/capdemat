@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -236,6 +237,21 @@ public class LocalAuthorityRegistry
                  helpMap.put(helpFile.getName().replace(".html", ""), getFileContent(helpFile));
         
         return helpMap ;
+    }
+
+    public List<String> getLocalAuthorityRules(String requestTypeLabel) {
+        StringBuffer requestTypePath = new StringBuffer().append(assetsBase)
+            .append(SecurityContext.getCurrentSite().getName().toLowerCase())
+            .append("/").append(PDF_ASSETS_RESOURCE_TYPE).append("/").append(requestTypeLabel);
+        File requestTypeDir = new File(requestTypePath.toString());
+        if (!requestTypeDir.exists()) {
+            return new ArrayList<String>(0);
+        }
+        List<String> result = new ArrayList<String>();
+        for (String filename : requestTypeDir.list()) {
+            result.add(filename.substring(0, filename.lastIndexOf(".pdf")));
+        }
+        return result;
     }
 
     private String getFileContent(File resourceFile) {

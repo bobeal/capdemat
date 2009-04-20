@@ -19,6 +19,8 @@
           ].join()
       ,'boolean' :
           "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
+      ,'acceptance' :
+          "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
       ,'localReferentialData' :
           """
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 

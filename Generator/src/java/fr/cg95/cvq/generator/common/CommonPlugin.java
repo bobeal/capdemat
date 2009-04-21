@@ -2,7 +2,6 @@ package fr.cg95.cvq.generator.common;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
@@ -61,9 +60,21 @@ public class CommonPlugin implements IPluginGenerator {
                     Node[] widgetNodes = ApplicationDocumentation.getChildrenNodes(node, "widgets");
                     if (widgetNodes != null)
                         for (Node widgetNode :
-                            ApplicationDocumentation.getChildrenNodes(widgetNodes[0]))
-                            step.addWidget(new Widget(widgetNode.getLocalName()
-                                    ,ApplicationDocumentation.getNodeAttributeValue(widgetNode, "into")));
+                            ApplicationDocumentation.getChildrenNodes(widgetNodes[0])) {
+                                Widget widget = new Widget(widgetNode.getLocalName()
+                                        ,ApplicationDocumentation.getNodeAttributeValue(widgetNode, "into"));
+                                step.addWidget(widget);
+                                Node[] autofillNode = ApplicationDocumentation.getChildrenNodes(widgetNode, "autofill");
+                                if (autofillNode != null) {
+                                    if (autofillNode.length > 1) {
+                                        throw new RuntimeException("Element {" + appDoc.getNodeName() + "} has more than one autofill tag");
+                                    }
+                                    requestCommon.setWidgetAutofill(widget,
+                                            ApplicationDocumentation.getNodeAttributeValue(autofillNode[0], "name"),
+                                            ApplicationDocumentation.getNodeAttributeValue(autofillNode[0], "type"),
+                                            ApplicationDocumentation.getNodeAttributeValue(autofillNode[0], "field"));
+                                }
+                        }
                 }
             }
             appDoc.setRequestCommon(requestCommon);
@@ -85,6 +96,16 @@ public class CommonPlugin implements IPluginGenerator {
             if (appDoc.hasChildNode("validation"))
                 requestCommon.getCurrentElementCommon().setJsRegexp(
                         ApplicationDocumentation.getNodeAttributeValue(appDoc.getChildrenNodes("validation")[0], "jsregexp"));
+            if (appDoc.hasChildNode("autofill")) {
+                Node[] autofill = appDoc.getChildrenNodes("autofill");
+                if (autofill.length > 1) {
+                    throw new RuntimeException("Element {" + appDoc.getNodeName() + "} has more than one autofill tag");
+                }
+                requestCommon.setCurrentElementAutofill(
+                        ApplicationDocumentation.getNodeAttributeValue(autofill[0], "name"),
+                        ApplicationDocumentation.getNodeAttributeValue(autofill[0], "type"),
+                        ApplicationDocumentation.getNodeAttributeValue(autofill[0], "field"));
+            }
         }
     }
     

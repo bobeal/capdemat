@@ -345,7 +345,16 @@ class RequestCreationController {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         }
     }
-    
+
+    // PoC to test Javascript implementation
+    def autofill = {
+        def result = []
+        for(Map entry : (JSON.parse(params.autofillContainer) as List)) {
+            result.add(entry)
+        }
+        render (result as JSON)
+    }
+
     def exit = {
         def requestService = requestServiceRegistry.getRequestService(params.label)
         def cRequest = requestService.getById(Long.parseLong(params.id))

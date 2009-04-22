@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.cg95.cvq.generator.common.Autofill;
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
+import fr.cg95.cvq.generator.common.Autofill.AutofillType;
 
 /**
  * @author rdj@zenexity.fr
@@ -43,6 +45,7 @@ public class ElementFo {
 
     private Step step;
     private List<Condition> conditions;
+    private Autofill autofill;
     
     private List<ElementFo> elements;
     
@@ -152,7 +155,7 @@ public class ElementFo {
     }
     
     private void setHtmlClass() {
-        this.htmlClass = getConditionsClass() + " ";
+        this.htmlClass = getConditionsClass() + " " + getAutofillClass() + " ";
         if (jsRegexp != null)
             this.htmlClass += "validate-regex";
         else if (widget == null)
@@ -300,5 +303,24 @@ public class ElementFo {
     
     public List<ElementFo> getElements() {
         return elements;
+    }
+
+    public Autofill getAutofill() {
+        return autofill;
+    }
+
+    public void setAutofill(Autofill autofill) {
+        this.autofill = autofill;
+    }
+
+    public String getAutofillClass() {
+        StringBuffer sb = new StringBuffer();
+        if (autofill != null) {
+            sb.append("autofill-" + autofill.getName() + "-" + autofill.getType().name().toLowerCase());
+            if (autofill.getType().equals(AutofillType.LISTENER)) {
+                sb.append("-" + autofill.getField());
+            }
+        }
+        return sb.toString();
     }
 }

@@ -110,6 +110,7 @@ class RequestCreationController {
             'requestTypeLabel': params.label,
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
+            'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(params.label)),
             'uuidString': uuidString,
             'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
             'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
@@ -325,6 +326,7 @@ class RequestCreationController {
                      'requestTypeLabel': requestTypeInfo.label,
                      'stepStates': cRequest.stepStates,
                      'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)),
+                     'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)),
                      'uuidString': uuidString,
                      'editList': editList,
                      'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
@@ -355,7 +357,16 @@ class RequestCreationController {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         }
     }
-    
+
+    // PoC to test Javascript implementation
+    def autofill = {
+        def result = []
+        for(Map entry : (JSON.parse(params.autofillContainer) as List)) {
+            result.add(entry)
+        }
+        render (result as JSON)
+    }
+
     def exit = {
         def requestService = requestServiceRegistry.getRequestService(params.label)
         def cRequest = requestService.getById(Long.parseLong(params.id))

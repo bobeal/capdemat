@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
  * @author bor@zenexity.fr
@@ -23,6 +24,10 @@ public interface ISchoolService {
     List<School> getAll()
         throws CvqException;
 
+    @Deprecated
     School getByName(final String schoolName)
         throws CvqException;
+
+    School getById(final Long id)
+        throws CvqObjectNotFoundException;
 }

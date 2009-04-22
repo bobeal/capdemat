@@ -74,7 +74,7 @@
             """
          ,'subject' :
             """
-            <select name="subjectId" class="required validate-not-first" title="<g:message code="${element.i18nPrefixCode}.validationError" /> ">
+            <select name="subjectId" class="required validate-not-first ${element.autofillClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="\${subjects}">
                 <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected=\"selected\"': ''}>\${it.value}</option>
@@ -87,6 +87,20 @@
             """
          ,'label' :
             """<label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
+         ,'acceptance' :
+            """
+              <g:if test="\${availableRules.contains('${element.javaFieldName}')}">
+                <a target="_blank" href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'${element.javaFieldName}'])}"><g:message code="action.consult" /></a>
+              </g:if>
+              <ul class="yes-no ${element.listenerConditionsClass}">
+                <g:each in="\${[true,false]}">
+                  <li>
+                    <input type="radio" class="${element.htmlClass}" title="" value="\${it}" name="${namePrefix}${element.javaFieldName}" \${it == ${valuePrefix}.${element.javaFieldName} ? 'checked="checked"': ''} />
+                    <g:message code="message.\${it ? 'yes' : 'no'}" />
+                  </li>
+                </g:each>
+              </ul>
+            """
       ]
       
       def output = (element.widget != 'requester' ?  widgets['label'] : '')

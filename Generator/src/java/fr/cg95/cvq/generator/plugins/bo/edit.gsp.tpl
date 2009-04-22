@@ -19,6 +19,8 @@
           ].join()
       ,'boolean' :
           "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
+      ,'acceptance' :
+          "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
       ,'localReferentialData' :
           """
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
@@ -26,6 +28,10 @@
                              'rqt':request, 'isMultiple':lrTypes.${element.javaFieldName}?.entriesSupportMultiple, 'depth':0]" />
  
           """
+      ,'school' :
+          """<span class="value-\${${wrapper}?.${element.javaFieldName}?.id}">\${${wrapper}?.${element.javaFieldName}?.name}</span>"""
+      ,'recreationCenter' :
+          """<span class="value-\${${wrapper}?.${element.javaFieldName}?.id}">\${${wrapper}?.${element.javaFieldName}?.name}</span>"""
       ,'text' :
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
       ,'subject' :

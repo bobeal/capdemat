@@ -45,7 +45,8 @@ public class SecurityService {
             'frontofficeVOCardRequestCreation' : /.*/,
             'frontofficeRequestCreation' : /.*/,
             'frontofficeHomeFolder' : /resetPassword/,
-            'frontofficeHome' : [/loginAgent/,/login/]
+            'frontofficeHome' : [/loginAgent/,/login/],
+            'frontofficeDocument' : [/details/,/binary/]
         ]
     }
 }

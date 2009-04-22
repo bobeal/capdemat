@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestNote;
@@ -106,6 +107,9 @@ public interface IRequestService {
      */
     Long create(@IsRequest Request request)
         throws CvqException, CvqObjectNotFoundException;
+    
+    Long create(@IsRequest Request request, List<Document> documents)
+        throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Create a new request from given data.
@@ -116,6 +120,10 @@ public interface IRequestService {
      */
     Long create(@IsRequest Request request, @IsRequester Adult requester, 
             @IsSubject Individual subject)
+        throws CvqException;
+    
+    Long create(@IsRequest Request request, @IsRequester Adult requester, 
+            @IsSubject Individual subject, List<Document> documents)
         throws CvqException;
     
     /**

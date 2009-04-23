@@ -88,6 +88,7 @@ class RequestCreationController {
         
         def newDocuments = [] as Set
         
+        session['javax.servlet.context.tempdir'] = servletContext['javax.servlet.context.tempdir'].absolutePath
         def uuidString = UUID.randomUUID().toString()
         session[uuidString] = [:]
         session[uuidString].cRequest = cRequest

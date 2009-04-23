@@ -13,12 +13,13 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqBadPasswordException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.request.IAutofillTriggerService;
 import fr.cg95.cvq.util.Critere;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public interface IIndividualService {
+public interface IIndividualService extends IAutofillTriggerService {
 
     /** service name used by Spring's application context */
     String SERVICE_NAME = "individualService";

@@ -34,7 +34,7 @@
             """
         ,'address' :
             """
-            <div class="address-fieldset ${element.listenerConditionsClass}">
+            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass}">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" name="${namePrefix}${element.javaFieldName}.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>

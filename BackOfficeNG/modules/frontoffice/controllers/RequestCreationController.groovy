@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.request.IAutofillService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
@@ -27,6 +28,7 @@ class RequestCreationController {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     IHomeFolderService homeFolderService
+    IAutofillService autofillService
     
     def documentAdaptorService
     def requestTypeAdaptorService
@@ -346,13 +348,8 @@ class RequestCreationController {
         }
     }
 
-    // PoC to test Javascript implementation
     def autofill = {
-        def result = []
-        for(Map entry : (JSON.parse(params.autofillContainer) as List)) {
-            result.add(entry)
-        }
-        render (result as JSON)
+        render(autofillService.getValues(params.triggerName, Long.valueOf(params.triggerValue), JSON.parse(params.autofillContainer) as Map) as JSON)
     }
 
     def exit = {

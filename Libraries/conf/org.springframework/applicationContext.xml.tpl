@@ -204,6 +204,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="externalService" ref="externalService"/>
   </bean>
 
+  <bean id="autofillService" class="fr.cg95.cvq.service.request.impl.AutofillService">
+    <property name="individualService" ref="individualService"/>
+  </bean>
+
   <bean id="requestTypeService" class="fr.cg95.cvq.service.request.impl.RequestTypeService">
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="requestFormDAO" ref="requestFormDAO"/>

@@ -172,6 +172,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestActionService" ref="requestActionService" />
     <property name="individualService" ref="individualService" />
     <property name="documentTypeService" ref="documentTypeService" />
+    <property name="documentService" ref="documentService" />
     <property name="certificateService" ref="certificateService" />
     <property name="mailService" ref="mailService" />
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />

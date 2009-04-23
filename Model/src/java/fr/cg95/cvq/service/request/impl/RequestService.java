@@ -19,6 +19,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.w3c.dom.Node;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
@@ -51,12 +52,14 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
@@ -89,6 +92,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     protected Map<String,IConditionChecker> filledConditions;
 
     protected IDocumentTypeService documentTypeService;
+    protected IDocumentService documentService;
     protected IHomeFolderService homeFolderService;
     protected ICertificateService certificateService;
     protected IRequestServiceRegistry requestServiceRegistry;
@@ -527,12 +531,42 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         return finalizeAndPersist(request);
     }
 
+    public Long create(Request request, List<Document> documents)
+        throws CvqException, CvqObjectNotFoundException {
+        addDocuments(request, documents);
+        return create(request);
+    }
+    
+    protected void addDocuments(Request request, List<Document> documents)
+        throws CvqException {
+        Set<Long> documentIds = new HashSet<Long>();
+        for (Document document : documents) {
+           document.setId(null);
+           document.setIndividualId(request.getRequesterId());
+           documentIds.add(documentService.create(document));
+        }
+        for (Long documentId : documentIds)
+            addDocument(request, documentId);
+    }
+    
     @Override
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester, Individual subject)
         throws CvqException {
         
         HomeFolder homeFolder = performBusinessChecks(request, requester, subject);
+        
+        return finalizeAndPersist(request, homeFolder);
+    }
+    
+    public Long create(Request request, Adult requester, Individual subject, 
+            List<Document> documents)
+        throws CvqException, CvqObjectNotFoundException {
+        HomeFolder homeFolder = performBusinessChecks(request, requester, subject);
+        
+        SecurityContext.setCurrentEcitizen(
+                homeFolderService.getHomeFolderResponsible(homeFolder.getId()));
+        addDocuments(request, documents);
         
         return finalizeAndPersist(request, homeFolder);
     }
@@ -551,7 +585,6 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             request.setSubjectLastName(individual.getLastName());
             request.setSubjectFirstName(individual.getFirstName());
         }
-        
         return homeFolder;
     }
     
@@ -1026,7 +1059,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     public void setRequestFormDAO(IRequestFormDAO requestFormDAO) {
         this.requestFormDAO = requestFormDAO;
     }
-
+    
+    public void setDocumentService(IDocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
     public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }

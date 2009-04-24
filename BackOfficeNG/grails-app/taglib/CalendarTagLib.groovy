@@ -2,7 +2,7 @@
 
 class CalendarTagLib {
     def styles = [:]
-    def calendar =  Calendar.instance //new GregorianCalendar()
+    def calendar =  Calendar.instance
     
     def activityCalendar = {attrs,body ->
         def year = attrs.year ? attrs.year : Calendar.instance.get(Calendar.YEAR)
@@ -11,7 +11,7 @@ class CalendarTagLib {
         
         if(data instanceof Map) {
             for(String key: data.keySet()) {
-                styles[key] = 'marked-item-'+ (i++).toString()
+                styles[key] = 'legend-label-'+ (i++).toString()
             }
         }
         
@@ -35,16 +35,15 @@ class CalendarTagLib {
         calendar.set(Calendar.DATE, 1)
         
         def table = ''
-        for(Integer col : cal1.keySet()) {
-            if(cal2[col]) {
+        for(Integer wom : cal1.keySet()) {
+            if(cal2[wom]) {
                 def tr = ''
-                for(Integer row : cal1[col]) {
-                    def index = cal1[col].indexOf(row)
+                for(Integer row : cal1[wom]) {
+                    def index = cal1[wom].indexOf(row)
                     
-                    if(cal2[col][index]) tr += this.buildCell(cal2[col][index].toString(),data)
-                    else if(col == 1 && !cal2[col][index]) tr = "\t\t<td></td>\n" + tr
+                    if(cal2[wom][index]) tr += this.buildCell(cal2[wom][index], data)
+                    else if(wom == 1) tr = "\t\t<td></td>\n" + tr
                     else tr += "\t\t<td></td>\n"
-                    
                 }
                 table += "\t<tr>\n$tr\n\t</tr>\n"
             }
@@ -70,24 +69,24 @@ $table
         out << table
     }
     
-    protected String buildCell(String value, Map<String,Date> data) {
+    protected String buildCell(Integer dom, Map<String,List<Date>> data) {
         def c = new GregorianCalendar();
-        def result =  '\t\t<td><span class="value">' + value + '</span><div class="container">'
-        calendar.set(Calendar.DAY_OF_MONTH,Integer.valueOf(value))
-        
-        for(String key: data.keySet()) {
-            for(Date date: data[key]) {
-                c.setTime(date);
+        def result =  '\t\t<td><span class="value">' + dom + '</span><div class="container">'
+        calendar.set(Calendar.DAY_OF_MONTH, dom)
+
+        data.each {
+        	def activityLabel = it.key
+            for (Date date : data[activityLabel]) {
+        	    c.setTime(date)
                 if(c.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH) 
                     && c.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) 
                     && c.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)) {
-                    result += '<span class="indicator '+styles[key]+'">&nbsp;</span>'
+                    result += '<span class="indicator '+styles[activityLabel]+'">&nbsp;</span>'
                     break;
                 }
-            }
+        	}
         }
         
         return result + "</div></td>\n";
     }
-    
 }

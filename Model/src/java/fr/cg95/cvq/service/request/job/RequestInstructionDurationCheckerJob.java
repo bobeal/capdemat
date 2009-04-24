@@ -17,7 +17,6 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.RequestUtils;
@@ -55,8 +54,7 @@ public class RequestInstructionDurationCheckerJob {
 
         LocalAuthority la = SecurityContext.getCurrentSite();
         // get the list of states for which we consider instruction to be done
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        logger.info("checkLocalAuthRequestsInstructionDuration() dealing with " + lacb.getName());
+        logger.info("checkLocalAuthRequestsInstructionDuration() dealing with " + la.getName());
         if (!la.isInstructionAlertsEnabled()) {
             logger.info("checkLocalAuthRequestsInstructionDuration() " 
                     + "requests instruction alerts are disabled for "

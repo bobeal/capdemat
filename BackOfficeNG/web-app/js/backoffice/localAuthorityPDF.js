@@ -27,14 +27,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
       clickEv : undefined,
       init : function() {
         zcbl.PDF.clickEv = new zct.Event(zcbl.PDF,zcbl.PDF.processClick);
-        yue.on(yud.get('faqFOBox'),'click',zcbl.PDF.clickEv.dispatch,zcbl.PDF.clickEv,true);
-        yue.on(yud.get('helpBOBox'),'click',zcbl.PDF.clickEv.dispatch,zcbl.PDF.clickEv,true);
-        yue.on(yud.get('helpFOBox'),'click',zcbl.PDF.clickEv.dispatch,zcbl.PDF.clickEv,true);
+        yue.on(yud.get('faqFoBox'),'click',zcbl.PDF.clickEv.dispatch,zcbl.PDF.clickEv,true);
+        yue.on(yud.get('helpBoBox'),'click',zcbl.PDF.clickEv.dispatch,zcbl.PDF.clickEv,true);
+        yue.on(yud.get('helpFoBox'),'click',zcbl.PDF.clickEv.dispatch,zcbl.PDF.clickEv,true);
         yue.on(yud.get('legalBox'),'click',zcbl.PDF.clickEv.dispatch,zcbl.PDF.clickEv,true);
         yue.on(yud.get('useBox'),'click',zcbl.PDF.clickEv.dispatch,zcbl.PDF.clickEv,true);
-        zcbl.PDF.loadBox("faqFO");
-        zcbl.PDF.loadBox("helpBO");
-        zcbl.PDF.loadBox("helpFO");
+        zcbl.PDF.loadBox("faqFo");
+        zcbl.PDF.loadBox("helpBo");
+        zcbl.PDF.loadBox("helpFo");
         zcbl.PDF.loadBox("legal");
         zcbl.PDF.loadBox("use");
       },

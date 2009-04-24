@@ -23,6 +23,10 @@
               <g:message code="localAuthority.property.displayTitle" /> :
             </label>
             <input type="text" class="required" size="60" maxlength="100" name="displayTitle" value="${displayTitle}" />
+            <label for="adminEmail">
+              <g:message code="localAuthority.property.adminEmail" /> :
+            </label>
+            <input type="text" class="validate-email" size="60" name="adminEmail" value="${adminEmail}" />
             <label class="required" for="serverNames">
               <g:message code="localAuthority.property.serverNames" /> :
             </label>

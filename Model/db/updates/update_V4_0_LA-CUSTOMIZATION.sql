@@ -27,3 +27,5 @@ alter table local_authority alter column instruction_default_max_delay set not n
 alter table local_authority add column instruction_default_alert_delay int4;
 update local_authority set instruction_default_alert_delay=3;
 alter table local_authority alter column instruction_default_alert_delay set not null;
+
+alter table local_authority add column admin_email varchar(255);

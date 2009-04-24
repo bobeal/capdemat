@@ -24,6 +24,7 @@ public class LocalAuthority implements Serializable {
     private String name;
     private String postalCode;
     private String displayTitle;
+    private String adminEmail;
     private Integer draftLiveDuration = 20;
     private Integer draftNotificationBeforeDelete = 7;
 
@@ -266,5 +267,17 @@ public class LocalAuthority implements Serializable {
 
     public void setInstructionDefaultAlertDelay(int instructionDefaultAlertDelay) {
         this.instructionDefaultAlertDelay = instructionDefaultAlertDelay;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="admin_email"
+     */
+    public String getAdminEmail() {
+        return adminEmail;
+    }
+
+    public void setAdminEmail(String adminEmail) {
+        this.adminEmail = adminEmail;
     }
 }

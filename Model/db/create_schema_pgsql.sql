@@ -1579,6 +1579,7 @@
         instruction_alerts_detailed bool not null,
         instruction_default_max_delay int4 not null,
         instruction_default_alert_delay int4 not null,
+        admin_email varchar(255),
         primary key (id)
     );
 

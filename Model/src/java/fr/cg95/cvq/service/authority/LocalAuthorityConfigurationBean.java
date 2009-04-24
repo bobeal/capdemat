@@ -29,37 +29,9 @@ public final class LocalAuthorityConfigurationBean {
     private static Logger logger = Logger.getLogger(LocalAuthorityConfigurationBean.class);
 
     private String name;
-    private String postalCode;
-    private List<String> urls;
-
-    /**
-     * Whether an email alert is sent to notify of requests whose instruction is in late, 
-     * defaults to false.
-     */
-    private Boolean instructionAlertsEnabled;
     
-    /**
-     * Whether, if instruction alerts are enabled, the email sent displays a detailed resume of 
-     * requests to instruct, defaults to false.
-     */
-    private Boolean instructionAlertsDetailed;
-    
-    /**
-     * Whether an email alert is sent to notify of newly created requests, defaults to false.
-     */
-    private Boolean requestsCreationNotificationEnabled;
-    
-    private Integer instructionDefaultMaxDelay;
-    private Integer instructionDefaultAlertDelay;
-    private List<String> instructionDoneStates;
-    
-    private String displayTitle;
     private List foAccountTabs;
     
-    /**
-     * Whether document digitalization is enabled for this local authority, defaults to true.
-     */
-    private Boolean documentDigitalizationEnabled;
     
     private SessionFactory sessionFactory;
     
@@ -179,23 +151,8 @@ public final class LocalAuthorityConfigurationBean {
         Map data = (Map) paymentNotifications.get(paymentNotificationKey);
         return (String) data.get(dataKey);
     }
-    
-    /**
-     * Return whether the given URL is mapped to this local authority
-     */
-    public boolean supportUrl(String url) {
-        if (this.urls.contains(url))
-            return true;
-
-        return false;
-    }
 
     public void init() throws CvqConfigurationException {
-
-        if (urls == null) {
-            logger.error("init() No url mapped to site " + name);
-            throw new CvqConfigurationException("No url mapped to site " + name);
-        }
 
         // FIXME : this should be done by the payment service
         if (paymentServices != null && paymentServices.size() > 0) {
@@ -212,15 +169,6 @@ public final class LocalAuthorityConfigurationBean {
                 service.checkConfiguration(externalProviderServices.get(service));
             }
         }
-
-        if (documentDigitalizationEnabled == null)
-            documentDigitalizationEnabled = Boolean.TRUE;
-        if (instructionAlertsEnabled == null)
-            instructionAlertsEnabled = Boolean.FALSE;
-        if (instructionAlertsDetailed == null)
-            instructionAlertsDetailed = Boolean.FALSE;
-        if (requestsCreationNotificationEnabled == null)
-            requestsCreationNotificationEnabled = Boolean.FALSE;
     }
     
     /**
@@ -274,14 +222,6 @@ public final class LocalAuthorityConfigurationBean {
         return this.name;
     }
 
-    public void setUrls(final List<String> urls) {
-        this.urls = urls;
-    }
-
-    public List<String> getUrls() {
-        return this.urls;
-    }
-
     public void setSessionFactory(final SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -329,61 +269,6 @@ public final class LocalAuthorityConfigurationBean {
 		this.paymentNotifications = paymentNotifications;
 	}
 	
-    public Boolean isDocumentDigitalizationEnabled() {
-        return this.documentDigitalizationEnabled;
-    }
-
-    public void setDocumentDigitalizationEnabled(final String documentDigitalizationEnabled) {
-        this.documentDigitalizationEnabled = Boolean.valueOf(documentDigitalizationEnabled);
-    }
-
-	public void setInstructionDefaultAlertDelay(Integer instructionDefaultAlertDelay) {
-		this.instructionDefaultAlertDelay = instructionDefaultAlertDelay;
-	}
-
-	public void setInstructionDefaultMaxDelay(Integer instructionDefaultMaxDelay) {
-		this.instructionDefaultMaxDelay = instructionDefaultMaxDelay;
-	}
-
-	public void setInstructionDoneStates(List<String> instructionDoneStates) {
-		this.instructionDoneStates = instructionDoneStates;
-	}
-
-	public Integer getInstructionDefaultAlertDelay() {
-		return instructionDefaultAlertDelay;
-	}
-
-	public Integer getInstructionDefaultMaxDelay() {
-		return instructionDefaultMaxDelay;
-	}
-
-	public List<String> getInstructionDoneStates() {
-		return instructionDoneStates;
-	}
-
-	public Boolean getInstructionAlertsEnabled() {
-		return instructionAlertsEnabled;
-	}
-
-	public void setInstructionAlertsEnabled(Boolean instructionAlertsEnabled) {
-		this.instructionAlertsEnabled = instructionAlertsEnabled;
-	}
-
-	public Boolean getRequestsCreationNotificationEnabled() {
-		return requestsCreationNotificationEnabled;
-	}
-
-	public void setRequestsCreationNotificationEnabled(Boolean requestsCreationNotificationEnabled) {
-		this.requestsCreationNotificationEnabled = requestsCreationNotificationEnabled;
-	}
-
-	public Boolean getInstructionAlertsDetailed() {
-		return instructionAlertsDetailed;
-	}
-
-	public void setInstructionAlertsDetailed(Boolean instructionAlertsDetailed) {
-		this.instructionAlertsDetailed = instructionAlertsDetailed;
-	}
 
     public List getFoAccountTabs() {
         return foAccountTabs;
@@ -391,21 +276,5 @@ public final class LocalAuthorityConfigurationBean {
 
     public void setFoAccountTabs(final List displayProperties) {
         this.foAccountTabs = displayProperties;
-    }
-
-    public String getDisplayTitle() {
-        return displayTitle;
-    }
-
-    public void setDisplayTitle(final String displayTitle) {
-        this.displayTitle = displayTitle;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 }

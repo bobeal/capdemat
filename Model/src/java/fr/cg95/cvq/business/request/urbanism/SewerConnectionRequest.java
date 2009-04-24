@@ -32,6 +32,8 @@ public class SewerConnectionRequest extends Request implements Serializable {
 
     public SewerConnectionRequest() {
         super();
+        requesterQuality = fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType.OWNER;
+        moreThanTwoYears = Boolean.valueOf(false);
     }
 
 

@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.DepositOrigin;
 import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
@@ -26,7 +27,6 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.document.IDocumentService;
 
 /**
@@ -234,10 +234,10 @@ public class DocumentService implements IDocumentService {
     private void checkDocumentDigitalizationIsEnabled() 
         throws CvqDisabledFunctionalityException {
         
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        if (!lacb.isDocumentDigitalizationEnabled().booleanValue()) {
+        LocalAuthority la = SecurityContext.getCurrentSite();
+        if (!la.isDocumentDigitalizationEnabled()) {
             logger.error("checkDocumentDigitalizationIsEnabled() document digitalization is not enabled for site "
-                         + lacb.getName());
+                         + la.getName());
             throw new CvqDisabledFunctionalityException();
         }
     }

@@ -294,3 +294,15 @@ span#requestState {
   float: right;
   font-size:1.1em;
 }
+
+/* Local resources configuration
+-------------------------------------------------------------- */
+
+dl.localResources                    { margin-left : 10px; }
+dl.localResources dt                 { font-size : 1.2em; }
+dl.localResources.linkedResources dt { margin-bottom : 20px; }
+dl.localResources dd                 { margin-bottom : 30px; }
+dl.localResources dd a               { display : block; }
+
+form.localResourceUpload       { padding : 0; margin-left : 10px; }
+form.localResourceUpload label { width : auto; }

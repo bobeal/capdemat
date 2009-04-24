@@ -10,13 +10,13 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.RequestUtils;
@@ -52,10 +52,10 @@ public class RequestInstructionDurationCheckerJob {
     public void checkLocalAuthRequestsInstructionDuration()
         throws CvqException {
 
+        LocalAuthority la = SecurityContext.getCurrentSite();
         // get the list of states for which we consider instruction to be done
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        logger.info("checkLocalAuthRequestsInstructionDuration() dealing with " + lacb.getName());
-        if (!lacb.getInstructionAlertsEnabled().booleanValue()) {
+        logger.info("checkLocalAuthRequestsInstructionDuration() dealing with " + la.getName());
+        if (!la.isInstructionAlertsEnabled()) {
             logger.info("checkLocalAuthRequestsInstructionDuration() " 
                     + "requests instruction alerts are disabled for "
                     + SecurityContext.getCurrentSite().getName() + ", returning");
@@ -63,15 +63,14 @@ public class RequestInstructionDurationCheckerJob {
         }
 
         Date now = new Date();
-        List<String> instructionDoneStates = lacb.getInstructionDoneStates();
-        Integer localAuthLevelAlertDelay = lacb.getInstructionDefaultAlertDelay();
-        Integer localAuthLevelMaxDelay = lacb.getInstructionDefaultMaxDelay();
+        List<RequestState> instructionDoneStates = requestWorkflowService.getInstructionDoneStates();
+        Integer localAuthLevelAlertDelay = la.getInstructionDefaultAlertDelay();
+        Integer localAuthLevelMaxDelay = la.getInstructionDefaultMaxDelay();
     
         // calculate the list of states that are "before" retrieved states
         Set<RequestState> statesToLookFor = new HashSet<RequestState>();
-        for (String state : instructionDoneStates) {
-            RequestState requestState = RequestState.forString(state);
-            statesToLookFor.addAll(requestWorkflowService.getStatesBefore(requestState));
+        for (RequestState state : instructionDoneStates) {
+            statesToLookFor.addAll(requestWorkflowService.getStatesBefore(state));
         }
     
         // retrieve all requests currently in instruction
@@ -146,7 +145,7 @@ public class RequestInstructionDurationCheckerJob {
                     .append("\tAlertes oranges : ").append(orangeRequests.size()).append("\n")
                     .append("\tAlertes rouges : ").append(redRequests.size()).append("\n");
 
-                if (lacb.getInstructionAlertsDetailed()) {
+                if (la.isInstructionAlertsDetailed()) {
                     if (!orangeRequests.isEmpty()) {
                         body.append("\n").append("Détail des alertes oranges :\n");
                         for (Request request : orangeRequests) {

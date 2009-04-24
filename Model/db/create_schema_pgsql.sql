@@ -784,11 +784,11 @@
         death_city varchar(32),
         format varchar(255),
         copies bytea,
+        death_last_name varchar(38),
         comment varchar(255),
         motive varchar(255),
-        death_postal_code varchar(2),
-        death_last_name varchar(38),
         death_date timestamp,
+        death_postal_code varchar(2),
         primary key (id)
     );
 
@@ -944,13 +944,13 @@
 
     create table electoral_roll_registration_request (
         id int8 not null,
-        subject_nationality varchar(255),
-        subject_old_city varchar(32),
         subject_address_outside_city_id int8,
+        subject_nationality varchar(32),
+        subject_old_city varchar(32),
         polling_station int8,
+        electoral_number int8,
         polling_school_name varchar(255),
         motive varchar(255),
-        electoral_number int8,
         primary key (id)
     );
 
@@ -1487,16 +1487,16 @@
 
     create table holiday_security_request (
         id int8 not null,
-        other_contact_last_name varchar(38),
-        absence_end_date timestamp,
-        alarm bool,
         other_contact_address_id int8,
-        other_contact_first_name varchar(38),
-        light bool,
-        other_contact_phone varchar(10),
         rules_and_regulations_acceptance bool,
-        alert_phone varchar(10),
         absence_start_date timestamp,
+        other_contact_first_name varchar(38),
+        other_contact_phone varchar(10),
+        light bool,
+        alert_phone varchar(10),
+        other_contact_last_name varchar(38),
+        alarm bool,
+        absence_end_date timestamp,
         primary key (id)
     );
 
@@ -1568,9 +1568,18 @@
     create table local_authority (
         id int8 not null,
         name varchar(32) not null,
+        display_title varchar(100) not null,
         postal_code varchar(5) not null,
+        server_names bytea,
         draft_live_duration int4 not null,
         draft_notification_before_delete int4 not null,
+        requests_creation_notification_enabled bool not null,
+        document_digitalization_enabled bool not null,
+        instruction_alerts_enabled bool not null,
+        instruction_alerts_detailed bool not null,
+        instruction_default_max_delay int4 not null,
+        instruction_default_alert_delay int4 not null,
+        admin_email varchar(255),
         primary key (id)
     );
 
@@ -1594,22 +1603,22 @@
         id int8 not null,
         format varchar(255),
         copies bytea,
-        marriage_husband_last_name varchar(38),
-        marriage_wife_first_names varchar(255),
+        marriage_husband_first_names varchar(255),
+        marriage_city varchar(32),
         comment varchar(255),
+        marriage_wife_last_name varchar(38),
         requester_quality_precision varchar(255),
+        motive varchar(255),
+        requester_quality varchar(255),
+        marriage_date timestamp,
+        father_last_name varchar(38),
+        marriage_husband_last_name varchar(38),
+        relationship varchar(255),
+        marriage_wife_first_names varchar(255),
+        mother_first_names varchar(255),
         father_first_names varchar(255),
         marriage_postal_code varchar(2),
         mother_maiden_name varchar(38),
-        marriage_husband_first_names varchar(255),
-        requester_quality varchar(255),
-        marriage_city varchar(32),
-        marriage_wife_last_name varchar(38),
-        marriage_date timestamp,
-        father_last_name varchar(38),
-        relationship varchar(255),
-        mother_first_names varchar(255),
-        motive varchar(255),
         primary key (id)
     );
 
@@ -1622,43 +1631,43 @@
 
     create table military_census_request (
         id int8 not null,
-        father_birth_department varchar(255),
-        child_profession varchar(255),
-        child_status varchar(255),
-        alive_children bytea,
-        affection_or_disease bool,
-        state_pupil bool,
-        child_title varchar(255),
-        child_mail varchar(255),
-        child_diploma varchar(255),
-        mother_birth_country varchar(255),
         father_birth_city varchar(255),
         father_birth_date timestamp,
+        father_birth_department varchar(255),
+        child_profession varchar(255),
+        child_speciality varchar(255),
         father_first_name varchar(38),
+        child_other_country varchar(255),
+        other_situation varchar(255),
         mother_birth_city varchar(255),
         father_nationality varchar(255),
         mother_birth_date timestamp,
-        mother_first_name varchar(38),
-        child_birth_country varchar(255),
-        mother_nationality varchar(255),
-        highly_infirm bool,
-        child_speciality varchar(255),
-        child_other_country varchar(255),
+        child_status varchar(255),
+        alive_children bytea,
+        prefect_pupil bool,
         children_in_charge bytea,
+        child_country varchar(255),
+        affection_or_disease bool,
         japd_exemption bool,
         child_situation varchar(255),
+        mother_first_name varchar(38),
         maiden_name varchar(38),
-        child_phone varchar(10),
-        mother_last_name varchar(38),
-        father_last_name varchar(38),
-        prefect_pupil_department varchar(255),
-        mother_birth_department varchar(255),
-        child_residence_country varchar(255),
-        other_situation varchar(255),
-        prefect_pupil bool,
-        child_country varchar(255),
+        state_pupil bool,
+        child_title varchar(255),
         child_convention varchar(255),
+        child_birth_country varchar(255),
+        mother_nationality varchar(255),
+        child_phone varchar(10),
         father_birth_country varchar(255),
+        child_mail varchar(255),
+        mother_last_name varchar(38),
+        child_diploma varchar(255),
+        highly_infirm bool,
+        father_last_name varchar(38),
+        mother_birth_country varchar(255),
+        prefect_pupil_department varchar(255),
+        child_residence_country varchar(255),
+        mother_birth_department varchar(255),
         primary key (id)
     );
 
@@ -1998,13 +2007,13 @@
 
     create table school_registration_request (
         id int8 not null,
-        current_school_address varchar(255),
-        current_school_name varchar(255),
-        current_section varchar(32),
-        school_id int8,
         rules_and_regulations_acceptance bool,
-        urgency_phone varchar(10),
         section varchar(32),
+        urgency_phone varchar(10),
+        current_school_address varchar(255),
+        current_section varchar(32),
+        current_school_name varchar(255),
+        school_id int8,
         primary key (id)
     );
 
@@ -2021,15 +2030,15 @@
 
     create table sewer_connection_request (
         id int8 not null,
-        owner_last_name varchar(38),
-        owner_first_names varchar(255),
-        owner_address_id int8,
         requester_quality varchar(255),
-        more_than_two_years bool,
+        section varchar(255),
         transportation_route varchar(255),
+        owner_first_names varchar(255),
         locality varchar(255),
         number bytea,
-        section varchar(255),
+        more_than_two_years bool,
+        owner_last_name varchar(38),
+        owner_address_id int8,
         primary key (id)
     );
 

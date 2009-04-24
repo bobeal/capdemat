@@ -341,16 +341,20 @@
       value += '';
     return (function(){
       if (element.nodeType != 1) return;
-      if (value.constructor == Array && /radio|checkbox/.test(element.type))
+      if (/radio|checkbox/.test(element.type)) {
+        if (value.constructor != Array) {
+          value = [value];
+        }
         element.checked = (zct.inArray(element.value, value) >= 0 ||
         zct.inArray(element.name, value) >= 0);
+      }
       else
         if (zct.nodeName(element, "select")) {
           var values = zct.makeArray(value);
           var options = yus.filter(element, "option");
           zct.each(options, function(i){
-            element.selected = (zct.inArray(element.value, values) >= 0 ||
-            zct.inArray(element.text, values) >= 0);
+            this.selected = (zct.inArray(this.value, values) >= 0 ||
+            (yl.isNull(this.value) && zct.inArray(this.text, values) >= 0));
           });
           if (!values.length) element.selectedIndex = -1;
         }

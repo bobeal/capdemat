@@ -1,0 +1,138 @@
+mcr.duration.value =
+
+mcr.step.census.label =
+mcr.step.census.desc =
+
+mcr.step.parentage.label =
+mcr.step.parentage.desc =
+
+mcr.step.situation.label =
+mcr.step.situation.desc =
+
+mcr.step.exemption.label =
+mcr.step.exemption.desc =
+
+
+mcr.property.childTitle.help =
+mcr.property.childTitle.validationError =
+
+mcr.property.maidenName.help =
+mcr.property.maidenName.validationError =
+
+mcr.property.childBirthCountry.help =
+mcr.property.childBirthCountry.validationError =
+
+mcr.property.childResidenceCountry.help =
+mcr.property.childResidenceCountry.validationError =
+
+mcr.property.childPhone.help =
+mcr.property.childPhone.validationError =
+
+mcr.property.childMail.help =
+mcr.property.childMail.validationError =
+
+mcr.property.childCountry.help =
+mcr.property.childCountry.validationError =
+
+mcr.property.childOtherCountry.help =
+mcr.property.childOtherCountry.validationError =
+
+mcr.property.childConvention.help =
+mcr.property.childConvention.validationError =
+
+mcr.property.fatherInformation.help =
+mcr.property.fatherInformation.validationError =
+
+mcr.property.fatherLastName.help =
+mcr.property.fatherLastName.validationError =
+
+mcr.property.fatherFirstName.help =
+mcr.property.fatherFirstName.validationError =
+
+mcr.property.fatherBirthDate.help =
+mcr.property.fatherBirthDate.validationError =
+
+mcr.property.fatherBirthCity.help =
+mcr.property.fatherBirthCity.validationError =
+
+mcr.property.fatherBirthDepartment.help =
+mcr.property.fatherBirthDepartment.validationError =
+
+mcr.property.fatherBirthCountry.help =
+mcr.property.fatherBirthCountry.validationError =
+
+mcr.property.fatherNationality.help =
+mcr.property.fatherNationality.validationError =
+
+mcr.property.motherInformation.help =
+mcr.property.motherInformation.validationError =
+
+mcr.property.motherLastName.help =
+mcr.property.motherLastName.validationError =
+
+mcr.property.motherFirstName.help =
+mcr.property.motherFirstName.validationError =
+
+mcr.property.motherBirthDate.help =
+mcr.property.motherBirthDate.validationError =
+
+mcr.property.motherBirthCity.help =
+mcr.property.motherBirthCity.validationError =
+
+mcr.property.motherBirthDepartment.help =
+mcr.property.motherBirthDepartment.validationError =
+
+mcr.property.motherBirthCountry.help =
+mcr.property.motherBirthCountry.validationError =
+
+mcr.property.motherNationality.help =
+mcr.property.motherNationality.validationError =
+
+mcr.property.familySituationInformation.help =
+mcr.property.familySituationInformation.validationError =
+
+mcr.property.aliveChildren.help =
+mcr.property.aliveChildren.validationError =
+
+mcr.property.childStatus.help =
+mcr.property.childStatus.validationError =
+
+mcr.property.childrenInCharge.help =
+mcr.property.childrenInCharge.validationError =
+
+mcr.property.otherSituation.help =
+mcr.property.otherSituation.validationError =
+
+mcr.property.statePupil.help =
+mcr.property.statePupil.validationError =
+
+mcr.property.prefectPupil.help =
+mcr.property.prefectPupil.validationError =
+
+mcr.property.prefectPupilDepartment.help =
+mcr.property.prefectPupilDepartment.validationError =
+
+mcr.property.professionalSituationInformation.help =
+mcr.property.professionalSituationInformation.validationError =
+
+mcr.property.childSituation.help =
+mcr.property.childSituation.validationError =
+
+mcr.property.childDiploma.help =
+mcr.property.childDiploma.validationError =
+
+mcr.property.childSpeciality.help =
+mcr.property.childSpeciality.validationError =
+
+mcr.property.childProfession.help =
+mcr.property.childProfession.validationError =
+
+mcr.property.japdExemption.help =
+mcr.property.japdExemption.validationError =
+
+mcr.property.highlyInfirm.help =
+mcr.property.highlyInfirm.validationError =
+
+mcr.property.affectionOrDisease.help =
+mcr.property.affectionOrDisease.validationError =
+

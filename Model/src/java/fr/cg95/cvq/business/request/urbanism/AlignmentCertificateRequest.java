@@ -32,6 +32,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
 
     public AlignmentCertificateRequest() {
         super();
+        requesterQuality = fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType.OWNER;
     }
 
 

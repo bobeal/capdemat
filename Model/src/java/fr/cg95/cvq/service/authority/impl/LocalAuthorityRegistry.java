@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -29,6 +30,8 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -36,6 +39,9 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
@@ -53,6 +59,10 @@ public class LocalAuthorityRegistry
     /** Used to store the currently deployed local authorities. */
     private Map<String, LocalAuthorityConfigurationBean> configurationBeansMap = 
         new HashMap<String, LocalAuthorityConfigurationBean>();
+
+    /** Mapping between URL server names and local authorities */
+    private Map<String, LocalAuthority> serverNameMappings =
+        new HashMap<String, LocalAuthority>();
 
     /** The parent application context in which the application runs. */
     private ApplicationContext parentApplicationContext;
@@ -78,13 +88,62 @@ public class LocalAuthorityRegistry
         }
     }
 
-    public LocalAuthorityConfigurationBean getLocalAuthorityBeanByUrl(final String url) {
-        for (LocalAuthorityConfigurationBean lacb : configurationBeansMap.values()) {
-            if (lacb.supportUrl(url))
-                return lacb;
-        }
+    public LocalAuthority getLocalAuthorityByServerName(String serverName) {
+        return serverNameMappings.get(serverName);
+    }
 
-        return null;
+    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    public void addLocalAuthorityServerName(String serverName)
+         throws CvqPermissionException {
+        LocalAuthority localAuthority = SecurityContext.getCurrentSite();
+        localAuthority.getServerNames().add(serverName);
+        localAuthorityDAO.update(localAuthority);
+        registerLocalAuthorityServerName(serverName);
+    }
+
+    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    public void registerLocalAuthorityServerName(String serverName) {
+        serverNameMappings.put(serverName, SecurityContext.getCurrentSite());
+    }
+
+    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    public void removeLocalAuthorityServerName(String serverName)
+        throws CvqPermissionException {
+        LocalAuthority localAuthority = SecurityContext.getCurrentSite();
+        localAuthority.getServerNames().remove(serverName);
+        localAuthorityDAO.update(localAuthority);
+        unregisterLocalAuthorityServerName(serverName);
+    }
+
+    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    public void unregisterLocalAuthorityServerName(String serverName) {
+        serverNameMappings.put(serverName, null);
+    }
+
+    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    public void setLocalAuthorityServerNames(TreeSet<String> serverNames)
+        throws CvqException {
+        // this method iterates twice on serverNames but it is needed
+        // to check serverNames availability before erasing previous ones,
+        // and avoid concurrent modification exceptions, although it can probably be enhanced
+        for (String serverName : serverNames) {
+            if (!isAvailableLocalAuthorityServerName(serverName)) {
+                throw new CvqException("ServerName " + serverName + " already exists", "localAuthority.existing.url.error", new String[]{serverName});
+            }
+        }
+        LocalAuthority localAuthority = SecurityContext.getCurrentSite();
+        for (String serverName : localAuthority.getServerNames()) {
+                unregisterLocalAuthorityServerName(serverName);
+        }
+        localAuthority.getServerNames().clear();
+        for (String serverName : serverNames) {
+            addLocalAuthorityServerName(serverName);
+        }
+    }
+
+    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.READ)
+    public boolean isAvailableLocalAuthorityServerName(String serverName) {
+        return (serverNameMappings.get(serverName) == null || serverNameMappings.get(serverName).getId().compareTo(SecurityContext.getCurrentSite().getId()) == 0);
     }
 
     public LocalAuthorityConfigurationBean getLocalAuthorityBeanByName(final String name) {
@@ -110,6 +169,35 @@ public class LocalAuthorityRegistry
         return configurationBeansMap.keySet();
     }
 
+    private LocalAuthorityResource getLocalAuthorityResource(String id)
+        throws CvqException {
+        LocalAuthorityResource resource = LocalAuthorityResource.localAuthorityResources.get(id);
+        if (resource == null) {
+            logger.error("getLocalAuthorityResource() couldn't find local authority resource");
+            throw new CvqException("localAuthority.resource.error.invalid");
+        }
+        return resource;
+    }
+
+    public File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
+        throws CvqException {
+        return getLocalAuthorityResourceFile(id, LocalAuthorityResource.Version.CURRENT, fallbackToDefault);
+    }
+
+    public File getLocalAuthorityResourceFile(String id, LocalAuthorityResource.Version version, boolean fallbackToDefault)
+        throws CvqException {
+        LocalAuthorityResource resource = getLocalAuthorityResource(id);
+        String completeFilename = resource.getFilename() + LocalAuthorityResource.versionExtensions.get(version) + resource.getExtension();
+        String filePath = assetsBase + SecurityContext.getCurrentSite().getName().toLowerCase() + "/" + resource.getResourceType() + "/";
+        File file = new File(filePath + completeFilename);
+        if (!file.exists() && fallbackToDefault) {
+            logger.warn("getLocalAuthorityResourceFile() did not find " + filePath + completeFilename + ", trying default");
+            return getReferentialResource(resource.getResourceType(), completeFilename);
+        }
+        return file;
+    }
+
+    @Deprecated
     private File getAssetsFile(final String resourceType, final String localAuthorityName,
             final String filename, final boolean fallbackToDefault) {
 
@@ -187,6 +275,7 @@ public class LocalAuthorityRegistry
         return resourceFile;
     }
     
+    @Deprecated
     public File getCurrentLocalAuthorityResource(final String resourceType, final String filename,
             final boolean fallbackToDefault) {
 
@@ -206,6 +295,7 @@ public class LocalAuthorityRegistry
                 id);
     }
 
+    @Deprecated
     public String getBufferedCurrentLocalAuthorityResource(final String resourceType, 
             final String filename, final boolean fallbackToDefault) {
 
@@ -214,6 +304,11 @@ public class LocalAuthorityRegistry
         return getFileContent(resourceFile);
     }
     
+    public String getBufferedLocalAuthorityResource(String id, boolean fallbackToDefault)
+        throws CvqException {
+        return getFileContent(getLocalAuthorityResourceFile(id, fallbackToDefault));
+    }
+
     public Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(final String requestLabel) {
         
         StringBuffer requestTypePath = new StringBuffer().append(assetsBase)
@@ -286,6 +381,7 @@ public class LocalAuthorityRegistry
         return result;        
     }
     
+    @Deprecated
     public File getLocalAuthorityResource(final String localAuthorityName, 
             final String resourceType, final String filename, 
             final boolean fallbackToDefault) {
@@ -293,6 +389,7 @@ public class LocalAuthorityRegistry
         return getAssetsFile(resourceType, localAuthorityName, filename, fallbackToDefault);
     }
     
+    @Deprecated
     public void saveLocalAuthorityResource(String resourceType, String filename, byte[] data) throws CvqException{
         if (data == null) {
             logger.warn("saveLocalAuthorityResource() received empty data to save");
@@ -316,6 +413,64 @@ public class LocalAuthorityRegistry
         }
     }
     
+    public void saveLocalAuthorityResource(String id, byte[] data)
+        throws CvqException {
+        if (data == null) {
+            logger.warn("saveLocalAuthorityResource() received empty data to save");
+            return;
+        }
+        File assetsFile = getLocalAuthorityResourceFile(id, false);
+        try {
+            if (!assetsFile.exists())
+                assetsFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(assetsFile);
+            fos.write(data);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            logger.error("saveLocalAuthorityResource() failel !" + e.getMessage());
+            throw new CvqException(e.getMessage());
+        } catch (IOException ioe) {
+            logger.error("saveLocalAuthorityResource() failel !" + ioe.getMessage());
+            throw new CvqException(ioe.getMessage());
+        }
+    }
+
+    public void replaceLocalAuthorityResource(String id, byte[] data)
+        throws CvqException {
+        if (data == null) {
+            logger.warn("replaceCurrentLocalAuthorityResource() received empty data to save");
+            return;
+        }
+        if (hasLocalAuthorityResource(id, LocalAuthorityResource.Version.CURRENT)) {
+            renameLocalAuthorityResource(id, LocalAuthorityResource.Version.CURRENT, LocalAuthorityResource.Version.TEMP);
+        }
+        try {
+            saveLocalAuthorityResource(id, data);
+        } catch (CvqException e) {
+            if (hasLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP)) {
+                renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.CURRENT);
+            }
+            throw e;
+        }
+        if (hasLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP)) {
+            renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.OLD);
+        }
+    }
+
+    public void rollbackLocalAuthorityResource(String id)
+        throws CvqException {
+        renameLocalAuthorityResource(id, LocalAuthorityResource.Version.OLD, LocalAuthorityResource.Version.TEMP);
+        renameLocalAuthorityResource(id, LocalAuthorityResource.Version.CURRENT, LocalAuthorityResource.Version.OLD);
+        renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.CURRENT);
+    }
+
+    public boolean hasLocalAuthorityResource(String id, Version version)
+        throws CvqException {
+        return getLocalAuthorityResourceFile(id, version, false).exists();
+    }
+
+    @Deprecated
     public void renameLocalAuthorityResource(String resourceType, String filename, String newFilename) 
         throws CvqException {
         
@@ -333,7 +488,22 @@ public class LocalAuthorityRegistry
                    + " to "
                    + assetsFile.getPath() + "/" + newFilename);
     }
+
+    public void renameLocalAuthorityResource(String id, Version oldVersion, Version newVersion)
+        throws CvqException {
+        LocalAuthorityResource resource = getLocalAuthorityResource(id);
+        File file = getLocalAuthorityResourceFile(id, oldVersion, false);
+        if (!file.exists()) {
+            throw new CvqException("File "+ file.getPath() + " does not exist !");
+        }
+        if (!file.renameTo(new File(file.getParent() + "/" + resource.getFilename() + LocalAuthorityResource.versionExtensions.get(newVersion) + resource.getExtension())))
+            throw new CvqException("Can't rename "
+                    + resource.getId() + " from version "
+                    + oldVersion + " to "
+                    + newVersion);
+    }
     
+    @Deprecated
     public void removeLocalAuthorityResource(String resourceType, String filename) {
         String currentSiteName = SecurityContext.getCurrentSite().getName();
         File assetsFile = getAssetsFile(resourceType, currentSiteName, filename, false);
@@ -341,6 +511,18 @@ public class LocalAuthorityRegistry
             return;
         if (!assetsFile.delete())
             logger.warn("removeLocalAuthorityResource() can't delete " + getAssetsBase() + filename );
+    }
+
+    public void removeLocalAuthorityResource(String id)
+        throws CvqException {
+        File file;
+        for (Version version : LocalAuthorityResource.Version.values()) {
+            file = getLocalAuthorityResourceFile(id, version, false);
+            if (!file.exists())
+                continue;
+            if (!file.delete())
+                logger.warn("removeLocalAuthorityResource() can't delete " + file.getPath() + file.getName());
+        }
     }
 
     public void registerLocalAuthorities(Resource[] localAuthoritiesFiles)
@@ -420,19 +602,19 @@ public class LocalAuthorityRegistry
     }
 
     protected void instantiateLocalAuthority(String localAuthorityName) 
-        throws CvqConfigurationException {
+        throws CvqConfigurationException, CvqException {
 
         //String localAuthorityName = SecurityContext.getCurrentSite().getName();
         LocalAuthorityConfigurationBean lacb =
             (LocalAuthorityConfigurationBean) configurationBeansMap.get(localAuthorityName);
         
+        LocalAuthority localAuthority = localAuthorityDAO.findByName(lacb.getName());
         // create local authority entry in DB if it does not exist yet
-        if (localAuthorityDAO.findByName(lacb.getName()) == null) {
+        if (localAuthority == null) {
             logger.debug("instantiateLocalAuthority() creating " + localAuthorityName);
             try {
-                LocalAuthority localAuthority = new LocalAuthority();
+                localAuthority = new LocalAuthority();
                 localAuthority.setName(lacb.getName().toLowerCase());
-                localAuthority.setPostalCode(lacb.getPostalCode());
                 localAuthorityDAO.create(localAuthority);
             } catch (CvqPermissionException cpe) {
                 // can't happen, we are admin here
@@ -441,8 +623,22 @@ public class LocalAuthorityRegistry
                         + localAuthorityName);
             }
         }
+        if (localAuthority.getServerNames() == null) {
+            localAuthority.setServerNames(new TreeSet<String>());
+        } else {
+            for (String serverName : localAuthority.getServerNames()) {
+                registerLocalAuthorityServerName(serverName);
+            }
+        }
+        if (localAuthority.getServerNames().isEmpty()) {
+            try {
+                addLocalAuthorityServerName("vosdemarches.ville-" + lacb.getName() + ".fr");
+            } catch (CvqPermissionException e) {
+                // can't happen, we are admin here
+            }
+        }
     }
-    
+
     public void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
         throws CvqException {
         LocalAuthority localAuthority = SecurityContext.getCurrentSite();

@@ -1,3 +1,9 @@
+/**
+ * @description Client side form autofill implementation
+ *
+ * @author (Jean-Sébastien Bour) jsb@zenexity.fr
+ */
+
 zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
 (function() {
   var zcf = zenexity.capdemat.fong;
@@ -6,11 +12,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
   var yud = yu.Dom;
   var yue = yu.Event;
   var yus = yu.Selector;
-  var ylj = YAHOO.lang.JSON;
+  var yl = YAHOO.lang;
+  var ylj = yl.JSON;
   zcf.Autofill = function() {
     var reset = function() {
-      zcf.Autofill.listeners = [];
-      zcf.Autofill.fields = [];
+      zcf.Autofill.listeners = {};
+      zcf.Autofill.fields = {};
     };
     return {
       listeners : undefined,
@@ -27,17 +34,35 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
           zct.val(yud.get("triggerName"), target.name);
           zct.val(yud.get("triggerValue"), zct.val(target));
           var regexp = new RegExp("autofill-" + trigger[1] + "-listener-(\\w+)", "i");
-          zct.each(yus.query('#requestTabView [name]'), function() {
+          zct.each(yus.query('#requestTabView [name], #requestTabView div [class]'), function() {
             var listener = regexp.exec(this.className);
             if (listener) {
-              zcf.Autofill.listeners.push(this);
-              zcf.Autofill.fields.push(listener[1]);
+              if (zct.inArray(this.tagName, ["INPUT", "SELECT", "TEXTAREA"]) == -1) {
+                var complexElementChildren = yud.getChildrenBy(this, function(element) { return zct.inArray(element.tagName, ["INPUT", "SELECT", "TEXTAREA"]) >= 0; });
+                zct.each(
+                  complexElementChildren,
+                  function(child) {
+                    if (zcf.Autofill.listeners[this.name] == undefined) {
+                      zcf.Autofill.listeners[this.name] = [];
+                    }
+                    zcf.Autofill.listeners[this.name].push(complexElementChildren[child]);
+                    zcf.Autofill.fields[this.name] = listener[1] + "." + this.name.split('.')[1];
+                });
+              } else {
+                if (zcf.Autofill.listeners[this.name] == undefined) {
+                  zcf.Autofill.listeners[this.name] = [];
+                }
+                zcf.Autofill.listeners[this.name].push(this);
+                zcf.Autofill.fields[this.name] = listener[1];
+              }
             }
           });
           zct.val(yud.get('autofillContainer'), ylj.stringify(zcf.Autofill.fields)||[]);
           zct.doAjaxFormSubmitCall('autofillForm', [], function(o){
             zct.each(ylj.parse(o.responseText), function(i, el) {
-              zct.val(zcf.Autofill.listeners[i], el);
+              zct.each(zcf.Autofill.listeners[i], function(j) {
+                zct.val(zcf.Autofill.listeners[i][j], el);
+              });
             });
           });
         }

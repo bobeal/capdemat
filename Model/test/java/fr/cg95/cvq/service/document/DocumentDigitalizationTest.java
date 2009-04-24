@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.users.CreationBean;
@@ -11,7 +12,6 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class DocumentDigitalizationTest extends ServiceTestCase {
@@ -45,8 +45,8 @@ public class DocumentDigitalizationTest extends ServiceTestCase {
         docBin.setData(data);
         iDocumentService.addPage(docId, docBin);
         
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        lacb.setDocumentDigitalizationEnabled("false");
+        LocalAuthority la = SecurityContext.getCurrentSite();
+        la.setDocumentDigitalizationEnabled(false);
         try {
             iDocumentService.addPage(docId, docBin);
             fail("should have thrown an exception");

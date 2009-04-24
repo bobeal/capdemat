@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>TechnicalInterventionRequest</request>
+    <data name="InterventionType">
+        <label lang="fr">Nature de l'intervention</label>
+        <label lang="en">Intervention type</label>
+         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="plomberie">
+                <label lang="fr">Plomberie</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="demenagement">
+                <label lang="fr">Déménagement</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

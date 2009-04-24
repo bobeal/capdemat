@@ -1,5 +1,6 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
@@ -25,7 +26,7 @@ import org.hibernate.type.Type;
 public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisticsDAO {
 
     public Long countByQuality(final Date startDate, final Date endDate,
-            final List<String> resultingStates, final String qualityType, 
+            final List<RequestState> resultingStates, final String qualityType,
             final List<Long> requestTypesId) {
 
         List<Type> typeList = new ArrayList<Type>();
@@ -83,7 +84,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
     }
 
     public Map<Long,Long> countByQualityAndType(final Date startDate, final Date endDate,
-            final List<String> resultingStates, final String qualityType,
+            final List<RequestState> resultingStates, final String qualityType,
             final List<Long> requestTypesId) {
 
         List<Type> typeList = new ArrayList<Type>();

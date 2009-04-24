@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.urbanism.impl;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.urbanism.AlignmentCertificateRequest;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.urbanism.IAlignmentCertificateRequestService;
 
@@ -22,5 +23,10 @@ public final class AlignmentCertificateRequestService
     @Override
     public Request getSkeletonRequest() throws CvqException {
         return new AlignmentCertificateRequest();
+    }
+    
+    protected void initFilledConditions() {
+        super.initFilledConditions();
+        filledConditions.put("requesterQuality", new EqualityChecker("Tenant"));
     }
 }

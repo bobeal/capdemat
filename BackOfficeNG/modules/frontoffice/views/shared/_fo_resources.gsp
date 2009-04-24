@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/common',file:'tag.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'layout.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'box.css')}" />
-  <link rel="stylesheet" type="text/css" href="${createLink(controller:'localAuthorityResource',action:'cssFo')}" />
+  <link rel="stylesheet" type="text/css" href="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'cssFO')}" />
   <!--[if IE 6]>
   <link rel="stylesheet" href="${createLinkTo(dir:'css/frontoffice/hacks',file:'ie6.css')}" />
   <![endif]-->

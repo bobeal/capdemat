@@ -25,31 +25,19 @@
       </xs:documentation>
       <xs:appinfo>
         <model namespace="school" />
-        <fo namespace="school">
-          <display field="Subject.Child.LastName" stage="inscription" page="*" line="1"
-            mode="static" />
-          <display field="Subject.Child.FirstName" stage="inscription" page="*" line="2"
-            mode="static" />
-          <display field="Subject.Child.BirthDate" stage="inscription" page="*" line="3"
-            label="Né(e) le" mode="static" />
-		  <display mode="labelonly" type="stagetitle" label="Inscription" stage="validation" page="summary" line="0"/>
-          <display field="Subject.Child.LastName" stage="validation" page="summary" line="1"
-            mode="static" />
-          <display field="Subject.Child.FirstName" stage="validation" page="summary" line="2"
-            mode="static" />
-          <display field="Subject.Child.BirthDate" stage="validation" page="summary" line="3"
-            label="Né(e) le" mode="static" />
-        </fo>
-        <bo namespace="school">
-          <display field="Subject.Child.LastName" page="displayschool" line="11" mode="static" />
-          <display field="Subject.Child.FirstName" page="displayschool" line="12" mode="static" />
-          <display field="Subject.Child.LastName" page="checkschool" line="1" mode="static" />
-          <display field="Subject.Child.FirstName" page="checkschool" line="2" mode="static" />
-          <display field="Subject.Child.BirthDate" page="checkschool" line="3" mode="static" />
-          <display field="Subject.Child.LastName" page="printschool" line="1" mode="static" />
-          <display field="Subject.Child.FirstName" page="printschool" line="2" mode="static" />
-          <display field="Subject.Child.BirthDate" page="printschool" line="3" mode="static" />
-        </bo>
+        <common>
+	      <namespace name="school" />
+	      <steps>
+	        <step index="0" name="subject" >
+	          <widgets>
+	            <subject />
+	          </widgets>
+	       	</step>
+	        <step index="1" name="rules" />
+	        <step index="2" ref="document" />
+	        <step index="3" ref="validation" />
+	      </steps>
+	    </common>  
         <xslfo>
           <blocks-def>
             <block id="0" label="Enfant*" column="2" />
@@ -57,8 +45,8 @@
             <block id="2" label="Règlement intérieur" />
           </blocks-def>
           <element blockId="1" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
-	    <complexTemplate />
+            prefixLabel="Comment souhaitez-vous être informé ?">
+            <complexTemplate />
           </element>
           <element blockId="0" line="3" column="0" columnSpan="2" link="Subject">
             <complexTemplate />
@@ -70,134 +58,26 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
-            <xs:element name="UrgencyPhone" type="cvq:PhoneType">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Téléphone en cas d'urgence
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" stage="inscription" page="school" line="5" mode="title" help="ex: 0102030405" />
-                    <display field="" stage="inscription" page="display" line="8" mode="static"/>
-                    <display field="" stage="validation" page="summary" line="8" mode="static"/>
-                  </fo>
-                  <bo>
-                    <display field="" page="displayschool" line="22"/>
-                  </bo>
-                  <xslfo>
-                    <element blockId="0" line="4" column="0" columnSpan="1">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="School" type="cvq:SchoolType" minOccurs="0">
+             <xs:element name="School" type="cvq:SchoolType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   L'école dans laquelle est inscrit l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ecole
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
                   The school in which the child is registered
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="authority" />
-                  <bo>
-                    <display field="Name" type="schools" page="checkschool" line="4" mode="input"
-                      label="Ecole retenue" />
-                    <display field="Name" page="printschool" line="4" label="Ecole retenue"
-                      mode="static" />
-                  </bo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="2" column="0" prefixLabel="Inscription dans l'école">
                       <string selectXPath="cvq:Name" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="CurrentSchoolName" type="xs:string" minOccurs="0" default="">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  L'école dans laquelle est inscrit l'enfant
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom de l'école actuelle
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  The school in which the child is registered
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-					<display mode="labelonly" label="Ecole actuelle" stage="inscription" page="school" line="6"/>
-                    <display field="" stage="inscription" page="school" line="7" label="Nom"/>
-                    <display field="" stage="inscription" page="display" line="5" mode="static" />
-                    <display field="" stage="validation" page="summary" line="6" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displayschool" line="31" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="0" line="0" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="CurrentSchoolAddress" type="xs:string" minOccurs="0" default="">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  L'adresse de l'école dans laquelle est inscrit l'enfant
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Adresse de l'école actuelle
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  The address of the school in which the child is registered
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" type="text[3]" stage="inscription" page="school" line="8" label="Adresse"/>
-                    <display field="" type="text[3]" stage="inscription" page="display" line="6"
-                      mode="static" />
-                    <display field="" type="text[3]" stage="validation" page="summary" line="7"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displayschool" line="41" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="0" line="1" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="CurrentSection" type="cvq:SectionType" minOccurs="0"
-              default="Unknown">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Classe actuelle
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Current section
-                </xs:documentation>
-                <xs:appinfo>
-                  <model namespace="users" />
-                  <fo>
-                    <display field="" stage="inscription" page="school" line="9"
-                      label="Classe" help="Choisissez une classe" />
-                    <display field="" stage="inscription" page="display" line="7" mode="static"/>
-                    <display field="" stage="validation" page="summary" line="5" mode="static"/>
-                  </fo>
-                  <bo>
-                    <display field="" page="displayschool" line="32" label="Classe actuelle" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="0" line="0" column="1">
-                      <string referential="true" />
                     </element>
                   </xslfo>
                 </xs:appinfo>
@@ -208,20 +88,16 @@
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Inscription en classe
                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Classe dans laquelle l'enfent sera inscrit
+                </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" />
-                  <fo>
-                    <display field="" stage="inscription" page="school" line="4" mode="title"
-                      help="Choisissez une classe" />
-                    <display field="" stage="inscription" page="display" line="4" mode="static"/>
-                    <display field="" stage="validation" page="summary" line="4" mode="static"/>
-                  </fo>
-                  <bo>
-                    <display field="" page="checkschool" line="5" mode="input"
-                      label="Classe retenue" />
-                    <display field="" page="printschool" line="5" mode="static"
-                      label="Classe retenue" />
-                  </bo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="2" column="1">
                       <string referential="true" />
@@ -230,30 +106,76 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
+            <xs:element name="UrgencyPhone" type="cvq:PhoneType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Téléphone en cas d'urgence
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Numéro de téléphone à contacter en cas d'urgence
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="0" line="4" column="0" columnSpan="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="CurrentSchool" type="srr:CurrentSchoolType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations conçernant l'école actuelle
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ecole actuelle
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo>
+                    <label />
+                  </fo>
+                  <bo column="2" />
+                  <xslfo>
+                    <element blockId="0" line="0" column="0">
+                      <localComplexElement />
+                    </element>
+                  </xslfo>    	  
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
             <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType"
               default="false">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prise en compte et acceptation du règlement intérieur
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display type="yesno" stage="rules" page="authorisation" line="1"
-                      label="J'accepte et je m'engage à respecter le règlement" />
-		  			<display mode="labelonly" type="stagetitle" label="Rules" stage="validation" page="summary" line="10"/>
-                    <display type="yesno" stage="validation" page="summary" line="12"
-                      label="J'accepte et je m'engage à respecter le règlement" mode="static" />
-                  </fo>
-                  <bo>
-                    <display type="yesno" page="displayschool" line="42"
-                      label="Acceptation du règlement intérieur" />
-                  </bo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="2" line="0" column="0">
                       <signature>
                         <acceptMessage index="0">
-                          J'ai pris parfaite connaissance du r&#232;glement int&#233;rieur de
+                          J'ai pris parfaite connaissance du règlement intérieur de
                           l'école qui accompagne cette fiche.
                         </acceptMessage>
                         <rejectMessage index="0">
-                          Vous n'avez pas accept&#233; le r&#233;glement int&#233;rieur
+                          Vous n'avez pas accepté le réglement intérieur
                         </rejectMessage>
                       </signature>
                     </element>
@@ -266,4 +188,96 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
+  
+  <xs:complexType name="CurrentSchoolType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations conçernant le sujet de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Sujet
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="CurrentSchoolName" type="xs:string" minOccurs="0" default="">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            L'école dans laquelle est inscrit l'enfant
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de l'école actuelle
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            The school in which the child is registered
+          </xs:documentation>
+          <xs:appinfo>
+           <common>
+             <step name="subject" />
+           </common>
+           <fo />
+           <bo column="2" />
+           <xslfo>
+             <element blockId="0" line="0" column="0">
+               <string />
+             </element>
+           </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CurrentSchoolAddress" type="xs:string" minOccurs="0" default="">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            L'adresse de l'école dans laquelle est inscrit l'enfant
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse de l'école actuelle
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            The address of the school in which the child is registered
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo>
+              <textarea rows="3" />
+            </fo>
+            <bo column="2" />
+            <xslfo>
+              <element blockId="0" line="1" column="0">
+                <string />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CurrentSection" type="cvq:SectionType" minOccurs="0"
+        default="Unknown">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Classe actuelle
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Classe dans laquelle l'enfant est actuellement inscrit
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Current section
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo column="2" />
+            <xslfo>
+              <element blockId="0" line="0" column="1">
+                <string referential="true" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>

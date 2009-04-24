@@ -1,0 +1,33 @@
+acr.duration.value =
+
+acr.step.requester.label =
+acr.step.requester.desc =
+
+acr.step.cadastre.label =
+acr.step.cadastre.desc =
+
+
+acr.property.requesterQuality.help =
+acr.property.requesterQuality.validationError =
+
+acr.property.ownerLastName.help =
+acr.property.ownerLastName.validationError =
+
+acr.property.ownerFirstNames.help =
+acr.property.ownerFirstNames.validationError =
+
+acr.property.ownerAddress.help =
+acr.property.ownerAddress.validationError =
+
+acr.property.section.help =
+acr.property.section.validationError =
+
+acr.property.number.help =
+acr.property.number.validationError =
+
+acr.property.locality.help =
+acr.property.locality.validationError =
+
+acr.property.transportationRoute.help =
+acr.property.transportationRoute.validationError =
+

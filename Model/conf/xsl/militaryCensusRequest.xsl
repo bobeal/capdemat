@@ -316,758 +316,822 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Filiation</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Père</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom du père
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:FatherLastName and //mcr:FatherLastName != ''">
-                                    <xsl:value-of select="//mcr:FatherLastName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Prénom du père
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:FatherFirstName and //mcr:FatherFirstName != ''">
-                                    <xsl:value-of select="//mcr:FatherFirstName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
+                  <xsl:variable name="withTotal" select="'false'" />
 
-    
-          
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Date de naissance du père
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                	              <xsl:call-template name="cvq:DisplayDate">
-		        <xsl:with-param name="DateToDisplay">
-		          <xsl:value-of select="//mcr:FatherBirthDate"/>
-		        </xsl:with-param>
-	              </xsl:call-template>
-			    </fo:block>
-		  </fo:table-cell>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Ville de naissance du père
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:FatherBirthCity and //mcr:FatherBirthCity != ''">
-                                    <xsl:value-of select="//mcr:FatherBirthCity" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Département de naissance du père
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:FatherBirthDepartment and //mcr:FatherBirthDepartment != ''">
-          			  <xsl:variable name="current_value" select="//mcr:FatherBirthDepartment"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','InseeDepartementCodeType','fr')//ref:data[@name = 'InseeDepartementCodeType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Pays de naissance du père
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:FatherBirthCountry and //mcr:FatherBirthCountry != ''">
-          			  <xsl:variable name="current_value" select="//mcr:FatherBirthCountry"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','CountryType','fr')//ref:data[@name = 'CountryType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nationalité du père
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:FatherNationality and //mcr:FatherNationality != ''">
-          			  <xsl:variable name="current_value" select="//mcr:FatherNationality"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','FullNationalityType','fr')//ref:data[@name = 'FullNationalityType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom de jeune fille de la mère*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:MotherLastName and //mcr:MotherLastName != ''">
-                                    <xsl:value-of select="//mcr:MotherLastName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Prénom de la mère*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:MotherFirstName and //mcr:MotherFirstName != ''">
-                                    <xsl:value-of select="//mcr:MotherFirstName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Date de naissance de la mère*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                	              <xsl:call-template name="cvq:DisplayDate">
-		        <xsl:with-param name="DateToDisplay">
-		          <xsl:value-of select="//mcr:MotherBirthDate"/>
-		        </xsl:with-param>
-	              </xsl:call-template>
-			    </fo:block>
-		  </fo:table-cell>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Ville de naissance de la mère*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:MotherBirthCity and //mcr:MotherBirthCity != ''">
-                                    <xsl:value-of select="//mcr:MotherBirthCity" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Département de naissance de la mère
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:MotherBirthDepartment and //mcr:MotherBirthDepartment != ''">
-          			  <xsl:variable name="current_value" select="//mcr:MotherBirthDepartment"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','InseeDepartementCodeType','fr')//ref:data[@name = 'InseeDepartementCodeType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Pays de naissance de la mère
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:MotherBirthCountry and //mcr:MotherBirthCountry != ''">
-          			  <xsl:variable name="current_value" select="//mcr:MotherBirthCountry"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','CountryType','fr')//ref:data[@name = 'CountryType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nationalité de la mère*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:MotherNationality and //mcr:MotherNationality != ''">
-          			  <xsl:variable name="current_value" select="//mcr:MotherNationality"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','FullNationalityType','fr')//ref:data[@name = 'FullNationalityType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
+    <xsl:for-each select="//mcr:FatherInformation">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:FatherLastName and ./mcr:FatherLastName != ''">
+                  <xsl:value-of select="./mcr:FatherLastName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Prénom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:FatherFirstName and ./mcr:FatherFirstName != ''">
+                  <xsl:value-of select="./mcr:FatherFirstName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Date de naissance
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:call-template name="cvq:DisplayDate">
+            <xsl:with-param name="DateToDisplay">
+              <xsl:value-of select="./mcr:FatherBirthDate"/>
+            </xsl:with-param>
+          </xsl:call-template>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Ville de naissance
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:FatherBirthCity and ./mcr:FatherBirthCity != ''">
+                  <xsl:value-of select="./mcr:FatherBirthCity" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Département de naissance
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:FatherBirthDepartment and ./mcr:FatherBirthDepartment != ''">
+                  <xsl:variable name="current_value" select="./mcr:FatherBirthDepartment"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','InseeDepartementCodeType','fr')//ref:data[@name = 'InseeDepartementCodeType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Pays de naissance
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:FatherBirthCountry and ./mcr:FatherBirthCountry != ''">
+                  <xsl:variable name="current_value" select="./mcr:FatherBirthCountry"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','CountryType','fr')//ref:data[@name = 'CountryType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nationalité
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:FatherNationality and ./mcr:FatherNationality != ''">
+                  <xsl:variable name="current_value" select="./mcr:FatherNationality"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','FullNationalityType','fr')//ref:data[@name = 'FullNationalityType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
     
       
               <fo:block>
               <fo:leader leader-pattern="space" />
             </fo:block>
   
+                  <fo:block xsl:use-attribute-sets="request.section.header">Mère</fo:block>
+	    <fo:block>
+	      <fo:leader leader-pattern="space" />
+	    </fo:block>
+        
+                  <xsl:variable name="withTotal" select="'false'" />
+
+    <xsl:for-each select="//mcr:MotherInformation">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom de jeune fille
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:MotherLastName and ./mcr:MotherLastName != ''">
+                  <xsl:value-of select="./mcr:MotherLastName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Prénom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:MotherFirstName and ./mcr:MotherFirstName != ''">
+                  <xsl:value-of select="./mcr:MotherFirstName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Date de naissance
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:call-template name="cvq:DisplayDate">
+            <xsl:with-param name="DateToDisplay">
+              <xsl:value-of select="./mcr:MotherBirthDate"/>
+            </xsl:with-param>
+          </xsl:call-template>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Ville de naissance
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:MotherBirthCity and ./mcr:MotherBirthCity != ''">
+                  <xsl:value-of select="./mcr:MotherBirthCity" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Département de naissance
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:MotherBirthDepartment and ./mcr:MotherBirthDepartment != ''">
+                  <xsl:variable name="current_value" select="./mcr:MotherBirthDepartment"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','InseeDepartementCodeType','fr')//ref:data[@name = 'InseeDepartementCodeType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Pays de naissance
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:MotherBirthCountry and ./mcr:MotherBirthCountry != ''">
+                  <xsl:variable name="current_value" select="./mcr:MotherBirthCountry"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','CountryType','fr')//ref:data[@name = 'CountryType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nationalité
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:MotherNationality and ./mcr:MotherNationality != ''">
+                  <xsl:variable name="current_value" select="./mcr:MotherNationality"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','FullNationalityType','fr')//ref:data[@name = 'FullNationalityType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
+    
+      
+              <fo:block break-after="page"/>
+  
                   <fo:block xsl:use-attribute-sets="request.section.header">Situation Familiale</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(200 * 1) - 30pt" />
-          <fo:table-column column-width="30pt" />
-                                <fo:table-column column-width="proportional-column-width(200 * 1) - 30pt" />
-          <fo:table-column column-width="30pt" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nombre de frères et soeurs vivants*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.char_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:AliveChildren and //mcr:AliveChildren != ''">
-                                    <xsl:value-of select="//mcr:AliveChildren" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nombre d'enfants à charge*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.char_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:ChildrenInCharge and //mcr:ChildrenInCharge != ''">
-                                    <xsl:value-of select="//mcr:ChildrenInCharge" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
+                  <xsl:variable name="withTotal" select="'false'" />
 
-    
-          
-                                            
-                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
-              <xsl:variable name="mod_column" select="'6'"/>
-              <xsl:variable name="enum_tokens">
-                <xsl:call-template name="split-string">
-                        <xsl:with-param name="string" select="//mcr:ChildStatus/text()"/>
-                      </xsl:call-template>
-              </xsl:variable>
-                    <fo:table-column column-width="100pt" />
-      
-              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','FamilyStatusType','fr')//ref:data[@name = 'FamilyStatusType']/ref:entry">
-                <xsl:if test="not(position() &gt; ($mod_column + 1))">
-                  <fo:table-column column-width="30pt" />
-                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
+    <xsl:for-each select="//mcr:FamilySituationInformation">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nombre de frères et soeurs vivants
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:AliveChildren and ./mcr:AliveChildren != ''">
+                  <xsl:value-of select="./mcr:AliveChildren" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Situation familiale
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:ChildStatus and ./mcr:ChildStatus != ''">
+                  <xsl:value-of select="./mcr:ChildStatus" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nombre d'enfants à charge
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:ChildrenInCharge and ./mcr:ChildrenInCharge != ''">
+                  <xsl:value-of select="./mcr:ChildrenInCharge" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Autre situation
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:OtherSituation and ./mcr:OtherSituation != ''">
+                  <xsl:value-of select="./mcr:OtherSituation" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                                            
+    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+    <fo:table-column column-width="proportional-column-width(2 * 1)" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(4)" />
+
+    <fo:table-body>
+      <fo:table-row>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+  Pupille de l'état
+          </fo:block>
+        </fo:table-cell>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./mcr:StatePupil = &quot;true&quot;">X</xsl:if>
+           <xsl:if test="./mcr:StatePupil = &quot;false&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./mcr:StatePupil = &quot;false&quot;">X</xsl:if>
+           <xsl:if test="./mcr:StatePupil = &quot;true&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block>&#160;</fo:block>
+       </fo:table-cell>
+     </fo:table-row>
+   </fo:table-body>
+</fo:table>
+                                                                            
+    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+    <fo:table-column column-width="proportional-column-width(2 * 1)" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(4)" />
+
+    <fo:table-body>
+      <fo:table-row>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+  Pupille du préfet
+          </fo:block>
+        </fo:table-cell>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./mcr:PrefectPupil = &quot;true&quot;">X</xsl:if>
+           <xsl:if test="./mcr:PrefectPupil = &quot;false&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./mcr:PrefectPupil = &quot;false&quot;">X</xsl:if>
+           <xsl:if test="./mcr:PrefectPupil = &quot;true&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block>&#160;</fo:block>
+       </fo:table-cell>
+     </fo:table-row>
+   </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Pupille du préfet du département
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:PrefectPupilDepartment and ./mcr:PrefectPupilDepartment != ''">
+                  <xsl:variable name="current_value" select="./mcr:PrefectPupilDepartment"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','InseeDepartementCodeType','fr')//ref:data[@name = 'InseeDepartementCodeType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
                 </xsl:if>
               </xsl:for-each>
-
-              <fo:table-body>
-                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
-                <fo:table-cell>
-	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		    Situation familiale*
-		  </fo:block>
-	        </fo:table-cell>
-      
-                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','FamilyStatusType','fr')//ref:data[@name = 'FamilyStatusType']/ref:entry">
-
-	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
-	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
-	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
-      	          </xsl:if>
-	          <fo:table-cell>
-	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
-		      <xsl:variable name="current_value" select="@key"/>
-		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
-			<xsl:choose>
-			  <xsl:when test="text() = $current_value">X</xsl:when>
-			  <xsl:otherwise>&#160;</xsl:otherwise>
-			</xsl:choose>
-                      </xsl:for-each>
-	            </fo:block>
-	          </fo:table-cell>
-	          <fo:table-cell>
-	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
-                      <xsl:value-of select="./ref:label[@lang='fr']"/>
-      	            </fo:block>
-	          </fo:table-cell>
-	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
-	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
-	            	            <xsl:if test="not(position() = last())">
-	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
-	            </xsl:if>
-	          </xsl:if>
-	        </xsl:for-each>
-              </fo:table-body>
-            </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Autre situation
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:OtherSituation and //mcr:OtherSituation != ''">
-                                    <xsl:value-of select="//mcr:OtherSituation" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                                
-      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
-	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-	      <fo:table-column column-width="30pt" />
-	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-	      <fo:table-column column-width="30pt" />
-      	      <fo:table-column column-width="proportional-column-width(4)" />
-      	      <fo:table-body>
-		<fo:table-row>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Pupille de l'état*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//mcr:StatePupil = &quot;true&quot;">X</xsl:if>
-		      <xsl:if test="//mcr:StatePupil = &quot;false&quot;">&#160;</xsl:if>
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//mcr:StatePupil = &quot;false&quot;">X</xsl:if>
-		      <xsl:if test="//mcr:StatePupil = &quot;true&quot;">&#160;</xsl:if>
-		    </fo:block>
-		  </fo:table-cell>
-      		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                                
-      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
-	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-	      <fo:table-column column-width="30pt" />
-	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
-	      <fo:table-column column-width="30pt" />
-      	      <fo:table-column column-width="proportional-column-width(4)" />
-      	      <fo:table-body>
-		<fo:table-row>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Pupille du préfet*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//mcr:PrefectPupil = &quot;true&quot;">X</xsl:if>
-		      <xsl:if test="//mcr:PrefectPupil = &quot;false&quot;">&#160;</xsl:if>
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//mcr:PrefectPupil = &quot;false&quot;">X</xsl:if>
-		      <xsl:if test="//mcr:PrefectPupil = &quot;true&quot;">&#160;</xsl:if>
-		    </fo:block>
-		  </fo:table-cell>
-      		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Pupille du préfet du département
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:PrefectPupilDepartment and //mcr:PrefectPupilDepartment != ''">
-          			  <xsl:variable name="current_value" select="//mcr:PrefectPupilDepartment"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','InseeDepartementCodeType','fr')//ref:data[@name = 'InseeDepartementCodeType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
     
       
-              <fo:block break-after="page"/>
+              <fo:block>
+              <fo:leader leader-pattern="space" />
+            </fo:block>
   
                   <fo:block xsl:use-attribute-sets="request.section.header">Situation Professionnelle</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Situation scolaire ou professionnelle*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:ChildSituation and //mcr:ChildSituation != ''">
-          			  <xsl:variable name="current_value" select="//mcr:ChildSituation"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/mcr','ChildSituationType','fr')//ref:data[@name = 'ChildSituationType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Diplôme*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:ChildDiploma and //mcr:ChildDiploma != ''">
-          			  <xsl:variable name="current_value" select="//mcr:ChildDiploma"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/mcr','ChildDiplomaType','fr')//ref:data[@name = 'ChildDiplomaType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
+                  <xsl:variable name="withTotal" select="'false'" />
 
-    
-          
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Spécialité
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:ChildSpeciality and //mcr:ChildSpeciality != ''">
-                                    <xsl:value-of select="//mcr:ChildSpeciality" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Profession
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//mcr:ChildProfession and //mcr:ChildProfession != ''">
-                                    <xsl:value-of select="//mcr:ChildProfession" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
+    <xsl:for-each select="//mcr:ProfessionalSituationInformation">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Situation scolaire ou professionnelle
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:ChildSituation and ./mcr:ChildSituation != ''">
+                  <xsl:variable name="current_value" select="./mcr:ChildSituation"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/mcr','ChildSituationType','fr')//ref:data[@name = 'ChildSituationType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Diplôme
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:ChildDiploma and ./mcr:ChildDiploma != ''">
+                  <xsl:variable name="current_value" select="./mcr:ChildDiploma"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/mcr','ChildDiplomaType','fr')//ref:data[@name = 'ChildDiplomaType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Spécialité
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:ChildSpeciality and ./mcr:ChildSpeciality != ''">
+                  <xsl:value-of select="./mcr:ChildSpeciality" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Profession
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./mcr:ChildProfession and ./mcr:ChildProfession != ''">
+                  <xsl:value-of select="./mcr:ChildProfession" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
     
       
               <fo:block>
@@ -1243,7 +1307,7 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                                                                                                                              <xsl:template match="//cvq:MeansOfContact">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <xsl:template match="//cvq:MeansOfContact">
           <xsl:call-template name="MeansOfContactType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

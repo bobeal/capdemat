@@ -773,7 +773,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
             notificationType = PasswordResetNotificationType.CATEGORY_EMAIL;
         }
         if (notificationType != PasswordResetNotificationType.INLINE) {
-            mailService.send(categoryAddress, to, null, "[" + SecurityContext.getCurrentConfigurationBean().getDisplayTitle() + "] " + "Votre nouveau mot de passe pour vos démarches en ligne", body);
+            mailService.send(categoryAddress, to, null, "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "] " + "Votre nouveau mot de passe pour vos démarches en ligne", body);
         }
         return notificationType;
     }

@@ -4,7 +4,7 @@
     <data name="Activity">
         <label lang="fr">Activités</label>
         <label lang="en">Activities</label>
-        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="true">
             <entry key="Dance">
                 <label lang="fr">Danse</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -54,11 +54,6 @@
                             </entry>
                         </entries>
                     </entry>
-                    <entry key="Formation">
-                        <label lang="fr">Formation musicale</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                    </entry>
                     <entry key="group">
                         <label lang="fr">Activité d'ensemble</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -74,7 +69,7 @@
                                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
-                            <entry key="Jazz">
+                            <entry key="Jazz2">
                                 <label lang="fr">Jazz</label>
                                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -85,6 +80,11 @@
                                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
                         </entries>
+                    </entry>
+                    <entry key="Formation">
+                        <label lang="fr">Formation musicale</label>
+                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                 </entries>
             </entry>

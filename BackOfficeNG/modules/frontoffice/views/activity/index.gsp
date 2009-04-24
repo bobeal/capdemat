@@ -24,7 +24,7 @@
           <select name="mf" class="month-filter">
             <g:each in="${(1 .. 12)}">
               <option value="${it}" ${it.equals((params.mf ? Integer.valueOf(params.mf) : month)) ? 'selected="selected"':''}>
-                ${it}
+                ${monthsNames[it]}
               </option>
             </g:each>
           </select>

@@ -58,7 +58,7 @@ public class RequestNotificationService implements IRequestNotificationService {
             }
 
             StringBuffer mailSubject = new StringBuffer();
-            mailSubject.append("[").append(lacb.getDisplayTitle()).append("] ")
+            mailSubject.append("[").append(SecurityContext.getCurrentSite().getDisplayTitle()).append("] ")
                 .append(localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false))
                 .append(" validée");
 

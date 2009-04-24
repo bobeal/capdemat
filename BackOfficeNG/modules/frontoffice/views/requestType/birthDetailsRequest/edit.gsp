@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'autofill.js')}"></script>
   </head>  
   <body>
     <g:set var="requestTypeInfo">
@@ -16,6 +17,12 @@
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
       <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+    </form>
+    <form action="${module.createLink(controller:'RequestCreationController',action:'autofill')}"
+      method="post" id="autofillForm">
+      <input type="hidden" id="autofillContainer" name="autofillContainer" value="" />
+      <input type="hidden" id="triggerName" name="triggerName" value="" />
+      <input type="hidden" id="triggerValue" name="triggerValue" value="" />
     </form>
     <g:if test="${flash.isOutOfAccountRequest}">
       <g:render template="/frontofficeRequestType/loginPanel" />

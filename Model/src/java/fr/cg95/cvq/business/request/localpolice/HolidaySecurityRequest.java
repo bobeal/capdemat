@@ -32,6 +32,8 @@ public class HolidaySecurityRequest extends Request implements Serializable {
 
     public HolidaySecurityRequest() {
         super();
+        alarm = Boolean.valueOf(false);
+        light = Boolean.valueOf(false);
         rulesAndRegulationsAcceptance = Boolean.valueOf(false);
     }
 

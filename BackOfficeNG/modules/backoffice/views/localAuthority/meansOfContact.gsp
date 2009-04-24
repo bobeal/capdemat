@@ -36,7 +36,7 @@
   
     <div id="narrow" class="yui-b">
       <menu:subMenu id="secondMenu" i18nPrefix="localAuthority.header" 
-        data="${['drafts','meansOfContact']}" />
+        data="${subMenuEntries}" />
     </div>
 
   </body>

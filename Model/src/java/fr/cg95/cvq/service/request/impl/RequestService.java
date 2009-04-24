@@ -508,7 +508,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                 logger.warn("notifyRequestCreation() no mail data for ecitizen request creation notification");
             } else {
                 StringBuffer mailSubject = new StringBuffer();
-                mailSubject.append("[").append(lacb.getDisplayTitle()).append("] ")
+                mailSubject.append("[").append(SecurityContext.getCurrentSite().getDisplayTitle()).append("] ")
                     .append(ecitizenCreationNotifications.get("mailSubject"));
 
                 if (attachPdf) {

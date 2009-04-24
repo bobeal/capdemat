@@ -1568,9 +1568,18 @@
     create table local_authority (
         id int8 not null,
         name varchar(32) not null,
+        display_title varchar(100) not null,
         postal_code varchar(5) not null,
+        server_names bytea,
         draft_live_duration int4 not null,
         draft_notification_before_delete int4 not null,
+        requests_creation_notification_enabled bool not null,
+        document_digitalization_enabled bool not null,
+        instruction_alerts_enabled bool not null,
+        instruction_alerts_detailed bool not null,
+        instruction_default_max_delay int4 not null,
+        instruction_default_alert_delay int4 not null,
+        admin_email varchar(255),
         primary key (id)
     );
 

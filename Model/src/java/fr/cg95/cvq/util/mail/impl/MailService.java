@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public final class MailService implements IMailService {
@@ -41,13 +42,22 @@ public final class MailService implements IMailService {
                         new MimeMessageHelper(mimeMessage, true, "UTF-8");
                     if (from != null && !from.equals(""))
                         message.setFrom(from);
-                    else
-                        message.setFrom(systemEmail);
+                    else {
+                        if (SecurityContext.getCurrentSite().getAdminEmail() != null && !SecurityContext.getCurrentSite().getAdminEmail().trim().isEmpty()) {
+                            message.setFrom(SecurityContext.getCurrentSite().getAdminEmail());
+                        } else {
+                            message.setFrom(systemEmail);
+                        }
+                    }
                     if (!to.equals(""))
                         message.setTo(to);
-                    else
-                        message.setTo(systemEmail);
-                    message.setTo(to);
+                    else {
+                        if (SecurityContext.getCurrentSite().getAdminEmail() != null && !SecurityContext.getCurrentSite().getAdminEmail().trim().isEmpty()) {
+                            message.setTo(SecurityContext.getCurrentSite().getAdminEmail());
+                        } else {
+                            message.setTo(systemEmail);
+                        }
+                    }
                     message.setSubject(subject);
                     message.setText(body);
                     if (cc != null && cc.length > 0)

@@ -32,6 +32,13 @@ class ExceptionUtils {
         else return ''
     }
     
+    def static getModelI18nArgs(ex) {
+        def mex = ExceptionUtils.extractModelException(ex)
+        def args = []
+        if(mex) mex.i18nArgs.each { args.add(it) }
+        return args
+    }
+
     def private static extractModelException(ex) {
         def cause = ex?.cause
         

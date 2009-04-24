@@ -136,6 +136,7 @@ form.editable-list-form ul li { width: 30%;  float: left; padding: .2em 0; borde
 form.editable-list-form ul li:hover { background: transparent !important; }
 form.editable-list-form ul li label { width: 66%; }
 
+form ul li { clear : both; margin-bottom : 1.5em; }
 
 /* Validation classes
 -------------------------------------------------------------- */

@@ -1,6 +1,7 @@
 package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -22,13 +23,50 @@ public class LocalAuthority implements Serializable {
 
     private String name;
     private String postalCode;
+    private String displayTitle;
+    private String adminEmail;
     private Integer draftLiveDuration = 20;
     private Integer draftNotificationBeforeDelete = 7;
 
+    /**
+     * Whether an email alert is sent to notify of newly created requests, defaults to false.
+     */
+    private boolean requestsCreationNotificationEnabled = false;
+
+    /**
+     * Whether document digitalization is enabled for this local authority, defaults to true.
+     */
+    private boolean documentDigitalizationEnabled = true;
+
+    /**
+     * Whether an email alert is sent to notify of requests whose instruction is in late, 
+     * defaults to false.
+     */
+    private boolean instructionAlertsEnabled = false;
+
+    /**
+     * Whether, if instruction alerts are enabled, the email sent displays a detailed resume of 
+     * requests to instruct, defaults to false.
+     */
+    private boolean instructionAlertsDetailed = false;
+
+    private int instructionDefaultMaxDelay = 10;
+    private int instructionDefaultAlertDelay = 3;
+
+    /** using an explicit ArrayList instead of List interface to allow Hibernate to instantiate it */
+    private TreeSet<String> serverNames;
+
     /** full constructor */
-    public LocalAuthority(String name, String postalCode) {
+    public LocalAuthority(String name, String postalCode, String displayTitle) {
         this.name = name;
         this.postalCode = postalCode;
+        this.displayTitle = displayTitle;
+        this.serverNames = new TreeSet<String>();
+    }
+
+    /** old full constructor */
+    public LocalAuthority(String name, String postalCode) {
+        this(name, postalCode, null);
     }
 
     /** default constructor */
@@ -83,6 +121,20 @@ public class LocalAuthority implements Serializable {
 
     /**
      * @hibernate.property
+     *  column="display_title"
+     *  not-null="true"
+     *  length="100"
+     */
+    public String getDisplayTitle() {
+        return this.displayTitle;
+    }
+
+    public void setDisplayTitle(String displayTitle) {
+        this.displayTitle = displayTitle;
+    }
+
+    /**
+     * @hibernate.property
      *  column="postal_code"
      *  not-null="true"
      *  length="5"
@@ -93,6 +145,18 @@ public class LocalAuthority implements Serializable {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="server_names"
+     */
+    public TreeSet<String> getServerNames() {
+        return serverNames;
+    }
+
+    public void setServerNames(TreeSet<String> serverNames) {
+        this.serverNames = serverNames;
     }
 
     public String toString() {
@@ -125,5 +189,95 @@ public class LocalAuthority implements Serializable {
 
     public void setDraftNotificationBeforeDelete(Integer draftNotificationBeforeDelete) {
         this.draftNotificationBeforeDelete = draftNotificationBeforeDelete;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="requests_creation_notification_enabled"
+     *  not-null="true"
+     */
+    public boolean isRequestsCreationNotificationEnabled() {
+        return requestsCreationNotificationEnabled;
+    }
+
+    public void setRequestsCreationNotificationEnabled(boolean requestsCreationNotificationEnabled) {
+        this.requestsCreationNotificationEnabled = requestsCreationNotificationEnabled;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="document_digitalization_enabled"
+     *  not-null="true"
+     */
+    public boolean isDocumentDigitalizationEnabled() {
+        return documentDigitalizationEnabled;
+    }
+
+    public void setDocumentDigitalizationEnabled(boolean documentDigitalizationEnabled) {
+        this.documentDigitalizationEnabled = documentDigitalizationEnabled;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="instruction_alerts_enabled"
+     *  not-null="true"
+     */
+    public boolean isInstructionAlertsEnabled() {
+        return instructionAlertsEnabled;
+    }
+
+    public void setInstructionAlertsEnabled(boolean instructionAlertsEnabled) {
+        this.instructionAlertsEnabled = instructionAlertsEnabled;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="instruction_alerts_detailed"
+     *  not-null="true"
+     */
+    public boolean isInstructionAlertsDetailed() {
+        return instructionAlertsDetailed;
+    }
+
+    public void setInstructionAlertsDetailed(boolean instructionAlertsDetailed) {
+        this.instructionAlertsDetailed = instructionAlertsDetailed;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="instruction_default_max_delay"
+     *  not-null="true"
+     */
+    public int getInstructionDefaultMaxDelay() {
+        return instructionDefaultMaxDelay;
+    }
+
+    public void setInstructionDefaultMaxDelay(int instructionDefaultMaxDelay) {
+        this.instructionDefaultMaxDelay = instructionDefaultMaxDelay;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="instruction_default_alert_delay"
+     *  not-null="true"
+     */
+    public int getInstructionDefaultAlertDelay() {
+        return instructionDefaultAlertDelay;
+    }
+
+    public void setInstructionDefaultAlertDelay(int instructionDefaultAlertDelay) {
+        this.instructionDefaultAlertDelay = instructionDefaultAlertDelay;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="admin_email"
+     */
+    public String getAdminEmail() {
+        return adminEmail;
+    }
+
+    public void setAdminEmail(String adminEmail) {
+        this.adminEmail = adminEmail;
     }
 }

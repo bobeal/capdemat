@@ -598,6 +598,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         return result;
     }
 
+    public List<RequestState> getInstructionDoneStates() {
+        List<RequestState> result = new ArrayList<RequestState>();
+        result.add(RequestState.REJECTED);
+        result.add(RequestState.CANCELLED);
+        result.add(RequestState.NOTIFIED);
+        return result;
+    }
+
     private void updateLastModificationInformation(Request request, final Date date)
         throws CvqException {
 

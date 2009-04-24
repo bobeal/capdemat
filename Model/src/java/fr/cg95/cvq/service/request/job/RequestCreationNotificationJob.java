@@ -6,12 +6,12 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.RequestUtils;
 import fr.cg95.cvq.util.localization.ILocalizationService;
@@ -40,11 +40,11 @@ public class RequestCreationNotificationJob {
     public void notifyLocalAuthRequestsCreation()
             throws CvqException {
 
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        logger.info("notifyLocalAuthRequestsCreation() dealing with " + lacb.getName());
-        if (!lacb.getRequestsCreationNotificationEnabled().booleanValue()) {
+        LocalAuthority la = SecurityContext.getCurrentSite();
+        logger.info("notifyLocalAuthRequestsCreation() dealing with " + la.getName());
+        if (!la.isRequestsCreationNotificationEnabled()) {
             logger.info("notifyLocalAuthRequestsCreation() requests creation notification are disabled for "
-                    + lacb.getName() + ", returning");
+                    + la.getName() + ", returning");
             return;
         }
 

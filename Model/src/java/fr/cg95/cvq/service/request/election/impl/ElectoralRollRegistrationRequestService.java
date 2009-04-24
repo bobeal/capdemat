@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.election.impl;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.election.ElectoralRollRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.election.IElectoralRollRegistrationRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -22,5 +23,11 @@ public final class ElectoralRollRegistrationRequestService extends RequestServic
     @Override
     public Request getSkeletonRequest() throws CvqException {
         return new ElectoralRollRegistrationRequest();
+    }
+    
+    protected void initFilledConditions() {
+        super.initFilledConditions();
+        filledConditions.put("motive",
+                new EqualityChecker("DirectCityContribution"));
     }
 }

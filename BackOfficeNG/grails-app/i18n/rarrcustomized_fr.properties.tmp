@@ -1,0 +1,39 @@
+rarr.duration.value =
+
+rarr.step.subject.label =
+rarr.step.subject.desc =
+
+rarr.step.contact.label =
+rarr.step.contact.desc =
+
+rarr.step.authorization.label =
+rarr.step.authorization.desc =
+
+rarr.step.rules.label =
+rarr.step.rules.desc =
+
+
+rarr.property.recreationActivity.help =
+rarr.property.recreationActivity.validationError =
+
+rarr.property.urgencyPhone.help =
+rarr.property.urgencyPhone.validationError =
+
+rarr.property.recreationCenter.help =
+rarr.property.recreationCenter.validationError =
+
+rarr.property.otherIndividual.help =
+rarr.property.otherIndividual.validationError =
+
+rarr.property.rulesAndRegulationsAcceptance.help =
+rarr.property.rulesAndRegulationsAcceptance.validationError =
+
+rarr.property.classTripPermission.help =
+rarr.property.classTripPermission.validationError =
+
+rarr.property.childPhotoExploitationPermission.help =
+rarr.property.childPhotoExploitationPermission.validationError =
+
+rarr.property.hospitalizationPermission.help =
+rarr.property.hospitalizationPermission.validationError =
+

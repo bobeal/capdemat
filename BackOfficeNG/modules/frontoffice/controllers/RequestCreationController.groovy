@@ -384,7 +384,8 @@ class RequestCreationController {
     
     def getAuthorizedSubjects(requestService, cRequest) {
         def subjects = [:]
-        if (SecurityContext.currentEcitizen != null) {
+        if (SecurityContext.currentEcitizen != null 
+        		&& !requestService.subjectPolicy.equals(IRequestService.SUBJECT_POLICY_NONE)) {
             def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
             authorizedSubjects.each { subjectId, seasonsSet ->
                 def subject = individualService.getById(subjectId)

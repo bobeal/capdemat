@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/parr" xmlns:parr="http://www.cg95.fr/cvq/schema/parr"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
-  xmlns:cse="http://www.cg95.fr/cvq/schema/cse" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/parr" 
+  xmlns:parr="http://www.cg95.fr/cvq/schema/parr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  xmlns:cse="http://www.cg95.fr/cvq/schema/cse" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
-
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/cse" schemaLocation="./CommonSchoolElements.xsd" />
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
+    schemaLocation="../common/CVQCommonElements.xsd" />
+ 
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/cse" 
+    schemaLocation="./CommonSchoolElements.xsd" />
 
   <xs:element name="PerischoolActivityRegistrationRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande d'inscription aux activités
-        périscolaires
+        Demande d'inscription aux activités périscolaires
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Perischool Activity Registration
@@ -24,32 +29,21 @@
       </xs:documentation>
       <xs:appinfo>
         <model namespace="school" />
-        <fo namespace="perischool">
-          <display field="Subject.Child.LastName" stage="inscription" page="*" line="1"
-            mode="static" />
-          <display field="Subject.Child.FirstName" stage="inscription" page="*" line="2"
-            mode="static" />
-          <display field="Subject.Child.BirthDate" stage="inscription" page="*" line="3"
-            label="Né(e) le" mode="static" />
-          <display mode="labelonly" type="stagetitle" label="Inscription" stage="validation"
-            page="summary" line="0" />
-          <display field="Subject.Child.LastName" stage="validation" page="summary" line="1"
-            mode="static" />
-          <display field="Subject.Child.FirstName" stage="validation" page="summary" line="2"
-            mode="static" />
-          <display field="Subject.Child.BirthDate" stage="validation" page="summary" line="3"
-            label="Né(e) le" mode="static" />
-        </fo>
-        <bo namespace="school">
-          <display field="Subject.Child.LastName" page="displayperischool" line="11" mode="static" />
-          <display field="Subject.Child.FirstName" page="displayperischool" line="12" mode="static" />
-          <display field="Subject.Child.LastName" page="checkperischool" line="1" mode="static" />
-          <display field="Subject.Child.FirstName" page="checkperischool" line="2" mode="static" />
-          <display field="Subject.Child.BirthDate" page="checkperischool" line="3" mode="static" />
-          <display field="Subject.Child.LastName" page="printperischool" line="1" mode="static" />
-          <display field="Subject.Child.FirstName" page="printperischool" line="2" mode="static" />
-          <display field="Subject.Child.BirthDate" page="printperischool" line="3" mode="static" />
-        </bo>
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="subject" >
+              <widgets>
+                <subject />
+              </widgets>
+           	</step>
+            <step index="1" name="contact" required="false" />
+            <step index="2" name="authorization" required="false" />
+            <step index="3" name="rules" />
+            <step index="4" ref="document" />
+            <step index="5" ref="validation" />
+          </steps>
+        </common>  
         <xslfo>
           <blocks-def>
             <block id="0" label="Enfant*" column="2" />
@@ -62,7 +56,7 @@
             <block id="7" label="Autorisation d'exploitation de la photo de l'enfant" />
           </blocks-def>
           <element blockId="2" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
+            prefixLabel="Comment souhaitez-vous être informé ?">
             <complexTemplate />
           </element>
           <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
@@ -75,21 +69,38 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
+            <xs:element name="PerischoolActivity" type="cvq:LocalReferentialDataType"
+              maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations relatives aux activités périscolaires de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Activités périscolaires
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="1" line="0" column="0" usePrefixLabel="false">
+                      <localReferential />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
             <xs:element name="UrgencyPhone" type="cvq:PhoneType">
               <xs:annotation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" stage="inscription" page="school" line="6" mode="title"
-                      label="Téléphone en cas d'urgence" />
-                    <display field="" stage="inscription" page="display" line="6" mode="static"
-                      label="Téléphone en cas d'urgence" />
-                    <display field="" stage="validation" page="summary" line="6" mode="static"
-                      label="Téléphone en cas d'urgence" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displayperischool" line="22"
-                      label="Téléphone en cas d'urgence" />
-                  </bo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="1" column="0" columnSpan="1">
                       <string />
@@ -101,20 +112,20 @@
             <xs:element name="School" type="cvq:SchoolType" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  L'école dans laquelle est
-                  inscrit l'enfant
+                  L'école dans laquelle est inscrit l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ecole
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  The school in which the
-                  child is registered
+                  The school in which the child is registered
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="authority" />
-                  <bo>
-                    <display field="Name" type="schools" page="checkperischool" line="4"
-                      mode="input" />
-                    <display field="Name" page="printperischool" line="4" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="2" column="0">
                       <string selectXPath="cvq:Name" />
@@ -127,10 +138,10 @@
               <xs:annotation>
                 <xs:appinfo>
                   <model namespace="users" />
-                  <bo>
-                    <display field="" page="checkperischool" line="5" mode="input" />
-                    <display field="" page="printperischool" line="5" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="3" column="1">
                       <string referential="true" />
@@ -139,116 +150,23 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="PerischoolActivity" type="cvq:LocalReferentialDataType"
-              maxOccurs="unbounded">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Informations relatives aux
-                  activités périscolaires de l'enfant
-                </xs:documentation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Activités périscolaires
-                </xs:documentation>
-                <xs:appinfo>
-                  <model namespace="users" isTiedToRequest="true" />
-                  <fo repository="activityList">
-                    <display field="" type="checklist" stage="inscription" page="perischool"
-                      line="4" />
-                    <display field="" type="checklist" stage="inscription" page="display"
-                      line="7" mode="static" />
-                    <display field="" type="checklist" stage="validation" page="summary"
-                      line="7" mode="static" />
-                  </fo>
-                  <bo repository="PerischoolActivity">
-                    <display field="" page="displayperischool" line="31" />
-                    <display field="" page="checkperischool" line="7" mode="static" />
-                    <display field="" page="printperischool" line="7" mode="static" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="1" line="0" column="0" usePrefixLabel="false">
-                      <localReferential />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
             <xs:element name="OtherIndividual" type="cse:OtherIndividualType" minOccurs="0"
               maxOccurs="unbounded">
               <xs:annotation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Personne à contacter
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Liste des personne à contacter en cas de problème
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="school" isTiedToRequest="true" />
-                  <fo>
-                    <display field="LastName" stage="contact" page="contact" line="1" />
-                    <display field="FirstName" stage="contact" page="contact" line="2" />
-                    <display field="Address" type="text[3]" stage="contact" page="contact"
-                      line="3" />
-                    <display field="HomePhone" stage="contact" page="contact" line="4"
-                      label="Téléphone domicile" />
-                    <display field="OfficePhone" stage="contact" page="contact" line="5"
-                      label="Téléphone bureau" />
-                    <display field="LastName" stage="contact" page="display" line="1" mode="static" />
-                    <display field="FirstName" stage="contact" page="display" line="2" mode="static" />
-                    <display field="Address" type="text[3]" stage="contact" page="display"
-                      line="3" mode="static" />
-                    <display field="HomePhone" stage="contact" page="display" line="4" mode="static"
-                      label="Téléphone domicile" />
-                    <display field="OfficePhone" stage="contact" page="display" line="5"
-                      mode="static" label="Téléphone bureau" />
-                    <display mode="labelonly" type="stagetitle" label="Contact" stage="validation"
-                      page="summary" line="8" />
-                    <display type="list(contact)" stage="validation" page="summary" line="8"
-                      mode="static" label="Personnes à contacter">
-                      <display field="LastName" line="8" mode="static" />
-                      <display field="FirstName" line="9" mode="static" />
-                      <display field="Address" line="10" mode="static" />
-                      <display field="HomePhone" line="11" mode="static" label="Téléphone domicile" />
-                      <display field="OfficePhone" line="12" mode="static" label="Téléphone bureau" />
-                    </display>
-                    <display field="LastName" stage="authorized" page="person" line="1" />
-                    <display field="FirstName" stage="authorized" page="person" line="2" />
-                    <display field="Address" type="text[3]" stage="authorized" page="person"
-                      line="3" />
-                    <display field="HomePhone" stage="authorized" page="person" line="4"
-                      label="Téléphone domicile" />
-                    <display field="OfficePhone" stage="authorized" page="person" line="5"
-                      label="Téléphone bureau" />
-                    <display field="LastName" stage="authorized" page="display" line="1"
-                      mode="static" />
-                    <display field="FirstName" stage="authorized" page="display" line="2"
-                      mode="static" />
-                    <display field="Address" type="text[3]" stage="authorized" page="display"
-                      line="3" mode="static" />
-                    <display field="HomePhone" stage="authorized" page="display" line="4"
-                      label="Téléphone domicile" mode="static" />
-                    <display field="OfficePhone" stage="authorized" page="display" line="5"
-                      label="Téléphone bureau" mode="static" />
-                    <display mode="labelonly" type="stagetitle" label="Authorized" stage="validation"
-                      page="summary" line="13" />
-                    <display type="list(authorized)" stage="validation" page="summary" line="13"
-                      mode="static" label="Personnes autorisées">
-                      <display field="LastName" line="1" mode="static" />
-                      <display field="FirstName" line="2" mode="static" />
-                      <display field="Address" line="10" mode="static" />
-                      <display field="HomePhone" line="11" mode="static" label="Téléphone domicile" />
-                      <display field="OfficePhone" line="12" mode="static" label="Téléphone bureau" />
-                    </display>
-                  </fo>
-                  <bo>
-                    <display field="" type="list" page="displayperischool" line="101"
-                      class="ParOtherIndividuals" mode="static">
-                      <display field="Type" line="1" mode="static" />
-                      <display field="LastName" line="2" mode="static" />
-                      <display field="FirstName" line="3" mode="static" />
-                      <display field="Address" line="4" mode="static" />
-                      <display field="HomePhone" line="5" mode="static" label="Téléphone domicile" />
-                      <display field="OfficePhone" line="6" mode="static" label="Téléphone bureau" />
-                    </display>
-                  </bo>
+                  <common>
+                    <step name="contact" />
+                    <step name="authorization" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="3" line="0" column="0" columnSpan="2">
                       <complexTemplate />
@@ -257,19 +175,51 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
+            <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType"
+              default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prise en compte et acceptation du règlement intérieur
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="6" line="0" column="0">
+                      <signature>
+                        <acceptMessage index="0">
+                          J'ai pris parfaite connaissance du règlement intérieur de la
+                          restauration scolaire qui accompagne cette fiche.
+                        </acceptMessage>
+                        <rejectMessage index="0">
+                          Vous n'avez pas accepté le règlement intérieur
+                        </rejectMessage>
+                      </signature>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
             <xs:element name="ClassTripPermission" type="cvq:AcceptanceType" default="false">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Autorisation de l'enfant à participer aux sorties organisées
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'autorise les sorties à mon enfant
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display type="yesno" stage="rules" page="authorisation" line="2"
-                      label="J'autorise les sorties à mon enfant" />
-                    <display type="yesno" stage="validation" page="summary" line="16"
-                      label="J'autorise les sorties à mon enfant" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" type="yesno" page="displayperischool" line="41"
-                      label="Autorisation des sorties" />
-                  </bo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="4" line="0" column="0">
                       <signature>
@@ -287,90 +237,22 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="HospitalizationPermission" type="cvq:AcceptanceType"
-              default="false">
-              <xs:annotation>
-                <xs:appinfo>
-                  <fo>
-                    <display type="yesno" stage="rules" page="authorisation" line="4"
-                      label="J'autorise l'hospitalisation de mon enfant" />
-                    <display type="yesno" stage="validation" page="summary" line="18"
-                      label="J'autorise l'hospitalisation de mon enfant" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" type="yesno" page="displayperischool" line="42"
-                      label="Autorisation d'hospitalisation" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="5" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">
-                          En inscrivant mon enfant (ci-dessus d&#233;sign&#233;) aux activités
-                          périscolaires, j'autorise les responsables &#224; prendre toutes les
-                          mesures pour le faire soigner, hospitaliser, op&#233;rer si
-                          n&#233;cessaire.
-                        </acceptMessage>
-                        <acceptMessage index="1">
-                          JE CERTIFIE que tous les renseignements port&#233;s sur la pr&#233;sente
-                          fiche sont exacts, je m'engage &#224; signaler sans retard tous les
-                          changements qui interviendraient.
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas accept&#233; l'autorisation d'hospitalisation
-                        </rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType"
-              default="false">
-              <xs:annotation>
-                <xs:appinfo>
-                  <fo>
-                    <display type="yesno" stage="rules" page="authorisation" line="1"
-                      label="J'accepte et je m'engage à respecter le règlement" />
-                    <display mode="labelonly" type="stagetitle" label="Rules" stage="validation"
-                      page="summary" line="15" />
-                    <display type="yesno" stage="validation" page="summary" line="15"
-                      label="J'accepte et je m'engage à respecter le règlement" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" type="yesno" page="displayperischool" line="52"
-                      label="Acceptation du règlement intérieur" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="6" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">
-                          J'ai pris parfaite connaissance du r&#232;glement int&#233;rieur de la
-                          restauration scolaire qui accompagne cette fiche.
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas accept&#233; le r&#233;glement int&#233;rieur
-                        </rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
             <xs:element name="ChildPhotoExploitationPermission" type="cvq:AcceptanceType"
               default="false">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Autorisation accordée à l'école concernant l'exposition et 
+                  la diffusion des photographies de l'enfant 
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'autorise l'exposition et la diffusion des photographies de mon enfant
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display type="yesno" stage="rules" page="authorisation" line="3"
-                      label="J'autorise l'exposition et la diffusion des photographies de mon enfant" />
-                    <display type="yesno" stage="validation" page="summary" line="17"
-                      label="J'autorise l'exposition et la diffusion des photographies de mon enfant"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" type="yesno" page="displayperischool" line="51"
-                      label="Autorisation de photographies" />
-                  </bo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="7" line="0" column="0">
                       <signature>
@@ -380,6 +262,43 @@
                         <rejectMessage index="0">
                           Vous n'avez pas autorisé l'exposition et la diffusion des photographies de
                           votre enfant.
+                        </rejectMessage>
+                      </signature>
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="HospitalizationPermission" type="cvq:AcceptanceType" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Autorisation de l'enfant à être soigné, hospitalisé et opéré si nécessaire
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'autorise l'hospitalisation de mon enfant
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="5" line="0" column="0">
+                      <signature>
+                        <acceptMessage index="0">
+                          En inscrivant mon enfant (ci-dessus désigné) aux activités
+                          périscolaires, j'autorise les responsables à prendre toutes les
+                          mesures pour le faire soigner, hospitaliser, opérer si
+                          nécessaire.
+                        </acceptMessage>
+                        <acceptMessage index="1">
+                          JE CERTIFIE que tous les renseignements portés sur la présente
+                          fiche sont exacts, je m'engage à signaler sans retard tous les
+                          changements qui interviendraient.
+                        </acceptMessage>
+                        <rejectMessage index="0">
+                          Vous n'avez pas accepté l'autorisation d'hospitalisation
                         </rejectMessage>
                       </signature>
                     </element>

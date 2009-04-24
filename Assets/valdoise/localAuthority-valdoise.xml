@@ -322,7 +322,7 @@
       <value>org.postgresql.Driver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/capdemat_valdoise_paph</value>
+      <value>jdbc:postgresql://localhost:5432/capdemat_valdoise_cg95integration</value>
     </property>
     <property name="user">
       <value>cvq95</value>

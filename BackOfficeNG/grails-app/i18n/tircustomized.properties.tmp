@@ -1,0 +1,15 @@
+tir.duration.value =
+
+tir.step.subject.label =
+tir.step.subject.desc =
+
+
+tir.property.interventionType.help =
+tir.property.interventionType.validationError =
+
+tir.property.interventionPlace.help =
+tir.property.interventionPlace.validationError =
+
+tir.property.interventionDescription.help =
+tir.property.interventionDescription.validationError =
+

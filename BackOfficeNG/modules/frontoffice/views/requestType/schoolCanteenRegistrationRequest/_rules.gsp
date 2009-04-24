@@ -3,16 +3,34 @@
 
   
     <label class="required"><g:message code="scrr.property.hospitalizationPermission.label" /> *  <span><g:message code="scrr.property.hospitalizationPermission.help" /></span></label>
-            <input type="text" name="hospitalizationPermission" value="${rqt.hospitalizationPermission}" 
-                    class="required validate-acceptance" title="<g:message code="scrr.property.hospitalizationPermission.validationError" />"  />
+              <g:if test="${availableRules.contains('hospitalizationPermission')}">
+                <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'hospitalizationPermission'])}"><g:message code="action.consult" /></a>
+              </g:if>
+              <ul class="yes-no required">
+                <g:each in="${[true,false]}">
+                  <li>
+                    <input type="radio" class="required  validate-acceptance" title="" value="${it}" name="hospitalizationPermission" ${it == rqt.hospitalizationPermission ? 'checked="checked"': ''} />
+                    <g:message code="message.${it ? 'yes' : 'no'}" />
+                  </li>
+                </g:each>
+              </ul>
             
 
   
 
   
     <label class="required"><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /> *  <span><g:message code="scrr.property.rulesAndRegulationsAcceptance.help" /></span></label>
-            <input type="text" name="rulesAndRegulationsAcceptance" value="${rqt.rulesAndRegulationsAcceptance}" 
-                    class="required validate-acceptance" title="<g:message code="scrr.property.rulesAndRegulationsAcceptance.validationError" />"  />
+              <g:if test="${availableRules.contains('rulesAndRegulationsAcceptance')}">
+                <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'rulesAndRegulationsAcceptance'])}"><g:message code="action.consult" /></a>
+              </g:if>
+              <ul class="yes-no required">
+                <g:each in="${[true,false]}">
+                  <li>
+                    <input type="radio" class="required  validate-acceptance" title="" value="${it}" name="rulesAndRegulationsAcceptance" ${it == rqt.rulesAndRegulationsAcceptance ? 'checked="checked"': ''} />
+                    <g:message code="message.${it ? 'yes' : 'no'}" />
+                  </li>
+                </g:each>
+              </ul>
             
 
   

@@ -38,7 +38,7 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Demande d'inscription à l'école maternelle ou élémentaire</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande d'inscription scolaire</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
@@ -47,88 +47,102 @@
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom de l'école actuelle
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//srr:CurrentSchoolName and //srr:CurrentSchoolName != ''">
-                                    <xsl:value-of select="//srr:CurrentSchoolName" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Classe actuelle
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//srr:CurrentSection and //srr:CurrentSection != ''">
-          			  <xsl:variable name="current_value" select="//srr:CurrentSection"/>
-                          <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','SectionType','fr')//ref:data[@name = 'SectionType']/ref:entry">
-			    <xsl:if test="@key = $current_value">
-			      <xsl:value-of select="./ref:label[@lang = 'fr']"/>
-			    </xsl:if>
-			  </xsl:for-each>
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
+                  <xsl:variable name="withTotal" select="'false'" />
 
-    
-          
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Adresse de l'école actuelle
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//srr:CurrentSchoolAddress and //srr:CurrentSchoolAddress != ''">
-                                    <xsl:value-of select="//srr:CurrentSchoolAddress" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
+    <xsl:for-each select="//srr:CurrentSchool">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom de l'école actuelle
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./srr:CurrentSchoolName and ./srr:CurrentSchoolName != ''">
+                  <xsl:value-of select="./srr:CurrentSchoolName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Adresse de l'école actuelle
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./srr:CurrentSchoolAddress and ./srr:CurrentSchoolAddress != ''">
+                  <xsl:value-of select="./srr:CurrentSchoolAddress" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Classe actuelle
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./srr:CurrentSection and ./srr:CurrentSection != ''">
+                  <xsl:variable name="current_value" select="./srr:CurrentSection"/>
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/common','SectionType','fr')//ref:data[@name = 'SectionType']/ref:entry">
+                <xsl:if test="@key = $current_value">
+                  <xsl:value-of select="./ref:label[@lang = 'fr']"/>
+                </xsl:if>
+              </xsl:for-each>
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
     
           
                                     <fo:table xsl:use-attribute-sets="request.field.inline.table">
@@ -294,7 +308,7 @@
     </fo:root>
   </xsl:template>
 
-                                <xsl:template match="//cvq:Subject">
+                                                                              <xsl:template match="//cvq:Subject">
           <xsl:call-template name="SubjectType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

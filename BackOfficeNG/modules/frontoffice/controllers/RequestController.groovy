@@ -69,7 +69,7 @@ class RequestController {
                 'requester':requester,
                 'subjects': subjects,
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(request.requestType.label),
-                'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, []),
+                'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, null, [] as Set),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)
         ]
     }

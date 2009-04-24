@@ -87,9 +87,8 @@
           <div class="yui-u">
             
               
-              <h3><g:message code="scrr.property.school.label" /></h3>
-              <dl class="">
-                
+              <dl>
+                <dt class=""><g:message code="scrr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-scrr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
               </dl>
               
             
@@ -119,13 +118,13 @@
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-scrr.property.hospitalizationPermission" ><span>${request?.hospitalizationPermission}</span></dd>
+                <dt class="required"><g:message code="scrr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-scrr.property.hospitalizationPermission" ><span class="value-${request?.hospitalizationPermission}"><g:message code="message.${request?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-scrr.property.rulesAndRegulationsAcceptance" ><span>${request?.rulesAndRegulationsAcceptance}</span></dd>
+                <dt class="required"><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-scrr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

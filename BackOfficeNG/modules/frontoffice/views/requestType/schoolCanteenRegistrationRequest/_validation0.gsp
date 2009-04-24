@@ -72,14 +72,18 @@
     
       
       <dl>
-        <dt><g:message code="scrr.property.hospitalizationPermission.label" /></dt><dd>${rqt.hospitalizationPermission}</dd>
+        <dt><g:message code="scrr.property.hospitalizationPermission.label" /></dt>
+          <dd><g:message code="message.${rqt.hospitalizationPermission ? 'yes' : 'no'}" /></dd>
+          
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /></dt><dd>${rqt.rulesAndRegulationsAcceptance}</dd>
+        <dt><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /></dt>
+          <dd><g:message code="message.${rqt.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></dd>
+          
 
       </dl>
       

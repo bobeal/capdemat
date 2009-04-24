@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/msrr" xmlns:msrr="http://www.cg95.fr/cvq/schema/msrr"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
-  elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/msrr" 
+  xmlns:msrr="http://www.cg95.fr/cvq/schema/msrr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
+    schemaLocation="../common/CVQCommonElements.xsd" />
 
   <xs:element name="MusicSchoolRegistrationRequest">
     <xs:annotation>
@@ -21,58 +25,19 @@
       </xs:documentation>
       <xs:appinfo>
         <model namespace="leisure.music" />
-        <fo namespace="leisure.music">
-          <display field="Subject.Individual.LastName" stage="student" page="student" line="1"
-            mode="static" />
-          <display field="Subject.Individual.FirstName" stage="student" page="student" line="2"
-            mode="static" />
-          <display field="Subject.Individual.FirstName2" stage="student" page="student"
-            line="3" label="2ème prénom" mode="static" />
-          <display field="Subject.Individual.FirstName3" stage="student" page="student"
-            line="4" label="3ème prénom" mode="static" />
-          <display field="Subject.Individual.BirthDate" stage="student" page="student" line="5"
-            mode="static" />
-          <display field="Subject.Individual.Sex" stage="student" page="student" line="6"
-            mode="static" />
-          <display field="Subject.Individual.Address" stage="student" page="student" line="7"
-            mode="static" />
-
-          <display mode="labelonly" type="stagetitle" label="Student" stage="validation"
-            page="summary" line="0" />
-          <display field="Subject.Individual.LastName" stage="validation" page="summary"
-            line="1" mode="static" />
-          <display field="Subject.Individual.FirstName" stage="validation" page="summary"
-            line="2" mode="static" />
-          <display field="Subject.Individual.FirstName2" stage="validation" page="summary"
-            line="3" label="2ème prénom" mode="static" />
-          <display field="Subject.Individual.FirstName3" stage="validation" page="summary"
-            line="4" label="3ème prénom" mode="static" />
-          <display field="Subject.Individual.BirthDate" stage="validation" page="summary"
-            line="5" mode="static" />
-          <display field="Subject.Individual.Sex" stage="validation" page="summary" line="6"
-            mode="static" />
-          <display field="Subject.Individual.Address" stage="validation" page="summary"
-            line="7" mode="static" />
-        </fo>
-        <bo namespace="leisure">
-          <display field="Subject.Individual.LastName" page="displaymusic" line="11" mode="static" />
-          <display field="Subject.Individual.FirstName" page="displaymusic" line="12" mode="static" />
-          <display field="Subject.Individual.FirstName2" page="displaymusic" line="13"
-            label="2ème prénom" mode="static" />
-          <display field="Subject.Individual.FirstName3" page="displaymusic" line="14"
-            label="3ème prénom" mode="static" />
-          <display field="Subject.Individual.BirthDate" page="displaymusic" line="21" mode="static" />
-          <display field="Subject.Individual.Sex" page="displaymusic" line="22" mode="static" />
-          <display field="Subject.Individual.Address" page="displaymusic" line="31" mode="static" />
-
-          <display field="Subject.Individual.LastName" page="checkmusic" line="1" mode="static" />
-          <display field="Subject.Individual.FirstName" page="checkmusic" line="2" mode="static" />
-          <display field="Subject.Individual.BirthDate" page="checkmusic" line="3" mode="static" />
-
-          <display field="Subject.Individual.LastName" page="printmusic" line="1" mode="static" />
-          <display field="Subject.Individual.FirstName" page="printmusic" line="2" mode="static" />
-          <display field="Subject.Individual.BirthDate" page="printmusic" line="3" mode="static" />
-        </bo>
+        <common>
+          <namespace name="leisure.music" />
+          <steps>
+            <step index="0" name="subject" >
+              <widgets>
+                <subject />
+              </widgets>
+           	</step>
+            <step index="1" name="rules" />
+            <step index="2" ref="document" />
+            <step index="3" ref="validation" />
+          </steps>
+        </common>
         <xslfo>
           <blocks-def>
             <block id="0" label="Renseignements concernant le demandeur" column="2" />
@@ -80,7 +45,7 @@
             <block id="2" label="Personne du foyer à inscrire" column="2" />
             <block id="3" label="Activités" />
             <block id="4" label="Moyen de contact*" />
-            <block id="5" label="R&#x00E8;glementation" />
+            <block id="5" label="Règlementation" />
           </blocks-def>
           <element blockId="0" line="0" column="0" link="Requester">
             <complexTemplate />
@@ -102,8 +67,10 @@
           <xs:sequence>
             <xs:element name="Activity" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
               <xs:annotation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations relatives aux activités musicales
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Activités
                 </xs:documentation>
                 <xs:documentation xml:lang="en"
@@ -112,22 +79,11 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
-                  <fo repository="Activity">
-                    <display mode="labelonly"
-                      label="Pour sélectionner une activité, cliquez sur le bouton qui porte son nom."
-                      stage="activities" page="activities" line="0" />
-                    <display field="" type="referential" stage="activities" page="activities"
-                      line="1" />
-                    <display field="" type="referential" stage="activities" page="display"
-                      line="1" mode="static" />
-                    <display mode="labelonly" type="stagetitle" label="Activities" stage="validation"
-                      page="summary" line="10" />
-                    <display field="" type="referential" stage="validation" page="summary"
-                      line="11" mode="static" />
-                  </fo>
-                  <bo repository="Activity">
-                    <display field="" type="referential" page="displaymusic" line="46" />
-                  </bo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="3" line="0" column="0" usePrefixLabel="false">
                       <localReferential />
@@ -139,30 +95,28 @@
             <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType"
               minOccurs="0">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prise en compte et acceptation du règlement intérieur
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" type="yesno" stage="rules" page="authorisation" line="1"
-                      label="J'ai pris connaissance du r&#x00E8;glement intérieur de l'école de musique." />
-                    <display mode="labelonly" type="stagetitle" label="Rules" stage="validation"
-                      page="summary" line="12" />
-                    <display field="" type="yesno" stage="validation" page="summary" line="13"
-                      label="J'ai pris connaissance du r&#x00E8;glement intérieur de l'école de musique."
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" type="yesno" page="displaymusic" line="51"
-                      label="Acceptation du règlement intérieur" />
-                  </bo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="5" line="0" column="0">
                       <message>
                         <acceptMessage index="0">
-                          J'ai pris connaissance du r&#x00E8;glement intérieur de
+                          J'ai pris connaissance du règlement intérieur de
                           l'école de musique et des conditions de prêts des instruments et
                           m'engage à les respecter.
                         </acceptMessage>
                         <rejectMessage index="0">
-                          Vous n'avez pas accept&#233; le r&#233;glement int&#233;rieur
+                          Vous n'avez pas accepté le règlement intérieur
                         </rejectMessage>
                       </message>
                     </element>

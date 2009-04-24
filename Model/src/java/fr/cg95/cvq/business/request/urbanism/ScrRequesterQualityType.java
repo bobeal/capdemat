@@ -35,7 +35,7 @@ public final class ScrRequesterQualityType extends PersistentStringEnum {
 
 
     public static ScrRequesterQualityType getDefaultScrRequesterQualityType() {
-        return null;
+        return OWNER;
     }
 
 

@@ -6,7 +6,7 @@
     <legend><g:message code="hccr.property.dwelling.label" /></legend>
     
       <label class="required"><g:message code="hccr.property.dwellingKind.label" /> *  <span><g:message code="hccr.property.dwellingKind.help" /></span></label>
-            <select name="dwellingKind" class="required condition-isNotPlaceOfResidence-trigger validate-not-first" title="<g:message code="hccr.property.dwellingKind.validationError" />">
+            <select name="dwellingKind" class="required condition-isNotPlaceOfResidence-trigger  validate-not-first" title="<g:message code="hccr.property.dwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['PlaceOfResidence','ThirdPartyPlaceOfResidence','Other']}">
                 <option value="fr.cg95.cvq.business.request.social.HccrDwellingKindType_${it}" ${it == rqt.dwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.dwellingKind" /></option>
@@ -16,7 +16,7 @@
 
     
       <label class="required condition-isNotPlaceOfResidence-filled"><g:message code="hccr.property.dwellingPrecision.label" /> *  <span><g:message code="hccr.property.dwellingPrecision.help" /></span></label>
-            <textarea name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled validate-textarea" title="<g:message code="hccr.property.dwellingPrecision.validationError" />" rows="2" maxLength="120">${rqt.dwellingPrecision}</textarea>
+            <textarea name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled  validate-textarea" title="<g:message code="hccr.property.dwellingPrecision.validationError" />" rows="2" maxLength="120">${rqt.dwellingPrecision}</textarea>
             
 
     
@@ -24,7 +24,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isInEstablishmentReception-trigger validate-boolean" title="" value="${it}" name="dwellingEstablishmentReception" ${it == rqt.dwellingEstablishmentReception ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isInEstablishmentReception-trigger  validate-boolean" title="" value="${it}" name="dwellingEstablishmentReception" ${it == rqt.dwellingEstablishmentReception ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -33,7 +33,7 @@
 
     
       <label class="required condition-isInEstablishmentReception-filled"><g:message code="hccr.property.dwellingReceptionType.label" /> *  <span><g:message code="hccr.property.dwellingReceptionType.help" /></span></label>
-            <select name="dwellingReceptionType" class="required condition-isInEstablishmentReception-filled validate-not-first" title="<g:message code="hccr.property.dwellingReceptionType.validationError" />">
+            <select name="dwellingReceptionType" class="required condition-isInEstablishmentReception-filled  validate-not-first" title="<g:message code="hccr.property.dwellingReceptionType.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Internship','Clerkship']}">
                 <option value="fr.cg95.cvq.business.request.social.HccrDwellingReceptionKindType_${it}" ${it == rqt.dwellingReceptionType?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.dwellingReceptionType" /></option>
@@ -44,12 +44,12 @@
     
       <label class="required condition-isInEstablishmentReception-filled"><g:message code="hccr.property.dwellingReceptionNaming.label" /> *  <span><g:message code="hccr.property.dwellingReceptionNaming.help" /></span></label>
             <input type="text" name="dwellingReceptionNaming" value="${rqt.dwellingReceptionNaming}" 
-                    class="required condition-isInEstablishmentReception-filled " title="<g:message code="hccr.property.dwellingReceptionNaming.validationError" />"  maxLength="80"/>
+                    class="required condition-isInEstablishmentReception-filled  " title="<g:message code="hccr.property.dwellingReceptionNaming.validationError" />"  maxLength="80"/>
             
 
     
       <label class="required condition-isInEstablishmentReception-filled"><g:message code="hccr.property.dwellingReceptionAddress.label" /> *  <span><g:message code="hccr.property.dwellingReceptionAddress.help" /></span></label>
-            <div class="address-fieldset required condition-isInEstablishmentReception-filled">
+            <div class="address-fieldset required condition-isInEstablishmentReception-filled ">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.dwellingReceptionAddress?.additionalDeliveryInformation}" maxlength="38" name="dwellingReceptionAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -72,7 +72,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isInSocialReception-trigger validate-boolean" title="" value="${it}" name="dwellingSocialReception" ${it == rqt.dwellingSocialReception ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isInSocialReception-trigger  validate-boolean" title="" value="${it}" name="dwellingSocialReception" ${it == rqt.dwellingSocialReception ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -82,12 +82,12 @@
     
       <label class="required condition-isInSocialReception-filled"><g:message code="hccr.property.dwellingSocialReceptionNaming.label" /> *  <span><g:message code="hccr.property.dwellingSocialReceptionNaming.help" /></span></label>
             <input type="text" name="dwellingSocialReceptionNaming" value="${rqt.dwellingSocialReceptionNaming}" 
-                    class="required condition-isInSocialReception-filled " title="<g:message code="hccr.property.dwellingSocialReceptionNaming.validationError" />"  maxLength="80"/>
+                    class="required condition-isInSocialReception-filled  " title="<g:message code="hccr.property.dwellingSocialReceptionNaming.validationError" />"  maxLength="80"/>
             
 
     
       <label class="required condition-isInSocialReception-filled"><g:message code="hccr.property.dwellingSocialReceptionAddress.label" /> *  <span><g:message code="hccr.property.dwellingSocialReceptionAddress.help" /></span></label>
-            <div class="address-fieldset required condition-isInSocialReception-filled">
+            <div class="address-fieldset required condition-isInSocialReception-filled ">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.dwellingSocialReceptionAddress?.additionalDeliveryInformation}" maxlength="38" name="dwellingSocialReceptionAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>

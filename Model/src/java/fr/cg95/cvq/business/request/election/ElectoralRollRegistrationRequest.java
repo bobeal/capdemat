@@ -32,6 +32,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
 
     public ElectoralRollRegistrationRequest() {
         super();
+        motive = fr.cg95.cvq.business.request.election.ElectoralMotiveType.NEW_CITY_RESIDENT;
     }
 
 
@@ -53,7 +54,8 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         ElectoralRollRegistrationRequestDocument electoralRollRegistrationRequestDoc = ElectoralRollRegistrationRequestDocument.Factory.newInstance();
         ElectoralRollRegistrationRequestDocument.ElectoralRollRegistrationRequest electoralRollRegistrationRequest = electoralRollRegistrationRequestDoc.addNewElectoralRollRegistrationRequest();
         super.fillCommonXmlInfo(electoralRollRegistrationRequest);
-        electoralRollRegistrationRequest.setSubjectNationality(this.subjectNationality);
+        if (this.subjectNationality != null)
+            electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(this.subjectNationality.toString()));
         electoralRollRegistrationRequest.setSubjectOldCity(this.subjectOldCity);
         if (this.subjectAddressOutsideCity != null)
             electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.modelToXml(this.subjectAddressOutsideCity));
@@ -81,7 +83,10 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         List list = new ArrayList();
         ElectoralRollRegistrationRequest electoralRollRegistrationRequest = new ElectoralRollRegistrationRequest();
         electoralRollRegistrationRequest.fillCommonModelInfo(electoralRollRegistrationRequest,electoralRollRegistrationRequestXml);
-        electoralRollRegistrationRequest.setSubjectNationality(electoralRollRegistrationRequestXml.getSubjectNationality());
+        if (electoralRollRegistrationRequestXml.getSubjectNationality() != null)
+            electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.forString(electoralRollRegistrationRequestXml.getSubjectNationality().toString()));
+        else
+            electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
         electoralRollRegistrationRequest.setSubjectOldCity(electoralRollRegistrationRequestXml.getSubjectOldCity());
         if (electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity() != null)
             electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.xmlToModel(electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity()));
@@ -97,9 +102,9 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         return electoralRollRegistrationRequest;
     }
 
-    private String subjectNationality;
+    private fr.cg95.cvq.business.users.NationalityType subjectNationality;
 
-    public final void setSubjectNationality(final String subjectNationality) {
+    public final void setSubjectNationality(final fr.cg95.cvq.business.users.NationalityType subjectNationality) {
         this.subjectNationality = subjectNationality;
     }
 
@@ -107,8 +112,9 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
     /**
      * @hibernate.property
      *  column="subject_nationality"
+     *  length="32"
      */
-    public final String getSubjectNationality() {
+    public final fr.cg95.cvq.business.users.NationalityType getSubjectNationality() {
         return this.subjectNationality;
     }
 

@@ -14,24 +14,6 @@
             <entry key="MorningAndEveningNursery">
                 <label lang="fr">Garderie soir et matin</label>
             </entry>
-            <entry key="Rouler-des-joints">
-                <label lang="fr">Rouler des joints</label>
-                <message lang="fr"/>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
-                    <entry key="Rouler-des-joints-En-c-ne">
-                        <label lang="fr">En cône</label>
-                        <message lang="fr"/>
-                    </entry>
-                    <entry key="Rouler-des-joints-En-long">
-                        <label lang="fr">En long</label>
-                        <message lang="fr"/>
-                    </entry>
-                    <entry key="Rouler-des-joints-Des-b-lougas">
-                        <label lang="fr">Des bélougas</label>
-                        <message lang="fr"/>
-                    </entry>
-                </entries>
-            </entry>
         </entries>
     </data>
 </LocalReferential>

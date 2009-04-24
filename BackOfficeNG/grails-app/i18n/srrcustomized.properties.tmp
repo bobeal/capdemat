@@ -1,0 +1,33 @@
+srr.duration.value =
+
+srr.step.subject.label =
+srr.step.subject.desc =
+
+srr.step.rules.label =
+srr.step.rules.desc =
+
+
+srr.property.school.help =
+srr.property.school.validationError =
+
+srr.property.section.help =
+srr.property.section.validationError =
+
+srr.property.urgencyPhone.help =
+srr.property.urgencyPhone.validationError =
+
+srr.property.currentSchool.help =
+srr.property.currentSchool.validationError =
+
+srr.property.currentSchoolName.help =
+srr.property.currentSchoolName.validationError =
+
+srr.property.currentSchoolAddress.help =
+srr.property.currentSchoolAddress.validationError =
+
+srr.property.currentSection.help =
+srr.property.currentSection.validationError =
+
+srr.property.rulesAndRegulationsAcceptance.help =
+srr.property.rulesAndRegulationsAcceptance.validationError =
+

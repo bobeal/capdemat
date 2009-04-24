@@ -1,0 +1,15 @@
+bwc.duration.value =
+
+bwc.step.waste.label =
+bwc.step.waste.desc =
+
+
+bwc.property.bulkyWasteType.help =
+bwc.property.bulkyWasteType.validationError =
+
+bwc.property.otherWaste.help =
+bwc.property.otherWaste.validationError =
+
+bwc.property.collectionAddress.help =
+bwc.property.collectionAddress.validationError =
+

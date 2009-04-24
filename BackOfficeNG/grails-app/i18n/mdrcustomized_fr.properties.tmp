@@ -1,0 +1,81 @@
+mdr.duration.value =
+
+mdr.step.requester.label =
+mdr.step.requester.desc =
+
+mdr.step.nature.label =
+mdr.step.nature.desc =
+
+mdr.step.type.label =
+mdr.step.type.desc =
+
+
+mdr.property.requesterQuality.help =
+mdr.property.requesterQuality.validationError =
+
+mdr.property.requesterQualityPrecision.help =
+mdr.property.requesterQualityPrecision.validationError =
+
+mdr.property.marriageHusband.help =
+mdr.property.marriageHusband.validationError =
+
+mdr.property.marriageHusbandLastName.help =
+mdr.property.marriageHusbandLastName.validationError =
+
+mdr.property.marriageHusbandFirstNames.help =
+mdr.property.marriageHusbandFirstNames.validationError =
+
+mdr.property.marriageWife.help =
+mdr.property.marriageWife.validationError =
+
+mdr.property.marriageWifeLastName.help =
+mdr.property.marriageWifeLastName.validationError =
+
+mdr.property.marriageWifeFirstNames.help =
+mdr.property.marriageWifeFirstNames.validationError =
+
+mdr.property.marriage.help =
+mdr.property.marriage.validationError =
+
+mdr.property.marriageDate.help =
+mdr.property.marriageDate.validationError =
+
+mdr.property.marriageCity.help =
+mdr.property.marriageCity.validationError =
+
+mdr.property.marriagePostalCode.help =
+mdr.property.marriagePostalCode.validationError =
+
+mdr.property.format.help =
+mdr.property.format.validationError =
+
+mdr.property.copies.help =
+mdr.property.copies.validationError =
+
+mdr.property.comment.help =
+mdr.property.comment.validationError =
+
+mdr.property.motive.help =
+mdr.property.motive.validationError =
+
+mdr.property.relationship.help =
+mdr.property.relationship.validationError =
+
+mdr.property.fatherInformation.help =
+mdr.property.fatherInformation.validationError =
+
+mdr.property.fatherLastName.help =
+mdr.property.fatherLastName.validationError =
+
+mdr.property.fatherFirstNames.help =
+mdr.property.fatherFirstNames.validationError =
+
+mdr.property.motherInformation.help =
+mdr.property.motherInformation.validationError =
+
+mdr.property.motherMaidenName.help =
+mdr.property.motherMaidenName.validationError =
+
+mdr.property.motherFirstNames.help =
+mdr.property.motherFirstNames.validationError =
+

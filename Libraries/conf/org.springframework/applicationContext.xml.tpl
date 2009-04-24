@@ -196,6 +196,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     init-method="init">
     <property name="requestDAO" ref="requestDAO" />
     <property name="requestActionService" ref="requestActionService" />
+    <property name="requestNotificationService" ref="requestNotificationService" />
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
     <property name="certificateService" ref="certificateService" />
     <property name="documentService" ref="documentService" />

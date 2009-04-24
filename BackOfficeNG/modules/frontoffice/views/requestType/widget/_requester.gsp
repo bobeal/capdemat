@@ -1,4 +1,5 @@
-  <input type="hidden" name="requester" value="" />
+  <input type="hidden" name="requester" />
+  <input type="hidden" name="objectToBind" value="requester" />
   <label class="required"><g:message code="homeFolder.adult.property.title" /></label>
   <select name="_requester.title" class="required" title="<g:message code="homeFolder.adult.property.title.validationError" />" ${hasHomeFolder? 'disabled="disabled"' : ''}>
     <option value=""><g:message code="message.select.defaultOption" /></option>

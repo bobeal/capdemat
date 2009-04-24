@@ -380,7 +380,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       resetInput : function(el,val) {
         var states = zcf.Condition.initStates;
         if(/radio|checkbox/i.test(el.type)) {if(states[el.name]) el.checked = states[el.name];}
-        else zct.val(el,val);
+        else if(el.type != 'hidden')  zct.val(el,val);
       },
       /**
        * @description Resets textarea elements value

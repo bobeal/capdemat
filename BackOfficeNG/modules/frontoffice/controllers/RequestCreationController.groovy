@@ -86,6 +86,8 @@ class RequestCreationController {
             homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
         }
         
+        def individuals = new HomeFolderDTO()
+        
         def newDocuments = [] as Set
         
         session['javax.servlet.context.tempdir'] = servletContext['javax.servlet.context.tempdir'].absolutePath
@@ -93,6 +95,7 @@ class RequestCreationController {
         session[uuidString] = [:]
         session[uuidString].cRequest = cRequest
         session[uuidString].requester = requester
+        session[uuidString].individuals = individuals
         session[uuidString].newDocuments = newDocuments
         session[uuidString].documentCounter = 0
         session[uuidString].draftVisible = false //(cRequest.draft && !flash.fromDraft)
@@ -102,6 +105,7 @@ class RequestCreationController {
             'isRequestCreation': true,
             'rqt': cRequest,
             'requester': requester,
+            'individuals' : individuals,
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'draftVisible': session[uuidString].draftVisible,
             'subjects': getAuthorizedSubjects(requestService, cRequest),
@@ -135,8 +139,12 @@ class RequestCreationController {
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuidString].cRequest
-        def requester = SecurityContext.currentEcitizen != null ? 
+        
+        // Usefull to bind object different from cRequest
+        def objectToBind = [:]
+        objectToBind.requester = SecurityContext.currentEcitizen != null ? 
             SecurityContext.currentEcitizen : session[uuidString].requester
+        objectToBind.individuals = session[uuidString].individuals
         
         def isDocumentEditMode = false
         session[uuidString].draftVisible = false
@@ -250,23 +258,23 @@ class RequestCreationController {
             // removal of a collection element
             else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
-                def getterMethod = cRequest.class.getMethod('get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
-                        
-                getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listFieldToken[1]).intValue())
+                def listWrapper = params.objectToBind == null ? cRequest : objectToBind[params.objectToBind]
+                listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
                 def listFieldToken = submitAction[3].tokenize('[]')
-                def getterMethod = cRequest.class.getMethod('get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
-                        
+                def listWrapper = params.objectToManage == null ? cRequest : objectToBind[params.objectToManage] 
+                
                 editList = ['name': listFieldToken[0], 
                             'index': listFieldToken[1],
-                            (listFieldToken[0]): getterMethod.invoke(cRequest, null).get(Integer.valueOf(listFieldToken[1]).intValue())
+                            (listFieldToken[0]): listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
                            ]
             }
             // standard save action
             else {
-                bindRequester(requester, params)
+                if (params.objectToBind != null)
+                    bindObject(objectToBind[params.objectToBind], params)
                 
                 DataBindingUtils.initBind(cRequest, params)
                 bind(cRequest)
@@ -289,7 +297,7 @@ class RequestCreationController {
                     
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     if (SecurityContext.currentEcitizen == null) 
-                        requestService.create(cRequest, requester, null, docs)
+                        requestService.create(cRequest, objectToBind.requester, null, docs)
                     else if (!cRequest.draft) 
                         requestService.create(cRequest, docs)
                     else 
@@ -301,7 +309,8 @@ class RequestCreationController {
                 }
             }        
             session[uuidString].cRequest = cRequest
-            session[uuidString].requester = requester
+            session[uuidString].requester = objectToBind.requester
+            session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
         
         } catch (CvqException ce) {
@@ -317,11 +326,12 @@ class RequestCreationController {
                     ['isRequestCreation': true,
                      'askConfirmCancel': askConfirmCancel, 
                      'rqt': cRequest,
-                     'requester': requester,
+                     'requester': objectToBind.requester,
+                     'individuals' : objectToBind.individuals,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
-                     'meansOfContact': getMeansOfContact(meansOfContactService, requester),
+                     'meansOfContact': getMeansOfContact(meansOfContactService, objectToBind.requester),
                      'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeInfo.label),
                      'currentStep': currentStep,
                      'requestTypeLabel': requestTypeInfo.label,
@@ -420,12 +430,14 @@ class RequestCreationController {
         else return false;
     }
     
-    def bindRequester(requester, params) {
+    def bindObject(object, params) {
+        def paramKeyPrefix = params.objectToBind ? params.objectToBind : ''
         params.each { param ->
-            if (param.value.getClass() == GrailsParameterMap.class && param.key == '_requester') {
-                checkRequesterPassword(param.value)
-                DataBindingUtils.initBind(requester, param.value)
-                bindParam (requester, param.value)
+            if (param.value.getClass() == GrailsParameterMap.class && param.key == '_' + paramKeyPrefix) {
+                if (paramKeyPrefix == 'requester')
+                    checkRequesterPassword(param.value)
+                DataBindingUtils.initBind(object, param.value)
+                bindParam (object, param.value)
             }
         }
     }
@@ -461,7 +473,6 @@ class RequestCreationController {
         }
         return doc
     }
-    
     
     /* Utils
      * ------------------------------------------------------------------------------------------- */

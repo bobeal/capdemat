@@ -11,48 +11,59 @@ class ActivityController {
     Adult ecitizen
     
     def afterInterceptor = { result ->
-        result.year = Calendar.instance.get(Calendar.YEAR)
-        result.month = (Calendar.instance.get(Calendar.MONTH) + 1)
+    
+    	def calendar = Calendar.instance
+    	
+        result.year = calendar.get(Calendar.YEAR)
+        result.month = calendar.get(Calendar.MONTH) + 1
+        
+        result.monthsNames = [:]
+    	(1..12).each { it ->
+    		calendar.set(Calendar.MONTH, it - 1)
+    		result.monthsNames[it] = 
+    			calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, SecurityContext.currentLocale)
+    	}
     }
     
     def beforeInterceptor = {
         this.ecitizen = SecurityContext.getCurrentEcitizen();
     }
     
-    def details = {
-        def result = [:]
-        
-        if(!session.activities) {
-            redirect(action:'index')
-            return false
-        }
-        
-        result.individual = params.name.decodeURL()
-        result.label = params.label.decodeURL()
-        result.datas = session.activities.get(result.individual.toString()).get(result.label.toString())
-        
-        return result
-    }
-    
     def index = { 
         def result = [:]
         
         if(params.yf && params.mf) {
-            def dates = this.buildDate(params.mf,params.yf)
+            def dates = this.buildDate(Integer.valueOf(params.mf),Integer.valueOf(params.yf))
             result.activities = this.getActivities(dates.from.time,dates.to.time)
         }
-        else result.activities = this.activities
+        else result.activities = this.getActivities()
         
         session.activities = result.activities
         
         return result
     }
     
+    def details = {
+        def result = [:]
+            
+        if(!session.activities) {
+            redirect(action:'index')
+            return false
+        }
+            
+        result.individual = params.name.decodeURL()
+        result.label = params.label.decodeURL()
+        result.datas = session.activities.get(result.individual.toString()).get(result.label.toString())
+
+        return result
+    }
+
     protected Map getActivities() {
         def dates = this.buildDate(
-            (Calendar.instance.get(Calendar.MONTH) + 1).toString(),
-            Calendar.instance.get(Calendar.YEAR).toString()
+            Calendar.instance.get(Calendar.MONTH) + 1,
+            Calendar.instance.get(Calendar.YEAR)
         )
+        
         return this.getActivities(dates.from.time,dates.to.time)
     }
     
@@ -64,43 +75,37 @@ class ActivityController {
             if(!result[name]) result[name] = [:]
             
             def map = defaultRequestService.getConsumptionsByRequest(r.id,from,to)
-            if(map && map.keySet().size() > 0) {
+            if(map && !map.keySet().isEmpty()) {
+                def label = r.requestType.label
+
                 for(Date date : map.keySet()) { 
-                    def label = r.requestType.label
-                    
                     if(!result[name][label]) result[name][label] = [:]
                     if(!result[name][label]["${map.get(date)}".toString()])
                         result[name][label]["${map.get(date)}".toString()] = []
                     
                     result.get(name.toString()).get(label.toString()).get(map.get(date)).add(date)
-//                    if(!result[name][map.get(date)]) result[name][map.get(date)] = []
-//                    if(map.get(date) == 'Gard Matin et Soir')
-//                        println "$name - ${map.get(date)} (${result[name][map.get(date)].size()}) - ${result[name][map.get(date)]}"
-//                    result[name][map.get(date)].add(date)
                 }
             }
-            if(result[name].size() == 0) result.remove(name.toString())
+            if(result[name].isEmpty()) result.remove(name.toString())
         }
-        return result;
+        
+        return result
     }
     
-    protected Map buildDate (String month,String year) {
+    protected Map buildDate(int month, int year) {
         def result = [
             from : new GregorianCalendar(),
             to: new GregorianCalendar()
         ]
         
-        result.from.set( Calendar.ERA, GregorianCalendar.AD )
-        result.from.set( Calendar.YEAR, Integer.valueOf(year) )
-        result.from.set( Calendar.MONTH, Integer.valueOf(month) - 1 )
-        result.from.set( Calendar.DATE, 1 )
+        result.from.set( Calendar.YEAR, year)
+        result.from.set( Calendar.MONTH, month - 1 )
+        result.from.set( Calendar.DAY_OF_MONTH, 1 )
         
-        result.to.set( Calendar.ERA, GregorianCalendar.AD )
-        result.to.set( Calendar.YEAR, Integer.valueOf(year) )
-        result.to.set( Calendar.MONTH, Integer.valueOf(month) - 1 )
-        result.to.set( Calendar.DATE, result.from.getActualMaximum(Calendar.DAY_OF_MONTH) )
+        result.to.set( Calendar.YEAR, year)
+        result.to.set( Calendar.MONTH, month - 1 )
+        result.to.set( Calendar.DAY_OF_MONTH, result.from.getActualMaximum(Calendar.DAY_OF_MONTH) )
         
-        return result;
+        return result
     }
-    
 }

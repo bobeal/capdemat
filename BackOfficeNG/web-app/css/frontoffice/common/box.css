@@ -89,23 +89,23 @@
   width:1.2em;
 }
 
-.requestBox span.legend-label-0 {
+span.legend-label-0 {
   background-color : orange;
 }
 
-.requestBox span.legend-label-1 {
+span.legend-label-1 {
   background-color : blue;
 }
 
-.requestBox span.legend-label-2 {
+span.legend-label-2 {
   background-color : red;
 }
 
-.requestBox span.legend-label-3 {
+span.legend-label-3 {
   background-color : darkgreen;
 }
 
-.requestBox span.legend-label-4 {
+span.legend-label-4 {
   background-color : yellowgreen;
 }
 

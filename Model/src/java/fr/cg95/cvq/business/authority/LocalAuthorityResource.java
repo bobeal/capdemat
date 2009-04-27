@@ -29,14 +29,14 @@ public class LocalAuthorityResource {
     }
 
     public static final Hashtable<String, LocalAuthorityResource> localAuthorityResources = new Hashtable<String, LocalAuthorityResource>(10);
-    public static final LocalAuthorityResource CSS_FO = new LocalAuthorityResource("cssFO", "fo", ".css", ILocalAuthorityRegistry.CSS_ASSETS_RESOURCE_TYPE);
-    public static final LocalAuthorityResource LOGO_FO = new LocalAuthorityResource("logoFO", "logoFo", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE);
-    public static final LocalAuthorityResource LOGO_BO = new LocalAuthorityResource("logoBO", "logoBO", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE);
+    public static final LocalAuthorityResource CSS_FO = new LocalAuthorityResource("cssFo", "cssFo", ".css", ILocalAuthorityRegistry.CSS_ASSETS_RESOURCE_TYPE);
+    public static final LocalAuthorityResource LOGO_FO = new LocalAuthorityResource("logoFo", "logoFo", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE);
+    public static final LocalAuthorityResource LOGO_BO = new LocalAuthorityResource("logoBo", "logoBo", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE);
     public static final LocalAuthorityResource BANNER = new LocalAuthorityResource("banner", "banner", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE);
-    public static final LocalAuthorityResource LOGO_PDF = new LocalAuthorityResource("logoPDF", "logoPdf", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE);
-    public static final LocalAuthorityResource FAQ_FO = new LocalAuthorityResource("faqFO", "faqFo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE);
-    public static final LocalAuthorityResource HELP_BO = new LocalAuthorityResource("helpBO", "helpBo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE);
-    public static final LocalAuthorityResource HELP_FO = new LocalAuthorityResource("helpFO", "helpFo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE);
+    public static final LocalAuthorityResource LOGO_PDF = new LocalAuthorityResource("logoPdf", "logoPdf", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE);
+    public static final LocalAuthorityResource FAQ_FO = new LocalAuthorityResource("faqFo", "faqFo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE);
+    public static final LocalAuthorityResource HELP_BO = new LocalAuthorityResource("helpBo", "helpBo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE);
+    public static final LocalAuthorityResource HELP_FO = new LocalAuthorityResource("helpFo", "helpFo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE);
     public static final LocalAuthorityResource LEGAL = new LocalAuthorityResource("legal", "legal", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE);
     public static final LocalAuthorityResource USE = new LocalAuthorityResource("use", "use", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE);
 

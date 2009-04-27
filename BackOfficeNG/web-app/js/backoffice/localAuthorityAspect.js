@@ -27,16 +27,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
       clickEv : undefined,
       init : function() {
         zcbl.Aspect.clickEv = new zct.Event(zcbl.Aspect,zcbl.Aspect.processClick);
-        yue.on(yud.get('cssFOBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
+        yue.on(yud.get('cssFoBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
         yue.on(yud.get('bannerBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
-        yue.on(yud.get('logoFOBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
-        yue.on(yud.get('logoBOBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
-        yue.on(yud.get('logoPDFBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
-        zcbl.Aspect.loadBox("cssFO");
+        yue.on(yud.get('logoFoBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
+        yue.on(yud.get('logoBoBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
+        yue.on(yud.get('logoPdfBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
+        zcbl.Aspect.loadBox("cssFo");
         zcbl.Aspect.loadBox("banner");
-        zcbl.Aspect.loadBox("logoFO");
-        zcbl.Aspect.loadBox("logoBO");
-        zcbl.Aspect.loadBox("logoPDF");
+        zcbl.Aspect.loadBox("logoFo");
+        zcbl.Aspect.loadBox("logoBo");
+        zcbl.Aspect.loadBox("logoPdf");
       },
       /**
       * @description The name of the method to call is the first part of the clicked item's ID, except for new season creation

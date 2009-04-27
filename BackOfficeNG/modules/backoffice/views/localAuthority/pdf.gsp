@@ -11,9 +11,9 @@
         <div class="head">
           <h1><g:message code="localAuthority.header.configuration" /></h1>
         </div>
-        <div id="faqFOBox" class="mainbox mainbox-yellow"></div>
-        <div id="helpBOBox" class="mainbox mainbox-yellow"></div>
-        <div id="helpFOBox" class="mainbox mainbox-yellow"></div>
+        <div id="faqFoBox" class="mainbox mainbox-yellow"></div>
+        <div id="helpBoBox" class="mainbox mainbox-yellow"></div>
+        <div id="helpFoBox" class="mainbox mainbox-yellow"></div>
         <div id="legalBox" class="mainbox mainbox-yellow"></div>
         <div id="useBox" class="mainbox mainbox-yellow"></div>
       </div>

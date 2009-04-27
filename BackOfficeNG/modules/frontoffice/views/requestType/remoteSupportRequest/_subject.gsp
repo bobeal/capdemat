@@ -6,7 +6,7 @@
     <legend><g:message code="rsr.property.rsrSubject.label" /></legend>
     
       <label class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
-            <select name="subjectId" class="required validate-not-first " title="<g:message code="request.property.subject.validationError" /> ">
+            <select name="subjectId" class="required validate-not-first autofill-subjectFilling-trigger" title="<g:message code="request.property.subject.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${subjects}">
                 <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
@@ -16,7 +16,7 @@
 
     
       <label class="required"><g:message code="rsr.property.subjectTitle.label" /> *  <span><g:message code="rsr.property.subjectTitle.help" /></span></label>
-            <select name="subjectTitle" class="required  validate-not-first" title="<g:message code="rsr.property.subjectTitle.validationError" />">
+            <select name="subjectTitle" class="required autofill-subjectFilling-listener-Title validate-not-first" title="<g:message code="rsr.property.subjectTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
                 <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="rsr.property.subjectTitle" /></option>
@@ -27,7 +27,7 @@
     
       <label class="required"><g:message code="rsr.property.subjectBirthDate.label" /> *  <span><g:message code="rsr.property.subjectBirthDate.help" /></span></label>
             <input type="text" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
-                   class="required  validate-date" title="<g:message code="rsr.property.subjectBirthDate.validationError" />" />
+                   class="required autofill-subjectFilling-listener-BirthDate validate-date" title="<g:message code="rsr.property.subjectBirthDate.validationError" />" />
             
 
     

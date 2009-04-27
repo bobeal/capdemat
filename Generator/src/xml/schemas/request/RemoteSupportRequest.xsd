@@ -30,7 +30,9 @@
           <steps>
             <step index="0" name="subject">
               <widgets>
-                <subject into="RsrSubject" />
+                <subject into="RsrSubject">
+                  <autofill name="subjectFilling" type="trigger" />
+                </subject>
               </widgets>
               <conditions>
                 <condition name="isEmergency" />
@@ -328,7 +330,7 @@
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-		  <!-- Must be readonly -->
+	  <!-- Must be readonly -->
       <xs:element name="SubjectTitle" type="cvq:TitleType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -341,6 +343,7 @@
             <model namespace="users" />
             <common>
               <step name="subject" />
+              <autofill name="subjectFilling" type="listener" field="Title" />
             </common>
             <fo />
             <bo />
@@ -359,6 +362,7 @@
           <xs:appinfo>
             <common>
               <step name="subject" />
+              <autofill name="subjectFilling" type="listener" field="BirthDate" />
             </common>
             <fo />
             <bo />

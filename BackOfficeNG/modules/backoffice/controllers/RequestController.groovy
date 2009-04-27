@@ -178,10 +178,12 @@ class RequestController {
         def method = request.getMethod().toLowerCase()
         Agent agent = SecurityContext.getCurrentAgent()
         
-        state['displayForm'] = agentService.getPreferenceByKey(agent,'display')?.displayForm?.split(",") as List
+        state['displayForm'] = agentService.getPreferenceByKey(agent,'display')?.displayForm?.split(",")
         if(state['displayForm'] == null)
             state['displayForm'] = ['Late','Alert','New','Last','Validated']
-        
+        else 
+            state['displayForm'] = state['displayForm'] as List
+
         if(method == 'get') {
             state['defaultDisplay'] = state['displayForm']
             state['filters'] = ['categoryFilter':'','requestTypeIdFilter':'']

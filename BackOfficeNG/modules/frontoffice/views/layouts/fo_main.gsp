@@ -13,7 +13,7 @@
      <!-- header -->
      <div id="hd">
        <h1>
-         <img src="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'logoFO')}"
+         <img src="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'logoFo')}"
               alt="Logo Collectivité" />
          <span>Vos démarches - ${session.currentSiteDisplayTitle}</span>
        </h1>
@@ -21,9 +21,9 @@
         <g:if test="${session.currentEcitizen}">
           <a href="${createLink(controller:'frontofficeHome',action:'logout')}">se déconnecter</a>
         </g:if>
-        <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'helpFO')}"
+        <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'helpFo')}"
            target="blank">aide</a>
-        <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'faqFO')}"
+        <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'faqFo')}"
            target="blank">f.a.q</a>
        </map>
      </div>
@@ -57,5 +57,3 @@
  
   </body>
 </html>
-
-

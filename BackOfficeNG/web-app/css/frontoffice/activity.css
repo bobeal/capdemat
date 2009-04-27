@@ -1,11 +1,11 @@
 
 .requestBox .body select.year-filter {
-  width: 5em ;
+  width: 40%;
   display: inline;
 }
 
 .requestBox .body select.month-filter {
-  width : 3.5em;
+  width : 50%;
   display: inline;
 }
 

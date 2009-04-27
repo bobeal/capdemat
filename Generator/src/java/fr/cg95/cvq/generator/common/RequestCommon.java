@@ -3,6 +3,8 @@ package fr.cg95.cvq.generator.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.cg95.cvq.generator.common.Autofill.AutofillType;
+
 /**
  * @author rdj@zenexity.fr
  */
@@ -65,7 +67,19 @@ public class RequestCommon {
                         "Condition {"+ condition.getName() +"} already exists");
         step.addCondition(condition);
     }
-    
+
+    private List<Autofill> getAutofills() {
+        List<Autofill> autofills = new ArrayList<Autofill>();
+        for (Step s : steps) {
+            for (Widget w : s.getWidgets()) {
+                if (w.getAutofill() != null) {
+                    autofills.add(w.getAutofill());
+                }
+            }
+        }
+        return autofills;
+    }
+
     public List<Step> getSteps() {
         return steps;
     }
@@ -117,6 +131,46 @@ public class RequestCommon {
         currentElementCommon.addCondition(condition);
     }
     
+    public void setCurrentElementAutofill(String name, String type, String field) {
+        if (!AutofillType.LISTENER.name().equals(type.toUpperCase())) {
+            throw new RuntimeException("setCurrentElementAutofill() - Autofill {" + name + "} type must be listener");
+        }
+        if (field == null || field.trim().isEmpty()) {
+            throw new RuntimeException("setCurrentElementAutofill() - Autofill {" + name + "} must have field attribute");
+        }
+        boolean isAutofillDefined = false;
+        for (Autofill a : getAutofills()) {
+            if (a.getName().equals(name)) {
+                isAutofillDefined = true;
+                break;
+            }
+        }
+        if (!isAutofillDefined) {
+            throw new RuntimeException("setCurrentElementAutofill() - Autofill {"+ name +"} does not exist");
+        }
+        currentElementCommon.setAutofill(new Autofill(AutofillType.LISTENER, name, field));
+    }
+
+    public void setWidgetAutofill(Widget widget, String name, String type, String field) {
+        if (!AutofillType.TRIGGER.name().equals(type.toUpperCase())) {
+            throw new RuntimeException("setWidgetAutofill() - Autofill {" + name + "} type must be trigger for widget " + widget.getName());
+        }
+        if (field != null) {
+            throw new RuntimeException("setWidgetAutofill() - Autofill {" + name + "} trigger declaration must not have a field attribute");
+        }
+        boolean isAutofillDefined = false;
+        for (Autofill a : getAutofills()) {
+            if (a.getName().equals(name)) {
+                isAutofillDefined = true;
+                break;
+            }
+        }
+        if (isAutofillDefined) {
+            throw new RuntimeException("setWidgetAutofill() - Autofill {"+ name +"} already exists");
+        }
+        widget.setAutofill(new Autofill(AutofillType.TRIGGER, name, field));
+    }
+
     public ElementCommon getCurrentElementCommon() {
         return currentElementCommon;
     }
@@ -124,5 +178,5 @@ public class RequestCommon {
     public void setCurrentElementCommon(ElementCommon currentElementCommon) {
         this.currentElementCommon = currentElementCommon;
     }
-    
+
 }

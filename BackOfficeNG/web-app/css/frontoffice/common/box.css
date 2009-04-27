@@ -89,23 +89,23 @@
   width:1.2em;
 }
 
-.requestBox span.legend-label-0 {
+span.legend-label-0 {
   background-color : orange;
 }
 
-.requestBox span.legend-label-1 {
+span.legend-label-1 {
   background-color : blue;
 }
 
-.requestBox span.legend-label-2 {
+span.legend-label-2 {
   background-color : red;
 }
 
-.requestBox span.legend-label-3 {
+span.legend-label-3 {
   background-color : darkgreen;
 }
 
-.requestBox span.legend-label-4 {
+span.legend-label-4 {
   background-color : yellowgreen;
 }
 
@@ -207,3 +207,9 @@
   border: 3px solid #ffaa00;
   background: #ffffcc;
 }
+
+.outOfAccount-login-box p          { font: normal 1.5em sans-serif; margin: 0 0 .5em; }
+.outOfAccount-login-box p.error    { padding: 0; font: bold 1.2em sans-serif; text-align: left; }
+.outOfAccount-login-box input.text { margin-right: 1em; font-size: 1.2em; border: 1px solid #ffaa00; }
+.outOfAccount-login-box label      { font-size: 1.2em; }
+

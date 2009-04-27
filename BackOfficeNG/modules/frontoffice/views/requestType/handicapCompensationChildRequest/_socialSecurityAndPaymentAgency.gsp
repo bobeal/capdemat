@@ -6,7 +6,7 @@
     <legend><g:message code="hccr.property.socialSecurity.label" /></legend>
     
       <label class="required"><g:message code="hccr.property.socialSecurityMemberShipKind.label" /> *  <span><g:message code="hccr.property.socialSecurityMemberShipKind.help" /></span></label>
-            <select name="socialSecurityMemberShipKind" class="required condition-isSocialSecurityMemberShip-trigger validate-not-first" title="<g:message code="hccr.property.socialSecurityMemberShipKind.validationError" />">
+            <select name="socialSecurityMemberShipKind" class="required condition-isSocialSecurityMemberShip-trigger  validate-not-first" title="<g:message code="hccr.property.socialSecurityMemberShipKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Insured','Claimant','NoMemberShip']}">
                 <option value="fr.cg95.cvq.business.request.social.HccrSocialSecurityMemberShipKindType_${it}" ${it == rqt.socialSecurityMemberShipKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.socialSecurityMemberShipKind" /></option>
@@ -17,18 +17,18 @@
     
       <label class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hccr.property.socialSecurityNumber.label" /> *  <span><g:message code="hccr.property.socialSecurityNumber.help" /></span></label>
             <input type="text" name="socialSecurityNumber" value="${rqt.socialSecurityNumber}" 
-                    class="required condition-isSocialSecurityMemberShip-filled " title="<g:message code="hccr.property.socialSecurityNumber.validationError" />"  />
+                    class="required condition-isSocialSecurityMemberShip-filled  " title="<g:message code="hccr.property.socialSecurityNumber.validationError" />"  />
             
 
     
       <label class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hccr.property.socialSecurityAgencyName.label" /> *  <span><g:message code="hccr.property.socialSecurityAgencyName.help" /></span></label>
             <input type="text" name="socialSecurityAgencyName" value="${rqt.socialSecurityAgencyName}" 
-                    class="required condition-isSocialSecurityMemberShip-filled " title="<g:message code="hccr.property.socialSecurityAgencyName.validationError" />"  maxLength="50"/>
+                    class="required condition-isSocialSecurityMemberShip-filled  " title="<g:message code="hccr.property.socialSecurityAgencyName.validationError" />"  maxLength="50"/>
             
 
     
       <label class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hccr.property.socialSecurityAgencyAddress.label" /> *  <span><g:message code="hccr.property.socialSecurityAgencyAddress.help" /></span></label>
-            <div class="address-fieldset required condition-isSocialSecurityMemberShip-filled">
+            <div class="address-fieldset required condition-isSocialSecurityMemberShip-filled ">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.socialSecurityAgencyAddress?.additionalDeliveryInformation}" maxlength="38" name="socialSecurityAgencyAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -55,7 +55,7 @@
     <legend><g:message code="hccr.property.paymentAgency.label" /></legend>
     
       <label class="required"><g:message code="hccr.property.paymentAgencyBeneficiary.label" /> *  <span><g:message code="hccr.property.paymentAgencyBeneficiary.help" /></span></label>
-            <select name="paymentAgencyBeneficiary" class="required condition-isPaymentAgencyBeneficiary-trigger validate-not-first" title="<g:message code="hccr.property.paymentAgencyBeneficiary.validationError" />">
+            <select name="paymentAgencyBeneficiary" class="required condition-isPaymentAgencyBeneficiary-trigger  validate-not-first" title="<g:message code="hccr.property.paymentAgencyBeneficiary.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['CAF','MSA','Other','NoMemberShip']}">
                 <option value="fr.cg95.cvq.business.request.social.HccrPaymentAgencyBeneficiaryType_${it}" ${it == rqt.paymentAgencyBeneficiary?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.paymentAgencyBeneficiary" /></option>
@@ -66,18 +66,18 @@
     
       <label class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hccr.property.paymentAgencyBeneficiaryNumber.label" /> *  <span><g:message code="hccr.property.paymentAgencyBeneficiaryNumber.help" /></span></label>
             <input type="text" name="paymentAgencyBeneficiaryNumber" value="${rqt.paymentAgencyBeneficiaryNumber}" 
-                    class="required condition-isPaymentAgencyBeneficiary-filled " title="<g:message code="hccr.property.paymentAgencyBeneficiaryNumber.validationError" />"  maxLength="20"/>
+                    class="required condition-isPaymentAgencyBeneficiary-filled  " title="<g:message code="hccr.property.paymentAgencyBeneficiaryNumber.validationError" />"  maxLength="20"/>
             
 
     
       <label class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hccr.property.paymentAgencyName.label" /> *  <span><g:message code="hccr.property.paymentAgencyName.help" /></span></label>
             <input type="text" name="paymentAgencyName" value="${rqt.paymentAgencyName}" 
-                    class="required condition-isPaymentAgencyBeneficiary-filled " title="<g:message code="hccr.property.paymentAgencyName.validationError" />"  maxLength="50"/>
+                    class="required condition-isPaymentAgencyBeneficiary-filled  " title="<g:message code="hccr.property.paymentAgencyName.validationError" />"  maxLength="50"/>
             
 
     
       <label class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hccr.property.paymentAgencyAddress.label" /> *  <span><g:message code="hccr.property.paymentAgencyAddress.help" /></span></label>
-            <div class="address-fieldset required condition-isPaymentAgencyBeneficiary-filled">
+            <div class="address-fieldset required condition-isPaymentAgencyBeneficiary-filled ">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.paymentAgencyAddress?.additionalDeliveryInformation}" maxlength="38" name="paymentAgencyAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>

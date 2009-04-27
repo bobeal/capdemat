@@ -21,6 +21,7 @@ public class Widget {
     
     private String name;
     private String into;
+    private Autofill autofill;
     
     public Widget(String name, String into){
         try {
@@ -39,5 +40,13 @@ public class Widget {
 
     public String getInto() {
         return into;
+    }
+
+    public Autofill getAutofill() {
+        return autofill;
+    }
+
+    public void setAutofill(Autofill autofill) {
+        this.autofill = autofill;
     }
 }

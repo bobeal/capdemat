@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.request.IAutofillService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
@@ -27,6 +28,7 @@ class RequestCreationController {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     IHomeFolderService homeFolderService
+    IAutofillService autofillService
     
     def documentAdaptorService
     def requestTypeAdaptorService
@@ -34,6 +36,10 @@ class RequestCreationController {
     def jcaptchaService
     
     def defaultAction = 'edit'
+    
+    def beforeInterceptor = {
+        documentAdaptorService.setServletContext(servletContext)
+    }
     
     def draft = {
         
@@ -62,14 +68,9 @@ class RequestCreationController {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
+        
         if (SecurityContext.currentEcitizen == null)
-          flash.isOutOfAccountRequest = true
-                
-//        if (params.isOutOfAccountRequest == null && SecurityContext.currentEcitizen == null) {
-//            flash.requestLabel = params.label
-//            redirect(uri: '/frontoffice/home/login')
-//            return false
-//        }
+            flash.isOutOfAccountRequest = true
 
         def requestService = requestServiceRegistry.getRequestService(params.label)
         if (requestService == null) {
@@ -87,14 +88,18 @@ class RequestCreationController {
             homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
         }
         
-        def newDocuments = []
+        def individuals = new HomeFolderDTO()
         
+        def newDocuments = [] as Set
+        
+        session['javax.servlet.context.tempdir'] = servletContext['javax.servlet.context.tempdir'].absolutePath
         def uuidString = UUID.randomUUID().toString()
-        
         session[uuidString] = [:]
         session[uuidString].cRequest = cRequest
         session[uuidString].requester = requester
+        session[uuidString].individuals = individuals
         session[uuidString].newDocuments = newDocuments
+        session[uuidString].documentCounter = 0
         session[uuidString].draftVisible = false //(cRequest.draft && !flash.fromDraft)
         
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
@@ -102,6 +107,7 @@ class RequestCreationController {
             'isRequestCreation': true,
             'rqt': cRequest,
             'requester': requester,
+            'individuals' : individuals,
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'draftVisible': session[uuidString].draftVisible,
             'subjects': getAuthorizedSubjects(requestService, cRequest),
@@ -111,9 +117,10 @@ class RequestCreationController {
             'requestTypeLabel': params.label,
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
+            'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(params.label)),
             'uuidString': uuidString,
             'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
-            'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, newDocuments),
+            'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
             'isDocumentEditMode': false
         ])
     }
@@ -134,8 +141,12 @@ class RequestCreationController {
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuidString].cRequest
-        def requester = SecurityContext.currentEcitizen != null ? 
+        
+        // Usefull to bind object different from cRequest
+        def objectToBind = [:]
+        objectToBind.requester = SecurityContext.currentEcitizen != null ? 
             SecurityContext.currentEcitizen : session[uuidString].requester
+        objectToBind.individuals = session[uuidString].individuals
         
         def isDocumentEditMode = false
         session[uuidString].draftVisible = false
@@ -160,7 +171,6 @@ class RequestCreationController {
         }
         
         try {
-            
             if (submitAction[1] == 'cancelRequest') {
                 askConfirmCancel = true
             }
@@ -181,27 +191,34 @@ class RequestCreationController {
                 def docParam = targetAsMap(submitAction[3])
                 documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
                 isDocumentEditMode = true
-                document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
+                document = documentAdaptorService.getDocument(docParam.id, uuidString)
             }
            else if (submitAction[1] == 'documentSave') {
                 def docParam = targetAsMap(submitAction[3]), index = 0, doc = null
-                isDocumentEditMode = false
-                if (docParam.id != null) doc = documentService.getById(Long.valueOf(docParam.id))
                 
-                for(DocumentBinary page: (doc?.datas ? doc.datas : [])) {
-                    if(request.getFile('documentData-' + (index + 1)).bytes.size() > 0)
-                        this.modifyDocumentPage("documentTypeId:_id:${doc.id}_dataPageNumber:${index}")
+                if (docParam.id != null) {
+                    doc = documentAdaptorService.getDocument(docParam.id, uuidString)
+                    for (DocumentBinary page: (doc?.datas ? doc.datas : [])) {
+                        if (request.getFile('documentData-' + (index + 1)).bytes.size() > 0) {
+                            def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
+                            documentAdaptorService.modifyDocumentPage(modifyParam, request, uuidString)
+                        }
+                    }
                 }
-                
-                if(request.getFile('documentData-0').bytes.size() > 0)
-                    this.addDocumentPage("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}",
-                        requestService,uuidString)
-                
+                if (request.getFile('documentData-0').bytes.size() > 0) {
+                    def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
+                    if (docParam.id == null) 
+                        doc = makeDoument(docParam, uuidString)
+                    doc = documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
+                }
+                              
+                newDocuments += doc.id
+                isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentDelete') {
                 def docParam = targetAsMap(submitAction[3])
-                requestService.removeDocument(cRequest, Long.valueOf(docParam.id))
-                documentService.delete(Long.valueOf(docParam.id))  
+                newDocuments -= docParam.id
+                documentAdaptorService.deleteDocument(docParam.id, uuidString)
                 isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentAssociate') {
@@ -218,43 +235,48 @@ class RequestCreationController {
                 isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentAddPage') {
+                def docParam = targetAsMap(submitAction[3])
+                def doc = makeDoument(docParam, uuidString)
+                document = documentAdaptorService.addDocumentPage(docParam, doc, request, uuidString)
+                documentType = documentAdaptorService.getDocumentType(document.documentType.id)
                 isDocumentEditMode = true
-                document = this.addDocumentPage(submitAction[3],requestService,uuidString)
             }
             else if (submitAction[1] == 'documentModifyPage') {
+                def docParam = targetAsMap(submitAction[3])
+                document = documentAdaptorService.modifyDocumentPage(docParam, request, uuidString)
+                documentType = documentAdaptorService.getDocumentType(document.documentType.id)
                 isDocumentEditMode = true
-                document = modifyDocumentPage(submitAction[3])
             }
             else if (submitAction[1] == 'documentDeletePage') {
                 def docParam = targetAsMap(submitAction[3])
                 def pageNumber = Integer.valueOf(docParam.dataPageNumber)
-                def doc = documentService.getById(Long.valueOf(docParam.id))
-                doc.datas.remove(pageNumber)
-                
-                documentType = documentAdaptorService.getDocumentType(Long.valueOf(doc.documentType.id))
+                def doc = documentAdaptorService.deserializeDocument(docParam.id, uuidString)
+                doc.datas.remove(pageNumber)                
+                documentAdaptorService.serializeDocument(doc, uuidString)
+                document = documentAdaptorService.adaptDocument(doc)
+                documentType = documentAdaptorService.getDocumentType(doc.documentType.id)
                 isDocumentEditMode = true
-                document = documentAdaptorService.getDocument(Long.valueOf(docParam.id))
             }
             // removal of a collection element
             else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
-                def getterMethod = cRequest.class.getMethod('get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
-                        
-                getterMethod.invoke(cRequest, null).remove(Integer.valueOf(listFieldToken[1]).intValue())
+                def listWrapper = params.objectToBind == null ? cRequest : objectToBind[params.objectToBind]
+                listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
                 def listFieldToken = submitAction[3].tokenize('[]')
-                def getterMethod = cRequest.class.getMethod('get' + StringUtils.firstCase(listFieldToken[0], 'Upper'))
-                        
+                def listWrapper = params.objectToManage == null ? cRequest : objectToBind[params.objectToManage] 
+                
                 editList = ['name': listFieldToken[0], 
                             'index': listFieldToken[1],
-                            (listFieldToken[0]): getterMethod.invoke(cRequest, null).get(Integer.valueOf(listFieldToken[1]).intValue())
+                            (listFieldToken[0]): listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
                            ]
             }
             // standard save action
             else {
-                bindRequester(requester, params)
+                if (params.objectToBind != null)
+                    bindObject(objectToBind[params.objectToBind], params)
                 
                 DataBindingUtils.initBind(cRequest, params)
                 bind(cRequest)
@@ -275,10 +297,13 @@ class RequestCreationController {
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
                     
-                    if (SecurityContext.currentEcitizen == null)
-                        requestService.create(cRequest, requester, null)
-                    else if (!cRequest.draft) requestService.create(cRequest)
-                    else requestService.finalizeDraft(cRequest)
+                    def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
+                    if (SecurityContext.currentEcitizen == null) 
+                        requestService.create(cRequest, objectToBind.requester, null, docs)
+                    else if (!cRequest.draft) 
+                        requestService.create(cRequest, docs)
+                    else 
+                        requestService.finalizeDraft(cRequest)
                     
                     session.removeAttribute(uuidString)
                     redirect(action:'exit', params:['id':cRequest.id, 'label':requestTypeInfo.label])
@@ -286,7 +311,8 @@ class RequestCreationController {
                 }
             }        
             session[uuidString].cRequest = cRequest
-            session[uuidString].requester = requester
+            session[uuidString].requester = objectToBind.requester
+            session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
         
         } catch (CvqException ce) {
@@ -302,26 +328,27 @@ class RequestCreationController {
                     ['isRequestCreation': true,
                      'askConfirmCancel': askConfirmCancel, 
                      'rqt': cRequest,
-                     'requester': requester,
+                     'requester': objectToBind.requester,
+                     'individuals' : objectToBind.individuals,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
-                     'meansOfContact': getMeansOfContact(meansOfContactService, requester),
+                     'meansOfContact': getMeansOfContact(meansOfContactService, objectToBind.requester),
                      'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeInfo.label),
                      'currentStep': currentStep,
                      'requestTypeLabel': requestTypeInfo.label,
                      'stepStates': cRequest.stepStates,
                      'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)),
+                     'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)),
                      'uuidString': uuidString,
                      'editList': editList,
                      'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
-                     'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, newDocuments),
+                     'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
                      'isDocumentEditMode': isDocumentEditMode,
                      'documentType': documentType,
                      'document': document
                     ])
-    }
-    
+    }  
     
     def condition = {
         def result = []
@@ -343,14 +370,20 @@ class RequestCreationController {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         }
     }
-    
+
+    def autofill = {
+        render(autofillService.getValues(params.triggerName, Long.valueOf(params.triggerValue), JSON.parse(params.autofillContainer) as Map) as JSON)
+    }
+
     def exit = {
         def requestService = requestServiceRegistry.getRequestService(params.label)
         def cRequest = requestService.getById(Long.parseLong(params.id))
+        def requester = individualService.getById(cRequest.requesterId)
         render( view: "frontofficeRequestType/exit",
                 model:
                     ['requestTypeLabel': translationService.getEncodedRequestTypeLabelTranslation(cRequest.requestType.label),
                      'rqt': cRequest,
+                     'requester': requester,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                     ])
     }
@@ -361,7 +394,8 @@ class RequestCreationController {
     
     def getAuthorizedSubjects(requestService, cRequest) {
         def subjects = [:]
-        if (SecurityContext.currentEcitizen != null) {
+        if (SecurityContext.currentEcitizen != null 
+        		&& !requestService.subjectPolicy.equals(IRequestService.SUBJECT_POLICY_NONE)) {
             def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
             authorizedSubjects.each { subjectId, seasonsSet ->
                 def subject = individualService.getById(subjectId)
@@ -394,12 +428,14 @@ class RequestCreationController {
         else return false;
     }
     
-    def bindRequester(requester, params) {
+    def bindObject(object, params) {
+        def paramKeyPrefix = params.objectToBind ? params.objectToBind : ''
         params.each { param ->
-            if (param.value.getClass() == GrailsParameterMap.class && param.key == '_requester') {
-                checkRequesterPassword(param.value)
-                DataBindingUtils.initBind(requester, param.value)
-                bindParam (requester, param.value)
+            if (param.value.getClass() == GrailsParameterMap.class && param.key == '_' + paramKeyPrefix) {
+                if (paramKeyPrefix == 'requester')
+                    checkRequesterPassword(param.value)
+                DataBindingUtils.initBind(object, param.value)
+                bindParam (object, param.value)
             }
         }
     }
@@ -420,6 +456,22 @@ class RequestCreationController {
             throw new CvqException(message(code:"request.step.validation.error.captcha"))
     }
     
+    /* Document step
+     * ------------------------------------------------------------------------------------------- */
+     
+    def makeDoument(docParam, sessionUuid) {
+        def doc
+        if (docParam.id == null) {
+            doc = new Document()
+            doc.id = (session[sessionUuid].documentCounter)++
+            doc.homeFolderId = SecurityContext.currentEcitizen ? SecurityContext.currentEcitizen.homeFolder.id : null
+            doc.ecitizenNote = params.ecitizenNote
+            doc.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(docParam.documentTypeId))
+            doc.datas = new ArrayList<DocumentBinary>()
+        }
+        return doc
+    }
+    
     /* Utils
      * ------------------------------------------------------------------------------------------- */
     
@@ -431,38 +483,6 @@ class RequestCreationController {
             result[property[0]] = property[1]
         }
         return result
-    }
-    
-    protected Map addDocumentPage(String submitAction, IRequestService requestService, String uuidString) {
-        def docParam = targetAsMap(submitAction)
-        def cRequest = session[uuidString].cRequest
-        def newDocuments = session[uuidString].newDocuments
-        
-        def newDocBinary = new DocumentBinary()
-        if (docParam.id == null) {
-            def newDoc = new Document()
-            newDoc.homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
-            newDoc.ecitizenNote = params.ecitizenNote
-            newDoc.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(docParam.documentTypeId))
-            
-            docParam.id = documentService.create(newDoc)
-            requestService.addDocument(cRequest, Long.valueOf(docParam.id))
-            newDocuments.add(docParam.id)
-        }
-        newDocBinary.data = request.getFile('documentData-0').bytes
-        documentService.addPage(Long.valueOf(docParam.id), newDocBinary)
-        return documentAdaptorService.getDocument(Long.valueOf(docParam.id))
-    }
-    
-    protected Map modifyDocumentPage(String submitAction) {
-        def docParam = targetAsMap(submitAction)
-        def doc = documentService.getById(Long.valueOf(docParam.id))
-        def newDocBinary = doc.datas.get(Integer.parseInt(docParam.dataPageNumber))
-        
-        newDocBinary.data = request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes
-        doc.datas[Integer.parseInt(docParam.dataPageNumber)] = newDocBinary;
-        documentService.modify(doc); 
-        return documentAdaptorService.getDocument(Long.valueOf(docParam.id))
     }
     
 }

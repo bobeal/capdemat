@@ -8,9 +8,3 @@
   <input type="submit" value="${message(code:'action.saveDraft')}"
          id="submitDraft" name="submitDraft" ${session.currentEcitizen && draftVisible ? '' : 'disabled=\"disabled\"'}/>
 </form>
-<form action="${module.createLink(controller:'RequestCreationController',action:'condition')}" 
-  method="post" id="conditionsForm">
-  
-  <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
-  <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
-</form>

@@ -6,10 +6,10 @@
     <legend><g:message code="dhr.property.dhrFamilyReferent.label" /></legend>
     
       <label class="required"><g:message code="dhr.property.dhrHaveFamilyReferent.label" /> *  <span><g:message code="dhr.property.dhrHaveFamilyReferent.help" /></span></label>
-            <ul class="required">
+            <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-haveFamilyReferent-trigger validate-boolean" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == rqt.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-haveFamilyReferent-trigger  validate-boolean" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == rqt.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -19,18 +19,18 @@
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> *  <span><g:message code="dhr.property.dhrReferentName.help" /></span></label>
             <input type="text" name="dhrReferentName" value="${rqt.dhrReferentName}" 
-                    class="required condition-haveFamilyReferent-filled validate-lastName" title="<g:message code="dhr.property.dhrReferentName.validationError" />"  maxLength="38"/>
+                    class="required condition-haveFamilyReferent-filled  validate-lastName" title="<g:message code="dhr.property.dhrReferentName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentFirstName.label" /> *  <span><g:message code="dhr.property.dhrReferentFirstName.help" /></span></label>
             <input type="text" name="dhrReferentFirstName" value="${rqt.dhrReferentFirstName}" 
-                    class="required condition-haveFamilyReferent-filled validate-firstName" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />"  maxLength="38"/>
+                    class="required condition-haveFamilyReferent-filled  validate-firstName" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentAddress.label" /> *  <span><g:message code="dhr.property.dhrReferentAddress.help" /></span></label>
-            <div class="address-fieldset required condition-haveFamilyReferent-filled">
+            <div class="address-fieldset required condition-haveFamilyReferent-filled ">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.dhrReferentAddress?.additionalDeliveryInformation}" maxlength="38" name="dhrReferentAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>

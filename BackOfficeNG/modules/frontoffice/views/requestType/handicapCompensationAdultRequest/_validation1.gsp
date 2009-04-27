@@ -2,57 +2,56 @@
 
 
   
+    <h3><g:message code="hcar.step.aid.label" /></h3>
     
-      <h3><g:message code="hcar.step.aid.label" /></h3>
       
+      <h4><g:message code="hcar.property.familyAssistance.label" /></h4>
+      <dl>
         
-        <h4><g:message code="hcar.property.familyAssistance.label" /></h4>
-        <dl>
-          
-            <dt><g:message code="hcar.property.isFamilyAssistance.label" /></dt>
+          <dt><g:message code="hcar.property.isFamilyAssistance.label" /></dt>
           <dd><g:message code="message.${rqt.isFamilyAssistance ? 'yes' : 'no'}" /></dd>
           
 
-          
-        </dl>
         
+      </dl>
       
-        
-        <h4><g:message code="hcar.property.familyAssistanceMembers.label" /></h4>
-        <g:each var="it" in="${rqt.familyAssistanceMembers}" status="index">
-        <dl>
-          
-            <dt><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /></dt><dd>${it.familyAssistanceMemberRelationship}</dd>
-
-          
-            <dt><g:message code="hcar.property.familyAssistanceMemberLastName.label" /></dt><dd>${it.familyAssistanceMemberLastName}</dd>
-
-          
-            <dt><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /></dt><dd>${it.familyAssistanceMemberFirstName}</dd>
-
-          
-        </dl>
-        </g:each>
-        
+    
       
+      <h4><g:message code="hcar.property.familyAssistanceMembers.label" /></h4>
+      <g:each var="it" in="${rqt.familyAssistanceMembers}" status="index">
+      <dl>
         
-        <h4><g:message code="hcar.property.homeIntervention.label" /></h4>
-        <dl>
-          
-            <dt><g:message code="hcar.property.homeInterventionHomeIntervenant.label" /></dt>
+          <dt><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /></dt><dd>${it.familyAssistanceMemberRelationship}</dd>
+
+        
+          <dt><g:message code="hcar.property.familyAssistanceMemberLastName.label" /></dt><dd>${it.familyAssistanceMemberLastName}</dd>
+
+        
+          <dt><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /></dt><dd>${it.familyAssistanceMemberFirstName}</dd>
+
+        
+      </dl>
+      </g:each>
+      
+    
+      
+      <h4><g:message code="hcar.property.homeIntervention.label" /></h4>
+      <dl>
+        
+          <dt><g:message code="hcar.property.homeInterventionHomeIntervenant.label" /></dt>
           <dd><g:message code="message.${rqt.homeInterventionHomeIntervenant ? 'yes' : 'no'}" /></dd>
           
 
-          
-        </dl>
         
+      </dl>
       
+    
+      
+      <h4><g:message code="hcar.property.homeIntervenants.label" /></h4>
+      <g:each var="it" in="${rqt.homeIntervenants}" status="index">
+      <dl>
         
-        <h4><g:message code="hcar.property.homeIntervenants.label" /></h4>
-        <g:each var="it" in="${rqt.homeIntervenants}" status="index">
-        <dl>
-          
-            <dt><g:message code="hcar.property.homeIntervenantKind.label" /></dt>
+          <dt><g:message code="hcar.property.homeIntervenantKind.label" /></dt>
           <dd>
             <g:if test="${it.homeIntervenantKind}">
               <g:capdematEnumToField var="${it.homeIntervenantKind}" i18nKeyPrefix="hcar.property.homeIntervenantKind" />
@@ -60,43 +59,43 @@
           </dd>
           
 
-          
-            <dt><g:message code="hcar.property.homeIntervenantDetails.label" /></dt><dd>${it.homeIntervenantDetails}</dd>
+        
+          <dt><g:message code="hcar.property.homeIntervenantDetails.label" /></dt><dd>${it.homeIntervenantDetails}</dd>
 
-          
-        </dl>
-        </g:each>
         
+      </dl>
+      </g:each>
       
+    
+      
+      <h4><g:message code="hcar.property.care.label" /></h4>
+      <dl>
         
-        <h4><g:message code="hcar.property.care.label" /></h4>
-        <dl>
-          
-            <dt><g:message code="hcar.property.careCareServices.label" /></dt>
+          <dt><g:message code="hcar.property.careCareServices.label" /></dt>
           <dd><g:message code="message.${rqt.careCareServices ? 'yes' : 'no'}" /></dd>
           
 
-          
-        </dl>
         
+      </dl>
       
+    
+      
+      <h4><g:message code="hcar.property.careServices.label" /></h4>
+      <g:each var="it" in="${rqt.careServices}" status="index">
+      <dl>
         
-        <h4><g:message code="hcar.property.careServices.label" /></h4>
-        <g:each var="it" in="${rqt.careServices}" status="index">
-        <dl>
-          
-            <dt><g:message code="hcar.property.careServiceKind.label" /></dt><dd>${it.careServiceKind}</dd>
+          <dt><g:message code="hcar.property.careServiceKind.label" /></dt><dd>${it.careServiceKind}</dd>
 
-          
-            <dt><g:message code="hcar.property.careServiceCareServiceEmployer.label" /></dt>
+        
+          <dt><g:message code="hcar.property.careServiceCareServiceEmployer.label" /></dt>
           <dd><g:message code="message.${it.careServiceCareServiceEmployer ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.careServiceProviderName.label" /></dt><dd>${it.careServiceProviderName}</dd>
+        
+          <dt><g:message code="hcar.property.careServiceProviderName.label" /></dt><dd>${it.careServiceProviderName}</dd>
 
-          
-            <dt><g:message code="hcar.property.careServiceProviderAddress.label" /></dt>
+        
+          <dt><g:message code="hcar.property.careServiceProviderAddress.label" /></dt>
           <dd>
           <g:if test="${it.careServiceProviderAddress}">
               <p>${it.careServiceProviderAddress?.additionalDeliveryInformation}</p>
@@ -109,87 +108,87 @@
           </dd>
           
 
-          
-        </dl>
-        </g:each>
         
+      </dl>
+      </g:each>
       
+    
+      
+      <h4><g:message code="hcar.property.facilities.label" /></h4>
+      <dl>
         
-        <h4><g:message code="hcar.property.facilities.label" /></h4>
-        <dl>
-          
-            <dt><g:message code="hcar.property.facilitiesHousing.label" /></dt>
+          <dt><g:message code="hcar.property.facilitiesHousing.label" /></dt>
           <dd><g:message code="message.${rqt.facilitiesHousing ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.facilitiesHousingDetails.label" /></dt><dd>${rqt.facilitiesHousingDetails}</dd>
+        
+          <dt><g:message code="hcar.property.facilitiesHousingDetails.label" /></dt><dd>${rqt.facilitiesHousingDetails}</dd>
 
-          
-            <dt><g:message code="hcar.property.facilitiesTechnicalAssistance.label" /></dt>
+        
+          <dt><g:message code="hcar.property.facilitiesTechnicalAssistance.label" /></dt>
           <dd><g:message code="message.${rqt.facilitiesTechnicalAssistance ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.label" /></dt><dd>${rqt.facilitiesTechnicalAssistanceDetails}</dd>
+        
+          <dt><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.label" /></dt><dd>${rqt.facilitiesTechnicalAssistanceDetails}</dd>
 
-          
-            <dt><g:message code="hcar.property.facilitiesCustomCar.label" /></dt>
+        
+          <dt><g:message code="hcar.property.facilitiesCustomCar.label" /></dt>
           <dd><g:message code="message.${rqt.facilitiesCustomCar ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.facilitiesCustomCarDetails.label" /></dt><dd>${rqt.facilitiesCustomCarDetails}</dd>
+        
+          <dt><g:message code="hcar.property.facilitiesCustomCarDetails.label" /></dt><dd>${rqt.facilitiesCustomCarDetails}</dd>
 
-          
-            <dt><g:message code="hcar.property.facilitiesAnimalAid.label" /></dt>
+        
+          <dt><g:message code="hcar.property.facilitiesAnimalAid.label" /></dt>
           <dd><g:message code="message.${rqt.facilitiesAnimalAid ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.facilitiesAnimalAidDetails.label" /></dt><dd>${rqt.facilitiesAnimalAidDetails}</dd>
+        
+          <dt><g:message code="hcar.property.facilitiesAnimalAidDetails.label" /></dt><dd>${rqt.facilitiesAnimalAidDetails}</dd>
 
-          
-            <dt><g:message code="hcar.property.facilitiesSpecializedTransport.label" /></dt>
+        
+          <dt><g:message code="hcar.property.facilitiesSpecializedTransport.label" /></dt>
           <dd><g:message code="message.${rqt.facilitiesSpecializedTransport ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.facilitiesSpecializedTransportDetails.label" /></dt><dd>${rqt.facilitiesSpecializedTransportDetails}</dd>
+        
+          <dt><g:message code="hcar.property.facilitiesSpecializedTransportDetails.label" /></dt><dd>${rqt.facilitiesSpecializedTransportDetails}</dd>
 
-          
-        </dl>
         
+      </dl>
       
+    
+      
+      <h4><g:message code="hcar.property.professionalSupport.label" /></h4>
+      <dl>
         
-        <h4><g:message code="hcar.property.professionalSupport.label" /></h4>
-        <dl>
-          
-            <dt><g:message code="hcar.property.professionalSupportProfessionals.label" /></dt>
+          <dt><g:message code="hcar.property.professionalSupportProfessionals.label" /></dt>
           <dd><g:message code="message.${rqt.professionalSupportProfessionals ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.professionalSupportDealsWithSameProfessional.label" /></dt>
+        
+          <dt><g:message code="hcar.property.professionalSupportDealsWithSameProfessional.label" /></dt>
           <dd><g:message code="message.${rqt.professionalSupportDealsWithSameProfessional ? 'yes' : 'no'}" /></dd>
           
 
-          
-        </dl>
         
+      </dl>
       
+    
+      
+      <h4><g:message code="hcar.property.professionals.label" /></h4>
+      <g:each var="it" in="${rqt.professionals}" status="index">
+      <dl>
         
-        <h4><g:message code="hcar.property.professionals.label" /></h4>
-        <g:each var="it" in="${rqt.professionals}" status="index">
-        <dl>
-          
-            <dt><g:message code="hcar.property.professionalLastName.label" /></dt><dd>${it.professionalLastName}</dd>
+          <dt><g:message code="hcar.property.professionalLastName.label" /></dt><dd>${it.professionalLastName}</dd>
 
-          
-            <dt><g:message code="hcar.property.professionalFirstName.label" /></dt><dd>${it.professionalFirstName}</dd>
+        
+          <dt><g:message code="hcar.property.professionalFirstName.label" /></dt><dd>${it.professionalFirstName}</dd>
 
-          
-            <dt><g:message code="hcar.property.professionalAddress.label" /></dt>
+        
+          <dt><g:message code="hcar.property.professionalAddress.label" /></dt>
           <dd>
           <g:if test="${it.professionalAddress}">
               <p>${it.professionalAddress?.additionalDeliveryInformation}</p>
@@ -202,24 +201,24 @@
           </dd>
           
 
-          
-        </dl>
-        </g:each>
         
+      </dl>
+      </g:each>
       
+    
+      
+      <h4><g:message code="hcar.property.socialService.label" /></h4>
+      <dl>
         
-        <h4><g:message code="hcar.property.socialService.label" /></h4>
-        <dl>
-          
-            <dt><g:message code="hcar.property.professionalSupportSocialServiceSupport.label" /></dt>
+          <dt><g:message code="hcar.property.professionalSupportSocialServiceSupport.label" /></dt>
           <dd><g:message code="message.${rqt.professionalSupportSocialServiceSupport ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.professionalSupportSocialServiceName.label" /></dt><dd>${rqt.professionalSupportSocialServiceName}</dd>
+        
+          <dt><g:message code="hcar.property.professionalSupportSocialServiceName.label" /></dt><dd>${rqt.professionalSupportSocialServiceName}</dd>
 
-          
-            <dt><g:message code="hcar.property.professionalSupportSocialServiceAddress.label" /></dt>
+        
+          <dt><g:message code="hcar.property.professionalSupportSocialServiceAddress.label" /></dt>
           <dd>
           <g:if test="${rqt.professionalSupportSocialServiceAddress}">
               <p>${rqt.professionalSupportSocialServiceAddress?.additionalDeliveryInformation}</p>
@@ -232,206 +231,201 @@
           </dd>
           
 
-          
-        </dl>
         
+      </dl>
       
     
   
 
   
+    <h3><g:message code="hcar.step.health.label" /></h3>
     
-      <h3><g:message code="hcar.step.health.label" /></h3>
       
+      <h4><g:message code="hcar.property.health.label" /></h4>
+      <dl>
         
-        <h4><g:message code="hcar.property.health.label" /></h4>
-        <dl>
-          
-            <dt><g:message code="hcar.property.healthFollowedByDoctor.label" /></dt>
+          <dt><g:message code="hcar.property.healthFollowedByDoctor.label" /></dt>
           <dd><g:message code="message.${rqt.healthFollowedByDoctor ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.healthDoctorLastName.label" /></dt><dd>${rqt.healthDoctorLastName}</dd>
+        
+          <dt><g:message code="hcar.property.healthDoctorLastName.label" /></dt><dd>${rqt.healthDoctorLastName}</dd>
 
-          
-            <dt><g:message code="hcar.property.healthDoctorFirstName.label" /></dt><dd>${rqt.healthDoctorFirstName}</dd>
+        
+          <dt><g:message code="hcar.property.healthDoctorFirstName.label" /></dt><dd>${rqt.healthDoctorFirstName}</dd>
 
-          
-            <dt><g:message code="hcar.property.healthFollowedByProfessional.label" /></dt>
+        
+          <dt><g:message code="hcar.property.healthFollowedByProfessional.label" /></dt>
           <dd><g:message code="message.${rqt.healthFollowedByProfessional ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.healthProfessionalLastName.label" /></dt><dd>${rqt.healthProfessionalLastName}</dd>
+        
+          <dt><g:message code="hcar.property.healthProfessionalLastName.label" /></dt><dd>${rqt.healthProfessionalLastName}</dd>
 
-          
-            <dt><g:message code="hcar.property.healthProfessionalFirstName.label" /></dt><dd>${rqt.healthProfessionalFirstName}</dd>
+        
+          <dt><g:message code="hcar.property.healthProfessionalFirstName.label" /></dt><dd>${rqt.healthProfessionalFirstName}</dd>
 
-          
-            <dt><g:message code="hcar.property.healthFollowedByHospital.label" /></dt>
+        
+          <dt><g:message code="hcar.property.healthFollowedByHospital.label" /></dt>
           <dd><g:message code="message.${rqt.healthFollowedByHospital ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.healthHospitalName.label" /></dt><dd>${rqt.healthHospitalName}</dd>
-
-          
-        </dl>
         
+          <dt><g:message code="hcar.property.healthHospitalName.label" /></dt><dd>${rqt.healthHospitalName}</dd>
+
+        
+      </dl>
       
     
   
 
   
+    <h3><g:message code="hcar.step.project.label" /></h3>
     
-      <h3><g:message code="hcar.step.project.label" /></h3>
       
+      <h4><g:message code="hcar.property.projectRequests.label" /></h4>
+      <dl>
         
-        <h4><g:message code="hcar.property.projectRequests.label" /></h4>
-        <dl>
-          
-            <dt><g:message code="hcar.property.projectRequestsHandicapRecognition.label" /></dt>
+          <dt><g:message code="hcar.property.projectRequestsHandicapRecognition.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsHandicapRecognition ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsDisabilityCard.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsDisabilityCard.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsDisabilityCard ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsDisabledPriorityCard.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsDisabledPriorityCard.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsDisabledPriorityCard ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsEuropeanParkingCard.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsEuropeanParkingCard.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsEuropeanParkingCard ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsDisabledAdultAllowance.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsDisabledAdultAllowance.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsDisabledAdultAllowance ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsIncreaseForIndependentLiving.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsIncreaseForIndependentLiving.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsIncreaseForIndependentLiving ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsEducationAllocationOfDisabledChildren.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsEducationAllocationOfDisabledChildren.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsEducationAllocationOfDisabledChildren ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsACTPRenewal.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsACTPRenewal.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsACTPRenewal ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsThirdPartyHelp.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsThirdPartyHelp.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsThirdPartyHelp ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsFreePensionMembership.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsFreePensionMembership.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsFreePensionMembership ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsTechnicalHelp.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsTechnicalHelp.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsTechnicalHelp ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsHousingFacilities.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsHousingFacilities.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsHousingFacilities ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsCustomCar.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsCustomCar.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsCustomCar ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsAssistance.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsAssistance.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsAssistance ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsTransportCostAllocation.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsTransportCostAllocation.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsTransportCostAllocation ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsDisabilityCostAllocation.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsDisabilityCostAllocation.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsDisabilityCostAllocation ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsDisabledWorkerRecognition.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsDisabledWorkerRecognition.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsDisabledWorkerRecognition ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsProfessionalOrientation.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsProfessionalOrientation.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsProfessionalOrientation ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsOrdinaryWorking.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsOrdinaryWorking.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsOrdinaryWorking ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsShelteredWork.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsShelteredWork.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsShelteredWork ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsVocationalTraining.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsVocationalTraining.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsVocationalTraining ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsInstitutionSupport.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsInstitutionSupport.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsInstitutionSupport ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsOther.label" /></dt>
+        
+          <dt><g:message code="hcar.property.projectRequestsOther.label" /></dt>
           <dd><g:message code="message.${rqt.projectRequestsOther ? 'yes' : 'no'}" /></dd>
           
 
-          
-            <dt><g:message code="hcar.property.projectRequestsOtherDetails.label" /></dt><dd>${rqt.projectRequestsOtherDetails}</dd>
-
-          
-        </dl>
         
+          <dt><g:message code="hcar.property.projectRequestsOtherDetails.label" /></dt><dd>${rqt.projectRequestsOtherDetails}</dd>
+
+        
+      </dl>
       
-        
-        <dl>
-          <dt><g:message code="hcar.property.projectWish.label" /></dt><dd>${rqt.projectWish}</dd>
-
-        </dl>
-        
+    
       
-        
-        <dl>
-          <dt><g:message code="hcar.property.projectNeeds.label" /></dt><dd>${rqt.projectNeeds}</dd>
+      <dl>
+        <dt><g:message code="hcar.property.projectWish.label" /></dt><dd>${rqt.projectWish}</dd>
 
-        </dl>
-        
+      </dl>
       
-        
-        <dl>
-          <dt><g:message code="hcar.property.projectComments.label" /></dt><dd>${rqt.projectComments}</dd>
+    
+      
+      <dl>
+        <dt><g:message code="hcar.property.projectNeeds.label" /></dt><dd>${rqt.projectNeeds}</dd>
 
-        </dl>
-        
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="hcar.property.projectComments.label" /></dt><dd>${rqt.projectComments}</dd>
+
+      </dl>
       
     
   
@@ -462,21 +456,6 @@
   </g:if>
   
 
-  
-    
-      <h3><g:message code="request.step.validation.label" /></h3>
-      <g:if test="${!hasHomeFolder}">
-        <g:render template="/frontofficeRequestType/outOfAccountValidation" />
-      </g:if>
-      
-      <div id="useAcceptance">
-       <input type="checkbox" name="useAcceptance" class="required validate-one-required"
-              title="${message(code:'request.error.useAcceptanceRequired')}" />
-       <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
-         <g:message code="request.step.validation.useAcceptance"/>
-       </a>
-     </div>
-    
   
 
 

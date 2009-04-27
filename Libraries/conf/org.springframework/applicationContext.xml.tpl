@@ -172,6 +172,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestActionService" ref="requestActionService" />
     <property name="individualService" ref="individualService" />
     <property name="documentTypeService" ref="documentTypeService" />
+    <property name="documentService" ref="documentService" />
     <property name="certificateService" ref="certificateService" />
     <property name="mailService" ref="mailService" />
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
@@ -195,6 +196,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     init-method="init">
     <property name="requestDAO" ref="requestDAO" />
     <property name="requestActionService" ref="requestActionService" />
+    <property name="requestNotificationService" ref="requestNotificationService" />
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
     <property name="certificateService" ref="certificateService" />
     <property name="documentService" ref="documentService" />
@@ -202,6 +204,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="homeFolderService" ref="homeFolderService" />
     -->
     <property name="externalService" ref="externalService"/>
+  </bean>
+
+  <bean id="autofillService" class="fr.cg95.cvq.service.request.impl.AutofillService">
+    <property name="individualService" ref="individualService"/>
   </bean>
 
   <bean id="requestTypeService" class="fr.cg95.cvq.service.request.impl.RequestTypeService">
@@ -229,6 +235,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="requestStatisticsService" class="fr.cg95.cvq.service.request.impl.RequestStatisticsService">
     <property name="requestStatisticsDAO" ref="requestStatisticsDAO"/>
     <property name="categoryService" ref="categoryService" />
+    <property name="requestWorkflowService" ref="requestWorkflowService" />
   </bean>
 
   <!-- *******************************************************************  -->

@@ -18,20 +18,25 @@ class DocumentController {
     IIndividualService individualService
     
     def instructionService
+    def documentAdaptorService
     
     Adult currentEcitizen
     int maxRows = 10
     
     def beforeInterceptor = {
         this.currentEcitizen = SecurityContext.getCurrentEcitizen();
+        documentAdaptorService.setServletContext(servletContext)
     }
 
     def details = {
         def result = [:], prevPage = null, nextPage = null, index = 0
-        Document document = documentService.getById(Long.valueOf(params.id))
+        Document document
+        if (params.sessionUuid == null) document = documentService.getById(Long.valueOf(params.id))
+        else document = documentAdaptorService.deserializeDocument(params.id, params.sessionUuid)
         
         result.page = params.pn ? Integer.parseInt(params.pn) : 0
         result.actions = this.getActions(document)        
+        result.sessionUuid = params.sessionUuid
         
         def pages =  document.datas
         prevPage = result.page > 0 ? result.page - 1 : null
@@ -78,7 +83,10 @@ class DocumentController {
     }
     
     def binary = {
-        Document document = documentService.getById(Long.valueOf(params.id))
+        Document document
+        if (params.sessionUuid == '') document = documentService.getById(Long.valueOf(params.id))
+        else document = documentAdaptorService.deserializeDocument(params.id, params.sessionUuid)
+        
         DocumentBinary binary = document.datas.get(params.pn ? Integer.valueOf(params.pn) : 0)
         
         response.contentType = "image/png"

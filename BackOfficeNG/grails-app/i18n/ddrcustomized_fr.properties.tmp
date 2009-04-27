@@ -1,0 +1,39 @@
+ddr.duration.value =
+
+ddr.step.requester.label =
+ddr.step.requester.desc =
+
+ddr.step.nature.label =
+ddr.step.nature.desc =
+
+ddr.step.type.label =
+ddr.step.type.desc =
+
+
+ddr.property.deathLastName.help =
+ddr.property.deathLastName.validationError =
+
+ddr.property.deathFirstNames.help =
+ddr.property.deathFirstNames.validationError =
+
+ddr.property.deathDate.help =
+ddr.property.deathDate.validationError =
+
+ddr.property.deathCity.help =
+ddr.property.deathCity.validationError =
+
+ddr.property.deathPostalCode.help =
+ddr.property.deathPostalCode.validationError =
+
+ddr.property.format.help =
+ddr.property.format.validationError =
+
+ddr.property.copies.help =
+ddr.property.copies.validationError =
+
+ddr.property.comment.help =
+ddr.property.comment.validationError =
+
+ddr.property.motive.help =
+ddr.property.motive.validationError =
+

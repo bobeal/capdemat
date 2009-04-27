@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'autofill.js')}"></script>
   </head>  
   <body>
     <g:set var="requestTypeInfo">
@@ -12,10 +13,23 @@
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
+    <form action="${module.createLink(controller:'RequestCreationController',action:'condition')}" 
+      method="post" id="conditionsForm">
+      <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
+      <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+    </form>
+    <form action="${module.createLink(controller:'RequestCreationController',action:'autofill')}"
+      method="post" id="autofillForm">
+      <input type="hidden" id="autofillContainer" name="autofillContainer" value="" />
+      <input type="hidden" id="triggerName" name="triggerName" value="" />
+      <input type="hidden" id="triggerValue" name="triggerValue" value="" />
+    </form>
     <g:if test="${flash.isOutOfAccountRequest}">
       <g:render template="/frontofficeRequestType/loginPanel" />
     </g:if>
-    <g:render template="/frontofficeRequestType/draftPanel" />
+    <g:if test="${session.currentEcitizen}">
+      <g:render template="/frontofficeRequestType/draftPanel" />
+    </g:if>
     <g:render template="/frontofficeRequestType/cancelPanel" />
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
     
@@ -487,6 +501,17 @@
     
             <g:render template="/frontofficeRequestType/domesticHelpRequest/validation0" />
     
+            <h3><g:message code="request.step.validation.label" /></h3>
+            <g:if test="${!hasHomeFolder}">
+              <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+            </g:if>
+            <div id="useAcceptance">
+             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
+                    title="${message(code:'request.error.useAcceptanceRequired')}" />
+             <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+               <g:message code="request.step.validation.useAcceptance"/>
+             </a>
+           </div>
   
            </div>
            <div class="error" id="stepForm-validation-error"> </div>

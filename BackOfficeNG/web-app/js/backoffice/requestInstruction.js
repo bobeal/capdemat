@@ -198,7 +198,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             addressFields[i].innerHTML = this.value ;
         });
       }
-      else if (isSubmit && yud.hasClass(ddEl, 'validate-boolean')) {
+      else if (isSubmit && (yud.hasClass(ddEl, 'validate-boolean') || yud.hasClass(ddEl, 'validate-acceptance'))) {
         var checkedEl = yus.query("input:checked", formEl, true);
         propertyWrapperEl.innerHTML = yl.trim(yud.getNextSibling(checkedEl).innerHTML);
         propertyWrapperEl.className = 'value-' + checkedEl.value; 
@@ -209,6 +209,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             '&javaName=', formEl.id.replace('_Form','')].join(''), [], function(o){
           zct.html(propertyWrapperEl,o.responseText);
         });
+      }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-school')) {
+        var selectedEl = formEl.schoolId.options[formEl.schoolId.selectedIndex];
+        propertyWrapperEl.innerHTML = selectedEl.innerHTML;
+        propertyWrapperEl.className = 'value-' + selectedEl.value;
+      }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-recreationCenter')) {
+        var selectedEl = formEl.recreationCenterId.options[formEl.recreationCenterId.selectedIndex];
+        propertyWrapperEl.innerHTML = selectedEl.innerHTML;
+        propertyWrapperEl.className = 'value-' + selectedEl.value;
       }
       else if (isSubmit) {
         var elName = formEl.id.replace('_Form', '') + '_Field';
@@ -277,8 +287,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           else if (jsonPropertyType['validate'] ===  'capdematEnum') {
             propertyValue = propertyWrapperEl.className;
           }
-          else if (jsonPropertyType['validate'] ===  'boolean') {
+          else if (jsonPropertyType['validate'] ===  'boolean' || jsonPropertyType['validate'] ===  'acceptance') {
             propertyValue = propertyWrapperEl.className.split('-')[1];
+          }
+          else if (jsonPropertyType['validate'] ===  'school') {
+            propertyValue = (propertyWrapperEl.className.split('-')[1])||null;
+          }
+          else if (jsonPropertyType['validate'] ===  'recreationCenter') {
+            propertyValue = (propertyWrapperEl.className.split('-')[1])||null;
           }
           else {
             propertyValue = propertyWrapperEl.innerHTML;

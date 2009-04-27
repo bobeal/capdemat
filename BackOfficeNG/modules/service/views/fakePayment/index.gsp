@@ -4,10 +4,10 @@
   <meta name="keywords" content="Conseil Général, Val d'Oise, Paiement"/>
   <meta name="description" content="Page de login du service d'authentification de CapWebCT"/>
   <meta name="author" content="Benoit Orihuela"/>
-  <link rel="stylesheet" href="/ServiceExporter/css/serviceexporter.css" type="text/css" media="all"/>
 </head>
 <body>
-<img src="/ServiceExporter/img/cvq_bandeau_cg95.jpg"/>
+<img src="${createLink(controller:'localAuthorityResource',action:'logoFo')}"
+     alt="Logo Collectivité" />
 <div id="header">
   <h1>Service de paiement de CapWebCT</h1>
 </div>

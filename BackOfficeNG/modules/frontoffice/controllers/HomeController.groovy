@@ -92,15 +92,14 @@ class HomeController {
                 }
             }
         }
-        return ['isLogin': true, 'error': message(code:error),
-                'groups': requestTypeAdaptorService.getDisplayGroups(false,null)]
-//        if (flash.requestLabel == null) {
-//            return ['isLogin': true, 'error': message(code:error),
-//                    'groups': requestTypeAdaptorService.getDisplayGroups(false,null)]
-//        } else {
-//            flash.isOutOfAccountRequest = true;
-//            return ['isLogin': true, 'error': message(code:error), 'requestLabel': flash.requestLabel ]
-//        }
+        if (params.requestTypeLabel == null) {
+            return ['isLogin': true, 'error': message(code:error),
+                    'groups': requestTypeAdaptorService.getDisplayGroups(false,null)]
+        } else {
+            flash.loginError = message(code:error)
+            redirect(uri:'/frontoffice/requestCreation?label=' + params.requestTypeLabel)
+            return false
+        }
     }
     
     def logout = {

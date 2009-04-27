@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import fr.cg95.cvq.business.request.RequestState;
+
 /**
  *
  * @author bor@zenexity.fr
@@ -11,11 +13,11 @@ import java.util.Map;
 public interface IRequestStatisticsDAO {
 
     Long countByQuality(final Date startDate, final Date endDate,
-        final List<String> resultingStates, final String qualityType, 
+        final List<RequestState> resultingStates, final String qualityType,
         final List<Long> requestTypesId);
 
     Map<Long,Long> countByQualityAndType(final Date startDate, final Date endDate,
-        final List<String> resultingStates, final String qualityType,
+        final List<RequestState> resultingStates, final String qualityType,
         final List<Long> requestTypesId);
 
     Long countByResultingState(final String resultingState,

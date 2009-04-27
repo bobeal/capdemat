@@ -11,6 +11,7 @@ public class ElementCommon {
     private Step step;
     private List<Condition> conditions = new ArrayList<Condition>();
     private String jsRegexp;
+    private Autofill autofill;
 
     public ElementCommon() {}
 
@@ -51,4 +52,13 @@ public class ElementCommon {
     public void setJsRegexp(String jsRegexp) {
         this.jsRegexp = jsRegexp;
     }
+
+    public Autofill getAutofill() {
+        return autofill;
+    }
+
+    public void setAutofill(Autofill autofill) {
+        this.autofill = autofill;
+    }
+
 }

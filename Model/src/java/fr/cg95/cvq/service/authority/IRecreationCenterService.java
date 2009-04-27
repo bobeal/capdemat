@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
  * @author bor@zenexity.fr
@@ -20,6 +21,10 @@ public interface IRecreationCenterService {
     List<RecreationCenter> getAll()
         throws CvqException;
 
+    @Deprecated
     RecreationCenter getByName(final String recreationCenterName)
         throws CvqException;
+
+    RecreationCenter getById(final Long id)
+        throws CvqObjectNotFoundException;
 }

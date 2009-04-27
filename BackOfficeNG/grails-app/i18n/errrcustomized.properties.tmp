@@ -1,0 +1,27 @@
+errr.duration.value =
+
+errr.step.subject.label =
+errr.step.subject.desc =
+
+
+errr.property.subjectNationality.help =
+errr.property.subjectNationality.validationError =
+
+errr.property.motive.help =
+errr.property.motive.validationError =
+
+errr.property.subjectOldCity.help =
+errr.property.subjectOldCity.validationError =
+
+errr.property.subjectAddressOutsideCity.help =
+errr.property.subjectAddressOutsideCity.validationError =
+
+errr.property.electoralNumber.help =
+errr.property.electoralNumber.validationError =
+
+errr.property.pollingStation.help =
+errr.property.pollingStation.validationError =
+
+errr.property.pollingSchoolName.help =
+errr.property.pollingSchoolName.validationError =
+

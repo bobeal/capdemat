@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
@@ -12,8 +13,11 @@ public class PerformanceSessionFilters {
             before = {
                 ILocalAuthorityRegistry localAuthorityRegistry =
                 applicationContext.getBean("localAuthorityRegistry")
+                LocalAuthority la = localAuthorityRegistry.getLocalAuthorityByServerName(request.serverName)
+                if (la == null)
+                    throw new ServletException("No local authority found !")
                 LocalAuthorityConfigurationBean lacb =
-                localAuthorityRegistry.getLocalAuthorityBeanByUrl(request.serverName)
+                    localAuthorityRegistry.getLocalAuthorityBeanByName(la.name)
                 if (lacb == null)
                     throw new ServletException("No local authority found !")
                 SessionFactory sessionFactory = lacb.getSessionFactory()

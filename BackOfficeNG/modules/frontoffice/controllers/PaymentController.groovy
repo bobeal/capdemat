@@ -51,15 +51,7 @@ class PaymentController {
             
             result.errorMessage = flash?.invalid?.message ? flash.invalid.message : this.errorMessage
         }
-        
-        if(['index','details','cartDetails'].contains(actionName) && session.payment) {
-            result.paymentUrl = paymentService.initPayment((Payment)session.payment).toString()
-            
-            ((Payment)session.payment).addPaymentSpecificData('scheme',request.scheme)
-            ((Payment)session.payment).addPaymentSpecificData('domainName',request.serverName)
-            ((Payment)session.payment).addPaymentSpecificData('port',request.serverPort.toString())
-        }
-        
+
         if(['index','details','cartDetails'].contains(actionName)) { 
             result.cart = this.buildCart()
             result.actionName = actionName
@@ -194,7 +186,19 @@ class PaymentController {
     }
     
     def pay = {
-        redirect(url:params.callbackUrl)
+        if (!session.payment) {
+            redirect(action:'index')
+            return false
+        }
+        
+        def payment = session.payment
+        payment.addPaymentSpecificData('scheme',request.scheme)
+        payment.addPaymentSpecificData('domainName',request.serverName)
+        payment.addPaymentSpecificData('port',request.serverPort.toString())
+
+        def paymentUrl = paymentService.initPayment(payment).toString()
+
+        redirect(url:paymentUrl)
         return false
     }
 

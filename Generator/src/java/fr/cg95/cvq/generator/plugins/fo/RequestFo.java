@@ -137,6 +137,7 @@ public class RequestFo {
             ElementFo wElement = new ElementFo(w.getName(), "request");
             wElement.setDisplay(true);
             wElement.setWidget(w.getName());
+            wElement.setAutofill(w.getAutofill());
             wElement.setTypeClass(ElementFo.ElementTypeClass.SIMPLE);
             if (w.getInto() == null)
                 elements.add(0, wElement);

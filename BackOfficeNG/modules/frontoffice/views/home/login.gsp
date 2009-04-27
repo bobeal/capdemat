@@ -41,30 +41,12 @@
             <li>Du stockage sécurisé de vos pièces justificatives</li>
             <li>... Une nouvelle vie sans stress !</li>
           </ul>
-          <a href="${createLink(controller:'frontofficeVOCardRequestCreation',params:['label':'VO Card Request'])}">
+          <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'VO Card Request'])}">
             <g:translateRequestTypeLabel label="VO Card Request"/>
           </a>
         </div>
       </div>
-      <!%--
-      <g:if test="${!flash.isOutOfAccountRequest}">
-      --%>
-        <g:render template="/shared/services" />
-      <!%--
-      </g:if>
-      <g:else>
-       
-        <div class="main-box requestExit">
-          <h2><g:translateRequestTypeLabel label="${requestLabel}"/></h2>
-          <p>
-            <a href="${createLink(controller:'frontofficeRequestCreation', 
-                params:['label':requestLabel,'isOutOfAccountRequest':flash.isOutOfAccountRequest])}">
-              Commencer la demande
-            </a>
-          </p>
-        </div>
-      </g:else>
-      --%>
+      <g:render template="/shared/services" />
   </body>
 </html>
 

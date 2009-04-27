@@ -40,6 +40,7 @@ import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ICategoryService;
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.ILocalReferentialService;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
@@ -100,6 +101,7 @@ public class ServiceTestCase
     protected static IAgentService iAgentService;
     protected static ILocalReferentialService localReferentialService;
     protected static IPlaceReservationService placeReservationService;
+    protected static ILocalAuthorityRegistry iLocalAuthorityRegistry;
 
     // requests related services
     protected static IRequestServiceRegistry iRequestServiceRegistry;
@@ -386,6 +388,10 @@ public class ServiceTestCase
         iRequestServiceRegistry = requestServiceRegistry;
     }
     
+    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
+        iLocalAuthorityRegistry = localAuthorityRegistry;
+    }
+
     public void setRequestStatisticsService(IRequestStatisticsService requestStatisticsService) {
         iRequestStatisticsService = requestStatisticsService;
     }

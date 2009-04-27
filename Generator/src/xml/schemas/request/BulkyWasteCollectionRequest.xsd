@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/bwc" xmlns:bwc="http://www.cg95.fr/cvq/schema/bwc"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
-  elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/bwc" 
+  xmlns:bwc="http://www.cg95.fr/cvq/schema/bwc"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
 
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
     schemaLocation="../common/CVQCommonElements.xsd" />
@@ -10,30 +13,26 @@
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Demande d'enlèvement des déchets encombrants
-	    </xs:documentation>
+      </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Request to collect bulky waste
-	  </xs:documentation>
+      </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Enlèvement des déchets encombrants
-	  </xs:documentation>
+      </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Bulky waste collection
-	  </xs:documentation>
+      </xs:documentation>
       <xs:appinfo>
         <model namespace="environment" />
-        <fo namespace="environment.bulkywaste">
-          <display mode="labelonly" label="Adresse du compte" stage="waste" page="waste"
-            line="3" />
-          <display field="Requester.Address.Address" stage="waste" page="waste" line="4"
-            label="&amp;nbsp;" mode="static" />
-        </fo>
-        <bo namespace="environment">
-          <display field="Requester.LastName" page="checkbulky" line="1" mode="static" />
-          <display field="Requester.FirstName" page="checkbulky" line="2" mode="static" />
-          <display field="Requester.LastName" page="printbulky" line="1" mode="static" />
-          <display field="Requester.FirstName" page="printbulky" line="2" mode="static" />
-        </bo>
+        <common>
+          <namespace name="environment" />
+          <steps>
+            <step index="0" name="waste" />
+            <step index="1" ref="document" />
+            <step index="2" ref="validation" />
+          </steps>
+        </common>  
         <xslfo>
           <blocks-def>
             <block id="0" label="Demandeur*" />
@@ -44,7 +43,7 @@
             <complexTemplate />
           </element>
           <element blockId="2" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
+            prefixLabel="Comment souhaitez-vous être informé ?">
             <complexTemplate />
           </element>
         </xslfo>
@@ -59,35 +58,24 @@
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Type d'encombrants à enlever
-			    </xs:documentation>
+	            </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Kind of waste to be collected
-			    </xs:documentation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+	            </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Type d'encombrants
-			    </xs:documentation>
+                </xs:documentation>
                 <xs:documentation xml:lang="en"
                   source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Kind of waste
-			    </xs:documentation>
+                </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
-                  <fo repository="bulkywaste">
-                    <display field="" type="checklist" stage="waste" page="waste" line="1"
-                      mode="blockrequired" block="Other" />
-                    <display field="" type="checklist" stage="waste" page="display" line="1"
-                      mode="static" />
-                    <display mode="labelonly" type="stagetitle" label="Waste" stage="validation"
-                      page="summary" line="20" />
-                    <display field="" type="checklist" stage="validation" page="summary"
-                      line="21" mode="static" />
-                  </fo>
-                  <bo repository="BulkyWasteType">
-                    <display field="" page="displaybulky" line="1" />
-                    <display field="" page="checkbulky" line="3" mode="static" />
-                    <display field="" page="printbulky" line="3" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="waste" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="1" line="0" column="0">
                       <localReferential />
@@ -100,30 +88,23 @@
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Autre type d'encombrants à spécifier
-			    </xs:documentation>
+                </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Other kind of waste to be described
-			    </xs:documentation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Autre, préciser
-			    </xs:documentation>
+                </xs:documentation>
                 <xs:documentation xml:lang="en"
                   source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Other, specify
-			    </xs:documentation>
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" type="" stage="waste" page="waste" line="2" block="Other" />
-                    <display field="" type="" stage="waste" page="display" line="2" mode="static" />
-                    <display field="" type="" stage="validation" page="summary" line="22"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaybulky" line="2" />
-                    <display field="" page="checkbulky" line="4" mode="static" />
-                    <display field="" page="printbulky" line="4" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="waste" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="1" line="1" column="0" columnSpan="2">
                       <string valueWeight="3" />
@@ -136,34 +117,23 @@
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Adresse de collecte des encombrants, si différente de l'adresse du demandeur
-			    </xs:documentation>
+                </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Collection address, if different from requesters address
-			    </xs:documentation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Adresse de collecte
-			    </xs:documentation>
+                </xs:documentation>
                 <xs:documentation xml:lang="en"
                   source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Collection address
-			    </xs:documentation>
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display mode="labelonly"
-                      label="Si l'adresse de collecte des encombrants est différente, merci de la préciser"
-                      stage="waste" page="waste" line="5" />
-                    <display field="" type="" stage="waste" page="waste" line="6" />
-                    <display field="" type="" stage="waste" page="display" line="3"
-                      label="Adresse de collecte (si différente de l'adresse du compte)" mode="static" />
-                    <display field="" type="" stage="validation" page="summary" line="23"
-                      label="Adresse de collecte (si différente de l'adresse du compte)" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaybulky" line="3" />
-                    <display field="" page="checkbulky" line="5" mode="static" />
-                    <display field="" page="printbulky" line="5" mode="static" />
-                  </bo>
+                  <common>
+	                <step name="waste" />
+	              </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="1" line="3" column="0" columnSpan="2"
                       prefixLabel="Adresse de collecte (si différente de l'adresse du compte)">
